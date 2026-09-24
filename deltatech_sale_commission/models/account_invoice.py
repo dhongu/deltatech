@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class AccountInvoice(models.Model):
@@ -27,9 +28,7 @@ class AccountInvoiceLine(models.Model):
         digits="Product Price",
         store=True,
         readonly=False,
-        # a stored editable compute is copied by default: a credit note made by reversing the
-        # invoice would inherit the invoice cost instead of the cost of the returned goods
-        copy=False,
+        # copied (stored editable compute): a reversal of the invoice keeps the invoice cost
         groups="base.group_user",
     )
 
@@ -130,12 +129,37 @@ class AccountInvoiceLine(models.Model):
             # if price_unit_list:
             #     purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
-        # A credit note without a return of goods (a discount or a price correction) brings
-        # nothing back into stock, so it has no cost: the goods were costed on the original
-        # invoice. Falling back on the product cost would turn a price reduction into a profit.
-        if not purchase_price and self.move_id.move_type != "out_refund":
-            purchase_price = self.product_id.standard_price
+        if not purchase_price:
+            if self.move_id.move_type == "out_refund":
+                purchase_price = self._get_refund_purchase_price_from_invoice()
+            else:
+                purchase_price = self.product_id.standard_price
         return purchase_price
+
+    def _get_refund_purchase_price_from_invoice(self):
+        """Cost of a credit note line without a return of goods.
+
+        A reversal of the invoice (the same product at the same price, for all or part of the
+        quantity) cancels the sale, so it takes the unit cost of the invoice line and the pair
+        nets to a zero profit. A line whose price was changed is a price reduction: nothing comes
+        back into stock and the goods were costed on the invoice, so its cost is 0. Falling back on
+        the product cost would turn a price reduction into a profit.
+        """
+        self.ensure_one()
+        origin = self.move_id.reversed_entry_id
+        if not origin:
+            return 0.0
+        digits = self.env["decimal.precision"].precision_get("Product Price")
+        for origin_line in origin.invoice_line_ids:
+            if (
+                origin_line.display_type == "product"
+                and origin_line.product_id == self.product_id
+                and origin_line.product_uom_id == self.product_uom_id
+                and not float_compare(origin_line.price_unit, self.price_unit, precision_digits=digits)
+                and not float_compare(origin_line.discount, self.discount, precision_digits=2)
+            ):
+                return origin_line.purchase_price
+        return 0.0
 
     def get_bom_price(self, moves, bom):
         if self.env.context.get("picking_ids"):
@@ -160,7 +184,8 @@ class AccountInvoiceLine(models.Model):
                 bom_price += product_value / product_qty * line.product_qty
         return bom_price
 
-    @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
+    # price_unit and discount: on a credit note they tell a reversal from a price reduction
+    @api.depends("product_id", "company_id", "currency_id", "product_uom_id", "price_unit", "discount")
     def _compute_purchase_price(self):
         # todo: se verificat daca acest paramentru mai este valabil
         deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")

@@ -13,10 +13,14 @@ Fixes from the consultant sheet audit:
   *Set Paid* button is shown to managers only.
 - A write on the margin report no longer puts the product cost on a line whose
   cost is 0 (it did so even on *Set Paid*).
-- A credit note without a return of goods has cost 0. It used to get the product
-  cost, or the invoice cost when made by reversal (`purchase_price` was copied),
-  and could produce a positive profit and commission. The update wizard and the
-  daily cron no longer bring the product cost back on such a line.
+- Cost of a credit note line without a return of goods: a reversal of the invoice
+  (same product, unit and price, for all or part of the quantity) keeps the unit
+  cost of the invoice line, so the pair nets to a zero profit, as before. A line
+  whose price or discount was changed (a price reduction), or a credit note that
+  reverses no invoice, has cost 0. It used to get the product cost, or keep the
+  copied invoice cost after the price was edited, and could produce a positive
+  profit and commission. The cost is recomputed when the price or the discount
+  changes, and the update wizard and the daily cron follow the same rule.
 - Changing *Salesperson commission compute* rebuilds the report after the setting
   is saved; the onchange rebuilt it with the old value.
 - `commission.users`: the journal is required (sales journals only; the domain

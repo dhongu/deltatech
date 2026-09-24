@@ -144,8 +144,12 @@ se calculează automat:
   (costul real FIFO sau mediu al mărfii ieșite);
 - la produsele de tip kit, din componentele livrate;
 - la facturile fără comandă sau fără livrare, din **costul produsului**;
-- la notele de credit, din **returul de marfă**; o notă de credit fără retur (reducere de preț) are
-  cost **0**, pentru că marfa a fost deja costată pe factura inițială.
+- la notele de credit, din **returul de marfă**. Fără retur:
+  - **stornarea facturii** (același produs la același preț, pe toată cantitatea sau pe o parte) preia
+    costul unitar al liniei din factură, deci factura și stornarea dau împreună profit 0;
+  - o notă cu **prețul sau discountul modificat** (reducere de preț) sau o notă care nu stornează o
+    factură are cost **0**, pentru că marfa a fost deja costată pe factura inițială. Costul se
+    recalculează la modificarea prețului sau a discountului.
 
 Pe demo: 10 × Laptop 14" la 3.500,00, cu Preț cost 2.800,00. Coloana e vizibilă doar grupului de cost
 din `deltatech_sale_margin`. Pe facturile în valută, **Preț** e în moneda facturii, iar **Preț cost**
@@ -209,8 +213,9 @@ Pentru fiecare linie, **Comision real** devine:
   - factură plătită, cu ultima încasare la cel mult N zile după scadență: **comisionul calculat**;
   - factură plătită mai târziu: **0**;
   - notă de credit: întotdeauna comisionul calculat, care e negativ și scade din cel al agentului.
-    Cu **retur de marfă**, costul e al mărfii returnate; **doar pe valoare** (reducere, fără retur),
-    costul e 0, deci toată reducerea scade din profit.
+    Cu **retur de marfă**, costul e al mărfii returnate; la **stornarea** facturii, costul facturii
+    (comisionul facturii se anulează); **doar pe valoare** (reducere, fără retur), costul e 0, deci
+    toată reducerea scade din profit.
 
 „Plătită” înseamnă starea **Plătit** sau **În plată** (încasare înregistrată și reconciliată cu
 factura, dar nepotrivită încă cu extrasul bancar). Limita `0` cere încasarea cel târziu în ziua
@@ -318,8 +323,8 @@ relației cu agentul:
 - [ ] Cu `days_for_commission` = 10: factura încasată la 3 zile după scadență primește comisionul,
       cea încasată la 20 de zile primește 0, iar cea neîncasată primește 0.
 - [ ] Fără parametru, toate liniile selectate primesc comisionul calculat.
-- [ ] O notă de credit **cu retur** are costul mărfii returnate; una **doar pe valoare** are cost 0.
-      Ambele reduc comisionul agentului (comision negativ).
+- [ ] O notă de credit **cu retur** are costul mărfii returnate; o **stornare** a facturii are costul
+      facturii (profit net 0); una cu **prețul modificat** are cost 0. Toate reduc comisionul agentului.
 - [ ] O factură *În plată* (nereconciliată cu extrasul) e tratată ca încasată.
 - [ ] Cu `days_for_commission` = 0, o factură încasată la scadență primește comisionul, una încasată
       a doua zi primește 0.
@@ -390,10 +395,10 @@ Subliniați că baza comisionului e **profitul**, nu vânzarea, și că ratele s
 ### Limitări cunoscute
 
 - **Grupurile de comision nu sunt atribuite nimănui la instalare**, nici administratorului.
-- **Notele de credit fără retur au cost 0**, iar costul se decide după returul legat de comandă. O
-  notă de credit cu marfă returnată fără retur în stoc legat de comandă (retur nevalidat încă, sau
-  notă fără comandă) are și ea cost 0, până la validarea returului și **Actualizare preț achiziție**,
-  sau până la corectarea manuală a *Preț cost*.
+- **Notele de credit fără retur legat de comandă** au costul facturii doar dacă sunt stornarea ei (același
+  preț și discount); altfel au cost 0. O notă de credit creată manual (fără factură stornată) pentru
+  marfă returnată fizic, fără retur legat de comandă, are deci cost 0, până la validarea returului și
+  **Actualizare preț achiziție**, sau până la corectarea manuală a *Preț cost*.
 - **Vânzarea sub cost** produce comision calculat negativ, care se scrie ca real (la încasare la timp
   sau fără parametru).
 - **O factură fără comision** (întârziată sau neîncasată), urmată de o notă de credit, lasă agentului

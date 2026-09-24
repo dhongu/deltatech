@@ -206,62 +206,69 @@ def run():
 
     # ------------------------------------------------------------------ note de credit
     section(f"4. Note de credit (ultimele {MONTHS} luni)")
-    sale_rel = table_exists("sale_order_line_invoice_rel")
-    no_order = (
-        q(
-            """
-        SELECT COUNT(DISTINCT m.id), COUNT(l.id), COALESCE(SUM(l.quantity * l.purchase_price), 0)
-          FROM account_move m
-          JOIN account_move_line l ON l.move_id = m.id AND l.display_type = 'product' AND l.product_id IS NOT NULL
-         WHERE m.move_type = 'out_refund' AND m.state = 'posted'
-           AND m.invoice_date >= now() - interval '1 month' * %(months)s
-           AND NOT EXISTS (SELECT 1 FROM sale_order_line_invoice_rel r WHERE r.invoice_line_id = l.id)
-        """,
-            {"months": MONTHS},
+    # aceeași clasificare ca get_purchase_price după actualizare
+    rows = q(
+        """
+        WITH lines AS (
+            SELECT l.id, m.id AS move_id, COALESCE(l.quantity * l.purchase_price, 0) AS cost,
+                   EXISTS (
+                       SELECT 1 FROM sale_order_line_invoice_rel r
+                         JOIN stock_move sm ON sm.sale_line_id = r.order_line_id AND sm.state = 'done'
+                         JOIN stock_location sl ON sl.id = sm.location_id AND sl.usage = 'customer'
+                         JOIN stock_location dl ON dl.id = sm.location_dest_id AND dl.usage IN ('internal', 'supplier')
+                        WHERE r.invoice_line_id = l.id) AS has_return,
+                   EXISTS (
+                       SELECT 1 FROM sale_order_line_invoice_rel r
+                         JOIN sale_order_line sol ON sol.id = r.order_line_id AND sol.is_downpayment
+                        WHERE r.invoice_line_id = l.id) AS is_downpayment,
+                   EXISTS (
+                       SELECT 1 FROM account_move_line o
+                        WHERE o.move_id = m.reversed_entry_id AND o.display_type = 'product'
+                          AND o.product_id = l.product_id AND o.product_uom_id = l.product_uom_id
+                          AND ROUND(o.price_unit::numeric, 4) = ROUND(l.price_unit::numeric, 4)
+                          AND ROUND(COALESCE(o.discount, 0)::numeric, 2) = ROUND(COALESCE(l.discount, 0)::numeric, 2)
+                   ) AS is_reversal
+              FROM account_move m
+              JOIN account_move_line l ON l.move_id = m.id AND l.display_type = 'product' AND l.product_id IS NOT NULL
+             WHERE m.move_type = 'out_refund' AND m.state = 'posted'
+               AND m.invoice_date >= now() - interval '1 month' * %(months)s
         )
-        if sale_rel
-        else [(0, 0, 0)]
-    )
-    value_only = (
-        q(
-            """
-        SELECT COUNT(DISTINCT m.id), COUNT(l.id), COALESCE(SUM(l.quantity * l.purchase_price), 0)
-          FROM account_move m
-          JOIN account_move_line l ON l.move_id = m.id AND l.display_type = 'product' AND l.product_id IS NOT NULL
-         WHERE m.move_type = 'out_refund' AND m.state = 'posted' AND COALESCE(l.purchase_price, 0) <> 0
-           AND m.invoice_date >= now() - interval '1 month' * %(months)s
-           AND EXISTS (SELECT 1 FROM sale_order_line_invoice_rel r WHERE r.invoice_line_id = l.id)
-           AND NOT EXISTS (
-                SELECT 1 FROM sale_order_line_invoice_rel r
-                  JOIN stock_move sm ON sm.sale_line_id = r.order_line_id AND sm.state = 'done'
-                  JOIN stock_location dl ON dl.id = sm.location_dest_id AND dl.usage = 'internal'
-                  JOIN stock_location sl ON sl.id = sm.location_id AND sl.usage = 'customer'
-                 WHERE r.invoice_line_id = l.id)
+        SELECT CASE WHEN has_return THEN 'retur'
+                    WHEN is_downpayment THEN 'avans'
+                    WHEN is_reversal THEN 'storno'
+                    ELSE 'reducere' END AS kind,
+               COUNT(DISTINCT move_id), COUNT(*), COALESCE(SUM(cost), 0),
+               COUNT(*) FILTER (WHERE cost <> 0), COALESCE(SUM(cost) FILTER (WHERE cost <> 0), 0)
+          FROM lines GROUP BY 1
         """,
-            {"months": MONTHS},
-        )
-        if sale_rel
-        else [(0, 0, 0)]
+        {"months": MONTHS},
     )
-    moves, lines, cost = no_order[0]
-    print(f"  Fără comandă de vânzare: {moves} note, {lines} linii, cost pe linii {cost:,.2f}")
-    if moves:
+    by_kind = {row[0]: row[1:] for row in rows}
+    labels = {
+        "retur": "Cu retur de marfă (cost din retur, neschimbat)",
+        "avans": "Pe avans (neschimbat)",
+        "storno": "Stornare a facturii, același preț (preia costul facturii, neschimbat)",
+        "reducere": "Reducere de preț sau notă fără factură, fără retur (cost 0)",
+    }
+    for kind, label in labels.items():
+        moves, lines, cost, _with_cost, _cost_with = by_kind.get(kind, (0, 0, 0, 0, 0))
+        print(f"  {label}: {moves} note, {lines} linii, cost {cost:,.2f}")
+    _moves, _lines, _cost, with_cost, cost_with = by_kind.get("reducere", (0, 0, 0, 0, 0))
+    if with_cost:
         verdict(
             "ATENȚIE",
-            "notele de credit noi fără comandă vor avea cost 0. Dacă firma face astfel retururi de marfă "
-            "(storno manual), profitul lor scade cu toată valoarea: costul trebuie pus manual",
+            f"{with_cost} linii de reducere au azi cost ({cost_with:,.2f}), deci profit supraevaluat. "
+            "Actualizarea nu le schimbă; le trece pe cost 0 doar Actualizare preț achiziție rulat pe ele "
+            "(inclusiv cu „Pentru toate liniile”). Notele de reducere noi primesc direct cost 0",
         )
-    moves, lines, cost = value_only[0]
-    print(f"  Cu comandă, fără retur în stoc, cu cost > 0: {moves} note, {lines} linii, cost {cost:,.2f}")
-    if moves:
+    else:
+        verdict("OK", "nicio notă de credit de reducere cu cost")
+    if by_kind.get("reducere", (0,))[0]:
         verdict(
             "ATENȚIE",
-            "notele existente nu se schimbă la actualizare. Se trec pe cost 0 doar dacă se rulează "
-            "Actualizare preț achiziție pe ele (inclusiv cu „Pentru toate liniile”): profitul și "
-            "comisionul calculat scad cu acest cost",
+            "o notă fără factură stornată și fără retur legat de comandă (storno manual al unei mărfi "
+            "returnate fizic) primește și ea cost 0: costul se pune manual",
         )
-    if not (no_order[0][0] or value_only[0][0]):
-        verdict("OK", "nicio notă de credit afectată")
 
     # ------------------------------------------------------------------ în plată
     section("5. Facturi „În plată”")

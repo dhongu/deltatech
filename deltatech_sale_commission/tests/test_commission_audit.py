@@ -100,34 +100,76 @@ class TestCommissionAccess(TestSaleCommissionBase):
 
 @tagged("post_install", "-at_install")
 class TestRefundPurchasePrice(TestSaleCommissionBase):
-    def _refund(self, invoice):
-        refund = invoice._reverse_moves()
-        refund.action_post()
-        return refund.invoice_line_ids.filtered(lambda line: line.product_id == self.product_a)
-
-    def test_value_only_refund_has_no_cost(self):
-        so = self._create_and_confirm_sale(qty_a=10, qty_b=0)
+    def _invoice(self, qty=10):
+        so = self._create_and_confirm_sale(qty_a=qty, qty_b=0)
         self._validate_picking(so.picking_ids)
-        invoice = self._create_invoice(so)
-        refund_line = self._refund(invoice)
-        self.assertEqual(refund_line.purchase_price, 0.0)
-        self.assertEqual(refund_line.get_purchase_price(), 0.0)
-        self.env.flush_all()
-        report_line = self.env["sale.margin.report"].search([("id", "=", refund_line.id)])
-        self.assertEqual(report_line.stock_val, 0.0)
-        self.assertLess(report_line.profit_val, 0.0)
+        return so, self._create_invoice(so)
 
-        # neither the update wizard nor the daily cron bring the product cost back
+    def _draft_refund(self, invoice):
+        refund = invoice._reverse_moves()
+        return refund, refund.invoice_line_ids.filtered(lambda line: line.product_id == self.product_a)
+
+    def _refund(self, invoice):
+        refund, line = self._draft_refund(invoice)
+        refund.action_post()
+        return line
+
+    def _invoice_cost(self, invoice):
+        return invoice.invoice_line_ids.filtered(lambda line: line.product_id == self.product_a).purchase_price
+
+    def _report(self, line):
+        self.env.flush_all()
+        return self.env["sale.margin.report"].search([("id", "=", line.id)])
+
+    def _update_and_cron(self, report_line):
         self.env["commission.update.purchase.price"].with_context(active_ids=report_line.ids).create({}).do_compute()
         self.env["sale.margin.report"].cron_update_purchase_price()
+
+    def test_reversal_keeps_invoice_cost(self):
+        """A reversal cancels the sale: same cost as the invoice, zero profit on the pair."""
+        _so, invoice = self._invoice()
+        refund_line = self._refund(invoice)
+        self.assertAlmostEqual(refund_line.purchase_price, self._invoice_cost(invoice))
+        self.assertAlmostEqual(refund_line.get_purchase_price(), self._invoice_cost(invoice))
+        self.env.flush_all()
+        lines = self.env["sale.margin.report"].search([("invoice_id", "in", (invoice | refund_line.move_id).ids)])
+        self.assertAlmostEqual(sum(lines.mapped("profit_val")), 0.0)
+        # the update wizard and the daily cron keep it
+        self._update_and_cron(self._report(refund_line))
+        self.assertAlmostEqual(refund_line.purchase_price, self._invoice_cost(invoice))
+
+    def test_partial_reversal_keeps_unit_cost(self):
+        _so, invoice = self._invoice()
+        refund, refund_line = self._draft_refund(invoice)
+        refund_line.quantity = 3
+        refund.action_post()
+        self.assertAlmostEqual(refund_line.purchase_price, self._invoice_cost(invoice))
+
+    def test_price_reduction_has_no_cost(self):
+        """A credit note on the price only: nothing comes back, the cost is 0."""
+        _so, invoice = self._invoice()
+        refund, refund_line = self._draft_refund(invoice)
+        refund_line.price_unit = 20.0
+        refund.action_post()
+        self.assertEqual(refund_line.purchase_price, 0.0)
+        self.assertEqual(refund_line.get_purchase_price(), 0.0)
+        report_line = self._report(refund_line)
+        self.assertEqual(report_line.stock_val, 0.0)
+        self.assertLess(report_line.profit_val, 0.0)
+        # neither the update wizard nor the daily cron bring a cost back
+        self._update_and_cron(report_line)
+        self.assertEqual(refund_line.purchase_price, 0.0)
+
+    def test_discount_credit_note_has_no_cost(self):
+        _so, invoice = self._invoice()
+        refund, refund_line = self._draft_refund(invoice)
+        refund_line.discount = 10.0
+        refund.action_post()
         self.assertEqual(refund_line.purchase_price, 0.0)
 
     def test_refund_with_return_takes_returned_cost(self):
-        so = self._create_and_confirm_sale(qty_a=10, qty_b=0)
+        so, invoice = self._invoice()
         delivery = so.picking_ids
-        self._validate_picking(delivery)
-        invoice = self._create_invoice(so)
-
         wizard = (
             self.env["stock.return.picking"]
             .with_context(active_id=delivery.id, active_model="stock.picking")
@@ -137,6 +179,8 @@ class TestRefundPurchasePrice(TestSaleCommissionBase):
         self._validate_picking(wizard._create_return())
 
         refund_line = self._refund(invoice)
+        self.assertAlmostEqual(refund_line.get_purchase_price(), 100.0)
+        self._update_and_cron(self._report(refund_line))
         self.assertAlmostEqual(refund_line.purchase_price, 100.0)
 
 
