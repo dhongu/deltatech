@@ -46,8 +46,8 @@ proces.
 
 | Rol | Ce face | Drept Odoo (grup *Proces afaceri*) |
 |---|---|---|
-| Manager de proiect / consultant principal | creează proiectul și procesele, schimbă starea proceselor, configurează ariile și biblioteca | **Admin procese** |
-| Consultant pe arie | scrie pașii, dezvoltările și testele proceselor lui | **Responsabil proces** |
+| Manager de proiect / consultant principal | creează proiectul și procesele, configurează ariile și biblioteca | **Admin procese** |
+| Consultant pe arie | scrie pașii, dezvoltările și testele proceselor lui, schimbă starea proceselor | **Responsabil proces** |
 | Utilizator-cheie al clientului / tester | rulează testele de acceptanță, notează rezultatul pe pași, deschide probleme | **Utilizator final** |
 
 Grupurile se moștenesc: **Admin procese** include **Responsabil proces**, care include **Utilizator
@@ -57,9 +57,10 @@ Ce poate fiecare, efectiv:
 - **Utilizator final**: citește proiectele, procesele, pașii și dezvoltările; creează și modifică
   teste, pași de test și probleme (fără ștergere). Poate porni orice test: de acceptanță, de
   integrare și chiar pe cel al implementatorului.
-- **Responsabil proces**: în plus, modifică pașii, dezvoltările și testele. Poate crea procese doar
-  în ariile **fără responsabil**. **Nu poate modifica procesul însuși**, deci nici starea lui (vezi
-  limitările).
+- **Responsabil proces**: în plus, modifică pașii, dezvoltările și testele, creează procese și
+  **schimbă starea proceselor** cu butoanele din antet (Pornire proiectare, Pornire test, Finalizare
+  testare, Trecere producție, Resetează la ciornă). Câmpurile procesului existent rămân însă needitabile
+  pentru el: le modifică un **Admin procese**.
 - **Admin procese**: drepturi complete, inclusiv câmpul *Vizibil doar pentru* și asistenții de
   export / import. E singurul grup care poate modifica **proiectul** (inclusiv starea lui și
   **Calculează durata**) și care poate șterge teste.
@@ -135,8 +136,8 @@ aprobare, deci nu intră în total.
 
 *Proces afaceri → Proces afaceri → Proiecte* → **Nou(ă)**. Completați numele, clientul, managerul
 de proiect, data de început și data de trecere în producție. Codul (`P00001`) se dă automat. Starea
-proiectului (*Pregătire → Realizare → Lansare → În exploatare*) se schimbă cu un clic pe bara de
-stare.
+proiectului (*Pregătire → Explorare → Realizare → Lansare → În exploatare → Închis*) se schimbă cu un
+clic pe bara de stare.
 
 ![Lista proiectelor](screenshots/01_proiecte.png)
 
@@ -179,7 +180,8 @@ finalizare 100 %.
 Nu îl confundați cu butonul inteligent **Pornire test** (dreapta-sus, cu contor), din Pasul 4: acela
 creează un test de acceptanță.
 
-Butoanele de stare cer grupul **Admin procese** (vezi limitările).
+Butoanele de stare cer grupul **Responsabil proces** (sau **Admin procese**). Utilizatorul final nu
+le vede.
 
 ### Pasul 4 — Pornirea testelor
 
@@ -190,18 +192,18 @@ Din lista proceselor, **Acțiuni** (⚙) oferă:
 
 ![Acțiunile din lista proceselor](screenshots/07_pornire_teste.png)
 
-Fiecare test se creează cu toți pașii procesului. **Porniți un test pe un singur proces odată**:
-selectați un singur proces, ca în captură. Pe o selecție de mai multe procese, testul
-implementatorului dă eroare, iar celelalte creează testul doar pentru primul proces.
+Fiecare test se creează cu toți pașii procesului. Pe o selecție de mai multe procese se creează
+câte un test pentru fiecare proces; la testul implementatorului, testerul e responsabilul de
+implementare al fiecărui proces.
 
 Tot din **Acțiuni**:
 - **Import din bibliotecă** — ca din proiect (Pasul 10), în proiectul procesului selectat;
 - **Resetează testul de acceptanță** / **Resetează testul implementatorului** — repun pe
   *Neînceput* doar stadiul testului de pe proces; testele create rămân.
 
-Butonul inteligent **Pornire test** (cu contor) din formularul procesului creează **un test de
-acceptanță nou la fiecare apăsare** și îl deschide. Pentru a reveni la un test existent folosiți
-butonul **Teste**.
+Butonul inteligent **Pornire test** (cu contor) din formularul procesului deschide testul de
+acceptanță al procesului. Îl creează doar dacă procesul nu are încă niciunul. Dacă procesul are mai
+multe teste de acceptanță, deschide lista lor.
 
 ### Pasul 5 — Rularea testului de acceptanță
 
@@ -221,11 +223,14 @@ problemă nouă, cu proiectul, procesul, aria și responsabilul completate.
 rămâne niciun test nefinalizat, procesul trece singur în **Gata**. Excepție: finalizarea testului
 implementatorului nu schimbă starea procesului.
 
-Nu folosiți **Așteaptă**: testul trece în *Așteptare* și nu mai are niciun buton cu care să iasă din
-această stare (vezi limitările).
+Un proces aflat deja în *Gata*, *Producție* sau *Abandonat* nu își schimbă starea la închiderea unui
+test.
 
-Atenție: **Efectuat** marchează *Trecut* și pașii *Eșuați*. Pașii rămași în *Ciornă* nu se modifică.
-Închideți testul doar după ce toate problemele lui sunt rezolvate (vezi limitările).
+**Așteaptă** pune testul în *Așteptare* (ex. până vin datele de test de la client). Din *Așteptare*,
+**Reia** îl trece înapoi în rulare, iar **Efectuat** îl închide.
+
+**Efectuat** marchează *Trecut* doar pașii rămași în *Ciornă* (neevaluați). Pașii *Eșuați* rămân
+eșuați. Închideți testul după ce toate problemele lui sunt rezolvate.
 
 ### Pasul 6 — Problemele (issues)
 
@@ -254,9 +259,8 @@ Approved”.
 ### Pasul 7 — Trecerea în producție
 
 Procesul ajunge în **Gata** fie singur, la închiderea ultimului test (Pasul 5), fie manual, cu
-butonul **Finalizare testare**. Acesta din urmă **nu verifică testele**: trece procesul în *Gata*
-chiar dacă are teste nefinalizate sau probleme deschise. Folosiți-l doar după ce ați verificat
-testele.
+butonul **Finalizare testare**. Acesta refuză trecerea cât procesul are teste nefinalizate și le
+numește în mesaj. Problemele deschise nu sunt verificate: urmăriți-le în testul respectiv.
 
 Când procesul e **Gata**, **Trecere producție** îl trece în *Producție*. **Resetează la ciornă**
 (din orice stare, în afară de *Ciornă*) și **Abandonează** sunt disponibile pentru corecturi.
@@ -279,9 +283,7 @@ Când procesul e **Gata**, **Trecere producție** îl trece în *Producție*. **
 
 Din proiect, **Acțiuni → Descarcă raportul Excel** descarcă `Project_Report.xlsx`: procesele pe
 arii, cu durata de configurare, instruire, testare, migrare și totalul. Procesele cu durata totală 0
-apar cu roșu. Antetele sunt în engleză, iar coloanele *Testing duration* și *Data Migration Duration*
-au valorile **inversate** (vezi limitările): în captură, sub *Testing duration* apare durata de
-migrare.
+apar cu roșu. Antetele sunt în limba utilizatorului care descarcă raportul.
 
 ![Exportul Excel al proiectului](screenshots/13_raport_excel_proiect.png)
 
@@ -323,8 +325,8 @@ există deja în proiect este sărit.
 
 ## 8. Verificări pentru consultant
 
-- [ ] Utilizatorii au grupul potrivit la *Proces afaceri*; managerul de proiect are **Admin
-      procese** (altfel nu poate schimba starea proceselor).
+- [ ] Utilizatorii au grupul potrivit la *Proces afaceri*: managerul de proiect **Admin procese**,
+      consultanții pe arie **Responsabil proces** (schimbă starea proceselor).
 - [ ] Un proces nou dintr-o arie cu responsabil primește automat *Responsabil implementare*.
 - [ ] **Pornire proiectare** pune data de început BBP, iar **Pornire test** data de sfârșit și 100 %.
 - [ ] Un test pornit pe proces conține toți pașii procesului.
@@ -332,7 +334,9 @@ există deja în proiect este sărit.
       iar închiderea ultimei probleme a pasului îl pune pe *Trecut*.
 - [ ] **Rezolvat** cere *Soluție* și *Data soluției*. **Efectuat** pe problemă cere *Data închiderii*.
 - [ ] După **Efectuat** pe testul de acceptanță, procesul trece în *Gata* dacă nu mai are teste
-      nefinalizate.
+      nefinalizate. Un proces deja în *Producție* rămâne în *Producție*.
+- [ ] **Finalizare testare** refuză un proces cu teste nefinalizate.
+- [ ] Butonul inteligent **Pornire test** apăsat de două ori deschide același test de acceptanță.
 - [ ] Pe demo, **Calculează durata** dă 40:30 pe proiect.
 - [ ] Un proces cu *Vizibil doar pentru* completat nu apare unui utilizator din afara listei, nici în
       rapoarte.
@@ -343,18 +347,14 @@ există deja în proiect este sărit.
 
 | Mesaj / simptom | Cauză probabilă | Remediere |
 |---|---|---|
-| Eroare de acces la **Pornire proiectare** / **Pornire test** / **Trecere producție** | Utilizatorul e *Responsabil proces* sau *Utilizator final*: niciunul nu are drept de scriere pe proces | Dați grupul **Admin procese** celui care conduce ciclul de viață al proceselor |
-| „Expected singleton: res.partner(…)” la **Pornire test implementator** | Au fost selectate mai multe procese | Porniți testul implementatorului pe un singur proces odată |
-| Test creat doar pentru primul proces | Pornire test de integrare / acceptanță pe o selecție de procese | Porniți testul pe fiecare proces în parte |
-| Mai multe teste de acceptanță pe același proces | Butonul **Pornire test** din proces a fost apăsat de mai multe ori: fiecare apăsare creează un test nou | Deschideți testele existente cu butonul **Teste**; duplicatele le poate șterge un **Admin procese** |
+| „Doar responsabilii de proces pot schimba starea unui proces de business.” | Utilizatorul e doar *Utilizator final* | Dați grupul **Responsabil proces** celui care conduce ciclul de viață al procesului |
+| „Procesul … are încă teste nefinalizate: …” la **Finalizare testare** | Procesul are teste care nu sunt *Efectuate* | Închideți testele numite în mesaj (**Efectuat**), apoi reluați |
 | „The field Solution Date is required, please complete it to change status to Solved” | Lipsește *Data soluției* sau *Soluția* | Completați ambele câmpuri, apoi **Rezolvat** |
 | „The field Closed Date is required, please complete it to change status to Closed” | Lipsește *Data închiderii* | Completați-o în starea *În testare la client* |
 | „This test is completed.” | Problema a fost legată de un pas al unui test deja *Efectuat* | Alegeți un pas dintr-un test în rulare |
 | „No project selected!” la import | Asistentul de import a fost deschis fără un proiect sau proces curent | Deschideți-l din formularul proiectului țintă |
 | „Only local projects can install modules” | **Instalare module** pe un proiect *La distanță* | Comportament voit; instalați modulele în baza clientului |
-| Eroare de acces la salvarea unui proces nou, pentru un *Responsabil proces* | Aria procesului are responsabil, iar crearea îl copiază pe proces (o scriere pe care grupul nu o are) | Procesul se creează de un **Admin procese** |
 | Eroare de acces la **Calculează durata** sau la schimbarea stării proiectului | Doar *Admin procese* poate modifica proiectul | Comportament voit; operația se face de managerul de proiect |
-| Testul a rămas în *Așteptare*, fără butoane | **Așteaptă** duce testul într-o stare din care nu există ieșire din formular | Evitați butonul. Un *Admin procese* poate șterge testul blocat și porni altul. Pașii de test se șterg cu el, iar problemele lor își pierd legătura cu pasul: notați-le codurile înainte și reatașați-le la pașii noului test |
 | Pașii procesului nu se pot modifica | Procesul e în *Test* sau mai departe | **Resetează la ciornă**, modificați, apoi reluați |
 
 ## 10. Capturi de ecran
@@ -394,7 +394,7 @@ Regenerare (captura 15 cere și `l10n_ro_process_library`; fără el se sare doa
 ## 11. Observații pentru manual
 
 Păstrați ordinea de lucru:
-1. drepturile (managerul de proiect pe **Admin procese**);
+1. drepturile (managerul de proiect pe **Admin procese**, consultanții pe **Responsabil proces**);
 2. ariile, cu responsabilii lor, și etapele de implementare;
 3. proiectul;
 4. procesele: din bibliotecă, din JSON-ul altui proiect sau scrise de la zero, cu pașii și duratele;
@@ -408,28 +408,6 @@ orice pas eșuat trebuie să aibă o problemă deschisă. Altfel defectul nu mai
 
 ### Limitări cunoscute
 
-- **Doar „Admin procese” schimbă starea procesului.** Butoanele de stare sunt afișate și pentru
-  *Responsabil proces*, dar acest grup nu are drept de scriere pe proces și primește eroare de acces.
-  Din același motiv, un *Responsabil proces* nu poate crea un proces într-o arie care are
-  responsabil: crearea îi scrie responsabilul ariei pe proces.
-- **Pornirea testelor pe mai multe procese odată nu funcționează corect**: testul implementatorului
-  dă eroare, iar testele de integrare și de acceptanță se creează doar pentru primul proces selectat.
-- **Butonul inteligent „Pornire test” (cu contor) din proces creează un test nou la fiecare apăsare.**
-- **„Efectuat” pe test marchează „Trecut” și pașii eșuați**, iar pașii rămași în *Ciornă* nu se
-  modifică. Un test închis cu probleme deschise apare deci ca reușit.
-- **Contorul de probleme de pe pasul de test nu scade la închiderea problemei**: rămâne numărul de
-  la deschidere.
-- **Exportul Excel are coloanele „Testing duration” și „Data Migration Duration” inversate**:
-  valoarea migrării apare sub *Testing duration* și invers, inclusiv în totalurile acestor două
-  coloane. Corect e doar totalul pe rând (*Total Duration*). Antetele fișierului nu sunt traduse.
-- **Stările „Explorare” și „Închis” ale proiectului nu apar în bara de stare**, deci nu se pot
-  alege.
-- **„Finalizare testare” trece procesul în Gata fără să verifice testele.**
-- **Închiderea unui test de integrare sau de acceptanță readuce în Gata un proces aflat deja în
-  Producție**: starea se scrie fără să se țină cont de cea curentă. Apăsați din nou **Trecere
-  producție**.
-- **„Așteaptă” blochează testul**: din *Așteptare* nu mai există niciun buton, iar bara de stare nu
-  se poate apăsa.
 - **Deschiderea bibliotecii de procese creează ariile lipsă** (ex. „Declarații ANAF”), chiar dacă nu
   importați nimic.
 - **Durata totală a proiectului nu se actualizează singură**: se recalculează doar la **Calculează

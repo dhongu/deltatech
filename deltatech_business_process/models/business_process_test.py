@@ -185,17 +185,14 @@ class BusinessProcessTest(models.Model):
         self.ensure_one()
         self.write({"state": "done"})
         for test in self:
-            if not test.date_end:
-                test.date_start = fields.Date.today()
-            if not test.test_step_ids:
-                date_end = fields.Date.today()
-            else:
-                date_end = max(test.test_step_ids.mapped("date_end")) or fields.Date.today()
+            step_dates = [d for d in test.test_step_ids.mapped("date_end") if d]
+            date_end = max(step_dates) if step_dates else fields.Date.today()
             date_end = max(date_end, test.date_end or fields.Date.today())
             test_step_ids = test.test_step_ids.filtered(lambda x: not x.date_end)
             test_step_ids.write({"date_end": date_end})
 
-            test_step_ids = test.test_step_ids.filtered(lambda x: not x.result == "draft")
+            # pasii neevaluati se considera trecuti; cei picati raman picati
+            test_step_ids = test.test_step_ids.filtered(lambda x: x.result == "draft")
             test_step_ids.write({"result": "passed"})
             test.write({"date_end": date_end})
             if test.scope == "internal":
@@ -206,9 +203,10 @@ class BusinessProcessTest(models.Model):
                 test.process_id.sudo().write({"status_user_acceptance_test": "done"})
 
         # Testul implementatorului (intern) nu schimba starea procesului.
-        # verifica daca toate testele sunt done
+        # verifica daca toate testele sunt done; un proces trecut deja de testare
+        # (ready/production/abandoned) nu se intoarce in ready
         if self.scope != "internal":
-            for process in self.mapped("process_id"):
+            for process in self.mapped("process_id").filtered(lambda p: p.state in ("draft", "design", "test")):
                 if (
                     process.status_internal_test == "done"
                     and process.status_integration_test == "done"
