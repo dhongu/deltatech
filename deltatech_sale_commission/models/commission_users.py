@@ -2,7 +2,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class CommissionUsers(models.Model):
@@ -30,3 +31,24 @@ class CommissionUsers(models.Model):
         "UNIQUE(user_id, journal_id, company_id)",
         "A salesperson can have only one commission rate per journal and company.",
     )
+
+    @api.constrains("user_id", "journal_id", "company_id")
+    def _check_unique_user_journal(self):
+        # Same rule as the SQL constraint, checked by the ORM: it still applies on a database where
+        # the unique index could not be created because of duplicates left from an older version.
+        for record in self:
+            if self.search_count(
+                [
+                    ("id", "!=", record.id),
+                    ("user_id", "=", record.user_id.id),
+                    ("journal_id", "=", record.journal_id.id),
+                    ("company_id", "=", record.company_id.id),
+                ]
+            ):
+                raise ValidationError(
+                    self.env._(
+                        "%(user)s already has a commission rate on the journal %(journal)s.",
+                        user=record.user_id.display_name,
+                        journal=record.journal_id.display_name,
+                    )
+                )

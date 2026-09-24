@@ -201,14 +201,23 @@ class SaleMarginReport(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
 
-        if sale_user_detail == "invoice":
-            from_str += (
-                " left join commission_users cu on (s.invoice_user_id = cu.user_id and cu.journal_id = s.journal_id)"
-            )
-        else:
-            from_str += (
-                " left join commission_users cu on (l.sale_user_id = cu.user_id and cu.journal_id = s.journal_id)"
-            )
+        user_column = "s.invoice_user_id" if sale_user_detail == "invoice" else "l.sale_user_id"
+        # At most one rate row per invoice line, whatever the data: a plain join multiplies the
+        # line by every matching row, so a duplicate rate doubles the sale, cost and profit
+        # (same rates, same report line) or the line itself (different rates, repeated id).
+        # The unique constraint on commission.users is not enough on its own: it can not be
+        # created while old duplicates are still there.
+        from_str += f"""
+                    left join lateral (
+                        select c.rate, c.manager_rate, c.director_rate, c.manager_user_id, c.director_user_id
+                          from commission_users c
+                         where c.user_id = {user_column}
+                           and c.journal_id = s.journal_id
+                           and c.company_id = s.company_id
+                      order by c.id
+                         limit 1
+                    ) cu on true
+        """
         return from_str
 
     def _where(self):

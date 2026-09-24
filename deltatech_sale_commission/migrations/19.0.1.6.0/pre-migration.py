@@ -29,13 +29,30 @@ FILL_JOURNAL_SQL = """
     )
 """
 
+DELETE_EXACT_DUPLICATES_SQL = """
+    DELETE FROM commission_users dup
+     USING commission_users keep
+     WHERE dup.journal_id IS NOT NULL
+       AND keep.id < dup.id
+       AND keep.user_id = dup.user_id
+       AND keep.journal_id = dup.journal_id
+       AND keep.company_id = dup.company_id
+       AND keep.rate IS NOT DISTINCT FROM dup.rate
+       AND keep.manager_rate IS NOT DISTINCT FROM dup.manager_rate
+       AND keep.director_rate IS NOT DISTINCT FROM dup.director_rate
+       AND keep.manager_user_id IS NOT DISTINCT FROM dup.manager_user_id
+       AND keep.director_user_id IS NOT DISTINCT FROM dup.director_user_id
+ RETURNING dup.id
+"""
+
 
 def migrate(cr, version):
     """commission.users.journal_id becomes required and (user, journal, company) unique.
 
     A row without a journal never matched an invoice in the margin report. When the company has a
     single sales journal the row is given that journal, unless it would duplicate an existing row.
-    The other rows, and the duplicates, are only reported: choosing among them is the user's
+    Exact duplicates are deleted. The rows left without journal, and the duplicates with different
+    rates, are only reported: choosing among them is the user's
     decision, and the ORM keeps the constraints pending (with a warning) until they are cleaned up.
     """
     cr.execute(
@@ -57,6 +74,12 @@ def migrate(cr, version):
             "including on past invoices",
             filled,
         )
+    # Exact duplicates (same salesperson, journal and company, and the same rates and managers)
+    # double the margin report lines; dropping them loses nothing, the oldest row is kept.
+    cr.execute(DELETE_EXACT_DUPLICATES_SQL)
+    deleted = sorted(row[0] for row in cr.fetchall())
+    if deleted:
+        _logger.warning("commission.users: exact duplicate rows %s deleted, the oldest row of each is kept", deleted)
     cr.execute("SELECT id FROM commission_users WHERE journal_id IS NULL ORDER BY id")
     missing = [row[0] for row in cr.fetchall()]
     if missing:

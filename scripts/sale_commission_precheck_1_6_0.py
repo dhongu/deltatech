@@ -167,19 +167,32 @@ def run():
         )
     dups = q(
         """
-        SELECT user_id, journal_id, company_id, ARRAY_AGG(id ORDER BY id)
+        SELECT user_id, journal_id, company_id, ARRAY_AGG(id ORDER BY id),
+               COUNT(DISTINCT (rate, manager_rate, director_rate, manager_user_id, director_user_id))
           FROM commission_users WHERE journal_id IS NOT NULL
       GROUP BY user_id, journal_id, company_id HAVING COUNT(*) > 1
         """
     )
-    for user_id, journal_id, _company_id, ids in dups:
+    for user_id, journal_id, _company_id, ids, variants in dups:
         user = env["res.users"].sudo().browse(user_id)
         journal = env["account.journal"].sudo().browse(journal_id)
-        verdict(
-            "DE FĂCUT",
-            f"dublură {ids}: {user.name} pe {journal.display_name}. Liniile raportului sunt acum dublate; "
-            "păstrați un singur rând (unicitatea nu se aplică până atunci)",
+        impact = (
+            "ACUM raportul are vânzarea, costul, profitul și comisionul calculat înmulțite cu "
+            f"{len(ids)} pe facturile acestui agent din acest jurnal; verificați comisioanele deja plătite"
         )
+        if variants == 1:
+            verdict(
+                "ATENȚIE",
+                f"dublură identică {ids}: {user.name} pe {journal.display_name}. {impact}. "
+                f"Migrarea păstrează rândul {ids[0]} și le șterge pe celelalte",
+            )
+        else:
+            verdict(
+                "DE FĂCUT",
+                f"dublură cu rate diferite {ids}: {user.name} pe {journal.display_name}. {impact}. "
+                "După actualizare raportul folosește rândul cel mai vechi; păstrați un singur rând, cu "
+                "rata corectă (unicitatea în baza de date se aplică abia după curățare)",
+            )
     wrong_type = q(
         """
         SELECT cu.id FROM commission_users cu JOIN account_journal j ON j.id = cu.journal_id

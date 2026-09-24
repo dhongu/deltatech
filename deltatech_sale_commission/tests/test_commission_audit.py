@@ -11,7 +11,7 @@ from types import SimpleNamespace
 
 from psycopg2 import IntegrityError
 
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import new_test_user, tagged
 from odoo.tools import mute_logger
 
@@ -155,6 +155,55 @@ class TestCommissionUsersConstraints(TestSaleCommissionBase):
             self.env["commission.users"].create(vals)
             self.env.flush_all()
 
+    def _drop_unique_index(self):
+        # as on a database upgraded with duplicates left: the unique index could not be created
+        self.env.flush_all()
+        self.env.cr.execute(
+            "ALTER TABLE commission_users DROP CONSTRAINT IF EXISTS commission_users_user_journal_company_unique"
+        )
+        self.env.cr.execute("DROP INDEX IF EXISTS commission_users_user_journal_company_unique")
+
+    def test_orm_refuses_duplicate_without_index(self):
+        journal = self.company_data["default_journal_sale"]
+        vals = {"user_id": self.env.user.id, "rate": 0.1, "journal_id": journal.id}
+        self.env["commission.users"].create(vals)
+        self._drop_unique_index()
+        with self.assertRaises(ValidationError):
+            self.env["commission.users"].create(vals)
+        other = self.env["commission.users"].create(dict(vals, user_id=self.vendor_user().id))
+        with self.assertRaises(ValidationError):
+            other.user_id = self.env.user
+
+    def vendor_user(self):
+        return new_test_user(self.env, "commission.other", groups="sales_team.group_sale_salesman")
+
+    def test_report_not_multiplied_by_duplicate_rates(self):
+        """Duplicates left in the data must not double the report: one line per invoice line,
+        with the sale value of the line, and the rate of the oldest row."""
+        journal = self.company_data["default_journal_sale"]
+        so = self._create_and_confirm_sale(qty_a=10, qty_b=5)
+        self._validate_picking(so.picking_ids)
+        invoice = self._create_invoice(so)
+        self.assertEqual(invoice.journal_id, journal)
+        self.env["commission.users"].create({"user_id": self.env.user.id, "rate": 0.1, "journal_id": journal.id})
+        self._drop_unique_index()
+        for rate in (0.1, 0.3):  # an exact duplicate and one with a different rate
+            self.env.cr.execute(
+                "INSERT INTO commission_users (user_id, rate, company_id, journal_id) VALUES (%s, %s, %s, %s)",
+                (self.env.user.id, rate, self.env.company.id, journal.id),
+            )
+        self.env.invalidate_all()
+        product_lines = invoice.invoice_line_ids.filtered(lambda line: line.display_type == "product")
+        lines = self.env["sale.margin.report"].search([("invoice_id", "=", invoice.id)])
+        self.env.cr.execute(
+            "SELECT COUNT(*), COUNT(DISTINCT id) FROM sale_margin_report WHERE invoice_id = %s", invoice.ids
+        )
+        self.assertEqual(self.env.cr.fetchone(), (len(product_lines), len(product_lines)))
+        for line in lines:
+            invoice_line = product_lines.filtered(lambda aml, line=line: aml.id == line.id)
+            self.assertAlmostEqual(line.sale_val, -invoice_line.balance)
+            self.assertAlmostEqual(line.commission_computed, 0.1 * line.profit_val)
+
     def test_report_lines_not_duplicated(self):
         journal = self.company_data["default_journal_sale"]
         self.env["commission.users"].create({"user_id": self.env.user.id, "rate": 0.1, "journal_id": journal.id})
@@ -292,7 +341,7 @@ class TestMigrationCommissionUsers(TestSaleCommissionBase):
         journal = self._journal(single, "SJ1")
         self._journal(several, "MJ1")
         self._journal(several, "MJ2")
-        users = [new_test_user(self.env, f"mig.user{i}", groups="sales_team.group_sale_salesman") for i in range(4)]
+        users = [new_test_user(self.env, f"mig.user{i}", groups="sales_team.group_sale_salesman") for i in range(5)]
         self.env.flush_all()
         # the version being upgraded had neither the NOT NULL nor the unique constraint
         self.env.cr.execute("ALTER TABLE commission_users ALTER COLUMN journal_id DROP NOT NULL")
@@ -312,6 +361,12 @@ class TestMigrationCommissionUsers(TestSaleCommissionBase):
         # a company with two sales journals: nothing to choose from
         ambiguous = self._insert(users[3], several)
 
+        # on the journal already: an exact duplicate (deleted) and one with another rate (kept)
+        base = self._insert(users[4], single, journal)
+        exact = self._insert(users[4], single, journal)
+        different = self._insert(users[4], single, journal)
+        self.env.cr.execute("UPDATE commission_users SET rate = 0.5 WHERE id = %s", (different,))
+
         with self.assertLogs("deltatech_sale_commission_pre_1_6_0", "WARNING") as logs:
             self._migration().migrate(self.env.cr, "19.0.1.5.2")
 
@@ -321,11 +376,16 @@ class TestMigrationCommissionUsers(TestSaleCommissionBase):
         self.assertIsNone(self._journal_of(second))
         self.assertEqual(self._journal_of(alone), journal.id)
         self.assertIsNone(self._journal_of(ambiguous))
+        # the exact copy goes, the copy with another rate stays for the user to decide
+        self.env.cr.execute("SELECT id FROM commission_users WHERE id IN %s ORDER BY id", ((base, exact, different),))
+        self.assertEqual([row[0] for row in self.env.cr.fetchall()], [base, different])
         self.env.cr.execute(
-            """SELECT COUNT(*) FROM (SELECT 1 FROM commission_users WHERE journal_id IS NOT NULL
-                GROUP BY user_id, journal_id, company_id HAVING COUNT(*) > 1) d"""
+            """SELECT ARRAY_AGG(id ORDER BY id) FROM commission_users WHERE journal_id IS NOT NULL
+                GROUP BY user_id, journal_id, company_id HAVING COUNT(*) > 1"""
         )
-        self.assertEqual(self.env.cr.fetchone()[0], 0, "the migration must not create duplicates")
+        self.assertEqual([row[0] for row in self.env.cr.fetchall()], [[base, different]])
         output = "\n".join(logs.output)
         self.assertIn(str(sorted([first, alone])), output)
         self.assertIn(str(sorted([conflict, second, ambiguous])), output)
+        self.assertIn(f"exact duplicate rows {[exact]} deleted", output)
+        self.assertIn(str([base, different]), output)

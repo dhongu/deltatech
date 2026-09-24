@@ -25,7 +25,11 @@ Fixes from the consultant sheet audit:
   migration fills the journal where the company has a single sales journal, one
   row per salesperson and only if the salesperson has no row on that journal yet
   (so it creates no duplicates), and logs the rows left without journal and the
-  existing duplicates, to be cleaned up by hand. Before upgrading a production
+  duplicates with different rates, to be cleaned up by hand; exact duplicates are
+  deleted. The margin report takes at most one rate row per invoice line (the
+  oldest), so a duplicate left in the data can no longer double the sale, cost,
+  profit and commission, and the ORM refuses a new duplicate even where the
+  unique index could not be created yet. Before upgrading a production
   database, run `scripts/sale_commission_precheck_1_6_0.py` (read-only) to see
   what changes for the client.
 - Invoices *In Payment* count as paid for the commission, and the wizards opened

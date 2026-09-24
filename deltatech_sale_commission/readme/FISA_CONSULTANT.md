@@ -415,7 +415,9 @@ Subliniați că baza comisionului e **profitul**, nu vânzarea, și că ratele s
 - **La actualizarea modulului** de la o versiune anterioară, rândurile *Comisioane agenți* fără jurnal
   primesc jurnalul de vânzări al companiei, dacă e unul singur și dacă agentul nu are deja un rând pe
   el (câte un rând pe agent). Acești agenți primesc de atunci comision calculat și pe facturile din
-  trecut. Rândurile rămase fără jurnal și dublurile existente sunt doar semnalate în jurnalul
-  serverului și trebuie curățate manual; până atunci, obligativitatea jurnalului și unicitatea nu sunt
-  impuse în baza de date. Înainte de actualizarea unei baze productive, rulați scriptul de verificare
+  trecut. Dublurile identice (aceleași rate și aceiași manager și director) sunt șterse, păstrând
+  rândul cel mai vechi. Rândurile rămase fără jurnal și dublurile cu rate diferite sunt doar
+  semnalate în jurnalul serverului și trebuie curățate manual: până atunci raportul folosește rândul
+  cel mai vechi (fără să dubleze valorile), iar obligativitatea jurnalului și unicitatea nu sunt
+  impuse în baza de date, deși Odoo refuză deja un rând nou duplicat. Înainte de actualizarea unei baze productive, rulați scriptul de verificare
   `scripts/sale_commission_precheck_1_6_0.py` din repo (doar citește), care arată ce se schimbă.
