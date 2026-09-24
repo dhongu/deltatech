@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Promissory Note",
     "summary": "Manage Promissory Note",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",

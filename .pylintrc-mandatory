@@ -27,12 +27,12 @@ disable=all
 #   odoo-addons-relative-import
 #   print-used
 #   translation-format-interpolation
-#   translation-fstring-interpolation
 #   translation-not-lazy
 #   translation-positional-used
 #   translation-required
 
-enable=prefer-env-translation,
+enable=translation-fstring-interpolation,
+    prefer-env-translation,
     missing-return,
     except-pass,
     anomalous-backslash-in-string,
