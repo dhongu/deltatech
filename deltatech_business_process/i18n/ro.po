@@ -632,6 +632,12 @@ msgid "Configuration"
 msgstr "Configurație"
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Configuration Duration"
+msgstr "Durata configurare"
+
+#. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__configuration_duration
 msgid "Configuration duration"
 msgstr "Durata configurare"
@@ -772,6 +778,12 @@ msgstr "Client responsabil"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
 msgid "Data"
 msgstr "Date"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Data Migration Duration"
+msgstr "Durata migrării datelor"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__data_migration_duration
@@ -1901,6 +1913,12 @@ msgid "Only local projects can install modules"
 msgstr "Doar proiectele locale pot instala module!"
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Only process responsibles can change the state of a business process."
+msgstr "Doar responsabilii de proces pot schimba starea unui proces de business."
+
+#. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__open
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__open
 msgid "Open"
@@ -1999,6 +2017,12 @@ msgstr "Credențiale depozit privat"
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
 msgid "Process"
 msgstr "Proces"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Process %(process)s still has unfinished tests: %(tests)s"
+msgstr "Procesul %(process)s are încă teste nefinalizate: %(tests)s"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__process_group_id
@@ -2243,6 +2267,11 @@ msgstr "Limitează la module (listă)"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__result
 msgid "Result"
 msgstr "Rezultat"
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Resume"
+msgstr "Reia"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__role_id
@@ -2695,6 +2724,18 @@ msgstr ""
 "clonat. URL-urile SSH folosesc propriile chei."
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Total Duration"
+msgstr "Durata totală"
+
+#. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__duration_for_completion
 msgid "Total duration"
 msgstr "Durata totală"
@@ -2703,6 +2744,12 @@ msgstr "Durata totală"
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__total_project_duration
 msgid "Total project duration"
 msgstr "Durata totală a proiectului"
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Training duration"
+msgstr "Durata instruire"
 
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_report__transaction_id

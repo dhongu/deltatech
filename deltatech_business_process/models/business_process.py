@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.fields import Domain
 
 
@@ -187,11 +187,13 @@ class BusinessProcess(models.Model):
         for vals in vals_list:
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        results = super().create(vals_list)
-        for result in results:
-            if result.area_id.responsible_id and not result.responsible_id:
-                result.responsible_id = result.area_id.responsible_id
-        return results
+            # responsabilul zonei se pune din valori: dupa create ar cere drept de scriere,
+            # pe care grupul Process Responsible nu il are
+            if not vals.get("responsible_id") and vals.get("area_id"):
+                area = self.env["business.area"].browse(vals["area_id"])
+                if area.responsible_id:
+                    vals["responsible_id"] = area.responsible_id.id
+        return super().create(vals_list)
 
     def _compute_display_name(self):
         for process in self:
@@ -248,46 +250,25 @@ class BusinessProcess(models.Model):
         return action
 
     def action_view_acceptance_tests(self):
-        test = self.start_user_acceptance_test()
+        # deschide testul de acceptanta existent; il creeaza doar daca procesul nu are niciunul
+        self.ensure_one()
+        domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
         context = {
             "default_process_id": self.id,
             "default_scope": "user_acceptance",
         }
-        action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
-        action.update(
-            {
-                "res_id": test.id,
-                "view_mode": "form",
-                "context": context,
-            }
-        )
+        tests = self.env["business.process.test"].search(domain)
+        if not tests:
+            tests = self.start_user_acceptance_test().with_env(self.env)
+        if len(tests) == 1:
+            action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
+            action.update({"res_id": tests.id, "view_mode": "form", "context": context})
+        else:
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                "deltatech_business_process.action_business_process_test"
+            )
+            action.update({"domain": domain, "context": context})
         return action
-        # domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
-        # context = {
-        #     "default_process_id": self.id,
-        #     "default_scope": "user_acceptance",
-        # }
-        # tests = self.env["business.process.test"].search(domain)
-        # if len(tests) == 1:
-        #     action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
-        #     action.update(
-        #         {
-        #             "res_id": tests.id,
-        #             "view_mode": "form",
-        #             "context": context,
-        #         }
-        #     )
-        # else:
-        #     action = self.env["ir.actions.actions"]._for_xml_id(
-        #         "deltatech_business_process.action_business_process_test"
-        #     )
-        #     action.update(
-        #         {
-        #             "domain": domain,
-        #             "context": context,
-        #         }
-        #     )
-        # return action
 
     def action_view_developments(self):
         domain = [("id", "=", self.development_ids.ids)]
@@ -370,6 +351,7 @@ class BusinessProcess(models.Model):
     #     return ids
 
     def _start_test(self, scope):
+        all_tests = self.env["business.process.test"]
         for process in self:
             domain = [("process_id", "=", process.id), ("scope", "=", scope)]
             tests = self.env["business.process.test"].search(domain)
@@ -379,7 +361,7 @@ class BusinessProcess(models.Model):
                     {
                         "name": self.env._("Internal Test %s", process.code if process.code else process.name),
                         "process_id": process.id,
-                        "tester_id": self.responsible_id.id,
+                        "tester_id": process.responsible_id.id,
                         "scope": scope,
                     }
                 )
@@ -396,7 +378,8 @@ class BusinessProcess(models.Model):
                     }
                 )
             test._onchange_process_id()
-            return test
+            all_tests |= test
+        return all_tests
 
     def _add_followers(self):
         for process in self:
@@ -410,17 +393,30 @@ class BusinessProcess(models.Model):
                     followers |= step.responsible_id
             process.message_subscribe(followers.ids)
 
+    def _check_state_access(self):
+        """Tranzitiile de stare sunt permise responsabilului de proces, care are doar citire
+        pe business.process (campurile raman editabile doar de Business Admin).
+        Intoarce recordset-ul in sudo, dupa verificarea grupului si a regulilor de acces."""
+        if not self.env.su and not self.env.user.has_group(
+            "deltatech_business_process.group_business_process_responsible"
+        ):
+            raise AccessError(self.env._("Only process responsibles can change the state of a business process."))
+        self.check_access("read")
+        return self.sudo()
+
     def button_start_design(self):
-        self._add_followers()
-        for process in self:
+        processes = self._check_state_access()
+        processes._add_followers()
+        for process in processes:
             values = {"state": "design"}
             if not process.date_start_bbp:
                 values["date_start_bbp"] = fields.Date.today()
             process.write(values)
 
     def button_start_test(self):
-        self._add_followers()
-        for process in self:
+        processes = self._check_state_access()
+        processes._add_followers()
+        for process in processes:
             values = {"state": "test"}
             if not process.date_end_bbp:
                 values["date_end_bbp"] = fields.Date.today()
@@ -429,14 +425,25 @@ class BusinessProcess(models.Model):
             process.write(values)
 
     def button_end_test(self):
-        # se verifica daca toate testele sunt finalizate
-        self.write({"state": "ready"})
+        processes = self._check_state_access()
+        # testarea se incheie doar daca toate testele procesului sunt finalizate
+        for process in processes:
+            open_tests = process.test_ids.filtered(lambda t: t.state != "done")
+            if open_tests:
+                raise UserError(
+                    self.env._(
+                        "Process %(process)s still has unfinished tests: %(tests)s",
+                        process=process.display_name,
+                        tests=", ".join(open_tests.mapped("name")),
+                    )
+                )
+        processes.write({"state": "ready"})
 
     def button_go_live(self):
-        self.write({"state": "production"})
+        self._check_state_access().write({"state": "production"})
 
     def button_draft(self):
-        self.write({"state": "draft"})
+        self._check_state_access().write({"state": "draft"})
 
     def button_abandon(self):
         self.write({"state": "abandoned"})

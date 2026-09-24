@@ -97,12 +97,14 @@
                         string="Go live"
                         class="oe_highlight"
                         invisible="state!='ready'"
+                        groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
                         name="button_draft"
                         type="object"
                         string="Reset to Draft"
                         invisible="state == 'draft'"
+                        groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
                         name="button_abandon"

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:22+0000\n"
-"PO-Revision-Date: 2026-07-31 10:22+0000\n"
+"POT-Creation-Date: 2026-09-24 14:36+0000\n"
+"PO-Revision-Date: 2026-09-24 14:36+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -468,6 +468,8 @@ msgid "Closed by"
 msgstr ""
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__code
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_issue__code
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_migration__code
@@ -575,6 +577,12 @@ msgstr ""
 #. module: deltatech_business_process
 #: model:ir.ui.menu,name:deltatech_business_process.menu_config
 msgid "Configuration"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Configuration Duration"
 msgstr ""
 
 #. module: deltatech_business_process
@@ -717,6 +725,12 @@ msgstr ""
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_test_from
 msgid "Data"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Data Migration Duration"
 msgstr ""
 
 #. module: deltatech_business_process
@@ -1684,6 +1698,8 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_area__name
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development__name
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_development_type__name
@@ -1841,6 +1857,12 @@ msgid "Only local projects can install modules"
 msgstr ""
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Only process responsibles can change the state of a business process."
+msgstr ""
+
+#. module: deltatech_business_process
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_issue__state__open
 #: model:ir.model.fields.selection,name:deltatech_business_process.selection__business_open_issue__state__open
 msgid "Open"
@@ -1933,6 +1955,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_step_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
 msgid "Process"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_process.py:0
+msgid "Process %(process)s still has unfinished tests: %(tests)s"
 msgstr ""
 
 #. module: deltatech_business_process
@@ -2177,6 +2205,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_step_test__result
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process_test_report__result
 msgid "Result"
+msgstr ""
+
+#. module: deltatech_business_process
+#: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_process_test_form
+msgid "Resume"
 msgstr ""
 
 #. module: deltatech_business_process
@@ -2554,6 +2587,8 @@ msgid "Testing %s"
 msgstr ""
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__testing_duration
 msgid "Testing duration"
 msgstr ""
@@ -2613,6 +2648,18 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Total"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Total Duration"
+msgstr ""
+
+#. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_process__duration_for_completion
 msgid "Total duration"
 msgstr ""
@@ -2620,6 +2667,12 @@ msgstr ""
 #. module: deltatech_business_process
 #: model:ir.model.fields,field_description:deltatech_business_process.field_business_project__total_project_duration
 msgid "Total project duration"
+msgstr ""
+
+#. module: deltatech_business_process
+#. odoo-python
+#: code:addons/deltatech_business_process/models/business_project.py:0
+msgid "Training duration"
 msgstr ""
 
 #. module: deltatech_business_process

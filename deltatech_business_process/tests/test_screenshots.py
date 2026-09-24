@@ -417,7 +417,7 @@ class TestBusinessProcessScreenshots(ScreenshotCase or object):
                 "settle": 2500,
             },
             self.xlsx_shot(
-                self.project.generate_excel_report(),
+                self.project.with_context(lang="ro_RO").generate_excel_report(),
                 "13_raport_excel_proiect.png",
                 title="Project_Report.xlsx",
             ),
