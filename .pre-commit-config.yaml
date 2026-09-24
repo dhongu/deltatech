@@ -200,3 +200,14 @@ repos:
         stages: [manual]
         pass_filenames: false
         always_run: true
+  # Rulează DUPĂ oca-gen-addon-readme, tot ca job manual: șablonul README nu vede fișierele
+  # din readme/, deci badge-ul „Fișă consultant” se pune după generare. Idempotent.
+  - repo: local
+    hooks:
+      - id: tb-fisa-badge
+        name: Badge „Fișă consultant” în README.rst
+        entry: python3 scripts/tb_fisa_badge.py --addons-dir=.
+        language: system
+        stages: [manual]
+        pass_filenames: false
+        always_run: true
