@@ -245,27 +245,37 @@ class StockInventoryLine(models.Model):
         #         #price = self.product_id.with_context(to_date=self.accounting_date).stock_value / self.theoretical_qty
         return price
 
-    def _generate_moves(self):
-        config_parameter = self.env["ir.config_parameter"].sudo()
-        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
-        use_inventory_price = safe_eval(use_inventory_price)
+    def _use_inventory_price(self):
+        """Pretul de pe linie valorizeaza plusul de inventar?
 
-        # actualizare pret in produs
-        for inventory_line in self:
+        Parametrul ``stock.use_inventory_price`` decide mereu. Cu el activ, pretul liniei se
+        foloseste la FIFO / cost mediu, iar la cost standard doar pe liniile cu stoc scriptic 0.
+        """
+        self.ensure_one()
+        use_inventory_price = self.env["ir.config_parameter"].sudo().get_param("stock.use_inventory_price", "True")
+        if not safe_eval(use_inventory_price):
+            return False
+        cost_method = self.product_id.with_company(self.company_id).cost_method
+        return not self.theoretical_qty or cost_method in ("fifo", "average")
+
+    def _generate_moves(self):
+        # La cost standard, pe o linie cu scriptic 0, pretul liniei devine costul produsului doar daca
+        # produsul nu are stoc deloc in companie: altfel schimbarea costului ar reevalua stocul existent.
+        # Pe FIFO / cost mediu costul nu se rescrie: plusul intra la pretul liniei prin valoarea
+        # miscarii (stock.move._get_value_from_std_price), iar costul mediu se recalculeaza ponderat.
+        for line in self:
+            company = line.company_id or self.env.company
+            product = line.product_id.with_company(company).with_context(allowed_company_ids=company.ids).sudo()
             if (
-                not inventory_line.theoretical_qty
-                or (
-                    inventory_line.product_id.cost_method == "fifo"
-                    or inventory_line.product_id.cost_method == "average"
-                )
-                and use_inventory_price
+                product.cost_method == "standard"
+                and line.difference_qty > 0
+                and line._use_inventory_price()
+                and product.standard_price != line.standard_price
+                # stocul valorizat al companiei, in orice locatie, nu doar in depozite
+                and product.uom_id.is_zero(product._with_valuation_context().qty_available)
             ):
-                inventory_line.product_id.sudo().with_context(disable_auto_svl=True).write(
-                    {"standard_price": inventory_line.standard_price}
-                )
-        moves = super()._generate_moves()
-        # self.set_last_last_inventory()
-        return moves
+                product.standard_price = line.standard_price
+        return super()._generate_moves()
 
     # def set_last_last_inventory(self):
     #     for inventory_line in self:
