@@ -101,7 +101,11 @@ class StockMoveLine(models.Model):
         if any(self.mapped("picking_type_id.avoid_putaway_rules")):
             return super(StockMoveLine, self.with_context(avoid_putaway_rules=True))._apply_putaway_strategy()
 
-        return super()._apply_putaway_strategy()
+        # Raftul de pe care pleacă marfa nu poate fi propus ca destinație de
+        # `prefer_existing_stock_location`, chiar dacă produsul mai are stoc acolo.
+        return super(
+            StockMoveLine, self.with_context(putaway_exclude_location_ids=self.location_id.ids)
+        )._apply_putaway_strategy()
 
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației

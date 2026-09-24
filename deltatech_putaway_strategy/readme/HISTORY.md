@@ -1,5 +1,22 @@
 # Changelog
 
+## 19.0.1.1.0 (2026-09-24)
+
+- New option: prefer the shelf where the product is already stocked. When the system parameter
+  `deltatech_putaway_strategy.prefer_existing_stock_location` is `True`, the putaway looks for the
+  leaf locations under the incoming location (e.g. `D1/S`) that already hold the product and
+  proposes the one with the largest quantity that still has capacity, even when it is not under
+  the location given by the putaway rule. This covers products moved physically to another shelf
+  without updating their rule: the rule kept sending them to the old shelf, and
+  `search_sublocation` could not reach the new one because it only looks below the rule's
+  location. The rule's location still wins when it already holds the product, the incoming
+  location itself is ignored (goods not yet put away) and a full shelf falls back to the usual
+  strategy. Disabled by default, so existing installations keep their behaviour.
+- A shelf is never proposed as the destination of the goods leaving it: only free stock
+  (quantity minus reserved) counts, and the source locations of the move lines are passed to the
+  putaway through the `putaway_exclude_location_ids` context key, so a transfer from a shelf is
+  not sent back to that same shelf even when stock remains there.
+
 ## 19.0.1.0.7 (2026-08-04)
 
 - Development status raised from *Beta* to *Production/Stable*. The module is consumed by
