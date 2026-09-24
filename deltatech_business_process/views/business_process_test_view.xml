@@ -40,15 +40,16 @@
                         class="oe_highlight"
                         type="object"
                         string="Done"
-                        invisible="state!='run'"
+                        invisible="state not in ('run', 'wait')"
                     />
                     <button name="action_wait" type="object" string="Wait" invisible="state!='run'" />
+                    <button name="action_run" type="object" string="Resume" invisible="state!='wait'" />
                     <button name="action_draft" type="object" string="Draft" invisible="state!='done'" />
                     <field
                         name="state"
                         widget="statusbar"
                         options="{'clickable': '1'}"
-                        statusbar_visible="draft,run,done"
+                        statusbar_visible="draft,run,wait,done"
                         readonly="1"
                     />
 
