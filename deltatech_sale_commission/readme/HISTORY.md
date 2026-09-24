@@ -22,8 +22,12 @@ Fixes from the consultant sheet audit:
 - `commission.users`: the journal is required (sales journals only; the domain
   used the `sale_refund` type, gone in Odoo 19) and (salesperson, journal,
   company) is unique, so the report lines are no longer duplicated. The
-  migration fills the journal where the company has a single sales journal and
-  logs the rows without journal and the duplicates, to be cleaned up by hand.
+  migration fills the journal where the company has a single sales journal, one
+  row per salesperson and only if the salesperson has no row on that journal yet
+  (so it creates no duplicates), and logs the rows left without journal and the
+  existing duplicates, to be cleaned up by hand. Before upgrading a production
+  database, run `scripts/sale_commission_precheck_1_6_0.py` (read-only) to see
+  what changes for the client.
 - Invoices *In Payment* count as paid for the commission, and the wizards opened
   without a selection list the paid lines without commission (the default filter
   used a non-existent invoice state); the *Paid* filter includes them too.

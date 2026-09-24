@@ -4,7 +4,9 @@
 # Regression tests for the defects found by the consultant sheet audit
 # (readme/FISA_CONSULTANT.md, "Limitări cunoscute").
 
+import importlib.util
 from datetime import timedelta
+from pathlib import Path
 from types import SimpleNamespace
 
 from psycopg2 import IntegrityError
@@ -250,3 +252,80 @@ class TestCommissionPaymentRules(TestSaleCommissionBase):
         self.assertLessEqual(lines, wizard.invoice_line_ids)
         wizard = self.env["commission.update.purchase.price"].create({})
         self.assertLessEqual(lines, wizard.invoice_line_ids)
+
+
+@tagged("post_install", "-at_install")
+class TestMigrationCommissionUsers(TestSaleCommissionBase):
+    """pre-migration 19.0.1.6.0, run on rows written as the previous version allowed them"""
+
+    @classmethod
+    def _migration(cls):
+        path = Path(__file__).parents[1] / "migrations" / "19.0.1.6.0" / "pre-migration.py"
+        spec = importlib.util.spec_from_file_location("deltatech_sale_commission_pre_1_6_0", path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module
+
+    def _journal(self, company, code):
+        return (
+            self.env["account.journal"]
+            .sudo()
+            .create({"name": f"Sales {code}", "code": code, "type": "sale", "company_id": company.id})
+        )
+
+    def _insert(self, user, company, journal=None):
+        self.env.cr.execute(
+            "INSERT INTO commission_users (user_id, rate, company_id, journal_id) VALUES (%s, 0.1, %s, %s) RETURNING id",
+            (user.id, company.id, journal.id if journal else None),
+        )
+        return self.env.cr.fetchone()[0]
+
+    def _journal_of(self, row_id):
+        self.env.cr.execute("SELECT journal_id FROM commission_users WHERE id = %s", (row_id,))
+        return self.env.cr.fetchone()[0]
+
+    def test_fill_journal_without_duplicates(self):
+        single = self.env["res.company"].create({"name": "Single Journal Co"})
+        several = self.env["res.company"].create({"name": "Several Journals Co"})
+        # new companies without a chart of accounts: only the journals created here
+        self.env["account.journal"].sudo().search([("company_id", "in", (single | several).ids)]).unlink()
+        journal = self._journal(single, "SJ1")
+        self._journal(several, "MJ1")
+        self._journal(several, "MJ2")
+        users = [new_test_user(self.env, f"mig.user{i}", groups="sales_team.group_sale_salesman") for i in range(4)]
+        self.env.flush_all()
+        # the version being upgraded had neither the NOT NULL nor the unique constraint
+        self.env.cr.execute("ALTER TABLE commission_users ALTER COLUMN journal_id DROP NOT NULL")
+        self.env.cr.execute(
+            "ALTER TABLE commission_users DROP CONSTRAINT IF EXISTS commission_users_user_journal_company_unique"
+        )
+        self.env.cr.execute("DROP INDEX IF EXISTS commission_users_user_journal_company_unique")
+
+        # a row on the journal plus a row without journal: filling it would duplicate the first one
+        existing = self._insert(users[0], single, journal)
+        conflict = self._insert(users[0], single)
+        # two rows without journal: only the first one is filled
+        first = self._insert(users[1], single)
+        second = self._insert(users[1], single)
+        # one row without journal
+        alone = self._insert(users[2], single)
+        # a company with two sales journals: nothing to choose from
+        ambiguous = self._insert(users[3], several)
+
+        with self.assertLogs("deltatech_sale_commission_pre_1_6_0", "WARNING") as logs:
+            self._migration().migrate(self.env.cr, "19.0.1.5.2")
+
+        self.assertEqual(self._journal_of(existing), journal.id)
+        self.assertIsNone(self._journal_of(conflict))
+        self.assertEqual(self._journal_of(first), journal.id)
+        self.assertIsNone(self._journal_of(second))
+        self.assertEqual(self._journal_of(alone), journal.id)
+        self.assertIsNone(self._journal_of(ambiguous))
+        self.env.cr.execute(
+            """SELECT COUNT(*) FROM (SELECT 1 FROM commission_users WHERE journal_id IS NOT NULL
+                GROUP BY user_id, journal_id, company_id HAVING COUNT(*) > 1) d"""
+        )
+        self.assertEqual(self.env.cr.fetchone()[0], 0, "the migration must not create duplicates")
+        output = "\n".join(logs.output)
+        self.assertIn(str(sorted([first, alone])), output)
+        self.assertIn(str(sorted([conflict, second, ambiguous])), output)

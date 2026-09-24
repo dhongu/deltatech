@@ -413,6 +413,9 @@ Subliniați că baza comisionului e **profitul**, nu vânzarea, și că ratele s
   raport.
 - **Asistenții de calcul și de actualizare a costului** permit și „Adaugă o linie”.
 - **La actualizarea modulului** de la o versiune anterioară, rândurile *Comisioane agenți* fără jurnal
-  primesc jurnalul de vânzări al companiei, dacă e unul singur. Rândurile rămase fără jurnal și
-  dublurile (același agent și jurnal) sunt doar semnalate în jurnalul serverului și trebuie curățate
-  manual; până atunci, unicitatea nu e impusă în baza de date.
+  primesc jurnalul de vânzări al companiei, dacă e unul singur și dacă agentul nu are deja un rând pe
+  el (câte un rând pe agent). Acești agenți primesc de atunci comision calculat și pe facturile din
+  trecut. Rândurile rămase fără jurnal și dublurile existente sunt doar semnalate în jurnalul
+  serverului și trebuie curățate manual; până atunci, obligativitatea jurnalului și unicitatea nu sunt
+  impuse în baza de date. Înainte de actualizarea unei baze productive, rulați scriptul de verificare
+  `scripts/sale_commission_precheck_1_6_0.py` din repo (doar citește), care arată ce se schimbă.
