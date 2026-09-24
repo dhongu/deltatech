@@ -37,7 +37,8 @@ Features
 - **Enhanced Stock Valuation**:
 
   - Displays columns with the stock price in inventory views.
-  - Allows updating product cost prices during inventory validation.
+  - Values the surplus of a count at the price of the inventory line,
+    without revaluing the existing stock.
 
 - **Valuation snapshot on the inventory line** (restricted to *Inventory
   / Administrator*):
@@ -79,9 +80,12 @@ Features
 
 - **Inventory Price Update**:
 
-  - When the system parameter "stock.use_inventory_price" is set to
-    True, the cost price of products (with FIFO evaluation) is updated
-    with the price from the inventory lines.
+  - When the system parameter "stock.use_inventory_price" is True (the
+    default), the surplus found on FIFO and average cost products enters
+    the stock at the price of the inventory line; the average cost is
+    recomputed as a weighted average and the existing stock is not
+    revalued. On standard cost products, the line price becomes the
+    standard cost only for a product that has no valued stock yet.
 
 - **Inventory Archiving**:
 
@@ -111,8 +115,8 @@ Features
 Configuration
 -------------
 
-- Set the system parameter "stock.use_inventory_price" to True to enable
-  cost price updates during inventory.
+- Set the system parameter "stock.use_inventory_price" to False if the
+  price of the inventory lines must be ignored.
 - Enable "Show manual location fields" in Settings -> Inventory to use
   manual location fields.
 - The "Can update quantities" security group must be assigned to users
@@ -152,6 +156,64 @@ Usage
 
 Changelog
 =========
+
+19.0.2.10.0 (2026-09-24)
+------------------------
+
+- **The inventory price no longer revalues the existing stock.** Until
+  now, validating an inventory wrote the line *Price* into the product
+  cost with a context key that no longer exists in 19.0
+  (``disable_auto_svl``). On average cost products, and on standard cost
+  products on lines with no theoretical quantity, this created a
+  ``product.value``, i.e. it revalued the whole stock of the product, in
+  all locations. Now the product cost is not rewritten: only the surplus
+  of the count enters at the line price (the value of the inventory move
+  is difference × line price), and the average cost is recomputed as a
+  weighted average. On FIFO the new layer enters at the line price;
+  missing quantities still leave at the current cost. On standard cost
+  the line price becomes the standard cost only on a line with no
+  theoretical quantity, and only if the product has no valued stock in
+  the company.
+- The ``stock.use_inventory_price`` parameter now always decides: when
+  it is off, the line price is ignored, including on the lines with no
+  theoretical quantity.
+- A **negative counted quantity** raises the explanatory message again,
+  instead of a server error (``TypeError``).
+- **Include Exhausted Products** works again when *Products* is left
+  empty: the product filter used the product type ``product``, which no
+  longer exists in 19.0.
+- The inventory moves, and therefore the accounting entries, carry the
+  **inventory document name** as reference, instead of *Product Quantity
+  Updated (user)*.
+- **Inventory Diff** report: on a document with several locations, the
+  missing quantities are no longer repeated under every location. The
+  quantity difference keeps its decimals (it was rounded to an integer)
+  and the numeric columns are right-aligned again (``text-end``).
+- The **Merge** wizard proposes the current date, not the date the
+  server was started.
+- The chatter message of **Confirm Stock** shows the location again
+  (broken placeholder).
+- Romanian translations completed; the group *Can update quantities* is
+  now translated as such.
+
+19.0.2.9.0 (2026-09-14)
+-----------------------
+
+- **Grupare** este din nou disponibil în wizard-ul de reaprovizionare
+  produs (*product.replenish*). Câmpul exista în 18.0 ca ``group_id``
+  (``procurement.group``), eliminat la portarea pe 19.0 pentru că
+  modelul ``procurement.group`` nu mai există în core — a fost înlocuit
+  acum cu noul mecanism O19, ``stock.reference`` (``reference_ids`` pe
+  ``stock.move``).
+- Gruparea se completează **automat, o dată pe zi și pe depozit**: toate
+  reaprovizionările lansate în aceeași zi, din același depozit, primesc
+  aceeași referință și ajung astfel pe un singur ``stock.picking``, în
+  loc de câte un document separat per produs. Câmpul rămâne editabil,
+  dacă se dorește altă grupare manuală.
+- Garda anti-duplicare e păstrată, dar acum e per produs+referință (nu
+  per referință, cum era în 18.0 per grup) — altfel gruparea zilnică
+  automată ar bloca reaprovizionarea celui de-al doilea produs din
+  aceeași zi.
 
 19.0.2.8.0 (2026-09-10)
 -----------------------

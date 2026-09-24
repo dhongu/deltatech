@@ -11,7 +11,7 @@ class StockInventoryMerge(models.TransientModel):
     _description = "Stock Inventory Merge Wizard"
 
     name = fields.Char(required=True)
-    date = fields.Datetime(required=True, default=fields.Datetime.now())
+    date = fields.Datetime(required=True, default=fields.Datetime.now)
     company_id = fields.Many2one(
         "res.company",
         string="Company",

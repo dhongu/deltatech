@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-10 07:49+0000\n"
-"PO-Revision-Date: 2026-09-10 07:49+0000\n"
+"POT-Creation-Date: 2026-09-24 04:08+0000\n"
+"PO-Revision-Date: 2026-09-24 04:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/models/stock_move.py:0
+msgid "%(quantity)s %(uom)s at inventory price (%(inventory)s)"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #. odoo-python
@@ -423,6 +429,11 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_replenish__reference_id
+msgid "Grupare"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -836,6 +847,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_product_template
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__product_id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__product_tmpl_id
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__product_id
 msgid "Product"
 msgstr ""
@@ -855,11 +867,6 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_product_replenish
 msgid "Product Replenish"
-msgstr ""
-
-#. module: deltatech_stock_inventory
-#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_confirm_inventory__product_tmpl_id
-msgid "Product Tmpl"
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -904,7 +911,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #. odoo-python
 #: code:addons/deltatech_stock_inventory/models/stock_quant.py:0
-msgid "Quantity %(quant)s %(location) at location was confirmed."
+msgid "Quantity %(quant)s at location %(location)s was confirmed."
 msgstr ""
 
 #. module: deltatech_stock_inventory
@@ -930,6 +937,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_rack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_rack
 msgid "Rack Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/product_replenish.py:0
+msgid "Reaprovizionare %(warehouse)s %(date)s"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#. odoo-python
+#: code:addons/deltatech_stock_inventory/wizard/product_replenish.py:0
+msgid ""
+"Reaprovizionarea a fost deja făcută astăzi pentru acest produs și depozit."
 msgstr ""
 
 #. module: deltatech_stock_inventory

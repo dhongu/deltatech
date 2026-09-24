@@ -179,8 +179,9 @@ class Inventory(models.Model):
                 self.env._(
                     "You cannot set a negative product quantity in an inventory line:\n\t"
                     "%(product_name)s - qty: %(product_qty)s",
-                ),
-                {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty},
+                    product_name=negative.product_id.display_name,
+                    product_qty=negative.product_qty,
+                )
             )
         self.action_check()
         self.write({"state": "done", "date": self.date})
@@ -364,7 +365,7 @@ class Inventory(models.Model):
                     "|",
                     ("company_id", "=", self.company_id.id),
                     ("company_id", "=", False),
-                    ("type", "=", "product"),
+                    ("is_storable", "=", True),
                     ("active", "=", True),
                 ],
                 ["id"],
@@ -748,6 +749,8 @@ class InventoryLine(models.Model):
             "location_id": location_id,
             "location_dest_id": location_dest_id,
             "is_inventory": True,
+            # referinta miscarii (si a notei contabile) = numele documentului de inventar
+            "inventory_name": self.inventory_id.name,
             "move_line_ids": [
                 (
                     0,
