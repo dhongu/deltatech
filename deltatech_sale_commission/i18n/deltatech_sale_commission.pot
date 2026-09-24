@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:24+0000\n"
-"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"POT-Creation-Date: 2026-09-24 09:32+0000\n"
+"PO-Revision-Date: 2026-09-24 09:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,12 @@ msgstr ""
 #. module: deltatech_sale_commission
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.res_config_settings_view_form_stock
 msgid "<span class=\"o_form_label\">Salesperson commission compute</span>"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.constraint,message:deltatech_sale_commission.constraint_commission_users_user_journal_company_unique
+msgid ""
+"A salesperson can have only one commission rate per journal and company."
 msgstr ""
 
 #. module: deltatech_sale_commission
@@ -116,11 +122,6 @@ msgid "Commission Viewer"
 msgstr ""
 
 #. module: deltatech_sale_commission
-#: model:ir.model,name:deltatech_sale_commission.model_sale_commission_condition
-msgid "Commission condition"
-msgstr ""
-
-#. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__company_id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__company_id
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
@@ -157,7 +158,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__create_uid
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__create_uid
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__create_uid
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__create_uid
 msgid "Created by"
 msgstr ""
 
@@ -165,7 +165,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__create_date
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__create_date
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__create_date
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__create_date
 msgid "Created on"
 msgstr ""
 
@@ -197,7 +196,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__display_name
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__display_name
 msgid "Display Name"
@@ -240,7 +238,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__id
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__id
 msgid "ID"
@@ -295,7 +292,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__write_uid
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__write_uid
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__write_uid
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__write_uid
 msgid "Last Updated by"
 msgstr ""
 
@@ -303,13 +299,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__write_date
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__write_date
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__write_date
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__write_date
 msgid "Last Updated on"
-msgstr ""
-
-#. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__less_than_days
-msgid "Less Than Days"
 msgstr ""
 
 #. module: deltatech_sale_commission
@@ -336,6 +326,18 @@ msgstr ""
 #. module: deltatech_sale_commission
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__not_paid
 msgid "Not Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+msgid "Only a Commission Manager can compute the commissions."
+msgstr ""
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/update_purchase_price.py:0
+msgid "Only a Commission Manager can update the purchase price."
 msgstr ""
 
 #. module: deltatech_sale_commission
@@ -368,11 +370,6 @@ msgstr ""
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__payment_term_id
 msgid "Payment Term"
-msgstr ""
-
-#. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__percentage
-msgid "Percentage"
 msgstr ""
 
 #. module: deltatech_sale_commission
@@ -540,11 +537,6 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__sequence
-msgid "Sequence"
-msgstr ""
-
-#. module: deltatech_sale_commission
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
 msgid "Set Paid"
@@ -569,6 +561,22 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
 msgid "Stock value"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+msgid ""
+"The system parameter deltatech_sale_commission.days_for_commission can not "
+"be negative."
+msgstr ""
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+msgid ""
+"The system parameter deltatech_sale_commission.days_for_commission must be a"
+" whole number of days, not %(value)s."
 msgstr ""
 
 #. module: deltatech_sale_commission

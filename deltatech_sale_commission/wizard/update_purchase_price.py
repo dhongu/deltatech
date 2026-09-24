@@ -3,6 +3,9 @@
 
 
 from odoo import api, fields, models
+from odoo.exceptions import AccessError
+
+from .commission_compute import PAID_STATES
 
 
 class CommissionUpdatePurchasePrice(models.TransientModel):
@@ -29,12 +32,16 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
         if active_ids:
             domain = [("id", "in", active_ids)]
         else:
-            domain = [("state", "=", "paid"), ("commission", "=", 0.0)]
+            domain = [("payment_state", "in", PAID_STATES), ("commission", "=", 0.0)]
         res = self.env["sale.margin.report"].search(domain)
         defaults["invoice_line_ids"] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
     def do_compute(self):
+        # the cost is written with sudo on the invoice lines, so only the commission managers
+        # may run it (the wizard access is also limited to them)
+        if not self.env.user.has_group("deltatech_sale_commission.group_commission_manager"):
+            raise AccessError(self.env._("Only a Commission Manager can update the purchase price."))
         if self.for_all:
             lines = self.env["sale.margin.report"].search([])
         else:
@@ -45,18 +52,12 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
             purchase_price = 0.0
 
             if self.price_from_doc:
+                # price from delivery, or the product cost when there is none; 0 on a credit
+                # note without a return of goods
                 purchase_price = invoice_line.get_purchase_price()
+                if purchase_price or invoice_line.move_id.move_type == "out_refund":
+                    invoice_line.write({"purchase_price": purchase_price})
 
-                if not purchase_price:
-                    if invoice_line.product_id:
-                        if invoice_line.product_id.standard_price > 0:
-                            purchase_price = invoice_line.product_id.standard_price
-
-            else:
-                if invoice_line.product_id:
-                    if invoice_line.product_id.standard_price > 0:
-                        purchase_price = invoice_line.product_id.standard_price
-
-            if purchase_price:
-                invoice_line.write({"purchase_price": purchase_price})
+            elif invoice_line.product_id.standard_price > 0:
+                invoice_line.write({"purchase_price": invoice_line.product_id.standard_price})
         return True

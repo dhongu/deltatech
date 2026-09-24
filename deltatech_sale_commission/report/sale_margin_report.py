@@ -279,24 +279,20 @@ class SaleMarginReport(models.Model):
             )
         )
 
-    def write(self, vals):
-        invoice_line = self.env["account.move.line"].sudo().browse(self.id)
-        value = {}
-        if "commission" in vals:
-            value["commission"] = vals["commission"]
-        if "commission_paid" in vals:
-            value["commission_paid"] = vals["commission_paid"]
-        if invoice_line.purchase_price == 0 and invoice_line.product_id:
-            if invoice_line.product_id.standard_price > 0:
-                value["purchase_price"] = invoice_line.product_id.standard_price
-        if "purchase_price" in vals:
-            value["purchase_price"] = vals.pop("purchase_price")
-        invoice_line.write(value)
+    def write(self, vals):  # pylint: disable=method-required-super
+        # The report is a SQL view: super().write() would try to UPDATE the view, so the values
+        # are routed to the invoice lines behind it. The lines are written with sudo because
+        # the sales roles only read account.move.line; the access check below is what keeps the
+        # write limited to the commission managers (the viewers have read-only access).
+        self.check_access("write")
+        value = {fname: vals[fname] for fname in ("commission", "commission_paid", "purchase_price") if fname in vals}
+        invoice_lines = self.env["account.move.line"].sudo().browse(self.ids)
+        if value:
+            invoice_lines.write(value)
         if "user_id" in vals:
-            invoice = self.env["account.move"].browse(self.invoice_id.id)
-            invoice.write({"invoice_user_id": vals["user_id"]})
-        if 1 == 2:
-            super().write(vals)
+            self.invoice_id.write({"invoice_user_id": vals["user_id"]})
+        invoice_lines.flush_recordset()
+        self.invalidate_recordset()
         return True
 
     def action_set_commission_paid(self):
@@ -317,14 +313,10 @@ class SaleMarginReport(models.Model):
             purchase_price = 0.0
 
             if invoice_line:
-                # Use price from delivery if available
+                # price from delivery, or the product cost when there is none
                 purchase_price = invoice_line.get_purchase_price()
 
-                if not purchase_price:
-                    if invoice_line.product_id:
-                        if invoice_line.product_id.standard_price > 0:
-                            purchase_price = invoice_line.product_id.standard_price
-
+            # a zero cost is not written: it keeps a cost set by hand on a credit note
             if purchase_price:
                 invoice_line.write({"purchase_price": purchase_price})
 

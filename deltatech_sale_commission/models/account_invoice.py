@@ -27,6 +27,9 @@ class AccountInvoiceLine(models.Model):
         digits="Product Price",
         store=True,
         readonly=False,
+        # a stored editable compute is copied by default: a credit note made by reversing the
+        # invoice would inherit the invoice cost instead of the cost of the returned goods
+        copy=False,
         groups="base.group_user",
     )
 
@@ -127,7 +130,10 @@ class AccountInvoiceLine(models.Model):
             # if price_unit_list:
             #     purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
-        if not purchase_price:
+        # A credit note without a return of goods (a discount or a price correction) brings
+        # nothing back into stock, so it has no cost: the goods were costed on the original
+        # invoice. Falling back on the product cost would turn a price reduction into a profit.
+        if not purchase_price and self.move_id.move_type != "out_refund":
             purchase_price = self.product_id.standard_price
         return purchase_price
 
@@ -176,7 +182,7 @@ class AccountInvoiceLine(models.Model):
             company = self.env.user.company_id
             product_uom = invoice_line.product_uom_id
             invoice_date = invoice_line.move_id.invoice_date or fields.Date.today()
-            if invoice_line.sale_line_ids:
+            if invoice_line.sale_line_ids or invoice_line.move_id.move_type == "out_refund":
                 # purchase_price = 0
                 # for line in invoice_line.sale_line_ids:
                 #     from_currency = line.order_id.currency_id
