@@ -393,3 +393,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_list
 msgid "cashed_amount"
 msgstr ""
+
+#. module: deltatech_promissory_note
+#. odoo-python
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+msgid "BO - the last - %(name)s for %(issuer_name)s has been cashed"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#. odoo-python
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+msgid "The last promissory note cashed: %(name)s, date: %(date)s. Issuer: %(issuer_name)s, amount: %(cashed_amount)s, agreement: %(agreement)s"
+msgstr ""

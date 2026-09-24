@@ -34,6 +34,14 @@ Features:
 Changelog
 =========
 
+19.0.1.0.5 (2026-09-24)
+-----------------------
+
+- Romanian translations for the messages recovered in the previous
+  release (messages that babel could not extract while the file
+  contained an f-string inside ``_()``); the ``.pot`` now lists them
+  too.
+
 19.0.1.0.4 (2026-09-24)
 -----------------------
 
