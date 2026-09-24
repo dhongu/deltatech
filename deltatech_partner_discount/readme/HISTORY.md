@@ -7,3 +7,6 @@
 - Fix: `security/groups.xml` seta `category_id` pe `res.groups`, câmp
   eliminat pe Odoo 19 (`ValueError: Invalid field 'category_id' in
   'res.groups'` la încărcarea registry-ului, prins de testele CI). Scos.
+- Fix: testele foloseau `groups_id` la crearea de `res.users`, câmp
+  redenumit `group_ids` pe Odoo 19 (`ValueError: Invalid field
+  'groups_id' in 'res.users'`, prins tot de CI).

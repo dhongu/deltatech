@@ -13,7 +13,7 @@ class TestPartnerDiscount(TransactionCase):
             {
                 "name": "User No Discount",
                 "login": "user_no_discount",
-                "groups_id": [(6, 0, [])],
+                "group_ids": [(6, 0, [])],
             }
         )
 
@@ -23,7 +23,7 @@ class TestPartnerDiscount(TransactionCase):
             {
                 "name": "User With Discount",
                 "login": "user_with_discount",
-                "groups_id": [(6, 0, [self.discount_group.id])],
+                "group_ids": [(6, 0, [self.discount_group.id])],
             }
         )
 
