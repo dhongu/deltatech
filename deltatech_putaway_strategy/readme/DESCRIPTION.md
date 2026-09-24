@@ -18,6 +18,9 @@ This module extends Odoo Inventory locations with simple capacity tracking and e
   - Respects capacity on leaf locations when suggesting destinations.
   - Automatically splits move lines if a destination location reaches its maximum capacity.
   - Prefers empty child locations when possible (if search sublocation is enabled).
+  - Optionally prefers the shelf where the product is already stocked, anywhere under the incoming
+    location, over the shelf given by the putaway rule (system parameter
+    `deltatech_putaway_strategy.prefer_existing_stock_location`, disabled by default).
   - Optimized rule lookup with database indexes on `product_id` and `sequence` for `stock.putaway.rule`.
   - Keeps full compatibility with Odoo’s storage category rules (max weight, product/pack capacities, allow new product rules, etc.).
 - Operation type options on `stock.picking.type`:
@@ -35,6 +38,10 @@ This module extends Odoo Inventory locations with simple capacity tracking and e
 3. The computed fields can be shown in location tree or used by other modules (e.g., visual warehouse map).
 4. To stop deliveries from reserving not‑yet‑put‑away stock, tick `Avoid Root Location on Reservation` on the
    delivery operation type. This requires `deltatech_stock_removal_priority` to be installed (see Compatibility).
+5. To send new stock to the shelf where the product already sits, set the system parameter
+   `deltatech_putaway_strategy.prefer_existing_stock_location` to `True` (Settings → Technical → System
+   Parameters). The shelf with the largest quantity is proposed first; if it is full, or if the rule's shelf
+   already holds the product, the putaway rule applies as usual.
 
 ## Performance notes
 
