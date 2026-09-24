@@ -13,10 +13,12 @@ class SaleOrder(models.Model):
         [
             ("placed", "Placed"),  # comanda plasta pe website
             ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
+            ("rfq", "Request for Quotation"),  # oferta trimisa furnizorului
             ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
             ("postponed", "Postponed"),  # livrarea a fost amanata
             ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
-            ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
+            ("pre_advice", "Pre advice"),  # awb generat
+            ("in_delivery", "In Delivery"),  # marfa a fost predata la curier Expediata
             ("delivered", "Delivered"),  # comanda a fost livrata la client
             ("canceled", "Canceled"),
             ("returned", "Returned"),
@@ -71,6 +73,15 @@ class SaleOrder(models.Model):
                     if picking.state in ["waiting", "confirmed"]:
                         order.stage = "waiting"
 
+                if order.stage == "to_be_delivery" and not order.picking_ids:
+                    order.stage = "waiting"
+                    purchase_order_count = order.sudo().purchase_order_count
+                    if purchase_order_count > 0:
+                        purchase_orders = order._get_purchase_orders()
+                        for purchase_order in purchase_orders:
+                            if purchase_order.state == "sent":
+                                order.stage = "rfq"
+
                 # if all pickings are delivered, sale order must be delivered
                 # without backorder, not all quantities are delivered but all pickings are done
                 if order.picking_ids:
@@ -84,3 +95,8 @@ class SaleOrder(models.Model):
                             all_delivered = False
                     if all_delivered:
                         order.stage = "delivered"
+
+    def _action_confirm(self):
+        res = super()._action_confirm()
+        self._compute_stage()
+        return res

@@ -44,6 +44,22 @@ Etape
 Changelog
 =========
 
+19.0.2.0.7 (2026-09-24)
+-----------------------
+
+- Fix: the 18.0→19.0 migration (#2227) dropped
+  ``models/stock_picking.py`` in full — the ``write()`` override that
+  set ``sale_order.stage`` from the picking's ``delivery_state``
+  (``pre_advice``/``in_transit``/``in_warehouse``\ → ``in_delivery``,
+  ``delivered``\ →\ ``delivered``). The ``rfq`` and ``pre_advice``
+  values of the ``stage`` selection, the ``_compute_stage`` branch that
+  set ``rfq`` when a linked purchase RFQ was sent, and the
+  ``_action_confirm`` override that forced a ``stage`` recompute on
+  order confirmation went with it — same migration commit that also
+  dropped the portal filters (restored earlier, see 19.0.2.0.5's
+  predecessor). None of this was ever documented as an intentional
+  removal. Restored all of it verbatim from 18.0.
+
 19.0.2.0.6 (2026-09-23)
 -----------------------
 
