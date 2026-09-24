@@ -357,3 +357,15 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_warehouse_arrangement.view_lot_change_location_form
 msgid "or"
 msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#. odoo-python
+#: code:addons/deltatech_warehouse_arrangement/wizard/lot_set_location.py:0
+msgid "Location %(barcode)s not found"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#. odoo-python
+#: code:addons/deltatech_warehouse_arrangement/wizard/lot_set_location.py:0
+msgid "Lot/serial %(barcode)s not found"
+msgstr ""
