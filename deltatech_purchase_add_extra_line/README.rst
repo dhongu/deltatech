@@ -19,8 +19,11 @@ Purchase Add Extra Line
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_add_extra_line
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_purchase_add_extra_line/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Purchase Add Extra Line Extension
 =================================
