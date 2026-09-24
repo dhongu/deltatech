@@ -1,0 +1,6 @@
+{
+  "title": "Website Designer Access",
+  "summary": "Restrict Contacts, Sales & Finance from web designer users",
+  "icon": "user",
+  "features": ["Hides Contacts menu", "Hides Sales menu", "Hides Finance menus"]
+}
