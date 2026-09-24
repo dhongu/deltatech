@@ -76,18 +76,6 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_warehouse_arrangement
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_product_template____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_production_lot____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_stock_quant____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_storehouse____last_update
-#: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
-
-#. module: deltatech_warehouse_arrangement
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_rack__write_uid
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_section__write_uid
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_shelf__write_uid
@@ -125,11 +113,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_warehouse_arrangement.field_warehouse_location_zone__name
 msgid "Name"
 msgstr "Nume"
-
-#. module: deltatech_warehouse_arrangement
-#: model:ir.model,name:deltatech_warehouse_arrangement.model_product_template
-msgid "Product Template"
-msgstr "Sablon Produs"
 
 #. module: deltatech_warehouse_arrangement
 #: model:ir.model,name:deltatech_warehouse_arrangement.model_stock_quant
@@ -278,3 +261,15 @@ msgstr "Zona"
 #, python-format
 msgid "Zone: "
 msgstr "Zona: "
+
+#. module: deltatech_warehouse_arrangement
+#. odoo-python
+#: code:addons/deltatech_warehouse_arrangement/wizard/lot_set_location.py:0
+msgid "Location %(barcode)s not found"
+msgstr "Locația %(barcode)s nu a fost găsită"
+
+#. module: deltatech_warehouse_arrangement
+#. odoo-python
+#: code:addons/deltatech_warehouse_arrangement/wizard/lot_set_location.py:0
+msgid "Lot/serial %(barcode)s not found"
+msgstr "Lotul/numărul de serie %(barcode)s nu a fost găsit"
