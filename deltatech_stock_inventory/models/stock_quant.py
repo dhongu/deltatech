@@ -181,7 +181,7 @@ class StockQuant(models.Model):
         for quant in self:
             quant.product_id.product_tmpl_id.message_post(
                 body=self.env._(
-                    "Quantity %(quant)s %(location) at location was confirmed.",
+                    "Quantity %(quant)s at location %(location)s was confirmed.",
                     quant=quant.quantity,
                     location=quant.location_id.name,
                 )

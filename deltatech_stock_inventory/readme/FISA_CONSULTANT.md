@@ -53,13 +53,13 @@ secțiunea 7).
 |---|---|---|
 | Gestionar / responsabil inventar | creează documentul, pornește inventarul, numără, tipărește lista | **Inventar / Utilizator** (`stock.group_stock_user`) |
 | Manager de stoc | vede valorile, validează inventarul | **Inventar / Administrator** (`stock.group_stock_manager`) |
-| Utilizator cu drept de ajustare | aplică ajustări pe **Inventariere fizică** cu diferență de cantitate | grupul **„Can update quantities"** (tradus în RO ca „Buton inventar în produs") |
-| Responsabil consolidare | unește mai multe inventare validate într-unul singur | grupul **„Can merge inventory documents"** („Unire documente inventar") |
+| Utilizator cu drept de ajustare | aplică ajustări pe **Inventariere fizică** cu diferență de cantitate | grupul **„Poate actualiza cantitățile"** (*Can update quantities*) |
+| Responsabil consolidare | unește mai multe inventare validate într-unul singur | grupul **„Unire documente inventar"** (*Can merge inventory documents*) |
 | Contabil stocuri | verifică notele contabile generate | **Contabilitate / Contabil** |
 
-La instalare, grupul „Can update quantities" îl primesc doar utilizatorii *admin* și *root*. Ceilalți
+La instalare, grupul „Poate actualiza cantitățile" îl primesc doar utilizatorii *admin* și *root*. Ceilalți
 utilizatori trebuie adăugați explicit, altfel o ajustare cu diferență e respinsă cu mesajul
-„Your user cannot update product quantities".
+„Utilizatorul dumneavoastră nu poate actualiza cantitățile produselor".
 
 Roluri recomandate pentru testare:
 - un gestionar fără drept de administrator, ca să verificați că **nu** vede totalurile și coloanele
@@ -112,34 +112,33 @@ Date minime pentru demo (folosite și în capturi):
      **Inventory adjustment** și completați **Cont pierderi** (de exemplu 607).
    Fără cont pe această locație, inventarul mișcă doar cantitățile, fără notă contabilă.
 3. **Drepturi**: în **Setări → Utilizatori**, adăugați:
-   - grupul „Can update quantities" utilizatorilor care aplică ajustări din **Inventariere fizică**;
-   - grupul „Can merge inventory documents" celor care unesc inventare.
+   - grupul „Poate actualiza cantitățile" utilizatorilor care aplică ajustări din **Inventariere fizică**;
+   - grupul „Unire documente inventar" celor care unesc inventare.
 4. **Amplasamente manuale** (opțional, recomandat când **nu** folosiți reguli de depozitare): în
-   **Inventar → Configurare → Setări**, secțiunea **Trasabilitate**, bifați **Show manual location
-   fields**. Pe produs apar câmpurile Raft / Rând / Etaj / Casetă, pe fiecare depozit.
+   **Inventar → Configurare → Setări**, secțiunea **Trasabilitate**, bifați **Afișează câmpurile de
+   amplasare manuală**. Pe produs apar câmpurile Raft / Rând / Etaj / Casetă, pe fiecare depozit.
 5. **Afișarea stocului în kanban** (doar cu cel puțin două depozite în companie): pe fiecare depozit
-   (**Inventar → Configurare → Depozite**), câmpul **Kanban Display Stock** are trei valori:
-   - *All* — stocul întregului depozit;
-   - *Main Location* — doar locația principală de stoc;
-   - *Detailed* — total, plus rezervat (R), blocat (B), în tranzit (T), așteptat de la furnizor (E)
+   (**Inventar → Configurare → Depozite**), câmpul **Afișare stoc în kanban** are trei valori:
+   - *Toate* — stocul întregului depozit;
+   - *Locație principală* — doar locația principală de stoc;
+   - *Detaliat* — total, plus rezervat (R), blocat (B), în tranzit (T), așteptat de la furnizor (E)
      și un rând final **STOC LIBER**.
 6. **Locații blocate** (opțional): pe o locație internă, bifați **Gestiune restricționată**. În
    afișarea *Detailed*, cantitățile din această locație apar ca blocate (B) și nu intră în stocul
    liber.
-7. **Actualizarea costului la inventar**: parametrul de sistem `stock.use_inventory_price` este
-   considerat **adevărat** și atunci când lipsește. La validare, prețul completat pe linie devine costul
-   produsului pentru produsele FIFO / cost mediu (vezi pasul 7).
-   - La **FIFO**, schimbarea costului nu reevaluează stocul existent.
-   - La **cost mediu**, schimbarea costului **reevaluează tot stocul produsului**, din toate
-     locațiile, nu doar diferența de inventar.
-   - Reevaluarea **nu produce notă contabilă la validare**. Diferența apare abia la închiderea de
-     stoc (nota „Stock Closing"), pe contul de variație setat pe contul de stoc sau, dacă lipsește,
-     pe contul de cheltuieli implicit al companiei (607 în planul RO). Până la închidere, raportul de
-     valoare a stocului și soldul contului 371 diferă.
+7. **Prețul de inventar**: parametrul de sistem `stock.use_inventory_price` decide dacă **Prețul**
+   de pe linie valorizează plusurile de inventar. E considerat **adevărat** și atunci când lipsește.
+   Cu parametrul activ:
+   - la **FIFO** și **cost mediu**, plusul intră în stoc la **Prețul** liniei (valoarea mișcării =
+     cantitatea în plus × Preț). Costul mediu se recalculează ponderat, iar stocul existent **nu** se
+     reevaluează;
+   - la **cost standard**, plusul intră la costul standard. Excepție: pe o linie cu stoc scriptic 0,
+     dacă produsul nu are stoc valorizat în companie, **Prețul** liniei devine costul standard;
+   - minusurile ies întotdeauna la costul curent (mediu, standard sau straturile FIFO consumate),
+     indiferent de **Preț**.
 
-   Setați parametrul la `False` dacă nu vreți ca inventarul să modifice costurile. **Excepție:** pe
-   liniile cu stoc scriptic 0, costul se scrie indiferent de parametru. Pe produsele pe cost mediu,
-   nu modificați **Prețul** pe linie decât intenționat.
+   Cu parametrul `False`, **Prețul** de pe linie nu influențează nicio valoare, nici pe liniile cu
+   stoc scriptic 0. Validarea inventarului nu modifică niciodată costul stocului existent.
 
 ## 6. Flux de utilizare
 
@@ -158,8 +157,9 @@ Apăsați **Nou** și completați:
   include și sublocațiile ei.
 - **Produse** — lăsați gol pentru toate produsele stocabile. Selectați produse doar pentru un inventar
   parțial.
-- **Include Exhausted Products** — adaugă și produsele fără stoc, cu stoc scriptic 0, **numai** dacă
-  ați selectat produse în câmpul **Produse** (vezi limitările).
+- **Include produsele epuizate** — adaugă și produsele fără stoc, cu stoc scriptic 0: produsele din
+  câmpul **Produse** sau, dacă e gol, toate produsele stocabile ale companiei, pe fiecare locație
+  aleasă (fără locații: pe locația principală de stoc a fiecărui depozit).
 - **Data inventarului** — data la care se face numărarea. Ea datează documentul și mișcările de stoc.
 - **Cantitate Fizică** — alegeți:
   - *Implicit stocul disponibil*: numărătorul corectează doar ce diferă;
@@ -173,7 +173,7 @@ Apăsați **Pornire inventar**. Documentul trece **În desfășurare** și se ge
 fiecare combinație produs / locație / lot / pachet / proprietar care are stoc. Fiecare linie are:
 - **Disponibil** — stocul scriptic la momentul pornirii;
 - **Cantitate Fizică** — precompletată conform alegerii de la pasul 2;
-- **Preț** — costul produsului, editabil;
+- **Preț** — costul produsului, editabil; valorizează plusul de inventar (secțiunea 5, punctul 7);
 - **E Ok** — nebifat pe liniile generate.
 
 Se deschide direct lista de linii, editabilă.
@@ -182,7 +182,7 @@ Se deschide direct lista de linii, editabilă.
 
 ### Pasul 4 — Tipărirea listei de numărare
 
-Imediat după pornire, înainte de numărare, apăsați **Print Count Sheet** (sau **Tipăriți →
+Imediat după pornire, înainte de numărare, apăsați **Tipărește lista de numărare** (sau **Tipăriți →
 Inventar**). PDF-ul „Inventar după așezare produse" conține:
 - câte un tabel pe fiecare locație, cu produsul, lotul, ambalarea și **Cantitate teoretică**;
 - coloana **Cantitate faptică** goală cât timp inventarul nu e validat, ca să fie completată de mână
@@ -208,8 +208,8 @@ diferența în lei, cu total în subsolul listei.
 Alte acțiuni utile:
 - dacă stocul s-a mișcat după pornirea inventarului, linia afișează butonul de reîmprospătare
   (↻), care recitește stocul scriptic și costul unitar;
-- din meniul **Acțiuni** al liniilor selectate: **Set counted quantities to 0** (pune cantitatea
-  numărată pe 0) și **Recompute On Hand Quantity** (recitește stocul scriptic);
+- din meniul **Acțiuni** al liniilor selectate: **Setează cantitățile numărate la 0** și
+  **Recalculează cantitatea în stoc** (recitește stocul scriptic);
 - un produs găsit fizic, dar lipsă din listă, se adaugă ca linie nouă. Modulul respinge a doua linie
   pentru aceeași combinație produs / locație / lot / pachet / proprietar.
 
@@ -236,7 +236,7 @@ Acesta este pasul de citire a documentului; nu validați înainte de a-l parcurg
    Aveți două variante:
    - **Inventar nou pentru Not ok** — mută liniile nenumărate într-un document nou, În desfășurare, ca
      să fie numărate separat;
-   - **Remove Not Ok** — le șterge din document, iar produsele respective nu se inventariază acum.
+   - **Elimină liniile Not ok** — le șterge din document, iar produsele respective nu se inventariază acum.
 
 ![Documentul în desfășurare, cu totalurile valorice](screenshots/06_valori_document.png)
 
@@ -250,14 +250,15 @@ Managerul de stoc apasă **Validare inventar**. La validare:
   - minus: de la locația liniei spre **Inventory adjustment**;
 - mișcările primesc data inventarului, iar fiecare mișcare păstrează legătura cu linia care a
   generat-o;
-- pe fiecare linie se completează **Valoare postată**, adică valoarea efectivă a mișcării. La
-  produsele FIFO ea poate diferi de estimare, pentru că ieșirea se evaluează pe loturile de cost
-  consumate;
-- pentru produsele FIFO / cost mediu, costul produsului devine **Prețul** de pe linie (dacă
-  `stock.use_inventory_price` e activ). La cost mediu, schimbarea reevaluează tot stocul produsului
-  (vezi secțiunea 5, punctul 7).
+- pe fiecare linie se completează **Valoare postată**, adică valoarea efectivă a mișcării. Ea poate
+  diferi de estimare în două cazuri: la minusurile FIFO, ieșirea se evaluează pe loturile de cost
+  consumate; la plusuri, dacă ați modificat **Prețul** pe linie, plusul intră la acest preț
+  (secțiunea 5, punctul 7);
+- mișcările poartă ca referință numele documentului de inventar (de exemplu `INV00012`);
+- costul stocului existent nu se modifică. La cost mediu, costul se recalculează ponderat cu plusul
+  intrat.
 
-Butonul **Show Lines** redeschide liniile, needitabile. Butonul inteligent **Product Moves** listează
+Butonul **Afișează liniile** redeschide liniile, needitabile. Butonul inteligent **Mișcări produs** listează
 mișcările generate.
 
 ![Inventarul validat, cu valoarea postată](screenshots/07_inventar_validat.png)
@@ -277,8 +278,9 @@ Din meniul **Tipăriți** al documentului, alegeți **Diferențe inventar**.
    - După = Înainte + plus − minus (pe demo 1.950,00 = 1.800,00 + 160,00 − 10,00, după ce linia nenumărată a fost mutată în alt inventar);
    - valorile corespund totalului **Valoare diferență** din pasul 6. Pot diferi în două situații:
      raportul calculează cu **Preț** (editabil), iar ecranul cu **Valoare unitară** (fotografiată la
-     generare), deci orice preț modificat pe linie produce o diferență; la produsele FIFO, **Valoare
-     postată** reflectă loturile de cost consumate.
+     generare), deci orice preț modificat pe linie produce o diferență; la minusurile FIFO, **Valoare
+     postată** reflectă loturile de cost consumate. Cantitățile fracționare apar cu zecimale (de
+     exemplu 2,50 kg).
 3. **Treceți mai departe** — tipăriți sau salvați PDF-ul și atașați-l la procesul-verbal al comisiei
    de inventariere. Tot din **Tipăriți**, **Poziții inventar** dă lista completă, cu cantitățile
    finale.
@@ -289,9 +291,8 @@ Din meniul **Tipăriți** al documentului, alegeți **Diferențe inventar**.
 
 Deschideți **Contabilitate → Contabilitate → Note contabile** (în Community aplicația se numește
 **Facturare**), filtrați jurnalul **Evaluarea stocurilor** și
-data validării. Referința notei **nu** conține numele documentului de inventar, ci textul implicit
-din nucleu, „Product Quantity Updated (<utilizatorul care a validat>)". Pe demo: „Product Quantity
-Updated (Ion Gestionar)". Liniile notei poartă și numele produsului. Nota există doar dacă sunt
+data validării. Referința notei este numele documentului de inventar (pe demo, „Inventar anual depozit
+central"), deci nota se regăsește direct după document. Liniile notei poartă și numele produsului. Nota există doar dacă sunt
 îndeplinite condițiile din secțiunea 4.
 
 ![Nota contabilă a diferențelor de inventar](screenshots/10_nota_contabila.png)
@@ -306,11 +307,11 @@ Când inventarierea s-a făcut pe mai multe documente parțiale (de exemplu cât
    - **Locație** — precompletată cu stocul primului depozit al companiei. Când e completată,
      **înlocuiește** locațiile documentelor unite. Goliți câmpul ca să se preia locațiile
      documentelor. Captura arată valoarea **implicită** (WH/Stock), care la rafturile din WH2 trebuie
-     ștearsă înainte de **Merge**.
-3. Apăsați **Merge**.
+     ștearsă înainte de **Unește**.
+3. Apăsați **Unește**.
 
 Liniile și mișcările trec pe documentul nou, iar documentele inițiale se șterg. În chatter rămâne
-mesajul cu numele lor. Acțiunea e vizibilă doar grupului „Can merge inventory documents".
+mesajul cu numele lor. Acțiunea e vizibilă doar grupului „Unire documente inventar".
 
 ![Asistentul de unire a inventarelor](screenshots/11_unire_inventare.png)
 
@@ -328,13 +329,13 @@ sunt îndeplinite condițiile din secțiunea 4, aplicarea generează și o notă
 pierderi. În captură, cantitatea e doar completată, nu și aplicată. La **Aplică**, pe demo ar rezulta
 pentru Cuie 50 mm (−2 buc × 0,10 lei): Dr 607 = Cr 371, 0,20 lei, cu referința egală cu **Notă
 inventar**. Coloana
-**Last Inventory Date** arată ultima inventariere a fiecărei cantități.
+**Data ultimului inventar** arată ultima inventariere a fiecărei cantități.
 
 ![Inventariere fizică cu notă de inventar](screenshots/12_inventariere_fizica_nota.png)
 
 ### Pasul 12 — Confirmarea stocului unui produs
 
-Accesați **Inventar → Produse → Warehouse Products**, deschideți produsul și apăsați **Confirmă stoc**.
+Accesați **Inventar → Produse → Produse din depozit**, deschideți produsul și apăsați **Confirmă stoc**.
 În asistent alegeți **Locație**. Câmpul e gol implicit, iar fără locație **Confirmă** nu face nimic;
 în captură e precompletat din seed. Asistentul arată:
 - stocul din locația aleasă;
@@ -411,7 +412,7 @@ referă.
 - calculul diferențelor cantitative și valorice;
 - mișcările de ajustare, datate la data inventarului;
 - valoarea postată pe linie;
-- actualizarea costului FIFO / mediu din prețul liniei;
+- valorizarea plusurilor la prețul liniei (FIFO / cost mediu), fără reevaluarea stocului existent;
 - nota contabilă, când locația de ajustare are cont.
 
 **Ce rămâne manual:**
@@ -426,8 +427,8 @@ referă.
 - [ ] Modulul se instalează fără erori; meniul **Documente inventariere** apare sub **Inventar →
       Operații → Ajustări**.
 - [ ] **Pornire inventar** generează linii doar pentru locațiile și produsele filtrate.
-- [ ] **Include Exhausted Products** adaugă produsele fără stoc **numai** dacă ați selectat produse pe
-      document. Cu **Produse** gol nu adaugă nimic (vezi limitările).
+- [ ] **Include produsele epuizate** adaugă produsele fără stoc, și cu **Produse** gol (toate
+      produsele stocabile ale companiei).
 - [ ] *Implicit zero* pune cantitatea numărată pe 0 pe toate liniile. *Implicit stocul disponibil* o
       pune egală cu stocul scriptic.
 - [ ] Modificarea cantității numărate bifează **E Ok**. O linie duplicată pentru aceeași combinație
@@ -448,13 +449,17 @@ referă.
       corectă.
 - [ ] Un document **În desfășurare** sau **Validat** nu poate fi șters, doar unul în ciornă.
       **Anulează inventar** readuce documentul în *Ciornă* și îi șterge liniile.
-- [ ] Un utilizator fără grupul „Can update quantities" primește eroare la **Aplică** pe
+- [ ] Un utilizator fără grupul „Poate actualiza cantitățile" primește eroare la **Aplică** pe
       **Inventariere fizică**, dacă ajustarea are diferență.
 - [ ] **Notă inventar** apare ca referință pe mișcarea generată și se golește după aplicare.
 - [ ] Unirea refuză documentele nevalidate și cere cel puțin două documente. Cu **Locație** golită,
       documentul rezultat preia locațiile documentelor unite.
-- [ ] Pe un produs pe cost mediu, modificarea **Prețului** pe linie reevaluează la validare tot
-      stocul produsului. Verificați că e intenționat.
+- [ ] Pe un produs pe cost mediu, un plus cu **Preț** modificat pe linie intră la acest preț, iar
+      costul mediu se recalculează ponderat. Stocul existent nu se reevaluează, iar validarea nu
+      creează nicio înregistrare de reevaluare.
+- [ ] Referința notei contabile și a mișcărilor este numele documentului de inventar.
+- [ ] Pe un inventar cu mai multe locații, raportul **Diferențe inventar** arată fiecare minus o
+      singură dată, sub locația lui.
 - [ ] Kanban-ul de produse arată stocul pe depozite doar cu cel puțin două depozite în companie.
 
 ## 9. Mesaje de eroare frecvente
@@ -464,9 +469,9 @@ referă.
 | „You can only delete a draft inventory adjustment…" | Ștergere pe un document În desfășurare sau Validat | **Anulează inventar** îl readuce în Ciornă (liniile se pierd), apoi îl puteți șterge; un document validat nu se șterge |
 | „There is already one inventory adjustment line for this product…" | Linie duplicată pentru aceeași combinație produs / locație / lot / pachet / proprietar | Corectați cantitatea pe linia existentă |
 | „You can only adjust storable products." | Produs consumabil sau serviciu adăugat pe inventar | Marcați produsul ca stocabil sau scoateți-l din inventar |
-| Eroare de server (*TypeError*) la **Validare inventar** | Cantitate numărată negativă. Mesajul dedicat nu ajunge la operator, din cauza unui defect de formatare în cod | Corectați cantitatea la 0 sau la valoarea numărată |
+| „You cannot set a negative product quantity in an inventory line…" | Cantitate numărată negativă pe o linie | Corectați cantitatea la 0 sau la valoarea numărată |
 | „No lines" la validare | Produs urmărit pe lot / serie, cu diferență, fără lot completat | Completați lotul / seria pe linie |
-| „Your user cannot update product quantities" | Utilizatorul nu are grupul „Can update quantities" | Adăugați grupul din **Setări → Utilizatori** |
+| „Utilizatorul dumneavoastră nu poate actualiza cantitățile produselor" | Utilizatorul nu are grupul „Poate actualiza cantitățile" | Adăugați grupul din **Setări → Utilizatori** |
 | „All inventories must be in done state to be merged" | La unire au fost selectate documente nevalidate | Selectați doar documente validate |
 | „You must select at least two inventory documents" | Unire pe un singur document | Selectați cel puțin două documente |
 | „Reaprovizionarea a fost deja făcută astăzi pentru acest produs și depozit." | A doua reaprovizionare pe aceeași referință zilnică, deja executată | Schimbați **Grupare** sau așteptați ziua următoare |
@@ -483,13 +488,13 @@ compania **Demo Inventar SRL**, cu planul de conturi RO și datele demo din sec�
 | 1 | `01_lista_documente.png` | Lista **Documente inventariere** |
 | 2 | `02_document_nou.png` | Document nou în ciornă: locații, produse, opțiunea **Cantitate Fizică** |
 | 3 | `03_linii_generate.png` | Liniile generate la **Pornire inventar** |
-| 4 | `04_lista_numarare_pdf.png` | PDF-ul **Print Count Sheet**, tipărit înainte de numărare |
+| 4 | `04_lista_numarare_pdf.png` | PDF-ul **Tipărește lista de numărare**, tipărit înainte de numărare |
 | 5 | `05_linii_numarate.png` | Liniile după numărare: minus Șurub M8, plus Vopsea albă 5L, rânduri colorate |
 | 6 | `06_valori_document.png` | Documentul În desfășurare, cu Valoare teoretică / numărată / diferență |
-| 7 | `07_inventar_validat.png` | Documentul validat, cu **Valoare postată** și butonul **Product Moves** |
+| 7 | `07_inventar_validat.png` | Documentul validat, cu **Valoare postată** și butonul **Mișcări produs** |
 | 8 | `08_miscari_produs.png` | Mișcările de produs generate |
 | 9 | `09_diferente_pdf.png` | PDF-ul **Diferențe inventar** |
-| 10 | `10_nota_contabila.png` | Nota contabilă: Dr 607 / Cr 371 și Dr 371 / Cr 607 |
+| 10 | `10_nota_contabila.png` | Nota contabilă: Dr 607 / Cr 371 și Dr 371 / Cr 607, cu referința = numele documentului |
 | 11 | `11_unire_inventare.png` | Asistentul **Unește...** |
 | 12 | `12_inventariere_fizica_nota.png` | **Inventariere fizică** cu coloana **Notă inventar** |
 | 13 | `13_confirmare_stoc.png` | Asistentul **Confirmă inventar** |
@@ -530,19 +535,9 @@ OMFP 2861/2009).
 - **Un singur cont de pierderi** pe locația de ajustare, pentru plus și minus și pentru toate
   categoriile. Materiile prime și produsele finite cer locații de ajustare separate (secțiunea 4).
   Lipsurile imputabile, perisabilitățile și TVA-ul aferent nu se tratează aici.
-- **Reevaluarea la cost mediu** nu produce notă la validare, ci doar la închiderea de stoc (secțiunea 5,
-  punctul 7).
-- **Referința notei contabile** nu conține numele documentului de inventar (pasul 9).
-- **Costul produsului se poate schimba la validare.** Prețul de pe linie devine costul pentru
-  produsele FIFO / cost mediu (parametrul `stock.use_inventory_price` e activ și când lipsește). La
-  liniile cu stoc scriptic 0, costul se scrie indiferent de metoda de cost și de parametru.
-  - La **cost mediu** (și la cost standard, pe liniile cu stoc scriptic 0), schimbarea costului
-    **reevaluează tot stocul** produsului.
-  - Modulul încearcă să oprească reevaluarea, dar folosește o cheie de context care nu mai există în
-    19.0, deci reevaluarea are loc.
-- **Include Exhausted Products** nu adaugă nimic dacă **Produse** e gol. Filtrul intern caută un tip de
-  produs care nu mai există în 19.0. Selectați explicit produsele de inclus.
-- **Cantitate numărată negativă** duce la o eroare de server la validare, în loc de mesajul explicativ.
+- **Estimarea valorică** de pe ecran (**Valoare diferență**) folosește **Valoarea unitară**
+  fotografiată la generare. Dacă modificați **Prețul** pe o linie cu plus, **Valoare postată** iese
+  la noul preț și diferă de estimare.
 - **Valorile nu sunt complet ascunse gestionarilor:** coloana **Preț** și rapoartele PDF sunt vizibile
   oricărui utilizator de stoc.
 - **Descrierea modulului nu mai corespunde codului pe trei puncte:**
@@ -550,15 +545,4 @@ OMFP 2861/2009).
     unde straturile de valoare nu mai există, și nu apare pe formular;
   - modulul nu are integrare proprie de cod de bare;
   - filtrul pe raft nu este afișat pe document.
-- **Raportul Diferențe inventar**, pe un document cu mai multe locații, repetă liniile de minus sub
-  fiecare locație, pentru că acestea nu sunt filtrate pe locație. Pentru inventarele pe mai multe
-  locații, verificați minusurile pe ecran.
-- **Rapoartele PDF** au coloanele numerice aliniate la stânga și rotunjesc diferența cantitativă la
-  întreg. De exemplu, 2,5 kg apare ca 2 sau 3; verificați cantitățile fracționare pe ecran.
-- **Traduceri RO incomplete:** mai multe etichete apar în engleză, de exemplu:
-  - *Print Count Sheet*, *Show Lines*, *Remove Not Ok*, *Merge*;
-  - *Warehouse Products*, *Include Exhausted Products*, *Show manual location fields*;
-  - *Created by*, *Package*, *Inventory Lines*, *Product Moves*, *Last Inventory Date*, *Product Tmpl*.
-
-  Grupul „Can update quantities" e tradus înșelător ca „Buton inventar în produs". Formatul
-  cantităților pe depozit din kanban (`95.0`) nu e cel românesc.
+- **Formatul cantităților** pe depozit din kanban (`95.0`) nu e cel românesc.
