@@ -1,0 +1,6 @@
+{
+  "title": "Partner Discount",
+  "summary": "Recommended discount per partner contact",
+  "icon": "trend",
+  "features": ["Proposed discount field on contact", "Restricted to an access group", "Alert banner on invoice"]
+}
