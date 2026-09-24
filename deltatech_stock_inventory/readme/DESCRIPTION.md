@@ -1,7 +1,3 @@
-# Deltatech Stock Inventory
-
-## Overview
-
 The Deltatech Stock Inventory module restores and enhances the stock.inventory functionality in Odoo, providing
 additional features for better inventory management and stock valuation control.
 
