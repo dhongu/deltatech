@@ -127,9 +127,18 @@ class PromissoryNote(models.Model):
                     date = self.date_due
                     cashed_amount = self.cashed_amount
                     agreement = self.agreement
-                    subject = self.env._(f"BO - the last - %{name} for {issuer_name} has been cashed")
+                    subject = self.env._(
+                        "BO - the last - %(name)s for %(issuer_name)s has been cashed",
+                        name=name,
+                        issuer_name=issuer_name,
+                    )
                     msg = self.env._(
-                        f"The last promissory note cashed: {name}, date: {date}. Issuer: {issuer_name}, amount: {cashed_amount}, agreement: {agreement}"
+                        "The last promissory note cashed: %(name)s, date: %(date)s. Issuer: %(issuer_name)s, amount: %(cashed_amount)s, agreement: %(agreement)s",
+                        name=name,
+                        date=date,
+                        issuer_name=issuer_name,
+                        cashed_amount=cashed_amount,
+                        agreement=agreement,
                     )
                     partner_id = user.partner_id.id
 

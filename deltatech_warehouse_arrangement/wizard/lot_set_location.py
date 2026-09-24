@@ -30,12 +30,12 @@ class LotChangeLocation(models.TransientModel):
                 # search for location
                 rack_id = self.env["warehouse.location.rack"].search([("barcode", "=", barcode)])
                 if not rack_id:
-                    raise UserError(self.env._(f"Location {barcode} not found"))
+                    raise UserError(self.env._("Location %(barcode)s not found", barcode=barcode))
                 else:
                     self.rack_id = rack_id
             else:
                 # error, lot not found
-                raise UserError(self.env._(f"Lot/serial {barcode} not found"))
+                raise UserError(self.env._("Lot/serial %(barcode)s not found", barcode=barcode))
 
     def do_change(self):
         if self.lot_id and self.rack_id:
