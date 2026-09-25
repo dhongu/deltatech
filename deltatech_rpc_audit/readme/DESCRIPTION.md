@@ -17,9 +17,11 @@ Calls to `/json/2/ir.cron/acquire_job` are skipped: on Odoo.sh that is the
 platform driving the scheduler in a tight loop, and logging it would bury the
 handful of lines the audit exists for.
 
-The real client IP is read from the `X-Forwarded-For` header, so calls behind a
-reverse proxy (nginx, the Odoo.sh edge) are not all attributed to the proxy IP
-(e.g. `10.0.0.2`), independently of the `proxy_mode` server option.
+The client IP is the `remote_addr` resolved by the Odoo server. Behind a reverse
+proxy (nginx, the Odoo.sh edge) run the server with `proxy_mode` -- always on for
+Odoo.sh -- so calls are not all attributed to the proxy IP (e.g. `10.0.0.2`). The
+`X-Forwarded-For` header is set by the caller and is not trusted: it is only
+appended to the line as `xff=...`, never used to decide whether a call is skipped.
 
 The module can be turned on/off without uninstalling it, via the config-file
 key `rpc_audit_enabled` (self-hosted) or the System Parameter
