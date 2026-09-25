@@ -64,6 +64,12 @@ class WebsiteSaleVATValidation(WebsiteSale):
                             request.env._("The VAT number must contain only digits (after the country code)")
                         )
 
+        # Verificarea de duplicat nu se face pentru vizitatorul anonim: mesajul ar
+        # confirma oricui că un email/telefon/CUI aparține unui client existent
+        # (oracol de enumerare). Fluxul standard de guest checkout rămâne neatins.
+        if request.env.user._is_public():
+            return invalid_fields, missing_fields, error_messages
+
         for field in ["vat", "email", "phone"]:
             value = address_values.get(field, False)
             if value and field not in invalid_fields:
