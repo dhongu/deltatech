@@ -164,3 +164,38 @@ class TestProductCode(TransactionCase):
         )
         self.assertTrue(product_template.barcode)
         self.assertEqual(len(product_template.barcode), 13)  # EAN13
+
+    def test_new_code_skips_used_codes(self):
+        # coduri create pe alta cale decat secventa (import, scriere manuala)
+        for code in ("TEST/0001", "TEST/0002", "TEST/0007"):
+            self.env["product.product"].create({"name": code, "default_code": code})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # secventa propunea TEST/0001, deja folosit: se continua peste cel mai mare cod
+        self.assertEqual(product_template.default_code, "TEST/0008")
+        self.assertEqual(self.product_category.sequence_id.number_next_actual, 9)
+
+    def test_new_code_keeps_sequence_when_free(self):
+        self.env["product.product"].create({"name": "Manual", "default_code": "TEST/0050"})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # codul dat de secventa e liber, deci nu se sare peste goluri
+        self.assertEqual(product_template.default_code, "TEST/0001")
+
+    def test_new_code_skips_archived_code(self):
+        self.env["product.product"].create({"name": "Old", "default_code": "TEST/0001", "active": False})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        self.assertEqual(product_template.default_code, "TEST/0002")
