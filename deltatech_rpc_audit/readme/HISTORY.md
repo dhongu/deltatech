@@ -1,5 +1,16 @@
 # History
 
+## 19.0.1.2.2 (2026-09-25)
+
+- Security: the client IP is now `remote_addr`, no longer the first entry of
+  `X-Forwarded-For`. That entry is set by the caller (nginx only appends to the
+  header), so anyone with an API key could send the address of an `ignore_ips` entry
+  and drop out of the audit on `/xmlrpc`, `/jsonrpc` and `/json/2`, or log a false IP.
+  Behind a reverse proxy run the server with `proxy_mode` (always on for Odoo.sh):
+  core then resolves `remote_addr` from the entry the trusted proxy added.
+- The raw header is still written at the end of the line as `xff=...`, as
+  information only; it is never used to skip a call.
+
 ## 19.0.1.2.1 (2026-08-25)
 
 - Fix: coerce a `None` XML-RPC result to `False` before marshalling. A handful of

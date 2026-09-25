@@ -61,18 +61,22 @@ def _as_bool(value, default):
 
 
 def _client_ip():
-    """Return the real client IP.
+    """Return the client IP as resolved by the Odoo server.
 
-    Behind a reverse proxy (nginx on a self-hosted box, the Odoo.sh edge) the
-    ``remote_addr`` is the proxy IP. The real client is the first entry of the
-    ``X-Forwarded-For`` header. We read the header directly so it works
-    regardless of the ``proxy_mode`` server option.
+    ``X-Forwarded-For`` is deliberately NOT read here: its first entry is set by
+    the client (nginx ``$proxy_add_x_forwarded_for`` only appends to it), so a
+    caller could pose as an address from ``ignore_ips`` and drop out of the audit,
+    or plant a false one in it. Behind a reverse proxy, run the server with
+    ``proxy_mode`` (always on for Odoo.sh): core then rewrites ``remote_addr`` from
+    the entry the trusted proxy added.
     """
-    httprequest = request.httprequest
-    forwarded_for = httprequest.headers.get("X-Forwarded-For")
-    if forwarded_for:
-        return forwarded_for.split(",")[0].strip()
-    return httprequest.remote_addr or "?"
+    return request.httprequest.remote_addr or "?"
+
+
+def _forwarded_for():
+    """Raw ``X-Forwarded-For`` header, logged as information only -- never trusted."""
+    value = request.httprequest.headers.get("X-Forwarded-For")
+    return f" xff={_trim(value)}" if value else ""
 
 
 def _settings_from_config():
@@ -148,17 +152,18 @@ def _log_rpc_call(service, rpc_method, params):
         model, orm_method = params[3], params[4]
         orm_args = params[5] if len(params) > 5 else []
         _logger.info(
-            "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s",
+            "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s%s",
             ip,
             db,
             uid,
             model,
             orm_method,
             _trim(orm_args),
+            _forwarded_for(),
         )
     else:
         # common / db services: never log credentials, only the RPC method.
-        _logger.info("RPC ip=%s service=%s method=%s", ip, service, rpc_method)
+        _logger.info("RPC ip=%s service=%s method=%s%s", ip, service, rpc_method, _forwarded_for())
 
 
 def _log_json2_call(model, method, ids, kwargs):
@@ -189,13 +194,14 @@ def _log_json2_call(model, method, ids, kwargs):
     if ids:
         args = {"ids": list(ids), **args}
     _logger.info(
-        "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s via=json2",
+        "RPC ip=%s db=%s uid=%s model=%s method=%s args=%s via=json2%s",
         ip,
         db,
         request.env.uid,
         model,
         method,
         _trim(args),
+        _forwarded_for(),
     )
 
 
