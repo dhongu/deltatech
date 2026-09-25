@@ -71,6 +71,7 @@ class TestDeltatechTc(HttpCase):
 
     def test_job_result_error(self):
         job = self.station.action_ping()
+        self._post("/tc/poll", {}, key=self.station.api_key)
         res = self._post(
             "/tc/result",
             {"job_id": job.id, "status": "error", "error": "boom"},
@@ -84,3 +85,31 @@ class TestDeltatechTc(HttpCase):
     def test_result_unknown_job(self):
         res = self._post("/tc/result", {"job_id": 999999, "status": "done"}, key=self.station.api_key)
         self.assertEqual(res.status_code, 404)
+
+    def test_poll_only_own_station_jobs(self):
+        other = self.env["deltatech.tc.station"].create({"name": "Other Station"})
+        job_other = other.action_ping()
+        res = self._post("/tc/poll", {"limit": 10}, key=self.station.api_key)
+        self.assertNotIn(job_other.id, [j["id"] for j in res.json()["jobs"]])
+        job_other.invalidate_recordset()
+        self.assertEqual(job_other.state, "pending")
+        self.assertEqual(job_other.station_id, other)
+
+    def test_result_rejected_unless_claimed(self):
+        job = self.station.action_ping()
+        body = {"job_id": job.id, "status": "done", "result": "pong"}
+        res = self._post("/tc/result", body, key=self.station.api_key)
+        self.assertEqual(res.status_code, 409)
+        self._post("/tc/poll", {}, key=self.station.api_key)
+        self.assertEqual(self._post("/tc/result", body, key=self.station.api_key).status_code, 200)
+        body["result"] = "forged"
+        res = self._post("/tc/result", body, key=self.station.api_key)
+        self.assertEqual(res.status_code, 409)
+        job.invalidate_recordset()
+        self.assertEqual(job.result, "pong")
+
+    def test_bad_input(self):
+        res = self._post("/tc/poll", {"limit": "abc"}, key=self.station.api_key)
+        self.assertEqual(res.status_code, 200)
+        res = self._post("/tc/result", {"job_id": "x"}, key=self.station.api_key)
+        self.assertEqual(res.status_code, 400)

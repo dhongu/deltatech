@@ -46,7 +46,11 @@ class DeltatechTcController(http.Controller):
         if not station:
             return self._json({"error": "unauthorized"}, status=401)
         station._touch()
-        limit = int(self._body().get("limit") or 10)
+        try:
+            limit = int(self._body().get("limit") or 10)
+        except (ValueError, TypeError):
+            limit = 10
+        limit = max(1, min(limit, 50))
         jobs = request.env["deltatech.tc.job"].sudo()._claim_for_station(station, limit=limit)
         return self._json({"jobs": [{"id": j.id, "type": j.job_type, "payload": j.payload_dict()} for j in jobs]})
 
@@ -57,7 +61,10 @@ class DeltatechTcController(http.Controller):
             return self._json({"error": "unauthorized"}, status=401)
         station._touch()
         body = self._body()
-        job_id = body.get("job_id")
+        try:
+            job_id = int(body.get("job_id"))
+        except (ValueError, TypeError):
+            return self._json({"error": "invalid job_id"}, status=400)
         # auth="none" has no env.user; run result processing as the system user so
         # _process_result hooks (e.g. DUK message_post) have a valid singleton user.
         job = (
@@ -67,6 +74,10 @@ class DeltatechTcController(http.Controller):
         )
         if not job:
             return self._json({"error": "job not found"}, status=404)
+        # Only a claimed job accepts a result: re-posting on a finished job would
+        # overwrite it and replay the callback with station-supplied data.
+        if job.state != "claimed":
+            return self._json({"error": "job not claimed", "state": job.state}, status=409)
         job._store_result(
             status=body.get("status") or "done",
             result=body.get("result"),

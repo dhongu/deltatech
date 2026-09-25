@@ -226,16 +226,21 @@ class DeltatechTcJob(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _claim_for_station(self, station, limit=10):
-        """Claim the pending jobs of the station's company and mark them ``claimed``."""
+        """Claim the pending jobs queued for this station and mark them ``claimed``.
+
+        Jobs are addressed to one station (``station_id`` is required), so a
+        station must never pick up the queue of another station of the same
+        company: the payload may target a device only that workstation reaches.
+        """
         jobs = self.sudo().search(
             [
-                ("company_id", "=", station.company_id.id),
+                ("station_id", "=", station.id),
                 ("state", "=", "pending"),
             ],
             order="id asc",
             limit=limit,
         )
-        jobs.write({"state": "claimed", "station_id": station.id, "claimed_at": fields.Datetime.now()})
+        jobs.write({"state": "claimed", "claimed_at": fields.Datetime.now()})
         return jobs
 
     def _store_result(self, status, result=None, error=None):
