@@ -67,7 +67,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         )
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
-        # filtrare dupa furnizor
+        # filtrare dupa furnizor: doar pentru utilizatori interni, altfel un anonim
+        # ar putea deduce furnizorii produselor comparand rezultatele cu/fara vat
+        if vat and not request.env.user._is_internal():
+            vat = ""
         if not vat:
             filtred_products = products
         else:
