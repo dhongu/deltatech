@@ -207,6 +207,18 @@ class SaleMarginReport(models.Model):
         # (same rates, same report line) or the line itself (different rates, repeated id).
         # The unique constraint on commission.users is not enough on its own: it can not be
         # created while old duplicates are still there.
+        #
+        # "order by c.id limit 1" takes the *oldest* of the duplicates, the same row the migration
+        # keeps when it deletes the exact duplicates. For duplicates whose rates differ the choice
+        # is arbitrary and probably wrong either way — the newest row is as likely to be the
+        # current rate as the oldest is — so it is deliberately not a decision taken here: the
+        # migration and the precheck script both report those rows so that someone picks one. This
+        # LIMIT is only there to keep the report honest (one line, one rate) while they are left.
+        #
+        # c.company_id = s.company_id is new in 19.0.1.6.0. The old join matched on salesperson and
+        # journal only, so a row filed under the wrong company still applied. It no longer does,
+        # which is right — but on an existing database it silently takes a commission away, hence
+        # the check in scripts/sale_commission_precheck_1_6_0.py and the ORM constraint on the model.
         from_str += f"""
                     left join lateral (
                         select c.rate, c.manager_rate, c.director_rate, c.manager_user_id, c.director_user_id
@@ -310,7 +322,21 @@ class SaleMarginReport(models.Model):
 
     @api.model
     def cron_update_purchase_price(self):
-        """Cron job to update purchase prices for lines from yesterday."""
+        """Fill in the cost of the lines of the last week from the documents.
+
+        The cost itself comes from ``_purchase_price_from_document()``, the single rule shared with
+        the update wizard. What the two do with a 0 on a credit note differs, on purpose:
+
+        - the wizard is run by hand by a manager on the lines he picked, so it *resets* the cost,
+          0 included: that is how a credit note wrongly costed in the past gets corrected;
+        - the cron runs unattended over everything invoiced in the last week, so it only *fills in*
+          a cost the documents know, and never writes a 0. A credit note that a manager costed by
+          hand — goods that came back without the return being recorded in stock, say — would
+          otherwise be silently zeroed a day later, with no one watching.
+
+        New credit notes get their 0 from the compute on the line anyway, so the cron would have
+        almost nothing to correct here; it is not worth the risk of undoing manual work.
+        """
         AccountMoveLine = self.env["account.move.line"].sudo()
 
         last_week = (datetime.now() - timedelta(days=7)).date()
@@ -319,13 +345,9 @@ class SaleMarginReport(models.Model):
 
         for line in lines:
             invoice_line = AccountMoveLine.browse(line.id)
-            purchase_price = 0.0
-
-            if invoice_line:
-                # price from delivery, or the product cost when there is none
-                purchase_price = invoice_line.get_purchase_price()
-
-            # a zero cost is not written: it keeps a cost set by hand on a credit note
+            if not invoice_line:
+                continue
+            purchase_price = invoice_line._purchase_price_from_document()
             if purchase_price:
                 invoice_line.write({"purchase_price": purchase_price})
 

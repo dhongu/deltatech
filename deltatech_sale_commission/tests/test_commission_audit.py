@@ -167,6 +167,40 @@ class TestRefundPurchasePrice(TestSaleCommissionBase):
         refund.action_post()
         self.assertEqual(refund_line.purchase_price, 0.0)
 
+    def test_wizard_resets_a_wrong_refund_cost_but_the_cron_does_not(self):
+        """The wizard is an explicit action and resets the cost to 0; the cron only fills in.
+
+        Both read the same rule (account.move.line._purchase_price_from_document); they differ on
+        what they do with the 0 it gives on a credit note. The cron runs unattended over a whole
+        week of invoicing, so it must not undo a cost a manager put in by hand.
+        """
+        _so, invoice = self._invoice()
+        refund, refund_line = self._draft_refund(invoice)
+        refund_line.price_unit = 20.0  # a price reduction: no cost of its own
+        refund.action_post()
+        self.assertEqual(refund_line._purchase_price_from_document(), 0.0)
+
+        # a cost put in by hand, as on a return that was never recorded in stock
+        refund_line.purchase_price = 75.0
+        report_line = self._report(refund_line)
+
+        self.env["sale.margin.report"].cron_update_purchase_price()
+        self.assertEqual(refund_line.purchase_price, 75.0, "the cron must not undo a manual cost")
+
+        self.env["commission.update.purchase.price"].with_context(active_ids=report_line.ids).create({}).do_compute()
+        self.assertEqual(refund_line.purchase_price, 0.0, "the wizard resets the cost of a price reduction")
+
+    def test_invoice_without_a_document_cost_keeps_its_own(self):
+        """On an invoice a 0 is a missing value, not an answer: the stored cost stays."""
+        _so, invoice = self._invoice()
+        line = invoice.invoice_line_ids.filtered(lambda line: line.product_id == self.product_a)
+        self.product_a.standard_price = 0.0
+        line.sale_line_ids = [(5, 0, 0)]  # no delivery left to read a cost from
+        line.purchase_price = 42.0
+        self.assertIsNone(line._purchase_price_from_document())
+        self._update_and_cron(self._report(line))
+        self.assertEqual(line.purchase_price, 42.0)
+
     def test_refund_with_return_takes_returned_cost(self):
         so, invoice = self._invoice()
         delivery = so.picking_ids
@@ -220,6 +254,21 @@ class TestCommissionUsersConstraints(TestSaleCommissionBase):
 
     def vendor_user(self):
         return new_test_user(self.env, "commission.other", groups="sales_team.group_sale_salesman")
+
+    def test_company_must_be_the_one_of_the_journal(self):
+        """A rate filed under another company matches no invoice: the report joins on the company
+        too, so the salesperson would quietly get nothing."""
+        journal = self.company_data["default_journal_sale"]
+        other_company = self.env["res.company"].create({"name": "Other Commission Co"})
+        with self.assertRaises(ValidationError):
+            self.env["commission.users"].create(
+                {
+                    "user_id": self.env.user.id,
+                    "rate": 0.1,
+                    "journal_id": journal.id,
+                    "company_id": other_company.id,
+                }
+            )
 
     def test_report_not_multiplied_by_duplicate_rates(self):
         """Duplicates left in the data must not double the report: one line per invoice line,
@@ -433,3 +482,38 @@ class TestMigrationCommissionUsers(TestSaleCommissionBase):
         self.assertIn(str(sorted([conflict, second, ambiguous])), output)
         self.assertIn(f"exact duplicate rows {[exact]} deleted", output)
         self.assertIn(str([base, different]), output)
+
+    def _company_of(self, row_id):
+        self.env.cr.execute("SELECT company_id FROM commission_users WHERE id = %s", (row_id,))
+        return self.env.cr.fetchone()[0]
+
+    def test_company_realigned_on_the_journal(self):
+        """The report now matches on the company too. A row filed under another company applied
+        before the upgrade and would stop applying after it, so the migration moves it onto the
+        company of its journal — unless that would make it a duplicate."""
+        owner = self.env["res.company"].create({"name": "Journal Owner Co"})
+        stranger = self.env["res.company"].create({"name": "Stranger Co"})
+        self.env["account.journal"].sudo().search([("company_id", "in", (owner | stranger).ids)]).unlink()
+        journal = self._journal(owner, "OWN1")
+        users = [new_test_user(self.env, f"mig.comp{i}", groups="sales_team.group_sale_salesman") for i in range(2)]
+        self.env.flush_all()
+        self.env.cr.execute("ALTER TABLE commission_users ALTER COLUMN journal_id DROP NOT NULL")
+        self.env.cr.execute(
+            "ALTER TABLE commission_users DROP CONSTRAINT IF EXISTS commission_users_user_journal_company_unique"
+        )
+        self.env.cr.execute("DROP INDEX IF EXISTS commission_users_user_journal_company_unique")
+
+        # filed under the wrong company, and nothing in the way: moved
+        movable = self._insert(users[0], stranger, journal)
+        # the right company already has a row for this salesperson and journal: left alone
+        blocked = self._insert(users[1], stranger, journal)
+        self._insert(users[1], owner, journal)
+
+        with self.assertLogs("deltatech_sale_commission_pre_1_6_0", "WARNING") as logs:
+            self._migration().migrate(self.env.cr, "19.0.1.5.2")
+
+        self.assertEqual(self._company_of(movable), owner.id)
+        self.assertEqual(self._company_of(blocked), stranger.id)
+        output = "\n".join(logs.output)
+        self.assertIn(f"rows {[movable]} moved to the company of their journal", output)
+        self.assertIn(f"rows {[blocked]} are not on the company of their journal", output)

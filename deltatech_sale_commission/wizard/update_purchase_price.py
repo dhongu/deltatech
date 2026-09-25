@@ -38,6 +38,14 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
         return defaults
 
     def do_compute(self):
+        """Rewrite the cost of the selected lines (or of every line, with *for all*).
+
+        Careful with *for all* on a database upgraded to 19.0.1.6.0: the rule for the cost of a
+        credit note changed, so running it over the whole history rewrites the cost of the old
+        credit notes and with it the profit already reported for those months. That is the
+        correction the audit asked for, but it is a retroactive change to figures the client has
+        seen — agree on it first, do not let it happen as a side effect of a routine refresh.
+        """
         # the cost is written with sudo on the invoice lines, so only the commission managers
         # may run it (the wizard access is also limited to them)
         if not self.env.user.has_group("deltatech_sale_commission.group_commission_manager"):
@@ -49,13 +57,15 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
 
         for line in lines:
             invoice_line = self.env["account.move.line"].sudo().browse(line.id)
-            purchase_price = 0.0
 
             if self.price_from_doc:
-                # price from delivery, or the product cost when there is none; 0 on a credit
-                # note without a return of goods
-                purchase_price = invoice_line.get_purchase_price()
-                if purchase_price or invoice_line.move_id.move_type == "out_refund":
+                # The cost the documents give, by the rule shared with the cron
+                # (account.move.line._purchase_price_from_document). Unlike the cron, the wizard
+                # *resets* the cost: a 0 on a credit note is written, because that is how a note
+                # wrongly costed in the past gets corrected. Only None — the documents say nothing
+                # — leaves the stored value alone.
+                purchase_price = invoice_line._purchase_price_from_document()
+                if purchase_price is not None:
                     invoice_line.write({"purchase_price": purchase_price})
 
             elif invoice_line.product_id.standard_price > 0:

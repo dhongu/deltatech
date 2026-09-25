@@ -201,8 +201,29 @@ def run():
     )
     if wrong_type:
         verdict("ATENȚIE", f"rândurile {[r[0] for r in wrong_type]} au un jurnal care nu e de vânzări")
-    if not (filled or left or dups or wrong_type):
-        verdict("OK", "toate rândurile au jurnal de vânzări și nu există dubluri")
+    # Raportul potrivea până acum ratele doar pe agent + jurnal; de la 19.0.1.6.0 potrivește și pe
+    # companie. Un rând a cărui companie diferă de compania jurnalului lui funcționa și se oprește
+    # după actualizare, fără niciun semn în interfață: agentul rămâne pur și simplu fără comision.
+    # De verificat înaintea actualizării, altfel se descoperă la prima plată de comisioane.
+    wrong_company = q(
+        """
+        SELECT cu.id, cu.user_id, cu.company_id, j.company_id
+          FROM commission_users cu JOIN account_journal j ON j.id = cu.journal_id
+         WHERE j.company_id IS DISTINCT FROM cu.company_id ORDER BY cu.id
+        """
+    )
+    for row_id, user_id, row_company, journal_company in wrong_company:
+        user = env["res.users"].sudo().browse(user_id)
+        companies = env["res.company"].sudo().browse([c for c in (row_company, journal_company) if c])
+        verdict(
+            "DE FĂCUT",
+            f"rândul {row_id} ({user.name}) e pe compania {companies[0].name if row_company else '-'}, "
+            f"dar jurnalul lui e al companiei {companies[-1].name if journal_company else '-'}. "
+            "ACUM rata se aplică; după actualizare raportul o ignoră și agentul rămâne fără comision. "
+            "Puneți rândul pe compania jurnalului",
+        )
+    if not (filled or left or dups or wrong_type or wrong_company):
+        verdict("OK", "toate rândurile au jurnal de vânzări, pe compania lor, și nu există dubluri")
 
     # ------------------------------------------------------------------ note de credit
     section(f"4. Note de credit (ultimele {MONTHS} luni)")

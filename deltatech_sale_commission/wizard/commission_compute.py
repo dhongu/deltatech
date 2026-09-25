@@ -2,6 +2,8 @@
 # See README.rst file on addons root folder for license details
 
 
+from collections import defaultdict
+
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 
@@ -82,10 +84,18 @@ class CommissionCompute(models.TransientModel):
             raise AccessError(self.env._("Only a Commission Manager can compute the commissions."))
         days_limit = self._get_days_for_commission()
         res = []
+        # Grouped by the value written, one write per distinct commission instead of one per line.
+        # Now that the default selection of the wizard actually returns something (it used to
+        # filter on a state an invoice never has), running it without a selection can bring in
+        # every unpaid-commission line of the database — over 10.000 of them on some clients — and
+        # most of them get either the computed value or a plain 0.
+        by_commission = defaultdict(list)
         for line in self.invoice_line_ids:
-            invoice_line = self.env["account.move.line"].sudo().browse(line.id)
-            invoice_line.write({"commission": self._get_line_commission(line, days_limit)})
+            by_commission[self._get_line_commission(line, days_limit)].append(line.id)
             res.append(line.id)
+        AccountMoveLine = self.env["account.move.line"].sudo()
+        for commission, line_ids in by_commission.items():
+            AccountMoveLine.browse(line_ids).write({"commission": commission})
         self.env["account.move.line"].flush_model(["commission"])
         self.invoice_line_ids.invalidate_recordset()
         return {

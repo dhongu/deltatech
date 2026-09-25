@@ -161,6 +161,28 @@ class AccountInvoiceLine(models.Model):
                 return origin_line.purchase_price
         return 0.0
 
+    def _purchase_price_from_document(self):
+        """The cost the documents give for this line, or ``None`` when they give none.
+
+        One rule for everything that refreshes the cost after the invoice was made (the update
+        wizard and the daily cron), so the two can not drift apart. It answers only *what the
+        documents say*; whether the answer is actually written is the caller's policy, and the two
+        callers differ on purpose — see their own comments.
+
+        - a number: the delivery (or, on a reversal, the invoice) gives a cost;
+        - ``0.0`` on a credit note: an answer, not a missing value. Nothing came back into stock
+          and the goods were already costed on the invoice, so the line has no cost of its own;
+        - ``None`` on an invoice with no delivery price: the documents say nothing, so whatever is
+          stored (possibly set by hand) is the best value there is.
+        """
+        self.ensure_one()
+        purchase_price = self.get_purchase_price()
+        if purchase_price:
+            return purchase_price
+        if self.move_id.move_type == "out_refund":
+            return 0.0
+        return None
+
     def get_bom_price(self, moves, bom):
         if self.env.context.get("picking_ids"):
             moves_to_check = moves.filtered(lambda m: m.picking_id.id in self.env.context.get("picking_ids"))
@@ -184,7 +206,12 @@ class AccountInvoiceLine(models.Model):
                 bom_price += product_value / product_qty * line.product_qty
         return bom_price
 
-    # price_unit and discount: on a credit note they tell a reversal from a price reduction
+    # price_unit and discount: on a credit note they tell a reversal from a price reduction, so the
+    # cost has to follow them. The price of a posted invoice can no longer change, so in practice
+    # this only fires while the invoice is a draft. The known cost of the dependency: purchase_price
+    # is a stored editable compute, so on a draft line whose cost was typed in by hand, changing the
+    # price recomputes it and the typed value is lost. Same as changing the product, which has
+    # always behaved this way; there is no way to keep a manual value on a compute in Odoo.
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id", "price_unit", "discount")
     def _compute_purchase_price(self):
         # todo: se verificat daca acest paramentru mai este valabil
