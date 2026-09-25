@@ -4,8 +4,10 @@
 
 
 import random
+import re
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class ProductCategory(models.Model):
@@ -26,11 +28,50 @@ class ProductTemplate(models.Model):
     )
 
     @api.model
+    def _is_code_used(self, code):
+        # se cauta in toate companiile, inclusiv printre produsele arhivate
+        return bool(
+            self.env["product.product"]
+            .sudo()
+            .with_context(active_test=False)
+            .search_count([("default_code", "=", code)], limit=1)
+        )
+
+    @api.model
+    def _sync_code_sequence(self, sequence):
+        """Muta secventa peste cel mai mare numar deja folosit cu prefixul/sufixul ei.
+
+        Contorul secventei nu stie de codurile create pe alte cai (importuri de catalog,
+        renumerotari, coduri scrise manual), asa ca poate propune coduri deja folosite.
+        """
+        if sequence.use_date_range:
+            return
+        prefix, suffix = sequence._get_prefix_suffix()
+        pattern = "^" + re.escape(prefix) + "([0-9]{1,18})" + re.escape(suffix) + "$"
+        query = SQL(
+            "SELECT max(substring(default_code FROM %s)::bigint) FROM product_product WHERE default_code ~ %s",
+            pattern,
+            pattern,
+        )
+        self.env.cr.execute(query)
+        max_number = self.env.cr.fetchone()[0] or 0
+        if max_number >= sequence.number_next_actual:
+            sequence.sudo().write({"number_next_actual": max_number + 1})
+
+    @api.model
+    def _get_free_code(self, sequence):
+        code = sequence.next_by_id()
+        if code and self._is_code_used(code):
+            self._sync_code_sequence(sequence)
+            code = sequence.next_by_id()
+        return code
+
+    @api.model
     def get_new_code(self, categ, default_code, barcode):
         values = {}
         if default_code in [False, "/", "auto"] or self.env.context.get("force_code", False):
             if categ.sequence_id:
-                default_code = categ.sequence_id.next_by_id()
+                default_code = self._get_free_code(categ.sequence_id)
                 values["default_code"] = default_code
 
         if not barcode or barcode == "/" or barcode == "auto":
