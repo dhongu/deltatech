@@ -131,3 +131,36 @@ class TestWebsiteSaleVATValidation(TransactionCase):
             self.assertEqual(address_values.get("city"), "Bucuresti")
             self.assertEqual(address_values.get("street"), "Test Nr. 1")
             self.assertTrue(address_values.get("is_company"))
+
+    def test_05_public_user_no_enumeration(self):
+        public_user = self.env.ref("base.public_user")
+        for field, value in [
+            ("email", "existing@example.com"),
+            ("phone", "+40711111111"),
+            ("vat", "RO8001011234567"),
+        ]:
+            address_values = {"name": "Guest", field: value, "country_id": self.country_ro.id}
+            with MockRequest(self.env(user=public_user)):
+                invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
+                    address_values=address_values,
+                    partner_sudo=self.env["res.partner"].sudo(),
+                    address_type="delivery",
+                    use_delivery_as_billing=False,
+                    required_fields=field,
+                )
+            self.assertNotIn(field, invalid_fields)
+            self.assertFalse(any("already exists" in msg for msg in error_messages))
+            self.assertFalse(any(value in msg for msg in error_messages))
+
+    def test_06_public_user_vat_format_still_checked(self):
+        public_user = self.env.ref("base.public_user")
+        address_values = {"name": "Guest", "vat": "RO12AB34", "country_id": self.country_ro.id}
+        with MockRequest(self.env(user=public_user)):
+            invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
+                address_values=address_values,
+                partner_sudo=self.env["res.partner"].sudo(),
+                address_type="billing",
+                use_delivery_as_billing=False,
+                required_fields="vat",
+            )
+        self.assertIn("vat", invalid_fields)

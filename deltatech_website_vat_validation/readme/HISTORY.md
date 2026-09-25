@@ -1,3 +1,13 @@
+## 19.0.0.0.5 (2026-09-25)
+
+- Security: `_validate_address_values` no longer runs the duplicate check
+  (VAT, email, phone) for the public user. An anonymous visitor could submit
+  `/shop/address/submit` with any email or phone and learn from the "An other
+  partner already exists with the same ..." error whether it belonged to an
+  existing customer. It also blocked existing customers from checking out as
+  guests. Logged-in users keep the duplicate check; the VAT format and ANAF
+  validation are unchanged for everyone.
+
 ## 19.0.0.0.4 (2026-09-23)
 
 - Translatable strings in code use `self.env._()` instead of `_()`, the Odoo 19
