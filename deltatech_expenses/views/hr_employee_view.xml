@@ -11,6 +11,7 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-money"
+                    groups="deltatech_expenses.group_expenses_user,deltatech_expenses.group_expenses_approver,deltatech_expenses.group_expenses_accounting"
                 >
                     <field name="expenses_deduction_count" widget="statinfo" string="Deconturi" />
                 </button>
