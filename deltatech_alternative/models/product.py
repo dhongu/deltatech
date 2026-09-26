@@ -6,11 +6,18 @@ import logging
 import re
 
 from odoo import api, fields, models
+from odoo.modules.db import FunctionStatus, has_trigram, has_unaccent
 from odoo.osv import expression
+from odoo.tools import SQL
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.sql import create_index, index_exists
 
 _logger = logging.getLogger(__name__)
+
+# Trigram indexes already reported as impossible to build in this process.
+_WARNED_INDEXES = set()
+# (database, extension) pairs whose creation was already attempted.
+_TRIED_EXTENSIONS = set()
 
 # Only explicit delimiters separate two codes. Whitespace must NOT be treated as
 # a delimiter: many OEM part numbers contain spaces ("366 200 05 01"), and
@@ -19,26 +26,66 @@ _CODE_SEPARATOR_RE = re.compile(r"[;,]+")
 
 
 def _ensure_trgm_prerequisites(cr):
-    """Ensure pg_trgm and unaccent are installed and unaccent is IMMUTABLE.
+    """Ensure the pg_trgm and unaccent extensions are installed.
 
-    Both extensions are required for the GIN trigram indexes used by the
-    website product search. They are commonly absent in CI databases or fresh
-    PostgreSQL clusters.
+    Both are required for the GIN trigram indexes used by the website product
+    search. They are commonly absent in CI databases or fresh PostgreSQL
+    clusters.
+
+    The ``unaccent`` function itself is never modified here. Replacing or
+    altering the extension's ``unaccent(text)`` is not kept by ``pg_dump``:
+    the restored extension is STABLE again and the restore fails on every
+    index that uses it. Making ``public.unaccent(text)`` IMMUTABLE is a
+    database setup step (on odoo.sh it already is).
     """
-    try:
-        with cr.savepoint():
-            cr.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
-        with cr.savepoint():
-            cr.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
-        with cr.savepoint():
-            cr.execute("""
-                CREATE OR REPLACE FUNCTION public.unaccent(text)
-                RETURNS text LANGUAGE sql IMMUTABLE AS
-                $$ SELECT public.unaccent('unaccent', $1) $$
-            """)
-        return True
-    except Exception:
-        return False
+    missing = []
+    if not has_trigram(cr):
+        missing.append("pg_trgm")
+    if not has_unaccent(cr):
+        missing.append("unaccent")
+    for extension in missing:
+        # Try once per database and process: without the privilege every
+        # attempt would log a failed query.
+        if (cr.dbname, extension) in _TRIED_EXTENSIONS:
+            continue
+        _TRIED_EXTENSIONS.add((cr.dbname, extension))
+        # flush=False: this runs from init(), while other modules may still
+        # have pending computations on columns that do not exist yet.
+        try:
+            with cr.savepoint(flush=False):
+                cr.execute(SQL("CREATE EXTENSION IF NOT EXISTS %s", SQL.identifier(extension)))
+        except Exception:
+            _logger.debug("Could not create extension %s.", extension, exc_info=True)
+
+
+def _trgm_ready(cr):
+    """Return whether ``unaccent(...) gin_trgm_ops`` indexes can be built."""
+    return has_trigram(cr) and has_unaccent(cr) == FunctionStatus.INDEXABLE
+
+
+def _warn_replaced_unaccent(cr):
+    """Warn when an earlier version replaced the extension's ``unaccent(text)``.
+
+    Versions up to 18.0.2.1.8 could turn the extension's C function into a SQL
+    wrapper with an unqualified dictionary. Such a database cannot be restored
+    from a dump, and on PostgreSQL 17 no index can be built on the wrapper.
+    """
+    cr.execute(
+        """
+        SELECT 1
+          FROM pg_proc p
+          JOIN pg_depend d ON d.classid = 'pg_proc'::regclass AND d.objid = p.oid AND d.deptype = 'e'
+          JOIN pg_extension e ON e.oid = d.refobjid AND e.extname = 'unaccent'
+          JOIN pg_language l ON l.oid = p.prolang
+         WHERE p.proname = 'unaccent' AND p.pronargs = 1 AND l.lanname = 'sql'
+        """
+    )
+    if cr.fetchone():
+        _logger.warning(
+            "The 'unaccent(text)' function of the unaccent extension was replaced by a SQL "
+            "wrapper. A dump of this database cannot be restored. See the deltatech_alternative "
+            "change log (18.0.2.1.9) for the fix."
+        )
 
 
 def _create_trgm_index(cr, indexname, tablename, expression):
@@ -49,26 +96,28 @@ def _create_trgm_index(cr, indexname, tablename, expression):
     that predicate, so PostgreSQL falls back to a sequential scan. This helper
     builds an index whose expression matches the search exactly.
 
-    If the first attempt fails (unaccent missing or not IMMUTABLE) it tries to
-    install the extension and create the IMMUTABLE wrapper, then retries once.
-    Only if that also fails does it fall back to logging a warning.
+    The prerequisites are checked before the index is attempted: this runs
+    from ``init()`` of every module that extends the product models, so a
+    failing ``CREATE INDEX`` would be repeated on each of them. Missing
+    extensions are installed; if ``unaccent`` is not IMMUTABLE a warning is
+    logged once and no index is built.
     """
     if index_exists(cr, indexname):
         return
-    try:
-        with cr.savepoint():
-            create_index(cr, indexname, tablename, [expression], method="gin")
-    except Exception:
-        if _ensure_trgm_prerequisites(cr):
-            try:
-                with cr.savepoint():
-                    create_index(cr, indexname, tablename, [expression], method="gin")
-                return
-            except Exception:
-                _logger.debug("Retry of trigram index %s failed after unaccent setup.", indexname, exc_info=True)
+    if not _trgm_ready(cr):
+        _ensure_trgm_prerequisites(cr)
+    if _trgm_ready(cr):
+        try:
+            with cr.savepoint(flush=False):
+                create_index(cr, indexname, tablename, [expression], method="gin")
+            return
+        except Exception:
+            _logger.debug("Could not create trigram index %s.", indexname, exc_info=True)
+    if indexname not in _WARNED_INDEXES:
+        _WARNED_INDEXES.add(indexname)
         _logger.warning(
             "Could not create trigram index %s on %s; product search may be "
-            "slow. Make sure the 'unaccent' function is declared IMMUTABLE.",
+            "slow. Make sure the pg_trgm extension is installed and public.unaccent(text) is IMMUTABLE.",
             indexname,
             tablename,
         )
@@ -215,10 +264,11 @@ class ProductAlternative(models.Model):
 
     name = fields.Char(string="Code", index="btree_not_null")
     sequence = fields.Integer(string="sequence", default=10)
-    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
+    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade", index=True)
     hide = fields.Boolean(string="Hide")
 
     def init(self):
+        _warn_replaced_unaccent(self.env.cr)
         # Matches the website search predicate `unaccent(name) ILIKE`.
         # A trigram index on the raw `name` column is NOT used by that filter.
         _create_trgm_index(
