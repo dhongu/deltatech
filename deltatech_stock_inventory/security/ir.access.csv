@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_product_warehouse_location,access_product_warehouse_location,product.warehouse.location,base.group_user,crud,
+access_stock_inventory_user,stock.inventory user,stock.inventory,stock.group_stock_user,cru,
+access_stock_inventory_manager,stock.inventory manager,stock.inventory,stock.group_stock_manager,crud,
+access_stock_inventory_line_user,stock.inventory.line user,stock.inventory.line,stock.group_stock_user,cru,
+access_stock_inventory_line_manager,stock.inventory.line manager,stock.inventory.line,stock.group_stock_manager,crud,
+access_stock_confirm_inventory,access_stock_confirm_inventory,stock.confirm.inventory,stock.group_stock_manager,crud,
+access_stock_inventory_merge,access_stock_inventory_merge,stock.inventory.merge,deltatech_stock_inventory.group_merge_inventory,crud,
