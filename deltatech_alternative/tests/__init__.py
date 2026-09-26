@@ -5,3 +5,4 @@
 from . import test_product
 from . import test_archive
 from . import test_split_codes
+from . import test_unaccent
