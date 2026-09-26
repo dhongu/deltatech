@@ -94,3 +94,18 @@ class TestPagerGuard(HttpCase):
 
         self.assertEqual(self.url_open(f"/shop/category/{slug}").status_code, 404)
         self.assertEqual(self.url_open(f"/shop/category/{slug}/page/2").status_code, 404)
+
+    def test_valid_order_is_served(self):
+        """The sort options offered by the shop keep working."""
+        for order in ("list_price asc", "list_price desc", "name asc", "create_date desc", "website_sequence asc"):
+            with self.subTest(order=order):
+                self.assertEqual(self.url_open(f"/shop?order={order}").status_code, 200)
+
+    def test_invalid_order_is_refused(self):
+        """Orders the ORM cannot compile answer 404, not 500.
+
+        ``1034054500`` is the value seen in production crawler logs.
+        """
+        for order in ("1034054500", "no_such_field desc", "name; drop table x", "list_price sideways"):
+            with self.subTest(order=order):
+                self.assertEqual(self.url_open(f"/shop?order={order}").status_code, 404)
