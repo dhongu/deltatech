@@ -1,7 +1,7 @@
 /** @odoo-module **/
 
 import {ColorList} from "@web/core/colorlist/colorlist";
-import {Component, onWillStart, onWillUpdateProps, useState} from "@odoo/owl";
+import {Component, onWillStart, onWillUpdateProps, proxy, t, useProps} from "@odoo/owl";
 import {
     buildM2OFieldDescription,
     extractM2OFieldProps,
@@ -17,24 +17,25 @@ import {useService} from "@web/core/utils/hooks";
 class Many2oneBadgeColorPopover extends Component {
     static template = "deltatech_widget_many2one_badge.ColorPopover";
     static components = {ColorList};
-    static props = {
-        colors: {type: Array},
-        onColorSelected: {type: Function},
-        close: {type: Function},
-    };
+    // Owl 3: "static props" nu mai e permis (compat layer aruncă eroare) -> useProps.
+    // ColorList din 20.0 nu mai primește lista de culori; "colors" e păstrat opțional.
+    props = useProps({
+        colors: t.array().optional(),
+        onColorSelected: t.function(),
+        close: t.function(),
+    });
 }
 
 export class Many2oneBadgeField extends Component {
     static template = "deltatech_widget_many2one_badge.Many2oneBadgeField";
     static components = {Many2XAutocomplete, Many2oneBadgeColorPopover};
     static RECORD_COLORS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-    static props = {
-        "*": true,
-    };
+    // Owl 3: echivalentul lui static props = {"*": true} (acceptă orice prop).
+    props = useProps();
 
     setup() {
         this.orm = useService("orm");
-        this.state = useState({colorIndex: 0});
+        this.state = proxy({colorIndex: 0});
         this.popover = usePopover(Many2oneBadgeColorPopover);
 
         onWillStart(async () => {
