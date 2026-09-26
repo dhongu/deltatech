@@ -6,11 +6,18 @@ import logging
 import re
 
 from odoo import api, fields, models
+from odoo.modules.db import FunctionStatus, has_trigram, has_unaccent
 from odoo.osv import expression
+from odoo.tools import SQL
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.sql import create_index, index_exists
 
 _logger = logging.getLogger(__name__)
+
+# Trigram indexes already reported as impossible to build in this process.
+_WARNED_INDEXES = set()
+# (database, extension) pairs whose creation was already attempted.
+_TRIED_EXTENSIONS = set()
 
 # Only explicit delimiters separate two codes. Whitespace must NOT be treated as
 # a delimiter: many OEM part numbers contain spaces ("366 200 05 01"), and
@@ -31,14 +38,29 @@ def _ensure_trgm_prerequisites(cr):
     index that uses it. Making ``public.unaccent(text)`` IMMUTABLE is a
     database setup step (on odoo.sh it already is).
     """
-    try:
-        with cr.savepoint():
-            cr.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
-        with cr.savepoint():
-            cr.execute("CREATE EXTENSION IF NOT EXISTS unaccent")
-        return True
-    except Exception:
-        return False
+    missing = []
+    if not has_trigram(cr):
+        missing.append("pg_trgm")
+    if not has_unaccent(cr):
+        missing.append("unaccent")
+    for extension in missing:
+        # Try once per database and process: without the privilege every
+        # attempt would log a failed query.
+        if (cr.dbname, extension) in _TRIED_EXTENSIONS:
+            continue
+        _TRIED_EXTENSIONS.add((cr.dbname, extension))
+        # flush=False: this runs from init(), while other modules may still
+        # have pending computations on columns that do not exist yet.
+        try:
+            with cr.savepoint(flush=False):
+                cr.execute(SQL("CREATE EXTENSION IF NOT EXISTS %s", SQL.identifier(extension)))
+        except Exception:
+            _logger.debug("Could not create extension %s.", extension, exc_info=True)
+
+
+def _trgm_ready(cr):
+    """Return whether ``unaccent(...) gin_trgm_ops`` indexes can be built."""
+    return has_trigram(cr) and has_unaccent(cr) == FunctionStatus.INDEXABLE
 
 
 def _warn_replaced_unaccent(cr):
@@ -74,23 +96,25 @@ def _create_trgm_index(cr, indexname, tablename, expression):
     that predicate, so PostgreSQL falls back to a sequential scan. This helper
     builds an index whose expression matches the search exactly.
 
-    If the first attempt fails it tries to install the missing extensions and
-    retries once. If ``unaccent`` is not IMMUTABLE the index cannot be built and
-    a warning is logged.
+    The prerequisites are checked before the index is attempted: this runs
+    from ``init()`` of every module that extends the product models, so a
+    failing ``CREATE INDEX`` would be repeated on each of them. Missing
+    extensions are installed; if ``unaccent`` is not IMMUTABLE a warning is
+    logged once and no index is built.
     """
     if index_exists(cr, indexname):
         return
-    try:
-        with cr.savepoint():
-            create_index(cr, indexname, tablename, [expression], method="gin")
-    except Exception:
-        if _ensure_trgm_prerequisites(cr):
-            try:
-                with cr.savepoint():
-                    create_index(cr, indexname, tablename, [expression], method="gin")
-                return
-            except Exception:
-                _logger.debug("Retry of trigram index %s failed after unaccent setup.", indexname, exc_info=True)
+    if not _trgm_ready(cr):
+        _ensure_trgm_prerequisites(cr)
+    if _trgm_ready(cr):
+        try:
+            with cr.savepoint(flush=False):
+                create_index(cr, indexname, tablename, [expression], method="gin")
+            return
+        except Exception:
+            _logger.debug("Could not create trigram index %s.", indexname, exc_info=True)
+    if indexname not in _WARNED_INDEXES:
+        _WARNED_INDEXES.add(indexname)
         _logger.warning(
             "Could not create trigram index %s on %s; product search may be "
             "slow. Make sure the pg_trgm extension is installed and public.unaccent(text) is IMMUTABLE.",

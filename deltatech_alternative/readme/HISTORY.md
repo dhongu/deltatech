@@ -8,6 +8,13 @@
   manager reports *Couldn't restore database*). The wrapper also used an
   unqualified dictionary, so on PostgreSQL 17 no index could be built on it.
   The module now only installs the missing extensions and logs a warning.
+- The trigram indexes are attempted only when `pg_trgm` is installed and
+  `public.unaccent(text)` is IMMUTABLE, without flushing pending
+  computations, and the warning is logged once per index. The helper runs
+  from `init()` of every module that extends the product models; a failing
+  `CREATE INDEX` followed by a flushing savepoint aborted the transaction
+  when a later module had a stored computed field whose column did not exist
+  yet (registry failed to load while installing `deltatech_sale_multiple`).
 - A warning is logged at module update when the extension's `unaccent(text)`
   was already replaced. To fix such a database, run as a superuser, then
   restart Odoo:
