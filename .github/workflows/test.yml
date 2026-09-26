@@ -1,12 +1,31 @@
 name: tests
 
 on:
+  workflow_dispatch:
+    inputs:
+      modules:
+        description: "Addons to test (comma separated). Empty = all."
+        required: false
+        default: ""
   pull_request:
     branches:
       - "18.0*"
   push:
     branches:
       - "18.0"
+
+# A new push on a PR cancels the previous run: no point keeping a runner busy
+# with an outdated version of the branch.
+#
+# Only pull requests share a group. Everything else gets a group of its own
+# (`run_id` is unique per run), because GitHub keeps a SINGLE queued run per
+# group: with every push to 18.0 in the same group, merging two PRs in a row
+# cancelled the queued run of the first one. Coverage was not lost — the last
+# run covers the final state — but there was no green run per merge commit,
+# which is exactly what you need when bisecting.
+concurrency:
+  group: tests-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 
 jobs:
@@ -27,16 +46,44 @@ jobs:
                   fi
               fi
           done
+  # Decide WHICH addons get tested and on how many parallel shards. This runs
+  # outside the OCA container on purpose: git calls from inside it could not
+  # resolve the base commit, so the previous inline version fell back to a full
+  # run on every single build. See .github/scripts/plan_tests.py.
+  plan:
+    runs-on: ubuntu-latest
+    name: Plan test shards
+    outputs:
+      run_tests: ${{ steps.plan.outputs.run_tests }}
+      full: ${{ steps.plan.outputs.full }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: we need `base.sha` to compute the PR diff.
+          fetch-depth: 0
+      - id: plan
+        run: python3 .github/scripts/plan_tests.py
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_MODULES: ${{ github.event.inputs.modules }}
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          # HEAD is the checked-out ref: the PR merge commit, or the pushed
+          # commit. Using the merge commit also covers PRs from forks, whose
+          # head sha is not fetched into this clone.
+          HEAD_SHA: HEAD
+
   test:
+    needs: plan
+    # A PR touching only non-addon content has nothing to install.
+    if: ${{ needs.plan.outputs.run_tests == 'true' }}
     runs-on: ubuntu-22.04
-    container: ${{ matrix.container }}
-    name: ${{ matrix.name }}
+    container: ghcr.io/oca/oca-ci/py3.10-odoo18.0:latest
+    name: test (${{ matrix.name }})
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - container: ghcr.io/oca/oca-ci/py3.10-odoo18.0:latest
-            name: test with Odoo
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+
     services:
       postgres:
         image: postgres:12.0
@@ -46,61 +93,15 @@ jobs:
           POSTGRES_DB: odoo
         ports:
           - 5432:5432
+
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-          fetch-depth: 0
 
-      - name: Determine changed addons
-        id: changed
-        run: |
-          set -e
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-          else
-            BASE_SHA="${{ github.event.before }}"
-          fi
-          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BASE_SHA" 2>/dev/null; then
-            echo "No usable base commit, running the full test suite."
-            echo "addons=" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD)
-          echo "Changed files:"
-          echo "$CHANGED_FILES"
-
-          FULL_RUN=0
-          ADDONS=""
-          for f in $CHANGED_FILES; do
-            dir="${f%%/*}"
-            if [ "$dir" = "$f" ] || [[ "$dir" == .* ]]; then
-              # Changed file at repo root (requirements.txt, setup.cfg, ...) or under a
-              # dotdir (.github, ...): can affect the whole repo, fall back to a full run.
-              FULL_RUN=1
-              break
-            fi
-            if [ ! -f "$dir/__manifest__.py" ]; then
-              # Changed path is not inside a recognizable addon, play it safe.
-              FULL_RUN=1
-              break
-            fi
-            case ",$ADDONS," in
-              *,"$dir",*) ;;
-              *) ADDONS="${ADDONS:+$ADDONS,}$dir" ;;
-            esac
-          done
-
-          if [ "$FULL_RUN" = "1" ]; then
-            echo "Change outside a single addon detected, running the full test suite."
-            echo "addons=" >> "$GITHUB_OUTPUT"
-          else
-            echo "Changed addons: $ADDONS"
-            echo "addons=$ADDONS" >> "$GITHUB_OUTPUT"
-          fi
       - name: Install addons and dependencies
         run: oca_install_addons
+
       - name: Check licenses
         run: manifestoo -d . check-licenses
       - name: Check development status
@@ -112,21 +113,23 @@ jobs:
 
       - name: Initialize test db
         env:
-          INCLUDE: ${{ steps.changed.outputs.addons }}
+          INCLUDE: ${{ matrix.modules }}
         run: oca_init_test_database
-
-      - name: Run tests and generate coverage report
-        # You may need to adjust 'oca_run_tests' or the preceding commands
-        # to ensure it generates a file like coverage.xml
+      - name: Run tests
         env:
-          INCLUDE: ${{ steps.changed.outputs.addons }}
+          INCLUDE: ${{ matrix.modules }}
         run: oca_run_tests
 
+      # Coverage goes up only on a full run. On a filtered run the report would
+      # cover just the touched addons and would skew the repo coverage.
       - name: Upload code coverage to Codecov
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && needs.plan.outputs.full == 'true' }}
         uses: codecov/codecov-action@v4  # <-- New action to upload coverage file
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          # One flag per shard: each shard covers a different slice of the repo,
+          # so without this the uploads would overwrite each other.
+          flags: ${{ matrix.name }}
           # The action will automatically search for common coverage files (e.g., coverage.xml)
 
       - name: Upload test results to Codecov (Pass/Fail)
@@ -134,9 +137,28 @@ jobs:
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ${{ matrix.name }}
+
+  # Shard names are dynamic ("test (website)"), so they cannot be used as a
+  # required status check in branch protection. This job has a stable name and
+  # collects the result of the whole matrix — put THIS one in branch protection.
+  tests-passed:
+    needs: [plan, test]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: tests passed
+    steps:
+      - name: Check matrix result
+        run: |
+          # `skipped` is a legitimate result: a PR touching no addon has
+          # nothing to test. Only failure and cancellation must fail the gate.
+          echo "plan=${{ needs.plan.result }} test=${{ needs.test.result }}"
+          case "${{ needs.plan.result }}/${{ needs.test.result }}" in
+            success/success|success/skipped) exit 0 ;;
+            *) echo "Tests did not pass."; exit 1 ;;
+          esac
 
 
 #      - name: Update .pot files
 #        run: oca_export_and_push_pot https://x-access-token:${{ secrets.GIT_PUSH_TOKEN }}@github.com/${{ github.repository }}
 #        if: ${{ matrix.makepot == 'true' && github.event_name == 'push' && github.repository_owner == 'dhongu' }}
-
