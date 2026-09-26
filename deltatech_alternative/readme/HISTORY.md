@@ -5,6 +5,8 @@
   holding several codes on one line (`A; B, C`) into one record per code. The
   first code stays on the original record; the others inherit its product,
   sequence and hide flag.
+- The cron is inactive by default on new installations. Activate it in
+  *Settings > Technical > Scheduled Actions* when needed.
 - Codes are split only on `;` and `,`. Spaces are never a delimiter, because
   many OEM part numbers contain them (`366 200 05 01`).
 - A single code surrounded by stray delimiters (`12345, `) is cleaned up in
@@ -13,4 +15,5 @@
   same line, are no longer created again. The batch size can be passed as
   `split_multi_codes(limit=...)` (default 5000).
 - On databases migrated from 18.0 the existing cron record (same XML id) is
-  reused; it stopped working because the method was missing on 19.0.
+  reused and keeps its current active/inactive state (`noupdate`). It had
+  stopped working because the method was missing on 19.0.
