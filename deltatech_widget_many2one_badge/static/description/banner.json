@@ -1,0 +1,6 @@
+{
+  "title": "Many2one Badge Widget",
+  "summary": "Many2one fields shown as colored badges",
+  "icon": "grid",
+  "features": ["Colored badge, like many2many_tags", "Pick the color right from the badge", "Custom color_field option"]
+}
