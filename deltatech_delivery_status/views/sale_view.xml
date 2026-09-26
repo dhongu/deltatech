@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form//header//button[@name='action_draft']" position="after">
+                    <field name="postponed_delivery" invisible="1" />
+                     <button
+                    name="postpone_delivery"
+                    type="object"
+                    groups="stock.group_stock_user"
+                    invisible="postponed_delivery or not delivery_count"
+                    string="Postpone"
+                    icon="fa-pause"
+                    help="Postpone the delivery of the products"
+                />
+                     <button
+                    name="release_delivery"
+                    type="object"
+                    groups="stock.group_stock_user"
+                    invisible="not postponed_delivery or not delivery_count"
+                    string="Release"
+                    icon="fa-play"
+                    help="Release the postponed delivery of the products"
+                />
+                </xpath>
+            </field>
+        </record>
+
+    <record id="action_postpone_delivery" model="ir.actions.server">
+        <field name="name">Postpone Delivery</field>
+        <field name="model_id" ref="sale.model_sale_order" />
+
+        <field name="state">code</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_view_types">list,form</field>
+        <field name="code">
+            action = record.postpone_delivery()
+        </field>
+    </record>
+    <record id="action_release_delivery" model="ir.actions.server">
+        <field name="name">Release Delivery</field>
+        <field name="model_id" ref="sale.model_sale_order" />
+
+        <field name="state">code</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_view_types">list,form</field>
+        <field name="code">
+            action = record.release_delivery()
+        </field>
+    </record>
+
+
+    <!-- Filtru pentru comenzile cu livrarea amânată: fără el, operatorii nu au
+         cum să găsească comenzile care așteaptă eliberare. -->
+    <record id="view_sales_order_filter_postponed" model="ir.ui.view">
+        <field name="name">sale.order.search.postponed.delivery</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="after">
+                <separator />
+                <filter
+                    name="postponed_delivery"
+                    string="Postponed delivery"
+                    domain="[('postponed_delivery', '=', True)]"
+                />
+            </filter>
+        </field>
+    </record>
+</odoo>
