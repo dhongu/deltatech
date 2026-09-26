@@ -4,13 +4,15 @@
 
 from werkzeug.exceptions import NotFound
 
-from odoo.http import route
+from odoo.exceptions import AccessError, UserError
+from odoo.http import request, route
+from odoo.tools.query import Query
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSalePagerGuard(WebsiteSale):
-    """Refuse shop listing pages that do not exist.
+    """Refuse shop listing pages that do not exist, or cannot be sorted.
 
     ``portal.controllers.portal.pager`` clamps an out-of-range page number to
     the last real page instead of refusing it, so ``/shop/page/999999`` answers
@@ -19,6 +21,27 @@ class WebsiteSalePagerGuard(WebsiteSale):
     showed 2.386 hits/day on a single ``/page/3467514`` URL, each paying for a
     full product search and QWeb render.
     """
+
+    def _get_search_order(self, post):
+        # Core pastes ``?order=`` verbatim into the ORDER BY and leaves it to
+        # the ORM to reject, which it does with a ValueError - a 500 and a
+        # traceback per hit. Crawlers send junk such as ``?order=1034054500``
+        # (seen in production logs), so refuse it before any product search.
+        order = post.get("order")
+        if order and not self._is_valid_shop_order(order):
+            raise NotFound()
+        return super()._get_search_order(post)
+
+    def _is_valid_shop_order(self, order):
+        # Compile the clause with the ORM's own parser on a throwaway query:
+        # it accepts exactly what the real search would, without touching
+        # the database.
+        template = request.env["product.template"]
+        try:
+            template._order_to_sql(order, Query(request.env, template._table, template._table_sql))
+        except (ValueError, UserError, AccessError):
+            return False
+        return True
 
     # Bare ``@route()``: ``_generate_routing_rules`` walks the MRO ancestors
     # first and ``update()``s each ``original_routing`` into the merged one, so
