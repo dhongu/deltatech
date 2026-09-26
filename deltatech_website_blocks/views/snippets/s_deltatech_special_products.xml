@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="s_deltatech_special_products" name="Special Products">
+        <section
+            class="s_deltatech_special_products o_colored_level"
+            data-snippet="s_deltatech_special_products"
+            data-name="Special Products"
+        >
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2 class="text-center mb-5">Our Special Products</h2>
+                    </div>
+                </div>
+                <div class="row s_deltatech_special_products_grid justify-content-center">
+                    <!-- Product Item 1 -->
+                    <div class="col-lg-4 mb-4 s_deltatech_special_product_item">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="card-img-top"
+                                alt="Product Image"
+                                style="object-fit: cover; height: 250px;"
+                            />
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Premium Product A</h4>
+                                <p class="card-text text-muted">A short intro about this special product.</p>
+                                <button class="btn btn-primary s_deltatech_special_product_toggle">View Details</button>
+
+                                <div class="s_deltatech_special_product_details d-none p-4 border-top w-100 text-start">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5>Specifications</h5>
+                                            <ul class="list-unstyled mb-4">
+                                                <li><strong>Weight:</strong> 1.5 kg</li>
+                                                <li><strong>Dimensions:</strong> 20x15x10 cm</li>
+                                                <li><strong>Material:</strong> High-grade Steel</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h5>Description</h5>
+                                            <div class="s_deltatech_special_product_description oe_structure w-100">
+                                                <p
+                                                >This is a fully editable description of the product. You can provide more details here about its unique features and benefits.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Item 2 -->
+                    <div class="col-lg-4 mb-4 s_deltatech_special_product_item">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="card-img-top"
+                                alt="Product Image"
+                                style="object-fit: cover; height: 250px;"
+                            />
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Premium Product B</h4>
+                                <p class="card-text text-muted">A short intro about this special product.</p>
+                                <button class="btn btn-primary s_deltatech_special_product_toggle">View Details</button>
+
+                                <div class="s_deltatech_special_product_details d-none p-4 border-top w-100 text-start">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5>Specifications</h5>
+                                            <ul class="list-unstyled mb-4">
+                                                <li><strong>Weight:</strong> 2.0 kg</li>
+                                                <li><strong>Dimensions:</strong> 25x20x15 cm</li>
+                                                <li><strong>Material:</strong> Eco-friendly Plastic</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h5>Description</h5>
+                                            <div class="s_deltatech_special_product_description oe_structure w-100">
+                                                <p
+                                                >This is a fully editable description of the product. You can provide more details here about its unique features and benefits.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Item 3 -->
+                    <div class="col-lg-4 mb-4 s_deltatech_special_product_item">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="card-img-top"
+                                alt="Product Image"
+                                style="object-fit: cover; height: 250px;"
+                            />
+                            <div class="card-body text-center">
+                                <h4 class="card-title">Premium Product C</h4>
+                                <p class="card-text text-muted">A short intro about this special product.</p>
+                                <button class="btn btn-primary s_deltatech_special_product_toggle">View Details</button>
+
+                                <div class="s_deltatech_special_product_details d-none p-4 border-top w-100 text-start">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h5>Specifications</h5>
+                                            <ul class="list-unstyled mb-4">
+                                                <li><strong>Weight:</strong> 0.8 kg</li>
+                                                <li><strong>Dimensions:</strong> 15x10x5 cm</li>
+                                                <li><strong>Material:</strong> Premium Aluminum</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h5>Description</h5>
+                                            <div class="s_deltatech_special_product_description oe_structure w-100">
+                                                <p
+                                                >This is a fully editable description of the product. You can provide more details here about its unique features and benefits.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
