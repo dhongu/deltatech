@@ -8,6 +8,9 @@
   databases, see *Large Databases* in the configuration notes.
 - Removed `index=True` from the computed, non-stored `alternative_code` field,
   where it had no effect.
+- Added an index on `product.alternative.product_tmpl_id`. Reading the codes
+  of a product (the `alternative_ids` list, the computed `alternative_code`)
+  scanned the whole table: 40 ms against under 1 ms on 1.36 million codes.
 
 ## 19.0.2.1.2 (2026-09-26)
 

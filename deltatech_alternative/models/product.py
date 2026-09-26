@@ -105,7 +105,7 @@ class ProductAlternative(models.Model):
     # cannot serve; GIN also accepts values longer than the btree row limit.
     name = fields.Char(string="Code", index="trigram")
     sequence = fields.Integer(string="sequence", default=10)
-    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
+    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade", index=True)
     hide = fields.Boolean(string="Hide")
 
     @api.model
