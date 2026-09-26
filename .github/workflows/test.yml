@@ -114,7 +114,7 @@ jobs:
 
       - name: Install requirements
         run: |
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Initialize test db
         env:
