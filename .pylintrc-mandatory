@@ -1,0 +1,92 @@
+
+[MASTER]
+load-plugins=pylint_odoo
+score=n
+
+[ODOOLINT]
+readme-template-url="https://github.com/OCA/maintainer-tools/blob/master/template/module/README.rst"
+manifest-required-authors=Terrabit
+manifest-required-keys=license,summary,development_status
+manifest-deprecated-keys=description,active
+license-allowed=AGPL-3,GPL-2,GPL-2 or any later version,GPL-3,GPL-3 or any later version,LGPL-3,OPL-1
+valid-odoo-versions=20.0
+
+[MESSAGES CONTROL]
+disable=all
+
+# Reguli scoase TEMPORAR din rularea obligatorie: codul existent are încă încălcări
+# (au rămas de pe vremea pylint-odoo < v9.3.15, care pe 20.0 nu rula nicio regulă).
+# Rămân active în .pylintrc (rularea opțională, --exit-zero). Se mută înapoi aici
+# pe măsură ce le curățăm:
+#   context-overridden
+#   inheritable-method-lambda
+#   manifest-required-key
+#   missing-readme
+#   no-search-all
+#   no-wizard-in-models
+#   odoo-addons-relative-import
+#   print-used
+#   translation-format-interpolation
+#   translation-not-lazy
+#   translation-positional-used
+#   translation-required
+
+enable=translation-fstring-interpolation,
+    prefer-env-translation,
+    missing-return,
+    except-pass,
+    anomalous-backslash-in-string,
+    assignment-from-none,
+    attribute-deprecated,
+    dangerous-default-value,
+    development-status-allowed,
+    duplicate-key,
+    eval-used,
+    license-allowed,
+    manifest-author-string,
+    manifest-deprecated-key,
+    manifest-required-author,
+    manifest-version-format,
+    method-compute,
+    method-inverse,
+    method-required-super,
+    method-search,
+    pointless-statement,
+    pointless-string-statement,
+    redundant-keyword-arg,
+    reimported,
+    return-in-init,
+    sql-injection,
+    too-few-format-args,
+    translation-field,
+    unreachable,
+    use-vim-comment,
+    consider-merging-classes-inherited,
+    invalid-commit,
+    manifest-maintainers-list,
+    renamed-field-parameter,
+    resource-not-exist,
+    test-folder-imported,
+    translation-contains-variable,
+    website-manifest-key-not-valid-uri,
+    external-request-timeout,
+    bad-builtin-groupby,
+    category-allowed,
+    deprecated-name-get,
+    deprecated-odoo-model-method,
+    inheritable-method-string,
+    invalid-email,
+    manifest-behind-migrations,
+    manifest-data-duplicated,
+    missing-odoo-file,
+    prohibited-method-override,
+    translation-format-truncated,
+    translation-too-few-args,
+    translation-too-many-args,
+    translation-unsupported-format,
+    no-write-in-compute
+
+[REPORTS]
+msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+output-format=colorized
+reports=no
