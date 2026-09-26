@@ -6,14 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-12 10:30+0000\n"
+"POT-Creation-Date: 2026-09-24 10:34+0000\n"
 "PO-Revision-Date: 2025-03-12 10:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/models/commission_users.py:0
+msgid "%(user)s already has a commission rate on the journal %(journal)s."
+msgstr "%(user)s are deja o rată de comision pe jurnalul %(journal)s."
 
 #. module: deltatech_sale_commission
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.res_config_settings_view_form_stock
@@ -21,10 +28,18 @@ msgid "<span class=\"o_form_label\">Salesperson commission compute</span>"
 msgstr "<span class=\"o_form_label\">Comision agent de vânzări</span>"
 
 #. module: deltatech_sale_commission
+#: model:ir.model.constraint,message:deltatech_sale_commission.constraint_commission_users_user_journal_company_unique
+msgid ""
+"A salesperson can have only one commission rate per journal and company."
+msgstr ""
+"Un agent de vânzări poate avea o singură rată de comision pe jurnal și "
+"companie."
+
+#. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__account_id
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
 msgid "Account"
-msgstr ""
+msgstr "Cont"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__invoice_line_ids
@@ -86,12 +101,34 @@ msgstr "Comision calculat"
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_director_computed
 msgid "Commission Director Computed"
-msgstr ""
+msgstr "Comision director calculat"
+
+#. module: deltatech_sale_commission
+#: model:res.groups,name:deltatech_sale_commission.group_commission_manager
+msgid "Commission Manager"
+msgstr "Administrator comisioane"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_manager_computed
 msgid "Commission Manager Computed"
 msgstr "Comision manager calculat"
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Commission Not Paid"
+msgstr "Comision neplătit"
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__commission_paid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_paid
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Commission Paid"
+msgstr "Comision plătit"
+
+#. module: deltatech_sale_commission
+#: model:res.groups,name:deltatech_sale_commission.group_commission_viewer
+msgid "Commission Viewer"
+msgstr "Vizualizare comisioane"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__company_id
@@ -162,10 +199,14 @@ msgid "Date"
 msgstr "Dată"
 
 #. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -178,11 +219,6 @@ msgstr "Ciornă"
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__due_date
 msgid "Due Date"
 msgstr "Dată scadență"
-
-#. module: deltatech_sale_commission
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
-msgid "Extended Filters..."
-msgstr "Filtre extinse..."
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__for_all
@@ -206,17 +242,16 @@ msgstr ""
 "Pentru liniile de facturi selectate se va actualiza prețul de achiziție"
 
 #. module: deltatech_sale_commission
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
-msgid "Group By..."
-msgstr "Grupează după..."
-
-#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__in_payment
@@ -238,7 +273,7 @@ msgstr "Stare factură"
 #. module: deltatech_sale_commission
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__invoicing_legacy
 msgid "Invoicing App Legacy"
-msgstr ""
+msgstr "Facturare (aplicație veche)"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__journal_id
@@ -258,11 +293,17 @@ msgid "Journal Item"
 msgstr "Element jurnal"
 
 #. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Last 7 Days"
+msgstr "Ultimele 7 zile"
+
+#. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__write_uid
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__write_uid
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualizare făcută de"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__write_date
@@ -270,6 +311,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__markup
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
+msgid "Markup"
+msgstr "Adaos (%)"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__move_type
@@ -290,6 +337,18 @@ msgstr "Nume"
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__not_paid
 msgid "Not Paid"
 msgstr "Neplătit"
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+msgid "Only a Commission Manager can compute the commissions."
+msgstr "Doar un Administrator comisioane poate calcula comisioanele."
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/update_purchase_price.py:0
+msgid "Only a Commission Manager can update the purchase price."
+msgstr "Doar un Administrator comisioane poate actualiza prețul de achiziție."
 
 #. module: deltatech_sale_commission
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
@@ -340,18 +399,20 @@ msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__profit_val
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
 msgid "Profit"
-msgstr ""
+msgstr "Profit"
 
 #. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__indicator_profit
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
-msgid "Profit Indicator"
-msgstr "Marja"
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__profit_val
+msgid "Profit Amount"
+msgstr "Valoare profit"
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__profit_margin
+msgid "Profit Margin"
+msgstr "Marjă profit (%)"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__profit_val
@@ -367,7 +428,7 @@ msgstr "Preț achiziție"
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
 msgid "Qty"
-msgstr ""
+msgstr "Cant."
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__product_uom_qty
@@ -405,6 +466,22 @@ msgid "Reversed"
 msgstr "Reversat"
 
 #. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__sale_val
+msgid "Sale Amount"
+msgstr "Valoare vânzare"
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__sale_val
+msgid "Sale Amount in company currency"
+msgstr "Valoarea vânzării în moneda companiei"
+
+#. module: deltatech_sale_commission
+#: model:ir.module.category,name:deltatech_sale_commission.module_category_sale_commission
+#: model:res.groups.privilege,name:deltatech_sale_commission.res_groups_privilege_sale_commission
+msgid "Sale Commission"
+msgstr "Comisioane vânzări"
+
+#. module: deltatech_sale_commission
 #: model:ir.model,name:deltatech_sale_commission.model_sale_margin_report
 msgid "Sale Margin Report"
 msgstr "Raport analiză profit"
@@ -412,31 +489,24 @@ msgstr "Raport analiză profit"
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__sale_user_detail
 msgid "Sale User Detail"
-msgstr ""
+msgstr "Agentul care primește comisionul"
 
 #. module: deltatech_sale_commission
 #: model:ir.actions.act_window,name:deltatech_sale_commission.action_sale_margin_report
 #: model:ir.ui.menu,name:deltatech_sale_commission.menu_sale_margin_report_list
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
 msgid "Sale margin report"
 msgstr "Raport analiză profit"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__res_config_settings__sale_user_detail__sale
 msgid "Sale order"
-msgstr ""
+msgstr "Comanda de vânzare"
 
 #. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__sale_val
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
 msgid "Sale value"
 msgstr "Valoare vânzare"
-
-#. module: deltatech_sale_commission
-#: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__sale_val
-msgid "Sale value in company currency"
-msgstr "Valoare vânzare în moneda companiei"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__director_user_id
@@ -480,9 +550,10 @@ msgstr ""
 "                            - Comandă de vânzare: agentul de vânzări din comanda de vânzare va primi comisionul"
 
 #. module: deltatech_sale_commission
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
-msgid "Search"
-msgstr "Caută"
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Set Paid"
+msgstr "Marchează plătit"
 
 #. module: deltatech_sale_commission
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
@@ -491,27 +562,50 @@ msgstr "Stare"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__stock_val
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
-msgid "Stock value"
-msgstr "Valoare stoc"
+msgid "Stock Amount"
+msgstr "Valoare cost"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__stock_val
-msgid "Stock value in company currency"
-msgstr "Valoare stoc în moneda companiei"
+msgid "Stock Amount in company currency"
+msgstr "Costul mărfii vândute în moneda companiei"
 
 #. module: deltatech_sale_commission
-#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__indicator_supplement
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
-msgid "Supplement Indicator"
-msgstr "Adaos"
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Stock value"
+msgstr "Valoare cost"
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+msgid ""
+"The system parameter deltatech_sale_commission.days_for_commission can not "
+"be negative."
+msgstr ""
+"Parametrul de sistem deltatech_sale_commission.days_for_commission nu poate "
+"fi negativ."
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+msgid ""
+"The system parameter deltatech_sale_commission.days_for_commission must be a"
+" whole number of days, not %(value)s."
+msgstr ""
+"Parametrul de sistem deltatech_sale_commission.days_for_commission trebuie "
+"să fie un număr întreg de zile, nu %(value)s."
 
 #. module: deltatech_sale_commission
 #: model_terms:ir.actions.act_window,help:deltatech_sale_commission.action_sale_margin_report
 msgid "This report performs analysis on your invoices."
 msgstr "Acest raport efectuează analiza facturilor dvs."
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Today"
+msgstr "Azi"
 
 #. module: deltatech_sale_commission
 #: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__product_uom
@@ -527,7 +621,7 @@ msgstr "Actualizare preț achiziție"
 #. module: deltatech_sale_commission
 #: model:ir.actions.server,name:deltatech_sale_commission.cron_update_purchase_price_ir_actions_server
 msgid "Update Purchase Price Daily"
-msgstr ""
+msgstr "Actualizare zilnică preț achiziție"
 
 #. module: deltatech_sale_commission
 #: model:ir.model,name:deltatech_sale_commission.model_commission_update_purchase_price
@@ -554,6 +648,17 @@ msgstr "Factură furnizor"
 #: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__move_type__in_refund
 msgid "Vendor Refund"
 msgstr "Retur furnizor"
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Yesterday"
+msgstr "Ieri"
 
 #. module: deltatech_sale_commission
 #. odoo-python

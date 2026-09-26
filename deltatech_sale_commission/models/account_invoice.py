@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class AccountInvoice(models.Model):
@@ -27,6 +28,7 @@ class AccountInvoiceLine(models.Model):
         digits="Product Price",
         store=True,
         readonly=False,
+        # copied (stored editable compute): a reversal of the invoice keeps the invoice cost
         groups="base.group_user",
     )
 
@@ -128,8 +130,58 @@ class AccountInvoiceLine(models.Model):
             #     purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
         if not purchase_price:
-            purchase_price = self.product_id.standard_price
+            if self.move_id.move_type == "out_refund":
+                purchase_price = self._get_refund_purchase_price_from_invoice()
+            else:
+                purchase_price = self.product_id.standard_price
         return purchase_price
+
+    def _get_refund_purchase_price_from_invoice(self):
+        """Cost of a credit note line without a return of goods.
+
+        A reversal of the invoice (the same product at the same price, for all or part of the
+        quantity) cancels the sale, so it takes the unit cost of the invoice line and the pair
+        nets to a zero profit. A line whose price was changed is a price reduction: nothing comes
+        back into stock and the goods were costed on the invoice, so its cost is 0. Falling back on
+        the product cost would turn a price reduction into a profit.
+        """
+        self.ensure_one()
+        origin = self.move_id.reversed_entry_id
+        if not origin:
+            return 0.0
+        digits = self.env["decimal.precision"].precision_get("Product Price")
+        for origin_line in origin.invoice_line_ids:
+            if (
+                origin_line.display_type == "product"
+                and origin_line.product_id == self.product_id
+                and origin_line.product_uom_id == self.product_uom_id
+                and not float_compare(origin_line.price_unit, self.price_unit, precision_digits=digits)
+                and not float_compare(origin_line.discount, self.discount, precision_digits=2)
+            ):
+                return origin_line.purchase_price
+        return 0.0
+
+    def _purchase_price_from_document(self):
+        """The cost the documents give for this line, or ``None`` when they give none.
+
+        One rule for everything that refreshes the cost after the invoice was made (the update
+        wizard and the daily cron), so the two can not drift apart. It answers only *what the
+        documents say*; whether the answer is actually written is the caller's policy, and the two
+        callers differ on purpose — see their own comments.
+
+        - a number: the delivery (or, on a reversal, the invoice) gives a cost;
+        - ``0.0`` on a credit note: an answer, not a missing value. Nothing came back into stock
+          and the goods were already costed on the invoice, so the line has no cost of its own;
+        - ``None`` on an invoice with no delivery price: the documents say nothing, so whatever is
+          stored (possibly set by hand) is the best value there is.
+        """
+        self.ensure_one()
+        purchase_price = self.get_purchase_price()
+        if purchase_price:
+            return purchase_price
+        if self.move_id.move_type == "out_refund":
+            return 0.0
+        return None
 
     def get_bom_price(self, moves, bom):
         if self.env.context.get("picking_ids"):
@@ -154,7 +206,13 @@ class AccountInvoiceLine(models.Model):
                 bom_price += product_value / product_qty * line.product_qty
         return bom_price
 
-    @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
+    # price_unit and discount: on a credit note they tell a reversal from a price reduction, so the
+    # cost has to follow them. The price of a posted invoice can no longer change, so in practice
+    # this only fires while the invoice is a draft. The known cost of the dependency: purchase_price
+    # is a stored editable compute, so on a draft line whose cost was typed in by hand, changing the
+    # price recomputes it and the typed value is lost. Same as changing the product, which has
+    # always behaved this way; there is no way to keep a manual value on a compute in Odoo.
+    @api.depends("product_id", "company_id", "currency_id", "product_uom_id", "price_unit", "discount")
     def _compute_purchase_price(self):
         # todo: se verificat daca acest paramentru mai este valabil
         deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
@@ -176,7 +234,7 @@ class AccountInvoiceLine(models.Model):
             company = self.env.user.company_id
             product_uom = invoice_line.product_uom_id
             invoice_date = invoice_line.move_id.invoice_date or fields.Date.today()
-            if invoice_line.sale_line_ids:
+            if invoice_line.sale_line_ids or invoice_line.move_id.move_type == "out_refund":
                 # purchase_price = 0
                 # for line in invoice_line.sale_line_ids:
                 #     from_currency = line.order_id.currency_id

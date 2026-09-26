@@ -44,6 +44,7 @@
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_sale_margin_report" />
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[Command.set([ref('group_commission_manager')])]" />
     </record>
 
         <!--
