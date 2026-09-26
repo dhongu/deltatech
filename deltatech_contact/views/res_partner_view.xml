@@ -137,16 +137,24 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_res_partner_filter" />
         <field name="arch" type="xml">
-            <filter name="type_company" position="after">
+            <!-- In 20.0 filtrele type_person / type_company au fost eliminate din core
+                 (commit f2965048f60f "company_type is dead for good"); le refacem aici,
+                 cu domeniile Deltatech (doar parteneri fara parinte). -->
+            <filter name="filter_vat_set" position="after">
+                <separator />
+                <filter
+                    string="Persons"
+                    name="type_person"
+                    domain="[('is_company', '=', False), ('parent_id', '=', False)]"
+                />
+                <filter
+                    string="Companies"
+                    name="type_company"
+                    domain="[('is_company', '=', True), ('parent_id', '=', False)]"
+                />
                 <separator />
                 <filter string="Delivery" name="type_delivery" domain="[('type', '=', 'delivery')]" />
                 <filter string="Invoice" name="type_invoice" domain="[('type', '=', 'invoice')]" />
-            </filter>
-            <filter name="type_person" position="attributes">
-                <attribute name="domain">[('is_company', '=', False),('parent_id','=',False)]</attribute>
-            </filter>
-            <filter name="type_company" position="attributes">
-                <attribute name="domain">[('is_company', '=', True),('parent_id','=',False)]</attribute>
             </filter>
         </field>
     </record>

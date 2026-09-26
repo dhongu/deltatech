@@ -20,7 +20,8 @@ class TestCNP(TransactionCase):
         form_partner.save()
 
     def test_search_partner(self):
-        values = {"name": "Test 2", "is_company": True, "vat": "RO20603502"}
+        # 20.0: is_company e calculat (entitate comerciala + VAT), nu se mai scrie direct
+        values = {"name": "Test 2", "vat": "RO20603502"}
         self.env["res.partner"].create(values)
 
         partner = self.env["res.partner"].name_search("20603502")

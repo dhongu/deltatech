@@ -173,3 +173,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_contact.view_partner_form
 msgid "XX"
 msgstr ""
+
+#. module: deltatech_contact
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.view_res_partner_filter
+msgid "Companies"
+msgstr ""
+
+#. module: deltatech_contact
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.view_res_partner_filter
+msgid "Persons"
+msgstr ""

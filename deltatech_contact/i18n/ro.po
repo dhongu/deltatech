@@ -112,3 +112,13 @@ msgstr "Altul"
 #: model_terms:ir.ui.view,arch_db:deltatech_contact.view_partner_simple_form
 msgid "SPCLEP .."
 msgstr ""
+
+#. module: deltatech_contact
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.view_res_partner_filter
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_contact
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.view_res_partner_filter
+msgid "Persons"
+msgstr "Persoane"

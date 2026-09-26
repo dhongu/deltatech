@@ -102,8 +102,8 @@ class Partner(models.Model):
 
     # nu se mai afiseaza compania la contacte
     def _get_contact_name(self, partner, name):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        contact_get_name = get_param("contact.get_name_only", default=False)
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        contact_get_name = get_str("contact.get_name_only", default=False)
         if partner.type == "contact" and contact_get_name:
             return name
         else:
@@ -115,8 +115,8 @@ class Partner(models.Model):
             context = self.env.context
             name = partner.display_name
             if context.get("show_phone", False):
-                if partner.phone or partner.mobile:
-                    name = f"{name}\n<{partner.phone or partner.mobile}>"
+                if partner.phone:
+                    name = f"{name}\n<{partner.phone}>"
             if context.get("show_category") and partner.category_id:
                 cat = []
                 for category in partner.category_id:
