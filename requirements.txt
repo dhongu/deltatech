@@ -1,7 +1,0 @@
-# generated from manifests external_dependencies
-GitPython
-extruct
-phonenumbers
-unidecode
-w3lib
-xlsxwriter
