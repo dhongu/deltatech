@@ -20,3 +20,9 @@ listing. The page count is only known once the products are counted, which is
 why the check runs after `super()`. That still avoids the expensive part —
 `request.render` is lazy in Odoo, so raising there means the QWeb template is
 never rendered.
+
+The same applies to the sort order. Core passes `?order=` straight into the
+product search and lets the ORM reject what it cannot sort by, which surfaces
+as a `500` with a `ValueError` traceback. The module compiles the clause with
+the ORM's own parser first and answers `404` when it is invalid, before any
+product is searched.
