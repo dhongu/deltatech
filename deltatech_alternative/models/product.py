@@ -21,10 +21,8 @@ class ProductTemplate(models.Model):
 
     alternative_code = fields.Char(
         string="Alternative Code",
-        index=True,
         inverse="_inverse_alternative_code",
         compute="_compute_alternative_code",
-        # unaccent=False,
     )
     alternative_ids = fields.One2many("product.alternative", "product_tmpl_id", string="Alternatives")
 
@@ -103,9 +101,11 @@ class ProductAlternative(models.Model):
     _name = "product.alternative"
     _description = "Product alternative"
 
-    name = fields.Char(string="Code", index="btree_not_null")
+    # Trigram (GIN) index: product search uses `ilike '%code%'`, which a btree
+    # cannot serve; GIN also accepts values longer than the btree row limit.
+    name = fields.Char(string="Code", index="trigram")
     sequence = fields.Integer(string="sequence", default=10)
-    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade")
+    product_tmpl_id = fields.Many2one("product.template", string="Product Template", ondelete="cascade", index=True)
     hide = fields.Boolean(string="Hide")
 
     @api.model

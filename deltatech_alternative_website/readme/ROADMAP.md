@@ -47,20 +47,17 @@ Sistemul trece la pasul următor doar dacă pasul anterior a returnat 0 rezultat
 └────────────────────────────────────────────────────────┘
 ```
 
-#### Configurarea PostgreSQL pentru Pasul 1 și Pasul 2
+#### Indexurile PostgreSQL pentru Pasul 1 și Pasul 2
 
-Pentru ca primele două etape (care preiau ~90% din căutările după coduri) să răspundă în mai puțin de 5ms,
-PostgreSQL are nevoie de indecși clasici B-Tree și Trigram:
+În Odoo 19 nu mai e nevoie de SQL manual. Indexurile există deja și le întreține ORM-ul:
 
-```sql
--- Index clasic B-Tree pentru potriviri perfecte (Pasul 1)
-CREATE INDEX IF NOT EXISTS product_default_code_btree_idx ON product_product (default_code);
-CREATE INDEX IF NOT EXISTS product_barcode_btree_idx ON product_product (barcode);
+- `product_product.default_code` și `barcode`: btree, din modulul `product`;
+- `product_template.variants_default_code` (codurile variantelor, căutat de `/shop`): GIN trigram,
+  din `website_sale`; tot de acolo vine un index GiST trigram pe `product_template.default_code`;
+- `product_alternative.name` (codurile alternative): GIN trigram, din `deltatech_alternative`.
 
--- Index Trigram pentru căutări parțiale de coduri (Pasul 2)
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
-CREATE INDEX IF NOT EXISTS product_alt_codes_trgm_idx ON product_product USING gin (default_code gin_trgm_ops);
-```
+`ilike` poate folosi indexurile trigram doar dacă funcția `unaccent` e `IMMUTABLE` în bază
+(vezi notele de configurare din `deltatech_alternative`).
 
 #### Rolul AI-ului (Vector Search + HNSW)
 

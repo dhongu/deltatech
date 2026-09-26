@@ -1,3 +1,23 @@
+## 19.0.2.1.3 (2026-09-26)
+
+- The index on `product.alternative.name` is now a trigram (GIN) index
+  instead of btree. Product search runs `ilike '%code%'`, which the btree
+  index could not serve (sequential scan: 169 ms against 4.6 ms with GIN on
+  1.36 million codes), and btree rejects values over ~2,700 bytes. The
+  existing btree index is replaced when the module is updated. On large
+  databases, see *Large Databases* in the configuration notes.
+- Removed `index=True` from the computed, non-stored `alternative_code` field,
+  where it had no effect.
+- Added an index on `product.alternative.product_tmpl_id`. Reading the codes
+  of a product (the `alternative_ids` list, the computed `alternative_code`)
+  scanned the whole table: 40 ms against under 1 ms on 1.36 million codes.
+- Configuration notes: `ALTER FUNCTION public.unaccent(text) IMMUTABLE` is no
+  longer recommended, because `pg_dump` does not keep it and the restore fails
+  on the indexes that use `unaccent`. They now describe the odoo.sh setup
+  (extension in its own schema, `IMMUTABLE` wrapper in `public`), with a
+  script for self-hosted databases, and how to reuse the index that 18.0
+  created (`product_alternative_name_unaccent_gin`).
+
 ## 19.0.2.1.2 (2026-09-26)
 
 - Ported from 18.0: the daily *Alternative: Split multi-code records* cron and
