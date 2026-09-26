@@ -75,8 +75,10 @@ class SaleOrder(models.Model):
 
                 if order.stage == "to_be_delivery" and not order.picking_ids:
                     order.stage = "waiting"
-                    purchase_order_count = order.sudo().purchase_order_count
-                    if purchase_order_count > 0:
+                    # purchase_order_count and _get_purchase_orders() come from
+                    # sale_purchase, which is not a dependency: without it there
+                    # is no RFQ to look at.
+                    if "purchase_order_count" in order._fields and order.sudo().purchase_order_count > 0:
                         purchase_orders = order._get_purchase_orders()
                         for purchase_order in purchase_orders:
                             if purchase_order.state == "sent":
