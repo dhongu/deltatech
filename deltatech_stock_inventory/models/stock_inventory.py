@@ -839,9 +839,7 @@ class InventoryLine(models.Model):
         elif operator == "!=":
             # Return only lines where the difference is not zero
             lines = self.search([("inventory_id", "=", inventory_id)])
-            line_ids = lines.filtered(
-                lambda line: not line.product_id.uom_id.is_zero(line.difference_qty)
-            ).ids
+            line_ids = lines.filtered(lambda line: not line.product_id.uom_id.is_zero(line.difference_qty)).ids
             return [("id", "in", line_ids)]
         else:
             raise NotImplementedError()
