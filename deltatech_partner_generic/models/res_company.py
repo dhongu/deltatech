@@ -22,18 +22,18 @@ class ResCompany(models.Model):
     def create(self, vals_list):
         companies = super().create(vals_list)
         if any(PROTECTION_FIELDS & set(vals) for vals in vals_list):
-            self.env.registry.clear_cache()
+            self.env.transaction.invalidate_ormcache()
         return companies
 
     def write(self, vals):
         result = super().write(vals)
         if PROTECTION_FIELDS & set(vals):
-            self.env.registry.clear_cache()
+            self.env.transaction.invalidate_ormcache()
         return result
 
     def unlink(self):
         clear = any(self.mapped("generic_partner_id"))
         result = super().unlink()
         if clear:
-            self.env.registry.clear_cache()
+            self.env.transaction.invalidate_ormcache()
         return result

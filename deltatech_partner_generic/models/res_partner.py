@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 EDITOR_GROUP = "deltatech_partner_generic.group_generic_partner_editor"
@@ -39,7 +39,7 @@ class ResPartner(models.Model):
     )
 
     @api.model
-    @tools.ormcache()
+    @api.ormcache()
     def _get_protected_generic_partner_ids(self):
         """Ids of the generic partners of the companies that ask for protection.
 

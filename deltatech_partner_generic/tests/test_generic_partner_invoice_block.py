@@ -19,9 +19,7 @@ class TestGenericPartnerInvoiceBlock(AccountTestInvoicingCommon):
             "city": "Cluj-Napoca",
             "street": "Str. Test 1",
         }
-        cls.generic_partner = cls.env["res.partner"].create(
-            {"name": "Generic customer", "is_company": True, **cls.address}
-        )
+        cls.generic_partner = cls.env["res.partner"].create({"name": "Generic customer", **cls.address})
         cls.generic_child = cls.env["res.partner"].create(
             {"name": "Generic delivery address", "parent_id": cls.generic_partner.id, **cls.address}
         )
