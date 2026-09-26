@@ -194,7 +194,7 @@
                                 <div class="o_kanban_record_headings">
                                     <strong class="o_kanban_record_title">
                                         <span>
-                                            <t t-esc="record.name.value" />
+                                            <t t-out="record.name.value" />
                                         </span>
                                     </strong>
                                 </div>

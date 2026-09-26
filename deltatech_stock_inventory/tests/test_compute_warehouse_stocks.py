@@ -73,7 +73,7 @@ class TestComputeWarehouseStocks(TransactionCase):
         move = self.env["stock.move"].create(
             {
                 "product_id": self.product.id,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "product_uom_qty": qty,
                 "location_id": location.id,
                 "location_dest_id": location_dest.id,

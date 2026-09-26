@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "19.0.2.10.0",
+    "version": "20.0.2.10.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -19,7 +19,6 @@
     "license": "OPL-1",
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
         "data/data.xml",
         "views/res_config_settings_view.xml",
         "views/stock_inventory_views.xml",
@@ -34,6 +33,7 @@
         "wizard/product_replenish_views.xml",
         "views/stock_warehouse_view.xml",
         "views/stock_location_view.xml",
+        "security/ir.access.csv",
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,

@@ -5,7 +5,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_round
 
 
 class ProductWarehouseLocation(models.Model):
@@ -147,18 +146,18 @@ class ProductTemplate(models.Model):
             warehouse_stock_lines = []
             free_stock = 0.0
             has_detailed_lines = False
-            rounding = product.uom_id.rounding
+            uom = product.uom_id
             for warehouse in warehouses:
                 if warehouse.lot_stock_id.usage == "internal":
                     if warehouse.kanban_display_stock == "detailed":
                         data = detailed_stocks.get(warehouse.id, {}).get(product.id)
                         if not data:
                             continue
-                        total = float_round(data["total"], precision_rounding=rounding)
-                        reserved = float_round(data["reserved"], precision_rounding=rounding)
-                        restricted = float_round(data["restricted"], precision_rounding=rounding)
-                        transit = float_round(data["transit"], precision_rounding=rounding)
-                        expected = float_round(data["expected"], precision_rounding=rounding)
+                        total = uom.round(data["total"])
+                        reserved = uom.round(data["reserved"])
+                        restricted = uom.round(data["restricted"])
+                        transit = uom.round(data["transit"])
+                        expected = uom.round(data["expected"])
                         free_stock += total - reserved - restricted
                         if total or reserved or restricted or transit or expected:
                             # R = reserved, B = blocked (restricted locations),
@@ -193,7 +192,7 @@ class ProductTemplate(models.Model):
                             line = f"{warehouse.code}: {quantity_in_warehouse}"
                             warehouse_stock_lines.append(line)
             if has_detailed_lines:
-                free_stock = float_round(free_stock, precision_rounding=rounding)
+                free_stock = uom.round(free_stock)
                 warehouse_stock_lines.append(self.env._("FREE STOCK") + f": {free_stock}")
             product.warehouse_stock = "\n".join(warehouse_stock_lines)
 
@@ -364,7 +363,7 @@ class ProductTemplate(models.Model):
                     "product_id": product.id,
                     "location_id": location_id.id,
                     "location_dest_id": location_dest_id.id,
-                    "product_uom": product.uom_id.id,
+                    "uom_id": product.uom_id.id,
                     "product_uom_qty": qty,
                     "picked": True,
                 }

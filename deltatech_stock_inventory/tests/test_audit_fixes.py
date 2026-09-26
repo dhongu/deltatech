@@ -16,7 +16,7 @@ class TestInventoryAuditFixes(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["ir.config_parameter"].sudo().set_param("stock.use_inventory_price", "True")
+        cls.env["ir.config_parameter"].sudo().set_str("stock.use_inventory_price", "True")
         cls.location = cls.env["stock.location"].create({"name": "Audit Loc A", "usage": "internal"})
         cls.location_b = cls.env["stock.location"].create({"name": "Audit Loc B", "usage": "internal"})
 
@@ -34,8 +34,25 @@ class TestInventoryAuditFixes(TransactionCase):
         )
 
     def _receive(self, product, qty, location=None):
-        """Stoc initial direct pe quant, la costul produsului."""
-        self.env["stock.quant"]._update_available_quantity(product, location or self.location, qty)
+        """Stoc initial printr-o receptie reala, la costul produsului.
+
+        In 20.0 costul mediu (AVCO) se recalculeaza reluand miscarile de stoc
+        (product.product._run_avco), nu incremental pe qty_available ca in 19.0; un stoc
+        pus direct pe quant, fara miscare, ar fi invizibil pentru reluare.
+        """
+        move = self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "uom_id": product.uom_id.id,
+                "product_uom_qty": qty,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                "location_dest_id": (location or self.location).id,
+            }
+        )
+        move._action_confirm()
+        move.quantity = qty
+        move.picked = True
+        move._action_done()
 
     def _inventory(self, products, locations=None, name="INV/AUDIT", exhausted=False):
         inventory = self.env["stock.inventory"].create(
@@ -90,7 +107,7 @@ class TestInventoryAuditFixes(TransactionCase):
         self.assertEqual(inventory.move_ids.value, 60.0)
 
     def test_parameter_off_ignores_line_price(self):
-        self.env["ir.config_parameter"].sudo().set_param("stock.use_inventory_price", "False")
+        self.env["ir.config_parameter"].sudo().set_str("stock.use_inventory_price", "False")
         product = self._product("average", 10.0)
         self._receive(product, 10.0)
         inventory = self._inventory(product)
@@ -101,7 +118,7 @@ class TestInventoryAuditFixes(TransactionCase):
 
     def test_parameter_off_ignores_line_price_on_zero_theoretical(self):
         """Parametrul decide si pe liniile cu scriptic 0 (inainte costul se scria oricum)."""
-        self.env["ir.config_parameter"].sudo().set_param("stock.use_inventory_price", "False")
+        self.env["ir.config_parameter"].sudo().set_str("stock.use_inventory_price", "False")
         product = self._product("standard", 10.0)
         inventory = self._inventory(product, exhausted=True)
         inventory.line_ids.write({"product_qty": 3.0, "standard_price": 40.0})

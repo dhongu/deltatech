@@ -7,7 +7,6 @@
         <field name="model">stock.inventory</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_stock_inventory.report_inventory_position</field>
-        <field name="report_file">deltatech_stock_inventory.report_inventory_position</field>
         <field name="binding_type">report</field>
         <field name="binding_model_id" ref="model_stock_inventory" />
     </record>
@@ -18,7 +17,6 @@
         <field name="model">stock.inventory</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_stock_inventory.report_inventory_position</field>
-        <field name="report_file">deltatech_stock_inventory.report_inventory_position</field>
         <field name="binding_type">report</field>
         <field name="binding_model_id" ref="model_stock_inventory" />
     </record>
@@ -78,7 +76,6 @@
         <field name="model">stock.inventory</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_stock_inventory.report_inventory_diff</field>
-        <field name="report_file">deltatech_stock_inventory.report_inventory_diff</field>
         <field name="binding_type">report</field>
         <field name="binding_model_id" ref="model_stock_inventory" />
     </record>
@@ -225,21 +222,21 @@
                 <span t-field="line.product_uom_id" groups="uom.group_uom" />
             </td>
             <td class="text-end">
-                <span t-esc="round(line.product_qty*price,2)" t-options='{"widget": "float", "precision": 2}' />
+                <span t-out="round(line.product_qty*price,2)" t-options='{"widget": "float", "precision": 2}' />
             </td>
             <td class="text-end">
                 <t t-if='dif!=0'>
-                    <span t-esc="dif" t-options='{"widget": "float", "decimal_precision": "Product Unit"}' />
+                    <span t-out="dif" t-options='{"widget": "float", "decimal_precision": "Product Unit"}' />
                 </t>
             </td>
             <td class="text-end">
                 <t t-if='dif&gt;0'>
-                    <span t-esc="round(dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
+                    <span t-out="round(dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                 </t>
             </td>
             <td class="text-end">
                 <t t-if='dif&lt;0'>
-                    <span t-esc="round(-1*dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
+                    <span t-out="round(-1*dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                 </t>
             </td>
         </tr>
@@ -264,21 +261,21 @@
             </td>
             <td class="text-end">
                 <div>
-                    <strong t-esc="round(total_before,2)" t-options='{"widget": "float", "precision": 2}' />
+                    <strong t-out="round(total_before,2)" t-options='{"widget": "float", "precision": 2}' />
                 </div>
                 <div>
                     <strong
-                        t-esc="round(total_before+total_plus-total_minus,2)"
+                        t-out="round(total_before+total_plus-total_minus,2)"
                         t-options='{"widget": "float", "precision": 2}'
                     />
                 </div>
             </td>
             <td class="text-end" />
             <td class="text-end">
-                <strong t-esc="round(total_plus,2)" t-options='{"widget": "float", "precision": 2}' />
+                <strong t-out="round(total_plus,2)" t-options='{"widget": "float", "precision": 2}' />
             </td>
             <td class="text-end">
-                <strong t-esc="round(total_minus,2)" t-options='{"widget": "float", "precision": 2}' />
+                <strong t-out="round(total_minus,2)" t-options='{"widget": "float", "precision": 2}' />
             </td>
         </tr>
     </template>

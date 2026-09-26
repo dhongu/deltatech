@@ -56,7 +56,7 @@ class TestProductReplenishReference(TransactionCase):
                 {
                     "product_id": product.id,
                     "product_tmpl_id": product.product_tmpl_id.id,
-                    "product_uom_id": product.uom_id.id,
+                    "uom_id": product.uom_id.id,
                     "quantity": quantity,
                     "warehouse_id": self.warehouse.id,
                     "route_id": self.route.id,
@@ -109,7 +109,7 @@ class TestProductReplenishReference(TransactionCase):
                 {
                     "product_id": self.product_a.id,
                     "product_tmpl_id": self.product_a.product_tmpl_id.id,
-                    "product_uom_id": self.product_a.uom_id.id,
+                    "uom_id": self.product_a.uom_id.id,
                     "quantity": 1.0,
                     "warehouse_id": other_warehouse.id,
                 }
@@ -136,7 +136,7 @@ class TestProductReplenishReference(TransactionCase):
                 {
                     "product_id": self.product_a.id,
                     "product_tmpl_id": self.product_a.product_tmpl_id.id,
-                    "product_uom_id": self.product_a.uom_id.id,
+                    "uom_id": self.product_a.uom_id.id,
                     "quantity": 3.0,
                     "warehouse_id": self.warehouse.id,
                     "route_id": self.route.id,

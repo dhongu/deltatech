@@ -107,10 +107,10 @@ class TestStockInventoryMethodsExtra(TransactionCase):
 
         # price editable flag follows parameter
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("stock.use_inventory_price", "True")
+        ICP.set_str("stock.use_inventory_price", "True")
         line._compute_is_price_editable()
         self.assertTrue(line.is_price_editable)
-        ICP.set_param("stock.use_inventory_price", "False")
+        ICP.set_str("stock.use_inventory_price", "False")
         line._compute_is_price_editable()
         self.assertFalse(line.is_price_editable)
 

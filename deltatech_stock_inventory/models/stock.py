@@ -252,7 +252,7 @@ class StockInventoryLine(models.Model):
         foloseste la FIFO / cost mediu, iar la cost standard doar pe liniile cu stoc scriptic 0.
         """
         self.ensure_one()
-        use_inventory_price = self.env["ir.config_parameter"].sudo().get_param("stock.use_inventory_price", "True")
+        use_inventory_price = self.env["ir.config_parameter"].sudo().get_str("stock.use_inventory_price", "True")
         if not safe_eval(use_inventory_price):
             return False
         cost_method = self.product_id.with_company(self.company_id).cost_method

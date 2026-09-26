@@ -143,7 +143,7 @@ class TestStockInventoryScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
             move = env["stock.move"].create(
                 {
                     "product_id": prod.id,
-                    "product_uom": prod.uom_id.id,
+                    "uom_id": prod.uom_id.id,
                     "product_uom_qty": qty,
                     "price_unit": price,
                     "location_id": supplier.id,

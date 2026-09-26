@@ -16,7 +16,7 @@ class StockMove(models.Model):
         help="Inventory line that generated this move; links the accounting value back to the line.",
     )
 
-    def _get_value_from_std_price(self, quantity, std_price=False, at_date=None):
+    def _get_value_from_std_price(self, quantity, std_price=False):
         # Plusul de inventar intra la pretul de pe linie, fara sa rescrie costul produsului
         line = self.inventory_line_id
         if line and line._use_inventory_price():
@@ -30,4 +30,4 @@ class StockMove(models.Model):
                     inventory=line.inventory_id.name,
                 ),
             }
-        return super()._get_value_from_std_price(quantity, std_price=std_price, at_date=at_date)
+        return super()._get_value_from_std_price(quantity, std_price=std_price)

@@ -2,7 +2,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare, float_is_zero
 from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
@@ -87,8 +86,8 @@ class Inventory(models.Model):
     archive_svl = fields.Boolean(string="Clear old valuation")
 
     def _compute_archive_svl(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        self.can_archive_svl = bool(safe_eval(get_param("inventory.can_archive_svl", "False")))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        self.can_archive_svl = bool(safe_eval(get_str("inventory.can_archive_svl", "False")))
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
@@ -138,7 +137,7 @@ class Inventory(models.Model):
             and li.theoretical_qty != li.product_qty
         )
         lines = self.line_ids.filtered(
-            lambda li: float_compare(li.product_qty, 1, precision_rounding=li.product_uom_id.rounding) > 0
+            lambda li: li.product_uom_id.compare(li.product_qty, 1) > 0
             and li.product_id.tracking == "serial"
             and li.prod_lot_id
         )
@@ -530,7 +529,7 @@ class InventoryLine(models.Model):
         "inventory_date",
         "product_id.stock_move_ids",
         "theoretical_qty",
-        "product_uom_id.rounding",
+        "product_uom_id",
     )
     def _compute_outdated(self):
         # Build a mapping per inventory: {(product_id, location_id, lot_id, package_id, owner_id): qty}
@@ -557,14 +556,7 @@ class InventoryLine(models.Model):
                 ),
                 0,
             )
-            if (
-                float_compare(
-                    qty,
-                    line.theoretical_qty,
-                    precision_rounding=line.product_uom_id.rounding,
-                )
-                != 0
-            ):
+            if line.product_uom_id.compare(qty, line.theoretical_qty) != 0:
                 line.outdated = True
             else:
                 line.outdated = False
@@ -578,7 +570,7 @@ class InventoryLine(models.Model):
 
     def _compute_is_price_editable(self):
         config_parameter = self.env["ir.config_parameter"].sudo()
-        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
+        use_inventory_price = config_parameter.get_str(key="stock.use_inventory_price", default="True")
         use_inventory_price = safe_eval(use_inventory_price)
         for line in self:
             if not use_inventory_price:
@@ -617,15 +609,7 @@ class InventoryLine(models.Model):
             # We force `product_qty` to 1 for SN tracked product because it's
             # the only relevant value aside 0 for this kind of product.
             self.product_qty = 1
-        elif (
-            self.product_id
-            and float_compare(
-                self.product_qty,
-                self.theoretical_qty,
-                precision_rounding=self.product_uom_id.rounding,
-            )
-            == 0
-        ):
+        elif self.product_id and self.product_uom_id.compare(self.product_qty, self.theoretical_qty) == 0:
             # We update `product_qty` only if it equals to `theoretical_qty` to
             # avoid to reset quantity when user manually set it.
             self.product_qty = theoretical_qty
@@ -739,7 +723,7 @@ class InventoryLine(models.Model):
         return {
             # "name": self.env._("INV:") + (self.inventory_id.name or ""),
             "product_id": self.product_id.id,
-            "product_uom": self.product_uom_id.id,
+            "uom_id": self.product_uom_id.id,
             "product_uom_qty": qty,
             "date": self.inventory_id.date,
             "company_id": self.inventory_id.company_id.id,
@@ -759,7 +743,7 @@ class InventoryLine(models.Model):
                         "product_id": self.product_id.id,
                         "lot_id": self.prod_lot_id.id,
                         # "product_uom_qty": 0,  # bypass reservation here
-                        "product_uom_id": self.product_uom_id.id,
+                        "uom_id": self.product_uom_id.id,
                         "quantity": qty,
                         "package_id": out and self.package_id.id or False,
                         "result_package_id": (not out) and self.package_id.id or False,
@@ -779,8 +763,7 @@ class InventoryLine(models.Model):
         vals_list = []
         for line in self:
             virtual_location = line._get_virtual_location()
-            rounding = line.product_id.uom_id.rounding
-            if float_is_zero(line.difference_qty, precision_rounding=rounding):
+            if line.product_id.uom_id.is_zero(line.difference_qty):
                 continue
             if line.difference_qty > 0:  # found more than expected
                 vals = line._get_move_values(line.difference_qty, virtual_location.id, line.location_id.id, False)
@@ -857,7 +840,7 @@ class InventoryLine(models.Model):
             # Return only lines where the difference is not zero
             lines = self.search([("inventory_id", "=", inventory_id)])
             line_ids = lines.filtered(
-                lambda line: not float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding)
+                lambda line: not line.product_id.uom_id.is_zero(line.difference_qty)
             ).ids
             return [("id", "in", line_ids)]
         else:
@@ -894,7 +877,7 @@ class InventoryLine(models.Model):
             "location_id": self.location_id.id,
             "procure_method": "make_to_stock",
             "product_id": self.product_id.id,
-            "product_uom": self.product_id.uom_id.id,
+            "uom_id": self.product_id.uom_id.id,
             "product_uom_qty": self.theoretical_qty,
             "state": "done",
         }
@@ -915,7 +898,7 @@ class InventoryLine(models.Model):
             "location_id": self.product_id.property_stock_inventory.id,
             "procure_method": "make_to_stock",
             "product_id": self.product_id.id,
-            "product_uom": self.product_id.uom_id.id,
+            "uom_id": self.product_id.uom_id.id,
             "product_uom_qty": self.theoretical_qty,
             "state": "done",
         }
