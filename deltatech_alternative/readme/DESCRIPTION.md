@@ -17,3 +17,7 @@ team needs to locate it regardless of which code they have at hand.
   **Stock Move** lines, keeping the code visible throughout the order-to-delivery flow.
 - Adds a free-text **Used For** field on the product to note what the item can be used for,
   aiding identification and cross-selling.
+- A daily scheduled action (inactive by default) splits codes entered on one line and separated by `;` or `,`
+  into one alternative record per code, without creating codes the product already has.
+  Spaces are kept as part of the code (OEM numbers such as `366 200 05 01`).
+  Activate it in **Settings > Technical > Scheduled Actions** when needed.
