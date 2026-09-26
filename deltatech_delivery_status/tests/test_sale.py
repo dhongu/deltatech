@@ -101,6 +101,15 @@ class TestSale(TransactionCase):
                 "postponed_delivery": True,
             }
         )
+        # 20.0: metodele de plată sunt per provider (`payment.method.provider_id`),
+        # iar `payment.payment_method_unknown` nu mai există
+        payment_method = self.env["payment.method"].create(
+            {
+                "name": "Unknown",
+                "code": "unknown",
+                "provider_id": provider.id,
+            }
+        )
         order = self._create_confirmed_order()
         order.postpone_delivery()
         self.assertTrue(order.postponed_delivery)
@@ -108,14 +117,14 @@ class TestSale(TransactionCase):
         tx = self.env["payment.transaction"].create(
             {
                 "provider_id": provider.id,
-                "payment_method_id": self.env.ref("payment.payment_method_unknown").id,
+                "payment_method_id": payment_method.id,
                 "amount": order.amount_total,
                 "currency_id": order.currency_id.id,
                 "partner_id": self.partner_a.id,
                 "sale_order_ids": [(6, 0, order.ids)],
             }
         )
-        tx._set_done()
+        tx.with_context(payment_safe_write=True)._set_done()
         self.assertFalse(order.postponed_delivery)
 
     def test_search_postponed_delivery(self):

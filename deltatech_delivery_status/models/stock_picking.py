@@ -93,10 +93,12 @@ class StockPicking(models.Model):
 
         return super().button_validate()
 
-    def _create_backorder(self):
-        backorders = super()._create_backorder()
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        postponed = get_param("backorders.postponed", default="False")
+    def _create_backorder(self, backorder_moves=None, from_manual_backorder=False):
+        backorders = super()._create_backorder(
+            backorder_moves=backorder_moves, from_manual_backorder=from_manual_backorder
+        )
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        postponed = get_str("backorders.postponed", default="False")
         postponed = safe_eval(postponed)
         if postponed:
             backorders.write({"postponed": True})

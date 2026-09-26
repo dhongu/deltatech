@@ -5,9 +5,11 @@
         <field name="model">payment.provider</field>
         <field name="inherit_id" ref="payment.payment_provider_form" />
         <field name="arch" type="xml">
-            <group name="payment_state" position='inside'>
-                 <field name="postponed_delivery" />
-            </group>
+            <!-- 20.0: grupul `payment_state` a dispărut odată cu `payment.provider.state`
+                 (înlocuit de `is_live`); câmpul rămâne în același grup de sus al formularului. -->
+            <field name="is_live" position="after">
+                <field name="postponed_delivery" />
+            </field>
         </field>
     </record>
 </odoo>
