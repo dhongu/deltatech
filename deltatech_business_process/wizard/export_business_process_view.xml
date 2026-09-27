@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="view_business_process_export_form" model="ir.ui.view">
+            <field name="name">business.process.export</field>
+            <field name="model">business.process.export</field>
+            <field name="arch" type="xml">
+                <form string="Export Business Process">
+                    <field name="state" invisible="1" />
+                    <field name="name" invisible="1" />
+
+                    <sheet>
+                        <div invisible="state!='choose'">
+                            <div class="oe_title">
+                                <h2>Export selected business processes</h2>
+                                <p class="text-muted">Choose what information to include in the exported file.</p>
+                            </div>
+
+                            <notebook>
+                                <page string="Options">
+                                    <group string="General" col="2">
+                                        <group>
+                                            <field name="include_process_state" />
+                                            <field name="include_tests" />
+                                            <field name="include_issues" />
+                                        </group>
+                                        <group>
+                                            <field name="include_modules" />
+                                            <field name="include_durations" />
+                                            <field name="include_developments" />
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Contacts">
+                                    <group string="Responsible Parties" col="2">
+                                        <group>
+                                            <field name="include_responsible" />
+                                            <field name="include_customer_responsible" />
+                                        </group>
+                                        <group>
+                                            <field name="include_approved_by" />
+                                            <field name="include_support" />
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </div>
+
+                        <div invisible="state!='get'">
+                            <group>
+                                <h2>Export Complete</h2>
+                                <p class="text-muted">Your file is ready. Click to download:
+                                <field name="data_file" readonly="1" filename="name" class="oe_inline" no_label="1" />
+                                </p>
+                            </group>
+                        </div>
+                    </sheet>
+
+                    <footer invisible="state!='choose'">
+                        <button name="do_export" string="Export" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer invisible="state!='get'">
+                        <button name="do_back" string="Back" type="object" />
+                        or
+                        <button string="Close" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+     </record>
+
+
+    <record id="action_business_process_export" model="ir.actions.act_window">
+        <field name="name">Export Business Process</field>
+        <field name="res_model">business.process.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_business_process" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+
+    <!-- actiune context pentru exportul de business process -->
+
+</odoo>

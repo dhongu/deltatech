@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_business_process_step_tree" model="ir.ui.view">
+        <field name="name">Business process step</field>
+        <field name="model">business.process.step</field>
+        <field name="arch" type="xml">
+            <list sample="1">
+
+                <field name="code" />
+                <field name="process_id" optional="hide" />
+                <field name="name" />
+                <field name="transaction_id" optional="show" />
+                <field name="transaction_type" optional="hide" />
+                <field name="responsible_id" />
+                <field name="development_ids" widget="many2many_tags" optional="hide" />
+                <field name="state" widget="badge" decoration-success="state == 'production'  " />
+            </list>
+        </field>
+    </record>
+    <record id="view_business_process_step_form" model="ir.ui.view">
+        <field name="name">Business process step</field>
+        <field name="model">business.process.step</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,design,test,ready,production" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field
+                                name="name"
+                                default_focus="1"
+                                placeholder="Name"
+                                class="oe_inline"
+                                readonly="state not in ('draft','design')"
+                            />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Identification">
+                            <field name="code" readonly="state not in ('draft','design')" />
+                            <field name="process_id" readonly="state not in ('draft','design')" />
+                        </group>
+                        <group string="Responsible">
+                            <field name="responsible_id" readonly="state not in ('draft','design')" />
+                        </group>
+                        <group string="Transaction">
+                            <field name="transaction_id" readonly="state not in ('draft','design')" />
+                            <field name="transaction_type" />
+                        </group>
+                        <group string="Role">
+                            <field name="role_id" readonly="state not in ('draft','design')" />
+                        </group>
+                        <group string="Developments">
+                            <field
+                                name="development_ids"
+                                widget="many2many_tags"
+                                readonly="state not in ('draft','design')"
+                            />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <field name="details" />
+                        </page>
+                    </notebook>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_business_process_step_filter" model="ir.ui.view">
+        <field name="name">Business process step</field>
+        <field name="model">business.process.step</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="process_id" />
+                <field name="responsible_id" />
+                <field name="transaction_id" />
+                <group>
+                    <filter
+                        name="group_responsible"
+                        string="Responsible"
+                        domain="[]"
+                        context="{'group_by':'responsible_id'}"
+                    />
+                    <filter name="group_process" string="Process" domain="[]" context="{'group_by':'process_id'}" />
+                </group>
+                <searchpanel>
+                    <field name="process_id" select="one" string="Process" enable_counters="1" />
+                </searchpanel>
+            </search>
+        </field>
+
+    </record>
+
+    <record id="action_business_process_step" model="ir.actions.act_window">
+        <field name="name">Business Process Steps</field>
+        <field name="res_model">business.process.step</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        name="Business Process Steps"
+        id="menu_business_process_step"
+        action="action_business_process_step"
+        parent="menu_business_process_main"
+        sequence="25"
+    />
+
+
+</odoo>

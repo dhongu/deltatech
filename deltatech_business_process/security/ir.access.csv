@@ -1,0 +1,49 @@
+id,name,model_id,group_id/id,operation,domain
+access_business_area,access_business_area,business.area,deltatech_business_process.group_business_end_user,r,
+access_business_area_process_manager,access_business_area,business.area,deltatech_business_process.group_business_process_manager,crud,
+access_business_development_type,access_business_development_type,business.development.type,deltatech_business_process.group_business_end_user,r,
+access_business_development_type_process_manager,access_business_development_type,business.development.type,deltatech_business_process.group_business_process_manager,crud,
+access_business_process_implementation_stage,access_business_process_implementation_stage,business.process.implementation.stage,deltatech_business_process.group_business_end_user,r,
+access_business_process_implementation_stage_process_manager,access_business_process_implementation_stage,business.process.implementation.stage,deltatech_business_process.group_business_process_manager,crud,
+access_business_transaction,access_business_transaction,business.transaction,deltatech_business_process.group_business_end_user,r,
+access_business_transaction_process_manager,access_business_transaction,business.transaction,deltatech_business_process.group_business_process_manager,crud,
+access_business_process_group,access_business_process_group,business.process.group,deltatech_business_process.group_business_end_user,r,
+access_business_process_group_process_manager,access_business_process_group,business.process.group,deltatech_business_process.group_business_process_manager,crud,
+access_business_project,access_business_project,business.project,deltatech_business_process.group_business_end_user,r,
+access_business_project_process_manager,access_business_project,business.project,deltatech_business_process.group_business_process_manager,crud,
+business_project_comp_rule,Business project multi-company,business.project,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_visibility_rule,Business process visibility,business.process,deltatech_business_process.group_business_end_user,r,"['|',('allowed_user_ids','=',False),('allowed_user_ids','in',user.ids)]"
+business_process_visibility_manager_rule,Business process visibility: admin bypass,business.process,deltatech_business_process.group_business_process_manager,crud,
+business_process_visibility_rule_1,Business process visibility,business.process,deltatech_business_process.group_business_process_responsible,cr,"['|',('allowed_user_ids','=',False),('allowed_user_ids','in',user.ids)]"
+business_process_comp_rule,Business process multi-company,business.process,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_step_visibility_rule,Business process step visibility,business.process.step,deltatech_business_process.group_business_end_user,r,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_process_step_visibility_manager_rule,Business process step visibility: admin bypass,business.process.step,deltatech_business_process.group_business_process_manager,crud,
+business_process_step_visibility_rule_1,Business process step visibility,business.process.step,deltatech_business_process.group_business_process_responsible,cru,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_process_step_comp_rule,Business process step multi-company,business.process.step,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_business_role,access_business_role,business.role,deltatech_business_process.group_business_end_user,r,
+access_business_role_process_manager,access_business_role,business.role,deltatech_business_process.group_business_process_manager,crud,
+access_business_development,access_business_development,business.development,deltatech_business_process.group_business_end_user,r,
+access_business_development_process_manager,access_business_development,business.development,deltatech_business_process.group_business_process_manager,crud,
+access_business_development_responsible,access_business_development,business.development,deltatech_business_process.group_business_process_responsible,cru,
+business_development_comp_rule,Business development multi-company,business.development,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_test_visibility_rule,Business process test visibility,business.process.test,deltatech_business_process.group_business_end_user,cru,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_process_test_visibility_manager_rule,Business process test visibility: admin bypass,business.process.test,deltatech_business_process.group_business_process_manager,crud,
+business_process_test_comp_rule,Business process test multi-company,business.process.test,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_step_test_visibility_rule,Business process step test visibility,business.process.step.test,deltatech_business_process.group_business_end_user,cru,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_process_step_test_visibility_manager_rule,Business process step test visibility: admin bypass,business.process.step.test,deltatech_business_process.group_business_process_manager,cru,
+business_process_step_test_comp_rule,Business process step test multi-company,business.process.step.test,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_issue_visibility_rule,Business issue visibility,business.issue,deltatech_business_process.group_business_end_user,cru,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_issue_visibility_manager_rule,Business issue visibility: admin bypass,business.issue,deltatech_business_process.group_business_process_manager,crud,
+business_issue_comp_rule,Business issue multi-company,business.issue,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_report_visibility_rule,Business process report visibility,business.process.report,deltatech_business_process.group_business_end_user,r,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_process_report_visibility_manager_rule,Business process report visibility: admin bypass,business.process.report,deltatech_business_process.group_business_process_manager,r,
+business_process_test_report_visibility_rule,Business process test report visibility,business.process.test.report,deltatech_business_process.group_business_end_user,r,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_process_test_report_visibility_manager_rule,Business process test report visibility: admin bypass,business.process.test.report,deltatech_business_process.group_business_process_manager,r,
+business_open_issue_visibility_rule,Business open issue visibility,business.open.issue,base.group_user,crud,"['|',('process_id.allowed_user_ids','=',False),('process_id.allowed_user_ids','in',user.ids)]"
+business_open_issue_visibility_manager_rule,Business open issue visibility: admin bypass,business.open.issue,deltatech_business_process.group_business_process_manager,crud,
+access_business_process_export,access_business_process_export,business.process.export,deltatech_business_process.group_business_process_manager,crud,
+access_business_process_import,access_business_process_import,business.process.import,deltatech_business_process.group_business_process_manager,crud,
+access_business_process_library_import_line,access_business_process_library_import_line,business.process.library.import.line,deltatech_business_process.group_business_process_manager,crud,
+access_business_process_library_import_options,access_business_process_library_import_options,business.process.library.import.options,deltatech_business_process.group_business_process_manager,crud,
+access_business_migration,access_business_migration,business.migration,base.group_user,r,
+access_business_migration_test,access_business_migration_test,business.migration.test,base.group_user,r,
