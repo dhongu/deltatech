@@ -33,9 +33,9 @@ class TestPurchase(TransactionCase):
                 "seller_ids": seller_ids,
             }
         )
-        set_param = self.env["ir.config_parameter"].sudo().set_param
-        set_param("purchase.update_product_price", "True")
-        set_param("purchase.update_list_price", "True")
+        set_str = self.env["ir.config_parameter"].sudo().set_str
+        set_str("purchase.update_product_price", "True")
+        set_str("purchase.update_list_price", "True")
 
     def test_product_change_last_purchase_price(self):
         product = Form(self.product_a.product_tmpl_id)
@@ -190,3 +190,37 @@ class TestPurchase(TransactionCase):
         wizard.partner_id = self.partner_a
         wizard = wizard.save()
         wizard.do_set_trade_markup()
+
+    def _create_po(self, partner, product, price_unit=10):
+        form_purchase = Form(self.env["purchase.order"])
+        form_purchase.partner_id = partner
+        with form_purchase.order_line.new() as po_line:
+            po_line.product_id = product
+            po_line.product_qty = 1
+            po_line.price_unit = price_unit
+        return form_purchase.save()
+
+    def test_add_supplier_to_product(self):
+        # Odoo 20 nu mai adauga furnizorul pe produs la confirmarea comenzii;
+        # modulul pastreaza comportamentul cand parametrul este activ
+        vendor = self.env["res.partner"].create({"name": "New vendor"})
+        product = self.env["product.product"].create({"name": "Test C", "is_storable": True})
+        set_str = self.env["ir.config_parameter"].sudo().set_str
+
+        set_str("purchase.add_supplier_to_product", "False")
+        self._create_po(vendor, product).button_confirm()
+        self.assertFalse(product.seller_ids)
+
+        set_str("purchase.add_supplier_to_product", "True")
+        self._create_po(vendor, product, price_unit=12).button_confirm()
+        self.assertEqual(product.seller_ids.partner_id, vendor)
+        self.assertEqual(product.seller_ids.price, 12)
+
+        # furnizorul existent nu se dubleaza
+        self._create_po(vendor, product, price_unit=14).button_confirm()
+        self.assertEqual(len(product.seller_ids), 1)
+
+    def test_variant_form_shows_last_purchase_price(self):
+        # formularul de varianta (product.product) mosteneste formularul de sablon
+        arch = self.env["product.product"].get_view(view_type="form")["arch"]
+        self.assertIn('name="last_purchase_price"', arch)

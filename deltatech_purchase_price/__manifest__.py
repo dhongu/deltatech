@@ -5,7 +5,7 @@
 {
     "name": "Purchase Price",
     "summary": "Update vendor price after reception",
-    "version": "19.0.1.2.8",
+    "version": "20.0.1.2.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -19,7 +19,7 @@
     "data": [
         "views/product_view.xml",
         "wizard/trade_markup_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/res_config_settings_views.xml",
     ],
     "images": ["static/description/main_screenshot.png"],

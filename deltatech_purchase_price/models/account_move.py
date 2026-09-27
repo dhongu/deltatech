@@ -12,8 +12,8 @@ class AccountMove(models.Model):
     def action_post(self):
         res = super().action_post()
         purchase_invoices = self.filtered(lambda inv: inv.move_type == "in_invoice")
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        force_price = safe_eval(get_param("purchase.force_price_at_validation", "False"))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        force_price = safe_eval(get_str("purchase.force_price_at_validation", "False"))
         if purchase_invoices and force_price:
             for move in purchase_invoices:
                 from_currency = move.currency_id
@@ -32,6 +32,6 @@ class AccountMove(models.Model):
                             )
                             if line.product_id.product_tmpl_id.uom_id != line.product_uom_id:
                                 default_uom = line.product_id.product_tmpl_id.uom_id
-                                seller_price_unit = line.product_uom._compute_price(seller_price_unit, default_uom)
+                                seller_price_unit = line.product_uom_id._compute_price(seller_price_unit, default_uom)
                             seller.write({"price": seller_price_unit})
         return res

@@ -88,8 +88,8 @@ class ProductTemplate(models.Model):
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        change_list_price = safe_eval(get_param("purchase.update_list_price", "False"))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        change_list_price = safe_eval(get_str("purchase.update_list_price", "False"))
         if not change_list_price:
             return
         AccountTax = self.env["account.tax"]
@@ -119,7 +119,7 @@ class ProductTemplate(models.Model):
                     ]
 
                 list_price = currency._convert(list_price, product.currency_id, company, date)
-                list_price_round = safe_eval(get_param("sale.list_price_round", "2"))
+                list_price_round = safe_eval(get_str("sale.list_price_round", "2"))
                 product.list_price = round(list_price, list_price_round)
 
 
@@ -129,7 +129,7 @@ class SupplierInfo(models.Model):
     def update_last_purchase_price(self):
         date = self.env.context.get("date") or fields.Date.today()
         for item in self:
-            from_uom = item.product_uom_id or item.product_tmpl_id.uom_id
+            from_uom = item.uom_id or item.product_tmpl_id.uom_id
             to_uom = item.product_tmpl_id.uom_id
             if not from_uom or not to_uom:
                 raise UserError(

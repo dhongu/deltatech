@@ -11,18 +11,20 @@ class StockMove(models.Model):
 
     def update_prices(self):
         if self.purchase_line_id and self.product_id == self.purchase_line_id.product_id:
-            get_param = self.env["ir.config_parameter"].sudo().get_param
-            update_product_price = get_param("purchase.update_product_price", default="False")
+            get_str = self.env["ir.config_parameter"].sudo().get_str
+            update_product_price = get_str("purchase.update_product_price", default="False")
             update_product_price = safe_eval(update_product_price)
-            update_list_price = get_param("purchase.update_list_price", default="False")
+            update_list_price = get_str("purchase.update_list_price", default="False")
             update_list_price = safe_eval(update_list_price)
 
             # este neindicat de a se forta actualizarea pretului standard
-            update_standard_price = get_param("purchase.update_standard_price", default="False")
+            update_standard_price = get_str("purchase.update_standard_price", default="False")
             update_standard_price = safe_eval(update_standard_price)
 
             company = self.company_id
-            price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
+            price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit(
+                at_date=self.date
+            )
             self.product_id.with_company(company).write({"last_purchase_price": price_unit})
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
             # update price form last receipt
