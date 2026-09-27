@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_deltatech_tc_station_user,deltatech.tc.station user,deltatech.tc.station,deltatech_tc.group_deltatech_tc_user,r,
+access_deltatech_tc_station_manager,deltatech.tc.station manager,deltatech.tc.station,deltatech_tc.group_deltatech_tc_manager,crud,
+rule_deltatech_tc_station_company,Terrabit Connect Station: multi-company,deltatech.tc.station,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_deltatech_tc_job_user,deltatech.tc.job user,deltatech.tc.job,deltatech_tc.group_deltatech_tc_user,r,
+access_deltatech_tc_job_manager,deltatech.tc.job manager,deltatech.tc.job,deltatech_tc.group_deltatech_tc_manager,crud,
+rule_deltatech_tc_job_company,Terrabit Connect Job: multi-company,deltatech.tc.job,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"

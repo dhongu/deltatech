@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="groups_privilege_deltatech_tc" model="res.groups.privilege">
+        <field name="name">Terrabit Connect</field>
+    </record>
+
+    <record id="group_deltatech_tc_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="privilege_id" ref="groups_privilege_deltatech_tc"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_deltatech_tc_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="groups_privilege_deltatech_tc"/>
+        <field name="implied_ids" eval="[(4, ref('group_deltatech_tc_user'))]"/>
+    </record>
+
+    <!-- Administratorii de sistem primesc automat rolul de Manager Terrabit Connect. -->
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_deltatech_tc_manager'))]"/>
+    </record>
+
+</odoo>
