@@ -6,12 +6,8 @@ class SaleReport(models.Model):
 
     so_type = fields.Many2one("record.type", string="Order Type", readonly=True)
 
-    def _select_additional_fields(self):
-        res = super()._select_additional_fields()
-        res["so_type"] = " so_type"
-        return res
+    def _select_dict(self, table):
+        return super()._select_dict(table) | {"so_type": table.order_id.so_type}
 
-    def _group_by_sale(self):
-        group_by_ = super()._group_by_sale()
-        group_by_ += ", so_type"
-        return group_by_
+    def _groupby_list(self, table):
+        return super()._groupby_list(table) + [table.order_id.so_type]

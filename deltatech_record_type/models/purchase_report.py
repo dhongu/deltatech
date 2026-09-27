@@ -10,12 +10,8 @@ class PurchaseReport(models.Model):
 
     po_type = fields.Many2one("record.type", string="Order Type", readonly=True)
 
-    def _select(self):
-        select_str = super()._select().code
-        select_str += ", po_type"
-        return SQL(select_str)
+    def _select_list(self, table):
+        return super()._select_list(table) + [SQL("%s AS po_type", table.order_id.po_type)]
 
-    def _group_by(self):
-        group_str = super()._group_by().code
-        group_str += ", po_type"
-        return SQL(group_str)
+    def _groupby_list(self, table):
+        return super()._groupby_list(table) + [table.order_id.po_type]
