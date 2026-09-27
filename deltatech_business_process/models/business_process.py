@@ -284,7 +284,7 @@ class BusinessProcess(models.Model):
             "|",
             "&",
             ("res_model", "=", "business.process"),
-            ("res_id", "=", self.id),
+            ("res_id", "=", self._origin.id),
             "&",
             ("res_model", "=", "business.process.test"),
             ("res_id", "in", self.test_ids.ids),

@@ -2,10 +2,10 @@
 # See README.rst file on addons root folder for license details
 
 
-import base64
 import json
 
 from odoo import fields, models
+from odoo.tools import BinaryBytes
 
 
 class BusinessProcessExport(models.TransientModel):
@@ -182,7 +182,7 @@ class BusinessProcessExport(models.TransientModel):
             {
                 "state": "get",
                 "name": "business_process_export.json",
-                "data_file": base64.b64encode(json_data.encode("utf-8")),
+                "data_file": BinaryBytes(json_data.encode("utf-8")),
             }
         )
         return {

@@ -56,11 +56,11 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_view_test_steps" icon="fa-cog">
+                        <button class="oe_stat_button" type="object" name="action_view_test_steps" icon="settings">
                             <field name="count_steps" widget="statinfo" string="Test Steps" />
                         </button>
 
-                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="article">
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
                     </div>
@@ -130,7 +130,7 @@
                                         context="{'default_step_id': step_id}"
                                         title="Issue"
                                         type="object"
-                                        icon="fa-exclamation-triangle"
+                                        icon="warning"
                                     />
 
                                     <field name="observation" optional="hide" />

@@ -15,7 +15,7 @@
                     of
                     <t t-out="object.project_id.name" />
                     has been approved on
-                    <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
+                    <t t-out="datetime.date.today().strftime('%d-%m-%Y')" />
                     with the required time of <t t-out="object.development_duration" />.
 
                     <br />
@@ -47,7 +47,7 @@
                     has submitted by
                     <t t-out="object.create_uid.name" />
                     on
-                    <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />.
+                    <t t-out="datetime.date.today().strftime('%d-%m-%Y')" />.
                     <br />
                     Please check and inform colleagues of the current issue.
                     <br />

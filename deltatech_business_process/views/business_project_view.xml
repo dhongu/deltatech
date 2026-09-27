@@ -35,17 +35,17 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
 
-                        <button class="oe_stat_button" type="object" name="action_view_processes" icon="fa-cogs">
+                        <button class="oe_stat_button" type="object" name="action_view_processes" icon="settings_applications">
                             <field name="count_processes" widget="statinfo" string="Processes" />
                         </button>
-                        <button class="oe_stat_button" type="object" name="action_view_step" icon="fa-cog">
+                        <button class="oe_stat_button" type="object" name="action_view_step" icon="settings">
                             <field name="count_steps" widget="statinfo" string="Steps" />
                         </button>
 
-                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
+                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="code">
                             <field name="count_developments" widget="statinfo" string="Developments" />
                         </button>
-                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="article">
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
 
@@ -54,7 +54,7 @@
                             class="oe_stat_button"
                             type="object"
                             name="action_view_issue"
-                            icon="fa-exclamation-triangle"
+                            icon="warning"
                         >
                             <field name="count_issues" widget="statinfo" string="Issues" />
                         </button>
@@ -123,11 +123,11 @@
                         <main cclass="ms-4 mt-1 ml-5">
                                 <field class="fw-bold fs-5" name="name" />
                             <div t-if="record.date_start.raw_value" class="text-muted o_row">
-                                    <span class="fa fa-clock-o mr-2" title="Dates" />
+                                    <span class="oi mr-2" data-icon="schedule" title="Dates" />
                                     <field class="ms-1" name="date_start" />
                                     <i
                                     t-if="record.date_go_live.raw_value and record.date_start.raw_value"
-                                    class="fa fa-long-arrow-right mx-2 oe_read_only"
+                                    class="oi mx-2 oe_read_only" data-icon="east"
                                     aria-label="Arrow icon"
                                     title="Arrow"
                                 />

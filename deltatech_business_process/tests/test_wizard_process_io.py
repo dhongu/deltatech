@@ -1,11 +1,11 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 import json
 
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
+from odoo.tools import BinaryBytes
 
 from odoo.addons.deltatech_business_process.wizard.import_business_process import _normalize_description
 
@@ -98,7 +98,7 @@ class TestBusinessProcessImportExport(TransactionCase):
         # data_file should be set
         self.assertTrue(wiz.data_file)
         # Decode and parse JSON
-        raw = base64.b64decode(wiz.data_file).decode("utf-8")
+        raw = wiz.data_file.content.decode("utf-8")
         data = json.loads(raw)
         # Accept both legacy dict payload and new list payload
         if isinstance(data, dict):
@@ -169,7 +169,7 @@ class TestBusinessProcessImportExport(TransactionCase):
         )
         import_wiz1.do_import()
         # Modify export JSON to change a description and re-import to ensure update path is taken
-        raw = json.loads(base64.b64decode(payload).decode("utf-8"))
+        raw = json.loads(payload.content.decode("utf-8"))
         # Handle both list and dict root formats
         if isinstance(raw, list):
             raw[0]["description"] = "Updated description"
@@ -179,7 +179,7 @@ class TestBusinessProcessImportExport(TransactionCase):
             else:
                 # Fallback: ensure processes key exists
                 raw["processes"] = []
-        modified_payload = base64.b64encode(json.dumps(raw).encode("utf-8"))
+        modified_payload = BinaryBytes(json.dumps(raw).encode("utf-8"))
         import_wiz2 = (
             self.env["business.process.import"]
             .with_context(active_ids=self.project.ids, active_model="business.project")
@@ -236,7 +236,7 @@ class TestBusinessProcessImportExport(TransactionCase):
 
     def test_export_import_developments_and_issues(self):
         payload = self._export_payload_with_dev_and_issue()
-        data = json.loads(base64.b64decode(payload).decode("utf-8"))
+        data = json.loads(payload.content.decode("utf-8"))
         self.assertTrue(data["developments"])
         self.assertTrue(data["issues"])
         # step exports the linked development reference
@@ -287,7 +287,7 @@ class TestBusinessProcessImportExport(TransactionCase):
         base_module = self.env["ir.module.module"].search([("name", "=", "base")], limit=1)
         self.process.module_ids = [(4, base_module.id)]
         payload = self._export_payload_with_dev_and_issue()
-        data = json.loads(base64.b64decode(payload).decode("utf-8"))
+        data = json.loads(payload.content.decode("utf-8"))
         proc = data["processes"][0]
         # rewire every master-data reference to names that do not exist yet
         proc["responsible"] = "New Responsible"
@@ -304,7 +304,7 @@ class TestBusinessProcessImportExport(TransactionCase):
         data["developments"][0]["area"] = "New Dev Area"
         data["developments"][0]["type"] = "New Dev Type"
         data["issues"][0]["area"] = "New Issue Area"
-        payload = base64.b64encode(json.dumps(data, default=str).encode("utf-8"))
+        payload = BinaryBytes(json.dumps(data, default=str).encode("utf-8"))
 
         new_project = self.env["business.project"].create({"name": "Masterdata", "customer_id": self.partner.id})
         import_wiz = (
@@ -354,7 +354,7 @@ class TestBusinessProcessImportExport(TransactionCase):
         import_wiz = (
             self.env["business.process.import"]
             .with_context(active_ids=[], active_model="business.project")
-            .create({"name": "bp.json", "data_file": base64.b64encode(b"{}")})
+            .create({"name": "bp.json", "data_file": BinaryBytes(b"{}")})
         )
         with self.assertRaises(UserError):
             import_wiz.do_import()

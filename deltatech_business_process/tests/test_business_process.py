@@ -164,7 +164,7 @@ class TestBusinessProcess(TransactionCase):
                 "name": "p.txt",
                 "res_model": "business.process",
                 "res_id": self.process.id,
-                "datas": "Y29udGVudA==",
+                "raw": b"content",
                 "mimetype": "text/plain",
             }
         )
@@ -181,7 +181,7 @@ class TestBusinessProcess(TransactionCase):
                 "name": "t.txt",
                 "res_model": test._name,
                 "res_id": test.id,
-                "datas": "Y29udGVudA==",
+                "raw": b"content",
                 "mimetype": "text/plain",
             }
         )

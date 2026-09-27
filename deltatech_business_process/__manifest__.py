@@ -5,7 +5,7 @@
 {
     "name": "Business process",
     "summary": "Business process",
-    "version": "19.0.1.9.3",
+    "version": "20.0.1.9.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -13,7 +13,7 @@
     "depends": ["base", "mail"],
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/menu.xml",
         "views/business_area_view.xml",
         "views/business_role_view.xml",

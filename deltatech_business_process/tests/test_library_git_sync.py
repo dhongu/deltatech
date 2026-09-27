@@ -17,6 +17,7 @@ import unittest
 from unittest.mock import patch
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 PARAM_REPOS = "deltatech_business_process.process_library_git_repos"
 PARAM_AUTODISCOVER = "deltatech_business_process.process_library_autodiscover"
@@ -119,8 +120,8 @@ class TestLibraryGitSync(TransactionCase):
         self.addCleanup(auth_patcher.stop)
 
     def _configure_repo(self):
-        self.icp.set_param(PARAM_REPOS, self.repo_url)
-        self.icp.set_param(PARAM_AUTODISCOVER, "0")
+        self.icp.set_str(PARAM_REPOS, self.repo_url)
+        self.icp.set_bool(PARAM_AUTODISCOVER, False)
 
     def test_sync_clone_then_pull(self):
         self._configure_repo()
@@ -134,7 +135,7 @@ class TestLibraryGitSync(TransactionCase):
         self.assertEqual(synced2, synced)
 
     def test_sync_no_repos_configured(self):
-        self.icp.set_param(PARAM_REPOS, "")
+        self.icp.set_str(PARAM_REPOS, "")
         self.assertEqual(self.library.sync_git_repos(), [])
 
     def test_iter_sources_includes_git_repo(self):
@@ -142,13 +143,15 @@ class TestLibraryGitSync(TransactionCase):
         sources = dict(self.library._iter_process_sources())
         self.assertIn("procese-fixture", sources)
 
+    @mute_logger("odoo.modules.module")
     def test_iter_sources_whitelist(self):
         # whitelist cu un modul fără processes/ și unul inexistent -> doar repo-ul git rămâne
         self._configure_repo()
-        self.icp.set_param("deltatech_business_process.process_library_whitelist", "base,no_such_module")
+        self.icp.set_str("deltatech_business_process.process_library_whitelist", "base,no_such_module")
         sources = self.library._iter_process_sources()
         self.assertEqual([label for label, _path in sources], ["procese-fixture"])
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_available_and_import_end_to_end(self):
         self._configure_repo()
         available = self.library.available_processes()
@@ -200,6 +203,7 @@ class TestLibraryGitSync(TransactionCase):
             again = self.library.import_processes(refs, project=self.project)
         self.assertFalse(again)
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_import_attaches_pdf_when_conversion_works(self):
         self._configure_repo()
         available = self.library.available_processes()
@@ -216,6 +220,7 @@ class TestLibraryGitSync(TransactionCase):
         )
         self.assertEqual(attachment.mimetype, "application/pdf")
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_options_dialog_all_or_nothing_durations(self):
         # Dialogul de opțiuni propagă alegerea (all-or-nothing) prin context,
         # iar importul din listă o respectă pentru toate procesele selectate.
@@ -250,7 +255,7 @@ class TestLibraryGitSync(TransactionCase):
         self.assertEqual(action["tag"], "display_notification")
         self.assertIn("procese-fixture", action["params"]["message"])
 
-        self.icp.set_param(PARAM_REPOS, "")
+        self.icp.set_str(PARAM_REPOS, "")
         action = settings.action_sync_git_repos()
         self.assertIn("No git repositories", action["params"]["message"])
 
@@ -266,11 +271,13 @@ class TestLibraryHelpers(TransactionCase):
     def _make_process(self, name, area):
         return self.env["business.process"].create({"name": name, "area_id": area.id, "project_id": self.project.id})
 
+    @mute_logger("odoo.modules.module")
     def test_module_processes_dir_missing(self):
         self.assertIsNone(self.library._module_processes_dir("no_such_module"))
         # modul real, dar fără folder processes/
         self.assertIsNone(self.library._module_processes_dir("base"))
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_read_folder_missing_and_invalid(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(self.library._read_folder(tmp, "missing"), [])
@@ -348,11 +355,20 @@ class TestLibraryHelpers(TransactionCase):
         self.assertFalse(self.env["ir.attachment"].search(domain))
 
     def test_sync_git_repo_timeout_and_error(self):
+        lib_logger = "odoo.addons.deltatech_business_process.models.business_process_library"
         with tempfile.TemporaryDirectory() as cache:
-            with patch.object(subprocess, "run", side_effect=subprocess.TimeoutExpired(cmd="git", timeout=1)):
+            with (
+                patch.object(subprocess, "run", side_effect=subprocess.TimeoutExpired(cmd="git", timeout=1)),
+                self.assertLogs(lib_logger, "WARNING") as logs,
+            ):
                 self.assertIsNone(self.library._sync_git_repo("https://example.com/r.git", cache))
-            with patch.object(subprocess, "run", side_effect=RuntimeError("boom")):
+            self.assertIn("timed out", logs.output[0])
+            with (
+                patch.object(subprocess, "run", side_effect=RuntimeError("boom")),
+                self.assertLogs(lib_logger, "WARNING") as logs,
+            ):
                 self.assertIsNone(self.library._sync_git_repo("https://example.com/r.git", cache))
+            self.assertIn("boom", logs.output[0])
 
     def test_safe_url_strips_credentials(self):
         self.assertEqual(
@@ -371,16 +387,16 @@ class TestLibraryHelpers(TransactionCase):
     def test_git_auth_args(self):
         icp = self.env["ir.config_parameter"].sudo()
         # fără token -> fără args, indiferent de URL
-        icp.set_param(PARAM_TOKEN, "")
+        icp.set_str(PARAM_TOKEN, "")
         self.assertEqual(self.library._git_auth_args("https://github.com/org/repo.git"), [])
         # cu token -> header Basic cu userul implicit x-access-token
-        icp.set_param(PARAM_TOKEN, "ghp_secret")
-        icp.set_param(PARAM_USER, "")
+        icp.set_str(PARAM_TOKEN, "ghp_secret")
+        icp.set_str(PARAM_USER, "")
         args = self.library._git_auth_args("https://github.com/org/repo.git")
         expected = base64.b64encode(b"x-access-token:ghp_secret").decode()
         self.assertEqual(args, ["-c", f"http.extraHeader=Authorization: Basic {expected}"])
         # user explicit (GitLab)
-        icp.set_param(PARAM_USER, "oauth2")
+        icp.set_str(PARAM_USER, "oauth2")
         args = self.library._git_auth_args("https://gitlab.com/org/repo.git")
         expected = base64.b64encode(b"oauth2:ghp_secret").decode()
         self.assertEqual(args[1], f"http.extraHeader=Authorization: Basic {expected}")
@@ -389,10 +405,11 @@ class TestLibraryHelpers(TransactionCase):
         self.assertEqual(self.library._git_auth_args("https://u:p@github.com/org/repo.git"), [])
         self.assertEqual(self.library._git_auth_args("file:///tmp/repo"), [])
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_clone_passes_auth_header_and_env(self):
         icp = self.env["ir.config_parameter"].sudo()
-        icp.set_param(PARAM_TOKEN, "ghp_secret")
-        icp.set_param(PARAM_USER, "x-access-token")
+        icp.set_str(PARAM_TOKEN, "ghp_secret")
+        icp.set_str(PARAM_USER, "x-access-token")
         captured = {}
 
         def fake_run(cmd, **kwargs):
@@ -415,6 +432,7 @@ class TestLibraryHelpers(TransactionCase):
         self.assertLess(captured["cmd"].index("-c"), captured["cmd"].index("clone"))
         self.assertEqual(captured["env"]["GIT_TERMINAL_PROMPT"], "0")
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_sync_git_repo_pull_failure_keeps_local(self):
         # un pull eșuat păstrează clona locală existentă
         with tempfile.TemporaryDirectory() as cache:

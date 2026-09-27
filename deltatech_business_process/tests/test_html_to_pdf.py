@@ -27,8 +27,10 @@ class TestHtmlToPdf(TransactionCase):
         with (
             patch("odoo.tools.find_in_path", return_value="/bin/wkhtmltopdf"),
             patch.object(h2p.subprocess, "run", side_effect=fail_run),
+            self.assertLogs(h2p.__name__, "WARNING") as logs,
         ):
             self.assertIsNone(h2p.html_to_pdf(HTML))
+        self.assertIn("PDF conversion failed", logs.output[0])
 
     def test_missing_output_file_returns_none(self):
         # the conversion "succeeds" but produces no output file

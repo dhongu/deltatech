@@ -98,7 +98,7 @@ class TestBusinessProcessTest(TransactionCase):
                 "name": "test.txt",
                 "res_model": self.bpt._name,
                 "res_id": self.bpt.id,
-                "datas": "Y29udGVudA==",
+                "raw": b"content",
                 "mimetype": "text/plain",
             }
         )

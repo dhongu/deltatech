@@ -93,7 +93,7 @@ class BusinessProcessTest(models.Model):
         return action
 
     def get_attachment_domain(self):
-        domain = [("res_model", "=", self._name), ("res_id", "=", self.id)]
+        domain = [("res_model", "=", self._name), ("res_id", "=", self._origin.id)]
         return domain
 
     def _compute_attached_docs_count(self):

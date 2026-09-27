@@ -124,25 +124,25 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" type="object" name="action_view_steps" icon="fa-cog">
+                        <button class="oe_stat_button" type="object" name="action_view_steps" icon="settings">
                             <field name="count_steps" widget="statinfo" string="Steps" />
                         </button>
-                        <button class="oe_stat_button" type="object" name="action_view_tests" icon="fa-stethoscope">
+                        <button class="oe_stat_button" type="object" name="action_view_tests" icon="stethoscope">
                             <field name="count_tests" widget="statinfo" string="Tests" />
                         </button>
                         <button
                             class="oe_start_button"
                             type="object"
                             name="action_view_acceptance_tests"
-                            icon="fa-stethoscope"
+                            icon="stethoscope"
                         >
                             <field name="count_acceptance_tests" widget="statinfo" string="Start Test" />
                         </button>
-                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="fa-code">
+                        <button class="oe_stat_button" type="object" name="action_view_developments" icon="code">
                             <field name="count_developments" widget="statinfo" string="Developments" />
                         </button>
 
-                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-file-text-o">
+                        <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="article">
                             <field string="Documents" name="doc_count" widget="statinfo" />
                         </button>
                     </div>
@@ -373,7 +373,7 @@
                                         <a name="action_view_steps" type="object">
                                             <div>
                                                 <span class="o_value">
-                                                    <t t-esc="record.count_steps.value" />
+                                                    <t t-out="record.count_steps.value" />
                                                 </span>
                                                 <span class="o_label">Steps</span>
                                             </div>
@@ -383,7 +383,7 @@
                                         <a name="action_view_tests" type="object">
                                             <div>
                                                 <span class="o_value">
-                                                    <t t-esc="record.count_tests.value" />
+                                                    <t t-out="record.count_tests.value" />
                                                 </span>
                                                 <span class="o_label">Tests</span>
                                             </div>

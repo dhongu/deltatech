@@ -27,7 +27,7 @@ msgid ""
 "                    of\n"
 "                    <t t-out=\"object.project_id.name\"/>\n"
 "                    has been approved on\n"
-"                    <t t-esc=\"datetime.date.today().strftime('%d-%m-%Y')\"/>\n"
+"                    <t t-out=\"datetime.date.today().strftime('%d-%m-%Y')\"/>\n"
 "                    with the required time of <t t-out=\"object.development_duration\"/>.\n"
 "\n"
 "                    <br/>\n"
@@ -53,7 +53,7 @@ msgid ""
 "                    has submitted by\n"
 "                    <t t-out=\"object.create_uid.name\"/>\n"
 "                    on\n"
-"                    <t t-esc=\"datetime.date.today().strftime('%d-%m-%Y')\"/>.\n"
+"                    <t t-out=\"datetime.date.today().strftime('%d-%m-%Y')\"/>.\n"
 "                    <br/>\n"
 "                    Please check and inform colleagues of the current issue.\n"
 "                    <br/>\n"
@@ -70,7 +70,7 @@ msgstr ""
 
 #. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
-msgid "<span class=\"fa fa-clock-o mr-2\" title=\"Dates\"/>"
+msgid "<span class=\"oi mr-2\" data-icon=\"schedule\" title=\"Dates\"/>"
 msgstr ""
 
 #. module: deltatech_business_process

@@ -14,6 +14,7 @@ import tempfile
 from unittest.mock import MagicMock, patch
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 PROCESE_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "procese"))
 
@@ -255,6 +256,7 @@ class TestProcessLibraryGit(TransactionCase):
             self.assertTrue(any("pull" in cmd for cmd in calls), "Așteptat git pull, nu clone")
             self.assertFalse(any("clone" in cmd for cmd in calls), "Nu trebuia git clone pe repo existent")
 
+    @mute_logger("odoo.addons.deltatech_business_process.models.business_process_library")
     def test_sync_git_repo_failure_returns_none(self):
         """_sync_git_repo returnează None când git clone eșuează."""
         library = self.env["business.process.library"]

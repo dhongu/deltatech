@@ -13,8 +13,8 @@ are not auto-loaded on install).
 
 Discovery is controlled from Settings (``ir.config_parameter``):
 
-* ``deltatech_business_process.process_library_autodiscover`` (``"1"``/``"0"``,
-  default ``"1"``) — scan every installed module that has a ``processes/`` folder;
+* ``deltatech_business_process.process_library_autodiscover`` (boolean,
+  default on) — scan every installed module that has a ``processes/`` folder;
   off = only the whitelisted modules.
 * ``deltatech_business_process.process_library_whitelist`` (comma-separated list
   of modules) — when set, restrict the sources to exactly the listed modules.
@@ -109,10 +109,10 @@ class BusinessProcessLibrary(models.AbstractModel):
         if "@" in authority:  # credentials already embedded in the URL — leave as-is
             return []
         icp = self.env["ir.config_parameter"].sudo()
-        token = (icp.get_param("deltatech_business_process.process_library_git_token") or "").strip()
+        token = (icp.get_str("deltatech_business_process.process_library_git_token") or "").strip()
         if not token:
             return []
-        user = (icp.get_param("deltatech_business_process.process_library_git_user") or "x-access-token").strip()
+        user = (icp.get_str("deltatech_business_process.process_library_git_user") or "x-access-token").strip()
         basic = base64.b64encode(f"{user}:{token}".encode()).decode()
         return ["-c", f"http.extraHeader=Authorization: Basic {basic}"]
 
@@ -161,7 +161,7 @@ class BusinessProcessLibrary(models.AbstractModel):
         icp = self.env["ir.config_parameter"].sudo()
         urls = [
             u.strip()
-            for u in (icp.get_param("deltatech_business_process.process_library_git_repos") or "").split(",")
+            for u in (icp.get_str("deltatech_business_process.process_library_git_repos") or "").split(",")
             if u.strip()
         ]
         cache_dir = self._git_repos_cache_dir()
@@ -185,10 +185,10 @@ class BusinessProcessLibrary(models.AbstractModel):
         icp = self.env["ir.config_parameter"].sudo()
         whitelist = [
             m.strip()
-            for m in (icp.get_param("deltatech_business_process.process_library_whitelist") or "").split(",")
+            for m in (icp.get_str("deltatech_business_process.process_library_whitelist") or "").split(",")
             if m.strip()
         ]
-        autodiscover = icp.get_param("deltatech_business_process.process_library_autodiscover", "1") == "1"
+        autodiscover = icp.get_bool("deltatech_business_process.process_library_autodiscover", True)
 
         sources = []
         seen = set()
@@ -286,7 +286,7 @@ class BusinessProcessLibrary(models.AbstractModel):
         vals = {
             "name": name,
             "type": "binary",
-            "datas": base64.b64encode(content),
+            "raw": content,
             "res_model": "business.process",
             "res_id": process.id,
             "mimetype": mimetype,

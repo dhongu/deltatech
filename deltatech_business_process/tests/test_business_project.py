@@ -132,7 +132,7 @@ class TestBusinessProject(TransactionCase):
                 "name": "proj.txt",
                 "res_model": "business.project",
                 "res_id": self.project.id,
-                "datas": "Y29udGVudA==",  # base64 for 'content'
+                "raw": b"content",
                 "mimetype": "text/plain",
             }
         )
@@ -144,7 +144,7 @@ class TestBusinessProject(TransactionCase):
                 "name": "proc.txt",
                 "res_model": "business.process",
                 "res_id": self.process.id,
-                "datas": "Y29udGVudA==",
+                "raw": b"content",
                 "mimetype": "text/plain",
             }
         )
@@ -156,7 +156,7 @@ class TestBusinessProject(TransactionCase):
                 "name": "step.txt",
                 "res_model": step._name,
                 "res_id": step.id,
-                "datas": "Y29udGVudA==",
+                "raw": b"content",
                 "mimetype": "text/plain",
             }
         )

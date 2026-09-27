@@ -2,7 +2,6 @@
 # See README.rst file on addons root folder for license details
 
 
-import base64
 import html as _html
 import json
 
@@ -66,7 +65,7 @@ class BusinessProcessImport(models.TransientModel):
         if not project:
             raise UserError(self.env._("No project selected!"))
 
-        data = base64.b64decode(self.data_file.decode("utf-8"))
+        data = self.data_file.content
         data = json.loads(data)
         self.import_developments(data, project)
         for process_data in data.get("processes") or []:

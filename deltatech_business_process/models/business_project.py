@@ -1,6 +1,5 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
-import base64
 import io
 
 import xlsxwriter
@@ -150,7 +149,7 @@ class BusinessProject(models.Model):
             "|",
             "&",
             ("res_model", "=", "business.project"),
-            ("res_id", "=", self.id),
+            ("res_id", "=", self._origin.id),
             "&",
             ("res_model", "=", "business.process"),
             ("res_id", "in", self.process_ids.ids),
@@ -309,8 +308,7 @@ class BusinessProject(models.Model):
             {
                 "name": "Project_Report.xlsx",
                 "type": "binary",
-                "datas": base64.b64encode(excel_data),
-                "store_fname": "Project_Report.xlsx",
+                "raw": excel_data,
                 "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             }
         )

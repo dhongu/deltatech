@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class BusinessProcessReport(models.Model):
@@ -54,8 +55,8 @@ class BusinessProcessReport(models.Model):
     role_id = fields.Many2one(string="Role", comodel_name="business.role", readonly=True)
 
     @property
-    def _table_query(self):
-        return f"{self._select()} {self._from()} {self._where()}"
+    def _table_sql(self):
+        return SQL("(%s %s %s)", SQL(self._select()), SQL(self._from()), SQL(self._where()))
 
     @api.model
     def _select(self):

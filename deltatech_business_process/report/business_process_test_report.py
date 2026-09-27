@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class BusinessProcessTestReport(models.Model):
@@ -96,8 +97,8 @@ class BusinessProcessTestReport(models.Model):
     count_issues = fields.Integer(string="Issues", readonly=True)
 
     @property
-    def _table_query(self):
-        return f"{self._select()} {self._from()} {self._where()} {self._order_by()}"
+    def _table_sql(self):
+        return SQL("(%s %s %s %s)", SQL(self._select()), SQL(self._from()), SQL(self._where()), SQL(self._order_by()))
 
     @api.model
     def _select(self):

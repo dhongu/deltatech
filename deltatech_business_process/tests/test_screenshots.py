@@ -92,7 +92,7 @@ class TestBusinessProcessScreenshots(ScreenshotCase or object):
 
         today = fields.Date.today()
         Partner = env["res.partner"]
-        customer = Partner.create({"name": "Mobila Nord SRL", "is_company": True, "city": "Suceava"})
+        customer = Partner.create({"name": "Mobila Nord SRL", "city": "Suceava"})
         cls.support = Partner.create({"name": "Radu Ene", "email": "radu.ene@example.ro"})
         cls.key_user = Partner.create(
             {"name": "Ioana Rusu", "parent_id": customer.id, "email": "ioana.rusu@example.ro"}
