@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        In 20.0 the city dropdown (div_city_id, fed by `cities_data`) is part of
+        portal.address_form_fields. When the city is chosen from the list, the
+        free-text city stays hidden even before a state is picked (the list of
+        localities is loaded with the state).
+    -->
+    <template id="address_form_fields" inherit_id="portal.address_form_fields">
+        <div id="div_city" position="attributes">
+            <attribute name="t-att-style">(cities_data or 'city_id' in (required_fields or ())) and 'display:none;'</attribute>
+        </div>
+    </template>
+</odoo>
