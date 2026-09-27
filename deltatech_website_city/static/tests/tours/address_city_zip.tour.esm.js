@@ -17,42 +17,37 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
     url: "/my/account",
     steps: () => [
         {
-            content: "Wait until country select is available",
-            trigger: 'select[name="country_id"]',
-        },
-        {
-            content: "Select test country by label",
-            trigger: 'select[name="country_id"]',
+            content: "Wait until the test country is offered",
+            trigger: 'select[name="country_id"]:has(option:contains("Testland"))',
             run() {
                 // Created by the test: country name is "Testland"
                 setSelectByLabel('select[name="country_id"]', "Testland");
             },
         },
         {
-            content: "Wait for state field to be visible",
-            trigger: '#div_state select[name="state_id"]',
-        },
-        {
-            content: "Select test state by label (triggers city RPC)",
-            trigger: 'select[name="state_id"]',
+            content: "Wait for the states of the country (loaded after the country change)",
+            trigger: '#div_state select[name="state_id"]:has(option:contains("Test State"))',
             run() {
                 // Created by the test: state name is "Test State"
                 setSelectByLabel('select[name="state_id"]', "Test State");
             },
         },
         {
-            content: "Wait until cities are populated",
-            trigger: 'select[name="city_id"] option:not([value=""]):not(:visible)',
-        },
-        {
-            content: "Pick city with ZIP and check ZIP filled",
-            trigger: 'select[name="city_id"]',
+            content: "Wait until cities are populated, then pick the city with a ZIP",
+            trigger: '#div_city_id select[name="city_id"]:has(option:contains("Alpha City"))',
             run() {
                 // City created with ZIP: "Alpha City"
                 setSelectByLabel('select[name="city_id"]', "Alpha City");
             },
         },
-
+        {
+            content: "The ZIP is filled from the city",
+            trigger: 'input[name="zip"]:value(12345)',
+        },
+        {
+            content: "The free-text city stays hidden",
+            trigger: "#div_city:not(:visible)",
+        },
         {
             content: "Switch back to placeholder city (empty) to allow manual ZIP entry",
             trigger: 'select[name="city_id"]',
@@ -61,6 +56,10 @@ registry.category("web_tour.tours").add("deltatech_website_city_tour_city_zip", 
                 select.value = "";
                 select.dispatchEvent(new Event("change", {bubbles: true}));
             },
+        },
+        {
+            content: "The ZIP is cleared",
+            trigger: 'input[name="zip"]:not(:value(12345))',
         },
     ],
 });

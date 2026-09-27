@@ -38,7 +38,13 @@ class TestWebsiteCityTour(HttpCase):
 
         # Prepare minimal geographic data used by the tour selections
         cls.country = env["res.country"].create(
-            {"name": "Testland", "code": "XZ", "enforce_cities": True, "zip_required": True, "state_required": True}
+            {
+                "name": "Testland",
+                "code": "XZ",
+                "enforce_cities": True,
+                "zip_applicability": "required",
+                "state_required": True,
+            }
         )
         cls.state = env["res.country.state"].create(
             {

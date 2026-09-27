@@ -100,6 +100,16 @@ class TestCarrierCityFilter(HttpCase):
             names = self._city_names(self.state, address_type="delivery")
         self.assertEqual(names, {self.served_city.display_name})
 
+    def test_state_info_route_offers_only_the_carrier_localities(self):
+        """The 20.0 address form asks `/my/address/state_info`, with the address type."""
+        self._fill_cart().carrier_id = self.carrier
+        params = {"country_id": self.country.id, "state_id": self.state.id}
+        with self._catalog(self.served_city):
+            delivery = self._rpc("/my/address/state_info", dict(params, address_type="delivery"))
+            billing = self._rpc("/my/address/state_info", dict(params, address_type="billing"))
+        self.assertEqual({c["name"] for c in delivery["cities"]}, {"Served City"})
+        self.assertEqual({c["name"] for c in billing["cities"]}, {"Served City", "Unserved City"})
+
     def test_billing_address_is_not_restricted_by_the_carrier(self):
         """Where the parcel is billed is no business of the courier."""
         self._fill_cart().carrier_id = self.carrier
