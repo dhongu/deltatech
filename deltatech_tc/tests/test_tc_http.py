@@ -4,6 +4,8 @@ from unittest.mock import patch
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 
+_JOB_LOGGER = "odoo.addons.deltatech_tc.models.deltatech_tc_job"
+
 
 def _tc_store_status(self, job):
     """Stand-in callback: records what came back, so the test can assert on it.
@@ -74,8 +76,10 @@ class TestTcHttp(TransactionCase):
         """A device that answers HTML must not raise — callers branch on status."""
         job = self._enqueue()
         job._store_result("done", result="<html>oops</html>")
-        self.assertEqual(job.response_dict(), {})
-        self.assertIsNone(job.response_json())
+        with self.assertLogs(_JOB_LOGGER, level="WARNING") as logs:
+            self.assertEqual(job.response_dict(), {})
+            self.assertIsNone(job.response_json())
+        self.assertIn("result is not valid JSON", logs.output[0])
 
         other = self._enqueue()
         other._store_result("done", result=json.dumps({"status": 200, "body": "plain text"}))
@@ -116,7 +120,8 @@ class TestTcHttp(TransactionCase):
             # bypass the constraint the way a direct SQL write or a broken migration would
             self.env.cr.execute("UPDATE deltatech_tc_job SET callback_method = 'unlink' WHERE id = %s", (job.id,))
             job.invalidate_recordset()
-            job._store_result("done", result=json.dumps({"status": 200, "body": "{}"}))
+            with self.assertLogs(_JOB_LOGGER, level="ERROR"):
+                job._store_result("done", result=json.dumps({"status": 200, "body": "{}"}))
             self.assertEqual(job.state, "error", "the job must fail instead of calling unlink")
             self.assertTrue(partner.exists(), "the target must still be there")
 
@@ -125,7 +130,9 @@ class TestTcHttp(TransactionCase):
             partner = self.env["res.partner"].create({"name": "Gone by then"})
             job = self._enqueue(callback=(partner, "_tc_test_store_status"))
             partner.unlink()
-            job._store_result("done", result=json.dumps({"status": 200, "body": "{}"}))
+            with self.assertLogs(_JOB_LOGGER, level="WARNING") as logs:
+                job._store_result("done", result=json.dumps({"status": 200, "body": "{}"}))
+            self.assertIn("no longer exists", logs.output[0])
             self.assertEqual(job.state, "done", "a vanished target is skipped, not an error")
 
     def test_ping_still_works(self):

@@ -22,16 +22,4 @@
         <field name="implied_ids" eval="[(4, ref('group_deltatech_tc_manager'))]"/>
     </record>
 
-    <record id="rule_deltatech_tc_station_company" model="ir.rule">
-        <field name="name">Terrabit Connect Station: multi-company</field>
-        <field name="model_id" ref="model_deltatech_tc_station"/>
-        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-    </record>
-
-    <record id="rule_deltatech_tc_job_company" model="ir.rule">
-        <field name="name">Terrabit Connect Job: multi-company</field>
-        <field name="model_id" ref="model_deltatech_tc_job"/>
-        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
-    </record>
-
 </odoo>

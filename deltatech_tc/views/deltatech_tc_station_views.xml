@@ -29,11 +29,11 @@
                             string="Regenerate key"
                             confirm="Are you sure? Terrabit Connect will need to be reconfigured with the new key."/>
                     <button name="action_download_config" type="object"
-                            string="Download config" icon="fa-download"/>
+                            string="Download config" icon="download"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_jobs" type="object" class="oe_stat_button" icon="fa-tasks">
+                        <button name="action_view_jobs" type="object" class="oe_stat_button" icon="checklist">
                             <field name="job_count" widget="statinfo" string="Jobs"/>
                         </button>
                     </div>
