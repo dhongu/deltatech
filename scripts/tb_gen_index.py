@@ -3,6 +3,12 @@
 tb_gen_index.py — generează static/description/index.html DIRECT din fragmentele
 readme/*.md + __manifest__.py, în stil Terrabit (v1, succesorul lui tb_skin_index.py).
 
+SURSA CANONICĂ: odoo-addons/bitshop/scripts/tb_gen_index.py. Celelalte suite țin o copie
+identică (pre-commit-ul fiecărei suite are nevoie de ea local), sincronizată cu
+`python3 bitshop/scripts/tb_sync_gen_index.py` rulat din odoo-addons/. Nu edita copiile
+din alte suite: diferențele dintre suite sunt opțiuni de linie de comandă, puse în
+.pre-commit-config.yaml-ul suitei (--allow-ro, --lang, --scope-note).
+
 De ce generare directă (nu skin peste docutils):
   tb_skin_index.py (v1–v5) post-procesa cu regex HTML-ul produs de oca-gen-addon-readme —
   fragil (TOC, shields, heading duplicat, secțiune RO…). Aici controlăm HTML-ul de la
@@ -21,14 +27,21 @@ Reguli sanitizer Apps Store (moștenite din tb_skin_index v5, validate pe store 
 
 Structura paginii (doar EN):
   HERO verde brand (icon.png + nume + summary + badge-uri din manifest)
-  NAV-PILLS cu taburi: Overview / Configuration / Usage / Versions
+  NAV-PILLS cu taburi: Overview / Presentation / Configuration / Usage / Versions
     - Overview      = DESCRIPTION.md (+ CONTEXT.md la final); listele de funcții cu
-                      ≥3 itemi devin carduri Bootstrap cu bifă verde
+                      ≥3 itemi devin carduri Bootstrap cu bifă verde. Dacă modulul
+                      depinde (oricât de indirect, în aceeași suită) de un modul cu
+                      readme/FRAMEWORK_FEATURES.md, fragmentul acela se anexează aici
+                      (ex. capacitățile comune ale conectoarelor deltatech_marketplace)
+    - Presentation  = PRESENTATION.md (opțional): slide-uri exportate ca imagini în
+                      static/description/, cu căile relative la index.html
+                      (generate de scripts/tb_slides_render.py)
     - Configuration = INSTALL.md + CONFIGURE.md
     - Usage         = USAGE.md
     - Versions      = HISTORY.md (limitat la ultimele MAX_HISTORY_VERSIONS versiuni)
     (taburile fără fragment sursă nu apar; cu un singur tab, nav-ul se omite)
-  STATS Terrabit (3 carduri) + bloc suport/CTA (mereu vizibile, sub taburi)
+  STATS Terrabit (3 carduri) + nota de acoperire a pretului (doar cu --scope-note)
+  + bloc suport/CTA (mereu vizibile, sub taburi)
   CROSS-SELL „More apps by Terrabit" — carduri către module-surori din aceeași suită
     (aceeași categorie întâi, alfabetic), link spre apps.odoo.com
 
@@ -52,15 +65,20 @@ Utilizare:
     python3 tb_gen_index.py --addon-dir deltatech_delivery_status
     python3 tb_gen_index.py --addons-dir .            # toată suita
     python3 tb_gen_index.py --addon-dir X --no-cross-sell
+    python3 tb_gen_index.py --addons-dir . --allow-ro --scope-note   # l10n_ro_ent
 """
 
 import argparse
 import ast
 import html as html_mod
+import logging
 import os
 import re
+import sys
 
 import markdown
+
+_logger = logging.getLogger(__name__)
 
 TB_MARKER = "<!-- tb-gen v1 -->"
 KNOWN_MARKERS = ("oca-gen-addon-readme", "tb-skin v", "tb-gen v")
@@ -86,12 +104,90 @@ FONT = "'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif"
 
 MD_EXTENSIONS = ["tables", "fenced_code", "sane_lists"]
 
+# Capacități comune unei familii de module (ex. toate conectoarele marketplace: async prin
+# queue_job, starea de sincronizare, Update Price Only...), scrise o singură dată în
+# readme/FRAMEWORK_FEATURES.md al modulului de bază și anexate automat la Overview-ul
+# oricărui modul care depinde de el — inclusiv la el însuși. Înainte, doar Shopify le
+# documenta, de mână, și rămăsese deja o versiune în urmă până a apucat să iasă pe store.
+FRAMEWORK_FRAGMENT = "FRAMEWORK_FEATURES.md"
+
+# ----------------------------------------------------------------------------- #
+# Stringurile vizibile ale paginii, pe limbi
+#
+# Conținutul taburilor vine din `readme/*.md` și are limba suitei; ce e generat aici
+# (etichete de tab, stats, note, CTA) are nevoie de o limbă explicită, altfel pagina
+# iese amestecată — corp românesc în ramă englezească. `--lang ro` e pentru suitele de
+# localizare, unde publicul de pe Apps Store e românesc; restul suitelor rămân pe EN.
+# ----------------------------------------------------------------------------- #
+
+I18N = {
+    "en": {
+        "tab_overview": "Overview",
+        "tab_presentation": "Presentation",
+        "tab_configure": "Configuration",
+        "tab_usage": "Usage",
+        "tab_versions": "Versions",
+        "stat_modules": "Modules published on Odoo Apps",
+        "stat_partner": "Odoo Partner &mdash; implementation &amp; support",
+        "scope_title": "What the price covers",
+        "scope_licence": "<strong>The module licence only.</strong> Assistance, installation, "
+        "configuration, data migration and training are not included and are quoted separately.",
+        "scope_used": "<strong>These modules are not shelfware.</strong> We build and maintain them "
+        "for our own Odoo implementations &mdash; they run in production at our customers, which is "
+        "why they keep up with each Odoo release and with the changes ANAF publishes.",
+        "scope_fit": "<strong>Romanian localisation needs fitting to your company.</strong> Chart of "
+        "accounts, fiscal positions, journals and reporting practice differ from one company to the "
+        "next, so a working setup is a configuration exercise, not just an install.",
+        "support_title": "Need help getting started?",
+        # ruperile de rând reproduc exact pagina generată înainte de unificare în suitele
+        # EN, ca sincronizarea să nu rescrie sute de index.html doar pe spații
+        "support_body": "Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,\n"
+        "     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the\n"
+        "     advantage of building modules that simply work.",
+        "support_cta": "Contact Terrabit &rarr;",
+        "cross_title": "More apps by Terrabit",
+        "cross_body": "Other modules from the same publisher, built to work together.",
+        "cross_all": "All apps &rarr;",
+    },
+    "ro": {
+        "tab_overview": "Prezentare",
+        "tab_presentation": "Slide-uri",
+        "tab_configure": "Configurare",
+        "tab_usage": "Utilizare",
+        "tab_versions": "Istoric versiuni",
+        "stat_modules": "Module publicate pe Odoo Apps",
+        "stat_partner": "Partener Odoo &mdash; implementare &#537;i suport",
+        "scope_title": "Ce acoper&#259; pre&#539;ul",
+        "scope_licence": "<strong>Doar licen&#539;a modulului.</strong> Asisten&#539;a, instalarea, "
+        "configurarea, migrarea datelor &#537;i instruirea nu sunt incluse &#537;i se "
+        "contracteaz&#259; separat.",
+        "scope_used": "<strong>Modulele nu stau pe raft.</strong> Le construim &#537;i le "
+        "&#238;ntre&#539;inem pentru propriile noastre implement&#259;ri Odoo &mdash; ruleaz&#259; "
+        "&#238;n produc&#539;ie la clien&#539;ii no&#537;tri, de aceea &#539;in pasul cu fiecare "
+        "serie Odoo &#537;i cu structurile publicate de ANAF.",
+        "scope_fit": "<strong>Localizarea rom&#226;neasc&#259; cere potrivire pe firm&#259;.</strong> "
+        "Planul de conturi, pozi&#539;iile fiscale, jurnalele &#537;i practica de raportare difer&#259; "
+        "de la o firm&#259; la alta, deci o instalare func&#539;ional&#259; e un exerci&#539;iu de "
+        "configurare, nu doar o instalare de modul.",
+        "support_title": "Ave&#539;i nevoie de ajutor la implementare?",
+        "support_body": "Cele peste 350 de aplica&#539;ii ale noastre de pe Odoo Apps Store sunt "
+        "folosite &#238;n implement&#259;ri Odoo din Europa, America, Asia &#537;i Africa &mdash; de "
+        "companii pe care nu le-am cunoscut niciodat&#259;. Acesta e avantajul modulelor care pur &#537;i "
+        "simplu func&#539;ioneaz&#259;.",
+        "support_cta": "Contacta&#539;i Terrabit &rarr;",
+        "cross_title": "Alte aplica&#539;ii Terrabit",
+        "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
+        "cross_all": "Toate aplica&#539;iile &rarr;",
+    },
+}
+
 # Fragmentele readme → taburi (ordinea = ordinea taburilor)
 TABS = [
-    ("overview", "Overview", ("DESCRIPTION.md", "CONTEXT.md")),
-    ("configure", "Configuration", ("INSTALL.md", "CONFIGURE.md")),
-    ("usage", "Usage", ("USAGE.md",)),
-    ("versions", "Versions", ("HISTORY.md",)),
+    ("overview", ("DESCRIPTION.md", "CONTEXT.md")),
+    ("presentation", ("PRESENTATION.md",)),
+    ("configure", ("INSTALL.md", "CONFIGURE.md")),
+    ("usage", ("USAGE.md",)),
+    ("versions", ("HISTORY.md",)),
 ]
 
 # ----------------------------------------------------------------------------- #
@@ -196,29 +292,43 @@ STAT_CARD = """<div class="col-md-%(col)s">
     </div>
   </div>"""
 STAT_ITEMS = [
-    ("350+", "Modules published on Odoo Apps"),
-    ("Silver", "Odoo Partner &mdash; implementation &amp; support"),
+    ("350+", "stat_modules"),
+    ("Silver", "stat_partner"),
 ]
+
+# Delimitarea comercială: ce acoperă prețul de pe Apps Store și ce nu. Blocul stă
+# ÎNAINTE de CTA-ul de suport, ca cititorul să afle limita înainte de invitație.
+# Ton informativ, nu defensiv — nu e disclaimer legal, licența OPL-1 rămâne sursa.
+# Textul vorbește despre localizarea RO și ANAF, deci apare doar cu --scope-note
+# (l10n_ro_ent); celelalte suite nu îl primesc.
+SCOPE_NOTE = """
+<section class="rounded-4 p-4 mt-4 mb-3 border">
+  <h2 class="fw-bold mb-3" style="font-size:20px;border:none;color:%(body)s;">%(scope_title)s</h2>
+  <ul class="mb-0 ps-4" style="color:%(body)s;line-height:1.7;font-size:15px;">
+    <li>%(scope_licence)s</li>
+    <li>%(scope_used)s</li>
+    <li>%(scope_fit)s</li>
+  </ul>
+</section>
+"""
 
 SUPPORT = """
 <div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
-  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">%(support_title)s</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
-     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
-     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
-     advantage of building modules that simply work.</p>
+     %(support_body)s</p>
   <a href="%(contact_url)s" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
-     style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+     style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">%(support_cta)s</a>
 </div>
 """
 
 CROSS_SELL_OPEN = """
 <section class="rounded-4 p-4 mb-3 border">
-  <h2 class="text-center fw-bold mb-1" style="color:%(body)s;font-size:24px;border:none;">More apps by Terrabit</h2>
-  <p class="text-center mb-4" style="color:%(muted)s;">Other modules from the same publisher, built to work together.
+  <h2 class="text-center fw-bold mb-1" style="color:%(body)s;font-size:24px;border:none;">%(cross_title)s</h2>
+  <p class="text-center mb-4" style="color:%(muted)s;">%(cross_body)s
     <a href="https://apps.odoo.com/apps/browse?author=%(apps_author)s" target="_blank" rel="noopener"
-       class="fw-semibold" style="color:%(primary)s;">All apps &rarr;</a></p>
+       class="fw-semibold" style="color:%(primary)s;">%(cross_all)s</a></p>
   <div class="row g-3">
 """
 CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
@@ -300,6 +410,31 @@ def cap_history(md_text, max_versions=MAX_HISTORY_VERSIONS):
         return md_text
     kept = md_text[: headings[max_versions]].rstrip()
     return kept + "\n\n*Older releases are listed in the module's HISTORY file.*\n"
+
+
+def _dependency_closure(name, addons_root, seen=None):
+    """Modulul și dependențele lui din aceeași suită (tranzitiv, în ordine DFS)."""
+    seen = seen if seen is not None else []
+    if name in seen or not read_manifest(os.path.join(addons_root, name)):
+        return seen
+    seen.append(name)
+    for dep in read_manifest(os.path.join(addons_root, name)).get("depends") or []:
+        _dependency_closure(dep, addons_root, seen)
+    return seen
+
+
+def read_framework_features(addon_dir):
+    """Fragmentele FRAMEWORK_FEATURES.md ale modulelor de care depinde acest modul
+    (direct sau tranzitiv, ex. deltatech_marketplace_sale_stage -> ...sale ->
+    ...marketplace), sau ale lui însuși."""
+    addon_dir = os.path.normpath(addon_dir)
+    addons_root = os.path.dirname(addon_dir) or "."
+    chunks = []
+    for name in _dependency_closure(os.path.basename(addon_dir), addons_root):
+        chunk = read_fragment(os.path.join(addons_root, name), FRAMEWORK_FRAGMENT)
+        if chunk:
+            chunks.append(chunk)
+    return "\n\n".join(chunks)
 
 
 # ----------------------------------------------------------------------------- #
@@ -485,12 +620,16 @@ def build_hero(addon_dir, manifest):
     )
 
 
-def build_tab_sources(addon_dir, manifest, allow_ro=False):
+def build_tab_sources(addon_dir, manifest, allow_ro=False, lang="en"):
     """Întoarce [(key, title, markdown)] doar pentru taburile cu fragment existent."""
     name = manifest.get("name") or ""
     tabs = []
-    for key, title, files in TABS:
+    strings = I18N[lang]
+    for key, files in TABS:
+        title = strings[f"tab_{key}"]
         chunks = [read_fragment(addon_dir, fn) for fn in files]
+        if key == "overview":
+            chunks.append(read_framework_features(addon_dir))
         md_text = "\n\n".join(c for c in chunks if c)
         if not md_text:
             continue
@@ -507,10 +646,21 @@ def build_tab_sources(addon_dir, manifest, allow_ro=False):
     return tabs
 
 
+def style_images(rendered):
+    """Imaginile (slide-urile din tabul Presentation) pe toată lățimea, cu ramă."""
+    return re.sub(
+        r"<img ",
+        '<img class="img-fluid rounded-3 border shadow-sm d-block mx-auto" style="width:100%;height:auto;" ',
+        rendered,
+    )
+
+
 def build_panel_body(key, md_text):
     rendered = render_markdown(md_text)
     rendered = style_tables(rendered)
     rendered = style_code(rendered)
+    if key == "presentation":
+        rendered = style_images(rendered)
     if key == "overview":
         rendered = style_feature_lists(rendered)
         rendered = style_lead_paragraph(rendered)
@@ -580,7 +730,7 @@ def collect_siblings(addon_dir):
     return same_cat + others
 
 
-def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT):
+def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT, lang="en"):
     ver = str(manifest.get("version", ""))
     m = re.match(r"(\d+\.\d+)", ver)
     series = m.group(1) if m else "19.0"
@@ -600,25 +750,28 @@ def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT):
         )
     if not cards:
         return ""
-    return (CROSS_SELL_OPEN % TB) + "".join(cards) + CROSS_SELL_CLOSE
+    return (CROSS_SELL_OPEN % dict(TB, **I18N[lang])) + "".join(cards) + CROSS_SELL_CLOSE
 
 
-def build_stats():
+def build_stats(lang="en"):
+    strings = I18N[lang]
     col = max(3, 12 // max(1, len(STAT_ITEMS)))
-    cards = "\n  ".join(STAT_CARD % dict(TB, big=big, small=small, col=col) for big, small in STAT_ITEMS)
+    cards = "\n  ".join(STAT_CARD % dict(TB, big=big, small=strings[key], col=col) for big, key in STAT_ITEMS)
     return STATS % {"cards": cards}
 
 
-def gen_index(addon_dir, cross_sell=True, allow_ro=False):
+def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=False):
     manifest = read_manifest(addon_dir)
-    tabs = build_tab_sources(addon_dir, manifest, allow_ro=allow_ro)
+    tabs = build_tab_sources(addon_dir, manifest, allow_ro=allow_ro, lang=lang)
+    strings = dict(TB, **I18N[lang])
     parts = [
         WRAP_OPEN,
         build_hero(addon_dir, manifest),
         build_tabs(tabs),
-        build_stats(),
-        SUPPORT % TB,
-        build_cross_sell(addon_dir, manifest) if cross_sell else "",
+        build_stats(lang),
+        (SCOPE_NOTE % strings) if scope_note else "",
+        SUPPORT % strings,
+        build_cross_sell(addon_dir, manifest, lang=lang) if cross_sell else "",
         "</div>\n",
     ]
     return "\n".join(p for p in parts if p)
@@ -647,24 +800,26 @@ def may_overwrite(index_path):
     return any(marker in existing for marker in KNOWN_MARKERS)
 
 
-def process(addon_dir, cross_sell=True, force=False, allow_ro=False):
+def process(addon_dir, cross_sell=True, force=False, allow_ro=False, lang="en", scope_note=False):
     if not read_manifest(addon_dir):
         return False
     if not read_fragment(addon_dir, "DESCRIPTION.md"):
-        print(f"[tb-gen] SKIP {addon_dir}: fără readme/DESCRIPTION.md")
+        _logger.info("[tb-gen] SKIP %s: fără readme/DESCRIPTION.md", addon_dir)
         return False
     desc_dir = os.path.join(addon_dir, "static", "description")
     index_path = os.path.join(desc_dir, "index.html")
     if not force and not may_overwrite(index_path):
-        print(f"[tb-gen] SKIP {index_path}: index.html manual (folosește --force)")
+        _logger.info("[tb-gen] SKIP %s: index.html manual (folosește --force)", index_path)
         return False
     # generează ÎNAINTE de a deschide fișierul — o eroare la generare nu trebuie
     # să lase un index.html trunchiat
-    content = ascii_safe(gen_index(addon_dir, cross_sell=cross_sell, allow_ro=allow_ro))
+    content = ascii_safe(
+        gen_index(addon_dir, cross_sell=cross_sell, allow_ro=allow_ro, lang=lang, scope_note=scope_note)
+    )
     os.makedirs(desc_dir, exist_ok=True)
     with open(index_path, "w", encoding="utf8") as f:
         f.write(content)
-    print(f"[tb-gen] {index_path}")
+    _logger.info("[tb-gen] %s", index_path)
     return True
 
 
@@ -686,7 +841,19 @@ def main():
     ap.add_argument(
         "--allow-ro", action="store_true", help="suită cu prezentare în RO (nu omite HISTORY cu diacritice)"
     )
+    ap.add_argument(
+        "--lang",
+        choices=sorted(I18N),
+        default="en",
+        help="limba textelor generate (taburi, stats, note, CTA); `ro` implică --allow-ro",
+    )
+    ap.add_argument(
+        "--scope-note",
+        action="store_true",
+        help="adaugă nota „ce acoperă prețul” (text scris pentru localizarea RO, l10n_ro_ent)",
+    )
     args = ap.parse_args()
+    logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stdout)
 
     targets = list(args.addon_dir)
     if args.addons_dir:
@@ -695,9 +862,20 @@ def main():
         targets = list(find_addons("."))
 
     count = sum(
-        1 for d in targets if process(d, cross_sell=not args.no_cross_sell, force=args.force, allow_ro=args.allow_ro)
+        1
+        for d in targets
+        if process(
+            d,
+            cross_sell=not args.no_cross_sell,
+            force=args.force,
+            # o pagină în RO include implicit HISTORY-ul scris în română: filtrul de
+            # diacritice există ca să nu urce text RO pe o pagină EN, nu invers.
+            allow_ro=args.allow_ro or args.lang == "ro",
+            lang=args.lang,
+            scope_note=args.scope_note,
+        )
     )
-    print(f"[tb-gen] gata: {count} module generate.")
+    _logger.info("[tb-gen] gata: %s module generate.", count)
 
 
 if __name__ == "__main__":
