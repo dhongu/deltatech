@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     dimensions = fields.Char(string="Dimensions")
-    shelf_life = fields.Float(string="Shelf Life", digits="Product Unit of Measure")
+    shelf_life = fields.Float(string="Shelf Life", digits="Product Unit")
     uom_shelf_life = fields.Many2one(
         "uom.uom",
         string="Unit of Measure Shelf Life",

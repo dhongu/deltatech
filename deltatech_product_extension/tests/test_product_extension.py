@@ -2,7 +2,10 @@
 # Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 class TestAccountInvoiceReport(TransactionCase):
@@ -78,3 +81,17 @@ class TestResPartner(TransactionCase):
         # Check that is_manufacturer field is correctly added
         self.assertTrue(hasattr(res_partner, "is_manufacturer"), "Is Manufacturer field is not added to res.partner")
         self.assertTrue(res_partner.is_manufacturer, "Is Manufacturer field value should be True for test record")
+
+
+@tagged("post_install", "-at_install")
+class TestInvoiceReportManufacturer(AccountTestInvoicingCommon):
+    def test_invoice_report_manufacturer(self):
+        manufacturer = self.env["res.partner"].create({"name": "Test Manufacturer", "is_manufacturer": True})
+        self.product_a.product_tmpl_id.manufacturer = manufacturer
+        invoice = self.init_invoice("out_invoice", products=self.product_a, post=True)
+        report_line = self.env["account.invoice.report"].search([("move_id", "=", invoice.id)])
+        self.assertEqual(report_line.manufacturer, manufacturer)
+        groups = self.env["account.invoice.report"]._read_group(
+            [("move_id", "=", invoice.id)], groupby=["manufacturer"], aggregates=["price_subtotal:sum"]
+        )
+        self.assertEqual(groups[0][0], manufacturer)
