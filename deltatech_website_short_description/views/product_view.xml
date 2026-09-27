@@ -12,7 +12,7 @@
                     name="website_publish_button"
                     string="Publish"
                     type="object"
-                    icon="fa-globe"
+                    icon="public"
                 />
                 </div>
                 <page name="sales" position="inside">
