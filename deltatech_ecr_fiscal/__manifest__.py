@@ -6,7 +6,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "ECR Fiscal Audit Fields",
     "summary": "Common fiscal printer audit fields shared by POS, invoicing and localizations",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
