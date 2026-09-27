@@ -1,5 +1,7 @@
 from odoo.exceptions import UserError
-from odoo.tests import common
+from odoo.tests import common, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
 class TestSaleOrder(common.TransactionCase):
@@ -112,3 +114,40 @@ class TestSaleOrder(common.TransactionCase):
 
         self.sale_order.action_quotation_sent()
         self.assertEqual(self.sale_order.phase_id.send_email, True)
+
+
+@tagged("post_install", "-at_install")
+class TestSaleOrderInvoicedPhase(AccountTestInvoicingCommon):
+    @classmethod
+    def get_default_groups(cls):
+        # fazele de comandă se configurează de managerul de vânzări
+        return super().get_default_groups() | cls.env.ref("sales_team.group_sale_manager")
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.phase_confirmed = cls.env["sale.order.phase"].create(
+            {"name": "Confirmed phase", "confirmed": True, "sequence": 2}
+        )
+        cls.phase_invoiced = cls.env["sale.order.phase"].create(
+            {"name": "Invoiced phase", "invoiced": True, "sequence": 3}
+        )
+        cls.service = cls.env["product.product"].create(
+            {"name": "Test service", "type": "service", "invoice_policy": "order", "list_price": 100}
+        )
+
+    def test_invoice_post_sets_invoiced_phase(self):
+        # la validarea facturii, comanda complet facturată trece în faza „facturat”
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.service.id, "product_uom_qty": 1})],
+            }
+        )
+        order.action_confirm()
+        self.assertEqual(order.phase_id, self.phase_confirmed)
+        invoice = order._create_invoices()
+        self.assertEqual(order.phase_id, self.phase_confirmed)
+        invoice.action_post()
+        self.assertEqual(order.invoice_status, "invoiced")
+        self.assertEqual(order.phase_id, self.phase_invoiced)
