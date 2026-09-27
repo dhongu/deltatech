@@ -8,7 +8,7 @@
 
 ## 19.0.1.3.0
 
-- [IMP] Romanian translation (`i18n/ro.po`): the group reads **Linie suplimentară** and the fields **Produs suplimentar**, **Procent suplimentar**, **Cantitate suplimentară**, instead of staying in English on a Romanian interface
+- [IMP] Romanian translation (`i18n/ro.po`): the group **Extra Line** and the fields **Extra Product**, **Extra Percent**, **Extra Qty** are now translated into Romanian, instead of staying in English on a Romanian interface
 - [IMP] the field tooltips describe the current behaviour: the percent tooltip no longer claims that a zero percent uses the price of the extra product "directly" (since 19.0.1.1.0 the standard price computation applies, with the pricelist, currency and unit of measure of the order), and the quantity tooltip states that the value is a multiplier of the main line quantity
 
 ## 19.0.1.2.0
