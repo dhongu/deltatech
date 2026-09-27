@@ -12,12 +12,6 @@ class SaleOrder(models.Model):
 
     phase_id = fields.Many2one("sale.order.phase", string="Phase", copy=False, tracking=True)
 
-    def _get_invoice_status(self):
-        res = super()._get_invoice_status()
-        orders_invoiced = self.filtered(lambda o: o.invoice_status == "invoiced")
-        orders_invoiced.set_phase("invoiced")
-        return res
-
     @api.onchange("phase_id")
     def onchange_phase_id(self):
         if self.phase_id.invoiced and self.invoice_status == "invoiced":
