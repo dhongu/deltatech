@@ -88,8 +88,10 @@
             <field eval="500" name="priority" />
             <field name="inherit_id" ref="sale.view_quotation_tree" />
             <field name="arch" type="xml">
-                <field name="create_date" position="after">
-                    <field name="date_order" widget="date" optional="show" />
+                <!-- 20.0: sale.view_quotation_tree nu mai înlocuiește date_order cu create_date
+                     (date_order e afișat nativ), deci nu mai e nevoie să-l readăugăm -->
+                <field name="date_order" position="attributes">
+                    <attribute name="widget">date</attribute>
                 </field>
                 <field name="state" position="after">
                     <field name="phase_id" widget="many2one_badge" options="{'color_field': 'color'}" />
