@@ -27,17 +27,17 @@
 
 ## 19.0.2.9.0 (2026-09-14)
 
-- **Grupare** este din nou disponibil în wizard-ul de reaprovizionare produs (*product.replenish*).
-  Câmpul exista în 18.0 ca `group_id` (`procurement.group`), eliminat la portarea pe 19.0 pentru că
-  modelul `procurement.group` nu mai există în core — a fost înlocuit acum cu noul mecanism O19,
-  `stock.reference` (`reference_ids` pe `stock.move`).
-- Gruparea se completează **automat, o dată pe zi și pe depozit**: toate reaprovizionările lansate
-  în aceeași zi, din același depozit, primesc aceeași referință și ajung astfel pe un singur
-  `stock.picking`, în loc de câte un document separat per produs. Câmpul rămâne editabil, dacă se
-  dorește altă grupare manuală.
-- Garda anti-duplicare e păstrată, dar acum e per produs+referință (nu per referință, cum era în
-  18.0 per grup) — altfel gruparea zilnică automată ar bloca reaprovizionarea celui de-al doilea
-  produs din aceeași zi.
+- **Grupare** is available again in the product replenishment wizard (*product.replenish*).
+  The field existed in 18.0 as `group_id` (`procurement.group`), removed during the 19.0 port because
+  the `procurement.group` model no longer exists in core — it has now been replaced with the new O19 mechanism,
+  `stock.reference` (`reference_ids` on `stock.move`).
+- The grouping is filled in **automatically, once per day and per warehouse**: all replenishments launched
+  on the same day, from the same warehouse, receive the same reference and thus end up on a single
+  `stock.picking`, instead of a separate document per product. The field remains editable, if a
+  different manual grouping is wanted.
+- The anti-duplication guard is kept, but it is now per product+reference (not per reference, as it was in
+  18.0 per group) — otherwise the automatic daily grouping would block the replenishment of the second
+  product on the same day.
 
 ## 19.0.2.8.0 (2026-09-10)
 
