@@ -1,0 +1,648 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.res_config_settings_view_form_stock
+msgid "<span class=\"o_form_label\">Salesperson commission compute</span>"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__account_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Account"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__invoice_line_ids
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__invoice_line_ids
+msgid "Account invoice line"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
+msgid "Apply"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__categ_id
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Category of Product"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commercial_partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Commercial Partner"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/wizard/commission_compute.py:0
+#: model:ir.actions.act_window,name:deltatech_sale_commission.action_sale_margin_commission_report
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__commission
+#: model:ir.ui.menu,name:deltatech_sale_commission.menu_commission
+#: model:ir.ui.menu,name:deltatech_sale_commission.menu_sale_margin_commission_report_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+msgid "Commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_computed
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+msgid "Commission Computed"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_director_computed
+msgid "Commission Director Computed"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:res.groups,name:deltatech_sale_commission.group_commission_manager
+msgid "Commission Manager"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_manager_computed
+msgid "Commission Manager Computed"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Commission Not Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__commission_paid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission_paid
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Commission Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:res.groups,name:deltatech_sale_commission.group_commission_viewer
+msgid "Commission Viewer"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_sale_commission_condition
+msgid "Commission condition"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__company_id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__company_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__company_currency_id
+msgid "Company Currency"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.actions.act_window,name:deltatech_sale_commission.action_commission_compute
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
+msgid "Compute Commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_commission_compute
+msgid "Compute commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__purchase_price
+msgid "Cost Price"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__create_uid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__create_uid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__create_uid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__create_date
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__create_date
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__create_date
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__move_type__out_invoice
+msgid "Customer Invoice"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__move_type__out_refund
+msgid "Customer Refund"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__date
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__due_date
+msgid "Due Date"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__for_all
+msgid "For all lines"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
+msgid "For the ALL invoice line will update purchase price"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
+msgid "For the selected invoice line will compute commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
+msgid "For the selected invoice line will update purchase price"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__in_payment
+msgid "In Payment"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__invoice_id
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__res_config_settings__sale_user_detail__invoice
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Invoice"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__state
+msgid "Invoice Status"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__invoicing_legacy
+msgid "Invoicing App Legacy"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__journal_id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__journal_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Journal"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Last 7 Days"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__write_uid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__write_uid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__write_uid
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_compute__write_date
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__write_date
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__write_date
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__less_than_days
+msgid "Less Than Days"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__markup
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_pivot
+msgid "Markup"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__move_type
+msgid "Move Type"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "My Sales"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__not_paid
+msgid "Not Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Open"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__paid
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__partial
+msgid "Partially Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__payment_state
+msgid "Payment Status"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__payment_term_id
+msgid "Payment Term"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__percentage
+msgid "Percentage"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__state__posted
+msgid "Posted"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_update_purchase_price__price_from_doc
+msgid "Price from delivery"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Profit"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__profit_val
+msgid "Profit Amount"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__profit_margin
+msgid "Profit Margin"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__profit_val
+msgid "Profit obtained at invoicing in company currency"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__purchase_price
+msgid "Purchase price"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Qty"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__product_uom_qty
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__rate
+msgid "Rate"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__director_rate
+msgid "Rate director"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__manager_rate
+msgid "Rate manager"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__commission
+msgid "Real Commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__state_id
+msgid "Region"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__payment_state__reversed
+msgid "Reversed"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__sale_val
+msgid "Sale Amount"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__sale_val
+msgid "Sale Amount in company currency"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.module.category,name:deltatech_sale_commission.module_category_sale_commission
+#: model:res.groups.privilege,name:deltatech_sale_commission.res_groups_privilege_sale_commission
+msgid "Sale Commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_sale_margin_report
+msgid "Sale Margin Report"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_res_config_settings__sale_user_detail
+msgid "Sale User Detail"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.actions.act_window,name:deltatech_sale_commission.action_sale_margin_report
+#: model:ir.ui.menu,name:deltatech_sale_commission.menu_sale_margin_report_list
+msgid "Sale margin report"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__res_config_settings__sale_user_detail__sale
+msgid "Sale order"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Sale value"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__director_user_id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__director_user_id
+msgid "Sales Director"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__manager_user_id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__manager_user_id
+msgid "Sales Manager"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__move_type__out_receipt
+msgid "Sales Receipt"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_account_move_line__sale_user_id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_commission_users__user_id
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__user_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Salesperson"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.res_config_settings_view_form_stock
+msgid ""
+"Salesperson compute on:<br/>\n"
+"                            - Invoice: the salesperson from the invoice will get the commission<br/>\n"
+"                            - Sale order: the salesperson from the Sale Order will get the commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_commission_condition__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Set Paid"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__stock_val
+msgid "Stock Amount"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,help:deltatech_sale_commission.field_sale_margin_report__stock_val
+msgid "Stock Amount in company currency"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_commission_list
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_list
+msgid "Stock value"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.actions.act_window,help:deltatech_sale_commission.action_sale_margin_report
+msgid "This report performs analysis on your invoices."
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Today"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields,field_description:deltatech_sale_commission.field_sale_margin_report__product_uom
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.actions.act_window,name:deltatech_sale_commission.action_commission_update_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
+msgid "Update Purchase Price"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.actions.server,name:deltatech_sale_commission.cron_update_purchase_price_ir_actions_server
+msgid "Update Purchase Price Daily"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_commission_update_purchase_price
+msgid "Update purchase price"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.actions.act_window,name:deltatech_sale_commission.action_commission_users
+#: model:ir.ui.menu,name:deltatech_sale_commission.menu_commission_users
+msgid "Users Commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model,name:deltatech_sale_commission.model_commission_users
+msgid "Users commission"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__move_type__in_invoice
+msgid "Vendor Bill"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model:ir.model.fields.selection,name:deltatech_sale_commission.selection__sale_margin_report__move_type__in_refund
+msgid "Vendor Refund"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+msgid "Warehouse"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_sale_margin_report_filter
+msgid "Yesterday"
+msgstr ""
+
+#. module: deltatech_sale_commission
+#. odoo-python
+#: code:addons/deltatech_sale_commission/models/account_invoice.py:0
+msgid "You can not sell below the purchase price."
+msgstr ""
+
+#. module: deltatech_sale_commission
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_update_purchase_price_form
+msgid "or"
+msgstr ""
