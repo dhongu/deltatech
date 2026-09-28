@@ -34,14 +34,14 @@ msgstr "Nume afișat"
 #. module: deltatech_gln
 #: model:ir.model.fields,field_description:deltatech_gln.field_res_partner__gln
 #: model:ir.model.fields,field_description:deltatech_gln.field_res_users__gln
-msgid "GLN"
-msgstr "GLN"
+msgid "Global Location Number"
+msgstr "Cod GLN (Global Location Number)"
 
 #. module: deltatech_gln
 #: model:ir.model.fields,help:deltatech_gln.field_res_partner__gln
 #: model:ir.model.fields,help:deltatech_gln.field_res_users__gln
-msgid "Global Location Number"
-msgstr "Global Location Number (cod locație globală)"
+msgid "GLN - kept in the standard partner identifiers (EAN/GLN)."
+msgstr "GLN - păstrat în identificatorii standard ai partenerului (EAN/GLN)."
 
 #. module: deltatech_gln
 #: model:ir.model.fields,field_description:deltatech_gln.field_res_partner__id

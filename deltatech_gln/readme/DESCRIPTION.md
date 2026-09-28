@@ -1,27 +1,15 @@
-Partner GLN (Obsolete)
-======================
+Partner GLN
+===========
 
-Status: Obsolete
-================
+Adds the **GLN (Global Location Number)** on the partner form, on the contact /
+address sub-form and on the simplified partner form, as the field `gln`.
 
-This module is currently considered **Obsolete**. Its core functionality has been moved to and is now better served by the `account_add_gln` module.
+Since Odoo 20.0 the GLN is a standard partner identifier (`EAN/GLN`, kept by
+`base` in the partner's additional identifiers, and shown by `account` as
+`global_location_number` on delivery addresses). This module no longer stores
+its own copy: `gln` reads, writes and searches the standard identifier, so the
+modules built on `deltatech_gln` (EDI, EDINET, ...) keep working and see the
+same value as the standard e-invoicing (UBL/Peppol) code.
 
-This module was originally designed to provide specialized handling for Global Location Numbers (GLN) for partners within Odoo. It ensured that GLN data was correctly stored and synchronized for electronic data interchange (EDI) and logistical processes.
-
-Key Features
-============
-
-1.  **GLN Field Integration**:
-    *   Adds a dedicated **GLN (Global Location Number)** field to the partner form view.
-    *   Ensures that GLN data is easily accessible and editable for each business location.
-
-2.  **Compatibility Layer**:
-    *   Acts as a bridge for legacy configurations that require the `deltatech_gln` dependency.
-    *   Supports the migration of GLN data to the newer `account_add_gln` standard.
-
-Usage
-=====
-
-1.  No new configuration is required for this module as it is obsolete.
-2.  If you have this module installed, ensure that `account_add_gln` is also active in your system for correct GLN handling.
-3.  New projects should directly use the `account_add_gln` module instead of this one.
+The standard validation applies: a malformed GLN (wrong EAN check digit) is
+refused.

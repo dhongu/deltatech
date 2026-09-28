@@ -14,51 +14,28 @@ Deltatech Partner GLN
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_gln
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_gln
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
-Partner GLN (Obsolete)
-======================
+Partner GLN
+===========
 
-Status: Obsolete
-================
+Adds the **GLN (Global Location Number)** on the partner form, on the
+contact / address sub-form and on the simplified partner form, as the
+field ``gln``.
 
-This module is currently considered **Obsolete**. Its core functionality
-has been moved to and is now better served by the ``account_add_gln``
-module.
+Since Odoo 20.0 the GLN is a standard partner identifier (``EAN/GLN``,
+kept by ``base`` in the partner's additional identifiers, and shown by
+``account`` as ``global_location_number`` on delivery addresses). This
+module no longer stores its own copy: ``gln`` reads, writes and searches
+the standard identifier, so the modules built on ``deltatech_gln`` (EDI,
+EDINET, ...) keep working and see the same value as the standard
+e-invoicing (UBL/Peppol) code.
 
-This module was originally designed to provide specialized handling for
-Global Location Numbers (GLN) for partners within Odoo. It ensured that
-GLN data was correctly stored and synchronized for electronic data
-interchange (EDI) and logistical processes.
-
-Key Features
-============
-
-1. **GLN Field Integration**:
-
-   - Adds a dedicated **GLN (Global Location Number)** field to the
-     partner form view.
-   - Ensures that GLN data is easily accessible and editable for each
-     business location.
-
-2. **Compatibility Layer**:
-
-   - Acts as a bridge for legacy configurations that require the
-     ``deltatech_gln`` dependency.
-   - Supports the migration of GLN data to the newer ``account_add_gln``
-     standard.
-
-Usage
-=====
-
-1. No new configuration is required for this module as it is obsolete.
-2. If you have this module installed, ensure that ``account_add_gln`` is
-   also active in your system for correct GLN handling.
-3. New projects should directly use the ``account_add_gln`` module
-   instead of this one.
+The standard validation applies: a malformed GLN (wrong EAN check digit)
+is refused.
 
 **Table of contents**
 
@@ -67,6 +44,21 @@ Usage
 
 Changelog
 =========
+
+20.0.1.1.0
+----------
+
+- Migration to 20.0. The GLN became a standard partner identifier
+  (``additional_identifiers["EAN_GLN"]``, module ``base``), so ``gln``
+  is no longer stored: it is a proxy (read / write / search) on the
+  standard identifier and gets its validation (EAN check digit). The
+  field is now labelled "Global Location Number", so it no longer
+  clashes with the standard ``GLN``.
+- The migration moves the values of the old ``gln`` column (and of the
+  19.0 ``global_location_number`` column, if still present) into the
+  standard identifiers, without overwriting an existing value. Malformed
+  values and conflicting values are reported in the log and left in the
+  old column.
 
 19.0.1.1.0
 ----------
@@ -108,6 +100,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_gln>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_gln>`_ project on GitHub.
 
 You are welcome to contribute.
