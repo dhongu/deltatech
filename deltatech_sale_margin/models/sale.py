@@ -5,6 +5,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
+from odoo.tools.translate import get_translation
 
 
 class SaleOrder(models.Model):
@@ -45,6 +46,36 @@ class SaleOrder(models.Model):
             if warning_message:
                 order.price_warning_message = warning_message
 
+    @api.depends_context("uid")
+    def _compute_extra_total_fields(self):
+        """Hide the order margin from the totals for users outside `group_sale_margin`.
+
+        In 19.0 `sale_margin` showed the order margin as a `margin` field under
+        `tax_totals` and this module restricted that block to `group_sale_margin`
+        in the view. In 20.0 `sale_margin` appends it as a line of the
+        `extra_total_fields` JSON instead, so the restriction has to be applied
+        on that line.
+        """
+        super()._compute_extra_total_fields()
+        if self.env.user.has_group("deltatech_sale_margin.group_sale_margin"):
+            return
+        lang = self.env.lang or "en_US"
+        for order in self:
+            if not order.margin:
+                continue
+            # same label as `sale_margin.sale_order._compute_extra_total_fields`
+            margin_label = get_translation(
+                "sale_margin", lang, "Margin (%(percent).0f%%)", {"percent": order.margin_percent * 100}
+            )
+            groups = order.extra_total_fields or []
+            for group in groups:
+                group["lines"] = [
+                    line
+                    for line in group.get("lines", [])
+                    if not (line.get("label") == margin_label and line.get("value") == order.margin)
+                ]
+            order.extra_total_fields = groups
+
     # la validare se verifica pretul de vanzare
     def action_confirm(self):
         res = super().action_confirm()
@@ -55,8 +86,8 @@ class SaleOrder(models.Model):
             return res
         for order in self.filtered(lambda o: (o.company_id or self.env.company).sale_margin_check_mode == "warn"):
             order._post_margin_warning()
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        check_on_validate = safe_eval(get_str("sale.margin_limit_check_validate", "0"))
         if check_on_validate:
             for order in self:
                 for line in order.order_line:
@@ -119,8 +150,8 @@ class SaleOrderLine(models.Model):
         "company_id.sale_margin_check_mode",
     )
     def _compute_margin_below_limit(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        margin_limit = safe_eval(get_str("sale.margin_limit", "0"))
         for line in self:
             margin = line._margin_for_check()
             line.margin_below_limit = (
@@ -209,8 +240,8 @@ class SaleOrderLine(models.Model):
             # ends up being dismissed reflexively without being read.
             if self._margin_check_mode() != "block":
                 return res
-            get_param = self.env["ir.config_parameter"].sudo().get_param
-            check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+            get_str = self.env["ir.config_parameter"].sudo().get_str
+            check_on_validate = safe_eval(get_str("sale.margin_limit_check_validate", "0"))
             if check_on_validate:
                 return res
             price_unit = self.price_reduce_taxexcl
@@ -236,8 +267,8 @@ class SaleOrderLine(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        check_on_validate = safe_eval(get_str("sale.margin_limit_check_validate", "0"))
         if not check_on_validate:
             for line in self.filtered(lambda li: li._margin_check_mode() == "block"):
                 line.check_sale_price()
@@ -259,15 +290,15 @@ class SaleOrderLine(models.Model):
         if self.env.context.get("website_id", False):
             return res
 
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        margin_limit = safe_eval(get_str("sale.margin_limit", "0"))
 
         # verificare doar la validare
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+        check_on_validate = safe_eval(get_str("sale.margin_limit_check_validate", "0"))
         if check_on_validate and not self.env.context.get("call_from_action_confirm", False):
             return res
 
-        check_price_website = safe_eval(get_param("sale.check_price_website", "False"))
+        check_price_website = safe_eval(get_str("sale.check_price_website", "False"))
         if check_price_website:
             # pentru comenzile din website nu se face verificarea
             domain = [("name", "=", "website_sale"), ("state", "=", "installed")]

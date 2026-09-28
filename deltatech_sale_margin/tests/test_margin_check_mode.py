@@ -27,8 +27,8 @@ class TestMarginCheckMode(TransactionCase):
         cls.env["res.config.settings"].create({"group_uom": True}).execute()
         cls.env.user.group_ids |= cls.env.ref("uom.group_uom")
         cls.company = cls.env.company
-        cls.env["ir.config_parameter"].sudo().set_param("sale.margin_limit", "0")
-        cls.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "0")
+        cls.env["ir.config_parameter"].sudo().set_float("sale.margin_limit", 0.0)
+        cls.env["ir.config_parameter"].sudo().set_bool("sale.margin_limit_check_validate", False)
 
         cls.below_cost_group = cls.env.ref("deltatech_sale_margin.group_sale_below_purchase_price")
         cls.below_margin_group = cls.env.ref("deltatech_sale_margin.group_sale_below_margin")
@@ -133,7 +133,7 @@ class TestMarginCheckMode(TransactionCase):
         behaviour - asserted here so the two code paths stay distinguishable.
         """
         self.company.sale_margin_check_mode = "block"
-        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "1")
+        self.env["ir.config_parameter"].sudo().set_bool("sale.margin_limit_check_validate", True)
         order, _line = self._order(2.5, user=self.operator)
         with self.assertRaises(UserError):
             order.action_confirm()
@@ -223,7 +223,7 @@ class TestMarginCheckMode(TransactionCase):
         """A margin that is legitimately negative should not raise a flag on half
         the orders, or nobody reads the flag any more."""
         self.company.sale_margin_check_mode = "warn"
-        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit", "-10")
+        self.env["ir.config_parameter"].sudo().set_float("sale.margin_limit", -10.0)
         _, small_loss = self._order(2.86)  # about -4.9% against 3.00
         self.assertFalse(small_loss.margin_below_limit)
         _, big_loss = self._order(2.4)  # -25%
@@ -231,7 +231,7 @@ class TestMarginCheckMode(TransactionCase):
 
     def test_positive_limit_flags_thin_margins(self):
         self.company.sale_margin_check_mode = "warn"
-        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit", "20")
+        self.env["ir.config_parameter"].sudo().set_float("sale.margin_limit", 20.0)
         _, thin = self._order(3.34)  # about 10.2%
         self.assertTrue(thin.margin_below_limit)
         _, healthy = self._order(5.0)  # 40%

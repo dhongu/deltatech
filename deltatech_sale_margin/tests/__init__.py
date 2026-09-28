@@ -4,4 +4,5 @@
 
 from . import test_sale
 from . import test_margin_check_mode
+from . import test_margin_values
 from . import test_screenshots

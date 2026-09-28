@@ -80,7 +80,7 @@ class TestSaleOrder(TransactionCase):
 
     # def test_website_order_ignores_margin_check(self):
     #     # Test that website orders ignore the margin check
-    #     self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
+    #     self.env["ir.config_parameter"].sudo().set_bool("sale.margin_limit_check_validate", True)
     #     self.sale_order = self.env["sale.order"].create(
     #         {
     #             "partner_id": self.env.ref("base.res_partner_1").id,
@@ -99,7 +99,7 @@ class TestSaleOrder(TransactionCase):
     #     self.sale_order.order_line.write({"product_uom_qty": 2})
 
     def test_sale_order_line_write(self):
-        self.env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "True")
+        self.env["ir.config_parameter"].sudo().set_bool("sale.margin_limit_check_validate", True)
         self.sale_order = self.env["sale.order"].create(
             {
                 "partner_id": self.partner.id,

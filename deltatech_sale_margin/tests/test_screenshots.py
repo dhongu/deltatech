@@ -56,8 +56,8 @@ class TestSaleMarginScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
         # politica pusă pe „Doar avertisment": implicitul e „Blochează vânzarea", pe
         # care nu îl putem ilustra cu o captură (blocajul e un dialog de eroare)
         company.sale_margin_check_mode = "warn"
-        env["ir.config_parameter"].sudo().set_param("sale.margin_limit", "0")
-        env["ir.config_parameter"].sudo().set_param("sale.margin_limit_check_validate", "0")
+        env["ir.config_parameter"].sudo().set_float("sale.margin_limit", 0.0)
+        env["ir.config_parameter"].sudo().set_bool("sale.margin_limit_check_validate", False)
 
         cls.partner = env["res.partner"].create({"name": "Lanț Retail SRL", "country_id": env.ref("base.ro").id})
         cls.partner.property_product_pricelist.name = "Listă de prețuri clienți RON"
