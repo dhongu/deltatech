@@ -2,7 +2,6 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-from base64 import b64encode
 from textwrap import dedent
 
 from odoo.tests import tagged
@@ -92,7 +91,6 @@ class TestProcessAttachmentsForPost(TransactionCase):
         cls.vendor = cls.env["res.partner"].create(
             {
                 "name": "Vendor SRL",
-                "is_company": True,
                 "vat": "RO123456789",
                 "supplier_rank": 1,
             }
@@ -106,7 +104,7 @@ class TestProcessAttachmentsForPost(TransactionCase):
             }
         )
         # Ensure the feature toggle is enabled
-        cls.env["ir.config_parameter"].sudo().set_param("deltatech_purchase_ubl.auto_import", "True")
+        cls.env["ir.config_parameter"].sudo().set_bool("deltatech_purchase_ubl.auto_import", True)
 
     def test_auto_import_triggers_on_xml_attachment(self):
         # Prepare a valid UBL for the current PO
@@ -114,7 +112,7 @@ class TestProcessAttachmentsForPost(TransactionCase):
         att = self.env["ir.attachment"].create(
             {
                 "name": "invoice_attach.xml",
-                "datas": b64encode(xml),
+                "raw": xml,
                 "mimetype": "application/xml",
                 "res_model": "purchase.order",
                 "res_id": self.po.id,
@@ -141,7 +139,7 @@ class TestProcessAttachmentsForPost(TransactionCase):
         att = self.env["ir.attachment"].create(
             {
                 "name": "invoice_attach_no_new_products.xml",
-                "datas": b64encode(xml),
+                "raw": xml,
                 "mimetype": "application/xml",
                 "res_model": "purchase.order",
                 "res_id": self.po.id,
@@ -174,7 +172,7 @@ class TestProcessAttachmentsForPost(TransactionCase):
         att = self.env["ir.attachment"].create(
             {
                 "name": "invoice_attach_warning.xml",
-                "datas": b64encode(xml),
+                "raw": xml,
                 "mimetype": "application/xml",
                 "res_model": "purchase.order",
                 "res_id": po.id,
@@ -215,7 +213,7 @@ class TestProcessAttachmentsForPost(TransactionCase):
         att = self.env["ir.attachment"].create(
             {
                 "name": "invoice_attach_clean.xml",
-                "datas": b64encode(xml),
+                "raw": xml,
                 "mimetype": "application/xml",
                 "res_model": "purchase.order",
                 "res_id": po.id,

@@ -17,13 +17,13 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
-msgid "<i class=\"fa fa-exclamation-triangle me-1\" title=\"Warning\"/>"
+msgid "<i class=\"oi me-1\" data-icon=\"warning\" title=\"Warning\"/>"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid ""
-"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"<i class=\"oi oi-filled me-1\" data-icon=\"info\" title=\"Info\"/>\n"
 "                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>"
 msgstr ""
 

@@ -18,8 +18,8 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
-msgid "<i class=\"fa fa-exclamation-triangle me-1\" title=\"Warning\"/>"
-msgstr "<i class=\"fa fa-exclamation-triangle me-1\" title=\"Avertisment\"/>"
+msgid "<i class=\"oi me-1\" data-icon=\"warning\" title=\"Warning\"/>"
+msgstr "<i class=\"oi me-1\" data-icon=\"warning\" title=\"Avertisment\"/>"
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -507,10 +507,10 @@ msgstr "Secvență"
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid ""
-"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"<i class=\"oi oi-filled me-1\" data-icon=\"info\" title=\"Info\"/>\n"
 "                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>"
 msgstr ""
-"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"<i class=\"oi oi-filled me-1\" data-icon=\"info\" title=\"Info\"/>\n"
 "                    <span>Liniile verzi au fost potrivite după codul de furnizor sau codul de bare; liniile galbene au fost potrivite doar după nume — verificați-le; liniile roșii nu au nicio potrivire și pentru ele se va crea un produs NOU (dacă opțiunea este activată). Puteți alege un alt produs pe orice linie înainte de import.</span>"
 
 #. module: deltatech_purchase_ubl

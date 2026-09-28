@@ -509,18 +509,21 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
         icons = {
-            "success": "fa-check-circle",
-            "warning": "fa-exclamation-triangle",
-            "danger": "fa-times-circle",
-            "info": "fa-info-circle",
+            # Odoo 20: Font Awesome is gone, icons are `oi` glyphs named by `data-icon`
+            # (mapping from scripts/fa_to_oi.json; `oi-filled` = the solid FA variant).
+            "success": ("check_circle", True),
+            "warning": ("warning", False),
+            "danger": ("cancel", True),
+            "info": ("info", True),
         }
         parts = ["<div>"]
         for msg in messages:
             level = self._classify_message(msg)
-            icon = icons[level]
+            icon, filled = icons[level]
+            icon_class = "oi oi-filled" if filled else "oi"
             lines = msg.split("\n")
             parts.append(
-                f'<p class="mb-1 text-{level}"><i class="fa {icon} me-1"></i><strong>{_esc(lines[0])}</strong></p>'
+                f'<p class="mb-1 text-{level}"><i class="{icon_class} me-1" data-icon="{icon}"></i><strong>{_esc(lines[0])}</strong></p>'
             )
             for sub in lines[1:]:
                 if sub.strip():
@@ -688,7 +691,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                         "name": src_ln.get("name") or product.display_name,
                         "product_qty": src_ln.get("qty", 0.0) or 0.0,
                         "price_unit": src_ln.get("price", 0.0) or 0.0,
-                        "product_uom_id": product.uom_id.id,
+                        "uom_id": product.uom_id.id,
                         "date_planned": fields.Datetime.now(),
                     }
                     if src_ln.get("discount") and "discount" in self.env["purchase.order.line"]._fields:

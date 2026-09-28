@@ -3,11 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import binascii
 import logging
 import xml.etree.ElementTree as ET
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.binary import BinaryBytes
 
 _logger = logging.getLogger(__name__)
 NS = {
@@ -17,12 +19,41 @@ NS = {
 }
 
 
+def ubl_binary_value(value):
+    """Turn a value written on ``data_file`` into one Odoo 20 accepts on a Binary field.
+
+    Up to 19.0 a Binary field took base64 and the callers of this wizard were written
+    for that (``"data_file": attachment.datas`` / ``base64.b64encode(xml)``). In 20.0 a
+    Binary field refuses ``bytes`` outright and decodes a ``str`` as strict base64. To
+    keep the 19.0 contract, base64 (``bytes`` or ``str``, with or without line breaks)
+    is decoded here; ``bytes`` that are not base64 are taken as the XML itself (an XML
+    document starts with ``<``, which is not in the base64 alphabet). ``BinaryValue``
+    and dict values are left to the standard field.
+    """
+    if isinstance(value, str):
+        value = value.encode()
+    if isinstance(value, (bytes, bytearray)) and value:
+        compact = b"".join(bytes(value).split())
+        try:
+            return BinaryBytes(base64.b64decode(compact, validate=True))
+        except binascii.Error:
+            return BinaryBytes(value)
+    return value
+
+
+class UblXmlBinary(fields.Binary):
+    """Binary field that keeps the 19.0 contract of ``data_file`` (see ``ubl_binary_value``)."""
+
+    def convert_to_cache(self, value, records, validate=True):
+        return super().convert_to_cache(ubl_binary_value(value), records, validate)
+
+
 class PurchaseUblImportWizard(models.TransientModel):
     _name = "purchase.ubl.import.wizard"
     _inherit = "purchase.invoice.import.mixin"
     _description = "Import UBL XML for Vendor Invoice/Receipt"
 
-    data_file = fields.Binary(string="XML File", required=True)
+    data_file = UblXmlBinary(string="XML File", required=True)
     filename = fields.Char(string="Filename")
     total_check_warning = fields.Text(compute="_compute_total_check_warning")
     line_ids = fields.One2many("purchase.ubl.import.wizard.line", "wizard_id", string="Preview Lines")
@@ -37,7 +68,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             if not wizard.order_id or not wizard.data_file:
                 continue
             try:
-                invoice_xml = wizard._parse_xml(base64.b64decode(wizard.data_file))
+                invoice_xml = wizard._parse_xml(wizard.data_file.content)
             except Exception:
                 continue
             total_check = wizard._get_order_total_check(wizard.order_id, invoice_xml)
@@ -104,15 +135,13 @@ class PurchaseUblImportWizard(models.TransientModel):
             ]
             attachments = Attachment.search(domain, order="id desc")
             for att in attachments:
-                if not att.datas:
-                    continue
-                try:
-                    xml_bytes = base64.b64decode(att.datas)
-                except Exception:
+                # Odoo 20: `ir.attachment.datas` is gone; `raw` is a BinaryValue (raw bytes).
+                xml_bytes = att.raw.content
+                if not xml_bytes:
                     continue
                 if self._is_ubl_invoice(xml_bytes):
                     if "data_file" in fields_list:
-                        res["data_file"] = att.datas
+                        res["data_file"] = att.raw
                     if "filename" in fields_list:
                         res["filename"] = att.name
                     break
@@ -247,7 +276,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         self.ensure_one()
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
-        content = base64.b64decode(self.data_file)
+        content = self.data_file.content
         invoice_xml = self._parse_xml(content)
         return self._process_invoice_data(invoice_xml)
 
@@ -259,7 +288,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         self.ensure_one()
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
-        content = base64.b64decode(self.data_file)
+        content = self.data_file.content
         invoice_data = self._parse_xml(content)
         order, partner, _warning = self._resolve_order_and_partner(invoice_data)
 
@@ -298,7 +327,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         self.ensure_one()
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
-        content = base64.b64decode(self.data_file)
+        content = self.data_file.content
         invoice_data = self._parse_xml(content)
         product_map = {line.sequence: line.product_id for line in self.line_ids}
         return self._process_invoice_data(invoice_data, product_map=product_map)

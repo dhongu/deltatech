@@ -16,7 +16,7 @@
                     role="alert"
                     invisible="state != 'draft' or not order_lines_warning"
                 >
-                    <i class="fa fa-exclamation-triangle me-1" title="Warning" />
+                    <i class="oi me-1" data-icon="warning" title="Warning" />
                     <field name="order_lines_warning" nolabel="1" readonly="1" />
                 </div>
                 <div
@@ -24,7 +24,7 @@
                     role="alert"
                     invisible="state != 'draft' or not total_check_warning"
                 >
-                    <i class="fa fa-exclamation-triangle me-1" title="Warning" />
+                    <i class="oi me-1" data-icon="warning" title="Warning" />
                     <field name="total_check_warning" nolabel="1" readonly="1" />
                 </div>
 
@@ -61,7 +61,7 @@
 
                 <!-- Preview: product mapping review -->
                 <div class="alert alert-info mb-2" role="alert" invisible="state != 'preview'">
-                    <i class="fa fa-info-circle me-1" title="Info" />
+                    <i class="oi oi-filled me-1" data-icon="info" title="Info" />
                     <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>
                 </div>
                 <field name="line_ids" nolabel="1" invisible="state != 'preview'">

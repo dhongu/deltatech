@@ -2,8 +2,6 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-import base64
-
 from odoo import models
 
 
@@ -16,7 +14,7 @@ class PurchaseOrder(models.Model):
 
         # Feature toggle
         ICP = self.env["ir.config_parameter"].sudo()
-        enabled = ICP.get_param("deltatech_purchase_ubl.auto_import", default="True")
+        enabled = ICP.get_str("deltatech_purchase_ubl.auto_import", default="True")
         if str(enabled).lower() not in ("true", "1", "yes", "y"):
             return res
 
@@ -31,13 +29,11 @@ class PurchaseOrder(models.Model):
                 mimetype = (attachment.mimetype or "").lower()
                 if not (name_l.endswith(".xml") or mimetype in ("application/xml", "text/xml")):
                     continue
-                if not attachment.datas:
+                # Odoo 20: `ir.attachment.datas` is gone; `raw` is a BinaryValue (raw bytes).
+                xml_bytes = attachment.raw.content
+                if not xml_bytes:
                     continue
                 # Validate UBL using wizard helper
-                try:
-                    xml_bytes = base64.b64decode(attachment.datas)
-                except Exception:
-                    continue
                 wiz_tmp = self.env["purchase.ubl.import.wizard"].new({})
                 try:
                     is_ubl = bool(wiz_tmp._is_ubl_invoice(xml_bytes))
@@ -56,7 +52,7 @@ class PurchaseOrder(models.Model):
                 try:
                     wiz = self.env["purchase.ubl.import.wizard"].create(
                         {
-                            "data_file": attachment.datas,
+                            "data_file": attachment.raw,
                             "filename": attachment.name,
                             "order_id": order.id,
                             "update_prices": True,

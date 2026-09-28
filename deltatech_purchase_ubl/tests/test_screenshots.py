@@ -16,10 +16,10 @@
 #       -i deltatech_purchase_ubl,l10n_ro_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
 import unittest
-from base64 import b64encode
 
 from odoo import Command
 from odoo.tests import tagged
+from odoo.tools.binary import BinaryBytes
 
 from .test_process_attachments import _xml_invoice
 
@@ -60,7 +60,6 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         cls.vendor = env["res.partner"].create(
             {
                 "name": "Furnizor Materiale SRL",
-                "is_company": True,
                 "vat": "RO12345674",
                 "supplier_rank": 1,
                 "country_id": env.ref("base.ro").id,
@@ -140,7 +139,7 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
             .with_context(active_model="purchase.order", active_id=cls.po_preview.id)
             .create(
                 {
-                    "data_file": b64encode(cls.xml_preview),
+                    "data_file": BinaryBytes(cls.xml_preview),
                     "filename": "FMS-2026-00418.xml",
                     "order_id": cls.po_preview.id,
                 }
@@ -182,13 +181,13 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         att = env["ir.attachment"].create(
             {
                 "name": "FMS-2026-00419.xml",
-                "datas": b64encode(xml_activity),
+                "raw": xml_activity,
                 "mimetype": "application/xml",
                 "res_model": "purchase.order",
                 "res_id": cls.po_activity.id,
             }
         )
-        env["ir.config_parameter"].sudo().set_param("deltatech_purchase_ubl.auto_import", "True")
+        env["ir.config_parameter"].sudo().set_bool("deltatech_purchase_ubl.auto_import", True)
         cls.po_activity.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
         cls.env.flush_all()
 

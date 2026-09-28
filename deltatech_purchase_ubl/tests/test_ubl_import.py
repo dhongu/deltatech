@@ -2,11 +2,12 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-from base64 import b64encode
+import base64
 from textwrap import dedent
 
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools.binary import BinaryBytes
 
 UBL_NS = {
     "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
@@ -126,7 +127,6 @@ class TestPurchaseUblImport(TransactionCase):
         cls.vendor = cls.env["res.partner"].create(
             {
                 "name": "Vendor SRL",
-                "is_company": True,
                 "vat": "RO123456789",
                 "supplier_rank": 1,
             }
@@ -146,7 +146,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.with_context(active_model="purchase.order", active_id=order.id).create(
             {
-                "data_file": b64encode(xml_bytes),
+                "data_file": BinaryBytes(xml_bytes),
                 "filename": "test.xml",
                 "update_prices": True,
                 "create_bill": False,
@@ -223,7 +223,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom_id": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -273,7 +273,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": existing_product.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom_id": existing_product.uom_id.id,
+                "uom_id": existing_product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -337,7 +337,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product.display_name,
                 "product_qty": 7.0,
                 "price_unit": 9.99,
-                "product_uom_id": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -359,7 +359,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.with_context(active_model="purchase.order", active_id=self.po.id).create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "test.xml",
                 "update_prices": True,
                 "create_bill": False,
@@ -398,7 +398,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.with_context(active_model="purchase.order", active_id=self.po.id).create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "draft_order.xml",
                 "update_prices": True,
                 "create_bill": False,
@@ -463,7 +463,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product_2.display_name,
                 "product_qty": 1.0,
                 "price_unit": 5.0,
-                "product_uom_id": product_2.uom_id.id,
+                "uom_id": product_2.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -527,7 +527,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.with_context(active_model="purchase.order", active_id=po.id).create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "test_discount.xml",
                 "update_prices": False,
                 "create_bill": False,
@@ -589,7 +589,7 @@ class TestPurchaseUblImport(TransactionCase):
         )
         wiz = self.env["purchase.ubl.import.wizard"].create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "standalone.xml",
                 "update_prices": True,
                 "create_bill": False,
@@ -627,7 +627,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=self.po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "context_lost.xml",
                     "update_prices": True,
                     "create_bill": False,
@@ -666,7 +666,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product.display_name,
                 "product_qty": 1.0,
                 "price_unit": 10.0,
-                "product_uom_id": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
                 "tax_ids": [(5, 0, 0)],
             }
@@ -692,7 +692,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "mismatch.xml",
                     "update_prices": False,
                     "create_bill": False,
@@ -727,7 +727,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": eco.display_name,
                 "product_qty": 4.0,
                 "price_unit": 1.50,
-                "product_uom_id": eco.uom_id.id,
+                "uom_id": eco.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
             }
         )
@@ -755,7 +755,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.with_context(active_model="purchase.order", active_id=self.po.id).create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "eco.xml",
                 "update_prices": True,
                 "create_bill": True,
@@ -803,7 +803,7 @@ class TestPurchaseUblImport(TransactionCase):
                 "name": product.display_name,
                 "product_qty": 2.0,
                 "price_unit": 9.50,
-                "product_uom_id": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "date_planned": "2025-01-01 00:00:00",
                 "tax_ids": [(5, 0, 0)],
             }
@@ -828,7 +828,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         wiz = Wiz.with_context(active_model="purchase.order", active_id=po.id).create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "total_ok.xml",
                 "update_prices": True,
                 "create_bill": False,
@@ -859,7 +859,7 @@ class TestPurchaseUblImport(TransactionCase):
             "product_qty": qty,
             "price_unit": price,
             "name": product.name,
-            "product_uom_id": product.uom_id.id,
+            "uom_id": product.uom_id.id,
             "date_planned": "2025-01-01 00:00:00",
         }
         if tax:
@@ -910,7 +910,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "bill.xml",
                     "update_prices": False,
                     "create_bill": True,
@@ -938,7 +938,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "bill.xml",
                     "update_prices": False,
                     "create_bill": True,
@@ -980,7 +980,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "receipt.xml",
                     "update_prices": False,
                     "create_bill": False,
@@ -1014,7 +1014,7 @@ class TestPurchaseUblImport(TransactionCase):
         )
         wiz = self.env["purchase.ubl.import.wizard"].create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "unmatched.xml",
                 "update_prices": False,
                 "create_bill": False,
@@ -1108,11 +1108,47 @@ class TestPurchaseUblImport(TransactionCase):
         self.assertEqual(matched, product)
         self.assertEqual(match_type, "barcode")
 
+    def test_data_file_accepts_19_base64_contract_and_raw_bytes(self):
+        """Odoo 20: a plain Binary field refuses bytes. `data_file` keeps the 19.0 contract
+        of its callers (base64 bytes/str, e.g. l10n_ro_message_spv_purchase) and also takes
+        the raw XML bytes, the Odoo 20 idiom (BinaryBytes / attachment.raw)."""
+        xml = _xml_invoice(order_ref=self.po.name)
+        Wiz = self.env["purchase.ubl.import.wizard"]
+        for value in (
+            base64.b64encode(xml),
+            base64.b64encode(xml).decode(),
+            base64.encodebytes(xml),
+            xml,
+            BinaryBytes(xml),
+            {"content": BinaryBytes(xml), "filename": "invoice.xml"},
+        ):
+            with self.subTest(value_type=type(value).__name__):
+                self.assertEqual(Wiz.new({"data_file": value}).data_file.content, xml)
+                wiz = Wiz.create({"data_file": value, "filename": "invoice.xml"})
+                self.assertEqual(wiz.data_file.content, xml)
+
+    def test_default_get_picks_xml_attachment_of_order(self):
+        xml = _xml_invoice(order_ref=self.po.name)
+        self.env["ir.attachment"].create(
+            {
+                "name": "invoice.xml",
+                "raw": xml,
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": self.po.id,
+            }
+        )
+        Wiz = self.env["purchase.ubl.import.wizard"].with_context(active_model="purchase.order", active_id=self.po.id)
+        defaults = Wiz.default_get(["order_id", "data_file", "filename"])
+        self.assertEqual(defaults["order_id"], self.po.id)
+        self.assertEqual(defaults["filename"], "invoice.xml")
+        wiz = Wiz.create({})
+        self.assertEqual(wiz.data_file.content, xml)
+
     def test_find_supplier_partner_matches_vat_ignoring_spaces(self):
         partner = self.env["res.partner"].create(
             {
                 "name": "Spaced VAT Vendor",
-                "is_company": True,
                 "vat": "RO999888777",
                 "supplier_rank": 1,
             }
@@ -1171,7 +1207,7 @@ class TestPurchaseUblImport(TransactionCase):
                             "product_qty": 1,
                             "price_unit": 5.0,
                             "name": product.name,
-                            "product_uom_id": product.uom_id.id,
+                            "uom_id": product.uom_id.id,
                             "date_planned": "2025-01-01 00:00:00",
                         },
                     )
@@ -1189,7 +1225,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "noreceipt.xml",
                     "update_prices": False,
                     "create_bill": False,
@@ -1213,7 +1249,7 @@ class TestPurchaseUblImport(TransactionCase):
         )
         wiz = self.env["purchase.ubl.import.wizard"].create(
             {
-                "data_file": b64encode(xml),
+                "data_file": BinaryBytes(xml),
                 "filename": "skipped_bill.xml",
                 "update_prices": False,
                 "create_bill": True,
@@ -1251,7 +1287,7 @@ class TestPurchaseUblImport(TransactionCase):
             .with_context(active_model="purchase.order", active_id=po.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "partial_match.xml",
                     "update_prices": False,
                     "create_bill": False,
@@ -1289,7 +1325,7 @@ class TestPurchaseUblImport(TransactionCase):
         Wiz = self.env["purchase.ubl.import.wizard"]
         return Wiz.with_context(active_model="purchase.order", active_id=order.id).create(
             {
-                "data_file": b64encode(xml_bytes),
+                "data_file": BinaryBytes(xml_bytes),
                 "filename": "preview.xml",
                 "update_prices": False,
                 "create_bill": False,
