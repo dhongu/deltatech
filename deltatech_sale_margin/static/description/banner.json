@@ -1,0 +1,10 @@
+{
+  "title": "Sale Margin Control",
+  "summary": "Protect margins and control pricing on sales",
+  "icon": "trend",
+  "features": [
+    "Hide margin & cost from sales reps",
+    "Block sales below purchase price",
+    "Validate price limits at confirmation"
+  ]
+}

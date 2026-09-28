@@ -1,0 +1,313 @@
+<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;">
+<!-- tb-gen v1 -->
+<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
+  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
+    style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Sale Margin" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Sale Margin</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Check price in sale order</p>
+  <div>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Sales</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
+    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+  </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<ul>
+<li>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Features:</p>
+<ul>
+<li>New technical access group to hide margin and purchase price in sale order</li>
+<li>New technical access group to prevent changing price in sale order</li>
+<li>New technical access group to allow sale price below the purchase price</li>
+<li>Warning/Error on sale order if sale price is below the purchase price</li>
+<li>Configurable reaction per company (Settings &gt; Sales &gt; Pricing): block the
+sale, warn only, or no check. "Warn only" flags the line and shows a banner
+without ever blocking - for businesses where selling below cost is a routine
+part of the trade (perishable goods, stock clearance, commercial gestures).</li>
+<li>The cost is compared in the unit of the sale order line, and the comparison
+stays silent when the line unit and the product base unit belong to different
+unit families - Odoo 19 converts any pair of units by their absolute factors,
+so a wrong <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code> would otherwise report every line as below cost.</li>
+</ul>
+</li>
+</ul>
+<p>sale.margin_limit and sale.margin_limit_check_validate are configurable from
+Settings &gt; Sales. sale.margin_limit is the margin percentage below which a line is
+reported: 0 reports only negative margins, a negative value tolerates a loss of up
+to that percentage, a positive value also reports thin but positive margins.</p>
+<p>sale.check_price_website - parmanetru pentru verificare pret pentru comenzile de pe website
+sale.margin_limit_check_validate - system parameter - if set, the verificaion is made at order confirmation (users with
+no rights to sell below margin/purchase price can still create draft sale orders)</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-08-20)</h2>
+<ul>
+<li>
+<p><strong>New: the reaction to a below-cost sale is configurable per company</strong> &#8212;
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.company.sale_margin_check_mode</code>, in Settings &gt; Sales &gt; Pricing:</p>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> (default, unchanged behaviour): the price cannot be saved and the
+order cannot be confirmed, unless the user belongs to the bypass groups;</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code>: nothing is ever blocked. The line is flagged, the order shows a
+banner saying it can still be confirmed, and confirming it leaves a single
+note in the chatter;</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">off</code>: no flag, no banner, no block.</li>
+</ul>
+</li>
+</ul>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code> exists for businesses where selling below cost is a routine part of the
+  trade &#8212; perishable goods, stock clearance, commercial gestures. Blocking there
+  stops the daily work, while the actual need is to make it visible and let the
+  seller decide. Existing databases keep the historical behaviour: the default is
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> and no migration changes it.</p>
+<ul>
+<li>
+<p><strong>New: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.line.margin_below_limit</code></strong> &#8212; the line is flagged (orange row
+  in the order lines) as soon as the seller leaves the price field, which is where
+  the decision is made. The flag is readable by anyone: it says THAT the margin is
+  under the limit, not what the cost is, so it does not leak the cost to sellers
+  who are not allowed to see it. The figure stays on the native, group-restricted
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">margin_percent</code>.</p>
+</li>
+<li>
+<p><strong>New: unit guard on the comparison.</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_price</code> is brought into the line
+  unit by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_margin</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock_margin</code> through
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_id.uom_id._compute_price(...)</code>. Odoo 19 removed the unit category, so
+  that multiplies by the absolute factors without checking the family &#8212; the root
+  of the kilogram hierarchy is the gram, so a cost of 3.00 per Unit becomes
+  3000.00 per kg (measured, not assumed). A product whose <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code> is wrong would
+  therefore report EVERY line as below cost and the warning would be dismissed as
+  noise from day one. The comparison now stays silent when the line unit and the
+  product's base unit belong to different families. New helper
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._dt_root_uom()</code>.</p>
+</li>
+<li>
+<p><strong>New: the margin settings are reachable from the interface.</strong>
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit_check_validate</code> existed but were only
+  reachable through System Parameters, so in practice nobody configured them. They
+  are now exposed in Settings &gt; Sales, next to the reaction mode. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit</code>
+  doubles as the warning threshold: 0 reports only negative margins, a negative
+  value tolerates a loss of up to that percentage, a positive value also reports
+  thin but positive margins.</p>
+</li>
+<li>
+<p>The onchange modal ("Do not sell below the purchase price") now only appears in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> mode. Where selling below cost is routine, a modal on every line ends up
+  being dismissed reflexively without being read; the flagged row carries the same
+  signal without interrupting.</p>
+</li>
+<li>
+<p>In <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code> mode <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">check_sale_price</code> stays silent on purpose. It runs on every
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write</code> of a line, so the native <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">message_post</code> branch produced one chatter entry
+  per keystroke on the price. The decision is now logged exactly once, on
+  confirmation.</p>
+</li>
+<li>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock_margin</code> is now a declared dependency. It was already pulled in by
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_install</code>, but the cost used by the check comes from it (the real valuation
+  of the delivery), so the behaviour should not depend on install order.</p>
+</li>
+<li>
+<p><strong>19 tests.</strong> They run as an operator who is OUTSIDE the bypass groups, with a
+  dedicated test asserting that: running them as root or admin proves nothing,
+  since both belong to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">group_sale_below_purchase_price</code> and the native check would
+  not have blocked them either. Each mechanism was validated by sabotage &#8212; forcing
+  the mode back to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> breaks 4 tests, removing the chatter note or the banner
+  wording breaks 2 more, disabling the unit guard breaks 1.</p>
+</li>
+<li>
+<p>Two pre-existing behaviours are now pinned down by tests, because they are easy
+  to misread: in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> mode the block fires from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.line.write</code>, so an
+  order created through the API with inline lines and confirmed without touching a
+  line is NOT blocked; blocking on confirmation requires
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit_check_validate</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-6">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded-3 p-4 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
+  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
+  <a href="https://www.terrabit.ro/contactus" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+</div>
+
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_alternative" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Alternative</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Alternative product codes</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_discount_policy" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Discount Policy</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Bring back Odoo 17 discount policy</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_fast_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FS</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Sale</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Vanzare rapida</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Facturare livrari</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking_automatically" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings Automatically</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generate invoice automatically from picking after validation</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Currency Extension</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Price list currency</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist_line_viewer" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Line Viewer</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Creates a list view for the lines of a price list for search and management</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>
