@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Many2one Badge Widget",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Web",
     "summary": "Many2one field widget displayed as colored badge, similar to many2many_tags",
     "author": "Terrabit, Dorin Hongu",
@@ -15,7 +15,7 @@
             "deltatech_widget_many2one_badge/static/src/xml/many2one_badge_field.xml",
         ],
         "web.assets_unit_tests": [
-            "deltatech_widget_many2one_badge/static/tests/many2one_badge_field.test.esm.js",
+            "deltatech_widget_many2one_badge/static/tests/many2one_badge_field.test.js",
         ],
     },
     "development_status": "Production/Stable",
