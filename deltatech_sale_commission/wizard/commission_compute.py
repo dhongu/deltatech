@@ -2,7 +2,14 @@
 # See README.rst file on addons root folder for license details
 
 
+from collections import defaultdict
+
 from odoo import api, fields, models
+from odoo.exceptions import AccessError, UserError
+
+# Invoices whose payment counts as received: "in_payment" is a payment registered and
+# reconciled with the invoice, only not yet matched with the bank statement.
+PAID_STATES = ("paid", "in_payment")
 
 
 class CommissionCompute(models.TransientModel):
@@ -26,60 +33,73 @@ class CommissionCompute(models.TransientModel):
         if active_ids:
             domain = [("id", "in", active_ids)]
         else:
-            domain = [("state", "=", "paid"), ("commission", "=", 0.0)]
+            domain = [("payment_state", "in", PAID_STATES), ("commission", "=", 0.0)]
         res = self.env["sale.margin.report"].search(domain)
         defaults["invoice_line_ids"] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
-    def do_compute(self):
-        res = []
-        commission_days_limit_string = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("deltatech_sale_commission.days_for_commission", default=False)
-        )
-        commission_days_limit = 0
-        if commission_days_limit_string:
-            commission_days_limit = int(commission_days_limit_string)
-        for line in self.invoice_line_ids:
-            if commission_days_limit:
-                if line.invoice_id.payment_state not in ["paid", "reversed"]:
-                    if line.invoice_id.move_type == "out_refund":
-                        value = {"commission": line.commission_computed}
-                    else:
-                        value = {"commission": 0}
-                else:
-                    if line.invoice_id.move_type == "out_refund":
-                        value = {"commission": line.commission_computed}
-                    else:
-                        if not line.invoice_id.invoice_payments_widget:
-                            if line.commission_computed < 0:
-                                value = {"commission": line.commission_computed}
-                            else:
-                                value = {"commission": 0}
-                        else:
-                            last_payment = sorted(
-                                line.invoice_id.invoice_payments_widget["content"],
-                                key=lambda d: d["date"],
-                                reverse=True,
-                            )[0]
-                            days_difference = (
-                                fields.Date.to_date(last_payment["date"]) - line.invoice_id.invoice_date_due
-                            ).days  # calculate the days difference between the invoice due date and the payment date
-                            if days_difference <= commission_days_limit:
-                                value = {"commission": line.commission_computed}
-                            else:
-                                value = {"commission": 0}
+    @api.model
+    def _get_days_for_commission(self):
+        """The maximum number of days between the due date and the last payment, or None when the
+        commission does not depend on the payment. 0 means paid at the latest on the due date."""
+        value = self.env["ir.config_parameter"].sudo().get_param("deltatech_sale_commission.days_for_commission")
+        if value is False or not str(value).strip():
+            return None
+        try:
+            days = int(value)
+        except ValueError as e:
+            raise UserError(
+                self.env._(
+                    "The system parameter deltatech_sale_commission.days_for_commission must be a whole number "
+                    "of days, not %(value)s.",
+                    value=value,
+                )
+            ) from e
+        if days < 0:
+            raise UserError(
+                self.env._("The system parameter deltatech_sale_commission.days_for_commission can not be negative.")
+            )
+        return days
 
-            else:
-                value = {"commission": line.commission_computed}
-            # if line.purchase_price == 0 and line.product_id:
-            #     value['purchase_price'] = line.product_id.standard_price
-            invoice_line = self.env["account.move.line"].browse(line.id)
-            invoice_line.write(value)
+    def _get_line_commission(self, line, days_limit):
+        """The commission granted on a margin report line."""
+        invoice = line.invoice_id
+        if days_limit is None or invoice.move_type == "out_refund":
+            return line.commission_computed
+        if invoice.payment_state not in PAID_STATES + ("reversed",):
+            return 0.0
+        payments = invoice.invoice_payments_widget and invoice.invoice_payments_widget["content"]
+        if not payments:
+            # nothing received: only a loss (negative commission) is kept
+            return line.commission_computed if line.commission_computed < 0 else 0.0
+        last_payment_date = max(fields.Date.to_date(payment["date"]) for payment in payments)
+        days_late = (last_payment_date - invoice.invoice_date_due).days
+        return line.commission_computed if days_late <= days_limit else 0.0
+
+    def do_compute(self):
+        # The commission is stored on the invoice lines, which the sales roles can only read.
+        # The wizard writes with sudo, so the right to do it is checked here, on the commission
+        # group, instead of asking for an invoicing right.
+        if not self.env.user.has_group("deltatech_sale_commission.group_commission_manager"):
+            raise AccessError(self.env._("Only a Commission Manager can compute the commissions."))
+        days_limit = self._get_days_for_commission()
+        res = []
+        # Grouped by the value written, one write per distinct commission instead of one per line.
+        # Now that the default selection of the wizard actually returns something (it used to
+        # filter on a state an invoice never has), running it without a selection can bring in
+        # every unpaid-commission line of the database — over 10.000 of them on some clients — and
+        # most of them get either the computed value or a plain 0.
+        by_commission = defaultdict(list)
+        for line in self.invoice_line_ids:
+            by_commission[self._get_line_commission(line, days_limit)].append(line.id)
             res.append(line.id)
+        AccountMoveLine = self.env["account.move.line"].sudo()
+        for commission, line_ids in by_commission.items():
+            AccountMoveLine.browse(line_ids).write({"commission": commission})
+        self.env["account.move.line"].flush_model(["commission"])
+        self.invoice_line_ids.invalidate_recordset()
         return {
-            "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
+            "domain": [("id", "in", res)],
             "name": self.env._("Commission"),
             "view_mode": "list,form",
             "res_model": "sale.margin.report",

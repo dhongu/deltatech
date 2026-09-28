@@ -14,6 +14,7 @@
                         string="Set Paid"
                         type="object"
                         icon="fa-check"
+                        groups="deltatech_sale_commission.group_commission_manager"
                     />
                 </header>
                 <field name="date" column_invisible="True" />
@@ -93,6 +94,7 @@
                         string="Set Paid"
                         type="object"
                         icon="fa-check"
+                        groups="deltatech_sale_commission.group_commission_manager"
                     />
                 </header>
                 <field name="date" column_invisible="1" />
@@ -104,7 +106,6 @@
                 <field name="partner_id" column_invisible="1" />
                 <field name="commercial_partner_id" />
                 <field name="invoice_id" />
-                <field name="due_date" />
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="purchase_price" optional="hide" />
                 <field name="sale_val" sum="Sale value" />
@@ -177,8 +178,8 @@
 
                 <separator />
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
-                <filter string="Paid" name="paid" domain="[('payment_state','=','paid')]" />
-                <filter string="Open" name="open" domain="[('payment_state','!=','paid')]" />
+                <filter string="Paid" name="paid" domain="[('payment_state','in',['paid','in_payment'])]" />
+                <filter string="Open" name="open" domain="[('payment_state','not in',['paid','in_payment'])]" />
                 <separator />
                 <filter
                     string="Commission Not Paid"
