@@ -3,18 +3,18 @@
 
     <t t-name="deltatech_web_kpi_cards.KpiCards">
         <div class="o_kpi_cards">
-            <t t-foreach="props.cards" t-as="card" t-key="card.key">
+            <t t-foreach="this.props.cards" t-as="card" t-key="card.key">
                 <button
                     type="button"
                     class="o_kpi_card btn bg-view text-start"
-                    t-att-class="'o_kpi_card_' + toneOf(card) + (card.active ? ' active' : '') + (isZero(card) ? ' o_kpi_card_zero' : '')"
+                    t-att-class="'o_kpi_card_' + this.toneOf(card) + (card.active ? ' active' : '') + (this.isZero(card) ? ' o_kpi_card_zero' : '')"
                     t-att-data-card="card.key"
                     t-att-title="card.label"
                     t-att-aria-pressed="card.active ? 'true' : 'false'"
                     t-on-click="() => this.onClick(card)"
                 >
                     <span t-if="card.icon" class="o_kpi_card_icon" aria-hidden="true">
-                        <i t-attf-class="fa {{ card.icon }}" />
+                        <i class="oi" t-att-data-icon="card.icon" />
                     </span>
                     <span class="o_kpi_card_body">
                         <span class="o_kpi_card_value">

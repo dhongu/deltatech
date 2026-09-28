@@ -17,7 +17,7 @@ KPI Cards
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_web_kpi_cards
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_kpi_cards
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -64,7 +64,7 @@ show the cards from any OWL component, for instance a list renderer:
        }
        get cards() {
            return [
-               {key: "filter_late", label: "Late", count: 4, icon: "fa-clock-o", tone: "warning",
+               {key: "filter_late", label: "Late", count: 4, icon: "schedule", tone: "warning",
                 active: this.filters.isActive("filter_late")},
            ];
        }
@@ -75,7 +75,8 @@ show the cards from any OWL component, for instance a list renderer:
 
 A card: ``key`` (also its ``data-card`` attribute), ``label``, then
 ``count`` or ``amounts`` (formatted strings), optional ``subtitle``,
-``icon`` (a Font Awesome class) and ``tone``: ``info``, ``success``,
+``icon`` (an ``oi`` icon name, as listed in ``web/icons.py``: Font
+Awesome is gone in Odoo 20) and ``tone``: ``info``, ``success``,
 ``warning``, ``danger``, ``purple``, ``action`` or ``slate`` (the
 default).
 
@@ -90,7 +91,7 @@ is the number of rows the click opens.
 Changelog
 =========
 
-19.0.1.0.0 (2026-09-28)
+20.0.1.0.0 (2026-09-28)
 -----------------------
 
 - First release: the KPI cards and their search filter binding, taken
@@ -125,6 +126,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_web_kpi_cards>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_kpi_cards>`_ project on GitHub.
 
 You are welcome to contribute.

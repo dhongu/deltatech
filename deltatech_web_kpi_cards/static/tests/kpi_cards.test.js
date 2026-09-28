@@ -1,7 +1,7 @@
 import {describe, expect, test} from "@odoo/hoot";
 import {click, queryAll, queryAllTexts, queryOne} from "@odoo/hoot-dom";
 import {animationFrame} from "@odoo/hoot-mock";
-import {Component, xml} from "@odoo/owl";
+import {Component, useProps, xml} from "@odoo/owl";
 import {
     defineModels,
     fields,
@@ -35,7 +35,7 @@ describe("deltatech_web_kpi_cards", () => {
         await mountWithCleanup(KpiCards, {
             props: {
                 cards: [
-                    {key: "a", label: "In Transit", count: 6, icon: "fa-truck", tone: "info"},
+                    {key: "a", label: "In Transit", count: 6, icon: "local_shipping", tone: "info"},
                     {key: "b", label: "Returned", count: 0, tone: "purple"},
                     {key: "c", label: "COD", amounts: ["851 lei", "40 €"], subtitle: "3 AWB", tone: "action"},
                     {key: "d", label: "Unknown tone", count: 1, tone: "nope", active: true},
@@ -46,7 +46,7 @@ describe("deltatech_web_kpi_cards", () => {
         // Amounts, one line per currency
         expect(queryAllTexts(".o_kpi_card_value")).toEqual(["6", "0", "851 lei\n40 €", "1"]);
         expect(".o_kpi_card[data-card='a']").toHaveClass("o_kpi_card_info");
-        expect(".o_kpi_card[data-card='a'] .fa-truck").toHaveCount(1);
+        expect(".o_kpi_card[data-card='a'] .oi[data-icon='local_shipping']").toHaveCount(1);
         expect(".o_kpi_card[data-card='b']").toHaveClass("o_kpi_card_zero");
         expect(".o_kpi_card[data-card='c']").not.toHaveClass("o_kpi_card_zero");
         expect(queryOne(".o_kpi_card[data-card='c']")).toHaveText(/3 AWB/);
@@ -74,11 +74,11 @@ describe("deltatech_web_kpi_cards", () => {
             static template = xml`
                 <div>
                     <SearchBar/>
-                    <KpiCards cards="cards" onCardClick.bind="onCardClick"/>
-                    <p class="o_test_domain" t-out="domainText"/>
+                    <KpiCards cards="this.cards" onCardClick.bind="this.onCardClick"/>
+                    <p class="o_test_domain" t-out="this.domainText"/>
                 </div>`;
             static components = {KpiCards, SearchBar};
-            static props = ["*"];
+            props = useProps();
             setup() {
                 this.filters = useKpiCardFilters(FILTERS);
             }

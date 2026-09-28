@@ -14,7 +14,7 @@ class MyDashboard extends Component {
     }
     get cards() {
         return [
-            {key: "filter_late", label: "Late", count: 4, icon: "fa-clock-o", tone: "warning",
+            {key: "filter_late", label: "Late", count: 4, icon: "schedule", tone: "warning",
              active: this.filters.isActive("filter_late")},
         ];
     }
@@ -25,7 +25,8 @@ class MyDashboard extends Component {
 ```
 
 A card: `key` (also its `data-card` attribute), `label`, then `count` or `amounts` (formatted
-strings), optional `subtitle`, `icon` (a Font Awesome class) and `tone`: `info`, `success`,
+strings), optional `subtitle`, `icon` (an `oi` icon name, as listed in `web/icons.py`: Font Awesome is
+gone in Odoo 20) and `tone`: `info`, `success`,
 `warning`, `danger`, `purple`, `action` or `slate` (the default).
 
 Keep the card filters in a group of their own in the search view, a `<separator/>` before and

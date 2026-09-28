@@ -1,4 +1,5 @@
-import {Component, useEnv} from "@odoo/owl";
+import {Component, t, useProps} from "@odoo/owl";
+import {useEnv} from "@web/owl2/utils";
 
 /**
  * A band of KPI cards. Presentation only: what a card counts, and what a
@@ -6,32 +7,18 @@ import {Component, useEnv} from "@odoo/owl";
  *
  * A card: `key` (also its `data-card`), `label`, then either `count` or
  * `amounts` (formatted lines, one per currency), optional `subtitle`,
- * `icon` (a Font Awesome class), `tone` (one of KPI_TONES) and `active`.
+ * `icon` (an `oi` icon name, see web/icons.py), `tone` (one of KPI_TONES)
+ * and `active`.
  */
 export const KPI_TONES = ["info", "success", "warning", "danger", "purple", "action", "slate"];
 
 export class KpiCards extends Component {
     static template = "deltatech_web_kpi_cards.KpiCards";
-    static props = {
-        cards: {
-            type: Array,
-            element: {
-                type: Object,
-                shape: {
-                    key: String,
-                    label: String,
-                    count: {type: Number, optional: true},
-                    amounts: {type: Array, element: String, optional: true},
-                    subtitle: {type: String, optional: true},
-                    icon: {type: String, optional: true},
-                    tone: {type: String, optional: true},
-                    active: {type: Boolean, optional: true},
-                    "*": true,
-                },
-            },
-        },
-        onCardClick: {type: Function, optional: true},
-    };
+    // Owl 3: props are declared with useProps (a static props throws)
+    props = useProps({
+        cards: t.array(),
+        onCardClick: t.function().optional(),
+    });
 
     toneOf(card) {
         return KPI_TONES.includes(card.tone) ? card.tone : "slate";
