@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Sales > Reporting is restricted to sales managers; agents need their own entry -->
+    <menuitem id="menu_customer_portfolio"
+              name="Customer Portfolio"
+              parent="sale.sale_menu_root"
+              sequence="35"
+              groups="group_customer_segment_agent" />
+
+    <menuitem id="menu_customer_segment"
+              name="Customer Segments"
+              parent="menu_customer_portfolio"
+              action="action_customer_segment"
+              sequence="10" />
+
+    <menuitem id="menu_customer_segment_config"
+              name="Settings"
+              parent="menu_customer_portfolio"
+              action="action_server_customer_segment_config"
+              sequence="60"
+              groups="group_customer_segment_director" />
+
+</odoo>

@@ -1,0 +1,743 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_customer_segment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 16:37+0000\n"
+"PO-Revision-Date: 2026-09-28 16:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_form
+msgid ""
+"<span class=\"badge text-bg-success ms-2\" invisible=\"not "
+"is_top_client\">Top customer</span>"
+msgstr ""
+"<span class=\"badge text-bg-success ms-2\" invisible=\"not "
+"is_top_client\">Client top</span>"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.constraint,message:deltatech_customer_segment.constraint_deltatech_customer_segment_partner_company_uniq
+msgid "A customer has a single segment row per company."
+msgstr "Un client are un singur rând de segment pe companie."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__rhythm_segment__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_customer_segment
+#: model:res.groups,name:deltatech_customer_segment.group_customer_segment_director
+msgid "All customers"
+msgstr "Toți clienții"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__at_risk_factor
+msgid "At Risk Factor"
+msgstr "Factor „în risc”"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__overdue_count
+msgid "At least this many overdue invoices: payment risk."
+msgstr "Cel puțin atâtea facturi restante: risc de neplată."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__rhythm_segment__at_risk
+msgid "At risk"
+msgstr "În risc"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "At risk (own rhythm)"
+msgstr "În risc (față de ritmul propriu)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment__interval_days
+msgid ""
+"Average number of days between purchases, measured. Empty for a single "
+"purchase."
+msgstr ""
+"Numărul mediu de zile dintre cumpărări, măsurat. Gol la o singură cumpărare."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__avg_amount
+msgid "Average purchase"
+msgstr "Cumpărare medie"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__basis
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__basis
+msgid "Basis"
+msgstr "Sursă"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Bought only once"
+msgstr "A cumpărat o singură dată"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_config_form
+msgid "Buying rhythm"
+msgstr "Ritm de cumpărare"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__classification
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Classification"
+msgstr "Clasificare"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__company_id
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__period_months
+msgid "Comparison period (months)"
+msgstr "Perioadă de comparație (luni)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__computed_on
+msgid "Computed On"
+msgstr "Calculat la"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment_config__basis__orders
+msgid "Confirmed sales orders"
+msgstr "Comenzi de vânzare confirmate"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__create_uid
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__create_date
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__currency_id
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__partner_id
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_customer_segment
+#: model:ir.ui.menu,name:deltatech_customer_segment.menu_customer_portfolio
+#: model:res.groups.privilege,name:deltatech_customer_segment.res_groups_privilege_customer_segment
+msgid "Customer Portfolio"
+msgstr "Portofoliu clienți"
+
+#. module: deltatech_customer_segment
+#. odoo-python
+#: code:addons/deltatech_customer_segment/models/customer_segment.py:0
+#: model:ir.actions.server,name:deltatech_customer_segment.action_server_partner_customer_segment
+#: model:ir.model,name:deltatech_customer_segment.model_deltatech_customer_segment
+msgid "Customer Segment"
+msgstr "Segment client"
+
+#. module: deltatech_customer_segment
+#: model:ir.model,name:deltatech_customer_segment.model_deltatech_customer_segment_config
+msgid "Customer Segment Settings"
+msgstr "Setări segmentare clienți"
+
+#. module: deltatech_customer_segment
+#: model:ir.actions.server,name:deltatech_customer_segment.ir_cron_customer_segment_recompute_ir_actions_server
+msgid "Customer Segment: nightly recompute"
+msgstr "Segment client: recalcul nocturn"
+
+#. module: deltatech_customer_segment
+#. odoo-python
+#: code:addons/deltatech_customer_segment/models/customer_segment_config.py:0
+#: model:ir.actions.server,name:deltatech_customer_segment.action_server_customer_segment_config
+msgid "Customer Segmentation"
+msgstr "Segmentare clienți"
+
+#. module: deltatech_customer_segment
+#: model:ir.actions.act_window,name:deltatech_customer_segment.action_customer_segment
+#: model:ir.ui.menu,name:deltatech_customer_segment.menu_customer_segment
+msgid "Customer Segments"
+msgstr "Segmente clienți"
+
+#. module: deltatech_customer_segment
+#. odoo-python
+#: code:addons/deltatech_customer_segment/models/customer_segment_config.py:0
+msgid "Customer segments recomputed."
+msgstr "Segmentele clienților au fost recalculate."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__days_since
+msgid "Days since last purchase"
+msgstr "Zile de la ultima cumpărare"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__decline_min_previous
+msgid "Decline min. previous sales"
+msgstr "Scădere: vânzări anterioare minime"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__decline_pct
+msgid "Decline threshold (%)"
+msgstr "Prag de scădere (%)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__declining
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Declining"
+msgstr "În scădere"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__decline_pct
+msgid ""
+"Declining: current period sales fall below this share of the previous "
+"period."
+msgstr ""
+"În scădere: vânzările din perioada curentă coboară sub acest procent din "
+"perioada anterioară."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__default_interval_days
+msgid "Default rhythm (days)"
+msgstr "Ritm implicit (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__display_name
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment__basis
+msgid "Documents the row was computed from."
+msgstr "Documentele din care a fost calculat rândul."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__rhythm_segment__dormant
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Dormant"
+msgstr "Adormit"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__dormant_factor
+msgid "Dormant Factor"
+msgstr "Factor „adormit”"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__first_date
+msgid "First purchase"
+msgstr "Prima cumpărare"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_form
+msgid "Follow-up"
+msgstr "Urmărire"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__small_order_avg
+msgid "Frequent buyer with an average document below this amount."
+msgstr "Cumpărător frecvent, cu documentul mediu sub această valoare."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__growing
+msgid "Growing"
+msgstr "În creștere"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__growth_pct
+msgid "Growing: current sales above the previous period by this share."
+msgstr ""
+"În creștere: vânzările curente depășesc perioada anterioară cu acest "
+"procent."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__growth_pct
+msgid "Growth (%)"
+msgstr "Creștere (%)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__growth_pct
+msgid "Growth threshold (%)"
+msgstr "Prag de creștere (%)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__high_potential
+msgid "High potential"
+msgstr "Potențial ridicat"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__high_potential_min
+msgid "High potential from"
+msgstr "Potențial ridicat de la"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__high_potential_avg
+msgid "High potential min. average"
+msgstr "Potențial ridicat: medie minimă"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__is_high_value
+msgid "High value"
+msgstr "Valoare mare"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__high_value_min
+msgid "High value from"
+msgstr "Valoare mare de la"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__id
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Inactive"
+msgstr "Inactivi"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__inactive_1
+msgid "Inactive, level 1"
+msgstr "Inactiv, nivel 1"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__inactive_days_1
+msgid "Inactive, level 1 (days)"
+msgstr "Inactiv, nivel 1 (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__inactive_2
+msgid "Inactive, level 2"
+msgstr "Inactiv, nivel 2"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__inactive_days_2
+msgid "Inactive, level 2 (days)"
+msgstr "Inactiv, nivel 2 (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__inactive_3
+msgid "Inactive, level 3"
+msgstr "Inactiv, nivel 3"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__inactive_days_3
+msgid "Inactive, level 3 (days)"
+msgstr "Inactiv, nivel 3 (zile)"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_config_form
+msgid "Inactivity and payment risk"
+msgstr "Inactivitate și risc de neplată"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__basis__invoices
+msgid "Invoices"
+msgstr "Facturi"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__last_run
+msgid "Last Run"
+msgstr "Ultima rulare"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__write_uid
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__write_date
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__last_contact_date
+msgid "Last contact"
+msgstr "Ultimul contact"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__last_date
+msgid "Last purchase"
+msgstr "Ultima cumpărare"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__revenue_total
+msgid "Lifetime sales"
+msgstr "Vânzări totale"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__high_value_min
+msgid "Lifetime sales from which a customer is a key account."
+msgstr "Vânzările totale de la care un client devine cont cheie."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__rhythm_segment__lost
+msgid "Lost"
+msgstr "Pierdut"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__lost_after_days
+msgid "Lost after (days)"
+msgstr "Pierdut după (zile)"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "My customers"
+msgstr "Clienții mei"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__rhythm_segment__new
+msgid "New"
+msgstr "Nou"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__new_max_count
+msgid "New customer max. purchases"
+msgstr "Client nou: număr maxim de cumpărări"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__new_days
+msgid "New customer window (days)"
+msgstr "Client nou: fereastră (zile)"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.actions.act_window,help:deltatech_customer_segment.action_customer_segment
+msgid "No customer segment yet"
+msgstr "Încă nu există segmente de clienți"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__neglected_contact_days
+msgid ""
+"No message logged on the customer for this many days raises the risk score."
+msgstr ""
+"Niciun mesaj înregistrat pe client în atâtea zile crește scorul de risc."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__neglected_contact_days
+msgid "No recent contact after (days)"
+msgstr "Fără contact recent după (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__max_overdue_days
+msgid "Oldest overdue (days)"
+msgstr "Cea mai veche restanță (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__overdue_days
+msgid "Oldest overdue invoice older than this: payment risk."
+msgstr ""
+"Cea mai veche factură restantă depășește acest număr de zile: risc de "
+"neplată."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__only_companies
+msgid "Only companies (B2B)"
+msgstr "Doar companii (B2B)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__open_balance
+msgid "Open Balance"
+msgstr "Sold deschis"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__overdue_tolerance
+msgid "Open balances below this amount are ignored (rounding differences)."
+msgstr "Soldurile sub această valoare sunt ignorate (diferențe de rotunjire)."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__basis__orders
+msgid "Orders"
+msgstr "Comenzi"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__overdue_amount
+msgid "Overdue Amount"
+msgstr "Sumă restantă"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__overdue_tolerance
+msgid "Overdue Tolerance"
+msgstr "Toleranță restanță"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__overdue_invoice_count
+msgid "Overdue invoices"
+msgstr "Facturi restante"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__overdue_days
+msgid "Overdue risk after (days)"
+msgstr "Risc de neplată după (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__overdue_count
+msgid "Overdue risk from (invoices)"
+msgstr "Risc de neplată de la (facturi)"
+
+#. module: deltatech_customer_segment
+#: model:res.groups,name:deltatech_customer_segment.group_customer_segment_agent
+msgid "Own customers"
+msgstr "Clienții proprii"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__overdue_risk
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Payment risk"
+msgstr "Risc de neplată"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_config_form
+msgid "Portfolio"
+msgstr "Portofoliu"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment_config__basis__invoices
+msgid "Posted customer invoices"
+msgstr "Facturi client validate"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__basis
+msgid ""
+"Posted invoices: untaxed amounts in company currency, credit notes deducted.\n"
+"Confirmed orders: untaxed order amounts converted at the order rate."
+msgstr ""
+"Facturi validate: valori fără TVA în moneda companiei, cu stornările scăzute.\n"
+"Comenzi confirmate: valori fără TVA ale comenzilor, convertite la cursul comenzii."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__potential_score
+msgid "Potential Score"
+msgstr "Scor de potențial"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__sale_count
+msgid "Purchases"
+msgstr "Cumpărări"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__sale_count_12m
+msgid "Purchases (12 months)"
+msgstr "Cumpărări (12 luni)"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_form
+msgid "Receivables"
+msgstr "Creanțe"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_config_form
+msgid "Recompute now"
+msgstr "Recalculează acum"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__rhythm_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_form
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Rhythm"
+msgstr "Ritm"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__interval_days
+msgid "Rhythm (days)"
+msgstr "Ritm (zile)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__default_interval_days
+msgid ""
+"Rhythm assumed for a customer with a single purchase: there is no interval "
+"to measure."
+msgstr ""
+"Ritmul presupus pentru un client cu o singură cumpărare: nu există un "
+"interval de măsurat."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__risk_score
+msgid "Risk Score"
+msgstr "Scor de risc"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_form
+msgid "Sales"
+msgstr "Vânzări"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__revenue_12m
+msgid "Sales (12 months)"
+msgstr "Vânzări (12 luni)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__revenue_current
+msgid "Sales (current period)"
+msgstr "Vânzări (perioada curentă)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__revenue_previous
+msgid "Sales (previous period)"
+msgstr "Vânzări (perioada anterioară)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__user_id
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Salesperson"
+msgstr "Agent de vânzări"
+
+#. module: deltatech_customer_segment
+#: model:res.groups,comment:deltatech_customer_segment.group_customer_segment_director
+msgid "Sees every customer and edits the segmentation settings."
+msgstr "Vede toți clienții și modifică setările de segmentare."
+
+#. module: deltatech_customer_segment
+#: model:res.groups,comment:deltatech_customer_segment.group_customer_segment_agent
+msgid "Sees the segment of the customers he is the salesperson of."
+msgstr "Vede segmentul clienților la care este agent de vânzări."
+
+#. module: deltatech_customer_segment
+#: model:ir.ui.menu,name:deltatech_customer_segment.menu_customer_segment_config
+msgid "Settings"
+msgstr "Setări"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__dormant_factor
+msgid "Silent for more than this many own rhythms: dormant."
+msgstr "Tace mai mult de atâtea ritmuri proprii: adormit."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__at_risk_factor
+msgid "Silent for more than this many own rhythms: the customer is at risk."
+msgstr "Tace mai mult de atâtea ritmuri proprii: clientul este în risc."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__only_companies
+msgid ""
+"Skip individuals. Useful when the retail customers are not followed by the "
+"sales team."
+msgstr ""
+"Exclude persoanele fizice. Util când clienții de retail nu sunt urmăriți de "
+"echipa de vânzări."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__small_orders
+msgid "Small orders (upsell)"
+msgstr "Comenzi mici (upsell)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__small_order_avg
+msgid "Small orders below"
+msgstr "Comenzi mici sub"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_config_form
+msgid "Source"
+msgstr "Sursă"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__stable
+msgid "Stable"
+msgstr "Stabil"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__category_ids
+msgid "Tags"
+msgstr "Etichete"
+
+#. module: deltatech_customer_segment
+#. odoo-python
+#: code:addons/deltatech_customer_segment/models/customer_segment_config.py:0
+msgid "The at-risk factor must be positive and not above the dormant factor."
+msgstr ""
+"Factorul „în risc” trebuie să fie pozitiv și să nu depășească factorul "
+"„adormit”."
+
+#. module: deltatech_customer_segment
+#. odoo-python
+#: code:addons/deltatech_customer_segment/models/customer_segment_config.py:0
+msgid "The comparison period must be at least one month."
+msgstr "Perioada de comparație trebuie să fie de cel puțin o lună."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment_config__decline_min_previous
+msgid ""
+"The decline signal is raised only for customers who bought at least this "
+"much in the previous period."
+msgstr ""
+"Semnalul de scădere apare doar la clienții care au cumpărat cel puțin atât "
+"în perioada anterioară."
+
+#. module: deltatech_customer_segment
+#. odoo-python
+#: code:addons/deltatech_customer_segment/models/customer_segment_config.py:0
+msgid "The inactivity levels must be positive and increasing."
+msgstr "Nivelurile de inactivitate trebuie să fie pozitive și crescătoare."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment__user_id
+msgid "The internal user in charge of this contact."
+msgstr "Utilizatorul intern responsabil de acest contact."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.constraint,message:deltatech_customer_segment.constraint_deltatech_customer_segment_config_company_uniq
+msgid "The segmentation settings already exist for this company."
+msgstr "Setările de segmentare există deja pentru această companie."
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.actions.act_window,help:deltatech_customer_segment.action_customer_segment
+msgid ""
+"The segments are recomputed every night from the sales history.\n"
+"               A director can run the computation now from the segmentation settings."
+msgstr ""
+"Segmentele se recalculează în fiecare noapte din istoricul vânzărilor.\n"
+"               Un director poate rula calculul imediat din setările de segmentare."
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment__is_top_client
+#: model:ir.model.fields.selection,name:deltatech_customer_segment.selection__deltatech_customer_segment__classification__top_client
+msgid "Top customer"
+msgstr "Client top"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_search
+msgid "Top customers"
+msgstr "Clienți top"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__top_share_pct
+msgid "Top customers (%)"
+msgstr "Clienți top (%)"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,field_description:deltatech_customer_segment.field_deltatech_customer_segment_config__top_min_count
+msgid "Top customers min. count"
+msgstr "Clienți top: număr minim"
+
+#. module: deltatech_customer_segment
+#: model_terms:ir.ui.view,arch_db:deltatech_customer_segment.view_customer_segment_list
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_customer_segment
+#: model:ir.model.fields,help:deltatech_customer_segment.field_deltatech_customer_segment__rhythm_segment
+msgid ""
+"Where the customer stands against his own buying rhythm, not against a "
+"company average."
+msgstr ""
+"Unde se află clientul față de propriul ritm de cumpărare, nu față de o medie"
+" a companiei."

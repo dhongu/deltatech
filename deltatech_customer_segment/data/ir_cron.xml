@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="ir_cron_customer_segment_recompute" model="ir.cron">
+        <field name="name">Customer Segment: nightly recompute</field>
+        <field name="model_id" ref="model_deltatech_customer_segment" />
+        <field name="state">code</field>
+        <field name="code">model._cron_recompute()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 01:30:00')" />
+        <field name="user_id" ref="base.user_root" />
+    </record>
+
+</odoo>

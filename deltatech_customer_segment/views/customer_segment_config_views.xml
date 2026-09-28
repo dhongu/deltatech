@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_customer_segment_config_form" model="ir.ui.view">
+        <field name="name">deltatech.customer.segment.config.form</field>
+        <field name="model">deltatech.customer.segment.config</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <header>
+                    <button name="action_recompute" type="object" string="Recompute now" class="btn-primary"
+                            groups="deltatech_customer_segment.group_customer_segment_director" />
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Source">
+                            <field name="company_id" groups="base.group_multi_company" readonly="1" />
+                            <field name="basis" widget="radio" />
+                            <field name="only_companies" />
+                            <field name="period_months" />
+                            <field name="last_run" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                        <group string="Buying rhythm">
+                            <field name="default_interval_days" />
+                            <field name="at_risk_factor" />
+                            <field name="dormant_factor" />
+                            <field name="lost_after_days" />
+                            <field name="new_days" />
+                            <field name="new_max_count" />
+                        </group>
+                        <group string="Inactivity and payment risk">
+                            <field name="inactive_days_1" />
+                            <field name="inactive_days_2" />
+                            <field name="inactive_days_3" />
+                            <field name="overdue_days" />
+                            <field name="overdue_count" />
+                            <field name="overdue_tolerance" />
+                        </group>
+                        <group string="Portfolio">
+                            <field name="decline_pct" />
+                            <field name="decline_min_previous" />
+                            <field name="growth_pct" />
+                            <field name="high_value_min" />
+                            <field name="high_potential_min" />
+                            <field name="high_potential_avg" />
+                            <field name="small_order_avg" />
+                            <field name="top_share_pct" />
+                            <field name="top_min_count" />
+                            <field name="neglected_contact_days" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_server_customer_segment_config" model="ir.actions.server">
+        <field name="name">Customer Segmentation</field>
+        <field name="model_id" ref="model_deltatech_customer_segment_config" />
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_settings()</field>
+    </record>
+
+</odoo>

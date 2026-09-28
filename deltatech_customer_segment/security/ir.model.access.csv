@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_customer_segment_agent,customer.segment.agent,model_deltatech_customer_segment,group_customer_segment_agent,1,0,0,0
+access_customer_segment_config_agent,customer.segment.config.agent,model_deltatech_customer_segment_config,group_customer_segment_agent,1,0,0,0
+access_customer_segment_config_director,customer.segment.config.director,model_deltatech_customer_segment_config,group_customer_segment_director,1,1,1,0

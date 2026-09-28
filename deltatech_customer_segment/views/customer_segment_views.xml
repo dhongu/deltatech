@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_customer_segment_list" model="ir.ui.view">
+        <field name="name">deltatech.customer.segment.list</field>
+        <field name="model">deltatech.customer.segment</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="partner_id" />
+                <field name="user_id" optional="show" widget="many2one_avatar_user" />
+                <field name="classification" widget="badge"
+                       decoration-success="classification in ('top_client', 'growing')"
+                       decoration-info="classification in ('high_potential', 'small_orders', 'stable')"
+                       decoration-warning="classification in ('declining', 'inactive_1')"
+                       decoration-danger="classification in ('inactive_2', 'inactive_3', 'overdue_risk')" />
+                <field name="rhythm_segment" widget="badge"
+                       decoration-success="rhythm_segment in ('new', 'active')"
+                       decoration-warning="rhythm_segment == 'at_risk'"
+                       decoration-danger="rhythm_segment in ('dormant', 'lost')" />
+                <field name="last_date" optional="show" />
+                <field name="days_since" optional="show" />
+                <field name="interval_days" optional="show" />
+                <field name="sale_count" optional="hide" />
+                <field name="revenue_12m" sum="Total" optional="show" />
+                <field name="revenue_current" sum="Total" optional="hide" />
+                <field name="revenue_previous" sum="Total" optional="hide" />
+                <field name="growth_pct" optional="show" />
+                <field name="revenue_total" sum="Total" optional="hide" />
+                <field name="overdue_amount" sum="Total" optional="show" />
+                <field name="max_overdue_days" optional="hide" />
+                <field name="risk_score" optional="show" />
+                <field name="potential_score" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_customer_segment_form" model="ir.ui.view">
+        <field name="name">deltatech.customer.segment.form</field>
+        <field name="model">deltatech.customer.segment</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="partner_id" /></h1>
+                        <field name="classification" widget="badge" />
+                        <field name="rhythm_segment" widget="badge" class="ms-2" />
+                        <field name="is_top_client" invisible="1" />
+                        <span class="badge text-bg-success ms-2" invisible="not is_top_client">Top customer</span>
+                    </div>
+                    <group>
+                        <group string="Rhythm">
+                            <field name="first_date" />
+                            <field name="last_date" />
+                            <field name="days_since" />
+                            <field name="interval_days" />
+                            <field name="sale_count" />
+                            <field name="sale_count_12m" />
+                        </group>
+                        <group string="Sales">
+                            <field name="revenue_12m" />
+                            <field name="revenue_current" />
+                            <field name="revenue_previous" />
+                            <field name="growth_pct" />
+                            <field name="avg_amount" />
+                            <field name="revenue_total" />
+                        </group>
+                        <group string="Receivables">
+                            <field name="open_balance" />
+                            <field name="overdue_amount" />
+                            <field name="overdue_invoice_count" />
+                            <field name="max_overdue_days" />
+                        </group>
+                        <group string="Follow-up">
+                            <field name="user_id" widget="many2one_avatar_user" />
+                            <field name="last_contact_date" />
+                            <field name="risk_score" />
+                            <field name="potential_score" />
+                            <field name="basis" />
+                            <field name="computed_on" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_customer_segment_pivot" model="ir.ui.view">
+        <field name="name">deltatech.customer.segment.pivot</field>
+        <field name="model">deltatech.customer.segment</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="classification" type="row" />
+                <field name="rhythm_segment" type="col" />
+                <field name="revenue_12m" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_customer_segment_graph" model="ir.ui.view">
+        <field name="name">deltatech.customer.segment.graph</field>
+        <field name="model">deltatech.customer.segment</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="classification" />
+                <field name="revenue_12m" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_customer_segment_search" model="ir.ui.view">
+        <field name="name">deltatech.customer.segment.search</field>
+        <field name="model">deltatech.customer.segment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="user_id" />
+                <field name="category_ids" />
+                <filter name="my_customers" string="My customers" domain="[('user_id', '=', uid)]" />
+                <separator />
+                <filter name="top" string="Top customers" domain="[('is_top_client', '=', True)]" />
+                <filter name="declining" string="Declining" domain="[('classification', '=', 'declining')]" />
+                <filter name="inactive" string="Inactive"
+                        domain="[('classification', 'in', ('inactive_1', 'inactive_2', 'inactive_3'))]" />
+                <filter name="overdue_risk" string="Payment risk" domain="[('classification', '=', 'overdue_risk')]" />
+                <separator />
+                <filter name="at_risk" string="At risk (own rhythm)" domain="[('rhythm_segment', '=', 'at_risk')]" />
+                <filter name="dormant" string="Dormant" domain="[('rhythm_segment', '=', 'dormant')]" />
+                <filter name="single_purchase" string="Bought only once" domain="[('sale_count', '=', 1)]" />
+                <separator />
+                <filter name="group_classification" string="Classification" context="{'group_by': 'classification'}" />
+                <filter name="group_rhythm" string="Rhythm" context="{'group_by': 'rhythm_segment'}" />
+                <filter name="group_user" string="Salesperson" context="{'group_by': 'user_id'}" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_customer_segment" model="ir.actions.act_window">
+        <field name="name">Customer Segments</field>
+        <field name="res_model">deltatech.customer.segment</field>
+        <field name="view_mode">list,pivot,graph,form</field>
+        <field name="search_view_id" ref="view_customer_segment_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No customer segment yet</p>
+            <p>The segments are recomputed every night from the sales history.
+               A director can run the computation now from the segmentation settings.</p>
+        </field>
+    </record>
+
+    <!-- From the partner form: Action > Customer Segment. No field is added on res.partner. -->
+    <record id="action_server_partner_customer_segment" model="ir.actions.server">
+        <field name="name">Customer Segment</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="binding_model_id" ref="base.model_res_partner" />
+        <field name="binding_view_types">form,list</field>
+        <field name="group_ids" eval="[(4, ref('group_customer_segment_agent'))]" />
+        <field name="state">code</field>
+        <field name="code">action = env['deltatech.customer.segment'].action_open_for_partners(records.ids)</field>
+    </record>
+
+</odoo>

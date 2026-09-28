@@ -1,0 +1,10 @@
+{
+  "title": "Customer Segment",
+  "summary": "Buying rhythm and payment risk per customer",
+  "icon": "trend",
+  "features": [
+    "Rhythm-based segments per customer",
+    "Top, declining, inactive, payment risk",
+    "Nightly SQL engine, no partner fields"
+  ]
+}
