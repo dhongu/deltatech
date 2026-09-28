@@ -1,0 +1,99 @@
+// A card with the accent of its tone on a left border and on the icon tile,
+// the number first. Only Odoo's $o-* variables: web.assets_web_dark compiles
+// this file again with the dark values, so the cards follow the dark mode. A
+// fixed or Bootstrap grey does not: the dark theme inverts the grey scale,
+// and $gray-700 turns light there.
+.o_kpi_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: map-get($spacers, 2);
+}
+
+.o_kpi_card {
+    --o-kpi-accent: #{$o-gray-600};
+
+    display: flex;
+    align-items: center;
+    gap: map-get($spacers, 2);
+    min-width: 0;
+    padding: map-get($spacers, 2) map-get($spacers, 3) map-get($spacers, 2) map-get($spacers, 2);
+    background: $o-view-background-color;
+    border: $border-width solid $border-color;
+    border-left: 4px solid var(--o-kpi-accent);
+    border-radius: $border-radius-lg;
+    transition:
+        box-shadow 0.12s ease,
+        transform 0.12s ease;
+
+    &:hover,
+    &:focus-visible {
+        box-shadow: $box-shadow-sm;
+        transform: translateY(-1px);
+    }
+
+    // the card whose filter is on: the accent all around
+    &.active {
+        border-color: var(--o-kpi-accent);
+        box-shadow: 0 0 0 1px var(--o-kpi-accent);
+    }
+
+    .o_kpi_card_icon {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: $border-radius-lg;
+        background: var(--o-kpi-accent);
+        color: $white;
+        font-size: 1.1rem;
+    }
+
+    .o_kpi_card_body {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .o_kpi_card_value {
+        font-size: 1.4rem;
+        font-weight: $font-weight-bold;
+        line-height: 1.15;
+    }
+
+    .o_kpi_card_label {
+        font-size: $font-size-sm;
+        color: $o-main-color-muted;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    // nothing to look at: the card keeps its colour, dimmed, and its number
+    // stays readable
+    &.o_kpi_card_zero:not(.active) {
+        .o_kpi_card_icon {
+            opacity: 0.45;
+        }
+        .o_kpi_card_value {
+            color: $o-main-color-muted;
+        }
+    }
+}
+
+$o-kpi-tones: (
+    info: $o-info,
+    success: $o-success,
+    warning: $o-warning,
+    danger: $o-danger,
+    purple: $purple,
+    action: $o-action,
+    slate: $o-gray-600,
+);
+
+@each $tone, $accent in $o-kpi-tones {
+    .o_kpi_card_#{$tone} {
+        --o-kpi-accent: #{$accent};
+    }
+}
