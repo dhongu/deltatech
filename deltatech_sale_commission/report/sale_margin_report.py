@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models, tools
-from odoo.tools import SQL, Query
+from odoo.tools import SQL
 
 
 class SaleMarginReport(models.Model):
@@ -177,8 +177,8 @@ class SaleMarginReport(models.Model):
                     s.company_id as company_id,
                     s.move_type, s.state , s.payment_state , s.journal_id, s.currency_id
         """
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        sale_user_detail = get_str("sale_commission.sale_user_detail", "invoice")
 
         if sale_user_detail == "invoice":
             select_str += ", s.invoice_user_id as user_id"
@@ -198,8 +198,8 @@ class SaleMarginReport(models.Model):
                     left join uom_uom u2 on (u2.id=t.uom_id)
 
         """
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        sale_user_detail = get_str("sale_commission.sale_user_detail", "invoice")
 
         if sale_user_detail == "invoice":
             from_str += (
@@ -246,8 +246,8 @@ class SaleMarginReport(models.Model):
                     s.currency_id
 
         """
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        sale_user_detail = get_str("sale_commission.sale_user_detail", "invoice")
 
         if sale_user_detail == "invoice":
             group_by_str += "  , s.invoice_user_id"
@@ -257,25 +257,26 @@ class SaleMarginReport(models.Model):
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
-        # pylint: disable=E8103
+        # in 20 res.currency._select_companies_rates() intoarce SQL, nu str
         self.env.cr.execute(
-            """CREATE or REPLACE VIEW {} as (
-            WITH currency_rate AS ({})
-            {}
+            SQL(
+                """CREATE or REPLACE VIEW %s as (
+            WITH currency_rate AS (%s)
+            %s
             FROM (
-                {}
-                FROM {}
-                WHERE {}
-                GROUP BY {}
+                %s
+                FROM %s
+                WHERE %s
+                GROUP BY %s
             ) AS sub
-        )""".format(
-                self._table,
+        )""",
+                SQL.identifier(self._table),
                 self.env["res.currency"]._select_companies_rates(),
-                self._select(),
-                self._sub_select(),
-                self._from(),
-                self._where(),
-                self._group_by(),
+                SQL(self._select()),
+                SQL(self._sub_select()),
+                SQL(self._from()),
+                SQL(self._where()),
+                SQL(self._group_by()),
             )
         )
 
@@ -331,11 +332,11 @@ class SaleMarginReport(models.Model):
         return True
 
     # Adăugați metoda _read_group_select pentru a personaliza calculul la grupare
-    def _read_group_select(self, aggregate_spec: str, query: Query) -> SQL:
+    def _read_group_select(self, table, aggregate_spec: str) -> SQL:
         if aggregate_spec == "markup:avg":
             # Calculează indicatorul de supliment din valorile agregate de vânzări și stoc
-            sale_val_sql = self._read_group_select("sale_val:sum", query)
-            stock_val_sql = self._read_group_select("stock_val:sum", query)
+            sale_val_sql = self._read_group_select(table, "sale_val:sum")
+            stock_val_sql = self._read_group_select(table, "stock_val:sum")
             sql_expr = SQL(
                 "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
                 stock_val_sql,
@@ -347,8 +348,8 @@ class SaleMarginReport(models.Model):
 
         elif aggregate_spec == "profit_margin:avg":
             # Calculează indicatorul de profit din valorile agregate de vânzări și stoc
-            sale_val_sql = self._read_group_select("sale_val:sum", query)
-            stock_val_sql = self._read_group_select("stock_val:sum", query)
+            sale_val_sql = self._read_group_select(table, "sale_val:sum")
+            stock_val_sql = self._read_group_select(table, "stock_val:sum")
             sql_expr = SQL(
                 "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
                 sale_val_sql,
@@ -358,4 +359,4 @@ class SaleMarginReport(models.Model):
             )
             return sql_expr
 
-        return super()._read_group_select(aggregate_spec, query)
+        return super()._read_group_select(table, aggregate_spec)

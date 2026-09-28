@@ -20,10 +20,4 @@
             <field name="implied_ids" eval="[(4, ref('group_commission_viewer'))]" />
         </record>
 
-        <record id="sale_margin_report_comp_rule" model="ir.rule">
-            <field name="name">Sale Margin Report multi-company</field>
-            <field name="model_id" ref="model_sale_margin_report" />
-            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
-        </record>
-
 </odoo>

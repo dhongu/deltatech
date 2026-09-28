@@ -116,7 +116,8 @@ class AccountInvoiceLine(models.Model):
 
         else:
             # preluare pret in svl
-            move_value = sum(moves.mapped("value"))
+            # in 20 stock.move.value e negativ pe iesiri (in 19 era mereu pozitiv)
+            move_value = sum(abs(move.value) for move in moves)
             move_quantity = sum(moves.mapped("quantity"))
             if move_quantity:
                 purchase_price = move_value / move_quantity
@@ -148,7 +149,8 @@ class AccountInvoiceLine(models.Model):
                 # move_layers = bom_line_move.with_context(active_test=False).mapped("stock_valuation_layer_ids")
                 # for layer in move_layers:
                 #     product_value += layer.value
-                product_value += bom_line_move.value
+                # in 20 stock.move.value e negativ pe iesiri (in 19 era mereu pozitiv)
+                product_value += abs(bom_line_move.value)
                 product_qty += bom_line_move.product_uom_qty
             if product_qty and line.product_qty:
                 bom_price += product_value / product_qty * line.product_qty
@@ -157,7 +159,7 @@ class AccountInvoiceLine(models.Model):
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         # todo: se verificat daca acest paramentru mai este valabil
-        deposit_product = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
+        deposit_product = self.env["ir.config_parameter"].sudo().get_int("sale.default_deposit_product_id")
         for invoice_line in self:
             if invoice_line.display_type != "product":
                 invoice_line.purchase_price = 0.0
@@ -168,7 +170,7 @@ class AccountInvoiceLine(models.Model):
             if invoice_line.move_id.move_type not in ["out_invoice", "out_refund", "out_receipt"]:
                 invoice_line.purchase_price = 0.0
                 continue
-            if invoice_line.product_id.id == int(deposit_product):
+            if invoice_line.product_id.id == deposit_product:
                 invoice_line.purchase_price = invoice_line.price_unit
                 continue
 

@@ -13,7 +13,7 @@
                         aria-label="Set Paid"
                         string="Set Paid"
                         type="object"
-                        icon="fa-check"
+                        icon="check"
                     />
                 </header>
                 <field name="date" column_invisible="True" />
@@ -92,7 +92,7 @@
                         aria-label="Set Paid"
                         string="Set Paid"
                         type="object"
-                        icon="fa-check"
+                        icon="check"
                     />
                 </header>
                 <field name="date" column_invisible="1" />

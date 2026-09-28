@@ -11,9 +11,9 @@ class SaleOrderLine(models.Model):
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
-        product_id = self.env["ir.config_parameter"].sudo().get_param("sale.default_deposit_product_id")
+        product_id = self.env["ir.config_parameter"].sudo().get_int("sale.default_deposit_product_id")
         res = super()._compute_purchase_price()
         for line in self:
-            if line.product_id.id == int(product_id):
+            if line.product_id.id == product_id:
                 line.purchase_price = line.price_unit
         return res

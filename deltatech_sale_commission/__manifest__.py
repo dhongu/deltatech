@@ -4,7 +4,7 @@
 {
     "name": "Sale Commission",
     "summary": "Compute sale commission",
-    "version": "19.0.1.5.2",
+    "version": "20.0.1.5.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -12,7 +12,7 @@
     "license": "OPL-1",
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/account_invoice_view.xml",
         "report/sale_margin_report.xml",
         "views/commission_users_view.xml",

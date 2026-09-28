@@ -36,7 +36,7 @@ class CommissionCompute(models.TransientModel):
         commission_days_limit_string = (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("deltatech_sale_commission.days_for_commission", default=False)
+            .get_str("deltatech_sale_commission.days_for_commission", default=False)
         )
         commission_days_limit = 0
         if commission_days_limit_string:
