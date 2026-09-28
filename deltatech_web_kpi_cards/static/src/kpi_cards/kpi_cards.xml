@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="deltatech_web_kpi_cards.KpiCards">
+        <div class="o_kpi_cards">
+            <t t-foreach="props.cards" t-as="card" t-key="card.key">
+                <button
+                    type="button"
+                    class="o_kpi_card btn bg-view text-start"
+                    t-att-class="'o_kpi_card_' + toneOf(card) + (card.active ? ' active' : '') + (isZero(card) ? ' o_kpi_card_zero' : '')"
+                    t-att-data-card="card.key"
+                    t-att-title="card.label"
+                    t-att-aria-pressed="card.active ? 'true' : 'false'"
+                    t-on-click="() => this.onClick(card)"
+                >
+                    <span t-if="card.icon" class="o_kpi_card_icon" aria-hidden="true">
+                        <i t-attf-class="fa {{ card.icon }}" />
+                    </span>
+                    <span class="o_kpi_card_body">
+                        <span class="o_kpi_card_value">
+                            <t t-if="card.amounts">
+                                <t t-if="card.amounts.length">
+                                    <span t-foreach="card.amounts" t-as="amount" t-key="amount_index" class="d-block" t-out="amount" />
+                                </t>
+                                <t t-else="">0</t>
+                            </t>
+                            <t t-else="" t-out="card.count or 0" />
+                        </span>
+                        <span class="o_kpi_card_label" t-out="card.label" />
+                        <span t-if="card.subtitle" class="o_kpi_card_label" t-out="card.subtitle" />
+                    </span>
+                </button>
+            </t>
+        </div>
+    </t>
+
+</templates>

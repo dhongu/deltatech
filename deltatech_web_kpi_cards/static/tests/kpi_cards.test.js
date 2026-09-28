@@ -1,0 +1,134 @@
+import {describe, expect, test} from "@odoo/hoot";
+import {click, queryAll, queryAllTexts, queryOne} from "@odoo/hoot-dom";
+import {animationFrame} from "@odoo/hoot-mock";
+import {Component, xml} from "@odoo/owl";
+import {
+    defineModels,
+    fields,
+    getFacetTexts,
+    models,
+    mountWithCleanup,
+    mountWithSearch,
+} from "@web/../tests/web_test_helpers";
+import {KpiCards, useKpiCardFilters} from "@deltatech_web_kpi_cards/kpi_cards/kpi_cards.esm";
+import {SearchBar} from "@web/search/search_bar/search_bar";
+
+class Parcel extends models.Model {
+    name = fields.Char();
+    state = fields.Selection({
+        selection: [
+            ["transit", "Transit"],
+            ["delivered", "Delivered"],
+        ],
+    });
+
+    _records = [
+        {id: 1, name: "P-TRANSIT", state: "transit"},
+        {id: 2, name: "P-DELIVERED", state: "delivered"},
+    ];
+}
+
+defineModels([Parcel]);
+
+describe("deltatech_web_kpi_cards", () => {
+    test("deltatech_web_kpi_cards: cards render counts, amounts and tones", async () => {
+        await mountWithCleanup(KpiCards, {
+            props: {
+                cards: [
+                    {key: "a", label: "In Transit", count: 6, icon: "fa-truck", tone: "info"},
+                    {key: "b", label: "Returned", count: 0, tone: "purple"},
+                    {key: "c", label: "COD", amounts: ["851 lei", "40 €"], subtitle: "3 AWB", tone: "action"},
+                    {key: "d", label: "Unknown tone", count: 1, tone: "nope", active: true},
+                ],
+            },
+        });
+        expect(queryAll(".o_kpi_card")).toHaveLength(4);
+        // Amounts, one line per currency
+        expect(queryAllTexts(".o_kpi_card_value")).toEqual(["6", "0", "851 lei\n40 €", "1"]);
+        expect(".o_kpi_card[data-card='a']").toHaveClass("o_kpi_card_info");
+        expect(".o_kpi_card[data-card='a'] .fa-truck").toHaveCount(1);
+        expect(".o_kpi_card[data-card='b']").toHaveClass("o_kpi_card_zero");
+        expect(".o_kpi_card[data-card='c']").not.toHaveClass("o_kpi_card_zero");
+        expect(queryOne(".o_kpi_card[data-card='c']")).toHaveText(/3 AWB/);
+        // An unknown tone falls back to the neutral one
+        expect(".o_kpi_card[data-card='d']").toHaveClass("o_kpi_card_slate");
+        expect(".o_kpi_card[data-card='d']").toHaveClass("active");
+        expect(".o_kpi_card[data-card='d']").toHaveAttribute("aria-pressed", "true");
+    });
+
+    test("deltatech_web_kpi_cards: a click hands the card over", async () => {
+        await mountWithCleanup(KpiCards, {
+            props: {
+                cards: [{key: "a", label: "A", count: 1}],
+                onCardClick: (card) => expect.step(card.key),
+            },
+        });
+        await click(".o_kpi_card[data-card='a']");
+        expect.verifySteps(["a"]);
+    });
+
+    test("deltatech_web_kpi_cards: cards toggle their filters, one at a time", async () => {
+        const FILTERS = ["kpi_transit", "kpi_delivered"];
+
+        class Band extends Component {
+            static template = xml`
+                <div>
+                    <SearchBar/>
+                    <KpiCards cards="cards" onCardClick.bind="onCardClick"/>
+                    <p class="o_test_domain" t-out="domainText"/>
+                </div>`;
+            static components = {KpiCards, SearchBar};
+            static props = ["*"];
+            setup() {
+                this.filters = useKpiCardFilters(FILTERS);
+            }
+            get domainText() {
+                return JSON.stringify(this.props.domain);
+            }
+            get cards() {
+                return FILTERS.map((name) => ({
+                    key: name,
+                    label: name,
+                    count: 1,
+                    active: this.filters.isActive(name),
+                }));
+            }
+            onCardClick(card) {
+                this.filters.toggle(card.key);
+            }
+        }
+
+        await mountWithSearch(Band, {
+            resModel: "parcel",
+            searchViewArch: `
+                <search>
+                    <filter name="mine" string="Mine" domain="[('id', '>', 0)]"/>
+                    <separator/>
+                    <filter name="kpi_transit" string="Transit" domain="[('state', '=', 'transit')]"/>
+                    <filter name="kpi_delivered" string="Delivered" domain="[('state', '=', 'delivered')]"/>
+                </search>`,
+            context: {search_default_mine: 1},
+        });
+        expect(getFacetTexts()).toEqual(["Mine"]);
+
+        await click(".o_kpi_card[data-card='kpi_transit']");
+        await animationFrame();
+        expect(getFacetTexts()).toEqual(["Mine", "Transit"]);
+        expect(".o_test_domain").toHaveText(/transit/);
+        expect(".o_kpi_card[data-card='kpi_transit']").toHaveClass("active");
+
+        // Another card replaces the filter instead of adding to it
+        await click(".o_kpi_card[data-card='kpi_delivered']");
+        await animationFrame();
+        expect(getFacetTexts()).toEqual(["Mine", "Delivered"]);
+        expect(".o_test_domain").not.toHaveText(/transit/);
+        expect(".o_kpi_card[data-card='kpi_transit']").not.toHaveClass("active");
+        expect(".o_kpi_card[data-card='kpi_delivered']").toHaveClass("active");
+
+        // A second click clears it; the user's own filter stays
+        await click(".o_kpi_card[data-card='kpi_delivered']");
+        await animationFrame();
+        expect(getFacetTexts()).toEqual(["Mine"]);
+        expect(".o_kpi_card.active").toHaveCount(0);
+    });
+});
