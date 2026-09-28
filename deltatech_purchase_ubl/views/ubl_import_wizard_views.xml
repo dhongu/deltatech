@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_purchase_ubl_import_wizard" model="ir.ui.view">
+        <field name="name">purchase.ubl.import.wizard.form</field>
+        <field name="model">purchase.ubl.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import UBL XML">
+                <!-- sentinel invisible fields used in conditional expressions -->
+                <field name="state" invisible="1" />
+                <field name="order_lines_warning" invisible="1" />
+                <field name="total_check_warning" invisible="1" />
+
+                <!-- Pre-import warnings (visible only in draft) -->
+                <div
+                    class="alert alert-warning mb-2"
+                    role="alert"
+                    invisible="state != 'draft' or not order_lines_warning"
+                >
+                    <i class="oi me-1" data-icon="warning" title="Warning" />
+                    <field name="order_lines_warning" nolabel="1" readonly="1" />
+                </div>
+                <div
+                    class="alert alert-warning mb-2"
+                    role="alert"
+                    invisible="state != 'draft' or not total_check_warning"
+                >
+                    <i class="oi me-1" data-icon="warning" title="Warning" />
+                    <field name="total_check_warning" nolabel="1" readonly="1" />
+                </div>
+
+                <!-- Draft: editable form -->
+                <group invisible="state != 'draft'">
+                    <group string="File">
+                        <field
+                            name="data_file"
+                            filename="filename"
+                            help="Select a UBL XML invoice file from your vendor (e-Factura format supported)"
+                        />
+                        <field name="filename" invisible="1" />
+                        <field name="order_id" readonly="1" invisible="not order_id" />
+                    </group>
+                    <group string="Options">
+                        <field
+                            name="create_missing_products"
+                            help="Automatically create storable products for XML lines that cannot be matched to existing products"
+                        />
+                        <field
+                            name="update_prices"
+                            help="Write the unit price from each XML line into the vendor pricelist (product.supplierinfo)"
+                        />
+                        <field
+                            name="create_bill"
+                            help="Create a vendor bill (account.move) from the XML invoice data"
+                        />
+                        <field
+                            name="validate_receipt"
+                            help="Set the done quantities on the linked stock receipt and validate it"
+                        />
+                </group>
+                </group>
+
+                <!-- Preview: product mapping review -->
+                <div class="alert alert-info mb-2" role="alert" invisible="state != 'preview'">
+                    <i class="oi oi-filled me-1" data-icon="info" title="Info" />
+                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>
+                </div>
+                <field name="line_ids" nolabel="1" invisible="state != 'preview'">
+                    <list
+                        editable="bottom"
+                        create="false"
+                        delete="false"
+                        decoration-success="match_type in ('code', 'barcode')"
+                        decoration-warning="match_type == 'name'"
+                        decoration-danger="match_type == 'none'"
+                    >
+                        <field name="sequence" column_invisible="1" />
+                        <field name="matched_product_id" column_invisible="1" />
+                        <field name="code" />
+                        <field name="barcode" optional="hide" />
+                        <field name="name" />
+                        <field name="qty" />
+                        <field name="price" />
+                        <field name="product_id" />
+                        <field name="match_type" />
+                    </list>
+                </field>
+
+                <!-- Done: result -->
+                <separator string="Result" invisible="state != 'done'" />
+                <field name="log_html" nolabel="1" readonly="1" invisible="state != 'done'" />
+                <group invisible="not bill_id">
+                    <field name="bill_id" readonly="1" />
+                </group>
+
+                <footer>
+                    <button
+                        name="action_preview"
+                        type="object"
+                        string="Preview"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        name="action_confirm_import"
+                        type="object"
+                        string="Import"
+                        class="btn-primary"
+                        invisible="state != 'preview'"
+                    />
+                    <button
+                        name="action_view_vendor_bill"
+                        type="object"
+                        string="View Vendor Bill"
+                        class="btn-secondary"
+                        invisible="not bill_id"
+                    />
+                    <button special="cancel" string="Close" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_ubl_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import UBL</field>
+        <field name="res_model">purchase.ubl.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_purchase_ubl_import_wizard" />
+        <field name="context">{"default_update_prices": True, "default_create_bill": True}</field>
+    </record>
+
+    <!-- Add button on Purchase Order form to open the wizard -->
+    <record id="purchase_order_form_view_inherit_ubl_button" model="ir.ui.view">
+        <field name="name">purchase.order.form.ubl.button</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="%(action_purchase_ubl_import_wizard)d"
+                    type="action"
+                    string="Import UBL"
+                    class="btn-secondary"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
