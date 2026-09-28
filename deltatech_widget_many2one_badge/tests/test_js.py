@@ -9,7 +9,7 @@ class TestMany2oneBadgeJs(HttpCase):
 
     def test_many2one_badge_field(self):
         self.browser_js(
-            "/web/tests?headless&loglevel=2&preset=desktop&timeout=15000&filter=Many2oneBadgeField",
+            "/web/tests?headless&loglevel=2&preset=desktop&timeout=15000&filter=%40deltatech_widget_many2one_badge",
             "",
             "",
             login="admin",

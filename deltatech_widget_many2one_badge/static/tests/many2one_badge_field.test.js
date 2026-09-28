@@ -41,6 +41,8 @@ describe("Many2oneBadgeField", () => {
         expect(".o_field_many2one_badge .o_delete").toHaveCount(0);
     });
 
+    // Pe mobil autocomplete-ul deschide un dialog, nu un dropdown
+    test.tags("desktop");
     test("Many2oneBadgeField: edit mode removes and replaces the value", async () => {
         onRpc("task", "web_save", ({args}) => {
             expect.step(`web_save ${JSON.stringify(args[1])}`);

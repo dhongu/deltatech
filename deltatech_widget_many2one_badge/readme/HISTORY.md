@@ -11,3 +11,5 @@
 - The edit mode test now checks removing the value, picking another partner
   from the autocomplete and saving; a new test checks that clicking the badge
   opens the color picker and writes the chosen color on the partner.
+  The edit mode test is desktop only: on mobile the autocomplete opens a
+  dialog instead of a dropdown.
