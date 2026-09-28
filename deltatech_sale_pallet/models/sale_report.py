@@ -16,12 +16,12 @@ class SaleReport(models.Model):
     # adăugăm o coloană prin `_select_additional_fields` (redundant cu nativul);
     # calculul cu `sale_pallet.price_coef` se face la citire în `_read_group_select`.
 
-    def _read_group_select(self, aggregate_spec, query):
+    def _read_group_select(self, table, aggregate_spec):
         if aggregate_spec == "price_unit:avg":
-            get_param = self.env["ir.config_parameter"].sudo().get_param
-            price_coef = safe_eval(get_param("sale_pallet.price_coef", "1"))
-            untaxed_amount_invoiced_sum = self._read_group_select("untaxed_amount_invoiced:sum", query)
-            qty_invoiced_sum = self._read_group_select("qty_invoiced:sum", query)
+            get_str = self.env["ir.config_parameter"].sudo().get_str
+            price_coef = safe_eval(get_str("sale_pallet.price_coef", "1"))
+            untaxed_amount_invoiced_sum = self._read_group_select(table, "untaxed_amount_invoiced:sum")
+            qty_invoiced_sum = self._read_group_select(table, "qty_invoiced:sum")
             return SQL(
                 "CASE WHEN %s = 0 THEN 0 ELSE %s * %s / %s END",
                 qty_invoiced_sum,
@@ -29,4 +29,4 @@ class SaleReport(models.Model):
                 untaxed_amount_invoiced_sum,
                 qty_invoiced_sum,
             )
-        return super()._read_group_select(aggregate_spec, query)
+        return super()._read_group_select(table, aggregate_spec)

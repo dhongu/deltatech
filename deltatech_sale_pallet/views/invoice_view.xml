@@ -9,7 +9,7 @@
                     <button
                     name="show_pallets_status"
                     class="oe_stat_button"
-                    icon="fa-stack-overflow"
+                    icon="inventory_2"
                     type="object"
                     invisible="move_type not in ['out_invoice','out_refund']"
                     string="Show pallets status"
