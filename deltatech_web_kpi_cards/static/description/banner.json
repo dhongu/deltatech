@@ -1,0 +1,6 @@
+{
+  "title": "KPI Cards",
+  "summary": "A band of KPI cards above backend views",
+  "icon": "grid",
+  "features": ["One look for every dashboard", "A click on a card is a filter", "Light and dark mode"]
+}
