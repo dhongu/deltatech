@@ -10,5 +10,6 @@ class PurchaseOrderLine(models.Model):
 
     def _compute_allowed_uom_ids(self):
         """EXTENDS 'purchase' - ofera toate unitatile convertibile, nu doar cele legate de produs."""
-        super()._compute_allowed_uom_ids()
+        res = super()._compute_allowed_uom_ids()
         self._extend_allowed_uom_ids()
+        return res

@@ -23,5 +23,6 @@ class AccountMoveLine(models.Model):
         cantitatea 2 cu unitatea "bucata" - valoric corect, cantitativ fals. Acelasi cod
         e folosit si de e-Transport pentru `codUnitateMasura`.
         """
-        super()._compute_allowed_uom_ids()
+        res = super()._compute_allowed_uom_ids()
         self.filtered(lambda line: line.move_id.is_purchase_document())._extend_allowed_uom_ids()
+        return res
