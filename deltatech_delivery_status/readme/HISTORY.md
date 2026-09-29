@@ -1,3 +1,9 @@
+## 19.0.2.3.2 (2026-09-29)
+
+- Romanian translations completed and corrected: *Refused* was not translated (the state showed in
+  English on the delivery), *Ready in warehouse* lacked its diacritics, and the postponed-delivery
+  labels were missing. On upgrade the corrected ones replace the old.
+
 # 19.0.2.3.1
 
 - Own module icon, instead of the generic gears it had.

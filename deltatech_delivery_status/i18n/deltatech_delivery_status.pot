@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:23+0000\n"
-"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"POT-Creation-Date: 2026-09-29 03:45+0000\n"
+"PO-Revision-Date: 2026-09-29 03:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -132,6 +132,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__postponed
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking_type__postponed
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_form
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
 msgid "Postponed"
 msgstr ""
 
@@ -142,6 +143,7 @@ msgstr ""
 
 #. module: deltatech_delivery_status
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__postponed_delivery
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_sales_order_filter_postponed
 msgid "Postponed delivery"
 msgstr ""
 
@@ -200,4 +202,10 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__available_state__unavailable
 #: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_internal_search
 msgid "Unavailable"
+msgstr ""
+
+#. module: deltatech_delivery_status
+#. odoo-python
+#: code:addons/deltatech_delivery_status/models/sale.py:0
+msgid "Unsupported search on Postponed delivery"
 msgstr ""
