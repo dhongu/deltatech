@@ -5,7 +5,7 @@
 {
     "name": "Deltatech UoM UNECE Codes",
     "summary": "Editable UNECE Rec 20/21 code on each unit of measure",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
