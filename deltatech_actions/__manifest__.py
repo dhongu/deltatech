@@ -6,7 +6,7 @@
     "name": "Deltatech Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
-    "version": "19.0.0.9.2",
+    "version": "19.0.0.9.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
