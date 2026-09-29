@@ -1,3 +1,7 @@
+## 19.0.1.2.2 (2026-09-30)
+
+- New module icon in the flat style of the other modules; it replaces the old one.
+
 ## 19.0.1.2.1 (2026-08-13)
 
 - Fix: the locality filter read the cart through `website.sale_get_order()`, which no longer exists in 19.0, so `/portal/state_infos` raised as soon as a session had a cart. The cart is now read from `request.cart`.
