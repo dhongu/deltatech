@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Payment Method Card",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Deltatech Payment Method Card",
