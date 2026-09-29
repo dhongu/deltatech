@@ -1,6 +1,6 @@
 # ROADMAP — `deltatech_tc`
 
-**Versiune curentă:** 20.0.1.1.3
+**Versiune curentă:** 20.0.1.2.0
 **Ultima actualizare:** 2026-09-29
 
 Baza **Terrabit Connect**: registrul de stații, coada de joburi, endpoint-urile
@@ -25,18 +25,21 @@ v1.6.20 la data de mai sus).
 - Scrierea `last_seen` rărită la 60 de secunde
 - Doar antetul `X-Station-Key`; fallback-ul `X-Agent-Key` al agentului Java scos.
   Documentația descrie agentul Tauri (19.0.1.1.3)
+- Coadă robustă: revendicare atomică (`FOR UPDATE SKIP LOCKED`), reofertarea joburilor
+  sigure rămase fără rezultat, cu prag de încercări, buton **Retry**, cron zilnic de
+  curățenie (19.0.1.2.0)
+- Agentul Tauri: serverul local răspunde doar ferestrei proprii și originilor Odoo
+  permise (dhongu/terrabit-connect-tauri#3, unit 29.09.2026, nereleasat)
 
 ---
 
 ## 🔜 Planificat
 
-### 1. Securitatea serverului local din agentul Tauri — blocant
-În `terrabit-connect-tauri`, `cors_mw` (`src-tauri/src/lib.rs`) întoarce orice
-`Origin` primit, iar nicio rută nu cere token. Orice site deschis pe stație poate
-apela `/zebra/print`, `/print` (casa de marcat) și `/api/config`, de unde poate
-completa `TERRABIT_HTTP_ALLOW`. Asta anulează lista albă a jobului `http_request`.
-Reparația are o sesiune separată, pornită pe 29.09.2026. Nimic nou nu se pune pe
-canalul `/tc` până nu e închisă.
+### 1. Release Terrabit Connect Tauri 1.6.21 — blocant
+Securizarea serverului local (dhongu/terrabit-connect-tauri#3) e unită în `main`, dar
+nicio stație nu o are încă. Înainte de release trebuie decis modul de compatibilitate:
+stațiile fără nicio origine configurată rămân deschise (cu avertisment) sau se închid.
+Nimic nou nu se pune pe canalul `/tc` până la release.
 
 ### 2. Retragerea agentului Java (`terrabit-anaf-agent`)
 Cât timp rulează și agentul Java cu aceeași cheie, poll-ul de joburi din Tauri
@@ -44,24 +47,16 @@ rămâne oprit (`TERRABIT_POLL_JOBS`), ca să nu ia amândoi același job. După
 retragere, poll-ul din Tauri poate porni implicit. Agentul Java are și un
 `TrustManager` care acceptă orice certificat, deci nu verifică certificatul Odoo.
 
-### 3. Coadă robustă
-- revendicare atomică (`FOR UPDATE SKIP LOCKED`); acum `search` + `write` pot da
-  același job la două poll-uri simultane;
-- jobul `claimed` fără rezultat se oferă din nou după un timp, cu prag de încercări
-  și apoi `error`; acum rămâne `claimed` pentru totdeauna;
-- cron de curățenie: șterge joburile `done` și `error` vechi și expiră `pending`-urile
-  rămase neridicate.
-
-### 4. Cheia stației hash-uită
+### 3. Cheia stației hash-uită
 Acum cheia stă în clar (`api_key`) și se caută prin egalitate. De trecut pe
 sha256 cu sare și comparație constant-time. Cheia s-ar afișa o singură dată, la
 generare, deci descărcarea `station.conf` ar trebui legată de regenerare.
 
-### 5. Latență mai mică la joburile interactive
+### 4. Latență mai mică la joburile interactive
 Pentru etichete, un poll la 30 de secunde e prea rar. Variante: long-polling pe
 `/tc/poll` sau interval separat pe stațiile cu funcția „labels”.
 
-### 6. Tipărire prin coadă (`deltatech_print_queue`)
+### 5. Tipărire prin coadă (`deltatech_print_queue`)
 Pe baza analizei `mdtrade_print` (MD Trade, 29.09.2026):
 - tipuri de job `print_zpl` și `print_pdf`, adăugate cu `selection_add`;
 - în agent: `print_zpl` refolosește `zebra::send`; `print_pdf` e nou (SumatraPDF sau
@@ -69,12 +64,20 @@ Pe baza analizei `mdtrade_print` (MD Trade, 29.09.2026):
 - evidență locală a joburilor deja tipărite, ca o confirmare pierdută să nu scoată
   a doua etichetă.
 
-Depinde de punctele 1–3.
+Depinde de punctele 1 și 2, plus declararea tipurilor `print_*` în
+`_tc_is_retry_safe()` doar dacă agentul ține evidența etichetelor deja tipărite.
 
-### 7. Utilizatorul află când un job pică
+### 6. Utilizatorul află când un job pică
 Notificare prin `bus` sau activitate pe documentul-sursă când jobul trece în `error`.
 
-### 8. Referințe Java rămase în modulele dependente (`l10n_ro_ent`)
+### 7. Modulele dependente (`l10n_ro_ent`)
+- `_tc_is_retry_safe()` pentru tipurile care doar citesc: `sync_messages`, `download`,
+  `duk_validate`. Până atunci, joburile lor rămase fără rezultat stau `claimed` și se
+  repun manual. `submit` NU se declară sigur: o depunere la ANAF nu se repetă automat.
+- Testul `l10n_ro_anaf_duk` `test_result_http_applies_and_job_done` postează rezultatul pe
+  un job nerevendicat și primește 409 (regula din 19.0.1.1.2); are o sarcină separată.
+
+Referințe Java rămase:
 - `l10n_ro_anaf_agent`: link către release-urile `terrabit-anaf-agent` în
   `readme/FISA_CONSULTANT.md`, „Importă agent.conf” și propriul fallback
   `X-Agent-Key` în `controllers/main.py`;
@@ -83,7 +86,7 @@ Notificare prin `bus` sau activitate pe documentul-sursă când jobul trece în 
   trece încă printr-un helper Java în Tauri, deci formularea trebuie corectată,
   nu doar ștearsă.
 
-### 9. Port pe 20.0
+### 8. Port pe 20.0
 Fiecare punct de mai sus se duce și pe 20.0.
 
 ---

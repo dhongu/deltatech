@@ -53,6 +53,21 @@ polling is off until you turn it on** in the station profile:
 | `TERRABIT_POLL_JOBS` | off | `1` lets the station claim and run jobs from `/tc/poll`. While it is off, jobs queued in Odoo stay `pending` |
 | `TERRABIT_POLL_SEC` | 30 | Seconds between `/tc/poll` calls (minimum 5) |
 
+## Queue settings (Odoo side)
+
+System parameters (**Settings → Technical → System Parameters**), all optional:
+
+| Parameter | Default | Effect |
+|---|---|---|
+| `deltatech_tc.claim_timeout_minutes` | 15 | A claimed job without result after this long counts as lost. `0` turns recovery off |
+| `deltatech_tc.max_attempts` | 3 | Offers of a retry-safe job before it fails |
+| `deltatech_tc.done_ttl_days` | 30 | Finished jobs older than this are deleted by the daily cleanup (`0` = keep) |
+| `deltatech_tc.error_ttl_days` | 90 | Same for jobs in error |
+| `deltatech_tc.pending_ttl_hours` | 0 | Pending jobs no station picked up expire after this long. `0` = never |
+
+Keep the claim timeout above the longest job you run (a DUKIntegrator validation, a slow
+device): a retry-safe job that is still running when it expires is executed twice.
+
 ## Hosts reachable by `http_request` (workstation side)
 
 `http_request` jobs are refused unless the target host is allow-listed **on the
