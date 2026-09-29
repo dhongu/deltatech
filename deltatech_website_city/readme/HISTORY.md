@@ -1,3 +1,7 @@
+## 20.0.1.2.2 (2026-09-30)
+
+- New module icon in the flat style of the other modules; it replaces the old one.
+
 ## 20.0.1.2.1 (2026-09-27)
 
 - Mig: in 20.0 the city dropdown of the address form is standard in `portal` (`div_city_id`, `cities_data`, `/my/address/state_info`, ZIP filled from the chosen city), but only for BR, CL, PE, CO and TW. The module is now an extension of it: `res.country._enforce_city_choice()` enables it for every country with *Enforce Cities* and at least one city; the own city select, the field reordering and the `/portal/state_infos` lookup of the form are dropped in favour of the standard ones (the route is kept for compatibility).
