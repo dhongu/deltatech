@@ -11,17 +11,20 @@
    TERRABIT_ODOO_BASE=<your Odoo URL>
    TERRABIT_STATION_KEY=<the generated key>
    ```
-6. Copy `station.conf` to the workstation running Terrabit Connect and (re)start
-   the agent. It will authenticate with the `X-Station-Key` header on every call.
+6. Copy `station.conf` to the workstation and import it in Terrabit Connect
+   (**Setări → Importă config**). The agent authenticates with the
+   `X-Station-Key` header on every call.
 
 ## Verifying connectivity
 
 Once Terrabit Connect is running with the downloaded config:
 
 1. Open the station form (**Settings → Terrabit Connect → Stations**, click the station).
-2. The **Last seen** field updates within the next poll cycle (≤ 30 s by default).
+2. The **Last seen** field updates at the first heartbeat, sent as soon as the
+   agent starts, and then at every heartbeat or job poll.
 3. Click **Ping** in the header to enqueue a round-trip test job. The job appears
-   in the **Jobs** smart button and should reach state `Done` within seconds.
+   in the **Jobs** smart button and reaches state `Done` at the next poll — provided
+   job polling is enabled on the workstation (`TERRABIT_POLL_JOBS=1`, see CONFIGURE).
 4. Terrabit Connect managers also receive a browser notification when the agent
    sends a manual heartbeat.
 

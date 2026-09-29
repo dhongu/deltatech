@@ -36,19 +36,22 @@ The downloaded file contains two environment variables consumed by Terrabit Conn
 | `TERRABIT_ODOO_BASE` | Base URL of the Odoo instance (e.g. `https://yourcompany.odoo.com`) |
 | `TERRABIT_STATION_KEY` | The station's API key — treat it as a secret |
 
-Place `station.conf` on the workstation and restart Terrabit Connect. No other
-network configuration is required: the agent initiates all connections outbound
-to Odoo (no inbound port needs to be opened on the client side).
+In Terrabit Connect, import `station.conf` from **Setări → Importă config** (the
+agent's interface is in Romanian). The values are stored in the active profile of
+the workstation (`~/.terrabit-anaf-agent/profiles/<profile>.conf`) and applied
+without a restart.
+No other network configuration is required: the agent initiates all connections
+outbound to Odoo (no inbound port needs to be opened on the client side).
 
-## Tuning poll and heartbeat cadence
+## Job polling and heartbeat (workstation side)
 
-The following environment variables can be set on the workstation side to tune
-timing (Terrabit Connect reads them at startup):
+The heartbeat runs on its own: once at start-up, then every 300 seconds. **Job
+polling is off until you turn it on** in the station profile:
 
 | Variable | Default | Effect |
 |---|---|---|
-| `TERRABIT_POLL_SEC` | 30 | Seconds between `/tc/poll` calls |
-| `TERRABIT_HEARTBEAT_SEC` | 300 | Seconds between automatic heartbeats |
+| `TERRABIT_POLL_JOBS` | off | `1` lets the station claim and run jobs from `/tc/poll`. While it is off, jobs queued in Odoo stay `pending` |
+| `TERRABIT_POLL_SEC` | 30 | Seconds between `/tc/poll` calls (minimum 5) |
 
 ## Hosts reachable by `http_request` (workstation side)
 

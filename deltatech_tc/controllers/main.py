@@ -11,16 +11,15 @@ _logger = logging.getLogger(__name__)
 class DeltatechTcController(http.Controller):
     """Endpoints called by Terrabit Connect (outbound, cloud model).
 
-    Authentication via the ``X-Station-Key`` header (legacy ``X-Agent-Key`` is
-    still accepted for older agents). Plain JSON responses (REST), not JSON-RPC.
+    Authentication via the ``X-Station-Key`` header. Plain JSON responses
+    (REST), not JSON-RPC.
     """
 
     def _json(self, payload, status=200):
         return request.make_json_response(payload, status=status)
 
     def _station(self):
-        headers = request.httprequest.headers
-        key = headers.get("X-Station-Key") or headers.get("X-Agent-Key")  # legacy fallback
+        key = request.httprequest.headers.get("X-Station-Key")
         return request.env["deltatech.tc.station"]._authenticate(key)
 
     def _body(self):
@@ -88,7 +87,7 @@ class DeltatechTcController(http.Controller):
 
     @http.route("/tc/config/<int:station_id>", type="http", auth="user")
     def download_config(self, station_id, **kw):
-        """Serve a pre-filled ``agent.conf`` (instance URL + station API key).
+        """Serve a pre-filled ``station.conf`` (instance URL + station API key).
 
         Contains the API key → restricted to Terrabit Connect managers.
         """

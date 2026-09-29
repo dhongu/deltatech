@@ -14,7 +14,7 @@ Terrabit Connect - Base
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_tc
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_tc
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -24,6 +24,11 @@ runs on a workstation and bridges Odoo with local hardware and services
 it cannot reach directly from the cloud: the ANAF token (PKCS#11 / mTLS
 to SPV), fiscal printers (Datecs), label printers (Zebra ZPL) and
 declaration validation (DUKIntegrator).
+
+Terrabit Connect is a desktop application for Windows, macOS and Linux,
+built with Tauri (Rust core, the operating system's own web view).
+Installers and signed automatic updates are published at
+`terrabit-connect-releases <https://github.com/dhongu/terrabit-connect-releases/releases/latest>`__.
 
 This module is the **generic foundation** every Terrabit Connect feature
 builds on: the connection layer, the job protocol, and the one job type
@@ -133,23 +138,33 @@ Terrabit Connect:
 |                          | secret                                    |
 +--------------------------+-------------------------------------------+
 
-Place ``station.conf`` on the workstation and restart Terrabit Connect.
-No other network configuration is required: the agent initiates all
-connections outbound to Odoo (no inbound port needs to be opened on the
-client side).
+In Terrabit Connect, import ``station.conf`` from **Setări → Importă
+config** (the agent's interface is in Romanian). The values are stored
+in the active profile of the workstation
+(``~/.terrabit-anaf-agent/profiles/<profile>.conf``) and applied without
+a restart. No other network configuration is required: the agent
+initiates all connections outbound to Odoo (no inbound port needs to be
+opened on the client side).
 
-Tuning poll and heartbeat cadence
----------------------------------
+Job polling and heartbeat (workstation side)
+--------------------------------------------
 
-The following environment variables can be set on the workstation side
-to tune timing (Terrabit Connect reads them at startup):
+The heartbeat runs on its own: once at start-up, then every 300 seconds.
+**Job polling is off until you turn it on** in the station profile:
 
-========================== ======= ====================================
-Variable                   Default Effect
-========================== ======= ====================================
-``TERRABIT_POLL_SEC``      30      Seconds between ``/tc/poll`` calls
-``TERRABIT_HEARTBEAT_SEC`` 300     Seconds between automatic heartbeats
-========================== ======= ====================================
++-----------------------------+---------+-----------------------------+
+| Variable                    | Default | Effect                      |
++=============================+=========+=============================+
+| ``TERRABIT_POLL_JOBS``      | off     | ``1`` lets the station      |
+|                             |         | claim and run jobs from     |
+|                             |         | ``/tc/poll``. While it is   |
+|                             |         | off, jobs queued in Odoo    |
+|                             |         | stay ``pending``            |
++-----------------------------+---------+-----------------------------+
+| ``TERRABIT_POLL_SEC``       | 30      | Seconds between             |
+|                             |         | ``/tc/poll`` calls (minimum |
+|                             |         | 5)                          |
++-----------------------------+---------+-----------------------------+
 
 Hosts reachable by ``http_request`` (workstation side)
 ------------------------------------------------------
@@ -192,9 +207,9 @@ Registering a station
       TERRABIT_ODOO_BASE=<your Odoo URL>
       TERRABIT_STATION_KEY=<the generated key>
 
-6. Copy ``station.conf`` to the workstation running Terrabit Connect and
-   (re)start the agent. It will authenticate with the ``X-Station-Key``
-   header on every call.
+6. Copy ``station.conf`` to the workstation and import it in Terrabit
+   Connect (**Setări → Importă config**). The agent authenticates with
+   the ``X-Station-Key`` header on every call.
 
 Verifying connectivity
 ----------------------
@@ -203,11 +218,12 @@ Once Terrabit Connect is running with the downloaded config:
 
 1. Open the station form (**Settings → Terrabit Connect → Stations**,
    click the station).
-2. The **Last seen** field updates within the next poll cycle (≤ 30 s by
-   default).
+2. The **Last seen** field updates at the first heartbeat, sent as soon
+   as the agent starts, and then at every heartbeat or job poll.
 3. Click **Ping** in the header to enqueue a round-trip test job. The
-   job appears in the **Jobs** smart button and should reach state
-   ``Done`` within seconds.
+   job appears in the **Jobs** smart button and reaches state ``Done``
+   at the next poll — provided job polling is enabled on the workstation
+   (``TERRABIT_POLL_JOBS=1``, see CONFIGURE).
 4. Terrabit Connect managers also receive a browser notification when
    the agent sends a manual heartbeat.
 
@@ -284,6 +300,32 @@ the feature module is installed.
 Changelog
 =========
 
+19.0.1.1.3 (2026-09-29)
+-----------------------
+
+- The endpoints accept only the ``X-Station-Key`` header. The legacy
+  ``X-Agent-Key`` fallback is removed: every Terrabit Connect release
+  since 1.5 sends ``X-Station-Key``.
+- Documentation describes the Tauri desktop agent (Windows, macOS,
+  Linux) and where to download it, how to import ``station.conf``, and
+  that job polling must be enabled on the workstation
+  (``TERRABIT_POLL_JOBS=1``). ``TERRABIT_HEARTBEAT_SEC`` is no longer
+  documented: the heartbeat interval is fixed at 300 seconds.
+- New ``readme/ROADMAP.md``.
+
+19.0.1.1.2 (2026-09-25)
+-----------------------
+
+- Security: ``/tc/poll`` returns only the jobs queued for the calling
+  station. It used to claim every pending job of the station's company
+  and reassign it, so one station could take (and read the payload of)
+  jobs meant for another workstation.
+- Security: ``/tc/result`` accepts a result only for a job in state
+  ``claimed`` (409 otherwise). A finished job could be re-posted,
+  overwriting its result and replaying the callback.
+- ``/tc/poll`` caps ``limit`` to 1–50; ``/tc/result`` rejects a
+  non-integer ``job_id`` with 400.
+
 19.0.1.1.1 (2026-08-15)
 -----------------------
 
@@ -344,6 +386,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_tc>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_tc>`_ project on GitHub.
 
 You are welcome to contribute.
