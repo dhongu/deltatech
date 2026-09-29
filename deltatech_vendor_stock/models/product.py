@@ -17,7 +17,6 @@ class ProductProduct(models.Model):
     other_qty_available = fields.Float("Other Quantity Available", compute="_compute_vendor_qty_available")
 
     def _compute_vendor_qty_available(self):
-        treated = self.env["product.product"]
         self.other_qty_available = 0
         for product in self:
             qty_available = 0
@@ -25,6 +24,3 @@ class ProductProduct(models.Model):
                 if not vendor.product_id or vendor.product_id == product:
                     qty_available += vendor.qty_available
             product.vendor_qty_available = qty_available
-            treated |= product
-        remaining = self - treated
-        remaining.vendor_qty_available = False
