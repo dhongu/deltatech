@@ -9,7 +9,7 @@
                     class="o_kpi_card btn bg-view text-start"
                     t-att-class="'o_kpi_card_' + toneOf(card) + (card.active ? ' active' : '') + (isZero(card) ? ' o_kpi_card_zero' : '')"
                     t-att-data-card="card.key"
-                    t-att-title="card.label"
+                    t-att-title="card.title or card.label"
                     t-att-aria-pressed="card.active ? 'true' : 'false'"
                     t-on-click="() => this.onClick(card)"
                 >
@@ -24,7 +24,7 @@
                                 </t>
                                 <t t-else="">0</t>
                             </t>
-                            <t t-else="" t-out="card.count or 0" />
+                            <t t-else="" t-out="formatCount(card.count)" />
                         </span>
                         <span class="o_kpi_card_label" t-out="card.label" />
                         <span t-if="card.subtitle" class="o_kpi_card_label" t-out="card.subtitle" />
