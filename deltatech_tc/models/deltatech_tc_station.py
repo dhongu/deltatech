@@ -152,7 +152,7 @@ class DeltatechTcStation(models.Model):
         )
 
     def action_download_config(self):
-        """Download a pre-filled ``agent.conf`` (Odoo URL + API key) for this station."""
+        """Download a pre-filled ``station.conf`` (Odoo URL + API key) for this station."""
         self.ensure_one()
         return {
             "type": "ir.actions.act_url",

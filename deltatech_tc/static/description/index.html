@@ -1,16 +1,16 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;">
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
 <!-- tb-gen v1 -->
-<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
+<div class="text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Terrabit Connect - Base" style="width:72px;height:72px;border:none;"/></span></div>
-  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Terrabit Connect - Base</h1>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Terrabit Connect - Base</h1>
   <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Base for Terrabit Connect: station registry, outbound job queue, REST endpoints (X-Station-Key) and HTTP calls into the customer&#x27;s local network.</p>
   <div>
-    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Technical</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 20.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Technical</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
   </div>
 </div>
 
@@ -43,6 +43,10 @@
 a workstation and bridges Odoo with local hardware and services it cannot reach
 directly from the cloud: the ANAF token (PKCS#11 / mTLS to SPV), fiscal printers
 (Datecs), label printers (Zebra ZPL) and declaration validation (DUKIntegrator).</p>
+<p>Terrabit Connect is a desktop application for Windows, macOS and Linux, built
+with Tauri (Rust core, the operating system's own web view). Installers and signed
+automatic updates are published at
+<a href="https://github.com/dhongu/terrabit-connect-releases/releases/latest">terrabit-connect-releases</a>.</p>
 <p>This module is the <strong>generic foundation</strong> every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure
 transport rather than a specific device &#8212; an HTTP call inside the customer's
@@ -133,12 +137,15 @@ The downloaded file contains two environment variables consumed by Terrabit Conn
 </tr>
 </tbody>
 </table>
-<p>Place <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> on the workstation and restart Terrabit Connect. No other
-network configuration is required: the agent initiates all connections outbound
-to Odoo (no inbound port needs to be opened on the client side).</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Tuning poll and heartbeat cadence</h2>
-<p>The following environment variables can be set on the workstation side to tune
-timing (Terrabit Connect reads them at startup):</p>
+<p>In Terrabit Connect, import <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> from <strong>Set&#259;ri &#8594; Import&#259; config</strong> (the
+agent's interface is in Romanian). The values are stored in the active profile of
+the workstation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">~/.terrabit-anaf-agent/profiles/&lt;profile&gt;.conf</code>) and applied
+without a restart.
+No other network configuration is required: the agent initiates all connections
+outbound to Odoo (no inbound port needs to be opened on the client side).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Job polling and heartbeat (workstation side)</h2>
+<p>The heartbeat runs on its own: once at start-up, then every 300 seconds. <strong>Job
+polling is off until you turn it on</strong> in the station profile:</p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
 <tr>
@@ -149,14 +156,14 @@ timing (Terrabit Connect reads them at startup):</p>
 </thead>
 <tbody>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_SEC</code></td>
-<td>30</td>
-<td>Seconds between <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> calls</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_JOBS</code></td>
+<td>off</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">1</code> lets the station claim and run jobs from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code>. While it is off, jobs queued in Odoo stay <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code></td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_HEARTBEAT_SEC</code></td>
-<td>300</td>
-<td>Seconds between automatic heartbeats</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_SEC</code></td>
+<td>30</td>
+<td>Seconds between <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> calls (minimum 5)</td>
 </tr>
 </tbody>
 </table>
@@ -187,16 +194,19 @@ within the throttle window.</p>
    pre-filled <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> file containing:
    <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_ODOO_BASE=&lt;your Odoo URL&gt;
    TERRABIT_STATION_KEY=&lt;the generated key&gt;</code></li>
-<li>Copy <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> to the workstation running Terrabit Connect and (re)start
-   the agent. It will authenticate with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code> header on every call.</li>
+<li>Copy <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> to the workstation and import it in Terrabit Connect
+   (<strong>Set&#259;ri &#8594; Import&#259; config</strong>). The agent authenticates with the
+   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code> header on every call.</li>
 </ol>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Verifying connectivity</h2>
 <p>Once Terrabit Connect is running with the downloaded config:</p>
 <ol>
 <li>Open the station form (<strong>Settings &#8594; Terrabit Connect &#8594; Stations</strong>, click the station).</li>
-<li>The <strong>Last seen</strong> field updates within the next poll cycle (&#8804; 30 s by default).</li>
+<li>The <strong>Last seen</strong> field updates at the first heartbeat, sent as soon as the
+   agent starts, and then at every heartbeat or job poll.</li>
 <li>Click <strong>Ping</strong> in the header to enqueue a round-trip test job. The job appears
-   in the <strong>Jobs</strong> smart button and should reach state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code> within seconds.</li>
+   in the <strong>Jobs</strong> smart button and reaches state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code> at the next poll &#8212; provided
+   job polling is enabled on the workstation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_JOBS=1</code>, see CONFIGURE).</li>
 <li>Terrabit Connect managers also receive a browser notification when the agent
    sends a manual heartbeat.</li>
 </ol>
@@ -252,6 +262,25 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-09-29)</h2>
+<ul>
+<li>The endpoints accept only the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code> header. The legacy <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Agent-Key</code> fallback
+  is removed: every Terrabit Connect release since 1.5 sends <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code>.</li>
+<li>Documentation describes the Tauri desktop agent (Windows, macOS, Linux) and where to
+  download it, how to import <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code>, and that job polling must be enabled on the
+  workstation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_JOBS=1</code>). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_HEARTBEAT_SEC</code> is no longer documented:
+  the heartbeat interval is fixed at 300 seconds.</li>
+<li>New <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/ROADMAP.md</code>.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-09-25)</h2>
+<ul>
+<li>Security: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> returns only the jobs queued for the calling station. It used to
+  claim every pending job of the station's company and reassign it, so one station could
+  take (and read the payload of) jobs meant for another workstation.</li>
+<li>Security: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code> accepts a result only for a job in state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code> (409 otherwise).
+  A finished job could be re-posted, overwriting its result and replaying the callback.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> caps <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> to 1&#8211;50; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code> rejects a non-integer <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job_id</code> with 400.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.1 (2026-08-15)</h2>
 <ul>
 <li>Fix: added the missing <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code> dependency. The manual heartbeat notification
@@ -294,8 +323,8 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 
 
-<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
-  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+<div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
      Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
      the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
@@ -307,136 +336,136 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 
 
 <section class="rounded-4 p-4 mb-3 border">
-  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
   <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_cron_monitor_webhook" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_business_process" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">CM</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Cron Monitor Webhook</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Technical</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Business process</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules/Other</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Run cron jobs from webhook</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Business process</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_rpc_audit" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_contact" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">RA</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CO</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">RPC Audit Log</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Technical</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Contacts</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Administration</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Log XML-RPC / JSON-RPC calls with the real client IP</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">New fields in partner</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_transport_change" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_delivery_status" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">TC</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DS</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">DeltaTech Transport Change</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Technical</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Delivery Status</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Warehouse</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Export configuration changes to CSV and manage transport through Git</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Carrier status on picking</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_ecr_fiscal" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EF</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Tools</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">ECR Fiscal Audit Fields</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting/Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generic module</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Common fiscal printer audit fields shared by POS, invoicing and localizations</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_gln" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PG</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Partner GLN </span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Administration</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Partner Global Location Number</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_partner_generic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GP</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Generic Partner</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generic partner for anonymous customers, with accounting restrictions</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_product_extension" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">UD</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PE</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UBL despatch advice</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account UBL despatch advice</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Products Extension</span>
               <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_product_trade_markup" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PT</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product trade markup</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales/Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Product trade markup</p>
         </div>
       </a>
     </div>

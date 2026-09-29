@@ -30,6 +30,16 @@ class TestDeltatechTc(HttpCase):
         self.assertEqual(res.status_code, 401)
         self.assertFalse(self.station.last_seen)
 
+    def test_legacy_agent_key_header_refused(self):
+        """Only ``X-Station-Key`` authenticates; the old ``X-Agent-Key`` header is gone."""
+        res = self.url_open(
+            "/tc/heartbeat",
+            data=b"{}",
+            headers={"Content-Type": "application/json", "X-Agent-Key": self.station.api_key},
+        )
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(self.station.last_seen)
+
     def test_heartbeat_stores_metadata(self):
         res = self._post(
             "/tc/heartbeat",
