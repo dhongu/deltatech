@@ -1,3 +1,7 @@
+## 19.0.1.0.3
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.2
 
 - Security: `/shop/confirmation` no longer confirms any order from the session. The order is
