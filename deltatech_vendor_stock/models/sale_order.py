@@ -4,6 +4,8 @@
 
 
 from odoo import api, fields, models
+from odoo.tools import float_is_zero
+from odoo.tools.misc import formatLang
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -39,46 +41,57 @@ class SaleOrderLine(models.Model):
         """Get stock colors from system parameters - API method"""
         return self._get_stock_colors()
 
-    def _compute_warehouse_stocks(self):
-        warehouses = self.env["stock.warehouse"].search([])
-        if len(warehouses) == 1:
-            self.warehouse_stock = False
-            return
+    @api.model
+    def _vendor_stock_use_only_main_location(self):
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        return bool(safe_eval(get_param("deltatech_vendor_stock.use_only_main_location", "0")))
 
-        for sale_line in self:
-            if sale_line.product_id:
+    @api.model
+    def _vendor_stock_free_qty_by_warehouse(self, products, warehouses):
+        """{(product_id, warehouse_id): free_qty}, one batched read per warehouse"""
+        only_main_location = self._vendor_stock_use_only_main_location()
+        context = self.env.context
+        result = {}
+        for warehouse in warehouses:
+            if only_main_location:
+                scoped = products.with_context(location=warehouse.lot_stock_id.id)
+            else:
+                scoped = products.with_context(warehouse_id=warehouse.id)
+            quantities = scoped._compute_quantities_dict(
+                context.get("lot_id"),
+                context.get("owner_id"),
+                context.get("package_id"),
+                context.get("from_date"),
+                context.get("to_date"),
+            )
+            for product_id, values in quantities.items():
+                result[(product_id, warehouse.id)] = values["free_qty"]
+        return result
+
+    def _compute_warehouse_stocks(self):
+        self.warehouse_stock = False
+        lines = self.filtered(lambda line: line.product_id.is_storable and line.display_qty_widget)
+        for company, company_lines in lines.grouped(lambda line: line.order_id.company_id or self.env.company).items():
+            warehouses = (
+                self.env["stock.warehouse"]
+                .search([("company_id", "=", company.id)])
+                .filtered(lambda warehouse: warehouse.lot_stock_id.usage == "internal")
+            )
+            if len(warehouses) <= 1:
+                continue
+            free_qty = self._vendor_stock_free_qty_by_warehouse(company_lines.product_id, warehouses)
+            for sale_line in company_lines:
                 product = sale_line.product_id
+                line_uom = sale_line.product_uom or product.uom_id
                 warehouse_stock_lines = []
                 for warehouse in warehouses:
-                    if warehouse.lot_stock_id.usage == "internal":
-                        get_param = self.env["ir.config_parameter"].sudo().get_param
-                        use_only_main_location = safe_eval(
-                            get_param("deltatech_vendor_stock.use_only_main_location", "0")
-                        )
-                        if not use_only_main_location:
-                            qty = product.with_context(warehouse_id=warehouse.id)._compute_quantities_dict(
-                                self.env.context.get("lot_id"),
-                                self.env.context.get("owner_id"),
-                                self.env.context.get("package_id"),
-                                self.env.context.get("from_date"),
-                                self.env.context.get("to_date"),
-                            )
-                        else:
-                            qty = product.with_context(location=warehouse.lot_stock_id.id)._compute_quantities_dict(
-                                self.env.context.get("lot_id"),
-                                self.env.context.get("owner_id"),
-                                self.env.context.get("package_id"),
-                                self.env.context.get("from_date"),
-                                self.env.context.get("to_date"),
-                            )
-
-                        quantity_in_warehouse = qty[product.id]["free_qty"]
-                        if quantity_in_warehouse:
-                            line = f"{warehouse.code}: {quantity_in_warehouse}"
-                            warehouse_stock_lines.append(line)
+                    quantity = free_qty.get((product.id, warehouse.id), 0.0)
+                    if float_is_zero(quantity, precision_rounding=product.uom_id.rounding):
+                        continue
+                    quantity = product.uom_id._compute_quantity(quantity, line_uom)
+                    quantity_text = formatLang(self.env, quantity, dp="Product Unit of Measure")
+                    warehouse_stock_lines.append(f"{warehouse.code}: {quantity_text} {line_uom.name}")
                 sale_line.warehouse_stock = " \t\n".join(warehouse_stock_lines)
-            else:
-                sale_line.warehouse_stock = ""
 
     @api.onchange("product_id")
     def _onchange_product_recalculate_stock(self):
@@ -87,10 +100,10 @@ class SaleOrderLine(models.Model):
     def _compute_qty_at_date(self):
         res = super()._compute_qty_at_date()
         self.other_qty_available = 0
-        treated = self.env["sale.order.line"]
         for line in self:
-            line.vendor_qty_available = line.product_id.vendor_qty_available
-            treated |= line
-        remaining = self - treated
-        remaining.vendor_qty_available = False
+            product = line.product_id
+            quantity = product.vendor_qty_available
+            if quantity and line.product_uom and line.product_uom != product.uom_id:
+                quantity = product.uom_id._compute_quantity(quantity, line.product_uom)
+            line.vendor_qty_available = quantity
         return res
