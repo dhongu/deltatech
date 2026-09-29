@@ -1,3 +1,9 @@
+## 18.0.2.2.1 (2026-09-29)
+
+- Romanian translations completed and corrected: *Refused* was not translated (the state showed in
+  English on the delivery), *Ready in warehouse* lacked its diacritics, and the postponed-delivery
+  labels were missing. On upgrade the corrected ones replace the old.
+
 ## 18.0.2.2.0 (2026-08-04)
 
 - Validating a transfer no longer marks it as `delivered` when no carrier is
