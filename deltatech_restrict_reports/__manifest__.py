@@ -3,7 +3,7 @@
 {
     "name": "Deltatech - Restrict Reports Access",
     "summary": "Restrict Sales Analysis and Invoice Analysis reports by group: own records, all records, or no access.",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "AGPL-3",

@@ -3,7 +3,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Website Sale Attribute Filter",
-    "version": "19.0.0.1.0",
+    "version": "19.0.0.1.1",
     "category": "Website",
     "summary": "Filter attribute values based on displayed products",
     "author": "Terrabit, Voicu Stefan",

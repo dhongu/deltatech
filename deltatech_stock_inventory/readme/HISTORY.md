@@ -1,3 +1,7 @@
+## 19.0.2.10.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.2.10.0 (2026-09-24)
 
 - **The inventory price no longer revalues the existing stock.** Until now, validating an inventory

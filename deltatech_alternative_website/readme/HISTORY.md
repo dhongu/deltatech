@@ -1,3 +1,7 @@
+## 19.0.1.0.10 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.9 (2026-09-26)
 
 - Roadmap: replaced the manual `CREATE INDEX ... gin_trgm_ops` SQL with the

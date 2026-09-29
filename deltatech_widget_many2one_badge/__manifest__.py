@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Many2one Badge Widget",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Web",
     "summary": "Many2one field widget displayed as colored badge, similar to many2many_tags",
     "author": "Terrabit, Dorin Hongu",

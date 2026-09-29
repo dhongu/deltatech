@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Cron Monitor Webhook",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Technical",
     "summary": "Run cron jobs from webhook",
     "author": "Terrabit, Dorin Hongu",

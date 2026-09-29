@@ -1,3 +1,7 @@
+## 19.0.1.0.2 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.1 (2026-07-29)
 
 - Reuse an existing reordering rule in the tests: `deltatech_auto_reorder_rule` creates one on every

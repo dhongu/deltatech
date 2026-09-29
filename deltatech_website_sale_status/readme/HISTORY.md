@@ -1,3 +1,7 @@
+## 19.0.2.0.9 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.2.0.8 (2026-09-26)
 
 - Fix: the order stage failed to compute (`AttributeError: purchase_order_count`)

@@ -1,3 +1,7 @@
+## 19.0.0.1.1
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.0.1.0
 
 - Preserve the attribute filter UI state across the page reload that Odoo

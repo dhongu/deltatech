@@ -1,3 +1,7 @@
+## 19.0.1.2.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.2.0 (2026-09-23)
 
 Brings back what 18.0.1.2.0 (#2469, #2482) added and never reached 19.0, and replaces the 19.0.1.1.5 amount rule:

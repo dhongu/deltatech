@@ -1,3 +1,7 @@
+## 19.0.1.3.3 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.3.2 (2026-09-25)
 
 - Security: the `vat` parameter of `/shop/products-json` and

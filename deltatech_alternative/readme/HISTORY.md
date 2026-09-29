@@ -1,3 +1,7 @@
+## 19.0.2.1.4 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.2.1.3 (2026-09-26)
 
 - The index on `product.alternative.name` is now a trigram (GIN) index

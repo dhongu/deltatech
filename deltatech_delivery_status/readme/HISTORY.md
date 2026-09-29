@@ -1,3 +1,7 @@
+# 19.0.2.3.1
+
+- Own module icon, instead of the generic gears it had.
+
 # 19.0.2.3.0
 
 - Orders with a postponed delivery can now be **found**: a "Postponed delivery" filter

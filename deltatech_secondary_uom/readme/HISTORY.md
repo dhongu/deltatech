@@ -1,3 +1,7 @@
+## 19.0.1.1.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.1.0 (2026-08-06)
 
 - Quantities entered in a secondary unit are rounded **up** to whole base

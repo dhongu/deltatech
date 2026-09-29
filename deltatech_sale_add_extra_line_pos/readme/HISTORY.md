@@ -1,3 +1,7 @@
+## 19.0.1.0.2
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.1
 
 - [FIX] the extra line is added again in the POS. Since 19.0 the point of sale

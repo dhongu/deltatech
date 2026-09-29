@@ -5,7 +5,7 @@
     "name": "eCommerce Product Category",
     "category": "Website",
     "summary": "Public category",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

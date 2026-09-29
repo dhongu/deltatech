@@ -1,3 +1,7 @@
+## 19.0.1.0.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.0 (2026-08-14)
 
 - Migrated to Odoo 19.0.
