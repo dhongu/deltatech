@@ -1,3 +1,7 @@
+## 19.0.1.0.1
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.0
 
 - Ported from 18.0. No code changes: the `product.pricelist.item.base`
