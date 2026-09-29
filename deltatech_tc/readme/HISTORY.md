@@ -1,3 +1,7 @@
+## 20.0.1.2.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.2.0 (2026-09-29)
 
 - **Atomic claim.** `/tc/poll` locks the rows it hands out (`FOR UPDATE SKIP LOCKED`). Two

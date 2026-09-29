@@ -1,3 +1,7 @@
+# 20.0.1.4.3
+
+- Own module icon, instead of the generic gears it had.
+
 # Changelog
 
 ## 19.0.1.4.2 (2026-09-23)

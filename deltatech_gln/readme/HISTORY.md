@@ -1,3 +1,7 @@
+## 20.0.1.1.1
+
+- Own module icon, instead of the generic gears it had.
+
 ## 20.0.1.1.0
 
 - Migration to 20.0. The GLN became a standard partner identifier
