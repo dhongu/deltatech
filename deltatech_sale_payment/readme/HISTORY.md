@@ -1,3 +1,7 @@
+## 19.0.1.2.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.2.0 (2026-09-23)
 
 Brings back what 18.0.1.2.0 (#2469, #2482) added and never reached 19.0, and replaces the 19.0.1.1.5 amount rule:
@@ -10,6 +14,12 @@ Brings back what 18.0.1.2.0 (#2469, #2482) added and never reached 19.0, and rep
 - Search filters for every status (without, initiated, pending, authorized, partially paid, paid, cancelled), a "Payment Status" group-by, and colour decorations on the form.
 - The payment link proposes what is left to pay on the order (total minus the amount paid); it used to propose 0 once an invoice existed.
 - Migration: the three fields are computed in SQL, set-based, before the registry loads (seconds instead of an ORM recompute of every order), for databases coming from 18.0 as well as from 19.0.1.1.x. Only the rows that change are written, and the receipts that `deltatech_sale_store` adds to `invoice_ids` are included. Checked against `_compute_payment` order by order, and on a 470,000-order database: 26 s for the whole module update, 0 differences on a random sample.
+
+## 19.0.1.1.6 (2026-09-23)
+
+- Translatable strings in code use `self.env._()` instead of `_()`, the Odoo 19
+  convention (pylint-odoo `prefer-env-translation`). The translated messages are
+  unchanged.
 
 ## 19.0.1.1.5 (2026-09-23)
 
