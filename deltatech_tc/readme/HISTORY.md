@@ -1,3 +1,19 @@
+## 19.0.1.2.0 (2026-09-29)
+
+- **Atomic claim.** `/tc/poll` locks the rows it hands out (`FOR UPDATE SKIP LOCKED`). Two
+  simultaneous polls with the same key (a second workstation installed by copying the
+  profile) could both receive, and run, the same job.
+- **Lost results.** A job claimed longer than `deltatech_tc.claim_timeout_minutes` (15)
+  without a result used to stay `claimed` for ever. A retry-safe job (`ping`, an
+  `http_request` with `GET`/`HEAD`; extend `_tc_is_retry_safe()` for other read-only types)
+  is offered again, up to `deltatech_tc.max_attempts` (3), then fails. Any other job is left
+  `claimed`: it may have run, and its late result is still accepted.
+- **Retry** button on the job (managers): error or stuck jobs go back to `pending`. No
+  `sudo`, so a read-only user cannot re-run a job over RPC either.
+- **Daily cleanup** cron: `done` jobs older than 30 days and `error` jobs older than 90 are
+  deleted; pending jobs can expire after `deltatech_tc.pending_ttl_hours` (off by default).
+- New field `attempt_count`, new **Claimed** filter.
+
 ## 19.0.1.1.3 (2026-09-29)
 
 - The endpoints accept only the `X-Station-Key` header. The legacy `X-Agent-Key` fallback

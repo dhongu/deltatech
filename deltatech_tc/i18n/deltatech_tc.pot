@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:25+0000\n"
-"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"POT-Creation-Date: 2026-09-29 02:52+0000\n"
+"PO-Revision-Date: 2026-09-29 02:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "%(model)s has no method %(method)s."
+msgstr ""
 
 #. module: deltatech_tc
 #. odoo-python
@@ -32,6 +38,12 @@ msgid "Active"
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "An HTTP job needs a 'url' in its payload."
+msgstr ""
+
+#. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Archived"
 msgstr ""
@@ -44,7 +56,28 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__attempt_count
+msgid "Attempts"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_method
+msgid "Callback Method"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_model
+msgid "Callback Model"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_res_id
+msgid "Callback Res"
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__claimed
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
 msgid "Claimed"
 msgstr ""
 
@@ -114,6 +147,18 @@ msgid "Features"
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__http_request
+msgid "HTTP request (LAN)"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__attempt_count
+msgid ""
+"How many times the job was handed to the station. A retry-safe job whose "
+"result never arrives is offered again, up to the configured limit."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__id
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__id
 msgid "ID"
@@ -168,14 +213,44 @@ msgid "Manager"
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_method
+msgid "Method invoked with the finished job. Must start with '_tc_'."
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_model
+msgid "Model whose method is called once the station reports the response."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__name
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__name
 msgid "Name"
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "No Terrabit Connect station given for the HTTP job."
+msgstr ""
+
+#. module: deltatech_tc
 #: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
 msgid "No Terrabit Connect station registered"
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid ""
+"No result from the station after %(count)s attempts. Check the station, then"
+" use Retry."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "No station picked the job up within %(hours)s hours - expired."
 msgstr ""
 
 #. module: deltatech_tc
@@ -212,6 +287,17 @@ msgid "Ping"
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_res_id
+msgid "Record the callback is executed on. 0 calls the method on the model."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "Refusing to call %(method)s - callbacks must start with '%(prefix)s'."
+msgstr ""
+
+#. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Regenerate key"
 msgstr ""
@@ -227,6 +313,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__result
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
 msgid "Result"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid "Retry"
 msgstr ""
 
 #. module: deltatech_tc
@@ -293,13 +384,50 @@ msgid "Terrabit Connect heartbeat"
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.actions.server,name:deltatech_tc.ir_cron_deltatech_tc_gc_jobs_ir_actions_server
+msgid "Terrabit Connect: queue cleanup"
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
 msgid "The API key must be unique."
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The URL %(url)s has no host."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The callback method %(method)s must start with '%(prefix)s'."
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid ""
+"The station will run this job again. For a job with an effect outside Odoo "
+"(an ANAF upload, a POST to a device) check first that it did not already "
+"run."
+msgstr ""
+
+#. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
 msgid "Type"
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "Unsupported HTTP method %(method)s."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "Unsupported URL scheme %(scheme)s - only http and https are allowed."
 msgstr ""
 
 #. module: deltatech_tc
