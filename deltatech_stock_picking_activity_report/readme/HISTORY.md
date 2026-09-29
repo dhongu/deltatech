@@ -1,3 +1,7 @@
+## 19.0.1.1.2 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.1.1 (2026-08-24)
 
 **Fix** — logging no longer fails when an operation that is not saved yet is
