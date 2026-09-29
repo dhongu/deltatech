@@ -10,7 +10,12 @@ import {
     mountWithCleanup,
     mountWithSearch,
 } from "@web/../tests/web_test_helpers";
-import {KpiCards, useKpiCardFilters} from "@deltatech_web_kpi_cards/kpi_cards/kpi_cards.esm";
+import {
+    KpiCards,
+    formatKpiAmount,
+    formatKpiCount,
+    useKpiCardFilters,
+} from "@deltatech_web_kpi_cards/kpi_cards/kpi_cards.esm";
 import {SearchBar} from "@web/search/search_bar/search_bar";
 
 class Parcel extends models.Model {
@@ -54,6 +59,25 @@ describe("deltatech_web_kpi_cards", () => {
         expect(".o_kpi_card[data-card='d']").toHaveClass("o_kpi_card_slate");
         expect(".o_kpi_card[data-card='d']").toHaveClass("active");
         expect(".o_kpi_card[data-card='d']").toHaveAttribute("aria-pressed", "true");
+    });
+
+    test("deltatech_web_kpi_cards: large numbers are shown compact", async () => {
+        // Mounted first: the compact units (k, M) are translated, and mounting loads the translations
+        await mountWithCleanup(KpiCards, {
+            props: {cards: [{key: "a", label: "Big", count: 2000000, title: "2,000,000 parcels"}]},
+        });
+        expect(".o_kpi_card_value").toHaveText("2M");
+        expect(".o_kpi_card").toHaveAttribute("title", "2,000,000 parcels");
+        const nbsp = "\u00a0";
+        // Below 100 000 whole, with the currency on its side (1: $ before, 2: € after)
+        expect(formatKpiAmount(851.4, 2)).toBe(`851${nbsp}€`);
+        expect(formatKpiAmount(18885, 1)).toBe(`$${nbsp}18,885`);
+        // From 100 000 on, in thousands or millions
+        expect(formatKpiAmount(1903202, 2)).toBe(`1.9M${nbsp}€`);
+        expect(formatKpiAmount(30838468, 1)).toBe(`$${nbsp}30.8M`);
+        expect(formatKpiAmount(250000, 2)).toBe(`250k${nbsp}€`);
+        expect(formatKpiCount(9227)).toBe("9,227");
+        expect(formatKpiCount(123456)).toBe("123.5k");
     });
 
     test("deltatech_web_kpi_cards: a click hands the card over", async () => {
