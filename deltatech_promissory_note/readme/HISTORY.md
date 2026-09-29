@@ -1,3 +1,7 @@
+## 19.0.1.0.6 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.0.5 (2026-09-24)
 
 - Romanian translations for the messages recovered in the previous release
