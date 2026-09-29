@@ -1,3 +1,7 @@
+## 19.0.1.4.1
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.4.0
 
 - [IMP] the product of the extra line goes through a hook, `SaleOrderLine._get_extra_product()`, instead of being read from `product_id.extra_product_id` in place. A module can now decide the extra product from the order line, so the line no longer requires the field to be filled in on every product. The default behaviour is unchanged
