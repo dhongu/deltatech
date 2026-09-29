@@ -166,6 +166,39 @@ The heartbeat runs on its own: once at start-up, then every 300 seconds.
 |                             |         | 5)                          |
 +-----------------------------+---------+-----------------------------+
 
+Queue settings (Odoo side)
+--------------------------
+
+System parameters (**Settings → Technical → System Parameters**), all
+optional:
+
++----------------------------------------+---------+-----------------------------+
+| Parameter                              | Default | Effect                      |
++========================================+=========+=============================+
+| ``deltatech_tc.claim_timeout_minutes`` | 15      | A claimed job without       |
+|                                        |         | result after this long      |
+|                                        |         | counts as lost. ``0`` turns |
+|                                        |         | recovery off                |
++----------------------------------------+---------+-----------------------------+
+| ``deltatech_tc.max_attempts``          | 3       | Offers of a retry-safe job  |
+|                                        |         | before it fails             |
++----------------------------------------+---------+-----------------------------+
+| ``deltatech_tc.done_ttl_days``         | 30      | Finished jobs older than    |
+|                                        |         | this are deleted by the     |
+|                                        |         | daily cleanup (``0`` =      |
+|                                        |         | keep)                       |
++----------------------------------------+---------+-----------------------------+
+| ``deltatech_tc.error_ttl_days``        | 90      | Same for jobs in error      |
++----------------------------------------+---------+-----------------------------+
+| ``deltatech_tc.pending_ttl_hours``     | 0       | Pending jobs no station     |
+|                                        |         | picked up expire after this |
+|                                        |         | long. ``0`` = never         |
++----------------------------------------+---------+-----------------------------+
+
+Keep the claim timeout above the longest job you run (a DUKIntegrator
+validation, a slow device): a retry-safe job that is still running when
+it expires is executed twice.
+
 Hosts reachable by ``http_request`` (workstation side)
 ------------------------------------------------------
 
@@ -241,6 +274,30 @@ The job list uses colour coding:
 - Muted row — ``Claimed`` (the station picked it up; result not yet
   reported)
 
+Lost results and retries
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+A job whose result never came back (agent restarted, network down
+between execution and reply) is handled after the claim timeout (see
+CONFIGURE):
+
+- **retry-safe jobs** (``ping``, ``http_request`` with ``GET`` or
+  ``HEAD``) are offered to the station again, then fail after the
+  maximum number of attempts;
+- **all other jobs** stay ``Claimed``, because they may already have
+  run. Find them with the **Claimed** filter, check on the device or at
+  ANAF whether the operation happened, and only then use **Retry** on
+  the job form (managers only).
+
+**Retry** also puts a job in ``Error`` back in the queue.
+
+A feature module whose job type only reads can declare it retry-safe:
+
+.. code:: python
+
+   def _tc_is_retry_safe(self):
+       return self.job_type == "sync_messages" or super()._tc_is_retry_safe()
+
 Rotating the API key
 --------------------
 
@@ -299,6 +356,28 @@ the feature module is installed.
 
 Changelog
 =========
+
+19.0.1.2.0 (2026-09-29)
+-----------------------
+
+- **Atomic claim.** ``/tc/poll`` locks the rows it hands out
+  (``FOR UPDATE SKIP LOCKED``). Two simultaneous polls with the same key
+  (a second workstation installed by copying the profile) could both
+  receive, and run, the same job.
+- **Lost results.** A job claimed longer than
+  ``deltatech_tc.claim_timeout_minutes`` (15) without a result used to
+  stay ``claimed`` for ever. A retry-safe job (``ping``, an
+  ``http_request`` with ``GET``/``HEAD``; extend ``_tc_is_retry_safe()``
+  for other read-only types) is offered again, up to
+  ``deltatech_tc.max_attempts`` (3), then fails. Any other job is left
+  ``claimed``: it may have run, and its late result is still accepted.
+- **Retry** button on the job (managers): error or stuck jobs go back to
+  ``pending``. No ``sudo``, so a read-only user cannot re-run a job over
+  RPC either.
+- **Daily cleanup** cron: ``done`` jobs older than 30 days and ``error``
+  jobs older than 90 are deleted; pending jobs can expire after
+  ``deltatech_tc.pending_ttl_hours`` (off by default).
+- New field ``attempt_count``, new **Claimed** filter.
 
 19.0.1.1.3 (2026-09-29)
 -----------------------

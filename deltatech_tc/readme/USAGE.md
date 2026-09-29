@@ -40,6 +40,26 @@ The job list uses colour coding:
 - Red row — `Error` (open the form to read the error detail)
 - Muted row — `Claimed` (the station picked it up; result not yet reported)
 
+### Lost results and retries
+
+A job whose result never came back (agent restarted, network down between execution and
+reply) is handled after the claim timeout (see CONFIGURE):
+
+- **retry-safe jobs** (`ping`, `http_request` with `GET` or `HEAD`) are offered to the
+  station again, then fail after the maximum number of attempts;
+- **all other jobs** stay `Claimed`, because they may already have run. Find them with the
+  **Claimed** filter, check on the device or at ANAF whether the operation happened, and only
+  then use **Retry** on the job form (managers only).
+
+**Retry** also puts a job in `Error` back in the queue.
+
+A feature module whose job type only reads can declare it retry-safe:
+
+```python
+def _tc_is_retry_safe(self):
+    return self.job_type == "sync_messages" or super()._tc_is_retry_safe()
+```
+
 ## Rotating the API key
 
 If a station key is compromised:

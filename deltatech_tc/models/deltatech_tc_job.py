@@ -1,9 +1,11 @@
 import json
 import logging
+from datetime import timedelta
 from urllib.parse import urlparse
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import SQL
 
 _logger = logging.getLogger(__name__)
 
@@ -15,6 +17,16 @@ CALLBACK_PREFIX = "_tc_"
 
 ALLOWED_SCHEMES = ("http", "https")
 ALLOWED_METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE", "HEAD")
+# HTTP methods whose repetition changes nothing on the device.
+SAFE_HTTP_METHODS = ("GET", "HEAD")
+
+# Queue tuning. Each value can be overridden with the ``ir.config_parameter`` of the
+# same name (prefixed ``deltatech_tc.``); see ``_tc_param``.
+DEFAULT_CLAIM_TIMEOUT_MINUTES = 15  # a claimed job without result is considered lost after this
+DEFAULT_MAX_ATTEMPTS = 3  # offers of a retry-safe job before it is failed
+DEFAULT_DONE_TTL_DAYS = 30
+DEFAULT_ERROR_TTL_DAYS = 90
+DEFAULT_PENDING_TTL_HOURS = 0  # 0 = pending jobs never expire
 
 
 class DeltatechTcJob(models.Model):
@@ -61,6 +73,13 @@ class DeltatechTcJob(models.Model):
     error = fields.Text(copy=False)
     claimed_at = fields.Datetime(readonly=True, copy=False)
     done_at = fields.Datetime(readonly=True, copy=False)
+    attempt_count = fields.Integer(
+        string="Attempts",
+        readonly=True,
+        copy=False,
+        help="How many times the job was handed to the station. A retry-safe job whose "
+        "result never arrives is offered again, up to the configured limit.",
+    )
     callback_model = fields.Char(
         readonly=True,
         help="Model whose method is called once the station reports the response.",
@@ -225,23 +244,190 @@ class DeltatechTcJob(models.Model):
     # API used by the controller (called by Terrabit Connect)
     # ------------------------------------------------------------------
     @api.model
+    def _tc_param(self, key, default):
+        """Integer queue setting from ``ir.config_parameter`` ``deltatech_tc.<key>``."""
+        raw = self.env["ir.config_parameter"].sudo().get_param(f"deltatech_tc.{key}")
+        try:
+            return max(0, int(raw)) if raw not in (None, False, "") else default
+        except (TypeError, ValueError):
+            return default
+
+    def _tc_is_retry_safe(self):
+        """May this job run a second time if its result was lost?
+
+        The station keeps no record of what it already executed, so offering a lost
+        job again means running it again. That is harmless for a ping or an HTTP
+        ``GET``, and wrong for anything with an effect outside Odoo: a declaration
+        uploaded to ANAF, a ``POST`` that moves a sorting line. Unknown types are
+        therefore unsafe; feature modules extend this for their read-only types.
+        """
+        self.ensure_one()
+        if self.job_type == "ping":
+            return True
+        if self.job_type == "http_request":
+            return (self.payload_dict().get("method") or "GET").upper() in SAFE_HTTP_METHODS
+        return False
+
+    @api.model
     def _claim_for_station(self, station, limit=10):
         """Claim the pending jobs queued for this station and mark them ``claimed``.
 
         Jobs are addressed to one station (``station_id`` is required), so a
         station must never pick up the queue of another station of the same
         company: the payload may target a device only that workstation reaches.
+
+        The claim locks the rows (``FOR UPDATE SKIP LOCKED``). A plain ``search``
+        followed by ``write`` let two simultaneous polls read the same pending rows
+        and both run the job: exactly what happens when a second workstation is
+        installed by copying the profile, key included.
         """
-        jobs = self.sudo().search(
-            [
-                ("station_id", "=", station.id),
-                ("state", "=", "pending"),
-            ],
-            order="id asc",
-            limit=limit,
+        self._requeue_lost_jobs(station)
+        self.flush_model(["station_id", "state"])
+        self.env.cr.execute(
+            SQL(
+                """
+                SELECT id FROM %s
+                 WHERE station_id = %s AND state = 'pending'
+                 ORDER BY id
+                 LIMIT %s
+                   FOR UPDATE SKIP LOCKED
+                """,
+                SQL.identifier(self._table),
+                station.id,
+                limit,
+            )
         )
-        jobs.write({"state": "claimed", "claimed_at": fields.Datetime.now()})
+        jobs = self.sudo().browse(row[0] for row in self.env.cr.fetchall())
+        for job in jobs:
+            job.write(
+                {
+                    "state": "claimed",
+                    "claimed_at": fields.Datetime.now(),
+                    "attempt_count": job.attempt_count + 1,
+                }
+            )
         return jobs
+
+    @api.model
+    def _requeue_lost_jobs(self, station):
+        """Deal with this station's jobs claimed long ago and never answered.
+
+        Without this a job whose result was lost (agent restarted, network down
+        between execution and ``/tc/result``) stayed ``claimed`` for ever, and so
+        did the document waiting for it.
+
+        * retry-safe job: back to ``pending``, so the next poll runs it again; after
+          ``max_attempts`` offers it fails instead of looping;
+        * any other job: left ``claimed``. It may well have run, and a late result
+          must still be accepted. A manager decides, with the job's **Retry** button.
+        """
+        timeout = self._tc_param("claim_timeout_minutes", DEFAULT_CLAIM_TIMEOUT_MINUTES)
+        if not timeout:
+            return self.browse()
+        stale = fields.Datetime.now() - timedelta(minutes=timeout)
+        self.flush_model(["station_id", "state", "claimed_at"])
+        self.env.cr.execute(
+            SQL(
+                """
+                SELECT id FROM %s
+                 WHERE station_id = %s AND state = 'claimed' AND claimed_at < %s
+                 ORDER BY id
+                   FOR UPDATE SKIP LOCKED
+                """,
+                SQL.identifier(self._table),
+                station.id,
+                stale,
+            )
+        )
+        lost = self.sudo().browse(row[0] for row in self.env.cr.fetchall())
+        max_attempts = self._tc_param("max_attempts", DEFAULT_MAX_ATTEMPTS) or DEFAULT_MAX_ATTEMPTS
+        requeued = self.browse()
+        for job in lost.filtered(lambda j: j._tc_is_retry_safe()):
+            if job.attempt_count >= max_attempts:
+                job.write(
+                    {
+                        "state": "error",
+                        "done_at": fields.Datetime.now(),
+                        "error": self.env._(
+                            "No result from the station after %(count)s attempts. Check the station, then use Retry.",
+                            count=job.attempt_count,
+                        ),
+                    }
+                )
+            else:
+                job.write({"state": "pending", "claimed_at": False})
+                requeued |= job
+        return requeued
+
+    def action_retry(self):
+        """Put the job back in the queue: after an error, or when it is stuck ``claimed``.
+
+        For a job that is not retry-safe this runs it again on the station, which is
+        the point of doing it by hand. Hence no ``sudo``: only whoever may write jobs
+        (the Terrabit Connect manager) can do it, including over RPC.
+        """
+        self.check_access("write")
+        self.filtered(lambda j: j.state in ("error", "claimed")).write(
+            {
+                "state": "pending",
+                "result": False,
+                "error": False,
+                "claimed_at": False,
+                "done_at": False,
+                "attempt_count": 0,
+            }
+        )
+        return True
+
+    @api.model
+    def _gc_jobs(self):
+        """Daily cleanup (cron): old finished jobs go, stale pending ones may expire.
+
+        Results can carry documents (an SPV download, an HTTP body) and the table
+        otherwise only grows. Errors are kept longer: they are the trace of a real
+        problem. Expiring pending jobs is off by default, so a declaration queued
+        on Friday for a workstation switched off until Monday still goes through.
+        """
+        now = fields.Datetime.now()
+        done_days = self._tc_param("done_ttl_days", DEFAULT_DONE_TTL_DAYS)
+        error_days = self._tc_param("error_ttl_days", DEFAULT_ERROR_TTL_DAYS)
+        pending_hours = self._tc_param("pending_ttl_hours", DEFAULT_PENDING_TTL_HOURS)
+        Job = self.sudo().with_context(active_test=False)
+        expired = Job.browse()
+        if pending_hours:
+            expired = Job.search(
+                [("state", "=", "pending"), ("create_date", "<", now - timedelta(hours=pending_hours))]
+            )
+            expired.write(
+                {
+                    "state": "error",
+                    "done_at": now,
+                    "error": self.env._(
+                        "No station picked the job up within %(hours)s hours - expired.",
+                        hours=pending_hours,
+                    ),
+                }
+            )
+        old = Job.browse()
+        for state, days in (("done", done_days), ("error", error_days)):
+            if not days:
+                continue
+            limit = now - timedelta(days=days)
+            # jobs finished before `done_at` existed on every path count from their creation
+            old |= Job.search(
+                [
+                    ("state", "=", state),
+                    "|",
+                    ("done_at", "<", limit),
+                    "&",
+                    ("done_at", "=", False),
+                    ("create_date", "<", limit),
+                ]
+            )
+        count = len(old)
+        old.unlink()
+        _logger.info("Terrabit Connect queue cleanup: %s jobs deleted, %s expired.", count, len(expired))
+        return True
 
     def _store_result(self, status, result=None, error=None):
         """Record the result reported by the station and trigger processing."""
