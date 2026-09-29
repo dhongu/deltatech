@@ -1,3 +1,7 @@
+## 19.0.0.0.6 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.0.0.5 (2026-09-25)
 
 - Security: `_validate_address_values` no longer runs the duplicate check
