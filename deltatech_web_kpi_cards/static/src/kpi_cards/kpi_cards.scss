@@ -5,7 +5,8 @@
 // and $gray-700 turns light there.
 .o_kpi_cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    // auto-fit: the cards share the whole width, with no empty track at the end
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
     gap: map-get($spacers, 2);
 }
 

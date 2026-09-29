@@ -74,10 +74,12 @@ show the cards from any OWL component, for instance a list renderer:
    }
 
 A card: ``key`` (also its ``data-card`` attribute), ``label``, then
-``count`` or ``amounts`` (formatted strings), optional ``subtitle``,
-``icon`` (a Font Awesome class) and ``tone``: ``info``, ``success``,
-``warning``, ``danger``, ``purple``, ``action`` or ``slate`` (the
-default).
+``count`` or ``amounts`` (formatted strings:
+``formatKpiAmount(amount, currencyId)`` shows 1.9M lei from 100,000 on),
+optional ``subtitle``, ``title`` (the tooltip, the label by default: put
+the exact amount there), ``icon`` (a Font Awesome class) and ``tone``:
+``info``, ``success``, ``warning``, ``danger``, ``purple``, ``action``
+or ``slate`` (the default).
 
 Keep the card filters in a group of their own in the search view, a
 ``<separator/>`` before and after them: a click clears the group of the
@@ -89,6 +91,17 @@ is the number of rows the click opens.
 
 Changelog
 =========
+
+19.0.1.1.0 (2026-09-29)
+-----------------------
+
+- The cards share the whole width of the page, with no empty space at
+  the end of the row.
+- Large numbers fit on a card: from 100,000 on, amounts and counts are
+  shown in thousands or millions (1.9M lei, 123.5k), with Odoo's own
+  compact format; ``formatKpiAmount`` and ``formatKpiCount`` do it for
+  the modules that build the cards, and a card's ``title`` (its tooltip)
+  can carry the exact value.
 
 19.0.1.0.0 (2026-09-28)
 -----------------------
