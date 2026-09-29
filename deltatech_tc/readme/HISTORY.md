@@ -1,3 +1,13 @@
+## 19.0.1.1.3 (2026-09-29)
+
+- The endpoints accept only the `X-Station-Key` header. The legacy `X-Agent-Key` fallback
+  is removed: every Terrabit Connect release since 1.5 sends `X-Station-Key`.
+- Documentation describes the Tauri desktop agent (Windows, macOS, Linux) and where to
+  download it, how to import `station.conf`, and that job polling must be enabled on the
+  workstation (`TERRABIT_POLL_JOBS=1`). `TERRABIT_HEARTBEAT_SEC` is no longer documented:
+  the heartbeat interval is fixed at 300 seconds.
+- New `readme/ROADMAP.md`.
+
 ## 19.0.1.1.2 (2026-09-25)
 
 - Security: `/tc/poll` returns only the jobs queued for the calling station. It used to

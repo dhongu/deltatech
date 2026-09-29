@@ -3,6 +3,11 @@ a workstation and bridges Odoo with local hardware and services it cannot reach
 directly from the cloud: the ANAF token (PKCS#11 / mTLS to SPV), fiscal printers
 (Datecs), label printers (Zebra ZPL) and declaration validation (DUKIntegrator).
 
+Terrabit Connect is a desktop application for Windows, macOS and Linux, built
+with Tauri (Rust core, the operating system's own web view). Installers and signed
+automatic updates are published at
+[terrabit-connect-releases](https://github.com/dhongu/terrabit-connect-releases/releases/latest).
+
 This module is the **generic foundation** every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure
 transport rather than a specific device — an HTTP call inside the customer's
