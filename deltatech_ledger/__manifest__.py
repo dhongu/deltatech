@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Ledger",
     "summary": "Deltatech Ledger",
-    "version": "19.0.0.0.2",
+    "version": "19.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "depends": ["base", "mail"],
     "website": "https://www.terrabit.ro",
