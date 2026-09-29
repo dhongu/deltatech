@@ -25,8 +25,9 @@ class MyDashboard extends Component {
 ```
 
 A card: `key` (also its `data-card` attribute), `label`, then `count` or `amounts` (formatted
-strings), optional `subtitle`, `icon` (an `oi` icon name, as listed in `web/icons.py`: Font Awesome is
-gone in Odoo 20) and `tone`: `info`, `success`,
+strings: `formatKpiAmount(amount, currencyId)` shows 1.9M lei from 100,000 on), optional
+`subtitle`, `title` (the tooltip, the label by default: put the exact amount there), `icon` (an `oi`
+icon name, as listed in `web/icons.py`: Font Awesome is gone in Odoo 20) and `tone`: `info`, `success`,
 `warning`, `danger`, `purple`, `action` or `slate` (the default).
 
 Keep the card filters in a group of their own in the search view, a `<separator/>` before and
