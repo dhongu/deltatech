@@ -57,19 +57,37 @@ import polib
 MAX_AFISATE = 12
 
 
+# Variabilele cu care git isi afla repo-ul. In timpul lui `git commit` git
+# exporta GIT_DIR (intr-un worktree: .git/worktrees/<nume>) si, uneori,
+# GIT_INDEX_FILE relativ. Cu GIT_DIR setat si fara GIT_WORK_TREE, git considera
+# ca radacina worktree-ului este directorul curent: din `<modul>/i18n`,
+# `HEAD:./ro.po` ar deveni `HEAD:ro.po`, `git show` ar esua si hook-ul ar
+# verifica tot fisierul, cu toate vechiturile. Fara ele, git isi descopera
+# singur repo-ul pornind din directorul fisierului.
+VARIABILE_GIT_LOCALIZARE = (
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_COMMON_DIR",
+    "GIT_PREFIX",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+)
+
+
 def versiune_din_head(cale):
     """Contine .po-ul din HEAD, sau None daca fisierul e nou in acest commit."""
-    director = os.path.dirname(cale) or "."
-    radacina = subprocess.run(
-        ["git", "rev-parse", "--show-toplevel"],
+    director = os.path.dirname(os.path.abspath(cale))
+    env = {k: v for k, v in os.environ.items() if k not in VARIABILE_GIT_LOCALIZARE}
+    # `HEAD:./<fisier>` se rezolva relativ la directorul curent, deci nu mai e
+    # nevoie de `--show-toplevel` si de o cale relativa la radacina.
+    rezultat = subprocess.run(
+        ["git", "show", f"HEAD:./{os.path.basename(cale)}"],
         cwd=director,
+        env=env,
         capture_output=True,
         text=True,
-    ).stdout.strip()
-    if not radacina:
-        return None
-    rel = os.path.relpath(os.path.abspath(cale), radacina)
-    rezultat = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=radacina, capture_output=True, text=True)
+    )
     if rezultat.returncode != 0:
         return None
     return rezultat.stdout
