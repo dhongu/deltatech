@@ -1,3 +1,7 @@
+## 19.0.0.1.3 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.0.1.2 (2026-07-29)
 
 - The two errors raised when confirming a reception note now name the missing coverage as a *sent*
