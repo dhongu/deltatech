@@ -1,3 +1,7 @@
+## 19.0.1.1.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.1.0 (2026-08-19)
 
 - Fixed stale stock badge: `qty_available` is a non-stored computed field, so a sale (which
