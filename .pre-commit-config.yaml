@@ -62,10 +62,11 @@ repos:
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
       - id: check-module-icon
-        name: Fiecare modul trebuie sa aiba iconita (preluata din deltatech)
+        name: Fiecare modul trebuie sa aiba iconita lui
         entry: scripts/check_module_icon.py
         language: python
         files: '__manifest__\.py$'
+        verbose: true
       - id: check-module-images
         name: Fiecare modul trebuie sa aiba captura (preluata din deltatech)
         entry: scripts/check_module_images.py

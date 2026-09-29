@@ -1,30 +1,35 @@
 #!/usr/bin/env python
 # scripts/check_module_icon.py
-"""Asigura faptul ca fiecare modul Odoo are o iconita.
+"""Verifica faptul ca fiecare modul Odoo instalabil are iconita lui.
 
 Pentru fiecare __manifest__.py primit ca argument, scriptul verifica existenta
-fisierului static/description/icon.png in directorul modulului. Daca lipseste,
-iconita (icon.png si icon.svg) este preluata automat din modulul `deltatech`.
-Modulele neinstalabile (installable=False) sunt ignorate.
+fisierului static/description/icon.png in directorul modulului. Modulele
+neinstalabile (installable=False) sunt ignorate.
 
-Hook-ul iese cu cod non-zero atunci cand a copiat fisiere, pentru ca
-utilizatorul sa le verifice si sa le adauge in commit (conventie pre-commit
-pentru hook-urile care modifica fisiere).
+- Daca icon.png lipseste, hook-ul pica: iconita se deseneaza pentru modul
+  (icon.svg + ``rsvg-convert -w 256 -h 256 icon.svg -o icon.png``), nu se
+  copiaza una generica.
+- Daca icon.png este una dintre iconitele generice ale suitelor (rotile
+  dintate), hook-ul doar avertizeaza, fara sa pice: iconita exista, dar nu
+  spune nimic despre modul.
+
+Acelasi script se afla in toate suitele (deltatech, bitshop, bitshop_delivery,
+bitshop_ent, terrabit, l10n_ro_ent); se modifica in toate odata.
 """
 
 import ast
+import hashlib
 import os
-import shutil
 import sys
 
-ICON_FILES = ("icon.png", "icon.svg")
-DESCRIPTION_REL_DIR = os.path.join("static", "description")
-SOURCE_MODULE = "deltatech"
+ICON_REL_PATH = os.path.join("static", "description", "icon.png")
 
-
-def repo_root():
-    # scripts/ se afla in radacina repo-ului
-    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# SHA-256 al iconitelor generice (rotile dintate) raspandite in suite
+GENERIC_ICONS = {
+    "c274d2bc663218ea1ccc7f99e37914e0637581312e5a7917924980c96357980f",  # deltatech, color
+    "48482f5020de708ddb802263dc87fca67b56635a893f99f1e7f13bdbeddc8eca",  # varianta veche, verde
+    "e0984c5cfa3adc29fe6460f1a177fbcc599580c58ee05488a9ebe4d9ce71ecca",  # color, recodata
+}
 
 
 def is_installable(manifest_path):
@@ -37,10 +42,14 @@ def is_installable(manifest_path):
     return bool(manifest.get("installable", True))
 
 
+def is_generic(icon_path):
+    with open(icon_path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest() in GENERIC_ICONS
+
+
 def main(argv):
-    source_dir = os.path.join(repo_root(), SOURCE_MODULE, DESCRIPTION_REL_DIR)
-    copied = []
-    errors = []
+    missing = []
+    generic = []
 
     for manifest_path in argv:
         if os.path.basename(manifest_path) != "__manifest__.py":
@@ -48,37 +57,26 @@ def main(argv):
         if not is_installable(manifest_path):
             continue
         module_dir = os.path.dirname(manifest_path)
-        # Nu copiem peste modulul sursa
-        if os.path.basename(os.path.abspath(module_dir)) == SOURCE_MODULE:
-            continue
-
-        dest_dir = os.path.join(module_dir, DESCRIPTION_REL_DIR)
-        icon_path = os.path.join(dest_dir, "icon.png")
-        if os.path.exists(icon_path):
-            continue
-
-        os.makedirs(dest_dir, exist_ok=True)
-        for icon in ICON_FILES:
-            src = os.path.join(source_dir, icon)
-            dst = os.path.join(dest_dir, icon)
-            if os.path.exists(src) and not os.path.exists(dst):
-                shutil.copyfile(src, dst)
-                copied.append(dst)
+        icon_path = os.path.join(module_dir, ICON_REL_PATH)
         if not os.path.exists(icon_path):
-            errors.append(module_dir)
+            missing.append(module_dir)
+        elif is_generic(icon_path):
+            generic.append(module_dir)
 
-    if copied:
-        print("Iconite preluate automat din modulul 'deltatech':")
-        for dst in copied:
-            print(f"  + {dst}")
-        print("\nVerificati iconitele si adaugati-le in commit (git add).")
+    if generic:
+        print(f"Atentie: {len(generic)} module au iconita generica (rotile dintate), nu una proprie:")
+        print("  " + ", ".join(os.path.basename(os.path.abspath(m)) for m in sorted(generic)))
 
-    if errors:
-        print(f"\nNu s-a putut prelua iconita pentru (lipseste sursa {SOURCE_MODULE}/{DESCRIPTION_REL_DIR}/icon.png?):")
-        for module_dir in errors:
+    if missing:
+        print(f"Lipseste {ICON_REL_PATH} la modulele:")
+        for module_dir in sorted(missing):
             print(f"  - {module_dir}")
+        print(
+            "\nDesenati iconita modulului (icon.svg, apoi"
+            " `rsvg-convert -w 256 -h 256 icon.svg -o icon.png`) si adaugati-o in commit."
+        )
 
-    return 1 if (copied or errors) else 0
+    return 1 if missing else 0
 
 
 if __name__ == "__main__":
