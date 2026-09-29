@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-30 07:42+0000\n"
+"POT-Creation-Date: 2026-09-29 02:52+0000\n"
 "PO-Revision-Date: 2026-07-30 07:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,6 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "%(model)s has no method %(method)s."
+msgstr "%(model)s nu are metoda %(method)s."
 
 #. module: deltatech_tc
 #. odoo-python
@@ -33,6 +39,12 @@ msgid "Active"
 msgstr "Activ"
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "An HTTP job needs a 'url' in its payload."
+msgstr "Un job HTTP are nevoie de „url” în parametri."
+
+#. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Archived"
 msgstr "Arhivat"
@@ -40,11 +52,33 @@ msgstr "Arhivat"
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid ""
-"Are you sure? Terrabit Connect will need to be reconfigured with the new key."
+"Are you sure? Terrabit Connect will need to be reconfigured with the new "
+"key."
 msgstr "Sigur? Terrabit Connect va trebui reconfigurat cu noua cheie."
 
 #. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__attempt_count
+msgid "Attempts"
+msgstr "Încercări"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_method
+msgid "Callback Method"
+msgstr "Metodă de apel înapoi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_model
+msgid "Callback Model"
+msgstr "Model de apel înapoi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_res_id
+msgid "Callback Res"
+msgstr "Înregistrare de apel înapoi"
+
+#. module: deltatech_tc
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__claimed
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
 msgid "Claimed"
 msgstr "Preluat"
 
@@ -116,6 +150,21 @@ msgid "Features"
 msgstr "Funcționalități"
 
 #. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__http_request
+msgid "HTTP request (LAN)"
+msgstr "Cerere HTTP (rețea locală)"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__attempt_count
+msgid ""
+"How many times the job was handed to the station. A retry-safe job whose "
+"result never arrives is offered again, up to the configured limit."
+msgstr ""
+"De câte ori a fost dat jobul stației. Un job care se poate repeta fără "
+"efecte și al cărui rezultat nu mai vine este oferit din nou, până la limita "
+"configurată."
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__id
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__id
 msgid "ID"
@@ -170,15 +219,48 @@ msgid "Manager"
 msgstr "Manager"
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_method
+msgid "Method invoked with the finished job. Must start with '_tc_'."
+msgstr "Metoda apelată cu jobul terminat. Trebuie să înceapă cu „_tc_”."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_model
+msgid "Model whose method is called once the station reports the response."
+msgstr ""
+"Modelul a cărui metodă este apelată după ce stația raportează răspunsul."
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__name
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__name
 msgid "Name"
 msgstr "Nume"
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "No Terrabit Connect station given for the HTTP job."
+msgstr "Nu s-a indicat nicio stație Terrabit Connect pentru jobul HTTP."
+
+#. module: deltatech_tc
 #: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
 msgid "No Terrabit Connect station registered"
 msgstr "Nicio stație Terrabit Connect înregistrată"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid ""
+"No result from the station after %(count)s attempts. Check the station, then"
+" use Retry."
+msgstr ""
+"Niciun rezultat de la stație după %(count)s încercări. Verificați stația, "
+"apoi folosiți Reîncearcă."
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "No station picked the job up within %(hours)s hours - expired."
+msgstr "Nicio stație nu a preluat jobul în %(hours)s ore - expirat."
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__note
@@ -214,6 +296,20 @@ msgid "Ping"
 msgstr "Ping"
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_res_id
+msgid "Record the callback is executed on. 0 calls the method on the model."
+msgstr ""
+"Înregistrarea pe care se execută apelul înapoi. 0 apelează metoda pe model."
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "Refusing to call %(method)s - callbacks must start with '%(prefix)s'."
+msgstr ""
+"Refuz apelul %(method)s - apelurile înapoi trebuie să înceapă cu "
+"„%(prefix)s”."
+
+#. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Regenerate key"
 msgstr "Regenerează cheia"
@@ -221,12 +317,10 @@ msgstr "Regenerează cheia"
 #. module: deltatech_tc
 #: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
 msgid ""
-"Register the workstation running Terrabit Connect, copy the API key into "
-"it,\n"
+"Register the workstation running Terrabit Connect, copy the API key into it,\n"
 "               and it will exchange jobs with this Odoo instance."
 msgstr ""
-"Înregistrați stația de lucru pe care rulează Terrabit Connect, copiați cheia "
-"API în ea,\n"
+"Înregistrați stația de lucru pe care rulează Terrabit Connect, copiați cheia API în ea,\n"
 "               iar aceasta va schimba joburi cu această instanță Odoo."
 
 #. module: deltatech_tc
@@ -234,6 +328,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
 msgid "Result"
 msgstr "Rezultat"
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid "Retry"
+msgstr "Reîncearcă"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__api_key
@@ -301,14 +400,55 @@ msgid "Terrabit Connect heartbeat"
 msgstr "Heartbeat Terrabit Connect"
 
 #. module: deltatech_tc
+#: model:ir.actions.server,name:deltatech_tc.ir_cron_deltatech_tc_gc_jobs_ir_actions_server
+msgid "Terrabit Connect: queue cleanup"
+msgstr "Terrabit Connect: curățenia cozii"
+
+#. module: deltatech_tc
 #: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
 msgid "The API key must be unique."
 msgstr "Cheia API trebuie să fie unică."
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The URL %(url)s has no host."
+msgstr "URL-ul %(url)s nu are gazdă."
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The callback method %(method)s must start with '%(prefix)s'."
+msgstr "Metoda de apel înapoi %(method)s trebuie să înceapă cu „%(prefix)s”."
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
+msgid ""
+"The station will run this job again. For a job with an effect outside Odoo "
+"(an ANAF upload, a POST to a device) check first that it did not already "
+"run."
+msgstr ""
+"Stația va executa din nou acest job. Pentru un job cu efect în afara Odoo (o"
+" depunere la ANAF, un POST către un echipament), verificați întâi că nu a "
+"rulat deja."
+
+#. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
 msgid "Type"
 msgstr "Tip"
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "Unsupported HTTP method %(method)s."
+msgstr "Metoda HTTP %(method)s nu este acceptată."
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "Unsupported URL scheme %(scheme)s - only http and https are allowed."
+msgstr ""
+"Schema URL %(scheme)s nu este acceptată - sunt permise doar http și https."
 
 #. module: deltatech_tc
 #: model:res.groups,name:deltatech_tc.group_deltatech_tc_user

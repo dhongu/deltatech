@@ -167,6 +167,46 @@ polling is off until you turn it on</strong> in the station profile:</p>
 </tr>
 </tbody>
 </table>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Queue settings (Odoo side)</h2>
+<p>System parameters (<strong>Settings &#8594; Technical &#8594; System Parameters</strong>), all optional:</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.claim_timeout_minutes</code></td>
+<td>15</td>
+<td>A claimed job without result after this long counts as lost. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code> turns recovery off</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.max_attempts</code></td>
+<td>3</td>
+<td>Offers of a retry-safe job before it fails</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.done_ttl_days</code></td>
+<td>30</td>
+<td>Finished jobs older than this are deleted by the daily cleanup (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code> = keep)</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.error_ttl_days</code></td>
+<td>90</td>
+<td>Same for jobs in error</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.pending_ttl_hours</code></td>
+<td>0</td>
+<td>Pending jobs no station picked up expire after this long. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code> = never</td>
+</tr>
+</tbody>
+</table>
+<p>Keep the claim timeout above the longest job you run (a DUKIntegrator validation, a slow
+device): a retry-safe job that is still running when it expires is executed twice.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Hosts reachable by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> (workstation side)</h2>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> jobs are refused unless the target host is allow-listed <strong>on the
 workstation</strong>. The list is deliberately not manageable from Odoo: it is the last
@@ -220,6 +260,21 @@ station or job type.</p>
 <li>Red row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code> (open the form to read the error detail)</li>
 <li>Muted row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code> (the station picked it up; result not yet reported)</li>
 </ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Lost results and retries</h3>
+<p>A job whose result never came back (agent restarted, network down between execution and
+reply) is handled after the claim timeout (see CONFIGURE):</p>
+<ul>
+<li><strong>retry-safe jobs</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ping</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">GET</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">HEAD</code>) are offered to the
+  station again, then fail after the maximum number of attempts;</li>
+<li><strong>all other jobs</strong> stay <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code>, because they may already have run. Find them with the
+  <strong>Claimed</strong> filter, check on the device or at ANAF whether the operation happened, and only
+  then use <strong>Retry</strong> on the job form (managers only).</li>
+</ul>
+<p><strong>Retry</strong> also puts a job in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code> back in the queue.</p>
+<p>A feature module whose job type only reads can declare it retry-safe:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">def _tc_is_retry_safe(self):
+    return self.job_type == &quot;sync_messages&quot; or super()._tc_is_retry_safe()
+</code></pre>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rotating the API key</h2>
 <p>If a station key is compromised:</p>
 <ol>
@@ -262,6 +317,22 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-09-29)</h2>
+<ul>
+<li><strong>Atomic claim.</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> locks the rows it hands out (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FOR UPDATE SKIP LOCKED</code>). Two
+  simultaneous polls with the same key (a second workstation installed by copying the
+  profile) could both receive, and run, the same job.</li>
+<li><strong>Lost results.</strong> A job claimed longer than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.claim_timeout_minutes</code> (15)
+  without a result used to stay <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code> for ever. A retry-safe job (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ping</code>, an
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">GET</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">HEAD</code>; extend <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_is_retry_safe()</code> for other read-only types)
+  is offered again, up to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.max_attempts</code> (3), then fails. Any other job is left
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code>: it may have run, and its late result is still accepted.</li>
+<li><strong>Retry</strong> button on the job (managers): error or stuck jobs go back to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code>. No
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sudo</code>, so a read-only user cannot re-run a job over RPC either.</li>
+<li><strong>Daily cleanup</strong> cron: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> jobs older than 30 days and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code> jobs older than 90 are
+  deleted; pending jobs can expire after <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.pending_ttl_hours</code> (off by default).</li>
+<li>New field <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attempt_count</code>, new <strong>Claimed</strong> filter.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-09-29)</h2>
 <ul>
 <li>The endpoints accept only the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code> header. The legacy <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Agent-Key</code> fallback
