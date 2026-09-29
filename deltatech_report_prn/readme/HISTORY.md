@@ -1,3 +1,7 @@
+## 19.0.1.1.1
+
+- Own module icon, instead of the generic gears it had.
+
 ## 19.0.1.1.0
 
 - Refactor the `qweb-prn` report handler and export `buildPrnUrl` so a
