@@ -7,6 +7,7 @@
     "version": "19.0.2.0.11",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Inventory/Inventory",
     "depends": ["stock"],
     "license": "OPL-1",

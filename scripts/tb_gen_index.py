@@ -95,7 +95,7 @@ TB = {
     "website": "https://www.terrabit.ro",
     # Apps Store: în descriere sunt permise doar linkuri mailto:, YouTube și resurse din
     # static/description/ — orice alt link extern e invalidat (vendor guidelines).
-    "contact_url": "mailto:odoo@terrabit.ro",
+    "contact_url": "mailto:support@terrabit.ro",
     "company": "Terrabit Solutions SRL",
     "apps_author": "Terrabit",  # filtru author pe apps.odoo.com
     "body": "#212529",  # culoarea de corp, vezi BODY/MUTED mai jos
@@ -146,7 +146,7 @@ I18N = {
         # factual, fără cifre de marketing: vendor guidelines interzic promovarea în descriere
         "support_body": "Questions about this module, or need it adapted to your processes?\n"
         "     Write to us &mdash; the developers who build it will answer.",
-        "support_cta": "Email Terrabit &rarr;",
+        "support_cta": "Terrabit support &rarr;",
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
@@ -174,7 +174,7 @@ I18N = {
         "support_title": "Ave&#539;i nevoie de ajutor la implementare?",
         "support_body": "Ave&#539;i &#238;ntreb&#259;ri despre modul sau vre&#539;i s&#259; &#238;l adapt&#259;m "
         "proceselor voastre? Scrie&#539;i-ne &mdash; v&#259; r&#259;spund programatorii care &#238;l dezvolt&#259;.",
-        "support_cta": "Scrie&#539;i-ne &rarr;",
+        "support_cta": "Suport Terrabit &rarr;",
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
@@ -227,9 +227,7 @@ WRAP_OPEN = (
 )
 
 HERO = """%(marker)s
-<div class="text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
-  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
-    style="background-color:%(dark)s;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+<div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
   %(icon)s
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">%(name)s</h1>
   %(summary)s
