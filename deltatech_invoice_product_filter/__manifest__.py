@@ -5,7 +5,7 @@
 {
     "name": "Invoice Product Filter",
     "summary": "Searching invoice using product",
-    "version": "19.0.1.1.1",
+    "version": "20.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
