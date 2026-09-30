@@ -1,3 +1,7 @@
+# 19.0.1.0.2
+
+- New Apps Store banner, with the module icon, instead of the old one.
+
 # 19.0.1.0.1
 
 - Own module icon, instead of the generic gears it had.
