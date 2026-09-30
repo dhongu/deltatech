@@ -1,3 +1,8 @@
+## 19.0.2.0.11 (2026-09-30)
+
+- Screenshots on the Apps Store page load again: the description pointed to
+  `static/description/…`, which the store does not resolve.
+
 ## 19.0.2.0.10 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

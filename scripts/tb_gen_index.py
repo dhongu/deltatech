@@ -655,8 +655,19 @@ def style_images(rendered):
     )
 
 
+def fix_image_paths(rendered):
+    """Căile imaginilor relative la index.html, nu la rădăcina modulului.
+
+    readme/*.md scrie `static/description/x.png`, corect pentru README.rst de pe GitHub.
+    index.html stă chiar în static/description/, iar Apps Store rescrie spre CDN doar
+    numele simple de fișier — cu prefixul, imaginea dă 404 pe pagina publicată.
+    """
+    return re.sub(r'(<img\b[^>]*?\bsrc=")(?:\.\./|\./)?static/description/', r"\1", rendered)
+
+
 def build_panel_body(key, md_text):
     rendered = render_markdown(md_text)
+    rendered = fix_image_paths(rendered)
     rendered = style_tables(rendered)
     rendered = style_code(rendered)
     if key == "presentation":
