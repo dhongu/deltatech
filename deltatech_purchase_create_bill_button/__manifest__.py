@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Purchase Create Bill Button",
     "summary": "Restores the one-click Create Bill button on the purchase order form and list, plus the vendor reference copy",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "category": "Purchases",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
