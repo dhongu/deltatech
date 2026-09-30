@@ -39,7 +39,9 @@ binding that makes a click on a card activate the matching search filter.</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">One look for every dashboard</span><div class="mt-1">&#8212; a card shows a number (or amounts, one line per currency), a
   label, an icon and an accent colour; a card at zero stays coloured, dimmed; the active card is
   outlined. The colours are Odoo's own theme variables, so the cards follow the light and the dark
-  mode of the backend.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">A click is a filter</span><div class="mt-1">&#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">useKpiCardFilters</code> activates the card's filter, drops the filters of
+  mode of the backend.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">A figure followed over time</span><div class="mt-1">&#8212; a card can also show its change against the previous period
+  (green up, red down), a progress bar towards a target and a trend line; each is drawn only when
+  the card gives it.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">A click is a filter</span><div class="mt-1">&#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">useKpiCardFilters</code> activates the card's filter, drops the filters of
   the other cards so that two cards never add up, and clears the filter on a second click. The
   user's own filters are kept.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Nothing to configure</span><div class="mt-1">&#8212; the module adds no model, menu or data. It does nothing on its own:
   it is installed as a dependency of the modules that show cards.</div></div></li></ul>
@@ -81,6 +83,14 @@ server-side domain, and the number on the card is the number of rows the click o
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.2.0 (2026-09-30)</h2>
+<ul>
+<li>A card can also show a figure followed over time, each part drawn only when given: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">delta</code>
+  (the change in percent against the previous period, green when up and red when down, with its
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltaLabel</code>), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">progress</code> (percent of a target, as a bar, with its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">progressLabel</code>) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">trend</code>
+  (the last values, as a line). The cards that do not give them look exactly as before.
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">formatKpiDelta</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">kpiSparklinePoints</code> are exported for the modules that build the cards.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.0 (2026-09-29)</h2>
 <ul>
 <li>The cards share the whole width of the page, with no empty space at the end of the row.</li>
@@ -212,6 +222,22 @@ server-side domain, and the number on the card is the number of rows the click o
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_invoice_product_filter" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Product Filter</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Searching invoice using product</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_partner_generic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -240,22 +266,6 @@ server-side domain, and the number on the card is the number of rows the click o
             </span>
           </div>
           <p class="mb-0" style="font-size:12px;color:#3d4752;">New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_product_trade_markup" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PT</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product trade markup</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales/Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Product trade markup</p>
         </div>
       </a>
     </div>

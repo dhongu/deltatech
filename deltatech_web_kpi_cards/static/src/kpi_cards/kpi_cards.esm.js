@@ -3,7 +3,7 @@ import {useEnv} from "@web/owl2/utils";
 import {formatCurrency} from "@web/core/currency";
 import {humanNumber} from "@web/core/utils/numbers";
 import {localization} from "@web/core/l10n/localization";
-import {formatInteger} from "@web/views/fields/formatters";
+import {formatFloat, formatInteger} from "@web/views/fields/formatters";
 
 /**
  * A band of KPI cards. Presentation only: what a card counts, and what a
@@ -14,6 +14,13 @@ import {formatInteger} from "@web/views/fields/formatters";
  * `icon` (an `oi` icon name, see web/icons.py), `tone` (one of KPI_TONES),
  * `active` and `title` (the tooltip, the label by default: the place for
  * exact amounts).
+ *
+ * Three optional extras, each drawn only when given, for a card that is a
+ * figure followed over time: `delta` (the change in percent against the
+ * previous period, green when up and red when down) with `deltaLabel` (its
+ * text, for instance "vs previous period"); `progress` (percent of a target,
+ * drawn as a bar) with `progressLabel`; and `trend` (the last values, drawn
+ * as a line).
  */
 export const KPI_TONES = ["info", "success", "warning", "danger", "purple", "action", "slate"];
 
@@ -42,6 +49,36 @@ export function formatKpiCount(count) {
         : formatInteger(count);
 }
 
+/** A change as a card shows it: +93.8%, -4%. */
+export function formatKpiDelta(delta) {
+    return `${delta > 0 ? "+" : ""}${formatFloat(delta, {trailingZeros: false, digits: [false, 1]})}%`;
+}
+
+// The sparkline is drawn in a 100 x KPI_SPARK_HEIGHT box and stretched by the CSS
+const KPI_SPARK_HEIGHT = 28;
+
+/**
+ * The `points` attribute of the trend line of a card, or an empty string when
+ * there is nothing to draw (fewer than two values). A flat series is drawn
+ * in the middle.
+ */
+export function kpiSparklinePoints(values) {
+    if (!values || values.length < 2) {
+        return "";
+    }
+    const min = Math.min(...values);
+    const span = Math.max(...values) - min;
+    return values
+        .map((value, index) => {
+            const x = (index / (values.length - 1)) * 100;
+            const y = span
+                ? KPI_SPARK_HEIGHT - 1 - ((value - min) / span) * (KPI_SPARK_HEIGHT - 2)
+                : KPI_SPARK_HEIGHT / 2;
+            return `${x.toFixed(2)},${y.toFixed(2)}`;
+        })
+        .join(" ");
+}
+
 export class KpiCards extends Component {
     static template = "deltatech_web_kpi_cards.KpiCards";
     // Owl 3: props are declared with useProps (a static props throws)
@@ -56,6 +93,37 @@ export class KpiCards extends Component {
 
     formatCount(count) {
         return formatKpiCount(count || 0);
+    }
+
+    hasDelta(card) {
+        return typeof card.delta === "number" && !Number.isNaN(card.delta);
+    }
+
+    deltaClass(card) {
+        if (!card.delta) {
+            return "";
+        }
+        return card.delta > 0 ? "o_kpi_card_delta_up" : "o_kpi_card_delta_down";
+    }
+
+    deltaIcon(card) {
+        return card.delta > 0 ? "arrow_drop_up" : card.delta < 0 ? "arrow_drop_down" : "remove";
+    }
+
+    deltaText(card) {
+        return formatKpiDelta(card.delta);
+    }
+
+    hasProgress(card) {
+        return typeof card.progress === "number" && !Number.isNaN(card.progress);
+    }
+
+    progressWidth(card) {
+        return Math.max(0, Math.min(100, card.progress));
+    }
+
+    sparkline(card) {
+        return kpiSparklinePoints(card.trend);
     }
 
     isZero(card) {
