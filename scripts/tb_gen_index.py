@@ -93,7 +93,9 @@ TB = {
     "dark": "#00432a",
     "accent": "#57B952",
     "website": "https://www.terrabit.ro",
-    "contact_url": "https://www.terrabit.ro/contactus",
+    # Apps Store: în descriere sunt permise doar linkuri mailto:, YouTube și resurse din
+    # static/description/ — orice alt link extern e invalidat (vendor guidelines).
+    "contact_url": "mailto:odoo@terrabit.ro",
     "company": "Terrabit Solutions SRL",
     "apps_author": "Terrabit",  # filtru author pe apps.odoo.com
     "body": "#212529",  # culoarea de corp, vezi BODY/MUTED mai jos
@@ -141,10 +143,10 @@ I18N = {
         "support_title": "Need help getting started?",
         # ruperile de rând reproduc exact pagina generată înainte de unificare în suitele
         # EN, ca sincronizarea să nu rescrie sute de index.html doar pe spații
-        "support_body": "Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,\n"
-        "     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the\n"
-        "     advantage of building modules that simply work.",
-        "support_cta": "Contact Terrabit &rarr;",
+        # factual, fără cifre de marketing: vendor guidelines interzic promovarea în descriere
+        "support_body": "Questions about this module, or need it adapted to your processes?\n"
+        "     Write to us &mdash; the developers who build it will answer.",
+        "support_cta": "Email Terrabit &rarr;",
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
@@ -170,11 +172,9 @@ I18N = {
         "de la o firm&#259; la alta, deci o instalare func&#539;ional&#259; e un exerci&#539;iu de "
         "configurare, nu doar o instalare de modul.",
         "support_title": "Ave&#539;i nevoie de ajutor la implementare?",
-        "support_body": "Cele peste 350 de aplica&#539;ii ale noastre de pe Odoo Apps Store sunt "
-        "folosite &#238;n implement&#259;ri Odoo din Europa, America, Asia &#537;i Africa &mdash; de "
-        "companii pe care nu le-am cunoscut niciodat&#259;. Acesta e avantajul modulelor care pur &#537;i "
-        "simplu func&#539;ioneaz&#259;.",
-        "support_cta": "Contacta&#539;i Terrabit &rarr;",
+        "support_body": "Ave&#539;i &#238;ntreb&#259;ri despre modul sau vre&#539;i s&#259; &#238;l adapt&#259;m "
+        "proceselor voastre? Scrie&#539;i-ne &mdash; v&#259; r&#259;spund programatorii care &#238;l dezvolt&#259;.",
+        "support_cta": "Scrie&#539;i-ne &rarr;",
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
@@ -291,10 +291,9 @@ STAT_CARD = """<div class="col-md-%(col)s">
       <div class="mt-2" style="font-size:0.9rem;color:%(muted)s;">%(small)s</div>
     </div>
   </div>"""
-STAT_ITEMS = [
-    ("350+", "stat_modules"),
-    ("Silver", "stat_partner"),
-]
+# Gol intenționat: „350+ modules" / „Silver partner" sunt promovare, pe care vendor
+# guidelines nu o permit în descriere. Cardurile se pot reactiva cu date factuale.
+STAT_ITEMS = []
 
 # Delimitarea comercială: ce acoperă prețul de pe Apps Store și ce nu. Blocul stă
 # ÎNAINTE de CTA-ul de suport, ca cititorul să afle limita înainte de invitație.
@@ -600,7 +599,8 @@ def build_badges(manifest):
     license_ = manifest.get("license")
     if license_:
         items.append((BADGE, html_mod.escape(str(license_))))
-    items.append((BADGE, "Online &bull; Odoo.sh &bull; On-premise"))
+    # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ)
+    items.append((BADGE, "Odoo.sh &bull; On-premise"))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
 
@@ -765,6 +765,8 @@ def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT, lang="en"):
 
 
 def build_stats(lang="en"):
+    if not STAT_ITEMS:
+        return ""
     strings = I18N[lang]
     col = max(3, 12 // max(1, len(STAT_ITEMS)))
     cards = "\n  ".join(STAT_CARD % dict(TB, big=big, small=strings[key], col=col) for big, key in STAT_ITEMS)
