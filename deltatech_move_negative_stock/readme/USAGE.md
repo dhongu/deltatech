@@ -1,33 +1,26 @@
-- - Configure your operation type:
-
-    - Inventory -\> Configuration -\> Operation Types
-
-![](static/description/op-type.png)
-
-- Sell some stuff from your location, resulting in negative stock:
+A location ends up with negative stock, for example after sales from the showroom:
 
 ![](static/description/negative-stock.png)
 
-- Create a picking with the previuous Operation type
+1. Create an internal transfer, with the location to refill as **Destination Location** and the
+   location to take the goods from as **Source Location**.
 
 ![](static/description/picking1.png)
 
-- Press the \<Get negative products\> button:
+2. While the transfer is in **Draft**, click **Get negative products**.
 
 ![](static/description/picking2.png)
 
-- You products will be added to the picking:
+3. A line is added for every product with negative stock in the destination location, with the
+   quantity that brings it back to zero.
 
 ![](static/description/picking3.png)
 
-- Other info:
+4. Adjust the lines if needed, then confirm and validate the transfer as usual.
 
-  - You can manually add, delete or edit the picking after negative values have been added
-  - The negative stock products will be added with each click on the \<Get negative products\> button.
+Each click adds the lines again, so click once per transfer. The button looks at the
+destination location itself, not at its sub-locations.
 
-- Daily notification:
-
-  - Set the **Manager** field on an internal location (Inventory -\> Configuration -\> Locations).
-  - The **Send negative stock** scheduled action runs once a day and emails that user the products
-    with negative stock in the location, summed over its sub-locations.
-  - Locations without a manager are skipped.
+The daily email goes to the manager of each internal location that has negative stock, with the
+subject *"Negative stock for location WH/Stock/Showroom"* and one line per product: reference,
+name, negative quantity and unit of measure.

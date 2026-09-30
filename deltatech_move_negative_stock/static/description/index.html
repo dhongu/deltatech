@@ -1,16 +1,22 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;">
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
 <!-- tb-gen v1 -->
-<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
-  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
-    style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
-  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Replenish negative stock" style="width:72px;height:72px;border:none;"/></span></div>
-  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Replenish negative stock</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Replenish negative stock from other location</p>
+<div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Replenish Negative Stock" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Replenish Negative Stock</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Refill negative stock from another location in one click</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Generic Modules/Stock</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Inventory/Inventory</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+  </div>
+</div>
+
+
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:#212529;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:#006F42;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:#006F42;">Did this module help you?</span> It is free, built and maintained by the Terrabit developers. If it saved you time, a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. Thank you for your support!
   </div>
 </div>
 
@@ -21,201 +27,129 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
        data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
        style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
   </li>
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">This module provides a convenient way to identify and resolve negative inventory levels at specific stock locations by automatically populating transfers with required quantities from other source locations.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">When a location sells or consumes more than it holds, such as a showroom or a shop floor,
+its stock goes negative and someone has to work out what to bring in from the warehouse.
+This module does that in one click: an internal transfer fills itself with every product
+that is negative in its destination location, in the quantity needed to bring it back to
+zero. A daily email tells the person in charge which products are negative in their location.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">One-click replenishment</span><div class="mt-1">The <strong>Get negative products</strong> button on a draft transfer
+  adds a line for every product with negative stock in the destination location.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Exact quantities</span><div class="mt-1">Each line brings the negative quantity back to zero, taken from the
+  source location of the transfer.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Still your transfer</span><div class="mt-1">The lines can be edited, removed or completed by hand before you
+  validate, like any other transfer.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Daily negative stock email</span><div class="mt-1">Assign a manager to an internal location and they receive,
+  once a day, the list of products with negative stock there.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Sub-locations included in the email</span><div class="mt-1">The report adds up the negative quantities of the
+  location and all its sub-locations, per product.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <ol>
-<li>
-<p><strong>Automated Negative Qty Identification</strong>:</p>
-<ul>
-<li>Adds a dedicated <strong>Get negative products</strong> button to the stock picking form.</li>
-<li>Automatically identifies all products with a negative quantity in the destination location of the current picking.</li>
-</ul>
-</li>
-<li>
-<p><strong>Effortless Transfer Population</strong>:</p>
-<ul>
-<li>Quickly adds lines to the current transfer for all identified negative stock items.</li>
-<li>Populates the move lines with the exact quantities needed to bring the destination inventory back to at least zero.</li>
-</ul>
-</li>
-<li>
-<p><strong>Stock Health Monitoring</strong>:</p>
-<ul>
-<li>Designed for inventory managers who need to maintain clean, non-negative stock records across multiple locations.</li>
-<li>Streamlines the process of internal stock replenishment and correction.</li>
-</ul>
-</li>
-<li>
-<p><strong>Daily Notification</strong>:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Each internal location can be assigned a <strong>Manager</strong>.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A daily scheduled action emails the manager the list of products with negative stock in that location, aggregated over its sub-locations.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Locations without a manager are skipped.</div></div></li></ul>
-</li>
+<li>Optionally, create an internal operation type for the replenishment, in
+   <em>Inventory &gt; Configuration &gt; Operation Types</em>, with the warehouse stock as <strong>Default Source
+   Location</strong> and the location to refill (for example a showroom) as <strong>Default Destination
+   Location</strong>. The transfers then open with the right locations already set.</li>
 </ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Create or open an internal <strong>Stock Picking</strong> (Transfer).</li>
-<li>Set the <strong>Source Location</strong> and <strong>Destination Location</strong> as needed.</li>
-<li>Click the <strong>Get negative products</strong> button in the header of the transfer.</li>
-<li>The system will scan the destination location for any negative inventory.</li>
-<li>Move lines will be automatically created or updated to include the necessary quantities to fix the negative levels.</li>
-<li>Validate the picking as usual to complete the replenishment.</li>
-<li>Optionally, set a <strong>Manager</strong> on the location to receive the daily negative stock email.</li>
+<p><img alt="" src="op-type.png" /></p>
+<ol start="2">
+<li>
+<p>For the daily email, open <em>Inventory &gt; Configuration &gt; Locations</em>, choose an internal
+   location and set its <strong>Manager</strong>. Locations without a manager are skipped.</p>
+</li>
+<li>
+<p>The <strong>Send negative stock</strong> scheduled action runs once a day. Its frequency can be changed among the
+   scheduled actions, under <em>Settings &gt; Technical</em> (developer mode).</p>
+</li>
 </ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>A location ends up with negative stock, for example after sales from the showroom:</p>
+<p><img alt="" src="negative-stock.png" /></p>
+<ol>
+<li>Create an internal transfer, with the location to refill as <strong>Destination Location</strong> and the
+   location to take the goods from as <strong>Source Location</strong>.</li>
+</ol>
+<p><img alt="" src="picking1.png" /></p>
+<ol start="2">
+<li>While the transfer is in <strong>Draft</strong>, click <strong>Get negative products</strong>.</li>
+</ol>
+<p><img alt="" src="picking2.png" /></p>
+<ol start="3">
+<li>A line is added for every product with negative stock in the destination location, with the
+   quantity that brings it back to zero.</li>
+</ol>
+<p><img alt="" src="picking3.png" /></p>
+<ol start="4">
+<li>Adjust the lines if needed, then confirm and validate the transfer as usual.</li>
+</ol>
+<p>Each click adds the lines again, so click once per transfer. The button looks at the
+destination location itself, not at its sub-locations.</p>
+<p>The daily email goes to the manager of each internal location that has negative stock, with the
+subject <em>"Negative stock for location WH/Stock/Showroom"</em> and one line per product: reference,
+name, negative quantity and unit of measure.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-09-30)</h2>
 <ul>
-<li>
-<ul>
-<li>
-<p>Configure your operation type:</p>
-</li>
-<li>
-<p>Inventory -&gt; Configuration -&gt; Operation Types</p>
-</li>
+<li>Description rewritten for the Apps Store: what the module does and why, with separate
+  Configuration and Usage sections. Screenshots on the Apps Store page load again (the
+  description pointed to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/&#8230;</code>, which the store does not resolve).
+  Clearer summary; category moved to Inventory.</li>
 </ul>
-</li>
-</ul>
-<p><img alt="" src="static/description/op-type.png" /></p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-09-29)</h2>
 <ul>
-<li>Sell some stuff from your location, resulting in negative stock:</li>
-</ul>
-<p><img alt="" src="static/description/negative-stock.png" /></p>
-<ul>
-<li>Create a picking with the previuous Operation type</li>
-</ul>
-<p><img alt="" src="static/description/picking1.png" /></p>
-<ul>
-<li>Press the \&lt;Get negative products&gt; button:</li>
-</ul>
-<p><img alt="" src="static/description/picking2.png" /></p>
-<ul>
-<li>You products will be added to the picking:</li>
-</ul>
-<p><img alt="" src="static/description/picking3.png" /></p>
-<ul>
-<li>
-<p>Other info:</p>
-<ul>
-<li>You can manually add, delete or edit the picking after negative values have been added</li>
-<li>The negative stock products will be added with each click on the \&lt;Get negative products&gt; button.</li>
-</ul>
-</li>
-<li>
-<p>Daily notification:</p>
-<ul>
-<li>Set the <strong>Manager</strong> field on an internal location (Inventory -&gt; Configuration -&gt; Locations).</li>
-<li>The <strong>Send negative stock</strong> scheduled action runs once a day and emails that user the products
-with negative stock in the location, summed over its sub-locations.</li>
-<li>Locations without a manager are skipped.</li>
-</ul>
-</li>
+<li>Own module icon, instead of the generic gears it had.</li>
 </ul>
 </div>
 </div>
 
-<div class="row text-center mt-4 mb-1 g-3">
-  <div class="col-md-6">
-    <div class="border rounded-3 p-4 h-100">
-      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
-      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="border rounded-3 p-4 h-100">
-      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
-      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
-    </div>
-  </div>
-</div>
-
-
-<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
-  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+<div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
-     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
-     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
-     advantage of building modules that simply work.</p>
-  <a href="https://www.terrabit.ro/contactus" target="_blank" rel="noopener"
+     Questions about this module, or need it adapted to your processes?
+     Write to us &mdash; the developers who build it will answer.</p>
+  <a href="mailto:support@terrabit.ro" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
-     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Terrabit support &rarr;</a>
 </div>
 
 
 <section class="rounded-4 p-4 mb-3 border">
-  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
   <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_price_categ" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_secondary_uom" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PC</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price Category </span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules/Stock</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Product Secondary UoM</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory/Inventory</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Price List: Bronze Silver and Gold in product</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_promissory_note" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PN</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Promissory Note</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules/Stock</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Manage Promissory Note</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_sale_purchase_requisition" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">SP</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Sale &#8594; Purchase RFQ (Alternative Purchase Orders)</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules/Stock</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Create Purchase RFQ(s) from Sales Quotations and link them back to the quote.</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_sale_qty_available" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">SQ</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Sale Qty Available</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules/Stock</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Quantity Available</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Product specific conversion factors between units of measure (SAP MARM style)</p>
         </div>
       </a>
     </div>
@@ -224,14 +158,30 @@ with negative stock in the location, summed over its sub-locations.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">NN</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">NN</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">No Negative Stock</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules/Stock</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">No Negative Stock</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory/Inventory</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Negative stocks are not allowed</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Block transfers that would take stock below zero</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_warehouse_map" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WM</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Warehouse Map</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory/Inventory</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Visual warehouse map: navigate locations by hierarchy (levels, lines, racks, shelves, cells)</p>
         </div>
       </a>
     </div>
@@ -240,14 +190,14 @@ with negative stock in the location, summed over its sub-locations.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DE</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Tools</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generic module</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic module</p>
         </div>
       </a>
     </div>
@@ -256,14 +206,14 @@ with negative stock in the location, summed over its sub-locations.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AC</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account</p>
         </div>
       </a>
     </div>
@@ -272,14 +222,46 @@ with negative stock in the location, summed over its sub-locations.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">AA</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Account Analytic</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Accounting &amp; Finance</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech UBL despatch advice</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
