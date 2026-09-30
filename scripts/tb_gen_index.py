@@ -271,9 +271,11 @@ BADGE = (
     '<span class="d-inline-block rounded-pill fw-semibold m-1"'
     ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
+# Versiunea Odoo: aceleași culori ca celelalte insigne (alb pe verde închis, 11.4:1);
+# verdele deschis cu text închis nu se distingea pe fundalul verde al cardului.
 BADGE_ACCENT = (
     '<span class="d-inline-block rounded-pill fw-bold m-1"'
-    ' style="background-color:%(accent)s;color:#04331f;padding:8px 16px;font-size:12px;">%(t)s</span>'
+    ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
 
 # Nav-pills: fără JS propriu — data-bs-toggle e activat de bootstrap.bundle.js al store-ului.
@@ -335,6 +337,8 @@ SCOPE_NOTE = """
 </section>
 """
 
+# Butonul: verde pal #DEF1DD (ca la caseta de rating) cu text verde închis, 9.7:1 pe cardul
+# închis; verdele accent cu text închis se pierdea vizual.
 SUPPORT = """
 <div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
   <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">%(support_title)s</h2>
@@ -344,7 +348,7 @@ SUPPORT = """
      %(support_body)s</p>
   <a href="%(contact_url)s" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
-     style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">%(support_cta)s</a>
+     style="background-color:#DEF1DD;color:%(dark)s;padding:14px 32px;font-size:15px;">%(support_cta)s</a>
 </div>
 """
 
