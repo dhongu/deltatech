@@ -3,7 +3,7 @@
 {
     "name": "KPI Cards",
     "summary": "A reusable band of KPI cards for backend views, each card toggling a search filter",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.2.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Hidden/Tools",
