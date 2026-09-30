@@ -31,6 +31,10 @@ activate the matching search filter.
   at zero stays coloured, dimmed; the active card is outlined. The
   colours are Odoo's own theme variables, so the cards follow the light
   and the dark mode of the backend.
+- **A figure followed over time** — a card can also show its change
+  against the previous period (green up, red down), a progress bar
+  towards a target and a trend line; each is drawn only when the card
+  gives it.
 - **A click is a filter** — ``useKpiCardFilters`` activates the card's
   filter, drops the filters of the other cards so that two cards never
   add up, and clears the filter on a second click. The user's own
@@ -91,6 +95,18 @@ is the number of rows the click opens.
 
 Changelog
 =========
+
+19.0.1.2.0 (2026-09-30)
+-----------------------
+
+- A card can also show a figure followed over time, each part drawn only
+  when given: ``delta`` (the change in percent against the previous
+  period, green when up and red when down, with its ``deltaLabel``),
+  ``progress`` (percent of a target, as a bar, with its
+  ``progressLabel``) and ``trend`` (the last values, as a line). The
+  cards that do not give them look exactly as before. ``formatKpiDelta``
+  and ``kpiSparklinePoints`` are exported for the modules that build the
+  cards.
 
 19.0.1.1.0 (2026-09-29)
 -----------------------
