@@ -28,6 +28,23 @@
                         </span>
                         <span class="o_kpi_card_label" t-out="card.label" />
                         <span t-if="card.subtitle" class="o_kpi_card_label" t-out="card.subtitle" />
+                        <span t-if="hasDelta(card)" class="o_kpi_card_delta" t-att-class="deltaClass(card)">
+                            <i t-attf-class="fa {{ deltaIcon(card) }}" aria-hidden="true" />
+                            <t t-out="deltaText(card)" />
+                            <span t-if="card.deltaLabel" class="o_kpi_card_label" t-out="card.deltaLabel" />
+                        </span>
+                        <t t-if="hasProgress(card)">
+                            <span class="o_kpi_card_progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                t-att-aria-valuenow="progressWidth(card)">
+                                <span class="o_kpi_card_progress_bar" t-att-style="'width: ' + progressWidth(card) + '%'" />
+                            </span>
+                            <span t-if="card.progressLabel" class="o_kpi_card_label" t-out="card.progressLabel" />
+                        </t>
+                        <svg t-if="sparkline(card)" class="o_kpi_card_spark" viewBox="0 0 100 28"
+                            preserveAspectRatio="none" aria-hidden="true">
+                            <polyline t-att-points="sparkline(card)" fill="none" stroke="currentColor"
+                                stroke-width="1.5" vector-effect="non-scaling-stroke" />
+                        </svg>
                     </span>
                 </button>
             </t>

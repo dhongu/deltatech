@@ -5,6 +5,9 @@ binding that makes a click on a card activate the matching search filter.
   label, an icon and an accent colour; a card at zero stays coloured, dimmed; the active card is
   outlined. The colours are Odoo's own theme variables, so the cards follow the light and the dark
   mode of the backend.
+- **A figure followed over time** — a card can also show its change against the previous period
+  (green up, red down), a progress bar towards a target and a trend line; each is drawn only when
+  the card gives it.
 - **A click is a filter** — `useKpiCardFilters` activates the card's filter, drops the filters of
   the other cards so that two cards never add up, and clears the filter on a second click. The
   user's own filters are kept.

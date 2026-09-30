@@ -15,6 +15,8 @@ import {
     KpiCards,
     formatKpiAmount,
     formatKpiCount,
+    formatKpiDelta,
+    kpiSparklinePoints,
     useKpiCardFilters,
 } from "@deltatech_web_kpi_cards/kpi_cards/kpi_cards.esm";
 import {SearchBar} from "@web/search/search_bar/search_bar";
@@ -80,6 +82,64 @@ describe("deltatech_web_kpi_cards", () => {
         });
         expect(".o_kpi_card_value").toHaveText("2M");
         expect(".o_kpi_card").toHaveAttribute("title", "2,000,000 parcels");
+    });
+
+    test("deltatech_web_kpi_cards: change, progress and trend are drawn only when given", async () => {
+        await mountWithCleanup(KpiCards, {
+            props: {
+                cards: [
+                    {key: "plain", label: "Plain", count: 5},
+                    {
+                        key: "up",
+                        label: "Up",
+                        count: 120,
+                        tone: "info",
+                        delta: 93.75,
+                        deltaLabel: "vs previous period",
+                        progress: 80,
+                        progressLabel: "Target 150 (80%)",
+                        trend: [1, 2, 3],
+                    },
+                    {key: "down", label: "Down", count: 1, delta: -4},
+                    {key: "flat", label: "Flat", count: 1, delta: 0, progress: 250},
+                ],
+            },
+        });
+        // A card without the extras is what it always was
+        expect(".o_kpi_card[data-card='plain'] .o_kpi_card_delta").toHaveCount(0);
+        expect(".o_kpi_card[data-card='plain'] .o_kpi_card_progress").toHaveCount(0);
+        expect(".o_kpi_card[data-card='plain'] .o_kpi_card_spark").toHaveCount(0);
+
+        expect(".o_kpi_card[data-card='up'] .o_kpi_card_delta").toHaveClass("o_kpi_card_delta_up");
+        expect(".o_kpi_card[data-card='up'] .o_kpi_card_delta").toHaveText(/\+93\.8%\s*vs previous period/);
+        expect(".o_kpi_card[data-card='up'] .fa-caret-up").toHaveCount(1);
+        expect(".o_kpi_card[data-card='up'] .o_kpi_card_progress_bar").toHaveAttribute("style", "width: 80%");
+        expect(queryOne(".o_kpi_card[data-card='up']")).toHaveText(/Target 150 \(80%\)/);
+        expect(".o_kpi_card[data-card='up'] .o_kpi_card_spark polyline").toHaveAttribute(
+            "points",
+            "0.00,27.00 50.00,14.00 100.00,1.00"
+        );
+
+        expect(".o_kpi_card[data-card='down'] .o_kpi_card_delta").toHaveClass("o_kpi_card_delta_down");
+        expect(".o_kpi_card[data-card='down'] .fa-caret-down").toHaveCount(1);
+        // Flat: no colour class; a progress beyond the target never overflows the bar
+        expect(".o_kpi_card[data-card='flat'] .o_kpi_card_delta").not.toHaveClass("o_kpi_card_delta_up");
+        expect(".o_kpi_card[data-card='flat'] .o_kpi_card_delta").not.toHaveClass("o_kpi_card_delta_down");
+        expect(".o_kpi_card[data-card='flat'] .o_kpi_card_progress").toHaveAttribute("aria-valuenow", "100");
+    });
+
+    test("deltatech_web_kpi_cards: delta and sparkline helpers", async () => {
+        await makeMockEnv();
+        expect(formatKpiDelta(93.75)).toBe("+93.8%");
+        expect(formatKpiDelta(-4)).toBe("-4%");
+        expect(formatKpiDelta(0)).toBe("0%");
+        // Fewer than two values: nothing to draw
+        expect(kpiSparklinePoints(undefined)).toBe("");
+        expect(kpiSparklinePoints([5])).toBe("");
+        // A rising series runs from the bottom to the top of the box
+        expect(kpiSparklinePoints([1, 2, 3])).toBe("0.00,27.00 50.00,14.00 100.00,1.00");
+        // A flat series is drawn in the middle
+        expect(kpiSparklinePoints([4, 4, 4])).toBe("0.00,14.00 50.00,14.00 100.00,14.00");
     });
 
     test("deltatech_web_kpi_cards: a click hands the card over", async () => {

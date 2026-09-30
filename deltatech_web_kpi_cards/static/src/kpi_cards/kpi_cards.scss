@@ -54,6 +54,7 @@
     .o_kpi_card_body {
         display: flex;
         flex-direction: column;
+        flex: 1 1 auto;
         min-width: 0;
     }
 
@@ -69,6 +70,50 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    // change against the previous period: green up, red down, muted when flat
+    .o_kpi_card_delta {
+        display: flex;
+        align-items: baseline;
+        gap: map-get($spacers, 1);
+        font-size: $font-size-sm;
+        color: $o-main-color-muted;
+        white-space: nowrap;
+
+        &.o_kpi_card_delta_up {
+            color: $o-success;
+        }
+        &.o_kpi_card_delta_down {
+            color: $o-danger;
+        }
+        .o_kpi_card_label {
+            min-width: 0;
+        }
+    }
+
+    // progress towards a target, in the accent of the card
+    .o_kpi_card_progress {
+        display: block;
+        height: 0.4rem;
+        margin-top: map-get($spacers, 1);
+        overflow: hidden;
+        border-radius: $border-radius-pill;
+        background: $border-color;
+    }
+    .o_kpi_card_progress_bar {
+        display: block;
+        height: 100%;
+        background: var(--o-kpi-accent);
+    }
+
+    // trend line, stretched to the width of the card
+    .o_kpi_card_spark {
+        width: 100%;
+        height: 1.6rem;
+        margin-top: map-get($spacers, 1);
+        color: var(--o-kpi-accent);
+        opacity: 0.7;
     }
 
     // nothing to look at: the card keeps its colour, dimmed, and its number
