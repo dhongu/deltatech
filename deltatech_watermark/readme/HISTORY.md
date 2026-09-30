@@ -3,8 +3,8 @@
 - Description rewritten for the Apps Store from what the module does: a watermark image per
   company, set in General Settings, used by Website Watermark Image. Clearer summary; category
   Extra Tools.
-- Apps Store banner aligned with the new summary. The old settings screenshot, from an
-  older Odoo version, is no longer shown in the description.
+- Apps Store banner aligned with the new summary. The settings screenshot no longer shows a
+  sample company logo in the watermark field.
 
 ## 19.0.3.0.1 (2026-09-29)
 
