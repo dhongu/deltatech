@@ -336,11 +336,11 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
             <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
                   style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:%(primary)s;">%(initials)s</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">%(name)s</span>
-              <span class="d-block" style="font-size:11px;color:%(muted)s;">%(category)s</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">%(name)s</span>
+              <span class="d-block" style="font-size:13px;color:%(muted)s;">%(category)s</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:%(muted)s;">%(summary)s</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:%(muted)s;">%(summary)s</p>
         </div>
       </a>
     </div>
@@ -485,7 +485,7 @@ def style_lead_paragraph(rendered):
     """Primul paragraf al Overview-ului → lead mai mare (culoare moștenită)."""
     return re.sub(
         r"<p>",
-        '<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">',
+        '<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">',
         rendered,
         count=1,
     )
