@@ -1,0 +1,10 @@
+{
+  "title": "SMS Custom Gateway",
+  "summary": "Send SMS via 4Pay or Wapi, no IAP credits",
+  "icon": "globe",
+  "features": [
+    "Supports 4Pay & Wapi providers",
+    "Configure gateway & secret in IAP",
+    "Integrates with all Odoo SMS flows"
+  ]
+}
