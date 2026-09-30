@@ -5,11 +5,13 @@
         <field name="model">iap.account</field>
         <field name="inherit_id" ref="iap.iap_account_view_form" />
         <field name="arch" type="xml">
-            <field name="name" position="after">
-                  <field name="sms_provider" />
-                  <field name="sms_secret" />
-                  <field name="sms_gateway" />
-            </field>
+            <!-- 20.0: `name` moved to the form title (h1); keep the SMS settings in the
+                 "Account Information" group, right where they were in 19.0 (after `name`) -->
+            <xpath expr="//group[@name='account']/field[@name='service_id']" position="before">
+                <field name="sms_provider" />
+                <field name="sms_secret" />
+                <field name="sms_gateway" />
+            </xpath>
         </field>
     </record>
 </odoo>
