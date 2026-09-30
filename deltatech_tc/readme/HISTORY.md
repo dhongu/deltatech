@@ -1,3 +1,7 @@
+## 20.0.1.2.2 (2026-09-30)
+
+- New Apps Store banner, with the module icon, and the job retry and queue cleanup feature.
+
 ## 20.0.1.2.1 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
