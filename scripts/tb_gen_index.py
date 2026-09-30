@@ -150,6 +150,13 @@ I18N = {
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
+        "rating_free_title": "Did this module help you?",
+        "rating_free_body": "It is free, built and maintained by the Terrabit developers. If it saved you time, "
+        "a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. "
+        "Thank you for your support!",
+        "rating_paid_title": "Happy with this module?",
+        "rating_paid_body": "A rating on this page helps other Odoo users find it and tells our developers "
+        "what works. Thank you!",
     },
     "ro": {
         "tab_overview": "Prezentare",
@@ -178,6 +185,13 @@ I18N = {
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
+        "rating_free_title": "V-a ajutat acest modul?",
+        "rating_free_body": "E gratuit, construit &#537;i &#238;ntre&#539;inut de programatorii Terrabit. Dac&#259; v-a economisit timp, "
+        "un rating pe aceast&#259; pagin&#259; e cel mai bun mod de a ne mul&#539;umi &mdash; &#537;i &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259;. "
+        "V&#259; mul&#539;umim pentru sprijin!",
+        "rating_paid_title": "Sunte&#539;i mul&#539;umit de acest modul?",
+        "rating_paid_body": "Un rating pe aceast&#259; pagin&#259; &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259; &#537;i le arat&#259; "
+        "programatorilor no&#537;tri ce func&#539;ioneaz&#259; bine. V&#259; mul&#539;umim!",
     },
 }
 
@@ -317,6 +331,18 @@ SUPPORT = """
   <a href="%(contact_url)s" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
      style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">%(support_cta)s</a>
+</div>
+"""
+
+# Cerere de rating, imediat sub hero. Vendor guidelines interzic doar alterarea
+# artificială a clasamentului (stimulente, cumpărări proprii) — o rugăminte simplă, fără
+# nimic la schimb, e în regulă. Textul diferă după cum modulul e gratuit sau plătit.
+RATING = """
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:%(body)s;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:%(primary)s;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:%(primary)s;">%(title)s</span> %(text)s
+  </div>
 </div>
 """
 
@@ -762,6 +788,12 @@ def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT, lang="en"):
     return (CROSS_SELL_OPEN % dict(TB, **I18N[lang])) + "".join(cards) + CROSS_SELL_CLOSE
 
 
+def build_rating(manifest, lang="en"):
+    strings = I18N[lang]
+    kind = "paid" if manifest.get("price") else "free"
+    return RATING % dict(TB, title=strings[f"rating_{kind}_title"], text=strings[f"rating_{kind}_body"])
+
+
 def build_stats(lang="en"):
     if not STAT_ITEMS:
         return ""
@@ -778,6 +810,7 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=
     parts = [
         WRAP_OPEN,
         build_hero(addon_dir, manifest),
+        build_rating(manifest, lang),
         build_tabs(tabs),
         build_stats(lang),
         (SCOPE_NOTE % strings) if scope_note else "",
