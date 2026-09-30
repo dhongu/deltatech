@@ -143,10 +143,15 @@ I18N = {
         "support_title": "Need help getting started?",
         # ruperile de rând reproduc exact pagina generată înainte de unificare în suitele
         # EN, ca sincronizarea să nu rescrie sute de index.html doar pe spații
-        # factual, fără cifre de marketing: vendor guidelines interzic promovarea în descriere
+        # sub story_body, în același card: invitația la suport, urmată de buton
         "support_body": "Questions about this module, or need it adapted to your processes?\n"
         "     Write to us &mdash; the developers who build it will answer.",
         "support_cta": "Terrabit support &rarr;",
+        # ruperile de rând reproduc pagina generată înainte, ca sincronizarea să nu rescrie
+        # sute de index.html doar pe spații; titlul cardului e support_title
+        "story_body": "Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,\n"
+        "     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the\n"
+        "     advantage of building modules that simply work.",
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
@@ -182,6 +187,10 @@ I18N = {
         "support_body": "Ave&#539;i &#238;ntreb&#259;ri despre modul sau vre&#539;i s&#259; &#238;l adapt&#259;m "
         "proceselor voastre? Scrie&#539;i-ne &mdash; v&#259; r&#259;spund programatorii care &#238;l dezvolt&#259;.",
         "support_cta": "Suport Terrabit &rarr;",
+        "story_body": "Cele peste 350 de aplica&#539;ii ale noastre de pe Odoo Apps Store sunt "
+        "folosite &#238;n implement&#259;ri Odoo din Europa, America, Asia &#537;i Africa &mdash; de "
+        "companii pe care nu le-am cunoscut niciodat&#259;. Acesta e avantajul modulelor care pur &#537;i "
+        "simplu func&#539;ioneaz&#259;.",
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
@@ -298,14 +307,17 @@ STATS = """
 </div>
 """
 STAT_CARD = """<div class="col-md-%(col)s">
-    <div class="border rounded-3 p-4 h-100">
+    <div class="border rounded-3 px-4 py-2 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:%(primary)s;line-height:1;">%(big)s</div>
       <div class="mt-2" style="font-size:0.9rem;color:%(muted)s;">%(small)s</div>
     </div>
   </div>"""
-# Gol intenționat: „350+ modules" / „Silver partner" sunt promovare, pe care vendor
-# guidelines nu o permit în descriere. Cardurile se pot reactiva cu date factuale.
-STAT_ITEMS = []
+# Date factuale despre autor (numărul de module publicate și întreținute pe Apps, nivelul
+# de parteneriat), nu promoții sau reclame în sensul vendor guidelines.
+STAT_ITEMS = [
+    ("350+", "stat_modules"),
+    ("Silver", "stat_partner"),
+]
 
 # Delimitarea comercială: ce acoperă prețul de pe Apps Store și ce nu. Blocul stă
 # ÎNAINTE de CTA-ul de suport, ca cititorul să afle limita înainte de invitație.
@@ -324,8 +336,10 @@ SCOPE_NOTE = """
 """
 
 SUPPORT = """
-<div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
+<div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
   <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">%(support_title)s</h2>
+  <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     %(story_body)s</p>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
      %(support_body)s</p>
   <a href="%(contact_url)s" target="_blank" rel="noopener"
