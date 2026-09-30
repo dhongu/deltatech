@@ -1,5 +1,6 @@
 {
   "icon": "file",
-  "summary": "Central watermark configuration",
-  "features": ["Watermark field on company", "Configured in general settings", "Base for watermark extensions"]
+  "summary": "Company watermark, used by Website Watermark",
+  "features": ["Watermark image per company", "Set in General Settings", "Base for Website Watermark"],
+  "title": "Watermark"
 }
