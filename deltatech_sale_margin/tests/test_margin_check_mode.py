@@ -138,6 +138,24 @@ class TestMarginCheckMode(TransactionCase):
         with self.assertRaises(UserError):
             order.action_confirm()
 
+    def test_block_mode_does_not_block_delivery_and_invoicing(self):
+        """Once the order is confirmed, delivering and invoicing it write on the
+        lines (`qty_delivered`, `qty_invoiced`, `invoice_lines`) without touching
+        the price. They are not a sale decision and must not be refused; editing
+        the price is still blocked."""
+        self.company.sale_margin_check_mode = "block"
+        order, line = self._order(2.5, user=self.operator)
+        order.action_confirm()
+        # partial delivery: the line still has a quantity to deliver, so it is
+        # not skipped by the check on that ground
+        line.qty_delivered = line.product_uom_qty / 2
+        invoice = order._create_invoices()
+        self.assertEqual(invoice.state, "draft")
+        self.assertTrue(line.qty_invoiced)
+        self.assertTrue(line.qty_to_deliver)
+        with self.assertRaises(UserError):
+            line.write({"price_unit": 2.4})
+
     # -------------------------------------------------------------------- warn
 
     def test_warn_mode_flags_without_blocking(self):

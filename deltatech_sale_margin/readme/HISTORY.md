@@ -1,5 +1,16 @@
 # Changelog
 
+## 20.0.1.2.2 (2026-10-01)
+
+- **Fix: delivering and invoicing a confirmed order is no longer blocked.**
+  `write()` re-ran the below-cost check on every write on a line, including the
+  bookkeeping of a price already accepted (`qty_delivered`, `qty_invoiced`,
+  `invoice_lines`, the quantity of a generated line), so in `block` mode a
+  partial delivery or an invoice could be refused because of the price. The
+  check now runs only when a field that can bring the line below cost is
+  written (`_margin_check_fields()`: product, unit, price, discount, taxes,
+  cost).
+
 ## 20.0.1.2.1 (2026-10-01)
 
 - **Fix (MARGIN-001): the block now follows the same unit policy as the flag.**

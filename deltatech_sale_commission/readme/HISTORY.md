@@ -1,5 +1,9 @@
 # Changelog
 
+## 20.0.1.5.4 (2026-10-01)
+
+- [FIX] in "block" mode, the invoice of a confirmed sale order is no longer refused with "You can not sell below the purchase price." when the line is invoiced at the price of its order line: that price was already judged on the order, possibly by a seller allowed to sell below cost. A price changed on the invoice, and invoice lines without an order, are still checked.
+
 ## 20.0.1.5.3 (2026-10-01)
 
 - Margin report: the quantity of an invoice line in another unit than the product

@@ -9,8 +9,10 @@ from odoo import api, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # own name: `deltatech_sale_add_extra_line` also reacts to `order_line`, and with the
+    # same method name the last module loaded silently replaced the other one
     @api.onchange("order_line")
-    def onchange_order_line(self):
+    def _onchange_order_line_pallet(self):
         pallets = self.recompute_pallet_lines(delete_if_under=True)
         if pallets:
             for line in self.order_line:

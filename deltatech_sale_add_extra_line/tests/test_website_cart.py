@@ -95,13 +95,15 @@ class TestWebsiteCartExtraLine(WebsiteSaleCommon):
         cart = self.empty_cart.sudo()
         values = cart._cart_add(product_id=self.main_product.id, quantity=2)
         extra_line = self._lines_of(cart, self.extra_product)
-        extra_line.price_unit = 7.0
+        # a manual price above the cost of the extra product (50): a lower one is a
+        # below-cost sale typed in by the seller, refused by deltatech_sale_margin
+        extra_line.price_unit = 70.0
         self.assertTrue(extra_line._has_manual_price())
 
         cart._cart_update_line_quantity(line_id=values["line_id"], quantity=4)
 
         self.assertEqual(extra_line.product_uom_qty, 4, "the quantity keeps following the main line")
-        self.assertEqual(extra_line.price_unit, 7.0)
+        self.assertEqual(extra_line.price_unit, 70.0)
 
     def test_cart_add_product_without_extra_product(self):
         """A product with no extra product configured does not add any line."""

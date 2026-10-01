@@ -200,6 +200,20 @@ class AccountInvoiceLine(models.Model):
             #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
 
+    def _is_sale_order_price(self):
+        """Is the line invoiced at the unit price of its sale order lines?"""
+        self.ensure_one()
+        sale_lines = self.sale_line_ids
+        if not sale_lines:
+            return False
+        currency = self.currency_id or self.move_id.currency_id
+        return all(
+            sale_line.currency_id == currency
+            and sale_line.product_uom_id == self.product_uom_id
+            and not currency.compare_amounts(sale_line.price_unit, self.price_unit)
+            for sale_line in sale_lines
+        )
+
     @api.constrains("price_unit", "purchase_price")
     def _check_sale_price(self):
         for invoice_line in self:
@@ -213,6 +227,13 @@ class AccountInvoiceLine(models.Model):
             # then hit the wall at invoicing, once the goods are already gone.
             company = invoice_line.company_id or invoice_line.move_id.company_id or self.env.company
             if company.sale_margin_check_mode != "block":
+                continue
+            # A line invoiced at the price of its sale order line was already
+            # judged on the order (`deltatech_sale_margin`), possibly by a seller
+            # allowed to sell below cost: refusing it here stops whoever issues
+            # the invoice of a confirmed order. A price changed on the invoice is
+            # still checked.
+            if invoice_line._is_sale_order_price():
                 continue
             if invoice_line.move_id.move_type == "out_invoice":
                 if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
