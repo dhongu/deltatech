@@ -12,7 +12,7 @@ class PaymentForecastWizard(models.TransientModel):
     _description = "Payment forecast wizard"
 
     date_to = fields.Date(string="End Date", required=True, default=fields.Date.today)
-    company_id = fields.Many2one("res.company", "Company", required=True, default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one("res.company", "Company", required=True, default=lambda self: self.env.company)
 
     def get_estimated_payment_date(self, invoice):
         """
@@ -23,12 +23,18 @@ class PaymentForecastWizard(models.TransientModel):
         # get average payment time
         date_today = fields.Date.context_today(self)
         date_from = date_today - relativedelta(days=365)
-        domain = [("partner_id", "=", invoice.commercial_partner_id.id), ("date", ">=", date_from)]
+        domain = [
+            ("partner_id", "=", invoice.commercial_partner_id.id),
+            ("date", ">=", date_from),
+            ("move_id.company_id", "=", invoice.company_id.id),
+        ]
         if invoice.move_type in ["out_invoice", "out_refund"]:
             domain.append(("account_code", "ilike", "4111"))
         else:
             domain.append(("account_code", "ilike", "401"))
-        payment_times = self.env["account.average.payment.report"].sudo().search(domain)
+        # account codes are company dependent: resolve them in the invoice company
+        report = self.env["account.average.payment.report"].with_company(invoice.company_id).sudo()
+        payment_times = report.search(domain)
         no_payment_times = len(payment_times)
         partner_payment_days = 0
         if no_payment_times:
@@ -51,8 +57,9 @@ class PaymentForecastWizard(models.TransientModel):
             days = is_cron
         else:
             days = "Custom"
-            self.env.cr.execute(SQL("DELETE FROM payment_forecast WHERE days = %s", days))
+            self._delete_forecast(days)
         domain = [
+            ("company_id", "=", self.company_id.id),
             ("state", "=", "posted"),
             ("move_type", "in", ["out_invoice", "out_refund", "in_invoice", "in_refund"]),
             ("invoice_date_due", "<=", date_to),
@@ -76,7 +83,8 @@ class PaymentForecastWizard(models.TransientModel):
             vals = {
                 "partner_id": invoice.commercial_partner_id.id,
                 "move_id": invoice.id,
-                "currency_id": invoice.currency_id.id,
+                # signed amounts are expressed in company currency
+                "currency_id": invoice.company_currency_id.id,
                 "move_date": invoice.date,
                 "move_due_date": invoice.invoice_date_due,
                 "move_amount": invoice.amount_total_signed,
@@ -85,15 +93,23 @@ class PaymentForecastWizard(models.TransientModel):
                 "move_amount_residual": invoice.amount_residual_signed,
                 "payment_amount_forecasted": payment_amount_forecasted,
                 "days": days,
+                "company_id": self.company_id.id,
             }
             lines.append(vals)
         self.env["payment.forecast"].sudo().create(lines)
+
+    def _delete_forecast(self, days):
+        """Replace only the snapshot of the wizard company for the given day bucket"""
+        self.env.cr.execute(
+            SQL("DELETE FROM payment_forecast WHERE days = %s AND company_id = %s", days, self.company_id.id)
+        )
 
     @api.model
     def get_forecast_cron(self, days=0):
         if days:
             date_to = fields.Date.today() + relativedelta(days=days)
-            wizard = self.create({"date_to": date_to})
             days_string = str(days)
-            self.env.cr.execute(SQL("DELETE FROM payment_forecast WHERE days = %s", days_string))
-            wizard.with_context(days_string=days_string).get_forecast_lines()
+            for company in self.env.user.company_ids:
+                wizard = self.with_company(company).create({"date_to": date_to, "company_id": company.id})
+                wizard._delete_forecast(days_string)
+                wizard.with_context(days_string=days_string).get_forecast_lines()
