@@ -12,13 +12,13 @@ from odoo.addons.mail.tests.common import MailCommon
 @tagged("post_install", "-at_install", "deltatech_mail")
 class TestMailRedirect(MailCommon):
     """MAIL-001: substitutions and the company sender option must reach the
-    Odoo 19 outgoing flow (``send`` / ``_prepare_outgoing_list``)."""
+    outgoing flow (``send`` / ``_prepare_outgoing_list``)."""
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.env["mail.substitution"].search([]).unlink()
-        cls.env["ir.config_parameter"].set_param("mail.use_company_email", False)
+        cls.env["ir.config_parameter"].set_bool("mail.use_company_email", False)
         cls.customer = cls.env["res.partner"].create({"name": "Customer", "email": "customer@example.com"})
 
     def _create_mail(self, **values):
@@ -62,6 +62,20 @@ class TestMailRedirect(MailCommon):
             self.assertFalse(sent.get("email_cc"))
         self.assertEqual(mail.state, "sent")
 
+    def test_receiver_substitution_redirects_cc_partners(self):
+        # Odoo 20 sends the CC partners (recipient_cc_ids) as separate emails
+        cc_partner = self.env["res.partner"].create({"name": "CC Partner", "email": "cc.partner@example.com"})
+        self.env["mail.substitution"].create(
+            {"name": "res.partner", "email": "redirect@example.com", "type": "receiver"}
+        )
+        mail = self._create_mail(recipient_cc_ids=[(4, cc_partner.id)])
+        with self.mock_mail_gateway():
+            mail.send()
+        self.assertTrue(self._mails)
+        self.assertNotIn("cc.partner@example.com", self._sent_addresses())
+        for sent in self._mails:
+            self.assertEqual(sent["email_to"], ["redirect@example.com"])
+
     def test_receiver_substitution_other_model_ignored(self):
         self.env["mail.substitution"].create(
             {"name": "sale.order", "email": "redirect@example.com", "type": "receiver"}
@@ -83,7 +97,7 @@ class TestMailRedirect(MailCommon):
             self.assertNotIn("noreply@example.com", sent["email_to"])
 
     def test_company_email_on_send(self):
-        self.env["ir.config_parameter"].set_param("mail.use_company_email", True)
+        self.env["ir.config_parameter"].set_bool("mail.use_company_email", True)
         mail = self._create_mail(author_id=self.partner_employee.id)
         with self.mock_mail_gateway():
             mail.send()
@@ -94,7 +108,7 @@ class TestMailRedirect(MailCommon):
             self.assertEqual(sent["email_from"], expected)
 
     def test_company_email_on_message_post(self):
-        self.env["ir.config_parameter"].set_param("mail.use_company_email", True)
+        self.env["ir.config_parameter"].set_bool("mail.use_company_email", True)
         company = self.user_employee.company_id
         message = self.customer.with_user(self.user_employee).message_post(body="Hello")
         self.assertEqual(message.email_from, tools.formataddr((company.name, company.email)))
@@ -104,7 +118,7 @@ class TestMailRedirect(MailCommon):
         self.assertEqual(message.email_from, self.partner_employee.email_formatted)
 
     def test_company_email_missing_raises(self):
-        self.env["ir.config_parameter"].set_param("mail.use_company_email", True)
+        self.env["ir.config_parameter"].set_bool("mail.use_company_email", True)
         self.user_employee.company_id.email = False
         with self.assertRaises(UserError):
             self.customer.with_user(self.user_employee).message_post(body="Hello")

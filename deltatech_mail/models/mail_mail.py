@@ -26,7 +26,7 @@ class MailMail(models.Model):
         ``mail.use_company_email`` is set, then a "sender" substitution."""
         self.ensure_one()
         email_from = self.email_from
-        if tools.str2bool(self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email", "False"), False):
+        if self.env["ir.config_parameter"].sudo().get_bool("mail.use_company_email"):
             author = self.author_id
             company = author.company_id or author.user_ids[:1].company_id or self.env.company
             if company.email:

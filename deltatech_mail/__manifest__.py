@@ -4,14 +4,14 @@
 {
     "name": "Mail Substitution",
     "summary": "Mail Substitution",
-    "version": "19.0.1.0.6",
+    "version": "20.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Productivity/Discuss",
     "depends": ["mail"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/mail_substitution_view.xml",
         "views/mail_body_substitution_view.xml",
     ],

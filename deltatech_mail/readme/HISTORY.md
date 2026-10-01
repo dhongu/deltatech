@@ -1,3 +1,14 @@
+## 20.0.1.0.6 (2026-10-01)
+
+- Migration to Odoo 20.0, with the email redirection and company sender fix
+  of 19.0.1.0.6 (MAIL-001). The `mail` hooks used (`mail.mail.send`,
+  `_prepare_outgoing_list`, `mail.thread._message_compute_author`) keep their
+  signatures in Odoo 20.
+  - Access rights in `security/ir.access.csv` (Odoo 20 `ir.access`).
+  - The "Use Company Email" option is read with `get_bool`.
+  - "Receiver" substitutions also redirect the CC partners, which Odoo 20 sends
+    as separate emails.
+
 ## 19.0.1.0.6 (2026-10-01)
 
 - Fix: email redirection and the company sender work again on Odoo 19. The
