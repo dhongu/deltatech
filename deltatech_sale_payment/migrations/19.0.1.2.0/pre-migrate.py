@@ -54,7 +54,10 @@ def compute_payment_fields(cr):
                 SELECT sub.order_id, SUM(sub.paid) AS inv_paid
                   FROM (
                         SELECT DISTINCT sol.order_id, am.id,
-                               am.amount_total_signed - am.amount_residual_signed AS paid
+                               -- in the invoice currency, the one of the order (SALEPAY-001);
+                               -- the orders in a foreign currency are recomputed in 19.0.1.2.2
+                               (am.amount_total - am.amount_residual)
+                               * CASE WHEN am.move_type = 'out_refund' THEN -1 ELSE 1 END AS paid
                           FROM sale_order_line sol
                           JOIN sale_order_line_invoice_rel rel ON rel.order_line_id = sol.id
                           JOIN account_move_line aml ON aml.id = rel.invoice_line_id
