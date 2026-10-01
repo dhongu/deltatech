@@ -179,7 +179,10 @@ class TestCarrierCityFilter(HttpCase):
             "address_type": "delivery",
             "name": "City Customer",
             "email": "city.customer@example.com",
-            "phone": "0700000000",
+            # International format: the test country is fictitious, so a national
+            # number has no region to be parsed with when the phone validation
+            # module (deltatech_website_phone_validation) is installed.
+            "phone": "+40700000000",
             "street": "Test Street 2",
             "city_id": self.served_city.id,
             "city": "",
