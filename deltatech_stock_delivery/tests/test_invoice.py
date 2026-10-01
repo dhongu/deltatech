@@ -3,17 +3,22 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.tests import Form
-from odoo.tests.common import TransactionCase
+from odoo.exceptions import UserError
+from odoo.tests import Form, tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestInvoice(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.partner_a = self.env["res.partner"].create({"name": "Test"})
+@tagged("post_install", "-at_install")
+class TestInvoice(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_salesman")
+        cls.partner_a = cls.env["res.partner"].create({"name": "Test"})
 
-        seller_ids = [(0, 0, {"partner_id": self.partner_a.id})]
-        self.product_a = self.env["product.product"].create(
+        seller_ids = [(0, 0, {"partner_id": cls.partner_a.id})]
+        cls.product_a = cls.env["product.product"].create(
             {
                 "name": "Test A",
                 "is_storable": True,
@@ -22,7 +27,7 @@ class TestInvoice(TransactionCase):
                 "seller_ids": seller_ids,
             }
         )
-        self.product_b = self.env["product.product"].create(
+        cls.product_b = cls.env["product.product"].create(
             {
                 "name": "Test B",
                 "is_storable": True,
@@ -58,4 +63,31 @@ class TestInvoice(TransactionCase):
         invoice = po.invoice_ids
         invoice.invoice_date = "2021-01-01"
         invoice.action_post()
-        invoice.invoice_print_delivery()
+        action = invoice.invoice_print_delivery()
+        self.assertEqual(action["res_id"], self.picking.id)
+
+    def test_sale(self):
+        self.env["stock.quant"]._update_available_quantity(
+            self.product_b, self.env.ref("stock.stock_location_stock"), 10
+        )
+        so = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.product_b.id, "product_uom_qty": 2})],
+            }
+        )
+        so.action_confirm()
+
+        picking = so.picking_ids
+        picking.move_ids._set_quantity_done(2)
+        picking.button_validate()
+
+        invoice = so._create_invoices()
+        invoice.action_post()
+        action = invoice.invoice_print_delivery()
+        self.assertEqual(action["res_id"], picking.id)
+
+    def test_no_delivery(self):
+        invoice = self.init_invoice("out_invoice", partner=self.partner_a, products=self.product_a, post=True)
+        with self.assertRaises(UserError):
+            invoice.invoice_print_delivery()

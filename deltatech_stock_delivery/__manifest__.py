@@ -5,7 +5,7 @@
 {
     "name": "Invoice Delivery / Reception",
     "summary": "Adding button in invoice for display reception or delivery",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -15,6 +15,8 @@
         "stock",
         "purchase",
         "sale",
+        "sale_stock",
+        "purchase_stock",
         #    "deltatech_account",  # pentru adaugare grup de butoane
     ],
     "data": ["views/account_invoice_view.xml"],
