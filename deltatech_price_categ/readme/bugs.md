@@ -1,0 +1,32 @@
+# Known bugs
+
+Review date: 2026-10-01. Target version: Odoo 19.
+
+## PRICE-001 — P2: Fixed included taxes are treated as percentage taxes
+
+- **Status:** Open.
+- **Location:** `models/product.py`, `_compute_price_list()`, lines 142–148.
+- **Trigger:** Calculate category prices from cost or purchase price for a product with a fixed, price-included tax.
+- **Actual behavior:** The included-tax loop always calculates `price * tax.amount / 100`, ignoring the tax's amount type.
+- **Example reproduced:** A base cost of 200 and an included fixed tax of 10 produce 220 before the category markup, instead of 210.
+- **Expected behavior:** Fixed taxes add their fixed amount; other tax types follow Odoo's tax calculation rules.
+- **Impact:** Bronze, Copper, Silver, and Gold prices are incorrect for affected tax configurations.
+- **Evidence:** Isolated execution of the existing compute method reproduced the 220 result. The loop contains no amount-type branch and bypasses the Odoo tax engine.
+- **Suggested fix:** Use the Odoo tax engine with a clearly defined excluded/included base rather than manually treating all taxes as percentages.
+- **Validation needed:** Percentage, fixed, grouped, and compound included taxes, for each supported base-price source.
+
+## PRICE-002 — P2: Stored category prices are not invalidated by tax-rate changes
+
+- **Status:** Open.
+- **Location:** `models/product.py`, `_compute_price_list()` dependency declaration, lines 108–117; included-tax calculation, lines 126–147.
+- **Trigger:** Change the amount, price-inclusion setting, or ordering of an existing tax linked to a product whose category prices depend on included taxes.
+- **Actual behavior:** The stored price compute depends on the `taxes_id` relation, but not on the tax properties it reads. Editing an existing tax does not change that relation and therefore does not invalidate the stored category prices through this declaration.
+- **Expected behavior:** Changes to tax properties affecting the computation trigger recomputation of the stored prices.
+- **Impact:** Bronze, Copper, Silver, and Gold prices can retain values based on an old tax configuration until another declared dependency changes.
+- **Evidence:** Compared the stored field declarations, compute dependency list, and the tax property reads. This is a dependency/invalidation finding; no database-backed recomputation test has been run.
+- **Suggested fix:** Declare the relevant dotted tax dependencies, coordinated with the tax-engine correction in PRICE-001.
+- **Validation needed:** Change an existing tax rate and inclusion setting without modifying the product relation; verify that stored category prices update.
+
+## Review limitations
+
+Verified against the local Odoo 19 source and, where stated, by isolated execution with mocked ORM objects. No database-backed integration tests were run. No fixes have been applied.
