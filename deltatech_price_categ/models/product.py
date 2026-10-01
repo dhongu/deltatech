@@ -115,36 +115,37 @@ class ProductTemplate(models.Model):
         "percent_silver",
         "percent_gold",
         "taxes_id",
+        "taxes_id.amount",
+        "taxes_id.amount_type",
+        "taxes_id.sequence",
+        "taxes_id.include_base_amount",
+        "taxes_id.price_include_override",
+        "taxes_id.company_id.account_price_include",
+        "taxes_id.children_tax_ids",
     )
     def _compute_price_list(self):
         for product in self:
-            tax_inc = False
             # de regula este o singura  taxa
             taxe = product.taxes_id.sudo()
-
-            for tax in taxe:
-                if tax.price_include:
-                    tax_inc = True
+            taxe_inc = taxe.flatten_taxes_hierarchy().filtered("price_include")
 
             if product.list_price_base == "standard_price":
                 try:
                     price = product.standard_price
                 except Exception:
                     price = product.sudo().standard_price
-                # taxe = taxe.with_context(base_values=price)
             elif product.list_price_base == "last_purchase_price":
                 price = product.last_purchase_price or product.standard_price
             else:
                 price = product.list_price
-                if tax_inc:
-                    taxes = taxe.compute_all(product.list_price)
-                    price = taxes["total_excluded"]
+                if taxe_inc:
+                    price = taxe.compute_all(product.list_price)["total_excluded"]
 
-            if tax_inc:
-                tax_value = 0.0
-                for tax in taxe.sorted(key=lambda r: r.sequence):
-                    tax_value += price * tax.amount / 100
-                price += tax_value
+            # pretul de baza este fara taxe; se adauga doar taxele incluse in pret,
+            # calculate de motorul de taxe (procent, fix, grup)
+            # un produs fara pret de baza ramane cu 0 si cu o taxa fixa
+            if taxe_inc and price:
+                price = taxe_inc.compute_all(price, handle_price_include=False)["total_included"]
                 price = round(price, 2)
 
             product.list_price_bronze = price * (1 + product.percent_bronze)
