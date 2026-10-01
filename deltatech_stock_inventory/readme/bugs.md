@@ -4,7 +4,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## INVENTORY-001 — P1: Inventory is finalized before the conflict wizard resolves stock changes
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.2.10.2. `action_apply_inventory()` now returns the `stock.inventory.conflict` action untouched when the core asks for conflict resolution: the inventory stays *In progress*, lines are not marked OK, and the quant keeps its inventory/line links, note and last inventory date. When the wizard is resolved (keep counted quantity or keep difference), the same document is finalized and the inventory move carries the note. Covered by `tests/test_inventory_conflict.py` (cancelled wizard, both resolutions, adjustment without conflict). Priority P1 confirmed.
 - **Location:** models/stock_quant.py, action_apply_inventory(), lines 65–100; Odoo stock/models/stock_quant.py, action_apply_inventory().
 - **Trigger:** Count a quant, allow an intervening stock movement so is_outdated becomes true, then apply the count.
 - **Actual behavior:** The superclass returns the stock.inventory.conflict wizard before applying stock moves. The override still marks lines is_ok, sets the inventory state to done, updates last_inventory_date, and clears inventory links and inventory_note. Closing or cancelling the wizard leaves a completed inventory document without its stock adjustment.
@@ -15,4 +15,4 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## Review limitations
 
-Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. No fixes have been applied.
+Findings were based on local source inspection and isolated reproductions. INVENTORY-001 was then reproduced and fixed with database-backed tests (2026-10-01).
