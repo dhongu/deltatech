@@ -39,12 +39,17 @@ Response:
 {
   "status": "success",
   "processed": 15,
-  "failed": 0,
+  "done": 13,
+  "failed": 1,
+  "postponed": 1,
   "pending_count": 10,
   "time_elapsed": 12.34,
   "timestamp": "2026-03-18 04:40:00"
 }
 ```
+
+`processed` counts the jobs attempted in this call: `done` finished, `failed` ended in
+the failed state and `postponed` were put back to pending for a retry.
 
 **Manual Processing**
 You can manually trigger job processing from the Queue Job list view using the **Process** button (internal cron trigger) or **Process (Thread)** (API-style runner in a new thread), or trigger a background execution using **Cron Trigger**.
