@@ -93,7 +93,9 @@ TB = {
     "dark": "#00432a",
     "accent": "#57B952",
     "website": "https://www.terrabit.ro",
-    "contact_url": "https://www.terrabit.ro/contactus",
+    # Apps Store: în descriere sunt permise doar linkuri mailto:, YouTube și resurse din
+    # static/description/ — orice alt link extern e invalidat (vendor guidelines).
+    "contact_url": "mailto:support@terrabit.ro",
     "company": "Terrabit Solutions SRL",
     "apps_author": "Terrabit",  # filtru author pe apps.odoo.com
     "body": "#212529",  # culoarea de corp, vezi BODY/MUTED mai jos
@@ -141,14 +143,26 @@ I18N = {
         "support_title": "Need help getting started?",
         # ruperile de rând reproduc exact pagina generată înainte de unificare în suitele
         # EN, ca sincronizarea să nu rescrie sute de index.html doar pe spații
-        "support_body": "Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,\n"
+        # sub story_body, în același card: invitația la suport, urmată de buton
+        "support_body": "Questions about this module, or need it adapted to your processes?\n"
+        "     Write to us &mdash; the developers who build it will answer.",
+        "support_cta": "Terrabit support &rarr;",
+        # ruperile de rând reproduc pagina generată înainte, ca sincronizarea să nu rescrie
+        # sute de index.html doar pe spații; titlul cardului e support_title
+        "story_body": "Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,\n"
         "     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the\n"
         "     advantage of building modules that simply work.",
-        "support_cta": "Contact Terrabit &rarr;",
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
         "badge_hosting": "Odoo.sh &bull; On-premise",
+        "rating_free_title": "Did this module help you?",
+        "rating_free_body": "It is free, built and maintained by the Terrabit developers. If it saved you time, "
+        "a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. "
+        "Thank you for your support!",
+        "rating_paid_title": "Happy with this module?",
+        "rating_paid_body": "A rating on this page helps other Odoo users find it and tells our developers "
+        "what works. Thank you!",
     },
     "ro": {
         "tab_overview": "Prezentare",
@@ -171,15 +185,24 @@ I18N = {
         "de la o firm&#259; la alta, deci o instalare func&#539;ional&#259; e un exerci&#539;iu de "
         "configurare, nu doar o instalare de modul.",
         "support_title": "Ave&#539;i nevoie de ajutor la implementare?",
-        "support_body": "Cele peste 350 de aplica&#539;ii ale noastre de pe Odoo Apps Store sunt "
+        "support_body": "Ave&#539;i &#238;ntreb&#259;ri despre modul sau vre&#539;i s&#259; &#238;l adapt&#259;m "
+        "proceselor voastre? Scrie&#539;i-ne &mdash; v&#259; r&#259;spund programatorii care &#238;l dezvolt&#259;.",
+        "support_cta": "Suport Terrabit &rarr;",
+        "story_body": "Cele peste 350 de aplica&#539;ii ale noastre de pe Odoo Apps Store sunt "
         "folosite &#238;n implement&#259;ri Odoo din Europa, America, Asia &#537;i Africa &mdash; de "
         "companii pe care nu le-am cunoscut niciodat&#259;. Acesta e avantajul modulelor care pur &#537;i "
         "simplu func&#539;ioneaz&#259;.",
-        "support_cta": "Contacta&#539;i Terrabit &rarr;",
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
+        "rating_free_title": "V-a ajutat acest modul?",
+        "rating_free_body": "E gratuit, construit &#537;i &#238;ntre&#539;inut de programatorii Terrabit. Dac&#259; v-a economisit timp, "
+        "un rating pe aceast&#259; pagin&#259; e cel mai bun mod de a ne mul&#539;umi &mdash; &#537;i &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259;. "
+        "V&#259; mul&#539;umim pentru sprijin!",
+        "rating_paid_title": "Sunte&#539;i mul&#539;umit de acest modul?",
+        "rating_paid_body": "Un rating pe aceast&#259; pagin&#259; &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259; &#537;i le arat&#259; "
+        "programatorilor no&#537;tri ce func&#539;ioneaz&#259; bine. V&#259; mul&#539;umim!",
     },
 }
 
@@ -229,9 +252,7 @@ WRAP_OPEN = (
 )
 
 HERO = """%(marker)s
-<div class="text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
-  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
-    style="background-color:%(dark)s;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+<div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
   %(icon)s
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">%(name)s</h1>
   %(summary)s
@@ -252,9 +273,11 @@ BADGE = (
     '<span class="d-inline-block rounded-pill fw-semibold m-1"'
     ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
+# Versiunea Odoo: aceleași culori ca celelalte insigne (alb pe verde închis, 11.4:1);
+# verdele deschis cu text închis nu se distingea pe fundalul verde al cardului.
 BADGE_ACCENT = (
     '<span class="d-inline-block rounded-pill fw-bold m-1"'
-    ' style="background-color:%(accent)s;color:#04331f;padding:8px 16px;font-size:12px;">%(t)s</span>'
+    ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
 )
 
 # Nav-pills: fără JS propriu — data-bs-toggle e activat de bootstrap.bundle.js al store-ului.
@@ -288,11 +311,13 @@ STATS = """
 </div>
 """
 STAT_CARD = """<div class="col-md-%(col)s">
-    <div class="border rounded-3 p-4 h-100">
+    <div class="border rounded-3 px-4 py-2 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:%(primary)s;line-height:1;">%(big)s</div>
       <div class="mt-2" style="font-size:0.9rem;color:%(muted)s;">%(small)s</div>
     </div>
   </div>"""
+# Date factuale despre autor (numărul de module publicate și întreținute pe Apps, nivelul
+# de parteneriat), nu promoții sau reclame în sensul vendor guidelines.
 STAT_ITEMS = [
     ("350+", "stat_modules"),
     ("Silver", "stat_partner"),
@@ -314,14 +339,30 @@ SCOPE_NOTE = """
 </section>
 """
 
+# Butonul: verde pal #DEF1DD (ca la caseta de rating) cu text verde închis, 9.7:1 pe cardul
+# închis; verdele accent cu text închis se pierdea vizual.
 SUPPORT = """
-<div class="text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
+<div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:%(dark)s;color:#ffffff;">
   <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">%(support_title)s</h2>
+  <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     %(story_body)s</p>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
      %(support_body)s</p>
   <a href="%(contact_url)s" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
-     style="background-color:%(accent)s;color:#04331f;padding:14px 32px;font-size:15px;">%(support_cta)s</a>
+     style="background-color:#DEF1DD;color:%(dark)s;padding:14px 32px;font-size:15px;">%(support_cta)s</a>
+</div>
+"""
+
+# Cerere de rating, imediat sub hero. Vendor guidelines interzic doar alterarea
+# artificială a clasamentului (stimulente, cumpărări proprii) — o rugăminte simplă, fără
+# nimic la schimb, e în regulă. Textul diferă după cum modulul e gratuit sau plătit.
+RATING = """
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:%(body)s;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:%(primary)s;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:%(primary)s;">%(title)s</span> %(text)s
+  </div>
 </div>
 """
 
@@ -341,11 +382,11 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
             <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
                   style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:%(primary)s;">%(initials)s</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">%(name)s</span>
-              <span class="d-block" style="font-size:11px;color:%(muted)s;">%(category)s</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">%(name)s</span>
+              <span class="d-block" style="font-size:13px;color:%(muted)s;">%(category)s</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:%(muted)s;">%(summary)s</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:%(muted)s;">%(summary)s</p>
         </div>
       </a>
     </div>
@@ -490,7 +531,7 @@ def style_lead_paragraph(rendered):
     """Primul paragraf al Overview-ului → lead mai mare (culoare moștenită)."""
     return re.sub(
         r"<p>",
-        '<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">',
+        '<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">',
         rendered,
         count=1,
     )
@@ -602,6 +643,7 @@ def build_badges(manifest, lang="en"):
     license_ = manifest.get("license")
     if license_:
         items.append((BADGE, html_mod.escape(str(license_))))
+    # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ)
     items.append((BADGE, I18N[lang]["badge_hosting"]))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
@@ -657,8 +699,19 @@ def style_images(rendered):
     )
 
 
+def fix_image_paths(rendered):
+    """Căile imaginilor relative la index.html, nu la rădăcina modulului.
+
+    readme/*.md scrie `static/description/x.png`, corect pentru README.rst de pe GitHub.
+    index.html stă chiar în static/description/, iar Apps Store rescrie spre CDN doar
+    numele simple de fișier — cu prefixul, imaginea dă 404 pe pagina publicată.
+    """
+    return re.sub(r'(<img\b[^>]*?\bsrc=")(?:\.\./|\./)?static/description/', r"\1", rendered)
+
+
 def build_panel_body(key, md_text):
     rendered = render_markdown(md_text)
+    rendered = fix_image_paths(rendered)
     rendered = style_tables(rendered)
     rendered = style_code(rendered)
     if key == "presentation":
@@ -755,7 +808,15 @@ def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT, lang="en"):
     return (CROSS_SELL_OPEN % dict(TB, **I18N[lang])) + "".join(cards) + CROSS_SELL_CLOSE
 
 
+def build_rating(manifest, lang="en"):
+    strings = I18N[lang]
+    kind = "paid" if manifest.get("price") else "free"
+    return RATING % dict(TB, title=strings[f"rating_{kind}_title"], text=strings[f"rating_{kind}_body"])
+
+
 def build_stats(lang="en"):
+    if not STAT_ITEMS:
+        return ""
     strings = I18N[lang]
     col = max(3, 12 // max(1, len(STAT_ITEMS)))
     cards = "\n  ".join(STAT_CARD % dict(TB, big=big, small=strings[key], col=col) for big, key in STAT_ITEMS)
@@ -769,6 +830,7 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=
     parts = [
         WRAP_OPEN,
         build_hero(addon_dir, manifest, lang),
+        build_rating(manifest, lang),
         build_tabs(tabs),
         build_stats(lang),
         (SCOPE_NOTE % strings) if scope_note else "",
