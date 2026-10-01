@@ -80,6 +80,10 @@ class StockQuant(models.Model):
             # Data de numărare din wizard datează mișcările; documentul trebuie să o urmeze
             inventory.date = date
         res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory(date)
+        if isinstance(res, dict) and res.get("res_model") == "stock.inventory.conflict":
+            # Standardul nu a aplicat stocul, ci cere rezolvarea conflictului. Documentul ramane
+            # in lucru, cu legaturile si nota, ca wizardul sa-l finalizeze pe acesta, nu unul nou.
+            return res
         for quant in self:
             quant.last_inventory_date = fields.Date.today()
             inventor_line = quant.inventory_line_id
