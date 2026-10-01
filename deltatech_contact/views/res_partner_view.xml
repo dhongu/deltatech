@@ -10,32 +10,32 @@
         <field name="arch" type="xml">
 
             <xpath expr="//notebook" position="inside">
-                <page string="Personal Data" invisible="is_company==True or type!='contact'">
+                <page string="Personal Data" invisible="(is_company and not parent_id) or type!='contact'">
                     <group>
                         <group string="Identity Card">
                             <label
                                 for="id_nr"
                                 string="Card ID Number"
-                                invisible="is_company==True or type!='contact'"
+                                invisible="(is_company and not parent_id) or type!='contact'"
                             />
-                            <div class="o_row" invisible="is_company==True or type!='contact'">
+                            <div class="o_row" invisible="(is_company and not parent_id) or type!='contact'">
                                 <field name="id_series" placeholder="Series" />
                                 <field name="id_nr" placeholder="Number" />
                             </div>
                             <label
                                 for="id_issued_by"
                                 string="Card ID Issued"
-                                invisible="is_company==True or type!='contact'"
+                                invisible="(is_company and not parent_id) or type!='contact'"
                             />
-                            <div class="o_row" invisible="is_company==True or type!='contact'">
+                            <div class="o_row" invisible="(is_company and not parent_id) or type!='contact'">
                                 <field name="id_issued_by" placeholder="SPCLEP .." />
                                 <field name="id_issued_at" placeholder="Ex: 01.01.2000" />
                             </div>
                         </group>
                         <group string="Other Information">
-                            <field name="cnp" invisible="is_company==True or type!='contact'" />
-                            <field name="birthdate" invisible="is_company==True or type!='contact'" />
-                            <field name="gender" invisible="is_company==True or type!='contact'" />
+                            <field name="cnp" invisible="(is_company and not parent_id) or type!='contact'" />
+                            <field name="birthdate" invisible="(is_company and not parent_id) or type!='contact'" />
+                            <field name="gender" invisible="(is_company and not parent_id) or type!='contact'" />
                         </group>
                     </group>
 
@@ -44,18 +44,18 @@
 
             </xpath>
             <xpath expr="//field[@name='ref']" position="after">
-                <field name="mean_transp" invisible="is_company==True" />
+                <field name="mean_transp" invisible="(is_company and not parent_id)" />
             </xpath>
 
             <xpath expr="//field[@name='child_ids']/form/sheet/group" position="inside">
                 <group name="person_id" invisible="type!='contact'">
-                    <label for="id_nr" string="Card ID Number" invisible="is_company==True or type!='contact'" />
-                    <div class="o_row" invisible="is_company==True or type!='contact'">
+                    <label for="id_nr" string="Card ID Number" invisible="(is_company and not parent_id) or type!='contact'" />
+                    <div class="o_row" invisible="(is_company and not parent_id) or type!='contact'">
                         <field name="id_series" placeholder="XX" />
                         <field name="id_nr" placeholder="123456" />
                     </div>
-                    <label for="id_issued_by" string="Card ID Issued" invisible="is_company==True or type!='contact'" />
-                    <div class="o_row" invisible="is_company==True or type!='contact'">
+                    <label for="id_issued_by" string="Card ID Issued" invisible="(is_company and not parent_id) or type!='contact'" />
+                    <div class="o_row" invisible="(is_company and not parent_id) or type!='contact'">
                         <field name="id_issued_by" placeholder="SPCLEP .." />
                         <field name="id_issued_at" placeholder="Ex: 01.01.2000" />
                     </div>
@@ -93,15 +93,15 @@
         <field name="inherit_id" ref="base.view_partner_simple_form" />
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <group name="person_id" invisible="is_company==True">
-                    <label for="id_nr" string="Card ID Number" invisible="is_company==True or type!='contact'" />
-                    <div class="o_row" invisible="is_company==True or type!='contact'">
+                <group name="person_id" invisible="(is_company and not parent_id)">
+                    <label for="id_nr" string="Card ID Number" invisible="(is_company and not parent_id) or type!='contact'" />
+                    <div class="o_row" invisible="(is_company and not parent_id) or type!='contact'">
                         <field name="id_series" />
                         <field name="id_nr" />
 
                     </div>
-                    <label for="id_issued_by" string="Card ID Issued" invisible="is_company==True or type!='contact'" />
-                    <div class="o_row" invisible="is_company==True or type!='contact'">
+                    <label for="id_issued_by" string="Card ID Issued" invisible="(is_company and not parent_id) or type!='contact'" />
+                    <div class="o_row" invisible="(is_company and not parent_id) or type!='contact'">
                         <field name="id_issued_by" placeholder="SPCLEP .." />
                         <field name="id_issued_at" placeholder="Ex: 01.01.2000" />
                     </div>
