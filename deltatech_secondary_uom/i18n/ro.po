@@ -1,0 +1,180 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_secondary_uom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-11 07:02+0000\n"
+"PO-Revision-Date: 2026-08-11 07:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.constraint,message:deltatech_secondary_uom.constraint_deltatech_product_uom_conversion_uom_uniq
+msgid "A product can have only one conversion per unit of measure."
+msgstr "Un produs poate avea o singură conversie per unitate de măsură."
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_secondary_uom_mixin__allowed_secondary_uom_ids
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_purchase_order_line__allowed_secondary_uom_ids
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_sale_order_line__allowed_secondary_uom_ids
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_move__allowed_secondary_uom_ids
+msgid "Allowed Secondary Units"
+msgstr "Unități secundare permise"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__uom_qty
+msgid "Alternative Quantity"
+msgstr "Cantitate alternativă"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__uom_id
+msgid "Alternative Unit"
+msgstr "Unitate alternativă"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_product_product__secondary_uom_ids
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_product_template__secondary_uom_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_secondary_uom.product_template_form_view_secondary_uom
+msgid "Alternative Units"
+msgstr "Unități alternative"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__base_qty
+msgid "Base Quantity"
+msgstr "Cantitate de bază"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__base_uom_id
+msgid "Base Unit"
+msgstr "Unitate de bază"
+
+#. module: deltatech_secondary_uom
+#. odoo-python
+#: code:addons/deltatech_secondary_uom/models/product_uom_conversion.py:0
+msgid "Conversion quantities must be strictly positive."
+msgstr "Cantitățile de conversie trebuie să fie strict pozitive."
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,help:deltatech_secondary_uom.field_deltatech_product_uom_conversion__base_uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr "Unitatea de măsură implicită folosită în toate operațiunile stocului."
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__display_name
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_secondary_uom_mixin__display_name
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_move__display_name
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_rule__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__factor
+msgid "Factor"
+msgstr "Factor"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,help:deltatech_secondary_uom.field_deltatech_product_uom_conversion__factor
+msgid "How many base units correspond to one alternative unit."
+msgstr "Câte unități de bază corespund unei unități alternative."
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_secondary_uom_mixin__id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_sale_order_line__id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_move__id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_rule__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_product_template
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_product_uom_conversion__product_tmpl_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_deltatech_product_uom_conversion
+msgid "Product UoM Conversion"
+msgstr "Conversie UM produs"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_secondary_uom_mixin__secondary_uom_qty
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_purchase_order_line__secondary_uom_qty
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_sale_order_line__secondary_uom_qty
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_move__secondary_uom_qty
+msgid "Secondary Quantity"
+msgstr "Cantitate secundară"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_deltatech_secondary_uom_mixin__secondary_uom_id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_purchase_order_line__secondary_uom_id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_sale_order_line__secondary_uom_id
+#: model:ir.model.fields,field_description:deltatech_secondary_uom.field_stock_move__secondary_uom_id
+msgid "Secondary Unit"
+msgstr "Unitate secundară"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_deltatech_secondary_uom_mixin
+msgid "Secondary UoM Mixin"
+msgstr "Mixin UM secundară"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_secondary_uom
+#: model:ir.model,name:deltatech_secondary_uom.model_stock_rule
+msgid "Stock Rule"
+msgstr "Regulă stoc"
+
+#. module: deltatech_secondary_uom
+#. odoo-python
+#: code:addons/deltatech_secondary_uom/models/product_uom_conversion.py:0
+msgid "The alternative unit must be different from the product base unit."
+msgstr ""
+"Unitatea alternativă trebuie să fie diferită de unitatea de bază a "
+"produsului."
