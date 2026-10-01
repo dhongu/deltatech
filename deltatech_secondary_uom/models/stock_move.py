@@ -22,6 +22,9 @@ class StockMove(models.Model):
     def _compute_secondary_uom_qty(self):
         return super()._compute_secondary_uom_qty()
 
+    def _get_secondary_uom_open_domain(self):
+        return [("state", "not in", ("done", "cancel"))]
+
     @api.depends("product_id")
     def _compute_allowed_secondary_uom_ids(self):
         return super()._compute_allowed_secondary_uom_ids()
