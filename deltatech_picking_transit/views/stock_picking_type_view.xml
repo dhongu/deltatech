@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_picking_type_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.type.form.inherit</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form" />
+        <field name="arch" type="xml">
+            <field name="return_picking_type_id" position="after">
+                <field name="two_step_transfer_use" />
+                <field name="auto_second_transfer" invisible="two_step_transfer_use!='delivery'" />
+            </field>
+        </field>
+    </record>
+</odoo>
