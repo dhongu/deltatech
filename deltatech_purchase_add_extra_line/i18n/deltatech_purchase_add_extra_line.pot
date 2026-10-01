@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:27+0000\n"
-"PO-Revision-Date: 2026-07-31 10:27+0000\n"
+"POT-Creation-Date: 2026-10-01 09:22+0000\n"
+"PO-Revision-Date: 2026-10-01 09:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,6 +55,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order__id
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order_line__id
 msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_add_extra_line
+#: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order_line__is_extra_line
+msgid "Is Extra Line"
 msgstr ""
 
 #. module: deltatech_purchase_add_extra_line
@@ -106,4 +111,12 @@ msgstr ""
 msgid ""
 "Technical field: last unit price computed for this extra line. A unit price "
 "that differs from it was set by the user and is kept as is."
+msgstr ""
+
+#. module: deltatech_purchase_add_extra_line
+#: model:ir.model.fields,help:deltatech_purchase_add_extra_line.field_purchase_order_line__is_extra_line
+msgid ""
+"Technical field: this line was generated as the extra line of the main line "
+"sharing its line_uuid, so it is replaced or removed when the main product "
+"changes."
 msgstr ""
