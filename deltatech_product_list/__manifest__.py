@@ -6,7 +6,7 @@
 {
     "name": "Product List",
     "summary": "Define products lists",
-    "version": "19.0.1.0.2",
+    "version": "20.0.1.0.2",
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
@@ -16,8 +16,7 @@
     "depends": ["product", "sale"],
     "data": [
         "views/product_list_view.xml",
-        "security/ir.model.access.csv",
-        "security/security.xml",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
