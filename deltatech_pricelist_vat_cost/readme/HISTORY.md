@@ -1,3 +1,11 @@
+## 19.0.1.0.2
+
+- Cost with VAT now depends on the purchase taxes only: a product with
+  purchase taxes but no sales taxes was reported at cost without VAT, and so
+  were the pricelist rules based on "Cost with VAT" (VATCOST-001). The value
+  is also recomputed when the purchase taxes, their amount or type, or the
+  currency change.
+
 ## 19.0.1.0.1
 
 - Own module icon, instead of the generic gears it had.
