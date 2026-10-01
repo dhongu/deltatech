@@ -1,0 +1,10 @@
+{
+  "title": "Average Payment Period",
+  "summary": "Measure how fast partners actually pay",
+  "icon": "trend",
+  "features": [
+    "Payment date and days on paid invoices",
+    "Pivot and graph report per partner",
+    "Amount-weighted average payment days"
+  ]
+}

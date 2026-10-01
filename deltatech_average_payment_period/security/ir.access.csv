@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_average_payment_report,access_account_average_payment_report,account.average.payment.report,account.group_account_user,r,
