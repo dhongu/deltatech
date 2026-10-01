@@ -1,3 +1,9 @@
+## 19.0.1.5.0
+
+- [FIX] changing the product of the main line replaces the extra line: the extra line of the old product used to stay, with only its quantity updated, so the quotation kept charging and delivering an unrelated extra product. When the new product requires another extra product, the old line is removed and the right one is generated with the computed price; when it requires none, the extra line is removed
+- [FIX] deleting the main line deletes its extra line even when the product no longer has an extra product configured, so no orphan extra line is left behind; deleting a line whose extra product has an extra product of its own no longer ends in an infinite recursion
+- [IMP] the generated line is flagged with the technical field `is_extra_line`, and the pair is found through it instead of through the current configuration of the product. A migration flags the extra lines of the existing orders
+
 ## 19.0.1.4.1
 
 - Own module icon, instead of the generic gears it had.
