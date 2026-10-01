@@ -117,6 +117,7 @@ msgstr "Metodă de plată"
 
 #. module: deltatech_sale_payment
 #: model:ir.model.fields,field_description:deltatech_sale_payment.field_sale_order__payment_status
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
 msgid "Payment Status"
 msgstr "Stare încasare"
 
