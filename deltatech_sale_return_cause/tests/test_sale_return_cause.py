@@ -15,7 +15,7 @@ class TestSaleReturnCause(TransactionCase):
         cls.product = cls.env["product.product"].create(
             {
                 "name": "Test Product",
-                "is_storable": True,
+                "type": "consu",
                 "list_price": 100.0,
             }
         )
@@ -146,3 +146,61 @@ class TestSaleReturnCause(TransactionCase):
 
         # Just call the cron method to see if it runs without error
         self.env["sale.order"]._cron_check_and_update_return_amount()
+
+    def _create_order(self, **vals):
+        return self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [(0, 0, {"product_id": self.product.id, "product_uom_qty": 1.0, "price_unit": 100.0})],
+                **vals,
+            }
+        )
+
+    def _invoice_and_refund(self, order, refund_price):
+        order.action_confirm()
+        invoice = order._create_invoices()
+        invoice.action_post()
+        move_reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create({"date": fields.Date.today(), "reason": "Test Refund", "journal_id": invoice.journal_id.id})
+        )
+        credit_note = self.env["account.move"].browse(move_reversal.refund_moves()["res_id"])
+        credit_note.invoice_line_ids.price_unit = refund_price
+        credit_note.action_post()
+        return credit_note
+
+    def test_05_bulk_write_mixed_dates(self):
+        """RETURNCAUSE-001: bulk write keeps existing dates and fills only the missing ones"""
+        old_date = fields.Date.add(fields.Date.today(), days=-10)
+        order_with_date = self._create_order(return_cause_date=old_date)
+        order_without_date = self._create_order()
+        orders = order_with_date | order_without_date
+        orders.write({"return_cause_id": self.return_cause.id})
+        self.assertEqual(order_with_date.return_cause_date, old_date)
+        self.assertEqual(order_without_date.return_cause_date, fields.Date.today())
+        self.assertEqual(orders.return_cause_id, self.return_cause)
+
+    def test_06_write_explicit_date_is_kept(self):
+        """RETURNCAUSE-001: an explicit return_cause_date in vals is not replaced with today"""
+        explicit_date = fields.Date.add(fields.Date.today(), days=-5)
+        order = self._create_order()
+        order.write({"return_cause_id": self.return_cause.id, "return_cause_date": explicit_date})
+        self.assertEqual(order.return_cause_date, explicit_date)
+        orders = self._create_order() | self._create_order()
+        orders.write({"return_cause_id": self.return_cause.id, "return_cause_date": explicit_date})
+        self.assertEqual(orders.mapped("return_cause_date"), [explicit_date, explicit_date])
+
+    def test_07_bulk_return_amount(self):
+        """RETURNCAUSE-001: multi-order recalculation uses each order's own credit notes"""
+        order_1 = self._create_order(return_cause_id=self.return_cause.id)
+        order_2 = self._create_order(return_cause_id=self.return_cause.id)
+        order_3 = self._create_order()
+        credit_1 = self._invoice_and_refund(order_1, 30.0)
+        credit_2 = self._invoice_and_refund(order_2, 70.0)
+        self._invoice_and_refund(order_3, 50.0)
+        (order_1 | order_2 | order_3).check_and_update_return_amount()
+        self.assertEqual(order_1.return_amount, credit_1.amount_total_signed)
+        self.assertEqual(order_2.return_amount, credit_2.amount_total_signed)
+        self.assertNotEqual(order_1.return_amount, order_2.return_amount)
+        self.assertEqual(order_3.return_amount, 0.0)
