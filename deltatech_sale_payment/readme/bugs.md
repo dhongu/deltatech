@@ -31,10 +31,10 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Status:** Open.
 - **Actual behavior:** `payment.transaction` is accessible only to `account.group_account_invoice` (no unlink) and `base.group_system`; the wizard writes without sudo, so a sales-only user gets an access error on Confirm and Add.
 
-## SALEPAY-005 — P2: confirmed wire-transfer transactions fail post-processing for 4 days
+## SALEPAY-005 — P2: confirmed wire-transfer transactions fail post-processing
 
 - **Status:** Open.
-- **Actual behavior:** Odoo 19 has no `account.payment.method` for the `custom` provider code, so after the wizard sets a wire-transfer transaction `done`, `_post_process` raises "Please define a payment method line on your payment." in `_create_payment`. The cron rolls back (order not confirmed, no invoice, no payment) and retries every 10 minutes for 4 days.
+- **Actual behavior:** Odoo 20 has no `account.payment.method` for the `custom` provider code, so after the wizard sets a wire-transfer transaction `done`, `_post_process` raises "Please define a payment method line on your payment." in `_create_payment`. The cron rolls back (order not confirmed, no invoice, no payment) and retries on the daily run for one day.
 
 ## Review limitations
 

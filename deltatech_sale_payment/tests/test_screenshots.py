@@ -65,16 +65,21 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
         if not method:
             method = env["payment.method"].search([("code", "=", "wire_transfer")], limit=1)
         bank_journal = env["account.journal"].search([("type", "=", "bank"), ("company_id", "=", company.id)], limit=1)
-        cls.provider = env["payment.provider"].create(
-            {
-                "name": "Transfer bancar",
-                "code": "custom",
-                "custom_mode": "wire_transfer",
-                "state": "enabled",
-                "company_id": company.id,
-                "journal_id": bank_journal.id,
-                "payment_method_ids": [Command.set(method.ids)],
-            }
+        # în 20, utilizatorul testului nu citește payment.method: procesatorul și
+        # tranzacțiile se seedează ca superutilizator
+        cls.provider = (
+            env["payment.provider"]
+            .sudo()
+            .create(
+                {
+                    "name": "Transfer bancar",
+                    "code": "custom",
+                    "custom_mode": "wire_transfer",
+                    "company_id": company.id,
+                    "journal_id": bank_journal.id,
+                    "payment_method_ids": [Command.set(method.ids)],
+                }
+            )
         )
         cls.method = method
 
@@ -132,17 +137,21 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
 
     @classmethod
     def _create_tx(cls, order, amount, state):
-        return cls.env["payment.transaction"].create(
-            {
-                "provider_id": cls.provider.id,
-                "payment_method_id": cls.method.id,
-                "reference": f"{order.name}-{amount:.0f}",
-                "amount": amount,
-                "currency_id": order.currency_id.id,
-                "partner_id": order.partner_id.id,
-                "state": state,
-                "sale_order_ids": [Command.link(order.id)],
-            }
+        return (
+            cls.env["payment.transaction"]
+            .sudo()
+            .create(
+                {
+                    "provider_id": cls.provider.id,
+                    "payment_method_id": cls.method.id,
+                    "reference": f"{order.name}-{amount:.0f}",
+                    "amount": amount,
+                    "currency_id": order.currency_id.id,
+                    "partner_id": order.partner_id.id,
+                    "state": state,
+                    "sale_order_ids": [Command.link(order.id)],
+                }
+            )
         )
 
     def _confirm_payment_as_operator(self):

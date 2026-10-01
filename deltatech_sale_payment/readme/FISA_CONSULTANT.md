@@ -80,9 +80,9 @@ Date minime pentru demo:
 
 1. **Instalați modulul** `deltatech_sale_payment`. La instalare, starea încasării se calculează pentru
    comenzile existente.
-2. **Activați procesatorii** folosiți: **Facturare → Configurare → Plăți online → Furnizori de plată**
+2. **Activați procesatorii** folosiți: **Facturare → Configurare → Online Payments**
    (ex. **Transfer bancar**; meniul e vizibil administratorului contabil). Fereastra **Confirmă
-   încasarea** propune doar procesatorii care nu sunt dezactivați.
+   încasarea** propune doar procesatorii activi (un procesator dezactivat se arhivează).
 3. Pentru procesatorii **electronici** (card, plăți online), verificați câmpul **Jurnal plată** din
    tabul **Configurare** al furnizorului: se completează automat cu primul jurnal de bancă (doar
    jurnale de bancă sunt permise). Pe jurnal, **Facturare → Configurare → Jurnale → <banca> → Plăți de
@@ -117,7 +117,7 @@ Autorizată**, roșu = **Anulată**, gri = **Fără**.
 
 ### Pasul 2 — Deschideți „Confirmă încasarea"
 
-Pe formularul comenzii, **⚙ Acțiuni → Confirmă încasarea**.
+Pe formularul comenzii, **⋮ Acțiuni → Confirmă încasarea**.
 
 ![Meniul Acțiuni cu „Confirmă încasarea"](screenshots/02_meniu_actiuni_confirma_incasarea.png)
 
@@ -155,7 +155,7 @@ Ce **nu** se întâmplă singur la **Transfer bancar**:
 
 Motivul: Odoo nu are metodă de plată contabilă pentru procesatorii de tip transfer bancar, așa că
 procesarea automată a tranzacției confirmate eșuează. În jurnalul serverului apare, la fiecare rulare a
-acțiunii programate de procesare a plăților (la 10 minute, timp de 4 zile), mesajul „Please define a
+acțiunii programate de procesare a plăților (o dată pe zi, timp de o zi), mesajul „Please define a
 payment method line on your payment.". Starea comenzii nu este afectată.
 
 ![Comanda încasată integral](screenshots/04_comanda_incasata.png)
@@ -172,7 +172,7 @@ payment method line on your payment.". Starea comenzii nu este afectată.
    de urmărit cu clientul; **nicio** comandă cu plată în avans nu pleacă la livrare înainte de
    **Efectuată**.
 3. **Treceți mai departe** — deschideți comanda de urmărit sau exportați lista (**selectați rândurile →
-   ⚙ Acțiuni → Export**) pentru raportarea către contabilitate.
+   ⋮ Acțiuni → Export**) pentru raportarea către contabilitate.
 
 ![Lista comenzilor grupată după starea încasării](screenshots/05_lista_grupata_stare_incasare.png)
 
@@ -220,7 +220,7 @@ confirmarea comenzii, factura și plata contabilă; încasările în numerar; re
 - [ ] O comandă nouă, fără tranzacții, arată **Stare încasare: Fără** și **Încasare 0,00**.
 - [ ] Comanda cu transfer bancar ales arată **În așteptare**, procesatorul **Transfer bancar**, și apare
       la filtrul **Plată în așteptare**.
-- [ ] **⚙ Acțiuni → Confirmă încasarea** preia tranzacția în așteptare (procesator, metodă, valoare
+- [ ] **⋮ Acțiuni → Confirmă încasarea** preia tranzacția în așteptare (procesator, metodă, valoare
       precompletate).
 - [ ] **Confirmă** cu valoarea integrală: comanda trece pe **Efectuată**, **Încasare** = totalul
       comenzii.
@@ -244,11 +244,11 @@ confirmarea comenzii, factura și plata contabilă; încasările în numerar; re
 
 | Mesaj / simptom | Cauză | Remediere |
 |-----------------|-------|-----------|
-| „Vă rog să selectați o comandă de vânzare" | Fereastra a fost deschisă fără o comandă activă | Deschideți-o din formularul comenzii, **⚙ Acțiuni → Confirmă încasarea** |
+| „Vă rog să selectați o comandă de vânzare" | Fereastra a fost deschisă fără o comandă activă | Deschideți-o din formularul comenzii, **⋮ Acțiuni → Confirmă încasarea** |
 | „Valoarea trebuie să fie pozitivă" | Valoare negativă în fereastră | Introduceți suma încasată, pozitivă; un retur de bani se face din factură / nota de credit |
 | „Nu aveți dreptul…" (eroare de acces) la **Confirmă** / **Adaugă** | Utilizatorul are doar drepturi de vânzări, fără Facturare | Acordați nivelul **Facturare** sau lăsați confirmarea pe seama facturării |
 | Comanda e **Efectuată**, dar nu există plată contabilă și oferta nu s-a confirmat | Procesator **Transfer bancar**: Odoo nu creează plată pentru el | Confirmați comanda manual; contabilul înregistrează plata din extras sau pe factură |
-| În log, la 10 minute: „Please define a payment method line on your payment." | Procesarea automată a unei tranzacții **Transfer bancar** confirmate (vezi pasul 4) | Nu afectează comanda; dispare după 4 zile. Plata se înregistrează manual |
+| În log, la rularea zilnică: „Please define a payment method line on your payment." | Procesarea automată a unei tranzacții **Transfer bancar** confirmate (vezi pasul 4) | Nu afectează comanda; Odoo renunță după o zi. Plata se înregistrează manual |
 | Plata cardului debitează **581** | Linia metodei procesatorului are contul implicit | Setați **5125** pe linia metodei (secțiunea 5) |
 | **Dată încasare** din fereastră nu apare nicăieri | Câmpul nu se salvează | Data corectă se pune pe plata înregistrată de contabilitate |
 | Pe o comandă deja încasată, **Confirmă încasarea** propune din nou suma | Fereastra preia ultima tranzacție, inclusiv una deja confirmată, și la confirmare încearcă să o **șterge** și să creeze una nouă. Un utilizator cu Facturare primește eroare de acces (ștergerea cere administrator); la administrator, pe un procesator electronic, plata contabilă a vechii tranzacții rămâne și se creează **a doua plată**: încasarea apare de două ori pe 4111 | Nu redeschideți fereastra pe comenzi **Efectuate**. Dacă s-a întâmplat, contabilul anulează plata în plus |
@@ -264,10 +264,10 @@ conturi RO, pe compania „Demo Încasări SRL" în RON:
 | # | Fișier | Conținut |
 |---|--------|----------|
 | 1 | `screenshots/01_comanda_plata_in_asteptare.png` | Comanda de 1.210,00 lei cu **Încasare 0,00**, procesator **Transfer bancar**, **Stare încasare: În așteptare** |
-| 2 | `screenshots/02_meniu_actiuni_confirma_incasarea.png` | Meniul **⚙ Acțiuni** deschis pe comandă, cu **Confirmă încasarea** |
+| 2 | `screenshots/02_meniu_actiuni_confirma_incasarea.png` | Meniul **⋮ Acțiuni** deschis pe comandă, cu **Confirmă încasarea** |
 | 3 | `screenshots/03_wizard_confirma_incasarea.png` | Fereastra **Confirmă încasarea** precompletată din tranzacția în așteptare |
 | 4 | `screenshots/04_comanda_incasata.png` | Aceeași comandă după **Confirmă** în fereastră: **Încasare 1.210,00 lei**, **Stare încasare: Efectuată** |
-| 5 | `screenshots/05_lista_grupata_stare_incasare.png` | Lista comenzilor grupată după **Stare încasare** (Efectuată, Parțială, În așteptare, Fără) |
+| 5 | `screenshots/05_lista_grupata_stare_incasare.png` | Lista comenzilor grupată după **Stare încasare** (Fără, Parțială, Efectuată, În așteptare) |
 
 Regenerare (planul de conturi RO este necesar pentru compania de demo):
 
