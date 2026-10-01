@@ -36,19 +36,18 @@ class StockPicking(models.Model):
                     "picking_type_id": picking_type_id.id,
                     "location_id": picking.location_dest_id.id,
                     "location_dest_id": final_dest_location_id.id,
-                    "move_ids_without_package": [],
                 }
                 new_picking = self.env["stock.picking"].create(new_picking_vals)
                 self.copy_move_lines(picking, new_picking)
                 new_picking.action_confirm()
                 # new_picking.action_assign()
                 # new_picking.do_unreserve()
-                self.second_transfer_created = True
+                picking.second_transfer_created = True
 
-                message = self.env._("This transfer was generated from %s.") % picking.name
+                message = self.env._("This transfer was generated from %s.", picking.name)
                 new_picking.message_post(body=message)
                 new_picking.source_transfer_id = picking.id
-                message = self.env._("Transfer %s was generated.") % new_picking.name
+                message = self.env._("Transfer %s was generated.", new_picking.name)
 
                 picking.message_post(body=message)
                 picking.write({"partner_id": picking_type_id.warehouse_id.partner_id.id})
@@ -56,7 +55,7 @@ class StockPicking(models.Model):
                 return new_picking
 
     def copy_move_lines(self, source_picking, target_picking):
-        for move in source_picking.move_ids_without_package:
+        for move in source_picking.move_ids:
             move.copy(
                 {
                     "picking_id": target_picking.id,
@@ -75,13 +74,13 @@ class StockPicking(models.Model):
     #     return res
 
     def _compute_sub_location_existent(self):
+        sub_location_usage = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param(key="deltatech_picking_transit.use_sub_locations", default=False)
+        )
         for record in self:
-            sub_location_usage = (
-                self.env["ir.config_parameter"]
-                .sudo()
-                .get_param(key="deltatech_picking_transit.use_sub_locations", default=False)
-            )
-            if sub_location_usage and self.picking_type_id.code == "internal":
+            if sub_location_usage and record.picking_type_id.code == "internal":
                 record.sub_location_existent = True
             else:
                 record.sub_location_existent = False
@@ -101,9 +100,9 @@ class StockPicking(models.Model):
     @api.onchange("picking_type_id")
     def _compute_is_transit_transfer(self):
         for record in self:
-            if self.second_transfer_created:
+            if record.second_transfer_created:
                 record.is_transit_transfer = False
-                return
+                continue
             if record.picking_type_id.code == "internal" and record.picking_type_id.two_step_transfer_use == "delivery":
                 record.is_transit_transfer = True
                 record.action_toggle_is_locked()
@@ -140,19 +139,19 @@ class StockPicking(models.Model):
                     if next_operation:
                         picking.create_second_transfer_wizard(next_operation.default_location_dest_id, next_operation)
                     else:
-                        raise UserError(self.env._("No 2 step reception found for warehouse %s") % warehouse.name)
+                        raise UserError(self.env._("No 2 step reception found for warehouse %s", warehouse.name))
                 else:
-                    raise UserError(self.env._("No warehouse found for partner %s") % picking.partner_id.name)
+                    raise UserError(self.env._("No warehouse found for partner %s", picking.partner_id.name))
             if picking.source_transfer_id:
-                for move in picking.move_ids_without_package:
-                    other_moves = picking.source_transfer_id.move_ids_without_package.filtered(
+                for move in picking.move_ids:
+                    other_moves = picking.source_transfer_id.move_ids.filtered(
                         lambda x: x.product_id == move.product_id
                     )
                     if not other_moves:
                         raise UserError(
                             self.env._(
-                                "You cannot validate the picking because the product %s is not from the source picking"
+                                "You cannot validate the picking because the product %s is not from the source picking",
+                                move.product_id.display_name,
                             )
-                            % move.product_id.display_name
                         )
         return super().button_validate()
