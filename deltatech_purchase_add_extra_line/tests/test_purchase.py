@@ -189,7 +189,7 @@ class TestPurchaseAddExtraLine(TransactionCase):
         self.assertFalse(self._extra_line(po), "the extra line of the old product must be removed")
         extra_line = po.order_line - main_line
         self.assertEqual(extra_line.product_id, other_extra)
-        self.assertEqual(extra_line.product_uom_id, other_extra.uom_id)
+        self.assertEqual(extra_line.uom_id, other_extra.uom_id)
         self.assertTrue(extra_line.is_extra_line)
         self.assertEqual(extra_line.line_uuid, main_line.line_uuid)
         self.assertEqual(extra_line.product_qty, 5 * 3.0)

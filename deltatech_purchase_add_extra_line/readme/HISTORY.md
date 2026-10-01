@@ -1,3 +1,9 @@
+## 20.0.1.4.0 (2026-10-01)
+
+- Migration to Odoo 20.0, including the PURCHASEEXTRA-001 fix from 19.0.1.4.0 (the extra line is replaced or removed when the product of the main line changes, and the pair is tracked through `is_extra_line`). The migration that flags the existing extra lines runs as `20.0.1.4.0`, so it also covers the databases upgraded from a 19.0 version older than 19.0.1.4.0
+- The extra line is created with `uom_id`: in Odoo 20 the unit of measure of the purchase order line is no longer `product_uom_id`
+- The override of `print_quotation` is removed: the method no longer exists in Odoo 20, where **Print** on an RFQ is a plain report action. The lines are still synchronized before printing, because the form is saved first and `purchase.order.write()` synchronizes them
+
 ## 19.0.1.4.0
 
 - [FIX] changing the product of a main line no longer leaves the extra line of the old product on the RFQ (PURCHASEEXTRA-001): when the new product has another extra product, the old extra line is replaced by a new one, with the product, unit of measure, quantity and computed price of the new extra; when the new product has no extra, the old extra line is removed. This applies to the form as well as to `write()`, imports and XML-RPC

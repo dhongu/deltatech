@@ -25,10 +25,6 @@ class PurchaseOrder(models.Model):
         self.order_line.with_context(backend=True).check_extra_product()
         return super().action_rfq_send()
 
-    def print_quotation(self):
-        self.order_line.with_context(backend=True).check_extra_product()
-        return super().print_quotation()
-
     @api.onchange("order_line")
     def onchange_order_line(self):
         """
@@ -149,7 +145,7 @@ class PurchaseOrderLine(models.Model):
                 values = {
                     "product_qty": line.product_qty * (line.product_id.extra_qty or 1.0),
                     "product_id": extra_product.id,
-                    "product_uom_id": extra_product.uom_id.id,
+                    "uom_id": extra_product.uom_id.id,
                     "order_id": line.order_id.id,
                     "sequence": line.sequence + 1,
                     "line_uuid": new_uuid,
