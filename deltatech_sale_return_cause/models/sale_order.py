@@ -1,0 +1,76 @@
+from datetime import datetime, timedelta
+
+from odoo import api, fields, models
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    return_cause_id = fields.Many2one("sale.return.cause", string="Return Cause")
+    return_cause = fields.Selection(
+        selection=[
+            ("not_satisfied", "Not satisfied with quality"),
+            ("wrong_shipped", "Wrongly shipped warehouse"),
+            ("ordered_incorrectly", "Ordered incorrectly by client"),
+            ("does_not_fit", "Does not fit"),
+            ("sale_team_mistake", "Incorrectly advised by Sales"),
+            ("duplicate_order", "Duplicate order"),
+            ("does_not_expect", "Does not expect the order"),
+            ("200_warranty", "200% warranty"),
+            ("not_picked", "Package not picked up by client"),
+            ("b2b_return", "B2B Return"),
+            ("external_tva_restitution", "External TVA Restitution"),
+            ("lost_package", "Lost Package"),
+        ],
+        string="Return Cause(Legacy)",
+    )
+    return_cause_date = fields.Date(string="Return Cause Date")
+    return_amount = fields.Float(string="Return Amount", digits="Product Price", default=0.0)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if (vals.get("return_cause") or vals.get("return_cause_id")) and not vals.get("return_cause_date"):
+                vals["return_cause_date"] = fields.Date.today()
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if (vals.get("return_cause") or vals.get("return_cause_id")) and "return_cause_date" not in vals:
+            # only the orders without a date get today's date, the existing ones are kept
+            orders_without_date = self.filtered(lambda o: not o.return_cause_date)
+            if orders_without_date:
+                super(SaleOrder, orders_without_date).write(dict(vals, return_cause_date=fields.Date.today()))
+            return super(SaleOrder, self - orders_without_date).write(vals)
+        return super().write(vals)
+
+    is_return_amount_readonly = fields.Boolean(compute="_compute_is_return_amount_readonly")
+
+    def _compute_is_return_amount_readonly(self):
+        auto_calculate = (
+            self.env["ir.config_parameter"].sudo().get_bool("deltatech_sale_return_cause.auto_calculate", True)
+        )
+        for order in self:
+            order.is_return_amount_readonly = auto_calculate
+
+    @api.model
+    def _cron_check_and_update_return_amount(self):
+        config_parameter = self.env["ir.config_parameter"].sudo()
+        auto_calculate = config_parameter.get_bool("deltatech_sale_return_cause.auto_calculate", True)
+        if not auto_calculate:
+            return
+        one_year_ago = datetime.today() - timedelta(days=365)
+        sale_orders = self.search(
+            [("date_order", ">=", one_year_ago), "|", ("return_cause", "!=", False), ("return_cause_id", "!=", False)]
+        )
+        for order in sale_orders:
+            order.check_and_update_return_amount()
+
+    def check_and_update_return_amount(self):
+        for order in self:
+            if (order.return_cause or order.return_cause_id) and order.invoice_count >= 2:
+                # Get all credit notes related to these invoices
+                credit_notes = order.invoice_ids.filtered(lambda x: x.move_type == "out_refund" and x.state == "posted")
+                total_credit_amount = sum(credit_notes.mapped(lambda x: x.amount_total_signed))
+
+                # Update the return_amount field
+                order.return_amount = total_credit_amount
