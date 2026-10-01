@@ -75,9 +75,7 @@ class StockPicking(models.Model):
 
     def _compute_sub_location_existent(self):
         sub_location_usage = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param(key="deltatech_picking_transit.use_sub_locations", default=False)
+            self.env["ir.config_parameter"].sudo().get_bool("deltatech_picking_transit.use_sub_locations")
         )
         for record in self:
             if sub_location_usage and record.picking_type_id.code == "internal":
