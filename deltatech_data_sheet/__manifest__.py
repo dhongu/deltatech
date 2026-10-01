@@ -4,7 +4,7 @@
 {
     "name": "Product Data Sheet",
     "summary": "Data Sheet",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
