@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-03 06:22+0000\n"
+"POT-Creation-Date: 2026-10-01 12:36+0000\n"
 "PO-Revision-Date: 2024-11-03 06:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -41,6 +42,11 @@ msgid "Cancel"
 msgstr "Renunță"
 
 #. module: deltatech_sale_payment
+#: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__cancelled
+msgid "Cancelled"
+msgstr "Anulată"
+
+#. module: deltatech_sale_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
 msgid "Confirm"
 msgstr "Confirmă"
@@ -66,7 +72,9 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. module: deltatech_sale_payment
+#: model:ir.model.fields,field_description:deltatech_sale_payment.field_payment_transaction__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_payment.field_sale_confirm_payment__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_payment.field_sale_order__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -76,7 +84,9 @@ msgid "Done"
 msgstr "Efectuată"
 
 #. module: deltatech_sale_payment
+#: model:ir.model.fields,field_description:deltatech_sale_payment.field_payment_transaction__id
 #: model:ir.model.fields,field_description:deltatech_sale_payment.field_sale_confirm_payment__id
+#: model:ir.model.fields,field_description:deltatech_sale_payment.field_sale_order__id
 msgid "ID"
 msgstr ""
 
@@ -96,9 +106,19 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Paid"
+msgstr "Plată efectuată"
+
+#. module: deltatech_sale_payment
 #: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__partial
 msgid "Partial"
 msgstr "Parțială"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Partially paid"
+msgstr "Plătită parțial"
 
 #. module: deltatech_sale_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_order_form
@@ -122,6 +142,21 @@ msgid "Payment Status"
 msgstr "Stare încasare"
 
 #. module: deltatech_sale_payment
+#: model:ir.model,name:deltatech_sale_payment.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Tranzacție de plată"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment authorized"
+msgstr "Plată autorizată"
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment cancelled"
+msgstr "Plată anulată"
+
+#. module: deltatech_sale_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
 msgid "Payment initiated"
 msgstr "Plată inițiată"
@@ -129,7 +164,28 @@ msgstr "Plată inițiată"
 #. module: deltatech_sale_payment
 #. odoo-python
 #: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
-#, python-format
+msgid "Payment of %(amount)s by %(provider)s received on %(date)s."
+msgstr "Încasare de %(amount)s prin %(provider)s primită la %(date)s."
+
+#. module: deltatech_sale_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
+msgid "Payment pending"
+msgstr "Plată în așteptare"
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
+msgid "Payment received on %(date)s, confirmed by %(user)s."
+msgstr "Încasare primită la %(date)s, confirmată de %(user)s."
+
+#. module: deltatech_sale_payment
+#: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__pending
+msgid "Pending"
+msgstr "În așteptare"
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
 msgid "Please select a sale order"
 msgstr "Vă rog să selectați o comandă de vânzare"
 
@@ -152,7 +208,22 @@ msgstr "Comandă de vânzare"
 #. module: deltatech_sale_payment
 #. odoo-python
 #: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
-#, python-format
+msgid ""
+"The order has an authorized payment (%(reference)s, %(provider)s). Capture "
+"or void it from the payment provider."
+msgstr ""
+"Comanda are o plată autorizată (%(reference)s, %(provider)s). Capturați-o "
+"sau anulați-o din procesatorul de plată."
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
+msgid "The transaction %(reference)s is no longer waiting for the payment."
+msgstr "Tranzacția %(reference)s nu mai așteaptă plata."
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
 msgid "Then amount must be positive"
 msgstr "Valoarea trebuie să fie pozitivă"
 
@@ -167,41 +238,11 @@ msgid "Without"
 msgstr "Fără"
 
 #. module: deltatech_sale_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
-msgid "or"
-msgstr "sau"
-
-#. module: deltatech_sale_payment
-#: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__pending
-msgid "Pending"
-msgstr "În așteptare"
-
-#. module: deltatech_sale_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
 msgid "Without payment"
 msgstr "Fără plată"
 
 #. module: deltatech_sale_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
-msgid "Payment pending"
-msgstr "Plată în așteptare"
-
-#. module: deltatech_sale_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
-msgid "Payment authorized"
-msgstr "Plată autorizată"
-
-#. module: deltatech_sale_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
-msgid "Partially paid"
-msgstr "Plătită parțial"
-
-#. module: deltatech_sale_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
-msgid "Paid"
-msgstr "Plată efectuată"
-
-#. module: deltatech_sale_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sales_order_filter
-msgid "Payment cancelled"
-msgstr "Plată anulată"
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
+msgid "or"
+msgstr "sau"

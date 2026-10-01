@@ -498,13 +498,12 @@ class TestSaleOrderPayment(TransactionCase):
         self.assertEqual(tx.amount, 15.0)
         self.assertEqual(tx.provider_id, self.provider2)
 
-        # Test unlink/cancel if state is not pending/draft
+        # A transaction that is no longer pending/draft is never cancelled nor deleted
         tx.state = "done"
-        wizard.update_transaction()
-        self.assertFalse(wizard.transaction_id)
-        # Verify tx is cancelled or unlinked (if unlink is allowed, it might be gone)
-        # The code says self.transaction_id.sudo()._set_canceled(); self.transaction_id.unlink()
-        self.assertFalse(tx.exists())
+        with self.assertRaises(UserError):
+            wizard.update_transaction()
+        self.assertTrue(tx.exists())
+        self.assertEqual(tx.state, "done")
 
     # def test_compute_payment_with_invoice(self):
     #     # Create a new sale order to avoid transactions from previous tests
