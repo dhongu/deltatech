@@ -88,7 +88,6 @@ msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__backup_counterpart_account_id
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
 msgid "Account"
 msgstr "Cont"
 
@@ -207,8 +206,8 @@ msgstr "Cont cheltuieli implicit"
 #. module: deltatech_expenses
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 #, python-format
-msgid "Deferenta Avans"
-msgstr "Deferență Avans"
+msgid "Diferență avans"
+msgstr "Diferență avans"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
@@ -260,7 +259,7 @@ msgstr "Angajat"
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__date_expense
 msgid "Expense Date"
-msgstr "Dată Cheltuială"
+msgstr "Dată cheltuială"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expenses_line_ids
@@ -362,7 +361,7 @@ msgstr "Notă contabilă"
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__move_ids
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Journal Items"
-msgstr "Elemente registru"
+msgstr "Elemente jurnal"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line____last_update
@@ -463,13 +462,13 @@ msgstr "Număr de mesaje necitite"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__tax_ids
-msgid "Only for tax excluded from price"
-msgstr "Numai pentru taxele excluse din preț"
+msgid "VAT on the receipt; the amount is always entered with VAT included."
+msgstr "TVA-ul de pe bon; suma se introduce întotdeauna cu TVA inclus."
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Other information"
-msgstr "Alte infromații"
+msgstr "Alte informații"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__partner_id
@@ -496,7 +495,7 @@ msgstr "Subtotal"
 #. module: deltatech_expenses
 #: model:ir.actions.report,name:deltatech_expenses.action_report_deltatech_expenses_deduction
 msgid "Print Expenses Deduction"
-msgstr ""
+msgstr "Tipărire decont cheltuieli"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__name
@@ -560,7 +559,7 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__amount
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__amount
@@ -606,13 +605,14 @@ msgstr "Validează"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__voucher_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Vouchers"
 msgstr "Chitanțe"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__amount_vouchers
 msgid "Vouchers Amount"
-msgstr "Total chitante"
+msgstr "Total chitanțe"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__website_message_ids
@@ -664,3 +664,28 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "Șef contabil"
 msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__amount
+msgid "Amount on the receipt, VAT included."
+msgstr "Suma de pe bon, cu TVA inclus."
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Total Untaxed"
+msgstr "Total fără TVA"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expense_journal_id
+msgid "Expense Journal"
+msgstr "Jurnal avansuri (542)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_diem_id
+msgid "Diem Journal"
+msgstr "Jurnal diurnă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
+msgid "Diem Account"
+msgstr "Cont diurnă"

@@ -1,19 +1,15 @@
 # ©  2008-2026 Deltatech
 # See README.rst file on addons root folder for license details
 #
-# Capturi de ecran pentru fișa consultant „Decont de cheltuieli din avans (542)" — generate în
+# Capturi de ecran pentru fișa consultant a punții `deltatech_expenses_hr_expense` — generate în
 # timpul testelor, în limba RO, pe planul de conturi românesc (`setup_country("ro")`).
 #
-# Acoperă fluxul complet, cu notele contabile la fiecare pas:
-#   1. decont în starea „Avans" (avans + linii + diurnă) și nota de acordare avans (542 = 5311);
-#   2. preluarea unei cheltuieli din `hr.expense` în decont (wizard) și cheltuiala legată;
-#   3. decont validat („Efectuat") și nota de decontare a cheltuielilor;
-#   4. butonul smart „Deconturi" de pe fișa angajatului.
+# Doar pasul propriu punții: preluarea unei cheltuieli din `hr.expense` în decont (wizard) și
+# cheltuiala legată. Restul fluxului (avans, decontare, note) are capturile în deltatech_expenses.
 #
 # Rulare:
-#   ./odoo/odoo-bin -c odoo.conf -d <db> -u deltatech_expenses -i l10n_ro_doc_screenshots \
-#       --test-tags=fise_screenshots --stop-after-init
-import logging
+#   ./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_expenses_hr_expense,l10n_ro_doc_screenshots \
+#       --test-tags=/deltatech_expenses_hr_expense:TestExpensesScreenshots --stop-after-init
 import unittest
 
 from odoo import fields
@@ -26,12 +22,10 @@ try:
 except ImportError:
     ScreenshotCase = None
 
-_logger = logging.getLogger(__name__)
-
 
 @tagged("-at_install", "post_install", "fise_screenshots")
 class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or object):
-    screenshots_module = "deltatech_expenses"
+    screenshots_module = "deltatech_expenses_hr_expense"
 
     @classmethod
     @AccountTestInvoicingCommon.setup_country("ro")
@@ -95,12 +89,11 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         cls.employee = env["hr.employee"].sudo().create({"name": "Ionescu Andrei", "work_contact_id": cls.partner.id})
         cls.supplier = env["res.partner"].create({"name": "Hotel Carpați SRL", "is_company": True})
 
-        # ---- Scenariul A: decont în starea „Avans" (pentru capturi 01 + 02) -------------------
+        # ---- Scenariul A: decont în starea „Avans", în care se preiau cheltuielile ------------
         cls.decont = cls._make_deduction(advance=1000.0, diem=42.5, days=2)
         cls.decont.validate_advance()  # state -> advance, creează nota de avans (542 = 5311)
         for label, amount in (("Cazare hotel", 500.0), ("Transport", 300.0)):
             cls._make_line(cls.decont, label, amount)
-        cls.advance_move = env["account.move"].search([("expenses_deduction_id", "=", cls.decont.id)], limit=1)
 
         # ---- Scenariul B: preluarea unei cheltuieli din hr.expense (capturi 03 + 04) ----------
         product = (
@@ -127,28 +120,6 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         )
         # preluăm cheltuiala în decont (adaugă o linie + leagă cheltuiala)
         cls.decont._import_hr_expenses(cls.hr_expense)
-
-        # ---- Scenariul C: decont validat complet (capturi 05 + 06) ----------------------------
-        cls.decont_done = cls._make_deduction(advance=500.0, diem=0.0, days=0)
-        cls.decont_done.validate_advance()
-        cls._make_line(cls.decont_done, "Materiale protocol", 300.0)
-        cls.settle_move = env["account.move"]
-        # izolăm într-un savepoint: dacă validate_expenses eșuează, cursorul rămâne curat
-        try:
-            with env.cr.savepoint():
-                cls.decont_done.validate_expenses()
-                # nota de decontare din avans (Dr 401 furnizor = Cr 542), move de tip „entry"
-                cls.settle_move = (
-                    env["account.move"]
-                    .search([("expenses_deduction_id", "=", cls.decont_done.id), ("move_type", "=", "entry")])
-                    .filtered(lambda m: any(aml.account_id.account_type == "liability_payable" for aml in m.line_ids))[
-                        :1
-                    ]
-                )
-        except Exception as err:  # noqa: BLE001 - dacă mediul nu permite validarea completă, sărim capturile C
-            _logger.warning("deltatech_expenses screenshots: validate_expenses a eșuat în mediul de test: %s", err)
-            cls.decont_done = env["deltatech.expenses.deduction"]
-            cls.settle_move = env["account.move"]
 
     @classmethod
     def _make_deduction(cls, advance, diem, days):
@@ -192,22 +163,9 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
 
     def test_capture_fise(self):
         shots = [
-            # Pasul 1 — decontul în starea „Avans" (avans, linii, diurnă, diferență)
-            self._form(self.decont, "01_decont_avans.png"),
+            # wizardul „Preia cheltuieli HR" (cheltuieli eligibile)
+            self._form(self.wizard, "03_preia_hr_wizard.png"),
+            # cheltuiala hr.expense legată de decont (banner, postare standard dezactivată)
+            self._form(self.hr_expense, "04_hr_expense_legat.png"),
         ]
-        # Pasul 1 — nota de acordare avans (Dr 542 = Cr 5311)
-        if self.advance_move:
-            shots.append(self.account_move_shot(self.advance_move, "02_nota_avans.png"))
-        # Pasul 2 — wizardul „Preia cheltuieli HR" (cheltuieli eligibile)
-        shots.append(self._form(self.wizard, "03_preia_hr_wizard.png"))
-        # Pasul 2 — cheltuiala hr.expense legată de decont (banner, postare standard dezactivată)
-        shots.append(self._form(self.hr_expense, "04_hr_expense_legat.png"))
-        # Pasul 4 — fișa angajatului cu butonul smart „Deconturi"
-        shots.append(self._form(self.employee, "05_angajat_deconturi.png"))
-        # Pasul 3 — decontul validat și nota de decontare a cheltuielilor (Dr 6xx + 4426 = Cr furnizor)
-        # (generate doar dacă validate_expenses rulează în mediu — vezi problema O19 la metoda de plată)
-        if self.decont_done:
-            shots.append(self._form(self.decont_done, "06_decont_validat.png"))
-            if self.settle_move:
-                shots.append(self.account_move_shot(self.settle_move, "07_nota_decontare.png"))
-        self.capture_screenshots(shots, viewport=(1500, 1150))
+        self.capture_screenshots(shots, viewport=(1500, 1150), hide_systray=True)

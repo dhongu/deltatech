@@ -42,9 +42,8 @@
                     <div class="oe_title">
                         <!-- Invoice draft header -->
                         <span class="o_form_label">Expenses Deduction</span>
-                        <h1>
-                            <span invisible="state != 'draft' or number != '/'">Draft
-                            </span>
+                        <h1 invisible="state != 'draft' or number != '/'">
+                            <span>Draft</span>
                         </h1>
 
                         <!-- Number -->
@@ -100,11 +99,11 @@
                                     <field
                                         name="tax_ids"
                                         widget="many2many_tags"
-                                        optional="hide"
+                                        optional="show"
                                         domain="[('type_tax_use','=','purchase')]"
                                         context="{'default_type_tax_use': 'purchase'}"
                                     />
-                                    <field name="tax_amount" sum="Total Tax" optional="hide" />
+                                    <field name="tax_amount" sum="Total Tax" optional="show" />
                                     <field
                                         name="partner_id"
                                         string="Supplier"
@@ -114,7 +113,7 @@
                                     <field
                                         name="expense_account_id"
                                         groups="account.group_account_user"
-                                        optional="hide"
+                                        optional="show"
                                     />
                                      <field
                                         name="analytic_distribution"
@@ -125,7 +124,7 @@
                                     />
                                     <field name="type" />
                                     <field name="state" optional="hide" />
-                                    <field name="currency_id" invisible="1" />
+                                    <field name="currency_id" column_invisible="1" />
                                 </list>
                                 <form>
                                     <field name="date" />
@@ -188,7 +187,21 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Payments">
+                        <page string="Vouchers" invisible="not voucher_ids">
+                            <field name="voucher_ids" readonly="1">
+                                <list>
+                                    <field name="name" />
+                                    <field name="invoice_date" />
+                                    <field name="partner_id" />
+                                    <field name="ref" />
+                                    <field name="amount_untaxed" sum="Total Untaxed" />
+                                    <field name="amount_tax" sum="Total Tax" />
+                                    <field name="amount_total" sum="Total Amount" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Payments" invisible="not payment_ids">
                             <field name="payment_ids" readonly="1">
                                 <list>
                                     <field name="partner_id" />
