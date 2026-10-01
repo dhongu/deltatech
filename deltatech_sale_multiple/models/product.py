@@ -5,7 +5,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from odoo.tools import float_compare, float_round
+from odoo.tools import float_round
 
 
 class ProductTemplate(models.Model):
@@ -105,15 +105,7 @@ class ProductProduct(models.Model):
         product_uom = product_uom or self.uom_id
         minimum = self.uom_id._compute_quantity(self.qty_minim, product_uom, round=False)
         multiple = 0.0
-        if (
-            self.qty_multiple
-            and float_compare(
-                self.qty_multiple,
-                1.0,
-                precision_rounding=self.uom_id.rounding,
-            )
-            != 0
-        ):
+        if self.qty_multiple and self.uom_id.compare(self.qty_multiple, 1.0) != 0:
             multiple = self.uom_id._compute_quantity(
                 self.qty_multiple,
                 product_uom,
@@ -159,7 +151,7 @@ class ProductProduct(models.Model):
         minimum, multiple = self._get_sale_quantity_rules(product_uom)
         if not minimum and not multiple:
             return quantity
-        if float_compare(quantity, minimum, precision_rounding=product_uom.rounding) < 0:
+        if product_uom.compare(quantity, minimum) < 0:
             return 0.0
 
         valid_quantity = quantity
@@ -173,13 +165,6 @@ class ProductProduct(models.Model):
                 * multiple
             )
         valid_quantity = product_uom.round(valid_quantity, rounding_method="DOWN")
-        if (
-            float_compare(
-                valid_quantity,
-                minimum,
-                precision_rounding=product_uom.rounding,
-            )
-            < 0
-        ):
+        if product_uom.compare(valid_quantity, minimum) < 0:
             return 0.0
         return valid_quantity

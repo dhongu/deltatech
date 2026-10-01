@@ -90,3 +90,11 @@ class TestSaleMultiple(TransactionCase):
         self.assertEqual(product.qty_minim, 0.0)
         line = self._create_line(product=product, quantity=0.25)
         self.assertEqual(line.product_uom_qty, 0.25)
+
+    def test_variant_form_shows_quantity_rules(self):
+        """In 20.0 the variant easy-edit form is gone: the rules reach the
+        variant form through the product template form inheritance."""
+        view = self.env.ref("product.product_normal_form_view")
+        arch = self.env["product.product"].get_view(view.id)["arch"]
+        self.assertIn('name="qty_multiple"', arch)
+        self.assertIn('name="qty_minim"', arch)
