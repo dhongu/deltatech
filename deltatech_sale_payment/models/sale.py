@@ -46,15 +46,26 @@ class SaleOrder(models.Model):
             "target": "new",
         }
 
+    def _payment_to_order_currency(self, amount, currency, date):
+        """Suma platita intr-o alta moneda, la cursul de la data documentului."""
+        self.ensure_one()
+        if not currency or currency == self.currency_id:
+            return amount
+        return currency._convert(
+            amount, self.currency_id, self.company_id, date or self.date_order or fields.Date.context_today(self)
+        )
+
     @api.depends(
         "amount_total",
         "currency_id",
         "transaction_ids.state",
         "transaction_ids.amount",
         "transaction_ids.provider_id",
+        "transaction_ids.currency_id",
         "invoice_ids.state",
-        "invoice_ids.amount_residual_signed",
-        "invoice_ids.amount_total_signed",
+        "invoice_ids.currency_id",
+        "invoice_ids.amount_residual",
+        "invoice_ids.amount_total",
     )
     def _compute_payment(self):
         for order in self:
@@ -71,11 +82,20 @@ class SaleOrder(models.Model):
             # ajunge pe factura abia la reconcilierea decontarii, deci nu se poate sti din date daca
             # e deja inclusa. Se ia maximul celor doua surse: nu dubleaza decontarea si nici nu pierde
             # tranzactia inca nedecontata (card 382 + link 44 cu plata pe factura -> 426).
+            # Toate sumele se aduc in moneda comenzii: *_signed de pe factura sunt in moneda companiei
+            # si, la o comanda in valuta, comparate cu amount_total ar da o comanda platita partial
+            # drept platita integral.
             invoice_paid = sum(
-                invoice.amount_total_signed - invoice.amount_residual_signed
+                order._payment_to_order_currency(
+                    (invoice.amount_total - invoice.amount_residual) * (1 if invoice.is_inbound() else -1),
+                    invoice.currency_id,
+                    invoice.invoice_date,
+                )
                 for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted")
             )
-            transaction_paid = sum(done_tx.mapped("amount"))
+            transaction_paid = sum(
+                order._payment_to_order_currency(tx.amount, tx.currency_id, tx.last_state_change) for tx in done_tx
+            )
             amount_paid = max(0.0, invoice_paid, transaction_paid)
             order.payment_amount = amount_paid
 

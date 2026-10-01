@@ -207,6 +207,27 @@ class TestNegativeMultiline(TransactionCase):
         self._assert_blocked(move)
         self.assertEqual(self._quantity(self.product), 1.0)
 
+    def test_lines_of_different_owners_do_not_add_up(self):
+        """Stocul in custodie nu acopera o linie fara proprietar, si invers."""
+        owner = self.env["res.partner"].create({"name": "Custodian"})
+        self._stock(self.product, 1.0, owner=owner)
+        move = self._move(self.product, [{"quantity": 1.0}])
+        self._assert_blocked(move)
+        move = self._move(self.product, [{"quantity": 1.0, "owner_id": owner.id}])
+        move._action_done()
+        self.assertEqual(self._quantity(self.product), 0.0)
+
+    def test_inventory_adjustment_below_zero_is_blocked(self):
+        """Un minus de inventar e o iesire din locatie: nu o poate duce sub zero."""
+        self._stock(self.product, 1.0)
+        quant = self.env["stock.quant"].search(
+            [("product_id", "=", self.product.id), ("location_id", "=", self.stock_location.id)]
+        )
+        quant.inventory_quantity = -2.0
+        with self.assertRaisesRegex(UserError, "avoid negative stock"):
+            quant.action_apply_inventory()
+        self.assertEqual(self._quantity(self.product), 1.0)
+
     # ------------------------------------------------------------------
     # cumulul respecta unitatea de masura si comutatoarele existente
     # ------------------------------------------------------------------

@@ -170,3 +170,96 @@ class TestSale(TransactionCase):
         self.assertEqual(len(extra_line), 1)
         self.assertEqual(extra_line.product_uom_qty, 50)
         self.assertAlmostEqual(extra_line.price_unit, self._main_line(order).price_unit * 0.10)
+
+    def _product_with_extra(self, name, extra_product, percent=10):
+        return self.env["product.product"].create(
+            {
+                "name": name,
+                "list_price": 200,
+                "extra_product_id": extra_product.id if extra_product else False,
+                "extra_percent": percent,
+            }
+        )
+
+    def test_change_main_product_replaces_extra_line(self):
+        """SALEEXTRA-001: a main product that requires another extra product replaces
+        the extra line, instead of keeping the old one with an updated quantity."""
+        extra_y = self.env["product.product"].create({"name": "Extra Y", "list_price": 40})
+        product_c = self._product_with_extra("Test C", extra_y, percent=20)
+        order = self._new_order()
+
+        with Form(order) as order_form:
+            with order_form.order_line.edit(0) as main_line_form:
+                main_line_form.product_id = product_c
+
+        self.assertFalse(self._extra_line(order), "the extra line of the old main product is gone")
+        main_line = order.order_line.filtered(lambda li: li.product_id == product_c)
+        extra_line = order.order_line.filtered(lambda li: li.product_id == extra_y)
+        self.assertEqual(len(order.order_line), 2)
+        self.assertEqual(len(extra_line), 1)
+        self.assertEqual(extra_line.product_uom_qty, 100)
+        self.assertEqual(extra_line.line_uuid, main_line.line_uuid)
+        # the price is the computed one of the new extra product, not the old line's
+        self.assertAlmostEqual(extra_line.price_unit, main_line.price_unit * 0.20)
+        self.assertFalse(extra_line._has_manual_price())
+
+    def test_change_main_product_replaces_manually_priced_extra_line(self):
+        """A manual price belongs to the old extra product: it is not carried over."""
+        extra_y = self.env["product.product"].create({"name": "Extra Y", "list_price": 40})
+        product_c = self._product_with_extra("Test C", extra_y, percent=20)
+        order = self._new_order()
+        self._extra_line(order).price_unit = 7.0
+
+        main_line = self._main_line(order)
+        main_line.product_id = product_c
+        main_line.check_extra_product()
+
+        self.assertFalse(self._extra_line(order))
+        extra_line = order.order_line.filtered(lambda li: li.product_id == extra_y)
+        self.assertEqual(len(extra_line), 1)
+        self.assertAlmostEqual(extra_line.price_unit, main_line.price_unit * 0.20)
+
+    def test_change_main_product_to_product_without_extra_removes_extra_line(self):
+        """SALEEXTRA-001: a main product with no extra product drops the extra line."""
+        product_c = self._product_with_extra("Test C", False)
+        order = self._new_order()
+
+        with Form(order) as order_form:
+            with order_form.order_line.edit(0) as main_line_form:
+                main_line_form.product_id = product_c
+
+        self.assertEqual(order.order_line.product_id, product_c)
+        self.assertFalse(self._extra_line(order))
+
+    def test_delete_main_line_after_extra_config_removed(self):
+        """SALEEXTRA-001: deleting the main line removes its extra line even when the
+        main product no longer requires one."""
+        order = self._new_order()
+        self.assertTrue(self._extra_line(order))
+        self.product_b.extra_product_id = False
+
+        self._main_line(order).unlink()
+
+        self.assertFalse(order.order_line, "no orphan extra line is left behind")
+
+    def test_delete_extra_line_keeps_main_line(self):
+        """Deleting the extra line alone does not take the main line with it."""
+        self.product_a.extra_product_id = self.product_b
+        order = self._new_order()
+        self._extra_line(order).unlink()
+        self.assertEqual(order.order_line.product_id, self.product_b)
+        self.assertFalse(self._extra_line(order))
+
+    def test_extra_line_is_flagged(self):
+        """The generated line is flagged, the main line is not."""
+        order = self._new_order()
+        self.assertTrue(self._extra_line(order).is_extra_line)
+        self.assertFalse(self._main_line(order).is_extra_line)
+
+    def test_form_delete_both_lines(self):
+        """Removing the main and the extra line in the form deletes both on save."""
+        order = self._new_order()
+        with Form(order) as order_form:
+            order_form.order_line.remove(0)
+            order_form.order_line.remove(0)
+        self.assertFalse(order.order_line)

@@ -155,3 +155,108 @@ class TestSecondaryUom(TransactionCase):
         )
         move.secondary_uom_qty = 7.5  # 7.5 m2 -> 10 pieces
         self.assertEqual(move.product_uom_qty, 10.0)
+
+    # SECONDARY-001: conversion edits must reach the stored secondary quantity
+    # of open documents and leave closed (locked / done / cancelled) ones alone.
+
+    def _create_sale_order(self, qty=10.0, uom=None):
+        return self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": qty,
+                            "secondary_uom_id": (uom or self.uom_kg).id,
+                        },
+                    )
+                ],
+            }
+        )
+
+    def _kg_conversion(self):
+        return self.product.product_tmpl_id._get_secondary_uom_conversion(self.uom_kg)
+
+    def test_conversion_edit_recomputes_open_sale_line(self):
+        order = self._create_sale_order()
+        line = order.order_line
+        self.assertEqual(line.secondary_uom_qty, 5.0)  # 10 pieces, 1 kg = 2 pieces
+        self._kg_conversion().base_qty = 4.0  # 1 kg = 4 pieces
+        self.assertEqual(line.secondary_uom_qty, 2.5)
+        self.assertEqual(line.product_uom_qty, 10.0)
+        # the inverse now uses the same ratio as the displayed value
+        line.secondary_uom_qty = 2.5
+        self.assertEqual(line.product_uom_qty, 10.0)
+
+    def test_conversion_edit_recomputes_confirmed_unlocked_lines(self):
+        order = self._create_sale_order()
+        order.action_confirm()
+        move = order.picking_ids.move_ids
+        self.assertEqual(order.order_line.secondary_uom_qty, 5.0)
+        self.assertEqual(move.secondary_uom_qty, 5.0)
+        self._kg_conversion().uom_qty = 2.0  # 2 kg = 2 pieces
+        self.assertEqual(order.order_line.secondary_uom_qty, 10.0)
+        self.assertEqual(move.secondary_uom_qty, 10.0)
+
+    def test_conversion_edit_keeps_closed_documents(self):
+        locked = self._create_sale_order()
+        locked.action_confirm()
+        locked.action_lock()
+        cancelled = self._create_sale_order()
+        cancelled.action_cancel()
+        done = self._create_sale_order()
+        done.action_confirm()
+        done_move = done.picking_ids.move_ids
+        done_move.quantity = 10.0
+        done_move.picked = True
+        done.picking_ids.button_validate()
+        self.assertEqual(done_move.state, "done")
+        self.assertEqual(locked.order_line.secondary_uom_qty, 5.0)
+        self.assertEqual(cancelled.order_line.secondary_uom_qty, 5.0)
+        self.assertEqual(done_move.secondary_uom_qty, 5.0)
+        self.env.flush_all()
+
+        self._kg_conversion().base_qty = 4.0
+        self.assertEqual(locked.order_line.secondary_uom_qty, 5.0)
+        self.assertEqual(cancelled.order_line.secondary_uom_qty, 5.0)
+        self.assertEqual(done_move.secondary_uom_qty, 5.0)
+
+    def test_conversion_edit_recomputes_open_purchase_line(self):
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (0, 0, {"product_id": self.product.id, "product_qty": 20.0, "secondary_uom_id": self.uom_kg.id})
+                ],
+            }
+        )
+        self.assertEqual(order.order_line.secondary_uom_qty, 10.0)
+        self._kg_conversion().base_qty = 4.0
+        self.assertEqual(order.order_line.secondary_uom_qty, 5.0)
+
+    def test_conversion_unlink_and_create(self):
+        order = self._create_sale_order()
+        line = order.order_line
+        self.assertEqual(line.secondary_uom_qty, 5.0)
+        self._kg_conversion().unlink()
+        self.assertEqual(line.secondary_uom_qty, 0.0)
+        self.env["deltatech.product.uom.conversion"].create(
+            {
+                "product_tmpl_id": self.product.product_tmpl_id.id,
+                "uom_id": self.uom_kg.id,
+                "uom_qty": 1.0,
+                "base_qty": 5.0,
+            }
+        )
+        self.assertEqual(line.secondary_uom_qty, 2.0)
+
+    def test_conversion_change_unit(self):
+        order = self._create_sale_order()
+        line = order.order_line
+        self.assertEqual(line.secondary_uom_qty, 5.0)
+        # the kg conversion is moved to another unit: kg lines lose it
+        self._kg_conversion().uom_id = self.env.ref("uom.product_uom_litre")
+        self.assertEqual(line.secondary_uom_qty, 0.0)
