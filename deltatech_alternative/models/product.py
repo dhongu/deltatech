@@ -6,6 +6,7 @@ import logging
 import re
 
 from odoo import api, fields, models
+from odoo.fields import Domain
 from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
@@ -14,6 +15,29 @@ _logger = logging.getLogger(__name__)
 # a delimiter: many OEM part numbers contain spaces ("366 200 05 01"), and
 # splitting on them destroys the code and makes the product unsearchable.
 _CODE_SEPARATOR_RE = re.compile(r"[;,]+")
+
+
+def _name_search_alternative(model, res, name, domain, operator, limit, code_path):
+    """Append to ``res`` the records of ``model`` whose alternative code matches ``name``.
+
+    The caller's domain (sale_ok, category, company...) and the record rules
+    still apply: the alternative code is only one more condition of the search
+    on ``model``, not a separate search on ``product.alternative``.
+    """
+    if not name or operator in Domain.NEGATIVE_OPERATORS:
+        return res
+    if limit and len(res) >= limit:
+        return res
+    get_param = model.env["ir.config_parameter"].sudo().get_param
+    if not safe_eval(get_param("alternative.search_name", "False")):
+        return res
+
+    left = limit - len(res) if limit else None
+    alt_domain = Domain(domain or Domain.TRUE) & Domain(code_path, operator, name)
+    if res:
+        alt_domain &= Domain("id", "not in", [r[0] for r in res])
+    records = model.search_fetch(alt_domain, ["display_name"], limit=left)
+    return res + [(record.id, record.display_name) for record in records]
 
 
 class ProductTemplate(models.Model):
@@ -51,22 +75,7 @@ class ProductTemplate(models.Model):
     @api.model
     def name_search(self, name="", domain=None, operator="ilike", limit=100):
         res = super().name_search(name=name, domain=domain, operator=operator, limit=limit)
-        if len(res) >= limit:
-            return res
-        left = limit - len(res)
-
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        if name and safe_eval(get_param("alternative.search_name", "False")):
-            domain = [("name", operator, name)]
-            alternatives = self.env["product.alternative"].search(domain, limit=left)
-            product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-            current_ids = {r[0] for r in res}
-            product_tmpl_ids = product_tmpl_ids.filtered(lambda p: p.id not in current_ids)
-            product_tmpl_ids = product_tmpl_ids[:left]
-            res += [(p.id, p.display_name) for p in product_tmpl_ids]
-        if limit:
-            res = res[:limit]
-        return res
+        return _name_search_alternative(self, res, name, domain, operator, limit, "alternative_ids.name")
 
 
 class ProductProduct(models.Model):
@@ -77,24 +86,9 @@ class ProductProduct(models.Model):
     @api.model
     def name_search(self, name="", domain=None, operator="ilike", limit=100):
         res = super().name_search(name=name, domain=domain, operator=operator, limit=limit)
-        if len(res) >= limit:
-            return res
-        left = limit - len(res)
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        if name and safe_eval(get_param("alternative.search_name", "False")):
-            domain = [("name", operator, name)]
-            alternatives = self.env["product.alternative"].search(domain, limit=left)
-            product_tmpl_ids = alternatives.mapped("product_tmpl_id")
-
-            variants = product_tmpl_ids.mapped("product_variant_ids")
-            current_ids = {r[0] for r in res}
-            variants = variants.filtered(lambda p: p.id not in current_ids)
-            variants = variants[:left]
-
-            res += [(p.id, p.name) for p in variants]
-        if limit:
-            res = res[:limit]
-        return res
+        return _name_search_alternative(
+            self, res, name, domain, operator, limit, "product_tmpl_id.alternative_ids.name"
+        )
 
 
 class ProductAlternative(models.Model):
