@@ -50,7 +50,7 @@ class TestNegativeSerial(TransactionCase):
                 "location_id": (location or self.location).id,
                 "location_dest_id": self.dest_location.id,
                 "product_id": self.product.id,
-                "product_uom": self.uom_unit.id,
+                "uom_id": self.uom_unit.id,
                 "product_uom_qty": len(lots),
             }
         )

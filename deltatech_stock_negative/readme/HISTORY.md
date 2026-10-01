@@ -1,3 +1,12 @@
+## 20.0.2.0.11 (2026-10-01)
+
+- Migration to 20.0: move lines and moves now carry their unit of measure in
+  `uom_id` (was `product_uom_id` / `product_uom`), used when converting the line
+  quantity to the product unit in the no-negative-stock check.
+- Consultant sheet updated for 20.0: the stock positions report is the
+  untranslated **Inventory → Reporting → Stock by Location** menu; screenshots
+  regenerated on 20.0.
+
 ## 19.0.2.0.11 (2026-10-01)
 
 - **Serialized stock is no longer blocked when Check Serial No. is off.** On a

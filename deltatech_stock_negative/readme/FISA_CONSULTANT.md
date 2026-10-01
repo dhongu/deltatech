@@ -10,7 +10,7 @@ valoarea lui devin negative)
 
 ## 1. Scop business
 
-Odoo 19 standard permite validarea unei livrări, a unui transfer intern sau a unui consum de
+Odoo 20 standard permite validarea unei livrări, a unui transfer intern sau a unui consum de
 producție chiar dacă în locația sursă nu există cantitatea transferată. Stocul din locație devine
 negativ, iar valoarea stocului îl urmează. Diferența iese la iveală abia la inventar, departe de
 momentul în care s-a produs.
@@ -54,7 +54,7 @@ Câmpurile de pe locație sunt vizibile doar cu **Locații de stocare** activat 
 → Setări**, secțiunea *Depozit*). Verificarea se face indiferent de utilizator: nu există un grup care
 să o ocolească. Singurele excepții sunt cele din configurare (companie sau locație).
 
-Meniul **Inventar → Raportare** (inclusiv **Locații**, folosit mai jos pentru pozițiile de stoc) e
+Meniul **Inventar → Raportare** (inclusiv **Stock by Location**, folosit mai jos pentru pozițiile de stoc) e
 vizibil doar managerului de stoc. Gestionarul vede pozițiile din **Inventar → Operații → Ajustări →
 Inventariere fizică**.
 
@@ -99,7 +99,7 @@ Date minime pentru demo (folosite și în capturi):
 5. Pe locațiile unde produsele cu serie se mișcă fără urmărirea strictă a seriei, debifați **Verifică nr.
    de serie** (implicit e bifat).
 6. Înainte de activarea pe o bază existentă, verificați stocurile negative existente (**Inventar →
-   Raportare → Locații**, filtrul **Stoc negativ**). Pentru fiecare poziție negativă:
+   Raportare → Stock by Location**, filtrul **Stoc negativ**). Pentru fiecare poziție negativă:
    1. identificați cauza (recepție nevalidată, factură de achiziție fără recepție, transfer pe
       locația sau lotul greșit);
    2. înregistrați documentul lipsă sau corectați transferul greșit:
@@ -181,7 +181,7 @@ Același blocaj apare și:
 
 Verificarea compară linia cu stocul din **aceeași** locație, cu **același** lot, **același** pachet
 sursă și **același** proprietar. Liniile se cumulează doar pe aceeași combinație. Deschideți
-**Inventar → Raportare → Locații** ca să vedeți pozițiile de stoc pe care se face comparația (lista
+**Inventar → Raportare → Stock by Location** ca să vedeți pozițiile de stoc pe care se face comparația (lista
 se poate grupa pe locație sau lot din meniul de căutare).
 
 - **Găsiți** — fiecare rând este o poziție de stoc: produs, locație, lot / serie, pachet, proprietar,
@@ -205,7 +205,7 @@ rezervate 2 buc din 1; rezervarea proprie a transferului nu e numărată ca cere
 ### Pasul 6 — Locație cu stoc negativ permis
 
 Pe **WH/Stock/Tranzit** (cu **Permite stoc negativ** bifat), un transfer de 2 buc spre **Rampă
-livrare**, pe un stoc de 1 buc, se validează. În **Inventar → Raportare → Locații**, poziția Cablu
+livrare**, pe un stoc de 1 buc, se validează. În **Inventar → Raportare → Stock by Location**, poziția Cablu
 UTP Cat6 pe **WH/Stock/Tranzit** rămâne cu **În stoc** = −1,00. Același efect îl are debifarea politicii pe companie
 (pasul 1), dar pentru toate locațiile.
 
@@ -326,7 +326,7 @@ modifică.
 | Mesaj / simptom | Cauză probabilă | Remediere |
 |---|---|---|
 | „Ați ales să nu permiteți stocul negativ. Din *produs* ar rămâne *N* bucăți în locația *locație*…" (*N* negativ) | Liniile transferului, cumulate, depășesc stocul fizic din locație pe aceeași combinație lot / pachet / proprietar; *N* este lipsa | Reduceți cantitățile, alegeți altă locație / alt lot, sau validați întâi recepția care aduce marfa. Gestionarul fără acces la **Raportare** verifică pozițiile din **Inventariere fizică** |
-| Același mesaj, deși **Inventar → Raportare → Locații** arată stoc suficient | Stocul e pe alt lot, alt pachet, alt proprietar sau altă sublocație decât linia | Corectați lotul / pachetul / locația de pe linie |
+| Același mesaj, deși **Inventar → Raportare → Stock by Location** arată stoc suficient | Stocul e pe alt lot, alt pachet, alt proprietar sau altă sublocație decât linia | Corectați lotul / pachetul / locația de pe linie |
 | Același mesaj pe un produs cu serie, cu seria corectă în stoc | **Verifică nr. de serie** bifat și seria de pe linie nu e cea din locație | Corectați seria sau, dacă locația nu urmărește seria la ieșire, debifați **Verifică nr. de serie** |
 | Ajustarea de inventar e respinsă cu același mesaj | **Faptic** e completat cu o valoare negativă, sub stocul actual; sau, la serii pe o locație cu **Verifică nr. de serie** debifat, minusul pe o serie e aplicat odată cu plusul pe alta | Introduceți cantitatea numărată fizic (≥ 0); la serii, aplicați întâi rândul de pe −1, apoi pe cel de pe +1 (pasul 7) |
 | Transferurile peste stoc trec fără blocaj | Politica nu e activă pe compania transferului, locația sursă are **Permite stoc negativ** sau nu e de tip **Intern** | Verificați setarea companiei și câmpurile locației |
@@ -343,7 +343,7 @@ compania **Demo Stoc SRL**, cu planul de conturi RO și datele demo din secțiun
 | 2 | `02_locatie_optiuni.png` | Formularul locației, cu **Permite stoc negativ** și **Verifică nr. de serie** |
 | 3 | `03_transfer_doua_linii.png` | **Operații detaliate**: două linii de câte 1 buc din Raft A |
 | 4 | `04_eroare_stoc_negativ.png` | Dialogul **Operație invalidă** la **Validează** |
-| 5 | `05_pozitii_stoc.png` | **Raportare → Locații**, pozițiile pe locație, lot, pachet, proprietar |
+| 5 | `05_pozitii_stoc.png` | **Raportare → Stock by Location**, pozițiile pe locație, lot, pachet, proprietar |
 | 6 | `06_locatie_stoc_negativ_permis.png` | Poziția negativă pe **WH/Stock/Tranzit** |
 | 7 | `07_serie_check_debifat.png` | Transfer efectuat din **Raft Serii**, **Operații detaliate** pe `SN-1001` și `SN-1002` |
 | 8 | `08_inventar_corectie_negativ.png` | **Inventariere fizică**: În stoc −5,00, Faptic 0,00, Diferență +5,00, înainte de **Aplică** |

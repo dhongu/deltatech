@@ -156,7 +156,7 @@ class TestStockNegativeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         quant_list = env.ref("stock.view_stock_quant_tree")
         cls.action_positions = Action.create(
             {
-                "name": "Locații",
+                "name": "Stock by Location",
                 "res_model": "stock.quant",
                 "view_mode": "list",
                 "view_id": quant_list.id,
@@ -168,7 +168,7 @@ class TestStockNegativeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         )
         cls.action_tranzit = Action.create(
             {
-                "name": "Locații",
+                "name": "Stock by Location",
                 "res_model": "stock.quant",
                 "view_mode": "list",
                 "view_id": quant_list.id,
@@ -200,7 +200,7 @@ class TestStockNegativeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
                     Command.create(
                         {
                             "product_id": product.id,
-                            "product_uom": product.uom_id.id,
+                            "uom_id": product.uom_id.id,
                             "product_uom_qty": qty,
                             "location_id": source.id,
                             "location_dest_id": dest.id,

@@ -78,7 +78,7 @@ class TestNegativeMultiline(TransactionCase):
                 "location_id": source.id,
                 "location_dest_id": self.dest_location.id,
                 "product_id": product.id,
-                "product_uom": (uom or self.uom_unit).id,
+                "uom_id": (uom or self.uom_unit).id,
                 "product_uom_qty": sum(line["quantity"] for line in lines),
             }
         )
@@ -239,7 +239,7 @@ class TestNegativeMultiline(TransactionCase):
                 "location_id": self.stock_location.id,
                 "location_dest_id": self.dest_location.id,
                 "product_id": self.product.id,
-                "product_uom": self.uom_unit.id,
+                "uom_id": self.uom_unit.id,
                 "product_uom_qty": 13.0,
             }
         )
@@ -247,8 +247,8 @@ class TestNegativeMultiline(TransactionCase):
         move.picked = True
         move.move_line_ids.unlink()
         vals = move._prepare_move_line_vals()
-        self.env["stock.move.line"].create({**vals, "product_uom_id": self.uom_dozen.id, "quantity": 1.0})
-        self.env["stock.move.line"].create({**vals, "product_uom_id": self.uom_unit.id, "quantity": 1.0})
+        self.env["stock.move.line"].create({**vals, "uom_id": self.uom_dozen.id, "quantity": 1.0})
+        self.env["stock.move.line"].create({**vals, "uom_id": self.uom_unit.id, "quantity": 1.0})
         self._assert_blocked(move)
         self.assertEqual(self._quantity(self.product), 12.0)
 
@@ -277,7 +277,7 @@ class TestNegativeMultiline(TransactionCase):
                 "location_id": self.other_location.id,
                 "location_dest_id": self.stock_location.id,
                 "product_id": self.product.id,
-                "product_uom": self.uom_unit.id,
+                "uom_id": self.uom_unit.id,
                 "product_uom_qty": 1.0,
             }
         )

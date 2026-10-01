@@ -70,7 +70,7 @@ class StockMoveLine(models.Model):
             company = ml.company_id or self.env.company
             if not company.no_negative_stock:
                 continue
-            quantity = ml.product_uom_id._compute_quantity(ml.quantity, ml.product_id.uom_id, rounding_method="HALF-UP")
+            quantity = ml.uom_id._compute_quantity(ml.quantity, ml.product_id.uom_id, rounding_method="HALF-UP")
             if ml.product_id.uom_id.compare(quantity, 0) <= 0:
                 continue
             domain = [
@@ -100,12 +100,10 @@ class StockMoveLine(models.Model):
                     self.env._(
                         "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s"
                         " are remaining in location %(location_name)s. "
-                        "Please adjust your quantities or correct your stock with an inventory adjustment."
+                        "Please adjust your quantities or correct your stock with an inventory adjustment.",
+                        lot_qty=physical_qty - quantity,
+                        product_name=ml.product_id.name,
+                        location_name=location.name,
                     )
-                    % {
-                        "lot_qty": physical_qty - quantity,
-                        "product_name": ml.product_id.name,
-                        "location_name": location.name,
-                    }
                 )
             consumed[key] += quantity
