@@ -1,3 +1,15 @@
+## 19.0.2.0.11 (2026-10-01)
+
+- **Serialized stock is no longer blocked when Check Serial No. is off.** On a
+  location with the serial check disabled, the no-negative-stock check cleared
+  the line's serial number and then searched explicitly for quants *without* a
+  serial, so it excluded the very quants holding the stock and blocked a
+  legitimate transfer, although reservation had gone through. The lot filter is
+  now left out entirely in that case: the physical quantity is summed across all
+  serial numbers of the location (product, package and owner filters kept), and
+  every line of the product consumes from that same aggregate. With the serial
+  check on (the default), the check stays per serial number. (STOCK-001)
+
 ## 19.0.2.0.10 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
