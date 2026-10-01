@@ -1,8 +1,6 @@
 # ©  2008-2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-import unittest
-
 from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
@@ -70,9 +68,6 @@ class TestExpensesHrBridge(TestExpenses):
         self.assertFalse(expense.expenses_deduction_id)
         self.assertIn(expense, deduction._eligible_hr_expenses())
 
-    @unittest.skip(
-        "Needs the deltatech_expenses gross-amount fix from 19.0 (a25d1caee), not yet forward-ported to 20.0"
-    )
     def test_import_non_price_include_tax(self):
         """La import, o cheltuială cu TVA 'pe deasupra' (non-price-include) este mapată corect:
         subtotalul liniei = netul, TVA-ul = TVA-ul cheltuielii, totalul = brutul."""

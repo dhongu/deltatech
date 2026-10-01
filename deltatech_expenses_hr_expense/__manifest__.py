@@ -6,7 +6,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Expenses Deduction - HR Expense Bridge",
     "summary": "Bring Odoo expenses into the cash advance expense report",
-    "version": "20.0.1.1.2",
+    "version": "20.0.1.1.3",
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
