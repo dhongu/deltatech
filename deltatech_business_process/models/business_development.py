@@ -45,7 +45,7 @@ class BusinessDevelopment(models.Model):
 
     responsible_id = fields.Many2one(
         string="Consultant",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
     date_start_fs = fields.Date(string="Start FS", help="Start date functional specification")
@@ -59,7 +59,7 @@ class BusinessDevelopment(models.Model):
 
     developer_id = fields.Many2one(
         string="Developer",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
     date_start_dev = fields.Date(help="Start date development")
@@ -72,7 +72,7 @@ class BusinessDevelopment(models.Model):
 
     tester_id = fields.Many2one(
         string="Tester",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
     date_start_test = fields.Date(help="Start date test")
