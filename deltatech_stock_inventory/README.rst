@@ -17,7 +17,7 @@ Stock Inventory
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_inventory
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_inventory/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_inventory/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
 
 |badge1| |badge2| |badge_fisa|

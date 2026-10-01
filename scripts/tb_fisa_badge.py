@@ -106,7 +106,7 @@ def main():
     parser.add_argument("--addons-dir", default=".")
     parser.add_argument("--org", help="organizația GitHub (implicit: din remote-ul origin)")
     parser.add_argument("--repo", help="repo-ul GitHub (implicit: din remote-ul origin)")
-    parser.add_argument("--branch", default="19.0")
+    parser.add_argument("--branch", default="20.0")
     args = parser.parse_args()
 
     org, repo = args.org, args.repo
