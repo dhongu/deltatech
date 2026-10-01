@@ -117,7 +117,6 @@ class ProductTemplate(models.Model):
         "taxes_id",
         "taxes_id.amount",
         "taxes_id.amount_type",
-        "taxes_id.sequence",
         "taxes_id.include_base_amount",
         "taxes_id.price_include_override",
         "taxes_id.company_id.account_price_include",

@@ -52,7 +52,8 @@ class TestPriceCategTaxes(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         tax_model = cls.env["account.tax"]
-        tax_group = cls.env["account.tax.group"].create({"name": "Test price categ"})
+        country = cls.env.company.country_id or cls.env.ref("base.ro")
+        tax_group = cls.env["account.tax.group"].create({"name": "Test price categ", "country_id": country.id})
         cls.tax_fixed_inc = tax_model.create(
             {
                 "name": "Test fixed included 10",
@@ -60,6 +61,7 @@ class TestPriceCategTaxes(TransactionCase):
                 "amount": 10,
                 "type_tax_use": "sale",
                 "tax_group_id": tax_group.id,
+                "country_id": country.id,
                 "price_include_override": "tax_included",
             }
         )
@@ -70,6 +72,7 @@ class TestPriceCategTaxes(TransactionCase):
                 "amount": 21,
                 "type_tax_use": "sale",
                 "tax_group_id": tax_group.id,
+                "country_id": country.id,
                 "price_include_override": "tax_included",
             }
         )
@@ -80,6 +83,7 @@ class TestPriceCategTaxes(TransactionCase):
                 "amount": 5,
                 "type_tax_use": "sale",
                 "tax_group_id": tax_group.id,
+                "country_id": country.id,
                 "price_include_override": "tax_excluded",
             }
         )
@@ -146,6 +150,7 @@ class TestPriceCategTaxes(TransactionCase):
                 "amount_type": "group",
                 "type_tax_use": "sale",
                 "tax_group_id": self.tax_fixed_inc.tax_group_id.id,
+                "country_id": self.tax_fixed_inc.country_id.id,
                 "children_tax_ids": [(6, 0, (self.tax_fixed_inc | self.tax_percent_inc).ids)],
             }
         )
