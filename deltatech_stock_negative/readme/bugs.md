@@ -24,6 +24,22 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Omit the lot filter when serial checking is disabled, and align the consumption grouping with that aggregation.
 - **Validation needed:** Serialized products with serial checking enabled and disabled, including multiple lines consuming the same aggregate stock.
 
+## STOCK-002 — P3: Absent serial passes when Check Serial No. is off
+
+- **Status:** Open — needs a design decision, not a code fix. Found on 2026-10-01 while writing the
+  consultant sheet.
+- **Location:** `models/stock.py`, `_check_no_negative_stock()`.
+- **Trigger:** Location with Check Serial No. disabled, serial SN-1 in stock, a move line on SN-2
+  (not in the location).
+- **Actual behavior:** The check passes on the location total, and the core then decreases the
+  quant of the line's serial: SN-2 ends at -1 while SN-1 stays at +1. The location total is right,
+  the per-serial records are not.
+- **Expected behavior:** To decide. Disabling the serial check is meant for locations where the
+  serial is recorded only at the exit, so passing is the intended effect; the open question is
+  whether the module should also move the stock off a present serial, or warn.
+- **Coverage:** `tests/test_negative_serial.py::test_serial_check_off_absent_serial_passes_on_the_total`
+  pins the current behavior; the consultant sheet documents it (step 7, known limitations).
+
 ## Review limitations
 
 Verified against the local Odoo 19 source and, where stated, by isolated execution with mocked ORM objects. No database-backed integration tests were run at review time. STOCK-001 was
