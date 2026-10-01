@@ -107,3 +107,20 @@ class TestWebsiteCartExtraLine(WebsiteSaleCommon):
         cart._cart_add(product_id=self.product.id, quantity=2)
 
         self.assertEqual(len(cart.order_line), 1)
+
+    def test_cart_main_product_changed_replaces_extra_line(self):
+        """SALEEXTRA-001: after a product change on the main line, the next cart sync
+        brings the extra line of the new product and removes the old one."""
+        other_extra = self._create_product(name="Test Other Extra", list_price=30.0)
+        other_main = self._create_product(
+            name="Test Other Main", list_price=100.0, extra_product_id=other_extra.id, extra_percent=10.0
+        )
+        cart = self.empty_cart
+        values = cart._cart_add(product_id=self.main_product.id, quantity=2)
+        main_line = cart.order_line.filtered(lambda li, line_id=values["line_id"]: li.id == line_id)
+
+        main_line.product_id = other_main
+        cart._verify_cart_after_update()
+
+        self.assertFalse(self._lines_of(cart, self.extra_product))
+        self.assertEqual(self._lines_of(cart, other_extra).product_uom_qty, 2)
