@@ -161,3 +161,25 @@ class TestCarrierCityFilter(HttpCase):
             any("not served" in message for message in feedback.get("messages", [])),
             feedback,
         )
+
+    def test_the_free_text_city_is_filled_from_the_chosen_locality(self):
+        """The address script empties ``city``; the invoice post check reads it."""
+        self._fill_cart()
+        form_data = {
+            "address_type": "delivery",
+            "name": "City Customer",
+            "email": "city.customer@example.com",
+            "phone": "0700000000",
+            "street": "Test Street 2",
+            "city_id": self.served_city.id,
+            "city": "",
+            "zip": "10000",
+            "state_id": self.state.id,
+            "country_id": self.country.id,
+        }
+        form_data["csrf_token"] = self._csrf_token("/shop/address?address_type=delivery")
+        response = self.url_open("/shop/address/submit", data=form_data)
+        response.raise_for_status()
+        self.assertFalse(response.json().get("invalid_fields"), response.json())
+        partner = self.env["res.partner"].search([("email", "=", "city.customer@example.com")], limit=1)
+        self.assertRecordValues(partner, [{"city_id": self.served_city.id, "city": "Served City"}])
