@@ -5,7 +5,6 @@
 
 from odoo import fields, models
 from odoo.exceptions import UserError
-from odoo.tools.float_utils import float_compare
 
 
 class StockPicking(models.Model):
@@ -33,7 +32,7 @@ class PurchaseOrder(models.Model):
                     picking.write({"notice": False, "origin": purchase_order.partner_ref})
                     # se receptioneaza cantitatea comandata; miscarile fara cerere sunt anulate de _action_done
                     for move in picking.move_ids.filtered(lambda m: m.product_uom_qty > 0):
-                        if move.product_uom.compare(move.quantity, move.product_uom_qty) != 0:
+                        if move.uom_id.compare(move.quantity, move.product_uom_qty) != 0:
                             move.quantity = move.product_uom_qty
                         move.picked = True
                     # pentru a se prelua data din comanda de achizitie
@@ -49,15 +48,18 @@ class PurchaseOrder(models.Model):
                     for line in order.order_line
                 ]
             ):
-                res = order._prepare_picking()
-                res.update(
+                # in 20.0 _prepare_picking a fost eliminat (miscarile isi creeaza singure transferul)
+                picking = StockPicking.create(
                     {
-                        "picking_type_id": self.picking_type_id.return_picking_type_id.id or self.picking_type_id.id,
-                        "location_id": self._get_destination_location(),
-                        "location_dest_id": self.partner_id.property_stock_supplier.id,
+                        "picking_type_id": order.picking_type_id.return_picking_type_id.id or order.picking_type_id.id,
+                        "partner_id": order.dest_address_id.id or order.partner_id.id,
+                        "user_id": False,
+                        "origin": order.name,
+                        "location_id": order._get_destination_location(),
+                        "location_dest_id": order.partner_id.property_stock_supplier.id,
+                        "company_id": order.company_id.id,
                     }
                 )
-                picking = StockPicking.create(res)
 
                 moves = order.order_line.with_context(return_picking=True)._create_stock_moves(picking)
                 moves = moves.filtered(lambda x: x.state not in ("done", "cancel"))._action_confirm()
@@ -74,7 +76,7 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    def _prepare_stock_moves(self, picking):
+    def _prepare_stock_moves(self, picking=False):
         if self.product_qty > 0:
             return super()._prepare_stock_moves(picking)
         if not self.env.context.get("return_picking", False):
@@ -88,19 +90,14 @@ class PurchaseOrderLine(models.Model):
         price_unit = self._get_stock_move_price_unit()
         outgoing_moves, incoming_moves = self._get_outgoing_incoming_moves()
         for move in outgoing_moves:
-            qty -= move.product_uom_id._compute_quantity(
-                move.product_uom_qty, self.product_uom_id, rounding_method="HALF-UP"
-            )
+            qty -= move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
         for move in incoming_moves:
-            qty += move.product_uom_id._compute_quantity(
-                move.product_uom_qty, self.product_uom_id, rounding_method="HALF-UP"
-            )
+            qty += move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
         description_picking = self.product_id.with_context(
             lang=self.order_id.dest_address_id.lang or self.env.user.lang
         )._get_description(self.order_id.picking_type_id)
         template = {
             "product_id": self.product_id.id,
-            # "product_uom_id": self.product_uom_id.id,
             "date": self.order_id.date_order,
             "location_dest_id": self.order_id.partner_id.property_stock_supplier.id,
             "location_id": self.order_id._get_destination_location(),
@@ -128,11 +125,11 @@ class PurchaseOrderLine(models.Model):
             "warehouse_id": self.order_id.picking_type_id.warehouse_id.id,
         }
         diff_quantity = self.product_qty + qty
-        if float_compare(diff_quantity, 0.0, precision_rounding=self.product_uom_id.rounding) < 0:
-            po_line_uom = self.product_uom_id
+        if self.uom_id.compare(diff_quantity, 0.0) < 0:
+            po_line_uom = self.uom_id
             quant_uom = self.product_id.uom_id
             product_uom_qty, product_uom = po_line_uom._adjust_uom_quantities(-diff_quantity, quant_uom)
             template["product_uom_qty"] = product_uom_qty
-            # template["product_uom_id"] = product_uom.id
+            template["uom_id"] = product_uom.id
             res.append(template)
         return res

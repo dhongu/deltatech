@@ -108,7 +108,7 @@ class TestAccountInvoice(TransactionCase):
                 "order_id": purchase_order.id,
                 "product_id": self.product.id,
                 "product_qty": qty,
-                "product_uom_id": self.uom_unit.id,
+                "uom_id": self.uom_unit.id,
                 "price_unit": 100,
                 "name": "Test Product",
             }
@@ -201,7 +201,7 @@ class TestStockPicking(TransactionCase):
                 "order_id": purchase_order.id,
                 "product_id": self.product.id,
                 "product_qty": -5,
-                "product_uom_id": self.uom_unit.id,
+                "uom_id": self.uom_unit.id,
                 "price_unit": 100,
             }
         )

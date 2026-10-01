@@ -1,10 +1,10 @@
 # Known bugs
 
-Review date: 2026-10-01. Target version: Odoo 19.
+Review date: 2026-10-01. Target version: Odoo 19, carried over to Odoo 20.
 
 ## RECEIPT-001 — P1: Automatic receipt deletes moves that already have a quantity
 
-- **Status:** Fixed in 19.0.2.0.2. `receipt_to_stock()` no longer unlinks any move: every move with a positive demand gets its quantity set to the demand and is marked `picked`, so `_action_done` validates it; zero-demand moves are left to `_action_done`, which cancels them. Tests now assert the receipt state, the received quantity on the purchase line and the stock on hand (standard flow, partially entered quantity, zero quantity, 2-step reception, invoice posting).
+- **Status:** Fixed in 19.0.2.0.2 and in 20.0.2.0.2 (migration). `receipt_to_stock()` no longer unlinks any move: every move with a positive demand gets its quantity set to the demand and is marked `picked`, so `_action_done` validates it; zero-demand moves are left to `_action_done`, which cancels them. Tests now assert the receipt state, the received quantity on the purchase line and the stock on hand (standard flow, partially entered quantity, zero quantity, 2-step reception, invoice posting).
 - **Priority re-evaluated:** P1 confirmed, impact larger than first described (verification 2026-10-01). In Odoo 19 supplier receipts bypass reservation and `_action_assign` sets the full quantity at confirmation, so in the standard flow *every* receipt move had `quantity == demand` and was deleted on `action_post` of the vendor bill: nothing was received. Even the kept branch was broken, because the moves were not marked `picked` and stayed `assigned`. Where a receipt move is chained to a later operation (`move_dest_ids`), `unlink` raised a UserError and blocked posting the bill.
 - **Location:** `models/purchase.py`, `receipt_to_stock()`, lines 34–38.
 - **Trigger:** Run automatic receipt on an assigned picking whose stock moves already have a reserved or entered quantity.
@@ -18,3 +18,4 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. RECEIPT-001 was fixed on 2026-10-01 with database-backed tests (`tests/test_receipt.py`).
+On Odoo 20 the same tests run on the migrated module; the stock API used by the fix (`picked`, `stock.move._action_done`, `_should_bypass_reservation` for the supplier location) behaves as in Odoo 19.

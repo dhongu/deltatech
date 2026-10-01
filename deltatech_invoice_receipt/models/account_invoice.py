@@ -83,7 +83,7 @@ class AccountInvoice(models.Model):
                             "date_planned": invoice.invoice_date,
                             "sequence": line.sequence,
                             "product_id": line.product_id.id,
-                            "product_uom_id": line.product_uom_id.id,
+                            "uom_id": line.product_uom_id.id,
                             "name": line.name,
                             "price_unit": line.price_unit,
                             "product_qty": line.quantity,
