@@ -1,3 +1,7 @@
+## 19.0.1.3.1 (2026-10-01)
+
+- Tests: the invoice payment tests sell a product without cost, so they no longer fail with "You can not sell below the purchase price." when `deltatech_sale_commission` is installed in the same database.
+
 ## 19.0.1.3.0 (2026-10-01)
 
 "Confirm Payment" wizard (SALEPAY-002 to SALEPAY-005):

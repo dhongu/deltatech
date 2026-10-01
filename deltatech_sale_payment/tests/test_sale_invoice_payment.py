@@ -9,6 +9,8 @@ class TestSaleOrderPaymentInvoice(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
+        # produs fara cost: vanzarea sub pretul de achizitie e blocata de deltatech_sale_margin
+        cls.product_a.standard_price = 0.0
         cls.provider = cls.env["payment.provider"].create({"name": "Provider Without Journal", "code": "none"})
         cls.payment_method = cls.env.ref("payment.payment_method_unknown")
         cls.sale_order = cls.env["sale.order"].create(
@@ -96,6 +98,8 @@ class TestSaleOrderPaymentForeignCurrency(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
+        # produs fara cost: vanzarea sub pretul de achizitie e blocata de deltatech_sale_margin
+        cls.product_a.standard_price = 0.0
         # comanda in valuta, factura emisa la cursul 5 (100 valuta = 500 in moneda companiei)
         cls.other_currency = cls.setup_other_currency("EUR", rates=[("2016-01-01", 0.2)])
         cls.pricelist = cls.env["product.pricelist"].create(
