@@ -1,0 +1,11 @@
+{
+  "title": "Putaway Strategy",
+  "summary": "Location capacities and smarter putaway",
+  "icon": "box",
+  "lang": "en",
+  "features": [
+    "Capacity and occupancy per location",
+    "Auto-split lines when a shelf is full",
+    "Prefer the shelf already holding stock"
+  ]
+}
