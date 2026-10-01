@@ -73,20 +73,24 @@ class StockMoveLine(models.Model):
             quantity = ml.product_uom_id._compute_quantity(ml.quantity, ml.product_id.uom_id, rounding_method="HALF-UP")
             if ml.product_id.uom_id.compare(quantity, 0) <= 0:
                 continue
-            lot_id = ml.lot_id
-            if ml.product_id.tracking == "serial" and not location.check_serial_no:
-                lot_id = None
             domain = [
                 ("product_id", "=", ml.product_id.id),
                 ("location_id", "=", location.id),
-                ("lot_id", "=", lot_id.id if lot_id else False),
                 ("package_id", "=", ml.package_id.id if ml.package_id else False),
                 ("owner_id", "=", ml.owner_id.id if ml.owner_id else False),
             ]
+            # With the serial check disabled, the stock is counted across all
+            # serial numbers of the location: no lot filter at all, and every
+            # line of the product consumes from the same aggregate.
+            if ml.product_id.tracking == "serial" and not location.check_serial_no:
+                lot_key = None
+            else:
+                lot_key = ml.lot_id.id if ml.lot_id else False
+                domain.append(("lot_id", "=", lot_key))
             key = (
                 ml.product_id.id,
                 location.id,
-                lot_id.id if lot_id else False,
+                lot_key,
                 ml.package_id.id if ml.package_id else False,
                 ml.owner_id.id if ml.owner_id else False,
             )
