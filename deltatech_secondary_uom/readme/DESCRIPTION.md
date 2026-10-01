@@ -1,7 +1,7 @@
 This module adds **product specific conversion factors** between units of
 measure, following the SAP material master (MARM) pattern.
 
-In standard Odoo 19 the conversion factor belongs to the unit of measure
+In standard Odoo the conversion factor belongs to the unit of measure
 itself, so "1 box = 12 units" is global. With this module the factor is
 defined **per product**, on the *Alternative Units* tab of the product form:
 
