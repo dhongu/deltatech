@@ -31,11 +31,11 @@ class PurchaseOrder(models.Model):
                         raise UserError(self.env._("The stock transfer cannot be validated!"))
                 if picking.state == "assigned":
                     picking.write({"notice": False, "origin": purchase_order.partner_ref})
-                    for move_line in picking.move_ids:
-                        if move_line.product_uom_qty > 0 and move_line.quantity == 0:
-                            move_line.write({"quantity": move_line.product_uom_qty})
-                        else:
-                            move_line.unlink()
+                    # se receptioneaza cantitatea comandata; miscarile fara cerere sunt anulate de _action_done
+                    for move in picking.move_ids.filtered(lambda m: m.product_uom_qty > 0):
+                        if move.product_uom.compare(move.quantity, move.product_uom_qty) != 0:
+                            move.quantity = move.product_uom_qty
+                        move.picked = True
                     # pentru a se prelua data din comanda de achizitie
                     picking.with_context(force_period_date=purchase_order.date_order)._action_done()
 
