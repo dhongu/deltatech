@@ -16,26 +16,26 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## SALEPAY-002 — P2: "Confirm Payment" date is never stored
 
-- **Status:** Open. Found while writing the consultant sheet (2026-10-01).
+- **Status:** Fixed in 19.0.1.3.0 / 20.0.1.3.0. The date goes in the transaction's `state_message`, in a note on the order and, through the `payment_date` context read by `_create_payment`, as the date of the accounting payment; `do_confirm` post-processes the transaction right away. Tests: `test_confirm_records_payment_date`, `test_confirm_dates_the_accounting_payment`. Found while writing the consultant sheet (2026-10-01).
 - **Location:** wizard/sale_confirm_payment.py, do_confirm().
 - **Actual behavior:** `payment_date` is only passed as `with_context(payment_date=...)`; nothing reads it, so the date shown in the wizard is lost.
 
 ## SALEPAY-003 — P1: "Confirm Payment" deletes a done or authorized transaction
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.3.0 / 20.0.1.3.0. `default_get` takes over only a draft or pending transaction and otherwise proposes the rest to pay; `update_transaction` raises instead of cancelling and deleting; an order with an authorized transaction is refused. Tests: `test_done_transaction_is_not_replaced`, `test_update_refuses_a_confirmed_transaction`, `test_authorized_transaction_is_refused`; `test_wizard_update_transaction` asserted the deletion and now asserts the refusal.
 - **Location:** wizard/sale_confirm_payment.py, default_get() and update_transaction().
 - **Actual behavior:** the `and`/`or` precedence in default_get picks up the last transaction also when it is `done` or `authorized`; update_transaction then calls `_set_canceled()` (no effect on `done`) and `unlink()`, and do_add_payment creates a new one. On an electronic provider the accounting payment of the old transaction remains and post-processing creates a second one.
 
 ## SALEPAY-004 — P2: a salesman without Invoicing rights cannot confirm
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.3.0 / 20.0.1.3.0 with a controlled sudo: the wizard checks `check_access("write")` on the order, then writes the transaction as superuser (`create_uid` stays the user). Salesmen get read access on `payment.transaction` (the `sale` record rule already lets them see every transaction) and the action is restricted to `sales_team.group_sale_salesman`. Tests: `test_salesman_without_invoicing_can_confirm` (`new_test_user` with sales rights only), `test_salesman_cannot_confirm_others_orders`.
 - **Actual behavior:** `payment.transaction` is accessible only to `account.group_account_invoice` (no unlink) and `base.group_system`; the wizard writes without sudo, so a sales-only user gets an access error on Confirm and Add.
 
 ## SALEPAY-005 — P2: confirmed wire-transfer transactions fail post-processing
 
-- **Status:** Open.
-- **Actual behavior:** Odoo 20 has no `account.payment.method` for the `custom` provider code, so after the wizard sets a wire-transfer transaction `done`, `_post_process` raises "Please define a payment method line on your payment." in `_create_payment`. The cron rolls back (order not confirmed, no invoice, no payment) and retries on the daily run for one day.
+- **Status:** Fixed in 19.0.1.3.0 / 20.0.1.3.0. In 20 the rule is in `_should_create_payment`, and the wire transfer is no longer affected when `account_payment_custom` (auto-installed) gives it a payment method line; `none` still is. In 19, `payment.transaction._create_payment` returns no payment when the provider's journal has no inbound payment method line for it, so the post-processing goes on (quotation confirmation, automatic invoice) and the transaction is flagged as post-processed. Tests: `test_post_processing_without_payment_method_line` (provider `none`), `test_wire_transfer_provider` (`payment_custom`, skipped when it is not installed).
+- **Actual behavior:** Odoo 19 has no `account.payment.method` for the `custom` provider code, so after the wizard sets a wire-transfer transaction `done`, `_post_process` raises "Please define a payment method line on your payment." in `_create_payment`. The cron rolls back (order not confirmed, no invoice, no payment) and retries every 10 minutes for 4 days.
 
 ## Review limitations
 
-Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run at review time. SALEPAY-001 was fixed on 2026-10-01 with database-backed tests.
+Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run at review time. SALEPAY-001 to SALEPAY-005 were fixed on 2026-10-01 with database-backed tests.

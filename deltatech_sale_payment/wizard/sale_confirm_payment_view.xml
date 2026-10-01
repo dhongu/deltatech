@@ -36,6 +36,7 @@
         <field name="binding_view_types">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="group_ids" eval="[Command.link(ref('sales_team.group_sale_salesman'))]" />
     </record>
 
 

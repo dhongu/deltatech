@@ -38,21 +38,22 @@ proprii — vezi secțiunea 6, „Note de monografie și raportare".
 
 | Rol | Ce face |
 |---|---|
-| **Operator vânzări / magazin online** | urmărește starea încasării în lista comenzilor, confirmă încasările prin transfer bancar (cu drept de Facturare) |
-| **Casier / responsabil ramburs** | confirmă încasarea comenzilor achitate la livrare (cu drept de Facturare) |
+| **Operator vânzări / magazin online** | urmărește starea încasării în lista comenzilor, confirmă încasările prin transfer bancar |
+| **Casier / responsabil ramburs** | confirmă încasarea comenzilor achitate la livrare |
 | **Contabil** | verifică plățile create și reconcilierea lor cu facturile |
 | **Administrator** | configurează procesatorii de plată și jurnalele lor |
 
-Drepturi: fereastra **Confirmă încasarea** creează și modifică tranzacții de plată, iar Odoo dă acest
-drept doar utilizatorilor cu acces la facturare (**Facturare / Contabilitate**, nivel **Facturare** sau
-mai mult) și administratorilor. Un vânzător care are **doar** drepturi de vânzări primește eroare de
-acces la **Confirmă** și **Adaugă**. Înlocuirea unei tranzacții autorizate (vezi secțiunea 9) cere
-drept de ștergere pe tranzacții, adică administrator. Lista procesatorilor din fereastră se citește cu
-dreptul **Vânzări / Utilizator: Numai documente proprii**.
+Drepturi: acțiunea **Confirmă încasarea** apare utilizatorilor cu drept de **Vânzări** (nivel
+**Utilizator: Numai documente proprii** sau mai mult). Cine poate modifica o comandă îi poate confirma
+și încasarea; dreptul de **Facturare** nu este necesar. Fereastra verifică întâi dreptul de modificare
+pe comandă, apoi scrie tranzacția în numele sistemului; tranzacția rămâne creată de utilizator. Un
+vânzător cu **Numai documente proprii** confirmă încasarea pe comenzile lui; pe comanda altui vânzător
+primește eroare de acces. Vânzătorii pot vedea tranzacțiile de plată, dar nu le pot modifica din
+ecranul de tranzacții.
 
-Roluri recomandate la testare: un **Utilizator Vânzări cu drept de Facturare** pentru confirmarea
-încasării, un **Utilizator Vânzări fără Facturare** (vede starea, nu poate confirma) și un
-**Contabil** pentru înregistrarea plății.
+Roluri recomandate la testare: un **Utilizator Vânzări: Numai documente proprii**, fără drept de
+Facturare, pentru confirmarea încasării pe comenzile lui, un al doilea vânzător (nu poate confirma pe
+comenzile primului) și un **Contabil** pentru înregistrarea plății.
 
 ## 4. Conturi și date implicate
 
@@ -91,7 +92,8 @@ Date minime pentru demo:
    **5125 Sume în curs de decontare**.
 4. Opțional, în **Vânzări → Configurare → Setări**, bifați facturarea automată (eticheta în română:
    **Factură client Automată**), dacă doriți ca o comandă plătită printr-un procesator **electronic** să
-   fie facturată automat. La **Transfer bancar** facturarea automată nu se declanșează (vezi pasul 4).
+   fie facturată automat. Același lucru se întâmplă și la **Transfer bancar**, după **Confirmă** în
+   fereastră, dacă oferta a fost confirmată (vezi pasul 4).
 5. În lista comenzilor, coloana **Stare încasare** este vizibilă implicit; **Procesator încasare** se
    adaugă din selectorul de coloane opționale.
 
@@ -123,14 +125,20 @@ Pe formularul comenzii, **⋮ Acțiuni → Confirmă încasarea**.
 
 ### Pasul 3 — Completați și confirmați încasarea
 
-Se deschide fereastra **Confirmă încasarea**. Când comanda are deja o tranzacție în așteptare (cazul
+Se deschide fereastra **Confirmă încasarea**. Când comanda are o tranzacție **în așteptare** (cazul
 nostru), fereastra o preia: **Tranzacție**, **Procesator încasare**, **Metodă de plată** și **Valoare**
-sunt precompletate cu datele ei. Fără tranzacție, completați procesatorul și valoarea încasată.
+sunt precompletate cu datele ei. Altfel, **Valoare** propune **restul de încasat** (totalul comenzii
+minus **Încasare**) și completați procesatorul.
+
+Fereastra nu modifică niciodată o tranzacție deja **confirmată**: pe o comandă încasată parțial adaugă o
+tranzacție nouă pentru rest, iar pe una încasată integral propune 0 și nu face nimic. O comandă cu o
+plată cu cardul **autorizată** este refuzată: autorizarea se capturează sau se anulează din procesator.
 
 Verificați înainte de a confirma:
 - **Valoare** este suma **efectiv încasată** (pe extras / în casă), nu neapărat totalul comenzii — o
   încasare mai mică lasă comanda **Parțială**;
-- **Procesator încasare** este cel prin care au venit banii.
+- **Procesator încasare** este cel prin care au venit banii;
+- **Dată încasare** este data de pe extras / din casă (implicit, ziua curentă).
 
 Butoanele:
 - **Confirmă** — tranzacția devine **confirmată**; comanda trece pe **Efectuată** (sau **Parțială**);
@@ -138,8 +146,9 @@ Butoanele:
   dar banii nu au intrat încă);
 - **Renunță** — închide fereastra fără modificări.
 
-⚠️ Câmpul **Dată încasare** se afișează, dar **nu** se salvează nicăieri: nici pe tranzacție, nici pe
-o plată. Data încasării rămâne cea de pe extras, la înregistrarea plății de către contabilitate.
+**Dată încasare** se păstrează: în nota „Încasare de … prin … primită la …" din istoricul comenzii, în
+mesajul de stare al tranzacției și ca dată a plății create de Odoo, inclusiv la **Transfer bancar**
+(pasul 4).
 
 ![Fereastra „Confirmă încasarea"](screenshots/03_wizard_confirma_incasarea.png)
 
@@ -148,15 +157,21 @@ o plată. Data încasării rămâne cea de pe extras, la înregistrarea plății
 După **Confirmă**, aceeași comandă (S00002) arată **Încasare 1.210,00 lei**, procesatorul **Transfer
 bancar** și **Stare încasare: Efectuată** (verde).
 
-Ce **nu** se întâmplă singur la **Transfer bancar**:
-- comanda rămâne **Ofertă**; o confirmați cu **Confirmă** din antetul comenzii;
-- nu se creează **plată** contabilă și nici factură automată: contabilul înregistrează încasarea pe
-  factură sau la reconcilierea extrasului (vezi „Note de monografie și raportare").
+Tranzacția se procesează imediat, ca la procesatorii electronici:
+- oferta încasată integral se **confirmă automat** dacă nu cere semnătură online. Odoo cere implicit
+  semnătura (**Vânzări → Configurare → Setări → Semnătură online**), iar o ofertă nesemnată rămâne
+  **Ofertă**: o confirmați cu **Confirmă** din antetul comenzii. Pe captură, compania de demo cere
+  semnătura, deci comanda a rămas ofertă;
+- cu facturarea automată bifată (secțiunea 5), comanda confirmată se facturează;
+- la **Transfer bancar**, Odoo 20 creează **plata** pe jurnalul de bancă al procesatorului, cu data din
+  **Dată încasare** (metoda de plată **Wire Transfer**, din modulul standard `account_payment_custom`,
+  instalat automat). Cu Contabilitatea Enterprise plata nu are încă notă contabilă: nota apare când
+  contabilul reconciliază linia de extras cu această plată (vezi „Note de monografie și raportare").
+  Contabilul **nu** mai înregistrează o plată nouă pe factură, altfel încasarea apare de două ori.
 
-Motivul: Odoo nu are metodă de plată contabilă pentru procesatorii de tip transfer bancar, așa că
-procesarea automată a tranzacției confirmate eșuează. În jurnalul serverului apare, la fiecare rulare a
-acțiunii programate de procesare a plăților (o dată pe zi, timp de o zi), mesajul „Please define a
-payment method line on your payment.". Starea comenzii nu este afectată.
+Fără fereastră, Odoo 20 confirmă singur un transfer bancar în așteptare când pe extras apare o linie cu
+aceeași referință, același partener și aceeași sumă. Fereastra rămâne utilă când referința lipsește
+sau diferă.
 
 ![Comanda încasată integral](screenshots/04_comanda_incasata.png)
 
@@ -182,7 +197,7 @@ Modulul **nu** postează note contabile. Ce înregistrează contabilitatea depin
 
 | Caz | Cine creează plata | Debit | Credit | Sumă |
 |---|---|---|---|---|
-| **Transfer bancar** confirmat în fereastră | contabilul, din extras (reconciliere) sau **Înregistrare plată** pe factură, pe jurnalul de bancă | **5121** Conturi la bănci în lei | **4111** Clienți | 1.210,00 lei |
+| **Transfer bancar** confirmat în fereastră | Odoo, la confirmare (plata fără notă); nota se face când contabilul reconciliază extrasul cu plata | **5121** Conturi la bănci în lei | **4111** Clienți | 1.210,00 lei |
 | Procesator **electronic** (card), cu **5125** configurat pe linia metodei (secțiunea 5) | Odoo, la procesarea tranzacției confirmate | **5125** Sume în curs de decontare | **4111** Clienți | suma tranzacției |
 | … apoi decontarea procesatorului apare pe extras | contabilul, la reconcilierea extrasului | **5121** Conturi la bănci în lei | **5125** Sume în curs de decontare | suma decontată |
 | Încasare în **numerar** | contabilul / casierul, **Înregistrare plată** pe jurnalul de casă, cu chitanță sau bon | **5311** Casa în lei | **4111** Clienți | suma încasată |
@@ -205,6 +220,7 @@ pe factură intră în **Încasare** (secțiunea 4), fără să se adune cu tran
 | `sale`, `payment` (standard) | comanda, tranzacțiile și procesatorii de plată |
 | `account_payment` (standard) | plata contabilă creată la procesarea tranzacțiilor electronice confirmate |
 | `payment_custom` (standard) | procesatorul **Transfer bancar** |
+| `account_payment_custom` (standard, instalat automat) | metoda de plată **Wire Transfer** pe jurnalul de bancă: plata transferului bancar confirmat; confirmarea automată din extras |
 | `deltatech_website_sale_status` | folosește **Stare încasare** în lista comenzilor online neîncasate |
 | `deltatech_sale_store` | chitanțele de magazin intră în calculul sumei încasate |
 
@@ -212,8 +228,13 @@ pe factură intră în **Încasare** (secțiunea 4), fără să se adune cu tran
 tranzacțiilor sau facturilor). Pentru procesatorii **electronici**, Odoo standard confirmă oferta
 încasată integral, creează plata și, opțional, factura.
 
-**Ce rămâne manual:** confirmarea încasărilor primite prin transfer bancar sau ramburs; la acestea,
-confirmarea comenzii, factura și plata contabilă; încasările în numerar; reconcilierea extrasului.
+După **Confirmă încasarea** pe **Transfer bancar**, la fel: oferta se confirmă (dacă nu cere
+semnătură online), se creează plata și, opțional, factura. Un transfer bancar a cărui referință apare pe
+extras se confirmă singur.
+
+**Ce rămâne manual:** confirmarea încasărilor fără referință pe extras și a celor la livrare (ramburs);
+confirmarea ofertelor care cer semnătură online; încasările în numerar; reconcilierea extrasului cu
+plata.
 
 ## 8. Verificări pentru consultant
 
@@ -229,10 +250,16 @@ confirmarea comenzii, factura și plata contabilă; încasările în numerar; re
 - [ ] **Adaugă** (fără confirmare): tranzacția rămâne **În așteptare**, starea comenzii nu devine
       Efectuată.
 - [ ] O valoare negativă în fereastră e refuzată („Valoarea trebuie să fie pozitivă").
-- [ ] Un vânzător **fără** drept de Facturare vede **Stare încasare**, dar primește eroare de acces la
-      **Confirmă**; cu drept de Facturare, confirmarea trece.
-- [ ] După **Confirmă** pe **Transfer bancar**, comanda rămâne **Ofertă** și nu există plată: contabilul
-      înregistrează plata pe factură (Dr 5121 / Cr 4111).
+- [ ] Un vânzător cu **Numai documente proprii**, **fără** drept de Facturare, confirmă încasarea pe
+      comanda lui; pe comanda altui vânzător primește eroare de acces.
+- [ ] **Dată încasare** completată în fereastră apare în nota din istoricul comenzii.
+- [ ] Pe o comandă încasată parțial, fereastra propune restul și adaugă o tranzacție nouă; tranzacția
+      confirmată anterior rămâne neschimbată. Pe o comandă **Efectuată** propune 0.
+- [ ] O comandă cu plată **Autorizată** este refuzată de fereastră.
+- [ ] După **Confirmă** pe **Transfer bancar**: oferta se confirmă dacă nu cere semnătură online (altfel
+      rămâne **Ofertă**), există o plată pe jurnalul de bancă, cu data din **Dată încasare**; la
+      reconcilierea extrasului cu ea rezultă Dr 5121 / Cr 4111. În jurnalul serverului **nu** apare
+      „Please define a payment method line on your payment.".
 - [ ] Pe un procesator electronic, linia metodei din jurnalul de bancă are **5125**, nu 581; plata
       creată la procesare are Dr 5125 / Cr 4111.
 - [ ] Comandă de 100 EUR într-o companie în lei, facturată și încasată 50 EUR pe factură: **Încasare
@@ -246,13 +273,14 @@ confirmarea comenzii, factura și plata contabilă; încasările în numerar; re
 |-----------------|-------|-----------|
 | „Vă rog să selectați o comandă de vânzare" | Fereastra a fost deschisă fără o comandă activă | Deschideți-o din formularul comenzii, **⋮ Acțiuni → Confirmă încasarea** |
 | „Valoarea trebuie să fie pozitivă" | Valoare negativă în fereastră | Introduceți suma încasată, pozitivă; un retur de bani se face din factură / nota de credit |
-| „Nu aveți dreptul…" (eroare de acces) la **Confirmă** / **Adaugă** | Utilizatorul are doar drepturi de vânzări, fără Facturare | Acordați nivelul **Facturare** sau lăsați confirmarea pe seama facturării |
-| Comanda e **Efectuată**, dar nu există plată contabilă și oferta nu s-a confirmat | Procesator **Transfer bancar**: Odoo nu creează plată pentru el | Confirmați comanda manual; contabilul înregistrează plata din extras sau pe factură |
-| În log, la rularea zilnică: „Please define a payment method line on your payment." | Procesarea automată a unei tranzacții **Transfer bancar** confirmate (vezi pasul 4) | Nu afectează comanda; Odoo renunță după o zi. Plata se înregistrează manual |
+| „Nu aveți dreptul…" (eroare de acces) la **Confirmă** / **Adaugă** | Vânzătorul are **Numai documente proprii**, iar comanda e a altui vânzător | Confirmarea o face vânzătorul comenzii sau un utilizator cu **Toate documentele** |
+| Comanda e **Efectuată**, dar nu există plată contabilă | Procesatorul nu are linie de metodă de plată pe jurnal (ex. tip **none**, sau `account_payment_custom` dezinstalat) | Contabilul înregistrează plata din extras sau pe factură |
+| Transferul bancar apare încasat de două ori pe 4111 | Contabilul a înregistrat o plată nouă pe factură, deși Odoo crease deja plata la confirmarea din fereastră | Anulați plata în plus; reconciliați extrasul cu plata creată de Odoo |
+| Comanda e **Efectuată**, dar a rămas **Ofertă** | Oferta cere semnătură online și nu e semnată | Confirmați comanda din antetul ei |
 | Plata cardului debitează **581** | Linia metodei procesatorului are contul implicit | Setați **5125** pe linia metodei (secțiunea 5) |
-| **Dată încasare** din fereastră nu apare nicăieri | Câmpul nu se salvează | Data corectă se pune pe plata înregistrată de contabilitate |
-| Pe o comandă deja încasată, **Confirmă încasarea** propune din nou suma | Fereastra preia ultima tranzacție, inclusiv una deja confirmată, și la confirmare încearcă să o **șterge** și să creeze una nouă. Un utilizator cu Facturare primește eroare de acces (ștergerea cere administrator); la administrator, pe un procesator electronic, plata contabilă a vechii tranzacții rămâne și se creează **a doua plată**: încasarea apare de două ori pe 4111 | Nu redeschideți fereastra pe comenzi **Efectuate**. Dacă s-a întâmplat, contabilul anulează plata în plus |
-| Pe o plată cu cardul **Autorizată**, **Confirmă** anulează autorizarea | Fereastra înlocuiește tranzacția autorizată cu o încasare manuală | Capturați plata din procesator, nu din fereastră |
+| Pe o comandă **Efectuată**, fereastra propune **Valoare 0** | Comanda e încasată integral; fereastra propune doar restul de încasat | Nimic de confirmat. O încasare suplimentară se completează manual și se adaugă ca tranzacție nouă |
+| „Comanda are o plată autorizată (…). Capturați-o sau anulați-o din procesatorul de plată." | Comanda are o plată cu cardul **Autorizată**, încă necapturată | Capturați sau anulați plata din procesator; fereastra nu o înlocuiește |
+| „Tranzacția … nu mai așteaptă plata." | Tranzacția preluată de fereastră a fost confirmată sau anulată între timp (de procesator sau de alt utilizator) | Închideți și redeschideți fereastra: propune restul de încasat |
 | **Încasare** pare prea mică la o comandă plătită cu cardul și completată cu plată pe factură | Se ia maximul dintre facturi și tranzacții, nu suma lor, cât timp decontarea cardului nu e reconciliată | Reconciliați decontarea procesatorului pe factură |
 
 ## 10. Capturi de ecran
@@ -281,6 +309,8 @@ Prezentați **Stare încasare** ca instrumentul zilnic al operatorului: lista co
 **Plată în așteptare** și **Plătită parțial** este lista de urmărit cu clienții, iar **Efectuată** este
 semnalul că o comandă cu plată în avans poate pleca. Insistați pe patru lucruri: (1) **Încasare** e în
 **moneda comenzii** și nu adună de două ori aceiași bani (tranzacție + plată pe factură); (2)
-**Confirmă încasarea** marchează **starea**, nu înregistrează plata: la transfer bancar, contabilitatea
-înregistrează plata din extras, iar comanda se confirmă manual; (3) fereastra nu se folosește pe comenzi
-deja **Efectuate** și nici pe plăți cu cardul autorizate; (4) confirmarea cere drept de **Facturare**.
+**Confirmă încasarea** marchează **starea** și, la transfer bancar, creează plata cu data încasării;
+contabilitatea o reconciliază cu extrasul, fără să înregistreze alta, iar oferta se confirmă singură
+doar dacă nu cere semnătură online; (3)
+fereastra propune restul de încasat, nu atinge tranzacțiile confirmate și refuză plățile cu cardul
+autorizate; (4) confirmarea o poate face oricine are drept de modificare pe comandă, fără Facturare.
