@@ -1,3 +1,7 @@
+## 20.0.0.0.4 (2026-10-01)
+
+- Migration to Odoo 20.0: access rights and the multi-company restriction of the forecast lines in `security/ir.access.csv` (replaces `ir.model.access.csv` and the `ir.rule`).
+
 ## 19.0.0.0.3 (2026-10-01)
 
 - Forecast lines carry the company currency, the currency of the signed invoice amounts (FORECAST-001).

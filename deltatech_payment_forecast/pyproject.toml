@@ -8,7 +8,7 @@ build-backend = "whool.buildapi"
 # modulele nepublicate pe wheelhouse se declară prin depends_override,
 # iar `dynamic` obligă pyproject-dependencies să întrebe backend-ul.
 [tool.whool.depends_override]
-deltatech_average_payment_period = "odoo-addon-deltatech-average-payment-period @ git+https://github.com/dhongu/deltatech.git@19.0#subdirectory=deltatech_average_payment_period"
+deltatech_average_payment_period = "odoo-addon-deltatech-average-payment-period @ git+https://github.com/dhongu/deltatech.git@20.0#subdirectory=deltatech_average_payment_period"
 
 [project]
 name = "odoo-addon-deltatech-payment-forecast"

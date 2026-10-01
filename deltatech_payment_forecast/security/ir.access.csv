@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+payment_forecast_access,payment.forecast.access,payment.forecast,deltatech_payment_forecast.payment_forecast_manager,crud,
+payment_forecast_company_rule,Payment forecast: multi-company,payment.forecast,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+payment_forecast_wizard_access,payment.forecast.wizard.access,payment.forecast.wizard,deltatech_payment_forecast.payment_forecast_manager,crud,
