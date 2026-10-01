@@ -8,9 +8,9 @@ Scope: Source review and real ORM reproductions in the separate audit database.
 
 ## [P2] Approximate floor and ceiling produce incorrect pallet counts
 
-**Status:** Open — documented, not fixed.
+**Status:** Fixed in 20.0.1.0.11 (port of PALLET-001 from 19.0). `compute_pallet_number()` now uses `math.floor` / `math.ceil` with a tolerance of half the `Product Unit` precision, expressed in pallets. Covered by `test_compute_pallet_number_boundaries`.
 
-**Location:** `models/sale.py:67–71`. Line numbers refer to the reviewed source.
+**Location:** `models/sale.py`, `compute_pallet_number()`. Line numbers refer to the reviewed source.
 
 ### Cause
 
