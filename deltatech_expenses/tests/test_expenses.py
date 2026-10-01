@@ -123,7 +123,7 @@ class TestExpenses(TransactionCase):
         # Partners
         cls.employee_partner = cls.env["res.partner"].create({"name": "Angajat X"})
         cls.employee = cls.env["hr.employee"].create({"name": "Angajat X", "work_contact_id": cls.employee_partner.id})
-        cls.supplier = cls.env["res.partner"].create({"name": "Furnizor Y", "is_company": True})
+        cls.supplier = cls.env["res.partner"].create({"name": "Furnizor Y"})
         cls.supplier.property_account_payable_id = cls.acc_payable.id
 
     def _lines_for_expenses(self, expenses):
@@ -633,3 +633,160 @@ class TestExpenses(TransactionCase):
         )
         with self.assertRaises(AccessError):
             line.with_user(plain_user).read(["name"])
+
+    def test_journal_entries_dr_cr_full_scenario(self):
+        """Notele Dr/Cr complete pentru un decont cu avans, chitanțe (TVA pe deasupra și TVA
+        inclus), plată directă furnizor și diurnă — aceleași valori ca în 19.0 (referința
+        migrării 19 → 20)."""
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.supplier.id,
+                "invoice_date": "2026-01-10",
+                "date": "2026-01-10",
+                "journal_id": self.purchase_journal.id,
+                "invoice_line_ids": [
+                    (0, 0, {"name": "Marfă", "price_unit": 150.0, "account_id": self.acc_exp.id, "tax_ids": []})
+                ],
+            }
+        )
+        bill.action_post()
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": "2026-01-15",
+                "date_expense": "2026-01-20",
+                "employee_id": self.employee.id,
+                "advance": 1000.0,
+                "days": 2,
+                "diem": 42.5,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        line_vals = [
+            ("Cazare", 500.0, self.tax_21, "expenses"),
+            ("Masa TVA inclus", 121.0, self.tax_incl_21, "expenses"),
+            ("Plată furnizor", 150.0, self.env["account.tax"], "supplier_payment"),
+        ]
+        for name, amount, taxes, line_type in line_vals:
+            self.env["deltatech.expenses.deduction.line"].create(
+                {
+                    "expenses_deduction_id": deduction.id,
+                    "date": "2026-01-18",
+                    "name": name,
+                    "amount": amount,
+                    "tax_ids": [(6, 0, taxes.ids)],
+                    "type": line_type,
+                    "partner_id": self.supplier.id,
+                    "expense_account_id": self.acc_exp.id,
+                }
+            )
+        # 605 + 121 + 150 + 2 * 42.5 = 961 → diferență -39 (de restituit)
+        self.assertAlmostEqual(deduction.amount, 961.0, places=2)
+        self.assertAlmostEqual(deduction.difference, -39.0, places=2)
+        deduction.validate_expenses()
+
+        moves = deduction.voucher_ids | deduction.move_id
+        moves |= self.env["account.move"].search([("expenses_deduction_id", "=", deduction.id)])
+        partners = {
+            self.employee_partner.id: "employee",
+            self.supplier.id: "supplier",
+        }
+        accounts = {
+            self.acc_cash.id: "cash",
+            self.acc_542.id: "542",
+            self.acc_exp.id: "6xx",
+            self.acc_payable.id: "401",
+        }
+        journals = {
+            self.cash_journal.id: "cash",
+            self.adv_journal.id: "adv",
+            self.diary_journal.id: "diem",
+        }
+
+        def journal_key(journal):
+            return journals.get(journal.id) or journal.type
+
+        result = sorted(
+            (
+                str(aml.date),
+                journal_key(aml.journal_id),
+                accounts.get(aml.account_id.id, aml.account_id.code),
+                partners.get(aml.partner_id.id, aml.partner_id.name or ""),
+                round(aml.debit, 2),
+                round(aml.credit, 2),
+            )
+            for aml in moves.line_ids
+        )
+        # Referința: aceleași valori obținute rulând scenariul pe 19.0. Taxa de test nu are cont
+        # de TVA în repartiție, deci TVA-ul ajunge pe contul de cheltuială (6xx).
+        expected = sorted(
+            [
+                # avans: Dr 542 = Cr casă
+                ("2026-01-15", "cash", "542", "employee", 1000.0, 0.0),
+                ("2026-01-15", "cash", "cash", "employee", 0.0, 1000.0),
+                # diferența de restituit (961 - 1000): Dr casă = Cr 542 (pe data avansului)
+                ("2026-01-15", "cash", "cash", "employee", 39.0, 0.0),
+                ("2026-01-15", "cash", "542", "employee", 0.0, 39.0),
+                # chitanțe: Cazare 500 + TVA 105 (pe deasupra), Masă 100 + TVA 21 (inclus)
+                ("2026-01-18", "purchase", "6xx", "supplier", 500.0, 0.0),
+                ("2026-01-18", "purchase", "6xx", "supplier", 105.0, 0.0),
+                ("2026-01-18", "purchase", "401", "supplier", 0.0, 605.0),
+                ("2026-01-18", "purchase", "6xx", "supplier", 100.0, 0.0),
+                ("2026-01-18", "purchase", "6xx", "supplier", 21.0, 0.0),
+                ("2026-01-18", "purchase", "401", "supplier", 0.0, 121.0),
+                # decontare din avans: Dr 401 (furnizor) = Cr 542 (angajat), per chitanță și plată directă
+                ("2026-01-18", "adv", "401", "supplier", 605.0, 0.0),
+                ("2026-01-18", "adv", "542", "employee", 0.0, 605.0),
+                ("2026-01-18", "adv", "401", "supplier", 121.0, 0.0),
+                ("2026-01-18", "adv", "542", "employee", 0.0, 121.0),
+                ("2026-01-18", "adv", "401", "supplier", 150.0, 0.0),
+                ("2026-01-18", "adv", "542", "employee", 0.0, 150.0),
+                # diurnă: Dr 625 = Cr 542
+                ("2026-01-20", "diem", "6xx", "employee", 85.0, 0.0),
+                ("2026-01-20", "diem", "542", "employee", 0.0, 85.0),
+            ]
+        )
+        self.maxDiff = None
+        self.assertEqual(result, expected)
+        # 542 închis pe angajat, chitanțele și factura deschisă stinse din avans
+        lines_542 = moves.line_ids.filtered(lambda aml: aml.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("balance")), 0.0, places=2)
+        self.assertTrue(all(v.payment_state in ("paid", "in_payment") for v in deduction.voucher_ids))
+        self.assertTrue(bill.payment_state in ("paid", "in_payment"))
+
+    def test_report_renders(self):
+        """Raportul de decont se randează (QWeb server-side, fără t-esc ignorat)."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "days": 1,
+                "travel_order": "OD-1",
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Cazare",
+                "amount": 100.0,
+                "partner_id": self.supplier.id,
+                "expense_account_id": self.acc_exp.id,
+            }
+        )
+        html, _report_type = self.env["ir.actions.report"]._render_qweb_html(
+            "deltatech_expenses.action_report_deltatech_expenses_deduction", deduction.ids
+        )
+        html = html.decode() if isinstance(html, bytes) else str(html)
+        self.assertIn("Decont cheltuieli", html)
+        # 2 documente (linia + diurna) → ramura cu numărul afișat prin t-out
+        self.assertIn("acte justificative specificate", html)
+        self.assertIn("OD-1", html)

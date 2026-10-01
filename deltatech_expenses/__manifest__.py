@@ -5,7 +5,7 @@
 {
     "name": "Expenses Deduction",
     "summary": "Expenses Deduction & Disposition of Cashing",
-    "version": "19.0.3.3.1",
+    "version": "20.0.3.3.1",
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -20,7 +20,7 @@
     "license": "OPL-1",
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/deltatech_expenses_deduction_view.xml",
         "views/deltatech_expenses_deduction_report.xml",
         "views/report_expenses.xml",

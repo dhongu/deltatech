@@ -25,7 +25,7 @@
                                 </t>
                                 anexez prezentului
                                 <t t-if="nr_docs!=1">
-                                    <t t-esc="nr_docs" />
+                                    <t t-out="nr_docs" />
                                     acte justificative specificate
                                 </t>
                                 <t t-if="nr_docs==1">
