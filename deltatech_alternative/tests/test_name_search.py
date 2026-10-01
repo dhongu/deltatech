@@ -12,7 +12,7 @@ class TestAlternativeNameSearch(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["ir.config_parameter"].sudo().set_param("alternative.search_name", "True")
+        cls.env["ir.config_parameter"].sudo().set_bool("alternative.search_name", True)
         cls.categ_other = cls.env["product.category"].create({"name": "Other category"})
         cls.tmpl_sale = cls.env["product.template"].create(
             {"name": "Sellable part", "default_code": "SALE1", "sale_ok": True}

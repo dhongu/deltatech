@@ -7,7 +7,6 @@ import re
 
 from odoo import api, fields, models
 from odoo.fields import Domain
-from odoo.tools.safe_eval import safe_eval
 
 _logger = logging.getLogger(__name__)
 
@@ -28,8 +27,7 @@ def _name_search_alternative(model, res, name, domain, operator, limit, code_pat
         return res
     if limit and len(res) >= limit:
         return res
-    get_param = model.env["ir.config_parameter"].sudo().get_param
-    if not safe_eval(get_param("alternative.search_name", "False")):
+    if not model.env["ir.config_parameter"].sudo().get_bool("alternative.search_name"):
         return res
 
     left = limit - len(res) if limit else None

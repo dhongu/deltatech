@@ -1,3 +1,9 @@
+## 20.0.2.1.5 (2026-10-01)
+
+- Migration to Odoo 20.0: access rights moved to `ir.access`; the
+  *Alternative Code* column on sale and purchase order lines and on transfer
+  moves is placed after the new grouped product/description column.
+
 ## 19.0.2.1.5 (2026-10-01)
 
 - Searching a product by alternative code (*Search by alternative code*

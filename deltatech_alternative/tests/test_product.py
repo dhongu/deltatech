@@ -10,8 +10,8 @@ class TestProduct(TransactionCase):
     def setUp(self):
         super().setUp()
         # Setare paramentru deltatech_alternative_website.search_index
-        self.set_param = self.env["ir.config_parameter"].sudo().set_param
-        self.set_param("deltatech_alternative_website.search_index", "True")
+        self.set_bool = self.env["ir.config_parameter"].sudo().set_bool
+        self.set_bool("deltatech_alternative_website.search_index", True)
 
     def test_create_product_template(self):
         product = Form(self.env["product.template"])
@@ -21,7 +21,7 @@ class TestProduct(TransactionCase):
         product = product.save()
 
         product.name_search("CODE2", operator="ilike", limit=100)
-        self.set_param("deltatech_alternative_website.search_index", "False")
+        self.set_bool("deltatech_alternative_website.search_index", False)
         product.name_search("CODE2", operator="ilike", limit=100)
 
     def test_create_product_product(self):
@@ -32,5 +32,5 @@ class TestProduct(TransactionCase):
         product = product.save()
 
         product.name_search("CODE2", operator="ilike", limit=100)
-        self.set_param("deltatech_alternative_website.search_index", "False")
+        self.set_bool("deltatech_alternative_website.search_index", False)
         product.name_search("CODE2", operator="ilike", limit=100)
