@@ -1,7 +1,7 @@
 # Fișă Modul: Decont de cheltuieli din avans de trezorerie (542) și diurnă
 
 **Modul:** `deltatech_expenses`
-**Utilizator principal:** Contabil, Aprobator (casier / șef ierarhic), Angajat
+**Utilizator principal:** Contabil (operează decontul), Aprobator (aprobă avansul)
 **Prioritate:** 🔴 Ridicată (flux frecvent în practica românească)
 
 ---
@@ -36,21 +36,22 @@ angajatului.
 
 ## 3. Utilizatori și roluri
 
-Modulul are trei roluri proprii, alese pe utilizator în **Setări → Utilizatori și companii →
-Utilizatori**, secțiunea **„Decont Cheltuieli"**. Fiecare rol îl include pe cel anterior:
+Decontul îl operează **contabilul**, nu angajatul: angajatul predă documentele justificative (ordinul
+de deplasare, bonurile, facturile, decontul semnat), iar contabilul introduce decontul în Odoo.
+Angajatul nu are nevoie de utilizator în Odoo pentru acest flux.
 
-| Rol | Ce poate face |
-|---|---|
-| **Angajat** | vede și completează doar deconturile proprii |
-| **Aprobator** | vede toate deconturile; apasă **Avans** (aprobă și contabilizează acordarea avansului) |
-| **Contabil** | apasă **Validează** (contabilizează decontul) și **Invalidare**; poate șterge deconturi în Ciornă |
+Rolurile se aleg pe utilizator în **Setări → Utilizatori și companii → Utilizatori**, secțiunea
+**„Decont Cheltuieli"**. Fiecare rol îl include pe cel anterior:
 
-Administratorii (grupul „Setări") primesc automat rolul de Contabil. Fără rolul potrivit,
-butoanele respective nu apar pe formular.
+| Rol | Cine îl primește | Ce poate face |
+|---|---|---|
+| **Aprobator** | casierul sau persoana care aprobă avansul | vede toate deconturile; apasă **Avans** (aprobă și contabilizează acordarea avansului) |
+| **Contabil** | contabilul care operează deconturile | introduce decontul și liniile; apasă **Validează** și **Invalidare**; poate șterge deconturi în Ciornă |
 
-Meniul decontului se află în aplicația Facturare/Contabilitate, deci utilizatorul are nevoie și de un
-drept de acces în Facturare. Butonul „Deconturi" de pe fișa angajatului apare doar utilizatorilor care
-văd fișa completă a angajatului (drepturi în aplicația Angajați).
+Rolul **Angajat** există în modul (acces doar la deconturile proprii), dar nu face parte din fluxul
+recomandat și nu trebuie atribuit. Administratorii (grupul „Setări") primesc automat rolul de
+Contabil. Fără rolul potrivit, butoanele respective nu apar pe formular. Meniul decontului se află în
+aplicația Facturare/Contabilitate, deci utilizatorii au nevoie și de acces în Facturare.
 
 ## 4. Conturi și date implicate
 
@@ -91,13 +92,13 @@ Date minime pentru demo:
 ### Pasul 1 — Crearea decontului și acordarea avansului
 
 Meniul este **Facturare → Furnizori → Decont Cheltuieli** (cu Enterprise: **Contabilitate →
-Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul** și **jurnalul de numerar**,
+Furnizori → Decont Cheltuieli**). Contabilul apasă **Nou**, alege **angajatul** și **jurnalul de numerar**,
 completați **data avansului**, **data cheltuielii** (data decontului; se completează din data
 avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, dacă e cazul, **diurna**
 (sumă/zi și număr de zile). În tabul „Alte informații" verificați **jurnalul de avansuri (542)**.
 
 Aprobatorul apasă **Avans**: documentul primește număr (`DEC/…`) și trece în starea „Avans". Pe
-măsură ce adăugați liniile de cheltuieli, se calculează automat totalul și **diferența** față de
+măsură ce contabilul adaugă liniile de cheltuieli din documentele predate de angajat, se calculează automat totalul și **diferența** față de
 avans: o valoare **pozitivă** înseamnă că firma îi mai datorează angajatului, una **negativă** că
 angajatul restituie restul în casă.
 
@@ -222,7 +223,7 @@ soldului 542 după validare.
 - [ ] Modulul se instalează fără erori pe baza demo.
 - [ ] „Jurnal avansuri (542)" are contul implicit 542.
 - [ ] Acordarea avansului produce nota Dr 542 = Cr 5311.
-- [ ] Utilizatorii au rolurile potrivite (Angajat / Aprobator / Contabil).
+- [ ] Contabilul are rolul Contabil, iar cel care aprobă avansul rolul Aprobator; angajații nu au roluri în modul.
 - [ ] Liniile de deplasare au contul 625, nu 623 implicit.
 - [ ] Un bon de 555 lei cu TVA 11% dă bază 500 și TVA 55; „Total chitanțe" este egal cu suma bonurilor.
 - [ ] Diferența = cheltuieli + diurnă − avans (negativă = angajatul restituie).
