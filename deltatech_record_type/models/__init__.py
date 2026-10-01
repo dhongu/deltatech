@@ -10,3 +10,4 @@ from . import res_config_settings
 from . import account_move
 from . import sale_report
 from . import purchase_report
+from . import payment_transaction
