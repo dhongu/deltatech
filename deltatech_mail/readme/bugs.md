@@ -4,8 +4,16 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## MAIL-001 — P1: Email redirection rules are ignored
 
-- **Status:** Open.
-- **Location:** `models/mail_mail.py`, `_send_prepare_values()` (lines 14–15).
+- **Status:** Fixed in 19.0.1.0.6. Recipient and sender handling moved to the
+  Odoo 19 flow: "receiver" substitutions are applied in `_prepare_outgoing_list()`
+  (every per-recipient email is redirected, CC copies dropped), the sender
+  (company email, then a "sender" substitution) is set in `send()` before Odoo
+  reads `email_from` and picks the mail server. The equally dead
+  `mail.message._get_default_from()` override was replaced by
+  `mail.thread._message_compute_author()`, so `mail.use_company_email` applies
+  again to posted messages. Covered by `tests/test_mail_redirect.py`.
+- **Location:** `models/mail_mail.py`, `_send_prepare_values()` (lines 14–15);
+  `models/mail_message.py`, `_get_default_from()`.
 - **Trigger:** Configure a recipient substitution and send an email through the standard Odoo mail queue.
 - **Actual behavior:** The email is sent to the original recipients. The substitution logic does not run because Odoo 19 does not call `_send_prepare_values()`.
 - **Expected behavior:** Configured substitutions are applied before sending the email.
@@ -16,4 +24,5 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## Review limitations
 
-This finding was verified against the local Odoo 19 source. No database-backed mail delivery test was run, and no fix has been applied.
+The finding was confirmed on origin/19.0 on 2026-10-01 and fixed the same day;
+the tests send queued emails through the mocked mail gateway.
