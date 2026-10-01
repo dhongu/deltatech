@@ -1,3 +1,11 @@
+## 19.0.1.4.0
+
+- [FIX] changing the product of a main line no longer leaves the extra line of the old product on the RFQ (PURCHASEEXTRA-001): when the new product has another extra product, the old extra line is replaced by a new one, with the product, unit of measure, quantity and computed price of the new extra; when the new product has no extra, the old extra line is removed. This applies to the form as well as to `write()`, imports and XML-RPC
+- [FIX] deleting a main line now also deletes its extra line when the product no longer has an extra configured
+- [FIX] an extra line whose product has an extra of its own is no longer taken for a main line
+- [IMP] the extra lines are marked with the technical field `is_extra_line`, so the pair no longer depends on the current product configuration; the migration marks the extra lines created by the previous versions
+- [FIX] the order lines are synchronized after all the line commands of a save are applied, so a product change saved from the form does not create the new extra line twice
+
 ## 19.0.1.3.1
 
 - Own module icon, instead of the generic gears it had.
