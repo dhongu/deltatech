@@ -1,3 +1,9 @@
+## 20.0.1.5.0 (2026-10-01)
+
+- Migration to Odoo 20.0, including the SALEEXTRA-001 fix from 19.0.1.5.0 (the extra line is replaced when the product of the main line changes, and the pair is tracked through `is_extra_line`).
+- No change to the module code: the `_verify_cart_after_update` hook, `technical_price_unit` and the views it extends are unchanged in Odoo 20.
+- Cart tests: `WebsiteSaleCommon` no longer provides `empty_cart` and runs as a salesman, so the tests create the empty cart with `_create_so(order_line=[])` and work on it as sudo, like the shop.
+
 ## 19.0.1.5.0
 
 - [FIX] changing the product of the main line replaces the extra line: the extra line of the old product used to stay, with only its quantity updated, so the quotation kept charging and delivering an unrelated extra product. When the new product requires another extra product, the old line is removed and the right one is generated with the computed price; when it requires none, the extra line is removed
