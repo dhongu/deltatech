@@ -20,7 +20,7 @@ class StockPutawayRule(models.Model):
         return rules
 
     def write(self, vals):
-        if any(f in vals for f in ("sequence", "product_id", "category_id", "location_out_id")):
+        if any(f in vals for f in ("sequence", "product_id", "category_id", "location_out_id", "active")):
             old_loc_ids = self.mapped("location_out_id").ids
         else:
             old_loc_ids = []
