@@ -306,3 +306,75 @@ class TestMarginCheckMode(TransactionCase):
         self.company.sale_margin_check_mode = "warn"
         _, line = self._order(2.5, user=self.operator)
         self.assertTrue(line.margin_below_limit)
+
+    # ------------------------------------------- units in "block" mode (MARGIN-001)
+
+    def _wrong_uom_product(self):
+        return self.env["product.product"].create(
+            {
+                "name": "Product with a wrong uom_id (block)",
+                "type": "consu",
+                "uom_id": self.uom_unit.id,  # wrong: should be kg
+                "standard_price": 3.0,
+                "taxes_id": False,
+            }
+        )
+
+    def test_block_mode_ignores_incompatible_unit_families(self):
+        """Warning and enforcement must apply the same unit policy.
+
+        The flag already stays silent when the line unit and the product's base
+        unit belong to different families, because the native conversion inflates
+        the cost (3.00 per Unit -> 3000.00 per kg). The block used to compare the
+        inflated cost directly, so the line showed no flag and still could not be
+        saved.
+        """
+        self.company.sale_margin_check_mode = "block"
+        order, line = self._order(
+            50.0, uom=self.uom_kg, qty=10.0, product=self._wrong_uom_product(), user=self.operator
+        )
+        self.assertAlmostEqual(line.purchase_price, 3000.0, places=2)
+        self.assertFalse(line.margin_below_limit)
+        line.write({"price_unit": 49.0})
+        self.assertEqual(line.price_unit, 49.0)
+
+    def test_block_mode_ignores_incompatible_units_on_confirmation(self):
+        self.company.sale_margin_check_mode = "block"
+        self.env["ir.config_parameter"].sudo().set_bool("sale.margin_limit_check_validate", True)
+        order, line = self._order(
+            50.0, uom=self.uom_kg, qty=10.0, product=self._wrong_uom_product(), user=self.operator
+        )
+        order.action_confirm()
+        self.assertEqual(order.state, "sale")
+
+    def test_block_mode_still_blocks_in_a_compatible_packaging_unit(self):
+        """The guard must not open a hole for same-family units: 30 per box is
+        below the converted cost of 36 and stays blocked."""
+        self.company.sale_margin_check_mode = "block"
+        _, line = self._order(40.0, uom=self.uom_box12, qty=10.0, user=self.operator)
+        with self.assertRaises(UserError):
+            line.write({"price_unit": 30.0})
+        new_line = self.env["sale.order.line"].new(
+            {
+                "order_id": line.order_id.id,
+                "product_id": self.product.id,
+                "product_uom_qty": 1.0,
+                "product_uom_id": self.uom_box12.id,
+                "price_unit": 30.0,
+            }
+        )
+        self.assertIn("warning", new_line.price_unit_change() or {})
+
+    def test_block_mode_onchange_ignores_incompatible_units(self):
+        self.company.sale_margin_check_mode = "block"
+        new_line = self.env["sale.order.line"].new(
+            {
+                "order_id": self._order(10.0)[0].id,
+                "product_id": self._wrong_uom_product().id,
+                "product_uom_qty": 1.0,
+                "product_uom_id": self.uom_kg.id,
+                "price_unit": 50.0,
+            }
+        )
+        self.assertGreater(new_line.purchase_price, 50.0)
+        self.assertNotIn("warning", new_line.price_unit_change() or {})

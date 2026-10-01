@@ -4,7 +4,7 @@
 {
     "name": "Sale Margin",
     "summary": "Check price in sale order",
-    "version": "20.0.1.2.0",
+    "version": "20.0.1.2.1",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -244,6 +244,10 @@ class SaleOrderLine(models.Model):
             check_on_validate = safe_eval(get_str("sale.margin_limit_check_validate", "0"))
             if check_on_validate:
                 return res
+            # same unit policy as the flag: a cost converted across unit
+            # families is meaningless, see `_margin_uom_comparable`
+            if not self._margin_uom_comparable():
+                return res
             price_unit = self.price_reduce_taxexcl
             if price_unit and price_unit < self.purchase_price and self.purchase_price > 0:
                 warning = {
@@ -326,6 +330,12 @@ class SaleOrderLine(models.Model):
                 else:
                     message = self.env._("Sale %s without price.") % line.product_id.name
                     line.order_id.message_post(body=message)
+            # Enforcement follows the same unit policy as `margin_below_limit`:
+            # when the line unit and the product's base unit are in different
+            # families, `purchase_price` is inflated by the native conversion and
+            # the line would be blocked while showing no flag.
+            if not line._margin_uom_comparable():
+                continue
             price_unit = line.price_reduce_taxexcl
             if price_unit:
                 if price_unit < line.purchase_price:
