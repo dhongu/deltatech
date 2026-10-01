@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.1.6.1 (2026-10-01)
+
+- Margin report: the quantity of an invoice line in another unit than the product
+  unit is converted with the right ratio. Two dozen of a product sold by the unit
+  now show as 24 units (they showed as 1/6). Refunds keep their sign. The SQL
+  view is built with `SQL()`.
+
 ## 19.0.1.6.0 (2026-09-24)
 
 Fixes from the consultant sheet audit:

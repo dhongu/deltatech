@@ -39,6 +39,10 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     line_uuid = fields.Char()
+    is_extra_line = fields.Boolean(
+        help="Technical field: the line was generated as the extra line of the main line "
+        "sharing its UUID. It is removed or replaced together with that main line.",
+    )
     extra_price_computed = fields.Float(
         digits="Product Price",
         copy=False,
@@ -56,17 +60,38 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         return self.product_id.extra_product_id
 
+    def _get_extra_line(self):
+        """Return the generated extra line paired with this main line, if any."""
+        self.ensure_one()
+        if self.is_extra_line or not self.line_uuid:
+            return self.browse()
+        return self.order_id.order_line.filtered(
+            lambda li, line_uuid=self.line_uuid, line_id=self.id: li.is_extra_line
+            and li.line_uuid == line_uuid
+            and li.id != line_id
+        )
+
+    def _remove_extra_line(self, extra_line):
+        """Drop an extra line that no longer matches its main line."""
+        if self.env.context.get("backend", False):
+            # in the form, the line is taken out of the order and deleted on save
+            self.order_id.order_line -= extra_line
+        else:
+            extra_line.unlink()
+
     def unlink(self):
-        for line in self:
-            if line._get_extra_product():
-                extra_line_id = self.order_id.order_line.filtered(
-                    lambda li, line_uuid=line.line_uuid, line_id=line.id: li.line_uuid is not False
-                    and li.line_uuid == line_uuid
-                    and li.id != line_id
-                )
-                if extra_line_id:
-                    extra_line_id.unlink()
-        return super().unlink()
+        # the pair is found through the flag, not through the current configuration of the
+        # product: the main line may have changed product or the product its extra product.
+        # On save, the form may send a delete for an extra line already deleted with its
+        # main line, hence `exists()`
+        lines = self.exists()
+        extra_lines = self.browse()
+        for line in lines:
+            extra_lines |= line._get_extra_line()
+        extra_lines -= lines
+        if extra_lines:
+            extra_lines.unlink()
+        return super(SaleOrderLine, lines).unlink()
 
     def _has_manual_price(self):
         """Tell whether the unit price of this extra line was set by the user.
@@ -86,14 +111,18 @@ class SaleOrderLine(models.Model):
         )
 
     def check_extra_product(self):
-        for line in self:
+        # an extra line does not get an extra line of its own; filtered upfront, as the
+        # loop may delete extra lines that are still in `self`
+        for line in self.filtered(lambda li: not li.is_extra_line):
             extra_product = line._get_extra_product()
+            extra_line_id = line._get_extra_line()
+            if extra_line_id and extra_line_id.product_id != extra_product:
+                # the main line changed product (or its product changed extra product):
+                # the old extra line goes, and the right one is generated below, with the
+                # computed price - a manual price belonged to the old extra product
+                line._remove_extra_line(extra_line_id)
+                extra_line_id = self.browse()
             if extra_product:
-                extra_line_id = self.order_id.order_line.filtered(
-                    lambda li, line_uuid=line.line_uuid, line_id=line.id: li.line_uuid is not False
-                    and li.line_uuid == line_uuid
-                    and li.id != line_id
-                )
                 new_line = not extra_line_id
                 if new_line:
                     new_uuid = str(uuid.uuid4())
@@ -104,6 +133,7 @@ class SaleOrderLine(models.Model):
                         "order_id": line.order_id.id,
                         "sequence": line.sequence + 1,
                         "line_uuid": new_uuid,
+                        "is_extra_line": True,
                     }
                     backend = self.env.context.get("backend", False)
                     if backend:

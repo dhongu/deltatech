@@ -147,11 +147,13 @@ class SaleMarginReport(models.Model):
                     t.uom_id as product_uom,
 
 
+                    -- quantity in the product unit: uom factors are absolute (Dozen = 12), so
+                    -- line unit -> product unit is qty * u.factor / u2.factor, as in uom._compute_quantity
                     SUM(CASE
                      WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
                       'in_invoice'::character varying::text])
-                        THEN -(l.quantity / u.factor * u2.factor)
-                        ELSE  (l.quantity / u.factor * u2.factor)
+                        THEN -(l.quantity * u.factor / NULLIF(u2.factor, 0))
+                        ELSE  (l.quantity * u.factor / NULLIF(u2.factor, 0))
                     END) AS product_uom_qty,
 
                     avg(purchase_price) as purchase_price,
@@ -276,27 +278,33 @@ class SaleMarginReport(models.Model):
             group_by_str += " , l.sale_user_id"
         return group_by_str
 
+    @staticmethod
+    def _sql_fragment(code):
+        # the fragments are plain strings (also in the inheriting modules); SQL() reads "%" as a
+        # placeholder, so a literal one (LIKE 'a%') has to be escaped
+        return SQL(code.replace("%", "%%"))
+
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
-        # pylint: disable=E8103
         self.env.cr.execute(
-            """CREATE or REPLACE VIEW {} as (
-            WITH currency_rate AS ({})
-            {}
+            SQL(
+                """CREATE or REPLACE VIEW %s as (
+            WITH currency_rate AS (%s)
+            %s
             FROM (
-                {}
-                FROM {}
-                WHERE {}
-                GROUP BY {}
+                %s
+                FROM %s
+                WHERE %s
+                GROUP BY %s
             ) AS sub
-        )""".format(
-                self._table,
-                self.env["res.currency"]._select_companies_rates(),
-                self._select(),
-                self._sub_select(),
-                self._from(),
-                self._where(),
-                self._group_by(),
+        )""",
+                SQL.identifier(self._table),
+                self._sql_fragment(self.env["res.currency"]._select_companies_rates()),
+                self._sql_fragment(self._select()),
+                self._sql_fragment(self._sub_select()),
+                self._sql_fragment(self._from()),
+                self._sql_fragment(self._where()),
+                self._sql_fragment(self._group_by()),
             )
         )
 

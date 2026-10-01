@@ -2,9 +2,10 @@
 
 Review date: 2026-10-01. Target version: Odoo 19.
 
-## FORECAST-001 — P1: Company-currency amounts use the invoice currency label
+## FORECAST-001 — P2: Company-currency amounts use the invoice currency label
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.3. Forecast lines now store `invoice.company_currency_id`, the currency of the signed amounts. A post-migration script relabels existing rows. Test: `test_forecast_001_company_currency_label`.
+- **Priority:** Re-evaluated from P1 to P2 (2026-10-01): the amounts were numerically correct in company currency; only the currency label was wrong.
 - **Location:** `wizard/payment_forecast_wizard.py`, `get_forecast_lines()` (lines 70–86).
 - **Trigger:** Generate a forecast for an invoice whose currency differs from the company currency.
 - **Actual behavior:** `amount_total_signed` and `amount_residual_signed`, which Odoo expresses in company currency, are stored with `invoice.currency_id`. The forecasted payment amount uses the same incorrectly labeled residual.
@@ -15,9 +16,10 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Use `invoice.company_currency_id` for these signed amounts, or consistently compute signed amounts in invoice currency if that is the intended reporting basis.
 - **Validation needed:** A database-backed test with a foreign-currency invoice and a non-unit exchange rate.
 
-## FORECAST-002 — P1: Recalculation deletes forecasts outside the selected company
+## FORECAST-002 — P2: Recalculation deletes forecasts outside the selected company
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.3. `payment.forecast` has a `company_id` field and a multi-company record rule (`company_ids`). Manual and scheduled recalculation delete only the rows of the wizard company (`DELETE ... WHERE days = %s AND company_id = %s`, built with `SQL()`). The scheduled action runs once for each company of the cron user. A post-migration script sets the company of existing rows from their invoice. Tests: `test_forecast_002_*`.
+- **Priority:** Re-evaluated from P1 to P2 (2026-10-01): the model had no ownership, so it was a global snapshot that one user overwrote for everyone, not a loss of accounting data.
 - **Location:** `wizard/payment_forecast_wizard.py`, `get_forecast_lines()` (line 54) and `get_forecast_cron()` (line 98).
 - **Trigger:** Generate a Custom forecast while another company or user already has Custom forecast rows. The scheduled entry point uses an equivalent global deletion for its day bucket.
 - **Actual behavior:** SQL deletes every forecast row with the same `days` value, without company or user scoping and without applying ORM record rules.
@@ -29,7 +31,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## FORECAST-003 — P2: The company selected in the wizard is ignored
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.3. The invoice search filters on the wizard `company_id`. The payment-history search filters on `move_id.company_id` of the invoice and resolves account codes in the invoice company (`with_company`). `account.average.payment.report` was not changed: the filter goes through its existing `move_id` field, so `deltatech_average_payment_period` needs no new field. Tests: `test_forecast_003_*`.
 - **Location:** `wizard/payment_forecast_wizard.py`, `company_id` (line 15) and `get_forecast_lines()` (lines 55–61).
 - **Trigger:** Enable multiple companies, select one company in the wizard, and generate a forecast.
 - **Actual behavior:** The invoice search does not use the selected `company_id`. It can include invoices from all companies visible in the current environment. The average-payment search also uses `sudo()` without a company filter.
@@ -41,4 +43,4 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## Review limitations
 
-The findings were verified through source inspection and isolated execution of the existing method with mocked ORM objects. No database-backed Odoo integration tests were run, and no fixes have been applied.
+The findings were first verified through source inspection and isolated execution with mocked ORM objects. On 2026-10-01 they were reproduced with database-backed tests (`tests/test_payment_forecast_bugs.py`), which failed before the fixes and pass after them.

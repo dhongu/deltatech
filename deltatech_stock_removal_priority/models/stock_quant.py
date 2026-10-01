@@ -15,13 +15,17 @@ class StockQuant(models.Model):
         string="Removal Priority",
     )
 
-    @api.depends("product_id", "location_id")
-    def _compute_removal_priority(self):
+    @api.model
+    def _get_default_removal_priority(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         try:
-            default_priority = int(get_param("stock.removal_priority.default", default="999"))
+            return int(get_param("stock.removal_priority.default", default="999"))
         except (ValueError, TypeError):
-            default_priority = 999
+            return 999
+
+    @api.depends("product_id", "product_id.categ_id", "location_id", "location_id.usage")
+    def _compute_removal_priority(self):
+        default_priority = self._get_default_removal_priority()
 
         internal_quants = self.filtered(lambda q: q.location_id.usage == "internal")
         (self - internal_quants).removal_priority = default_priority

@@ -36,6 +36,27 @@ class ProductUomConversion(models.Model):
         "A product can have only one conversion per unit of measure.",
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        convs = super().create(vals_list)
+        convs._recompute_open_secondary_uom_qty(convs._get_secondary_uom_keys())
+        return convs
+
+    def write(self, vals):
+        if not {"product_tmpl_id", "uom_id", "uom_qty", "base_qty"} & set(vals):
+            return super().write(vals)
+        # the lines of the old (product, unit) pair lose this conversion
+        keys = self._get_secondary_uom_keys()
+        res = super().write(vals)
+        self._recompute_open_secondary_uom_qty(keys | self._get_secondary_uom_keys())
+        return res
+
+    def unlink(self):
+        keys = self._get_secondary_uom_keys()
+        res = super().unlink()
+        self.env["deltatech.product.uom.conversion"]._recompute_open_secondary_uom_qty(keys)
+        return res
+
     @api.depends("uom_qty", "base_qty")
     def _compute_factor(self):
         for conv in self:
@@ -52,6 +73,37 @@ class ProductUomConversion(models.Model):
         for conv in self:
             if conv.uom_id == conv.product_tmpl_id.uom_id:
                 raise ValidationError(self.env._("The alternative unit must be different from the product base unit."))
+
+    def _get_secondary_uom_keys(self):
+        return {(conv.product_tmpl_id.id, conv.uom_id.id) for conv in self}
+
+    @api.model
+    def _recompute_open_secondary_uom_qty(self, keys):
+        """Recompute the stored secondary quantity of the open document lines
+        using the given (product template id, uom id) pairs.
+
+        The ratio is live while a document can still be edited (the inverse
+        uses the current ratio, so both directions must agree); closed documents
+        (locked or cancelled orders, done or cancelled moves) keep the
+        quantity computed with the ratio valid at that time.
+        """
+        if not keys:
+            return
+        tmpl_ids = list({key[0] for key in keys})
+        uom_ids = list({key[1] for key in keys})
+        for model_name in self.env.registry.descendants(["deltatech.secondary.uom.mixin"], "_inherit"):
+            Line = self.env[model_name].sudo().with_context(active_test=False)
+            if Line._abstract:
+                continue
+            domain = Line._get_secondary_uom_open_domain() + [
+                ("product_id.product_tmpl_id", "in", tmpl_ids),
+                ("secondary_uom_id", "in", uom_ids),
+            ]
+            lines = Line.search(domain).filtered(
+                lambda line: (line.product_id.product_tmpl_id.id, line.secondary_uom_id.id) in keys
+            )
+            if lines:
+                self.env.add_to_compute(Line._fields["secondary_uom_qty"], lines)
 
     def _to_base_qty(self, qty):
         """Convert a quantity expressed in ``uom_id`` into the product base UoM."""

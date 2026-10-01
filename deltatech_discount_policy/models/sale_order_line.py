@@ -18,17 +18,26 @@ class SaleOrderLine(models.Model):
 
     @api.depends("product_id", "product_uom_id", "product_uom_qty")
     def _compute_discount(self):
+        # Mirrors sale.order.line._compute_discount(): only the with_discount
+        # policy is added, everything else (feature check, combo items) is kept.
+        discount_enabled = self.env["product.pricelist.item"]._is_discount_feature_enabled()
         for line in self:
             if not line.product_id or line.display_type:
                 line.discount = 0.0
+
+            if not (line.order_id.pricelist_id and discount_enabled and line.product_uom_id):
                 continue
 
-            if line.order_id.pricelist_id and line.order_id.pricelist_id.discount_policy == "with_discount":
-                line.discount = 0.0
+            if line.combo_item_id:
+                line.discount = line._get_linked_line().discount
                 continue
 
-            if not line.pricelist_item_id or not line.pricelist_item_id._show_discount():
-                line.discount = 0.0
+            line.discount = 0.0
+
+            if line.order_id.pricelist_id.discount_policy == "with_discount":
+                continue
+
+            if not line.pricelist_item_id._show_discount():
                 continue
 
             line = line.with_company(line.company_id)
@@ -39,7 +48,3 @@ class SaleOrderLine(models.Model):
                 discount = (base_price - pricelist_price) / base_price * 100
                 if (discount > 0 and base_price > 0) or (discount < 0 and base_price < 0):
                     line.discount = discount
-                else:
-                    line.discount = 0.0
-            else:
-                line.discount = 0.0

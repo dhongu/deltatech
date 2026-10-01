@@ -1,3 +1,12 @@
+## 19.0.1.1.17 (2026-10-01)
+
+- Consultant sheet reviewed: Romanian field labels aligned with the interface, supported field types for
+  default values, portal acceptance documented as fixed, vendor bill journal taken from the purchase order.
+- New screenshot `09_factura_furnizor_jurnal.png`; screenshots `02`, `04` and `06` regenerated from the
+  real flow (type onchange, purchase journal from the order type).
+- Romanian translations added for the "Invoice" model option and the field types "Char", "Id", "Boolean".
+- DESCRIPTION updated for Odoo 19.0.
+
 ## 19.0.1.1.16 (2026-10-01)
 
 - Quotations without an order type accepted/signed or paid by the customer in the portal are confirmed again:
