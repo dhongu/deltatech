@@ -1,3 +1,8 @@
+## 19.0.1.2.2 (2026-10-01)
+
+- SALEPAY-001: the amount paid is computed in the order currency. The invoice side used the `*_signed` amounts (company currency) and compared them with the order total: a EUR 100 order invoiced at 5 RON/EUR and paid EUR 50 showed 250 paid, status `done`, and the payment link proposed 0. It now uses the invoice amounts in the invoice currency (negative for credit notes) and converts invoices and transactions in another currency at the document date.
+- Migration: the orders in a currency other than the company's are recomputed; the SQL of 19.0.1.2.0 uses the invoice currency too.
+
 ## 19.0.1.2.1 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
