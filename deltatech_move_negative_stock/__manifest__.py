@@ -2,12 +2,13 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Replenish negative stock",
-    "summary": "Replenish negative stock from other location",
-    "version": "19.0.1.1.2",
+    "name": "Replenish Negative Stock",
+    "summary": "Refill negative stock from another location in one click",
+    "version": "19.0.1.1.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
-    "category": "Generic Modules/Stock",
+    "support": "support@terrabit.ro",
+    "category": "Inventory/Inventory",
     "depends": ["stock", "mail"],
     "license": "OPL-1",
     "data": [
