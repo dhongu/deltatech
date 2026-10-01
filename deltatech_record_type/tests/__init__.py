@@ -4,3 +4,4 @@
 
 from . import test_saleorder_type
 from . import test_report
+from . import test_portal_confirm
