@@ -3,13 +3,13 @@
 #
 # Capturi de ecran pentru fișa consultant „Tipuri de documente" — generate în timpul testelor, în RO.
 #
-# Rulare:
-#   ./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_record_type,l10n_ro_doc_screenshots \
+# Rulare (bază nouă; fără l10n_ro testul se sare tăcut, cu „0 tests"):
+#   ./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro,deltatech_record_type,l10n_ro_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
 import unittest
 
 from odoo import SUPERUSER_ID, Command
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -47,7 +47,10 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
 
         cls.partner = env["res.partner"].create({"name": "Client Demo SRL", "country_id": env.ref("base.ro").id})
         cls.supplier = env["res.partner"].create({"name": "Furnizor Demo SRL", "country_id": env.ref("base.ro").id})
-        cls.product = env["product.product"].create({"name": "Produs demo", "type": "consu", "list_price": 100.0})
+        # facturare la cantitatea comandată: factura de furnizor se generează fără recepție
+        cls.product = env["product.product"].create(
+            {"name": "Produs demo", "type": "consu", "list_price": 100.0, "purchase_method": "purchase"}
+        )
         term = env.ref("account.account_payment_term_30days", raise_if_not_found=False) or env[
             "account.payment.term"
         ].search([], limit=1)
@@ -55,6 +58,8 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
         # denumiri lizibile în capturi (în loc de cele tehnice ale bazei de test)
         warehouse = env["stock.warehouse"].search([("company_id", "=", company.id)], limit=1)
         if warehouse:
+            # altfel „Livrare la" afișează numele tehnic al depozitului („company_1_data: Recepții")
+            warehouse.write({"name": "Depozit central", "code": "DC"})
             warehouse.in_type_id.name = "Recepții"
         pricelist = env["product.pricelist"].create(
             {"name": "Listă de prețuri RON", "currency_id": company.currency_id.id}
@@ -91,21 +96,41 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
             }
         )
         cls.type_retail = env["record.type"].create({"name": "Vânzare retail", "model": "sale.order"})
-        cls.type_purchase = env["record.type"].create({"name": "Achiziție import", "model": "purchase.order"})
-        cls.type_invoice = env["record.type"].create({"name": "Factură avans", "model": "account.move"})
-
-        # comandă de vânzare cu tip (valorile implicite aplicate ca după onchange)
-        line = Command.create({"product_id": cls.product.id, "product_uom_qty": 10, "price_unit": 100.0})
-        cls.so_typed = env["sale.order"].create(
+        # al doilea jurnal de achiziții: tipul „Achiziție import" îl completează pe comandă,
+        # iar comanda îl transmite facturii de furnizor (purchase.py, _prepare_invoice)
+        cls.journal_import = env["account.journal"].create(
+            {"name": "Achiziții import", "code": "AIMP", "type": "purchase", "company_id": company.id}
+        )
+        f_journal = env["ir.model.fields"]._get("purchase.order", "journal_id")
+        cls.type_purchase = env["record.type"].create(
             {
-                "partner_id": cls.partner.id,
-                "so_type": cls.type_wholesale.id,
-                "client_order_ref": "Comandă en-gros",
-                "payment_term_id": term.id,
-                "user_id": admin.id,
-                "order_line": [line],
+                "name": "Achiziție import",
+                "model": "purchase.order",
+                "default_values_ids": [
+                    Command.create(
+                        {
+                            "field_id": f_journal.id,
+                            "field_name": "journal_id",
+                            "field_value": str(cls.journal_import.id),
+                            "field_type": "id",
+                        }
+                    )
+                ],
             }
         )
+        cls.type_invoice = env["record.type"].create({"name": "Factură servicii", "model": "account.move"})
+
+        # comandă de vânzare cu tip, prin formular: onchange-ul tipului aplică valorile implicite
+        so_form = Form(env["sale.order"])
+        so_form.partner_id = cls.partner
+        so_form.so_type = cls.type_wholesale
+        so_form.user_id = admin
+        with so_form.order_line.new() as so_line:
+            so_line.product_id = cls.product
+            so_line.product_uom_qty = 10
+            so_line.price_unit = 100.0
+        cls.so_typed = so_form.save()
+        cls.term = term
         # comenzi confirmate, pentru grupare
         for type_, qty in ((cls.type_wholesale, 20), (cls.type_retail, 2)):
             order = env["sale.order"].create(
@@ -137,26 +162,21 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
             }
         )
         cls.so_untyped.user_id = cls.operator  # regula „Own Documents Only" pentru vânzători
-        # comandă de achiziție cu tip și jurnal
-        pj = env["account.journal"].search([("type", "=", "purchase"), ("company_id", "=", company.id)], limit=1)
-        cls.po = env["purchase.order"].create(
-            {
-                "partner_id": cls.supplier.id,
-                "po_type": cls.type_purchase.id,
-                "user_id": admin.id,
-                "journal_id": pj.id,
-                "order_line": [
-                    Command.create(
-                        {
-                            "product_id": cls.product.id,
-                            "product_qty": 5,
-                            "price_unit": 60.0,
-                            "name": cls.product.name,
-                        }
-                    )
-                ],
-            }
-        )
+        # comandă de achiziție cu tip, prin formular: jurnalul vine din valorile implicite ale tipului
+        po_form = Form(env["purchase.order"])
+        po_form.partner_id = cls.supplier
+        po_form.po_type = cls.type_purchase
+        po_form.user_id = admin
+        with po_form.order_line.new() as po_line:
+            po_line.product_id = cls.product
+            po_line.product_qty = 5
+            po_line.price_unit = 60.0
+        cls.po = po_form.save()
+        # confirmare + factură de furnizor generată din comandă, în jurnalul comenzii
+        cls.po.button_confirm()
+        cls.po.action_create_invoice()
+        cls.bill = cls.po.invoice_ids
+        cls.bill.invoice_date = cls.bill.date  # altfel câmpul obligatoriu apare gol, cu roșu
         # factură de client (ciornă) cu tip
         cls.invoice = env["account.move"].create(
             {
@@ -164,7 +184,9 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
                 "partner_id": cls.partner.id,
                 "invoice_type": cls.type_invoice.id,
                 "invoice_user_id": admin.id,
-                "invoice_line_ids": [Command.create({"name": "Avans comandă", "quantity": 1, "price_unit": 1000.0})],
+                "invoice_line_ids": [
+                    Command.create({"name": "Servicii de consultanță", "quantity": 1, "price_unit": 1000.0})
+                ],
             }
         )
         cls.act_sale_types = env.ref("deltatech_record_type.action_sale_order_type").id
@@ -172,6 +194,12 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
         env.flush_all()
 
     def test_capture_fise(self):
+        # datele din capturi provin din fluxul real (onchange-ul tipului, _prepare_invoice)
+        self.assertEqual(self.so_typed.client_order_ref, "Comandă en-gros")
+        self.assertEqual(self.so_typed.payment_term_id, self.term)
+        self.assertEqual(self.po.journal_id, self.journal_import)
+        self.assertEqual(self.bill.move_type, "in_invoice")
+        self.assertEqual(self.bill.journal_id, self.journal_import)
         self.capture_screenshots(
             [
                 # 1. Formularul tipului de vânzare
@@ -183,12 +211,29 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
                     "highlight": ["div[name='name']", "div[name='user_ids']"],
                     "full": True,
                 },
-                # 2. Valorile implicite ale tipului
+                # 2. Valorile implicite ale tipului — doar notebook-ul (mixinul nu are clip pe
+                # selector: ascundem restul ecranului, iar autotrim decupează fundalul rămas)
                 {
                     "url": f"id={self.type_wholesale.id}&model=record.type&view_type=form",
                     "name": "02_valori_implicite.png",
-                    "wait": ".o_form_view",
+                    "wait": ".o_form_view .o_notebook",
+                    "eval": """() => {
+                        // „important": bara de control are clase Bootstrap d-flex (!important)
+                        const hide = (e) => e.style.setProperty('display', 'none', 'important');
+                        document.querySelectorAll('.o_main_navbar, .o_control_panel').forEach(hide);
+                        const nb = document.querySelector('.o_form_sheet .o_notebook');
+                        [...nb.parentElement.children].forEach((e) => { if (e !== nb) { hide(e); } });
+                        // bulinele numerotate de pe antetul tabelului nu trebuie tăiate
+                        document.querySelectorAll('.o_notebook, .o_notebook *').forEach((e) => {
+                            e.style.overflow = 'visible';
+                        });
+                    }""",
+                    "eval_wait": 500,
                     "settle": 2000,
+                    "highlight": [
+                        "th[data-name='value_ref'], td[name='value_ref']",
+                        "th[data-name='field_value'], td[name='field_value']",
+                    ],
                     "full": True,
                 },
                 # 3. Lista tipurilor de vânzare
@@ -207,14 +252,25 @@ class TestRecordTypeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
                     "highlight": ["div[name='so_type']"],
                     "full": True,
                 },
-                # 6. Comanda de achiziție cu tip și jurnal (tab „Alte informații")
+                # 6. Comanda de achiziție cu tip și jurnalul „Achiziții import" (tab „Alte informații")
                 {
                     "url": f"id={self.po.id}&model=purchase.order&view_type=form",
                     "name": "06_comanda_achizitie_tip.png",
                     "wait": ".o_form_view",
                     "click_tab": "Other Info",
                     "settle": 2500,
+                    # „Receipt Status" nu are traducere RO în modulul purchase și nu ține de fișă
+                    "hide_fields": ["receipt_status"],
                     "highlight": ["div[name='po_type']", "div[name='journal_id']"],
+                    "full": True,
+                },
+                # 9. Factura de furnizor generată din comandă, în jurnalul comenzii
+                {
+                    "url": f"id={self.bill.id}&model=account.move&view_type=form",
+                    "name": "09_factura_furnizor_jurnal.png",
+                    "wait": ".o_form_view",
+                    "settle": 2500,
+                    "highlight": ["div[name='journal_div']"],
                     "full": True,
                 },
                 # 7. Factura cu tip (tab „Alte informații")
