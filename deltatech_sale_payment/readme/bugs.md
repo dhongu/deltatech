@@ -14,6 +14,28 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Normalize all sources into the order currency using an explicit conversion date and preserve the intended invoice/transaction deduplication policy.
 - **Validation needed:** Partial and full payments in both currency directions, exchange-rate changes, refunds, and transaction/invoice overlap.
 
+## SALEPAY-002 — P2: "Confirm Payment" date is never stored
+
+- **Status:** Open. Found while writing the consultant sheet (2026-10-01).
+- **Location:** wizard/sale_confirm_payment.py, do_confirm().
+- **Actual behavior:** `payment_date` is only passed as `with_context(payment_date=...)`; nothing reads it, so the date shown in the wizard is lost.
+
+## SALEPAY-003 — P1: "Confirm Payment" deletes a done or authorized transaction
+
+- **Status:** Open.
+- **Location:** wizard/sale_confirm_payment.py, default_get() and update_transaction().
+- **Actual behavior:** the `and`/`or` precedence in default_get picks up the last transaction also when it is `done` or `authorized`; update_transaction then calls `_set_canceled()` (no effect on `done`) and `unlink()`, and do_add_payment creates a new one. On an electronic provider the accounting payment of the old transaction remains and post-processing creates a second one.
+
+## SALEPAY-004 — P2: a salesman without Invoicing rights cannot confirm
+
+- **Status:** Open.
+- **Actual behavior:** `payment.transaction` is accessible only to `account.group_account_invoice` (no unlink) and `base.group_system`; the wizard writes without sudo, so a sales-only user gets an access error on Confirm and Add.
+
+## SALEPAY-005 — P2: confirmed wire-transfer transactions fail post-processing
+
+- **Status:** Open.
+- **Actual behavior:** Odoo 20 has no `account.payment.method` for the `custom` provider code, so after the wizard sets a wire-transfer transaction `done`, `_post_process` raises "Please define a payment method line on your payment." in `_create_payment`. The cron rolls back (order not confirmed, no invoice, no payment) and retries on the daily run for one day.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run at review time. SALEPAY-001 was fixed on 2026-10-01 with database-backed tests.
