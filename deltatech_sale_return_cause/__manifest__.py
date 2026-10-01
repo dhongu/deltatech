@@ -4,14 +4,14 @@
 {
     "name": "Sale Return Cause",
     "summary": "Return Cause",
-    "version": "19.0.0.0.10",
+    "version": "20.0.0.0.10",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["sale"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/ir_config_parameter_data.xml",
         "data/sale_return_cause_data.xml",
         "views/sale_order_view.xml",

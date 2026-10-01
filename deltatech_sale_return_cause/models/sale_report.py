@@ -26,14 +26,16 @@ class SaleReport(models.Model):
     )
     return_cause_date = fields.Date(string="Return Cause Date", readonly=True)
 
-    def _select_additional_fields(self):
-        res = super()._select_additional_fields()
-        res["return_cause_id"] = "s.return_cause_id"
-        res["return_cause"] = "s.return_cause"
-        res["return_cause_date"] = "s.return_cause_date"
-        return res
+    def _select_dict(self, table):
+        return super()._select_dict(table) | {
+            "return_cause_id": table.order_id.return_cause_id,
+            "return_cause": table.order_id.return_cause,
+            "return_cause_date": table.order_id.return_cause_date,
+        }
 
-    def _group_by_sale(self):
-        res = super()._group_by_sale()
-        res += ", s.return_cause_id, s.return_cause, s.return_cause_date"
-        return res
+    def _groupby_list(self, table):
+        return super()._groupby_list(table) + [
+            table.order_id.return_cause_id,
+            table.order_id.return_cause,
+            table.order_id.return_cause_date,
+        ]

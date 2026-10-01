@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models
-from odoo.tools.safe_eval import safe_eval
 
 
 class SaleOrder(models.Model):
@@ -47,8 +46,8 @@ class SaleOrder(models.Model):
     is_return_amount_readonly = fields.Boolean(compute="_compute_is_return_amount_readonly")
 
     def _compute_is_return_amount_readonly(self):
-        auto_calculate = safe_eval(
-            self.env["ir.config_parameter"].sudo().get_param("deltatech_sale_return_cause.auto_calculate", "True")
+        auto_calculate = (
+            self.env["ir.config_parameter"].sudo().get_bool("deltatech_sale_return_cause.auto_calculate", True)
         )
         for order in self:
             order.is_return_amount_readonly = auto_calculate
@@ -56,7 +55,7 @@ class SaleOrder(models.Model):
     @api.model
     def _cron_check_and_update_return_amount(self):
         config_parameter = self.env["ir.config_parameter"].sudo()
-        auto_calculate = safe_eval(config_parameter.get_param("deltatech_sale_return_cause.auto_calculate", "True"))
+        auto_calculate = config_parameter.get_bool("deltatech_sale_return_cause.auto_calculate", True)
         if not auto_calculate:
             return
         one_year_ago = datetime.today() - timedelta(days=365)

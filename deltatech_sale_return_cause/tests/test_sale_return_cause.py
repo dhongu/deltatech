@@ -142,7 +142,7 @@ class TestSaleReturnCause(TransactionCase):
             }
         )
         # Set config parameter to True
-        self.env["ir.config_parameter"].sudo().set_param("deltatech_sale_return_cause.auto_calculate", "True")
+        self.env["ir.config_parameter"].sudo().set_bool("deltatech_sale_return_cause.auto_calculate", True)
 
         # Just call the cron method to see if it runs without error
         self.env["sale.order"]._cron_check_and_update_return_amount()
