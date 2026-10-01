@@ -250,3 +250,30 @@ class TestPurchaseAddExtraLine(TransactionCase):
         po = po_form.save()
 
         self.assertEqual(po.order_line.product_id, plain)
+
+    # the extra line is mandatory
+
+    def test_confirm_restores_deleted_extra_line(self):
+        """An extra line deleted outside the form is regenerated when the RFQ is confirmed."""
+        po = self._new_order()
+        self._extra_line(po).unlink()
+        self.assertEqual(len(po.order_line), 1)
+
+        po.button_confirm()
+
+        extra_line = self._extra_line(po)
+        self.assertEqual(len(extra_line), 1)
+        self.assertEqual(extra_line.product_qty, 5 * 2.0)
+        self.assertEqual(po.state, "purchase")
+
+    def test_form_extra_line_qty_is_readonly(self):
+        """In the form, the quantity of the extra line cannot be changed, its price can."""
+        po = self._new_order()
+        po_form = Form(po)
+        extra_index = po.order_line.sorted("sequence").ids.index(self._extra_line(po).id)
+        with po_form.order_line.edit(extra_index) as line_form:
+            with self.assertRaises(AssertionError):
+                line_form.product_qty = 3
+            line_form.price_unit = 7.0
+        po = po_form.save()
+        self.assertEqual(self._extra_line(po).price_unit, 7.0)
