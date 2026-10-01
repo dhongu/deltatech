@@ -1,0 +1,135 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+from odoo import fields, models
+from odoo.exceptions import UserError
+
+
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
+
+    notice = fields.Boolean()
+
+
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+
+    from_invoice_id = fields.Many2one("account.move", string="Generated from the invoice")
+
+    def receipt_to_stock(self):
+        """
+        Metoda aceasta este utilizata si in fast purchase
+        """
+        for purchase_order in self:
+            for picking in purchase_order.picking_ids:
+                if picking.state == "confirmed":
+                    picking.action_assign()
+                    if picking.state != "assigned":
+                        raise UserError(self.env._("The stock transfer cannot be validated!"))
+                if picking.state == "assigned":
+                    picking.write({"notice": False, "origin": purchase_order.partner_ref})
+                    # se receptioneaza cantitatea comandata; miscarile fara cerere sunt anulate de _action_done
+                    for move in picking.move_ids.filtered(lambda m: m.product_uom_qty > 0):
+                        if move.uom_id.compare(move.quantity, move.product_uom_qty) != 0:
+                            move.quantity = move.product_uom_qty
+                        move.picked = True
+                    # pentru a se prelua data din comanda de achizitie
+                    picking.with_context(force_period_date=purchase_order.date_order)._action_done()
+
+    def _create_picking(self):
+        StockPicking = self.env["stock.picking"]
+        result = super()._create_picking()
+        for order in self:
+            if any(
+                [
+                    line.product_id.type == "consu" and line.product_id.is_storable is True and line.product_qty < 0
+                    for line in order.order_line
+                ]
+            ):
+                # in 20.0 _prepare_picking a fost eliminat (miscarile isi creeaza singure transferul)
+                picking = StockPicking.create(
+                    {
+                        "picking_type_id": order.picking_type_id.return_picking_type_id.id or order.picking_type_id.id,
+                        "partner_id": order.dest_address_id.id or order.partner_id.id,
+                        "user_id": False,
+                        "origin": order.name,
+                        "location_id": order._get_destination_location(),
+                        "location_dest_id": order.partner_id.property_stock_supplier.id,
+                        "company_id": order.company_id.id,
+                    }
+                )
+
+                moves = order.order_line.with_context(return_picking=True)._create_stock_moves(picking)
+                moves = moves.filtered(lambda x: x.state not in ("done", "cancel"))._action_confirm()
+
+                moves._action_assign()
+                picking.message_post_with_source(
+                    "mail.message_origin_link",
+                    render_values={"self": picking, "origin": order},
+                    subtype_id=self.env.ref("mail.mt_note").id,
+                )
+        return result
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = "purchase.order.line"
+
+    def _prepare_stock_moves(self, picking=False):
+        if self.product_qty > 0:
+            return super()._prepare_stock_moves(picking)
+        if not self.env.context.get("return_picking", False):
+            return []
+
+        self.ensure_one()
+        res = []
+        if self.product_id.type != "consu":
+            return res
+        qty = 0.0
+        price_unit = self._get_stock_move_price_unit()
+        outgoing_moves, incoming_moves = self._get_outgoing_incoming_moves()
+        for move in outgoing_moves:
+            qty -= move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
+        for move in incoming_moves:
+            qty += move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
+        description_picking = self.product_id.with_context(
+            lang=self.order_id.dest_address_id.lang or self.env.user.lang
+        )._get_description(self.order_id.picking_type_id)
+        template = {
+            "product_id": self.product_id.id,
+            "date": self.order_id.date_order,
+            "location_dest_id": self.order_id.partner_id.property_stock_supplier.id,
+            "location_id": self.order_id._get_destination_location(),
+            "picking_id": picking.id,
+            "partner_id": self.order_id.dest_address_id.id,
+            "move_dest_ids": [(4, x) for x in self.move_dest_ids.ids],
+            "state": "draft",
+            "purchase_line_id": self.id,
+            "company_id": self.order_id.company_id.id,
+            "price_unit": price_unit,
+            "picking_type_id": self.order_id.picking_type_id.return_picking_type_id.id,
+            "origin": self.order_id.name,
+            "to_refund": True,
+            "description_picking": description_picking,
+            "propagate_cancel": self.propagate_cancel,
+            "route_ids": self.order_id.picking_type_id.warehouse_id
+            and [
+                (
+                    6,
+                    0,
+                    [x.id for x in self.order_id.picking_type_id.warehouse_id.route_ids],
+                )
+            ]
+            or [],
+            "warehouse_id": self.order_id.picking_type_id.warehouse_id.id,
+        }
+        diff_quantity = self.product_qty + qty
+        if self.uom_id.compare(diff_quantity, 0.0) < 0:
+            po_line_uom = self.uom_id
+            quant_uom = self.product_id.uom_id
+            product_uom_qty, product_uom = po_line_uom._adjust_uom_quantities(-diff_quantity, quant_uom)
+            template["product_uom_qty"] = product_uom_qty
+            template["uom_id"] = product_uom.id
+            res.append(template)
+        return res
