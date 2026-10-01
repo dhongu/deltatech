@@ -142,3 +142,51 @@ class TestStockQuantReport(TransactionCase):
         # Ar trebui să rămână doar unul (cel nou creat sau cel vechi șters)
         remaining_reports = self.env["stock.quant.report"].search([("location_id", "=", self.stock_location.id)])
         self.assertIn(report_wizard_2.id, remaining_reports.ids)
+
+    def _create_report(self, **vals):
+        values = {
+            "location_id": self.stock_location.id,
+            "partner_id": self.partner.id,
+            "pricelist_id": self.pricelist.id,
+            "refresh_report": False,
+        }
+        values.update(vals)
+        return self.env["stock.quant.report"].create(values)
+
+    def test_04_cache_not_reused_for_other_configuration(self):
+        """RESELLER-001: a cached report is reused only for the same configuration"""
+        report_a = self._create_report(refresh_report=True)
+        action = report_a.do_execute()
+        self.assertEqual(action["domain"], [("report_id", "=", report_a.id)])
+
+        # Same settings: the cached report is reused
+        report_same = self._create_report()
+        action = report_same.do_execute()
+        self.assertEqual(action["domain"], [("report_id", "=", report_a.id)])
+
+        partner_b = self.env["res.partner"].create({"name": "Test Partner B"})
+        pricelist_b = self.env["product.pricelist"].create(
+            {
+                "name": "Test Pricelist B",
+                "item_ids": [
+                    (0, 0, {"compute_price": "formula", "base": "list_price", "price_discount": 20.0}),
+                ],
+            }
+        )
+        report_b = self._create_report(partner_id=partner_b.id, pricelist_id=pricelist_b.id)
+        action = report_b.do_execute()
+        self.assertEqual(action["domain"], [("report_id", "=", report_b.id)])
+        line = report_b.lines_ids.filtered(lambda l: l.product_id == self.product)
+        self.assertEqual(line.price_reseller, 80.0)
+
+        report_thr = self._create_report(show_thresholds=True, stock_threshold_2_text="Medium")
+        action = report_thr.do_execute()
+        self.assertEqual(action["domain"], [("report_id", "=", report_thr.id)])
+        line = report_thr.lines_ids.filtered(lambda l: l.product_id == self.product)
+        self.assertEqual(line.qty_text, "Medium")
+
+        # Refreshing one configuration keeps the reports of the other configurations
+        self._create_report(refresh_report=True).do_execute()
+        self.assertTrue(report_b.exists())
+        self.assertTrue(report_thr.exists())
+        self.assertFalse(report_a.exists())

@@ -82,8 +82,31 @@ class StockQuantReport(models.TransientModel):
         action["domain"] = [("report_id", "=", self.id)]
         return action
 
+    def _get_cache_domain(self):
+        """A cached report is reusable only if it was generated with the same options"""
+        self.ensure_one()
+        domain = [("id", "!=", self.id)]
+        for field_name in self._get_cache_fields():
+            value = self[field_name]
+            if isinstance(value, models.BaseModel):
+                value = value.id
+            domain.append((field_name, "=", value))
+        return domain
+
+    def _get_cache_fields(self):
+        fields_list = ["location_id", "partner_id", "pricelist_id", "show_thresholds"]
+        if self.show_thresholds:
+            fields_list += [
+                "stock_threshold_1",
+                "stock_threshold_1_text",
+                "stock_threshold_2",
+                "stock_threshold_2_text",
+                "stock_no_threshold_text",
+            ]
+        return fields_list
+
     def do_execute(self):
-        domain = [("location_id", "=", self.location_id.id), ("id", "!=", self.id)]
+        domain = self._get_cache_domain()
         if self.refresh_report:
             report = self.env["stock.quant.report"].search(domain)
             report.unlink()
