@@ -173,7 +173,7 @@ class DeltatechExpensesDeduction(models.Model):
 
     account_diem_id = fields.Many2one(
         "account.account",
-        string="Account",
+        string="Diem Account",
         required=True,
         readonly=True,
         # states={"draft": [("readonly", False)], "advance": [("readonly", False)]},
@@ -437,7 +437,8 @@ class DeltatechExpensesDeduction(models.Model):
     def _reconcile_supplier_payment(self, settle_payable):
         """Reconciliază linia de furnizor a unei plăți directe (supplier_payment) cu datoriile
         deschise ale aceluiași furnizor pe același cont (ca o plată: stinge facturile existente).
-        Dacă furnizorul nu are datorii deschise, linia rămâne deschisă (avans către furnizor)."""
+        Ce rămâne neacoperit de datorii deschise e un avans acordat furnizorului și se trece pe
+        4092 (vezi _reclassify_supplier_advance)."""
         settle_payable.ensure_one()
         open_lines = self.env["account.move.line"].search(
             [
@@ -454,6 +455,53 @@ class DeltatechExpensesDeduction(models.Model):
         )
         if open_lines:
             (settle_payable | open_lines).reconcile()
+        self._reclassify_supplier_advance(settle_payable)
+
+    def _reclassify_supplier_advance(self, settle_payable):
+        """Soldul debitor rămas pe 401 după o plată directă din avans este un avans acordat
+        furnizorului: Dr 4092 = Cr 401, reconciliat cu plata. Conform funcțiunii conturilor
+        (OMFP 1802/2014), 409 se debitează prin 401, nu direct prin 542. La primirea facturii,
+        avansul se regularizează Dr 401 = Cr 4092. Fără cont 4092 în plan, soldul rămâne pe 401."""
+        residual = settle_payable.amount_residual
+        if settle_payable.company_currency_id.is_zero(residual) or residual < 0:
+            return
+        account_409 = self.env["account.account"].search(
+            [("code", "=like", "4092%"), ("company_ids", "in", settle_payable.company_id.id)], limit=1
+        )
+        if not account_409:
+            return
+        move = self.env["account.move"].create(
+            {
+                "journal_id": settle_payable.journal_id.id,
+                "date": settle_payable.date,
+                "ref": settle_payable.move_id.ref,
+                "expenses_deduction_id": settle_payable.move_id.expenses_deduction_id.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": settle_payable.partner_id.id,
+                            "account_id": account_409.id,
+                            "name": self.env._("Avans furnizor"),
+                            "debit": residual,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": settle_payable.partner_id.id,
+                            "account_id": settle_payable.account_id.id,
+                            "name": self.env._("Avans furnizor"),
+                            "credit": residual,
+                        },
+                    ),
+                ],
+            }
+        )
+        move._post()
+        (settle_payable | move.line_ids.filtered(lambda aml: aml.account_id == settle_payable.account_id)).reconcile()
 
     def validate_expenses(self):
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
@@ -499,7 +547,7 @@ class DeltatechExpensesDeduction(models.Model):
                     # inclus în preț" trebuie trimis brutul (line.amount) — trimiterea netului
                     # (price_subtotal) ar extrage TVA a doua oară, subevaluând baza, TVA-ul
                     # deductibil și totalul documentului (tichet POPVAL-COS). Pentru taxe „pe
-                    # deasupra" price_subtotal == amount (netul), deci comportamentul e neschimbat.
+                    # deasupra" se trimite baza extrasă din brut (price_subtotal).
                     line_price_include = bool(line.tax_ids) and all(line.tax_ids.mapped("price_include"))
                     line_price_unit = line.amount if line_price_include else line.price_subtotal
                     voucher_value = {
@@ -576,13 +624,13 @@ class DeltatechExpensesDeduction(models.Model):
                         {
                             "partner_id": expenses.partner_id.id,
                             "account_id": account.id,
-                            "name": self.env._("Deferenta Avans"),
+                            "name": self.env._("Diferență avans"),
                             "credit": amount,
                         },
                         {
                             "partner_id": expenses.partner_id.id,
                             "account_id": expenses.journal_id.default_account_id.id,
-                            "name": self.env._("Deferenta Avans"),
+                            "name": self.env._("Diferență avans"),
                             "debit": amount,
                         },
                     ]
@@ -591,19 +639,20 @@ class DeltatechExpensesDeduction(models.Model):
                         {
                             "partner_id": expenses.partner_id.id,
                             "account_id": account.id,
-                            "name": self.env._("Deferenta Avans"),
+                            "name": self.env._("Diferență avans"),
                             "debit": amount,
                         },
                         {
                             "partner_id": expenses.partner_id.id,
                             "account_id": expenses.journal_id.default_account_id.id,
-                            "name": self.env._("Deferenta Avans"),
+                            "name": self.env._("Diferență avans"),
                             "credit": amount,
                         },
                     ]
                 value = {
                     "journal_id": expenses.journal_id.id,
-                    "date": expenses.date_advance,
+                    # restituirea/plata diferenței are loc la decontare, nu la acordarea avansului
+                    "date": expenses.date_expense or fields.Date.context_today(self),
                     "ref": expenses.number,
                     "expenses_deduction_id": expenses.id,
                 }
@@ -614,7 +663,7 @@ class DeltatechExpensesDeduction(models.Model):
 
             if expenses.total_diem:
                 move_line_dr = {
-                    "name": self.env._("Diurna"),
+                    "name": self.env._("Diurnă"),
                     "debit": expenses.total_diem,
                     "credit": 0.0,
                     "account_id": expenses.account_diem_id.id,
@@ -624,7 +673,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "date_maturity": expenses.date_expense,
                 }
                 move_line_cr = {
-                    "name": self.env._("Diurna"),
+                    "name": self.env._("Diurnă"),
                     "debit": 0.0,
                     "credit": expenses.total_diem,
                     "account_id": expenses.expense_journal_id.default_account_id.id,  # 542
@@ -684,19 +733,24 @@ class DeltatechExpensesDeductionLine(models.Model):
     @api.model
     def _default_expense_account(self):
         account_pool = self.env["account.account"]
-        account = account_pool.search([("code", "=ilike", "623%")], limit=1)  # cheltuieli de protocol
+        company_domain = [("company_ids", "in", self.env.company.id)]
+        account = account_pool.search([("code", "=ilike", "623%")] + company_domain, limit=1)  # protocol
         if not account:
-            account = account_pool.search([("account_type", "=", "expense")], limit=1)
+            account = account_pool.search([("account_type", "=", "expense")] + company_domain, limit=1)
         return account
 
     expenses_deduction_id = fields.Many2one("deltatech.expenses.deduction", string="Expenses Deduction", required=False)
     date = fields.Date("Date", index=True, copy=False, default=fields.Date.context_today)
     name = fields.Text(string="Reference", required=True)
-    tax_ids = fields.Many2many("account.tax", string="Tax", help="Only for tax excluded from price")
+    tax_ids = fields.Many2many(
+        "account.tax", string="Tax", help="VAT on the receipt; the amount is always entered with VAT included."
+    )
 
     type = fields.Selection([("expenses", "Expenses"), ("supplier_payment", "Supplier Payment")], default="expenses")
 
-    amount = fields.Monetary(string="Total")  # e cu tot cu tva ?
+    # Suma de pe bon/factură, mereu cu TVA inclus, indiferent dacă taxa e configurată „inclusă
+    # în preț" sau „pe deasupra" (taxele RO standard de achiziție sunt pe deasupra).
+    amount = fields.Monetary(string="Total", help="Amount on the receipt, VAT included.")
     tax_amount = fields.Monetary(readonly=True, store=True, compute="_compute_subtotal")
     price_subtotal = fields.Monetary(readonly=True, store=True, compute="_compute_subtotal")  # valoare subtotal
 
@@ -728,10 +782,20 @@ class DeltatechExpensesDeductionLine(models.Model):
         for expenses in self:
             tax_amount = 0.0
             price_subtotal = expenses.amount
-            if expenses.tax_ids:
-                tax_info = expenses.tax_ids.compute_all(
-                    expenses.amount, expenses.currency_id, quantity=1, partner=expenses.partner_id
-                )
+            taxes = expenses.tax_ids
+            if taxes:
+                price_unit = expenses.amount
+                if not all(taxes.mapped("price_include")):
+                    # suma e brută: baza se extrage ca pentru o taxă inclusă, apoi TVA-ul se
+                    # recalculează pe baza rotunjită, exact ca pe chitanța generată (care primește
+                    # netul), ca totalul decontului să fie identic cu cel al chitanței — altfel 542
+                    # nu s-ar închide la zero. Față de bon poate rămâne o rotunjire de 1 ban.
+                    price_unit = expenses.currency_id.round(
+                        taxes.with_context(force_price_include=True).compute_all(
+                            expenses.amount, expenses.currency_id, quantity=1, partner=expenses.partner_id
+                        )["total_excluded"]
+                    )
+                tax_info = taxes.compute_all(price_unit, expenses.currency_id, quantity=1, partner=expenses.partner_id)
                 tax_amount += sum(t.get("amount", 0.0) for t in tax_info.get("taxes", False))
                 price_subtotal = tax_info["total_excluded"]
             expenses.tax_amount = tax_amount

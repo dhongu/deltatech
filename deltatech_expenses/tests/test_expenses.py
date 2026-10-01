@@ -633,3 +633,86 @@ class TestExpenses(TransactionCase):
         )
         with self.assertRaises(AccessError):
             line.with_user(plain_user).read(["name"])
+
+    def _new_deduction(self, advance, **vals):
+        values = {
+            "date_advance": fields.Date.today(),
+            "employee_id": self.employee.id,
+            "advance": advance,
+            "journal_id": self.cash_journal.id,
+            "expense_journal_id": self.adv_journal.id,
+            "journal_diem_id": self.diary_journal.id,
+            "account_diem_id": self.acc_exp.id,
+        }
+        values.update(vals)
+        deduction = self.env["deltatech.expenses.deduction"].create(values)
+        deduction.validate_advance()
+        return deduction
+
+    def _new_line(self, deduction, amount, taxes=None, **vals):
+        values = {
+            "expenses_deduction_id": deduction.id,
+            "name": "Cheltuială",
+            "amount": amount,
+            "tax_ids": [(6, 0, (taxes or self.env["account.tax"]).ids)],
+            "expense_account_id": self.acc_exp.id,
+            "partner_id": self.supplier.id,
+        }
+        values.update(vals)
+        return self.env["deltatech.expenses.deduction.line"].create(values)
+
+    def test_amount_is_gross_with_tax_excluded(self):
+        """Suma liniei e mereu brută (de pe bon), chiar și cu o taxă „pe deasupra": baza și TVA-ul
+        se extrag din ea, iar chitanța generată are totalul egal cu suma de pe bon."""
+        deduction = self._new_deduction(200.0)
+        line = self._new_line(deduction, 121.0, self.tax_21)
+        self.assertAlmostEqual(line.price_subtotal, 100.0, places=2)
+        self.assertAlmostEqual(line.tax_amount, 21.0, places=2)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0, places=2)
+        deduction.validate_expenses()
+        voucher = deduction.voucher_ids
+        self.assertEqual(len(voucher), 1)
+        self.assertAlmostEqual(voucher.amount_untaxed, 100.0, places=2)
+        self.assertAlmostEqual(voucher.amount_tax, 21.0, places=2)
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+
+    def test_gross_amount_rounding_still_closes_542(self):
+        """Un brut care nu se împarte exact (100 lei cu TVA 21% pe deasupra) dă un total al
+        decontului identic cu al chitanței, deci 542 se închide la zero."""
+        deduction = self._new_deduction(100.0)
+        self._new_line(deduction, 100.0, self.tax_21)
+        voucher_total = deduction.amount_vouchers
+        deduction.validate_expenses()
+        self.assertAlmostEqual(deduction.voucher_ids.amount_total, voucher_total, places=2)
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    def test_difference_note_dated_on_settlement(self):
+        """Nota de regularizare a diferenței (casă ↔ 542) poartă data decontului, nu data avansului."""
+        advance_date = fields.Date.subtract(fields.Date.today(), days=5)
+        deduction = self._new_deduction(500.0, date_advance=advance_date, date_expense=fields.Date.today())
+        self._new_line(deduction, 300.0)
+        deduction.validate_expenses()
+        diff_moves = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_cash).move_id
+        advance_move = diff_moves.filtered(lambda m: m.date == advance_date)
+        refund_move = diff_moves - advance_move
+        self.assertEqual(len(refund_move), 1)
+        self.assertEqual(refund_move.date, fields.Date.today())
+        self.assertAlmostEqual(refund_move.line_ids.filtered(lambda l: l.account_id == self.acc_cash).debit, 200.0)
+
+    def test_supplier_payment_without_bill_is_supplier_advance(self):
+        """Plata directă către un furnizor fără datorii deschise e un avans acordat furnizorului:
+        Dr 4092 = Cr 401, reconciliat cu Dr 401 = Cr 542 — pe 401 nu rămâne sold debitor."""
+        acc_4092 = self.env["account.account"].create(
+            {"name": "Furnizori-debitori servicii", "code": "4092TEST", "account_type": "asset_current"}
+        )
+        deduction = self._new_deduction(100.0)
+        self._new_line(deduction, 100.0, type="supplier_payment")
+        deduction.validate_expenses()
+        lines = self._lines_for_expenses(deduction)
+        payable = lines.filtered(lambda l: l.account_id == self.acc_payable)
+        self.assertAlmostEqual(sum(payable.mapped("balance")), 0.0, places=2)
+        self.assertTrue(all(payable.mapped("reconciled")))
+        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_4092).mapped("debit")), 100.0)
+        lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)

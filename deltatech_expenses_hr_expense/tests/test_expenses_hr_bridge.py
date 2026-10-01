@@ -114,7 +114,7 @@ class TestExpensesHrBridge(TestExpenses):
         expense.approval_state = "approved"
         deduction._import_hr_expenses(expense)
         line = deduction.expenses_line_ids
-        self.assertAlmostEqual(line.amount, 100.0, places=2)  # netul, nu brutul
+        self.assertAlmostEqual(line.amount, 121.0, places=2)  # brutul, ca pe bon
         self.assertAlmostEqual(line.price_subtotal, 100.0, places=2)
         self.assertAlmostEqual(line.tax_amount, 21.0, places=2)
         # totalul recompus pe decont = brutul cheltuielii (fără umflare)

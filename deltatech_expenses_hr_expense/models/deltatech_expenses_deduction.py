@@ -56,20 +56,15 @@ class DeltatechExpensesDeduction(models.Model):
                 % ", ".join(invalid.mapped("name"))
             )
         for expense in expenses:
-            # Linia de decont interpretează `amount` conform flag-ului price_include al taxelor
-            # (compute_all pe aceleași taxe). Pentru taxe „TVA inclus" trimitem brutul, pentru taxe
-            # „pe deasupra" (non-price-include) trimitem netul, ca subtotalul + TVA-ul să corespundă
-            # exact cu cheltuiala hr.expense.
-            taxes = expense.tax_ids
-            price_include = bool(taxes) and all(taxes.mapped("price_include"))
-            line_amount = expense.total_amount if price_include else expense.untaxed_amount
+            # Suma liniei de decont e mereu brută (TVA inclus), indiferent de flag-ul price_include
+            # al taxelor: linia extrage singură baza și TVA-ul, la fel ca hr.expense.
             line_model.create(
                 {
                     "expenses_deduction_id": self.id,
                     "hr_expense_id": expense.id,
                     "name": expense.name,
                     "date": expense.date,
-                    "amount": line_amount,
+                    "amount": expense.total_amount,
                     "tax_ids": [(6, 0, expense.tax_ids.ids)],
                     "partner_id": expense.vendor_id.id,
                     "expense_account_id": expense.account_id.id,
