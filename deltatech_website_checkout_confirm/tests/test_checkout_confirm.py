@@ -1,0 +1,122 @@
+from unittest.mock import patch
+
+from odoo.http.session import session_store
+from odoo.tests import HttpCase, tagged
+
+from odoo.addons.payment.tests.common import PaymentCommon
+
+
+@tagged("post_install", "-at_install")
+class TestCheckoutConfirm(PaymentCommon, HttpCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.website = cls.env.company.website_id
+        cls.product = cls.env["product.product"].create(
+            {"name": "Test Product", "type": "consu", "list_price": 100.0, "sale_ok": True, "website_published": True}
+        )
+        cls.order = cls.env["sale.order"].create(
+            {
+                "partner_id": cls.partner.id,
+                "website_id": cls.website.id,
+                "order_line": [(0, 0, {"product_id": cls.product.id, "product_uom_qty": 1})],
+            }
+        )
+
+    def _open_confirmation(self):
+        self.authenticate(None, None)
+        self.session["sale_last_order_id"] = self.order.id
+        session_store().save(self.session)
+        response = self.url_open("/shop/confirmation")
+        self.assertEqual(response.status_code, 200)
+        return response
+
+    def _create_tx(self, state, provider=None, amount=None, sale_order_ids=None):
+        return self._create_transaction(
+            "redirect",
+            state=state,
+            reference=self.env["payment.transaction"]._compute_reference(self.provider.code, prefix=self.order.name),
+            provider_id=(provider or self.provider).id,
+            amount=self.order.amount_total if amount is None else amount,
+            currency_id=self.order.currency_id.id,
+            partner_id=self.partner.id,
+            sale_order_ids=sale_order_ids or [(6, 0, self.order.ids)],
+        )
+
+    def test_no_transaction_not_confirmed(self):
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "draft")
+
+    def test_pending_online_transaction_not_confirmed(self):
+        self._create_tx("pending")
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "draft")
+
+    def test_done_transaction_confirmed(self):
+        self._create_tx("done")
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "sale")
+
+    def test_pending_offline_transaction_confirmed(self):
+        # Treat the test provider as offline (wire transfer / cash on delivery) without
+        # depending on payment_custom or deltatech_payment_on_delivery.
+        self._create_tx("pending")
+        with patch(
+            "odoo.addons.deltatech_website_checkout_confirm.controllers.website_sale.OFFLINE_PROVIDER_CODES",
+            (self.provider.code,),
+        ):
+            self._open_confirmation()
+        self.assertEqual(self.order.state, "sale")
+
+    def test_reload_no_error(self):
+        self._create_tx("done")
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "sale")
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "sale")
+
+    # CHECKOUT-001: the route must respect the prepayment threshold and the required signature,
+    # like the standard post-processing of the transaction (_check_amount_and_confirm_order).
+
+    def test_insufficient_partial_payment_not_confirmed(self):
+        self.order.write({"prepayment_percent": 1.0})
+        self._create_tx("done", amount=1.0)
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "draft")
+
+    def test_partial_prepayment_reached_confirmed(self):
+        self.order.write({"prepayment_percent": 0.3})
+        self._create_tx("done", amount=self.order.currency_id.round(self.order.amount_total * 0.3))
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "sale")
+
+    def test_multiple_partial_transactions_confirmed(self):
+        self.order.write({"prepayment_percent": 1.0})
+        half = self.order.amount_total / 2
+        self._create_tx("done", amount=half)
+        self._create_tx("done", amount=self.order.amount_total - half)
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "sale")
+
+    def test_required_signature_not_confirmed(self):
+        self.order.write({"require_signature": True})
+        self._create_tx("done")
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "draft")
+
+    def test_pending_offline_insufficient_amount_not_confirmed(self):
+        self.order.write({"prepayment_percent": 1.0})
+        self._create_tx("pending", amount=1.0)
+        with patch(
+            "odoo.addons.deltatech_website_checkout_confirm.controllers.website_sale.OFFLINE_PROVIDER_CODES",
+            (self.provider.code,),
+        ):
+            self._open_confirmation()
+        self.assertEqual(self.order.state, "draft")
+
+    def test_grouped_transaction_not_counted(self):
+        self.order.write({"prepayment_percent": 1.0})
+        other = self.order.copy()
+        self._create_tx("done", sale_order_ids=[(6, 0, (self.order | other).ids)])
+        self._open_confirmation()
+        self.assertEqual(self.order.state, "draft")
