@@ -16,6 +16,7 @@ class Partner(models.Model):
 
     def address_get(self, adr_pref=None):
         res = super().address_get(adr_pref)
+        adr_pref = set(adr_pref or [])
         if "delivery" in adr_pref:
             for partner in self:
                 for child_id in partner.child_ids.filtered(lambda x: x.type == "delivery"):

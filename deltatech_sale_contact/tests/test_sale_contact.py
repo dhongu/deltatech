@@ -78,3 +78,14 @@ class TestSaleContact(TransactionCase):
         move_model = self.env["account.move"]
         domain_partner = move_model._fields["partner_id"].domain
         self.assertEqual(domain_partner, [("parent_id", "=", False)])
+
+    def test_05_address_get_without_preferences(self):
+        """address_get must accept the default None preferences (e.g. event registration)"""
+        self.contact_2.write({"contact_default": True})
+        self.invoice_contact.write({"contact_default": True})
+        standard = self.parent_partner.address_get(["contact"])
+        for adr_pref in ((), (None,), ([],)):
+            addresses = self.parent_partner.address_get(*adr_pref)
+            self.assertEqual(addresses, standard)
+        self.assertEqual(self.parent_partner.address_get(["delivery"])["delivery"], self.contact_2.id)
+        self.assertEqual(self.parent_partner.address_get(["invoice"])["invoice"], self.invoice_contact.id)
