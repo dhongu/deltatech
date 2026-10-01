@@ -80,16 +80,20 @@ class QueueJobProcessorController(http.Controller):
             result = {
                 "status": "success",
                 "processed": api_results["processed"],
+                "done": api_results["done"],
                 "failed": api_results["failed"],
+                "postponed": api_results["postponed"],
                 "pending_count": api_results["pending_remaining"],
                 "time_elapsed": api_results["time_elapsed"],
                 "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
             }
 
             _logger.info(
-                "✅ API processing finished - Processed: %d, Failed: %d, Time: %.2fs",
+                "✅ API processing finished - Processed: %d, Done: %d, Failed: %d, Postponed: %d, Time: %.2fs",
                 api_results["processed"],
+                api_results["done"],
                 api_results["failed"],
+                api_results["postponed"],
                 api_results["time_elapsed"],
             )
 

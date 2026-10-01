@@ -1,3 +1,12 @@
+# 19.0.1.4.2
+
+- Fix: the API runner (`/queue_job/process`, "Process (Thread)") reported failed jobs
+  as successful. `_process()` catches the job exceptions, stores the job as failed or
+  as pending for a retry and returns normally, so the runner counted `failed` only
+  for exceptions that never reached it. The counters now follow the stored job state:
+  `processed` (attempted) is split into `done`, `failed` and `postponed`, and the
+  endpoint returns the two new keys too.
+
 # 19.0.1.4.1
 
 - Own module icon, instead of the generic gears it had.
