@@ -4,7 +4,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## VATCOST-001 — P2: Purchase VAT is skipped when sales taxes are empty
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.2. The guard in both `_compute_standard_price_with_vat()` implementations now checks `supplier_taxes_id`, and `@api.depends` lists `supplier_taxes_id`, `supplier_taxes_id.amount`, `supplier_taxes_id.amount_type` and `currency_id` instead of `taxes_id`. Covered by `tests/test_cost_with_vat.py` (purchase taxes only, sales taxes only, both, neither; changing the purchase taxes and the tax amount). Priority P2 confirmed.
 - **Location:** `models/product.py`, both `_compute_standard_price_with_vat()` implementations, lines 12–20 and 31–39.
 - **Trigger:** A product has a nonzero cost and purchase taxes, but no sales taxes.
 - **Actual behavior:** The guard checks `taxes_id` (sales taxes), although the amount is calculated from `supplier_taxes_id` (purchase taxes). With empty sales taxes, the calculation is skipped.
@@ -17,4 +17,4 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## Review limitations
 
-Verified through local source and dependency analysis and the isolated reproductions stated above. Fresh-database installations and database-backed integration tests have not been run. No fixes have been applied.
+Verified through local source and dependency analysis and the isolated reproductions stated above. The fix was validated with database-backed tests on a fresh database (6 tests, 0 failures); before the fix, 3 of them failed, and with the old dependencies the 2 invalidation tests failed.

@@ -8,10 +8,16 @@ class ProductTemplate(models.Model):
         string="Cost with VAT", readonly=True, compute="_compute_standard_price_with_vat"
     )
 
-    @api.depends("standard_price", "taxes_id")
+    @api.depends(
+        "standard_price",
+        "currency_id",
+        "supplier_taxes_id",
+        "supplier_taxes_id.amount",
+        "supplier_taxes_id.amount_type",
+    )
     def _compute_standard_price_with_vat(self):
         for product in self.sudo():
-            if product.taxes_id and product.standard_price:
+            if product.supplier_taxes_id and product.standard_price:
                 taxes = product.supplier_taxes_id.compute_all(
                     product.standard_price, product.currency_id, 1, product=product, handle_price_include=False
                 )
@@ -27,10 +33,16 @@ class ProductProduct(models.Model):
         string="Cost with VAT", readonly=True, compute="_compute_standard_price_with_vat"
     )
 
-    @api.depends("standard_price", "taxes_id")
+    @api.depends(
+        "standard_price",
+        "currency_id",
+        "supplier_taxes_id",
+        "supplier_taxes_id.amount",
+        "supplier_taxes_id.amount_type",
+    )
     def _compute_standard_price_with_vat(self):
         for variant in self.sudo():
-            if variant.taxes_id and variant.standard_price:
+            if variant.supplier_taxes_id and variant.standard_price:
                 taxes = variant.supplier_taxes_id.compute_all(
                     variant.standard_price, variant.currency_id, 1, product=variant, handle_price_include=False
                 )
