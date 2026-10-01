@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_stock_location_form_inherit_deltatech_map" model="ir.ui.view">
+        <field name="name">stock.location.form.deltatech.map</field>
+        <field name="model">stock.location</field>
+        <field name="inherit_id" ref="stock.view_location_form" />
+        <field name="arch" type="xml">
+            <!-- Adăugăm câmpul max_products_leaf pe formular (secțiunea de locație) -->
+            <xpath expr="//sheet//group" position="inside">
+                <group string="Capacity">
+                    <field name="max_products_leaf" />
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
