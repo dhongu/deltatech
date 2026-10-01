@@ -12,7 +12,8 @@ class SaleConfirmPayment(models.TransientModel):
     _description = "Sale Confirm Payment"
 
     transaction_id = fields.Many2one("payment.transaction", readonly=True)
-    provider_id = fields.Many2one("payment.provider", required=True, domain=[("state", "!=", "disabled")])
+    # in 20 a disabled provider is archived (`state` is gone): the active ones are offered
+    provider_id = fields.Many2one("payment.provider", required=True)
     amount = fields.Monetary(string="Amount", required=True)
     currency_id = fields.Many2one("res.currency")
     payment_date = fields.Date(string="Payment Date", required=True, default=fields.Date.context_today)
@@ -21,9 +22,11 @@ class SaleConfirmPayment(models.TransientModel):
     @api.onchange("provider_id")
     def _onchange_provider_id(self):
         if self.provider_id:
-            if self.provider_id.payment_method_ids:
-                payment_method_line = self.provider_id.payment_method_ids[0]
-                self.payment_method_id = payment_method_line.id
+            # in 20 every method belongs to one provider, which also has an "unknown" one
+            methods = self.provider_id.payment_method_ids
+            method = methods.filtered(lambda m: m.active and m.code != "unknown")[:1] or methods[:1]
+            if method:
+                self.payment_method_id = method
 
     @api.model
     def default_get(self, fields_list):
@@ -81,7 +84,8 @@ class SaleConfirmPayment(models.TransientModel):
             }
         )
         if self.amount:
-            transaction._set_pending()
+            # manual payment, no call to the provider: the update can be rolled back
+            transaction.with_context(payment_safe_write=True)._set_pending()
         self.transaction_id = transaction
 
         return transaction
@@ -90,7 +94,7 @@ class SaleConfirmPayment(models.TransientModel):
         if not self.transaction_id:
             return
         if self.transaction_id.state in ["pending", "draft"]:
-            self.transaction_id.write(
+            self.transaction_id.with_context(payment_safe_write=True).write(
                 {
                     "amount": self.amount,
                     "provider_id": self.provider_id.id,
@@ -98,7 +102,10 @@ class SaleConfirmPayment(models.TransientModel):
                 }
             )
         else:
-            self.transaction_id.sudo()._set_canceled()
+            # draft/pending are handled above; done/error cannot be cancelled (the
+            # payment module refuses it with a warning), they are only removed
+            if self.transaction_id.state == "authorized":
+                self.transaction_id.sudo().with_context(payment_safe_write=True)._set_canceled()
             self.transaction_id.unlink()
             self.transaction_id = False
 
@@ -106,7 +113,7 @@ class SaleConfirmPayment(models.TransientModel):
         self.do_add_payment()
         transaction = self.transaction_id.sudo()
         if transaction.state != "done" and transaction.amount:
-            transaction = transaction.with_context(payment_date=self.payment_date)
+            transaction = transaction.with_context(payment_date=self.payment_date, payment_safe_write=True)
             transaction._set_pending()
             if transaction.amount > 0:
                 transaction._set_done()

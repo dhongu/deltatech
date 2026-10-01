@@ -10,7 +10,10 @@ class TestSaleOrderPaymentInvoice(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
         cls.provider = cls.env["payment.provider"].create({"name": "Provider Without Journal", "code": "none"})
-        cls.payment_method = cls.env.ref("payment.payment_method_unknown")
+        # in 20 the "unknown" payment method is per provider (payment.payment_method_unknown is gone)
+        cls.payment_method = cls.env["payment.method"].create(
+            {"name": "Unknown", "code": "unknown", "provider_id": cls.provider.id}
+        )
         cls.sale_order = cls.env["sale.order"].create(
             {
                 "partner_id": cls.partner_a.id,

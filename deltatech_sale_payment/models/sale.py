@@ -36,7 +36,8 @@ class SaleOrder(models.Model):
                 "amount": max(0.0, self.amount_total - self.payment_amount),
                 "currency_id": self.currency_id.id,
                 "partner_id": self.partner_id.id,
-                "amount_max": self.amount_total,
+                # amount_max is gone in 20; the wizard shows what is already paid
+                "amount_paid": self.payment_amount,
             }
         )
 

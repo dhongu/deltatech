@@ -1,3 +1,12 @@
+## 20.0.1.2.2 (2026-10-01)
+
+Migration to Odoo 20, with the 19.0 history up to 19.0.1.2.2 (SALEPAY-001 included):
+
+- Payment link: `amount_max` is gone from `payment.link.wizard`; the wizard receives the amount already paid (`amount_paid`) next to what is left to pay.
+- Confirm Payment wizard: payment transactions are written with `payment_safe_write` (required in 20); the provider list no longer filters on `state` (a disabled provider is archived in 20); the default payment method is the first active one of the provider, other than "unknown". A confirmed transaction that is removed is no longer "cancelled" first (Odoo refused it with a warning).
+- Access rights in `security/ir.access.csv`.
+- The 19.0.1.2.0 and 19.0.1.2.2 migrations are kept: they run only for a database upgraded to 20 from a version below them (e.g. 19.0.1.1.x) and are skipped otherwise. Checked on 20 from 19.0.1.1.6.
+
 ## 19.0.1.2.2 (2026-10-01)
 
 - SALEPAY-001: the amount paid is computed in the order currency. The invoice side used the `*_signed` amounts (company currency) and compared them with the order total: a EUR 100 order invoiced at 5 RON/EUR and paid EUR 50 showed 250 paid, status `done`, and the payment link proposed 0. It now uses the invoice amounts in the invoice currency (negative for credit notes) and converts invoices and transactions in another currency at the document date.

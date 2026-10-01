@@ -51,44 +51,33 @@ class TestSaleOrderPayment(TransactionCase):
             }
         )
 
-        # Minimal payment provider and method for creating transactions
-        # Reuse an existing payment method if available to avoid required image hassle
-        self.payment_method = self.env["payment.method"].search([], limit=1)
-        if not self.payment_method:
-            self.payment_method = self.env["payment.method"].create(
-                {
-                    "name": "Manual",
-                    "code": "manual",
-                    # image is required; any valid non-empty base64 string works for tests
-                    "image": "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-                    "support_manual_capture": "full_only",
-                }
-            )
-        else:
-            self.payment_method.support_manual_capture = "full_only"
-
-        self.provider = self.env["payment.provider"].create(
-            {
-                "name": "Test Provider",
-                "code": "none",
-                "state": "enabled",
-                "payment_method_ids": [(6, 0, [self.payment_method.id])],
-                "capture_manually": True,
-            }
-        )
-        self.provider.support_manual_capture = "full_only"
+        # Minimal payment providers; in 20 every payment method belongs to one provider
+        self.provider = self._create_provider("Test Provider")
+        self.payment_method = self.provider.payment_method_ids
 
         # A second provider to test provider selection among multiple transactions
-        self.provider2 = self.env["payment.provider"].create(
+        self.provider2 = self._create_provider("Test Provider 2")
+
+    def _create_provider(self, name):
+        provider = self.env["payment.provider"].create(
             {
-                "name": "Test Provider 2",
+                "name": name,
                 "code": "none",
-                "state": "enabled",
-                "payment_method_ids": [(6, 0, [self.payment_method.id])],
                 "capture_manually": True,
             }
         )
-        self.provider2.support_manual_capture = "full_only"
+        # computed, not stored: kept in cache for the "authorized" state constraint
+        provider.support_manual_capture = "full_only"
+        self.env["payment.method"].create(
+            {
+                "name": "Manual",
+                "code": "manual",
+                "active": True,
+                "support_manual_capture": "full_only",
+                "provider_id": provider.id,
+            }
+        )
+        return provider
 
     def test_compute_payment(self):
         self.sale_order._compute_payment()
@@ -237,7 +226,7 @@ class TestSaleOrderPayment(TransactionCase):
         # Stored field: no explicit _compute_payment call, the ORM keeps it up to date
         tx = self._create_transaction(amount=self.sale_order.amount_total, state="pending")
         self.assertEqual(self.sale_order.payment_status, "pending")
-        tx.state = "done"
+        tx.with_context(payment_safe_write=True).state = "done"
         self.assertEqual(self.sale_order.payment_status, "done")
         self.assertEqual(self.sale_order.payment_amount, self.sale_order.amount_total)
 
@@ -480,6 +469,27 @@ class TestSaleOrderPayment(TransactionCase):
         wizard._onchange_provider_id()
         self.assertEqual(wizard.payment_method_id, self.payment_method)
 
+    def test_wizard_confirm_payment(self):
+        # in 20 the transactions are written only with payment_safe_write: the wizard must pass it
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_context(active_id=self.sale_order.id)
+            .create(
+                {
+                    "provider_id": self.provider.id,
+                    "payment_method_id": self.payment_method.id,
+                    "amount": 40.0,
+                    "currency_id": self.sale_order.currency_id.id,
+                    "payment_date": date.today(),
+                }
+            )
+        )
+        wizard.do_confirm()
+        self.assertEqual(wizard.transaction_id.state, "done")
+        self.assertEqual(wizard.transaction_id.sale_order_ids, self.sale_order)
+        self.assertEqual(self.sale_order.payment_amount, 40.0)
+        self.assertEqual(self.sale_order.payment_status, "partial")
+
     def test_wizard_update_transaction(self):
         tx = self._create_transaction(amount=10.0, state="pending")
         wizard = (
@@ -499,7 +509,7 @@ class TestSaleOrderPayment(TransactionCase):
         self.assertEqual(tx.provider_id, self.provider2)
 
         # Test unlink/cancel if state is not pending/draft
-        tx.state = "done"
+        tx.with_context(payment_safe_write=True).state = "done"
         wizard.update_transaction()
         self.assertFalse(wizard.transaction_id)
         # Verify tx is cancelled or unlinked (if unlink is allowed, it might be gone)

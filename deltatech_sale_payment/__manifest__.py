@@ -4,7 +4,7 @@
 {
     "name": "Sale Payment",
     "summary": "Payment button in sale order",
-    "version": "19.0.1.2.2",
+    "version": "20.0.1.2.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -13,7 +13,7 @@
     "data": [
         "views/sale_view.xml",
         "wizard/sale_confirm_payment_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
