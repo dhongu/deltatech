@@ -1,3 +1,11 @@
+## 19.0.1.3.4 (2026-10-01)
+
+- Fixed the shop page failing with "Element '<xpath expr="//div[@itemprop='offers']">'
+  cannot be located in parent view" on databases upgraded from 18.0. The 19.0.1.0.2
+  migration recreated the generic `product_item_code` view but left its website-specific
+  copies with the 18.0 arch. These copies now get the arch of the generic view; whether
+  the option is on or off on each website is kept.
+
 ## 19.0.1.3.3 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
