@@ -17,7 +17,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## PRICE-002 — P3: Stored category prices are not invalidated by tax-rate changes
 
-- **Status:** Fixed in 19.0.1.0.3. Priority lowered from P2 to P3 at verification (tax rates rarely change on existing taxes). The compute now also depends on the tax properties it uses: `amount`, `amount_type`, `sequence`, `include_base_amount`, `price_include_override`, the company's `account_price_include` and `children_tax_ids`. Covered by `test_tax_change_recomputes_prices`.
+- **Status:** Fixed in 19.0.1.0.3. Priority lowered from P2 to P3 at verification (tax rates rarely change on existing taxes). The compute now also depends on the tax properties it uses: `amount`, `amount_type`, `include_base_amount`, `price_include_override`, the company's `account_price_include` and `children_tax_ids`. Tax `sequence` is deliberately left out: it only matters for several included taxes that affect each other, and reordering taxes in the list would otherwise recompute every product using them (about 7 s per 30,000 products, measured). Covered by `test_tax_change_recomputes_prices`.
 - **Location:** `models/product.py`, `_compute_price_list()` dependency declaration, lines 108–117; included-tax calculation, lines 126–147.
 - **Trigger:** Change the amount, price-inclusion setting, or ordering of an existing tax linked to a product whose category prices depend on included taxes.
 - **Actual behavior:** The stored price compute depends on the `taxes_id` relation, but not on the tax properties it reads. Editing an existing tax does not change that relation and therefore does not invalidate the stored category prices through this declaration.
