@@ -4,9 +4,10 @@
 # Capturi de ecran pentru fișa „Încasarea comenzilor de vânzare" — generate în timpul
 # testelor, în limba RO, pe compania „Demo Încasări SRL" în RON.
 #
-# Seedează un procesator „Transfer bancar" și patru comenzi de 1.210,00 lei (2 × 500 lei
-# + TVA 21%), câte una pe fiecare stare relevantă: fără plată, plată în așteptare,
-# încasată parțial (500 lei), încasată integral.
+# Seedează un procesator „Transfer bancar" și patru
+# comenzi de 1.210,00 lei (2 × 500 lei + TVA 21%): fără plată, două cu plata în
+# așteptare, una încasată parțial (500 lei). Prima comandă în așteptare se confirmă prin
+# fereastra „Confirmă încasarea", ca pasul 4 să arate exact comanda din pașii 1–3.
 #
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
@@ -31,6 +32,13 @@ CONFIRM_ITEM = ".o-dropdown--menu .o-dropdown-item:has-text('Confirmă încasare
 OPEN_CONFIRM_WIZARD = (
     "[...document.querySelectorAll('.o-dropdown--menu .o-dropdown-item')]"
     ".find(e => e.textContent.includes('Confirmă încasarea')).click()"
+)
+# bulina numerotată a evidențierii stă peste colțul stâng al câmpului și acoperea prima
+# cifră a sumei („.210,00 lei"); spațiul din stânga o mută lângă valoare
+PAD_HIGHLIGHTED = (
+    "document.head.insertAdjacentHTML('beforeend', '<style>"
+    "div[name=payment_amount], div[name=payment_status], .modal div[name=amount]"
+    " {padding-left: 22px !important}</style>')"
 )
 
 
@@ -91,11 +99,13 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
         cls._create_tx(cls.order_pending, 1210.0, "pending")
         cls.order_partial = cls._create_order(confirm=True)
         cls._create_tx(cls.order_partial, 500.0, "done")
-        cls.order_paid = cls._create_order(confirm=True)
-        cls._create_tx(cls.order_paid, 1210.0, "done")
+        # a doua comandă în așteptare: după confirmarea primeia, lista are tot un grup
+        # „În așteptare"
+        cls.order_pending_other = cls._create_order()
+        cls._create_tx(cls.order_pending_other, 1210.0, "pending")
         env.flush_all()
 
-        orders = cls.order_without | cls.order_pending | cls.order_partial | cls.order_paid
+        orders = cls.order_without | cls.order_pending | cls.order_partial | cls.order_pending_other
         cls.list_action = env["ir.actions.act_window"].create(
             {
                 "name": "Comenzi",
@@ -135,11 +145,21 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
             }
         )
 
+    def _confirm_payment_as_operator(self):
+        """Ce face operatorul la pasul 3: Confirmă în fereastră."""
+        order = self.order_pending
+        wizard_model = self.env["sale.confirm.payment"].with_context(active_id=order.id, active_model="sale.order")
+        wizard = wizard_model.create(wizard_model.default_get(list(wizard_model._fields)))
+        self.assertEqual(wizard.amount, 1210.0)
+        wizard.do_confirm()
+        self.assertEqual(order.transaction_ids.state, "done")
+        self.env.flush_all()
+        self.assertEqual(order.payment_status, "done")
+
     def test_capture_fise(self):
         self.assertEqual(self.order_pending.amount_total, 1210.0)
         self.assertEqual(self.order_pending.payment_status, "pending")
         self.assertEqual(self.order_partial.payment_status, "partial")
-        self.assertEqual(self.order_paid.payment_status, "done")
         pending_url = f"id={self.order_pending.id}&model=sale.order&view_type=form"
         payment_fields = ["div[name='payment_amount']", "div[name='payment_status']"]
         self.capture_screenshots(
@@ -149,6 +169,7 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
                     "url": pending_url,
                     "name": "01_comanda_plata_in_asteptare.png",
                     "wait": ".o_form_view",
+                    "eval": PAD_HIGHLIGHTED,
                     "settle": 2500,
                     "highlight": payment_fields,
                 },
@@ -169,16 +190,22 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
                     "wait": ".o_form_view",
                     "click_btn": ACTION_MENU,
                     "wait_after": DROPDOWN,
-                    "eval": OPEN_CONFIRM_WIZARD,
+                    "eval": OPEN_CONFIRM_WIZARD + "; " + PAD_HIGHLIGHTED,
                     "eval_wait": 3000,
                     "settle": 1500,
                     "highlight": [".modal div[name='amount']", ".modal button[name='do_confirm']"],
                 },
-                # 4. Comanda încasată integral
+            ]
+        )
+        self._confirm_payment_as_operator()
+        self.capture_screenshots(
+            [
+                # 4. Aceeași comandă, după Confirmă
                 {
-                    "url": f"id={self.order_paid.id}&model=sale.order&view_type=form",
+                    "url": pending_url,
                     "name": "04_comanda_incasata.png",
                     "wait": ".o_form_view",
+                    "eval": PAD_HIGHLIGHTED,
                     "settle": 2500,
                     "highlight": payment_fields,
                 },
@@ -187,7 +214,7 @@ class TestSalePaymentScreenshots(AccountTestInvoicingCommon, ScreenshotCase or o
                     "url": f"action={self.list_action.id}",
                     "name": "05_lista_grupata_stare_incasare.png",
                     "wait": ".o_list_view",
-                    "eval": ("document.querySelectorAll('.o_group_header').forEach(h => h.click())"),
+                    "eval": "document.querySelectorAll('.o_group_header').forEach(h => h.click())",
                     "eval_wait": 2000,
                     "settle": 1500,
                 },
