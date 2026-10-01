@@ -141,12 +141,10 @@ confirm an order without specifying an Order Type.*). Comenzile primite de pe
 **website** nu sunt blocate (dacă folosiți magazinul online Odoo): excepția se face după câmpul
 *Website* al comenzii.
 
-> **Atenție — oferte acceptate din portal.** O ofertă creată în backend (fără website) și **fără tip**,
-> trimisă clientului și **acceptată/semnată sau plătită de acesta din portal**, nu se confirmă: Odoo
-> confirmă comanda în numele utilizatorului de portal, care nu are grupul de excepție, iar clientul
-> primește eroarea de mai sus. Blocarea apare **chiar dacă opțiunea „Confirmat fără tip comandă" este
-> bifată**, pentru că opțiunea acordă grupul doar utilizatorilor interni. Până la corectarea modulului:
-> **alegeți tipul pe orice ofertă care se trimite clientului spre acceptare în portal.**
+> **Oferte acceptate din portal.** Blocarea se aplică doar utilizatorilor **interni**. O ofertă fără tip
+> pe care clientul o acceptă/semnează sau o plătește online din portal se confirmă normal: Odoo o confirmă
+> în numele clientului (utilizator de portal sau public), iar verificarea tipului nu se face. Comanda
+> rămâne fără tip; dacă tipul contează pentru raportare, alegeți-l pe ofertă înainte de trimitere.
 
 La confirmare, dacă linia comenzii nu
 are o rută proprie, aprovizionarea folosește **rutele tipului**; câmpul de rută de pe linie rămâne
@@ -226,8 +224,8 @@ Modulul nu are legătură cu declarațiile ANAF.
 - [ ] La confirmare, transferurile generate urmează ruta tipului pentru liniile fără rută proprie.
 - [ ] Cu două jurnale de achiziții, jurnalul ales pe comanda de achiziție (manual sau din tip) ajunge pe
   factura de furnizor generată cu **Creare factură**, iar numărul facturii urmează secvența acelui jurnal.
-- [ ] O ofertă trimisă clientului spre acceptare în portal are tipul ales (altfel acceptarea din portal
-  dă eroare — vezi §6 Pasul 3).
+- [ ] O ofertă fără tip, acceptată/semnată sau plătită de client în portal, se confirmă fără eroare
+  (verificarea tipului se aplică doar utilizatorilor interni — vezi §6 Pasul 3).
 - [ ] Tipul nu se poate modifica după confirmare (vânzare) sau după ce comanda iese din ciornă (achiziție).
 - [ ] Tipurile cu **Companie** completată nu se văd din altă companie, când aceasta nu e activă în selectorul de companii.
 
@@ -236,7 +234,6 @@ Modulul nu are legătură cu declarațiile ANAF.
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | *Nu aveți drepturi pentru a confirma o comandă fără a specifica un tip de comandă.* (EN: *You do not have the rights to confirm an order without specifying an Order Type.*) | Există tipuri pentru document, comanda nu are tip, iar utilizatorul nu are grupul de excepție | Alegeți tipul pe comandă sau acordați grupul „Poate confirma comenzi fără tip comandă" |
-| Clientul primește același mesaj când acceptă/semnează sau plătește oferta în portal | Oferta a fost creată în backend fără tip; confirmarea din portal rulează ca utilizator de portal, fără grupul de excepție (și cu opțiunea „Confirmat fără tip comandă" bifată) | Alegeți tipul pe ofertă înainte de trimitere; după eroare, alegeți tipul și confirmați comanda din backend |
 | Utilizatorul nu poate alege niciun tip și nici nu poate confirma | Toate tipurile de vânzare sunt restrânse la alți utilizatori, iar el nu are grupul de excepție | Adăugați-l la **Utilizatori permiși** sau acordați grupul de excepție |
 | Câmpul **Tip comandă** / **Tip factură** nu apare | Nu există niciun tip definit pentru acel document | Creați un tip cu **Model** corespunzător |
 | Tipul dorit nu apare în lista comenzii de vânzare | Utilizatorul nu este în **Utilizatori permiși**, sau tipul aparține altei companii | Adăugați utilizatorul sau corectați compania |
@@ -282,8 +279,8 @@ Fără `l10n_ro` instalat testul se sare tăcut („0 tests"); verificați în l
 - Explicați regula de acces: fără grupul de excepție, tipul este **obligatoriu la confirmarea comenzilor
   de vânzare și de achiziție**, dacă există tipuri definite pentru documentul respectiv. **Pe facturi tipul
   rămâne opțional**: postarea facturii nu verifică tipul.
-- Menționați excepția pentru portal (§6 Pasul 3): ofertele acceptate de client din portal trebuie să aibă
-  tipul ales din backend.
+- Menționați excepția pentru portal (§6 Pasul 3): ofertele acceptate sau plătite de client din portal
+  se confirmă și fără tip, dar rămân fără tip în rapoarte.
 - Meniurile de configurare sunt restrânse la managerii aplicațiilor, dar drepturile de acces ale
   modelului dau citire, scriere, creare și ștergere oricărui utilizator intern: nu prezentați
   definirea tipurilor ca pe o operațiune sigură pentru oricine.

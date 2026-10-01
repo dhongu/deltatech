@@ -1,16 +1,22 @@
-<div class="mx-auto px-3" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;">
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
 <!-- tb-gen v1 -->
-<div class="text-white text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;">
-  <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
-    style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
+<div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Products Alternative" style="width:72px;height:72px;border:none;"/></span></div>
-  <h1 class="text-white fw-bold mb-3" style="font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Products Alternative</h1>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Products Alternative</h1>
   <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Alternative product codes</p>
   <div>
-    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Sales</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">OPL-1</span>
-    <span class="d-inline-block rounded-pill fw-semibold text-white m-1" style="background-color:#00432a;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Sales</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+  </div>
+</div>
+
+
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:#212529;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:#006F42;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:#006F42;">Did this module help you?</span> It is free, built and maintained by the Terrabit developers. If it saved you time, a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. Thank you for your support!
   </div>
 </div>
 
@@ -30,11 +36,16 @@
        data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
        style="padding:10px 22px;">Usage</a>
   </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Manage multiple alternative codes per product and find any item by any of its codes.
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Manage multiple alternative codes per product and find any item by any of its codes.
 This module is useful when the same product is known under different references &#8212; supplier
 codes, manufacturer part numbers, legacy codes, or customer-specific identifiers &#8212; and your
 team needs to locate it regardless of which code they have at hand.</p>
@@ -46,7 +57,10 @@ team needs to locate it regardless of which code they have at hand.</p>
   on both product templates and their variants. The search is opt-in and tunable from
   Settings.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Surfaces the alternative code column on <strong>Sales Order</strong>, <strong>Purchase Order</strong>, and
   <strong>Stock Move</strong> lines, keeping the code visible throughout the order-to-delivery flow.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds a free-text <strong>Used For</strong> field on the product to note what the item can be used for,
-  aiding identification and cross-selling.</div></div></li></ul>
+  aiding identification and cross-selling.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A daily scheduled action (inactive by default) splits codes entered on one line and separated by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">;</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">,</code>
+  into one alternative record per code, without creating codes the product already has.
+  Spaces are kept as part of the code (OEM numbers such as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">366 200 05 01</code>).
+  Activate it in <strong>Settings &gt; Technical &gt; Scheduled Actions</strong> when needed.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
@@ -85,6 +99,79 @@ section) to configure the alternative-code search behaviour:</p>
 </table>
 <p>These three values are stored as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.config_parameter</code> system parameters and can also be
 set directly via <strong>Settings &gt; Technical &gt; Parameters &gt; System Parameters</strong> if needed.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Large Databases (Index on Alternative Codes)</h2>
+<p>Alternative codes (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.alternative.name</code>) use a trigram (GIN) index, so a search
+such as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ilike '%4561%'</code> does not scan the whole table.</p>
+<ul>
+<li>The PostgreSQL extension <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_trgm</code> must be available. Without it Odoo creates no index
+  on the column.</li>
+<li>Odoo adds <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code> to the index only when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">public.unaccent(text)</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">IMMUTABLE</code>.
+  Otherwise the index is created without it and the search, which calls
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent(name) ILIKE unaccent(...)</code>, cannot use it. Odoo logs <em>PostgreSQL function
+  'unaccent' is present but not immutable</em> in that case.</li>
+</ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Checking <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code></h3>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">SELECT oid::regprocedure, provolatile FROM pg_proc WHERE proname = 'unaccent';
+</code></pre>
+<ul>
+<li><strong>odoo.sh</strong> needs nothing: the extension lives in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent_schema</code> and the platform
+  adds an <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">IMMUTABLE</code> wrapper <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">public.unaccent(text)</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">provolatile = i</code>).</li>
+<li><strong>Self-hosted</strong>, with the extension installed in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">public</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent(text)</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">STABLE</code>
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">s</code>). Do <strong>not</strong> use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ALTER FUNCTION public.unaccent(text) IMMUTABLE</code>, and do not
+  replace the extension's function: the change is part of the extension, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_dump</code> does
+  not keep it, and restoring the database fails on every index that uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code>
+  (<em>functions in index expression must be marked IMMUTABLE</em>). The Odoo database manager
+  then reports <em>Couldn't restore database</em>.</li>
+</ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Setting up <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code> like odoo.sh (self-hosted)</h3>
+<p>Run as a superuser, then restart Odoo (it reads the function status at startup). The
+script moves the extension to its own schema, adds the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">IMMUTABLE</code> wrapper and rebuilds
+the indexes that used the extension's function. Rebuilding blocks writes on those tables,
+so run it in a maintenance window.</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">BEGIN;
+CREATE SCHEMA IF NOT EXISTS unaccent_schema;
+ALTER EXTENSION unaccent SET SCHEMA unaccent_schema;
+CREATE FUNCTION public.unaccent(text) RETURNS text
+    LANGUAGE sql IMMUTABLE PARALLEL SAFE STRICT
+    AS $$ SELECT unaccent_schema.unaccent('unaccent_schema.unaccent'::regdictionary, $1) $$;
+DO $$
+DECLARE r record;
+BEGIN
+    FOR r IN
+        SELECT DISTINCT i.indexrelid::regclass AS idx, pg_get_indexdef(i.indexrelid) AS def
+        FROM pg_index i
+        JOIN pg_depend d ON d.classid = 'pg_class'::regclass AND d.objid = i.indexrelid
+        WHERE d.refclassid = 'pg_proc'::regclass
+          AND d.refobjid = 'unaccent_schema.unaccent(text)'::regprocedure
+    LOOP
+        EXECUTE format('DROP INDEX %s', r.idx);
+        EXECUTE replace(r.def, 'unaccent_schema.unaccent(', 'public.unaccent(');
+    END LOOP;
+END $$;
+COMMIT;
+</code></pre>
+<p>The dictionary is schema-qualified on purpose. With a bare <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">'unaccent'</code>, PostgreSQL 17
+cannot build the index (index builds run with a restricted <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">search_path</code>) and older
+versions fail on restore.</p>
+<p>Trigram indexes created while <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code> was <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">STABLE</code> do not contain <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code>. Odoo
+compares only the access method (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">gin</code>), not the expression, so it keeps them although
+the search cannot use them. Drop them after the change and update the modules that
+declare them (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">-u</code>).</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Creating the index on a large table</h3>
+<p>With millions of codes, create the index before updating the module, so writes are not
+blocked while it is built:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">DROP INDEX IF EXISTS product_alternative__name_index;
+CREATE INDEX CONCURRENTLY product_alternative__name_index
+    ON product_alternative USING gin (unaccent(name) gin_trgm_ops);
+</code></pre>
+<p>Leave out <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent(...)</code> if <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">public.unaccent(text)</code> is not <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">IMMUTABLE</code>. Odoo finds an
+index with the expected name and access method and does not rebuild it.</p>
+<p>Databases migrated from 18.0 already have the same index under another name
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_alternative_name_unaccent_gin</code>, created by the 18.0 module). Rename it instead
+of building a new one:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">DROP INDEX IF EXISTS product_alternative__name_index;
+ALTER INDEX product_alternative_name_unaccent_gin RENAME TO product_alternative__name_index;
+</code></pre>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
@@ -123,17 +210,64 @@ and Purchase Order lines. To show it:</p>
 <p>The column is read-only and reflects the concatenated visible codes of the selected
 product.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.1.4 (2026-09-29)</h2>
+<ul>
+<li>Own module icon, instead of the generic gears it had.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.1.3 (2026-09-26)</h2>
+<ul>
+<li>The index on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.alternative.name</code> is now a trigram (GIN) index
+  instead of btree. Product search runs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ilike '%code%'</code>, which the btree
+  index could not serve (sequential scan: 169 ms against 4.6 ms with GIN on
+  1.36 million codes), and btree rejects values over ~2,700 bytes. The
+  existing btree index is replaced when the module is updated. On large
+  databases, see <em>Large Databases</em> in the configuration notes.</li>
+<li>Removed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">index=True</code> from the computed, non-stored <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">alternative_code</code> field,
+  where it had no effect.</li>
+<li>Added an index on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.alternative.product_tmpl_id</code>. Reading the codes
+  of a product (the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">alternative_ids</code> list, the computed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">alternative_code</code>)
+  scanned the whole table: 40 ms against under 1 ms on 1.36 million codes.</li>
+<li>Configuration notes: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ALTER FUNCTION public.unaccent(text) IMMUTABLE</code> is no
+  longer recommended, because <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_dump</code> does not keep it and the restore fails
+  on the indexes that use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unaccent</code>. They now describe the odoo.sh setup
+  (extension in its own schema, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">IMMUTABLE</code> wrapper in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">public</code>), with a
+  script for self-hosted databases, and how to reuse the index that 18.0
+  created (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_alternative_name_unaccent_gin</code>).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.1.2 (2026-09-26)</h2>
+<ul>
+<li>Ported from 18.0: the daily <em>Alternative: Split multi-code records</em> cron and
+  the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.alternative.split_multi_codes()</code> method, which split a record
+  holding several codes on one line (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">A; B, C</code>) into one record per code. The
+  first code stays on the original record; the others inherit its product,
+  sequence and hide flag.</li>
+<li>The cron is inactive by default on new installations. Activate it in
+  <em>Settings &gt; Technical &gt; Scheduled Actions</em> when needed.</li>
+<li>Codes are split only on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">;</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">,</code>. Spaces are never a delimiter, because
+  many OEM part numbers contain them (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">366 200 05 01</code>).</li>
+<li>A single code surrounded by stray delimiters (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">12345,</code>) is cleaned up in
+  place.</li>
+<li>New compared to 18.0: codes the product already has, or that repeat on the
+  same line, are no longer created again. The batch size can be passed as
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">split_multi_codes(limit=...)</code> (default 5000).</li>
+<li>On databases migrated from 18.0 the existing cron record (same XML id) is
+  reused and keeps its current active/inactive state (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">noupdate</code>). It had
+  stopped working because the method was missing on 19.0.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
   <div class="col-md-6">
-    <div class="border rounded-3 p-4 h-100">
+    <div class="border rounded-3 px-4 py-2 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
       <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
     </div>
   </div>
   <div class="col-md-6">
-    <div class="border rounded-3 p-4 h-100">
+    <div class="border rounded-3 px-4 py-2 h-100">
       <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
       <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
     </div>
@@ -141,20 +275,23 @@ product.</p>
 </div>
 
 
-<div class="text-white text-center rounded-4 px-4 pt-5 pb-4 mt-4 mb-3" style="background-color:#00432a;">
-  <h2 class="text-white fw-bold mb-2" style="font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
-  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+<div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
      Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
      the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
      advantage of building modules that simply work.</p>
-  <a href="https://www.terrabit.ro/contactus" target="_blank" rel="noopener"
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Questions about this module, or need it adapted to your processes?
+     Write to us &mdash; the developers who build it will answer.</p>
+  <a href="mailto:support@terrabit.ro" target="_blank" rel="noopener"
      class="d-inline-block fw-bold text-decoration-none rounded-3"
-     style="background-color:#57B952;color:#04331f;padding:14px 32px;font-size:15px;">Contact Terrabit &rarr;</a>
+     style="background-color:#DEF1DD;color:#00432a;padding:14px 32px;font-size:15px;">Terrabit support &rarr;</a>
 </div>
 
 
 <section class="rounded-4 p-4 mb-3 border">
-  <h2 class="text-center fw-bold mb-1" style="font-size:24px;border:none;">More apps by Terrabit</h2>
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
   <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
@@ -164,14 +301,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">EC</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Edit Currency Rate</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Edit the currency rate on the invoice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Edit the currency rate on the invoice</p>
         </div>
       </a>
     </div>
@@ -180,14 +317,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">DP</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DP</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Discount Policy</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Discount Policy</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Bring back Odoo 17 discount policy</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Bring back Odoo 17 discount policy</p>
         </div>
       </a>
     </div>
@@ -196,14 +333,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">FS</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">FS</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Fast Sale</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Fast Sale</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Vanzare rapida</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Vanzare rapida</p>
         </div>
       </a>
     </div>
@@ -212,14 +349,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Facturare livrari</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Facturare livrari</p>
         </div>
       </a>
     </div>
@@ -228,14 +365,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">IP</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Invoice Pickings Automatically</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings Automatically</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Generate invoice automatically from picking after validation</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generate invoice automatically from picking after validation</p>
         </div>
       </a>
     </div>
@@ -244,14 +381,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Currency Extension</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Currency Extension</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Price list currency</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Price list currency</p>
         </div>
       </a>
     </div>
@@ -260,14 +397,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PL</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Price List Line Viewer</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Line Viewer</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Creates a list view for the lines of a price list for search and management</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Creates a list view for the lines of a price list for search and management</p>
         </div>
       </a>
     </div>
@@ -276,14 +413,14 @@ product.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center text-white fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;background-color:#006F42;">PC</span>
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Products Category Color</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Sales</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Category Color</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Products Category Color</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Products Category Color</p>
         </div>
       </a>
     </div>
