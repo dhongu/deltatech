@@ -1,6 +1,7 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
+import math
 
 from odoo import api, models
 
@@ -65,8 +66,12 @@ class SaleOrderLine(models.Model):
                     res = 1
             else:
                 pallets = self.product_uom_qty / self.product_id.pallet_qty_min
+                # toleranța = jumătate din precizia cantității, raportată la un palet,
+                # ca erorile de virgulă mobilă să nu schimbe numărul de paleți
+                digits = self.env["decimal.precision"].precision_get("Product Unit")
+                epsilon = 0.5 * 10**-digits / self.product_id.pallet_qty_min
                 if delete_if_under:
-                    res = round(pallets - 0.49)  # round down
+                    res = math.floor(pallets + epsilon)  # round down
                 else:
-                    res = round(pallets + 0.49)  # round up
+                    res = math.ceil(pallets - epsilon)  # round up
         return res
