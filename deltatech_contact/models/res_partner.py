@@ -133,8 +133,8 @@ class Partner(models.Model):
     #     name = super()._get_name()
     #
     #     if context.get("show_phone", False):
-    #         if partner.phone or partner.mobile:
-    #             name = f"{name}\n<{partner.phone or partner.mobile}>"
+    #         if partner.phone:
+    #             name = f"{name}\n<{partner.phone}>"
     #     if context.get("show_category") and partner.category_id:
     #         cat = []
     #         for category in partner.category_id:
