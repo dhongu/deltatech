@@ -59,6 +59,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: deltatech_purchase_add_extra_line
+#: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order_line__is_extra_line
+msgid "Is Extra Line"
+msgstr "Este linie suplimentară"
+
+#. module: deltatech_purchase_add_extra_line
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order_line__line_uuid
 msgid "Line Uuid"
 msgstr "UUID linie"
@@ -119,3 +124,14 @@ msgstr ""
 "Câmp tehnic: ultimul preț unitar calculat pentru această linie suplimentară."
 " Un preț unitar diferit de acesta a fost introdus de utilizator și este "
 "păstrat ca atare."
+
+#. module: deltatech_purchase_add_extra_line
+#: model:ir.model.fields,help:deltatech_purchase_add_extra_line.field_purchase_order_line__is_extra_line
+msgid ""
+"Technical field: this line was generated as the extra line of the main line "
+"sharing its line_uuid, so it is replaced or removed when the main product "
+"changes."
+msgstr ""
+"Câmp tehnic: linia a fost generată ca linie suplimentară a liniei principale "
+"cu același line_uuid, așa că este înlocuită sau ștearsă când se schimbă "
+"produsul principal."
