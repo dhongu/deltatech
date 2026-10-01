@@ -1,3 +1,8 @@
+## 19.0.1.5.0
+
+- [IMP] the extra line is mandatory: confirming the RFQ regenerates an extra line deleted outside the form (ORM, import, XML-RPC), which was otherwise only restored on the next change of the order lines
+- [IMP] the quantity and unit of measure of the extra line are read-only in the order lines (list and line form), since they follow the main line and a manual change was silently overwritten on the next synchronization; its unit price stays editable
+
 ## 19.0.1.4.0
 
 - [FIX] changing the product of a main line no longer leaves the extra line of the old product on the RFQ (PURCHASEEXTRA-001): when the new product has another extra product, the old extra line is replaced by a new one, with the product, unit of measure, quantity and computed price of the new extra; when the new product has no extra, the old extra line is removed. This applies to the form as well as to `write()`, imports and XML-RPC

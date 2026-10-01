@@ -21,6 +21,12 @@ class PurchaseOrder(models.Model):
             self.order_line.check_extra_product()
         return res
 
+    def button_confirm(self):
+        # the extra line is mandatory: one deleted outside the form (ORM, import, RPC)
+        # is only regenerated on the next change of the lines, so restore it here
+        self.order_line.check_extra_product()
+        return super().button_confirm()
+
     def action_rfq_send(self):
         self.order_line.with_context(backend=True).check_extra_product()
         return super().action_rfq_send()

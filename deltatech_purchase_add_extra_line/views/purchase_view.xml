@@ -11,6 +11,29 @@
                 <field name="extra_price_computed" column_invisible="True" force_save="1" />
                 <field name="is_extra_line" column_invisible="True" force_save="1" />
             </xpath>
+            <!-- the extra line is mandatory and follows its main line: its quantity and unit of
+                 measure are synchronized, only the price can be set by hand. The product stays
+                 editable on purpose: a readonly product_id is not saved by the test Form helper
+                 (it reads force_save on the product_id of the invoice_lines subview), and a
+                 changed product is replaced at once by the onchange anyway -->
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">is_downpayment or is_extra_line</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_id']" position="attributes">
+                <attribute name="readonly">state in ('purchase', 'cancel') or is_downpayment or is_extra_line</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='state']" position="after">
+                <field name="is_extra_line" invisible="1" force_save="1" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_qty']" position="attributes">
+                <attribute name="readonly">is_extra_line</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_uom_id']" position="attributes">
+                <attribute name="readonly">is_extra_line</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
         </field>
     </record>
 
