@@ -1,3 +1,9 @@
+# 20.0.1.0.12
+
+- Fix: the `order_line` onchange is now `_onchange_order_line_pallet`. It was
+  named `onchange_order_line`, like the one of `deltatech_sale_add_extra_line`,
+  so with both modules installed one of them silently replaced the other.
+
 # 20.0.1.0.11
 
 - Fix: pallet count was wrong near multiples of the minimum quantity per

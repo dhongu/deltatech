@@ -93,8 +93,10 @@ class TestSale(TransactionCase):
 
         with Form(order) as order_form:
             with order_form.order_line.edit(1) as extra_line_form:
-                extra_line_form.price_unit = 7.0
-        self.assertEqual(extra_line.price_unit, 7.0)
+                # above the cost of the extra product (100): a lower price would raise
+                # the below-cost warning of deltatech_sale_margin when installed
+                extra_line_form.price_unit = 120.0
+        self.assertEqual(extra_line.price_unit, 120.0)
         self.assertTrue(extra_line._has_manual_price())
 
         # the quantity keeps following the main line, the price does not
@@ -102,13 +104,13 @@ class TestSale(TransactionCase):
             with order_form.order_line.edit(0) as main_line_form:
                 main_line_form.product_uom_qty = 200
         self.assertEqual(extra_line.product_uom_qty, 200)
-        self.assertEqual(extra_line.price_unit, 7.0)
+        self.assertEqual(extra_line.price_unit, 120.0)
 
         # not even when the price of the main line changes
         with Form(order) as order_form:
             with order_form.order_line.edit(0) as main_line_form:
                 main_line_form.price_unit = 300
-        self.assertEqual(extra_line.price_unit, 7.0)
+        self.assertEqual(extra_line.price_unit, 120.0)
 
     def test_extra_line_computed_price_follows_main_line(self):
         """Without a manual price, the extra line price follows the main line."""

@@ -269,8 +269,20 @@ class SaleOrderLine(models.Model):
         res = self.change_price_or_product(res)
         return res
 
+    def _margin_check_fields(self):
+        """Fields whose change can bring the line below cost.
+
+        The other writes on a line are bookkeeping of a price already accepted:
+        `qty_invoiced` / `invoice_lines` on invoicing, `qty_delivered` on
+        delivery, the quantity of a generated line. Checking them blocked the
+        invoice or the delivery of a confirmed order because of its price.
+        """
+        return {"product_id", "product_uom_id", "price_unit", "discount", "tax_ids", "purchase_price"}
+
     def write(self, vals):
         res = super().write(vals)
+        if not self._margin_check_fields().intersection(vals):
+            return res
         get_str = self.env["ir.config_parameter"].sudo().get_str
         check_on_validate = safe_eval(get_str("sale.margin_limit_check_validate", "0"))
         if not check_on_validate:

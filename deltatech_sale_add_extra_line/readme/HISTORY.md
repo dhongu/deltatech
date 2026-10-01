@@ -1,3 +1,8 @@
+## 20.0.1.5.1 (2026-10-01)
+
+- [FIX] the extra line was never generated in the order form when `deltatech_sale_pallet` was installed: both modules defined the `order_line` onchange as `sale.order.onchange_order_line`, so the last one loaded replaced the other. The onchange is now `_onchange_order_line_extra_product`.
+- [FIX] the price computed for the extra line (percent of the main line) is written with `ignore_price_check`: it comes from the product configuration, not from the seller, so `deltatech_sale_margin` no longer refuses the order (or the cart) when it is under the cost of the extra product. A price typed in on the extra line is still checked.
+
 ## 20.0.1.5.0 (2026-10-01)
 
 - Migration to Odoo 20.0, including the SALEEXTRA-001 fix from 19.0.1.5.0 (the extra line is replaced when the product of the main line changes, and the pair is tracked through `is_extra_line`).

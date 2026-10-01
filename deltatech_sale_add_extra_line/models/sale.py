@@ -10,12 +10,11 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # own name: `deltatech_sale_pallet` also reacts to `order_line`, and with the same
+    # method name the last module loaded silently replaced the other one
     @api.onchange("order_line")
-    def onchange_order_line(self):
-        """
-        Update extra product in backend
-        :return: super
-        """
+    def _onchange_order_line_extra_product(self):
+        """Update extra product in backend"""
         self.order_line.with_context(backend=True).check_extra_product()
 
     def _verify_cart_after_update(self):
@@ -153,5 +152,9 @@ class SaleOrderLine(models.Model):
                     # of measure of the order
                     continue
                 price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
-                # keep track of the price we set, so that a later manual change is recognized
-                extra_line_id.update({"price_unit": price_unit, "extra_price_computed": price_unit})
+                # keep track of the price we set, so that a later manual change is recognized.
+                # The price comes from the configuration of the product, not from the seller:
+                # the below-cost check (deltatech_sale_margin) stays for a price typed in
+                extra_line_id.with_context(ignore_price_check=True).update(
+                    {"price_unit": price_unit, "extra_price_computed": price_unit}
+                )
