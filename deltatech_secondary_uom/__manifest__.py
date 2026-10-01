@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Product Secondary UoM",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.2.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
