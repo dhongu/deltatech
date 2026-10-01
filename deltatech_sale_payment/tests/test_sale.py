@@ -1,0 +1,557 @@
+from datetime import date
+from unittest.mock import patch
+
+from odoo.exceptions import UserError
+from odoo.tests.common import TransactionCase
+
+
+class TestSaleOrderPayment(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        # Create a partner
+        self.partner = self.env["res.partner"].create(
+            {
+                "name": "Test Partner",
+                "email": "partner@example.com",
+            }
+        )
+
+        # Create a product
+        self.product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "list_price": 100.0,
+            }
+        )
+
+        # Create a sale order
+        self.sale_order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": 1.0,
+                            "price_unit": 100.0,
+                        },
+                    )
+                ],
+            }
+        )
+
+        # Create a payment journal
+        self.payment_journal = self.env["account.journal"].create(
+            {
+                "name": "Test Journal",
+                "type": "bank",
+                "code": "TJ",
+            }
+        )
+
+        # Minimal payment providers; in 20 every payment method belongs to one provider
+        self.provider = self._create_provider("Test Provider")
+        self.payment_method = self.provider.payment_method_ids
+
+        # A second provider to test provider selection among multiple transactions
+        self.provider2 = self._create_provider("Test Provider 2")
+
+    def _create_provider(self, name):
+        provider = self.env["payment.provider"].create(
+            {
+                "name": name,
+                "code": "none",
+                "capture_manually": True,
+            }
+        )
+        # computed, not stored: kept in cache for the "authorized" state constraint
+        provider.support_manual_capture = "full_only"
+        self.env["payment.method"].create(
+            {
+                "name": "Manual",
+                "code": "manual",
+                "active": True,
+                "support_manual_capture": "full_only",
+                "provider_id": provider.id,
+            }
+        )
+        return provider
+
+    def test_compute_payment(self):
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "without", "Initial payment status should be 'without'")
+
+    def _create_transaction(self, *, amount, state, provider=None):
+        tx_count = len(self.sale_order.transaction_ids)
+        reference = f"TX-REF-{self.sale_order.id}-{tx_count}"
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": (provider or self.provider).id,
+                "payment_method_id": self.payment_method.id,
+                "reference": reference,
+                "amount": amount,
+                "currency_id": self.sale_order.currency_id.id,
+                "state": state,
+                "partner_id": self.partner.id,
+            }
+        )
+        # Link transaction to sale order
+        self.sale_order.write({"transaction_ids": [(4, tx.id)]})
+        return tx
+
+    def test_compute_payment_pending(self):
+        # Pending transaction -> its own "pending" status
+        self._create_transaction(amount=100.0, state="pending")
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "pending")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider)
+
+    def test_compute_payment_initiated(self):
+        # Draft / error transaction (neither pending nor done) -> initiated status
+        self._create_transaction(amount=10.0, state="error")
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "initiated")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider)
+
+    def test_compute_payment_authorized(self):
+        # Authorized transaction with no captured amount yet
+        self._create_transaction(amount=20.0, state="authorized")
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "authorized")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider)
+
+        # Clean transactions for next assertions
+        self.sale_order.write({"transaction_ids": [(5, 0, 0)]})
+
+    def test_compute_payment_cancelled(self):
+        # Cancelled transaction -> cancelled status
+        self._create_transaction(amount=10.0, state="cancel")
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "cancelled")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider)
+
+    # def test_compute_payment_partial_and_done(self):
+    #     # Create a fresh sale order for this test
+    #     sale_order = self.env["sale.order"].create(
+    #         {
+    #             "partner_id": self.partner.id,
+    #             "order_line": [
+    #                 (
+    #                     0,
+    #                     0,
+    #                     {
+    #                         "product_id": self.product.id,
+    #                         "product_uom_qty": 1.0,
+    #                         "price_unit": 100.0,
+    #                     },
+    #                 )
+    #             ],
+    #         }
+    #     )
+    #     # Partial: done transaction less than order total
+    #     self._create_transaction_for_order(sale_order, amount=50.0, state="done", provider=self.provider)
+    #     sale_order.invalidate_recordset(["transaction_ids", "payment_amount", "payment_status"])
+    #     sale_order._compute_payment()
+    #     self.assertEqual(sale_order.payment_status, "partial")
+    #     self.assertEqual(sale_order.payment_amount, 50.0)
+    #
+    #     # Add another done transaction to reach/exceed total -> done
+    #     self._create_transaction_for_order(sale_order, amount=50.0, state="done", provider=self.provider2)
+    #     sale_order.invalidate_recordset(["transaction_ids", "payment_amount", "payment_status"])
+    #     sale_order._compute_payment()
+    #     self.assertEqual(sale_order.payment_amount, 100.0)
+    #     self.assertEqual(sale_order.payment_status, "done")
+    #
+    #     # Add a later pending transaction with yet another provider – should not override when amount>0
+    #     provider3 = self.env["payment.provider"].create(
+    #         {
+    #             "name": "Test Provider 3",
+    #             "code": "none",
+    #             "state": "enabled",
+    #             "payment_method_ids": [(6, 0, [self.payment_method.id])],
+    #             "capture_manually": True,
+    #         }
+    #     )
+    #     provider3.support_manual_capture = "full_only"
+    #     self._create_transaction_for_order(sale_order, amount=0.0, state="pending", provider=provider3)
+    #     sale_order.invalidate_recordset(["transaction_ids", "payment_amount", "payment_status"])
+    #     sale_order._compute_payment()
+    #     self.assertEqual(sale_order.payment_status, "done")
+    #     # Provider remains the one from the last done transaction
+    #     self.assertEqual(sale_order.provider_id, self.provider2)
+
+    def _create_transaction_for_order(self, order, *, amount, state, provider=None):
+        tx_count = len(order.transaction_ids)
+        reference = f"TX-REF-{order.id}-{tx_count}"
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": (provider or self.provider).id,
+                "payment_method_id": self.payment_method.id,
+                "reference": reference,
+                "amount": amount,
+                "currency_id": order.currency_id.id,
+                "state": state,
+                "partner_id": self.partner.id,
+            }
+        )
+        # Link transaction to sale order
+        order.write({"transaction_ids": [(4, tx.id)]})
+        return tx
+
+    def test_compute_payment_multiple_transactions_initiated_provider_from_last_by_id(self):
+        # Two draft / error transactions with different providers -> initiated, provider from the last tx by id
+        self._create_transaction(amount=10.0, state="draft", provider=self.provider)
+        self._create_transaction(amount=5.0, state="error", provider=self.provider2)
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "initiated")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        self.assertEqual(self.sale_order.provider_id, self.provider2)
+
+    def test_compute_payment_multiple_pending_and_error(self):
+        # pending takes precedence over error; provider from the last pending tx
+        self._create_transaction(amount=10.0, state="error", provider=self.provider)
+        self._create_transaction(amount=5.0, state="pending", provider=self.provider2)
+        self._create_transaction(amount=5.0, state="error", provider=self.provider)
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "pending")
+        self.assertEqual(self.sale_order.provider_id, self.provider2)
+
+    def test_payment_status_is_stored_and_follows_transactions(self):
+        # Stored field: no explicit _compute_payment call, the ORM keeps it up to date
+        tx = self._create_transaction(amount=self.sale_order.amount_total, state="pending")
+        self.assertEqual(self.sale_order.payment_status, "pending")
+        tx.with_context(payment_safe_write=True).state = "done"
+        self.assertEqual(self.sale_order.payment_status, "done")
+        self.assertEqual(self.sale_order.payment_amount, self.sale_order.amount_total)
+
+    def test_payment_link_amount_is_what_is_left_to_pay(self):
+        self._create_transaction(amount=30.0, state="done")
+        wizard_create = type(self.env["payment.link.wizard"]).create
+        created = []
+
+        def spy(model, vals_list):
+            created.append(vals_list)
+            return wizard_create(model, vals_list)
+
+        with patch.object(type(self.env["payment.link.wizard"]), "create", spy):
+            self.sale_order.action_payment_link()
+        self.assertEqual(created[0]["amount"], self.sale_order.amount_total - 30.0)
+
+    def test_compute_payment_multiple_transactions_authorized_provider_from_last_authorized(self):
+        # Mix of states: last overall is pending, but there are authorized ones -> status authorized
+        # Provider must be that of the last authorized transaction by id
+        self._create_transaction(amount=10.0, state="pending", provider=self.provider)
+        self._create_transaction(amount=20.0, state="authorized", provider=self.provider)
+        self._create_transaction(amount=30.0, state="authorized", provider=self.provider2)
+        self._create_transaction(amount=1.0, state="pending", provider=self.provider)
+
+        self.sale_order._compute_payment()
+        self.assertEqual(self.sale_order.payment_status, "authorized")
+        self.assertEqual(self.sale_order.payment_amount, 0.0)
+        # Provider should be from the last authorized transaction
+        self.assertEqual(self.sale_order.provider_id, self.provider2)
+
+    # def test_action_payment_link(self):
+    #     # Use a fresh sale order
+    #     sale_order = self.env["sale.order"].create(
+    #         {
+    #             "partner_id": self.partner.id,
+    #             "order_line": [
+    #                 (
+    #                     0,
+    #                     0,
+    #                     {
+    #                         "product_id": self.product.id,
+    #                         "product_uom_qty": 1.0,
+    #                         "price_unit": 100.0,
+    #                     },
+    #                 )
+    #             ],
+    #         }
+    #     )
+    #     with mock.patch("odoo.http.request", spec=[]) as mock_request:
+    #         mock_request.env = self.env
+    #         # Mock the link property of the wizard to return a dummy URL
+    #         # Use odoo.addons.sale.wizard.payment_link_wizard.PaymentLinkWizard
+    #         with mock.patch(
+    #             "odoo.addons.sale.wizard.payment_link_wizard.PaymentLinkWizard.link",
+    #             new_callable=mock.PropertyMock,
+    #             return_value="https://test.odoo.com/payment/pay",
+    #         ):
+    #             payment_link_action = sale_order.action_payment_link()
+    #             self.assertEqual(payment_link_action["type"], "ir.actions.act_url")
+    #             self.assertEqual(payment_link_action["url"], "https://test.odoo.com/payment/pay")
+
+    # def test_sale_confirm_payment(self):
+    #     # Create a new sale order to avoid transactions from previous tests
+    #     sale_order = self.env["sale.order"].create(
+    #         {
+    #             "partner_id": self.partner.id,
+    #             "order_line": [
+    #                 (
+    #                     0,
+    #                     0,
+    #                     {
+    #                         "product_id": self.product.id,
+    #                         "product_uom_qty": 1.0,
+    #                         "price_unit": 100.0,
+    #                     },
+    #                 )
+    #             ],
+    #         }
+    #     )
+    #     # Create a sale.confirm.payment wizard
+    #     wizard = (
+    #         self.env["sale.confirm.payment"]
+    #         .with_context(active_id=sale_order.id)
+    #         .create(
+    #             {
+    #                 "provider_id": self.provider.id,
+    #                 "payment_method_id": self.payment_method.id,
+    #                 "amount": 100.0,
+    #                 "currency_id": sale_order.currency_id.id,
+    #                 "payment_date": date.today(),
+    #             }
+    #         )
+    #     )
+    #
+    #     self.assertEqual(
+    #         wizard.currency_id.id, sale_order.currency_id.id, "Currency should match the sale order's currency"
+    #     )
+    #
+    #     wizard.do_confirm()
+    #
+    #     sale_order.invalidate_recordset(["transaction_ids", "payment_amount", "payment_status"])
+    #     sale_order._compute_payment()
+    #     self.assertEqual(sale_order.payment_status, "done", "Payment status should be 'done' after confirmation")
+
+    def test_invalid_confirm_payment(self):
+        with self.assertRaises(UserError):
+            wizard = (
+                self.env["sale.confirm.payment"]
+                .with_context(active_id=self.sale_order.id)
+                .create(
+                    {
+                        "provider_id": self.env["payment.provider"].create({"name": "Test Provider"}).id,
+                        "amount": -100.0,
+                        "currency_id": self.env.ref("base.USD").id,
+                        "payment_date": date.today(),
+                    }
+                )
+            )
+            wizard.do_confirm()
+
+    def test_default_get(self):
+        wizard_data = self.env["sale.confirm.payment"].with_context(active_id=self.sale_order.id).default_get([])
+        self.assertEqual(
+            wizard_data["currency_id"],
+            self.sale_order.currency_id.id,
+            "Default currency should match the sale order's currency",
+        )
+
+    def test_search_payment_status(self):
+        # Search for 'without'
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "without")])
+        self.assertIn(self.sale_order, orders)
+
+        # Create a pending transaction
+        self._create_transaction(amount=10.0, state="pending")
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "pending")])
+        self.assertIn(self.sale_order, orders)
+
+        # Create an authorized transaction
+        self._create_transaction(amount=20.0, state="authorized")
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "authorized")])
+        self.assertIn(self.sale_order, orders)
+
+        # Create a done transaction, below the order total -> partial, not done
+        half_total = self.sale_order.amount_total / 2
+        self._create_transaction(amount=half_total, state="done")
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "partial")])
+        self.assertIn(self.sale_order, orders)
+
+        # Capture the rest of the order total -> done
+        self._create_transaction(amount=half_total, state="done")
+        orders = self.env["sale.order"].search([("id", "=", self.sale_order.id), ("payment_status", "=", "done")])
+        self.assertIn(self.sale_order, orders)
+
+    def _create_order(self, price_unit=100.0):
+        return self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": 1.0,
+                            "price_unit": price_unit,
+                        },
+                    )
+                ],
+            }
+        )
+
+    def _orders_by_payment_status(self):
+        """One order per payment status, so the search can be checked for exclusivity."""
+        orders = {"without": self._create_order()}
+
+        orders["initiated"] = self._create_order()
+        self._create_transaction_for_order(orders["initiated"], amount=10.0, state="error")
+
+        orders["pending"] = self._create_order()
+        self._create_transaction_for_order(orders["pending"], amount=10.0, state="pending")
+
+        orders["authorized"] = self._create_order()
+        self._create_transaction_for_order(orders["authorized"], amount=20.0, state="authorized")
+
+        orders["cancelled"] = self._create_order()
+        self._create_transaction_for_order(orders["cancelled"], amount=30.0, state="cancel")
+
+        orders["partial"] = self._create_order()
+        self._create_transaction_for_order(orders["partial"], amount=orders["partial"].amount_total / 2, state="done")
+
+        orders["done"] = self._create_order()
+        self._create_transaction_for_order(orders["done"], amount=orders["done"].amount_total, state="done")
+
+        return orders
+
+    def test_search_payment_status_returns_only_matching_orders(self):
+        # Regression: in Odoo 19 the search method receives 'in' / 'not in' (never '='),
+        # so an unhandled operator used to fall through to an empty (TRUE) domain and the
+        # filter silently returned every order
+        orders = self._orders_by_payment_status()
+        all_orders = self.env["sale.order"].browse([order.id for order in orders.values()])
+
+        for status, order in orders.items():
+            self.assertEqual(order.payment_status, status, f"Computed status for the '{status}' order")
+
+        for status, order in orders.items():
+            found = self.env["sale.order"].search([("id", "in", all_orders.ids), ("payment_status", "=", status)])
+            self.assertEqual(found, order, f"Only the '{status}' order must match payment_status = {status}")
+
+            found = self.env["sale.order"].search([("id", "in", all_orders.ids), ("payment_status", "!=", status)])
+            self.assertEqual(found, all_orders - order, f"Every other order must match payment_status != {status}")
+
+    def test_search_payment_status_multiple_values(self):
+        orders = self._orders_by_payment_status()
+        all_orders = self.env["sale.order"].browse([order.id for order in orders.values()])
+
+        found = self.env["sale.order"].search(
+            [("id", "in", all_orders.ids), ("payment_status", "in", ["partial", "done"])]
+        )
+        self.assertEqual(found, orders["partial"] | orders["done"])
+
+        found = self.env["sale.order"].search(
+            [("id", "in", all_orders.ids), ("payment_status", "not in", ["partial", "done"])]
+        )
+        self.assertEqual(found, all_orders - orders["partial"] - orders["done"])
+
+    def test_search_payment_status_unknown_value(self):
+        # An unknown value must match nothing, not everything
+        order = self._create_order()
+        found = self.env["sale.order"].search([("id", "=", order.id), ("payment_status", "=", "no_such_status")])
+        self.assertFalse(found)
+
+    def test_wizard_onchange_provider(self):
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_context(active_id=self.sale_order.id)
+            .new({"provider_id": self.provider.id})
+        )
+        wizard._onchange_provider_id()
+        self.assertEqual(wizard.payment_method_id, self.payment_method)
+
+    def test_wizard_confirm_payment(self):
+        # in 20 the transactions are written only with payment_safe_write: the wizard must pass it
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_context(active_id=self.sale_order.id)
+            .create(
+                {
+                    "provider_id": self.provider.id,
+                    "payment_method_id": self.payment_method.id,
+                    "amount": 40.0,
+                    "currency_id": self.sale_order.currency_id.id,
+                    "payment_date": date.today(),
+                }
+            )
+        )
+        wizard.do_confirm()
+        self.assertEqual(wizard.transaction_id.state, "done")
+        self.assertEqual(wizard.transaction_id.sale_order_ids, self.sale_order)
+        self.assertEqual(self.sale_order.payment_amount, 40.0)
+        self.assertEqual(self.sale_order.payment_status, "partial")
+
+    def test_wizard_update_transaction(self):
+        tx = self._create_transaction(amount=10.0, state="pending")
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_context(active_id=self.sale_order.id)
+            .create(
+                {
+                    "provider_id": self.provider2.id,
+                    "amount": 15.0,
+                    "transaction_id": tx.id,
+                    "payment_date": date.today(),
+                }
+            )
+        )
+        wizard.update_transaction()
+        self.assertEqual(tx.amount, 15.0)
+        self.assertEqual(tx.provider_id, self.provider2)
+
+        # A transaction that is no longer pending/draft is never cancelled nor deleted
+        tx.with_context(payment_safe_write=True).state = "done"
+        with self.assertRaises(UserError):
+            wizard.update_transaction()
+        self.assertTrue(tx.exists())
+        self.assertEqual(tx.state, "done")
+
+    # def test_compute_payment_with_invoice(self):
+    #     # Create a new sale order to avoid transactions from previous tests
+    #     sale_order = self.env["sale.order"].create(
+    #         {
+    #             "partner_id": self.partner.id,
+    #             "order_line": [
+    #                 (
+    #                     0,
+    #                     0,
+    #                     {
+    #                         "product_id": self.product.id,
+    #                         "product_uom_qty": 1.0,
+    #                         "price_unit": 100.0,
+    #                     },
+    #                 )
+    #             ],
+    #         }
+    #     )
+    #     # Create an invoice for the sale order
+    #     sale_order.action_confirm()
+    #     invoice = sale_order._create_invoices()
+    #     invoice.action_post()
+    #
+    #     # By default, residual is full amount, so amount_invoice = 0
+    #     sale_order.invalidate_recordset(["invoice_ids", "payment_amount", "payment_status"])
+    #     sale_order._compute_payment()
+    #     self.assertEqual(sale_order.payment_amount, 0.0)
+    #
+    #     # Register a payment for the invoice
+    #     # In Odoo, registering payment usually creates a payment record and reconciles it.
+    #     # We can simulate this by changing amount_residual
+    #     invoice.amount_residual = 0.0
+    #     invoice.amount_residual_signed = 0.0
+    #     # In _compute_payment: amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
+    #     # amount_total is 100
+    #     sale_order.invalidate_recordset(["invoice_ids", "payment_amount", "payment_status"])
+    #     sale_order._compute_payment()
+    #     # self.assertEqual(sale_order.payment_amount, 100.0)
+    #     self.assertTrue(sale_order.payment_amount >= sale_order.amount_total)
+    #     self.assertEqual(sale_order.payment_status, "done")

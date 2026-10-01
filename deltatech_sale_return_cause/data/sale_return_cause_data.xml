@@ -1,0 +1,50 @@
+<odoo noupdate="1">
+        <record id="cause_not_satisfied" model="sale.return.cause">
+            <field name="name">Not satisfied with quality</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="cause_wrong_shipped" model="sale.return.cause">
+            <field name="name">Wrongly shipped warehouse</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="cause_ordered_incorrectly" model="sale.return.cause">
+            <field name="name">Ordered incorrectly by client</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="cause_does_not_fit" model="sale.return.cause">
+            <field name="name">Does not fit</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="cause_sale_team_mistake" model="sale.return.cause">
+            <field name="name">Incorrectly advised by Sales</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="cause_duplicate_order" model="sale.return.cause">
+            <field name="name">Duplicate order</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="cause_does_not_expect" model="sale.return.cause">
+            <field name="name">Does not expect the order</field>
+            <field name="sequence">70</field>
+        </record>
+        <record id="cause_200_warranty" model="sale.return.cause">
+            <field name="name">200% warranty</field>
+            <field name="sequence">80</field>
+        </record>
+        <record id="cause_not_picked" model="sale.return.cause">
+            <field name="name">Package not picked up by client</field>
+            <field name="sequence">90</field>
+        </record>
+        <record id="cause_b2b_return" model="sale.return.cause">
+            <field name="name">B2B Return</field>
+            <field name="sequence">100</field>
+        </record>
+        <record id="cause_external_tva_restitution" model="sale.return.cause">
+            <field name="name">External TVA Restitution</field>
+            <field name="sequence">110</field>
+        </record>
+        <record id="cause_lost_package" model="sale.return.cause">
+            <field name="name">Lost Package</field>
+            <field name="sequence">120</field>
+        </record>
+</odoo>

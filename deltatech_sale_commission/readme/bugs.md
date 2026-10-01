@@ -6,7 +6,11 @@ Scope: Initial static review. Full database integration tests have not been run.
 
 ## [P2] Inverted unit conversion in the sales margin report
 
-**Status:** Open — documented, not fixed.
+**Status:** Fixed in 20.0.1.5.3 (port of 19.0.1.6.1). The quantity is now
+`l.quantity * u.factor / NULLIF(u2.factor, 0)`, the direction of `uom.uom._compute_quantity()`; a zero
+product factor gives an empty quantity instead of a division error. Test:
+`tests/test_margin_report_uom.py` (invoice and refund in dozens for a product in units, compared with the
+ORM conversion).
 
 **Location:** `report/sale_margin_report.py:153–154` (`_sub_select()`). Line numbers refer to the reviewed source and may change.
 

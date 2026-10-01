@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+expenses_deduction_own_rule,ExpensesDeduction: doar decontul propriu (Angajat),deltatech.expenses.deduction,deltatech_expenses.group_expenses_user,cru,"[('employee_id.user_id', '=', user.id)]"
+expenses_deduction_approver_rule,ExpensesDeduction: acces complet (Aprobator/Contabil),deltatech.expenses.deduction,deltatech_expenses.group_expenses_approver,cru,
+expenses_deduction_approver_rule_1,ExpensesDeduction: acces complet (Aprobator/Contabil),deltatech.expenses.deduction,deltatech_expenses.group_expenses_accounting,crud,
+expenses_deduction_comp_rule,ExpensesDeduction multi-company,deltatech.expenses.deduction,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+expenses_deduction_line_own_rule,ExpensesDeductionLine: doar liniile decontului propriu (Angajat),deltatech.expenses.deduction.line,deltatech_expenses.group_expenses_user,cru,"[('expenses_deduction_id.employee_id.user_id', '=', user.id)]"
+expenses_deduction_line_approver_rule,ExpensesDeductionLine: acces complet (Aprobator/Contabil),deltatech.expenses.deduction.line,deltatech_expenses.group_expenses_approver,cru,
+expenses_deduction_line_approver_rule_1,ExpensesDeductionLine: acces complet (Aprobator/Contabil),deltatech.expenses.deduction.line,deltatech_expenses.group_expenses_accounting,crud,
+expenses_deduction_line_comp_rule,ExpensesDeductionLine multi-company,deltatech.expenses.deduction.line,,crud,"['|', ('expenses_deduction_id.company_id', '=', False), ('expenses_deduction_id.company_id', 'in', company_ids)]"

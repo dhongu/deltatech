@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_mrp_simple,access_mrp_simple,mrp.simple,base.group_user,crud,
+access_mrp_simple_line_in,access_mrp_simple_line_in,mrp.simple.line.in,base.group_user,crud,
+access_mrp_simple_line_out,access_mrp_simple_line_out,mrp.simple.line.out,base.group_user,crud,
+access_mrp_simple_add_multiple,access_mrp_simple_add_multiple,add.multi.mrp.lines,base.group_user,crud,
+access_mrp_simple_add_multiple_line,access_mrp_simple_add_multiple_line,add.multi.mrp.lines.product,base.group_user,crud,

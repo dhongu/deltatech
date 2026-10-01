@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_multiple
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-15 19:00+0000\n"
+"PO-Revision-Date: 2026-07-15 22:00+0300\n"
+"Last-Translator: POPVAL\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_sale_order_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model,name:deltatech_sale_multiple.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model,name:deltatech_sale_multiple.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__qty_minim
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__qty_minim
+msgid "Qty Minim"
+msgstr "Cantitate minimă"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__qty_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__qty_multiple
+msgid "Qty Multiple"
+msgstr "Cantitate multiplă"
+
+#. module: deltatech_sale_multiple
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple.product_variant_easy_edit_view
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model,name:deltatech_sale_multiple.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_product__qty_minim
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_template__qty_minim
+msgid "The minimum sale quantity. If it is 0, no minimum is enforced."
+msgstr "Cantitatea minimă de vânzare. Dacă este 0, nu se aplică un minim."
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_product__qty_multiple
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_template__qty_multiple
+msgid ""
+"The sale quantity will be rounded up to this multiple. If it is 0 or 1, no "
+"multiple is enforced."
+msgstr ""
+"Cantitatea de vânzare va fi rotunjită în sus la acest multiplu. Dacă este 0 "
+"sau 1, nu se aplică restricția de multiplu."
+
+#. module: deltatech_sale_multiple
+#. odoo-python
+#: code:addons/deltatech_sale_multiple/models/product.py:0
+#: model:ir.model.constraint,message:deltatech_sale_multiple.constraint_product_product_qty_minim_non_negative
+msgid "The minimum sale quantity must be greater than or equal to zero."
+msgstr "Cantitatea minimă de vânzare trebuie să fie mai mare sau egală cu zero."
+
+#. module: deltatech_sale_multiple
+#. odoo-python
+#: code:addons/deltatech_sale_multiple/models/product.py:0
+#: model:ir.model.constraint,message:deltatech_sale_multiple.constraint_product_product_qty_multiple_non_negative
+msgid "The sale quantity multiple must be greater than or equal to zero."
+msgstr "Multiplicatorul cantității de vânzare trebuie să fie mai mare sau egal cu zero."

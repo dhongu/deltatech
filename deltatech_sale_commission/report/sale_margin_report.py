@@ -147,11 +147,13 @@ class SaleMarginReport(models.Model):
                     t.uom_id as product_uom,
 
 
+                    -- quantity in the product unit: uom factors are absolute (Dozen = 12), so
+                    -- line unit -> product unit is qty * u.factor / u2.factor, as in uom._compute_quantity
                     SUM(CASE
                      WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
                       'in_invoice'::character varying::text])
-                        THEN -(l.quantity / u.factor * u2.factor)
-                        ELSE  (l.quantity / u.factor * u2.factor)
+                        THEN -(l.quantity * u.factor / NULLIF(u2.factor, 0))
+                        ELSE  (l.quantity * u.factor / NULLIF(u2.factor, 0))
                     END) AS product_uom_qty,
 
                     avg(purchase_price) as purchase_price,

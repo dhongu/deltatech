@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_stock_picking_transfer_wizard,access_stock_picking_transfer_wizard,stock.picking.transfer.wizard,base.group_user,crud,

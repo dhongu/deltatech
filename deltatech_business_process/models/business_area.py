@@ -16,7 +16,7 @@ class BusinessArea(models.Model):
     )
     responsible_id = fields.Many2one(
         string="Responsible",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
 

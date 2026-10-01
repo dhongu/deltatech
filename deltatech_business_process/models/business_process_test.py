@@ -26,7 +26,7 @@ class BusinessProcessTest(models.Model):
     tester_id = fields.Many2one(
         string="Tester",
         comodel_name="res.partner",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
     )
     date_start = fields.Date(string="Date start", default=fields.Date.today)
     date_end = fields.Date(string="Date end")

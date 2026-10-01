@@ -1,0 +1,5 @@
+{
+  "icon": "truck",
+  "summary": "Central hub for shipping documents",
+  "features": ["Aggregates SO/PO/picking/invoice docs", "Auto-links files along the flow", "Tag & filter for audits"]
+}
