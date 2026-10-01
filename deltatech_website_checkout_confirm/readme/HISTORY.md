@@ -1,3 +1,10 @@
+## 20.0.1.0.4 (2026-10-01)
+
+- Migration to Odoo 20.0. The confirmation logic is unchanged: `_has_to_be_signed()`,
+  `_get_prepayment_required_amount()` and `payment.transaction._check_amount_and_confirm_order`
+  keep their 19.0 behaviour. The native cash on delivery of Odoo 20 (`delivery`) is a `custom`
+  provider, so its pending transactions are already treated as offline.
+
 ## 19.0.1.0.4
 
 - Security: `/shop/confirmation` now respects the amount required for confirmation and the

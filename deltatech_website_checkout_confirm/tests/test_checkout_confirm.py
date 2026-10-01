@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from odoo import http
+from odoo.http.session import session_store
 from odoo.tests import HttpCase, tagged
 
 from odoo.addons.payment.tests.common import PaymentCommon
@@ -11,7 +11,7 @@ class TestCheckoutConfirm(PaymentCommon, HttpCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.website = cls.env["website"].get_current_website()
+        cls.website = cls.env.company.website_id
         cls.product = cls.env["product.product"].create(
             {"name": "Test Product", "type": "consu", "list_price": 100.0, "sale_ok": True, "website_published": True}
         )
@@ -26,7 +26,7 @@ class TestCheckoutConfirm(PaymentCommon, HttpCase):
     def _open_confirmation(self):
         self.authenticate(None, None)
         self.session["sale_last_order_id"] = self.order.id
-        http.root.session_store.save(self.session)
+        session_store().save(self.session)
         response = self.url_open("/shop/confirmation")
         self.assertEqual(response.status_code, 200)
         return response
@@ -79,19 +79,19 @@ class TestCheckoutConfirm(PaymentCommon, HttpCase):
     # like the standard post-processing of the transaction (_check_amount_and_confirm_order).
 
     def test_insufficient_partial_payment_not_confirmed(self):
-        self.order.write({"require_payment": True, "prepayment_percent": 1.0})
+        self.order.write({"prepayment_percent": 1.0})
         self._create_tx("done", amount=1.0)
         self._open_confirmation()
         self.assertEqual(self.order.state, "draft")
 
     def test_partial_prepayment_reached_confirmed(self):
-        self.order.write({"require_payment": True, "prepayment_percent": 0.3})
+        self.order.write({"prepayment_percent": 0.3})
         self._create_tx("done", amount=self.order.currency_id.round(self.order.amount_total * 0.3))
         self._open_confirmation()
         self.assertEqual(self.order.state, "sale")
 
     def test_multiple_partial_transactions_confirmed(self):
-        self.order.write({"require_payment": True, "prepayment_percent": 1.0})
+        self.order.write({"prepayment_percent": 1.0})
         half = self.order.amount_total / 2
         self._create_tx("done", amount=half)
         self._create_tx("done", amount=self.order.amount_total - half)
@@ -105,7 +105,7 @@ class TestCheckoutConfirm(PaymentCommon, HttpCase):
         self.assertEqual(self.order.state, "draft")
 
     def test_pending_offline_insufficient_amount_not_confirmed(self):
-        self.order.write({"require_payment": True, "prepayment_percent": 1.0})
+        self.order.write({"prepayment_percent": 1.0})
         self._create_tx("pending", amount=1.0)
         with patch(
             "odoo.addons.deltatech_website_checkout_confirm.controllers.website_sale.OFFLINE_PROVIDER_CODES",
@@ -115,7 +115,7 @@ class TestCheckoutConfirm(PaymentCommon, HttpCase):
         self.assertEqual(self.order.state, "draft")
 
     def test_grouped_transaction_not_counted(self):
-        self.order.write({"require_payment": True, "prepayment_percent": 1.0})
+        self.order.write({"prepayment_percent": 1.0})
         other = self.order.copy()
         self._create_tx("done", sale_order_ids=[(6, 0, (self.order | other).ids)])
         self._open_confirmation()
