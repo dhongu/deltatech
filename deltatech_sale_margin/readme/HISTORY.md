@@ -1,5 +1,18 @@
 # Changelog
 
+## 19.0.1.2.1 (2026-10-01)
+
+- **Fix (MARGIN-001): the block now follows the same unit policy as the flag.**
+  When the line unit and the product's base unit belong to different families
+  (e.g. a product with `uom_id` = Units sold per kg), the native conversion
+  inflates `purchase_price` (3.00 per Unit becomes 3000.00 per kg). The flag
+  already stayed silent on such lines, but `check_sale_price()` (on `write` and
+  on confirmation) and the onchange modal still compared the inflated cost, so
+  in `block` mode a line with no "below cost" flag could not be saved. Both now
+  skip the cost and margin comparison when `_margin_uom_comparable()` is False.
+  Same-family units (Box 12 kg against kg) are still compared on the converted
+  cost and still blocked. The "no price" check is unchanged.
+
 ## 19.0.1.2.0 (2026-08-20)
 
 - **New: the reaction to a below-cost sale is configurable per company** —
