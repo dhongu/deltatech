@@ -1,3 +1,7 @@
+## 20.0.1.2.3 (2026-10-01)
+
+- Fix: an address saved at checkout kept only the chosen locality (`city_id`) and left the free-text `city` empty, a step lost in the 19.0 migration. Posting the invoice of such a customer was refused for a missing city. The city is filled again from the chosen locality, and a migration fills it on the partners already saved without it.
+
 ## 20.0.1.2.2 (2026-09-30)
 
 - New module icon in the flat style of the other modules; it replaces the old one.
