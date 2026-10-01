@@ -4,3 +4,5 @@
 
 from . import test_negative
 from . import test_negative_multiline
+from . import test_negative_serial
+from . import test_screenshots

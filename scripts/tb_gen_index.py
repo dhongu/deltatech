@@ -155,6 +155,7 @@ I18N = {
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
+        "badge_hosting": "Odoo.sh &bull; On-premise",
         "rating_free_title": "Did this module help you?",
         "rating_free_body": "It is free, built and maintained by the Terrabit developers. If it saved you time, "
         "a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. "
@@ -194,6 +195,7 @@ I18N = {
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
+        "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
         "rating_free_title": "V-a ajutat acest modul?",
         "rating_free_body": "E gratuit, construit &#537;i &#238;ntre&#539;inut de programatorii Terrabit. Dac&#259; v-a economisit timp, "
         "un rating pe aceast&#259; pagin&#259; e cel mai bun mod de a ne mul&#539;umi &mdash; &#537;i &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259;. "
@@ -629,7 +631,7 @@ def render_markdown(md_text):
 # ----------------------------------------------------------------------------- #
 
 
-def build_badges(manifest):
+def build_badges(manifest, lang="en"):
     items = []
     ver = str(manifest.get("version", ""))
     m = re.match(r"(\d+\.\d+)", ver)
@@ -642,11 +644,11 @@ def build_badges(manifest):
     if license_:
         items.append((BADGE, html_mod.escape(str(license_))))
     # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ)
-    items.append((BADGE, "Odoo.sh &bull; On-premise"))
+    items.append((BADGE, I18N[lang]["badge_hosting"]))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
 
-def build_hero(addon_dir, manifest):
+def build_hero(addon_dir, manifest, lang="en"):
     name = html_mod.escape(manifest.get("name") or os.path.basename(os.path.abspath(addon_dir)))
     summary = html_mod.escape((manifest.get("summary") or "").strip())
     icon = ""
@@ -658,7 +660,7 @@ def build_hero(addon_dir, manifest):
         icon=icon,
         name=name,
         summary=(SUMMARY % summary) if summary else "",
-        badges=build_badges(manifest),
+        badges=build_badges(manifest, lang),
     )
 
 
@@ -827,7 +829,7 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=
     strings = dict(TB, **I18N[lang])
     parts = [
         WRAP_OPEN,
-        build_hero(addon_dir, manifest),
+        build_hero(addon_dir, manifest, lang),
         build_rating(manifest, lang),
         build_tabs(tabs),
         build_stats(lang),

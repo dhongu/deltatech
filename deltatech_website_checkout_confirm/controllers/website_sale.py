@@ -19,12 +19,20 @@ class WebsiteSaleCheckout(WebsiteSale):
         return super().shop_payment_confirmation(**post)
 
     def _checkout_confirm_can_confirm(self, order):
-        """The route is public: confirm only a quotation backed by a payment transaction."""
-        if order.state not in ("draft", "sent"):
+        """The route is public: confirm only a quotation backed by payment transactions that cover
+        the amount required for confirmation, as the standard post-processing of the transaction
+        does (`payment.transaction._check_amount_and_confirm_order`)."""
+        if order.state not in ("draft", "sent") or order._has_to_be_signed():
             return False
-        for tx in order.transaction_ids:
-            if tx.state in ("done", "authorized"):
-                return True
-            if tx.state == "pending" and tx.provider_code in OFFLINE_PROVIDER_CODES:
-                return True
-        return False
+        # Grouped payments (one transaction for several orders) are not supported, as in standard.
+        txs = order.transaction_ids.filtered(
+            lambda tx: tx.sale_order_ids == order
+            and (
+                tx.state in ("done", "authorized")
+                or (tx.state == "pending" and tx.provider_code in OFFLINE_PROVIDER_CODES)
+            )
+        )
+        if not txs:
+            return False
+        amount = sum(txs.mapped("amount"))
+        return order.currency_id.compare_amounts(order._get_prepayment_required_amount(), amount) <= 0

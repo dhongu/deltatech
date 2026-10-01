@@ -23,7 +23,7 @@ msgstr "Utilizatori permiși"
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__boolean
 msgid "Boolean"
-msgstr ""
+msgstr "Bifă"
 
 #. module: deltatech_record_type
 #: model:res.groups,name:deltatech_record_type.group_confirm_order_without_record_type
@@ -38,7 +38,7 @@ msgstr "Poate confirma comenzi fără tip comandă"
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__char
 msgid "Char"
-msgstr ""
+msgstr "Text"
 
 #. module: deltatech_record_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_record_type__company_id
@@ -108,12 +108,12 @@ msgstr ""
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type_default_values__field_type__id
 msgid "Id"
-msgstr ""
+msgstr "Identificator"
 
 #. module: deltatech_record_type
 #: model:ir.model.fields.selection,name:deltatech_record_type.selection__record_type__model__account_move
 msgid "Invoice"
-msgstr ""
+msgstr "Factură"
 
 #. module: deltatech_record_type
 #: model:ir.model.fields,field_description:deltatech_record_type.field_account_bank_statement_line__invoice_type

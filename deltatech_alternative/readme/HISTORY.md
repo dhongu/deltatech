@@ -1,3 +1,16 @@
+## 19.0.2.1.5 (2026-10-01)
+
+- Searching a product by alternative code (*Search by alternative code*
+  option) now keeps the selector's domain: a product hidden from the field by
+  `sale_ok`, `purchase_ok`, category or company no longer comes back through
+  its alternative code. The alternative code is now one more condition of the
+  product search, so record rules apply as well (ALTERNATIVE-001).
+- Variants found by alternative code are shown with their full name
+  (`[code] Name`), like the other results, instead of the bare name.
+- `name_search` with `limit=None` no longer raises `TypeError`.
+- Negative operators (`not ilike`...) no longer add products by alternative
+  code.
+
 ## 19.0.2.1.4 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

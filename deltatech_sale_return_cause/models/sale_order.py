@@ -36,10 +36,12 @@ class SaleOrder(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
-        if (
-            ("return_cause" in vals and vals["return_cause"]) or ("return_cause_id" in vals and vals["return_cause_id"])
-        ) and not self.return_cause_date:
-            vals["return_cause_date"] = fields.Date.today()
+        if (vals.get("return_cause") or vals.get("return_cause_id")) and "return_cause_date" not in vals:
+            # only the orders without a date get today's date, the existing ones are kept
+            orders_without_date = self.filtered(lambda o: not o.return_cause_date)
+            if orders_without_date:
+                super(SaleOrder, orders_without_date).write(dict(vals, return_cause_date=fields.Date.today()))
+            return super(SaleOrder, self - orders_without_date).write(vals)
         return super().write(vals)
 
     is_return_amount_readonly = fields.Boolean(compute="_compute_is_return_amount_readonly")
@@ -66,9 +68,9 @@ class SaleOrder(models.Model):
 
     def check_and_update_return_amount(self):
         for order in self:
-            if (self.return_cause or self.return_cause_id) and self.invoice_count >= 2:
+            if (order.return_cause or order.return_cause_id) and order.invoice_count >= 2:
                 # Get all credit notes related to these invoices
-                credit_notes = self.invoice_ids.filtered(lambda x: x.move_type == "out_refund" and x.state == "posted")
+                credit_notes = order.invoice_ids.filtered(lambda x: x.move_type == "out_refund" and x.state == "posted")
                 total_credit_amount = sum(credit_notes.mapped(lambda x: x.amount_total_signed))
 
                 # Update the return_amount field

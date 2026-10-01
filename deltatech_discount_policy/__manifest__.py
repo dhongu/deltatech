@@ -1,6 +1,6 @@
 {
     "name": "Deltatech Discount Policy",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Sales",
     "summary": "Bring back Odoo 17 discount policy",
     "author": "Terrabit, Voicu Stefan",

@@ -49,6 +49,10 @@ class SecondaryUomMixin(models.AbstractModel):
         """Write the given quantity (expressed in the line UoM) on the line."""
         raise NotImplementedError
 
+    def _get_secondary_uom_open_domain(self):
+        """Domain of the lines still editable, recomputed when a conversion changes."""
+        return []
+
     def _get_secondary_conversion(self):
         self.ensure_one()
         product = self._get_secondary_product()

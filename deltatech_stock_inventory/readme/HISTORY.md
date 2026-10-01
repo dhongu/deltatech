@@ -1,3 +1,10 @@
+## 19.0.2.10.2 (2026-10-01)
+
+- Applying a count on a quant moved since it was counted no longer closes the inventory before the
+  conflict is resolved. The inventory stays in progress until the *Conflict in Inventory Adjustment*
+  wizard is confirmed, and then the same document is finalized (no second document is created) and
+  the note reaches the inventory move.
+
 ## 19.0.2.10.1 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

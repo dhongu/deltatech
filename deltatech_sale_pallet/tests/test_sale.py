@@ -82,3 +82,24 @@ class TestSale(TransactionCase):
         SaleReport.browse(1)
 
         SaleReport._read_group([("state", "=", "sale")], ["product_id"], ["qty_invoiced:sum"])
+
+    def test_compute_pallet_number_boundaries(self):
+        order = self.env["sale.order"].create({"partner_id": self.partner_a.id})
+        line = self.env["sale.order.line"].create(
+            {"order_id": order.id, "product_id": self.product_b.id, "product_uom_qty": 1}
+        )
+        # pallet_qty_min = 10; (qty, pallets rounded down, pallets rounded up)
+        cases = [
+            (10, 1, 1),
+            (10.05, 1, 2),
+            (19.95, 1, 2),
+            (19.99, 1, 2),
+            (20, 2, 2),
+            (20.01, 2, 3),
+            (25, 2, 3),
+        ]
+        for qty, expected_down, expected_up in cases:
+            line.product_uom_qty = qty
+            with self.subTest(qty=qty):
+                self.assertEqual(line.compute_pallet_number(delete_if_under=True), expected_down)
+                self.assertEqual(line.compute_pallet_number(delete_if_under=False), expected_up)

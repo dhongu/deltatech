@@ -153,3 +153,127 @@ class TestPurchaseAddExtraLine(TransactionCase):
         # Deleting main line should remove the paired extra line too
         main_line.unlink()
         self.assertEqual(len(po.order_line), 0, "Both main and extra lines should be removed after unlink")
+
+    # PURCHASEEXTRA-001: the extra line follows a change of the main product
+
+    def _other_products(self):
+        seller_ids = [(0, 0, {"partner_id": self.vendor.id})]
+        other_extra = self.env["product.product"].create(
+            {"name": "Other Extra", "type": "consu", "standard_price": 5.0, "seller_ids": seller_ids}
+        )
+        other_main = self.env["product.product"].create(
+            {
+                "name": "Other Main",
+                "type": "consu",
+                "standard_price": 200.0,
+                "seller_ids": seller_ids,
+                "extra_product_id": other_extra.id,
+                "extra_percent": 50.0,
+                "extra_qty": 3.0,
+            }
+        )
+        plain = self.env["product.product"].create(
+            {"name": "Plain", "type": "consu", "standard_price": 40.0, "seller_ids": seller_ids}
+        )
+        return other_main, other_extra, plain
+
+    def test_write_main_product_replaces_extra_line(self):
+        """Replacing A/X by B/Y through write() replaces X by Y, even with a manual price on X."""
+        other_main, other_extra, _plain = self._other_products()
+        po = self._new_order()
+        self._extra_line(po).price_unit = 7.0
+        main_line = self._main_line(po)
+
+        main_line.write({"product_id": other_main.id, "price_unit": 200.0})
+
+        self.assertFalse(self._extra_line(po), "the extra line of the old product must be removed")
+        extra_line = po.order_line - main_line
+        self.assertEqual(extra_line.product_id, other_extra)
+        self.assertEqual(extra_line.product_uom_id, other_extra.uom_id)
+        self.assertTrue(extra_line.is_extra_line)
+        self.assertEqual(extra_line.line_uuid, main_line.line_uuid)
+        self.assertEqual(extra_line.product_qty, 5 * 3.0)
+        self.assertAlmostEqual(extra_line.price_unit, 100.0)
+
+    def test_write_main_product_without_extra_removes_extra_line(self):
+        """Replacing A/X by a product without extra removes X."""
+        _other_main, _other_extra, plain = self._other_products()
+        po = self._new_order()
+        main_line = self._main_line(po)
+
+        main_line.product_id = plain
+
+        self.assertEqual(po.order_line, main_line)
+
+    def test_unlink_removes_extra_line_without_extra_configuration(self):
+        """Deleting the main line removes its extra line even if the product no longer has an extra."""
+        po = self._new_order()
+        main_line = self._main_line(po)
+        self.main_product.extra_product_id = False
+
+        main_line.unlink()
+
+        self.assertFalse(po.order_line)
+
+    def test_extra_line_with_own_extra_is_not_a_main_line(self):
+        """An extra product that has an extra of its own does not take the main line for its extra."""
+        self.extra_product.extra_product_id = self.main_product
+        po = self._new_order()
+        self.assertEqual(len(po.order_line), 2)
+        self._extra_line(po).product_qty = 3
+        self.assertEqual(len(po.order_line), 2)
+        self.assertEqual(self._main_line(po).product_qty, 5)
+
+    def test_form_main_product_replaces_extra_line(self):
+        """Replacing A/X by B/Y in the form replaces X by Y."""
+        other_main, other_extra, _plain = self._other_products()
+        po = self._new_order()
+        po_form = Form(po)
+        with po_form.order_line.edit(0) as line_form:
+            line_form.product_id = other_main
+            line_form.product_qty = 5
+        po = po_form.save()
+
+        self.assertEqual(po.order_line.product_id, other_main | other_extra)
+        main_line = po.order_line.filtered(lambda line: line.product_id == other_main)
+        extra_line = po.order_line - main_line
+        self.assertEqual(extra_line.line_uuid, main_line.line_uuid)
+        self.assertEqual(extra_line.product_qty, 5 * 3.0)
+
+    def test_form_main_product_without_extra_removes_extra_line(self):
+        """Replacing A/X by a product without extra in the form removes X."""
+        _other_main, _other_extra, plain = self._other_products()
+        po = self._new_order()
+        po_form = Form(po)
+        with po_form.order_line.edit(0) as line_form:
+            line_form.product_id = plain
+        po = po_form.save()
+
+        self.assertEqual(po.order_line.product_id, plain)
+
+    # the extra line is mandatory
+
+    def test_confirm_restores_deleted_extra_line(self):
+        """An extra line deleted outside the form is regenerated when the RFQ is confirmed."""
+        po = self._new_order()
+        self._extra_line(po).unlink()
+        self.assertEqual(len(po.order_line), 1)
+
+        po.button_confirm()
+
+        extra_line = self._extra_line(po)
+        self.assertEqual(len(extra_line), 1)
+        self.assertEqual(extra_line.product_qty, 5 * 2.0)
+        self.assertEqual(po.state, "purchase")
+
+    def test_form_extra_line_qty_is_readonly(self):
+        """In the form, the quantity of the extra line cannot be changed, its price can."""
+        po = self._new_order()
+        po_form = Form(po)
+        extra_index = po.order_line.sorted("sequence").ids.index(self._extra_line(po).id)
+        with po_form.order_line.edit(extra_index) as line_form:
+            with self.assertRaises(AssertionError):
+                line_form.product_qty = 3
+            line_form.price_unit = 7.0
+        po = po_form.save()
+        self.assertEqual(self._extra_line(po).price_unit, 7.0)

@@ -8,15 +8,21 @@ class SaleOrder(models.Model):
     so_type = fields.Many2one("record.type", string="Order Type", tracking=True)
     show_so_type = fields.Boolean(compute="_compute_show_so_type", store=False)
 
+    def _skip_so_type_check(self):
+        # the check applies only to internal users: orders accepted/signed in the portal (portal or public user)
+        # and orders confirmed by an online payment are confirmed by Odoo on behalf of the customer
+        if self.env.context.get("record_type_payment_confirm"):
+            return True
+        if self.env.user.share:
+            return True
+        return self.env.user.has_group("deltatech_record_type.group_confirm_order_without_record_type")
+
     def action_confirm(self):
-        for order in self:
-            if hasattr(order, "website_id") and order.website_id:
-                continue
-            if (
-                not self.env.user.has_group("deltatech_record_type.group_confirm_order_without_record_type")
-                and order.show_so_type
-            ):
-                if not order.so_type:
+        if not self._skip_so_type_check():
+            for order in self:
+                if hasattr(order, "website_id") and order.website_id:
+                    continue
+                if order.show_so_type and not order.so_type:
                     raise exceptions.UserError(
                         self.env._("You do not have the rights to confirm an order without specifying an Order Type.")
                     )

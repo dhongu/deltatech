@@ -1,30 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * deltatech_stock_negative
+# 	* deltatech_stock_negative
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-24 03:17+0000\n"
-"PO-Revision-Date: 2019-03-24 03:17+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2026-10-01 10:00+0000\n"
+"PO-Revision-Date: 2026-10-01 10:00+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-
-#. module: deltatech_stock_negative
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_negative.res_config_settings_view_form
-msgid ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
-"specific.\" aria-label=\"Values set here are company-specific.\" "
-"groups=\"base.group_multi_company\" role=\"img\"/>"
-msgstr ""
-"<span class=\"fa fa-lg fa-building-o\" title=\"Valorile stabilite aici sunt "
-"specifice companiei.\" aria-label=\"Valorile stabilite aici sunt specifice "
-"companiei.\" groups=\"base.group_multi_company\" role=\"img\"/>"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #. module: deltatech_stock_negative
 #: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__allow_negative_stock
@@ -35,7 +25,14 @@ msgstr "Permite stoc negativ"
 #: model:ir.model.fields,help:deltatech_stock_negative.field_res_company__no_negative_stock
 #: model:ir.model.fields,help:deltatech_stock_negative.field_res_config_settings__no_negative_stock
 msgid "Allows you to prohibit negative stock quantities."
-msgstr "Da posibilitatea de a interzice lucrul cu stocuri negative"
+msgstr ""
+"Interzice validarea mișcărilor care ar duce stocul unei locații interne sub "
+"zero."
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__check_serial_no
+msgid "Check Serial No."
+msgstr "Verifică nr. de serie"
 
 #. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_res_company
@@ -48,6 +45,17 @@ msgid "Config Settings"
 msgstr "Setări de configurare"
 
 #. module: deltatech_stock_negative
+#: model:ir.model.fields,help:deltatech_stock_negative.field_stock_location__check_serial_no
+msgid ""
+"If checked, the no-negative-stock check of serial-tracked products is done "
+"per serial number. If unchecked, it is done on the total of all serial "
+"numbers in the location, and reservation ignores the serial number."
+msgstr ""
+"Bifat, controlul de stoc negativ al produselor cu număr de serie se face pe "
+"fiecare serie. Debifat, se face pe totalul tuturor seriilor din locație, "
+"iar rezervarea nu ține cont de serie."
+
+#. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_stock_location
 msgid "Inventory Locations"
 msgstr "Locații stoc"
@@ -56,12 +64,12 @@ msgstr "Locații stoc"
 #: model:ir.model.fields,field_description:deltatech_stock_negative.field_res_company__no_negative_stock
 #: model:ir.model.fields,field_description:deltatech_stock_negative.field_res_config_settings__no_negative_stock
 msgid "No negative stock"
-msgstr "Fară stoc negativ"
+msgstr "Fără stoc negativ"
 
 #. module: deltatech_stock_negative
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_negative.res_config_settings_view_form
 msgid "No negative stocks are allowed"
-msgstr "Fară stoc negativ"
+msgstr "Ieșirile peste stocul fizic al locației sunt blocate la validare"
 
 #. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_stock_quant
@@ -69,25 +77,13 @@ msgid "Quants"
 msgstr "Poziții de stoc"
 
 #. module: deltatech_stock_negative
-#: code:addons/deltatech_stock_negative/models/stock.py:22
-#, python-format
-msgid ""
-"You have chosen to avoid negative stock. %s pieces of %s are remaining in "
-"location %s, but you want to transfer %s pieces. Please adjust your "
-"quantities or correct your stock with an inventory adjustment."
-msgstr ""
-"Ați ales să evitați stocurile negative.   %s din %s există în locația %s dar"
-" dvs vreți să transferați %s. Ajustați cantitățile sau corectați stocul cu o"
-" ajustare de inventar."
-
-#. module: deltatech_stock_negative
+#. odoo-python
 #: code:addons/deltatech_stock_negative/models/stock.py:0
-#, python-format
 msgid ""
-"You have chosen to avoid negative stock. %s pieces of %s are remaining in "
-"location %s, lot %s, but you want to transfer %s pieces. Please adjust your "
-"quantities or correct your stock with an inventory adjustment."
+"You have chosen to avoid negative stock. %(lot_qty)s pieces of "
+"%(product_name)s are remaining in location %(location_name)s. Please adjust "
+"your quantities or correct your stock with an inventory adjustment."
 msgstr ""
-"Ați ales să evitați stocurile negative.   %s din %s există în locația %s, "
-"lot %s dar dvs vreți să transferați %s. Ajustați cantitățile sau corectați "
-"stocul cu o ajustare de inventar."
+"Ați ales să nu permiteți stocul negativ. Din %(product_name)s ar rămâne "
+"%(lot_qty)s bucăți în locația %(location_name)s. Ajustați cantitățile sau "
+"corectați stocul printr-o ajustare de inventar."
