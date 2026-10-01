@@ -65,6 +65,19 @@ class CustomerPortalCity(CustomerPortal):
                 mandatory_fields.remove("city")
         return mandatory_fields
 
+    def _parse_form_data(self, form_data):
+        """Fill the free-text city from the chosen locality.
+
+        With enforced cities the form only offers ``city_id`` and the address
+        script empties the ``city`` input, while everything downstream (the
+        invoice post check, carrier labels, reports) reads ``city``.
+        """
+        address_values, extra_form_data = super()._parse_form_data(form_data)
+        city_id = address_values.get("city_id")
+        if city_id and not address_values.get("city"):
+            address_values["city"] = request.env["res.city"].sudo().browse(city_id).name
+        return address_values, extra_form_data
+
     def _validate_address_values(self, address_values, partner_sudo, address_type, *args, **kwargs):
         invalid_fields, missing_fields, error_messages = super()._validate_address_values(
             address_values, partner_sudo, address_type, *args, **kwargs
