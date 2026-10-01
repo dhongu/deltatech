@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.safe_eval import safe_eval
 
 
 class MRPSimple(models.Model):
@@ -37,7 +36,7 @@ class MRPSimple(models.Model):
     auto_create_sale = fields.Boolean("Create product & sale", default=False, copy=False)
     partner_id = fields.Many2one("res.partner", string="Client", copy=False)
     final_product_name = fields.Char("Final product name", copy=False)
-    final_product_qty = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1, copy=False)
+    final_product_qty = fields.Float(string="Quantity", digits="Product Unit", default=1, copy=False)
     final_product_category = fields.Many2one("product.category", string="Category for final product", copy=False)
     final_product_uom_id = fields.Many2one("uom.uom", "Unit of Measure", copy=False)
     final_product_id = fields.Many2one("product.product", "Final Product", copy=False)
@@ -105,7 +104,7 @@ class MRPSimple(models.Model):
             [
                 ("picking_id", "=", picking.id),
                 ("product_id", "=", product.id),
-                ("product_uom", "=", uom.id),
+                ("uom_id", "=", uom.id),
             ]
         )
         if move:
@@ -115,7 +114,7 @@ class MRPSimple(models.Model):
             values = {
                 "state": "confirmed",
                 "product_id": product.id,
-                "product_uom": uom.id,
+                "uom_id": uom.id,
                 "product_uom_qty": quantity,
                 # 'quantity_done': quantity,  # o fi bine >???
                 "picking_id": picking.id,
@@ -195,12 +194,15 @@ class MRPSimple(models.Model):
             vals = {
                 "order_id": sale_order.id,
                 "product_id": product_id,
-                "name": self.final_product_name,
                 "product_uom_qty": self.final_product_qty,
                 "product_uom_id": self.final_product_uom_id.id
                 if not self.final_product_id
                 else self.final_product_id.uom_id.id,
             }
+            # in 20.0 `name` is only the description; the product name comes from `label`
+            product = self.env["product.product"].browse(product_id)
+            if self.final_product_name and self.final_product_name != product.name:
+                vals["name"] = self.final_product_name
             sale_order.order_line.create(vals)
             self.sale_order_id = sale_order
 
@@ -245,7 +247,7 @@ class MRPSimple(models.Model):
             raise UserError(self.env._("You need at least one final product"))
         for line in self.product_in_ids:
             params = self.env["ir.config_parameter"].sudo()
-            allow_zero = safe_eval(params.get_param("deltatech_mrp_simple.allow_zero_cost", False))
+            allow_zero = params.get_bool("deltatech_mrp_simple.allow_zero_cost")
             if not line.price_unit and not allow_zero:
                 raise UserError(self.env._("Price 0 for result product!"))
             if line.product_id.type != "service":
@@ -292,7 +294,7 @@ class MRPSimpleLineIn(models.Model):
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")
-    quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
+    quantity = fields.Float(string="Quantity", digits="Product Unit", default=1)
     price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
     value = fields.Float(compute="_compute_value", string="Value", store=True)
@@ -322,7 +324,7 @@ class MRPSimpleLineOut(models.Model):
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")
-    quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
+    quantity = fields.Float(string="Quantity", digits="Product Unit", default=1)
     price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
     stock = fields.Float(related="product_id.qty_available")

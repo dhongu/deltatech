@@ -24,7 +24,7 @@
                         name="compute_finit_price"
                         type="object"
                         string="Recompute prices"
-                        invvisible="state!='draft'"
+                        invisible="state!='draft'"
                     />
                     <button type="object" name="add_multiple_lines" string="Add lines" />
                     <field name="state" widget="statusbar" />
@@ -35,7 +35,7 @@
                             type="object"
                             class="oe_stat_button"
                             id="consume_button"
-                            icon="fa-angle-down"
+                            icon="keyboard_arrow_down"
                             name="open_consume"
                             invisible="state=='draft'"
                         >
@@ -44,8 +44,8 @@
                         <button
                             type="object"
                             class="oe_stat_button"
-                            id="consume_button"
-                            icon="fa-angle-up"
+                            id="receipt_button"
+                            icon="keyboard_arrow_up"
                             name="open_receipt"
                             invisible="state=='draft'"
                         >

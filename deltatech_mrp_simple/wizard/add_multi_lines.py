@@ -9,7 +9,7 @@ class AddMultiMrpLines(models.TransientModel):
     _description = "Add multiple lines to mrp"
 
     simple_mrp_id = fields.Many2one("mrp.simple")
-    qty = fields.Float(digits="Product Unit of Measure", default=1)
+    qty = fields.Float(digits="Product Unit", default=1)
     product_lines = fields.One2many("add.multi.mrp.lines.product", "multi_id", string="Products")
 
     def add_products(self):
@@ -32,8 +32,8 @@ class AddMultiMrpLines(models.TransientModel):
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
         active_ids = self.env.context.get("active_ids", [])
-        if active_ids:
-            res["simple_mrp_id"] = active_ids
+        if active_ids and self.env.context.get("active_model") == "mrp.simple":
+            res["simple_mrp_id"] = active_ids[0]
         return res
 
 
