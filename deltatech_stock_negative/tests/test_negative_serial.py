@@ -98,6 +98,42 @@ class TestNegativeSerial(TransactionCase):
         self._assert_blocked(move)
         self.assertEqual(self._quantity(), 1.0, "stocul trebuie sa ramana neatins")
 
+    def test_serial_check_off_absent_serial_passes_on_the_total(self):
+        """Fara verificarea seriei, conteaza doar totalul: o serie absenta trece.
+
+        Comportament asumat, documentat in fisa: nucleul descarca apoi seria de
+        pe linie, care ramane pe -1, iar seria reala ramane pe +1.
+        """
+        self._stock(self.sn_1)
+        move = self._move(self.sn_2)
+        move._action_done()
+        self.assertEqual(self._quantity(), 0.0)
+
+    def test_serial_check_off_inventory_fix_needs_two_steps(self):
+        """Dupa o serie absenta (SN-2 pe -1, SN-1 pe +1), inventarul se aplica in doi pasi.
+
+        Aplicate impreuna, minusul pe SN-1 e verificat pe totalul locatiei (0) si e
+        blocat; plusul pe SN-2 vine din locatia de inventar si nu e numarat.
+        Intai plusul, apoi minusul: trece. Ordinea e descrisa in fisa (pasul 7).
+        """
+        self._stock(self.sn_1)
+        self._move(self.sn_2)._action_done()
+        Quant = self.env["stock.quant"]
+        domain = [("product_id", "=", self.product.id), ("location_id", "=", self.location.id)]
+        quant_1 = Quant.search(domain + [("lot_id", "=", self.sn_1.id)])
+        quant_2 = Quant.search(domain + [("lot_id", "=", self.sn_2.id)])
+        self.assertEqual((quant_1.quantity, quant_2.quantity), (1.0, -1.0))
+
+        (quant_1 | quant_2).inventory_quantity = 0.0
+        with self.assertRaisesRegex(UserError, "avoid negative stock"):
+            (quant_1 | quant_2).action_apply_inventory()
+
+        quant_2.inventory_quantity = 0.0
+        quant_2.action_apply_inventory()
+        quant_1.inventory_quantity = 0.0
+        quant_1.action_apply_inventory()
+        self.assertEqual((quant_1.quantity, quant_2.quantity), (0.0, 0.0))
+
     def test_serial_check_off_other_location_does_not_count(self):
         """Agregarea pe serii nu scoate filtrul de locatie."""
         self._stock(self.sn_1, location=self.stock_location)

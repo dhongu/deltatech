@@ -60,9 +60,9 @@ msgstr ""
 #. module: deltatech_stock_negative
 #: model:ir.model.fields,help:deltatech_stock_negative.field_stock_location__check_serial_no
 msgid ""
-"If checked, the serial numbers will be checked on the moves and an error "
-"will be raised if the serial number is reserved on another move or is "
-"unavailable."
+"If checked, the no-negative-stock check of serial-tracked products is done "
+"per serial number. If unchecked, it is done on the total of all serial "
+"numbers in the location, and reservation ignores the serial number."
 msgstr ""
 
 #. module: deltatech_stock_negative
@@ -84,12 +84,6 @@ msgstr ""
 #. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_stock_quant
 msgid "Quants"
-msgstr ""
-
-#. module: deltatech_stock_negative
-#. odoo-python
-#: code:addons/deltatech_stock_negative/models/stock.py:0
-msgid "You cannot search for available quantity across several companies."
 msgstr ""
 
 #. module: deltatech_stock_negative
