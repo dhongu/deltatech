@@ -1,3 +1,10 @@
+## 19.0.1.0.4
+
+- Security: `/shop/confirmation` now respects the amount required for confirmation and the
+  required signature, like the standard payment post-processing. The order is confirmed only
+  when the qualifying transactions (`done`/`authorized`, or `pending` on an offline provider)
+  linked only to this order cover the prepayment amount, and no signature is pending.
+
 ## 19.0.1.0.3
 
 - Own module icon, instead of the generic gears it had.
