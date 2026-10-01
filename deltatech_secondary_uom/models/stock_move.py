@@ -13,12 +13,12 @@ class StockMove(models.Model):
         return self.product_id
 
     def _get_line_qty_and_uom(self):
-        return self.product_uom_qty, self.product_uom
+        return self.product_uom_qty, self.uom_id
 
     def _set_line_qty(self, qty):
         self.product_uom_qty = qty
 
-    @api.depends("product_uom_qty", "product_uom", "secondary_uom_id", "product_id")
+    @api.depends("product_uom_qty", "uom_id", "secondary_uom_id", "product_id")
     def _compute_secondary_uom_qty(self):
         return super()._compute_secondary_uom_qty()
 

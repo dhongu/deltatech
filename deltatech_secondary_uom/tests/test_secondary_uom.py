@@ -144,7 +144,7 @@ class TestSecondaryUom(TransactionCase):
         move = self.env["stock.move"].create(
             {
                 "product_id": self.product.id,
-                "product_uom": self.uom_unit.id,
+                "uom_id": self.uom_unit.id,
                 "product_uom_qty": 1.0,
                 "location_id": picking_type.default_location_src_id.id
                 or self.env.ref("stock.stock_location_suppliers").id,
