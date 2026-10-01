@@ -87,10 +87,19 @@ class QueueJob(models.Model):
 
     @api.model
     def _api_job_runner(self, batch_size=20, max_seconds=50):
-        """Runner dedicated to External API calls (e.g. cron-job.org)"""
+        """Runner dedicated to External API calls (e.g. cron-job.org)
+
+        ``_process()`` catches the exceptions raised by the job and stores the
+        job as failed, or as pending again for a retry, then returns normally.
+        The counters are therefore taken from the stored job state, not from
+        exceptions: ``processed`` counts the attempted jobs, split into
+        ``done``, ``failed`` and ``postponed``.
+        """
         start_time = time.time()
         processed = 0
+        done = 0
         failed = 0
+        postponed = 0
 
         _logger.info("🚀 Starting queue processing via API - Batch size: %d", batch_size)
 
@@ -103,19 +112,29 @@ class QueueJob(models.Model):
                 _logger.warning("⏱️ Time budget exceeded (%.1fs > %ds), stopping.", elapsed, max_seconds)
                 break
 
+            processed += 1
             try:
                 # Process the job (includes its own internal commit/rollback)
                 job._process(commit=True)
-                processed += 1
             except Exception as e:
                 failed += 1
                 _logger.error("❌ Job %s failed in API runner: %s", job.id, str(e))
+            else:
+                job.invalidate_recordset(["state"])
+                if job.state == "done":
+                    done += 1
+                elif job.state == "pending":
+                    postponed += 1
+                else:
+                    failed += 1
 
             job = self._acquire_one_job()
 
         return {
             "processed": processed,
+            "done": done,
             "failed": failed,
+            "postponed": postponed,
             "time_elapsed": round(time.time() - start_time, 2),
             "pending_remaining": self.search_count([("state", "=", "pending")]),
         }
