@@ -127,9 +127,9 @@ class TestStockRemovalPriority(TransactionCase):
         self.assertEqual(self._read_priority(quant_default), 999)
 
         icp = self.env["ir.config_parameter"].sudo()
-        icp.set_param("stock.removal_priority.default", "500")
+        icp.set_int("stock.removal_priority.default", 500)
         self.assertEqual(self._read_priority(quant_default), 500)
         self.assertEqual(self._read_priority(quant_rule), 5)
 
-        icp.set_param("stock.removal_priority.default", False)
+        icp.set_str("stock.removal_priority.default", False)
         self.assertEqual(self._read_priority(quant_default), 999)

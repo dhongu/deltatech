@@ -17,9 +17,9 @@ class StockQuant(models.Model):
 
     @api.model
     def _get_default_removal_priority(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_str = self.env["ir.config_parameter"].sudo().get_str
         try:
-            return int(get_param("stock.removal_priority.default", default="999"))
+            return int(get_str("stock.removal_priority.default", default="999"))
         except (ValueError, TypeError):
             return 999
 
