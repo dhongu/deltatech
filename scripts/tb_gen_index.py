@@ -148,6 +148,7 @@ I18N = {
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
+        "badge_hosting": "Odoo.sh &bull; On-premise",
     },
     "ro": {
         "tab_overview": "Prezentare",
@@ -178,6 +179,7 @@ I18N = {
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
+        "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
     },
 }
 
@@ -588,7 +590,7 @@ def render_markdown(md_text):
 # ----------------------------------------------------------------------------- #
 
 
-def build_badges(manifest):
+def build_badges(manifest, lang="en"):
     items = []
     ver = str(manifest.get("version", ""))
     m = re.match(r"(\d+\.\d+)", ver)
@@ -600,11 +602,11 @@ def build_badges(manifest):
     license_ = manifest.get("license")
     if license_:
         items.append((BADGE, html_mod.escape(str(license_))))
-    items.append((BADGE, "Online &bull; Odoo.sh &bull; On-premise"))
+    items.append((BADGE, I18N[lang]["badge_hosting"]))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
 
-def build_hero(addon_dir, manifest):
+def build_hero(addon_dir, manifest, lang="en"):
     name = html_mod.escape(manifest.get("name") or os.path.basename(os.path.abspath(addon_dir)))
     summary = html_mod.escape((manifest.get("summary") or "").strip())
     icon = ""
@@ -616,7 +618,7 @@ def build_hero(addon_dir, manifest):
         icon=icon,
         name=name,
         summary=(SUMMARY % summary) if summary else "",
-        badges=build_badges(manifest),
+        badges=build_badges(manifest, lang),
     )
 
 
@@ -766,7 +768,7 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=
     strings = dict(TB, **I18N[lang])
     parts = [
         WRAP_OPEN,
-        build_hero(addon_dir, manifest),
+        build_hero(addon_dir, manifest, lang),
         build_tabs(tabs),
         build_stats(lang),
         (SCOPE_NOTE % strings) if scope_note else "",

@@ -10,7 +10,7 @@
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Generic Modules</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
-    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
   </div>
 </div>
 
@@ -40,13 +40,20 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1</h1>
+<ul>
+<li>Own module icon, instead of the generic gears it had.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">History</h1>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-09-24)</h2>
 <ul>
-<li>Port from 18.0. No code changes: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data/data.xml</code> (the only data file) does
-  not use any API removed in Odoo 19 (no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attrs</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">states</code>, no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">target="inline"</code>,
-  no search-view <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;group&gt;</code>). Ported for Ridacon (helpdesk #9538), which
-  installs it standalone (not a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">terrabit_ridacon</code> dependency) to restrict the
+<li>Port from 18.0. Fixed by CI: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data/data.xml</code> used <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.groups.users</code> and
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.ui.menu.groups_id</code>, both renamed on Odoo 19 (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_ids</code> and
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">group_ids</code> respectively) &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ValueError: Invalid field 'users' in
+  'res.groups'</code> at registry load. No other API removed in Odoo 19 is
+  touched (no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attrs</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">states</code>, no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">target="inline"</code>, no search-view
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;group&gt;</code>). Ported for Ridacon (helpdesk #9538), which installs it
+  standalone (not a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">terrabit_ridacon</code> dependency) to restrict the
   Contacts/Sales/Finance menus to a dedicated internal-access group.</li>
 </ul>
 </div>
@@ -86,6 +93,22 @@
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_card_payment" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PM</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Payment Method Card</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Deltatech Payment Method Card</p>
+        </div>
+      </a>
+    </div>
     <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_generic_partner_restriction" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
@@ -167,50 +190,34 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_account" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_payment_report" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SA</span>
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PR</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Stock Account Extension</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech Payment Report</span>
               <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Stock Account Extension</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Payment Report</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_report" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist_vat_cost" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SR</span>
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Stock Reports</span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Base pricelist on cost with vat</span>
               <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Report with positions from picking lists</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_reseller" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SR</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Stock Report Reseller</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Report report reseller</p>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Base pricelist on cost with vat</p>
         </div>
       </a>
     </div>

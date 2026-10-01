@@ -3,9 +3,9 @@
 <div class="text-center rounded-4 shadow px-4 py-5 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <span class="d-inline-block rounded-pill fw-bold text-uppercase mb-4"
     style="background-color:#00432a;color:#9be8b6;letter-spacing:1.5px;padding:7px 18px;font-size:11px;">Odoo Partner &nbsp;&bull;&nbsp; Terrabit</span>
-  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Product Data Sheet Website" style="width:72px;height:72px;border:none;"/></span></div>
-  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Product Data Sheet Website</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Data Sheet</p>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech UoM UNECE Codes" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech UoM UNECE Codes</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Editable UNECE Rec 20/21 code on each unit of measure</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Administration</span>
@@ -21,6 +21,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
        data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
        style="padding:10px 22px;">Usage</a>
@@ -34,36 +39,68 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">This module extends the Odoo eCommerce product page to surface product documentation
-directly to website visitors. When a product has an associated data sheet or safety data
-sheet (managed via the <strong>Deltatech Product Data Sheet</strong> module), download buttons are
-automatically displayed on the public product page &#8212; no extra configuration required.</p>
-<p><strong>Key features:</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds a <strong>Show Data Sheet</strong> button on the website product page when a data sheet is
-  attached to the product template.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds a <strong>Show Safety Data Sheet</strong> button on the website product page when a safety
-  data sheet is attached to the product template.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Buttons link directly to the document, allowing visitors to open or download the file
-  in their browser.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Requires the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_data_sheet</code> module to manage and attach data sheets to
-  products.</div></div></li></ul>
+<p class="mb-4" style="font-size:19px;line-height:1.6;max-width:780px;">Lets you set the UN/ECE code sent as the unit of measure in electronic documents
+(e-invoice, eTransport) on each unit, instead of relying on the fixed mapping
+built into Odoo.</p>
+<p>Odoo matches a unit to its code exclusively through the XML ID, against a
+dictionary of 28 entries, and returns <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">C62</code> &#8212; one piece &#8212; for anything it does
+not recognise, without raising an error. That has two consequences, both silent:</p>
+<ul>
+<li><strong>Every unit you create is declared as a piece.</strong> A reception of 10 boxes of
+  13 kg leaves for the tax authority as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">C62</code>, whatever it actually measures.
+  There is no data fix: a unit like "Box of 13 kg" has no entry in the built-in
+  dictionary to point at.</li>
+<li><strong>Some units shipped by Odoo are declared as pieces too.</strong> The dictionary
+  looks for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom_square_meter</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom_square_foot</code>, while the data
+  defines <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.product_uom_square_meter</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.product_uom_square_foot</code>; the
+  millilitre is missing altogether. Square metres, square feet and millilitres
+  all travel as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">C62</code>. This module corrects the three of them on install.</li>
+</ul>
+<p>The codes come from the nomenclature ANAF publishes with the SAF-T schema, at
+<a href="https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx">https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx</a>
+(sheet <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Unitati_masura</code>): over two thousand entries from UN/ECE Recommendation 20
+(units) and 21 (packaging), with the English name and ANAF's Romanian
+translation. Both names load from the same data file, using the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">name@ro</code>
+column syntax Odoo also uses for the Romanian chart of accounts. They go into a
+model of their own rather than a selection field, so a consultant can add or
+correct an entry from the interface when ANAF republishes the list, with no code
+change and no deployment.</p>
+<p>Both paths that build electronic documents are covered: eTransport reads the
+code through <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._get_unece_code()</code>, while UBL and CII invoices reach it
+through a separate method of their own, on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.edi.common</code>. Overriding only
+the first would have fixed eTransport and silently left invoices unchanged.</p>
+<p>Leaving the field empty keeps exactly the behaviour you have today, which is
+what makes the module safe to install on a running database.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>The codes are in <strong>Settings &#8594; Technical &#8594; UNECE Codes</strong>, filterable by source:
+Recommendation 20 for units, Recommendation 21 for packaging (the codes prefixed
+with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X</code>). Both are accepted by UBL/Peppol BIS 3, by CIUS-RO and by the
+eTransport schema.</p>
+<p>The full nomenclature is loaded on install from the SAF-T schema published by
+ANAF, English and Romanian names together, so you should not need to add
+anything. When ANAF republishes the list, regenerate the data with
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scripts/import_unece_from_saft.py</code>.</p>
+<p>One caveat on code length: the nomenclature holds <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">XLTR</code>, four characters, while
+eTransport's own <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CodUMType</code> accepts only two or three. Such a code is reportable
+in SAF-T but will be rejected on a transport declaration.</p>
+<p>The code itself goes on the unit, in <strong>Settings &#8594; Technical &#8594; Units of Measure</strong>,
+field <strong>UNECE Code</strong>. The field is also available as an optional column in the
+list view, which is the quicker way to fill it in for many units at once.</p>
+<p>A code set on a unit takes precedence over Odoo's built-in mapping. That is
+deliberate: correcting a wrong built-in mapping is half the point of the module.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Prerequisites</h2>
-<p>Before using this module, attach a data sheet or safety data sheet to a product
-template via <strong>Inventory &gt; Products &gt; Products</strong> (or <strong>Sales &gt; Products</strong>), using the
-fields provided by the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_data_sheet</code> module.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Viewing data sheets on the website</h2>
-<ol>
-<li>Navigate to your Odoo website shop (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://&lt;your-domain&gt;/shop</code>).</li>
-<li>Click on any product that has a data sheet or safety data sheet attached.</li>
-<li>On the product detail page, locate the document section below the product
-   description.</li>
-<li>If a <strong>Data Sheet</strong> is attached, a <strong>Show Data Sheet</strong> button is displayed. Click it
-   to open or download the file.</li>
-<li>If a <strong>Safety Data Sheet</strong> is attached, a <strong>Show Safety Data Sheet</strong> button is
-   displayed alongside. Click it to open or download the safety file.</li>
-</ol>
-<p>The buttons are only visible when the corresponding document is set on the product
-template. Products without attached documents show no buttons.</p>
+<p>Nothing to do day to day: once a unit carries a code, every electronic document
+built from it uses that code.</p>
+<p>To check what will be sent, open the unit and read the <strong>UNECE Code</strong> field. An
+empty field means Odoo's built-in mapping applies &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">C62</code> for any unit the
+standard does not recognise.</p>
+<p>The code applies to both paths that build electronic documents: eTransport,
+through <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._get_unece_code()</code>, and UBL/CII invoices, which reach the same
+value through a separate method of their own.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -173,6 +210,22 @@ template. Products without attached documents show no buttons.</p>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_data_sheet_website" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Product Data Sheet Website</span>
+              <span class="d-block" style="font-size:11px;color:#3d4752;">Administration</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:12px;color:#3d4752;">Data Sheet</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_gln" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -201,22 +254,6 @@ template. Products without attached documents show no buttons.</p>
             </span>
           </div>
           <p class="mb-0" style="font-size:12px;color:#3d4752;">Recompress oversized image attachments and remove duplicated product images</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_uom_unece" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UU</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:14px;line-height:1.2;">Deltatech UoM UNECE Codes</span>
-              <span class="d-block" style="font-size:11px;color:#3d4752;">Administration</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:12px;color:#3d4752;">Editable UNECE Rec 20/21 code on each unit of measure</p>
         </div>
       </a>
     </div>

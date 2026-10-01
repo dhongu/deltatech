@@ -10,7 +10,7 @@
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#57B952;color:#04331f;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Sales</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">LGPL-3</span>
-    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Online &bull; Odoo.sh &bull; On-premise</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
   </div>
 </div>
 
@@ -40,6 +40,22 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-09-29)</h2>
+<ul>
+<li>Own module icon, instead of the generic gears it had.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-09-23)</h2>
+<p>Brings back what 18.0.1.2.0 (#2469, #2482) added and never reached 19.0, and replaces the 19.0.1.1.5 amount rule:</p>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_amount</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_status</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">provider_id</code> are stored again, with the full dependencies (transactions and invoices), so the order list can filter, group and sort on them in SQL. The Python search method is gone.</li>
+<li><strong>Amount paid = max(amount paid on the posted invoices, amount of the confirmed transactions).</strong> A transaction confirmed on a provider without a journal (e.g. Shopify card) has no accounting payment and reaches the invoice only when the processor's settlement is reconciled, so the data cannot tell whether it is already in the invoice amount. 18.0 subtracted it (card 382 + payment link 44 showed 44); 19.0.1.1.5 added it (a settled card order showed twice its total). The maximum is right in both cases; it only underestimates an unsettled card payment completed by a manual payment on the invoice.</li>
+<li>New <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code> status for orders whose transactions are waiting on the provider (bank transfer, 3-D Secure...); until now they showed as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">initiated</code>.</li>
+<li>The displayed provider follows the most relevant transaction: done, then authorized, pending, cancelled, then the last one.</li>
+<li>An order is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> when the amount paid reaches its total within the currency rounding.</li>
+<li>Search filters for every status (without, initiated, pending, authorized, partially paid, paid, cancelled), a "Payment Status" group-by, and colour decorations on the form.</li>
+<li>The payment link proposes what is left to pay on the order (total minus the amount paid); it used to propose 0 once an invoice existed.</li>
+<li>Migration: the three fields are computed in SQL, set-based, before the registry loads (seconds instead of an ORM recompute of every order), for databases coming from 18.0 as well as from 19.0.1.1.x. Only the rows that change are written, and the receipts that <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code> adds to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">invoice_ids</code> are included. Checked against <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_compute_payment</code> order by order, and on a 470,000-order database: 26 s for the whole module update, 0 differences on a random sample.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.6 (2026-09-23)</h2>
 <ul>
 <li>Translatable strings in code use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env._()</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_()</code>, the Odoo 19
