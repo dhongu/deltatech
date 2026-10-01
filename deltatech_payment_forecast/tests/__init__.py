@@ -2,3 +2,4 @@
 
 
 from . import test_payment_forecast
+from . import test_payment_forecast_bugs
