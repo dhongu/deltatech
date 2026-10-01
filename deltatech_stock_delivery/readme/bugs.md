@@ -2,9 +2,10 @@
 
 Review date: 2026-10-01. Target version: Odoo 19.
 
-## STOCKDELIVERY-001 — P1: Invoice delivery lookup requires undeclared stock-integration dependencies
+## STOCKDELIVERY-001 — P3: Invoice delivery lookup requires undeclared stock-integration dependencies
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.2 — `sale_stock` and `purchase_stock` added to `depends` in `__manifest__.py`.
+- **Priority note:** Lowered from P1 to P3. `stock_account`, `sale_stock` and `purchase_stock` are `auto_install` and are installed automatically with `account` + `stock` + `sale` + `purchase`, so the error only occurs if a bridge was uninstalled manually. Declaring them installs nothing new in existing databases: every database with this addon already has both bridges (and `purchase` was already a dependency). Defensive field checks were not chosen because the button has no meaning without the stock moves.
 - **Location:** __manifest__.py; models/account_invoice.py, invoice_print_delivery().
 - **Trigger:** Install this addon and its declared dependencies in a minimal database, then use the invoice button to open related deliveries/receptions.
 - **Actual behavior:** The method unconditionally accesses sale_line.move_ids and purchase_line.move_ids. Those fields are provided by sale_stock and purchase_stock, while the manifest declares sale, purchase, stock, and account only. Without the integration addon, the matching invoice line branch raises AttributeError.
@@ -15,4 +16,4 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## Review limitations
 
-Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. No fixes have been applied.
+Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. STOCKDELIVERY-001 was fixed on 2026-10-01.
