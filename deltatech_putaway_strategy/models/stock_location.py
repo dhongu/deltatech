@@ -1,5 +1,4 @@
 from odoo import fields, models
-from odoo.tools.convert import safe_eval
 
 
 class StockLocation(models.Model):
@@ -168,9 +167,9 @@ class StockLocation(models.Model):
         if self.env.context.get("putaway_location_standard"):
             return putaway_location
 
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_bool = self.env["ir.config_parameter"].sudo().get_bool
 
-        prefer_existing = safe_eval(get_param("deltatech_putaway_strategy.prefer_existing_stock_location", "False"))
+        prefer_existing = get_bool("deltatech_putaway_strategy.prefer_existing_stock_location")
         if prefer_existing:
             existing_location = self._get_putaway_existing_stock_location(product, quantity, package, putaway_location)
             if existing_location:
@@ -178,9 +177,7 @@ class StockLocation(models.Model):
 
         # Dacă am găsit o locație
         # de adauga un paramentru de sistem pentru a cauta o sublocatie
-        search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
-
-        search_sublocation = safe_eval(search_sublocation)
+        search_sublocation = get_bool("deltatech_putaway_strategy.search_sublocation")
 
         if search_sublocation and putaway_location.child_ids:
             # Încercăm mai întâi locațiile unde există deja același produs
@@ -257,7 +254,7 @@ class StockLocation(models.Model):
         ]
         if not stock_by_location:
             return empty
-        locations = self.env["stock.location"].concat(*(location for location, _qty in stock_by_location))
+        locations = self.env["stock.location"].concat(location for location, _qty in stock_by_location)
         if putaway_location in locations:
             return empty
         # Raftul cu cea mai mare cantitate întâi; la egalitate, ordinea alfabetică, ca rezultatul

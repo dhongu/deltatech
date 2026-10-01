@@ -69,7 +69,7 @@ class TestAvoidRootLocationOnReservation(TransactionCase):
         self.env["stock.move"].sudo().create(
             {
                 "product_id": self.product.id,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "product_uom_qty": qty,
                 "picking_id": picking.id,
                 "location_id": self.root_loc.id,

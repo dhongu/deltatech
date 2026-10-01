@@ -45,10 +45,9 @@ class TestPutawayValidation(TransactionCase):
 
         move = self.Move.create(
             {
-                "name": "Test Move Fail",
                 "product_id": self.product.id,
                 "product_uom_qty": 10,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": self.supplier_loc.id,
                 "location_dest_id": self.loc1.id,

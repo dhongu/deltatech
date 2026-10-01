@@ -1,3 +1,12 @@
+# 20.0.1.1.1
+
+- Migration to Odoo 20.0. The system parameters `deltatech_putaway_strategy.search_sublocation` and
+  `deltatech_putaway_strategy.prefer_existing_stock_location` are now read as booleans
+  (`ir.config_parameter.get_bool`): `True`/`False` keep working, and `true`, `1`, `yes` are accepted
+  too (they used to raise an error).
+- The tests of `Avoid Putaway Rules` and of the over-capacity barrier at validation are run again
+  (they were not imported).
+
 # 19.0.1.1.1
 
 - Own module icon, instead of the generic gears it had.

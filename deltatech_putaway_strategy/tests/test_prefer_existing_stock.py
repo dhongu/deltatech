@@ -11,7 +11,7 @@ class TestPreferExistingStock(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["ir.config_parameter"].sudo().set_param("deltatech_putaway_strategy.search_sublocation", "False")
+        cls.env["ir.config_parameter"].sudo().set_bool("deltatech_putaway_strategy.search_sublocation", False)
         Location = cls.env["stock.location"]
         cls.root = Location.create({"name": "ZONA", "usage": "internal"})
         cls.shelf_old = Location.create(
@@ -38,7 +38,7 @@ class TestPreferExistingStock(TransactionCase):
         Quant._update_available_quantity(cls.product, cls.root, 5.0)
 
     def _set_option(self, value):
-        self.env["ir.config_parameter"].sudo().set_param(PARAM, value)
+        self.env["ir.config_parameter"].sudo().set_str(PARAM, value)
 
     def test_option_off_keeps_rule(self):
         self._set_option("False")
@@ -99,7 +99,7 @@ class TestPreferExistingStock(TransactionCase):
                         {
                             "product_id": product.id,
                             "product_uom_qty": quantity,
-                            "product_uom": product.uom_id.id,
+                            "uom_id": product.uom_id.id,
                             "location_id": source.id,
                             "location_dest_id": self.root.id,
                         },

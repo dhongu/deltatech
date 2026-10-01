@@ -121,10 +121,9 @@ class TestPutawayStrategy(TransactionCase):
 
         self.env["stock.move"].create(
             {
-                "name": "Test Planned Move",
                 "product_id": self.product.id,
                 "product_uom_qty": 5,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": supplier_location.id,
                 "location_dest_id": self.loc1.id,
@@ -193,10 +192,9 @@ class TestPutawayStrategy(TransactionCase):
         # Adăugăm primul produs - 2 bucăți către locația părinte
         self.env["stock.move"].create(
             {
-                "name": "Move 1",
                 "product_id": self.product.id,
                 "product_uom_qty": 2,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": supplier_location.id,
                 "location_dest_id": self.parent_loc.id,
@@ -206,10 +204,9 @@ class TestPutawayStrategy(TransactionCase):
         # Adăugăm al doilea produs - 1 bucată către locația părinte
         self.env["stock.move"].create(
             {
-                "name": "Move 2",
                 "product_id": product2.id,
                 "product_uom_qty": 1,
-                "product_uom": product2.uom_id.id,
+                "uom_id": product2.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": supplier_location.id,
                 "location_dest_id": self.parent_loc.id,
@@ -244,7 +241,7 @@ class TestPutawayStrategy(TransactionCase):
     def test_search_sublocation_parameter(self):
         """Testează dacă parametrul de sistem deltatech_putaway_strategy.search_sublocation funcționează."""
         # Dezactivăm căutarea sublocațiilor
-        self.env["ir.config_parameter"].sudo().set_param("deltatech_putaway_strategy.search_sublocation", "False")
+        self.env["ir.config_parameter"].sudo().set_bool("deltatech_putaway_strategy.search_sublocation", False)
 
         # L1 este plină (max 5, punem 5)
         self.loc1.write({"max_products_leaf": 5})
@@ -266,7 +263,7 @@ class TestPutawayStrategy(TransactionCase):
         # self.assertEqual(dest.id, dest_standard.id, "Ar fi trebuit să returneze locația standard (fără a căuta alternative)")
 
         # Activăm căutarea sublocațiilor
-        self.env["ir.config_parameter"].sudo().set_param("deltatech_putaway_strategy.search_sublocation", "True")
+        self.env["ir.config_parameter"].sudo().set_bool("deltatech_putaway_strategy.search_sublocation", True)
 
         # Acum ar trebui să găsească o locație care nu e plină (ex: L2)
         dest = self.parent_loc._get_putaway_strategy(self.product, quantity=1)
@@ -308,10 +305,9 @@ class TestPutawayStrategy(TransactionCase):
         # Adăugăm produsul - 6 bucăți către locația părinte
         self.env["stock.move"].create(
             {
-                "name": "Split Move",
                 "product_id": self.product.id,
                 "product_uom_qty": 6,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": supplier_location.id,
                 "location_dest_id": self.parent_loc.id,
