@@ -47,19 +47,19 @@ class BusinessProcess(models.Model):
 
     responsible_id = fields.Many2one(
         string="Implementation Responsible",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
 
     support_id = fields.Many2one(
         string="Support",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
 
     customer_id = fields.Many2one(
         string="Customer Responsible",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
     allowed_user_ids = fields.Many2many(

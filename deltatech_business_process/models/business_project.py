@@ -44,7 +44,7 @@ class BusinessProject(models.Model):
 
     responsible_id = fields.Many2one(
         string="Responsible",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
     )
     team_member_ids = fields.Many2many(string="Team members", comodel_name="res.partner")

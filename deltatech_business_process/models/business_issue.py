@@ -28,7 +28,7 @@ class BusinessIssue(models.Model):
     )
     raise_by_id = fields.Many2one(
         string="Raise by",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         comodel_name="res.partner",
         default=lambda self: self.env.user.partner_id.id,
     )

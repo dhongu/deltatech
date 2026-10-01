@@ -35,7 +35,7 @@ class BusinessProcessStepTest(models.Model):
     responsible_id = fields.Many2one(
         string="Responsible",
         comodel_name="res.partner",
-        domain="[('is_company', '=', False)]",
+        domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]",
         store=True,
     )
 
@@ -58,7 +58,9 @@ class BusinessProcessStepTest(models.Model):
     date_end = fields.Date(string="Date end")
     observation = fields.Text(string="Observation")
 
-    feedback_by_id = fields.Many2one("res.partner", string="", domain="[('is_company', '=', False)]")
+    feedback_by_id = fields.Many2one(
+        "res.partner", string="", domain="['|', ('parent_id', '!=', False), ('is_company', '=', False)]"
+    )
     feedback_text = fields.Text(string="Feedback")
     feedback_date = fields.Date(string="Feedback date")
     feedback_state = fields.Selection(
