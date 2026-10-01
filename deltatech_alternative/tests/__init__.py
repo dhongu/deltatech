@@ -4,3 +4,4 @@
 
 from . import test_product
 from . import test_split_codes
+from . import test_name_search
