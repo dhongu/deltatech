@@ -6,12 +6,12 @@
         <field name="inherit_id" ref="mail.view_document_file_kanban" />
         <field name="arch" type="xml">
             <xpath expr="field[@name='type']" position="after">
-                <field name="datas" />
+                <field name="raw" />
             </xpath>
             <xpath expr="//templates//field[@name='create_date']" position="after">
                 <button
                     name="button_download"
-                    class="btn btn-primary fa fa-cloud-download"
+                    class="btn btn-primary" icon="cloud_download"
                     type="object"
                     title="Download"
                 />

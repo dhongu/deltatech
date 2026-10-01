@@ -14,7 +14,7 @@ Logistic Documents
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_logistic_docs
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_logistic_docs
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -66,6 +66,21 @@ Usage
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.0.4 (2026-10-01)
+-----------------------
+
+- Migration to Odoo 20.0: attachment content read through ``raw``
+  instead of the removed ``datas`` field; Font Awesome icons replaced
+  with the Odoo 20 ``icon`` names.
+
+19.0.1.0.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -86,6 +101,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_logistic_docs>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_logistic_docs>`_ project on GitHub.
 
 You are welcome to contribute.

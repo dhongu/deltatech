@@ -29,7 +29,7 @@ class TestSaleOrderAttachments(TransactionCase):
             {
                 "name": "so_note.txt",
                 "type": "binary",
-                "datas": "MQ==",  # b"1" base64
+                "raw": b"1",
                 "res_model": "sale.order",
                 "res_id": self.sale.id,
             }
@@ -55,7 +55,7 @@ class TestSaleOrderAttachments(TransactionCase):
             {
                 "name": "picking_doc.pdf",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "stock.picking",
                 "res_id": picking.id,
             }
@@ -98,7 +98,7 @@ class TestStockPickingAttachments(TransactionCase):
             {
                 "name": "pick_note.txt",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "stock.picking",
                 "res_id": self.picking.id,
             }
@@ -120,7 +120,7 @@ class TestStockPickingAttachments(TransactionCase):
             {
                 "name": "so_linked.txt",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "sale.order",
                 "res_id": sale.id,
             }
@@ -173,7 +173,7 @@ class TestAccountMoveAttachments(TransactionCase):
             {
                 "name": "move_note.txt",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "account.move",
                 "res_id": self.move.id,
             }
@@ -217,7 +217,7 @@ class TestPurchaseOrderAttachments(TransactionCase):
             {
                 "name": "po_doc.txt",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "purchase.order",
                 "res_id": self.po.id,
             }
@@ -242,7 +242,7 @@ class TestPurchaseOrderAttachments(TransactionCase):
             {
                 "name": "incoming_picking.pdf",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "stock.picking",
                 "res_id": picking_in.id,
             }
@@ -295,7 +295,7 @@ class TestPurchaseOrderAttachments(TransactionCase):
             {
                 "name": "bill_scan.pdf",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "account.move",
                 "res_id": bill.id,
             }
@@ -382,7 +382,7 @@ class TestPurchaseOrderAttachments(TransactionCase):
             {
                 "name": "inv_doc.pdf",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "account.move",
                 "res_id": invoice.id,
             }
@@ -391,7 +391,7 @@ class TestPurchaseOrderAttachments(TransactionCase):
             {
                 "name": "so_contract.pdf",
                 "type": "binary",
-                "datas": "MQ==",
+                "raw": b"1",
                 "res_model": "sale.order",
                 "res_id": sale.id,
             }
