@@ -1,0 +1,10 @@
+{
+  "title": "Sale Invoice Status",
+  "summary": "Smart invoicing status for mixed orders",
+  "icon": "clipboard",
+  "features": [
+    "Block invoicing until products are delivered",
+    "Services-only orders stay billable",
+    "Correct status for mixed order lines"
+  ]
+}
