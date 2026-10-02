@@ -140,3 +140,39 @@ class TestStockPickingTransit(TransactionCase):
         pickings.invalidate_recordset(["is_transit_transfer", "sub_location_existent"])
         self.assertEqual(pickings.mapped("is_transit_transfer"), [True, True])
         self.assertEqual(pickings.mapped("sub_location_existent"), [False, False])
+
+    def test_second_transfer_without_rights_on_destination(self):
+        # ticket 8970: the operator validating the first leg may not see the
+        # operation types of the receiving warehouse
+        user = self.env["res.users"].create(
+            {
+                "name": "Transit Operator",
+                "login": "transit_operator",
+                "group_ids": [(6, 0, [self.env.ref("stock.group_stock_user").id])],
+            }
+        )
+        self.env["ir.access"].create(
+            [
+                {
+                    "name": "Transit operator: source warehouse operation types only",
+                    "model_id": self.env.ref("stock.model_stock_picking_type").id,
+                    "operation": "r",
+                    "domain": f"[('warehouse_id', '=', {self.warehouse.id})]",
+                },
+                {
+                    "name": "Transit operator: create transfers in source warehouse only",
+                    "model_id": self.env.ref("stock.model_stock_picking").id,
+                    "operation": "c",
+                    "domain": f"[('picking_type_id.warehouse_id', '=', {self.warehouse.id})]",
+                },
+            ]
+        )
+        self.delivery_type.auto_second_transfer = True
+        picking = self._create_first_picking().with_user(user)
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+
+        second = self._second_picking(picking).sudo()
+        self.assertEqual(len(second), 1)
+        self.assertEqual(second.picking_type_id, self.reception_type)
+        self.assertEqual(second.move_ids.product_uom_qty, 4)
