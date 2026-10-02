@@ -90,6 +90,7 @@ msgid "Created on"
 msgstr "Creat în"
 
 #. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_mail_compose_message__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__display_name
 msgid "Display Name"
@@ -101,6 +102,12 @@ msgid "Email Template"
 msgstr "Șablon email"
 
 #. module: deltatech_purchase_mail
+#: model:ir.model,name:deltatech_purchase_mail.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Asistent de compunere e-mail"
+
+#. module: deltatech_purchase_mail
+#: model:ir.model.fields,field_description:deltatech_purchase_mail.field_mail_compose_message__id
 #: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_order__id
 #: model:ir.model.fields,field_description:deltatech_purchase_mail.field_purchase_send_xlsx_wizard__id
 msgid "ID"
@@ -166,13 +173,6 @@ msgstr "Comenzi de achiziție: trimite cu XLSX"
 #: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
 msgid "Quantity"
 msgstr "Cantitate"
-
-#. module: deltatech_purchase_mail
-#. odoo-python
-#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
-msgid "RFQ prepared for sending by email (batch compose)."
-msgstr ""
-"Cerere de ofertă pregătită pentru trimitere prin e-mail (compunere în masă)."
 
 #. module: deltatech_purchase_mail
 #: model:ir.actions.server,name:deltatech_purchase_mail.action_purchase_compose_batch_email
