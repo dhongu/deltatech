@@ -34,21 +34,19 @@ class SaleOrder(models.Model):
             qty = so_line.product_uom_qty
             if qty <= 0:
                 continue
-            name = so_line.name or so_line.product_id.display_name
-            default_lines.append(
-                (
-                    0,
-                    0,
-                    {
-                        "name": name,
-                        "product_id": so_line.product_id.id,
-                        "product_uom_id": so_line.product_uom_id.id,
-                        "product_qty": qty,
-                        # leave price_unit to be computed/filled by buyer/vendor
-                        # taxes will be computed by onchange in the form
-                    },
-                )
-            )
+            line_vals = {
+                "product_id": so_line.product_id.id,
+                "uom_id": so_line.product_uom_id.id,
+                "product_qty": qty,
+                # leave price_unit to be computed/filled by buyer/vendor
+                # taxes will be computed by onchange in the form
+            }
+            # In 20.0 `name` is only the description (the product name comes
+            # from `label`); without a description the purchase line computes
+            # the vendor description itself.
+            if so_line.name:
+                line_vals["name"] = so_line.name
+            default_lines.append((0, 0, line_vals))
 
         if not default_lines:
             raise UserError(

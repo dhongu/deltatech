@@ -4,9 +4,11 @@ Tests for creating/viewing Purchase Orders directly from Sale Orders.
 
 from odoo import Command
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestSalePurchaseOrder(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -50,7 +52,6 @@ class TestSalePurchaseOrder(TransactionCase):
                     "product_id": product.id,
                     "product_uom_qty": qty,
                     "product_uom_id": self.uom_unit.id,
-                    "name": product.display_name,
                     "price_unit": product.list_price,
                 }
             )
@@ -100,10 +101,9 @@ class TestSalePurchaseOrder(TransactionCase):
                 "order_line": [
                     Command.create(
                         {
-                            "name": self.product_buy.display_name,
                             "product_id": self.product_buy.id,
                             "product_qty": 1,
-                            "product_uom_id": self.uom_unit.id,
+                            "uom_id": self.uom_unit.id,
                             "price_unit": 0.0,
                         }
                     )
@@ -116,3 +116,28 @@ class TestSalePurchaseOrder(TransactionCase):
         # When only one PO exists, open its form directly
         self.assertEqual(action.get("res_id"), po.id)
         self.assertIn("form", (action.get("view_mode") or ""))
+
+    def test_create_rfq_from_action_links_quote(self):
+        so = self._create_sale_order([(self.product_buy, 4), (self.product_not_buy, 2)])
+        action = so.action_create_rfq()
+        lines = action["context"]["default_order_line"]
+        self.assertEqual(len(lines), 1, "Only purchasable products are proposed")
+        self.assertEqual(lines[0][2]["uom_id"], self.uom_unit.id)
+
+        po = self.env["purchase.order"].with_context(**action["context"]).create({"partner_id": self.vendor.id})
+        self.assertEqual(po.quote_id, so)
+        self.assertEqual(po.origin, so.name)
+        self.assertEqual(po.order_line.product_id, self.product_buy)
+        self.assertEqual(po.order_line.product_qty, 4)
+        self.assertEqual(po.order_line.uom_id, self.uom_unit)
+        self.assertEqual(so.rfq_ids, po)
+        self.assertEqual(so.rfq_count, 1)
+
+    def test_action_view_rfq_multiple_opens_list(self):
+        so = self._create_sale_order([(self.product_buy, 1)])
+        pos = self.env["purchase.order"].create([{"partner_id": self.vendor.id, "quote_id": so.id} for _i in range(2)])
+        self.assertEqual(so.rfq_count, 2)
+        action = so.action_view_rfq()
+        self.assertEqual(action["domain"], [("quote_id", "=", so.id)])
+        self.assertFalse(action.get("res_id"))
+        self.assertEqual(so.rfq_ids, pos)
