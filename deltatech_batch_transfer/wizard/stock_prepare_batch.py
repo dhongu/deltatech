@@ -4,6 +4,7 @@
 
 from odoo import fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class StockPrepareBatch(models.TransientModel):
@@ -100,62 +101,65 @@ class StockPrepareBatch(models.TransientModel):
         else:
             self.prepare_lines_and_wo_quantity(batch_id)
 
+    def _allocate_line_quantities(self, batch_id):
+        """Distribute the wizard quantities over the batch move lines.
+
+        In Odoo 19 a move line has a single ``quantity`` field (reserved / picked quantity, in the
+        move line unit) and no ``product_uom_qty``. The capacity of every move line is its current
+        quantity, read before any change, so it is never replaced with the demand of the parent
+        move. Wizard quantities are expressed in the product unit and are converted to the unit
+        of every move line. Whatever cannot be allocated is stored as ``additional_quantity``.
+
+        :return: dict {stock.move.line: allocated quantity in the move line unit}
+        """
+        move_lines = batch_id.move_line_ids
+        capacity = {move_line: move_line.quantity for move_line in move_lines}
+        allocation = dict.fromkeys(move_lines, 0.0)
+        for line in self.line_ids:
+            product = line.product_id
+            product_move_lines = move_lines.filtered(lambda ml, product=product: ml.product_id == product)
+            if not product_move_lines:
+                raise UserError(
+                    self.env._(
+                        "The product [%(product_code)s]%(product_name)s was not found for this partner.",
+                        product_code=product.default_code,
+                        product_name=product.name,
+                    )
+                )
+            quantity = line.quantity
+            for move_line in product_move_lines:
+                if float_compare(quantity, 0.0, precision_rounding=product.uom_id.rounding) <= 0:
+                    break
+                free = capacity[move_line] - allocation[move_line]
+                free_product_uom = move_line.product_uom_id._compute_quantity(free, product.uom_id)
+                if float_compare(free_product_uom, 0.0, precision_rounding=product.uom_id.rounding) <= 0:
+                    continue
+                if float_compare(quantity, free_product_uom, precision_rounding=product.uom_id.rounding) >= 0:
+                    allocation[move_line] += free
+                    quantity -= free_product_uom
+                else:
+                    allocation[move_line] += product.uom_id._compute_quantity(quantity, move_line.product_uom_id)
+                    quantity = 0.0
+            if float_compare(quantity, 0.0, precision_rounding=product.uom_id.rounding) > 0:
+                line.write({"additional_quantity": quantity})
+        return allocation
+
     def prepare_lines_and_set_quantity(self, batch_id):
         if self.line_ids:
-            batch_id.move_line_ids.write({"quantity": 0})
-            for line in self.line_ids:
-                quantity = line.quantity
-                found = False
-                for move_line in batch_id.move_line_ids:
-                    if line.product_id == move_line.product_id:
-                        found = True
-                        if quantity > move_line.product_uom_qty:
-                            move_line.quantity = move_line.product_uom_qty
-                            quantity -= move_line.product_uom_qty
-                        else:
-                            move_line.quantity = quantity
-                            quantity = 0
-                if not found:
-                    raise UserError(
-                        self.env._("The product [%(product_code)s]%(product_name)s was not found for this partner.")
-                        % {"product_code": line.product_id.default_code, "product_name": line.product_id.name}
-                    )
-                if quantity > 0:
-                    line.write({"additional_quantity": quantity})
-
+            allocation = self._allocate_line_quantities(batch_id)
+            for move_line, quantity in allocation.items():
+                picked = float_compare(quantity, 0.0, precision_rounding=move_line.product_uom_id.rounding) > 0
+                move_line.write({"quantity": quantity, "picked": picked})
         else:
-            for move_line in batch_id.move_line_ids:
-                move_line.write({"quantity": move_line.product_uom_qty})
+            # the reserved quantity becomes the done quantity
+            batch_id.move_line_ids.write({"picked": True})
 
     def prepare_lines_and_wo_quantity(self, batch_id):
         if self.line_ids:
-            for line in self.line_ids:
-                quantity = line.quantity
-                found = False
-                for move_line in batch_id.move_line_ids:
-                    if line.product_id == move_line.product_id:
-                        found = True
-                        if quantity > move_line.product_uom_qty:
-                            quantity -= move_line.product_uom_qty
-                        else:
-                            if self.set_done_qty:
-                                move_line.quantity = quantity
-                            else:
-                                move_line.product_uom_qty = quantity
-                            quantity = 0
-                if not found:
-                    raise UserError(
-                        self.env._("The product [%(product_code)s]%(product_name)s was not found for this partner.")
-                        % {"product_code": line.product_id.default_code, "product_name": line.product_id.name}
-                    )
-                if quantity > 0:
-                    line.write({"additional_quantity": quantity})
-
-            products = self.line_ids.mapped("product_id")
-            for move_line in batch_id.move_line_ids:
-                if move_line.product_id not in products:
-                    move_line.product_uom_qty = 0
-            batch_id.move_line_ids.write({"quantity": 0})
+            # reserve only the requested quantities, nothing is marked as done
+            allocation = self._allocate_line_quantities(batch_id)
+            for move_line, quantity in allocation.items():
+                move_line.write({"quantity": quantity, "picked": False})
 
 
 class StockPrepareBatchLine(models.TransientModel):
