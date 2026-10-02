@@ -1,3 +1,9 @@
+## 20.0.0.0.10 (2026-10-02)
+
+- Migration to Odoo 20. No functional change: the `stock.picking` /
+  `stock.move` fields and the `button_validate` / `write` hooks used by the
+  module are unchanged in Odoo 20.
+
 # 19.0.0.0.10
 
 - Own module icon, instead of the generic gears it had.
