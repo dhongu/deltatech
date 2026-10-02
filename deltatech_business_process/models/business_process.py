@@ -455,7 +455,12 @@ class BusinessProcess(models.Model):
         self._start_test("integration")
 
     def start_user_acceptance_test(self):
-        return self.sudo()._start_test("user_acceptance")
+        # The test is created as superuser (steps and step tests included), but only on processes the
+        # caller may read: the method is public, reachable through RPC with any process id.
+        if not self.env.su and not self.env.user.has_group("deltatech_business_process.group_business_end_user"):
+            raise AccessError(self.env._("Only business process users can start an acceptance test."))
+        self.check_access("read")
+        return self.sudo()._start_test("user_acceptance").with_env(self.env)
 
     def button_install_modules(self):
         found_modules = False
