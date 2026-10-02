@@ -1,7 +1,10 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+import ipaddress
 import logging
+import socket
+from urllib.parse import urljoin, urlsplit
 
 from odoo import fields, models
 from odoo.exceptions import UserError
@@ -20,6 +23,50 @@ try:  # pragma: no cover - optional at runtime
     import extruct
 except Exception:  # pragma: no cover - optional at runtime
     extruct = None
+
+MAX_REDIRECTS = 5
+
+
+def _resolve_host_ips(host, port):
+    """Return every IP address the host name resolves to."""
+    infos = socket.getaddrinfo(host, port, proto=socket.IPPROTO_TCP)
+    return {info[4][0] for info in infos}
+
+
+def _check_public_url(env, url):
+    """Reject URLs that would make the server reach a non-public address (SSRF).
+
+    Only http/https URLs whose host resolves exclusively to global (public) IP
+    addresses are accepted: loopback, private, link-local, multicast and reserved
+    ranges are refused.
+    """
+    try:
+        split = urlsplit(url or "")
+        port = split.port or (443 if split.scheme == "https" else 80)
+    except ValueError as e:
+        raise UserError(env._("Invalid product URL: %s", url)) from e
+    if split.scheme not in ("http", "https") or not split.hostname:
+        raise UserError(env._("The product URL must be an http(s) address: %s", url))
+    try:
+        ipaddress.ip_address(split.hostname)
+        ips = {split.hostname}  # literal IP address, no DNS lookup
+    except ValueError:
+        ips = None
+    try:
+        ips = ips or _resolve_host_ips(split.hostname, port)
+    except (OSError, UnicodeError) as e:
+        raise UserError(env._("Cannot resolve the host of the product URL: %s", split.hostname)) from e
+    for ip in ips:
+        addr = ipaddress.ip_address(ip.split("%")[0])
+        if getattr(addr, "ipv4_mapped", None):
+            addr = addr.ipv4_mapped
+        if not addr.is_global or addr.is_multicast:
+            raise UserError(
+                env._(
+                    "The product URL points to a non-public address (%(host)s -> %(ip)s).", host=split.hostname, ip=ip
+                )
+            )
+    return url
 
 
 class DeltatechCompetitorPrice(models.Model):
@@ -190,6 +237,16 @@ class DeltatechCompetitorPrice(models.Model):
                 continue
         return None
 
+    def _get_public_url(self, url, headers):
+        """GET a public URL; redirects are followed manually so each hop is validated."""
+        for _hop in range(MAX_REDIRECTS + 1):
+            _check_public_url(self.env, url)
+            resp = requests.get(url, headers=headers, timeout=15, allow_redirects=False)
+            if not getattr(resp, "is_redirect", False):
+                return resp
+            url = urljoin(url, resp.headers.get("location") or "")
+        raise UserError(self.env._("Too many redirects while fetching %s", self.product_url))
+
     def _do_fetch(self):
         self.ensure_one()
         if not self.product_url:
@@ -207,7 +264,7 @@ class DeltatechCompetitorPrice(models.Model):
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
             }
-            resp = requests.get(self.product_url, headers=headers, timeout=15)
+            resp = self._get_public_url(self.product_url, headers)
             resp.raise_for_status()
 
             # First, try structured data (JSON-LD / Microdata) if extruct is available
@@ -247,7 +304,11 @@ class DeltatechCompetitorPrice(models.Model):
             self.write(vals)
             return True
         except Exception as e:
-            _logger.exception("Error fetching competitor price")
+            if isinstance(e, UserError):
+                # rejected URL (non-public address, bad scheme, redirect loop): no traceback
+                _logger.warning("Competitor price not fetched: %s", e)
+            else:
+                _logger.exception("Error fetching competitor price")
             self.write(
                 {
                     "fetch_status": str(e),
