@@ -45,10 +45,36 @@
 based on the partner of the transfer (use the contact associated to the second warehouse)</li>
 <li class="small">if the "Source Document" is set on the picking the system will <strong>not</strong> automatically create the second transfer</li>
 </ul>
+</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>v19.0.0.0.13: option "Link Second Transfer to First" on the delivery operation type (off by default)<ul class="ps-3 mt-2">
+<li class="small">the second transfer is chained to the first: it waits for it and reserves exactly the delivered quantities and lots</li>
+<li class="small">the second transfer cannot be validated before the first one is done, nor for more than it delivered</li>
+</ul>
 </div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.13 (2026-10-02)</h2>
+<ul>
+<li>New option <strong>Link Second Transfer to First</strong> on the delivery operation type (off by default, ticket 9655). When it is
+  checked, the moves of the second transfer are chained to the moves of the first one (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_orig_ids</code>,
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">make_to_order</code>): the second transfer waits for the first, reserves exactly the delivered quantities and lots, and
+  the moves are linked after the kits are exploded. A draft first transfer is confirmed when the second one is created.</li>
+<li>Guards on the linked second transfer (inventory, barcode and RPC validations included): it cannot be validated before
+  the first transfer is done, nor receive more than was delivered, per product and lot. Partial receptions and
+  backorders on both legs are allowed.</li>
+<li>With the option off, the behaviour is unchanged. The guards are modelled on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">md_internal_warehouse_transfer</code>
+  (MD Trade Concept SRL, Alexandru Grecu).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.12 (2026-10-02)</h2>
+<ul>
+<li>Port the 18.0 fix for ticket 8970: the second transfer is created with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sudo()</code> (warehouse and reception type lookup, picking creation, move copy), so an operator without access rights on the receiving warehouse can validate the first leg.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.11 (2026-10-01)</h2>
+<ul>
+<li>Fix creation of the second transfer: the removed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_ids_without_package</code> field is replaced by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_ids</code> (TRANSIT-001).</li>
+<li>Fix the computed fields <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">is_transit_transfer</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sub_location_existent</code> on multi-record sets (TRANSIT-002).</li>
+<li>Replace the commented-out tests with working Odoo 19 tests.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.10 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>

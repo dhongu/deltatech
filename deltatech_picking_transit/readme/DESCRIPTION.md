@@ -12,3 +12,6 @@ Features:
   - if the check box is set, when validating the first transfer, the system will try to find the Reception location
     based on the partner of the transfer (use the contact associated to the second warehouse)
   - if the "Source Document" is set on the picking the system will **not** automatically create the second transfer
+- v19.0.0.0.13: option "Link Second Transfer to First" on the delivery operation type (off by default)
+  - the second transfer is chained to the first: it waits for it and reserves exactly the delivered quantities and lots
+  - the second transfer cannot be validated before the first one is done, nor for more than it delivered

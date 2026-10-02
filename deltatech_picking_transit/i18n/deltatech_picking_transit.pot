@@ -6,14 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:23+0000\n"
-"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"POT-Creation-Date: 2026-10-02 06:53+0000\n"
+"PO-Revision-Date: 2026-10-02 06:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid ""
+"%(product)s: %(quantity)s to receive, %(available)s delivered and not yet "
+"received"
+msgstr ""
 
 #. module: deltatech_picking_transit
 #: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_type__auto_second_transfer
@@ -71,6 +79,15 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_picking_transit
+#: model:ir.model.fields,help:deltatech_picking_transit.field_stock_picking_type__link_second_transfer
+msgid ""
+"If checked, the moves of the second transfer are chained to the moves of the"
+" first one: the second transfer waits for the first, reserves exactly the "
+"quantities and lots that were delivered and cannot be validated before the "
+"first transfer is done or for more than it delivered."
+msgstr ""
+
+#. module: deltatech_picking_transit
 #: model:ir.model.fields,help:deltatech_picking_transit.field_stock_picking__create_second_transfer_automatically
 #: model:ir.model.fields,help:deltatech_picking_transit.field_stock_picking_type__auto_second_transfer
 msgid ""
@@ -92,6 +109,16 @@ msgstr ""
 #. module: deltatech_picking_transit
 #: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_transfer_wizard__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_type__link_second_transfer
+msgid "Link Second Transfer to First"
+msgstr ""
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking__linked_to_source_transfer
+msgid "Linked To Source Transfer"
 msgstr ""
 
 #. module: deltatech_picking_transit
@@ -153,6 +180,12 @@ msgid "Sub Location Existent"
 msgstr ""
 
 #. module: deltatech_picking_transit
+#: model:ir.model.fields,help:deltatech_picking_transit.field_stock_picking__linked_to_source_transfer
+msgid ""
+"The moves of this transfer are chained to the moves of the source transfer."
+msgstr ""
+
+#. module: deltatech_picking_transit
 #. odoo-python
 #: code:addons/deltatech_picking_transit/models/stock_picking.py:0
 msgid "This transfer was generated from %s."
@@ -172,6 +205,22 @@ msgstr ""
 #. module: deltatech_picking_transit
 #: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_type__two_step_transfer_use
 msgid "Two Step Transfer Use"
+msgstr ""
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid ""
+"You cannot receive in %(picking)s more than the source transfer %(source_transfer)s and its backorders delivered:\n"
+"%(rows)s"
+msgstr ""
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid ""
+"You cannot validate %(picking)s before the source transfer "
+"%(source_transfer)s is done."
 msgstr ""
 
 #. module: deltatech_picking_transit

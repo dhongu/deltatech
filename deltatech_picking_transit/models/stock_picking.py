@@ -1,6 +1,8 @@
 # models/stock_picking.py
 
-from odoo import api, fields, models
+from collections import defaultdict
+
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -11,6 +13,10 @@ class StockPicking(models.Model):
     sub_location_existent = fields.Boolean(default=False, compute="_compute_sub_location_existent")
     second_transfer_created = fields.Boolean(default=False)
     source_transfer_id = fields.Many2one("stock.picking")
+    linked_to_source_transfer = fields.Boolean(
+        readonly=True,
+        help="The moves of this transfer are chained to the moves of the source transfer.",
+    )
     create_second_transfer_automatically = fields.Boolean(
         string="Create Second Transfer Automatically",
         related="picking_type_id.auto_second_transfer",
@@ -36,6 +42,10 @@ class StockPicking(models.Model):
         final_dest_location_id = final_dest_location_id.sudo()
         for picking in self:
             if picking.picking_type_id.code == "internal":
+                linked = picking.picking_type_id.link_second_transfer
+                if linked and picking.state == "draft":
+                    # kits are exploded at confirmation: chain the component moves, not the kit move
+                    picking.action_confirm()
                 new_picking_vals = {
                     "picking_type_id": picking_type_id.id,
                     "location_id": picking.location_dest_id.id,
@@ -44,13 +54,16 @@ class StockPicking(models.Model):
                 new_picking = self.env["stock.picking"].sudo().create(new_picking_vals)
                 self.copy_move_lines(picking, new_picking)
                 new_picking.action_confirm()
+                if linked and picking.state == "done":
+                    # the first transfer is already done: reserve what it delivered
+                    new_picking.action_assign()
                 # new_picking.action_assign()
                 # new_picking.do_unreserve()
                 picking.second_transfer_created = True
 
                 message = self.env._("This transfer was generated from %s.", picking.name)
                 new_picking.message_post(body=message)
-                new_picking.source_transfer_id = picking.id
+                new_picking.write({"source_transfer_id": picking.id, "linked_to_source_transfer": linked})
                 message = self.env._("Transfer %s was generated.", new_picking.name)
 
                 picking.message_post(body=message)
@@ -59,15 +72,20 @@ class StockPicking(models.Model):
                 return new_picking
 
     def copy_move_lines(self, source_picking, target_picking):
+        linked = source_picking.picking_type_id.link_second_transfer
         for move in source_picking.move_ids:
-            move.sudo().copy(
-                {
-                    "picking_id": target_picking.id,
-                    "location_id": source_picking.location_dest_id.id,
-                    "location_dest_id": target_picking.location_dest_id.id,
-                    "state": "draft",
-                }
-            )
+            vals = {
+                "picking_id": target_picking.id,
+                "location_id": source_picking.location_dest_id.id,
+                "location_dest_id": target_picking.location_dest_id.id,
+                "state": "draft",
+            }
+            if linked:
+                if move.state == "cancel":
+                    continue
+                # the move waits for its origin and reserves exactly the delivered quantities and lots
+                vals.update({"procure_method": "make_to_order", "move_orig_ids": [Command.link(move.id)]})
+            move.sudo().copy(vals)
 
     # @api.model
     # def create(self, vals):
@@ -165,3 +183,72 @@ class StockPicking(models.Model):
                             )
                         )
         return super().button_validate()
+
+    def _action_done(self):
+        # guards on _action_done, not button_validate, to cover inventory, barcode and RPC validations too
+        linked = self.filtered("linked_to_source_transfer")
+        linked._check_linked_transfer_order()
+        linked._check_linked_transfer_quantity()
+        return super()._action_done()
+
+    def _check_linked_transfer_order(self):
+        for picking in self:
+            source = picking.sudo().source_transfer_id
+            if source.state != "done":
+                raise UserError(
+                    self.env._(
+                        "You cannot validate %(picking)s before the source transfer %(source_transfer)s is done.",
+                        picking=picking.name,
+                        source_transfer=source.name,
+                    )
+                )
+
+    def _get_transfer_backorders(self):
+        """The picking and all its backorders, recursively."""
+        family = todo = self
+        while todo:
+            todo = self.search([("backorder_id", "in", todo.ids)]) - family
+            family |= todo
+        return family
+
+    @api.model
+    def _get_done_quantities(self, move_lines):
+        quantities = defaultdict(float)
+        for line in move_lines:
+            quantities[line.product_id, line.lot_id] += line.quantity_product_uom
+        return quantities
+
+    def _check_linked_transfer_quantity(self):
+        """The second transfer cannot receive more than the source transfer (and its backorders) delivered,
+        per product and lot, taking into account what the second transfer (and its backorders) already received."""
+        for picking in self:
+            source = picking.sudo().source_transfer_id
+            delivered_lines = source._get_transfer_backorders().move_line_ids.filtered(lambda ml: ml.state == "done")
+            delivered = self._get_done_quantities(delivered_lines)
+            received_pickings = self.sudo().search([("source_transfer_id", "=", source.id), ("state", "=", "done")])
+            received = self._get_done_quantities((received_pickings - picking).move_line_ids)
+            moves = picking.move_ids.filtered(lambda m: m.state not in ("done", "cancel"))
+            moves = moves.filtered("picked") or moves
+            to_receive = self._get_done_quantities(moves.move_line_ids)
+            problems = []
+            for (product, lot), quantity in to_receive.items():
+                available = delivered[product, lot] - received[product, lot]
+                if product.uom_id.compare(quantity, available) > 0:
+                    problems.append(
+                        self.env._(
+                            "%(product)s: %(quantity)s to receive, %(available)s delivered and not yet received",
+                            product=f"{product.display_name} ({lot.name})" if lot else product.display_name,
+                            quantity=f"{quantity:g} {product.uom_id.name}",
+                            available=f"{max(available, 0.0):g}",
+                        )
+                    )
+            if problems:
+                raise UserError(
+                    self.env._(
+                        "You cannot receive in %(picking)s more than the source transfer %(source_transfer)s "
+                        "and its backorders delivered:\n%(rows)s",
+                        picking=picking.name,
+                        source_transfer=source.name,
+                        rows="\n".join(problems),
+                    )
+                )
