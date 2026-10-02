@@ -1,3 +1,7 @@
+## 19.0.1.3.5 (2026-10-02)
+
+- WEBCODE-001 (security): on a shop restricted to logged-in users, `/shop/products-json` and `/shop/products-search` still returned product names, codes and prices to anonymous visitors. They now return an empty list, as the standard website search does, and `/shop/product-code/<code>` redirects the visitor to the login page. External pages or scripts that call these endpoints anonymously on such a shop now get no results.
+
 ## 19.0.1.3.4 (2026-10-01)
 
 - Fixed the shop page failing with "Element '<xpath expr="//div[@itemprop='offers']">'
