@@ -34,7 +34,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## REORDER-004 — P1: The location wizard creates rules with a removed field
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.1.5 — `do_create()` no longer sends the obsolete `qty_multiple` key (always 0, absent from `stock.warehouse.orderpoint` in Odoo 19; it only exists when the optional `deltatech_stock_orderpoint_multiple` is installed). Covered by tests in `tests/test_order_rules_wizard.py` (wizard creates the rule with product, location, min/max and trigger).
 - **Location:** `wizard/order_rules_details.py:17–42, do_create()`.
 - **Trigger:** Open Rules Wizard on a product, choose at least one location and create rules.
 - **Actual behavior / impact:** Every generated dictionary contains qty_multiple. The stock.warehouse.orderpoint model supplied by the declared dependencies has no such field in Odoo 19; ORM creation rejects it with Invalid field qty_multiple.
