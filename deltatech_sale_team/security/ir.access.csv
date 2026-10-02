@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+account_invoice_team_rule,Sales Team Invoices,account.move,group_sale_team_manager,r,"['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]"
+account_invoice_personal_rule,Personal Invoices,account.move,sales_team.group_sale_salesman,r,"['|', ('user_id', '=', user.id), ('user_id', '=', False)]"
+account_invoice_see_all,All Invoices,account.move,sales_team.group_sale_salesman_all_leads,r,
+sale_order_team_rule,Sales Team Orders,sale.order,group_sale_team_manager,cru,"['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]"
+sale_order_report_team_rule,Sales Team Orders Analysis,sale.report,group_sale_team_manager,r,"['|', ('team_id', '=', user.sale_team_id.id), ('team_id', '=', False)]"
+sale_order_line_team_rule,Sales Team Order Lines,sale.order.line,group_sale_team_manager,crud,"['|', ('order_id.team_id', '=', user.sale_team_id.id), ('order_id.team_id', '=', False)]"
+sales_team_team_rule,Own Sales Teams,crm.team,,crud,"[('id', '=', user.sale_team_id.id)] if user.has_groups('deltatech_sale_team.group_sale_team_manager,!sales_team.group_sale_salesman_all_leads') else []"
+res_partner_personal_rule,Personal Partners,res.partner,,crud,"['|', ('message_follower_ids', 'in', user.partner_id.ids), '|', ('id', '=', user.partner_id.id), '|', ('user_id', '=', user.id), ('user_id', '=', False)] if user.has_groups('sales_team.group_sale_salesman,!sales_team.group_sale_manager') else []"
