@@ -26,3 +26,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 The finding was confirmed on origin/19.0 on 2026-10-01 and fixed the same day;
 the tests send queued emails through the mocked mail gateway.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **MAIL-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.

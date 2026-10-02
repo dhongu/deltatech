@@ -16,3 +16,11 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 The findings were based on local source inspection and the isolated reproductions stated above. The fix of PURCHASEEXTRA-001 is covered by database-backed tests in `tests/test_purchase.py`, and the migration was checked on a database populated with the previous version.
+
+## Historical local-checkout reverification — 2026-10-01
+
+Historical snapshot: compared the then-current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **PURCHASEEXTRA-001 — still open:** no relevant Python, XML, JavaScript or manifest change since the audit snapshot; the documented implementation remains in the current source.
+
+The historical checkout result above is tied to its stated commit. It does not override the current status in this report or establish that a locally observed fix exists on the published branch. Remote documentation and fixes were preserved during publication on 2026-10-02.

@@ -44,3 +44,11 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 The findings were first verified through source inspection and isolated execution with mocked ORM objects. On 2026-10-01 they were reproduced with database-backed tests (`tests/test_payment_forecast_bugs.py`), which failed before the fixes and pass after them.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **FORECAST-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+- **FORECAST-002 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+- **FORECAST-003 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.

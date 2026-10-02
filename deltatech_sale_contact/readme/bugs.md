@@ -17,3 +17,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. SALECONTACT-001 was fixed on 2026-10-01 and verified with the module's database-backed tests (5 tests, 0 failures).
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **SALECONTACT-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.

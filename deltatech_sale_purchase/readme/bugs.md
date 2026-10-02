@@ -25,3 +25,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Findings were based on local source inspection; SALEPURCHASE-001 was then reproduced and fixed with database-backed tests (2026-10-01). Not covered by tests: the `propagate_cancel = False` variant of the exclusive-line path, whose behaviour is unchanged.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **SALEPURCHASE-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.

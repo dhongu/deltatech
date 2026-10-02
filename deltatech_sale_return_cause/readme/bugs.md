@@ -17,3 +17,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 The initial review was based on source inspection only. The fix was validated with the module tests on a database with only this module installed (7 tests, 0 failures).
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **RETURNCAUSE-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.

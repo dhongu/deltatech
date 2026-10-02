@@ -27,3 +27,10 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Findings were first based on source inspection. Both were confirmed on origin/19.0 on 2026-10-01 and reproduced by database-backed tests (`tests/test_stock_removal_priority.py`, which fail before the fix). Both are fixed in 19.0.1.0.2.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **PRIORITY-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+- **PRIORITY-002 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.

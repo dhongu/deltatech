@@ -22,3 +22,20 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 Findings are based on local source inspection and the isolated reproductions stated above.
 COMMISSION-001 was reproduced and fixed with a database-backed test on 2026-10-01.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **COMMISSION-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## COMMISSION-002 — P2: Delivery cost sums quantities in different units without conversion
+
+- **Status:** Open. Identified on 2026-10-02.
+- **Location:** `models/account_invoice.py:74–145, get_purchase_price()`.
+- **Trigger:** An invoice line is linked to done deliveries of the same product in different move units, such as one dozen and twelve pieces.
+- **Actual behavior / impact:** The non-kit branch sums move.value but divides it by the sum of raw move.quantity. Those quantities are expressed in each move product_uom and cannot be added directly. It also returns the result without conversion to the invoice line unit. Stored purchase prices, margin amounts and commission calculations are incorrect.
+- **Evidence:** Executed the extracted current get_purchase_price() with values 120 + 120 and quantities 1 dozen + 12 pieces: it returned 240/13 = 18.461538 rather than 10 per piece or 120 per dozen. The margin report multiplies purchase_price by invoice line quantity, so the returned cost must match that unit.
+- **Suggested fix:** Convert each done quantity to a common product unit before aggregation, then convert the unit cost to invoice_line.product_uom_id. Preserve the existing refund and kit policies.
+- **Validation needed:** Database-test homogeneous and mixed delivery units against the same invoice, including invoices in pieces and dozens; assert equal total cost and margin.
+- **Limitations:** Extracted-method checks use mocked records; database-backed Odoo integration tests were not run in this pass.
