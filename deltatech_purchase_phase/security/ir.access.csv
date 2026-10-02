@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+order_phase_manager,access.purchase.order.phase.manager,purchase.order.phase,purchase.group_purchase_manager,crud,
+order_phase_user,access.purchase.order.phase.user,purchase.order.phase,base.group_user,r,
