@@ -1,0 +1,6 @@
+{
+  "title": "Multi-PO Email + XLSX",
+  "icon": "bag",
+  "summary": "Email multiple POs with XLSX summary",
+  "features": ["Send multiple POs in one email", "Auto XLSX summary attached", "Individual order PDFs attached"]
+}

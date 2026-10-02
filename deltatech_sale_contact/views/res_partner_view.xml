@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='lang']" position="after">
+                <field name="print_green_invoice" />
+            </xpath>
+
+            <xpath expr="//form//field[@name='child_ids']//form//field[@name='company_id']" position="after">
+                <field name="contact_default" invisible="type not in ('delivery','invoice')" />
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_partner_simple_form" model="ir.ui.view">
+        <field name="name">res.partner.simplified.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_simple_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form//group" position="inside">
+                <field name="contact_default" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
