@@ -33,7 +33,7 @@ class PickingServiceLine(models.Model):
     )
     product_uom_qty = fields.Float(
         "Quantity",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         default=1.0,
         required=True,
     )
@@ -42,10 +42,10 @@ class PickingServiceLine(models.Model):
     price_unit = fields.Float("Unit Price", required=True, digits="Product Price", default=0.0)
     price_subtotal = fields.Float(compute="_compute_amount", string="Subtotal", store=True)
 
-    @api.depends("product_id", "product_id.uom_id", "product_id.uom_ids")
+    @api.depends("product_id", "product_id.uom_id", "product_id.uom_ids", "product_id.extra_uom_ids")
     def _compute_allowed_uom_ids(self):
         for line in self:
-            line.allowed_uom_ids = line.product_id.uom_id | line.product_id.uom_ids
+            line.allowed_uom_ids = line.product_id.uom_id | line.product_id.uom_ids | line.product_id.extra_uom_ids
 
     @api.depends("product_uom_qty", "price_unit")
     def _compute_amount(self):

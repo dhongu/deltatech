@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_stock_picking_service_line,access_stock_picking_service_line,picking.service.line,stock.group_stock_user,crud,
