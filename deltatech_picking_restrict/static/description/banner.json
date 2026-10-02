@@ -1,0 +1,10 @@
+{
+  "title": "Picking Validation Restrict",
+  "summary": "Control who can validate transfers",
+  "icon": "box",
+  "features": [
+    "Restrict validation by security group",
+    "Block done qty different from reserved",
+    "Block unrecognized extra products"
+  ]
+}
