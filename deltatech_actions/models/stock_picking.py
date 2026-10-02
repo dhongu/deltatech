@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import SQL, str2bool
 
-from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
+from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
 
 PREFIX = "deltatech_actions."
 
@@ -68,6 +68,7 @@ class StockPicking(models.Model):
         backwards compatibility.
         :return: None
         """
+        check_cleanup_access(self.env)
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
         else:

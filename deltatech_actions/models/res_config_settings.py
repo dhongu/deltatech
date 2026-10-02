@@ -5,6 +5,8 @@
 from odoo import api, fields, models
 from odoo.tools import str2bool
 
+from .cleanup_summary import check_cleanup_access
+
 # Field name -> xmlid of the ir.cron it enables/disables. This settings screen
 # is meant to be the ONLY place these crons get turned on: they ship
 # active=False in data/ir_cron_data.xml, and toggling one of these fields
@@ -250,6 +252,7 @@ class ResConfigSettings(models.TransientModel):
         outcome as a notification: with dry run on, nothing is deleted and the user
         still sees what would have been."""
         self.ensure_one()
+        check_cleanup_access(self.env)
         self.set_values()
         model_name, method_name = CRON_RUN_METHODS[key]
         result = getattr(self.env[model_name].sudo(), method_name)() or {}

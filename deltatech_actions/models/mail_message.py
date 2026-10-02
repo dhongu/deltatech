@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import str2bool
 
-from .cleanup_summary import log_prefix
+from .cleanup_summary import check_cleanup_access, log_prefix
 
 _logger = logging.getLogger(__name__)
 
@@ -45,6 +45,7 @@ class MailMessage(models.Model):
         :param exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]
         :return: None
         """
+        check_cleanup_access(self.env)
         # mimetype fix
         query = """UPDATE ir_attachment set mimetype='application/xml'
                                     WHERE name='%.xml' and mimetype='text/plain'

@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import str2bool
 
-from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
+from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
 
 PREFIX = "deltatech_actions."
 
@@ -74,6 +74,7 @@ class SaleOrder(models.Model):
         :param dry_run: if set to True, just selects the attachments and does not delete anything
         :return: None
         """
+        check_cleanup_access(self.env)
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
         else:
