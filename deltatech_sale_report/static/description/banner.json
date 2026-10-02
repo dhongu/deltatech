@@ -1,0 +1,10 @@
+{
+  "title": "Sale Report Additional Info",
+  "summary": "Enrich sales analysis with partner email",
+  "icon": "trend",
+  "features": [
+    "Partner email in Sales Analysis",
+    "Filter & group by customer email",
+    "Works with standard Sales Reports"
+  ]
+}
