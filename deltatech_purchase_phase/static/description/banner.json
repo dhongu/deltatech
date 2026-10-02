@@ -1,0 +1,6 @@
+{
+  "title": "Purchase Order Phases",
+  "summary": "Configurable phase tracking on purchase orders",
+  "icon": "bag",
+  "features": ["Custom phases per order", "Auto-transitions on RFQ & confirm", "Full audit trail in chatter"]
+}
