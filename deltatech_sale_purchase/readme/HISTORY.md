@@ -1,3 +1,8 @@
+## 20.0.1.0.2 (2026-10-02)
+
+- Migration to 20.0: the quantity of the cancelled moves is converted with the new `uom_id`
+  fields of `stock.move` and `purchase.order.line`.
+
 ## 19.0.1.0.2 (2026-10-01)
 
 - Cancelling a sale order no longer deletes a draft purchase line that also supplies another sale

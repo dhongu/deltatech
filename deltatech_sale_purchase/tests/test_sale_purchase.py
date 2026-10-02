@@ -13,7 +13,9 @@ class TestSalePurchase(TransactionCase):
 
         cls.mto_route = cls.env.ref("stock.route_warehouse0_mto")
         cls.mto_route.active = True
-        cls.buy_route = cls.env.ref("purchase_stock.route_warehouse0_buy")
+        # On 20.0 the Buy route is warehouse level only ("Buy to Resupply"),
+        # it can no longer be linked on the product.
+        cls.env.ref("stock.warehouse0").buy_to_resupply = True
 
         cls.vendor = cls.env["res.partner"].create({"name": "Test Vendor"})
         cls.customer = cls.env["res.partner"].create({"name": "Test Customer"})
@@ -21,7 +23,7 @@ class TestSalePurchase(TransactionCase):
             {
                 "name": "Bought on Order",
                 "is_storable": True,
-                "route_ids": [(6, 0, (cls.buy_route | cls.mto_route).ids)],
+                "route_ids": [(6, 0, cls.mto_route.ids)],
                 "seller_ids": [(0, 0, {"partner_id": cls.vendor.id, "price": 10.0})],
             }
         )

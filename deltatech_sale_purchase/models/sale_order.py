@@ -26,8 +26,7 @@ class SaleOrder(models.Model):
                 continue
             moves_to_detach = line.move_dest_ids & cancelled_moves
             cancelled_qty = sum(
-                move.product_uom._compute_quantity(move.product_uom_qty, line.product_uom_id)
-                for move in moves_to_detach
+                move.uom_id._compute_quantity(move.product_uom_qty, line.uom_id) for move in moves_to_detach
             )
             moves_to_detach.write({"created_purchase_line_ids": [Command.unlink(line.id)]})
             line.product_qty = max(line.product_qty - cancelled_qty, 0.0)
