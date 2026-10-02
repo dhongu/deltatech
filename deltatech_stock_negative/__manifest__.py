@@ -3,11 +3,12 @@
 
 {
     "name": "No Negative Stock",
-    "summary": "Negative stocks are not allowed",
-    "version": "19.0.2.0.11",
+    "summary": "Block transfers that would take stock below zero",
+    "version": "19.0.2.0.12",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Generic Modules/Stock",
+    "support": "support@terrabit.ro",
+    "category": "Inventory/Inventory",
     "depends": ["stock"],
     "license": "OPL-1",
     "data": ["views/res_config_view.xml", "views/stock_location_view.xml"],

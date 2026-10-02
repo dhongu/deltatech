@@ -1,10 +1,10 @@
 {
-  "title": "Negative Stock",
-  "summary": "Replenish negative stock from another location",
+  "title": "Replenish Negative Stock",
+  "summary": "Refill negative stock from another location in one click",
   "icon": "box",
   "features": [
-    "\"Get negative products\" on transfers",
-    "Lines filled with the missing quantity",
+    "One-click refill of a location",
+    "Quantities that bring stock to zero",
     "Daily email to the location manager"
   ]
 }

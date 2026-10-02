@@ -1,3 +1,11 @@
+## 19.0.2.0.12 (2026-10-01)
+
+- Screenshots on the Apps Store page load again: the description pointed to
+  `static/description/…`, which the store does not resolve.
+- Description rewritten for the Apps Store: what the module does and why, with
+  separate Configuration and Usage sections. Clearer summary; category moved to
+  Inventory.
+
 ## 19.0.2.0.11 (2026-10-01)
 
 - **Serialized stock is no longer blocked when Check Serial No. is off.** On a

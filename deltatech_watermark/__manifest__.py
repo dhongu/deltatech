@@ -4,11 +4,12 @@
 
 {
     "name": "Watermark",
-    "summary": "Watermark field",
-    "version": "19.0.3.0.1",
+    "summary": "Company watermark, used by Website Watermark",
+    "version": "19.0.3.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Tools",
+    "support": "support@terrabit.ro",
+    "category": "Extra Tools",
     "depends": ["base_setup", "web"],
     "license": "LGPL-3",
     "data": [
