@@ -3,7 +3,7 @@
 {
     "name": "Deltatech reception_note",
     "summary": "Batch reception note",
-    "version": "19.0.0.1.3",
+    "version": "20.0.0.1.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
@@ -13,7 +13,7 @@
     "data": [
         "views/purchase_view.xml",
         "wizard/reception_note.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "license": "LGPL-3",
     "development_status": "Beta",

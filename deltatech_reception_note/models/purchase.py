@@ -114,7 +114,7 @@ class PurchaseOrder(models.Model):
                         vals = {
                             "product_id": line.product_id,
                             "product_qty": quantity,
-                            "uom": line.product_uom_id,
+                            "uom": line.uom_id,
                         }
                         lines_to_add.append(vals)
                 if not quantity_errors:
