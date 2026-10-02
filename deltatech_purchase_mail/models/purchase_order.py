@@ -1,7 +1,6 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 from datetime import datetime
 from io import BytesIO
 
@@ -41,7 +40,8 @@ class PurchaseOrder(models.Model):
             for line in po.order_line:
                 sheet.write(row, 0, po.name or "")
                 sheet.write(row, 1, line.product_id.default_code or "")
-                sheet.write(row, 2, line.name or (line.product_id.display_name or ""))
+                # In 20.0 `name` holds only the extra description; `label` = product + description
+                sheet.write(row, 2, line.label or (line.product_id.display_name or ""))
                 sheet.write_number(row, 3, line.product_qty or 0.0, qty_fmt)
                 # Unit price: taxes excluded price_unit
                 sheet.write_number(row, 4, line.price_unit or 0.0, num)
@@ -121,7 +121,7 @@ class PurchaseOrder(models.Model):
                 {
                     "name": name,
                     "type": "binary",
-                    "datas": base64.b64encode(content),
+                    "raw": content,
                     "mimetype": mimetype,
                     "res_model": wiz._name,
                     "res_id": wiz.id,
