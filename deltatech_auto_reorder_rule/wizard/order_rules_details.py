@@ -32,7 +32,6 @@ class OrderRulesDetailsWizard(models.TransientModel):
                         "product_id": variant.id,
                         "product_min_qty": self.min_quantity,
                         "product_max_qty": self.max_quantity,
-                        "qty_multiple": 0,
                         "route_id": route,
                         "trigger": self.trigger,
                         "location_id": location.id,
