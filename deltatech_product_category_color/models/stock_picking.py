@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class StockPicking(models.Model):
@@ -11,6 +11,7 @@ class StockPicking(models.Model):
 
     categ_ids = fields.Many2many("product.category", compute="_compute_categ_ids")
 
+    @api.depends("move_line_ids.product_id.categ_id")
     def _compute_categ_ids(self):
         for picking in self:
             categ_ids = picking.move_line_ids.mapped("product_id.categ_id")
