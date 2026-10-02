@@ -1,3 +1,7 @@
+## 19.0.1.0.2 (2026-10-02)
+
+- Block direct deletion of product chatter messages (`mail.message.unlink()` through ORM/RPC/scripts) for users outside the security group, as the description promised: only the edit/"Delete" action of the chatter was guarded before. Sudo is not blocked, so deleting a product still removes its messages. Tests added.
+
 ## 19.0.1.0.1
 
 - Own module icon, instead of the generic gears it had.
