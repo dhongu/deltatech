@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import SQL, str2bool
 
-from .cleanup_summary import autovacuum_run, log_prefix, rows_summary
+from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
 
 PREFIX = "deltatech_actions."
 
@@ -69,6 +69,7 @@ class AccountMove(models.Model):
         Falsy = no age filter, kept for backwards compatibility.
         :return: None
         """
+        check_cleanup_access(self.env)
         max_date = datetime.now() - relativedelta(days=max_date_days) if max_date_days else None
         date_clause = SQL("AND create_date <= %s", max_date) if max_date else SQL()
 
@@ -135,6 +136,7 @@ class AccountMove(models.Model):
         account.move), and every resend leaves its own copy behind. Both
         owners are searched here.
         """
+        check_cleanup_access(self.env)
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
         else:

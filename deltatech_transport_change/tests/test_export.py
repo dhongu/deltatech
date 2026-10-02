@@ -94,7 +94,7 @@ class TestTransportExport(TransactionCase):
         # Patch clone_to_temp on TransportRepo to return our temp repo and commit_and_push to be local only
         # Patch clone_to_temp and commit_and_push using dotted path targets (avoid importing the model class here)
         self.clone_patcher = patch(
-            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo.clone_to_temp",
+            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo._clone_to_temp",
             autospec=True,
             return_value=(self.temp_dir, self.repo),
         )
@@ -107,7 +107,7 @@ class TestTransportExport(TransactionCase):
             # no push in tests
 
         self.commit_patcher = patch(
-            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo.commit_and_push",
+            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo._commit_and_push",
             autospec=True,
             side_effect=_local_commit_and_push,
         )

@@ -75,7 +75,7 @@ class TestWriteCsvAndUpdateManifest(TransactionCase):
 
     def test_csv_written_to_data_dir(self):
         csv_content = "id,name\nbase.cat1,Cat 1\n"
-        csv_path, _, _, rel_path = self.repo_rec.write_csv_and_update_manifest(
+        csv_path, _, _, rel_path = self.repo_rec._write_csv_and_update_manifest(
             self.tmp, "res.partner.category.csv", csv_content
         )
         self.assertTrue(os.path.exists(csv_path))
@@ -84,7 +84,7 @@ class TestWriteCsvAndUpdateManifest(TransactionCase):
 
     def test_manifest_updated_with_data_path(self):
         csv_content = "id,name\n"
-        _, manifest_path, changed, rel_path = self.repo_rec.write_csv_and_update_manifest(
+        _, manifest_path, changed, rel_path = self.repo_rec._write_csv_and_update_manifest(
             self.tmp, "res.partner.category.csv", csv_content
         )
         self.assertTrue(changed)
@@ -97,7 +97,7 @@ class TestWriteCsvAndUpdateManifest(TransactionCase):
         manifest_path = os.path.join(self.module_root, "__manifest__.py")
         with open(manifest_path, "w", encoding="utf-8") as f:
             f.write('{"name": "My Module", "version": "19.0.0.0.1", "data": ["data/res.partner.category.csv"]}\n')
-        _, _, changed, _ = self.repo_rec.write_csv_and_update_manifest(
+        _, _, changed, _ = self.repo_rec._write_csv_and_update_manifest(
             self.tmp, "res.partner.category.csv", "id,name\n"
         )
         self.assertFalse(changed)
@@ -105,7 +105,7 @@ class TestWriteCsvAndUpdateManifest(TransactionCase):
     def test_path_traversal_is_neutralized(self):
         # ".." segments are stripped, so the file stays inside the module data dir
         # instead of escaping the repo root.
-        csv_path, _, _, rel_path = self.repo_rec.write_csv_and_update_manifest(self.tmp, "../../../etc/passwd", "data")
+        csv_path, _, _, rel_path = self.repo_rec._write_csv_and_update_manifest(self.tmp, "../../../etc/passwd", "data")
         expected = os.path.join(self.module_root, "data", "etc", "passwd")
         self.assertEqual(os.path.normpath(csv_path), os.path.normpath(expected))
         self.assertTrue(csv_path.startswith(os.path.join(self.module_root, "data")))
@@ -114,7 +114,7 @@ class TestWriteCsvAndUpdateManifest(TransactionCase):
     def test_empty_filename_raises(self):
         # A filename that reduces to no usable segments must be rejected.
         with self.assertRaises(UserError):
-            self.repo_rec.write_csv_and_update_manifest(self.tmp, "../..", "data")
+            self.repo_rec._write_csv_and_update_manifest(self.tmp, "../..", "data")
 
     def test_missing_manifest_raises(self):
         import shutil
@@ -122,7 +122,7 @@ class TestWriteCsvAndUpdateManifest(TransactionCase):
         shutil.rmtree(self.module_root)
         os.makedirs(os.path.join(self.module_root, "data"))
         with self.assertRaises(UserError):
-            self.repo_rec.write_csv_and_update_manifest(self.tmp, "test.csv", "id\n")
+            self.repo_rec._write_csv_and_update_manifest(self.tmp, "test.csv", "id\n")
 
 
 class TestEnsureManifestHasData(TransactionCase):
