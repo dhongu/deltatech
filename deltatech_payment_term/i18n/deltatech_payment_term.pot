@@ -149,6 +149,11 @@ msgid "Rate must be greater than 1"
 msgstr ""
 
 #. module: deltatech_payment_term
+#: model:ir.actions.act_window,name:deltatech_payment_term.action_account_moves_sale
+msgid "Rates"
+msgstr ""
+
+#. module: deltatech_payment_term
 #: model:ir.model.fields,field_description:deltatech_payment_term.field_sale_order__sale_in_rates
 msgid "Sale in Rates"
 msgstr ""
@@ -166,6 +171,11 @@ msgstr ""
 #. module: deltatech_payment_term
 #: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__term_id
 msgid "Term"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_rates_list
+msgid "Total Residual"
 msgstr ""
 
 #. module: deltatech_payment_term
