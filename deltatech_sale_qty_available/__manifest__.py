@@ -4,7 +4,7 @@
 {
     "name": "Sale Qty Available",
     "summary": "Quantity Available",
-    "version": "19.0.1.0.3",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
