@@ -74,14 +74,53 @@ class SaleConfirmPayment(models.TransientModel):
             or self.env.ref("payment.payment_method_unknown", raise_if_not_found=False)
         )
 
+    def _check_payment_values(self, order):
+        """The wizard writes the transaction as superuser: everything it touches is bound to the order.
+
+        Checked on every entry point, after the access check of ``_get_order``: the wizard record is
+        created and written by any internal user through RPC, ``transaction_id`` is read-only only in
+        the form view.
+        """
+        if self.transaction_id and self.transaction_id not in order.sudo().transaction_ids:
+            raise UserError(
+                self.env._(
+                    "The transaction %(reference)s does not belong to the order %(order)s.",
+                    reference=self.transaction_id.sudo().reference,
+                    order=order.name,
+                )
+            )
+        provider = self.provider_id.sudo()
+        if provider and provider.company_id and provider.company_id != order.company_id:
+            raise UserError(
+                self.env._(
+                    "The payment provider %(provider)s belongs to another company than the order %(order)s.",
+                    provider=provider.name,
+                    order=order.name,
+                )
+            )
+        method = self.payment_method_id.sudo()
+        provider_methods = provider.with_context(active_test=False).payment_method_ids
+        allowed_methods = provider_methods | provider_methods.with_context(active_test=False).brand_ids
+        allowed_methods |= self.env.ref("payment.payment_method_unknown", raise_if_not_found=False) or method.browse()
+        if method and provider_methods and method not in allowed_methods:
+            raise UserError(
+                self.env._(
+                    "The payment method %(method)s is not available for the provider %(provider)s.",
+                    method=method.name,
+                    provider=provider.name,
+                )
+            )
+
     def do_add_payment(self):
         order = self._get_order()
 
         if self.amount < 0:
             raise UserError(self.env._("Then amount must be positive"))
 
+        self._check_payment_values(order)
+
         if self.transaction_id:
-            self.update_transaction()
+            self._update_transaction(order)
             return self.transaction_id
 
         if not self.amount:
@@ -108,9 +147,12 @@ class SaleConfirmPayment(models.TransientModel):
 
         return transaction
 
-    def update_transaction(self):
+    def _update_transaction(self, order):
         if not self.transaction_id:
             return
+        # Private (not callable through RPC) and checked again here, before the superuser write
+        order.check_access("write")
+        self._check_payment_values(order)
         transaction = self.transaction_id.sudo()
         if transaction.state not in ("pending", "draft"):
             raise UserError(
