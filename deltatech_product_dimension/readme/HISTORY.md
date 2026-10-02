@@ -1,3 +1,9 @@
+## 20.0.1.0.1 (2026-10-02)
+
+- Migration to Odoo 20.0: no functional changes; fields `product_length`,
+  `product_width`, `product_height`, the volume onchange and the product form
+  view are kept as in 19.0.
+
 # 19.0.1.0.1
 
 - Own module icon, instead of the generic gears it had.
