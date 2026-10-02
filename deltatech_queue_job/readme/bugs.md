@@ -20,6 +20,28 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Determine results from the persisted job state and distinguish attempted jobs, completed jobs, failures, and postponed retries.
 - **Validation needed:** One successful job, one business failure, one retryable failure, and a mixed batch; verify API counters against stored states.
 
+## QUEUE-002 — P1: Public processor accepts the shipped shared API key
+
+- **Status:** Open.
+- **Location:** data/ir_config_parameter.xml; controllers/main.py, process_queue_jobs()/get_queue_stats().
+- **Trigger:** Install the module and leave the API key unchanged.
+- **Actual behavior:** Installation creates a fixed nonempty placeholder key shared by every installation. Public endpoints compare against the stored value and accept it without detecting an unconfigured placeholder. The processing endpoint then uses sudo to run pending jobs; stats similarly exposes global queue counts.
+- **Evidence:** Manifest loads the parameter XML under noupdate. Exact default value is present in source; authentication only checks equality/compare_digest and nonempty values. No external request or real queue executed.
+- **Impact:** Knowledge of public module source is sufficient to authenticate on installations using the default configuration, trigger queued business work and read queue statistics.
+- **Suggested fix:** Generate a unique secret or keep the endpoint disabled until an administrator configures a non-placeholder key; reject the shipped placeholder on existing installations.
+- **Validation needed:** Fresh installation must reject the shared placeholder; generated unique keys authenticate; absent/invalid keys are denied; upgrades must not preserve an accepted insecure placeholder silently.
+
+## QUEUE-003 — P2: Legacy run_jobs route calls an undefined runner method
+
+- **Status:** Open.
+- **Location:** controllers/main.py, run_jobs(), POST /run_jobs.
+- **Trigger:** An authenticated caller posts to /run_jobs.
+- **Actual behavior:** The controller calls queue.job._run_pending_jobs(), which is not defined by this module or its declared queue_job/queue_job_cron_jobrunner dependencies. The available methods include _job_runner and _api_job_runner instead.
+- **Evidence:** Full module source reviewed and searched local Community, Enterprise and addon Python sources for a def _run_pending_jobs; none found. Both local copies of queue_job_cron_jobrunner define _job_runner, not the called name. No live endpoint invoked.
+- **Impact:** The route fails with AttributeError rather than processing pending work.
+- **Suggested fix:** Remove the obsolete route or delegate to a supported runner with appropriate authorization, limits and response handling.
+- **Validation needed:** Authenticated request executes the intended bounded runner and returns an accurate result; unauthorized users cannot trigger global processing.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. QUEUE-001 was fixed on 2026-10-01 with database-backed tests.
