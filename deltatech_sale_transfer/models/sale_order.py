@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
         return res
 
     def prepare_transfer(self):
-        precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
+        precision = self.env["decimal.precision"].precision_get("Product Unit")
 
         for order in self:
             domain = [
@@ -83,7 +83,7 @@ class SaleOrder(models.Model):
                             "state": "confirmed",
                             "product_id": line.product_id.id,
                             "picking_id": picking.id,
-                            "product_uom": line.product_uom_id.id,
+                            "uom_id": line.product_uom_id.id,
                             "product_uom_qty": qty,
                             # stock.move.name a fost eliminat in 19.0;
                             # descrierea se calculeaza din produs (description_picking)
@@ -102,7 +102,7 @@ class SaleOrder(models.Model):
                 )
                 picking.action_assign()
 
-                message = self.env._("Transfer document %s was generated") % picking.name
+                message = self.env._("Transfer document %s was generated", picking.name)
                 order.message_post(body=message)
 
                 # order.picking_ids.message_post(body=message)
