@@ -22,7 +22,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## QUEUE-002 — P1: Public processor accepts the shipped shared API key
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.4.3 — `data/ir_config_parameter.xml` no longer ships an API key; `controllers/main.py` `_check_api_key()` treats an empty or placeholder key as "API disabled" and compares with `secrets.compare_digest` in both `/api/v1/queue/process` and `/api/v1/queue/stats`; `migrations/19.0.1.4.3/post-migration.py` deletes the placeholder from existing databases. Installations that kept the default key must generate a new one in Settings. Covered by tests in `tests/test_api_key.py` (no shared key after install, placeholder/empty/wrong key denied on both endpoints, generated key accepted).
 - **Location:** data/ir_config_parameter.xml; controllers/main.py, process_queue_jobs()/get_queue_stats().
 - **Trigger:** Install the module and leave the API key unchanged.
 - **Actual behavior:** Installation creates a fixed nonempty placeholder key shared by every installation. Public endpoints compare against the stored value and accept it without detecting an unconfigured placeholder. The processing endpoint then uses sudo to run pending jobs; stats similarly exposes global queue counts.

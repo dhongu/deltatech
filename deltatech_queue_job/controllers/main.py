@@ -12,6 +12,21 @@ from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
+# Placeholder shipped by versions <= 19.0.1.4.2; identical on every installation,
+# so it must never authenticate (QUEUE-002).
+PLACEHOLDER_API_KEYS = {"sk_live_CHANGE_ME_generate_random_key_here_123456789"}
+
+
+def _check_api_key(api_key):
+    """True only for the configured key; an empty or shipped placeholder key disables the API."""
+    expected_key = request.env["ir.config_parameter"].sudo().get_param("queue_job_processor.api_key")
+    if not expected_key or expected_key in PLACEHOLDER_API_KEYS:
+        _logger.warning("Queue processor API disabled: generate an API key in Settings > Queue Job.")
+        return False
+    if not api_key or not isinstance(api_key, str):
+        return False
+    return secrets.compare_digest(api_key.encode(), expected_key.encode())
+
 
 class QueueJobProcessorController(http.Controller):
     @http.route("/run_jobs", type="http", auth="user", methods=["POST"], csrf=False)
@@ -41,9 +56,7 @@ class QueueJobProcessorController(http.Controller):
         """
         # Verify API key
         ConfigParam = request.env["ir.config_parameter"].sudo()
-        expected_key = ConfigParam.get_param("queue_job_processor.api_key")
-
-        if not api_key or not expected_key or not secrets.compare_digest(api_key, expected_key):
+        if not _check_api_key(api_key):
             _logger.warning("⛔ Unauthorized queue processing attempt")
             return {
                 "jsonrpc": "2.0",
@@ -110,9 +123,7 @@ class QueueJobProcessorController(http.Controller):
 
         Returns current queue status without processing
         """
-        expected_key = request.env["ir.config_parameter"].sudo().get_param("queue_job_processor.api_key")
-
-        if not api_key or api_key != expected_key:
+        if not _check_api_key(api_key):
             return {"jsonrpc": "2.0", "result": {"status": "error", "message": "Unauthorized"}}
 
         try:
