@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PAYREPORT-001 — P1: The report excludes every valid Odoo 19 payment state
 
-- **Status:** Open. Identified on 2026-10-02.
+- **Status:** Fixed in 19.0.1.0.3 — `do_compute()` filters on the Odoo 19 states `in_process` and `paid` instead of the removed `posted`/`reconciled`; draft, canceled and rejected receipts stay excluded. Covered by tests in `tests/test_payment_report.py` (one receipt in each of the five states, only in_process and paid are reported).
 - **Location:** `wizard/payment_report.py:26–37, do_compute()`.
 - **Trigger:** Register customer receipts in states in_process or paid and open Payment Report for their dates and journals.
 - **Actual behavior / impact:** The search accepts only posted and reconciled, neither of which is an account.payment state in the local Odoo 19 account module. Valid receipts are excluded and the report is empty.

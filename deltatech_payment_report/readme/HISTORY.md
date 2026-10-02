@@ -1,3 +1,11 @@
+## 19.0.1.0.3 (2026-10-02)
+
+- **Fix (PAYREPORT-001): the payment report is no longer empty.** It searched
+  customer receipts in the states `posted`/`reconciled`, which no longer exist
+  on `account.payment` in Odoo 19, so no receipt was ever reported. It now
+  includes receipts *In Process* and *Paid*; draft, canceled and rejected
+  receipts are still excluded.
+
 # 19.0.1.0.2
 
 - New Apps Store banner, with the module icon, instead of the old one.
