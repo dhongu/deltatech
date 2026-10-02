@@ -1,0 +1,10 @@
+{
+  "title": "Picking Restrict Entry/Exit",
+  "summary": "Block transfers without a sale or purchase",
+  "icon": "box",
+  "features": [
+    "Require origin on receipts/deliveries",
+    "Block over-delivery vs demanded qty",
+    "Permission group for picking creation"
+  ]
+}
