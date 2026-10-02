@@ -17,3 +17,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run during the review. RESELLER-001 was fixed and verified with a database test on 2026-10-01. Cached reports are still shared between users (the model is accessible to `base.group_user`); this is intended, as the content depends only on the report options.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **RESELLER-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
