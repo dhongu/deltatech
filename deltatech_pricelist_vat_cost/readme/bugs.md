@@ -18,3 +18,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Verified through local source and dependency analysis and the isolated reproductions stated above. The fix was validated with database-backed tests on a fresh database (6 tests, 0 failures); before the fix, 3 of them failed, and with the old dependencies the 2 invalidation tests failed.
+
+## Reverification — 2026-10-01
+
+Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **VATCOST-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
