@@ -22,12 +22,8 @@ class TestDeltatechPurchaseMail(TransactionCase):
             }
         )
 
-        cls.product_1 = cls.env["product.product"].create(
-            {"name": "Widget A", "default_code": "W-A", "is_storable": True}
-        )
-        cls.product_2 = cls.env["product.product"].create(
-            {"name": "Widget B", "default_code": "W-B", "is_storable": True}
-        )
+        cls.product_1 = cls.env["product.product"].create({"name": "Widget A", "default_code": "W-A"})
+        cls.product_2 = cls.env["product.product"].create({"name": "Widget B", "default_code": "W-B"})
 
         # Create two Purchase Orders for the same vendor
         cls.po1 = cls.env["purchase.order"].create(
@@ -81,8 +77,9 @@ class TestDeltatechPurchaseMail(TransactionCase):
         self.assertIsInstance(res_ids, list)
         self.assertEqual(len(res_ids), 1)
         self.assertIsInstance(res_ids[0], int)
-        # mark RFQ as sent flag present in context
-        self.assertTrue(ctx.get("mark_rfq_as_sent"))
+        # opening the composer changes nothing: orders are sent only when the email is sent
+        self.assertEqual(pos.mapped("state"), ["draft", "draft"])
+        self.assertFalse(pos.message_ids.filtered(lambda msg: msg.message_type == "comment"))
         # Template should be set by default
         self.assertTrue(ctx.get("default_template_id"))
         # Email to should be vendor email since both POs share the same vendor
@@ -102,3 +99,22 @@ class TestDeltatechPurchaseMail(TransactionCase):
         self.assertTrue(any(self.po2.name.replace("/", "-") in n and n.endswith(".pdf") for n in names))
         # Ensure PDF render called per PO
         self.assertGreaterEqual(mocked_pdf.call_count, 2)
+
+    def test_send_marks_orders_sent_and_logs_email(self):
+        pos = self.po1 | self.po2
+        report_path = "odoo.addons.base.models.ir_actions_report.IrActionsReport._render_qweb_pdf"
+        with patch(report_path, return_value=(b"%PDF-1.4\n%dummy", "pdf")):
+            action = pos.action_compose_batch_email()
+        self.assertEqual(pos.mapped("state"), ["draft", "draft"])
+
+        composer = self.env["mail.compose.message"].with_context(**action["context"]).create({})
+        composer.action_send_mail()
+
+        self.assertEqual(pos.mapped("state"), ["sent", "sent"])
+        for po, other in ((self.po1, self.po2), (self.po2, self.po1)):
+            notes = po.message_ids.filtered(lambda msg: msg.message_type == "comment")
+            self.assertEqual(len(notes), 1, "The sent email is recorded on the order")
+            names = notes.attachment_ids.mapped("name")
+            self.assertIn(po.name.replace("/", "-") + ".pdf", names)
+            self.assertNotIn(other.name.replace("/", "-") + ".pdf", names)
+            self.assertTrue(any(name.endswith(".xlsx") for name in names))
