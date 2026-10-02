@@ -11,8 +11,9 @@ class StockPicking(models.Model):
 
     categ_ids = fields.Many2many("product.category", compute="_compute_categ_ids")
 
-    @api.depends("move_line_ids.product_id.categ_id")
+    @api.depends("move_ids.product_id.categ_id", "move_ids.state")
     def _compute_categ_ids(self):
+        # from the moves, not from the move lines: unreserved transfers have no move lines
         for picking in self:
-            categ_ids = picking.move_line_ids.mapped("product_id.categ_id")
-            picking.categ_ids = categ_ids
+            moves = picking.move_ids.filtered(lambda move: move.state != "cancel")
+            picking.categ_ids = moves.product_id.categ_id

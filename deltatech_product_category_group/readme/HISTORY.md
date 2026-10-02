@@ -1,3 +1,7 @@
+## 19.0.1.0.8 (2026-10-02)
+
+- `responsible_determination` takes the categories from the moves (not cancelled) instead of the move lines: in a partially reserved transfer the unreserved moves were ignored when choosing the user group. Test added.
+
 ## 19.0.1.0.7 (2026-10-02)
 
 - `responsible_determination`: the candidates are now only active internal users (not portal) with the Inventory user group who can work in the company of the transfer; before, any member of the category group was a candidate. The number of "Ready" transfers used for balancing counts only the transfers of the same company. If no candidate is eligible the transfer is left unassigned. The "Responsible" button on the transfer list is restricted to Inventory managers. Tests added for each case.
