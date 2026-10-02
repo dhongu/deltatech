@@ -5,7 +5,7 @@
 {
     "name": "Refund Purchase",
     "summary": "Vendor credit notes for negative quantities",
-    "version": "19.0.1.0.2",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Purchases",

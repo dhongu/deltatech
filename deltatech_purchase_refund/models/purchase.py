@@ -4,7 +4,6 @@
 
 
 from odoo import models
-from odoo.tools.float_utils import float_compare
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -48,7 +47,7 @@ class PurchaseOrderLine(models.Model):
                 qty = self.qty_invoiced - self.product_qty
             else:
                 qty = self.qty_invoiced - self.qty_received
-            if float_compare(qty, 0.0, precision_rounding=self.product_uom_id.rounding) <= 0:
+            if self.uom_id.compare(qty, 0.0) <= 0:
                 qty = 0.0
             res["quantity"] = qty
         # fix the balance

@@ -1,7 +1,6 @@
 from odoo import fields
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
-from odoo.tools import float_compare
 
 
 @tagged("post_install", "-at_install")
@@ -38,7 +37,7 @@ class TestPurchaseOrder(TransactionCase):
                             "name": self.product.name,
                             "product_id": self.product.id,
                             "product_qty": 10,
-                            "product_uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "uom_id": self.env.ref("uom.product_uom_unit").id,
                             "price_unit": 100,
                             "date_planned": fields.Date.today(),
                         },
@@ -84,7 +83,7 @@ class TestPurchaseOrder(TransactionCase):
         else:
             expected_qty = line.qty_invoiced - line.qty_received
 
-        if float_compare(expected_qty, 0.0, precision_rounding=line.product_uom_id.rounding) <= 0:
+        if line.uom_id.compare(expected_qty, 0.0) <= 0:
             expected_qty = 0.0
 
         self.assertEqual(move_line.quantity, expected_qty)
