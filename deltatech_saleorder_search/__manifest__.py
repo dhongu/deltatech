@@ -4,7 +4,7 @@
 {
     "name": "Deltatech Sale Order Search by Partner Fields",
     "summary": "Search sale order by partner e-mail, phone",
-    "version": "19.0.1.0.3",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",
