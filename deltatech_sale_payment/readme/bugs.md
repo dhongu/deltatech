@@ -38,7 +38,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## SALEPAY-006 — P1: Public transaction update bypasses order access and ownership checks
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.3.2 — `update_transaction` became the private `_update_transaction` (no longer callable through RPC), which checks write access on the order itself. Every entry point (`do_add_payment`, `do_confirm`, `_update_transaction`) calls `_check_payment_values()` before the superuser write: the transaction must belong to the order checked by `_get_order()`, the provider must be of the order's company, and the payment method must be one of the provider's (or the generic "unknown" method). Covered by tests in `tests/test_confirm_payment.py` (`test_update_transaction_is_not_callable_remotely`, `test_transaction_of_another_order_is_refused`, `test_private_update_checks_the_order`, `test_provider_of_another_company_is_refused`, `test_payment_method_of_another_provider_is_refused`).
 - **Location:** wizard/sale_confirm_payment.py, update_transaction(); security/ir.model.access.csv.
 - **Trigger:** An internal user creates their own wizard with a chosen pending/draft transaction_id and calls update_transaction directly through ORM/RPC, or supplies an unrelated transaction on a wizard for an accessible order.
 - **Actual behavior:** update_transaction is public and immediately sudo-reads/writes the selected transaction. It does not call _get_order, check caller transaction write access or verify membership in the order's transaction_ids. The parent actions check order write access but likewise do not bind transaction_id to that order. Wizard ACL grants all internal users create/write; transaction_id readonly only affects UI.

@@ -30,7 +30,7 @@ All eligible module source has been manually read. Findings are supported by ins
 
 ## BUSINESS-003 — P1: Public acceptance-test creation bypasses process access checks
 
-- **Status:** Open; source verified 2026-10-02.
+- **Status:** Fixed in 19.0.1.9.4 — `start_user_acceptance_test()` requires the Business End User group (or superuser) and calls `check_access("read")` on the processes before creating the test as superuser; the created tests are returned in the caller's environment. Covered by tests in `tests/test_acceptance_test_access.py` (visible process, hidden process, process of a disabled company, internal user without a business group, the "Start Test" smart button).
 - **Location:** models/business_process.py, `start_user_acceptance_test()` and `_start_test()`.
 - **Trigger:** Invoke the public method through ORM/RPC with the ID of a process hidden by company or allowed_user_ids rules.
 - **Actual behavior:** The method immediately calls `self.sudo()._start_test("user_acceptance")`. It neither checks a caller group nor calls `check_access()` before elevation. The helper reads the process and its steps, searches tests and creates a test with step records as superuser.

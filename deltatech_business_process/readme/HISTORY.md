@@ -1,3 +1,7 @@
+## 19.0.1.9.4 (2026-10-02)
+
+- BUSINESS-003 (security): *Start User Acceptance Test* (and the *Start Test* smart button, which calls it) created the test as superuser on any process id passed through RPC, including processes hidden by the company or "Allowed users" rules. The caller must now be a Business Process user and be able to read the processes; the test is still created as superuser and is returned in the caller's environment.
+
 ## 19.0.1.9.3 (2026-09-24)
 
 - Excel project report: the *Testing duration* and *Data Migration Duration*

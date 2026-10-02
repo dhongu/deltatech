@@ -14,3 +14,4 @@ from . import test_wizard_process_io
 from . import test_process_library_ro
 from . import test_workflow_fixes
 from . import test_screenshots
+from . import test_acceptance_test_access

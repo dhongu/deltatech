@@ -494,14 +494,14 @@ class TestSaleOrderPayment(TransactionCase):
                 }
             )
         )
-        wizard.update_transaction()
+        wizard.do_add_payment()
         self.assertEqual(tx.amount, 15.0)
         self.assertEqual(tx.provider_id, self.provider2)
 
         # A transaction that is no longer pending/draft is never cancelled nor deleted
         tx.state = "done"
         with self.assertRaises(UserError):
-            wizard.update_transaction()
+            wizard.do_add_payment()
         self.assertTrue(tx.exists())
         self.assertEqual(tx.state, "done")
 
