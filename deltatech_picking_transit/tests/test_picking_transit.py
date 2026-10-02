@@ -140,3 +140,42 @@ class TestStockPickingTransit(TransactionCase):
         pickings.invalidate_recordset(["is_transit_transfer", "sub_location_existent"])
         self.assertEqual(pickings.mapped("is_transit_transfer"), [True, True])
         self.assertEqual(pickings.mapped("sub_location_existent"), [False, False])
+
+    def test_second_transfer_without_rights_on_destination(self):
+        # ticket 8970: the operator validating the first leg may not see the
+        # operation types of the receiving warehouse
+        user = self.env["res.users"].create(
+            {
+                "name": "Transit Operator",
+                "login": "transit_operator",
+                "group_ids": [(6, 0, [self.env.ref("stock.group_stock_user").id])],
+            }
+        )
+        self.env["ir.rule"].create(
+            {
+                "name": "Transit operator: source warehouse only",
+                "model_id": self.env.ref("stock.model_stock_picking_type").id,
+                "groups": [(6, 0, [self.env.ref("stock.group_stock_user").id])],
+                "domain_force": f"[('warehouse_id', '=', {self.warehouse.id})]",
+            }
+        )
+        self.env["ir.rule"].create(
+            {
+                "name": "Transit operator: create transfers in source warehouse only",
+                "model_id": self.env.ref("stock.model_stock_picking").id,
+                "groups": [(6, 0, [self.env.ref("stock.group_stock_user").id])],
+                "domain_force": f"[('picking_type_id.warehouse_id', '=', {self.warehouse.id})]",
+                "perm_read": False,
+                "perm_write": False,
+                "perm_unlink": False,
+            }
+        )
+        self.delivery_type.auto_second_transfer = True
+        picking = self._create_first_picking().with_user(user)
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+
+        second = self._second_picking(picking).sudo()
+        self.assertEqual(len(second), 1)
+        self.assertEqual(second.picking_type_id, self.reception_type)
+        self.assertEqual(second.move_ids.product_uom_qty, 4)
