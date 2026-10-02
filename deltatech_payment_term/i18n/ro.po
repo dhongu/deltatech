@@ -179,7 +179,6 @@ msgid "Number of rates"
 msgstr "Număr de rate"
 
 #. module: deltatech_payment_term
-#: model:ir.actions.act_window,name:deltatech_payment_term.action_account_moves_sale
 #: model:ir.ui.menu,name:deltatech_payment_term.menu_action_account_moves_all
 msgid "Open Journal Items"
 msgstr ""
@@ -245,6 +244,11 @@ msgid "Restanta"
 msgstr ""
 
 #. module: deltatech_payment_term
+#: model:ir.actions.act_window,name:deltatech_payment_term.action_account_moves_sale
+msgid "Rates"
+msgstr "Rate"
+
+#. module: deltatech_payment_term
 #: model:ir.model.fields,field_description:deltatech_payment_term.field_sale_order__sale_in_rates
 msgid "Sale in Rates"
 msgstr "Vânzare în rate"
@@ -283,6 +287,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_tree
 msgid "Total Debit"
 msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_rates_list
+msgid "Total Residual"
+msgstr "Total rest de plată"
 
 #. module: deltatech_payment_term
 #: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__value
