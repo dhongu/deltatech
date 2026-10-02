@@ -199,3 +199,62 @@ msgid ""
 msgstr ""
 "Trebuie să setați un partener înainte de a valida transferul atunci când "
 "folosiți transferuri în 2 etape cu crearea automată pe transferul secundar."
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking_type__link_second_transfer
+msgid "Link Second Transfer to First"
+msgstr "Leagă al doilea transfer de primul"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,help:deltatech_picking_transit.field_stock_picking_type__link_second_transfer
+msgid ""
+"If checked, the moves of the second transfer are chained to the moves of the"
+" first one: the second transfer waits for the first, reserves exactly the "
+"quantities and lots that were delivered and cannot be validated before the "
+"first transfer is done or for more than it delivered."
+msgstr ""
+"Dacă este bifat, mișcările celui de-al doilea transfer sunt legate de "
+"mișcările primului: al doilea transfer îl așteaptă pe primul, rezervă exact "
+"cantitățile și loturile livrate și nu poate fi validat înainte ca primul "
+"transfer să fie finalizat sau pentru mai mult decât s-a livrat."
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,field_description:deltatech_picking_transit.field_stock_picking__linked_to_source_transfer
+msgid "Linked To Source Transfer"
+msgstr "Legat de transferul sursă"
+
+#. module: deltatech_picking_transit
+#: model:ir.model.fields,help:deltatech_picking_transit.field_stock_picking__linked_to_source_transfer
+msgid ""
+"The moves of this transfer are chained to the moves of the source transfer."
+msgstr "Mișcările acestui transfer sunt legate de mișcările transferului sursă."
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid ""
+"You cannot receive in %(picking)s more than the source transfer %(source_transfer)s and its backorders delivered:\n"
+"%(rows)s"
+msgstr ""
+"Nu puteți recepționa în %(picking)s mai mult decât au livrat transferul sursă %(source_transfer)s și restanțele lui:\n"
+"%(rows)s"
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid ""
+"%(product)s: %(quantity)s to receive, %(available)s delivered and not yet "
+"received"
+msgstr ""
+"%(product)s: %(quantity)s de recepționat, %(available)s livrat și "
+"nerecepționat încă"
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid ""
+"You cannot validate %(picking)s before the source transfer "
+"%(source_transfer)s is done."
+msgstr ""
+"Nu puteți valida %(picking)s înainte ca transferul sursă "
+"%(source_transfer)s să fie finalizat."
