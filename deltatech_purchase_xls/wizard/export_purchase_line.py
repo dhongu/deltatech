@@ -1,9 +1,9 @@
-import base64
 from io import BytesIO
 
 import xlsxwriter
 
 from odoo import fields, models
+from odoo.tools.binary import BinaryBytes
 
 
 class ExportPurchaseLine(models.TransientModel):
@@ -48,7 +48,7 @@ class ExportPurchaseLine(models.TransientModel):
                 worksheet.write(lin, 2, name or "")
                 worksheet.write(lin, 3, line.product_qty)
                 worksheet.write(lin, 4, line.price_unit)
-                worksheet.write(lin, 5, line.product_uom_id.name)
+                worksheet.write(lin, 5, line.uom_id.name)
                 lin += 1
 
         workbook.close()
@@ -58,7 +58,7 @@ class ExportPurchaseLine(models.TransientModel):
             {
                 "state": "get",
                 "name": "purchase_order.xlsx",
-                "data_file": base64.b64encode(output_buffer.getvalue()),
+                "data_file": BinaryBytes(output_buffer.getvalue()),
             }
         )
         output_buffer.close()

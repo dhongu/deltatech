@@ -6,7 +6,7 @@
     "name": "Deltatech Purchase XLS",
     "summary": "Import/export purchase line from/to Excel",
     "author": "Terrabit, Dorin Hongu",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
@@ -14,7 +14,7 @@
     "data": [
         "wizard/import_purchase_line_view.xml",
         "wizard/export_purchase_line_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/purchase_order_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],

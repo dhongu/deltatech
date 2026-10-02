@@ -1,4 +1,3 @@
-import base64
 import io
 import logging
 
@@ -47,8 +46,7 @@ class ImportPurchaseLine(models.TransientModel):
     def get_rows(self):
         if openpyxl is None:
             raise UserError(self.env._("The 'openpyxl' Python library is required to read .xlsx files."))
-        decoded_data = base64.b64decode(self.data_file)
-        book = openpyxl.load_workbook(io.BytesIO(decoded_data), data_only=True)
+        book = openpyxl.load_workbook(io.BytesIO(self.data_file.content), data_only=True)
         sheet = book.worksheets[0]
         table_values = []
         for row in sheet.iter_rows(values_only=True):
@@ -126,17 +124,18 @@ class ImportPurchaseLine(models.TransientModel):
                 else:
                     raise UserError(self.env._("Product %s not found") % product_code)
 
-            lines += [
-                {
-                    "order_id": self.purchase_id.id,
-                    "product_id": product_id.id,
-                    "name": product_name or product_id.display_name,
-                    "product_qty": quantity,
-                    "price_unit": price,
-                    "product_uom_id": product_uom.id,
-                    "date_planned": self.purchase_id.date_order,
-                }
-            ]
+            line_values = {
+                "order_id": self.purchase_id.id,
+                "product_id": product_id.id,
+                "product_qty": quantity,
+                "price_unit": price,
+                "uom_id": product_uom.id,
+                "date_planned": self.purchase_id.date_order,
+            }
+            # in 20.0 name is only the description; the product name comes from label
+            if product_name and product_name != product_id.display_name:
+                line_values["name"] = product_name
+            lines.append(line_values)
         purchase_lines = self.env["purchase.order.line"].create(lines)
         purchase_lines._compute_tax_id()
         if "price" not in self.fields_list:

@@ -3,14 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 
-import base64
-
 from odoo import fields
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 # from odoo.modules.module import get_module_resource
 from odoo.tools import file_path
+from odoo.tools.binary import BinaryBytes
 
 
 class TestImportXLS(TransactionCase):
@@ -19,7 +18,8 @@ class TestImportXLS(TransactionCase):
 
     def test_xlsx_file_import(self):
         order_file_path = file_path("deltatech_purchase_xls/tests/test.xlsx")
-        order_file = base64.b64encode(open(order_file_path, "rb").read())
+        with open(order_file_path, "rb") as f:
+            order_file = BinaryBytes(f.read())
 
         order_form = Form(self.env["purchase.order"])
         order_form.partner_id = self.env["res.partner"].create({"name": "vendor"})
@@ -57,7 +57,7 @@ class TestImportXLS(TransactionCase):
                             "name": self.product.name,
                             "product_id": self.product.id,
                             "product_qty": 10,
-                            "product_uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "uom_id": self.env.ref("uom.product_uom_unit").id,
                             "price_unit": 100,
                             "date_planned": fields.Date.today(),
                         },
