@@ -2,6 +2,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 
 @tagged("post_install", "-at_install")
 class TestPaymentTerm(TransactionCase):
@@ -111,3 +113,43 @@ class TestPaymentTerm(TransactionCase):
         ]:
             arch = self.env[model].get_view(self.env.ref(view).inherit_id.id)["arch"]
             self.assertTrue(arch)
+
+
+@tagged("post_install", "-at_install")
+class TestPaymentTermRatesAction(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.term_rates = cls.env["account.payment.term"].create(
+            {
+                "name": "Two Rates Term",
+                "line_ids": [
+                    (0, 0, {"value": "percent", "value_amount": 50.0, "nb_days": 0}),
+                    (0, 0, {"value": "percent", "value_amount": 50.0, "nb_days": 30}),
+                ],
+            }
+        )
+        cls.invoice = cls.init_invoice(
+            "out_invoice", partner=cls.partner_a, products=cls.product_a, post=False, invoice_date="2026-10-01"
+        )
+        cls.invoice.invoice_payment_term_id = cls.term_rates
+        cls.invoice.action_post()
+
+    def test_invoice_view_rate(self):
+        action = self.invoice.view_rate()
+        self.assertEqual(action["res_model"], "account.move.line")
+        lines = self.env["account.move.line"].search(action["domain"])
+        self.assertEqual(len(lines), 2, "One journal item per rate")
+        self.assertEqual(lines.mapped("move_id"), self.invoice)
+        self.assertEqual(len(set(lines.mapped("date_maturity"))), 2)
+
+    def test_partner_view_rate(self):
+        action = self.partner_a.view_rate()
+        lines = self.env["account.move.line"].search(action["domain"])
+        self.assertTrue(lines & self.invoice.line_ids)
+        self.assertEqual(len(lines & self.invoice.line_ids), 2)
+        self.assertTrue(all(line.account_id.account_type == "asset_receivable" for line in lines))
+
+    def test_rates_action_views(self):
+        action = self.invoice.view_rate()
+        self.assertTrue(self.env["account.move.line"].get_views([(action["view_id"][0], "list")]))
