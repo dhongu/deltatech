@@ -46,6 +46,28 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Pass the resolved order/invoice company into duplicate detection and include it in the search domain; use the same company context throughout import and billing.
 - **Validation needed:** Same partner/reference in two allowed companies, one-company duplicates, cancelled bills, and an order company differing from the current environment.
 
+## UBL-005 — P1: Import copies source quantities and prices without unit conversion
+
+- **Status:** Open.
+- **Location:** models/purchase_invoice_import_mixin.py, _process_invoice_data(), _update_supplier_price() and _validate_receipt_quantities().
+- **Trigger:** A matched existing product/order line uses a different unit from the XML InvoicedQuantity unitCode, for example an order in kg and a source line for 1000 grams priced at 0.01 per gram.
+- **Actual behavior:** Existing order lines receive the raw quantity and price while retaining their order unit. Newly added lines use product.uom_id regardless of source unit_code. Receipt moves receive the same raw quantity, and supplier prices are overwritten without setting/converting the supplier unit. Unit resolution is used only when creating a new product.
+- **Evidence:** Complete processing source reviewed against local Odoo 19 stock.move quantity conversion and product.supplierinfo product_uom_id semantics. No source-to-target _compute_quantity/_compute_price call exists on these paths. In the example, the kg order receives product_qty=1000 and price_unit=0.01 instead of 1 kg at 10 per kg. No database receipt or bill executed.
+- **Impact:** Imported orders and receipts can represent the wrong physical quantity, while vendor prices are stored for the wrong unit. Stock valuation and future purchases can be misstated even when the extended monetary amount coincidentally matches.
+- **Suggested fix:** Resolve source units for every mapped line and convert quantities and unit prices to the destination order, supplier and move units independently; reject unsupported or ambiguous units.
+- **Validation needed:** Grams/kg, individual units/packs, existing and newly added order lines, supplier units different from stock units, and exact received quantities.
+
+## UBL-006 — P2: Supplier price update repurposes another variant's pricing row
+
+- **Status:** Open.
+- **Location:** models/purchase_invoice_import_mixin.py, _update_supplier_price().
+- **Trigger:** A product template has variants A and B with separate supplier pricing records; import a price for B while the first matching supplier/template record belongs to A.
+- **Actual behavior:** The search restricts supplier and template only, with limit=1. The chosen record is then overwritten with B's product_id, code, price and currency, removing its association with A. Company, quantity tiers and validity periods also do not participate in selecting the row.
+- **Evidence:** Executed the actual method extracted through AST with a mock supplier row belonging to variant 10 and an import for variant 20. Captured search had no variant condition; the existing row became product_id=20 and price=80. Compared with local product.supplierinfo variant semantics. No real pricing data modified.
+- **Impact:** Importing one variant can destroy the supplier code/price configuration for another variant and leave duplicate pricing entries for the imported variant.
+- **Suggested fix:** Select a compatible variant and company-specific pricing row under an explicit tier/date policy; create a new row when no suitable record exists rather than changing an unrelated variant's identity.
+- **Validation needed:** Two variants with separate codes/prices, shared template prices, company-specific records and quantity/date tiers; importing B must preserve A.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. No fixes have been applied.

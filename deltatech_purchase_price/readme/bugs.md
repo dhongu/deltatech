@@ -15,6 +15,17 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Use the active/record company consistently for source currency and conversion, aligned with the company-dependent purchase price.
 - **Validation needed:** Supplier updates in both companies with different currencies, switching active company while retaining the same user's default company.
 
+## PURCHASEPRICE-002 — P1: Forced supplier-price updates access the removed product_uom field
+
+- **Status:** Open.
+- **Location:** models/purchase.py, button_confirm(); models/account_move.py, action_post().
+- **Trigger:** Enable purchase.force_price_at_validation and confirm a PO with a matching supplier pricing row, or post a vendor bill whose line unit differs from the product default.
+- **Actual behavior:** PO confirmation compares/uses line.product_uom, while Odoo 19 purchase.order.line defines product_uom_id. Vendor bill posting correctly checks product_uom_id but then converts through line.product_uom, also absent on account.move.line.
+- **Evidence:** Complete hooks read and compared local core field declarations in purchase_order_line.py and account_move_line.py. Both define product_uom_id; the old attribute remains in the active forced-price paths. No PO confirmation or bill posting executed.
+- **Impact:** AttributeError aborts and rolls back confirmation/posting with forced-price updates enabled. The bill path is triggered by differing units; the PO comparison accesses the missing field even before conversion.
+- **Suggested fix:** Use product_uom_id consistently and convert to the actual supplier pricing unit rather than assuming the product default unit.
+- **Validation needed:** Enabled/disabled setting, same/different PO and invoice units, matching supplier entries and converted supplier prices; normal confirmation/posting must complete.
+
 ## Review limitations
 
 Verified through local source and dependency analysis and the isolated reproductions stated above. Fresh-database installations and database-backed integration tests have not been run. No fixes have been applied.

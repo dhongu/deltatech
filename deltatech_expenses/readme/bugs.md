@@ -24,6 +24,17 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Suggested fix:** Either enforce and derive the company currency on all lines or implement dated conversion and foreign-currency accounting explicitly.
 - **Validation needed:** Different line/company currencies and a user's main company different from the deduction company; verify defaults, totals and posted values.
 
+## EXPENSES-003 — P2: Partner-to-employee migration ignores deduction company
+
+- **Status:** Open.
+- **Location:** migrations/19.0.3.0.0/post-migration.py, employee search/create and deduction UPDATE.
+- **Trigger:** Upgrade legacy deductions belonging to different companies that share one work contact, or migrate a shared contact with no existing employee.
+- **Actual behavior:** Migration selects distinct partners without company, searches one employee by work_contact_id only, and updates every deduction for that partner with the same employee. Employee creation uses the partner company or migration environment company rather than the deduction company.
+- **Evidence:** Source inspected in full. Executed the exact UPDATE string extracted by AST in an isolated SQLite example: deductions in companies 10 and 20 with partner 42 both receive employee 100, even when that employee belongs to company 10. No Odoo migration/database upgrade executed.
+- **Impact:** Company-specific employee attribution is lost, and deductions may become associated with an employee from another company. Employee-based ownership rules and accounting partner attribution then use the wrong employee association.
+- **Suggested fix:** Map by deduction company and original partner, search/create the employee within that company, and restrict each UPDATE to that company. Handle shared contacts explicitly.
+- **Validation needed:** Upgrade two companies sharing a contact with separate employees, and shared-contact deductions without existing employees; verify employee company and ownership after migration.
+
 ## Review limitations
 
-Module source review remains in progress. No database posting, accounting reversal or integration tests executed in this pass.
+All eligible module Python and XML source files have been manually reviewed. No database posting, accounting reversal or integration tests executed in this pass.

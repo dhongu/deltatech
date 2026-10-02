@@ -13,6 +13,17 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Apply the same comparability policy in warnings and enforcement, or reject inconsistent UoM setup with an explicit configuration error before comparing costs.
 - **Validation needed:** Compatible Unit/Dozen units, incompatible roots, block/warn/off modes, positive margin limits, and users with override groups.
 
+## MARGIN-002 — P2: No-change-price role is enforced only by view readonly
+
+- **Status:** Open.
+- **Location:** models/sale.py, _compute_can_change_price()/SaleOrderLine.write(); views/sale_margin_view.xml, view_order_form_no_change_price.
+- **Trigger:** A salesperson assigned group_sale_no_change_price writes a sale line price_unit or discount via ORM/RPC, with the resulting price still above the cost/margin threshold.
+- **Actual behavior:** The group only determines can_change_price for readonly modifiers on the form/list. The line write override checks below-cost/margin policy but never checks this group's restriction on changing price/discount. No create guard or field-level group restriction enforces it either.
+- **Evidence:** Complete module model/security/view source inspected. Group membership is checked only in can_change_price; public ORM writes follow the normal sale-line ACL and margin checks. No live price mutation executed.
+- **Impact:** Users explicitly assigned the no-price-change role can alter commercial prices or discounts through another client or RPC despite the restriction shown in the UI.
+- **Suggested fix:** Enforce price/discount modification permissions server-side, covering direct line writes and order one2many commands while allowing validated automatic price computation paths.
+- **Validation needed:** Restricted salesperson direct writes/one2many commands, discounts and prices above/below cost, ordinary salesperson and authorized automatic repricing; UI and server permissions must agree.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run during the review. MARGIN-001 was fixed afterwards (2026-10-01) with database-backed tests.
