@@ -43,6 +43,16 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         cls.cel_fixture_path = Path(__file__).parent / "data" / "cel_m3100adnw.html"
         cls.cel_fixture_html = cls.cel_fixture_path.read_text(encoding="utf-8")
 
+    def setUp(self):
+        super().setUp()
+        # no real DNS in tests: every host resolves to a public address
+        patcher = patch(
+            "odoo.addons.deltatech_competitors_price.models.competitor_price._resolve_host_ips",
+            return_value={"93.184.215.14"},
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     def _create_line(self, url="http://example.com/item"):
         return self.Model.create(
             {
@@ -59,7 +69,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         with (
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-                lambda url, headers=None, timeout=None: _fake_response(html),
+                lambda url, headers=None, timeout=None, **kw: _fake_response(html),
             ),
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
@@ -79,7 +89,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         line = self._create_line()
         with patch(
             "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-            lambda url, headers=None, timeout=None: _fake_response(html),
+            lambda url, headers=None, timeout=None, **kw: _fake_response(html),
         ):
             line.action_fetch_price()
         self.assertEqual(line.fetch_status, "OK")
@@ -91,7 +101,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         with (
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-                lambda url, headers=None, timeout=None: _fake_response(self.fixture_html),
+                lambda url, headers=None, timeout=None, **kw: _fake_response(self.fixture_html),
             ),
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
@@ -109,7 +119,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         with (
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-                lambda url, headers=None, timeout=None: _fake_response(self.fixture_html),
+                lambda url, headers=None, timeout=None, **kw: _fake_response(self.fixture_html),
             ),
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
@@ -155,7 +165,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         line = self._create_line()
         with patch(
             "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-            lambda url, headers=None, timeout=None: _fake_response(html),
+            lambda url, headers=None, timeout=None, **kw: _fake_response(html),
         ):
             self.product.action_fetch_competitor_prices()
         self.assertEqual(line.fetch_status, "OK")
@@ -169,7 +179,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         with (
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-                lambda url, headers=None, timeout=None: _fake_response(self.cel_fixture_html),
+                lambda url, headers=None, timeout=None, **kw: _fake_response(self.cel_fixture_html),
             ),
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.DeltatechCompetitorPrice._extract_price_from_structured_data",
@@ -207,7 +217,7 @@ class TestDeltatechCompetitorsPrice(TransactionCase):
         with (
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.requests.get",
-                lambda url, headers=None, timeout=None: _fake_response(self.cel_fixture_html),
+                lambda url, headers=None, timeout=None, **kw: _fake_response(self.cel_fixture_html),
             ),
             patch(
                 "odoo.addons.deltatech_competitors_price.models.competitor_price.extruct",
