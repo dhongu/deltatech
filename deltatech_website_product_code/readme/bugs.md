@@ -13,7 +13,6 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Validation needed:** HTTP-test anonymous and authenticated calls on login-only and public websites; verify the JSON and HTTP endpoints both honor the setting.
 - **Limitations:** Extracted-method checks use mocked records; database-backed Odoo integration tests were not run in this pass.
 
-
 ## WEBCODE-002 — P2: Product-code links cannot resolve multi-variant SKUs
 
 - **Status:** Open. Identified on 2026-10-02.
