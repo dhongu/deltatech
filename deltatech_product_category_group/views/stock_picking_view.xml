@@ -6,7 +6,12 @@
         <field name="inherit_id" ref="stock.vpicktree" />
         <field name="arch" type="xml">
             <header position="inside">
-                 <button name="responsible_determination" type="object" string="Responsible" />
+                 <button
+                    name="responsible_determination"
+                    type="object"
+                    string="Responsible"
+                    groups="stock.group_stock_manager"
+                />
             </header>
         </field>
     </record>

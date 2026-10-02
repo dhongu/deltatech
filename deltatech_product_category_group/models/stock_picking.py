@@ -19,6 +19,7 @@ class StockPicking(models.Model):
         :return: nothing
         """
         pickings = self.filtered(lambda x: x.state == "assigned" and len(x.user_id) == 0)
+        stock_users = self.env.ref("stock.group_stock_user").all_user_ids
         for picking in pickings:
             categ_ids = picking.move_line_ids.mapped("product_id.categ_id")
             categ_ids |= categ_ids.mapped("parent_id")
@@ -26,10 +27,16 @@ class StockPicking(models.Model):
             categ_ids |= categ_ids.mapped("parent_id")
             user_group_ids = categ_ids.mapped("user_group_id")
             user_group_id = user_group_ids and user_group_ids[0] or False
-            users = user_group_ids.mapped("user_ids")
+            # only internal warehouse users that can work in the company of the transfer
+            users = user_group_ids.mapped("user_ids").filtered(
+                lambda user, picking=picking: user.active
+                and not user.share
+                and user in stock_users
+                and (not picking.company_id or picking.company_id in user.company_ids)
+            )
             if users:
                 # Flush pending writes so the raw SQL sees up-to-date user_id/state
-                self.env["stock.picking"].flush_model(["user_id", "state"])
+                self.env["stock.picking"].flush_model(["user_id", "state", "company_id"])
                 self.env.cr.execute(
                     SQL(
                         """
@@ -38,10 +45,12 @@ class StockPicking(models.Model):
                                 res_users AS u
                                 INNER JOIN stock_picking AS p ON p.user_id = u.id
                             WHERE p.state IN ('assigned') AND u.id IN %s
+                                %s
                             GROUP BY u.id
                             ORDER BY count(p.id)
                         """,
                         tuple(users.ids),
+                        SQL("AND p.company_id = %s", picking.company_id.id) if picking.company_id else SQL(""),
                     )
                 )
                 res = self.env.cr.fetchall()
