@@ -41,7 +41,7 @@ All eligible module source has been manually read. Isolated mocks are not Odoo d
 
 ## ACTIONS-004 — P1: Public attachment cleanup bypasses caller authorization
 
-- **Status:** Open; source verified 2026-10-02.
+- **Status:** Fixed in 19.0.0.9.4 — `check_cleanup_access()` (`models/cleanup_summary.py`, `env.is_system()`) runs before any SQL/`sudo()` in `cron_clean_generated_pdfs()` (account.move, sale.order, stock.picking), `cron_clean_xml_attachments()`, `cron_clean_old_messages()` and in `_dt_actions_run_now()`; the `*_from_settings` entry points go through them. Crons (run as `base.user_root`) and autovacuum keep working. Covered by tests in `tests/test_cleanup_access.py` (non-administrator rejected with nothing deleted, administrator and cron user allowed).
 - **Location:** account_move.py, sale_order.py and stock_picking.py `cron_clean_generated_pdfs()`; mail_message.py `cron_clean_old_messages()`.
 - **Trigger:** An internal user invokes a public cleanup method through ORM/RPC with dry_run=False.
 - **Actual behavior:** The methods do not check an administrator group or caller model/record access. Raw SQL selects candidates across companies, then attachment/message deletion is elevated with sudo. Public method names remain callable independently of their administrator settings buttons or cron configuration.

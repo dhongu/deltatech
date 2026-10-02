@@ -1,3 +1,13 @@
+## 19.0.0.9.4 (2026-10-02)
+
+- Security: the public cleanup methods (`cron_clean_generated_pdfs` on invoices, sale
+  orders and pickings, `cron_clean_xml_attachments`, `cron_clean_old_messages` and their
+  `*_from_settings` entry points) could be called over RPC by any internal user and then
+  selected records across companies with SQL and deleted them with `sudo()`. They now
+  require Settings administrator rights (or the cron/superuser) before any selection,
+  as does the "Run now" button. **Behavior change:** a cron configured to run these
+  cleanups as a non-administrator user now fails with an access error.
+
 ## 19.0.0.9.3 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

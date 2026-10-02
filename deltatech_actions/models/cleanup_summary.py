@@ -6,6 +6,15 @@
 # a run did (or, in dry run, what it would have done) without knowing which cleanup
 # it just triggered.
 
+from odoo.exceptions import AccessError
+
+
+def check_cleanup_access(env):
+    """The cleanups select across companies with raw SQL and delete with sudo(), so
+    only Settings administrators (and the cron / superuser) may start them (ACTIONS-004)."""
+    if not env.is_system():
+        raise AccessError(env._("Only administrators can run the database cleanup."))
+
 
 def rows_summary(rows, dry_run):
     """Summarize the (id, file_size) rows selected by a PDF/label cleanup."""
