@@ -14,7 +14,7 @@ Deltatech Product Chatter
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_chatter
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_chatter
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -67,7 +67,7 @@ Usage
 Compatibility
 -------------
 
-- Odoo 19.0
+- Odoo 20.0
 - Depends on ``product`` and ``mail``.
 
 Notes
@@ -85,6 +85,19 @@ Notes
 
 Changelog
 =========
+
+20.0.1.0.1
+----------
+
+- Migration to Odoo 20.0. No functional changes: the
+  ``_check_can_update_message_content`` hook and the ``res.groups``
+  fields (``privilege_id``, ``user_ids``) are unchanged in 20.0.
+- Added tests for the product chatter restriction.
+
+19.0.1.0.1
+----------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.0
 ----------
@@ -124,6 +137,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_chatter>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_chatter>`_ project on GitHub.
 
 You are welcome to contribute.
