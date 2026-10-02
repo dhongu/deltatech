@@ -2,59 +2,77 @@
 # Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestStockPicking(TransactionCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.product_category = cls.env["product.category"].create({"name": "Test Category"})
+        cls.product_category_2 = cls.env["product.category"].create({"name": "Test Category 2"})
 
-        # Create a product category for testing
-        self.product_category = self.env["product.category"].create(
-            {
-                "name": "Test Category",
-                "complete_name": "Test Category",
-            }
-        )
-
-        # Create a product with the category
-        self.product = self.env["product.product"].create(
+        cls.product = cls.env["product.product"].create(
             {
                 "name": "Test Product",
-                "categ_id": self.product_category.id,
+                "categ_id": cls.product_category.id,
                 "is_storable": True,
                 "list_price": 100.0,
             }
         )
+        cls.product_2 = cls.env["product.product"].create(
+            {
+                "name": "Test Product 2",
+                "categ_id": cls.product_category_2.id,
+                "is_storable": True,
+            }
+        )
 
-        # Create a stock picking with move lines
-        self.stock_picking = self.env["stock.picking"].create(
+        cls.stock_picking = cls.env["stock.picking"].create(
             {
                 "name": "Test Picking",
-                "picking_type_id": self.ref("stock.picking_type_out"),
+                "picking_type_id": cls.env.ref("stock.picking_type_out").id,
             }
         )
 
-        self.move_line = self.env["stock.move.line"].create(
+    def _add_move_line(self, product):
+        return self.env["stock.move.line"].create(
             {
-                "product_id": self.product.id,
-                "product_uom_id": self.product.uom_id.id,
+                "product_id": product.id,
+                "uom_id": product.uom_id.id,
                 "picking_id": self.stock_picking.id,
-                "location_id": self.ref("stock.stock_location_stock"),
-                "location_dest_id": self.ref("stock.stock_location_customers"),
+                "location_id": self.env.ref("stock.stock_location_stock").id,
+                "location_dest_id": self.env.ref("stock.stock_location_customers").id,
                 "quantity": 10.0,
-                "state": "done",
             }
         )
+
+    def test_category_color_default(self):
+        self.assertTrue(1 <= self.product_category.color <= 11, "Default color index should be between 1 and 11")
+        self.product_category.color = 5
+        self.assertEqual(self.product_category.color, 5)
 
     def test_compute_categ_ids(self):
-        # Trigger the compute method
-        self.stock_picking._compute_categ_ids()
+        self.assertFalse(self.stock_picking.categ_ids, "Picking without lines has no category")
 
-        # Check that categ_ids are correctly computed
-        self.assertEqual(len(self.stock_picking.categ_ids), 1, "Should have one category")
+        self._add_move_line(self.product)
         self.assertEqual(
-            self.stock_picking.categ_ids.ids,
-            [self.product_category.id],
+            self.stock_picking.categ_ids,
+            self.product_category,
             "Computed category should match product's category",
         )
+
+        # same category twice + a second category: categories are not duplicated
+        self._add_move_line(self.product)
+        self._add_move_line(self.product_2)
+        self.assertEqual(self.stock_picking.categ_ids, self.product_category | self.product_category_2)
+
+    def test_kanban_view_loads(self):
+        arch = self.env["stock.picking"].get_view(self.env.ref("stock.stock_picking_kanban").id, "kanban")["arch"]
+        self.assertIn('name="categ_ids"', arch)
+        arch = self.env["product.category"].get_view(self.env.ref("product.product_category_form_view").id, "form")[
+            "arch"
+        ]
+        self.assertIn('name="color"', arch)
