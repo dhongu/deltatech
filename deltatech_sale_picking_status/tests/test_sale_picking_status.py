@@ -1,6 +1,8 @@
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestStockPickingAndSaleOrder(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -85,3 +87,17 @@ class TestStockPickingAndSaleOrder(TransactionCase):
         self.assertEqual(
             self.sale_order.picking_status, "done", "Picking status should be 'done' after cancelling the sale order"
         )
+
+    def test_picking_status_draft(self):
+        self.assertEqual(self.sale_order.state, "draft")
+        self.sale_order._compute_picking_status()
+        self.assertEqual(self.sale_order.picking_status, "in_progress")
+
+    def test_picking_status_cancel_picking(self):
+        self.sale_order.action_confirm()
+        self.assertTrue(self.sale_order.picking_ids)
+        self.assertEqual(self.sale_order.picking_status, "in_progress")
+        # cancelling every delivery closes the picking status without cancelling the order
+        self.sale_order.picking_ids.action_cancel()
+        self.assertEqual(self.sale_order.state, "sale")
+        self.assertEqual(self.sale_order.picking_status, "done")
