@@ -1,0 +1,6 @@
+{
+  "title": "Module Line Counter",
+  "summary": "Estimate module size and complexity instantly",
+  "icon": "grid",
+  "features": ["Count lines across multiple modules", "Covers .py, .xml, .js, .css, .scss", "Tests excluded from count"]
+}
