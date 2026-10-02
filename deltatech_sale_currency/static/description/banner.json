@@ -1,0 +1,10 @@
+{
+  "title": "Sale Currency",
+  "summary": "Invoice sales orders in the journal currency",
+  "icon": "globe",
+  "features": [
+    "Invoice currency taken from the sales journal",
+    "Unit prices converted at the exchange rate",
+    "Down payments deducted in the order currency"
+  ]
+}
