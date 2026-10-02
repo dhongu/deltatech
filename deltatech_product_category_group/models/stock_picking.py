@@ -21,7 +21,9 @@ class StockPicking(models.Model):
         pickings = self.filtered(lambda x: x.state == "assigned" and len(x.user_id) == 0)
         stock_users = self.env.ref("stock.group_stock_user").all_user_ids
         for picking in pickings:
-            categ_ids = picking.move_line_ids.mapped("product_id.categ_id")
+            # from the moves: in a partially reserved transfer the unreserved moves have no move lines
+            moves = picking.move_ids.filtered(lambda move: move.state != "cancel")
+            categ_ids = moves.product_id.categ_id
             categ_ids |= categ_ids.mapped("parent_id")
             categ_ids |= categ_ids.mapped("parent_id")
             categ_ids |= categ_ids.mapped("parent_id")

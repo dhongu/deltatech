@@ -185,3 +185,55 @@ class TestStockPicking(TransactionCase):
         self.user_1.group_ids = [(4, self.env.ref("stock.group_stock_manager").id)]
         arch = self.env["stock.picking"].with_user(self.user_1).get_view(view_id, "list")["arch"]
         self.assertIn("responsible_determination", arch)
+
+    def test_category_from_unreserved_move(self):
+        """In a partially reserved transfer the category of the unreserved move counts too"""
+        group_stock_user = self.env.ref("stock.group_stock_user")
+        group_b = self.env["res.groups"].create({"name": "Test Category Group B"})
+        user_b = self.env["res.users"].create(
+            {
+                "name": "Test Picker B",
+                "login": "test_picker_b",
+                "group_ids": [(6, 0, [group_b.id, group_stock_user.id])],
+            }
+        )
+        category_a = self.env["product.category"].create({"name": "No Group Category"})
+        category_b = self.env["product.category"].create({"name": "Group B Category", "user_group_id": group_b.id})
+        product_a = self.env["product.product"].create(
+            {"name": "Reserved Product", "is_storable": True, "categ_id": category_a.id}
+        )
+        product_b = self.env["product.product"].create(
+            {"name": "Unreserved Product", "is_storable": True, "categ_id": category_b.id}
+        )
+        self.env["stock.quant"]._update_available_quantity(product_a, self.location_source, 100.0)
+        picking = self.env["stock.picking"].create(
+            {
+                "location_id": self.location_source.id,
+                "location_dest_id": self.location_dest.id,
+                "picking_type_id": self.env.ref("stock.picking_type_internal").id,
+                "move_type": "direct",
+                "user_id": False,
+                "move_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "product_uom_qty": 10,
+                            "product_uom": product.uom_id.id,
+                            "location_id": self.location_source.id,
+                            "location_dest_id": self.location_dest.id,
+                        },
+                    )
+                    for product in (product_a, product_b)
+                ],
+            }
+        )
+        picking.action_confirm()
+        picking.action_assign()
+        picking.user_id = False
+        self.assertEqual(picking.state, "assigned")
+        self.assertEqual(picking.move_line_ids.product_id, product_a)
+        picking.responsible_determination()
+        self.assertEqual(picking.user_id, user_b)
+        self.assertEqual(picking.user_group_id, group_b)

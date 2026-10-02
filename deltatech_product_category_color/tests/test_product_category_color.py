@@ -69,6 +69,35 @@ class TestStockPicking(TransactionCase):
         self._add_move_line(self.product_2)
         self.assertEqual(self.stock_picking.categ_ids, self.product_category | self.product_category_2)
 
+    def _add_move(self, product):
+        return self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "product_uom": product.uom_id.id,
+                "product_uom_qty": 5.0,
+                "picking_id": self.stock_picking.id,
+                "location_id": self.env.ref("stock.stock_location_stock").id,
+                "location_dest_id": self.env.ref("stock.stock_location_customers").id,
+            }
+        )
+
+    def test_categ_ids_from_unreserved_moves(self):
+        """Transfers that are not reserved yet have moves but no move lines"""
+        move = self._add_move(self.product)
+        self.assertFalse(self.stock_picking.move_line_ids)
+        self.assertEqual(self.stock_picking.categ_ids, self.product_category)
+
+        move_2 = self._add_move(self.product_2)
+        self.assertEqual(self.stock_picking.categ_ids, self.product_category | self.product_category_2)
+
+        # cancelled moves do not count
+        move_2._action_cancel()
+        self.assertEqual(self.stock_picking.categ_ids, self.product_category)
+
+        # a product category change is reflected
+        move.product_id.categ_id = self.product_category_2
+        self.assertEqual(self.stock_picking.categ_ids, self.product_category_2)
+
     def test_kanban_view_loads(self):
         arch = self.env["stock.picking"].get_view(self.env.ref("stock.stock_picking_kanban").id, "kanban")["arch"]
         self.assertIn('name="categ_ids"', arch)
