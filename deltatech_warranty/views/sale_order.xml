@@ -27,7 +27,7 @@
                                 >
                                         <tr>
                                             <td name="td_product" class="text-start">
-                                                <span t-field="line.name" />
+                                                <span t-field="line.label" />
                                             </td>
                                             <td name="td_warranty" class="text-center">
                                                 <span t-field="line.product_id.warranty_months" />
