@@ -55,12 +55,12 @@ class TestProductReplenish(TransactionCase):
             {
                 "product_id": self.product.id,
                 "product_tmpl_id": self.product.product_tmpl_id.id,
-                "product_uom_id": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "quantity": 7.0,
                 "warehouse_id": self.warehouse.id,
                 "company_id": self.env.company.id,
                 "route_id": self.buy_route.id,
-                "supplier_id": self.supplierinfo.id,
+                "partner_id": self.supplier.id,
             }
         )
 
@@ -68,9 +68,9 @@ class TestProductReplenish(TransactionCase):
         # Prepare run values
         run_values = self.product_replenish._prepare_run_values()
         self.assertEqual(
-            run_values["supplierinfo_id"],
-            self.supplierinfo,
-            "The 'supplierinfo_id' field should be equal to the supplierinfo created in the setup",
+            run_values["procurement_partner"],
+            self.supplier,
+            "The selected vendor should be forwarded to the procurement as 'procurement_partner'",
         )
 
     def test_vendor_field_is_available(self):

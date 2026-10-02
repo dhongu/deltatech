@@ -2,10 +2,10 @@ Key Features
 ============
 
 Starting with Odoo 19.0 the vendor selection in the replenishment wizard is
-part of the standard `purchase_stock` module: `product.replenish` inherits
-`stock.replenish.mixin`, which provides the `supplier_id` field
-(`product.supplierinfo`), displays it in the replenishment form and forwards it
-to the procurement run as `supplierinfo_id`.
+part of the standard `purchase_stock` module. In Odoo 20.0 `product.replenish`
+provides the `partner_id` field (Supplier), displays it in the replenishment
+form when the route buys the product and forwards it to the procurement run as
+`procurement_partner`.
 
 This module is therefore kept only as a compatibility placeholder for databases
 upgraded from 18.0, where the feature was provided by Deltatech. It adds no

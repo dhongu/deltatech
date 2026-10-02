@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Replenish",
     "summary": "Deltatech Replenish",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",

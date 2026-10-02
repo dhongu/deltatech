@@ -14,7 +14,7 @@ Deltatech Replenish
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_replenish
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_replenish
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -23,10 +23,10 @@ Key Features
 ============
 
 Starting with Odoo 19.0 the vendor selection in the replenishment wizard
-is part of the standard ``purchase_stock`` module: ``product.replenish``
-inherits ``stock.replenish.mixin``, which provides the ``supplier_id``
-field (``product.supplierinfo``), displays it in the replenishment form
-and forwards it to the procurement run as ``supplierinfo_id``.
+is part of the standard ``purchase_stock`` module. In Odoo 20.0
+``product.replenish`` provides the ``partner_id`` field (Supplier),
+displays it in the replenishment form when the route buys the product
+and forwards it to the procurement run as ``procurement_partner``.
 
 This module is therefore kept only as a compatibility placeholder for
 databases upgraded from 18.0, where the feature was provided by
@@ -57,6 +57,19 @@ Usage:
 
 Changelog
 =========
+
+20.0.1.0.1 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0. The standard wizard now selects the vendor
+  through ``partner_id`` (``res.partner``), forwarded as
+  ``procurement_partner``; the regression tests follow the new API
+  (``uom_id``, ``partner_id``).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.0
 ----------
@@ -96,6 +109,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_replenish>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_replenish>`_ project on GitHub.
 
 You are welcome to contribute.

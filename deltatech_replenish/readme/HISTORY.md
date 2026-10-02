@@ -1,3 +1,9 @@
+## 20.0.1.0.1 (2026-10-02)
+
+- Migration to Odoo 20.0. The standard wizard now selects the vendor through
+  `partner_id` (`res.partner`), forwarded as `procurement_partner`; the
+  regression tests follow the new API (`uom_id`, `partner_id`).
+
 ## 19.0.1.0.1 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
