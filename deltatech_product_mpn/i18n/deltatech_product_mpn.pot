@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_product_mpn
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_product_mpn
+#: model:ir.model.fields,field_description:deltatech_product_mpn.field_product_template__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_product_mpn
+#: model:ir.model.fields,field_description:deltatech_product_mpn.field_product_template__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_product_mpn
+#: model:ir.model.fields,field_description:deltatech_product_mpn.field_product_product__mpn
+#: model:ir.model.fields,field_description:deltatech_product_mpn.field_product_template__mpn
+msgid "MPN"
+msgstr ""
+
+#. module: deltatech_product_mpn
+#: model:ir.model.fields,help:deltatech_product_mpn.field_product_product__mpn
+#: model:ir.model.fields,help:deltatech_product_mpn.field_product_template__mpn
+msgid "Manufacturer Part Number"
+msgstr ""
+
+#. module: deltatech_product_mpn
+#: model:ir.model,name:deltatech_product_mpn.model_product_template
+msgid "Product"
+msgstr ""
