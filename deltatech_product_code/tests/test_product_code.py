@@ -1,0 +1,222 @@
+# ©  2023Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from odoo.tests.common import TransactionCase
+
+
+class TestProductCode(TransactionCase):
+    def setUp(self):
+        super().setUp()
+
+        self.partner_a = self.env["res.partner"].create({"name": "Test"})
+
+        # pregatire categorie noua pentru test in care se sa fie definita secventa de coduri
+
+        # creare secventa de coduri
+        sequence = self.env["ir.sequence"].create(
+            {
+                "name": "Product Code",
+                "code": "product.code",
+                "prefix": "TEST/",
+                "padding": 4,
+                "number_increment": 1,
+                "implementation": "standard",
+            }
+        )
+        # creare categorie noua
+        self.product_category = self.env["product.category"].create(
+            {
+                "name": "Test",
+                "sequence_id": sequence.id,
+                "generate_barcode": True,
+            }
+        )
+
+    def test_new_product_template(self):
+        # creare produs nou
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # verificare daca a fost generat codul
+        self.assertEqual(product_template.default_code, "TEST/0001")
+
+    def test_new_product_product(self):
+        # creare produs nou
+        product_product = self.env["product.product"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # verificare daca a fost generat codul
+        self.assertEqual(product_product.default_code, "TEST/0001")
+
+    def test_now_product_with_barcode(self):
+        self.product_category.write({"generate_barcode": True, "barcode_random": False})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        self.assertTrue(product_template.barcode)
+        self.assertTrue(product_template.barcode.startswith(self.product_category.prefix_barcode))
+
+    def test_button_new_code(self):
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+                "default_code": "MANUAL001",
+            }
+        )
+        self.assertEqual(product_template.default_code, "MANUAL001")
+        product_template.button_new_code()
+        # button_new_code only updates if code is in [False, "/", "auto"]
+        self.assertEqual(product_template.default_code, "MANUAL001")
+
+        product_template.default_code = "/"
+        product_template.button_new_code()
+        self.assertTrue(product_template.default_code.startswith("TEST/"))
+
+        # Test button_new_code on product.product
+        product_product = self.env["product.product"].create(
+            {
+                "name": "Test Product",
+                "categ_id": self.product_category.id,
+                "default_code": "PMANUAL001",
+            }
+        )
+        self.assertEqual(product_product.default_code, "PMANUAL001")
+        product_product.button_new_code()
+        self.assertEqual(product_product.default_code, "PMANUAL001")
+
+        product_product.default_code = "/"
+        product_product.button_new_code()
+        self.assertTrue(product_product.default_code.startswith("TEST/"))
+
+    def test_button_new_code_variants(self):
+        # Verify product.template.button_new_code updates variant codes
+        attribute = self.env["product.attribute"].create({"name": "Color", "create_variant": "always"})
+        val1 = self.env["product.attribute.value"].create({"name": "Red", "attribute_id": attribute.id})
+
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Template with Variant",
+                "categ_id": self.product_category.id,
+                "default_code": "TMANUAL",
+                "attribute_line_ids": [(0, 0, {"attribute_id": attribute.id, "value_ids": [(6, 0, [val1.id])]})],
+            }
+        )
+        variant = product_template.product_variant_ids[0]
+        # Initially they might have codes or not depending on creation logic
+        # Let's force them to "/"
+        product_template.default_code = "/"
+        variant.default_code = "/"
+
+        product_template.button_new_code()
+
+        self.assertTrue(product_template.default_code.startswith("TEST/"))
+        self.assertEqual(variant.default_code, product_template.default_code)
+
+    def test_force_new_code(self):
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+                "default_code": "MANUAL001",
+            }
+        )
+        product_template.force_new_code()
+        self.assertTrue(product_template.default_code.startswith("TEST/"))
+
+    def test_product_variant_code(self):
+        # Test variant creation and code generation
+        attribute = self.env["product.attribute"].create({"name": "Size", "create_variant": "always"})
+        val1 = self.env["product.attribute.value"].create({"name": "S", "attribute_id": attribute.id})
+        val2 = self.env["product.attribute.value"].create({"name": "M", "attribute_id": attribute.id})
+
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Configurable Product",
+                "categ_id": self.product_category.id,
+                "attribute_line_ids": [
+                    (0, 0, {"attribute_id": attribute.id, "value_ids": [(6, 0, [val1.id, val2.id])]})
+                ],
+            }
+        )
+        # In this case, template should NOT get a code if it has variants (commented out in code but good to check current behavior)
+        # Based on product.py lines 60-91 (commented out) and 118-149
+        for variant in product_template.product_variant_ids:
+            self.assertTrue(variant.default_code.startswith("TEST/"))
+
+    def test_barcode_random(self):
+        self.product_category.write({"generate_barcode": True, "barcode_random": True})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test Random Barcode",
+                "categ_id": self.product_category.id,
+            }
+        )
+        self.assertTrue(product_template.barcode)
+        self.assertEqual(len(product_template.barcode), 13)  # EAN13
+
+    def test_new_code_skips_used_codes(self):
+        # coduri create pe alta cale decat secventa (import, scriere manuala)
+        for code in ("TEST/0001", "TEST/0002", "TEST/0007"):
+            self.env["product.product"].create({"name": code, "default_code": code})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # secventa propunea TEST/0001, deja folosit: se continua peste cel mai mare cod
+        self.assertEqual(product_template.default_code, "TEST/0008")
+        self.assertEqual(self.product_category.sequence_id.number_next_actual, 9)
+
+    def test_new_code_keeps_sequence_when_free(self):
+        self.env["product.product"].create({"name": "Manual", "default_code": "TEST/0050"})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # codul dat de secventa e liber, deci nu se sare peste goluri
+        self.assertEqual(product_template.default_code, "TEST/0001")
+
+    def test_new_code_skips_archived_code(self):
+        self.env["product.product"].create({"name": "Old", "default_code": "TEST/0001", "active": False})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        self.assertEqual(product_template.default_code, "TEST/0002")
+
+    def test_show_not_unique(self):
+        tmpl1 = self.env["product.template"].create({"name": "Dup 1", "default_code": "DUP/1"})
+        tmpl2 = self.env["product.template"].create({"name": "Dup 2", "default_code": "UNIQ/1"})
+        # constrangerea unique e pe template; duplicatul se creeaza direct in SQL
+        self.env.flush_all()
+        self.env.cr.execute("UPDATE product_template SET default_code = 'DUP/1' WHERE id = %s", (tmpl2.id,))
+        self.env.cr.execute("UPDATE product_product SET default_code = 'DUP/1' WHERE product_tmpl_id = %s", (tmpl2.id,))
+        self.env.invalidate_all()
+
+        action = self.env["product.template"].show_not_unique()
+        self.assertEqual(action["res_model"], "product.template")
+        found = self.env["product.template"].search(action["domain"])
+        self.assertIn(tmpl1, found)
+        self.assertIn(tmpl2, found)
+
+        action = self.env["product.product"].show_not_unique()
+        self.assertEqual(action["res_model"], "product.product")
+        found = self.env["product.product"].search(action["domain"])
+        self.assertIn(tmpl1.product_variant_id, found)
+        self.assertIn(tmpl2.product_variant_id, found)
