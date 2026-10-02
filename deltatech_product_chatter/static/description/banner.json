@@ -1,0 +1,10 @@
+{
+  "title": "Product Chatter",
+  "summary": "Restrict deleting product chatter messages",
+  "icon": "user",
+  "features": [
+    "Blocks deleting or editing product chatter",
+    "Dedicated security group for trusted users",
+    "Covers product templates and variants"
+  ]
+}
