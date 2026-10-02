@@ -26,7 +26,7 @@ Restrict deletion (and emptying) of chatter messages on Product Template and Pro
 
 ## Compatibility
 
-- Odoo 19.0
+- Odoo 20.0
 - Depends on `product` and `mail`.
 
 ## Notes
