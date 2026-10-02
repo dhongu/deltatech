@@ -1,3 +1,12 @@
+# 20.0.1.0.7 (2026-10-02)
+
+- Migration to Odoo 20.0.
+- Fix: "Find Duplicate" on product variants pointed to a non-existent action
+  (`product.product_open_variants`) and queried a `company_id` column that
+  `product_product` does not have; it now opens the variants list
+  (`product.product_variant_action`) and takes the company from the template.
+  Pending changes are flushed before the duplicate search.
+
 # 19.0.1.0.7
 
 - Own module icon, instead of the generic gears it had.

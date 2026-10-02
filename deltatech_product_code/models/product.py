@@ -133,15 +133,18 @@ class ProductTemplate(models.Model):
 
     @api.model
     def show_not_unique(self):
-        sql = """
+        self.flush_model(["default_code", "active", "company_id"])
+        query = SQL(
+            """
              SELECT id FROM
-              (SELECT *, count(*)
+              (SELECT id, count(*)
                    OVER   (PARTITION BY  default_code, active, company_id) AS count
                     FROM product_template)
                tableWithCount
               WHERE tableWithCount.count > 1;
         """
-        self.env.cr.execute(sql)
+        )
+        self.env.cr.execute(query)
         product_ids = [x[0] for x in self.env.cr.fetchall()]
 
         action = self.env.ref("deltatech_product_code.action_force_new_code")
@@ -208,21 +211,27 @@ class ProductProduct(models.Model):
 
     @api.model
     def show_not_unique(self):
-        sql = """
+        self.flush_model(["default_code", "active"])
+        self.env["product.template"].flush_model(["company_id"])
+        # product_product nu are coloana company_id (e related pe template)
+        query = SQL(
+            """
              SELECT id FROM
-              (SELECT *, count(*)
-                   OVER   (PARTITION BY  default_code, active, company_id) AS count
-                    FROM product_product)
+              (SELECT pp.id, count(*)
+                   OVER   (PARTITION BY  pp.default_code, pp.active, pt.company_id) AS count
+                    FROM product_product pp
+                    JOIN product_template pt ON pt.id = pp.product_tmpl_id)
                tableWithCount
               WHERE tableWithCount.count > 1;
         """
-        self.env.cr.execute(sql)
+        )
+        self.env.cr.execute(query)
         product_ids = [x[0] for x in self.env.cr.fetchall()]
 
         action = self.env.ref("deltatech_product_code.action_force_new_code_product")
         action.create_action()
 
-        action = self.env["ir.actions.actions"]._for_xml_id("product.product_open_variants")
+        action = self.env["ir.actions.actions"]._for_xml_id("product.product_variant_action")
 
         action["domain"] = [("id", "in", product_ids)]
         action["context"] = self.env.context
