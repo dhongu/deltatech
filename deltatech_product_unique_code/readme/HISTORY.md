@@ -1,3 +1,8 @@
+## 20.0.1.0.2 (2026-10-02)
+
+- Migration to Odoo 20.0 (no API changes needed); tests for the uniqueness check
+  (create/write, archived products, cleanup of historical duplicates, bypass group).
+
 ## 19.0.1.0.2 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
