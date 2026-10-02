@@ -66,7 +66,7 @@ class TestStockPickingValidation(TransactionCase):
             {
                 "product_id": self.product.id,
                 "product_uom_qty": 10,
-                "product_uom": self.env.ref("uom.product_uom_unit").id,
+                "uom_id": self.env.ref("uom.product_uom_unit").id,
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "picking_id": self.stock_picking.id,
@@ -80,7 +80,7 @@ class TestStockPickingValidation(TransactionCase):
             {
                 "move_id": self.move.id,
                 "product_id": self.product.id,
-                "product_uom_id": self.env.ref("uom.product_uom_unit").id,
+                "uom_id": self.env.ref("uom.product_uom_unit").id,
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "quantity": 10,
@@ -106,7 +106,7 @@ class TestStockPickingValidation(TransactionCase):
             {
                 "move_id": self.move.id,
                 "product_id": self.product.id,
-                "product_uom_id": self.env.ref("uom.product_uom_unit").id,
+                "uom_id": self.env.ref("uom.product_uom_unit").id,
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "quantity": 5,
