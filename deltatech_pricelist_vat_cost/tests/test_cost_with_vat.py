@@ -57,3 +57,50 @@ class TestCostWithVat(TransactionCase):
         self._assert_cost_with_vat(product, 121)
         self.purchase_tax.amount = 11
         self._assert_cost_with_vat(product, 111)
+
+    def test_multi_company_uses_current_company_taxes(self):
+        country = self.env.ref("base.ro")
+        company_b = self.env["res.company"].create({"name": "Test company B", "country_id": country.id})
+        tax_group_b = self.env["account.tax.group"].create(
+            {"name": "Test tax group B", "company_id": company_b.id, "country_id": country.id}
+        )
+        purchase_tax_b = self.env["account.tax"].create(
+            {
+                "name": "Test purchase B 11%",
+                "type_tax_use": "purchase",
+                "amount_type": "percent",
+                "amount": 11,
+                "company_id": company_b.id,
+                "tax_group_id": tax_group_b.id,
+            }
+        )
+        # shared product carrying the default purchase tax of both companies
+        product = self._create_product(self.purchase_tax | purchase_tax_b, self.env["account.tax"])
+        product.with_company(company_b).standard_price = 200
+        # read alternately in the same transaction: the value must follow the company
+        self._assert_cost_with_vat(product, 121)
+        self._assert_cost_with_vat(product.with_company(company_b), 222)
+        self._assert_cost_with_vat(product, 121)
+
+    def test_pricelist_based_on_cost_with_vat(self):
+        product = self._create_product(self.purchase_tax, self.env["account.tax"])
+        pricelist = self.env["product.pricelist"].create(
+            {
+                "name": "Test cost with VAT",
+                "currency_id": product.currency_id.id,
+                "item_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "applied_on": "3_global",
+                            "compute_price": "formula",
+                            "base": "standard_price_with_vat",
+                            "price_surcharge": 10,
+                        },
+                    )
+                ],
+            }
+        )
+        self.assertAlmostEqual(pricelist._get_product_price(product, 1.0), 131)
+        self.assertAlmostEqual(pricelist._get_product_price(product.product_tmpl_id, 1.0), 131)
