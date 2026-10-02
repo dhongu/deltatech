@@ -12,7 +12,7 @@ class AccountPaymentTermRateWizard(models.TransientModel):
 
     name = fields.Char(string="Name", required=True)
     rate = fields.Integer(string="Number of rates", required=True)
-    advance = fields.Float(string="Advance", digits="Payment Term", required=True)
+    advance = fields.Float(string="Advance", digits="Payment Terms", required=True)
     rate_value = fields.Float(string="Rate Value")
     day_of_the_month = fields.Integer(string="Day of the Month", required=True)
     term_id = fields.Many2one("account.payment.term")
@@ -39,15 +39,18 @@ class AccountPaymentTermRateWizard(models.TransientModel):
 
     @api.constrains("rate")
     def _check_rate(self):
-        if self.rate < 1:
-            raise ValidationError(self.env._("Rate must be greater than 1"))
+        for wizard in self:
+            if wizard.rate < 1:
+                raise ValidationError(self.env._("Rate must be greater than 1"))
 
     @api.constrains("advance")
     def _check_advance(self):
-        if self.value == "percent" and (self.advance < 0.0 or self.advance > 100.0):
-            raise ValidationError(self.env._("Percentages for Advance must be between 0 and 100."))
+        for wizard in self:
+            if wizard.value == "percent" and (wizard.advance < 0.0 or wizard.advance > 100.0):
+                raise ValidationError(self.env._("Percentages for Advance must be between 0 and 100."))
 
     def do_create_rate(self):
+        self.ensure_one()
         line_ids = []
 
         if self.value == "percent":
@@ -60,8 +63,7 @@ class AccountPaymentTermRateWizard(models.TransientModel):
             }
             line_ids.append((0, 0, first_rate))
 
-            if self.rate > 1:
-                rest = 100 * (1 - self.advance / 100) / (self.rate)
+            rest = 100 * (1 - self.advance / 100) / (self.rate)
 
             for x in range(1, self.rate + 1):
                 norm_rate = {

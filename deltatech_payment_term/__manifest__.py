@@ -4,7 +4,7 @@
 {
     "name": "Payment Term Rate Wizard",
     "summary": "Term Rate Wizard",
-    "version": "19.0.2.0.3",
+    "version": "20.0.2.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Base",
@@ -15,7 +15,7 @@
         "views/sale_view.xml",
         "views/account_invoice_view.xml",
         "views/res_partner_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

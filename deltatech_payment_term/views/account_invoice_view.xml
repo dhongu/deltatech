@@ -12,7 +12,7 @@
                     type="object"
                     name="view_rate"
                     class="oe_stat_button"
-                    icon="fa-money"
+                    icon="payments"
                     invisible="move_type not in ('out_invoice', 'out_refund')"
                 >
                     <span class="o_stat_text">Rates</span>
