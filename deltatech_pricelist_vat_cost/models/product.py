@@ -15,10 +15,13 @@ class ProductTemplate(models.Model):
         "supplier_taxes_id.amount",
         "supplier_taxes_id.amount_type",
     )
+    @api.depends_context("company")
     def _compute_standard_price_with_vat(self):
+        company = self.env.company
         for product in self.sudo():
-            if product.supplier_taxes_id and product.standard_price:
-                taxes = product.supplier_taxes_id.compute_all(
+            taxes = product.supplier_taxes_id._filter_taxes_by_company(company)
+            if taxes and product.standard_price:
+                taxes = taxes.compute_all(
                     product.standard_price, product.currency_id, 1, product=product, handle_price_include=False
                 )
                 product.standard_price_with_vat = taxes["total_included"]
@@ -40,10 +43,13 @@ class ProductProduct(models.Model):
         "supplier_taxes_id.amount",
         "supplier_taxes_id.amount_type",
     )
+    @api.depends_context("company")
     def _compute_standard_price_with_vat(self):
+        company = self.env.company
         for variant in self.sudo():
-            if variant.supplier_taxes_id and variant.standard_price:
-                taxes = variant.supplier_taxes_id.compute_all(
+            taxes = variant.supplier_taxes_id._filter_taxes_by_company(company)
+            if taxes and variant.standard_price:
+                taxes = taxes.compute_all(
                     variant.standard_price, variant.currency_id, 1, product=variant, handle_price_include=False
                 )
                 variant.standard_price_with_vat = taxes["total_included"]

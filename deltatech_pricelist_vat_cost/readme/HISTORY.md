@@ -1,3 +1,12 @@
+## 19.0.1.0.3
+
+- In multi-company, cost with VAT uses only the purchase taxes of the current
+  company. A shared product carrying the default purchase tax of several
+  companies had all of them applied at once (cost 100 with a 21% and an 11%
+  tax was reported as 132 instead of 121), and so did the pricelists based
+  on it (VATCOST-002). The value is also recomputed per company instead of
+  reusing the one computed for another company in the same transaction.
+
 ## 19.0.1.0.2
 
 - Cost with VAT now depends on the purchase taxes only: a product with
