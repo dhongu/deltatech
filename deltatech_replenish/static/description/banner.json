@@ -1,0 +1,11 @@
+{
+  "title": "Replenish Compatibility",
+  "summary": "Placeholder module for smooth 18.0 to 19.0 upgrades",
+  "icon": "gear",
+  "lang": "en",
+  "features": [
+    "Safe upgrade path from Odoo 18.0",
+    "No duplicate fields, no conflicts",
+    "Vendor selection now native in Odoo 19"
+  ]
+}
