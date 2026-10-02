@@ -168,13 +168,6 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_purchase_mail
-#. odoo-python
-#: code:addons/deltatech_purchase_mail/models/purchase_order.py:0
-msgid "RFQ prepared for sending by email (batch compose)."
-msgstr ""
-"Cerere de ofertă pregătită pentru trimitere prin e-mail (compunere în masă)."
-
-#. module: deltatech_purchase_mail
 #: model:ir.actions.server,name:deltatech_purchase_mail.action_purchase_compose_batch_email
 msgid "Send Email"
 msgstr "Trimite email"
