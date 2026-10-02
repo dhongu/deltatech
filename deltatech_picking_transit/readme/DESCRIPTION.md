@@ -28,6 +28,15 @@ that come from the first transfer or its backorders. A backorder of the first
 transfer does not create another second transfer: a chatter message tells which
 transfer will receive its products.
 
+**Link Second Transfer to First (optional).** When **Link Second Transfer to
+First** is checked on the *Delivery* operation type, the moves of the second
+transfer are chained to the moves of the first one. The second transfer waits
+for the first and, once it is validated, reserves exactly the delivered
+quantities and lots. It cannot be validated before the first transfer is done,
+nor receive more than the first transfer and its backorders delivered, per
+product and lot. Kits are linked component by component. The option is off by
+default; without it, the transfers work as described above.
+
 **Reassign Location (optional).** When the system parameter
 `deltatech_picking_transit.use_sub_locations` is set, internal transfers show a
 **Reassign Location** button that sets, on each detailed operation, the first
@@ -38,7 +47,8 @@ sublocation of the source location that has the product in stock.
 1. Create a transit location and, in *Inventory > Configuration > Warehouse
    Management > Operations Types*, an internal operation type in the sending
    warehouse with the transit location as default destination. Set **Two Step
-   Transfer Use** to *Delivery* and, if you want, check **Auto Second Transfer**.
+   Transfer Use** to *Delivery* and, if you want, check **Auto Second Transfer**
+   and **Link Second Transfer to First**.
 2. In the receiving warehouse, create an internal operation type with the
    transit location as default source and set **Two Step Transfer Use** to
    *Reception*.

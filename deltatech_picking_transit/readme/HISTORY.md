@@ -1,3 +1,15 @@
+## 19.0.0.0.17 (2026-11-23)
+
+- New option **Link Second Transfer to First** on the delivery operation type (off by default). When it is
+  checked, the moves of the second transfer are chained to the moves of the first one (`move_orig_ids`,
+  `make_to_order`): the second transfer waits for the first, reserves exactly the delivered quantities and lots, and
+  the moves are linked after the kits are exploded. A draft first transfer is confirmed when the second one is created.
+- Guards on the linked second transfer (inventory, barcode and RPC validations included): it cannot be validated before
+  the first transfer is done, nor receive more than the first transfer and its backorders delivered, per product and
+  lot. Partial receptions and backorders on both legs are allowed.
+- With the option off, the behaviour is unchanged. The guards are modelled on `md_internal_warehouse_transfer`
+  (MD Trade Concept SRL, Alexandru Grecu).
+
 ## 19.0.0.0.16 (2026-11-03)
 
 - Description rewritten from the code: the operation type field is Two Step Transfer Use (Delivery / Reception), not "next operation"; the original transfer is not locked after the second one is created.

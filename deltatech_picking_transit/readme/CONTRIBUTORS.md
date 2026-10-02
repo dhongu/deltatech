@@ -1,0 +1,4 @@
+- [Terrabit](https://www.terrabit.ro):
+  - Voicu Stefan
+- MD Trade Concept SRL:
+  - Alexandru Grecu (transfer guards, from `md_internal_warehouse_transfer`)
