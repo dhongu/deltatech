@@ -1,3 +1,9 @@
+## 20.0.1.0.1 (2026-10-02)
+
+- Migration to Odoo 20.0: no code change needed; the extension still runs after
+  the standard computation, so the 20.0 additions (`extra_uom_ids` per variant,
+  the multi-UoM feature check) are kept. Test for the vendor unit being preserved.
+
 ## 19.0.1.0.1 (2026-09-30)
 
 - Own module icon, instead of the generic gears it had.

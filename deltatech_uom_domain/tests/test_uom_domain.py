@@ -53,6 +53,29 @@ class TestUomDomain(AccountTestInvoicingCommon):
         line = self._po_line()
         self.assertIn(self.product.uom_id, line.allowed_uom_ids)
 
+    def test_purchase_line_keeps_seller_uom(self):
+        """UM de pe linia de furnizor ramane in domeniu, chiar daca e din alt arbore.
+
+        Modulul doar adauga peste `super()`: nu filtreaza ce a decis standardul.
+        """
+        product = self.env["product.product"].create(
+            {
+                "name": "Produs cu furnizor in kg",
+                "uom_id": self.uom_unit.id,
+                "purchase_ok": True,
+                "seller_ids": [Command.create({"partner_id": self.partner.id, "uom_id": self.uom_kg.id})],
+            }
+        )
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [Command.create({"product_id": product.id, "product_qty": 1})],
+            }
+        )
+        line = order.order_line
+        self.assertIn(self.uom_kg, line.allowed_uom_ids)
+        self.assertIn(self.uom_ten, line.allowed_uom_ids)
+
     def test_vendor_bill_line_offers_convertible_uoms(self):
         """Factura de achizitie preia UM de pe comanda, deci domeniul ei trebuie sa o accepte."""
         move = self.env["account.move"].create(

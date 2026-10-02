@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "UoM Domain by Reference",
     "summary": "Offer every unit convertible to the product's one, as before Odoo 19",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
