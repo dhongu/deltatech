@@ -1,3 +1,13 @@
+## 19.0.1.4.3 (2026-10-02)
+
+- Security: the module shipped the same API key on every installation
+  (`sk_live_CHANGE_ME_...`) and the public `/api/v1/queue/process` and `/api/v1/queue/stats`
+  endpoints accepted it. No key is shipped anymore, the placeholder is always rejected,
+  and the upgrade removes it from `queue_job_processor.api_key`; both endpoints use the
+  same constant-time check. **Behavior change:** installations still using the default
+  key must generate one in Settings > Queue Job and update the external cron caller
+  (cron-job.org); until then the API answers "Unauthorized".
+
 # 19.0.1.4.2
 
 - Fix: the API runner (`/queue_job/process`, "Process (Thread)") reported failed jobs
