@@ -1,0 +1,40 @@
+<odoo>
+    <record id="view_order_list_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_list_upload" />
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field
+                    name="cost_of_goods"
+                    sum="Total Cost of Goods"
+                    widget="monetary"
+                    decoration-bf="1"
+                    optional="show"
+                    groups="deltatech_sale_cost_product.group_view_cost_on_sale"
+                />
+
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_quotation_list_inherit" model="ir.ui.view">
+        <field name="name">sale.order.list.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding" />
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field
+                    name="cost_of_goods"
+                    sum="Total Cost of Goods"
+                    widget="monetary"
+                    decoration-bf="1"
+                    optional="show"
+                    groups="deltatech_sale_cost_product.group_view_cost_on_sale"
+                />
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,6 @@
+{
+  "title": "Sale Prepare Transfer",
+  "summary": "Never miss stock hiding in another warehouse",
+  "icon": "truck",
+  "features": ["Checks stock in other warehouses", "Auto-creates internal transfer", "Optional auto-validate & group"]
+}
