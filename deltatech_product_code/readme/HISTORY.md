@@ -1,3 +1,7 @@
+# 19.0.1.0.8 (2026-10-02)
+
+- Fix the "Find Duplicate" action on product variants: it referenced a non-existent action (`product.product_open_variants`) and the SQL looked for `company_id` in `product_product` (the company is read from the template). Queries moved to `SQL()` and the models are flushed before the search; regression test added.
+
 # 19.0.1.0.7
 
 - Own module icon, instead of the generic gears it had.
