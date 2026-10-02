@@ -256,7 +256,7 @@ class TestTransportConfigMultiExport(TransactionCase):
         self.repo.git.checkout(self.target_branch)
 
         self.clone_patcher = patch(
-            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo.clone_to_temp",
+            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo._clone_to_temp",
             autospec=True,
             return_value=(self.temp_dir, self.repo),
         )
@@ -268,7 +268,7 @@ class TestTransportConfigMultiExport(TransactionCase):
                 repo_obj.index.commit(commit_message)
 
         self.commit_patcher = patch(
-            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo.commit_and_push",
+            "odoo.addons.deltatech_transport_change.models.transport_repo.TransportRepo._commit_and_push",
             autospec=True,
             side_effect=_local_commit,
         )

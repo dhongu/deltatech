@@ -50,6 +50,7 @@ class TransportConfig(models.Model):
         # Batch flow (also handles single-record): group by repo (url+branch) and process with a single clone per group
         if not self:
             return True
+        self.env["transport.repo"]._check_transport_access()
 
         # Validate all have repo and module
         for cfg in self:
@@ -67,7 +68,7 @@ class TransportConfig(models.Model):
             # Clone once
             try:
                 # one clone per group using the group's repo record
-                tmp_root, repo_obj = repo.clone_to_temp()
+                tmp_root, repo_obj = repo._clone_to_temp()
             except Exception as e:
                 for c in cfgs:
                     c.message_post(body=f"[Git] Repository clone failed: {e}")
@@ -83,7 +84,7 @@ class TransportConfig(models.Model):
                     # Attach per-config CSV
                     cfg._attach_csv_in_chatter(filename, csv_data)
                     # Write into clone under module_name/data via repo method
-                    csv_abs, manifest_abs, changed, rel = cfg.repo_id.write_csv_and_update_manifest(
+                    csv_abs, manifest_abs, changed, rel = cfg.repo_id._write_csv_and_update_manifest(
                         repo_root=tmp_root, filename=filename, data_content=csv_data
                     )
                     manifest_path = manifest_abs
@@ -97,7 +98,7 @@ class TransportConfig(models.Model):
                 # Commit and push once
                 commit_msg = f"Transport export: {', '.join(written_files)}"
                 try:
-                    repo.commit_and_push(repo_obj, commit_msg)
+                    repo._commit_and_push(repo_obj, commit_msg)
                     # Post summary message
                     for cfg in cfgs:
                         cfg.message_post(body=f"[Git] Commit & push succeeded on {branch}: {', '.join(written_files)}")
