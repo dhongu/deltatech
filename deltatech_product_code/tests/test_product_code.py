@@ -199,3 +199,24 @@ class TestProductCode(TransactionCase):
             }
         )
         self.assertEqual(product_template.default_code, "TEST/0002")
+
+    def test_show_not_unique(self):
+        tmpl1 = self.env["product.template"].create({"name": "Dup 1", "default_code": "DUP/1"})
+        tmpl2 = self.env["product.template"].create({"name": "Dup 2", "default_code": "UNIQ/1"})
+        # constrangerea unique e pe template; duplicatul se creeaza direct in SQL
+        self.env.flush_all()
+        self.env.cr.execute("UPDATE product_template SET default_code = 'DUP/1' WHERE id = %s", (tmpl2.id,))
+        self.env.cr.execute("UPDATE product_product SET default_code = 'DUP/1' WHERE product_tmpl_id = %s", (tmpl2.id,))
+        self.env.invalidate_all()
+
+        action = self.env["product.template"].show_not_unique()
+        self.assertEqual(action["res_model"], "product.template")
+        found = self.env["product.template"].search(action["domain"])
+        self.assertIn(tmpl1, found)
+        self.assertIn(tmpl2, found)
+
+        action = self.env["product.product"].show_not_unique()
+        self.assertEqual(action["res_model"], "product.product")
+        found = self.env["product.product"].search(action["domain"])
+        self.assertIn(tmpl1.product_variant_id, found)
+        self.assertIn(tmpl2.product_variant_id, found)
