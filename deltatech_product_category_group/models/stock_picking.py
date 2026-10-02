@@ -56,16 +56,6 @@ class StockPicking(models.Model):
                 else:
                     user_id = users[0].id
                 if user_id:
-                    picking.write({"user_id": user_id})
-                    self.env.cr.execute(
-                        SQL(
-                            """
-                            UPDATE stock_picking
-                                SET user_id = %s, user_group_id = %s
-                                WHERE id = %s
-                            """,
-                            user_id,
-                            user_group_id.id,
-                            picking.id,
-                        )
-                    )
+                    # ORM write (not a raw UPDATE): keeps the cache consistent,
+                    # otherwise user_group_id stays empty in the same transaction
+                    picking.write({"user_id": user_id, "user_group_id": user_group_id.id})

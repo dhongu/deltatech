@@ -6,7 +6,7 @@
 {
     "name": "Products Category User Group",
     "summary": "Products Category User Group",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
