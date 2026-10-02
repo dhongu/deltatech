@@ -11,7 +11,10 @@ class Partner(models.Model):
 
     contact_default = fields.Boolean(string="Contact Default", default=False)
     print_green_invoice = fields.Boolean(
-        "Green Invoice", default=False, help="If checked, the invoice will not be printed."
+        "Green Invoice",
+        default=False,
+        help="Informative flag: the partner prefers paperless invoices. "
+        "It does not change the behavior of the Send & Print wizard.",
     )
 
     def address_get(self, adr_pref=None):
