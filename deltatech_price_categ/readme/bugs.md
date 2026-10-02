@@ -30,3 +30,12 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Verified against the local Odoo 19 source and, where stated, by isolated execution with mocked ORM objects. Both findings were fixed on 2026-10-01 and are covered by database-backed tests.
+
+## Historical local-checkout reverification — 2026-10-01
+
+Historical snapshot: compared the then-current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
+
+- **PRICE-001 — still open:** no relevant Python, XML, JavaScript or manifest change since the audit snapshot; the documented implementation remains in the current source.
+- **PRICE-002 — still open:** no relevant Python, XML, JavaScript or manifest change since the audit snapshot; the documented implementation remains in the current source.
+
+The historical checkout result above is tied to its stated commit. It does not override the current status in this report or establish that a locally observed fix exists on the published branch. Remote documentation and fixes were preserved during publication on 2026-10-02.
