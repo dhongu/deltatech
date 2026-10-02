@@ -9,8 +9,8 @@ class TestSaleContact(TransactionCase):
         super().setUpClass()
         cls.parent_partner = cls.env["res.partner"].create(
             {
+                # in 20.0 is_company is computed (own commercial entity + VAT)
                 "name": "Parent Company",
-                "is_company": True,
             }
         )
         cls.contact_1 = cls.env["res.partner"].create(
@@ -89,3 +89,23 @@ class TestSaleContact(TransactionCase):
             self.assertEqual(addresses, standard)
         self.assertEqual(self.parent_partner.address_get(["delivery"])["delivery"], self.contact_2.id)
         self.assertEqual(self.parent_partner.address_get(["invoice"])["invoice"], self.invoice_contact.id)
+
+    def test_06_contact_default_other_type_kept(self):
+        """Setting a default delivery contact must not reset the default invoice contact"""
+        self.invoice_contact.write({"contact_default": True})
+        self.contact_1.write({"contact_default": True})
+        self.invoice_contact.invalidate_recordset(["contact_default"])
+        self.assertTrue(self.invoice_contact.contact_default)
+        self.assertTrue(self.contact_1.contact_default)
+        self.assertFalse(self.contact_2.contact_default)
+
+    def test_07_address_get_without_default(self):
+        """Without a default contact address_get keeps the standard behaviour"""
+        addresses = self.parent_partner.address_get(["delivery", "invoice"])
+        self.assertEqual(addresses["delivery"], self.contact_1.id)
+        self.assertEqual(addresses["invoice"], self.invoice_contact.id)
+
+    def test_08_print_green_invoice_field(self):
+        """The green invoice flag is stored on the partner"""
+        self.parent_partner.print_green_invoice = True
+        self.assertTrue(self.parent_partner.print_green_invoice)
