@@ -11,8 +11,8 @@ folosit automat în antetul rapoartelor.
 - La randarea raportului, dacă documentul are o echipă de vânzare cu logo
   propriu, se folosește acel logo; altfel se folosește logo-ul firmei.
 - Mecanismul este generic, în dispecerul `web.external_layout`, deci acoperă
-  toate variantele de layout (standard, striped, boxed, bold, folder, wave,
-  bubble) și orice document care are câmpul `team_id`:
+  toate variantele de layout din Odoo 20 (standard, wave, bubble, folder,
+  center, dual, lines, compact) și orice document care are câmpul `team_id`:
   - `sale.order` (ofertă/comandă) — `team_id` nativ
   - `account.move` (factură) — `team_id` nativ
   - `stock.picking` (aviz/livrare) — `team_id` calculat din comanda sursă
