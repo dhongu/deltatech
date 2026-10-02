@@ -6,7 +6,7 @@
 {
     "name": "Sale Contact",
     "summary": "Limit contacts insale order",
-    "version": "19.0.1.0.23",
+    "version": "19.0.1.0.24",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

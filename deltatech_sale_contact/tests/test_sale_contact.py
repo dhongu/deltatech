@@ -89,3 +89,10 @@ class TestSaleContact(TransactionCase):
             self.assertEqual(addresses, standard)
         self.assertEqual(self.parent_partner.address_get(["delivery"])["delivery"], self.contact_2.id)
         self.assertEqual(self.parent_partner.address_get(["invoice"])["invoice"], self.invoice_contact.id)
+
+    def test_06_green_invoice_flag_is_informative(self):
+        """The flag is only stored on the partner: no override of the send wizard remains"""
+        self.assertFalse(self.parent_partner.print_green_invoice)
+        self.parent_partner.print_green_invoice = True
+        self.assertTrue(self.parent_partner.print_green_invoice)
+        self.assertFalse(hasattr(self.env["account.move.send"], "_compute_checkbox_download"))
