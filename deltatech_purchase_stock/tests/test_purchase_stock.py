@@ -13,7 +13,9 @@ class TestPurchaseStock(TransactionCase):
         super().setUpClass()
 
         cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.env.company.id)], limit=1)
-        cls.buy_route = cls.env.ref("purchase_stock.route_warehouse0_buy")
+        # In 20.0 the Buy route is not product-selectable: it belongs to the
+        # warehouse ("Buy to Resupply").
+        cls.warehouse.buy_to_resupply = True
         cls.vendor = cls.env["res.partner"].create({"name": "Test Vendor"})
         cls.product = cls._new_product("Replenished Product", 10.0)
 
@@ -23,7 +25,6 @@ class TestPurchaseStock(TransactionCase):
             {
                 "name": name,
                 "is_storable": True,
-                "route_ids": [(6, 0, cls.buy_route.ids)],
                 "seller_ids": [(0, 0, {"partner_id": cls.vendor.id, "price": price})],
             }
         )
