@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "19.0.1.0.11",
+    "version": "19.0.1.0.12",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Facturare livrari",
@@ -16,6 +16,7 @@
         "sale_stock",
         "stock_picking_batch",
         "purchase",
+        "purchase_stock",
     ],
     "price": 5.00,
     "currency": "EUR",

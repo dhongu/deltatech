@@ -39,12 +39,18 @@ class SaleOrder(models.Model):
                 reference_ids = self.env["stock.reference"]
 
             picking = self.env["stock.picking"]
+            # all quantities below are in the product unit (product.uom_id); for repeated
+            # product lines, track the destination stock already counted as covering previous
+            # lines and the source stock already requested from the other warehouse
+            dest_used = {}
+            source_used = {}
             for line in order.order_line:
                 if not line.product_id.is_storable:
                     continue
 
                 product = line.product_id.with_context(warehouse_id=order.warehouse_id.id)
-                product_qty = line.product_uom_id._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
+                product_uom = line.product_id.uom_id
+                product_qty = line.product_uom_id._compute_quantity(line.product_uom_qty, product_uom)
 
                 qty_available = product.qty_available
                 if qty_available < 0:
@@ -58,11 +64,14 @@ class SaleOrder(models.Model):
                     )
                     == -1
                 ):
-                    demand = line.product_uom_qty - qty_available
-                    if demand <= 0:
+                    dest_free = max(qty_available - dest_used.get(product.id, 0.0), 0.0)
+                    dest_used[product.id] = dest_used.get(product.id, 0.0) + min(product_qty, dest_free)
+                    demand = product_qty - dest_free
+                    if float_compare(demand, 0.0, precision_digits=precision) <= 0:
                         continue
-                    qty_available = line.product_id.with_context(warehouse_id=warehouse.id).qty_available
-                    if qty_available > 0:
+                    source_available = line.product_id.with_context(warehouse_id=warehouse.id).qty_available
+                    source_available -= source_used.get(product.id, 0.0)
+                    if float_compare(source_available, 0.0, precision_digits=precision) > 0:
                         if not picking:
                             picking = self.env["stock.picking"].create(
                                 {
@@ -74,16 +83,14 @@ class SaleOrder(models.Model):
                                 }
                             )
 
-                        if demand < qty_available:
-                            qty = demand
-                        else:
-                            qty = qty_available
+                        qty = min(demand, source_available)
+                        source_used[product.id] = source_used.get(product.id, 0.0) + qty
 
                         move_vals = {
                             "state": "confirmed",
                             "product_id": line.product_id.id,
                             "picking_id": picking.id,
-                            "product_uom": line.product_uom_id.id,
+                            "product_uom": product_uom.id,
                             "product_uom_qty": qty,
                             # stock.move.name a fost eliminat in 19.0;
                             # descrierea se calculeaza din produs (description_picking)
