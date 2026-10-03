@@ -68,6 +68,37 @@
         <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
     </record>
 
+    <!-- BUSINESS-002: company scope for the SQL reports, Open Issue and migrations. -->
+    <record model="ir.rule" id="business_open_issue_comp_rule">
+        <field name="name">Business open issue multi-company</field>
+        <field name="model_id" ref="model_business_open_issue" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_process_report_comp_rule">
+        <field name="name">Business process report multi-company</field>
+        <field name="model_id" ref="model_business_process_report" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_process_test_report_comp_rule">
+        <field name="name">Business process test report multi-company</field>
+        <field name="model_id" ref="model_business_process_test_report" />
+        <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_migration_comp_rule">
+        <field name="name">Business migration multi-company</field>
+        <field name="model_id" ref="model_business_migration" />
+        <field
+            name="domain_force"
+        >['|',('project_id.company_id','=',False),('project_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record model="ir.rule" id="business_migration_test_comp_rule">
+        <field name="name">Business migration test multi-company</field>
+        <field name="model_id" ref="model_business_migration_test" />
+        <field
+            name="domain_force"
+        >['|',('migration_id.project_id.company_id','=',False),('migration_id.project_id.company_id', 'in', company_ids)]</field>
+    </record>
+
     <!-- Process visibility: a process with allowed_user_ids set is visible only to
          those users; business admins always see everything (bypass rules below). -->
     <record model="ir.rule" id="business_process_visibility_rule">

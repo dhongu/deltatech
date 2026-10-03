@@ -42,7 +42,7 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 ## COMMISSION-003 — P1: Commission rates lack company access rules
 
-- **Status:** Open. Identified on 2026-10-02.
+- **Status:** Fixed in 19.0.1.6.2 — `security/security.xml` adds the `commission_users_comp_rule` multi-company rule on `commission.users` (created on upgrade even though the file is `noupdate`), and `write()` re-checks the access after a `company_id` change. Covered by tests in `tests/test_company_rules.py`.
 - **Location:** `models/commission_users.py`; `security/security.xml`; `security/ir.model.access.csv`.
 - **Trigger:** A Commission Manager allowed in company A reads or modifies a commission.users record belonging to company B.
 - **Actual behavior:** The model has company_id and manager full CRUD ACLs, but no company record rule. The only company rule declared in the module applies to sale.margin.report. The journal/company consistency constraint permits a valid B journal/B company pair and does not check the requesting user's allowed companies.

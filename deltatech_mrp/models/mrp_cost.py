@@ -11,6 +11,7 @@ class DeltatechCostDetail(models.Model):
     _auto = False
 
     production_id = fields.Many2one("mrp.production", string="Production Order")
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
     cost_categ = fields.Selection(
         [
             ("raw", "Raw materials"),
@@ -30,9 +31,11 @@ class DeltatechCostDetail(models.Model):
                 SELECT max(sm.id) AS id,
                     sm.raw_material_production_id AS production_id,
                     SUM (sm.value) AS amount,
-                    pc.cost_categ
+                    pc.cost_categ,
+                    mp.company_id AS company_id
                 FROM
                     stock_move sm
+                    JOIN mrp_production mp ON mp.id = sm.raw_material_production_id
                     LEFT JOIN product_product pr ON pr.id = sm.product_id
                     LEFT JOIN product_template pt ON pt.id = pr.product_tmpl_id
                     LEFT JOIN product_category pc ON pc.id = pt.categ_id
@@ -41,7 +44,7 @@ class DeltatechCostDetail(models.Model):
                      raw_material_production_id IS NOT NULL
                      AND sm.state = 'done' :: TEXT
                 GROUP BY
-                    sm.raw_material_production_id, pc.cost_categ
+                    sm.raw_material_production_id, pc.cost_categ, mp.company_id
         )"""
         )
 

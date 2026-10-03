@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## TYPE-001 — P1: Default-value records do not inherit parent company restrictions
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.1.18 — `security/record_type_security.xml` adds a multi-company rule on `record.type.default.values` through `record_type_id.company_id`, and `write()` checks write access on the target record type when `record_type_id` changes. The ACLs (full CRUD for internal users on both models) are unchanged. Covered by tests in `tests/test_company_rules.py`.
 - **Location:** security/ir.model.access.csv; security/record_type_security.xml; models/record_type.py, record.type.default.values.
 - **Trigger:** An internal user restricted to company A searches/reads/writes default-value records belonging to a company-B record type through ORM/RPC.
 - **Actual behavior:** The parent record.type has a global company rule, but record.type.default.values has no rule of its own. Its ACL grants every internal user full read/write/create/delete. Neither the child fields nor mutation methods enforce access to record_type_id.

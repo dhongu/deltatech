@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "19.0.2.10.2",
+    "version": "19.0.2.10.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -20,6 +20,7 @@
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
+        "security/ir_rule.xml",
         "data/data.xml",
         "views/res_config_settings_view.xml",
         "views/stock_inventory_views.xml",

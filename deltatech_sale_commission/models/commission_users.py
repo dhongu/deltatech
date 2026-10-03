@@ -32,6 +32,14 @@ class CommissionUsers(models.Model):
         "A salesperson can have only one commission rate per journal and company.",
     )
 
+    def write(self, vals):
+        res = super().write(vals)
+        if "company_id" in vals:
+            # the company rule is checked before the write only: a rate must not be moved
+            # to a company the user does not have access to (COMMISSION-003)
+            self.check_access("write")
+        return res
+
     @api.constrains("user_id", "journal_id", "company_id")
     def _check_unique_user_journal(self):
         # Same rule as the SQL constraint, checked by the ORM: it still applies on a database where

@@ -6,6 +6,7 @@ class StockPickingActivityRecord(models.Model):
     _description = "Stock Picking Activity Record"
 
     picking_id = fields.Many2one("stock.picking", string="Picking", required=True, ondelete="cascade")
+    company_id = fields.Many2one(related="picking_id.company_id", store=True, index=True)
     change_date = fields.Date(string="Change Date", default=fields.Date.context_today, required=True)
     state = fields.Selection(
         selection=[

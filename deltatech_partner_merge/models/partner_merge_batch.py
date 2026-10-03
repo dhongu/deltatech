@@ -84,11 +84,52 @@ class PartnerMergeBatch(models.Model):
 
     def _face_sql(self, cr):
         """BUILD_FACE with the sub-queries whose tables are missing replaced by 0,
-        so the module depends on `base` only."""
+        so the module depends on `base` only, limited to the caller's company scope."""
         parts = {}
         for key, (table, expr) in Q.FACE_PARTS.items():
             parts[key] = expr if self._table_exists(cr, table) else "0"
-        return Q.BUILD_FACE.format(**parts)
+        scope, company_ids = self._partner_scope()
+        return SQL(Q.BUILD_FACE.format(scope=scope, **parts), company_ids)
+
+    def _partner_scope(self):
+        """Partners the caller may merge: those of the active companies, plus the shared
+        ones (no company) only for a user who can access every company — a merge of a shared
+        partner rewrites documents of all companies. Returns (condition, company ids)."""
+        user = self.env.user
+        every_company = not (self.env["res.company"].sudo().search([]) - user.company_ids)
+        if user._is_system() or every_company:
+            return "company_id IS NULL OR company_id = ANY(%s)", self.env.companies.ids
+        return "company_id = ANY(%s)", self.env.companies.ids
+
+    def _check_partner_access(self, cr):
+        """Before applying: every partner in the batch is in the caller's company scope,
+        no group mixes companies and the caller may change/remove these partners."""
+        scope, company_ids = self._partner_scope()
+        cr.execute(SQL(Q.OUT_OF_SCOPE.format(scope=scope), company_ids))
+        outside = cr.fetchone()[0]
+        if outside:
+            raise UserError(
+                self.env._(
+                    "%s records of this batch belong to companies you do not have access to. "
+                    "Reset the batch and analyze it again with the right companies selected.",
+                    outside,
+                )
+            )
+        cr.execute(Q.CROSS_COMPANY)
+        mixed = cr.fetchone()[0]
+        if mixed:
+            raise UserError(
+                self.env._(
+                    "%s records would be merged into a record of another company. "
+                    "Reset the batch and analyze it again.",
+                    mixed,
+                )
+            )
+        cr.execute(Q.PARTNERS_IN_MAP)
+        partners = self.env["res.partner"].browse([row[0] for row in cr.fetchall()])
+        partners.check_access("write")
+        if not self.archive_instead_of_delete:
+            partners.check_access("unlink")
 
     def _guard_single_batch(self):
         other = self.search([("state", "in", ("analyzed", "simulated")), ("id", "!=", self.id)], limit=1)
@@ -114,7 +155,7 @@ class PartnerMergeBatch(models.Model):
         missing = cr.fetchall()
 
         t0 = time.time()
-        cr.execute(SQL(self._face_sql(cr)))
+        cr.execute(self._face_sql(cr))
         cr.execute(SQL(Q.BUILD_GROUP))
         cr.execute(SQL(Q.BUILD_MAP, cats, self.group_limit or None))
         cr.execute("CREATE INDEX ON pm_map(vat_n)")
@@ -136,10 +177,10 @@ class PartnerMergeBatch(models.Model):
             """SELECT m.master_id, m.vat_n, g.categorie, count(*),
                       array_agg(m.old_id ORDER BY m.old_id), s.denumiri_absorbite
                  FROM pm_map m
-                 JOIN pm_group g ON g.vat_n = m.vat_n
+                 JOIN pm_group g ON g.vat_n = m.vat_n AND g.company_key = m.company_key
                  LEFT JOIN pm_snapshot s ON s.master_id = m.master_id
                 GROUP BY m.master_id, m.vat_n, g.categorie, s.denumiri_absorbite
-                ORDER BY m.vat_n"""
+                ORDER BY m.vat_n, m.master_id"""
         )
         Line = self.env["partner.merge.batch.line"]
         vals = [
@@ -300,6 +341,7 @@ class PartnerMergeBatch(models.Model):
             raise UserError(self.env._("Run the simulation first and read its report — then apply."))
         if not self.env.user.has_group("deltatech_partner_merge.group_partner_merge_apply"):
             raise UserError(self.env._("You are not allowed to apply a merge batch."))
+        self._check_partner_access(self.env.cr)
         res = self._run_merge(self.env.cr)
         if res["leftover"]:
             raise UserError(
