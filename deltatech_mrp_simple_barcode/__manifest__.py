@@ -3,7 +3,7 @@
 {
     "name": "Simple MRP barcode",
     "summary": "Simple production",
-    "version": "19.0.0.0.2",
+    "version": "20.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
@@ -12,6 +12,11 @@
     "data": [
         "views/mrp_simple_view.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "deltatech_mrp_simple_barcode/static/src/js/barcode_handler_field.esm.js",
+        ],
+    },
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",

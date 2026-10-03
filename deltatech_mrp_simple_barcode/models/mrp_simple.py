@@ -1,9 +1,20 @@
-from odoo import models
+from odoo import api, fields, models
 
 
 class MRPSimple(models.Model):
-    _name = "mrp.simple"
-    _inherit = ["mrp.simple", "barcodes.barcode_events_mixin"]
+    _inherit = "mrp.simple"
+
+    # În Odoo 20 mixinul `barcodes.barcode_events_mixin` și widget-ul `barcode_handler`
+    # au fost eliminate din core: câmpul non-stocat + onchange-ul sunt preluate aici,
+    # iar widget-ul `deltatech_mrp_simple_barcode_handler` (Owl 3) scrie codul scanat în câmp.
+    _barcode_scanned = fields.Char("Barcode Scanned", help="Value of the last barcode scanned.", store=False)
+
+    @api.onchange("_barcode_scanned")
+    def _on_barcode_scanned(self):
+        barcode = self._barcode_scanned
+        if barcode:
+            self._barcode_scanned = ""
+            return self.on_barcode_scanned(barcode)
 
     def _add_product(self, product, qty=1.0):
         existing_line = self.product_out_ids.filtered(lambda r: r.product_id.id == product.id)
