@@ -1,3 +1,15 @@
+## 19.0.1.2.11 (2026-10-03)
+
+- **Fix (PURCHASEPRICE-001): the automatic sale price update uses the
+  currency of the active company.** With *Update list price* enabled, the
+  purchase price of a company was treated as an amount in the currency of the
+  user's default company, so in a company with another currency the sale price
+  was wrong (e.g. a cost of 100 EUR with a 100% markup became 40 EUR instead
+  of 200 EUR). The cost is now converted from the currency of the company in
+  which it was recorded, with that company's rates. Sale prices updated from
+  now on in a company whose currency differs from the default company of the
+  user will have different (correct) values.
+
 ## 19.0.1.2.10 (2026-10-02)
 
 - **Fix (PURCHASEPRICE-002): forced supplier-price update no longer blocks
