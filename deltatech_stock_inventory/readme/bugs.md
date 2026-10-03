@@ -36,7 +36,7 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 ## INVENTORY-003 — P1: Inventory documents and lines lack company access rules
 
-- **Status:** Open; source verified 2026-10-02.
+- **Status:** Fixed in 19.0.2.10.3 — new `security/ir_rule.xml` with multi-company rules on `stock.inventory` (`company_id in company_ids`) and `stock.inventory.line` (same, lines without a company allowed). Covered by tests in `tests/test_company_rules.py`.
 - **Location:** security/ir.model.access.csv; security/security.xml; models/stock_inventory.py.
 - **Trigger:** A stock operator with access to company A searches the module's inventory document or line models through the ORM/RPC.
 - **Actual behavior:** These newly declared models grant stock users read/write/create rights, but the module declares no record rules restricting them to allowed companies. Stock managers additionally have unlink rights. The company fields and relational `check_company=True` checks enforce consistency, not read/write authorization on the document.

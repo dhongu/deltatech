@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- INVENTORY-003: inventory documents and lines are restricted to the allowed companies -->
+    <record id="stock_inventory_comp_rule" model="ir.rule">
+        <field name="name">Inventory multi-company</field>
+        <field name="model_id" ref="model_stock_inventory" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="stock_inventory_line_comp_rule" model="ir.rule">
+        <field name="name">Inventory line multi-company</field>
+        <field name="model_id" ref="model_stock_inventory_line" />
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
