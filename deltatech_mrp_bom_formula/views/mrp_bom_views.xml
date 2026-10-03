@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ©  2008-2026 Deltatech
+     See README.rst file on addons root folder for license details -->
+<odoo>
+
+    <record id="mrp_bom_form_view" model="ir.ui.view">
+        <field name="name">mrp.bom.form.formula</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_line_ids']/list/field[@name='product_qty']" position="after">
+                <field
+                    name="qty_formula"
+                    optional="hide"
+                    column_invisible="parent.product_id"
+                    groups="product.group_product_variant"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_bom_line_view_form" model="ir.ui.view">
+        <field name="name">mrp.bom.line.form.formula</field>
+        <field name="model">mrp.bom.line</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_line_view_form" />
+        <field name="arch" type="xml">
+            <field name="bom_product_template_attribute_value_ids" position="after">
+                <field name="qty_formula" groups="product.group_product_variant" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

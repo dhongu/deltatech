@@ -1,0 +1,10 @@
+{
+  "title": "Declaration of Conformity",
+  "summary": "Issue and print conformity docs linked to products & lots",
+  "icon": "clipboard",
+  "features": [
+    "Auto-numbered DC per product/lot",
+    "Print DC report from sales & billing",
+    "Warranty Certificate as invoice annex"
+  ]
+}
