@@ -118,7 +118,7 @@ All eligible module source has been manually read. Findings are supported by ins
 
 ## BUSINESS-011 — P1: Creating an Open Issue fails with MissingError (mail template bound to business.issue)
 
-- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-002.
+- **Status:** Fixed in 19.0.1.9.6 — new mail template `email_template_open_issue_submitted` bound to `business.open.issue`; `send_issue_mail()` takes the template from `_get_issue_submitted_template()` (overridden in `business.open.issue`) and skips any template whose model is not the record model. The patch workaround in `tests/test_company_rules.py` was removed. Covered by tests in `tests/test_open_issue_mail.py` (creation with and without a `business.issue` sharing the id, mail rendered on the Open Issue and sent to the project manager, Business Issue mail unchanged). Priority P1 confirmed.
 - **Location:** models/business_issue.py, `create()` and `send_issue_mail()`; data/email_templates.xml, `email_template_issue_submitted` (`model_id` = `model_business_issue`); `business.open.issue` inherits `business.issue` by classical inheritance (`_name` + `_inherit`).
 - **Trigger:** Create a `business.open.issue` record (UI or RPC).
 - **Actual behavior:** `create()` calls `send_issue_mail()`, which renders `email_template_issue_submitted` with `send_mail(item.id)`. The template model is `business.issue`, so the ID of the Open Issue is browsed in the `business.issue` table: when no business issue has that ID the rendering raises MissingError and the creation is rolled back; when one exists, the mail is rendered and sent with the data of that unrelated business issue.
