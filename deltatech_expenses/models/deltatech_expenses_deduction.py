@@ -756,8 +756,15 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     # todo: de scos required si de acompletat cu partner_generic in situatia in care nu se completeaza nimic
     partner_id = fields.Many2one("res.partner", string="Partner")
+    # The deduction is kept and posted in the company currency (advance, cash journal, 542, receipts):
+    # the line currency is always the company currency of the deduction, never an independent value
+    # (a different currency was only a label, its amount was added and posted as company currency).
     currency_id = fields.Many2one(
-        "res.currency", string="Currency", required=True, default=lambda self: self._get_currency()
+        "res.currency",
+        string="Currency",
+        compute="_compute_currency_id",
+        store=True,
+        precompute=True,
     )
 
     expense_account_id = fields.Many2one(
@@ -766,12 +773,24 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     state = fields.Selection(related="expenses_deduction_id.state")
 
-    @api.model
-    def _get_currency(self):
-        journal = self.env["account.journal"].browse(self.env.context.get("journal_id", False))
-        if journal.currency_id:
-            return journal.currency_id.id
-        return self.env.user.company_id.currency_id.id
+    @api.depends("expenses_deduction_id.company_id")
+    def _compute_currency_id(self):
+        for line in self:
+            company = line.expenses_deduction_id.company_id or self.env.company
+            line.currency_id = company.currency_id
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # the currency is derived from the deduction company, a value sent by the caller is ignored
+        for vals in vals_list:
+            vals.pop("currency_id", None)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if "currency_id" in vals:
+            vals = dict(vals)
+            vals.pop("currency_id")
+        return super().write(vals)
 
     @api.model
     def _get_company(self):

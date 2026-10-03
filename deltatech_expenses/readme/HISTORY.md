@@ -1,5 +1,17 @@
 # Changelog
 
+## 19.0.3.4.1 (2026-10-03)
+
+- **Fix (EXPENSES-002): the expense lines are always in the company currency
+  of the deduction.** A line could get another currency (the journal currency,
+  the currency of the user's main company, or one sent by an integration such
+  as the HR expense import), but its amount was still added to the totals and
+  posted as company currency, so the currency shown on the line was wrong.
+  The line currency is now derived from the deduction company and a currency
+  sent on create/write is ignored; amounts are entered in the company
+  currency. The migration aligns the currency of existing lines; amounts,
+  totals and posted entries do not change.
+
 ## 19.0.3.4.0 (2026-10-01)
 
 - The line amount is now always the receipt total, VAT included, whatever the

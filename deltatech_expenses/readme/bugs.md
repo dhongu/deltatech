@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## EXPENSES-002 — P1: Line currency is ignored in totals and accounting
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.3.4.1 — the line `currency_id` is a stored compute from `expenses_deduction_id.company_id.currency_id` (the deduction is kept and posted in company currency), a `currency_id` sent on create/write is dropped, and the migration `migrations/19.0.3.4.1/post-migration.py` aligns existing lines (amounts unchanged). Covered by tests in `tests/test_expenses.py` (`test_line_currency_is_company_currency`, `test_line_currency_follows_deduction_company`).
 - **Location:** models/deltatech_expenses_deduction.py, line.currency_id, `_get_currency()`, `_compute_amount()` and `validate_expenses()`.
 - **Trigger:** A line currency differs from the deduction company's currency, including a programmatically created line or a multi-company default taken from env.user.company_id.
 - **Actual behavior:** The line has an independent required currency and defaults to journal currency or the user's main-company currency. The deduction currency is its company currency. Totals add line price_subtotal/tax_amount directly, and accounting writes those same numeric amounts into company-currency debit/credit or receipt price_unit without conversion or a currency consistency constraint.
