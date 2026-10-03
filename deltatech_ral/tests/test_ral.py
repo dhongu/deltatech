@@ -127,3 +127,18 @@ class TestRal(TransactionCase):
         production.action_generate_serial()
 
         self.assertEqual(lot.ral_id.id, self.product_ral_red.id, "RAL ar fi trebuit propagat către lot")
+
+    def test_06_generate_lot_tracked_product(self):
+        """Lotul generat de comandă (produs urmărit pe lot) primește RAL-ul comenzii"""
+        self.product_finished.tracking = "lot"
+        production = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_finished_variant.id,
+                "bom_id": self.bom.id,
+                "product_qty": 1.0,
+            }
+        )
+        production.action_confirm()
+        production.action_generate_serial()
+        self.assertTrue(production.lot_producing_ids, "Lotul ar fi trebuit generat")
+        self.assertEqual(production.lot_producing_ids.ral_id, self.product_ral_red)
