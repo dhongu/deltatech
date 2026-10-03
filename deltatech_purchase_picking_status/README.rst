@@ -17,25 +17,44 @@ Purchase picking status
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_picking_status
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_picking_status
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
-- Features:
+Extends the standard **Receipt Status** of the purchase order
+(``receipt_status``: Not Received, Partially Received, Fully Received),
+computed by Odoo from the receipts:
 
-  - 
+- the status is shown by default in the requests for quotation and
+  purchase orders lists;
+- search filters *Receipt in Progress*, *Partially Received* and *Fully
+  Received*, and grouping by receipt status;
+- the status changes are tracked in the chatter of the order.
 
-    - Add picking status in purchase order:
-
-      - if all pickings in state done or cancel status is done
-      - if any pickings not in state done or cancel status is in
-        progress
+Up to version 19 the module computed its own *Delivery Status* (Done /
+In Progress). On upgrade, saved filters, export templates and grouping
+on the old field are moved to the standard receipt status.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.2.0.0 (2026-10-03)
+-----------------------
+
+- The module becomes an extension of the standard ``receipt_status``:
+  the own ``picking_status`` field (computed, not stored, searched in
+  Python on every order) is removed.
+- Filters by receipt status, list column shown by default, tracking in
+  the chatter.
+- Migration: saved filters (``ir.filters``) and export templates on
+  ``picking_status`` are rewritten on ``receipt_status``; views edited
+  in the database that still use the old field are reported in the log.
 
 Bug Tracker
 ===========
@@ -65,6 +84,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_picking_status>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_picking_status>`_ project on GitHub.
 
 You are welcome to contribute.
