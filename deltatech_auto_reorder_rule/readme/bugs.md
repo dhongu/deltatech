@@ -4,7 +4,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## REORDER-001 — P1: Automatic rules use the default user company instead of the active company
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.1.6 — `create_rule()` works per product with `company = product.company_id or env.company`: warehouses, existing rules and the auto-rule route (`company_id in [company, False]`) are searched in that company and the rules are created with `company_id` set, through `with_company(company)`. Covered by tests in `tests/test_multi_company.py` (shared product created in the active company, product of company B, rule of the default company present).
 - **Location:** `models/product.py:10–41, create_rule()`.
 - **Trigger:** A user whose default company is A switches to company B and creates a product; both companies are allowed and A has an enabled warehouse.
 - **Actual behavior / impact:** Warehouse and existing-rule searches use env.user.company_id. The generated values omit company_id, whose core default is env.company. This mixes an A location with company B and can fail the core company consistency check or skip the intended B rule.

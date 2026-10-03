@@ -14,7 +14,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ANALYTICENFORCE-002 — P1: Validation uses the current company instead of the bill company
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.5 — `action_post()` reads `analytic_distribution_validation_enabled` from `move.company_id` of each vendor bill/refund/receipt instead of `self.env.company`, so mixed-company batches apply each company's switch. Covered by tests in `tests/test_analytic_enforce.py` (`test_bill_company_enabled_current_company_disabled`, `test_bill_company_disabled_current_company_enabled`, `test_mixed_company_batch`).
 - **Location:** models/account_move.py, action_post().
 - **Trigger:** Post a bill belonging to company B while the environment current company is A and both are allowed.
 - **Actual behavior / impact:** The switch is read from self.env.company. If A disables validation and B enables it, an invalid B bill bypasses enforcement; reversing the switches wrongly enforces A policy on B bills.

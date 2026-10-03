@@ -4,7 +4,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## PURCHASEPRICE-001 — P1: Automatic sale-price updates use the user's default company currency
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.2.11 — `ProductTemplate.onchange_last_purchase_price()` takes the source currency and the conversion company from `self.env.company` (the company set by `with_company()` in `update_last_purchase_price()`, the same one the company-dependent `last_purchase_price` is read in) instead of `self.env.user.company_id`. Covered by tests in `tests/test_multi_company.py` (supplier price in company B, onchange with active company B).
 - **Location:** `models/product.py`, `ProductTemplate.onchange_last_purchase_price()`, the currency/company assignments before the product loop.
 - **Trigger:** Enable `purchase.update_list_price`, run a supplier-price update in company B, and use a user whose default company A has a different currency. The supplier update explicitly calls `with_company(B)` before the onchange.
 - **Actual behavior:** The onchange reads `self.env.user.company_id` for the source currency and conversion company instead of the active company established by `with_company()`. A purchase cost expressed in company B currency is treated as company A currency.
