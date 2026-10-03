@@ -1,3 +1,7 @@
+## 19.0.1.1.3 (2026-10-03)
+
+- PICKACT-001 (security): the picking activity journal (`stock.picking.activity.record`) had no company rule and every stock user had full create/write/delete rights on it, so the journal of other companies could be read, and entries could be edited, deleted or forged (including the user they are attributed to). The journal now stores the company of its picking (`company_id`) with a multi-company record rule, and stock users only read it: the entries are written by the logging itself (as superuser), and only system administrators can still change or delete them by hand. The automatic cleanup (Data Recycle) is unaffected.
+
 ## 19.0.1.1.2 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

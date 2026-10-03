@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- PICKACT-001: the journal follows the company of its picking -->
+    <record id="stock_picking_activity_record_comp_rule" model="ir.rule">
+        <field name="name">Stock picking activity record multi-company</field>
+        <field name="model_id" ref="model_stock_picking_activity_record" />
+        <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
