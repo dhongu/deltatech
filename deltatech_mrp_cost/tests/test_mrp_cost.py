@@ -1,13 +1,19 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from datetime import timedelta
+from unittest.mock import patch
 
 from odoo import fields
+from odoo.tests import Form, tagged
 
 from odoo.addons.mrp.tests.common import TestMrpCommon
 
 
+@tagged("post_install", "-at_install")
 class TestMrpOrder(TestMrpCommon):
+    # the costs are configured on the BoM by a manufacturing manager
+    _test_user_groups = ("mrp.group_mrp_manager", "stock.group_stock_manager")
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -31,8 +37,8 @@ class TestMrpOrder(TestMrpCommon):
         )
         self.assertEqual(self.bom_1.duration, 2.0)
 
-        self.product_1.is_storable = True
-        self.product_2.is_storable = True
+        self.product_1.sudo().is_storable = True  # setup master-data
+        self.product_2.sudo().is_storable = True
         self.env["stock.quant"].create(
             {
                 "location_id": self.stock_location.id,
@@ -58,7 +64,7 @@ class TestMrpOrder(TestMrpCommon):
                 {
                     "product_id": self.product_4.id,
                     "bom_id": self.bom_1.id,
-                    "product_uom_id": self.product_4.uom_id.id,
+                    "uom_id": self.product_4.uom_id.id,
                     "product_qty": test_quantity,
                     "date_start": test_date_planned,
                     "location_src_id": self.stock_location.id,
@@ -84,8 +90,8 @@ class TestMrpOrder(TestMrpCommon):
         # amount = materials + overhead + (utility + net_salary + contributions) * duration
         # materials = (product_1 price * 2) + (product_2 price * 1)  (since bom is for 4, and we make 2)
         # Note: TestMrpCommon setup product standard prices are usually 0 unless set.
-        self.product_1.standard_price = 10.0
-        self.product_2.standard_price = 20.0
+        self.product_1.sudo().standard_price = 10.0
+        self.product_2.sudo().standard_price = 20.0
 
         man_order._compute_amount()
 
@@ -102,3 +108,68 @@ class TestMrpOrder(TestMrpCommon):
         expected_amount = total_materials + extra_costs
         self.assertAlmostEqual(man_order.amount, expected_amount)
         self.assertAlmostEqual(man_order.calculate_price, expected_amount / 2.0)
+
+    def test_cost_on_done_production(self):
+        """Extra costs from the BoM are added to the finished move value (FIFO) and
+        the production report renders the valuation columns."""
+        self.bom_1.write(
+            {
+                "overhead_amount": 100.0,
+                "duration": 2.0,
+                "utility_consumption": 10.0,
+                "net_salary_rate": 20.0,
+                "salary_contributions": 5.0,
+            }
+        )
+        category_fifo = (
+            self.env["product.category"]
+            .sudo()
+            .create(  # setup master-data
+                {"name": "Fifo MRP cost", "property_valuation": "periodic", "property_cost_method": "fifo"}
+            )
+        )
+        (self.product_1 | self.product_2 | self.product_4).sudo().write(
+            {"is_storable": True, "categ_id": category_fifo.id}
+        )
+        self.product_1.sudo().standard_price = 10.0
+        self.product_2.sudo().standard_price = 20.0
+        for product in self.product_1 | self.product_2:
+            self.env["stock.quant"].create(
+                {"location_id": self.stock_location.id, "product_id": product.id, "inventory_quantity": 500}
+            ).action_apply_inventory()
+
+        production = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_4.id,
+                "bom_id": self.bom_1.id,
+                "uom_id": self.product_4.uom_id.id,
+                "product_qty": 4.0,
+            }
+        )
+        # duration = 4 / 4 * 2 = 2 hours
+        self.assertEqual(production.duration_cost, 2.0)
+        production.action_confirm()
+        production.action_assign()
+        mo_form = Form(production)
+        mo_form.qty_producing = 4.0
+        production = mo_form.save()
+        production.move_raw_ids.picked = True
+        production.button_mark_done()
+        self.assertEqual(production.state, "done")
+
+        # extra costs = 100 + (10 + 20 + 5) * 2 = 170 for 4 units
+        self.assertAlmostEqual(production.extra_cost, 170.0 / 4.0)
+        materials = sum(abs(move.value) for move in production.move_raw_ids)
+        self.assertGreater(materials, 0.0)
+        finished = production.move_finished_ids.filtered(lambda m: m.product_id == self.product_4)
+        self.assertAlmostEqual(finished.value, materials + 170.0)
+        self.assertAlmostEqual(production.amount, materials + 170.0)
+        self.assertAlmostEqual(production.calculate_price, (materials + 170.0) / 4.0)
+
+        # the barcode image does not matter here (and needs a reportlab renderPM backend)
+        with patch.object(self.registry["ir.actions.report"], "barcode", lambda *args, **kwargs: b""):
+            html = self.env["ir.actions.report"]._render_qweb_html(
+                "mrp.action_report_production_order", production.ids
+            )[0]
+        self.assertIn(b"Finished Products", html)
+        self.assertIn(b"Effective Quantity", html)
