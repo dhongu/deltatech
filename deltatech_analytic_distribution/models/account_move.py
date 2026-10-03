@@ -7,11 +7,12 @@ class AccountMove(models.Model):
 
     def action_post(self):
         res = super().action_post()
-        is_validation_enabled = self.env.company.analytic_distribution_validation_enabled
-        if not is_validation_enabled:
-            return res
-        # action_post can receive several moves (e.g. posting from the list view), validate each one
-        vendor_bills = self.filtered(lambda move: move.move_type in ["in_invoice", "in_refund", "in_receipt"])
+        # action_post can receive several moves (e.g. posting from the list view), validate each one.
+        # The switch is read from the company of each move, not from the current company of the user.
+        vendor_bills = self.filtered(
+            lambda move: move.move_type in ["in_invoice", "in_refund", "in_receipt"]
+            and move.company_id.analytic_distribution_validation_enabled
+        )
         for move in vendor_bills:
             for line in move.invoice_line_ids:
                 if not line.analytic_distribution:

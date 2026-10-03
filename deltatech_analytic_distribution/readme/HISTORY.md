@@ -1,3 +1,15 @@
+## 19.0.0.0.5 (2026-10-03)
+
+- **Fix (ANALYTICENFORCE-002): the validation follows the company of the
+  bill.** The *Enable Analytic Distribution Validation* switch was read from
+  the current company of the user, so a bill of a company with the validation
+  enabled could be posted without analytic distribution while another company
+  was selected, and the reverse. Each vendor bill, refund or receipt is now
+  checked against the switch of its own company, also in a mixed-company
+  batch. Users working in several companies may now be blocked on bills that
+  were accepted before (or the other way round), according to each company's
+  setting.
+
 ## 19.0.0.0.4 (2026-10-02)
 
 - **Fix (ANALYTICENFORCE-001): posting several invoices at once no longer
