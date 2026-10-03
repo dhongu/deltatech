@@ -224,6 +224,8 @@ class TestDC(TransactionCase):
     def test_invoice_report_dc_with_invoiced_lots(self):
         """Factura dintr-o comandă livrată pe lot: `_get_invoiced_lot_values()` dă lotul,
         iar raportul generează declarația pe lot (nu pe produs/dată)."""
+        if "picking_ids" not in self.env["sale.order"]._fields:
+            self.skipTest("necesită sale_stock (livrarea comenzii), care nu e dependență a modulului")
         self.product_with_lot.write({"tracking": "lot", "invoice_policy": "delivery"})
         warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], limit=1)
         lot = self.env["stock.lot"].create(
