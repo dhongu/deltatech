@@ -3,7 +3,7 @@
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Sale order picking status" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Sale order picking status</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Get sale order status from pickings</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Filters, list column and tracking for the standard delivery status</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 20.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Sales</span>
@@ -35,25 +35,27 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>
-<ul>
-<li>Add picking status in sale order:</li>
-</ul>
-</li>
-<li>
-<p>if all pickings in state done or cancel status is done</p>
-</li>
-<li>if any pickings not in state done or cancel status is in progress</li>
-</ul>
-</li>
-</ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Extends the standard <strong>Delivery Status</strong> of the sales order
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">delivery_status</code>: Not Delivered, Started, Partially Delivered, Fully
+Delivered), computed by Odoo from the delivery orders:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the status is shown by default in the quotations and sales orders lists;</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>search filters <em>Delivery in Progress</em>, <em>Partially Delivered</em> and <em>Fully
+  Delivered</em>, and grouping by delivery status;</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the status changes are tracked in the chatter of the order.</div></div></li></ul>
+<p>Up to version 19 the module computed its own <em>Picking Status</em> (Done / In
+Progress). On upgrade, saved filters, export templates and grouping on the old
+field are moved to the standard delivery status.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.0 (2026-10-03)</h2>
+<ul>
+<li>The module becomes an extension of the standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">delivery_status</code>: the own
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">picking_status</code> field and the overrides on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking</code> are removed.</li>
+<li>Filters by delivery status, list column shown by default, tracking in the
+  chatter.</li>
+<li>Migration: saved filters (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.filters</code>) and export templates on
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">picking_status</code> are rewritten on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">delivery_status</code>; views edited in the
+  database that still use the old field are reported in the log.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>

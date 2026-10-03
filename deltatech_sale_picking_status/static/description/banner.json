@@ -1,7 +1,11 @@
 {
   "title": "Sale Delivery Status",
-  "summary": "See delivery progress on the sales order",
+  "summary": "Filters and tracking for delivery status",
   "icon": "truck",
-  "features": ["Delivery status badge on sale orders", "Auto: Done or In Progress", "Filter sales orders by status"],
+  "features": [
+    "Delivery status column in sale lists",
+    "Filter and group orders by delivery",
+    "Status changes logged in the chatter"
+  ],
   "lang": "en"
 }
