@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-03)
+
+- Tests: the "other models not restricted" test gives its user read access on journal entries when `account` is installed, because the accounting audit-log check on message deletion reads them (it failed with `AccessError` in the full CI run). No functional change.
+
 ## 19.0.1.0.2 (2026-10-02)
 
 - Block direct deletion of product chatter messages (`mail.message.unlink()` through ORM/RPC/scripts) for users outside the security group, as the description promised: only the edit/"Delete" action of the chatter was guarded before. Sudo is not blocked, so deleting a product still removes its messages. Tests added.
