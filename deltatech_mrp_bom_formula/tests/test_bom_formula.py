@@ -192,3 +192,16 @@ class TestBomFormula(TransactionCase):
         quantities = self._exploded_quantities(self._get_variant("Galvanized", "1250 mm"))
         # The kit line carries no formula, the nested line reads the width of the root variant.
         self.assertAlmostEqual(quantities[self.zinc], 2.5)
+
+    def test_manufacturing_order_uses_the_formula(self):
+        variant = self._get_variant("Galvanized", "1250 mm")
+        production = self.env["mrp.production"].create(
+            {
+                "product_id": variant.id,
+                "bom_id": self.bom.id,
+                "product_qty": 2.0,
+            }
+        )
+        quantities = {move.product_id: move.product_uom_qty for move in production.move_raw_ids}
+        self.assertAlmostEqual(quantities[self.sheet], 2.5)
+        self.assertAlmostEqual(quantities[self.zinc], 1.6)

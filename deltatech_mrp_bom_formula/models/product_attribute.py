@@ -92,7 +92,7 @@ class ProductAttributeValue(models.Model):
     )
     numeric_value = fields.Float(
         string="Numeric Value",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         help="Value returned by the num dictionary in bill of material quantity formulas. "
         "Use it for attributes that carry a measurable characteristic, such as a length.",
     )

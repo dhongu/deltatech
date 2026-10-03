@@ -78,8 +78,8 @@ class MrpBom(models.Model):
                 product_ids.clear()
             bom = product_boms.get(current_line.product_id)
             if bom:
-                converted_line_quantity = current_line.product_uom_id._compute_quantity(
-                    line_quantity / bom.product_qty, bom.product_uom_id, round=False
+                converted_line_quantity = current_line.uom_id._compute_quantity(
+                    line_quantity / bom.product_qty, bom.uom_id, round=False
                 )
                 bom_lines = [
                     (line, current_line.product_id, converted_line_quantity, current_line) for line in bom.bom_line_ids
@@ -98,7 +98,7 @@ class MrpBom(models.Model):
             else:
                 # We round up here because the user expects that if he has to consume a little more,
                 # the whole UOM unit should be consumed.
-                line_quantity = current_line.product_uom_id.round(line_quantity, rounding_method="UP")
+                line_quantity = current_line.uom_id.round(line_quantity, rounding_method="UP")
                 lines_done.append(
                     (
                         current_line,
