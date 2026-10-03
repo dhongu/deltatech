@@ -137,3 +137,25 @@ All eligible module source has been manually read. Findings are supported by ins
 - **Impact:** Test noise only: false failures on shared databases hide real regressions. No runtime impact.
 - **Suggested fix:** Tag the test classes `@tagged("post_install", "-at_install")`, as `test_acceptance_test_access.py` and `test_company_rules.py` already are.
 - **Validation needed:** Run the module tests on a database with account and website_sale installed; assert no NotNullViolation.
+
+## BUSINESS-013 — P2: Open Issues get no code (no ir.sequence for business.open.issue)
+
+- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-011.
+- **Location:** models/business_issue.py, `BusinessIssue.create()` (inherited by `business.open.issue`), which sets `vals["code"] = self.env["ir.sequence"].next_by_code(self._name)`; data/ir_sequence_data.xml defines sequences only for `business.project`, `business.process`, `business.process.step`, `business.issue` and `business.development`.
+- **Trigger:** Create a `business.open.issue` record without an explicit `code` (UI or RPC).
+- **Actual behavior:** `next_by_code("business.open.issue")` finds no sequence and returns False, so `code` stays empty; `display_name` drops the `[code]` prefix and Open Issues cannot be told apart or searched by code.
+- **Evidence:** source inspection of `create()` and of all data/*.xml files (no `ir.sequence` with code `business.open.issue`); no database reproduction.
+- **Impact:** Open Issues have no identifier; no data loss, the record is still created. Existing Open Issues stay without a code.
+- **Suggested fix:** Add a `sequence_open_issue` record (code `business.open.issue`, own prefix, e.g. `OI`) to data/ir_sequence_data.xml; since the file is `noupdate="1"`, a migration script or a separate non-noupdate record is needed for existing databases, optionally filling the code of existing Open Issues.
+- **Validation needed:** Create an Open Issue on an updated database; assert `code` is set from the new sequence and differs from the `business.issue` numbering.
+
+## BUSINESS-014 — P3: Open Issue submission mail template is not translated
+
+- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-011.
+- **Location:** data/email_templates.xml, `email_template_open_issue_submitted` (added in 19.0.1.9.6); i18n/deltatech_business_process.pot and i18n/ro.po have no entries for it (subject "Open Issue Submitted", body_html).
+- **Trigger:** An Open Issue is created and the project manager's language is Romanian.
+- **Actual behavior:** The mail is sent in English, while the `business.issue` template (`email_template_issue_submitted`) has Romanian translations.
+- **Evidence:** source inspection: no `email_template_open_issue_submitted` / "Open Issue Submitted" occurrence in the .pot or ro.po; no database reproduction.
+- **Impact:** Cosmetic: untranslated notification for Romanian users.
+- **Suggested fix:** Regenerate the .pot and add the Romanian translations of the subject and body to i18n/ro.po.
+- **Validation needed:** Load ro_RO, create an Open Issue for a project whose manager uses Romanian; assert the mail subject and body are in Romanian.
