@@ -19,12 +19,16 @@ class PurchaseOrderLine(models.Model):
             moves = self.env["stock.move"].search(domain)
             if moves:
                 # update quantity with move quantity
+                # move quantities are in the move unit; the bill line keeps the order line unit
                 qty = 0.0
                 for move in moves:
+                    move_qty = move.product_uom._compute_quantity(
+                        move.quantity, self.product_uom_id, rounding_method="HALF-UP"
+                    )
                     if move.picking_id.picking_type_code == "incoming":
-                        qty += move.quantity
+                        qty += move_qty
                     elif move.picking_id.picking_type_code == "outgoing":
-                        qty -= move.quantity
+                        qty -= move_qty
                     else:
                         raise UserError(self.env._("You cannot invoice this type of transfer: %s") % move.picking_id)
                 res.update({"quantity": qty})
