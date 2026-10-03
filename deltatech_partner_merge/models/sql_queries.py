@@ -30,18 +30,22 @@ FK_COLUMNS_WITHOUT_INDEX = """
 # --- pasul 2: candidații, cu volumetria documentelor -------------------------
 # Sub-interogările pe tabele care pot lipsi (modul neinstalat) sunt protejate cu
 # to_regclass, ca modulul să depindă doar de `base`.
+# Grupul este (CUI, companie): fișele cu același CUI din companii diferite nu se
+# unifică între ele. company_key = 0 pentru fișele comune (fără companie).
+# {scope} limitează candidații la companiile la care are acces utilizatorul.
 BUILD_FACE = """
     DROP TABLE IF EXISTS pm_face CASCADE;
     CREATE TABLE pm_face AS
     WITH norm AS (
-      SELECT id, name, create_date, company_registry,
+      SELECT id, name, create_date, company_registry, COALESCE(company_id, 0) AS company_key,
              upper(regexp_replace(vat, '[^0-9A-Za-z]', '', 'g')) AS vat_n
       FROM res_partner
       WHERE active AND is_company AND vat IS NOT NULL AND vat <> ''
+        AND ({scope})
     ), grp AS (
-      SELECT vat_n FROM norm GROUP BY vat_n HAVING count(*) > 1
+      SELECT vat_n, company_key FROM norm GROUP BY vat_n, company_key HAVING count(*) > 1
     )
-    SELECT n.vat_n, n.id, n.name, n.create_date, n.company_registry,
+    SELECT n.vat_n, n.company_key, n.id, n.name, n.create_date, n.company_registry,
       {facturi} AS facturi, {comenzi_v} AS comenzi_v, {comenzi_a} AS comenzi_a,
       {livrari} AS livrari,
       (SELECT count(*) FROM res_partner c WHERE c.parent_id = n.id) AS copii,
@@ -49,8 +53,8 @@ BUILD_FACE = """
       (SELECT count(*) FROM res_users u WHERE u.partner_id = n.id) AS useri,
       (SELECT count(*) FROM res_company k WHERE k.partner_id = n.id) AS e_companie_proprie,
       {sold} AS sold
-    FROM norm n JOIN grp g ON g.vat_n = n.vat_n;
-    CREATE INDEX ON pm_face(vat_n);
+    FROM norm n JOIN grp g ON g.vat_n = n.vat_n AND g.company_key = n.company_key;
+    CREATE INDEX ON pm_face(vat_n, company_key);
     CREATE UNIQUE INDEX ON pm_face(id);
 """
 # fragmentele condiționale, alese în funcție de tabelele care există
@@ -78,7 +82,7 @@ BUILD_GROUP = """
     DROP TABLE IF EXISTS pm_group CASCADE;
     CREATE TABLE pm_group AS
     WITH g AS (
-      SELECT vat_n,
+      SELECT vat_n, company_key,
              count(*) AS membri,
              count(*) FILTER (WHERE facturi > 0) AS cu_facturi,
              count(*) FILTER (WHERE facturi + comenzi_v + comenzi_a + livrari
@@ -87,9 +91,9 @@ BUILD_GROUP = """
              count(*) FILTER (WHERE useri > 0) AS cu_useri,
              sum(e_companie_proprie) AS companii_proprii,
              count(DISTINCT lower(left(regexp_replace(name, '[^[:alnum:] ]', '', 'g'), 6))) AS prefixe_nume
-      FROM pm_face GROUP BY vat_n
+      FROM pm_face GROUP BY vat_n, company_key
     )
-    SELECT vat_n, membri, cu_facturi, goi, cu_sold, cu_useri, companii_proprii, prefixe_nume,
+    SELECT vat_n, company_key, membri, cu_facturi, goi, cu_sold, cu_useri, companii_proprii, prefixe_nume,
       CASE WHEN goi = membri - 1 AND cu_facturi <= 1 THEN 'A'
            WHEN cu_facturi <= 1                      THEN 'B'
            WHEN cu_sold > 1                          THEN 'D'
@@ -98,24 +102,24 @@ BUILD_GROUP = """
            WHEN cu_useri > 1          THEN 'portal_users'
            WHEN prefixe_nume = membri THEN 'diverging_names' END AS blocaj
     FROM g;
-    CREATE UNIQUE INDEX ON pm_group(vat_n);
+    CREATE UNIQUE INDEX ON pm_group(vat_n, company_key);
 """
 
 BUILD_MAP = """
     DROP TABLE IF EXISTS pm_map CASCADE;
     CREATE TABLE pm_map AS
     WITH eligibil AS (
-      SELECT vat_n FROM pm_group
+      SELECT vat_n, company_key FROM pm_group
       WHERE categorie = ANY(%s) AND blocaj IS NULL
-      ORDER BY vat_n
+      ORDER BY vat_n, company_key
       LIMIT %s
     ), master AS (
-      SELECT DISTINCT ON (f.vat_n) f.vat_n, f.id AS master_id
-      FROM pm_face f JOIN eligibil e ON e.vat_n = f.vat_n
-      ORDER BY f.vat_n, f.facturi DESC, f.comenzi_v DESC, f.create_date ASC, f.id ASC
+      SELECT DISTINCT ON (f.vat_n, f.company_key) f.vat_n, f.company_key, f.id AS master_id
+      FROM pm_face f JOIN eligibil e ON e.vat_n = f.vat_n AND e.company_key = f.company_key
+      ORDER BY f.vat_n, f.company_key, f.facturi DESC, f.comenzi_v DESC, f.create_date ASC, f.id ASC
     )
-    SELECT f.vat_n, f.id AS old_id, m.master_id
-    FROM pm_face f JOIN master m ON m.vat_n = f.vat_n
+    SELECT f.vat_n, f.company_key, f.id AS old_id, m.master_id
+    FROM pm_face f JOIN master m ON m.vat_n = f.vat_n AND m.company_key = f.company_key
     WHERE f.id <> m.master_id;
     CREATE UNIQUE INDEX ON pm_map(old_id);
     CREATE INDEX ON pm_map(master_id);
@@ -143,6 +147,22 @@ BUILD_SNAPSHOT = """
     GROUP BY m.master_id, mf.facturi, mf.comenzi_v, mf.comenzi_a, mf.livrari, mf.sold;
     CREATE UNIQUE INDEX ON pm_snapshot(master_id);
 """
+
+# --- verificarea de acces înainte de aplicare --------------------------------
+# fișele din lot (absorbite și master) în afara companiilor utilizatorului
+OUT_OF_SCOPE = """
+    SELECT count(*) FROM res_partner
+    WHERE id IN (SELECT old_id FROM pm_map UNION SELECT master_id FROM pm_map)
+      AND NOT COALESCE(({scope}), false)
+"""
+# perechi absorbit/master din companii diferite (lot vechi sau companie schimbată după analiză)
+CROSS_COMPANY = """
+    SELECT count(*) FROM pm_map m
+    JOIN res_partner o ON o.id = m.old_id
+    JOIN res_partner p ON p.id = m.master_id
+    WHERE o.company_id IS DISTINCT FROM p.company_id
+"""
+PARTNERS_IN_MAP = "SELECT old_id FROM pm_map UNION SELECT master_id FROM pm_map"
 
 # --- pasul 3: dedup coliziuni unique ----------------------------------------
 # Colapsează pe valoarea ȚINTĂ, nu comparând fișa absorbită cu masterul: două fișe

@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## MERGE-001 — P1: Bulk merge ignores partner company access boundaries
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.3 — groups are built on (VAT, company) in `models/sql_queries.py` (BUILD_FACE/BUILD_GROUP/BUILD_MAP), the analysis is limited to the caller's active companies (shared partners only for system administrators or users with every company), and `action_apply()` calls `_check_partner_access()` (partners outside the scope, absorbed/master of different companies, `check_access` write and unlink on the partners). Covered by tests in `tests/test_company_scope.py`.
 - **Location:** models/sql_queries.py, BUILD_FACE/BUILD_MAP/REMAP_FK/DELETE_ABSORBED; models/partner_merge_batch.py, action_analyze()/action_apply().
 - **Trigger:** A company-limited user granted the module's Prepare/Apply roles analyzes duplicate VAT numbers present in inaccessible companies, or company-specific partners share a VAT across companies.
 - **Actual behavior:** BUILD_FACE reads all active company-type partners directly from res_partner without company filtering or caller record-rule checks. Grouping and master selection use VAT alone. Apply checks the module role, then raw SQL updates references and deletes/archives absorbed partners globally, without partner access or company compatibility validation.

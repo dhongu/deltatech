@@ -19,6 +19,7 @@ class PartnerMergeBatchLine(models.Model):
         help="Chosen by document volume: most invoices, then most sales orders, then oldest.",
     )
     vat_normalized = fields.Char(string="VAT (normalized)", index=True)
+    company_id = fields.Many2one(related="master_id.company_id", string="Company")
     category = fields.Selection(
         [
             ("A", "A — others empty"),
