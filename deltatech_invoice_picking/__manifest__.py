@@ -16,6 +16,7 @@
         "sale_stock",
         "stock_picking_batch",
         "purchase",
+        "purchase_stock",
     ],
     "price": 5.00,
     "currency": "EUR",
