@@ -6,6 +6,9 @@
   quantities are now converted from the move unit to the order line unit before summing and before
   the remaining-quantity cap (PICKINV-001). Invoice quantities change whenever the order unit differs
   from the stock move unit.
+- Declared the missing `purchase_stock` dependency: the transfer form uses `stock.picking.purchase_id`,
+  added by `purchase_stock`, so a standalone install failed with `Field "purchase_id" does not exist`.
+  No change on existing databases, where `purchase_stock` is auto-installed with `purchase` and `stock`.
 
 ## 19.0.1.0.11 (2026-09-29)
 
