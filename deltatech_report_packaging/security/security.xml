@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- PACKMAT-003: the invoice packaging lines follow the company of their invoice -->
+    <record model="ir.rule" id="packaging_invoice_material_comp_rule">
+        <field name="name">Invoice packaging material multi-company</field>
+        <field name="model_id" ref="model_packaging_invoice_material" />
+        <field name="domain_force">[('invoice_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
