@@ -46,6 +46,17 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Suggested fix:** Preserve the source company/currency explicitly along with relevant commercial defaults, or perform deliberate dated price conversion if changing currency.
 - **Validation needed:** Foreign-currency source order, same/different active company and remaining partially received lines; verify currency, unit prices, taxes and company consistency.
 
+## RECEPTION-005 — P3: Reception note wizard raises NameError without active_ids
+
+- **Status:** Open. Found on 2026-10-03 while fixing RECEPTION-002 and RECEPTION-004.
+- **Location:** wizard/reception_note.py, `do_create_reception_note()`.
+- **Trigger:** Call the wizard action without `active_ids` in the context (RPC, server action, test or a context that lost the key).
+- **Actual behavior:** `purchase_ids` is assigned only inside `if active_ids:`; the following `for purchase in purchase_ids:` then raises UnboundLocalError (a NameError subclass) instead of a user message or a no-op.
+- **Evidence:** source inspection; observed while writing the RECEPTION-002/004 tests.
+- **Impact:** Technical traceback on an unusual call path; no data change.
+- **Suggested fix:** Initialize `purchase_ids` to an empty recordset (or use `active_id`) and raise a UserError when nothing is selected.
+- **Validation needed:** Call the wizard with no `active_ids`, with one and with several purchase orders.
+
 ## Review limitations
 
 All eligible Python/XML source was read. AST-extracted search/wizard methods use mock objects. No Odoo receipt/order/RFQ mutation, confirmation or integration test executed.

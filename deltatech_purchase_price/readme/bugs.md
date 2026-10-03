@@ -26,6 +26,17 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Use product_uom_id consistently and convert to the actual supplier pricing unit rather than assuming the product default unit.
 - **Validation needed:** Enabled/disabled setting, same/different PO and invoice units, matching supplier entries and converted supplier prices; normal confirmation/posting must complete.
 
+## PURCHASEPRICE-003 — P2: `SupplierInfo.create` override lacks `@api.model_create_multi`
+
+- **Status:** Open. Found on 2026-10-03 while fixing PURCHASEPRICE-001.
+- **Location:** models/product.py, `SupplierInfo.create()`.
+- **Trigger:** Create a `product.supplierinfo` through external RPC (`execute_kw` / JSON-2 `create`) with this module installed, unless another module later in the MRO overrides `create` with the decorator.
+- **Actual behavior:** The override is a plain method, so it loses the `_api_model` marker set by the decorator. `odoo.service.model.call_kw()` then treats the first argument (the values list) as record IDs and calls `create()` without values, which raises a TypeError. In-process calls with a single dict still work only because the parent `create` normalizes it.
+- **Evidence:** source inspection of the override and of Odoo 19 `api.model_create_multi` / `call_kw()`; Odoo's `test_lint` override-signature check also flags such overrides. No RPC call executed.
+- **Impact:** External integrations creating supplier prices through RPC fail; the convention required in Odoo 19 is not respected.
+- **Suggested fix:** Decorate the override with `@api.model_create_multi`.
+- **Validation needed:** RPC `create` on `product.supplierinfo` with one and several values; last purchase price updated as before.
+
 ## Review limitations
 
 Verified through local source and dependency analysis and the isolated reproductions stated above. Fresh-database installations and database-backed integration tests have not been run. No fixes have been applied.

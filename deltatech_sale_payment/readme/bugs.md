@@ -47,6 +47,17 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Enforce caller order access and transaction-to-order/company membership inside every public mutation entry point before sudo; validate provider/method compatibility and amount there as well.
 - **Validation needed:** Direct update RPC from an internal user, another salesperson's transaction, unrelated-company transaction, accessible order with mismatched transaction, and the normal authorized payment workflow.
 
+## SALEPAY-007 — P3: `tests/test_sale.py` is not tagged post_install
+
+- **Status:** Open. Found on 2026-10-03 while fixing SALEPAY-006.
+- **Location:** tests/test_sale.py, `TestSaleOrderPayment` (`TransactionCase` without `@tagged`).
+- **Trigger:** Run the module tests on a database where `website_sale` (or other modules adding NOT NULL columns) is installed after this module.
+- **Actual behavior:** The tests run at install time and fail with `NotNullViolation: null value in column "base_unit_count" of relation "product_template"` in every test of the class (`test_payment_status_is_stored_and_follows_transactions`, `test_search_payment_status*`).
+- **Evidence:** test log of the SALEPAY-006 run; source inspection of the test file. `test_confirm_payment.py` and `test_sale_invoice_payment.py` are already tagged post_install.
+- **Impact:** Test noise only: false failures on shared databases. No runtime impact.
+- **Suggested fix:** Add `@tagged("post_install", "-at_install")` to the class.
+- **Validation needed:** Run the module tests on a database with website_sale installed; assert no NotNullViolation.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run at review time. SALEPAY-001 to SALEPAY-005 were fixed on 2026-10-01 with database-backed tests.

@@ -93,3 +93,47 @@ All eligible module source has been manually read. Findings are supported by ins
 - **Impact:** The filter omits rejected developments and gives an empty result despite existing rejected approvals.
 - **Suggested fix:** Filter on approved = rejected.
 - **Validation needed:** Approved and rejected developments in different lifecycle states; confirm only rejected approvals appear. No browser/database tests executed.
+
+## BUSINESS-009 — P3: Start Internal/Integration Test server actions elevate with sudo without an explicit caller check
+
+- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-003.
+- **Location:** views/business_process_view.xml, `action_start_internal_test` and `action_start_integration_test` (`action = records.sudo().start_internal_test()` / `records.sudo().start_integration_test()`); models/business_process.py, `start_internal_test()`, `start_integration_test()` and `_start_test()`.
+- **Trigger:** Run "Start Integration Test" (or "Start Internal Test") from the Action menu of a business process.
+- **Actual behavior:** The server action code switches to superuser before calling the test-creation methods, which themselves have no group or `check_access()` call. This is the pattern fixed for the acceptance test in BUSINESS-003 (`start_user_acceptance_test()` now checks the group and process read access before `sudo()`), but the two sibling actions were left unchanged. The only remaining gate is the core one in `ir.actions.server._can_execute_action_on_records()` (no `group_ids`, so write access on `business.process` and on the selected records is required).
+- **Evidence:** source inspection of the view, the model methods and Odoo 19 `ir.actions.server.run()` / `_can_execute_action_on_records()`; no reproduction on a database.
+- **Impact:** Limited: only users with write access on the processes reach the code, but the test, its steps and step tests are created as superuser, bypassing the ACLs and company rules of `business.process.test`. Conversely, a process responsible (read-only on `business.process`) cannot use these actions at all, although the acceptance test is available to business end users. The behavior is inconsistent with BUSINESS-003.
+- **Suggested fix:** Drop `sudo()` from the action code and apply the BUSINESS-003 pattern in the methods (explicit group check, `check_access("read")`, controlled `sudo()` returning records in the caller environment), or restrict the actions with `group_ids`.
+- **Validation needed:** Process manager, process responsible, end user and a user of another company running both actions; assert rejection or creation according to the intended roles and that no test is created on an inaccessible process.
+
+## BUSINESS-010 — P3: "Abandon" has no server-side state or role check
+
+- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-003.
+- **Location:** models/business_process.py, `button_abandon()`; views/business_process_view.xml, the Abandon button.
+- **Trigger:** Call `button_abandon` through RPC on a process in state production (or already abandoned), as a user with write access on `business.process` who is not a system administrator.
+- **Actual behavior:** The method only does `self.write({"state": "abandoned"})`. The restrictions exist only in the view (`groups="base.group_system"`, `invisible="state in ('abandoned','production')"`). The other transition buttons go through `_check_state_access()` (role and access check) and `button_end_test()` additionally validates the process tests; `button_abandon()` does neither.
+- **Evidence:** source inspection of the transition methods and of the form buttons; no reproduction on a database.
+- **Impact:** A process in production can be abandoned through RPC by a non-administrator with write rights, which the UI forbids. The risk is limited because the same users can write the state field directly and the change can be reverted with Reset to Draft.
+- **Suggested fix:** Enforce the intended role and refuse the transition from `production`/`abandoned` in the method itself, consistently with `_check_state_access()`.
+- **Validation needed:** Abandon from each state, as administrator, process manager and process responsible, through RPC.
+
+## BUSINESS-011 — P1: Creating an Open Issue fails with MissingError (mail template bound to business.issue)
+
+- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-002.
+- **Location:** models/business_issue.py, `create()` and `send_issue_mail()`; data/email_templates.xml, `email_template_issue_submitted` (`model_id` = `model_business_issue`); `business.open.issue` inherits `business.issue` by classical inheritance (`_name` + `_inherit`).
+- **Trigger:** Create a `business.open.issue` record (UI or RPC).
+- **Actual behavior:** `create()` calls `send_issue_mail()`, which renders `email_template_issue_submitted` with `send_mail(item.id)`. The template model is `business.issue`, so the ID of the Open Issue is browsed in the `business.issue` table: when no business issue has that ID the rendering raises MissingError and the creation is rolled back; when one exists, the mail is rendered and sent with the data of that unrelated business issue.
+- **Evidence:** source inspection of the create/send path and of the template definition; observed as MissingError while writing the Open Issue tests for BUSINESS-002.
+- **Impact:** Open Issues cannot be created on a database where the IDs do not collide; otherwise the project manager receives a notification about the wrong issue (possibly of another project or company).
+- **Suggested fix:** Use a template per model (one bound to `business.open.issue`), or skip/override `send_issue_mail()` in `business.open.issue`; never pass an ID of one model to a template of another.
+- **Validation needed:** Create an Open Issue on a database with and without a `business.issue` sharing the same ID; assert the creation succeeds and the mail (if any) refers to the Open Issue.
+
+## BUSINESS-012 — P3: Import/export and workflow tests are not tagged post_install
+
+- **Status:** Open. Found on 2026-10-03 while fixing BUSINESS-003 and BUSINESS-002.
+- **Location:** tests/test_wizard_process_io.py (`TestBusinessProcessImportExport`), tests/test_workflow_fixes.py (`TestWorkflowFixes`); most of the other test files in tests/ lack the tag as well.
+- **Trigger:** Run the module tests on a database where `account` / `website_sale` are installed after this module (for example a shared test database with the whole suite).
+- **Actual behavior:** The tests run at install time, before modules installed later have added their NOT NULL columns with defaults to the ORM, and fail with `NotNullViolation: null value in column "autopost_bills" of relation "res_partner"` (setUpClass of `TestWorkflowFixes`, `test_import_creates_missing_masterdata`).
+- **Evidence:** test logs of the BUSINESS-003/BUSINESS-002 runs; the files use `TransactionCase` without `@tagged("post_install", "-at_install")`.
+- **Impact:** Test noise only: false failures on shared databases hide real regressions. No runtime impact.
+- **Suggested fix:** Tag the test classes `@tagged("post_install", "-at_install")`, as `test_acceptance_test_access.py` and `test_company_rules.py` already are.
+- **Validation needed:** Run the module tests on a database with account and website_sale installed; assert no NotNullViolation.

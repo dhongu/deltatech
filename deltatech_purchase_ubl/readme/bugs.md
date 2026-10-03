@@ -68,6 +68,17 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Select a compatible variant and company-specific pricing row under an explicit tier/date policy; create a new row when no suitable record exists rather than changing an unrelated variant's identity.
 - **Validation needed:** Two variants with separate codes/prices, shared template prices, company-specific records and quantity/date tiers; importing B must preserve A.
 
+## UBL-007 — P3: Unit code SET maps to a non-existent XML ID and falls back to Units
+
+- **Status:** Open. Found on 2026-10-03 while fixing UBL-005.
+- **Location:** models/purchase_invoice_import_mixin.py, `_uom_from_code()` (`"SET": "uom.product_uom_set"`).
+- **Trigger:** Import a UBL/PDF line with unit code SET.
+- **Actual behavior:** `uom.product_uom_set` does not exist in Odoo 19 (`product_uom_set` is defined only by `l10n_tr_nilvera`, under that module's namespace). `env.ref(..., raise_if_not_found=False)` returns nothing, so new products are created in Units (`fallback=True`) and source-unit conversion treats SET as an unknown unit (`fallback=False`, no conversion, no warning).
+- **Evidence:** source inspection of the mapping and search of the Odoo 19 `uom` data files; no import executed.
+- **Impact:** Sets are silently handled as pieces; with a set unit configured on the product or order line the quantity and price are not converted. The mapping entry is dead code.
+- **Suggested fix:** Remove the entry or map SET to an existing/configurable unit (for example by searching a unit of the Unit category named Set, or a configurable mapping), and report unknown codes in the import log.
+- **Validation needed:** Import a SET line with and without a matching set unit; assert the chosen unit and the conversion.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. No fixes have been applied.
