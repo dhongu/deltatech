@@ -47,6 +47,13 @@ class SaleOrderTypeDefaultValues(models.Model):
         readonly=False,
     )
 
+    def write(self, vals):
+        # the company rule is checked on the current record type only: moving a value
+        # to another record type must be allowed on the target type as well (TYPE-001)
+        if vals.get("record_type_id"):
+            self.env["record.type"].browse(vals["record_type_id"]).check_access("write")
+        return super().write(vals)
+
     @api.depends("field_id", "field_value")
     def _compute_resource_ref(self):
         for item in self:
