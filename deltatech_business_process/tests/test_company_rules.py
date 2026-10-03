@@ -1,8 +1,6 @@
 # © 2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-from unittest.mock import patch
-
 from odoo import Command
 from odoo.exceptions import AccessError
 from odoo.tests import new_test_user, tagged
@@ -42,11 +40,7 @@ class TestCompanyRules(TransactionCase):
             step = cls.env["business.process.step"].create({"name": f"step {key}", "process_id": process.id})
             test = cls.env["business.process.test"].create({"name": f"test {key}", "process_id": process.id})
             step_test = cls.env["business.process.step.test"].create({"process_test_id": test.id, "step_id": step.id})
-            # the submission mail template is bound to business.issue, skip it for the open issue
-            with patch.object(cls.registry["business.open.issue"], "send_issue_mail"):
-                open_issue = cls.env["business.open.issue"].create(
-                    {"name": f"open issue {key}", "project_id": project.id}
-                )
+            open_issue = cls.env["business.open.issue"].create({"name": f"open issue {key}", "project_id": project.id})
             migration = cls.env["business.migration"].create({"name": f"migration {key}", "project_id": project.id})
             migration_test = cls.env["business.migration.test"].create(
                 {"name": f"migration test {key}", "migration_id": migration.id}
