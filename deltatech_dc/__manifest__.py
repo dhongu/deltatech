@@ -5,7 +5,7 @@
 {
     "name": "Declaration of Conformity",
     "summary": "Print Declaration of Conformity",
-    "version": "19.0.1.0.13",
+    "version": "20.0.1.0.13",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -28,8 +28,7 @@
         "views/deltatech_dc_report.xml",
         "views/report_dc_second_form.xml",
         "views/report_dc.xml",
-        "security/ir.model.access.csv",
-        "security/security.xml",
+        "security/ir.access.csv",
         "data/data.xml",
         "views/warranty_certificate.xml",
     ],

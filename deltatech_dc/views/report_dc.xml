@@ -21,7 +21,11 @@
                                 <span>, with dates the tax identification</span>
                                 <span t-field="res_company.partner_id.vat" />
                                 ,
-                                <span t-field="res_company.partner_id.nrc" />
+                                <!-- `nrc` vine din l10n_ro, care nu e dependență a modulului -->
+                                <span
+                                    t-if="'nrc' in res_company.partner_id._fields"
+                                    t-field="res_company.partner_id.nrc"
+                                />
                                 <span>, with its headquarters in</span>
                                 <span t-field="res_company.partner_id.city" />
                                 <span>street</span>

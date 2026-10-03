@@ -2,10 +2,12 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import html2plaintext
 
 
+@tagged("post_install", "-at_install")
 class TestDC(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -44,7 +46,8 @@ class TestDC(TransactionCase):
         form_lot.product_id = self.product_storable
         lot = form_lot.save()
         lot.production_date = "2021-01-01"
-        lot._get_dates(product_id=self.product_storable.id)
+        dates = lot._get_dates(product_id=self.product_storable.id)
+        self.assertEqual(set(dates), {"expiration_date", "use_date", "removal_date", "alert_date"})
 
     def test_invoice_report_dc_with_storable_products(self):
         """Test raport DC factură include produse stocabile (consu) și exclude servicii."""
@@ -152,7 +155,7 @@ class TestDC(TransactionCase):
                         {
                             "product_id": self.product_storable.id,
                             "product_uom_qty": 1,
-                            "product_uom": self.product_storable.uom_id.id,
+                            "uom_id": self.product_storable.uom_id.id,
                         },
                     ),
                 ],
@@ -169,3 +172,91 @@ class TestDC(TransactionCase):
             0,
             "DC raport picking trebuie să includă produse fără lot",
         )
+
+    def _render_html(self, report_ref, records):
+        html = self.env["ir.actions.report"]._render_qweb_html(report_ref, records.ids)[0]
+        return html2plaintext(html)
+
+    def test_create_dc_sequence_and_display_name(self):
+        """Numărul declarației vine din secvența `declaration.conformity`."""
+        dc = self.env["deltatech.dc"].create(
+            {"name": "New", "product_id": self.product_storable.id, "date": "2021-01-01"}
+        )
+        self.assertTrue(dc.name.startswith("DC/"))
+        self.assertIn(dc.name, dc.display_name)
+        self.assertEqual(dc.company_id, self.env.company)
+
+    def test_render_report_dc(self):
+        """Raportul principal se randează cu standardele produsului."""
+        self.product_storable.write(
+            {
+                "company_standard": "SF-001",
+                "data_sheet": 12,
+                "technical_specification": 34,
+                "standards": "SR EN 123",
+            }
+        )
+        dc = self.env["deltatech.dc"].create(
+            {"name": "DC-TEST", "product_id": self.product_storable.id, "date": "2021-01-01"}
+        )
+        text = self._render_html("deltatech_dc.action_report_dc", dc)
+        self.assertIn("DC-TEST", text)
+        self.assertIn("Storable Product", text)
+        self.assertIn("SF-001", text)
+        self.assertIn("SR EN 123", text)
+
+    def test_render_report_dc_lot(self):
+        """Raportul pe lot creează (o singură dată) declarația lotului și o randează."""
+        lot = self.env["stock.lot"].create(
+            {
+                "name": "LOT-RENDER",
+                "product_id": self.product_with_lot.id,
+                "production_date": "2021-01-01",
+            }
+        )
+        text = self._render_html("deltatech_dc.action_report_dc_lot", lot)
+        self.assertIn("LOT-RENDER", text)
+        dc = self.env["deltatech.dc"].search([("lot_id", "=", lot.id)])
+        self.assertEqual(len(dc), 1)
+        self._render_html("deltatech_dc.action_report_dc_lot", lot)
+        self.assertEqual(self.env["deltatech.dc"].search_count([("lot_id", "=", lot.id)]), 1)
+
+    def test_invoice_report_dc_with_invoiced_lots(self):
+        """Factura dintr-o comandă livrată pe lot: `_get_invoiced_lot_values()` dă lotul,
+        iar raportul generează declarația pe lot (nu pe produs/dată)."""
+        self.product_with_lot.write({"tracking": "lot", "invoice_policy": "delivery"})
+        warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], limit=1)
+        lot = self.env["stock.lot"].create(
+            {"name": "LOT-INV", "product_id": self.product_with_lot.id, "production_date": "2021-01-01"}
+        )
+        self.env["stock.quant"]._update_available_quantity(self.product_with_lot, warehouse.lot_stock_id, 5, lot_id=lot)
+        so = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.product_with_lot.id, "product_uom_qty": 2})],
+            }
+        )
+        so.action_confirm()
+        picking = so.picking_ids
+        picking.move_ids.write({"quantity": 2, "picked": True})
+        picking.button_validate()
+        self.assertEqual(picking.move_line_ids.lot_id, lot)
+
+        invoice = so._create_invoices()
+        invoice.action_post()
+        lot_values = invoice._get_invoiced_lot_values()
+        self.assertEqual([v["lot_id"] for v in lot_values], [lot.id])
+
+        values = self.env["report.deltatech_dc.report_dc_invoice"]._get_report_values(invoice.ids)
+        self.assertEqual(values["docs"].lot_id, lot)
+        self.assertEqual(values["docs"].product_id, self.product_with_lot)
+
+        text = self._render_html("deltatech_dc.action_report_dc_invoice", invoice)
+        self.assertIn("LOT-INV", text)
+
+        # pe livrare: aceeași declarație pe lot, refolosită
+        values = self.env["report.deltatech_dc.report_dc_picking"]._get_report_values(picking.ids)
+        self.assertEqual(values["docs"].lot_id, lot)
+        text = self._render_html("deltatech_dc.action_report_dc_picking_form_2", picking)
+        self.assertIn("LOT-INV", text)
+        self.assertIn("Product with Lot", text)

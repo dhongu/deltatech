@@ -43,7 +43,9 @@
                     <span t-field="o.picking_type_id.warehouse_id.partner_id.city" />,
                     <span t-field="o.picking_type_id.warehouse_id.partner_id.state_id.name" />
                     county, VAT:&#160;<span t-field="o.picking_type_id.warehouse_id.partner_id.vat" />, NRC:&#160;
+                    <!-- `nrc` vine din l10n_ro, care nu e dependență a modulului -->
                     <span
+                        t-if="'nrc' in o.picking_type_id.warehouse_id.partner_id._fields"
                         t-field="o.picking_type_id.warehouse_id.partner_id.nrc"
                     />; we declare, ensure and guarantee on our
                     own
@@ -104,30 +106,30 @@
 
                         <tr>
                             <td>
-                                <strong t-esc="counter" />
+                                <strong t-out="counter" />
                             </td>
 
                             <td>
-                                <strong t-esc="move.product_id.name" />
+                                <strong t-out="move.product_id.name" />
                             </td>
                             <td>
-                                <strong t-esc="move.quantity" />
+                                <strong t-out="move.quantity" />
                             </td>
 
                             <td>
                                 <t t-foreach="move.lot_ids" t-as="lot">
-                                    <strong t-esc="lot.name" />
+                                    <strong t-out="lot.name" />
                                     <br />
                                 </t>
                             </td>
                             <td>
                                 <t t-foreach="move.lot_ids" t-as="lot">
-                                    <strong t-esc="lot.use_date" t-options='{"widget": "date"}' />
+                                    <strong t-out="lot.use_date" t-options='{"widget": "date"}' />
                                     <br />
                                 </t>
                             </td>
                             <td>
-                                <strong t-esc="move.product_id.standards" />
+                                <strong t-out="move.product_id.standards" />
 
                             </td>
                         </tr>

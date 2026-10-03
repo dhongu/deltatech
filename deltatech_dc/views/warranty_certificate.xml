@@ -58,11 +58,11 @@
                         <t t-if="move.display_type == 'product'">
                             <tr>
                                 <td>
-                                    <strong t-esc="move.product_id.name" />
+                                    <strong t-out="move.product_id.name" />
                                 </td>
 
                                 <td>
-                                    <strong t-esc="move.product_id.warranty" />
+                                    <strong t-out="move.product_id.warranty" />
                                 </td>
                             </tr>
                         </t>
