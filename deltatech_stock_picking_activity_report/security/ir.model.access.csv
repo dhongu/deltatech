@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_picking_activity_record,stock.picking.activity.record,model_stock_picking_activity_record,stock.group_stock_user,1,1,1,1
+access_stock_picking_activity_record,stock.picking.activity.record,model_stock_picking_activity_record,stock.group_stock_user,1,0,0,0
+access_stock_picking_activity_record_system,stock.picking.activity.record system,model_stock_picking_activity_record,base.group_system,1,1,1,1
