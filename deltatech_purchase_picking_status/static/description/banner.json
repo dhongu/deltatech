@@ -1,6 +1,11 @@
 {
-  "title": "Purchase Picking Status",
-  "summary": "Track delivery progress right on the purchase order",
+  "title": "PO Receipt Status",
+  "summary": "Filters and tracking for receipt status",
   "icon": "truck",
-  "features": ["Delivery status badge on POs", "Auto: Done or In Progress", "Filter POs by picking status"]
+  "features": [
+    "Receipt status column in purchase lists",
+    "Filter and group orders by receipt",
+    "Status changes logged in the chatter"
+  ],
+  "lang": "en"
 }

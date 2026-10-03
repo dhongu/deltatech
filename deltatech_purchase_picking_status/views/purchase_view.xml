@@ -5,17 +5,9 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
         <field name="arch" type="xml">
-            <field name="state" position="after">
-                <field
-                    name="picking_status"
-                    widget="badge"
-                    decoration-info="picking_status == 'done'"
-                    decoration-warning="picking_status == 'in_progress'"
-                    optional="show"
-                />
-
+            <field name="receipt_status" position="attributes">
+                <attribute name="optional">show</attribute>
             </field>
-
         </field>
     </record>
     <record id="view_purchase_tree_picking_status" model="ir.ui.view">
@@ -23,30 +15,8 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
         <field name="arch" type="xml">
-            <field name="state" position="after">
-                <field
-                    name="picking_status"
-                    widget="badge"
-                    decoration-info="picking_status == 'done'"
-                    decoration-warning="picking_status == 'in_progress'"
-                    optional="show"
-                />
-            </field>
-
-        </field>
-    </record>
-    <record id="view_purchase_form_picking_status" model="ir.ui.view">
-        <field name="name">purchase.order.form.picking.status</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form" />
-        <field name="arch" type="xml">
-            <field name="origin" position="after">
-                <field
-                    name="picking_status"
-                    widget="badge"
-                    decoration-info="picking_status == 'done'"
-                    decoration-warning="picking_status == 'in_progress'"
-                />
+            <field name="receipt_status" position="attributes">
+                <attribute name="optional">show</attribute>
             </field>
         </field>
     </record>
@@ -57,12 +27,17 @@
         <field name="inherit_id" ref="purchase.purchase_order_view_search" />
         <field name="arch" type="xml">
             <filter name="my_Orders" position="after">
-                <filter string="Done" name="pickings_done" domain="[('picking_status', '=', 'done')]" />
+                <separator />
                 <filter
-                    string="In progress"
+                    string="Receipt in Progress"
                     name="pickings_in_progress"
-                    domain="[('picking_status', '=', 'in_progress')]"
+                    domain="[('receipt_status', 'in', ('pending', 'partial'))]"
                 />
+                <filter string="Partially Received" name="receipt_partial" domain="[('receipt_status', '=', 'partial')]" />
+                <filter string="Fully Received" name="pickings_done" domain="[('receipt_status', '=', 'full')]" />
+            </filter>
+            <filter name="vendor" position="after">
+                <filter name="receipt_status_groupby" string="Receipt Status" context="{'group_by': 'receipt_status'}" />
             </filter>
         </field>
     </record>
