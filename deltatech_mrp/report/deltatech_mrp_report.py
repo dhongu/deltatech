@@ -31,9 +31,9 @@ class DeltatechMrpReport(models.Model):
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", required=True)
 
-    product_qty = fields.Float("Qty Plan", digits="Product Unit of Measure", readonly=True)
+    product_qty = fields.Float("Qty Plan", digits="Product Unit", readonly=True)
     product_val = fields.Float(compute="_compute_product_val", string="Val Plan", readonly=True)
-    product_qty_ef = fields.Float("Qty Efective", digits="Product Unit of Measure", readonly=True)
+    product_qty_ef = fields.Float("Qty Efective", digits="Product Unit", readonly=True)
     product_val_ef = fields.Float("Val Efective", digits="Account", readonly=True)
 
     consumed_val = fields.Float("Val Consumed", digits="Account", readonly=True)
@@ -106,10 +106,10 @@ SELECT s.id, s.id as production_id,
 
      JOIN product_product  pr ON s.product_id = pr.id
          JOIN product_template pt ON pr.product_tmpl_id = pt.id )
-     LEFT JOIN uom_uom u ON ((u.id = s.product_uom_id)))
+     LEFT JOIN uom_uom u ON ((u.id = s.uom_id)))
      LEFT JOIN ( SELECT sm.production_id,
             sum(sm.product_qty) AS product_qty_ef,
-            sum(sm.value) AS product_val_ef,
+            sum(CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) AS product_val_ef,
             sm.procure_method
            FROM  stock_move sm
 
@@ -120,10 +120,10 @@ SELECT s.id, s.id as production_id,
 left join (
 SELECT
     sm.raw_material_production_id AS production_id,
-   SUM (sm.value) AS consumed_val,
-      CASE WHEN pc.cost_categ='semi' THEN SUM (sm.value) else 0.0 end as  consumed_sem_val,
-      CASE WHEN pc.cost_categ='pak' THEN SUM (sm.value) else 0.0 end as  consumed_pak_val,
-      CASE WHEN pc.cost_categ='raw' THEN SUM (sm.value) else 0.0 end as  consumed_raw_val
+   SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) AS consumed_val,
+      CASE WHEN pc.cost_categ='semi' THEN SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) else 0.0 end as  consumed_sem_val,
+      CASE WHEN pc.cost_categ='pak' THEN SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) else 0.0 end as  consumed_pak_val,
+      CASE WHEN pc.cost_categ='raw' THEN SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) else 0.0 end as  consumed_raw_val
     FROM
         stock_move sm
 

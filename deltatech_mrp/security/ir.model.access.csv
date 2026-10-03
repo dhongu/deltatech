@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_deltatech_cost_detail,access_deltatech_cost_detail,model_deltatech_cost_detail,mrp.group_mrp_user,1,0,0,0
-access_deltatech_cost_detail_stock_user,access_deltatech_cost_detail_stock_user,model_deltatech_cost_detail,stock.group_stock_user,1,0,0,0
-access_deltatech_mrp_report,access_deltatech_mrp_report,model_deltatech_mrp_report,base.group_user,1,0,0,0

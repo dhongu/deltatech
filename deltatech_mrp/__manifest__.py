@@ -4,7 +4,7 @@
 {
     "name": "MRP Extension",
     "summary": "MRP Extension",
-    "version": "19.0.1.0.6",
+    "version": "20.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -14,8 +14,7 @@
         "views/mrp_view.xml",
         "report/deltatech_mrp_report.xml",
         "views/product_view.xml",
-        "security/ir.model.access.csv",
-        "security/security.xml",
+        "security/ir.access.csv",
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
