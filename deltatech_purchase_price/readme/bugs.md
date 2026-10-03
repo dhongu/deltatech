@@ -17,7 +17,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## PURCHASEPRICE-002 — P1: Forced supplier-price updates access the removed product_uom field
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.2.10 — `button_confirm()` and `account.move.action_post()` use `line.product_uom_id` and convert the price to the unit of the supplier pricing row (`seller.product_uom_id`, fallback product unit) instead of assuming the product default unit. Covered by tests in `tests/test_force_price.py` (same unit, PO in dozens, supplier row in dozens, setting disabled, vendor bill in dozens).
 - **Location:** models/purchase.py, button_confirm(); models/account_move.py, action_post().
 - **Trigger:** Enable purchase.force_price_at_validation and confirm a PO with a matching supplier pricing row, or post a vendor bill whose line unit differs from the product default.
 - **Actual behavior:** PO confirmation compares/uses line.product_uom, while Odoo 19 purchase.order.line defines product_uom_id. Vendor bill posting correctly checks product_uom_id but then converts through line.product_uom, also absent on account.move.line.

@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ANALYTICENFORCE-001 — P1: Posting multiple bills reads a singleton field on the whole batch
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.4 — `action_post()` filters the vendor documents (in_invoice/in_refund/in_receipt) of the batch and validates each one, instead of reading `self.move_type` on the whole recordset. The company switch is still read from `self.env.company` (ANALYTICENFORCE-002, still open). Covered by tests in `tests/test_analytic_enforce.py` (two valid bills, valid + invalid bill, customer invoice + bill, single invalid bill, validation disabled).
 - **Location:** models/account_move.py, action_post().
 - **Trigger:** Enable validation and post two vendor bills together.
 - **Actual behavior / impact:** After superclass posting the override reads self.move_type on the entire recordset instead of iterating moves. Scalar field access on multiple records raises Expected singleton, rolling back posting.
