@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## TC-001 — P1: Config download exposes station API keys across company boundaries
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.2.3 — `download_config()` in `controllers/main.py` resolves the station in the caller's environment and returns 404 unless `has_access("read")` passes (station company rule); only then reads `api_key` with `sudo()`. Covered by tests in `tests/test_config_download.py` (manager of A on A/B stations, manager of both companies, internal user, missing station).
 - **Location:** controllers/main.py, download_config(), /tc/config/<station_id>.
 - **Trigger:** A Terrabit Connect manager restricted to company A requests the ID of a station belonging to inaccessible company B.
 - **Actual behavior:** The endpoint checks manager group membership, then browses the requested station under sudo and embeds its api_key in the downloadable config. It never checks caller read access or company membership before elevating privileges.

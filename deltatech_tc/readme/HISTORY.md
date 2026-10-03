@@ -1,3 +1,7 @@
+## 19.0.1.2.3 (2026-10-03)
+
+- TC-001 (security): downloading a station config (`/tc/config/<station_id>`) read the station as superuser, so a Terrabit Connect manager limited to company A could download the config, including the API key, of a station of company B by changing the id in the URL. The station is now looked up with the manager's own rights: a station of a company the manager does not have access to answers 404, like a missing one; the API key itself is still read as superuser.
+
 ## 19.0.1.2.2 (2026-09-30)
 
 - New Apps Store banner, with the module icon, and the job retry and queue cleanup feature.
