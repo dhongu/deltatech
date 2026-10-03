@@ -42,7 +42,7 @@ class PurchaseOrder(models.Model):
         for order in self:
             if order.reception_type == "note":
                 if order.ignore_quantities:
-                    lines = order.reduce_from_rfq()
+                    lines = order.with_company(order.company_id).reduce_from_rfq()
                     if lines:
                         message = self.env._("Quantities forced on this reception note:<br />")
                         for line in lines:
@@ -56,15 +56,18 @@ class PurchaseOrder(models.Model):
                             )
                         order.message_post(body=message)
                 else:
-                    order.reduce_from_rfq()
+                    order.with_company(order.company_id).reduce_from_rfq()
         return res
 
     def reduce_from_rfq(self):
+        self.ensure_one()
+        # only the sent RFQs of the reception note company may be consumed
         domain = [
             ("partner_id", "=", self.partner_id.id),
             ("reception_type", "=", "rfq_only"),
             ("state", "=", "sent"),
             ("is_empty", "=", False),
+            ("company_id", "=", self.company_id.id),
         ]
         rfq_orders = self.env["purchase.order"].search(domain, order="id")
         found_errors = []

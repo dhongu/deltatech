@@ -3,7 +3,7 @@
 {
     "name": "Deltatech reception_note",
     "summary": "Batch reception note",
-    "version": "19.0.0.1.3",
+    "version": "19.0.0.1.4",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

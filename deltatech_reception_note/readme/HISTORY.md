@@ -1,3 +1,14 @@
+## 19.0.0.1.4 (2026-10-03)
+
+- Fixed: confirming a reception note consumed sent RFQs of every allowed company, so a receipt in
+  one company could reduce (and mark empty) the RFQ of another company. Only the sent RFQs of the
+  reception note company are consumed now, in that company context (RECEPTION-002).
+- Fixed: the "Create reception note" wizard created the RFQ-only counterpart in the active company
+  and its default currency, while copying the prices and taxes of the source order unchanged. The
+  new RFQ now keeps the company, currency and fiscal position of the source order (RECEPTION-004).
+  The amounts of new RFQs created from foreign-currency orders change accordingly (same figures,
+  now in the right currency).
+
 ## 19.0.0.1.3 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
