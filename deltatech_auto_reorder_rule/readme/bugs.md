@@ -42,6 +42,17 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Remove the obsolete zero-valued field; use the Odoo 19 replenishment unit API if a multiple is needed.
 - **Validation needed:** Install only the declared dependencies and save the wizard; verify product, location, min/max and trigger.
 
+## REORDER-005 — P2: The location wizard does not set the location company on the rules
+
+- **Status:** Open. Found on 2026-10-03 while fixing REORDER-001.
+- **Location:** wizard/order_rules_details.py, `do_create()`.
+- **Trigger:** In company A, open the Rules Wizard of a product and select a stock location belonging to company B (allowed in the user's companies).
+- **Actual behavior:** The generated values contain product, location, min/max, trigger and route, but no `company_id`; `stock.warehouse.orderpoint` then defaults it to `env.company` (A). With `_check_company_auto` and `check_company=True` on `location_id`/`warehouse_id`, creation fails with a company inconsistency error. The auto-rule route is also searched without a company filter.
+- **Evidence:** source inspection of the wizard and of Odoo 19 `stock.warehouse.orderpoint` (`company_id` default, `_check_company_auto = True`); no reproduction on a database.
+- **Impact:** Rules cannot be created for locations of another company from the active one; a route of another company may be chosen.
+- **Suggested fix:** Set `company_id` from `location.company_id` (create per company with `with_company()`), and pick the route among those of that company or shared ones, as `create_rule()` does since REORDER-001.
+- **Validation needed:** Wizard with locations of the active company, of another company and of both; assert each rule has the location company and a compatible route.
+
 ## Review limitations
 
 Source inspection and isolated executions with mocked records; no database-backed module installation or integration tests were run in this pass.
