@@ -24,6 +24,17 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Suggested fix:** Persist snapshots/maps by batch identity or record the working-table owner and reject verification when the retained snapshot belongs to another batch. Retain historical evidence for applied batches.
 - **Validation needed:** Apply A, analyze/apply B, verify both; each report must use its own snapshot or clearly report unavailable evidence.
 
+## MERGE-003 — P3: Stand-alone SQL merge scripts group partners by VAT only, across all companies
+
+- **Status:** Open. Found on 2026-10-03 while fixing MERGE-001.
+- **Location:** scripts/partner_merge/02_build_map.sql (repository root, outside the module), CTEs `norm`/`grp` and tables `pm_face`, `pm_group`, `pm_map`; consumed by `03_merge.sql`.
+- **Trigger:** Run the scripts with psql on a multi-company database where company-specific partners share a VAT number.
+- **Actual behavior:** Candidates are all active company partners with a VAT, grouped by the normalized VAT only; the master is chosen per VAT without considering `company_id`. MERGE-001 fixed the module SQL (`models/sql_queries.py`, groups on VAT and company), but the original manual scripts kept the global grouping.
+- **Evidence:** source inspection of the script; not executed.
+- **Impact:** A manual run merges partners belonging to different companies into one master, leaving documents of a company attached to a partner of another company. Limited to administrators running the scripts by hand.
+- **Suggested fix:** Group and choose the master on (VAT, company_id), handling shared partners (`company_id IS NULL`) explicitly, or remove the scripts in favour of the module.
+- **Validation needed:** Same VAT in two companies plus a shared partner; build the map and assert no group mixes companies.
+
 ## Review limitations
 
 All eligible Python/XML module source manually reviewed, including unique-index deduplication, foreign-key/polymorphic remaps, selection guards, savepoint simulation, field filling, archive/delete and verification. Findings are source-confirmed; no business-data merge, SQL DDL or PostgreSQL simulation executed.
