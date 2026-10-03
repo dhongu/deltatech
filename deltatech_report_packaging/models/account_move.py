@@ -70,6 +70,12 @@ class AccountMove(models.Model):
         if manual:
             manual.packaging_material_auto = False
 
+    def _packaging_material_check_invoice_access(self):
+        """The packaging lines are part of the invoice: changing them needs write access on
+        the invoice. Checked whatever the context, `packaging_material_sync` only tells the
+        computation apart from a manual edit (PACKMAT-003)."""
+        self.check_access("write")
+
     def action_post(self):
         result = super().action_post()
         auto = self.filtered(lambda move: move.move_type != "entry" and move.packaging_material_auto)
@@ -94,10 +100,14 @@ class InvoicePackagingMaterial(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         lines = super().create(vals_list)
+        lines.invoice_id._packaging_material_check_invoice_access()
         lines._packaging_material_mark_manual()
         return lines
 
     def write(self, vals):
+        self.invoice_id._packaging_material_check_invoice_access()
+        if vals.get("invoice_id"):
+            self.env["account.move"].browse(vals["invoice_id"])._packaging_material_check_invoice_access()
         res = super().write(vals)
         self._packaging_material_mark_manual()
         return res
@@ -105,6 +115,7 @@ class InvoicePackagingMaterial(models.Model):
     def unlink(self):
         # the invoices have to be read before the lines are gone
         invoices = self.invoice_id
+        invoices._packaging_material_check_invoice_access()
         res = super().unlink()
         invoices._packaging_material_mark_manual_on_invoice()
         return res
