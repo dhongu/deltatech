@@ -1,3 +1,16 @@
+## 19.0.1.4.4 (2026-10-03)
+
+- Fixed: the import copied the source quantity and unit price into purchase lines, receipts and
+  vendor prices without looking at the source unit (`unitCode`). A kg order line receiving
+  "1000 GRM at 0.01" became 1000 kg at 0.01. Quantities and prices are now converted from the
+  source unit to the unit of the existing order line, of the stock move and of the existing
+  vendor pricelist row; new order lines and new vendor prices keep the source unit when it is
+  compatible with the product unit. A source unit that is unknown is treated as before (same unit
+  as the destination); an incompatible unit is left unconverted and reported as a warning in the
+  import log. The `MLT`/`MMT` codes now resolve to millilitre/millimetre (they fell back to Units)
+  and `DZN` resolves to Dozens (UBL-005). Imported quantities, prices and receipt quantities change
+  for documents whose unit differs from the order/product unit.
+
 # 19.0.1.4.3
 
 - Own module icon, instead of the generic gears it had.

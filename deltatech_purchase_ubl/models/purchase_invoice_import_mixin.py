@@ -64,10 +64,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             cur = self.env.company.currency_id
         return cur
 
-    def _uom_from_code(self, unit_code):
+    def _uom_from_code(self, unit_code, fallback=True):
         """Resolve a uom.uom record from a unit code/text found in the source document.
         Covers both UBL unitCode enum values (C62, KGM, ...) and common Romanian
         text units used on vendor-specific PDF layouts (Buc, Kg, L, ...).
+        With fallback=False an empty or unknown code returns an empty recordset
+        instead of Units, so callers can tell "unknown unit" from "pieces".
         """
         code = (unit_code or "").strip().upper()
         xml_ids = {
@@ -78,6 +80,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "EA": "uom.product_uom_unit",
             "BUC": "uom.product_uom_unit",
             "SET": "uom.product_uom_set",
+            "DZN": "uom.product_uom_dozen",
             # weight
             "KGM": "uom.product_uom_kgm",
             "KG": "uom.product_uom_kgm",
@@ -87,13 +90,13 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             # volume
             "LTR": "uom.product_uom_litre",
             "L": "uom.product_uom_litre",
-            "MLT": "uom.product_uom_ml",
+            "MLT": "uom.product_uom_milliliter",
             "MTQ": "uom.product_uom_cubic_meter",
             # length / area
             "MTR": "uom.product_uom_meter",
             "M": "uom.product_uom_meter",
             "CMT": "uom.product_uom_cm",
-            "MMT": "uom.product_uom_mm",
+            "MMT": "uom.product_uom_millimeter",
             "MTK": "uom.product_uom_square_meter",
             # time
             "HUR": "uom.product_uom_hour",
@@ -105,7 +108,48 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if rec:
                 return rec
 
+        if not fallback:
+            return self.env["uom.uom"]
         return self.env.ref("uom.product_uom_unit", raise_if_not_found=True)
+
+    def _source_uom(self, src_ln):
+        """Unit of a source line, or an empty recordset when the code is missing/unknown
+        (the quantity and price are then assumed to be in the destination unit)."""
+        return self._uom_from_code(src_ln.get("unit_code"), fallback=False)
+
+    def _source_uom_compatible(self, src_uom, target_uom):
+        return bool(src_uom and target_uom and src_uom._has_common_reference(target_uom))
+
+    def _convert_source_line(self, src_ln, target_uom, uom_warnings=None):
+        """Return (qty, price) of a source line expressed in target_uom.
+
+        The source quantity/price are in the unit of the source document (UBL unitCode);
+        they are converted when that unit is known and shares a reference with target_uom.
+        An unknown unit keeps the values as they are; an incompatible unit keeps them too
+        and records a warning, since no meaningful conversion exists.
+        """
+        qty = src_ln.get("qty")
+        price = src_ln.get("price")
+        src_uom = self._source_uom(src_ln)
+        if not src_uom or not target_uom or src_uom == target_uom:
+            return qty, price
+        if not self._source_uom_compatible(src_uom, target_uom):
+            if uom_warnings is not None:
+                uom_warnings.append(
+                    self.env._(
+                        "Warning: unit %(src)s of source line %(line)s is not compatible with %(target)s; "
+                        "quantity and price were kept unconverted.",
+                        src=src_uom.name,
+                        line=src_ln.get("code") or src_ln.get("name") or "/",
+                        target=target_uom.name,
+                    )
+                )
+            return qty, price
+        if qty:
+            qty = src_uom._compute_quantity(qty, target_uom, rounding_method="HALF-UP")
+        if price:
+            price = src_uom._compute_price(price, target_uom)
+        return qty, price
 
     def _create_product_from_xml_line(self, supplier, line_vals, currency):
         """Create a storable product based on an invoice line and link supplierinfo.
@@ -402,7 +446,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     return line.product_id, "name"
         return Product.browse(), False
 
-    def _update_supplier_price(self, supplier, product, code, price, currency):
+    def _update_supplier_price(self, supplier, product, code, price, currency, uom=False):
+        """uom: unit of the source price. The price is converted to the unit of the
+        existing vendor pricelist row; a new row is created in the source unit."""
         SupplierInfo = self.env["product.supplierinfo"]
         sinfo = SupplierInfo.search(
             [
@@ -411,6 +457,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             ],
             limit=1,
         )
+        uom_vals = {}
+        if uom:
+            target_uom = sinfo.product_uom_id if sinfo else product.uom_id
+            if self._source_uom_compatible(uom, target_uom):
+                if sinfo:
+                    price = uom._compute_price(price, target_uom) if price else price
+                else:
+                    uom_vals["product_uom_id"] = uom.id
         values = {
             "partner_id": supplier.id,
             "product_tmpl_id": product.product_tmpl_id.id,
@@ -419,6 +473,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "price": price,
             "currency_id": self._resolve_currency(currency).id,
             "delay": 1,
+            **uom_vals,
         }
         if sinfo:
             sinfo.write(values)
@@ -448,7 +503,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         return pickings
 
     def _validate_receipt_quantities(self, picking, line_map, order=False):
-        # line_map: product_id -> qty
+        # line_map: product_id -> qty, expressed in the product unit (product.uom_id);
+        # it is converted below to the unit of each stock move.
         if not picking:
             return False
         # When an order context is provided, follow the same logic as receipt_to_stock
@@ -473,7 +529,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 # the move/line `picked` flag drives validation in _action_done.
                 picked_moves = self.env["stock.move"]
                 for move in picking.move_ids:
-                    qty = line_map.get(move.product_id.id, 0.0)
+                    qty = self._receipt_qty_in_move_uom(move, line_map)
                     if qty and qty > 0:
                         move._set_quantity_done(qty)
                         picked_moves |= move
@@ -484,7 +540,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         # Fallback: original behavior using button_validate with backorder wizard handling
         # Odoo 19: iterate move_ids (move_ids_without_package was removed from stock.picking)
         for move in picking.move_ids:
-            qty = line_map.get(move.product_id.id, 0.0)
+            qty = self._receipt_qty_in_move_uom(move, line_map)
             if qty and qty > 0:
                 move._set_quantity_done(qty)
                 move.picked = True
@@ -493,6 +549,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             wiz = self.env[action["res_model"]].browse(action.get("res_id"))
             wiz.with_context(skip_backorder=True).process()
         return True
+
+    def _receipt_qty_in_move_uom(self, move, line_map):
+        qty = line_map.get(move.product_id.id, 0.0)
+        if qty and move.product_uom and move.product_uom != move.product_id.uom_id:
+            qty = move.product_id.uom_id._compute_quantity(qty, move.product_uom, rounding_method="HALF-UP")
+        return qty
 
     def _classify_message(self, msg):
         m = msg.lower()
@@ -617,6 +679,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         updated = []
         not_found = []
         created = []
+        uom_warnings = []
         for index, ln in enumerate(invoice_data["lines"]):
             if product_map is not None and index in product_map:
                 product = product_map[index]
@@ -637,7 +700,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             mapped_lines.append(ln_map)
             if self.update_prices and product:
                 self._update_supplier_price(
-                    partner, product, ln.get("code"), ln.get("price", 0.0), invoice_data.get("currency")
+                    partner,
+                    product,
+                    ln.get("code"),
+                    ln.get("price", 0.0),
+                    invoice_data.get("currency"),
+                    uom=self._source_uom(ln),
                 )
                 updated.append(f"{product.display_name}: {ln.get('price')} {invoice_data.get('currency')}")
 
@@ -662,10 +730,10 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     continue
                 src_ln = lines_for_prod.pop(0)
                 vals = {}
-                qty = src_ln.get("qty")
+                # source qty/price are in the source unit; the order line keeps its own unit
+                qty, price = self._convert_source_line(src_ln, line.product_uom_id, uom_warnings)
                 if qty is not None:
                     vals["product_qty"] = qty
-                price = src_ln.get("price")
                 if price is not None:
                     vals["price_unit"] = price
                 discount = src_ln.get("discount")
@@ -682,13 +750,18 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             for lines_for_prod in source_map.values():
                 for src_ln in lines_for_prod:
                     product = src_ln.get("product")
+                    # keep the source unit on the new line when it is compatible with the product
+                    line_uom = self._source_uom(src_ln)
+                    if not self._source_uom_compatible(line_uom, product.uom_id):
+                        line_uom = product.uom_id
+                    qty, price = self._convert_source_line(src_ln, line_uom, uom_warnings)
                     vals = {
                         "order_id": order.id,
                         "product_id": product.id,
                         "name": src_ln.get("name") or product.display_name,
-                        "product_qty": src_ln.get("qty", 0.0) or 0.0,
-                        "price_unit": src_ln.get("price", 0.0) or 0.0,
-                        "product_uom_id": product.uom_id.id,
+                        "product_qty": qty or 0.0,
+                        "price_unit": price or 0.0,
+                        "product_uom_id": line_uom.id,
                         "date_planned": fields.Datetime.now(),
                     }
                     if src_ln.get("discount") and "discount" in self.env["purchase.order.line"]._fields:
@@ -703,7 +776,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if order:
                 picking = self._find_receipt(order)
                 if picking:
-                    line_map = {ml.get("product").id: ml.get("qty", 0.0) for ml in mapped_lines if ml.get("product")}
+                    # receipt quantities are passed in the product unit
+                    line_map = {
+                        ml.get("product").id: self._convert_source_line(ml, ml.get("product").uom_id)[0] or 0.0
+                        for ml in mapped_lines
+                        if ml.get("product")
+                    }
                     self._validate_receipt_quantities(picking, line_map, order=order)
                     pick_log = self.env._("Receipt updated: %s") % picking.name
                 else:
@@ -776,6 +854,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             messages.append(self.env._("Updated %s purchase order lines from source document.") % updated_lines_count)
         if order and added_count:
             messages.append(self.env._("Added %s lines to the purchase order from source document.") % added_count)
+        messages.extend(dict.fromkeys(uom_warnings))
         if order and not_found:
             messages.append(self.env._("Unmatched lines in the order: %s") % ", ".join(not_found))
         elif not_found:

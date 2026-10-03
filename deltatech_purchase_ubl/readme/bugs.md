@@ -48,7 +48,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## UBL-005 — P1: Import copies source quantities and prices without unit conversion
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.4.4 — `_process_invoice_data()` resolves the source unit of every line (`_source_uom()`, no fallback for unknown codes) and `_convert_source_line()` converts quantity/price to the existing order line unit; new order lines keep the source unit when compatible with the product unit; the receipt map is expressed in the product unit and converted to each move unit (`_receipt_qty_in_move_uom()`); `_update_supplier_price()` converts the price to the unit of an existing vendor row or creates the new row in the source unit. Incompatible units are not converted and are reported in the log. Covered by tests in tests/test_ubl_import_uom.py.
 - **Location:** models/purchase_invoice_import_mixin.py, _process_invoice_data(), _update_supplier_price() and _validate_receipt_quantities().
 - **Trigger:** A matched existing product/order line uses a different unit from the XML InvoicedQuantity unitCode, for example an order in kg and a source line for 1000 grams priced at 0.01 per gram.
 - **Actual behavior:** Existing order lines receive the raw quantity and price while retaining their order unit. Newly added lines use product.uom_id regardless of source unit_code. Receipt moves receive the same raw quantity, and supplier prices are overwritten without setting/converting the supplier unit. Unit resolution is used only when creating a new product.
