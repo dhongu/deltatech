@@ -33,7 +33,7 @@ class TestMrpProductionBom(TransactionCase):
         production = self.env["mrp.production"].create(
             {
                 "product_id": self.product_variant.id,
-                "product_uom_id": self.product_tmpl.uom_id.id,
+                "uom_id": self.product_tmpl.uom_id.id,
                 "bom_id": self.base_bom.id,
             }
         )
@@ -62,7 +62,7 @@ class TestMrpProductionBom(TransactionCase):
         production1 = self.env["mrp.production"].create(
             {
                 "product_id": self.product_variant.id,
-                "product_uom_id": self.product_tmpl.uom_id.id,
+                "uom_id": self.product_tmpl.uom_id.id,
                 "bom_id": self.base_bom.id,
             }
         )

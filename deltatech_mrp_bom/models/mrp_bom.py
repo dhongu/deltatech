@@ -16,7 +16,7 @@ class MrpBom(models.Model):
     @api.onchange("product_tmpl_id")
     def onchange_product_tmpl_id(self):
         if self.product_tmpl_id:
-            self.product_uom_id = self.product_tmpl_id.uom_id.id
+            self.uom_id = self.product_tmpl_id.uom_id.id
             if self.product_id.product_tmpl_id != self.product_tmpl_id:
                 self.product_id = False
 
