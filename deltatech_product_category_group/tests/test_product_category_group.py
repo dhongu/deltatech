@@ -178,12 +178,17 @@ class TestStockPicking(TransactionCase):
         first.responsible_determination()
         self.assertEqual(first.user_id, self.user_1)
 
+    def _list_arch(self, view_id):
+        arch = self.env["stock.picking"].with_user(self.user_1).get_view(view_id, "list")["arch"]
+        # some installed modules post-process the arch with etree.tostring(), which returns bytes
+        return arch.decode() if isinstance(arch, bytes) else arch
+
     def test_responsible_button_restricted_to_managers(self):
         view_id = self.env.ref("stock.vpicktree").id
-        arch = self.env["stock.picking"].with_user(self.user_1).get_view(view_id, "list")["arch"]
+        arch = self._list_arch(view_id)
         self.assertNotIn("responsible_determination", arch)
         self.user_1.group_ids = [(4, self.env.ref("stock.group_stock_manager").id)]
-        arch = self.env["stock.picking"].with_user(self.user_1).get_view(view_id, "list")["arch"]
+        arch = self._list_arch(view_id)
         self.assertIn("responsible_determination", arch)
 
     def test_category_from_unreserved_move(self):

@@ -1,3 +1,7 @@
+## 19.0.1.0.9 (2026-10-03)
+
+- Tests: the list-view check decodes the view arch when another installed module returns it as bytes (it failed with `TypeError` in the full CI run). No functional change.
+
 ## 19.0.1.0.8 (2026-10-02)
 
 - `responsible_determination` takes the categories from the moves (not cancelled) instead of the move lines: in a partially reserved transfer the unreserved moves were ignored when choosing the user group. Test added.

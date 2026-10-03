@@ -35,6 +35,11 @@ class TestProductChatter(TransactionCase):
 
     def test_unlink_other_models_not_restricted(self):
         self.user.group_ids = [(4, self.env.ref("base.group_partner_manager").id)]
+        # with account installed, deleting any message runs the accounting audit-log check,
+        # which searches journal entries and needs read access on them
+        account_readonly = self.env.ref("account.group_account_readonly", raise_if_not_found=False)
+        if account_readonly:
+            self.user.group_ids = [(4, account_readonly.id)]
         partner = self.env["res.partner"].create({"name": "Chatter Partner"})
         message = partner.with_user(self.user).message_post(body="Hello", message_type="comment")
         message.with_user(self.user).unlink()

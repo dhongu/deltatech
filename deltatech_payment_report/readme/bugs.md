@@ -13,7 +13,6 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Validation needed:** Create valid receipts in both current states plus draft and canceled receipts and assert the report includes only the intended posted receipts.
 - **Limitations:** Source comparison and extracted-method checks with mocked records; no database-backed integration tests were executed.
 
-
 ## PAYREPORT-002 — P2: PDF printing invokes report_action on a window action
 
 - **Status:** Open. Identified on 2026-10-02.
