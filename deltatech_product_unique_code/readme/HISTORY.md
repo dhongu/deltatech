@@ -1,3 +1,7 @@
+## 20.0.1.0.3 (2026-10-04)
+
+- Add unit tests covering the uniqueness checks on create/write of products and templates, archived products, the "no new duplicates" cleanup policy and the bypass group.
+
 ## 20.0.1.0.2 (2026-10-02)
 
 - Migration to Odoo 20.0 (no API changes needed); tests for the uniqueness check

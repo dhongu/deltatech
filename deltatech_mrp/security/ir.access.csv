@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_deltatech_cost_detail_stock_user,access_deltatech_cost_detail_stock_user,deltatech.cost.detail,stock.group_stock_user,r,
+cost_detail_comp_rule,Deltatech Cost Detail multi-company,deltatech.cost.detail,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_deltatech_mrp_report,access_deltatech_mrp_report,deltatech.mrp.report,base.group_user,r,
+mrp_report_backend_comp_rule,Deltatech MRP Report multi-company,deltatech.mrp.report,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"

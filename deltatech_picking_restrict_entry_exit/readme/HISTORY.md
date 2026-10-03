@@ -1,3 +1,7 @@
+## 20.0.0.0.11 (2026-10-04)
+
+- Add unit tests covering validation and save-time restrictions on receipts, deliveries and internal transfers.
+
 ## 20.0.0.0.10 (2026-10-02)
 
 - Migration to Odoo 20. No functional change: the `stock.picking` /

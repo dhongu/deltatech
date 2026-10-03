@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="mrp_bom_form_view" model="ir.ui.view">
+        <field name="name">mrp.bom.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_tmpl_id']" position="after">
+                <field name="concentration" />
+                <field name="concentration_primary" />
+            </xpath>
+
+            <xpath expr="//field[@name='bom_line_ids']/list" position="inside">
+                <field name="ingredient_type" />
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
