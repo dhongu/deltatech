@@ -20,6 +20,13 @@
             <field name="implied_ids" eval="[(4, ref('group_commission_viewer'))]" />
         </record>
 
+        <!-- COMMISSION-003 -->
+        <record id="commission_users_comp_rule" model="ir.rule">
+            <field name="name">Commission rates multi-company</field>
+            <field name="model_id" ref="model_commission_users" />
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
         <record id="sale_margin_report_comp_rule" model="ir.rule">
             <field name="name">Sale Margin Report multi-company</field>
             <field name="model_id" ref="model_sale_margin_report" />
