@@ -108,3 +108,27 @@ class TestMrpConcentration(TransactionCase):
 
         self.assertEqual(move_primary.product_uom_qty, 50.0)
         self.assertEqual(move_secondary.product_uom_qty, 50.0)
+
+    def test_03_bom_concentration_byproduct(self):
+        """Când ingredientul primar depășește cantitatea de bază, diferența merge pe subprodus"""
+        byproduct = self.env["product.product"].create({"name": "Byproduct", "type": "consu", "is_storable": True})
+        byproduct_line = self.env["mrp.bom.byproduct"].create(
+            {"bom_id": self.bom.id, "product_id": byproduct.id, "product_qty": 1.0}
+        )
+        # 100 * 60 / 50 = 120 (primar) -> diferență -20 -> subprodus 20
+        self.bom.concentration = 60.0
+        self.bom._onchange_concentration_primary()
+
+        self.assertEqual(self.bom_line_primary.product_qty, 120.0)
+        self.assertEqual(byproduct_line.product_qty, 20.0)
+        # linia secundară rămâne neschimbată
+        self.assertEqual(self.bom_line_secondary.product_qty, 80.0)
+
+    def test_04_bom_without_primary_concentration(self):
+        """Fără concentrația ingredientului principal, liniile nu se modifică"""
+        self.bom.concentration_primary = 0.0
+        self.bom.concentration = 30.0
+        self.bom._onchange_concentration_primary()
+
+        self.assertEqual(self.bom_line_primary.product_qty, 20.0)
+        self.assertEqual(self.bom_line_secondary.product_qty, 80.0)
