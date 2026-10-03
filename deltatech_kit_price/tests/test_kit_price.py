@@ -1,9 +1,11 @@
 # © 2026 Deltatech
 # See README.rst file on the addons root folder for license details
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestKitPrice(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -85,3 +87,31 @@ class TestKitPrice(TransactionCase):
         # Expected price in EUR = 50.0 * 0.5 = 25.0
 
         self.assertAlmostEqual(sale_order_line.purchase_price, 25.0)
+
+    def test_non_kit_keeps_standard_price(self):
+        sale_order = self.env["sale.order"].create({"partner_id": self.partner.id})
+        line = self.env["sale.order.line"].create(
+            {"order_id": sale_order.id, "product_id": self.component_b.id, "product_uom_qty": 1}
+        )
+        self.assertEqual(line.purchase_price, 20.0)
+
+    def test_kit_template_bom_and_line_uom(self):
+        # BoM defined on the template only (no variant) must be found as fallback
+        kit_tmpl = self.env["product.product"].create({"name": "Kit Template", "type": "consu"})
+        self.env["mrp.bom"].create(
+            {
+                "product_tmpl_id": kit_tmpl.product_tmpl_id.id,
+                "type": "phantom",
+                "bom_line_ids": [(0, 0, {"product_id": self.component_a.id, "product_qty": 3})],
+            }
+        )
+        sale_order = self.env["sale.order"].create({"partner_id": self.partner.id})
+        line = self.env["sale.order.line"].create(
+            {"order_id": sale_order.id, "product_id": kit_tmpl.id, "product_uom_qty": 1}
+        )
+        self.assertEqual(line.get_available_phantom_bom_id().product_tmpl_id, kit_tmpl.product_tmpl_id)
+        self.assertEqual(line.purchase_price, 30.0)
+
+        # cost is converted to the sale line UoM (Dozens)
+        line.product_uom_id = self.env.ref("uom.product_uom_dozen")
+        self.assertAlmostEqual(line.purchase_price, 360.0)
