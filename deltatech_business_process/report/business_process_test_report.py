@@ -12,6 +12,7 @@ class BusinessProcessTestReport(models.Model):
 
     project_id = fields.Many2one(string="Project", comodel_name="business.project", required=True)
     process_id = fields.Many2one("business.process", string="Business process", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", readonly=True)
     process_test_id = fields.Many2one(string="Process Test", comodel_name="business.process.test", readonly=True)
     process_step_test_id = fields.Many2one(
@@ -132,7 +133,8 @@ class BusinessProcessTestReport(models.Model):
                 bpst.data_result AS data_result,
                 bpst.date_start AS date_start,
                 bpst.date_end AS date_end,
-                bpst.count_issues AS count_issues
+                bpst.count_issues AS count_issues,
+                bp.company_id AS company_id
 
 
         """

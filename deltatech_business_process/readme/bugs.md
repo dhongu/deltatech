@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## BUSINESS-002 — P1: Reports and Open Issue omit company authorization rules
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.9.5 — the two SQL reports expose `company_id` (the process company) and `security/security.xml` adds global multi-company rules on `business.process.report`, `business.process.test.report`, `business.open.issue`, `business.migration` and `business.migration.test` (the migrations through `project_id.company_id`). Covered by tests in `tests/test_company_rules.py` (Business Admin and End User limited to one company, report company field, Open Issue read/write, migrations, user with both companies).
 - **Location:** security/security.xml; security/ir.model.access.csv; both report Python models; models/business_issue.py.
 - **Trigger:** A business user accesses the reports, or an internal user accesses business.open.issue, with one company enabled.
 - **Actual behavior:** The source process/test/issue models have global company rules, but the separate SQL report models and business.open.issue do not. Their group visibility rules admit unrestricted processes irrespective of company; Business Admin bypasses even that visibility restriction. SQL joins do not apply the source model's ORM rules, and classical inheritance of business.issue does not transfer its model-specific ir.rule records.
