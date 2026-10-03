@@ -1,6 +1,12 @@
-- Features:
+Extends the standard **Delivery Status** of the sales order
+(`delivery_status`: Not Delivered, Started, Partially Delivered, Fully
+Delivered), computed by Odoo from the delivery orders:
 
-  - - Add picking status in sale order:
+- the status is shown by default in the quotations and sales orders lists;
+- search filters *Delivery in Progress*, *Partially Delivered* and *Fully
+  Delivered*, and grouping by delivery status;
+- the status changes are tracked in the chatter of the order.
 
-      - if all pickings in state done or cancel status is done
-      - if any pickings not in state done or cancel status is in progress
+Up to version 19 the module computed its own *Picking Status* (Done / In
+Progress). On upgrade, saved filters, export templates and grouping on the old
+field are moved to the standard delivery status.

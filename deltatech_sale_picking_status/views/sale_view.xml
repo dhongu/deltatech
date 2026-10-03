@@ -5,17 +5,16 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_quotation_tree" />
         <field name="arch" type="xml">
-            <field name="invoice_status" position="after">
+            <field name="invoice_status" position="before">
                 <field
-                    name="picking_status"
+                    name="delivery_status"
                     widget="badge"
-                    decoration-info="picking_status == 'done'"
-                    decoration-warning="picking_status == 'in_progress'"
+                    decoration-success="delivery_status == 'full'"
+                    decoration-warning="delivery_status == 'partial'"
+                    decoration-info="delivery_status in ['pending', 'started']"
                     optional="show"
                 />
-
             </field>
-
         </field>
     </record>
     <record id="view_order_tree_picking_status" model="ir.ui.view">
@@ -23,30 +22,8 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_tree" />
         <field name="arch" type="xml">
-            <field name="invoice_status" position="after">
-                <field
-                    name="picking_status"
-                    widget="badge"
-                    decoration-info="picking_status == 'done'"
-                    decoration-warning="picking_status == 'in_progress'"
-                    optional="show"
-                />
-            </field>
-
-        </field>
-    </record>
-    <record id="view_order_form_picking_status" model="ir.ui.view">
-        <field name="name">sale.order.form.picking.status</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form" />
-        <field name="arch" type="xml">
-            <field name="payment_term_id" position="after">
-                <field
-                    name="picking_status"
-                    widget="badge"
-                    decoration-info="picking_status == 'done'"
-                    decoration-warning="picking_status == 'in_progress'"
-                />
+            <field name="delivery_status" position="attributes">
+                <attribute name="optional">show</attribute>
             </field>
         </field>
     </record>
@@ -57,12 +34,21 @@
         <field name="inherit_id" ref="sale.view_sales_order_filter" />
         <field name="arch" type="xml">
             <filter name="my_sale_orders_filter" position="after">
-                <filter string="Done" name="pickings_done" domain="[('picking_status', '=', 'done')]" />
+                <separator />
                 <filter
-                    string="In progress"
+                    string="Delivery in Progress"
                     name="pickings_in_progress"
-                    domain="[('picking_status', '=', 'in_progress')]"
+                    domain="[('delivery_status', 'in', ('pending', 'started', 'partial'))]"
                 />
+                <filter
+                    string="Partially Delivered"
+                    name="delivery_partial"
+                    domain="[('delivery_status', '=', 'partial')]"
+                />
+                <filter string="Fully Delivered" name="pickings_done" domain="[('delivery_status', '=', 'full')]" />
+            </filter>
+            <filter name="customer" position="after">
+                <filter name="delivery_status_groupby" string="Delivery Status" context="{'group_by': 'delivery_status'}" />
             </filter>
         </field>
     </record>

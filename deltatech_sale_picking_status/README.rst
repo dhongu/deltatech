@@ -17,25 +17,49 @@ Sale order picking status
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_picking_status
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_picking_status
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
 
-- Features:
+Extends the standard **Delivery Status** of the sales order
+(``delivery_status``: Not Delivered, Started, Partially Delivered, Fully
+Delivered), computed by Odoo from the delivery orders:
 
-  - 
+- the status is shown by default in the quotations and sales orders
+  lists;
+- search filters *Delivery in Progress*, *Partially Delivered* and
+  *Fully Delivered*, and grouping by delivery status;
+- the status changes are tracked in the chatter of the order.
 
-    - Add picking status in sale order:
-
-      - if all pickings in state done or cancel status is done
-      - if any pickings not in state done or cancel status is in
-        progress
+Up to version 19 the module computed its own *Picking Status* (Done / In
+Progress). On upgrade, saved filters, export templates and grouping on
+the old field are moved to the standard delivery status.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.2.0.0 (2026-10-03)
+-----------------------
+
+- The module becomes an extension of the standard ``delivery_status``:
+  the own ``picking_status`` field and the overrides on
+  ``stock.picking`` are removed.
+- Filters by delivery status, list column shown by default, tracking in
+  the chatter.
+- Migration: saved filters (``ir.filters``) and export templates on
+  ``picking_status`` are rewritten on ``delivery_status``; views edited
+  in the database that still use the old field are reported in the log.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -65,6 +89,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_picking_status>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_picking_status>`_ project on GitHub.
 
 You are welcome to contribute.
