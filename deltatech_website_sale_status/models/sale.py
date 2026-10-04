@@ -45,12 +45,10 @@ class SaleOrder(models.Model):
 
             if order.state == "sent" and order.website_id:
                 order.stage = "placed"
-            if order.state == "draft" and order.website_id:
+            elif order.state == "draft" and order.website_id:
                 order.stage = False
             elif order.state == "cancel":
                 order.stage = "canceled"
-            else:
-                order.stage = "in_process"
 
             if order.stage == "in_process" and order.postponed_delivery:
                 order.stage = "postponed"
@@ -66,7 +64,7 @@ class SaleOrder(models.Model):
                 else:
                     order.stage = "delivered"
                     for picking in order.picking_ids:
-                        if picking.delivery_state not in ["draft", "delivered"]:
+                        if picking.delivery_state not in ["draft", "delivered", "pre_advice"]:
                             order.stage = "in_delivery"
 
                 for picking in order.picking_ids:
@@ -97,6 +95,29 @@ class SaleOrder(models.Model):
                             all_delivered = False
                     if all_delivered:
                         order.stage = "delivered"
+
+                if order.stage in ["to_be_delivery", "delivered"]:
+                    order.stage = order._get_stage_from_delivery_state() or order.stage
+
+    def _get_stage_from_delivery_state(self):
+        """Stage given by the carrier status (`delivery_state`) of the transfers.
+
+        Applied over a stock stage of `to_be_delivery`/`delivered`: the goods
+        are ready or the transfers are validated, but what the customer sees
+        follows the parcel. An AWB generated (`pre_advice`), a parcel with the
+        carrier (`in_transit`/`in_warehouse`/`in_delivery`) or delivered to
+        all its recipients (`delivered`). Returns False when the carrier gave
+        no such status, and the stock stage stays.
+        """
+        self.ensure_one()
+        delivery_states = set(self.picking_ids.filtered(lambda p: p.state != "cancel").mapped("delivery_state"))
+        if delivery_states & {"in_transit", "in_warehouse", "in_delivery"}:
+            return "in_delivery"
+        if "pre_advice" in delivery_states:
+            return "pre_advice"
+        if delivery_states == {"delivered"}:
+            return "delivered"
+        return False
 
     def _action_confirm(self):
         res = super()._action_confirm()

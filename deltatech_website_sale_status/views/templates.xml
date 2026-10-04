@@ -18,14 +18,14 @@
         <xpath expr="//t[@t-foreach='orders']/tr/td[3]" position="after">
             <td class="text-center">
                 <span
-                    t-if="order.stage in ['placed','in_delivery','to_be_delivery']"
+                    t-if="order.stage in ['placed','to_be_delivery','pre_advice','in_delivery']"
                     class="badge badge-pill bg-info"
                 ><span t-field="order.stage" /></span>
                 <span t-if="order.stage in ['in_process']" class="badge badge-pill bg-warning"><span
                         t-field="order.stage"
                     /></span>
                 <span
-                    t-if="order.stage in ['canceled','waiting','postponed','returned']"
+                    t-if="order.stage in ['canceled','rfq','waiting','postponed','returned']"
                     class="badge badge-pill bg-danger"
                 ><span t-field="order.stage" /></span>
                 <span t-if="order.stage in ['delivered']" class="badge badge-pill bg-success"><span
