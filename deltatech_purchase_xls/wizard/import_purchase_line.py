@@ -146,12 +146,20 @@ class ImportPurchaseLine(models.TransientModel):
         Search for product by code. If supplier code not found internal code is searched,
         :param code: code to search
         :return: product record or False if not found
+
+        The supplier code is resolved only on the vendor pricing rows of the order vendor (or of its
+        commercial partner) that apply to the order company. A code that leads to several products
+        is reported instead of picking one at random.
         """
-        domain = [("product_code", "=", code)]
-        supplier_info = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
-        if not supplier_info:
+        order = self.purchase_id
+        company = order.company_id or self.env.company
+        domain = [("product_code", "=", code), ("company_id", "in", [company.id, False])]
+        if order.partner_id:
+            domain += [("partner_id", "child_of", order.partner_id.commercial_partner_id.id)]
+        supplier_infos = self.env["product.supplierinfo"].sudo().search(domain)
+        if not supplier_infos:
             if self.search_by_default_code:
-                domain = [("default_code", "=", code)]
+                domain = [("default_code", "=", code), ("company_id", "in", [company.id, False])]
                 product = self.env["product.product"].sudo().search(domain, limit=1)
                 if product:
                     return product
@@ -159,12 +167,20 @@ class ImportPurchaseLine(models.TransientModel):
                     return False
             else:
                 return False
-        else:
-            if supplier_info.product_id:
-                product = supplier_info.product_id
-            else:
-                product = supplier_info.product_tmpl_id.product_variant_id
-            return product
+        products = self.env["product.product"]
+        for supplier_info in supplier_infos:
+            products |= supplier_info.product_id or supplier_info.product_tmpl_id.product_variant_ids
+        if len(products) > 1:
+            raise UserError(
+                self.env._(
+                    "The supplier code %(code)s of %(vendor)s matches several products: %(products)s. "
+                    "Set the product variant on the vendor pricelist.",
+                    code=code,
+                    vendor=order.partner_id.display_name,
+                    products=", ".join(products.mapped("display_name")),
+                )
+            )
+        return products
 
     def create_product(self, product_code, product_name, quantity, price, uom_name=False):
         """
@@ -180,6 +196,7 @@ class ImportPurchaseLine(models.TransientModel):
             "product_code": product_code,
             "price": price,
             "currency_id": self.purchase_id.currency_id.id,
+            "company_id": self.purchase_id.company_id.id,
         }
         uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
         if uom:
