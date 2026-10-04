@@ -1,3 +1,7 @@
+# 19.0.0.0.11
+
+- Add unit tests covering validation and save-time restrictions on receipts, deliveries and internal transfers.
+
 # 19.0.0.0.10
 
 - Own module icon, instead of the generic gears it had.
