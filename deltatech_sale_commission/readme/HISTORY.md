@@ -1,5 +1,10 @@
 # Changelog
 
+## 20.0.1.5.5 (2026-10-04)
+
+- COMMISSION-003 (security): the commission rates (`commission.users`) had no company rule, so a Commission Manager allowed only in company A could read, change, delete or create the rates of company B (salesperson, manager and director rates). A multi-company restriction now limits the rates to the allowed companies, and moving a rate to another company requires access to that company.
+- Port of 19.0.1.6.2 (dhongu/deltatech#3116). In 20 the company rule is a global row (no group, `crud`) of `security/ir.access.csv` instead of an `ir.rule` in the `noupdate` `security/security.xml`, so it is also updated on module upgrade.
+
 ## 20.0.1.5.4 (2026-10-01)
 
 - [FIX] in "block" mode, the invoice of a confirmed sale order is no longer refused with "You can not sell below the purchase price." when the line is invoiced at the price of its order line: that price was already judged on the order, possibly by a seller allowed to sell below cost. A price changed on the invoice, and invoice lines without an order, are still checked.

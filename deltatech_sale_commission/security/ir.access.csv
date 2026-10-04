@@ -3,6 +3,7 @@ access_sale_margin_report_manager,Sale margin report,sale.margin.report,deltatec
 access_sale_margin_report_user,Sale margin report,sale.margin.report,deltatech_sale_commission.group_commission_viewer,r,
 sale_margin_report_comp_rule,Sale Margin Report multi-company,sale.margin.report,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
 access_commission_users,access_commission_users,commission.users,deltatech_sale_commission.group_commission_manager,crud,
+commission_users_comp_rule,Commission rates multi-company,commission.users,,crud,"[('company_id', 'in', company_ids)]"
 access_sale_commission_condition_manager,access_sale_commission_condition_manager,sale.commission.condition,deltatech_sale_commission.group_commission_manager,crud,
 access_sale_commission_condition_user,access_sale_commission_condition_user,sale.commission.condition,deltatech_sale_commission.group_commission_viewer,r,
 access_commission_compute,access_commission_compute,commission.compute,base.group_user,crud,
