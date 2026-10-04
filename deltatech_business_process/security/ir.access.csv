@@ -47,3 +47,8 @@ access_business_process_library_import_line,access_business_process_library_impo
 access_business_process_library_import_options,access_business_process_library_import_options,business.process.library.import.options,deltatech_business_process.group_business_process_manager,crud,
 access_business_migration,access_business_migration,business.migration,base.group_user,r,
 access_business_migration_test,access_business_migration_test,business.migration.test,base.group_user,r,
+business_open_issue_comp_rule,Business open issue multi-company,business.open.issue,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_report_comp_rule,Business process report multi-company,business.process.report,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_process_test_report_comp_rule,Business process test report multi-company,business.process.test.report,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+business_migration_comp_rule,Business migration multi-company,business.migration,,crud,"['|',('project_id.company_id','=',False),('project_id.company_id', 'in', company_ids)]"
+business_migration_test_comp_rule,Business migration test multi-company,business.migration.test,,crud,"['|',('migration_id.project_id.company_id','=',False),('migration_id.project_id.company_id', 'in', company_ids)]"

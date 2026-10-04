@@ -1,3 +1,10 @@
+## 20.0.1.9.5 (2026-10-04)
+
+- BUSINESS-003 (security): *Start User Acceptance Test* (and the *Start Test* smart button, which calls it) created the test as superuser on any process id passed through RPC, including processes hidden by the company or "Allowed users" rules. The caller must now be a Business Process user and be able to read the processes; the test is still created as superuser and is returned in the caller's environment.
+- BUSINESS-002 (security): the *Business process report*, the *Business process test report*, *Open Issue* and the data migration records (*Migration*, *Migration test*) had no company rule, so a user restricted to one company (Business Admin included) saw processes, tests, issues and migrations of the other companies. The two SQL reports now expose the process company (`company_id`) and all five models get a global multi-company restriction (the migrations through their project company); records of projects without a company stay visible to everybody.
+- BUSINESS-011: creating an *Open Issue* failed with "Record does not exist or has been deleted" (MissingError), because the submission mail used the *Issue Submitted* template, bound to *Business Issue*, with the id of the Open Issue. Open Issues now have their own template (*Open Issue Submitted*), each model uses the template of its own model, and a template bound to another model is never rendered.
+- Port of 19.0.1.9.4 (dhongu/deltatech#3114), 19.0.1.9.5 (dhongu/deltatech#3116) and 19.0.1.9.6 (dhongu/deltatech#3123). In 20 the company rules are global rows (no group, `crud`) of `security/ir.access.csv` instead of `ir.rule` records in `security/security.xml`; the new mail template uses `t-out` (server-side `t-esc` is ignored in 20).
+
 ## 19.0.1.9.3 (2026-09-24)
 
 - Excel project report: the *Testing duration* and *Data Migration Duration*
