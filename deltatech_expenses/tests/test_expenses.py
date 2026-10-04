@@ -790,3 +790,98 @@ class TestExpenses(TransactionCase):
         # 2 documente (linia + diurna) → ramura cu numărul afișat prin t-out
         self.assertIn("acte justificative specificate", html)
         self.assertIn("OD-1", html)
+
+    def _new_deduction(self, advance, **vals):
+        values = {
+            "date_advance": fields.Date.today(),
+            "employee_id": self.employee.id,
+            "advance": advance,
+            "journal_id": self.cash_journal.id,
+            "expense_journal_id": self.adv_journal.id,
+            "journal_diem_id": self.diary_journal.id,
+            "account_diem_id": self.acc_exp.id,
+        }
+        values.update(vals)
+        deduction = self.env["deltatech.expenses.deduction"].create(values)
+        deduction.validate_advance()
+        return deduction
+
+    def _new_line(self, deduction, amount, taxes=None, **vals):
+        values = {
+            "expenses_deduction_id": deduction.id,
+            "name": "Cheltuială",
+            "amount": amount,
+            "tax_ids": [(6, 0, (taxes or self.env["account.tax"]).ids)],
+            "expense_account_id": self.acc_exp.id,
+            "partner_id": self.supplier.id,
+        }
+        values.update(vals)
+        return self.env["deltatech.expenses.deduction.line"].create(values)
+
+    def _foreign_currency(self, company):
+        """An active currency different from the company currency, with a rate far from 1."""
+        currency = (
+            self.env["res.currency"]
+            .with_context(active_test=False)
+            .search([("id", "!=", company.currency_id.id), ("name", "in", ["EUR", "USD", "CHF"])], limit=1)
+        )
+        currency.active = True
+        self.env["res.currency.rate"].create(
+            {"currency_id": currency.id, "rate": 0.2, "name": fields.Date.today(), "company_id": company.id}
+        )
+        return currency
+
+    def test_line_currency_is_company_currency(self):
+        """EXPENSES-002: a currency sent with the line is ignored, the line is in the company currency
+        of the deduction, so totals and posting add only amounts in the same currency."""
+        foreign = self._foreign_currency(self.company)
+        deduction = self._new_deduction(200.0)
+        # tax included: the receipt total (121) is the line amount, whatever the tax computation of the line
+        line = self._new_line(deduction, 121.0, self.tax_incl_21, currency_id=foreign.id)
+        self.assertEqual(line.currency_id, self.company.currency_id)
+        self.assertEqual(deduction.currency_id, self.company.currency_id)
+        line.write({"currency_id": foreign.id})
+        self.assertEqual(line.currency_id, self.company.currency_id)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0, places=2)
+        deduction.validate_expenses()
+        voucher = deduction.voucher_ids
+        self.assertEqual(voucher.currency_id, self.company.currency_id)
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    def test_line_currency_follows_deduction_company(self):
+        """EXPENSES-002: the line currency comes from the deduction company, not from the main company
+        of the user (who works in another allowed company)."""
+        foreign = self._foreign_currency(self.company)
+        company_b = self.env["res.company"].create({"name": "Expenses company B", "currency_id": foreign.id})
+        self.env.user.company_ids |= company_b
+        self.assertEqual(self.env.user.company_id, self.company)
+        env_b = self.env(context=dict(self.env.context, allowed_company_ids=[company_b.id, self.company.id]))
+        account_b = env_b["account.account"].create(
+            {"name": "Cash B", "code": "5311B", "account_type": "asset_cash", "company_ids": [(6, 0, company_b.ids)]}
+        )
+        journal_b = env_b["account.journal"].create(
+            {
+                "name": "Cash B",
+                "code": "CSHB",
+                "type": "general",
+                "company_id": company_b.id,
+                "default_account_id": account_b.id,
+            }
+        )
+        deduction = env_b["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "company_id": company_b.id,
+                "journal_id": journal_b.id,
+                "account_diem_id": account_b.id,
+            }
+        )
+        line = env_b["deltatech.expenses.deduction.line"].create(
+            {"expenses_deduction_id": deduction.id, "name": "Taxi", "amount": 50.0, "expense_account_id": account_b.id}
+        )
+        self.assertEqual(deduction.currency_id, foreign)
+        self.assertEqual(line.currency_id, foreign)
+        self.assertAlmostEqual(deduction.amount_vouchers, 50.0, places=2)

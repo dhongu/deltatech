@@ -84,7 +84,7 @@ The actual map comprehension and receipt validation method were executed in isol
 
 ## [P1] Source quantities and unit prices are applied without unit conversion
 
-**Status:** Open — documented, not fixed.
+**Status:** Fixed in 20.0.1.4.4 (UBL-005) — `_process_invoice_data()` resolves the source unit of every line (`_source_uom()`, no fallback for unknown codes) and `_convert_source_line()` converts quantity/price to the existing order line unit; new order lines keep the source unit when compatible with the product unit; the receipt map is expressed in the product unit and converted to each move unit (`_receipt_qty_in_move_uom()`); `_update_supplier_price()` converts the price to the unit of an existing vendor row or creates the new row in the source unit. Incompatible units are not converted and are reported in the log. Port of 19.0.1.4.4 (dhongu/deltatech#3118). Covered by tests in tests/test_ubl_import_uom.py.
 
 **Location:** `models/purchase_invoice_import_mixin.py:670–675 and :689–695`. Line numbers refer to the reviewed source and may change.
 

@@ -113,9 +113,10 @@ class PurchaseOrder(models.Model):
                                 company,
                                 fields.Date.today(),
                             )
-                            if line.product_id.product_tmpl_id.uom_id != line.uom_id:
-                                default_uom = line.product_id.product_tmpl_id.uom_id
-                                seller_price_unit = line.uom_id._compute_price(seller_price_unit, default_uom)
+                            # the supplier price is expressed in the unit of the supplier pricing row
+                            seller_uom = seller.uom_id or line.product_id.uom_id
+                            if line.uom_id and line.uom_id != seller_uom:
+                                seller_price_unit = line.uom_id._compute_price(seller_price_unit, seller_uom)
                             seller.write({"price": seller_price_unit})
         return res
 

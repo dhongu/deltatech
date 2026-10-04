@@ -1,5 +1,19 @@
 # Changelog
 
+## 20.0.3.3.2 (2026-10-04)
+
+- **Fix (EXPENSES-002): the expense lines are always in the company currency
+  of the deduction.** A line could get another currency (the journal currency,
+  the currency of the user's main company, or one sent by an integration such
+  as the HR expense import), but its amount was still added to the totals and
+  posted as company currency, so the currency shown on the line was wrong.
+  The line currency is now derived from the deduction company and a currency
+  sent on create/write is ignored; amounts are entered in the company
+  currency. The migration (`migrations/20.0.3.3.2`) aligns the currency of
+  existing lines; amounts, totals and posted entries do not change. Port of
+  19.0.3.4.1 (dhongu/deltatech#3117). The 19.0.3.4.0 changes (gross line
+  amount, settlement date, supplier advance 4092) are not part of this port.
+
 ## 20.0.3.3.1 (2026-10-01)
 
 - Migration to Odoo 20.0: access rights and record rules moved to

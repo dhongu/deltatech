@@ -3,3 +3,5 @@
 # See README.rst file on addons root folder for license details
 
 from . import test_purchase
+from . import test_force_price
+from . import test_multi_company
