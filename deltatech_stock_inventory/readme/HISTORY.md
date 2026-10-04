@@ -1,3 +1,8 @@
+## 20.0.2.10.3 (2026-10-04)
+
+- INVENTORY-003 (security): the inventory documents (`stock.inventory`) and their lines (`stock.inventory.line`) had no company rule, so a stock user working in company A could search, read, change or delete the inventories, quantities and owners of other companies. Both models are now restricted to the allowed companies (lines without a company stay visible).
+- Port of 19.0.2.10.3 (dhongu/deltatech#3116). In 20 the two company rules are global rows (no group, `crud`) of `security/ir.access.csv` instead of the new `security/ir_rule.xml` of 19.
+
 ## 20.0.2.10.2 (2026-10-01)
 
 - Applying a count on a quant moved since it was counted no longer closes the inventory before the

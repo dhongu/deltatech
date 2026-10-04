@@ -106,7 +106,9 @@ class TestTcQueue(TransactionCase):
 
     def test_bad_param_falls_back_to_default(self):
         self._set_param("claim_timeout_minutes", "abc")
-        self.assertEqual(self.Job._tc_param("claim_timeout_minutes", 15), 15)
+        # get_int() logs the invalid value before falling back
+        with self.assertLogs("odoo.addons.base.models.ir_config_parameter", "WARNING"):
+            self.assertEqual(self.Job._tc_param("claim_timeout_minutes", 15), 15)
         self._set_param("claim_timeout_minutes", "-5")
         self.assertEqual(self.Job._tc_param("claim_timeout_minutes", 15), 0)
 

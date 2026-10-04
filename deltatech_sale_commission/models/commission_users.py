@@ -22,3 +22,11 @@ class CommissionUsers(models.Model):
         domain="[('type', 'in', ['sale','sale_refund'])]",
     )
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "company_id" in vals:
+            # the company rule is checked before the write only: a rate must not be moved
+            # to a company the user does not have access to (COMMISSION-003)
+            self.check_access("write")
+        return res

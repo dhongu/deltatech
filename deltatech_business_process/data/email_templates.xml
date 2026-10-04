@@ -63,4 +63,39 @@
         <field name="lang">{{object.project_id.project_manager_id.lang}}</field>
         <field name="auto_delete" eval="False" />
     </record>
+
+    <record id="email_template_open_issue_submitted" model="mail.template">
+        <field name="name">Open Issue Submitted</field>
+        <field name="model_id" ref="model_business_open_issue" />
+        <field name="subject">Open Issue Submitted</field>
+        <field name="partner_to">{{object.project_id.project_manager_id.id}}</field>
+        <field name="use_default_to">False</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p>
+                    Dear&#160;<t t-out="object.project_id.project_manager_id.name" />,
+                    <br />
+                    The open issue
+                    <t t-out="object.name" />
+                    of
+                    <t t-out="object.project_id.name" />
+                    has submitted by
+                    <t t-out="object.create_uid.name" />
+                    on
+                    <t t-out="datetime.date.today().strftime('%d-%m-%Y')" />.
+                    <br />
+                    Please check and inform colleagues of the current open issue.
+                    <br />
+                    <br />
+                    Description:
+                    <br />
+                    <div style="border: 1px solid #000; padding: 10px;">
+                        <t t-out="object.description" />
+                    </div>
+                </p>
+            </div>
+        </field>
+        <field name="lang">{{object.project_id.project_manager_id.lang}}</field>
+        <field name="auto_delete" eval="False" />
+    </record>
 </odoo>

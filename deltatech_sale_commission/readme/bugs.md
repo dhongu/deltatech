@@ -59,3 +59,14 @@ Normalize move quantities to a common product unit before averaging, then conver
 ### Validation
 
 The actual get_purchase_price() method was executed in isolation with move value -120 and move quantity 1; it returned 120. Core move quantity units and the report cost multiplication were checked.
+
+## COMMISSION-003 — P1: Commission rates lack company access rules
+
+- **Status:** Fixed in 19.0.1.6.2 / 20.0.1.5.5 — global multi-company restriction on `commission.users` (`[('company_id', 'in', company_ids)]`; in 20 the row `commission_users_comp_rule` of `security/ir.access.csv`, in 19 an `ir.rule` in `security/security.xml`), and `write()` re-checks the access after a `company_id` change. Covered by tests in `tests/test_company_rules.py`.
+- **Location:** `models/commission_users.py`; `security/security.xml`; `security/ir.model.access.csv`.
+- **Trigger:** A Commission Manager allowed in company A reads or modifies a commission.users record belonging to company B.
+- **Actual behavior:** The model has company_id and manager full CRUD ACLs, but no company record rule. The only company rule declared in the module applies to sale.margin.report. The journal/company consistency constraint permits a valid B journal/B company pair and does not check the requesting user's allowed companies.
+- **Impact:** Other companies' commission rates and manager/director assignments can be read or changed, affecting financial commission reporting.
+- **Evidence:** Complete rate model, ACLs and manifest-loaded security inspected; no database impersonation test executed.
+- **Suggested fix:** Add a global company rule consistent with the report rule and validate cross-company configuration access.
+- **Validation needed:** As an A-only manager, deny read/write/create/delete on B rates while retaining access to A.

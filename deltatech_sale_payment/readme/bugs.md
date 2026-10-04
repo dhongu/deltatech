@@ -36,6 +36,28 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Status:** Fixed in 19.0.1.3.0 / 20.0.1.3.0. In 20 the rule is in `_should_create_payment`, and the wire transfer is no longer affected when `account_payment_custom` (auto-installed) gives it a payment method line; `none` still is. In 19, `payment.transaction._create_payment` returns no payment when the provider's journal has no inbound payment method line for it, so the post-processing goes on (quotation confirmation, automatic invoice) and the transaction is flagged as post-processed. Tests: `test_post_processing_without_payment_method_line` (provider `none`), `test_wire_transfer_provider` (`payment_custom`, skipped when it is not installed).
 - **Actual behavior:** Odoo 19 has no `account.payment.method` for the `custom` provider code, so after the wizard sets a wire-transfer transaction `done`, `_post_process` raises "Please define a payment method line on your payment." in `_create_payment`. The cron rolls back (order not confirmed, no invoice, no payment) and retries every 10 minutes for 4 days.
 
+## SALEPAY-006 — P1: Public transaction update bypasses order access and ownership checks
+
+- **Status:** Fixed in 19.0.1.3.2 / 20.0.1.3.2 — `update_transaction` became the private `_update_transaction` (no longer callable through RPC), which checks write access on the order itself. Every entry point (`do_add_payment`, `do_confirm`, `_update_transaction`) calls `_check_payment_values()` before the superuser write: the transaction must belong to the order checked by `_get_order()`, the provider must be of the order's company, and the payment method must be one of the provider's (in 20: `payment_method_id.provider_id` is the provider, since every method, the "unknown" one included, belongs to one provider). Covered by tests in `tests/test_confirm_payment.py` (`test_update_transaction_is_not_callable_remotely`, `test_transaction_of_another_order_is_refused`, `test_private_update_checks_the_order`, `test_provider_of_another_company_is_refused`, `test_payment_method_of_another_provider_is_refused`).
+- **Location:** wizard/sale_confirm_payment.py, update_transaction(); security/ir.model.access.csv.
+- **Trigger:** An internal user creates their own wizard with a chosen pending/draft transaction_id and calls update_transaction directly through ORM/RPC, or supplies an unrelated transaction on a wizard for an accessible order.
+- **Actual behavior:** update_transaction is public and immediately sudo-reads/writes the selected transaction. It does not call _get_order, check caller transaction write access or verify membership in the order's transaction_ids. The parent actions check order write access but likewise do not bind transaction_id to that order. Wizard ACL grants all internal users create/write; transaction_id readonly only affects UI.
+- **Evidence:** Executed the actual method extracted by AST with a mocked pending transaction and no order/access objects. It performed a privileged write of amount=99, provider_id=2 and payment_method_id=3 without any access/ownership check. No actual payment or RPC executed.
+- **Impact:** A user lacking accounting transaction write rights can alter another order's pending payment amount/provider/method, including a transaction outside the intended order/company scope. An unrelated transaction can also be confirmed through the parent flow after an accessible-order check.
+- **Suggested fix:** Enforce caller order access and transaction-to-order/company membership inside every public mutation entry point before sudo; validate provider/method compatibility and amount there as well.
+- **Validation needed:** Direct update RPC from an internal user, another salesperson's transaction, unrelated-company transaction, accessible order with mismatched transaction, and the normal authorized payment workflow.
+
+## SALEPAY-007 — P3: `tests/test_sale.py` is not tagged post_install
+
+- **Status:** Open (20.0 too). Found on 2026-10-03 while fixing SALEPAY-006.
+- **Location:** tests/test_sale.py, `TestSaleOrderPayment` (`TransactionCase` without `@tagged`).
+- **Trigger:** Run the module tests on a database where `website_sale` (or other modules adding NOT NULL columns) is installed after this module.
+- **Actual behavior:** The tests run at install time and fail with `NotNullViolation: null value in column "base_unit_count" of relation "product_template"` in every test of the class (`test_payment_status_is_stored_and_follows_transactions`, `test_search_payment_status*`).
+- **Evidence:** test log of the SALEPAY-006 run; source inspection of the test file. `test_confirm_payment.py` and `test_sale_invoice_payment.py` are already tagged post_install.
+- **Impact:** Test noise only: false failures on shared databases. No runtime impact.
+- **Suggested fix:** Add `@tagged("post_install", "-at_install")` to the class.
+- **Validation needed:** Run the module tests on a database with website_sale installed; assert no NotNullViolation.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run at review time. SALEPAY-001 to SALEPAY-005 were fixed on 2026-10-01 with database-backed tests.

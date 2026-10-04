@@ -124,12 +124,20 @@ class BusinessIssue(models.Model):
         res.send_issue_mail()
         return res
 
+    def _get_issue_submitted_template(self):
+        """Return the submission mail template bound to this model (business.issue)."""
+        return self.env.ref("deltatech_business_process.email_template_issue_submitted", raise_if_not_found=False)
+
     def send_issue_mail(self):
+        template = self._get_issue_submitted_template()
+        # never render a template of another model: the record id would be browsed in the wrong table
+        if template and template.model != self._name:
+            template = self.env["mail.template"]
         for item in self:
             today = date.today().strftime("%Y-%m-%d")
             item.sudo().message_post(body=self.env._("Date of approval: {today}", today=today))
-            template = self.env.ref("deltatech_business_process.email_template_issue_submitted")
-            self.env["mail.template"].browse(template.id).send_mail(item.id, force_send=True)
+            if template:
+                template.send_mail(item.id, force_send=True)
 
     def _compute_display_name(self):
         for issue in self:
@@ -233,3 +241,6 @@ class BusinessOpenIssue(models.Model):
     _name = "business.open.issue"
     _description = "Business Open Issue"
     _inherit = "business.issue"
+
+    def _get_issue_submitted_template(self):
+        return self.env.ref("deltatech_business_process.email_template_open_issue_submitted", raise_if_not_found=False)

@@ -15,3 +15,4 @@ from . import test_product_replenish_reference
 from . import test_screenshots
 from . import test_audit_fixes
 from . import test_inventory_conflict
+from . import test_company_rules

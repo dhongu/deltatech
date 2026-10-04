@@ -5,3 +5,4 @@
 from . import test_sale
 from . import test_margin_report_uom
 from . import test_invoice_below_cost
+from . import test_company_rules
