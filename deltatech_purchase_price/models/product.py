@@ -94,8 +94,11 @@ class ProductTemplate(models.Model):
             return
         AccountTax = self.env["account.tax"]
 
-        currency = self.env.user.company_id.currency_id
-        company = self.env.user.company_id
+        # The purchase price is company dependent: it is read in the active company (set with with_company()
+        # by the supplier price update), so its currency and the conversion rate are those of the same company,
+        # not of the default company of the user.
+        company = self.env.company
+        currency = company.currency_id
         date = self.env.context.get("date") or fields.Date.today()
 
         for product in self:
