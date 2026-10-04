@@ -4,3 +4,4 @@
 
 from . import test_import_xlsx
 from . import test_search_product
+from . import test_purchase_xls

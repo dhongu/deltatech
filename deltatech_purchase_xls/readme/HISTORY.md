@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-04)
+
+- Extend unit tests to cover the order lines action, the order line import (load) hooks, the import wizard (supplier and internal code search, amounts, units of measure, missing and new products, errors) and the export of vendor codes and names.
+
 ## 19.0.1.0.2 (2026-10-03)
 
 - **Fix (PURCHASEXLS-001): supplier codes are matched on the order vendor
