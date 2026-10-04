@@ -6,3 +6,5 @@ access_stock_inventory_line_user,stock.inventory.line user,stock.inventory.line,
 access_stock_inventory_line_manager,stock.inventory.line manager,stock.inventory.line,stock.group_stock_manager,crud,
 access_stock_confirm_inventory,access_stock_confirm_inventory,stock.confirm.inventory,stock.group_stock_manager,crud,
 access_stock_inventory_merge,access_stock_inventory_merge,stock.inventory.merge,deltatech_stock_inventory.group_merge_inventory,crud,
+stock_inventory_comp_rule,Inventory multi-company,stock.inventory,,crud,"[('company_id', 'in', company_ids)]"
+stock_inventory_line_comp_rule,Inventory line multi-company,stock.inventory.line,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
