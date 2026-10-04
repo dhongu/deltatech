@@ -160,6 +160,15 @@ class TestPickingRestrictEntryExit(TransactionCase):
         picking.with_user(self.user).button_validate()
         self.assertEqual(picking.state, "done")
 
+    def test_validate_batch_with_backorder_still_restricted(self):
+        # a backorder in the selection must not exempt the other pickings validated with it
+        origin = self._receipt(qty_done=5.0)
+        origin.button_validate()
+        backorder = self._receipt(qty_done=5.0, backorder_id=origin.id)
+        picking = self._receipt(qty_done=7.0)
+        with self.assertRaisesRegex(UserError, "greater than the quantity ordered"):
+            (backorder | picking).with_user(self.user).button_validate()
+
     def test_validate_internal_same_warehouse(self):
         picking = self._internal(self.shelf_loc, qty_done=7.0)
         picking.with_user(self.user).button_validate()
