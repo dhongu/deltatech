@@ -1,3 +1,25 @@
+## 19.0.2.0.11 (2026-10-04)
+
+- Fix: a website quotation sent to the customer never reached the `placed`
+  stage — the `else` of the next if/elif/else reset it to `in_process`.
+- Fix: the stage set from the carrier status of the transfer (`write()` on
+  `stock.picking`) was overwritten at once by the recompute, since
+  `delivery_state` is a dependency of the stage. For storable products the
+  order never reached `pre_advice`/`in_delivery` and became `delivered` at the
+  validation of the transfer, while the parcel was still with the carrier —
+  in the portal too. The `write()` override is gone; `_compute_stage` now
+  applies the carrier status over the `to_be_delivery`/`delivered` stock
+  stages: `pre_advice` when an AWB was generated, `in_delivery` while the
+  parcel is with the carrier (`in_transit`/`in_warehouse`/`in_delivery`),
+  `delivered` when the carrier delivered all the transfers. A post-migration
+  recomputes the stage of the orders it changes.
+- Fix: the portal filters used the stage value `cancel` instead of
+  `canceled`: the "Canceled" filter never matched and "Open/Closed Orders"
+  did not treat canceled orders as closed. "Canceled" and "Closed Orders" now
+  also list the canceled orders, left out of the standard order list.
+- The `rfq` and `pre_advice` stages are added to the sales report and get a
+  badge in the portal order list.
+
 ## 19.0.2.0.10 (2026-10-04)
 
 - Extend unit tests to cover the order stage computation, the stage set from the
