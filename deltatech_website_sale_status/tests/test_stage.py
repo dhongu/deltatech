@@ -53,12 +53,13 @@ class TestSaleStage(TransactionCase):
         self.assertFalse(order.stage)
 
     def test_stage_website_sent(self):
-        """A website order in `sent` ends up `in_process`, not `placed`.
-
-        The `placed` value set for sent website orders is overwritten by the
-        `else` branch of the following if/elif/else (current behaviour).
-        """
         order = self._create_order(self.storable, website_id=self.website.id)
+        order.action_quotation_sent()
+        self.assertEqual(order.state, "sent")
+        self.assertEqual(order.stage, "placed")
+
+    def test_stage_backend_sent_in_process(self):
+        order = self._create_order(self.storable)
         order.action_quotation_sent()
         self.assertEqual(order.state, "sent")
         self.assertEqual(order.stage, "in_process")
@@ -161,7 +162,7 @@ class TestSaleStage(TransactionCase):
         self.assertEqual(order.stage, "waiting")
 
     # ------------------------------------------------------------------
-    # stock.picking write
+    # stage from the carrier status (delivery_state) of the transfer
     # ------------------------------------------------------------------
     def _confirmed_goods_order(self):
         order = self._create_order(self.goods, qty=1)
@@ -181,27 +182,59 @@ class TestSaleStage(TransactionCase):
         self.assertEqual(order.stage, "delivered")
 
     def test_picking_write_pre_advice(self):
-        """`pre_advice` is written on the order, then the stage is recomputed (current behaviour)."""
         order, picking = self._confirmed_goods_order()
         picking.write({"delivery_state": "pre_advice"})
         self.assertEqual(picking.delivery_state, "pre_advice")
-        self.assertEqual(order.stage, "in_delivery")
+        self.assertEqual(order.stage, "pre_advice")
 
-    def test_picking_write_storable_recomputed(self):
-        """For storable products the stage set by write() is overwritten by the recompute (current behaviour).
+    def test_picking_delivery_state_storable(self):
+        """Storable products: the order follows the parcel, not only the stock moves.
 
-        Before validation the order stays `to_be_delivery`; after validation all
-        pickings are done, so the order is `delivered` even while in transit.
+        An AWB on a ready transfer is `pre_advice`, a parcel with the carrier is
+        `in_delivery` before and after the validation, and the order is
+        `delivered` only when the carrier delivered it.
         """
         self._put_in_stock(self.storable, 10)
         order = self._create_order(self.storable, qty=1)
         order.action_confirm()
         picking = order.picking_ids
-        picking.write({"delivery_state": "in_transit"})
         self.assertEqual(order.stage, "to_be_delivery")
+        picking.write({"delivery_state": "pre_advice"})
+        self.assertEqual(order.stage, "pre_advice")
+        picking.write({"delivery_state": "in_transit"})
+        self.assertEqual(order.stage, "in_delivery")
         self._deliver(picking)
+        self.assertEqual(picking.state, "done")
+        self.assertEqual(order.stage, "in_delivery")
         picking.write({"delivery_state": "in_warehouse"})
+        self.assertEqual(order.stage, "in_delivery")
+        picking.write({"delivery_state": "delivered"})
         self.assertEqual(order.stage, "delivered")
+
+    def test_picking_delivery_state_storable_validated_with_awb(self):
+        """Validated transfer with an AWB not yet picked up by the carrier: not delivered yet."""
+        self._put_in_stock(self.storable, 10)
+        order = self._create_order(self.storable, qty=1)
+        order.action_confirm()
+        picking = order.picking_ids
+        self._deliver(picking)
+        self.assertEqual(order.stage, "delivered")
+        picking.write({"delivery_state": "pre_advice"})
+        self.assertEqual(order.stage, "pre_advice")
+
+    def test_picking_delivery_state_does_not_hide_waiting(self):
+        """A carrier status does not override a stage that is not about delivery."""
+        order = self._create_order(self.storable, qty=5)
+        order.action_confirm()
+        self.assertEqual(order.stage, "waiting")
+        order.picking_ids.write({"delivery_state": "pre_advice"})
+        self.assertEqual(order.stage, "waiting")
+
+    def test_picking_delivery_state_canceled_order(self):
+        order, picking = self._confirmed_goods_order()
+        picking.write({"delivery_state": "in_transit"})
+        order._action_cancel()
+        self.assertEqual(order.stage, "canceled")
 
     def test_picking_write_without_sale(self):
         picking_type = self.warehouse.out_type_id
@@ -220,6 +253,15 @@ class TestSaleStage(TransactionCase):
     # ------------------------------------------------------------------
     # sale.report
     # ------------------------------------------------------------------
+    def test_sale_report_stage_pre_advice(self):
+        order, picking = self._confirmed_goods_order()
+        picking.write({"delivery_state": "pre_advice"})
+        self.env.flush_all()
+        groups = self.env["sale.report"]._read_group(
+            [("order_reference", "=", f"sale.order,{order.id}")], ["stage"], ["__count"]
+        )
+        self.assertEqual([stage for stage, _count in groups], ["pre_advice"])
+
     def test_sale_report_stage(self):
         self._put_in_stock(self.storable, 10)
         order = self._create_order(self.storable, qty=1)

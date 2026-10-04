@@ -54,6 +54,8 @@ class TestPortalOrders(HttpCase):
         cls.order_to_deliver = make_order(storable, 2)
         cls.order_waiting = make_order(no_stock, 5)
         cls.order_delivered = make_order(service, 1)
+        cls.order_canceled = make_order(service, 1)
+        cls.order_canceled._action_cancel()
         cls.quotation = cls.env["sale.order"].create(
             {
                 "partner_id": cls.partner.id,
@@ -75,6 +77,7 @@ class TestPortalOrders(HttpCase):
         self.assertEqual(self.order_to_deliver.stage, "to_be_delivery")
         self.assertEqual(self.order_waiting.stage, "waiting")
         self.assertEqual(self.order_delivered.stage, "delivered")
+        self.assertEqual(self.order_canceled.stage, "canceled")
 
     def test_my_orders_default(self):
         html = self._get("/my/orders")
@@ -89,17 +92,18 @@ class TestPortalOrders(HttpCase):
     def test_my_orders_filters(self):
         expected = {
             "open_order": (self.order_to_deliver, self.order_waiting),
-            "closed_order": (self.order_delivered,),
+            "closed_order": (self.order_delivered, self.order_canceled),
             "waiting": (self.order_waiting,),
             "to_be_delivery": (self.order_to_deliver,),
             "delivered": (self.order_delivered,),
+            "cancel": (self.order_canceled,),
+            # the standard list holds confirmed orders only
+            "all": (self.order_to_deliver, self.order_waiting, self.order_delivered),
         }
-        all_orders = self.order_to_deliver | self.order_waiting | self.order_delivered
+        all_orders = self.order_to_deliver | self.order_waiting | self.order_delivered | self.order_canceled
         for filterby in FILTERS:
             html = self._get(f"/my/orders?filterby={filterby}")
             shown = expected.get(filterby)
-            if filterby == "all":
-                shown = all_orders
             for order in all_orders:
                 if shown is not None and order in shown:
                     self.assertIn(order.name, html, filterby)

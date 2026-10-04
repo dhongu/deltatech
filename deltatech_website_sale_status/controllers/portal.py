@@ -16,11 +16,11 @@ class CustomerPortal(portal.CustomerPortal):
                 "all": {"label": request.env._("All"), "domain": []},
                 "open_order": {
                     "label": request.env._("Open Orders"),
-                    "domain": [("stage", "not in", ["delivered", "cancel"])],
+                    "domain": [("stage", "not in", ["delivered", "canceled"])],
                 },
                 "closed_order": {
                     "label": request.env._("Closed Orders"),
-                    "domain": [("stage", "in", ["delivered", "cancel"])],
+                    "domain": [("stage", "in", ["delivered", "canceled"])],
                 },
                 "placed": {"label": request.env._("Placed"), "domain": [("stage", "=", "placed")]},
                 "in_process": {"label": request.env._("In Process"), "domain": [("stage", "=", "in_process")]},
@@ -32,7 +32,7 @@ class CustomerPortal(portal.CustomerPortal):
                 },
                 "in_delivery": {"label": request.env._("In Delivery"), "domain": [("stage", "=", "in_delivery")]},
                 "delivered": {"label": request.env._("Delivered"), "domain": [("stage", "=", "delivered")]},
-                "cancel": {"label": request.env._("Canceled"), "domain": [("stage", "=", "cancel")]},
+                "cancel": {"label": request.env._("Canceled"), "domain": [("stage", "=", "canceled")]},
             }
             values.update(
                 {
@@ -56,11 +56,17 @@ class CustomerPortal(portal.CustomerPortal):
         domain = super()._prepare_orders_domain(partner)
 
         filterby = request.params.get("filterby", "")
+        if filterby in ("closed_order", "cancel"):
+            # the standard list holds confirmed orders only; these two filters
+            # are the ones meant to show the canceled ones too
+            domain = [
+                ("state", "in", ["sale", "cancel"]) if leaf == ("state", "=", "sale") else leaf for leaf in domain
+            ]
         match filterby:
             case "open_order":
-                domain += [("stage", "not in", ["delivered", "cancel"])]
+                domain += [("stage", "not in", ["delivered", "canceled"])]
             case "closed_order":
-                domain += [("stage", "in", ["delivered", "cancel"])]
+                domain += [("stage", "in", ["delivered", "canceled"])]
             case "placed":
                 domain += [("stage", "=", "placed")]
             case "in_process":
@@ -76,7 +82,7 @@ class CustomerPortal(portal.CustomerPortal):
             case "delivered":
                 domain += [("stage", "=", "delivered")]
             case "cancel":
-                domain += [("stage", "=", "cancel")]
+                domain += [("stage", "=", "canceled")]
             case _:
                 # Default case, no additional filter
                 pass
