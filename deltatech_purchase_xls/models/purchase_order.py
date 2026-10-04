@@ -52,64 +52,96 @@ class PurchaseOrderLine(models.Model):
     #     return super()._load_records(data_list, update)
 
     @api.model
-    def load(self, fields, data):
-        order = self.env["purchase.order"]
+    def _get_import_order(self, fields, data):
+        """Return the purchase order the imported rows belong to.
+
+        The order comes from ``default_order_id`` / ``active_id`` in the context or, failing that, from the
+        order column of the file (``order_id`` by name, ``order_id/id`` by external id, ``order_id/.id`` by
+        database id). The column is used only when all the rows point to one existing order; otherwise an
+        empty recordset is returned and the rows are left to the standard import.
+        """
+        order_model = self.env["purchase.order"]
         order_id = self.env.context.get("default_order_id", False) or self.env.context.get("active_id", False)
         if order_id:
-            order = self.env["purchase.order"].browse(order_id)
+            return order_model.browse(order_id)
 
-        if not order:
-            order_index = fields.index.get("order_id", False)
-            if order_index:
-                order_id = data[0][order_index]
-                order = self.env["purchase.order"].browse(order_id)
+        for field_name in ("order_id", "order_id/id", "order_id/.id"):
+            if field_name not in fields:
+                continue
+            order_index = fields.index(field_name)
+            values = {str(record[order_index]).strip() for record in data if record[order_index] not in (False, None)}
+            values.discard("")
+            if len(values) != 1:
+                return order_model
+            value = values.pop()
+            if field_name == "order_id":
+                return order_model.search([("name", "=", value)], limit=1)
+            if field_name == "order_id/id":
+                if "." not in value:
+                    value = f"__import__.{value}"
+                record = self.env.ref(value, raise_if_not_found=False)
+                return record if record and record._name == "purchase.order" else order_model
+            return order_model.browse(int(value)).exists() if value.isdigit() else order_model
+        return order_model
+
+    @api.model
+    def _get_import_product(self, value):
+        """Find the product of an imported row: by the code between ``[]`` and then by name."""
+        product = self.env["product.product"]
+        if value is None or isinstance(value, bool):
+            return product
+        value = str(value).strip()
+        if not value:
+            return product
+        # extrage codul din numele produsului care este intre paranteze []
+        if "[" in value and "]" in value:
+            product_code = value.split("[")[-1].split("]")[0].strip()
+            product = product.search([("default_code", "=", product_code)], limit=1)
+        if not product:
+            product_name = value.split("[")[0].strip()
+            if product_name:
+                product = product.search([("name", "=", product_name)], limit=1)
+        return product
+
+    @api.model
+    def load(self, fields, data):
+        """Import lines in the order given by the context or by the order column of the file.
+
+        When the order already has lines, only those lines are updated: each row is matched by product
+        to a line of the order and the rows without a match are dropped. When several lines have the same
+        product, the rows are matched in order to the first line not used yet by a previous row; a row
+        left without a free line is dropped. When the order has no lines, the rows are created as new
+        lines of the order.
+        """
+        order = self._get_import_order(fields, data)
 
         if order:
+            fields = list(fields)
             if order.order_line:
                 product_index = fields.index("product_id") if "product_id" in fields else -1
-                fields.append(".id")
+                if ".id" not in fields:
+                    fields.append(".id")
+                    data = [list(record) + [""] for record in data]
                 index_id = fields.index(".id")
-                for record in data:
-                    record.append("")
 
                 if product_index != -1:
+                    rows = []
+                    used_lines = self.env["purchase.order.line"]
                     for record in data:
-                        product_name = record[product_index]
-                        product = self.env["product.product"]
-                        # extrage codul din numele produsului care este intre paranteze []
-                        if "[" in product_name and "]" in product_name:
-                            product_code = product_name.split("[")[-1].split("]")[0].strip()
-                            product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
+                        product = self._get_import_product(record[product_index])
                         if not product:
-                            product_name = product_name.split("[")[0].strip()
-                            product = self.env["product.product"].search([("name", "=", product_name)], limit=1)
-
-                        if not product:
-                            data.remove(record)
                             continue
-                        if product:
-                            line = order.order_line.filtered(lambda l: l.product_id.id == product.id)
-                            if line:
-                                record[index_id] = str(line.id)
-                            else:
-                                data.remove(record)
-            else:
-                # product_index = fields.index("product_id") if "product_id" in fields else -1
-                # for record in data:
-                #     product_name = record[product_index]
-                #     product = self.env["product.product"]
-                #     # extrage codul din numele produsului care este intre paranteze []
-                #     if "[" in product_name and "]" in product_name:
-                #         product_code = product_name.split("[")[-1].split("]")[0].strip()
-                #         product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
-                #     if product_name.is_digit():
-                #         product = self.env["product.product"].search([("default_code", "=", product_name)], limit=1)
-                #         if not product:
-                #             product = self.env["product.product"].search([("barcode", "=", product_name)], limit=1)
-
+                        line = (order.order_line - used_lines).filtered(lambda l: l.product_id == product)[:1]
+                        if not line:
+                            continue
+                        used_lines |= line
+                        record = list(record)
+                        record[index_id] = str(line.id)
+                        rows.append(record)
+                    data = rows
+            elif not any(name in fields for name in ("order_id", "order_id/id", "order_id/.id")):
                 # din teste pare ca nu trebuie cautat produsul separat dupa cod de bare/referinta
                 fields.append("order_id")
-                for record in data:
-                    record.append(order.name)
+                data = [list(record) + [order.name] for record in data]
 
         return super().load(fields, data)
