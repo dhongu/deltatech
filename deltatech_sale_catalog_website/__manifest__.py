@@ -5,7 +5,7 @@
     "name": "Sale Catalog Website Categories & Image Zoom",
     "summary": "In the Sales product catalog: show website categories in the "
     "left panel and open the product image full size on click",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
