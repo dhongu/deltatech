@@ -13,6 +13,12 @@ on:
   push:
     branches:
       - "19.0"
+  # A push only tests the touched addons and skips the coverage upload, so
+  # Codecov would never see the effect of new tests. The nightly run tests the
+  # whole repo (plan_tests.py: any event other than push/PR is a full run) and
+  # uploads a complete report. Schedules only fire on the default branch (19.0).
+  schedule:
+    - cron: "0 1 * * *"
 
 # A new push on a PR cancels the previous run: no point keeping a runner busy
 # with an outdated version of the branch.
