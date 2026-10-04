@@ -498,20 +498,23 @@ class TestSaleOrderPayment(TransactionCase):
             .create(
                 {
                     "provider_id": self.provider2.id,
+                    # in 20 the method belongs to its provider: the one of the transaction is refused
+                    "payment_method_id": self.provider2.payment_method_ids[:1].id,
                     "amount": 15.0,
                     "transaction_id": tx.id,
                     "payment_date": date.today(),
                 }
             )
         )
-        wizard.update_transaction()
+        wizard.do_add_payment()
         self.assertEqual(tx.amount, 15.0)
         self.assertEqual(tx.provider_id, self.provider2)
+        self.assertEqual(tx.payment_method_id, self.provider2.payment_method_ids[:1])
 
         # A transaction that is no longer pending/draft is never cancelled nor deleted
         tx.with_context(payment_safe_write=True).state = "done"
         with self.assertRaises(UserError):
-            wizard.update_transaction()
+            wizard.do_add_payment()
         self.assertTrue(tx.exists())
         self.assertEqual(tx.state, "done")
 

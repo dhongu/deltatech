@@ -1,3 +1,8 @@
+## 20.0.1.3.2 (2026-10-04)
+
+- SALEPAY-006 (security): through RPC, an internal user could create a "Confirm Payment" wizard with any transaction and call `update_transaction` on it, changing as superuser the amount, provider and payment method of another order's pending payment, or confirm it through an order they could access. The method is now private (`_update_transaction`), and every step of the wizard checks that the transaction belongs to the order, that the provider is of the order's company and that the payment method belongs to the provider. The normal use of the wizard from the order is unchanged; a custom code calling `update_transaction()` must call `do_add_payment()` instead.
+- Port of 19.0.1.3.2 (dhongu/deltatech#3114). In 20 every payment method (brands and the "unknown" one included) belongs to a single provider, so the payment method check is `payment_method_id.provider_id == provider_id` instead of the provider's method/brand list plus the global `payment.payment_method_unknown`; the tests create the other-company provider without `state` and the foreign method on a second provider; `test_wizard_update_transaction` gives the wizard a payment method of the new provider (the method of the transaction, taken by default, belongs to the old one and is now refused).
+
 ## 20.0.1.3.1 (2026-10-01)
 
 - Tests: the invoice payment tests sell a product without cost, so they no longer fail with "You can not sell below the purchase price." when `deltatech_sale_commission` is installed in the same database. Port of 19.0.1.3.1.

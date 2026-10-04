@@ -2,6 +2,7 @@ from datetime import date
 
 from odoo import Command
 from odoo.exceptions import AccessError, UserError
+from odoo.service.model import get_public_method
 from odoo.tests import Form, new_test_user, tagged
 from odoo.tools import SQL
 
@@ -231,3 +232,73 @@ class TestSaleConfirmPayment(AccountTestInvoicingCommon):
             self.assertFalse(tx.payment_id)
         self.assertEqual(order.state, "sale")
         self.assertEqual(order.payment_status, "done")
+
+    # SALEPAY-006: the wizard is created and written by any internal user through RPC, the
+    # transaction it changes as superuser must belong to the order whose access was checked.
+
+    def test_update_transaction_is_not_callable_remotely(self):
+        wizard = self.env["sale.confirm.payment"]
+        with self.assertRaisesRegex(AttributeError, "does not exist"):
+            get_public_method(wizard, "update_transaction")
+        with self.assertRaises(AccessError):
+            get_public_method(wizard, "_update_transaction")
+
+    def test_transaction_of_another_order_is_refused(self):
+        other_order = self._create_order()
+        other_tx = self._create_transaction(other_order, other_order.amount_total, "pending")
+        own_order = self._create_order(user=self.salesman)
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_user(self.salesman)
+            .with_context(active_id=own_order.id)
+            .create({"transaction_id": other_tx.id, "provider_id": self.provider.id, "amount": 1.0})
+        )
+        with self.assertRaises(UserError):
+            wizard.do_add_payment()
+        with self.assertRaises(UserError):
+            wizard.do_confirm()
+        self.assertRecordValues(other_tx, [{"state": "pending", "amount": other_order.amount_total}])
+        self.assertFalse(own_order.transaction_ids)
+
+    def test_private_update_checks_the_order(self):
+        other_order = self._create_order()
+        other_tx = self._create_transaction(other_order, other_order.amount_total, "pending")
+        own_order = self._create_order(user=self.salesman)
+        wizard = (
+            self.env["sale.confirm.payment"]
+            .with_user(self.salesman)
+            .with_context(active_id=own_order.id)
+            .create({"transaction_id": other_tx.id, "provider_id": self.provider.id, "amount": 1.0})
+        )
+        # Even called from Python code, the private method does not trust its caller
+        with self.assertRaises(AccessError):
+            wizard._update_transaction(other_order.with_user(self.salesman))
+        with self.assertRaises(UserError):
+            wizard._update_transaction(own_order.with_user(self.salesman))
+        self.assertEqual(other_tx.amount, other_order.amount_total)
+
+    def test_provider_of_another_company_is_refused(self):
+        other_company = self.env["res.company"].create({"name": "SALEPAY-006 other company"})
+        # in 20 a provider has no `state` and its payment methods are its own
+        provider = self.env["payment.provider"].create(
+            {"name": "Other company provider", "code": "none", "company_id": other_company.id}
+        )
+        order = self._create_order()
+        tx = self._create_transaction(order, order.amount_total, "pending")
+        wizard = self._wizard(order)
+        wizard.provider_id = provider
+        wizard.payment_method_id = False
+        with self.assertRaises(UserError):
+            wizard.do_confirm()
+        self.assertRecordValues(tx, [{"state": "pending", "provider_id": self.provider.id}])
+
+    def test_payment_method_of_another_provider_is_refused(self):
+        # in 20 every payment method belongs to one provider
+        other_provider = self._create_provider("none")
+        method = other_provider.payment_method_ids[:1]
+        order = self._create_order()
+        wizard = self._wizard(order, provider_id=self.provider)
+        wizard.payment_method_id = method
+        with self.assertRaises(UserError):
+            wizard.do_add_payment()
+        self.assertFalse(order.transaction_ids)
