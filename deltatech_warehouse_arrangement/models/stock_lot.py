@@ -18,18 +18,15 @@ class StockLot(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        location_fields = ("loc_storehouse_id", "loc_zone_id", "loc_shelf_id", "loc_section_id", "loc_rack_id")
         for vals in vals_list:
-            if "product_id" not in vals:
-                product_context = self.env.context.get("default_product_id", False)
-                if product_context:
-                    product_id = self.env["product.product"].browse(product_context)
-            else:
-                product_id = self.env["product.product"].browse(vals["product_id"])
-            vals["loc_storehouse_id"] = product_id.loc_storehouse_id.id
-            vals["loc_zone_id"] = product_id.loc_zone_id.id
-            vals["loc_shelf_id"] = product_id.loc_shelf_id.id
-            vals["loc_section_id"] = product_id.loc_section_id.id
-            vals["loc_rack_id"] = product_id.loc_rack_id.id
+            product = self.env["product.product"].browse(
+                vals.get("product_id") or self.env.context.get("default_product_id")
+            )
+            # the product locations are only defaults: keep the ones given explicitly for the lot
+            for field_name in location_fields:
+                if field_name not in vals:
+                    vals[field_name] = product[field_name].id
         return super().create(vals_list)
 
     def check_if_depleted(self, location_id):

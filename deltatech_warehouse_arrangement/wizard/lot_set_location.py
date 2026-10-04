@@ -20,11 +20,13 @@ class LotChangeLocation(models.TransientModel):
         lot_id = self.env["stock.lot"].search([("name", "=", barcode)])
         if lot_id:
             if len(lot_id) > 1:
-                # error, multiple lots found
-                pass
-            else:
-                self.lot_id = lot_id
-                self.lot_scanned = True
+                raise UserError(
+                    self.env._("Several lots/serials named %(barcode)s were found, scan another one", barcode=barcode)
+                )
+            # a new lot needs its own rack scan: never reuse the rack picked for the previous lot
+            self.lot_id = lot_id
+            self.rack_id = False
+            self.lot_scanned = True
         else:
             if self.lot_scanned:
                 # search for location

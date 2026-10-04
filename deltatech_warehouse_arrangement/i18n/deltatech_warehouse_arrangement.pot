@@ -367,5 +367,11 @@ msgstr ""
 #. module: deltatech_warehouse_arrangement
 #. odoo-python
 #: code:addons/deltatech_warehouse_arrangement/wizard/lot_set_location.py:0
+msgid "Several lots/serials named %(barcode)s were found, scan another one"
+msgstr ""
+
+#. module: deltatech_warehouse_arrangement
+#. odoo-python
+#: code:addons/deltatech_warehouse_arrangement/wizard/lot_set_location.py:0
 msgid "Lot/serial %(barcode)s not found"
 msgstr ""
