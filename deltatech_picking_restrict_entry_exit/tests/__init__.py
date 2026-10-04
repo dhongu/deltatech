@@ -2,5 +2,4 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from . import test_sale_line_load
-from . import test_sale_xls
+from . import test_picking_restrict

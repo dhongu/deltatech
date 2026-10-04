@@ -32,7 +32,7 @@ class StockPicking(models.Model):
         has_sale_line = "sale_line_id" in move_fields
         has_purchase_line = "purchase_line_id" in move_fields
         for picking in self:  # this should restrict validation of delivery/receipts with unaccounted lines or with quantities greater than ordered
-            if not self.return_id and not self.backorder_id:  # again returns and backorders are not restricted
+            if not picking.return_id and not picking.backorder_id:  # again returns and backorders are not restricted
                 if not self.env.user.has_group(
                     "deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit"
                 ):
