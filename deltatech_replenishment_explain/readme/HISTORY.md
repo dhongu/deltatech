@@ -1,3 +1,8 @@
+## 19.0.1.1.4 (2026-10-04)
+
+- Extend unit tests to cover the replenishment explanation values, the scheduled-move
+  breakdown, every risk finding, the explanation wizard and the server action.
+
 ## 19.0.1.1.3 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
