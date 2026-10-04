@@ -1,3 +1,9 @@
+## 19.0.0.1.7 (2026-10-04)
+
+- Add unit tests covering the location hierarchy names, lot location defaults on create,
+  the lot location update on stock moves into/out of the master location and the
+  lot change location barcode wizard.
+
 ## 19.0.0.1.6 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
