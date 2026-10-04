@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ARRANGE-001 — P2: Scanning another lot retains the previous rack selection
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.1.8.
 - **Location:** wizard/lot_set_location.py, on_barcode_scanned()/do_change().
 - **Trigger:** Scan lot A and rack R, then scan lot B without pressing Reset; press Apply before scanning a rack for B.
 - **Actual behavior:** The successful lot branch sets lot_id and lot_scanned but leaves rack_id untouched. do_change only checks both fields are set, then writes the old rack's full hierarchy to the newly selected lot.
@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ARRANGE-002 — P2: Lot creation overwrites explicitly supplied storage locations
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.1.8.
 - **Location:** models/stock_lot.py, create().
 - **Trigger:** Create a lot with explicit loc_storehouse_id/zone/shelf/section/rack values different from the product template defaults, including a product without defaults.
 - **Actual behavior:** The override unconditionally assigns all five keys from product_id into each vals dictionary. Explicit caller values are replaced; if product defaults are unset, supplied locations become false.
