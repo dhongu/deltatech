@@ -2,3 +2,4 @@ id,name,model_id,group_id/id,operation,domain
 access_record_type,access_record_type,record.type,base.group_user,crud,
 record_type_comp_rule,Record type multi-company,record.type,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
 access_record_type_default_values,access_record_type_default_values,record.type.default.values,base.group_user,crud,
+record_type_default_values_comp_rule,Record type default values multi-company,record.type.default.values,,crud,"['|', '|', ('record_type_id', '=', False), ('record_type_id.company_id', '=', False), ('record_type_id.company_id', 'in', company_ids)]"
