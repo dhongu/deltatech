@@ -1,3 +1,9 @@
+## 19.0.2.0.10 (2026-10-04)
+
+- Extend unit tests to cover the order stage computation, the stage set from the
+  delivery state of the transfer, the stage in the sales report and the portal
+  order list (status filters, stage sorting, pager).
+
 ## 19.0.2.0.9 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
