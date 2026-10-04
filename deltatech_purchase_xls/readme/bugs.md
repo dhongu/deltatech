@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PURCHASEXLS-002 — P2: Standard purchase-line imports fail without a context order
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.4 — `_get_import_order()` takes the order from the context or from the `order_id`, `order_id/id` or `order_id/.id` column (at any index, resolved by name, external id or database id) only when all the rows point to one existing order; otherwise the rows go to the standard import unchanged. Covered by `test_load_without_order_context` and the `test_load_order_column_*` tests.
 - **Location:** models/purchase_order.py, PurchaseOrderLine.load().
 - **Trigger:** Import purchase.order.line records using standard CSV import without default_order_id or active_id in context.
 - **Actual behavior:** The no-context-order branch calls fields.index.get("order_id", False), but fields is a Python list and fields.index is a method with no get attribute. This executes before the superclass importer, including when the CSV contains a valid order_id column.
@@ -37,7 +37,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PURCHASEXLS-004 — P2: Removing import rows during iteration skips validation of following rows
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.4 — `load()` builds a new list of rows instead of removing rows from the list being iterated; rows of products with several lines on the order are matched to the first line not used yet. Covered by `test_load_existing_lines_consecutive_dropped_rows*` and `test_load_existing_lines_same_product`.
 - **Location:** models/purchase_order.py, PurchaseOrderLine.load().
 - **Trigger:** Update an existing order through line import with two consecutive rows for unknown products or products not already on the order.
 - **Actual behavior:** The override removes record from data inside for record in data. The following row shifts into its position and is skipped, so a row that should be excluded reaches the native importer with an empty .id. It can create an unintended new line or make the whole import fail.

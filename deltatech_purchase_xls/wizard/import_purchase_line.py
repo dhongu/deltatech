@@ -40,7 +40,7 @@ class ImportPurchaseLine(models.TransientModel):
         model = self.env.context.get("active_model", False)
         purchase = self.env[model].browse(active_id)
         if purchase.state != "draft":
-            raise UserError(self.env._("The order is in the %s state") % (purchase.state))
+            raise UserError(self.env._("The order is in the %s state", purchase.state))
         defaults["purchase_id"] = purchase.id
         return defaults
 
@@ -65,16 +65,17 @@ class ImportPurchaseLine(models.TransientModel):
                     values.append(value)
             table_values.append(values)
 
-        if not table_values:
-            return False
-        if self.has_header:
+        if self.has_header and table_values:
             table_values.pop(0)
         return table_values
 
     def do_import(self):
         table_values = self.get_rows()
+        if not table_values:
+            raise UserError(self.env._("The file has no rows to import."))
+        first_row = 2 if self.has_header else 1
         lines = []
-        for row in table_values:
+        for row_number, row in enumerate(table_values, start=first_row):
             try:
                 fields_list = self.fields_list.split(",")
                 values = dict(zip(fields_list, row, strict=False))
@@ -97,14 +98,32 @@ class ImportPurchaseLine(models.TransientModel):
             #     uom_name = False
             # else:
             #     continue
-            quantity = float(quantity)
-            if self.is_amount and quantity:
-                price = float(price) / quantity
-            else:
-                try:
-                    price = float(price)
-                except Exception:
-                    continue
+            try:
+                quantity = float(quantity)
+            except (TypeError, ValueError) as e:
+                raise UserError(
+                    self.env._(
+                        'Row %(row)s: the quantity "%(quantity)s" is not a number.',
+                        row=row_number,
+                        quantity=quantity,
+                    )
+                ) from e
+            try:
+                price = float(price)
+            except (TypeError, ValueError):
+                continue
+            if self.is_amount and "price" in self.fields_list:
+                if quantity:
+                    price = price / quantity
+                elif price:
+                    raise UserError(
+                        self.env._(
+                            "Row %(row)s: the unit price cannot be computed from the amount %(amount)s "
+                            "because the quantity is zero.",
+                            row=row_number,
+                            amount=price,
+                        )
+                    )
 
             product_id = self.search_product(product_code)
             if product_id:
@@ -115,8 +134,11 @@ class ImportPurchaseLine(models.TransientModel):
                     if uom:
                         if uom != product_id.uom_id:
                             raise UserError(
-                                self.env._("Product %(product_name)s does not have UOM %(uom_name)s")
-                                % {"product_name": product_id.name, "uom_name": uom.name}
+                                self.env._(
+                                    "Product %(product_name)s does not have UOM %(uom_name)s",
+                                    product_name=product_id.name,
+                                    uom_name=uom.name,
+                                )
                             )
                         product_uom = uom
             else:
@@ -124,7 +146,7 @@ class ImportPurchaseLine(models.TransientModel):
                     product_id = self.create_product(product_code, product_name, quantity, price, uom_name)
                     product_uom = product_id.uom_id
                 else:
-                    raise UserError(self.env._("Product %s not found") % product_code)
+                    raise UserError(self.env._("Product %s not found", product_code))
 
             lines += [
                 {
@@ -189,7 +211,7 @@ class ImportPurchaseLine(models.TransientModel):
         :param product_name: name
         :param quantity: qty to order
         :param price: price
-        :param uom_name: optional, default uom(1) is set if not present
+        :param uom_name: optional, the Units UoM is set if not present
         :return: product record
         """
         seller_values = {
@@ -199,11 +221,8 @@ class ImportPurchaseLine(models.TransientModel):
             "currency_id": self.purchase_id.currency_id.id,
             "company_id": self.purchase_id.company_id.id,
         }
-        uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
-        if uom:
-            uom_id = uom.id
-        else:
-            uom_id = 1
+        uom = uom_name and self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
+        uom_id = uom.id if uom else self.env.ref("uom.product_uom_unit").id
         values = {
             "is_storable": True,
             "name": product_name,

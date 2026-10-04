@@ -204,6 +204,31 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
 #, python-format
+msgid "Row %(row)s: the quantity \"%(quantity)s\" is not a number."
+msgstr "Rândul %(row)s: cantitatea „%(quantity)s” nu este un număr."
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+#, python-format
+msgid ""
+"Row %(row)s: the unit price cannot be computed from the amount %(amount)s "
+"because the quantity is zero."
+msgstr ""
+"Rândul %(row)s: prețul unitar nu poate fi calculat din valoarea %(amount)s "
+"deoarece cantitatea este zero."
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+#, python-format
+msgid "The file has no rows to import."
+msgstr "Fișierul nu conține rânduri de importat."
+
+#. module: deltatech_purchase_xls
+#. odoo-python
+#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
+#, python-format
 msgid "The order is in the %s state"
 msgstr "Comanda este in starea %s"
 
