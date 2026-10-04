@@ -4,7 +4,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## RESTRICT-001 — P2: Save-time move restrictions are bypassed by the Odoo 19 field
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.13 — `write()` now checks the `move_ids` commands (CREATE and UPDATE, tuple or
+  list form, virtual or `0` id for new lines); covered by `tests/test_picking_restrict.py`, including end-to-end
+  `Form` saves without mocking the base write.
 - **Location:** `models/stock_picking.py:95–192, write()`.
 - **Trigger:** Save a picking with updated done quantities or additional moves through the current move_ids relation.
 - **Actual behavior / impact:** The override checks only move_ids_without_package, removed in Odoo 19. Current move_ids commands bypass all save-time checks. A quantity above demand can therefore be saved; button_validate still has separate checks and may reject it later.

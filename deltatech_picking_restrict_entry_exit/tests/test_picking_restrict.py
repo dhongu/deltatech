@@ -4,8 +4,9 @@
 
 from unittest.mock import patch
 
+from odoo import Command
 from odoo.exceptions import UserError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 from odoo.addons.stock.models.stock_picking import StockPicking as BaseStockPicking
 
@@ -202,12 +203,12 @@ class TestPickingRestrictEntryExit(TransactionCase):
             picking.with_user(self.user).button_validate()
 
     # ------------------------------------------------------------------
-    # write (save-time checks on move_ids_without_package commands)
+    # write (save-time checks on move_ids commands)
     # ------------------------------------------------------------------
     def _write(self, picking, commands, user=None):
         picking = picking.with_user(user or self.user)
         with patch.object(BaseStockPicking, "write", autospec=True, return_value=True) as base_write:
-            picking.write({"move_ids_without_package": commands})
+            picking.write({"move_ids": commands})
         return base_write
 
     def test_write_existing_line_qty_greater(self):
@@ -280,6 +281,75 @@ class TestPickingRestrictEntryExit(TransactionCase):
         command = self._virtual(self.wh.int_type_id, self.stock_loc, self.wh2.lot_stock_id, 9.0, 2.0)
         with self.assertRaisesRegex(UserError, "quantity done is greater than the quantity needed"):
             self._write(picking, [command])
+
+    def test_write_new_line_without_virtual_id(self):
+        # a CREATE command with 0 instead of a virtual id and without the line's picking type / locations
+        # (e.g. from code) is still a new line, checked against the picking's type
+        picking = self._receipt()
+        command = Command.create({"product_id": self.product.id, "quantity": 1.0, "product_uom_qty": 1.0})
+        with self.assertRaisesRegex(UserError, "manually add moves"):
+            self._write(picking, [command])
+
+    def test_write_existing_line_list_command(self):
+        # JSON-RPC delivers the commands as lists, not tuples
+        picking = self._receipt()
+        with self.assertRaisesRegex(UserError, "You cannot save the picking"):
+            self._write(picking, [[1, picking.move_ids.id, {"quantity": 7.0}]])
+
+    def test_write_existing_line_demand_changed(self):
+        # the quantity is compared with the demand sent in the same save
+        picking = self._receipt()
+        base_write = self._write(
+            picking, [Command.update(picking.move_ids.id, {"quantity": 7.0, "product_uom_qty": 8.0})]
+        )
+        base_write.assert_called_once()
+
+    def test_write_commands_without_values(self):
+        picking = self._receipt()
+        move = picking.move_ids
+        commands = [
+            Command.delete(move.id),
+            Command.unlink(move.id),
+            Command.link(move.id),
+            Command.clear(),
+            Command.set(move.ids),
+            Command.update(move.id, {"picked": True}),
+        ]
+        base_write = self._write(picking, commands)
+        base_write.assert_called_once()
+
+    def test_write_form_existing_line_qty_greater(self):
+        # end to end, without mocking the base write: the commands built by the form view
+        picking = self._receipt()
+        with self.assertRaisesRegex(UserError, "You cannot save the picking"):
+            with Form(picking.with_user(self.user)) as picking_form:
+                with picking_form.move_ids.edit(0) as line:
+                    line.quantity = 7.0
+        self.assertEqual(picking.move_ids.quantity, 5.0)
+
+    def test_write_form_existing_line_qty_ok(self):
+        picking = self._receipt()
+        with Form(picking.with_user(self.user)) as picking_form:
+            with picking_form.move_ids.edit(0) as line:
+                line.quantity = 3.0
+        self.assertEqual(picking.move_ids.quantity, 3.0)
+
+    def test_write_form_new_line_incoming_restricted(self):
+        picking = self._receipt()
+        with self.assertRaisesRegex(UserError, "manually add moves"):
+            with Form(picking.with_user(self.user)) as picking_form:
+                with picking_form.move_ids.new() as line:
+                    line.product_id = self.product
+                    line.quantity = 1.0
+        self.assertEqual(len(picking.move_ids), 1)
+
+    def test_write_form_new_line_internal_same_warehouse(self):
+        picking = self._internal(self.shelf_loc)
+        with Form(picking.with_user(self.user)) as picking_form:
+            with picking_form.move_ids.new() as line:
+                line.product_id = self.product
+                line.quantity = 4.0
+        self.assertEqual(len(picking.move_ids), 2)
 
     def test_write_without_move_commands(self):
         picking = self._receipt()
