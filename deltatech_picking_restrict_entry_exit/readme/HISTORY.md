@@ -1,3 +1,9 @@
+# 19.0.0.0.12
+
+- Fix: when several pickings were validated together, a single return or backorder in the selection exempted all
+  of them from the restriction, so a receipt or delivery with a quantity above the ordered one could be validated.
+  The return/backorder exemption is now checked for each picking.
+
 # 19.0.0.0.11
 
 - Add unit tests covering validation and save-time restrictions on receipts, deliveries and internal transfers.
