@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_ledger_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">ledger.cancel.wizard.form</field>
+        <field name="model">ledger.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel">
+                <group>
+                    <field name="ledger_ids" widget="many2many_tags" readonly="1" />
+                    <field name="reason" placeholder="Why is the record canceled?" />
+                </group>
+                <footer>
+                    <button name="action_cancel" string="Cancel Records" type="object" class="btn-primary" data-hotkey="q" />
+                    <button string="Discard" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ledger_report_wizard_form" model="ir.ui.view">
+        <field name="name">ledger.report.wizard.form</field>
+        <field name="model">ledger.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Print Ledger">
+                <group>
+                    <group>
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="record_type" />
+                    </group>
+                    <group>
+                        <field name="include_canceled" />
+                        <field name="include_undated" />
+                        <field name="company_id" groups="base.group_multi_company" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print" string="Print" type="object" class="btn-primary" data-hotkey="q" />
+                    <button string="Discard" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ledger_report_wizard" model="ir.actions.act_window">
+        <field name="name">Print Ledger</field>
+        <field name="res_model">ledger.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_ledger_report" name="Print Ledger" parent="menu_ledger_root" action="action_ledger_report_wizard" sequence="30" />
+</odoo>

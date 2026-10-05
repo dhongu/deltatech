@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-deltatech_ledger.access_ledger_ledger,access_ledger_ledger,deltatech_ledger.model_ledger_ledger,base.group_user,1,1,1,1
+access_ledger_ledger,access_ledger_ledger,model_ledger_ledger,base.group_user,1,1,1,0
+access_ledger_ledger_manager,access_ledger_ledger_manager,model_ledger_ledger,group_ledger_manager,1,1,1,1
+access_ledger_link,access_ledger_link,model_ledger_link,base.group_user,1,1,1,1
+access_ledger_cancel_wizard,access_ledger_cancel_wizard,model_ledger_cancel_wizard,base.group_user,1,1,1,1
+access_ledger_report_wizard,access_ledger_report_wizard,model_ledger_report_wizard,base.group_user,1,1,1,1

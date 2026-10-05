@@ -3,9 +3,10 @@
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech Ledger" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech Ledger</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Deltatech Ledger</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Register of incoming and outgoing documents</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Productivity</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
   </div>
@@ -26,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -34,20 +45,278 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides a comprehensive "Ledger" management system for tracking and organizing documents within Odoo.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features:</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Dedicated ledger for storing information about entry and exit document numbers and descriptions.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Automated sequence generation for document entries.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Enhanced traceability and audit trail for various business documents.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Easy searching and filtering of ledger records for reporting and verification.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage:</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Register of incoming and outgoing documents (a "registru de intr&#259;ri-ie&#537;iri"). Every
+document that enters or leaves the company gets one numbered record, so the register can
+be shown to an auditor, printed for a period and searched at any time.</p>
+<p>The numbering is one common series for entries and exits, restarted every year
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">2026/00001</code>) and without gaps: a number is never skipped, and a wrong record is
+canceled instead of deleted, so its number stays in the register.</p>
+<p>Features:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>One record per document, typed as <strong>Entry</strong> or <strong>Exit</strong>, with document number, date,
+  contact, place of origin and a short description.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Reservations:</span><div class="mt-1">a number can be reserved in advance and dated later, between the
+  dates of the previous and of the next number, so the register stays in
+  chronological order.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Cancellation</span><div class="mt-1">with a mandatory reason; the number stays in the register. Only a
+  Ledger Manager can reactivate a canceled record or delete records.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Links:</span><div class="mt-1">attachments in the chatter, web links, and links to a project, task,
+  helpdesk ticket, sale or purchase order, invoice or transfer.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Chatter and activities on every record, with tracking of the state, type, date,
+  document number and contact.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Warning when a document with the same type, number and contact is already registered.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Views: list, kanban by state, calendar, pivot and graph (entries vs. exits per month).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">PDF report</span><div class="mt-1">of the register for a period, or for a selection of records.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Multi-company aware: each record belongs to a company and is visible only in it.</div></div></li></ul>
+<p>Scope &amp; limitations:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The module keeps a register of document references. It does not store the documents
+  themselves (use the chatter attachments or the links for that) and it does not post
+  any accounting entry.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The number is always taken from the year of the day it is created, and the record
+  date must be in the same year. A document dated in December cannot be registered in
+  January; reserve its number in December instead.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Dates must not decrease with the number, for active records as well as for
+  reservations. A document with an earlier date than the previous number is registered
+  by reserving the number first and dating it afterwards, within the allowed interval.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Entries and exits share one numbering. Separate series per type are not supported.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Because the series has no gaps, two users creating a record at the very same moment
+  can get a "could not obtain lock" error; the second one only has to save again.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>The module works right after installation. All internal users can keep the register;
+nothing has to be configured for that.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Access rights</h2>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Who</th>
+<th>Can</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any internal user</td>
+<td>Read, create and edit records, reserve numbers, register, cancel, print the report</td>
+</tr>
+<tr>
+<td><strong>Ledger / Manager</strong></td>
+<td>Everything above, plus <strong>delete</strong> records and <strong>reactivate</strong> canceled records</td>
+</tr>
+<tr>
+<td>Administration / Settings</td>
+<td>Is a Ledger Manager automatically</td>
+</tr>
+</tbody>
+</table>
+<p>To make someone a manager: <strong>Settings &gt; Users &amp; Companies &gt; Users</strong>, open the user and
+set <strong>Ledger</strong> to <strong>Manager</strong>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Numbering</h2>
+<p>The numbers come from the sequence <em>Ledger Sequence</em> (code <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ledger.ledger</code>), found in
+<strong>Settings &gt; Technical &gt; Sequences</strong> (developer mode). It is a <em>no gap</em> sequence
+with a subsequence per year and the prefix <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(year)s/</code>, size 5.</p>
+<ul>
+<li>To change the format, edit the prefix or the size of the sequence.</li>
+<li>To continue an existing paper register, open the date range of the year and set its
+  <strong>Next Number</strong> (for example <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">121</code> if the last number used on paper is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">120</code>).
+  A new year gets its own range, starting at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">00001</code>.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Multi-company</h2>
+<p>Each record has a company, taken from the company active when it is created, and the
+record rule shows a user only the records of the companies they are logged in to. The
+sequence is shared by default. To have a separate numbering per company, create a
+sequence with the same code <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ledger.ledger</code>, the same settings (no gap, subsequences per
+date range, prefix <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(year)s/</code>) and the company set; the sequence of the
+current company is used.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Links to other documents</h2>
+<p>The <em>Links</em> tab offers the models of the installed apps only (Project, Helpdesk, Sales,
+Purchase, Accounting, Inventory). Nothing has to be configured.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Opening the register</h2>
+<p>Open the <strong>Ledger</strong> app. The menu has three entries:</p>
+<ul>
+<li><strong>Records</strong> - the register: all the numbers, canceled ones included (shown muted),
+  newest first.</li>
+<li><strong>Reserve a Number</strong> - opens a new record already in the <em>Reserved</em> state.</li>
+<li><strong>Print Ledger</strong> - the PDF report of the register for a period.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">The life of a record</h2>
+<p>A record has one of three states:</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Has a date?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Reserved</strong></td>
+<td>The number is kept for a document that is not ready yet</td>
+<td>Optional, can be set later</td>
+</tr>
+<tr>
+<td><strong>Active</strong></td>
+<td>The document is registered</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><strong>Canceled</strong></td>
+<td>The record is void; the number stays in the register</td>
+<td>Kept as it was</td>
+</tr>
+</tbody>
+</table>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>Reserve a Number --&gt; Reserved --Register--&gt; Active
+                        |                      |
+                        +-------Cancel---------+--&gt; Canceled --Reactivate (manager)--&gt; Active / Reserved
+</code></pre>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Registering a document</h2>
 <ol>
-<li>Navigate to the new "Ledger" menu in Odoo.</li>
-<li>Create or view existing ledger entries to see document details and their assigned numbers.</li>
-<li>This is useful for businesses that need to maintain a centralized record of all document references across different departments.</li>
-<li>Integrated with Odoo's mail system for better communication regarding specific document entries.</li>
+<li>Go to <strong>Records</strong> and click <strong>New</strong>.</li>
+<li>Choose the <strong>Record Type</strong>: <em>Entry</em> for a document received, <em>Exit</em> for a document sent.</li>
+<li>Check the <strong>Record Date</strong> (today by default) and fill in the <strong>Document Number</strong> (the
+   number written on the document), the <strong>Contact</strong>, the <strong>Place of Origin</strong> and, on the
+   <em>Description</em> tab, a short description.</li>
+<li>Save. The record gets its number (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">2026/00123</code>) and is <em>Active</em>.</li>
 </ol>
+<p>The record stays editable afterwards, and every change of the type, date, document number
+or contact is logged in the chatter. A canceled record is read-only.</p>
+<p>If a record with the same type, document number and contact already exists, a yellow
+banner warns about a possible duplicate. The record can still be saved.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Reserving a number</h2>
+<p>Use a reservation when a number must be kept for a document that is not issued yet, or
+when a document has to be dated in the past.</p>
+<ol>
+<li>Open <strong>Reserve a Number</strong>, choose the <strong>Record Type</strong> and save. The number is taken
+   from the sequence now; the date stays empty.</li>
+<li>A blue banner shows the interval in which the number can be dated: from the date of
+   the previous number to the date of the next one. Numbers without a date are skipped
+   when the interval is computed.</li>
+<li>When the document is issued, set the <strong>Record Date</strong> inside that interval and fill in
+   the document details.</li>
+<li>Click <strong>Register</strong>. The record becomes <em>Active</em>. The button refuses to work while the
+   date is empty.</li>
+</ol>
+<p>What the date is checked against, on every save:</p>
+<ul>
+<li>it must be in the same year as the number (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">2026/...</code> only accepts dates in 2026);</li>
+<li>it cannot be earlier than the date of the previous dated number;</li>
+<li>it cannot be later than the date of the next dated number.</li>
+</ul>
+<p>The same rules apply to active records, so the register is always in chronological order.
+The bounds themselves are allowed (several documents can have the same date).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Canceling a record</h2>
+<ol>
+<li>Open the record (a reservation or an active record) and click <strong>Cancel</strong>.</li>
+<li>Write the <strong>reason</strong> in the window that opens and click <strong>Cancel Records</strong>.</li>
+</ol>
+<p>The record becomes <em>Canceled</em>, a red ribbon appears, the reason is shown on the form and
+posted in the chatter, and the number stays in the register.</p>
+<p>A canceled number is never reused. To see only the canceled records, use the
+<strong>Canceled</strong> filter.</p>
+<p>A <strong>Ledger Manager</strong> sees a <strong>Reactivate</strong> button on a canceled record. It brings the
+record back to <em>Active</em> (or to <em>Reserved</em> if it has no date) and clears the reason.
+Regular users cannot reactivate.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deleting</h2>
+<p>Regular users cannot delete records: cancel them instead, so the numbering has no hole.
+Only a Ledger Manager can delete, and should do it only for test data.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Attachments and links</h2>
+<ul>
+<li><strong>Files:</strong> use the paperclip in the chatter at the bottom of the record to attach the
+  scan or the file of the document.</li>
+<li><strong>Links:</strong> open the <strong>Links</strong> tab and add a line for each link.<ul>
+<li><em>Odoo Record</em> - choose the document type (Project, Task, Helpdesk ticket, Sales
+order, Purchase order, Invoice, Transfer) and the record. Use it to tie the
+numbered document to the ticket or project it belongs to.</li>
+<li><em>Web Link</em> - paste an address (a shared folder, a web page...).</li>
+<li>The <strong>Label</strong> is filled in automatically (the name of the record or the address);
+type another text to replace it.</li>
+</ul>
+</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Searching and viewing the register</h2>
+<p>Use the search box to find a record by number, document number, contact, place of origin,
+description or date. The filters are <strong>Reserved</strong>, <strong>Active</strong>, <strong>Canceled</strong>, <strong>Entry</strong>,
+<strong>Exit</strong> and <strong>Date</strong> (month, quarter, year). The groupings are <strong>Record Type</strong>,
+<strong>Contact</strong>, <strong>Record Date</strong> (by month) and <strong>State</strong>.</p>
+<p>The icons at the top right change the view:</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>View</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List</td>
+<td>The register itself; the columns can be chosen from the selector at the end of the header</td>
+</tr>
+<tr>
+<td>Kanban</td>
+<td>Records grouped by state: what is reserved, active, canceled</td>
+</tr>
+<tr>
+<td>Calendar</td>
+<td>Records on their date, coloured by type; undated reservations are not shown</td>
+</tr>
+<tr>
+<td>Pivot</td>
+<td>Counts by month and type, to export or drill down</td>
+</tr>
+<tr>
+<td>Graph</td>
+<td>Entries versus exits per month</td>
+</tr>
+</tbody>
+</table>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Printing the register</h2>
+<ol>
+<li>Open <strong>Print Ledger</strong>.</li>
+<li>Choose the period (<strong>From</strong>, <strong>To</strong>; the current year until today by default) and,
+   optionally, the <strong>Record Type</strong>.</li>
+<li>Leave <strong>Include Canceled</strong> on to show the canceled numbers with their reason; this
+   is what an auditor expects, as the series shows no gap. Switch it off for a clean
+   list.</li>
+<li><strong>Include Undated Reservations</strong> adds the reserved numbers that have no date yet,
+   for the years of the period.</li>
+<li>Click <strong>Print</strong>. The PDF lists the records in order of their number, in landscape.</li>
+</ol>
+<p>To print only some records, select them in the list and choose <strong>Print &gt; Ledger</strong>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Typical cases</h2>
+<p><strong>A document arrives and is registered at once.</strong> Records &gt; New, Entry, fill in, Save.</p>
+<p><strong>A letter is being prepared and must carry a number now.</strong> Reserve a Number (Exit), put
+the number on the letter, and when it is sent set the date and click Register.</p>
+<p><strong>A document has an earlier date than the last registered one.</strong> The register does not
+accept it directly, because the dates cannot decrease with the number. If a number was
+reserved for it, date that reservation inside its interval. Otherwise register it with
+today's date and write the real date of the document in the description.</p>
+<p><strong>A record was entered by mistake.</strong> Cancel it with the reason. Do not delete it.</p>
+<p><strong>The year changes.</strong> Nothing to do: the first record of January gets <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">YYYY/00001</code>.
+Records of the old year stay as they are and can still be edited, within their year.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.0 (2026-10-05)</h2>
+<ul>
+<li><strong>Reservations:</strong> new <em>Reserved</em> state and <em>Reserve a Number</em> menu. A reserved
+  number has no date until it is chosen, between the dates of the previous and of
+  the next number; the date must also be in the year of the number. A reservation
+  is registered (<em>Register</em>) or canceled.</li>
+<li><strong>Numbering:</strong> one common sequence for entries and exits, restarted every year,
+  now <em>no gap</em>. The sequence is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">noupdate</code>, so a migration converts the existing
+  one: the range of the current year continues the existing numbers.</li>
+<li><strong>Cancellation</strong> asks for a reason (wizard), kept on the record and in the chatter.
+  The number stays in the register. A Ledger Manager can reactivate a canceled
+  record.</li>
+<li>New group <em>Ledger / Manager</em> (implied by Administration / Settings): only it can
+  delete records. Regular users keep read, write and create.</li>
+<li><strong>Links</strong> tab: web links and links to a project, task, helpdesk ticket, sale or
+  purchase order, invoice or transfer (only the apps installed are offered).</li>
+<li>Warning banner for a possible duplicate (same type, document number and contact).</li>
+<li><strong>PDF report</strong> of the register for a period (<em>Print Ledger</em> menu, also available
+  on selected records).</li>
+<li>Views: kanban by state, calendar, pivot and graph; canceled ribbon, type badge,
+  optional columns, search by contact, date filters and grouping. Removed the
+  deprecated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">statusbar_colors</code>. The list shows all the numbers by default,
+  canceled ones included.</li>
+<li>Chatter and tracking (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.thread</code>, activities); multi-company (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_id</code>,
+  record rule).</li>
+<li>The record date is required for active records and prefilled with today.
+  Duplicating a record gives it a new number and the <em>Active</em> state.</li>
+<li>Manifest: category, summary, <em>Beta</em>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.3 (2026-09-30)</h2>
 <ul>
 <li>New module icon: a register with the entry and exit arrows, in the flat style of the other modules; it replaces the old gradient one.</li>
@@ -98,22 +367,6 @@
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_sale_report" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SR</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Sale Report Additional Info</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;"></span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Sale Report Additional Info</p>
-        </div>
-      </a>
-    </div>
     <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
@@ -223,6 +476,22 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage agreements numbers, date, state</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_alternative" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
         </div>
       </a>
     </div>
