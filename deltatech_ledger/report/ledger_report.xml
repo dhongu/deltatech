@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="paperformat_ledger_landscape" model="report.paperformat">
+        <field name="name">Ledger A4 Landscape</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_spacing">25</field>
+    </record>
+
+    <record id="action_report_ledger" model="ir.actions.report">
+        <field name="name">Ledger</field>
+        <field name="model">ledger.ledger</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_ledger.report_ledger_document</field>
+        <field name="report_file">deltatech_ledger.report_ledger_document</field>
+        <field name="print_report_name">'Ledger'</field>
+        <field name="paperformat_id" ref="paperformat_ledger_landscape" />
+        <field name="binding_model_id" ref="model_ledger_ledger" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_ledger_document">
+        <t t-call="web.html_container">
+            <t t-set="data" t-value="data or {}" />
+            <t t-call="web.external_layout">
+                <t t-set="company" t-value="docs[:1].company_id" />
+                <div class="page">
+                    <h3 class="text-center">Ledger of Entry and Exit Documents</h3>
+                    <p class="text-center" t-if="data.get('date_from')">
+                        Period: <span t-out="data['date_from']" t-options="{'widget': 'date'}" /> -
+                        <span t-out="data['date_to']" t-options="{'widget': 'date'}" />
+                    </p>
+                    <table class="table table-sm table-bordered o_main_table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Document Number</th>
+                                <th>Contact</th>
+                                <th>Place of Origin</th>
+                                <th>Description</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs.sorted('name')" t-as="o" t-att-class="'text-muted' if o.state == 'canceled' else ''">
+                                <td><span t-field="o.name" /></td>
+                                <td><span t-field="o.record_date" /></td>
+                                <td><span t-field="o.record_type" /></td>
+                                <td><span t-field="o.document_number" /></td>
+                                <td><span t-field="o.contact_id" /></td>
+                                <td><span t-field="o.place_of_origin" /></td>
+                                <td>
+                                    <span t-field="o.record_short_description" />
+                                    <div t-if="o.cancel_reason" class="small">
+                                        <span t-field="o.cancel_reason" />
+                                    </div>
+                                </td>
+                                <td><span t-field="o.state" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
