@@ -145,6 +145,9 @@ jobs:
 
       - name: Upload test results to Codecov (Pass/Fail)
         if: ${{ !cancelled() }}
+        # Reporting only: a Codecov outage (e.g. TLS handshake failure) must not turn
+        # passing tests into a red `tests-passed` gate.
+        continue-on-error: true
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
