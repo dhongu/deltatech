@@ -1,3 +1,14 @@
+## 19.0.2.1.6 (2026-10-05)
+
+**Fixed**
+
+- The read access to product alternatives that applied to everyone, with no group, is now
+  granted explicitly to internal, portal and public users. Behavior is unchanged (the website
+  product page still shows the alternatives to visitors), but Odoo no longer logs the
+  deprecated *rule has no group* warning at install and upgrade.
+- The sale order form inheritance matches the kanban and the first text block with
+  `hasclass()` instead of an exact `@class` comparison, which Odoo flags as error-prone.
+
 ## 19.0.2.1.5 (2026-10-01)
 
 - Searching a product by alternative code (*Search by alternative code*
