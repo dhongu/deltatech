@@ -148,9 +148,12 @@ jobs:
         # Reporting only: a Codecov outage (e.g. TLS handshake failure) must not turn
         # passing tests into a red `tests-passed` gate.
         continue-on-error: true
-        uses: codecov/test-results-action@v1
+        # test-results-action is deprecated: the same action as the coverage upload,
+        # with report_type test_results.
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
           flags: ${{ matrix.name }}
 
   # Shard names are dynamic ("test (website)"), so they cannot be used as a
