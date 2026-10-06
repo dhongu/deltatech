@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- noupdate: un cron oprit de administrator nu se reaprinde la upgrade. -->
+<odoo noupdate="1">
+    <!-- Registrul află și reconcilierile făcute din ecranul standard de reconciliere bancară. -->
+    <record id="cron_sync_settlements" model="ir.cron">
+        <field name="name">Expected receipts: synchronize settlements</field>
+        <field name="model_id" ref="model_deltatech_expected_receipt" />
+        <field name="user_id" ref="base.user_root" />
+        <field name="state">code</field>
+        <field name="code">model._cron_sync_settlements()</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True" />
+    </record>
+</odoo>

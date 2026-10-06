@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_card_terminal_list" model="ir.ui.view">
+        <field name="name">deltatech.card.terminal.list</field>
+        <field name="model">deltatech.card.terminal</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="user_id" widget="many2one_avatar_user" />
+                <field name="journal_id" />
+                <field name="settlement_account_id" />
+                <field name="settle_window_days" optional="show" />
+                <field name="late_days" optional="show" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_card_terminal_form" model="ir.ui.view">
+        <field name="name">deltatech.card.terminal.form</field>
+        <field name="model">deltatech.card.terminal</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_receipts" type="object" class="oe_stat_button" icon="fa-credit-card">
+                            <field name="receipt_count" widget="statinfo" string="Receipts" />
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active" />
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. ING Terminal Shop" /></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1" />
+                            <field name="user_id" widget="many2one_avatar_user" />
+                            <field name="journal_id" />
+                            <field name="settlement_account_id" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                        <group>
+                            <field name="settle_window_days" />
+                            <field name="late_days" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_card_terminal" model="ir.actions.act_window">
+        <field name="name">Card Terminals</field>
+        <field name="res_model">deltatech.card.terminal</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
