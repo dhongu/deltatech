@@ -88,3 +88,8 @@ class TestFormattedDisplayName(TransactionCase):
         for record, code, _name in [*self._records(), (self.step, "FDNST", "FDN Create SO")]:
             ids = [rid for rid, _label in record.name_search(code)]
             self.assertIn(record.id, ids, f"{record._name}: name_search({code!r}) should find the record")
+
+    def test_process_found_by_name(self):
+        # the process used to search only by code: typing its name found nothing
+        ids = [rid for rid, _label in self.env["business.process"].name_search("FDN Order to")]
+        self.assertIn(self.process.id, ids)

@@ -1,6 +1,6 @@
 ## 19.0.1.9.8 (2026-10-06)
 
-- In the many2one dropdowns, projects, processes, steps, developments, issues, migrations and transactions now show the code in a second, muted column (a step also shows the code of its process, because step codes repeat between imported processes). The display name elsewhere (`[code] name`) is unchanged. Typing the code in the dropdown now finds projects, steps, developments, issues, migrations and transactions (processes were already searched by code).
+- In the many2one dropdowns, projects, processes, steps, developments, issues, migrations and transactions now show the code in a second, muted column (a step also shows the code of its process, because step codes repeat between imported processes). The display name elsewhere (`[code] name`) is unchanged. Typing the code in the dropdown now finds projects, steps, developments, issues, migrations and transactions. A process is now found by its name as well as by its code: its own search looked only at the code, so typing the process name in the dropdown found nothing.
 
 ## 19.0.1.9.7 (2026-10-06)
 

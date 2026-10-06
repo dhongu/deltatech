@@ -3,7 +3,6 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
-from odoo.fields import Domain
 
 from ..tools.display_name import code_display_name
 
@@ -12,6 +11,7 @@ class BusinessProcess(models.Model):
     _name = "business.process"
     _description = "Business process"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _rec_names_search = ["name", "code"]
 
     name = fields.Char(
         string="Name",
@@ -325,34 +325,6 @@ class BusinessProcess(models.Model):
                     data["values"]["id"] = False
 
         return super()._load_records(data_list, update)
-
-    # todo: de implementat _search_display_name in loc de name_search
-
-    # todo: de verificat
-    @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if not name:
-            return super().name_search(name, args, operator, limit)
-        domain = args or []
-        processes = self.search_fetch(Domain.AND([domain, [("code", operator, name)]]), ["display_name"], limit=limit)
-        return [(process.id, process.display_name) for process in processes.sudo()]
-
-    # nu mai exista in 18.0  def _name_search
-    # @api.model
-    # def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-    #     args = domain or []
-    #     project_id = self.env.context.get("default_project_id", False)
-    #     local_domain = [("code", "=", name)]
-    #     if project_id:
-    #         local_domain.append(("project_id", "=", project_id))
-    #     ids = list(self._search(local_domain + args, limit=limit, order=order))
-    #
-    #     search_domain = [("name", operator, name)]
-    #     if ids:
-    #         search_domain.append(("id", "not in", ids))
-    #     ids += list(self._search(search_domain + args, limit=limit))
-    #
-    #     return ids
 
     def _start_test(self, scope):
         all_tests = self.env["business.process.test"]
