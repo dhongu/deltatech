@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Expected Receipts",
     "summary": "Card payments registered when received, settled against the grouped bank transfer to the cent",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting/Accounting",

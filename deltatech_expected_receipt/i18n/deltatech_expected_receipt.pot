@@ -802,9 +802,9 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
 msgid ""
-"Set the Down Payment Account in Sales > Configuration > Settings (419 "
-"Customers - advances received in Romania) before issuing down payment "
-"invoices."
+"Set the Downpayment Account in Invoicing > Configuration > Settings, Default "
+"Accounts (419 Customers - advances received in Romania) before issuing down "
+"payment invoices."
 msgstr ""
 
 #. module: deltatech_expected_receipt
@@ -956,8 +956,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
 msgid ""
-"The company has no Down Payment Account (419 in Romania): set it in the "
-"Sales settings."
+"The company has no Downpayment Account (419 in Romania): set it in Invoicing "
+"> Configuration > Settings, Default Accounts."
 msgstr ""
 
 #. module: deltatech_expected_receipt
