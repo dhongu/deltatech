@@ -1,3 +1,7 @@
+## 19.0.1.0.13 (2026-10-06)
+
+- Summary in English, as the Apps Store requires, the same as the banner; support address.
+
 ## 19.0.1.0.12 (2026-10-03)
 
 - Fixed: invoicing from transfers copied the stock move quantity into the invoice line without unit
