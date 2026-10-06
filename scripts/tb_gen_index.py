@@ -394,13 +394,15 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
 CROSS_SELL_CLOSE = "  </div>\n</section>\n"
 
 # --- carduri de funcții (grilă Bootstrap responsivă), moștenite din tb_skin_index v5 --- #
-UL_GRID = "list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"
-CARD = "border rounded-3 p-3 h-100"
+# Casete compacte (Cozmin, 06.10.2026): 8px sus/jos și 16px lateral în casetă, 8px între casete,
+# lista imbricată lipită de titlu; aceleași setări pentru toate grilele (Key Features, Benefits...).
+UL_GRID = "list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"
+CARD = "border rounded-3 px-3 py-2 h-100"
 BADGE_TICK = "flex-shrink-0 text-center fw-bold rounded d-inline-block"
 BADGE_TICK_STYLE = (
     f"background-color:{TB['accent']};color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;"
 )
-SUB_UL = "ps-3 mt-2"
+SUB_UL = "ps-3 mt-1 mb-0"
 SUB_LI = "small"
 
 
@@ -579,9 +581,7 @@ def _render_cards(inner, top):
             lead = dm.group(1).strip()
             rest = _style_sublists(dm.group(2).strip())
             parts.append(
-                f'<li class="col"><div class="{CARD}">'
-                f'<span class="fw-bold">{lead}</span>'
-                f'<div class="mt-1">{rest}</div></div></li>'
+                f'<li class="col"><div class="{CARD}"><span class="fw-bold">{lead}</span><div>{rest}</div></div></li>'
             )
         else:
             content = _style_sublists(raw)
