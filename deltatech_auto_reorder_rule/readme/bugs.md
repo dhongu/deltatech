@@ -56,3 +56,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Source inspection and isolated executions with mocked records; no database-backed module installation or integration tests were run in this pass.
+
+## Integrated reverification — 2026-10-03
+
+Full eligible source and ACL read. REORDER-001–004 remain open in current source. `deltatech_stock_orderpoint_multiple` can provide qty_multiple when additionally installed, but is not declared here: the wizard remains invalid with only its declared dependencies. Native orderpoint storability is a UI domain, not a server constraint, so automatic creation on nonstorable products is not reported as an installation/create exception. Existing-rule suppression, textual parameter truthiness and default/active company mismatch rechecked against native defaults and uniqueness. Route selection lacks per-target filtering but overlaps existing company-consistency findings; no duplicate finding added. No database generation/scheduler tests executed in this round.
