@@ -12,6 +12,9 @@
   cash and the accounting balance is booked through a dated statement line on
   7588 / 6588 (Romanian company) or on the journal's cash difference accounts.
 - The wizard refuses statements of more than one journal.
+- A cash difference cannot be dated before the statement (it would be counted
+  twice), and a shortage charged to a person (4282) requires the responsible
+  person, so the receivable is followed on that partner.
 
 ## 19.0.3.0.2 (2026-09-29)
 

@@ -4,6 +4,7 @@
 
 from datetime import date
 
+from odoo.exceptions import UserError
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -88,3 +89,26 @@ class TestCash(AccountTestInvoicingCommon):
         self.assertEqual(self.previous.balance_end_real, 500.0)
         self.assertEqual(self.statement.balance_start, 500.0)
         self.assertEqual(self.statement.balance_end_real, 550.0)
+
+    def test_shortage_charged_to_cashier_needs_partner(self):
+        """4282: the receivable is followed on the person responsible."""
+        account_4282 = self.env["account.account"].search(
+            [("code", "=like", "4282%"), ("company_ids", "in", self.env.company.ids)], limit=1
+        )
+        cashier = self.env["res.partner"].create({"name": "Casier"})
+        wizard = self._wizard(self.statement, mode="difference", counted_balance=490.0)
+        wizard.counterpart_account_id = account_4282
+        self.assertTrue(wizard.partner_required)
+        with self.assertRaises(UserError):
+            wizard.do_update_balance()
+        wizard.partner_id = cashier
+        wizard.do_update_balance()
+        line = self.statement.line_ids.filtered(lambda st_line: st_line.amount == -10.0)
+        receivable = line.move_id.line_ids.filtered(lambda aml: aml.account_id == account_4282)
+        self.assertEqual(receivable.partner_id, cashier)
+
+    def test_difference_not_dated_before_statement(self):
+        wizard = self._wizard(self.statement, mode="difference", counted_balance=490.0)
+        wizard.date = date(2026, 3, 1)
+        with self.assertRaises(UserError):
+            wizard.do_update_balance()
