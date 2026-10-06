@@ -160,7 +160,7 @@ def build_badges(manifest):
     m = re.match(r"(\d+\.\d+)", ver)
     if m:
         items.append((BADGE, f"Odoo {m.group(1)}"))
-    items.append((BADGE, "Online &bull; Odoo.sh &bull; On-premise"))
+    items.append((BADGE, "Odoo.sh &bull; On-premise"))
     items.append((BADGE_ACCENT, "Optional support"))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
