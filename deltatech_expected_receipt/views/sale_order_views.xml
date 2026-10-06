@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.card.payment</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@id='create_invoice']" position="before">
+                <button
+                    name="action_card_payment"
+                    string="Card Payment"
+                    type="object"
+                    groups="deltatech_expected_receipt.group_cashier"
+                    invisible="state == 'cancel'"
+                />
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    name="action_view_card_receipts"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-credit-card"
+                    string="Card Payments"
+                    groups="deltatech_expected_receipt.group_cashier"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

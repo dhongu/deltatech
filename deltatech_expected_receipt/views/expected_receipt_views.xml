@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_expected_receipt_list" model="ir.ui.view">
+        <field name="name">deltatech.expected.receipt.list</field>
+        <field name="model">deltatech.expected.receipt</field>
+        <field name="arch" type="xml">
+            <list
+                create="0"
+                decoration-danger="is_late"
+                decoration-success="state == 'settled'"
+                decoration-muted="state == 'cancelled'"
+            >
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="document_name" />
+                <field name="terminal_id" optional="show" />
+                <field name="user_id" optional="show" widget="many2one_avatar_user" />
+                <field name="amount" sum="Total" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="days_pending" optional="show" />
+                <field name="settlement_date" optional="hide" />
+                <field name="is_late" column_invisible="1" />
+                <field name="state" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'settled'" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_expected_receipt_form" model="ir.ui.view">
+        <field name="name">deltatech.expected.receipt.form</field>
+        <field name="model">deltatech.expected.receipt</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button
+                        name="action_cancel"
+                        string="Cancel Receipt"
+                        type="object"
+                        groups="deltatech_expected_receipt.group_manager"
+                        invisible="state != 'pending'"
+                        confirm="The payment is cancelled together with the receipt. Continue?"
+                    />
+                    <field name="state" widget="statusbar" statusbar_visible="pending,settled" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_document" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not has_document">
+                            <field name="document_name" widget="statinfo" string="Document" />
+                        </button>
+                        <button name="action_open_payment" type="object" class="oe_stat_button" icon="fa-money" string="Payment" invisible="not payment_id" />
+                    </div>
+                    <widget name="web_ribbon" title="Late" bg_color="text-bg-danger" invisible="not is_late" />
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" /></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="kind" readonly="1" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="sale_order_id" readonly="1" />
+                            <field name="invoice_id" readonly="1" />
+                            <field name="amount" readonly="1" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="has_document" invisible="1" />
+                            <field name="is_late" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="date" readonly="1" />
+                            <field name="terminal_id" readonly="1" />
+                            <field name="user_id" readonly="1" />
+                            <field name="payment_id" readonly="1" />
+                            <field name="days_pending" invisible="state != 'pending'" />
+                            <field name="settlement_date" readonly="1" invisible="state != 'settled'" />
+                            <field name="statement_line_id" readonly="1" invisible="state != 'settled'" />
+                            <field name="company_id" groups="base.group_multi_company" readonly="1" />
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Note..." />
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_expected_receipt_search" model="ir.ui.view">
+        <field name="name">deltatech.expected.receipt.search</field>
+        <field name="model">deltatech.expected.receipt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="amount" string="Amount" filter_domain="[('amount', '=', self)]" />
+                <field name="sale_order_id" />
+                <field name="invoice_id" />
+                <field name="terminal_id" />
+                <field name="user_id" />
+                <separator />
+                <filter string="Pending" name="pending" domain="[('state', '=', 'pending')]" />
+                <filter string="Late" name="late" domain="[('is_late', '=', True)]" />
+                <filter string="Settled" name="settled" domain="[('state', '=', 'settled')]" />
+                <filter string="Cancelled" name="cancelled" domain="[('state', '=', 'cancelled')]" />
+                <separator />
+                <filter string="Without Document" name="no_document" domain="[('has_document', '=', False)]" />
+                <filter string="My Receipts" name="mine" domain="[('user_id', '=', uid)]" />
+                <separator />
+                <filter string="Receipt Date" name="filter_date" date="date" />
+                <group>
+                    <filter string="Terminal" name="group_terminal" context="{'group_by': 'terminal_id'}" />
+                    <filter string="Customer" name="group_partner" context="{'group_by': 'commercial_partner_id'}" />
+                    <filter string="Received By" name="group_user" context="{'group_by': 'user_id'}" />
+                    <filter string="Day" name="group_day" context="{'group_by': 'date:day'}" />
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_expected_receipt_pivot" model="ir.ui.view">
+        <field name="name">deltatech.expected.receipt.pivot</field>
+        <field name="model">deltatech.expected.receipt</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="date" interval="day" type="row" />
+                <field name="terminal_id" type="col" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_expected_receipt_graph" model="ir.ui.view">
+        <field name="name">deltatech.expected.receipt.graph</field>
+        <field name="model">deltatech.expected.receipt</field>
+        <field name="arch" type="xml">
+            <graph type="bar" stacked="1">
+                <field name="date" interval="day" />
+                <field name="state" />
+                <field name="amount" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_expected_receipt" model="ir.actions.act_window">
+        <field name="name">Expected Receipts</field>
+        <field name="res_model">deltatech.expected.receipt</field>
+        <field name="view_mode">list,form,pivot,graph</field>
+        <field name="search_view_id" ref="view_expected_receipt_search" />
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No card payment waiting for settlement</p>
+            <p>Card payments are registered with the <b>Card Payment</b> button on sales orders and invoices.</p>
+        </field>
+    </record>
+
+    <record id="action_card_payment_partner" model="ir.actions.act_window">
+        <field name="name">Card Payment</field>
+        <field name="res_model">deltatech.card.payment</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Decontarea pornită direct de pe linia de extras. -->
+    <record id="action_server_card_settlement" model="ir.actions.server">
+        <field name="name">Card Settlement</field>
+        <field name="model_id" ref="account.model_account_bank_statement_line" />
+        <field name="binding_model_id" ref="account.model_account_bank_statement_line" />
+        <field name="binding_view_types">list,form</field>
+        <field name="group_ids" eval="[(4, ref('group_manager'))]" />
+        <field name="state">code</field>
+        <field name="code">action = records[:1].action_card_settlement()</field>
+    </record>
+</odoo>
