@@ -4,10 +4,11 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "19.0.1.0.12",
+    "version": "19.0.1.0.13",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Facturare livrari",
+    "support": "support@terrabit.ro",
+    "summary": "Create invoices directly from stock pickings or batch transfers",
     "category": "Sales",
     "depends": [
         "account",
