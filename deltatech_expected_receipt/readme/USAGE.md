@@ -10,8 +10,11 @@
    - **Issue a down payment invoice** (default when nothing is invoiced): the
      down payment invoice is created from the order, posted and paid;
    - **No invoice** (managers only): the amount stays as customer credit. Use
-     it only when the delivery is invoiced in the same month, because the VAT
-     on a down payment is due when it is received.
+     it only when the delivery is invoiced in the same VAT period as the
+     payment (month, or quarter for quarterly filers); otherwise the VAT on the
+     down payment, due when it is received, is reported late. In Romania the
+     down payment invoice is due at the latest on the 15th of the following
+     month.
 4. Press **Register**. The payment is posted (5125 = 4111) and the receipt
    appears in **Accounting > Customers > Expected Receipts** as *Pending
    Settlement*.
@@ -31,10 +34,17 @@
 4. The ticked payments are reconciled with the statement line on the suspense
    account and the receipts become *Settled*.
 
+The bank fee is expected on its own statement line (627 = 5121). If the bank
+transfers the net amount (fee withheld), no exact combination exists: tick the
+receipts manually and book the fee as the remaining difference on the suspense
+account (627 = 5125) in the standard bank reconciliation.
+
 ## Follow-up
 
 - The **Late** filter shows card payments still pending after the alert
   threshold of their terminal.
 - A receipt registered by mistake is cancelled with **Cancel Receipt**
-  (managers): the payment is cancelled too. A settled receipt is corrected by a
-  reversal in accounting.
+  (managers): the payment is cancelled too. A down payment invoice issued for
+  it stays posted, with its VAT, and is reversed with a credit note. A settled
+  receipt, or one from a closed period (VAT return already filed), is corrected
+  by a reversal in accounting, not by cancelling.

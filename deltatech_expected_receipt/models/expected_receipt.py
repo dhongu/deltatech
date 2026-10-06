@@ -267,6 +267,17 @@ class ExpectedReceipt(models.Model):
                 # Nota plății rămâne, în starea anulată: numărul nu dispare din jurnal.
                 payment.sudo().action_cancel()
             receipt.sudo().state = "cancelled"
+            invoice = receipt.invoice_id
+            if invoice and invoice.invoice_line_ids.sale_line_ids.filtered("is_downpayment"):
+                # Factura de avans are TVA colectat: anularea plății n-o atinge.
+                receipt.message_post(
+                    body=self.env._(
+                        "The down payment invoice %s stays posted: issue a credit note if the down "
+                        "payment is not received.",
+                        invoice.display_name,
+                    ),
+                    subtype_xmlid="mail.mt_note",
+                )
         return True
 
     # ------------------------------------------------------------------

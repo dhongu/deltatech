@@ -8,7 +8,7 @@ vine extrasul băncii.
 
 Pe o comandă nefacturată, plata e un avans. TVA-ul devine exigibil la încasarea avansului
 (Codul fiscal, art. 282 alin. (2) lit. b), iar factura de avans e obligatorie (art. 319
-alin. (6) lit. d). De aceea varianta implicită emite factura de avans și încasează pe ea.
+alin. (6) lit. d), cel târziu pe 15 ale lunii următoare (alin. (16)). De aceea varianta implicită emite factura de avans și încasează pe ea.
 """
 
 from odoo import api, fields, models
@@ -161,6 +161,10 @@ class CardPayment(models.TransientModel):
                     "Journal %s has no suspense account (5125): the payment would have nowhere to wait.",
                     wizard.terminal_id.journal_id.display_name,
                 )
+            elif wizard.invoice_mode == "downpayment" and not wizard.company_id.downpayment_account_id:
+                message = self.env._(
+                    "The company has no Down Payment Account (419 in Romania): set it in the Sales settings."
+                )
             elif wizard.sale_order_id and wizard.invoice_mode == "none":
                 message = self.env._(
                     "A payment received before invoicing is a down payment: the VAT is due on receipt and "
@@ -170,6 +174,8 @@ class CardPayment(models.TransientModel):
                 float_compare(wizard.amount, wizard.amount_due, precision_rounding=wizard.currency_id.rounding) > 0
             ):
                 message = self.env._("The amount exceeds the amount due; the difference stays as customer credit.")
+                if wizard.sale_order_id:
+                    message += " " + self.env._("On an order, that credit is also a down payment, with VAT due.")
             wizard.warning = message
 
     # ------------------------------------------------------------------
@@ -264,6 +270,16 @@ class CardPayment(models.TransientModel):
             )
         if self.invoice_mode == "downpayment" and not self.sale_order_id:
             raise UserError(self.env._("A down payment invoice is issued from a sales order."))
+        if self.invoice_mode == "downpayment" and not self.company_id.downpayment_account_id:
+            # Fără cont de avans, Odoo creditează contul de venit al produsului (707), iar
+            # deducerea avansului la factura finală îl debitează înapoi: cifra de afaceri ar
+            # apărea umflată. Avansul se ține pe 419 „Clienți - creditori”.
+            raise UserError(
+                self.env._(
+                    "Set the Down Payment Account in Sales > Configuration > Settings (419 Customers - "
+                    "advances received in Romania) before issuing down payment invoices."
+                )
+            )
         if float_is_zero(self.amount, precision_rounding=self.currency_id.rounding) or self.amount < 0:
             raise UserError(self.env._("The received amount must be greater than zero."))
         journal = self.terminal_id.journal_id
