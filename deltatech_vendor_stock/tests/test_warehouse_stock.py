@@ -88,6 +88,9 @@ class TestWarehouseStock(TransactionCase):
             # loses its prefetch after invalidate_all() and would count one read per line
             lines = self.env["sale.order.line"].browse(lines.ids)
             self.env.invalidate_all()
+            # display_qty_widget is computed line by line by sale_stock/sale_mrp (a BoM search per line) and
+            # the form already has it before warehouse_stock is read; keep it out of the measurement
+            lines.mapped("display_qty_widget")
             before = self.env.cr.sql_log_count
             lines._compute_warehouse_stocks()
             return self.env.cr.sql_log_count - before
