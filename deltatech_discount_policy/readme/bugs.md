@@ -23,3 +23,7 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **DISCOUNTPOLICY-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## Integrated reverification — 2026-10-03
+
+Entire eligible source read against native discount compute, base-price/pricelist-chain helper and sales price hooks. DISCOUNTPOLICY-001 fix remains present, including combo propagation and disabled-feature preservation. Empty chained rule falls back through native _compute_base_price; not asserted as a singleton crash. No new confirmed defect. Historical tests not rerun; sales/pricelist integration unexecuted.
