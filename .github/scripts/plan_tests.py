@@ -53,6 +53,10 @@ MAX_PER_SHARD = 30
 # a `.po`/`.pot` cannot change a test result.
 NEUTRAL_SUFFIXES = (".md", ".rst")
 NEUTRAL_PATH_PARTS = ("/readme/", "/screenshots/", "/static/description/", "/i18n/")
+# Tooling scripts at the repo root (generators, sync helpers) never run under the
+# tests either, so they are neutral too. `static/description/index.html` is
+# already covered by NEUTRAL_PATH_PARTS.
+NEUTRAL_PREFIXES = ("scripts/",)
 
 # Root files that can affect every addon: filtering makes no sense for them.
 INFRA_PREFIXES = (
@@ -162,6 +166,8 @@ def is_neutral(path):
     dependent into the matrix, and a root-level `*.md` forces a full run.
     """
     if path.endswith(NEUTRAL_SUFFIXES):
+        return True
+    if path.startswith(NEUTRAL_PREFIXES):
         return True
     probe = "/" + path
     return any(part in probe for part in NEUTRAL_PATH_PARTS)
