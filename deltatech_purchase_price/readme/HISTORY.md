@@ -1,3 +1,10 @@
+## 19.0.1.2.12 (2026-10-06)
+
+- **New vendor pricing rows no longer take the product cost as unit price.**
+  On the *Purchase* tab of a product (template or variant), a new vendor line
+  was pre-filled with the product cost (e.g. 99.01), which was easy to save by
+  mistake as the vendor price. The unit price of a new line now starts at 0.
+
 ## 19.0.1.2.11 (2026-10-03)
 
 - **Fix (PURCHASEPRICE-001): the automatic sale price update uses the
