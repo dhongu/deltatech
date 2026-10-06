@@ -5,3 +5,4 @@
   and Usage, clearer summary, category Extra Tools.
 - The settings screenshot no longer shows a sample company logo in the watermark field, and the
   Apps Store banner matches the new summary.
+- Own module icon, the same as on 19.0, instead of the generic gears.
