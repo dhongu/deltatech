@@ -5,11 +5,12 @@
 2. Create a bank journal for the account in which the bank transfers the card
    payments (or use the existing one). Its **suspense account** is where card
    payments wait until the bank transfer arrives; on a Romanian company it is
-   5125. The account must allow reconciliation (on the Romanian chart it does
-   not by default). If you want a dedicated sub-account (e.g. 5125.01 *Card
+   account 5125. The account must allow reconciliation (on the Romanian chart
+   it does not by default). If you want a dedicated sub-account (e.g. 5125.01 *Card
    payments in course of settlement*), set it as the suspense account of that
    journal.
-3. Set the **Down Payment Account** in **Sales > Configuration > Settings**:
+3. Set the **Downpayment Account** in **Invoicing > Configuration > Settings**,
+   section **Default Accounts** (visible with the full accounting features):
    on a Romanian company, 419 *Customers - advances received*. Without it Odoo
    credits the down payment to the sales account (707), and the deduction on
    the final invoice debits it back, inflating the turnover. The module refuses
