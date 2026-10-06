@@ -1,0 +1,10 @@
+{
+  "title": "Replenish Negative Stock",
+  "summary": "Refill negative stock from another location in one click",
+  "icon": "box",
+  "features": [
+    "One-click refill of a location",
+    "Quantities that bring stock to zero",
+    "Lines you can edit before validating"
+  ]
+}

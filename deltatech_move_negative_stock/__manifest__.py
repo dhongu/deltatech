@@ -3,11 +3,12 @@
 
 {
     "name": "Replenish negative stock",
-    "summary": "Replenish negative stock from other location",
-    "version": "18.0.1.1.1",
+    "summary": "Refill negative stock from another location in one click",
+    "version": "18.0.1.1.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
-    "category": "Generic Modules/Stock",
+    "support": "support@terrabit.ro",
+    "category": "Inventory/Inventory",
     "depends": ["stock"],
     "license": "OPL-1",
     "data": [
