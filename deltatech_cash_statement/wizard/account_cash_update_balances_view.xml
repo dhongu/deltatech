@@ -5,13 +5,36 @@
         <field name="model">account.cash.update.balances</field>
         <field name="arch" type="xml">
             <form string="Cash Update Balances">
+                <field name="statement_id" invisible="1" />
+                <field name="company_id" invisible="1" />
+                <field name="currency_id" invisible="1" />
                 <group>
-                    <field name="balance_start" />
+                    <field name="mode" widget="radio" />
                 </group>
+                <group>
+                    <group>
+                        <field name="journal_id" />
+                        <field name="balance_start" />
+                        <field name="accounting_balance" />
+                    </group>
+                    <group invisible="mode != 'difference'">
+                        <field name="counted_balance" />
+                        <field name="difference" />
+                        <field name="date" required="mode == 'difference'" />
+                        <field name="counterpart_account_id" required="mode == 'difference' and difference != 0" />
+                        <field name="partner_required" invisible="1" />
+                        <field name="partner_id" required="mode == 'difference' and partner_required" />
+                        <field name="label" />
+                    </group>
+                </group>
+                <div class="text-muted" invisible="mode != 'align'">
+                    The declared balances of the selected statements are aligned with the cash account.
+                    No journal entry is created: a real difference between the counted cash and the
+                    accounting balance must be registered as a cash difference.
+                </div>
                 <footer>
                     <button name="do_update_balance" string="Apply" type="object" class="oe_highlight" />
-                    or
-                    <button string="Cancel" class="oe_link" special="cancel" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>
         </field>

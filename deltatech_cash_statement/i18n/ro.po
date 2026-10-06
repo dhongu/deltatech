@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-17 10:40+0000\n"
+"POT-Creation-Date: 2026-10-06 05:25+0000\n"
 "PO-Revision-Date: 2024-05-17 10:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,6 +20,39 @@ msgstr ""
 #: model:ir.model,name:deltatech_cash_statement.model_account_cash_update_balances
 msgid "Account Cash Update Balances"
 msgstr "Actualizare solduri cont cash"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__accounting_balance
+msgid "Accounting Balance"
+msgstr "Sold contabil"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields.selection,name:deltatech_cash_statement.selection__account_cash_update_balances__mode__align
+msgid "Align with the accounting balance"
+msgstr "Aliniere la soldul contabil"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__mode
+msgid ""
+"Align: the starting balance of the first statement becomes the balance of the cash account before the statement date; no journal entry is created.\n"
+"Cash difference: the counted cash differs from the accounting balance; a dated statement line books the difference on the income or expense account."
+msgstr ""
+"Aliniere: soldul inițial al primului extras devine soldul contului de casă dinaintea datei extrasului; nu se creează notă contabilă.\n"
+"Diferență de casă: numerarul numărat diferă de soldul contabil; o linie de extras datată înregistrează diferența pe contul de venituri sau de cheltuieli."
+
+#. module: deltatech_cash_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__accounting_balance
+msgid ""
+"Balance of the journal's cash account from the posted entries dated before "
+"the first selected statement."
+msgstr ""
+"Soldul contului de casă al jurnalului, din notele postate datate înaintea "
+"primului extras selectat."
 
 #. module: deltatech_cash_statement
 #: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
@@ -32,6 +66,37 @@ msgid "Cash Update Balances"
 msgstr "Actualizare solduri cash"
 
 #. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__counted_balance
+msgid "Cash actually counted at the start of the statement date."
+msgstr "Numerarul numărat efectiv la începutul zilei extrasului."
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "Cash difference found at inventory"
+msgstr "Diferență de casă constatată la inventariere"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__company_id
+msgid "Company related to this journal"
+msgstr "Compania jurnalului"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__counted_balance
+msgid "Counted Balance"
+msgstr "Sold numărat"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__counterpart_account_id
+msgid "Counterpart Account"
+msgstr "Cont corespondent"
+
+#. module: deltatech_cash_statement
 #: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__create_uid
 msgid "Created by"
 msgstr "Creat de"
@@ -42,6 +107,31 @@ msgid "Created on"
 msgstr "Creat pe"
 
 #. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__balance_start
+msgid "Current Starting Balance"
+msgstr "Sold inițial actual"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__date
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__date
+msgid "Date of the cash difference entry."
+msgstr "Data notei de diferență de casă."
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__difference
+msgid "Difference"
+msgstr "Diferență"
+
+#. module: deltatech_cash_statement
 #: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
@@ -49,12 +139,17 @@ msgstr "Nume afișat"
 #. module: deltatech_cash_statement
 #: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: deltatech_cash_statement
-#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare pe"
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__journal_id
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__label
+msgid "Label"
+msgstr "Explicație"
 
 #. module: deltatech_cash_statement
 #: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__write_uid
@@ -67,23 +162,100 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
 
 #. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__mode
+msgid "Mode"
+msgstr "Mod"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__partner_required
+msgid "Partner Required"
+msgstr "Partener obligatoriu"
+
+#. module: deltatech_cash_statement
 #. odoo-python
 #: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
-#, python-format
 msgid "Please select only Open or Posted statements"
 msgstr "Vă rugăm să selectați doar extrase deschise sau postate"
 
 #. module: deltatech_cash_statement
-#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__balance_start
-msgid "Starting Balance"
-msgstr "Sold inițial"
+#: model:ir.model.fields.selection,name:deltatech_cash_statement.selection__account_cash_update_balances__mode__difference
+msgid "Register a cash difference"
+msgstr "Înregistrare diferență de casă"
 
 #. module: deltatech_cash_statement
-#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
-msgid "_Apply"
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__partner_id
+msgid "Responsible Person"
+msgstr "Persoana responsabilă"
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "Select statements of a single journal."
+msgstr "Selectați extrase ale unui singur jurnal."
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "Select the account on which the cash difference is booked."
+msgstr "Alegeți contul pe care se înregistrează diferența de casă."
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "Select the person the cash shortage is charged to."
+msgstr "Alegeți persoana căreia i se impută lipsa de numerar."
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "Set the date of the cash difference."
+msgstr "Completați data diferenței de casă."
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__statement_id
+msgid "Statement"
+msgstr "Extras"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__counterpart_account_id
+msgid ""
+"Surplus: income account (7588 in Romania). Shortage: expense account (6588),"
+" or the receivable from the person responsible (4282)."
 msgstr ""
+"Plus: cont de venituri (7588 în România). Minus: cont de cheltuieli (6588) "
+"sau debitul persoanei vinovate (4282)."
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "The cash difference cannot be dated before the statement."
+msgstr "Diferența de casă nu poate fi datată înaintea extrasului."
 
 #. module: deltatech_cash_statement
 #: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
-msgid "or"
-msgstr "sau"
+msgid ""
+"The declared balances of the selected statements are aligned with the cash account.\n"
+"                    No journal entry is created: a real difference between the counted cash and the\n"
+"                    accounting balance must be registered as a cash difference."
+msgstr ""
+"Soldurile declarate ale extraselor selectate se aliniază la contul de casă.\n"
+"                    Nu se creează notă contabilă: o diferență reală între numerarul numărat și\n"
+"                    soldul contabil se înregistrează ca diferență de casă."
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__partner_id
+msgid ""
+"The person the shortage is charged to (4282). The receivable is followed on "
+"this partner."
+msgstr ""
+"Persoana căreia i se impută lipsa (4282). Creanța se urmărește pe acest "
+"partener."
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare pe"
+
+#~ msgid "Starting Balance"
+#~ msgstr "Sold inițial"
+
+#~ msgid "or"
+#~ msgstr "sau"

@@ -1,3 +1,21 @@
+## 19.0.3.1.0 (2026-10-06)
+
+- **The wizard no longer overwrites the starting balance with an arbitrary
+  value.** Typing a balance hid the difference between the statement and the
+  cash account, with no journal entry and no date. That conflicts with the
+  rule that every cash operation needs a supporting document, and with the
+  Romanian requirement that balances are carried forward automatically (OMFP
+  2634/2015, Annex 1, item 58).
+- New mode **Align with the accounting balance**: the starting balance comes
+  from the posted entries on the cash account, and no entry is created.
+- New mode **Register a cash difference**: the difference between the counted
+  cash and the accounting balance is booked through a dated statement line on
+  7588 / 6588 (Romanian company) or on the journal's cash difference accounts.
+- The wizard refuses statements of more than one journal.
+- A cash difference cannot be dated before the statement (it would be counted
+  twice), and a shortage charged to a person (4282) requires the responsible
+  person, so the receivable is followed on that partner.
+
 ## 19.0.3.0.2 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
