@@ -25,6 +25,14 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Impact:** VAT-inclusive cost and pricelists based on it overstated in multi-company databases.
 - **Validation:** Fresh database, 8 tests, 0 failures. Against the 19.0.1.0.2 code the multi-company test fails with 132 != 121; with the company filter but without `depends_context` it fails with 121 != 222.
 
+## VATCOST-003 — P2: cost-with-VAT pricelist base uses the wrong source currency
+
+_Recorded as VATCOST-002 in the local audit of 2026-10-03; renumbered when syncing with origin, where VATCOST-002 already names another issue._
+
+Both computes in `models/product.py` derive standard_price_with_vat from company-dependent standard_price, but pass product.currency_id rather than cost_currency_id to the tax engine. The custom pricelist base also falls through native `_compute_base_price`/`_price_compute` as an ordinary sales-price field: native code special-cases only standard_price for cost_currency_id, assigning product.currency_id to other bases. For a shared product, currency_id follows the main company while cost_currency_id follows the active company (`product_template.py:260–267`). A cost-with-VAT amount in B's currency can therefore be converted as if it were A's currency, distorting formula pricelist prices. Override custom-base currency handling consistently with native cost-price semantics.
+
+Evidence: complete module compute/base selection traced into native product.pricelist.item._compute_base_price (:628–659) and product.template._price_compute (:737–771), and product currency providers. Source-supported currency mismatch; native currency-rate/pricelist database scenario unexecuted.
+
 ## Review limitations
 
 Verified through local source and dependency analysis and the isolated reproductions stated above. The fix was validated with database-backed tests on a fresh database (6 tests, 0 failures); before the fix, 3 of them failed, and with the old dependencies the 2 invalidation tests failed.
@@ -34,3 +42,7 @@ Verified through local source and dependency analysis and the isolated reproduct
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **VATCOST-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## Integrated reverification — 2026-10-03
+
+All eligible source read. VATCOST-001 fix remains present for purchase-tax guard/dependencies; historical database tests not rerun. Tax properties beyond listed dependencies and multiple-company supplier taxes remain integration limits. No tax/pricelist/browser tests executed.
