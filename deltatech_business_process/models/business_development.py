@@ -5,10 +5,13 @@ from datetime import date
 
 from odoo import api, fields, models
 
+from ..tools.display_name import code_display_name
+
 
 class BusinessDevelopment(models.Model):
     _name = "business.development"
     _description = "Business Development"
+    _rec_names_search = ["name", "code"]
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Name", required=True)
@@ -115,9 +118,8 @@ class BusinessDevelopment(models.Model):
 
         return result
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for development in self:
-            development.display_name = "{}{}".format(
-                development.code and f"[{development.code}] " or "",
-                development.name,
-            )
+            development.display_name = code_display_name(development)

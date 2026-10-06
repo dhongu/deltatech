@@ -3,10 +3,13 @@
 
 from odoo import api, fields, models
 
+from ..tools.display_name import code_display_name
+
 
 class BusinessProcessStep(models.Model):
     _name = "business.process.step"
     _description = "Business process step"
+    _rec_names_search = ["name", "code"]
     _order = "sequence, code, id"
 
     name = fields.Char(
@@ -72,6 +75,8 @@ class BusinessProcessStep(models.Model):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
         return super().create(vals_list)
 
+    @api.depends("code", "name", "process_id.code")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for step in self:
-            step.display_name = "{}{}".format(step.code and f"[{step.code}] " or "", step.name)
+            step.display_name = code_display_name(step, step.process_id.code)

@@ -18,3 +18,4 @@ from . import test_acceptance_test_access
 from . import test_company_rules
 from . import test_open_issue_mail
 from . import test_business_project_create_multi
+from . import test_formatted_display_name

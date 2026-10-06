@@ -1,3 +1,7 @@
+## 19.0.1.9.8 (2026-10-06)
+
+- In the many2one dropdowns, projects, processes, steps, developments, issues, migrations and transactions now show the code in a second, muted column (a step also shows the code of its process, because step codes repeat between imported processes). The display name elsewhere (`[code] name`) is unchanged. Typing the code in the dropdown now finds projects, steps, developments, issues, migrations and transactions (processes were already searched by code).
+
 ## 19.0.1.9.7 (2026-10-06)
 
 - Creating several business projects in one call (`create` with a list of values) created only the last one, because the values of the last iteration were passed to `super().create` instead of the whole list. All projects are now created, each with its own sequence code.

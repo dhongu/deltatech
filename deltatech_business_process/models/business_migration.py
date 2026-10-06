@@ -1,12 +1,15 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
+
+from ..tools.display_name import code_display_name
 
 
 class BusinessMigration(models.Model):
     _name = "business.migration"
     _description = "Migration data"
+    _rec_names_search = ["name", "code"]
 
     name = fields.Char(string="Name", required=True)
     code = fields.Char(string="Code")
@@ -33,9 +36,11 @@ class BusinessMigration(models.Model):
     prepare_date = fields.Date(string="Prepare Date")
     migrate_date = fields.Date(string="Migrate Date")
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for migration in self:
-            migration.display_name = "{}{}".format(migration.code and f"[{migration.code}] " or "", migration.name)
+            migration.display_name = code_display_name(migration)
 
 
 class BusinessMigrationTest(models.Model):

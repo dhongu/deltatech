@@ -6,10 +6,13 @@ from datetime import date
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+from ..tools.display_name import code_display_name
+
 
 class BusinessIssue(models.Model):
     _name = "business.issue"
     _description = "Business Issue"
+    _rec_names_search = ["name", "code"]
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
@@ -139,12 +142,11 @@ class BusinessIssue(models.Model):
             if template:
                 template.send_mail(item.id, force_send=True)
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for issue in self:
-            issue.display_name = "{}{}".format(
-                issue.code and f"[{issue.code}] " or "",
-                issue.name,
-            )
+            issue.display_name = code_display_name(issue)
 
     def _add_followers(self):
         for issue in self:

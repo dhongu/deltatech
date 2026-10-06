@@ -5,6 +5,8 @@ from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError
 from odoo.fields import Domain
 
+from ..tools.display_name import code_display_name
+
 
 class BusinessProcess(models.Model):
     _name = "business.process"
@@ -195,9 +197,11 @@ class BusinessProcess(models.Model):
                     vals["responsible_id"] = area.responsible_id.id
         return super().create(vals_list)
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for process in self:
-            process.display_name = "{}{}".format(process.code and f"[{process.code}] " or "", process.name)
+            process.display_name = code_display_name(process)
 
     def _compute_developments(self):
         for process in self:
