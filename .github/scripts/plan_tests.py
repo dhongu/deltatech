@@ -11,6 +11,11 @@ Rules:
 * workflow_dispatch with `modules` -> exactly that list (no reverse expansion:
   a manual run is targeted by definition).
 
+Files that cannot change what the tests exercise (documentation, Apps Store
+presentation, translations) are dropped from the diff before any decision is
+made: a `readme/DESCRIPTION.md` no longer drags the addon and all of its
+reverse dependents into the test matrix.
+
 The selection is then split into shards by functional family. The split is not
 only about parallelism: each family drags in its own Odoo core stack, so a
 `website` shard installs website+sale but not mrp or pos. Roughly half of a
@@ -38,6 +43,20 @@ import sys
 # boot, addon install, test db init) of roughly 2.5 minutes, so many small
 # shards buy wall-clock time with a lot of runner minutes.
 MAX_PER_SHARD = 30
+
+# Files that cannot change what the tests exercise: documentation, Apps Store
+# presentation, translations. They are dropped from the diff BEFORE anything
+# else, so they trigger neither addon selection nor the full-run rules below
+# (a root `README.md` used to force a full run on its own).
+#
+# `i18n/` is deliberate: tests run in English with translations not loaded, so
+# a `.po`/`.pot` cannot change a test result.
+NEUTRAL_SUFFIXES = (".md", ".rst")
+NEUTRAL_PATH_PARTS = ("/readme/", "/screenshots/", "/static/description/", "/i18n/")
+# Tooling scripts at the repo root (generators, sync helpers) never run under the
+# tests either, so they are neutral too. `static/description/index.html` is
+# already covered by NEUTRAL_PATH_PARTS.
+NEUTRAL_PREFIXES = ("scripts/",)
 
 # Root files that can affect every addon: filtering makes no sense for them.
 INFRA_PREFIXES = (
@@ -138,6 +157,22 @@ def usable(sha):
     return subprocess.run(["git", "cat-file", "-e", f"{sha}^{{commit}}"]).returncode == 0
 
 
+def is_neutral(path):
+    """True for files that cannot change a test outcome.
+
+    Documentation (`readme/`, `*.md`, `*.rst`), presentation material
+    (`static/description/`, `screenshots/`) and translations (`i18n/`). Without
+    the filter, a `readme/DESCRIPTION.md` on a base addon pulls every reverse
+    dependent into the matrix, and a root-level `*.md` forces a full run.
+    """
+    if path.endswith(NEUTRAL_SUFFIXES):
+        return True
+    if path.startswith(NEUTRAL_PREFIXES):
+        return True
+    probe = "/" + path
+    return any(part in probe for part in NEUTRAL_PATH_PARTS)
+
+
 def changed_addons(manifests, base_sha, head_sha):
     """Addons touched by the diff, or None when infrastructure changed."""
     diff = subprocess.run(
@@ -148,7 +183,13 @@ def changed_addons(manifests, base_sha, head_sha):
     ).stdout.splitlines()
 
     touched = set()
+    neutral = 0
     for path in diff:
+        # Neutral files first: otherwise a root `README.md` or a `.md` under
+        # `.github/` would read as an infrastructure change and force a full run.
+        if is_neutral(path):
+            neutral += 1
+            continue
         if path.startswith(INFRA_PREFIXES):
             print(f"Infrastructure file changed ({path}) -> full run.")
             return None
@@ -159,6 +200,8 @@ def changed_addons(manifests, base_sha, head_sha):
         # Deleted addons have no manifest left; there is nothing to test.
         if top in manifests:
             touched.add(top)
+    if neutral:
+        print(f"{neutral} documentation/translation file(s) ignored for selection.")
     return touched
 
 
