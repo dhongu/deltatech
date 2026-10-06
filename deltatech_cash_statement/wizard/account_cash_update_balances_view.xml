@@ -20,12 +20,14 @@
                     <group invisible="mode != 'difference'">
                         <field name="counted_balance" />
                         <field name="difference" />
-                        <field name="date" required="mode == 'difference'" />
-                        <field name="counterpart_account_id" required="mode == 'difference' and difference != 0" />
-                        <field name="partner_required" invisible="1" />
-                        <field name="partner_id" required="mode == 'difference' and partner_required" />
-                        <field name="label" />
                     </group>
+                </group>
+                <group invisible="mode != 'difference'">
+                    <field name="date" required="mode == 'difference'" />
+                    <field name="counterpart_account_id" required="mode == 'difference' and difference != 0" />
+                    <field name="partner_required" invisible="1" />
+                    <field name="partner_id" required="mode == 'difference' and partner_required" />
+                    <field name="label" />
                 </group>
                 <div class="text-muted" invisible="mode != 'align'">
                     The declared balances of the selected statements are aligned with the cash account.
