@@ -34,3 +34,9 @@ bank transfer, to the cent.
   from the standard bank reconciliation screen.
 - No field is added on sales orders, invoices, payments or companies: the
   settings live on the card terminals.
+
+The module does not replace the fiscal receipt: for sales to individuals paid by
+card, the fiscal receipt is still issued from the cash register. When those
+sales are booked from the Z report, do not also issue a down payment invoice
+from the module for the same sale, or the revenue and the VAT are counted
+twice.

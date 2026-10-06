@@ -38,7 +38,7 @@
                         type="object"
                         groups="deltatech_expected_receipt.group_manager"
                         invisible="state != 'pending'"
-                        confirm="The payment is cancelled together with the receipt. Continue?"
+                        confirm="The payment is cancelled together with the receipt. A down payment invoice issued for it stays posted and is reversed with a credit note. Continue?"
                     />
                     <field name="state" widget="statusbar" statusbar_visible="pending,settled" />
                 </header>

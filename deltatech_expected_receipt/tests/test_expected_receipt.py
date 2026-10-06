@@ -47,6 +47,15 @@ class TestExpectedReceipt(AccountTestInvoicingCommon):
         )
         cls.partners = cls.env["res.partner"].create([{"name": "Glassmart"}, {"name": "Mansoor"}, {"name": "Davinox"}])
         cls.day = date(2026, 8, 21)
+        cls.acc_419 = cls._account("419")
+        cls.acc_4427 = cls._account("4427")
+        cls.company.downpayment_account_id = cls.acc_419
+
+    @classmethod
+    def _account(cls, code):
+        return cls.env["account.account"].search(
+            [("code", "=like", code + "%"), ("company_ids", "in", cls.company.ids)], order="code", limit=1
+        )
 
     @classmethod
     def _user(cls, login, groups):
@@ -187,6 +196,27 @@ class TestExpectedReceipt(AccountTestInvoicingCommon):
         self.assertIn(invoice, order.invoice_ids)
         self.assertAlmostEqual(invoice.amount_total, 121.0)
         self.assertIn(invoice.payment_state, ("paid", "in_payment"))
+        # Avansul se creditează pe 419, cu TVA colectat pe 4427 (Dr 4111 = Cr 419 + Cr 4427).
+        credit = invoice.line_ids.filtered(lambda line: line.credit)
+        self.assertIn(self.acc_419, credit.account_id)
+        self.assertIn(self.acc_4427, credit.account_id)
+        self.assertAlmostEqual(
+            sum(credit.filtered(lambda line: line.account_id == self.acc_419).mapped("credit")), 100.0
+        )
+
+    def test_downpayment_needs_the_down_payment_account(self):
+        """Fără cont de avans, factura ar credita 707: emiterea se oprește."""
+        self.company.downpayment_account_id = False
+        order = (
+            self.env["sale.order"]
+            .with_user(self.cashier)
+            .create(
+                {"partner_id": self.partners[2].id, "order_line": [Command.create({"product_id": self.product_a.id})]}
+            )
+        )
+        with self.assertRaises(UserError):
+            self._pay(amount=50.0, record=order, user=self.cashier)
+        self.assertFalse(order.invoice_ids)
 
     def test_cashier_cannot_skip_downpayment_invoice(self):
         order = (

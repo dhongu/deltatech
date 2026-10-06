@@ -72,6 +72,11 @@ bank transfer, to the cent.</p>
   module after checking the company, the terminal and the document.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A scheduled action keeps the register in sync when the accountant reconciles
   from the standard bank reconciliation screen.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>No field is added on sales orders, invoices, payments or companies: the
   settings live on the card terminals.</div></div></li></ul>
+<p>The module does not replace the fiscal receipt: for sales to individuals paid by
+card, the fiscal receipt is still issued from the cash register. When those
+sales are booked from the Z report, do not also issue a down payment invoice
+from the module for the same sale, or the revenue and the VAT are counted
+twice.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
@@ -83,11 +88,17 @@ bank transfer, to the cent.</p>
 <li>Create a bank journal for the account in which the bank transfers the card
    payments (or use the existing one). Its <strong>suspense account</strong> is where card
    payments wait until the bank transfer arrives; on a Romanian company it is<ol start="5125">
-<li>The account must allow reconciliation. If you want a dedicated
-   analytic account (e.g. 5125.01 <em>Card payments in course of settlement</em>), set
-   it as the suspense account of that journal.</li>
+<li>The account must allow reconciliation (on the Romanian chart it does
+   not by default). If you want a dedicated sub-account (e.g. 5125.01 <em>Card
+   payments in course of settlement</em>), set it as the suspense account of that
+   journal.</li>
 </ol>
 </li>
+<li>Set the <strong>Down Payment Account</strong> in <strong>Sales &gt; Configuration &gt; Settings</strong>:
+   on a Romanian company, 419 <em>Customers - advances received</em>. Without it Odoo
+   credits the down payment to the sales account (707), and the deduction on
+   the final invoice debits it back, inflating the turnover. The module refuses
+   to issue down payment invoices until it is set.</li>
 <li>Go to <strong>Accounting &gt; Configuration &gt; Card Terminals</strong> and create a terminal
    for each device: the bank journal, the user who uses it by default, the
    matching window (default 4 days) and the alert threshold (default 3 days).</li>
@@ -107,8 +118,11 @@ bank transfer, to the cent.</p>
 <li><strong>Issue a down payment invoice</strong> (default when nothing is invoiced): the
  down payment invoice is created from the order, posted and paid;</li>
 <li><strong>No invoice</strong> (managers only): the amount stays as customer credit. Use
- it only when the delivery is invoiced in the same month, because the VAT
- on a down payment is due when it is received.</li>
+ it only when the delivery is invoiced in the same VAT period as the
+ payment (month, or quarter for quarterly filers); otherwise the VAT on the
+ down payment, due when it is received, is reported late. In Romania the
+ down payment invoice is due at the latest on the 15th of the following
+ month.</li>
 </ul>
 </li>
 <li>Press <strong>Register</strong>. The payment is posted (5125 = 4111) and the receipt
@@ -132,13 +146,19 @@ bank transfer, to the cent.</p>
 <li>The ticked payments are reconciled with the statement line on the suspense
    account and the receipts become <em>Settled</em>.</li>
 </ol>
+<p>The bank fee is expected on its own statement line (627 = 5121). If the bank
+transfers the net amount (fee withheld), no exact combination exists: tick the
+receipts manually and book the fee as the remaining difference on the suspense
+account (627 = 5125) in the standard bank reconciliation.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Follow-up</h2>
 <ul>
 <li>The <strong>Late</strong> filter shows card payments still pending after the alert
   threshold of their terminal.</li>
 <li>A receipt registered by mistake is cancelled with <strong>Cancel Receipt</strong>
-  (managers): the payment is cancelled too. A settled receipt is corrected by a
-  reversal in accounting.</li>
+  (managers): the payment is cancelled too. A down payment invoice issued for
+  it stays posted, with its VAT, and is reversed with a credit note. A settled
+  receipt, or one from a closed period (VAT return already filed), is corrected
+  by a reversal in accounting, not by cancelling.</li>
 </ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -149,7 +169,8 @@ bank transfer, to the cent.</p>
   orders, invoices and customers, with a down payment invoice on unbilled
   orders; Expected Receipts register; settlement of the grouped bank transfer
   by exact combination; card terminals; cashier group without accounting
-  rights. Based on the cash and bank module written by Alexandru Grecu for MD
+  rights. Down payment invoices require the Down Payment Account (419) to be
+  set. Based on the cash and bank module written by Alexandru Grecu for MD
   Trade Concept SRL.</li>
 </ul>
 </div>
