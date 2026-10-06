@@ -1,0 +1,1142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_expected_receipt
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 06:04+0000\n"
+"PO-Revision-Date: 2026-10-06 06:04+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid " %s is missing: probably a card payment was not registered."
+msgstr " Lipsesc %s: probabil o încasare cu cardul nu a fost înregistrată."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/card_terminal.py:0
+msgid ""
+"%(user)s already has terminal %(twin)s. A user can have only one default "
+"terminal."
+msgstr ""
+"%(user)s are deja terminalul %(twin)s. Un utilizator poate avea un singur "
+"terminal implicit."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "%s is no longer pending; search again."
+msgstr "%s nu mai este în așteptare; căutați din nou."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid ""
+"A card receipt is registered with the 'Card Payment' button, which also "
+"creates the payment. A row without payment is not allowed."
+msgstr ""
+"O încasare cu cardul se înregistrează cu butonul „Încasare cu cardul”, care "
+"creează și plata. Un rând fără plată nu este permis."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "A down payment invoice is issued from a sales order."
+msgstr "Factura de avans se emite dintr-o comandă de vânzare."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"A payment on a sales order is a down payment and needs a down payment "
+"invoice. Only a manager can register it without one."
+msgstr ""
+"O încasare pe o comandă de vânzare este un avans și cere factură de avans. "
+"Doar un administrator o poate înregistra fără factură."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"A payment received before invoicing is a down payment: the VAT is due on "
+"receipt and a down payment invoice is required."
+msgstr ""
+"O încasare primită înainte de facturare este un avans: TVA-ul devine "
+"exigibil la încasare și factura de avans este obligatorie."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_terminal__late_days
+msgid "A receipt not settled after this many days is shown as late."
+msgstr "O încasare nedecontată după acest număr de zile apare ca întârziată."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.constraint,message:deltatech_expected_receipt.constraint_deltatech_card_terminal_name_company_uniq
+msgid "A terminal with this name already exists."
+msgstr "Există deja un terminal cu acest nume."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"Account %s does not allow reconciliation, so the payment could never be "
+"matched with the bank statement. Enable 'Allow Reconciliation' on it."
+msgstr ""
+"Contul %s nu permite reconcilierea, deci plata n-ar putea fi stinsă "
+"niciodată cu extrasul. Bifați „Permite reconcilierea” pe cont."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_needaction
+msgid "Action Needed"
+msgstr "Acțiune necesară"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__late_days
+msgid "Alert After (days)"
+msgstr "Alertă după (zile)"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__amount
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__amount
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Amount"
+msgstr "Sumă"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__amount_due
+msgid "Amount Due"
+msgstr "Sumă de plată"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__amount
+msgid "Amount Received"
+msgstr "Sumă încasată"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__amount
+msgid "Amount to Settle"
+msgstr "Sumă de decontat"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_terminal_form
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr atașamente"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__journal_id
+msgid "Bank Journal"
+msgstr "Jurnal bancar"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model,name:deltatech_expected_receipt.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie extras bancar"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_terminal__settlement_account_id
+msgid ""
+"Bank statements transactions will be posted on the suspense account until "
+"the final reconciliation allowing finding the right account."
+msgstr ""
+"Tranzacțiile din extrasele bancare se înregistrează în contul de așteptare "
+"până la reconcilierea finală, care stabilește contul corect."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__can_settle
+msgid "Can Settle"
+msgstr "Se poate deconta"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_payment_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_form
+msgid "Cancel Receipt"
+msgstr "Anulează încasarea"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_expected_receipt__state__cancelled
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Cancelled"
+msgstr "Anulată"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_expected_receipt__kind__card
+msgid "Card"
+msgstr "Card"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Card %s"
+msgstr "Card %s"
+
+#. module: deltatech_expected_receipt
+#: model:res.groups,name:deltatech_expected_receipt.group_cashier
+msgid "Card Cashier"
+msgstr "Casier card"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+#: model:ir.actions.act_window,name:deltatech_expected_receipt.action_card_payment_partner
+#: model:ir.model,name:deltatech_expected_receipt.model_deltatech_card_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_payment_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_move_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_order_form
+msgid "Card Payment"
+msgstr "Încasare cu cardul"
+
+#. module: deltatech_expected_receipt
+#: model:ir.ui.menu,name:deltatech_expected_receipt.menu_card_payment_partner
+msgid "Card Payment on Customer"
+msgstr "Încasare cu cardul pe client"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_move_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_order_form
+msgid "Card Payments"
+msgstr "Încasări cu cardul"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/account_bank_statement_line.py:0
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+#: model:ir.actions.act_window,name:deltatech_expected_receipt.action_card_settlement
+#: model:ir.actions.server,name:deltatech_expected_receipt.action_server_card_settlement
+#: model:ir.model,name:deltatech_expected_receipt.model_deltatech_card_settlement
+#: model:ir.ui.menu,name:deltatech_expected_receipt.menu_card_settlement
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+msgid "Card Settlement"
+msgstr "Decontare card"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model,name:deltatech_expected_receipt.model_deltatech_card_settlement_line
+msgid "Card Settlement Line"
+msgstr "Linie decontare card"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model,name:deltatech_expected_receipt.model_deltatech_card_terminal
+msgid "Card Terminal"
+msgstr "Terminal card"
+
+#. module: deltatech_expected_receipt
+#: model:ir.actions.act_window,name:deltatech_expected_receipt.action_card_terminal
+#: model:ir.ui.menu,name:deltatech_expected_receipt.menu_card_terminal
+msgid "Card Terminals"
+msgstr "Terminale card"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"Card payment: %(amount)s on terminal %(terminal)s, %(date)s, by %(user)s. "
+"Waiting for settlement."
+msgstr ""
+"Încasare cu cardul: %(amount)s pe terminalul %(terminal)s, %(date)s, de "
+"%(user)s. Se așteaptă decontarea."
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.actions.act_window,help:deltatech_expected_receipt.action_expected_receipt
+msgid ""
+"Card payments are registered with the <b>Card Payment</b> button on sales "
+"orders and invoices."
+msgstr ""
+"Încasările cu cardul se înregistrează cu butonul <b>Încasare cu cardul</b> "
+"de pe comenzi și facturi."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "Card payments are settled on incoming statement lines."
+msgstr "Încasările cu cardul se decontează pe liniile de extras de intrare."
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__combo
+msgid "Combination"
+msgstr "Combinația"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_settlement__state__proposed
+msgid "Combination Found"
+msgstr "Combinație găsită"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__commercial_partner_id
+msgid "Commercial Entity"
+msgstr "Entitate comercială"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__company_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__company_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__company_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__create_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__create_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__create_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__create_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__create_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__create_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__create_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__currency_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__currency_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__partner_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__partner_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Day"
+msgstr "Zi"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__days_pending
+msgid "Days Pending"
+msgstr "Zile în așteptare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__user_id
+msgid "Default For"
+msgstr "Implicit pentru"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__difference
+msgid "Difference"
+msgstr "Diferență"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__display_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__document_name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__document_name
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_form
+msgid "Document"
+msgstr "Document"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid "Document %(doc)s belongs to %(other)s, not to %(partner)s."
+msgstr "Documentul %(doc)s este al lui %(other)s, nu al lui %(partner)s."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Document %(doc)s does not belong to %(partner)s."
+msgstr "Documentul %(doc)s nu este al lui %(partner)s."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Document %s belongs to another company."
+msgstr "Documentul %s este al altei companii."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__done
+msgid "Done"
+msgstr "Înregistrată"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Down payment received without a down payment invoice."
+msgstr "Avans încasat fără factură de avans."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_settlement__terminal_id
+msgid "Empty: all the terminals that pay into the statement line's journal."
+msgstr "Gol: toate terminalele care virează în jurnalul liniei de extras."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"Exactly one combination found: %(count)s receipts give %(amount)s to the "
+"cent. Check it and press 'Settle'."
+msgstr ""
+"Am găsit exact o combinație: %(count)s încasări dau %(amount)s la ban. "
+"Verificați-o și apăsați „Decontează”."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model,name:deltatech_expected_receipt.model_deltatech_expected_receipt
+msgid "Expected Receipt"
+msgstr "Încasare așteptată"
+
+#. module: deltatech_expected_receipt
+#: model:ir.actions.act_window,name:deltatech_expected_receipt.action_expected_receipt
+#: model:ir.ui.menu,name:deltatech_expected_receipt.menu_expected_receipt
+#: model:res.groups.privilege,name:deltatech_expected_receipt.privilege_expected_receipt
+msgid "Expected Receipts"
+msgstr "Încasări așteptate"
+
+#. module: deltatech_expected_receipt
+#: model:ir.actions.server,name:deltatech_expected_receipt.cron_sync_settlements_ir_actions_server
+msgid "Expected receipts: synchronize settlements"
+msgstr "Încasări așteptate: sincronizează decontările"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_follower_ids
+msgid "Followers"
+msgstr "Urmăritori"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Urmăritori (parteneri)"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__has_document
+msgid "Has Document"
+msgstr "Are document"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__has_message
+msgid "Has Message"
+msgstr "Are mesaj"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_terminal__settle_window_days
+msgid ""
+"How many days before the bank statement date the receipts are searched."
+msgstr "Cu câte zile înaintea datei extrasului se caută încasările."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_sale_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Dacă e bifat, mesajele noi necesită atenția dvs."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__message_has_error
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă e bifat, unele mesaje au o eroare de livrare."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__invoice_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__invoice_id
+msgid "Invoice"
+msgstr "Factură"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__invoice_mode
+msgid "Invoice Mode"
+msgstr "Facturare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_payment__invoice_mode__downpayment
+msgid "Issue a down payment invoice"
+msgstr "Emite factură de avans"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Journal %s has no suspense account (5125)."
+msgstr "Jurnalul %s nu are cont de așteptare (5125)."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"Journal %s has no suspense account (5125): the payment would have nowhere to"
+" wait."
+msgstr ""
+"Jurnalul %s nu are cont de așteptare (5125): plata n-ar avea unde să "
+"aștepte."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__currency_id
+msgid "Journal Currency"
+msgstr "Moneda jurnalului"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model,name:deltatech_expected_receipt.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__kind
+msgid "Kind"
+msgstr "Fel"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__write_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__write_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__write_uid
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__write_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__write_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__write_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__write_date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__is_late
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Late"
+msgstr "Întârziată"
+
+#. module: deltatech_expected_receipt
+#: model:res.groups,name:deltatech_expected_receipt.group_manager
+msgid "Manager"
+msgstr "Administrator"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__settle_window_days
+msgid "Matching Window (days)"
+msgstr "Fereastră de potrivire (zile)"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__message
+msgid "Message"
+msgstr "Mesaj"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_has_error
+msgid "Message Delivery error"
+msgstr "Eroare la livrarea mesajului"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_expected_receipt
+#: model:ir.ui.menu,name:deltatech_expected_receipt.menu_sale_card_receipts
+msgid "My Card Payments"
+msgstr "Încasările mele cu cardul"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "My Receipts"
+msgstr "Încasările mele"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.actions.act_window,help:deltatech_expected_receipt.action_expected_receipt
+msgid "No card payment waiting for settlement"
+msgstr "Nicio încasare cu cardul nu așteaptă decontarea"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"No combination gives exactly %(amount)s. %(count)s pending receipts in the window, %(total)s in total.%(hint)s\n"
+"The match is exact to the cent: the bank fee comes on a separate line."
+msgstr ""
+"Nicio combinație nu dă exact %(amount)s. %(count)s încasări în așteptare în fereastră, în total %(total)s.%(hint)s\n"
+"Potrivirea e exactă la ban: comisionul băncii vine pe o linie separată."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_payment__invoice_mode__none
+msgid "No invoice (credit on the customer)"
+msgstr "Fără factură (credit pe client)"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"No pending card receipt on journal %(journal)s between %(start)s and "
+"%(end)s."
+msgstr ""
+"Nicio încasare cu cardul în așteptare pe jurnalul %(journal)s între "
+"%(start)s și %(end)s."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__is_late
+msgid "Not settled after the number of days set on the terminal."
+msgstr "Nedecontată după numărul de zile setat pe terminal."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__note
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__note
+msgid "Note"
+msgstr "Observație"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_form
+msgid "Note..."
+msgstr "Observație..."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Număr de acțiuni"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_has_error_counter
+msgid "Number of errors"
+msgstr "Număr de erori"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Număr de mesaje care necesită acțiune"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Număr de mesaje cu eroare de livrare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_payment__invoice_mode
+msgid ""
+"On an order that is not invoiced, the payment is a down payment: the VAT "
+"becomes due when it is received and a down payment invoice must be issued."
+msgstr ""
+"Pe o comandă nefacturată, încasarea este un avans: TVA-ul devine exigibil la"
+" încasare și trebuie emisă factură de avans."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "One of the ticked receipts was reconciled meanwhile; search again."
+msgstr ""
+"Una dintre încasările bifate a fost reconciliată între timp; căutați din "
+"nou."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Only a posted customer invoice can be paid."
+msgstr "Se poate încasa doar o factură client postată."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid "Only an expected receipts manager can do this."
+msgstr "Doar un administrator al încasărilor așteptate poate face asta."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "Only an expected receipts manager can settle card payments."
+msgstr ""
+"Doar un administrator al încasărilor așteptate poate deconta încasările cu "
+"cardul."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_payment__invoice_mode__invoice
+msgid "Pay an issued invoice"
+msgstr "Încasează o factură emisă"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__payment_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_form
+msgid "Payment"
+msgstr "Plată"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid "Payment %s is already reconciled; unreconcile it first."
+msgstr "Plata %s este deja reconciliată; desfaceți întâi reconcilierea."
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Pending"
+msgstr "În așteptare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__line_ids
+msgid "Pending Receipts"
+msgstr "Încasări în așteptare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_expected_receipt__state__pending
+msgid "Pending Settlement"
+msgstr "În așteptarea decontării"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__receipt_id
+msgid "Receipt"
+msgstr "Încasare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__date
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__date
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Receipt Date"
+msgstr "Data încasării"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__receipt_count
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_terminal_form
+msgid "Receipts"
+msgstr "Încasări"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__user_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Received By"
+msgstr "Încasat de"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_payment_form
+msgid "Register"
+msgstr "Înregistrează"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__amount_left
+msgid "Remaining Due"
+msgstr "Rămâne de plată"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Eroare la livrarea SMS"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model,name:deltatech_expected_receipt.model_sale_order
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__sale_order_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__sale_order_id
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+msgid "Search Again"
+msgstr "Caută din nou"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_settlement__state__manual
+msgid "Select Manually"
+msgstr "De bifat manual"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "Select the bank statement line first."
+msgstr "Alegeți întâi linia de extras."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Select the invoice that is paid."
+msgstr "Alegeți factura încasată."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__selected_count
+msgid "Selected"
+msgstr "Bifate"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__selected_total
+msgid "Selected Total"
+msgstr "Total bifat"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__selected
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+msgid "Settle"
+msgstr "Decontează"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_expected_receipt__state__settled
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Settled"
+msgstr "Decontată"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "Settled Receipts"
+msgstr "Încasări decontate"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "Settled by the bank statement of %(date)s (%(amount)s)."
+msgstr "Decontată prin extrasul din %(date)s (%(amount)s)."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__settlement_id
+msgid "Settlement"
+msgstr "Decontare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__settlement_account_id
+msgid "Settlement Account"
+msgstr "Cont de decontare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__settlement_date
+msgid "Settlement Date"
+msgstr "Data decontării"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_settlement__state__ambiguous
+msgid "Several Combinations"
+msgstr "Mai multe combinații"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"Several combinations give exactly %s; the choice is yours. The 'Combination'"
+" column shows which one each receipt belongs to: tick the right group and "
+"press 'Settle'."
+msgstr ""
+"Mai multe combinații dau exact %s; alegerea vă aparține. Coloana "
+"„Combinația” arată în care intră fiecare încasare: bifați grupul corect și "
+"apăsați „Decontează”."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__state
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__date
+msgid "Statement Date"
+msgstr "Data extrasului"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__statement_line_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__statement_line_id
+msgid "Statement Line"
+msgstr "Linie de extras"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__terminal_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement__terminal_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_settlement_line__terminal_id
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_terminal__name
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__terminal_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Terminal"
+msgstr "Terminal"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "Terminal %s belongs to another company."
+msgstr "Terminalul %s este al altei companii."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid ""
+"The amount and the state of a receipt change only through the register's "
+"buttons."
+msgstr ""
+"Suma și starea unei încasări se schimbă doar din butoanele registrului."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"The amount exceeds the amount due; the difference stays as customer credit."
+msgstr "Suma depășește suma de plată; diferența rămâne credit pe client."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"The amount exceeds the safety limit of the automatic search. Tick the "
+"receipts manually."
+msgstr ""
+"Suma depășește plafonul de siguranță al căutării automate. Bifați încasările"
+" manual."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_terminal__journal_id
+msgid ""
+"The bank account in which the bank transfers the card payments. The payment "
+"waits on the suspense account of this journal (5125 Amounts in course of "
+"settlement) until the bank statement line arrives."
+msgstr ""
+"Contul bancar în care banca virează încasările cu cardul. Plata așteaptă în "
+"contul de așteptare al acestui jurnal (5125 Sume în curs de decontare) până "
+"vine linia de extras."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "The bank statement line is already reconciled."
+msgstr "Linia de extras este deja reconciliată."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "The bank statement line is no longer available."
+msgstr "Linia de extras nu mai este disponibilă."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "The card payment has already been registered."
+msgstr "Încasarea cu cardul a fost deja înregistrată."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_settlement_line__combo
+msgid "The combination(s) found that include this receipt."
+msgstr "Combinația sau combinațiile găsite care conțin această încasare."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_settlement__statement_line_id
+msgid "The grouped amount transferred by the bank."
+msgstr "Suma globală virată de bancă."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__statement_line_id
+msgid "The grouped bank statement line that settled this receipt."
+msgstr "Linia globală de extras care a decontat această încasare."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/card_terminal.py:0
+msgid "The number of days cannot be negative."
+msgstr "Numărul de zile nu poate fi negativ."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "The order is cancelled."
+msgstr "Comanda este anulată."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid ""
+"The payment did not reach the suspense account %s. Check the payment methods"
+" of journal %s."
+msgstr ""
+"Plata nu a ajuns în contul de așteptare %s. Verificați metodele de plată ale"
+" jurnalului %s."
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_form
+msgid "The payment is cancelled together with the receipt. Continue?"
+msgstr "Plata se anulează odată cu încasarea. Continuați?"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid "The receipt is on the customer's balance, without a document."
+msgstr "Încasarea este pe soldul clientului, fără document."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+msgid "The receipt of %s is already settled; reverse it in accounting."
+msgstr "Încasarea de la %s este deja decontată; stornați-o în contabilitate."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"The receipts wait on %(receipts)s and the statement line on %(statement)s."
+msgstr ""
+"Încasările așteaptă pe %(receipts)s, iar linia de extras pe %(statement)s."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/models/expected_receipt.py:0
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "The received amount must be greater than zero."
+msgstr "Suma încasată trebuie să fie mai mare decât zero."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "The reconciliation remained partial for %s."
+msgstr "Reconcilierea a rămas parțială pentru %s."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "The selected company is not one of your companies."
+msgstr "Compania aleasă nu este una dintre companiile dvs."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "The statement line has nothing left on the suspense account."
+msgstr "Linia de extras nu mai are nimic de stins pe contul de așteptare."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"The ticked receipts give %(selected)s and the statement line is %(amount)s: "
+"the match must be exact."
+msgstr ""
+"Încasările bifate dau %(selected)s, iar linia de extras e %(amount)s: "
+"potrivirea trebuie să fie exactă."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid ""
+"There are more than %s pending receipts in the window, too many for a "
+"combination search. Select a terminal or tick the receipts manually."
+msgstr ""
+"Sunt peste %s încasări în așteptare în fereastră, prea multe pentru o "
+"căutare de combinații. Alegeți un terminal sau bifați încasările manual."
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_settlement.py:0
+msgid "Tick the receipts that make up the statement line."
+msgstr "Bifați încasările care compun linia de extras."
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields.selection,name:deltatech_expected_receipt.selection__deltatech_card_settlement__state__search
+msgid "To Search"
+msgstr "De căutat"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_list
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_settlement_form
+msgid "Untick All"
+msgstr "Debifează tot"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_card_payment__warning
+msgid "Warning"
+msgstr "Atenție"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,field_description:deltatech_expected_receipt.field_deltatech_expected_receipt__website_message_ids
+msgid "Website Messages"
+msgstr "Mesaje website"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_expected_receipt__website_message_ids
+msgid "Website communication history"
+msgstr "Istoric comunicare website"
+
+#. module: deltatech_expected_receipt
+#: model:ir.model.fields,help:deltatech_expected_receipt.field_deltatech_card_terminal__user_id
+msgid ""
+"When this user registers a card payment, the terminal is selected "
+"automatically."
+msgstr ""
+"Când acest utilizator înregistrează o încasare cu cardul, terminalul se "
+"alege automat."
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_expected_receipt_search
+msgid "Without Document"
+msgstr "Fără document"
+
+#. module: deltatech_expected_receipt
+#. odoo-python
+#: code:addons/deltatech_expected_receipt/wizard/card_payment.py:0
+msgid "You are not allowed to register card payments."
+msgstr "Nu aveți dreptul să înregistrați încasări cu cardul."
+
+#. module: deltatech_expected_receipt
+#: model_terms:ir.ui.view,arch_db:deltatech_expected_receipt.view_card_terminal_form
+msgid "e.g. ING Terminal Shop"
+msgstr "ex. Terminal ING Magazin"

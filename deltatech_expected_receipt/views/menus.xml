@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="menu_expected_receipt"
+        name="Expected Receipts"
+        parent="account.menu_finance_receivables"
+        action="action_expected_receipt"
+        sequence="25"
+        groups="group_manager,account.group_account_readonly"
+    />
+    <menuitem
+        id="menu_card_payment_partner"
+        name="Card Payment on Customer"
+        parent="account.menu_finance_receivables"
+        action="action_card_payment_partner"
+        sequence="26"
+        groups="group_manager"
+    />
+    <menuitem
+        id="menu_card_settlement"
+        name="Card Settlement"
+        parent="account.menu_finance_entries"
+        action="action_card_settlement"
+        sequence="60"
+        groups="group_manager"
+    />
+    <menuitem
+        id="menu_card_terminal"
+        name="Card Terminals"
+        parent="account.menu_finance_configuration"
+        action="action_card_terminal"
+        sequence="60"
+        groups="group_manager"
+    />
+    <menuitem
+        id="menu_sale_card_receipts"
+        name="My Card Payments"
+        parent="sale.sale_order_menu"
+        action="action_expected_receipt"
+        sequence="40"
+        groups="group_cashier"
+    />
+</odoo>
