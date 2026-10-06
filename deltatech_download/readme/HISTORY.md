@@ -1,3 +1,8 @@
+## 19.0.0.1.5 (2026-10-06)
+
+- Apps Store description: what the module does and why, with a Configuration section for
+  the per-report direct download. Summary in English, the same as the banner; support address.
+
 ## 19.0.0.1.4 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

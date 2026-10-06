@@ -4,10 +4,11 @@
 
 {
     "name": "Download File",
-    "version": "19.0.0.1.4",
+    "version": "19.0.0.1.5",
     "author": "Terrabit,Dorin Hongu",
-    "summary": "Generare fisier",
+    "summary": "Open PDF reports directly in a new browser tab",
     "website": "https://www.terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Base",
     "depends": ["web"],
     "license": "OPL-1",
