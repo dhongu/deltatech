@@ -1,3 +1,8 @@
+## 18.0.1.1.9 (2026-10-06)
+
+- Test `test_queries_do_not_grow_with_lines` no longer counts the per-line computation of `display_qty_widget`
+  (a BoM search per line in `sale_mrp`), which made it fail when `mrp` was installed; no functional change.
+
 ## 18.0.1.1.8 (2026-09-29)
 
 - The stock colors set in Settings are applied again: the colors service imported `jsonrpc`,
