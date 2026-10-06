@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-06 05:19+0000\n"
+"POT-Creation-Date: 2026-10-06 05:25+0000\n"
 "PO-Revision-Date: 2024-05-17 10:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -167,6 +167,11 @@ msgid "Mode"
 msgstr "Mod"
 
 #. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__partner_required
+msgid "Partner Required"
+msgstr "Partener obligatoriu"
+
+#. module: deltatech_cash_statement
 #. odoo-python
 #: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
 msgid "Please select only Open or Posted statements"
@@ -176,6 +181,11 @@ msgstr "Vă rugăm să selectați doar extrase deschise sau postate"
 #: model:ir.model.fields.selection,name:deltatech_cash_statement.selection__account_cash_update_balances__mode__difference
 msgid "Register a cash difference"
 msgstr "Înregistrare diferență de casă"
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__partner_id
+msgid "Responsible Person"
+msgstr "Persoana responsabilă"
 
 #. module: deltatech_cash_statement
 #. odoo-python
@@ -188,6 +198,12 @@ msgstr "Selectați extrase ale unui singur jurnal."
 #: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
 msgid "Select the account on which the cash difference is booked."
 msgstr "Alegeți contul pe care se înregistrează diferența de casă."
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "Select the person the cash shortage is charged to."
+msgstr "Alegeți persoana căreia i se impută lipsa de numerar."
 
 #. module: deltatech_cash_statement
 #. odoo-python
@@ -210,6 +226,12 @@ msgstr ""
 "sau debitul persoanei vinovate (4282)."
 
 #. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "The cash difference cannot be dated before the statement."
+msgstr "Diferența de casă nu poate fi datată înaintea extrasului."
+
+#. module: deltatech_cash_statement
 #: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
 msgid ""
 "The declared balances of the selected statements are aligned with the cash account.\n"
@@ -219,6 +241,15 @@ msgstr ""
 "Soldurile declarate ale extraselor selectate se aliniază la contul de casă.\n"
 "                    Nu se creează notă contabilă: o diferență reală între numerarul numărat și\n"
 "                    soldul contabil se înregistrează ca diferență de casă."
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,help:deltatech_cash_statement.field_account_cash_update_balances__partner_id
+msgid ""
+"The person the shortage is charged to (4282). The receivable is followed on "
+"this partner."
+msgstr ""
+"Persoana căreia i se impută lipsa (4282). Creanța se urmărește pe acest "
+"partener."
 
 #~ msgid "Last Modified on"
 #~ msgstr "Ultima modificare pe"

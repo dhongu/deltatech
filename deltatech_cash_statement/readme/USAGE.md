@@ -17,7 +17,11 @@
    cash actually counted at the start of that day.
 3. Check the **Difference**, the **Date** and the **Account** (7588 for a
    surplus, 6588 for a shortage on a Romanian company, or 4282 when the shortage
-   is charged to the cashier), and the label.
+   is charged to the cashier, with the **Responsible Person**), and the label.
+   The date cannot be earlier than the statement.
 4. Click **Apply**. A statement line with the difference is added to the
    statement, with its journal entry already posted, and the statement balances
    are aligned.
+
+A shortage that is not charged to anyone (6588) is usually a non-deductible
+expense for the Romanian profit tax; check it with your accountant.

@@ -48,7 +48,21 @@ class AccountCashUpdateBalances(models.TransientModel):
         help="Surplus: income account (7588 in Romania). Shortage: expense account (6588), or "
         "the receivable from the person responsible (4282).",
     )
+    partner_id = fields.Many2one(
+        "res.partner",
+        string="Responsible Person",
+        help="The person the shortage is charged to (4282). The receivable is followed on this partner.",
+    )
+    partner_required = fields.Boolean(compute="_compute_partner_required")
     label = fields.Char(default=lambda self: self.env._("Cash difference found at inventory"))
+
+    @api.depends("counterpart_account_id")
+    def _compute_partner_required(self):
+        for wizard in self:
+            account = wizard.counterpart_account_id
+            wizard.partner_required = bool(account) and (
+                account.account_type == "asset_receivable" or (account.code or "").startswith("428")
+            )
 
     @api.depends("journal_id")
     def _compute_currency_id(self):
@@ -154,6 +168,12 @@ class AccountCashUpdateBalances(models.TransientModel):
             raise UserError(self.env._("Select the account on which the cash difference is booked."))
         if not self.date:
             raise UserError(self.env._("Set the date of the cash difference."))
+        if self.date < self.statement_id.date:
+            # O dată anterioară extrasului ar număra diferența de două ori: o dată în soldul
+            # contabil de la începutul extrasului și încă o dată în liniile lui.
+            raise UserError(self.env._("The cash difference cannot be dated before the statement."))
+        if self.partner_required and not self.partner_id:
+            raise UserError(self.env._("Select the person the cash shortage is charged to."))
         self.env["account.bank.statement.line"].create(
             {
                 "journal_id": self.journal_id.id,
@@ -162,5 +182,6 @@ class AccountCashUpdateBalances(models.TransientModel):
                 "payment_ref": self.label,
                 "amount": self.difference,
                 "counterpart_account_id": self.counterpart_account_id.id,
+                "partner_id": self.partner_id.id,
             }
         )
