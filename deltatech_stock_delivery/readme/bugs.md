@@ -23,3 +23,9 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **STOCKDELIVERY-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## STOCKDELIVERY-002 — P2: delivery and reception buttons always hidden
+
+`views/account_invoice_view.xml:18,29` uses `move_type != ('out_invoice','out_refund')` and the incoming equivalent. A selection string never equals a tuple, so both invisible expressions are always true, including on their intended invoices/refunds. Use membership conditions (`not in`) for the two sets.
+
+Evidence: exact XML expressions evaluated for all four invoice/refund types in `audit_coverage/reproductions/picking_policy_contracts.py`; no browser integration executed. Reviewed 2026-10-03.
