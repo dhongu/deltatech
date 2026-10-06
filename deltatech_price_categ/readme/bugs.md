@@ -46,3 +46,13 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 - **PRICE-001 — still open:** no relevant Python, XML, JavaScript or manifest change since the audit snapshot; the documented implementation remains in the current source.
 - **PRICE-002 — still open:** no relevant Python, XML, JavaScript or manifest change since the audit snapshot; the documented implementation remains in the current source.
+
+## PRICE-003 — P2: company-specific cost feeds globally stored tier prices
+
+`models/product.py` declares list_price_bronze/copper/silver/gold as stored ordinary Float fields (:58–90), while `_compute_price_list()` reads standard_price or last_purchase_price in the current company (:135–144). Native standard_price and the sibling purchase-price field are company-dependent. Shared products therefore have one tier-price value despite different source costs per company: recomputation under B replaces the tier prices also read in A. Example costA100/costB200 and zero markup yields one stored value100 or200 rather than independent prices. Define the intended company/currency semantics and use per-company storage or contextual computation consistently.
+
+Evidence: all compute/field declarations inspected against native product.standard_price and declared deltatech_purchase_price provider. This is a source-supported storage-scope conflict; actual multi-company recomputation/pricelist/website scenario remains unexecuted.
+
+## Integrated reverification — 2026-10-03
+
+Full eligible source read with native _price_compute and website combination helper. PRICE-001/002 remain present: manual included-tax calculation ignores tax type and dependencies omit tax property changes. No earlier database claims rerun. Fractional percent convention reviewed but no new percent-format finding asserted. No Odoo/pricelist/website tests executed.
