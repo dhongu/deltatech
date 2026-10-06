@@ -1,3 +1,7 @@
+## 20.0.1.9.12 (2026-10-14)
+
+- Creating several business projects in one call (`create` with a list of values) created only the last one, because the values of the last iteration were passed to `super().create` instead of the whole list. All projects are now created, each with its own sequence code. Port of 19.0.1.9.7.
+
 ## 20.0.1.9.7 (2026-10-10)
 
 - BUSINESS-001: in the *Business process test report*, two test runs of the same step showed up as the same row, because the row id was the step id. Each row now has the id of its step test, so every run keeps its own result, dates and data in the list, the form and the pivot.
