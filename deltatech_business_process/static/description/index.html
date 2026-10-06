@@ -94,6 +94,13 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.9.5 (2026-10-04)</h2>
+<ul>
+<li>BUSINESS-003 (security): <em>Start User Acceptance Test</em> (and the <em>Start Test</em> smart button, which calls it) created the test as superuser on any process id passed through RPC, including processes hidden by the company or "Allowed users" rules. The caller must now be a Business Process user and be able to read the processes; the test is still created as superuser and is returned in the caller's environment.</li>
+<li>BUSINESS-002 (security): the <em>Business process report</em>, the <em>Business process test report</em>, <em>Open Issue</em> and the data migration records (<em>Migration</em>, <em>Migration test</em>) had no company rule, so a user restricted to one company (Business Admin included) saw processes, tests, issues and migrations of the other companies. The two SQL reports now expose the process company (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_id</code>) and all five models get a global multi-company restriction (the migrations through their project company); records of projects without a company stay visible to everybody.</li>
+<li>BUSINESS-011: creating an <em>Open Issue</em> failed with "Record does not exist or has been deleted" (MissingError), because the submission mail used the <em>Issue Submitted</em> template, bound to <em>Business Issue</em>, with the id of the Open Issue. Open Issues now have their own template (<em>Open Issue Submitted</em>), each model uses the template of its own model, and a template bound to another model is never rendered.</li>
+<li>Port of 19.0.1.9.4 (dhongu/deltatech#3114), 19.0.1.9.5 (dhongu/deltatech#3116) and 19.0.1.9.6 (dhongu/deltatech#3123). In 20 the company rules are global rows (no group, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">crud</code>) of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/ir.access.csv</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.rule</code> records in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/security.xml</code>; the new mail template uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">t-out</code> (server-side <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">t-esc</code> is ignored in 20).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.3 (2026-09-24)</h2>
 <ul>
 <li>Excel project report: the <em>Testing duration</em> and <em>Data Migration Duration</em>
@@ -198,6 +205,22 @@
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_dc" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DO</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Declaration of Conformity</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print Declaration of Conformity</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_record_type" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -214,6 +237,38 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_average_payment_period" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Average Payment Period</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Computes average duration of cash accounting</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_contact" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -226,6 +281,22 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">New fields in partner</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_data_sheet" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Data Sheet</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Data Sheet</p>
         </div>
       </a>
     </div>
@@ -258,70 +329,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Common fiscal printer audit fields shared by POS, invoicing and localizations</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_gln" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PG</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Partner GLN </span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Partner Global Location Number</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_invoice_product_filter" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Product Filter</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Searching invoice using product</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_partner_generic" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GP</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Generic Partner</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic partner for anonymous customers, with accounting restrictions</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_product_extension" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PE</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Products Extension</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life</p>
         </div>
       </a>
     </div>

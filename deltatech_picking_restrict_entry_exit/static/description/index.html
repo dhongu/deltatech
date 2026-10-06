@@ -41,6 +41,25 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.0.13 (2026-10-04)</h2>
+<ul>
+<li>Fix (RESTRICT-001): the save-time restrictions in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write()</code> inspected only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_ids_without_package</code>, a field
+  removed from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking</code> in Odoo 19, so they never ran. They now read the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_ids</code> commands sent by the
+  picking form: CREATE commands (virtual id from the web client or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code>) are checked as new lines, falling back on
+  the picking's type and locations when the line does not carry them, UPDATE commands as existing lines (against the
+  demand sent in the same save, if any). Commands without values (delete, unlink, link, clear, set) are ignored
+  instead of crashing.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.0.12 (2026-10-04)</h2>
+<ul>
+<li>Fix: when several pickings were validated together, a single return or backorder in the selection exempted all
+  of them from the restriction, so a receipt or delivery with a quantity above the ordered one could be validated.
+  The return/backorder exemption is now checked for each picking.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.0.11 (2026-10-04)</h2>
+<ul>
+<li>Add unit tests covering validation and save-time restrictions on receipts, deliveries and internal transfers.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.0.10 (2026-10-02)</h2>
 <ul>
 <li>Migration to Odoo 20. No functional change: the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking</code> /
@@ -116,6 +135,38 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Carrier status on picking</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_picking_restrict" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PV</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Picking Validation Restrict</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Restrict picking validation to a certain security group</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_picking_split" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
+                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Picking Split</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Picking Manual Backorder</p>
         </div>
       </a>
     </div>
@@ -196,38 +247,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Computes average duration of cash accounting</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_business_process" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Business process</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Business process</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_contact" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CO</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Contacts</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">New fields in partner</p>
         </div>
       </a>
     </div>
