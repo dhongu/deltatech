@@ -163,7 +163,8 @@ class CardPayment(models.TransientModel):
                 )
             elif wizard.invoice_mode == "downpayment" and not wizard.company_id.downpayment_account_id:
                 message = self.env._(
-                    "The company has no Down Payment Account (419 in Romania): set it in the Sales settings."
+                    "The company has no Downpayment Account (419 in Romania): set it in Invoicing > "
+                    "Configuration > Settings, Default Accounts."
                 )
             elif wizard.sale_order_id and wizard.invoice_mode == "none":
                 message = self.env._(
@@ -276,8 +277,8 @@ class CardPayment(models.TransientModel):
             # apărea umflată. Avansul se ține pe 419 „Clienți - creditori”.
             raise UserError(
                 self.env._(
-                    "Set the Down Payment Account in Sales > Configuration > Settings (419 Customers - "
-                    "advances received in Romania) before issuing down payment invoices."
+                    "Set the Downpayment Account in Invoicing > Configuration > Settings, Default Accounts "
+                    "(419 Customers - advances received in Romania) before issuing down payment invoices."
                 )
             )
         if float_is_zero(self.amount, precision_rounding=self.currency_id.rounding) or self.amount < 0:
