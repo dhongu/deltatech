@@ -10,54 +10,369 @@ Deltatech Ledger
    !! source digest: sha256:a83b0ffeb950ec6b977afcd07777071be3c2830b63b9b5d00ef8bf1b0dabdc54
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Alpha
+    :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_ledger
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
-Key Features
-============
+Register of incoming and outgoing documents (a "registru de
+intrări-ieșiri"). Every document that enters or leaves the company gets
+one numbered record, so the register can be shown to an auditor, printed
+for a period and searched at any time.
 
-This module provides a comprehensive "Ledger" management system for
-tracking and organizing documents within Odoo.
+The numbering is one common series for entries and exits, restarted
+every year (``2026/00001``) and without gaps: a number is never skipped,
+and a wrong record is canceled instead of deleted, so its number stays
+in the register.
 
 Features:
----------
 
-- Dedicated ledger for storing information about entry and exit document
-  numbers and descriptions.
-- Automated sequence generation for document entries.
-- Enhanced traceability and audit trail for various business documents.
-- Easy searching and filtering of ledger records for reporting and
-  verification.
+- One record per document, typed as **Entry** or **Exit**, with document
+  number, date, contact, place of origin and a short description.
+- **Reservations:** a number can be reserved in advance and dated later,
+  between the dates of the previous and of the next number, so the
+  register stays in chronological order.
+- **Cancellation** with a mandatory reason; the number stays in the
+  register. Only a Ledger Manager can reactivate a canceled record or
+  delete records.
+- **Links:** attachments in the chatter, web links, and links to a
+  project, task, helpdesk ticket, sale or purchase order, invoice or
+  transfer.
+- Chatter and activities on every record, with tracking of the state,
+  type, date, document number and contact.
+- Warning when a document with the same type, number and contact is
+  already registered.
+- Views: list, kanban by state, calendar, pivot and graph (entries vs.
+  exits per month).
+- **PDF report** of the register for a period, or for a selection of
+  records.
+- Multi-company aware: each record belongs to a company and is visible
+  only in it.
 
-Usage:
-------
+Scope & limitations:
 
-1. Navigate to the new "Ledger" menu in Odoo.
-2. Create or view existing ledger entries to see document details and
-   their assigned numbers.
-3. This is useful for businesses that need to maintain a centralized
-   record of all document references across different departments.
-4. Integrated with Odoo's mail system for better communication regarding
-   specific document entries.
-
-.. IMPORTANT::
-   This is an alpha version, the data model and design can change at any time without warning.
-   Only for development or testing purpose, do not use in production.
-   `More details on development status <https://odoo-community.org/page/development-status>`_
+- The module keeps a register of document references. It does not store
+  the documents themselves (use the chatter attachments or the links for
+  that) and it does not post any accounting entry.
+- The number is always taken from the year of the day it is created, and
+  the record date must be in the same year. A document dated in December
+  cannot be registered in January; reserve its number in December
+  instead.
+- Dates must not decrease with the number, for active records as well as
+  for reservations. A document with an earlier date than the previous
+  number is registered by reserving the number first and dating it
+  afterwards, within the allowed interval.
+- Entries and exits share one numbering. Separate series per type are
+  not supported.
+- Because the series has no gaps, two users creating a record at the
+  very same moment can get a "could not obtain lock" error; the second
+  one only has to save again.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Configuration
+=============
+
+The module works right after installation. All internal users can keep
+the register; nothing has to be configured for that.
+
+Access rights
+-------------
+
++---------------------------+------------------------------------------+
+| Who                       | Can                                      |
++===========================+==========================================+
+| Any internal user         | Read, create and edit records, reserve   |
+|                           | numbers, register, cancel, print the     |
+|                           | report                                   |
++---------------------------+------------------------------------------+
+| **Ledger / Manager**      | Everything above, plus **delete**        |
+|                           | records and **reactivate** canceled      |
+|                           | records                                  |
++---------------------------+------------------------------------------+
+| Administration / Settings | Is a Ledger Manager automatically        |
++---------------------------+------------------------------------------+
+
+To make someone a manager: **Settings > Users & Companies > Users**,
+open the user and set **Ledger** to **Manager**.
+
+Numbering
+---------
+
+The numbers come from the sequence *Ledger Sequence* (code
+``ledger.ledger``), found in **Settings > Technical > Sequences**
+(developer mode). It is a *no gap* sequence with a subsequence per year
+and the prefix ``%(year)s/``, size 5.
+
+- To change the format, edit the prefix or the size of the sequence.
+- To continue an existing paper register, open the date range of the
+  year and set its **Next Number** (for example ``121`` if the last
+  number used on paper is ``120``). A new year gets its own range,
+  starting at ``00001``.
+
+Multi-company
+-------------
+
+Each record has a company, taken from the company active when it is
+created, and the record rule shows a user only the records of the
+companies they are logged in to. The sequence is shared by default. To
+have a separate numbering per company, create a sequence with the same
+code ``ledger.ledger``, the same settings (no gap, subsequences per date
+range, prefix ``%(year)s/``) and the company set; the sequence of the
+current company is used.
+
+Links to other documents
+------------------------
+
+The *Links* tab offers the models of the installed apps only (Project,
+Helpdesk, Sales, Purchase, Accounting, Inventory). Nothing has to be
+configured.
+
+Usage
+=====
+
+Opening the register
+--------------------
+
+Open the **Ledger** app. The menu has three entries:
+
+- **Records** - the register: all the numbers, canceled ones included
+  (shown muted), newest first.
+- **Reserve a Number** - opens a new record already in the *Reserved*
+  state.
+- **Print Ledger** - the PDF report of the register for a period.
+
+The life of a record
+--------------------
+
+A record has one of three states:
+
++--------------+---------------------------+---------------------------+
+| State        | Meaning                   | Has a date?               |
++==============+===========================+===========================+
+| **Reserved** | The number is kept for a  | Optional, can be set      |
+|              | document that is not      | later                     |
+|              | ready yet                 |                           |
++--------------+---------------------------+---------------------------+
+| **Active**   | The document is           | Required                  |
+|              | registered                |                           |
++--------------+---------------------------+---------------------------+
+| **Canceled** | The record is void; the   | Kept as it was            |
+|              | number stays in the       |                           |
+|              | register                  |                           |
++--------------+---------------------------+---------------------------+
+
+::
+
+   Reserve a Number --> Reserved --Register--> Active
+                           |                      |
+                           +-------Cancel---------+--> Canceled --Reactivate (manager)--> Active / Reserved
+
+Registering a document
+----------------------
+
+1. Go to **Records** and click **New**.
+2. Choose the **Record Type**: *Entry* for a document received, *Exit*
+   for a document sent.
+3. Check the **Record Date** (today by default) and fill in the
+   **Document Number** (the number written on the document), the
+   **Contact**, the **Place of Origin** and, on the *Description* tab, a
+   short description.
+4. Save. The record gets its number (``2026/00123``) and is *Active*.
+
+The record stays editable afterwards, and every change of the type,
+date, document number or contact is logged in the chatter. A canceled
+record is read-only.
+
+If a record with the same type, document number and contact already
+exists, a yellow banner warns about a possible duplicate. The record can
+still be saved.
+
+Reserving a number
+------------------
+
+Use a reservation when a number must be kept for a document that is not
+issued yet, or when a document has to be dated in the past.
+
+1. Open **Reserve a Number**, choose the **Record Type** and save. The
+   number is taken from the sequence now; the date stays empty.
+2. A blue banner shows the interval in which the number can be dated:
+   from the date of the previous number to the date of the next one.
+   Numbers without a date are skipped when the interval is computed.
+3. When the document is issued, set the **Record Date** inside that
+   interval and fill in the document details.
+4. Click **Register**. The record becomes *Active*. The button refuses
+   to work while the date is empty.
+
+What the date is checked against, on every save:
+
+- it must be in the same year as the number (``2026/...`` only accepts
+  dates in 2026);
+- it cannot be earlier than the date of the previous dated number;
+- it cannot be later than the date of the next dated number.
+
+The same rules apply to active records, so the register is always in
+chronological order. The bounds themselves are allowed (several
+documents can have the same date).
+
+Canceling a record
+------------------
+
+1. Open the record (a reservation or an active record) and click
+   **Cancel**.
+2. Write the **reason** in the window that opens and click **Cancel
+   Records**.
+
+The record becomes *Canceled*, a red ribbon appears, the reason is shown
+on the form and posted in the chatter, and the number stays in the
+register.
+
+A canceled number is never reused. To see only the canceled records, use
+the **Canceled** filter.
+
+A **Ledger Manager** sees a **Reactivate** button on a canceled record.
+It brings the record back to *Active* (or to *Reserved* if it has no
+date) and clears the reason. Regular users cannot reactivate.
+
+Deleting
+--------
+
+Regular users cannot delete records: cancel them instead, so the
+numbering has no hole. Only a Ledger Manager can delete, and should do
+it only for test data.
+
+Attachments and links
+---------------------
+
+- **Files:** use the paperclip in the chatter at the bottom of the
+  record to attach the scan or the file of the document.
+- **Links:** open the **Links** tab and add a line for each link.
+
+  - *Odoo Record* - choose the document type (Project, Task, Helpdesk
+    ticket, Sales order, Purchase order, Invoice, Transfer) and the
+    record. Use it to tie the numbered document to the ticket or project
+    it belongs to.
+  - *Web Link* - paste an address (a shared folder, a web page...).
+  - The **Label** is filled in automatically (the name of the record or
+    the address); type another text to replace it.
+
+Searching and viewing the register
+----------------------------------
+
+Use the search box to find a record by number, document number, contact,
+place of origin, description or date. The filters are **Reserved**,
+**Active**, **Canceled**, **Entry**, **Exit** and **Date** (month,
+quarter, year). The groupings are **Record Type**, **Contact**, **Record
+Date** (by month) and **State**.
+
+The icons at the top right change the view:
+
++----------+-----------------------------------------------------------+
+| View     | Use                                                       |
++==========+===========================================================+
+| List     | The register itself; the columns can be chosen from the   |
+|          | selector at the end of the header                         |
++----------+-----------------------------------------------------------+
+| Kanban   | Records grouped by state: what is reserved, active,       |
+|          | canceled                                                  |
++----------+-----------------------------------------------------------+
+| Calendar | Records on their date, coloured by type; undated          |
+|          | reservations are not shown                                |
++----------+-----------------------------------------------------------+
+| Pivot    | Counts by month and type, to export or drill down         |
++----------+-----------------------------------------------------------+
+| Graph    | Entries versus exits per month                            |
++----------+-----------------------------------------------------------+
+
+Printing the register
+---------------------
+
+1. Open **Print Ledger**.
+2. Choose the period (**From**, **To**; the current year until today by
+   default) and, optionally, the **Record Type**.
+3. Leave **Include Canceled** on to show the canceled numbers with their
+   reason; this is what an auditor expects, as the series shows no gap.
+   Switch it off for a clean list.
+4. **Include Undated Reservations** adds the reserved numbers that have
+   no date yet, for the years of the period.
+5. Click **Print**. The PDF lists the records in order of their number,
+   in landscape.
+
+To print only some records, select them in the list and choose **Print >
+Ledger**.
+
+Typical cases
+-------------
+
+**A document arrives and is registered at once.** Records > New, Entry,
+fill in, Save.
+
+**A letter is being prepared and must carry a number now.** Reserve a
+Number (Exit), put the number on the letter, and when it is sent set the
+date and click Register.
+
+**A document has an earlier date than the last registered one.** The
+register does not accept it directly, because the dates cannot decrease
+with the number. If a number was reserved for it, date that reservation
+inside its interval. Otherwise register it with today's date and write
+the real date of the document in the description.
+
+**A record was entered by mistake.** Cancel it with the reason. Do not
+delete it.
+
+**The year changes.** Nothing to do: the first record of January gets
+``YYYY/00001``. Records of the old year stay as they are and can still
+be edited, within their year.
+
 Changelog
 =========
+
+19.0.0.1.0 (2026-10-05)
+-----------------------
+
+- **Reservations:** new *Reserved* state and *Reserve a Number* menu. A
+  reserved number has no date until it is chosen, between the dates of
+  the previous and of the next number; the date must also be in the year
+  of the number. A reservation is registered (*Register*) or canceled.
+- **Numbering:** one common sequence for entries and exits, restarted
+  every year, now *no gap*. The sequence is ``noupdate``, so a migration
+  converts the existing one: the range of the current year continues the
+  existing numbers.
+- **Cancellation** asks for a reason (wizard), kept on the record and in
+  the chatter. The number stays in the register. A Ledger Manager can
+  reactivate a canceled record.
+- New group *Ledger / Manager* (implied by Administration / Settings):
+  only it can delete records. Regular users keep read, write and create.
+- **Links** tab: web links and links to a project, task, helpdesk
+  ticket, sale or purchase order, invoice or transfer (only the apps
+  installed are offered).
+- Warning banner for a possible duplicate (same type, document number
+  and contact).
+- **PDF report** of the register for a period (*Print Ledger* menu, also
+  available on selected records).
+- Views: kanban by state, calendar, pivot and graph; canceled ribbon,
+  type badge, optional columns, search by contact, date filters and
+  grouping. Removed the deprecated ``statusbar_colors``. The list shows
+  all the numbers by default, canceled ones included.
+- Chatter and tracking (``mail.thread``, activities); multi-company
+  (``company_id``, record rule).
+- The record date is required for active records and prefilled with
+  today. Duplicating a record gives it a new number and the *Active*
+  state.
+- Manifest: category, summary, *Beta*.
+
+19.0.0.0.3 (2026-09-30)
+-----------------------
+
+- New module icon: a register with the entry and exit arrows, in the
+  flat style of the other modules; it replaces the old gradient one.
 
 19.0.0.0.2 (2026-09-23)
 -----------------------

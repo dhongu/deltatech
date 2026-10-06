@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 17.0+e\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-02 08:00+0000\n"
-"PO-Revision-Date: 2024-08-02 08:00+0000\n"
+"POT-Creation-Date: 2026-10-05 11:03+0000\n"
+"PO-Revision-Date: 2026-10-05 11:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,93 +16,377 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_ledger
+#: model:ir.actions.report,print_report_name:deltatech_ledger.action_report_ledger
+msgid "'Ledger'"
+msgstr ""
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid ""
+",\n"
+"                        the dates of the previous and of the next number."
+msgstr ""
+",\n"
+"                        datele numărului anterior și ale celui următor."
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid ""
+"A record with the same type, document number and contact already exists."
+msgstr ""
+"Există deja o înregistrare cu același tip, număr de document și contact."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__record_date
+msgid ""
+"A reserved number can be dated later, between the dates of the previous and "
+"of the next number."
+msgstr ""
+"Un număr rezervat poate fi datat mai târziu, între datele numărului anterior"
+" și ale celui următor."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_needaction
+msgid "Action Needed"
+msgstr "Intervenție necesară"
+
+#. module: deltatech_ledger
 #: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_ledger__state__active
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Active"
 msgstr "Activ"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_ids
+msgid "Activities"
+msgstr "Activități"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Activitate Excepție Decorare"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_state
+msgid "Activity State"
+msgstr "Stare activitate"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Pictograma tipului de activitate"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr atașamente"
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_cancel_wizard_form
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
 msgid "Cancel"
 msgstr "Anulează"
 
 #. module: deltatech_ledger
+#: model:ir.model,name:deltatech_ledger.model_ledger_cancel_wizard
+msgid "Cancel Ledger Records"
+msgstr "Anulare înregistrări din registru"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_cancel_wizard_form
+msgid "Cancel Records"
+msgstr "Anulează înregistrările"
+
+#. module: deltatech_ledger
 #: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_ledger__state__canceled
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Canceled"
 msgstr "Anulat"
 
 #. module: deltatech_ledger
-#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__contact_id
-#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
-msgid "Contact"
-msgstr ""
+#. odoo-python
+#: code:addons/deltatech_ledger/wizard/ledger_cancel_wizard.py:0
+msgid "Canceled. Reason: %s"
+msgstr "Anulat. Motiv: %s"
 
 #. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Canceled:"
+msgstr "Anulat:"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__cancel_reason
+msgid "Cancellation Reason"
+msgstr "Motiv anulare"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__company_id
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__contact_id
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
+msgid "Contact"
+msgstr "Contact"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__create_uid
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__create_uid
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__create_uid
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__create_uid
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__create_date
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__create_date
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__create_date
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__create_date
 msgid "Created on"
 msgstr "Creat la"
 
 #. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Description"
+msgstr "Descriere"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_cancel_wizard_form
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_report_wizard_form
+msgid "Discard"
+msgstr "Abandonează"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__display_name
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__display_name
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__display_name
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_ledger
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__document_number
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
 msgid "Document Number"
 msgstr "Număr document"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__date_min
+msgid "Earliest Date"
+msgstr "Data cea mai devreme"
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger_link.py:0
+msgid "Enter the web address to link."
+msgstr "Introdu adresa web de legat."
+
+#. module: deltatech_ledger
 #: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_ledger__record_type__entry
+#: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_report_wizard__record_type__entry
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Entry"
 msgstr "Intrare"
 
 #. module: deltatech_ledger
 #: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_ledger__record_type__exit
+#: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_report_wizard__record_type__exit
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Exit"
 msgstr "Ieșire"
 
 #. module: deltatech_ledger
-#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
-msgid "Group By"
-msgstr "Grupare după"
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_follower_ids
+msgid "Followers"
+msgstr "Persoane interesate"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Urmăritori (Parteneri)"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Pictogramă minunată pentru font, de ex. fa-sarcini"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__date_from
+msgid "From"
+msgstr "De la"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__has_message
+msgid "Has Message"
+msgstr "Are mesaj"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__id
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__id
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__id
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_exception_icon
+msgid "Icon"
+msgstr "Pictogramă"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Pictograma pentru a indica o activitate de excepție."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă este bifată, unele mesaje au o eroare de livrare."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__include_canceled
+msgid "Include Canceled"
+msgstr "Include anulatele"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__include_undated
+msgid "Include Undated Reservations"
+msgstr "Include rezervările nedatate"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__name
+msgid "Label"
+msgstr "Etichetă"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__write_uid
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__write_uid
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__write_uid
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare de"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__write_date
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__write_date
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__write_date
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare la"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__date_max
+msgid "Latest Date"
+msgstr "Data cea mai târzie"
+
+#. module: deltatech_ledger
 #: model:ir.actions.act_window,name:deltatech_ledger.action_ledger_model
-#: model:ir.ui.menu,name:deltatech_ledger.menu_ledger_model
+#: model:ir.actions.report,name:deltatech_ledger.action_report_ledger
+#: model:ir.model,name:deltatech_ledger.model_ledger_ledger
+#: model:ir.module.category,name:deltatech_ledger.module_category_ledger
+#: model:ir.ui.menu,name:deltatech_ledger.menu_ledger_root
+#: model:res.groups.privilege,name:deltatech_ledger.res_groups_privilege_ledger
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_pivot
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Ledger"
 msgstr "Registru"
 
 #. module: deltatech_ledger
+#: model:ir.model,name:deltatech_ledger.model_ledger_link
+msgid "Ledger Link"
+msgstr "Legătură registru"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__ledger_id
+msgid "Ledger Record"
+msgstr "Înregistrare din registru"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+msgid "Ledger of Entry and Exit Documents"
+msgstr "Registru de intrări-ieșiri documente"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__link_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Links"
+msgstr "Legături"
+
+#. module: deltatech_ledger
+#: model:res.groups,name:deltatech_ledger.group_ledger_manager
+msgid "Manager"
+msgstr "Manager"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_has_error
+msgid "Message Delivery error"
+msgstr "Eroare livrare mesaj"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Data limită a activității mele"
+
+#. module: deltatech_ledger
 #. odoo-python
 #: code:addons/deltatech_ledger/models/ledger.py:0
-#, python-format
 msgid "New"
-msgstr "Nou"
+msgstr "Nou(ă)"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Data limită pentru următoarea activitate"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_summary
+msgid "Next Activity Summary"
+msgstr "Sumarul următoarei activități"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tip de activitate urmatoare"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+msgid "No."
+msgstr "Nr."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Număr de acțiuni"
 
 #. module: deltatech_ledger
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__name
@@ -110,12 +394,109 @@ msgid "Number of Record"
 msgstr "Număr înregistrare"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__message_has_error_counter
+msgid "Number of errors"
+msgstr "Numărul de erori"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Număr de mesaje care necesită acțiune"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numărul de mesaje cu eroare de livrare"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_link__link_type__record
+msgid "Odoo Record"
+msgstr "Înregistrare Odoo"
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+msgid "Only a Ledger Manager can reactivate a canceled record."
+msgstr "Doar un manager de registru poate reactiva o înregistrare anulată."
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+msgid "Period:"
+msgstr "Perioada:"
+
+#. module: deltatech_ledger
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__place_of_origin
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
 msgid "Place of Origin"
 msgstr "Loc origine"
 
 #. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__has_duplicate
+msgid "Possible Duplicate"
+msgstr "Posibil duplicat"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_report_wizard_form
+msgid "Print"
+msgstr "Tipăriți"
+
+#. module: deltatech_ledger
+#: model:ir.actions.act_window,name:deltatech_ledger.action_ledger_report_wizard
+#: model:ir.model,name:deltatech_ledger.model_ledger_report_wizard
+#: model:ir.ui.menu,name:deltatech_ledger.menu_ledger_report
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_report_wizard_form
+msgid "Print Ledger"
+msgstr "Tipărește registrul"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Reactivate"
+msgstr "Reactivează"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Reactivate this record?"
+msgstr "Reactivezi această înregistrare?"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__reason
+msgid "Reason"
+msgstr "Motiv"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__reference
+msgid "Record"
+msgstr "Înregistrare"
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+msgid ""
+"Record %(name)s cannot be dated after %(date)s, the date of the next number "
+"%(following)s."
+msgstr ""
+"Înregistrarea %(name)s nu poate fi datată după %(date)s, data numărului "
+"următor %(following)s."
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+msgid ""
+"Record %(name)s cannot be dated before %(date)s, the date of the previous "
+"number %(previous)s."
+msgstr ""
+"Înregistrarea %(name)s nu poate fi datată înainte de %(date)s, data "
+"numărului anterior %(previous)s."
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+msgid "Record %s must have a date."
+msgstr "Înregistrarea %s trebuie să aibă dată."
+
+#. module: deltatech_ledger
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__record_date
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Record Date"
 msgstr "Data înregistrare"
 
@@ -126,16 +507,162 @@ msgstr "Scurtă descriere înregistrare"
 
 #. module: deltatech_ledger
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__record_type
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__record_type
 #: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "Record Type"
 msgstr "Tip înregistrare"
 
 #. module: deltatech_ledger
+#: model_terms:ir.actions.act_window,help:deltatech_ledger.action_ledger_model
+msgid ""
+"Record the entry and exit documents here. Each record gets a unique number "
+"from the register sequence."
+msgstr ""
+"Înregistrează aici documentele de intrare și de ieșire. Fiecare înregistrare"
+" primește un număr unic din secvența registrului."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_cancel_wizard__ledger_ids
+#: model:ir.ui.menu,name:deltatech_ledger.menu_ledger_model
+msgid "Records"
+msgstr "Registru"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Register"
+msgstr "Înregistrează"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__sequence_year
+msgid "Register Year"
+msgstr "Anul registrului"
+
+#. module: deltatech_ledger
+#: model_terms:ir.actions.act_window,help:deltatech_ledger.action_ledger_model
+msgid "Register your first document"
+msgstr "Înregistrează primul document"
+
+#. module: deltatech_ledger
+#: model:ir.actions.act_window,name:deltatech_ledger.action_ledger_reserve
+#: model:ir.ui.menu,name:deltatech_ledger.menu_ledger_reserve
+msgid "Reserve a Number"
+msgstr "Rezervă un număr"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_ledger__state__reserved
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
+msgid "Reserved"
+msgstr "Rezervat"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_report_wizard__include_undated
+msgid "Reserved numbers that have no date yet."
+msgstr "Numere rezervate care nu au încă dată."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__activity_user_id
+msgid "Responsible User"
+msgstr "Utilizator responsabil"
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger_link.py:0
+msgid "Select the record to link."
+msgstr "Selectează înregistrarea de legat."
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+msgid "Set the record date before registering %s."
+msgstr "Setează data înregistrării înainte de a înregistra %s."
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "Short description of the document..."
+msgstr "Descriere scurtă a documentului..."
+
+#. module: deltatech_ledger
 #: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_ledger__state
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_search
 msgid "State"
 msgstr "Stare"
 
 #. module: deltatech_ledger
-#: model:ir.model,name:deltatech_ledger.model_ledger_ledger
-msgid "ledger.ledger"
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
 msgstr ""
+"Stare bazată pe activități\n"
+"Întârziată: data scadentă este deja trecută\n"
+"Astăzi: activității pentru astăzi\n"
+"Planificate: activități viitoare."
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/models/ledger.py:0
+msgid ""
+"The date of record %(name)s must be in %(year)s, the year of its number."
+msgstr ""
+"Data înregistrării %(name)s trebuie să fie în %(year)s, anul numărului."
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/wizard/ledger_report_wizard.py:0
+msgid "The start date must not be after the end date."
+msgstr "Data de început nu poate fi după data de sfârșit."
+
+#. module: deltatech_ledger
+#. odoo-python
+#: code:addons/deltatech_ledger/wizard/ledger_report_wizard.py:0
+msgid "There are no records for the selected period."
+msgstr "Nu există înregistrări pentru perioada selectată."
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "This number is reserved. Its date can be set between"
+msgstr "Acest număr este rezervat. Data lui poate fi stabilită între"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_report_wizard__date_to
+msgid "To"
+msgstr "Către"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__link_type
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.report_ledger_document
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipul activității de excepție din înregistrare."
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,field_description:deltatech_ledger.field_ledger_link__url
+msgid "URL"
+msgstr "URL"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields.selection,name:deltatech_ledger.selection__ledger_link__link_type__url
+msgid "Web Link"
+msgstr "Legătură web"
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_cancel_wizard_form
+msgid "Why is the record canceled?"
+msgstr "De ce este anulată înregistrarea?"
+
+#. module: deltatech_ledger
+#: model:ir.model.fields,help:deltatech_ledger.field_ledger_ledger__sequence_year
+msgid "Year of the number series."
+msgstr "Anul seriei de numere."
+
+#. module: deltatech_ledger
+#: model_terms:ir.ui.view,arch_db:deltatech_ledger.view_ledger_form
+msgid "and"
+msgstr "și"
