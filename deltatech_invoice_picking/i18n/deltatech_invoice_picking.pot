@@ -128,6 +128,12 @@ msgid "Supplier Invoice No"
 msgstr ""
 
 #. module: deltatech_invoice_picking
+#. odoo-python
+#: code:addons/deltatech_invoice_picking/models/stock_picking.py:0
+msgid "The selected receipts are already billed: %s"
+msgstr ""
+
+#. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_stock_picking__to_invoice
 #: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking.view_picking_internal_search_inherit_invoice_picking
 msgid "To invoice"

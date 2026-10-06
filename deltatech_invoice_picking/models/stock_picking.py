@@ -7,6 +7,7 @@ from ast import literal_eval
 
 from odoo import fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_is_zero
 
 
 class StockPicking(models.Model):
@@ -47,5 +48,16 @@ class StockPicking(models.Model):
                 raise UserError(self.env._("You cannot invoice unconfirmed pickings (%s)") % picking.name)
             if not picking.supplier_invoice_number:
                 raise UserError(self.env._("Please enter supplier invoice number"))
+        self._check_receipts_billable()
+        for picking in self:
             picking.purchase_id.write({"partner_ref": picking.supplier_invoice_number})
         return self.purchase_id.with_context(receipt_picking_ids=self.ids).action_create_invoice()
+
+    def _check_receipts_billable(self):
+        """Refuse a supplier bill when the selected receipts have nothing left to bill."""
+        precision = self.env["decimal.precision"].precision_get("Product Unit")
+        purchase_lines = self.move_ids.filtered(lambda m: m.state == "done").purchase_line_id
+        if not purchase_lines or all(
+            float_is_zero(line.qty_to_invoice, precision_digits=precision) for line in purchase_lines
+        ):
+            raise UserError(self.env._("The selected receipts are already billed: %s", ", ".join(self.mapped("name"))))

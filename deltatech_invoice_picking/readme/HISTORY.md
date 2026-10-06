@@ -1,3 +1,11 @@
+## 19.0.1.0.14 (2026-10-07)
+
+- Fixed: the Create Purchase Invoices action could bill an already billed receipt again, with the full
+  receipt quantity, and moved the receipt's invoice link to the new bill. The billed quantity is now
+  capped at what is still to bill on the purchase order line (received minus billed on non-cancelled
+  bills), and receipts with nothing left to bill are refused with an error (PICKINV-004). After a bill
+  is cancelled, the receipt can be billed again.
+
 ## 19.0.1.0.13 (2026-10-06)
 
 - Summary in English, as the Apps Store requires, the same as the banner; support address.

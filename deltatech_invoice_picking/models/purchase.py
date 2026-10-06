@@ -4,6 +4,7 @@
 
 from odoo import models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare, float_is_zero
 
 
 class PurchaseOrderLine(models.Model):
@@ -11,6 +12,8 @@ class PurchaseOrderLine(models.Model):
 
     def _prepare_account_move_line(self, move=False):
         res = super()._prepare_account_move_line(move)
+        # native quantity = what is still to bill on the order line (received - billed)
+        remaining_qty = res.get("quantity", 0.0)
         if "receipt_picking_ids" in self.env.context:
             domain = [
                 ("purchase_line_id", "=", self.id),
@@ -31,6 +34,12 @@ class PurchaseOrderLine(models.Model):
                         qty -= move_qty
                     else:
                         raise UserError(self.env._("You cannot invoice this type of transfer: %s") % move.picking_id)
+                # never bill more than is still to bill on the order line (receipt already billed)
+                precision = self.env["decimal.precision"].precision_get("Product Unit")
+                if float_is_zero(remaining_qty, precision_digits=precision) or qty * remaining_qty < 0:
+                    qty = 0.0
+                elif float_compare(abs(qty), abs(remaining_qty), precision_digits=precision) > 0:
+                    qty = remaining_qty
                 res.update({"quantity": qty})
                 return res
             else:

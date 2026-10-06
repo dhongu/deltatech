@@ -37,7 +37,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PICKINV-004 — P1: Supplier invoice action can bill the same receipt repeatedly
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.14. `purchase.order.line._prepare_account_move_line()` caps the receipt quantity at the native remaining quantity to bill (received − billed on non-cancelled bills), as the sale flow caps at the remaining quantity to invoice, and `stock.picking.action_create_supplier_invoice()` refuses receipts whose order lines have nothing left to bill, so no empty bill is created and the existing invoice link is kept. A cancelled bill frees the quantity again. Covered by tests in tests/test_invoice_picking_double_bill.py.
 - **Location:** models/stock_picking.py, action_create_supplier_invoice(); models/purchase.py, _prepare_account_move_line().
 - **Trigger:** Run the bound Create Purchase Invoices list action again for an already billed done receipt with a supplier invoice number.
 - **Actual behavior:** The action checks state and invoice number but not account_move_id, to_invoice or previous billed quantities. The preparation override replaces the native remaining quantity with the entire selected receipt quantity even when the remaining quantity is zero. The account create hook then replaces the old receipt invoice link with the new bill.
