@@ -109,7 +109,7 @@ class BusinessProject(models.Model):
         for vals in vals_list:
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        return super().create(vals)
+        return super().create(vals_list)
 
     def _compute_display_name(self):
         for project in self:

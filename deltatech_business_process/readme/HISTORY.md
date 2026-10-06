@@ -1,3 +1,7 @@
+## 19.0.1.9.7 (2026-10-06)
+
+- Creating several business projects in one call (`create` with a list of values) created only the last one, because the values of the last iteration were passed to `super().create` instead of the whole list. All projects are now created, each with its own sequence code.
+
 ## 19.0.1.9.6 (2026-10-03)
 
 - BUSINESS-011: creating an *Open Issue* failed with "Record does not exist or has been deleted" (MissingError), because the submission mail used the *Issue Submitted* template, bound to *Business Issue*, with the id of the Open Issue; when a Business Issue with the same id existed, the creation succeeded but the project manager received the mail of that unrelated issue. Open Issues now have their own template (*Open Issue Submitted*), each model uses the template of its own model, and a template bound to another model is never rendered.
