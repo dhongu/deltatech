@@ -23,3 +23,9 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **RESELLER-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## RESELLER-002 — P2: optional empty pricelist loses the price currency
+
+`wizard/stock_quant_report.py:48,75` permits an empty pricelist and calls native `_get_product_price()` on it. Native `_compute_price_rule()` supports the empty recordset and falls back to the current company currency (`product_pricelist.py:191–194`). The report then writes `reseller_currency_id` from the empty pricelist rather than the effective currency, leaving the monetary price without its currency. The form makes neither partner nor pricelist required, so generating directly from the location triggers this. Use the same currency fallback or require a pricelist.
+
+Evidence: exact custom call/value assignment and native empty-pricelist fallback inspected. No Odoo database/browser reproduction executed. Existing RESELLER-001 cache-option fix remains present. Reviewed 2026-10-03.

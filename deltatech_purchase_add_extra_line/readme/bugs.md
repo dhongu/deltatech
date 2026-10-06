@@ -30,3 +30,17 @@ The historical checkout result above is tied to its stated commit. It does not o
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **PURCHASEEXTRA-001 — still open:** no relevant Python, XML, JavaScript or manifest change since the audit snapshot; the documented implementation remains in the current source.
+
+## Integrated review — 2026-10-03
+
+PURCHASEEXTRA-001 remains open: product replacement and no-extra configuration do not reconcile/remove the old pair. Full eligible source, migrations, native purchase price/manual-price contracts and view anchors reviewed. Historical isolated reproduction not rerun.
+
+### PURCHASEEXTRA-002 — P2: cyclic extra-product configuration recurses during creation
+
+The extra_product_id field has no constraint against self-reference or cycles. create() invokes check_extra_product() on every created line; that method creates another line before assigning the main line's UUID. Configure A.extra_product_id = A (or A→B→A), then create an RFQ line for A. Every newly generated line enters the same create hook, has no existing pair and creates another. The write recursion guard does not guard create. Creation cannot finish normally and rolls back upon recursion/resource failure. Skip generation for marked extra lines and validate cycles.
+
+Evidence: complete actual create/check call chain and unrestricted product field traced; source proof only, no database recursion deliberately executed. Acyclic chained extras can also overwrite UUID pairing, but not asserted as a separate defect without a defined chaining policy.
+
+### Limits
+
+Raw SQL migration is constant, not an injection issue. Shared product configuration declarations match the sale addon. NewId order inverse links were previously traced in native ORM and are not assumed missing here. Manual-price logic compared with native technical_price_unit behavior; no new manual-price defect asserted. No database/form tests executed.

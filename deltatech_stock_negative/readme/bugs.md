@@ -50,3 +50,14 @@ later fixed and covered by database-backed tests (2026-10-01).
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **STOCK-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## STOCK-003 — P2: No-negative-stock enforcement blocks products whose stock is not tracked
+
+- **Status:** Open; reviewed 2026-10-03.
+- **Location:** models/stock.py, StockMoveLine._action_done(), _check_no_negative_stock().
+- **Trigger:** Enable the company no-negative-stock policy and deliver a product with type consu and is_storable=False from an internal location that disallows negative stock.
+- **Actual behavior:** The addon checks every positive move-line quantity against physical quants without checking product.is_storable. Such a product normally has no quants, so quantity 1 is compared against zero and rejected before native completion.
+- **Impact:** Normal deliveries containing products without inventory tracking cannot be validated under the company's stock policy, despite not reducing tracked stock.
+- **Evidence:** Traced native stock.move._should_bypass_reservation and stock.move.line._synchronize_quant, which bypass reservations and quant updates for nonstorable products. Executed the actual addon checker with a nonstorable product and an empty quant set: it raised the negative-stock UserError. Reproduction: audit_coverage/reproductions/negative_nonstorable.py. Existing negative-stock tests use storable products. No database picking validation executed.
+- **Suggested fix:** Restrict physical-stock enforcement to products whose quantities native stock tracks; preserve all existing location, company, lot/package/owner and batch-consumption behavior.
+- **Validation needed:** Mixed storable/nonstorable deliveries, no-negative-stock enabled/disabled, allowed-negative locations and positive/zero quantities. Assert that nonstorable lines do not query or consume physical stock.

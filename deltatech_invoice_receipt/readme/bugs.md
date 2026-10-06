@@ -24,3 +24,40 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **RECEIPT-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## RECEIPT-002 — P1: Negative purchase lines access a nonexistent stock move UoM field
+
+- **Status:** Open; reviewed 2026-10-03.
+- **Location:** models/purchase.py, PurchaseOrderLine._prepare_stock_moves().
+- **Trigger:** Recompute negative purchase-line stock moves after at least one incoming or outgoing stock move exists.
+- **Actual behavior:** The quantity accumulation loops read move.product_uom_id. Native Odoo 19 stock.move declares product_uom instead.
+- **Impact:** The return computation raises AttributeError, preventing further stock-move creation for that line.
+- **Evidence:** Executed the actual method with a native-shaped existing move containing product_uom: AttributeError for product_uom_id. Checked native fields and broad custom/Enterprise definitions; no restoring stock.move field found.
+- **Suggested fix:** Use stock.move.product_uom and compare each move quantity in the purchase-line unit through native conversion.
+- **Validation needed:** Existing incoming/outgoing moves, repeated quantity edits, differing units and cancelled moves.
+
+## RECEIPT-003 — P1: Purchase-unit propagation loses the return move unit
+
+- **Status:** Open; reviewed 2026-10-03.
+- **Location:** models/purchase.py, PurchaseOrderLine._prepare_stock_moves(), template and _adjust_uom_quantities result.
+- **Trigger:** Set stock.propagate_uom to 1 and create a negative purchase line in Dozens for a product based in Units.
+- **Actual behavior:** The native helper retains the purchase UoM and its numeric quantity, but the addon drops product_uom from the new move template. Native stock.move defaults its UoM to the product base unit. A return of 2 dozens therefore requests 2 Units instead of 24.
+- **Impact:** Supplier returns move the wrong physical quantity when propagated purchase units differ from stock units.
+- **Evidence:** Actual method execution with the helper contract qty 2/UoM Dozen returned demand 2 with no product_uom field. Traced native stock/models/product.py _adjust_uom_quantities and stock.move _compute_product_uom. No database return validation.
+- **Suggested fix:** Include the returned product_uom in the stock move values, preferably using the native _prepare_stock_move_vals contract for shared attributes.
+- **Validation needed:** propagate_uom enabled/disabled, Units/Dozens, fractional quantities and return stock/accounting effects.
+
+## RECEIPT-004 — P2: Batch return-picking creation calls a singleton helper on the whole batch
+
+- **Status:** Open; reviewed 2026-10-03.
+- **Location:** models/purchase.py, PurchaseOrder._create_picking().
+- **Trigger:** Approve two purchase orders together, with a negative storable line requiring a return picking on at least one order.
+- **Actual behavior:** Inside for order in self, the return values use self._get_destination_location(), self.picking_type_id and self.partner_id instead of order. The native destination helper starts with ensure_one.
+- **Impact:** Batch approval raises Expected singleton and rolls back instead of creating the return transfers. Different partners or operation types also cannot safely share the batch-level values.
+- **Evidence:** Traced native purchase_stock.button_approve into the multi-record _create_picking override. Inspected native _get_destination_location ensure_one and the exact addon call using self. No database batch approval.
+- **Suggested fix:** Build every return using the current order record and retain its company, partner, type and location context.
+- **Validation needed:** Two negative orders, one negative plus one positive order, differing suppliers, warehouses and companies.
+
+### Additional review limitations — 2026-10-03
+
+Integrated source review traced receipt/refund/replenishment and fast-purchase callers through current native Odoo contracts. Isolated actual-method checks: audit_coverage/reproductions/purchase_return_contracts.py. Database stock/valuation/accounting workflows were not executed; no fixes applied. The refund helper balance overwrite remains an unconfirmed candidate because native tax synchronization may repair it. Fast Purchase and Invoice Receipt define independent non-super receipt_to_stock implementations, so their combined method resolution requires an installed-module integration check.

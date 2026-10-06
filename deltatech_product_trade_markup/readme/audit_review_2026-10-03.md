@@ -1,0 +1,3 @@
+# Integrated source review — 2026-10-03
+
+Entire eligible source read; native product template form anchor checked. This module declares a stored trade_markup field and no-op compatibility hooks. The sibling deltatech_purchase_price provides configurable onchange list-price calculation using this field; those relevant ranges were inspected as integration context. No new confirmed code defect in this foundation module. Its description promises stand-alone automated cost-based pricing more broadly than the implementation provides; documentation accuracy needs follow-up. No pricing/database/browser test executed.

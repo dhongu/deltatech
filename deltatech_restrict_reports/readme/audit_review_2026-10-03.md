@@ -1,0 +1,5 @@
+# Integrated source review — 2026-10-03
+
+Entire eligible source read. Global read rules enforce the intended own/all/no-row tiers independently of menu actions; native ir.rule._compute_domain ANDs global predicates with other rules and ORs only group rules. Native sale.report.user_id and account.invoice.report.invoice_user_id exist. All six overridden actions exist; group privilege and implied own tier follow current Odoo19 declarations. Conditional domain expressions parsed successfully. No new confirmed defect.
+
+Rules preserve native model ACL/company constraints, so all means all otherwise accessible rows, not unrestricted companies. Sudo callers bypass record rules by native design; no unauthorized sudo entry established here. Upgrading only a dependency can restore its action group values until this addon reapplies; menus/UX may change, but global data rules remain. No database group-assignment/domain/access/menu tests executed. Analysis concerns model analysis reports, not PDF generation permissions; no equivalence inferred.

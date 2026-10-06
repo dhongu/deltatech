@@ -38,3 +38,14 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **SECONDARY-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## SECONDARY-002 — P2: Inverse realignment ignores rounding in the document line unit
+
+- **Status:** Open; reviewed 2026-10-03.
+- **Location:** models/secondary_uom_mixin.py, _inverse_secondary_uom_qty(); sale_order_line.py, purchase_order_line.py and stock_move.py quantity hooks.
+- **Trigger:** Use a product based in Units, a line expressed in Dozens with rounding 1, and a product-specific secondary conversion of 1 alternative unit = 1 base Unit. Enter secondary quantity 13.
+- **Actual behavior:** The inverse rounds the base quantity to 13, converts it to the line unit with HALF-UP, resulting in 1 dozen (12 units), then assigns secondary_uom_qty from the previous base value of 13. It does not convert the final line quantity back to base units before realigning the secondary quantity.
+- **Impact:** At inverse completion the secondary quantity says 13 while the primary quantity used for sales, purchasing and stock represents 12 units. The field may visibly disagree or change on later recomputation.
+- **Evidence:** Executed the actual inverse together with the actual native Odoo 19 UoM conversion and float-rounding functions using synthetic lines. Result: primary 1 dozen, actual base 12, secondary 13. The inverse explicitly writes the secondary value while its compute is protected. Reproduction: audit_coverage/reproductions/secondary_line_rounding.py. Final ORM cache/persistence behavior not executed.
+- **Suggested fix:** Realign from the final rounded document quantity converted back to the base UoM. Decide explicitly whether the line rounding should round up to cover the requested secondary quantity or use the current HALF-UP policy.
+- **Validation needed:** Coarser line-unit rounding in sale, purchase and stock; forward/inverse consistency immediately and after flush/reload; positive/negative quantities and different product-specific ratios.

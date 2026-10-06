@@ -12,3 +12,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Suggested fix:** Write the date only for records actually transitioned to done, using fields.Date.context_today; preserve dates for already completed records.
 - **Validation needed:** Trigger and cancel a pre-completion wizard and verify no validation date; complete the flow and verify the date appears only on done orders.
 - **Limitations:** Source comparison and isolated executions of extracted current methods with mocked records; no database-backed integration tests were executed.
+
+## Reverification — 2026-10-03
+
+Entire module source read. MRPDATE-001 remains open: local native button_mark_done returns pre_button_mark_done wizard actions before posting inventory, and the override still writes date.today unconditionally. Native done-state/date_finished update compared. Historical isolated reproduction was not rerun; no manufacturing/database workflow executed.

@@ -23,3 +23,15 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **CONTACT-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## CONTACT-002 — P2: Nondigit CNP input raises an unhandled conversion error
+
+- **Status:** Open.
+- **Location:** models/res_partner.py, check_single_cnp(), _get_cnp_checksum() and create().
+- **Trigger:** Enter/import a 13-character CNP containing a letter or separator, for example A234567890123.
+- **Actual behavior:** The validator checks length but not numeric characters before calling int() for each digit and the checksum. ValueError escapes instead of returning False. create() invokes this validator before superclass creation, so its intended invalid-CNP clearing behavior cannot handle this input; write constraint likewise fails with a conversion error instead of the module's CNP invalid validation.
+- **Evidence:** Actual AST-extracted validator/checksum with A234567890123 raised ValueError: invalid literal for int() with base 10: A. No Odoo partner mutation executed.
+- **Impact:** Malformed identity input interrupts partner creation/import with an implementation exception and inconsistent invalid-input behavior.
+- **Suggested fix:** Validate the accepted digit alphabet before numeric conversion and consistently apply the intended reject/clear policy across create/write.
+- **Validation needed:** Nondigit first/middle/check digit, whitespace, empty values, short/long input, wrong checksum and valid digits, create and write/import paths.
+- **Limitations:** Full eligible source reviewed; isolated validator methods only. No database import/contact tests executed in this pass. Historical CONTACT-001 remains fixed in source; its test execution claims were not rerun here.

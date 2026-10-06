@@ -1,0 +1,3 @@
+# Integrated source review — 2026-10-03
+
+Complete eligible source read. All seven native layout logo image anchors and external_layout dispatcher insertion anchor exist; dispatcher sets company before report_logo and supplies it to selected layouts. Native invoice preview also calls dispatcher. sale_stock provides picking.sale_id and sale provides account.move.team_id, so declared dependencies cover invoice/order/picking access. crm.team view oe_title anchor exists. No new confirmed defect. Direct third-party calls to layout variants without dispatcher, portal team-logo access and PDF binary rendering require runtime integration validation; no concrete failing caller established here. No database/QWeb/browser/PDF tests executed.

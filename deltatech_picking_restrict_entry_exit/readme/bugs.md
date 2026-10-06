@@ -17,3 +17,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 ## Review limitations
 
 Source inspection and isolated executions with mocked records; no database-backed module installation or integration tests were run in this pass.
+
+## RESTRICT-002 — P1: one return/backorder exempts all pickings in a batch
+
+`models/stock_picking.py:35` checks `self.return_id` and `self.backorder_id` inside the individual-picking loop. Relational access on a recordset aggregates relations, so an ordinary unlinked outgoing transfer passes when validated together with a return or backorder. Check the current `picking` instead. Native backorder confirmation calls `button_validate()` on a recordset (`stock_backorder_confirmation.py:64,74`).
+
+Evidence: original method rejects an isolated ordinary unlinked delivery, then accepts it in a batch containing a return, using isolated ORM doubles in `audit_coverage/reproductions/picking_policy_contracts.py`. Database integration unexecuted. Reviewed 2026-10-03.

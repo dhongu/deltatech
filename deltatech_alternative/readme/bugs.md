@@ -22,3 +22,16 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **ALTERNATIVE-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+Full eligible source review — 2026-10-02: ALTERNATIVE-001 remains fixed in source. ALTERNATIVE-002 adds a dependency-cache finding; no database tests rerun.
+
+## ALTERNATIVE-002 — P2: Alternative-code cache is not invalidated when child names or hide flags change
+
+- **Status:** Open.
+- **Location:** models/product.py, ProductTemplate._compute_alternative_code().
+- **Trigger:** Read a product alternative_code, then rename or hide an existing product.alternative record in the same environment and read the code again.
+- **Actual behavior:** The compute reads child name and hide but declares only @api.depends("alternative_ids"). Updates to an existing child name/hide do not change relation membership and are absent from the recomputation dependency paths. Related sale/purchase/stock display fields can retain the old concatenated value.
+- **Evidence:** Complete models/views/cron source inspected. Decorator contains only alternative_ids, while the body reads cod.name and cod.hide; there is no custom write/cache invalidation hook. Compared local ORM fields.resolve_depends, which traverses declared dotted paths. Source evidence only; no database cache regression executed.
+- **Impact:** A changed or hidden code can remain displayed until the environment/cache is refreshed, including after the split-multi-code method renames existing records.
+- **Suggested fix:** Declare alternative_ids.name and alternative_ids.hide dependencies in addition to membership and verify delegated/related displays refresh.
+- **Validation needed:** Pre-read cache, rename/hide/unhide/create/unlink codes and split a multi-code record; template, variant and order/stock related code fields must update in the same transaction.

@@ -22,3 +22,17 @@ Findings are based on local source inspection and the isolated reproductions sta
 Compared the current local `19.0` source with the original audit snapshot. Repository HEAD: `7e93258ed`. This pass verifies source changes; module integration tests and upgrade migrations were not executed on an Odoo database.
 
 - **SALEEXTRA-001 — fixed in source:** the changed implementation addresses the originally documented failure. See the fix description and regression tests above. Deployment and database upgrade are outside this verification.
+
+## Integrated review — 2026-10-03
+
+SALEEXTRA-001 remains fixed in current source: flag-based ownership, product reconciliation and extra-line recursion skip retained. Complete source including migrations read; native website cart hooks call the new verification hook after add/quantity update. Native standard price fields/manual-price semantics and view anchors checked. Historical database tests not rerun.
+
+### SALEEXTRA-002 — P2: pallet addon replaces the same onchange
+
+This addon and deltatech_sale_pallet both implement sale.order.onchange_order_line with @api.onchange("order_line"), and neither chains super(). Native models._onchange_methods (:561–593) uses getmembers on the effective registry class: only the final method for this attribute is registered, not every same-name implementation in the MRO. With both installed, one module's order-line generation is lost in the form: either extra products stop synchronizing or pallet quantities stop synchronizing, depending on load order. Rename the callbacks or chain the existing method consistently. Website cart extra synchronization has a separate hook and is not automatically affected.
+
+Evidence: both full module sources and native callback registry read. No installed-registry/form test executed; the collision is independent of which implementation wins.
+
+### Limits
+
+The migration classifies the larger ID of exactly two UUID-paired lines as extra; legacy/imported ID ordering is a migration validation limit, not a confirmed failure without actual affected rows. No general create/write synchronization is provided by sale addon; form/cart are documented entry points, so direct RPC omission is not separately asserted here.
