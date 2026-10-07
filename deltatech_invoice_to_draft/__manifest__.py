@@ -6,7 +6,7 @@
 {
     "name": "Deltatech Invoice to Draft",
     "summary": "Restricted access to reset account move to draft",
-    "version": "19.0.2.0.2",
+    "version": "19.0.2.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
