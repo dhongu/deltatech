@@ -1,3 +1,9 @@
+## 19.0.1.1.1 (2026-10-07)
+
+- Apps Store page in English (it was in Romanian): what the module does, with a Usage section,
+  and the Romanian translation in its own tab (`readme/*.ro.md`), since the module is meant for
+  companies in Romania. Summary in English; support address.
+
 ## 19.0.1.1.0 (2026-10-01)
 
 - Imported expenses keep their total with VAT included as the line amount,

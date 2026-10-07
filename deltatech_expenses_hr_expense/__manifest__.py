@@ -5,11 +5,12 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Expenses Deduction - HR Expense Bridge",
-    "summary": "Preia cheltuielile standard (hr_expense) în Decontul de cheltuieli (deltatech_expenses)",
-    "version": "19.0.1.1.0",
+    "summary": "Bring Odoo expenses into the cash advance expense report",
+    "version": "19.0.1.1.1",
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "support": "support@terrabit.ro",
     "depends": [
         "deltatech_expenses",
         "hr_expense",
