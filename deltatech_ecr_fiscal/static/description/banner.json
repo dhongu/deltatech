@@ -1,0 +1,10 @@
+{
+  "title": "ECR Fiscal Audit Fields",
+  "summary": "Common fiscal printer audit fields shared by POS, invoicing and localizations",
+  "icon": "receipt",
+  "features": [
+    "Fiscal receipt, document and Z number",
+    "Written by the cash register driver",
+    "Read without the POS suite"
+  ]
+}

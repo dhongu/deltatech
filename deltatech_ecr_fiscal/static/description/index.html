@@ -32,6 +32,11 @@
        style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-romana"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-romana" href="#tb-panel-romana"
+       style="padding:10px 22px;">Rom&#226;n&#259;</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -42,8 +47,8 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Defines, in a single place, the fields that record the result of printing on a fiscal
 cash register (ECR/AMEF):</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal receipt (BF)</span><div class="mt-1">&#8212; receipt number within the current Z report; restarts at every Z</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal document (NR)</span><div class="mt-1">&#8212; fiscal document number, unique per device; the one to use
-  when a document must be identified without ambiguity</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Z report</span><div class="mt-1">&#8212; number of the Z report the receipt belongs to</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal state</span><div class="mt-1">&#8212; outcome reported by the device driver</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fiscal error</span><div class="mt-1">&#8212; error message, when the device refused or failed</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal receipt (BF)</span><div>Receipt number within the current Z report; restarts at every Z</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal document (NR)</span><div>Fiscal document number, unique per device; the one to use
+  when a document must be identified without ambiguity</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Z report</span><div>Number of the Z report the receipt belongs to</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal state</span><div>Outcome reported by the device driver</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal error</span><div>Error message, when the device refused or failed</div></div></li></ul>
 <p>The fields are added to <strong>journal entries</strong> here, and to <strong>POS orders</strong> by
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>, through the abstract mixin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.ecr.fiscal.mixin</code>.</p>
 <p>Written by the driver &#8212; the POS payment screen, or the store print action, after the
@@ -52,37 +57,70 @@ compliance modules, the Romanian localization.</p>
 <p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code> alone &#8212; not on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> &#8212; so the contract can be
 consumed from suites that have no access to the cash register driver modules, and from
 the POS-free store alternative (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>) without pulling in Point of Sale.</p>
-<p>C&#226;mpurile erau definite de dou&#259; ori, identic: pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> &#537;i pe
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>. Orice consumator al lor trebuia s&#259; depind&#259; de
-unul din acele module, deci de &#238;ntreaga suit&#259; de cas&#259; de marcat &#8212; chiar dac&#259; nu voia
-dec&#226;t s&#259; citeasc&#259; num&#259;rul bonului.</p>
-<p>Concret, asta a blocat puntea <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_pos_fiscal_compliance_ecr</code> din suita de
-localizare: dependen&#539;a pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> nu se putea satisface &#238;n CI-ul acelei suite,
-&#537;i rezolvarea dependen&#539;elor c&#259;dea &#238;nainte de teste.</p>
-<p>Contractul st&#259; acum &#238;ntr-un modul care depinde doar de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>. Modulele de cas&#259; de
-marcat r&#259;m&#226;n cele care <strong>scriu</strong> c&#226;mpurile; oricine altcineva le poate doar <strong>citi</strong>,
-f&#259;r&#259; s&#259; atrag&#259; driverul.</p>
-<p>Nici <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> nu e &#238;n dependen&#539;e: mixinul pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> &#238;l aplic&#259; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>,
-care oricum depinde de POS. Altfel <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code> &#8212; alternativa de magazin
-<strong>f&#259;r&#259;</strong> POS &#8212; ar fi tras Point of Sale ca dependen&#539;&#259; obligatorie doar ca s&#259; ajung&#259; la
-c&#226;mpuri.</p>
-<p>La instalare, un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pre_init_hook</code> preia r&#226;ndurile din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_model_data</code> de la cele dou&#259;
-module donoare, ca actualizarea lor s&#259; nu duc&#259; la &#537;tergerea coloanelor &#537;i a numerelor de
-bon fiscal deja &#238;nregistrate.</p>
+<p>The fields used to be defined twice, identically: on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> and on
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>. Any module that only needed to read the receipt number
+had to depend on one of them, and so on the whole cash register suite.</p>
+<p>The contract now lives in a module that depends only on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>. The cash register modules
+still <strong>write</strong> the fields; any other module can <strong>read</strong> them without pulling in the driver.
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> is not a dependency either: the mixin on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> is applied by
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>, the store alternative without POS, does not need
+Point of Sale to reach the fields.</p>
+<p>On install, a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pre_init_hook</code> takes over the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_model_data</code> rows of the two former owners, so
+updating them does not drop the columns and the fiscal receipt numbers already recorded.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<p>Modulul nu adaug&#259; interfa&#539;&#259; proprie: el doar pune c&#226;mpurile la dispozi&#539;ie.</p>
-<p><strong>Ca s&#259; scrii &#238;n ele</strong> (driver de cas&#259; de marcat), mo&#537;tene&#537;te mixinul pe modelul t&#259;u:</p>
+<p>The module adds no screens of its own: it only provides the fields.</p>
+<p><strong>To write them</strong> (a cash register driver), inherit the mixin on your model:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">class MyModel(models.Model):
     _name = &quot;my.model&quot;
     _inherit = [&quot;my.model&quot;, &quot;deltatech.ecr.fiscal.mixin&quot;]
 </code></pre>
-<p><strong>Ca s&#259; le cite&#537;ti</strong>, e destul s&#259; declari <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_ecr_fiscal</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> &#8212; nu ai
-nevoie de modulele de cas&#259; de marcat.</p>
+<p><strong>To read them</strong>, declaring <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_ecr_fiscal</code> in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> is enough; the cash register
+modules are not needed.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-romana" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rom&#226;n&#259;</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Prezentare</h3>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Define&#537;te, &#238;ntr-un singur loc, c&#226;mpurile care p&#259;streaz&#259; rezultatul tip&#259;ririi pe o cas&#259; de marcat
+fiscal&#259; (ECR/AMEF):</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Bon fiscal (BF)</span><div>Num&#259;rul bonului &#238;n raportul Z curent; re&#238;ncepe la fiecare Z.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Document fiscal (NR)</span><div>Num&#259;rul documentului fiscal, unic pe aparat; cel de folosit c&#226;nd un
+  document trebuie identificat f&#259;r&#259; ambiguitate.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Raport Z</span><div>Num&#259;rul raportului Z din care face parte bonul.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Starea fiscal&#259;</span><div>Rezultatul raportat de driverul aparatului.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Eroare fiscal&#259;</span><div>Mesajul de eroare, c&#226;nd aparatul a refuzat sau a e&#537;uat.</div></div></li></ul>
+<p>C&#226;mpurile sunt ad&#259;ugate aici pe <strong>notele contabile</strong> &#537;i, prin modulul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>, pe
+<strong>comenzile POS</strong>, prin mixinul abstract <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.ecr.fiscal.mixin</code>.</p>
+<p>Le scrie driverul (ecranul de plat&#259; POS sau ac&#539;iunea de tip&#259;rire din magazin, dup&#259; r&#259;spunsul
+agentului Terrabit Connect) &#537;i le citesc toate modulele de dup&#259;: rapoartele, modulele de
+conformitate fiscal&#259;, localizarea rom&#226;neasc&#259;.</p>
+<p>Modulul depinde doar de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>, nu de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code>, astfel &#238;nc&#226;t c&#226;mpurile pot fi folosite
+&#537;i de suitele care nu au acces la modulele de cas&#259; de marcat, &#537;i de alternativa de magazin f&#259;r&#259;
+POS (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>), f&#259;r&#259; s&#259; atrag&#259; Punctul de v&#226;nzare.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">De ce un modul separat</h3>
+<p>C&#226;mpurile erau definite de dou&#259; ori, identic: pe <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pos.order</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> &#537;i pe
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>. Orice modul care voia doar s&#259; citeasc&#259; num&#259;rul bonului
+trebuia s&#259; depind&#259; de unul dintre ele, deci de &#238;ntreaga suit&#259; de cas&#259; de marcat.</p>
+<p>Contractul st&#259; acum &#238;ntr-un modul care depinde doar de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>. Modulele de cas&#259; de marcat
+r&#259;m&#226;n cele care <strong>scriu</strong> c&#226;mpurile; oricine altcineva le poate doar <strong>citi</strong>, f&#259;r&#259; s&#259; atrag&#259;
+driverul. La instalare, un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pre_init_hook</code> preia r&#226;ndurile din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_model_data</code> de la cele dou&#259;
+module, ca actualizarea lor s&#259; nu duc&#259; la &#537;tergerea coloanelor &#537;i a numerelor de bon fiscal deja
+&#238;nregistrate.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
+<p>Modulul nu adaug&#259; ecrane proprii: doar pune c&#226;mpurile la dispozi&#539;ie.</p>
+<p><strong>Ca s&#259; scrie&#539;i &#238;n ele</strong> (un driver de cas&#259; de marcat), mo&#537;teni&#539;i mixinul pe modelul dumneavoastr&#259;:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">class MyModel(models.Model):
+    _name = &quot;my.model&quot;
+    _inherit = [&quot;my.model&quot;, &quot;deltatech.ecr.fiscal.mixin&quot;]
+</code></pre>
+<p><strong>Ca s&#259; le citi&#539;i</strong>, e suficient s&#259; declara&#539;i <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_ecr_fiscal</code> &#238;n <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code>; modulele de cas&#259;
+de marcat nu sunt necesare.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.3</h2>
+<ul>
+<li>Apps Store page: Usage and the context section in English (they were in Romanian), the
+  Romanian translation in its own tab (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/*.ro.md</code>), and an own banner (the cover
+  showed the banner of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech</code> module). Support address <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">support@terrabit.ro</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.2 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -251,7 +289,7 @@ nevoie de modulele de cas&#259; de marcat.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Expenses Deduction &amp; Disposition of Cashing</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Cash advances settled with an expense report (account 542)</p>
         </div>
       </a>
     </div>
