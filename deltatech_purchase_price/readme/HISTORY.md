@@ -1,3 +1,10 @@
+## 19.0.1.2.13 (2026-10-07)
+
+- **Fix: `product.supplierinfo.create` lipsea decoratorul
+  `@api.model_create_multi`.** Semnătura (`vals_list`) aștepta o listă de
+  dict-uri, dar fără decorator ORM-ul nu garanta asta — un apel cu un singur
+  dict ar fi ajuns direct în `super().create()` cu forma greșită.
+
 ## 19.0.1.2.12 (2026-10-06)
 
 - **New vendor pricing rows no longer take the product cost as unit price.**

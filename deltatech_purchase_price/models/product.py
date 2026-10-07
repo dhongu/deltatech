@@ -167,6 +167,7 @@ class SupplierInfo(models.Model):
                 self.update_last_purchase_price()
         return res
 
+    @api.model_create_multi
     def create(self, vals_list):
         res = super().create(vals_list)
         if not self.env.context.get("from_po_confirmation"):
