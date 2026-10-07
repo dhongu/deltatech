@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.3.4.2 (2026-10-07)
+
+- Apps Store page in English (it was in Romanian), written from the 19.0 code, with
+  Configuration and Usage sections, and the Romanian translation in its own tab
+  (`readme/*.ro.md`). The test scenario and the comparison table are left out of the page.
+  Summary in English; support address.
+
 ## 19.0.3.4.1 (2026-10-03)
 
 - **Fix (EXPENSES-002): the expense lines are always in the company currency
