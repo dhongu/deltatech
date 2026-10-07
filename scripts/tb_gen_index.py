@@ -682,7 +682,7 @@ def build_tab_sources(addon_dir, manifest, allow_ro=False, lang="en"):
         if key == "romana":
             # un singur tab în română, cu câte un subtitlu pentru fiecare fișier existent
             heads = ("Prezentare", "Configurare", "Utilizare")
-            chunks = [f"### {h}\n\n{c}" if c else c for h, c in zip(heads, chunks)]
+            chunks = [f"### {h}\n\n{c}" if c else c for h, c in zip(heads, chunks, strict=False)]
         if key == "overview":
             chunks.append(read_framework_features(addon_dir))
         md_text = "\n\n".join(c for c in chunks if c)
