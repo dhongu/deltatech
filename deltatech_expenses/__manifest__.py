@@ -4,11 +4,12 @@
 
 {
     "name": "Expenses Deduction",
-    "summary": "Expenses Deduction & Disposition of Cashing",
-    "version": "20.0.3.3.2",
+    "summary": "Cash advances settled with an expense report (account 542)",
+    "version": "20.0.3.3.3",
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "support": "support@terrabit.ro",
     "depends": [
         "l10n_ro",
         "account",
