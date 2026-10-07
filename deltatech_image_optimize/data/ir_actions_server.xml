@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_product_template_remove_background" model="ir.actions.server">
+        <field name="name">Remove Image Background</field>
+        <field name="model_id" ref="product.model_product_template" />
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="group_ids" eval="[(4, ref('product.group_product_manager'))]" />
+        <field name="state">code</field>
+        <field name="code">action = records.action_dt_remove_background()</field>
+    </record>
+
+    <record id="action_product_template_restore_background" model="ir.actions.server">
+        <field name="name">Restore Image Background</field>
+        <field name="model_id" ref="product.model_product_template" />
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="group_ids" eval="[(4, ref('product.group_product_manager'))]" />
+        <field name="state">code</field>
+        <field name="code">action = records.action_dt_restore_background()</field>
+    </record>
+
+    <record id="action_product_image_remove_background" model="ir.actions.server">
+        <field name="name">Remove Image Background</field>
+        <field name="model_id" ref="website_sale.model_product_image" />
+        <field name="binding_model_id" ref="website_sale.model_product_image" />
+        <field name="group_ids" eval="[(4, ref('product.group_product_manager'))]" />
+        <field name="state">code</field>
+        <field name="code">action = records.action_dt_remove_background()</field>
+    </record>
+
+    <record id="action_product_image_restore_background" model="ir.actions.server">
+        <field name="name">Restore Image Background</field>
+        <field name="model_id" ref="website_sale.model_product_image" />
+        <field name="binding_model_id" ref="website_sale.model_product_image" />
+        <field name="group_ids" eval="[(4, ref('product.group_product_manager'))]" />
+        <field name="state">code</field>
+        <field name="code">action = records.action_dt_restore_background()</field>
+    </record>
+
+</odoo>

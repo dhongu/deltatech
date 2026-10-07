@@ -84,4 +84,43 @@
         <field name="value">20480</field>
     </record>
 
+    <!-- Background removal (needs the optional Python library rembg).
+         rembg model: isnet-general-use is fast (~1 s/image on CPU, 180 MB);
+         birefnet-general is finer but ~10x slower and 970 MB. -->
+    <record id="cp_bg_model" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_model</field>
+        <field name="value">isnet-general-use</field>
+    </record>
+
+    <!-- 1 = frame the product in a square with bg_margin percent around it;
+         0 = keep the original canvas. -->
+    <record id="cp_bg_crop" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_crop</field>
+        <field name="value">0</field>
+    </record>
+
+    <record id="cp_bg_margin" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_margin</field>
+        <field name="value">5</field>
+    </record>
+
+    <!-- Empty = transparent background (WebP). A color such as #FFFFFF gives
+         a solid background (JPEG). -->
+    <record id="cp_bg_color" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_color</field>
+        <field name="value"></field>
+    </record>
+
+    <!-- Up to this many selected images are processed on the spot; more are
+         queued for the scheduled action. -->
+    <record id="cp_bg_sync_limit" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_sync_limit</field>
+        <field name="value">5</field>
+    </record>
+
+    <record id="cp_bg_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_batch</field>
+        <field name="value">20</field>
+    </record>
+
 </odoo>
