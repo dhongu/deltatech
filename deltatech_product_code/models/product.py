@@ -7,6 +7,7 @@ import random
 import re
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import SQL
 
 
@@ -15,8 +16,43 @@ class ProductCategory(models.Model):
 
     sequence_id = fields.Many2one("ir.sequence", string="Code Sequence")
     generate_barcode = fields.Boolean()
-    prefix_barcode = fields.Char(default="40", size=2)
+    prefix_barcode = fields.Char(
+        default="20",
+        size=2,
+        help="Prefixes 20-29 are reserved by GS1 for internal use; 40-44 belong to GS1 Germany.",
+    )
     barcode_random = fields.Boolean(default=True)
+    barcode_source = fields.Selection(
+        [("internal", "Internal prefix"), ("gs1", "GS1 company prefix")],
+        default="internal",
+        required=True,
+        help="Internal prefix: the barcode is built from the prefix and the internal reference (or a random number).\n"
+        "GS1 company prefix: the barcode is the next free GTIN-13 in the range of the GS1 company prefix.",
+    )
+    gs1_company_prefix = fields.Char(
+        string="GS1 Company Prefix",
+        help="Company prefix received from GS1 (e.g. 594xxxx). The GTIN-13 codes are allocated in its range.",
+    )
+    gs1_available_count = fields.Integer(string="Free GTIN Codes", compute="_compute_gs1_available_count")
+
+    @api.constrains("barcode_source", "gs1_company_prefix")
+    def _check_gs1_company_prefix(self):
+        for categ in self.filtered(lambda c: c.barcode_source == "gs1"):
+            prefix = categ.gs1_company_prefix or ""
+            if not prefix.isdigit() or not 6 <= len(prefix) <= 11:
+                raise ValidationError(self.env._("The GS1 company prefix must have between 6 and 11 digits."))
+
+    @api.depends("barcode_source", "gs1_company_prefix")
+    def _compute_gs1_available_count(self):
+        template = self.env["product.template"]
+        for categ in self:
+            prefix = categ.gs1_company_prefix or ""
+            if categ.barcode_source != "gs1" or not prefix.isdigit() or not 6 <= len(prefix) <= 11:
+                categ.gs1_available_count = 0
+                continue
+            capacity = 10 ** (12 - len(prefix))
+            last_reference = template._get_gs1_last_reference(prefix)
+            categ.gs1_available_count = capacity - 1 - last_reference if last_reference >= 0 else capacity
 
 
 class ProductTemplate(models.Model):
@@ -67,6 +103,44 @@ class ProductTemplate(models.Model):
         return code
 
     @api.model
+    def _get_gs1_last_reference(self, prefix):
+        """Cel mai mare numar de articol folosit in plaja prefixului GS1 (-1 daca plaja e goala).
+
+        Se cauta in codurile de bare ale variantelor (inclusiv arhivate) si ale ambalajelor.
+        """
+        pattern = f"^{prefix}([0-9]{{{12 - len(prefix)}}})[0-9]$"
+        query = SQL(
+            """SELECT max(substring(barcode FROM %(pattern)s)::bigint) FROM (
+                   SELECT barcode FROM product_product WHERE barcode ~ %(pattern)s
+                   UNION ALL
+                   SELECT barcode FROM product_uom WHERE barcode ~ %(pattern)s
+               ) AS codes""",
+            pattern=pattern,
+        )
+        self.env.cr.execute(query)
+        last_reference = self.env.cr.fetchone()[0]
+        return -1 if last_reference is None else last_reference
+
+    @api.model
+    def _get_free_gs1_barcode(self, prefix):
+        """Urmatorul GTIN-13 liber din plaja prefixului GS1 al companiei."""
+        self.env["product.product"].flush_model(["barcode"])
+        self.env["product.uom"].flush_model(["barcode"])
+        # doua produse create simultan nu trebuie sa primeasca acelasi cod
+        self.env.cr.execute(SQL("SELECT pg_advisory_xact_lock(hashtext(%s))", "gs1_gtin:" + prefix))
+        reference = self._get_gs1_last_reference(prefix) + 1
+        reference_length = 12 - len(prefix)
+        if reference >= 10**reference_length:
+            raise UserError(
+                self.env._(
+                    "All GTIN codes of the GS1 company prefix %(prefix)s are used. Request a new prefix from GS1.",
+                    prefix=prefix,
+                )
+            )
+        barcode = prefix + str(reference).zfill(reference_length) + "0"
+        return self.env["barcode.nomenclature"].sanitize_ean(barcode)
+
+    @api.model
     def get_new_code(self, categ, default_code, barcode):
         values = {}
         if default_code in [False, "/", "auto"] or self.env.context.get("force_code", False):
@@ -75,7 +149,9 @@ class ProductTemplate(models.Model):
                 values["default_code"] = default_code
 
         if not barcode or barcode == "/" or barcode == "auto":
-            if categ.generate_barcode:
+            if categ.generate_barcode and categ.barcode_source == "gs1":
+                values["barcode"] = self._get_free_gs1_barcode(categ.gs1_company_prefix)
+            elif categ.generate_barcode:
                 if not default_code or categ.barcode_random:
                     default_code = "%0.10d" % random.randint(0, 999999999999)  # noqa UP031
                 barcode = "".join([s for s in default_code if s.isdigit()])
