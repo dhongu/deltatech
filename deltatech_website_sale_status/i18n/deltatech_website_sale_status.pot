@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:25+0000\n"
-"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"POT-Creation-Date: 2026-10-07 13:17+0000\n"
+"PO-Revision-Date: 2026-10-07 13:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,6 +36,11 @@ msgid "Closed Orders"
 msgstr ""
 
 #. module: deltatech_website_sale_status
+#: model:ir.model,name:deltatech_website_sale_status.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_website_sale_status
 #. odoo-python
 #: code:addons/deltatech_website_sale_status/controllers/portal.py:0
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__delivered
@@ -44,12 +49,19 @@ msgid "Delivered"
 msgstr ""
 
 #. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_res_config_settings__sale_detailed_stage
+msgid "Detailed order stage"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_order__display_name
 #: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_report__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_order__id
 #: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_report__id
 msgid "ID"
@@ -117,6 +129,18 @@ msgid "Postponed"
 msgstr ""
 
 #. module: deltatech_website_sale_status
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__pre_advice
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__pre_advice
+msgid "Pre advice"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__rfq
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__rfq
+msgid "Request for Quotation"
+msgstr ""
+
+#. module: deltatech_website_sale_status
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__returned
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__returned
 msgid "Returned"
@@ -145,6 +169,15 @@ msgid "Status"
 msgstr ""
 
 #. module: deltatech_website_sale_status
+#: model:ir.model.fields,help:deltatech_website_sale_status.field_res_config_settings__sale_detailed_stage
+msgid ""
+"The website quotation sent to the customer is Placed and the order stage "
+"follows the carrier status of the parcel (Pre advice, In Delivery) until the"
+" carrier delivers it. Off, the order is Delivered at the validation of the "
+"delivery. Applies to the orders whose stage is recomputed from now on."
+msgstr ""
+
+#. module: deltatech_website_sale_status
 #. odoo-python
 #: code:addons/deltatech_website_sale_status/controllers/portal.py:0
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__to_be_delivery
@@ -159,6 +192,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__waiting
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_report__stage__waiting
 msgid "Waiting availability"
+msgstr ""
+
+#. module: deltatech_website_sale_status
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.res_config_settings_view_form
+msgid ""
+"Website quotations sent are Placed and the order stage follows the carrier "
+"status of the parcel"
 msgstr ""
 
 #. module: deltatech_website_sale_status
