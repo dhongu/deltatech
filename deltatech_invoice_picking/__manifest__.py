@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "19.0.1.0.13",
+    "version": "19.0.1.0.14",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
