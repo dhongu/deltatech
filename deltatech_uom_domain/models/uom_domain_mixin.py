@@ -8,6 +8,11 @@ class UomDomainMixin(models.AbstractModel):
     _name = "deltatech.uom.domain.mixin"
     _description = "Allow every unit convertible to the product's own unit"
 
+    def _uom_domain_product_uom(self):
+        """UM produsului fata de care se calculeaza unitatile convertibile."""
+        self.ensure_one()
+        return self.product_id.uom_id
+
     def _uom_domain_root(self):
         """Radacina arborelui de unitati din care face parte UM produsului.
 
@@ -18,7 +23,7 @@ class UomDomainMixin(models.AbstractModel):
         categorii.
         """
         self.ensure_one()
-        parent_path = self.product_id.uom_id.parent_path
+        parent_path = self._uom_domain_product_uom().parent_path
         return parent_path.split("/")[0] if parent_path else False
 
     def _extend_allowed_uom_ids(self, field_name="allowed_uom_ids"):
