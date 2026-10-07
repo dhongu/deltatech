@@ -27,7 +27,7 @@ Reguli sanitizer Apps Store (moștenite din tb_skin_index v5, validate pe store 
 
 Structura paginii (doar EN):
   HERO verde brand (icon.png + nume + summary + badge-uri din manifest)
-  NAV-PILLS cu taburi: Overview / Presentation / Configuration / Usage / Versions
+  NAV-PILLS cu taburi: Overview / Presentation / Configuration / Usage / Română / Versions
     - Overview      = DESCRIPTION.md (+ CONTEXT.md la final); listele de funcții cu
                       ≥3 itemi devin carduri Bootstrap cu bifă verde. Dacă modulul
                       depinde (oricât de indirect, în aceeași suită) de un modul cu
@@ -38,6 +38,7 @@ Structura paginii (doar EN):
                       (generate de scripts/tb_slides_render.py)
     - Configuration = INSTALL.md + CONFIGURE.md
     - Usage         = USAGE.md
+    - Română        = DESCRIPTION.ro.md + CONFIGURE.ro.md + USAGE.ro.md (doar la modulele RO)
     - Versions      = HISTORY.md (limitat la ultimele MAX_HISTORY_VERSIONS versiuni)
     (taburile fără fragment sursă nu apar; cu un singur tab, nav-ul se omite)
   STATS Terrabit (3 carduri) + nota de acoperire a pretului (doar cu --scope-note)
@@ -129,6 +130,7 @@ I18N = {
         "tab_configure": "Configuration",
         "tab_usage": "Usage",
         "tab_versions": "Versions",
+        "tab_romana": "Română",
         "stat_modules": "Modules published on Odoo Apps",
         "stat_partner": "Odoo Partner &mdash; implementation &amp; support",
         "scope_title": "What the price covers",
@@ -170,6 +172,7 @@ I18N = {
         "tab_configure": "Configurare",
         "tab_usage": "Utilizare",
         "tab_versions": "Istoric versiuni",
+        "tab_romana": "Română",
         "stat_modules": "Module publicate pe Odoo Apps",
         "stat_partner": "Partener Odoo &mdash; implementare &#537;i suport",
         "scope_title": "Ce acoper&#259; pre&#539;ul",
@@ -212,6 +215,10 @@ TABS = [
     ("presentation", ("PRESENTATION.md",)),
     ("configure", ("INSTALL.md", "CONFIGURE.md")),
     ("usage", ("USAGE.md",)),
+    # Traducerea în română (Cozmin și Dorin, 07.10.2026): doar pentru modulele cu aplicabilitate
+    # în România, în fișiere separate *.ro.md, afișate într-un tab propriu. Textul în engleză
+    # rămâne curat și primul, cum cere Apps Store.
+    ("romana", ("DESCRIPTION.ro.md", "CONFIGURE.ro.md", "USAGE.ro.md")),
     ("versions", ("HISTORY.md",)),
 ]
 
@@ -672,6 +679,10 @@ def build_tab_sources(addon_dir, manifest, allow_ro=False, lang="en"):
     for key, files in TABS:
         title = strings[f"tab_{key}"]
         chunks = [read_fragment(addon_dir, fn) for fn in files]
+        if key == "romana":
+            # un singur tab în română, cu câte un subtitlu pentru fiecare fișier existent
+            heads = ("Prezentare", "Configurare", "Utilizare")
+            chunks = [f"### {h}\n\n{c}" if c else c for h, c in zip(heads, chunks)]
         if key == "overview":
             chunks.append(read_framework_features(addon_dir))
         md_text = "\n\n".join(c for c in chunks if c)
@@ -716,7 +727,7 @@ def build_panel_body(key, md_text):
     rendered = style_code(rendered)
     if key == "presentation":
         rendered = style_images(rendered)
-    if key == "overview":
+    if key in ("overview", "romana"):
         rendered = style_feature_lists(rendered)
         rendered = style_lead_paragraph(rendered)
     rendered = style_headings(rendered)
