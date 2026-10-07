@@ -1,8 +1,10 @@
 # ©  2026 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
+from datetime import timedelta
 from unittest.mock import patch
 
+from odoo import fields
 from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
@@ -22,6 +24,13 @@ class TestSaleStage(TransactionCase):
         cls.service = cls.env["product.product"].create({"name": "Stage Service", "type": "service", "list_price": 10})
         cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.env.company.id)], limit=1)
         cls.website = cls.env["website"].search([], limit=1) or cls.env["website"].create({"name": "Stage Website"})
+        cls._set_detailed_stage(True)
+
+    @classmethod
+    def _set_detailed_stage(cls, value):
+        cls.env["ir.config_parameter"].sudo().set_param(
+            "deltatech_website_sale_status.detailed_stage", "True" if value else False
+        )
 
     def _create_order(self, product, qty=1.0, **vals):
         values = {
@@ -249,6 +258,43 @@ class TestSaleStage(TransactionCase):
             picking.write({"delivery_state": delivery_state})
             self.assertEqual(picking.delivery_state, delivery_state)
         picking.write({"note": "no delivery state"})
+
+    def test_picking_delivery_state_old_transfer_ignored(self):
+        """A transfer no longer tracked keeps the stock stage, not a stale carrier status."""
+        self._put_in_stock(self.storable, 10)
+        order = self._create_order(self.storable, qty=1)
+        order.action_confirm()
+        picking = order.picking_ids
+        self._deliver(picking)
+        picking.write({"delivery_state": "in_transit"})
+        self.assertEqual(order.stage, "in_delivery")
+        picking.date_done = fields.Datetime.now() - timedelta(days=31)
+        order._compute_stage()
+        self.assertEqual(order.stage, "delivered")
+
+    # ------------------------------------------------------------------
+    # detailed stage off (default): stage of the stock moves
+    # ------------------------------------------------------------------
+    def test_default_website_sent_in_process(self):
+        self._set_detailed_stage(False)
+        order = self._create_order(self.storable, website_id=self.website.id)
+        order.action_quotation_sent()
+        self.assertEqual(order.stage, "in_process")
+
+    def test_default_storable_delivered_at_validation(self):
+        """The carrier status does not change the stage of storable products."""
+        self._set_detailed_stage(False)
+        self._put_in_stock(self.storable, 10)
+        order = self._create_order(self.storable, qty=1)
+        order.action_confirm()
+        picking = order.picking_ids
+        picking.write({"delivery_state": "pre_advice"})
+        self.assertEqual(order.stage, "to_be_delivery")
+        self._deliver(picking)
+        picking.write({"delivery_state": "in_transit"})
+        self.assertEqual(order.stage, "delivered")
+        picking.write({"delivery_state": "delivered"})
+        self.assertEqual(order.stage, "delivered")
 
     # ------------------------------------------------------------------
     # sale.report

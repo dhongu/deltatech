@@ -1,3 +1,17 @@
+## 19.0.2.0.12 (2026-10-07)
+
+- The detailed stage introduced in 19.0.2.0.11 is now an option, off by
+  default (Sales settings, "Detailed order stage"). Off, the stage is again
+  the one of the stock moves: the order is `delivered` at the validation of
+  its transfers and a website quotation sent stays `in_process`. On, the
+  website quotation sent is `placed` and the stage follows the carrier status
+  of the parcel.
+- The carrier status counts only for the transfers still tracked (validated
+  in the last 30 days): a parcel whose final status was never read no longer
+  keeps an old order `in_delivery`.
+- A post-migration recomputes the orders left on `placed`, `pre_advice` or
+  `in_delivery` by the 19.0.2.0.11 recompute.
+
 ## 19.0.2.0.11 (2026-10-04)
 
 - Fix: a website quotation sent to the customer never reached the `placed`
