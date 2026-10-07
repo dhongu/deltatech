@@ -1,7 +1,8 @@
 # Image Optimizer
 
-Two related jobs on the same images: **recompress** them to reclaim filestore
-space, and **remove the ones stored twice**.
+Three related jobs on the same images: **recompress** them to reclaim filestore
+space, **remove the ones stored twice**, and **remove the background** of product
+photos.
 
 ## Recompression
 
@@ -123,6 +124,60 @@ filestore. To refresh it later from the shell:
 ```python
 env["product.image"]._dedup_backfill_checksums()
 ```
+
+## Product image background removal
+
+Product photos taken on a printed mat or a cluttered table can have their
+background removed: the product is cut out and saved on a **transparent
+background as WebP**, the format the optimizer already uses for transparent
+images.
+
+Select products (or product images) in a list and use
+**Action → Remove Image Background**. On a product the action also covers the
+extra images of its eCommerce gallery.
+
+- Up to ``bg_sync_limit`` images (default 5) are processed on the spot; a larger
+  selection is queued and handled by the scheduled action
+  ``Image Optimizer: remove product image background``, in batches of
+  ``bg_batch``, committing after every image.
+- The image before removal is kept in ``image_bg_original``.
+  **Action → Restore Image Background** puts it back. A second removal on the
+  same product keeps the first original, not the already cut-out image.
+- The cut-out is written as PNG through the record, so Odoo generates the
+  resized variants, and then each attachment is re-encoded to WebP in place:
+  Odoo does not resize WebP, so writing a WebP through the field would leave
+  every variant at full size.
+- When the model finds no object in the image, the image is left untouched and
+  the record is marked *Failed* (``bg_removal_state = error``).
+
+### Requirement: the rembg library
+
+The cut-out is done by [rembg](https://github.com/danielgatis/rembg), a local
+segmentation model on ONNX Runtime — images are not sent to any external
+service. It is an **optional** dependency, not declared in the manifest, so the
+module still installs where it is missing; the action then says what to add.
+Add it to the ``requirements.txt`` of the deployment:
+
+```
+rembg[cpu]
+```
+
+The model is downloaded on first use (``isnet-general-use``: 180 MB, under
+``~/.rembg/models``, or ``$U2NET_HOME``) and kept loaded per worker process, which needs about 1 GB of RAM
+while it runs. On CPU an image takes about one second.
+
+| Key | Default | Meaning |
+| --- | --- | --- |
+| ``deltatech_image_optimize.bg_model`` | isnet-general-use | rembg model; ``birefnet-general`` is finer but ~10x slower and 970 MB |
+| ``deltatech_image_optimize.bg_crop`` | 0 | 1 = frame the product in a square, 0 = keep the original canvas |
+| ``deltatech_image_optimize.bg_margin`` | 5 | margin around the product, in percent, when cropping |
+| ``deltatech_image_optimize.bg_color`` | (empty) | empty = transparent; a color such as ``#FFFFFF`` = solid background |
+| ``deltatech_image_optimize.bg_sync_limit`` | 5 | images processed on the spot; more are queued |
+| ``deltatech_image_optimize.bg_batch`` | 20 | images per scheduled run |
+
+Check the marketplaces and feeds the images are sent to before converting a
+whole catalog: some accept only JPEG or PNG, and a transparent image may be
+shown on a black background there.
 
 ## Configuration
 

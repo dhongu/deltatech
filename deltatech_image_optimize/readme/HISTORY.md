@@ -1,3 +1,12 @@
+# 19.0.1.10.0
+
+- Remove the background of product images: **Action → Remove Image Background**
+  on products (including their eCommerce gallery) and on product images. The
+  product is cut out with the optional library ``rembg`` and saved on a
+  transparent background as WebP, variants included. The original is kept and
+  can be put back with **Restore Image Background**. Large selections are
+  queued for a new scheduled action.
+
 # 19.0.1.9.2
 
 - Own module icon, instead of the generic gears it had.
