@@ -1,21 +1,12 @@
-Câmpurile erau definite de două ori, identic: pe `pos.order` în `deltatech_pos` și pe
-`account.move` în `deltatech_sale_store`. Orice consumator al lor trebuia să depindă de
-unul din acele module, deci de întreaga suită de casă de marcat — chiar dacă nu voia
-decât să citească numărul bonului.
+The fields used to be defined twice, identically: on `pos.order` in `deltatech_pos` and on
+`account.move` in `deltatech_sale_store`. Any module that only needed to read the receipt number
+had to depend on one of them, and so on the whole cash register suite.
 
-Concret, asta a blocat puntea `l10n_ro_pos_fiscal_compliance_ecr` din suita de
-localizare: dependența pe `deltatech_pos` nu se putea satisface în CI-ul acelei suite,
-și rezolvarea dependențelor cădea înainte de teste.
+The contract now lives in a module that depends only on `account`. The cash register modules
+still **write** the fields; any other module can **read** them without pulling in the driver.
+`point_of_sale` is not a dependency either: the mixin on `pos.order` is applied by
+`deltatech_pos`, so `deltatech_sale_store`, the store alternative without POS, does not need
+Point of Sale to reach the fields.
 
-Contractul stă acum într-un modul care depinde doar de `account`. Modulele de casă de
-marcat rămân cele care **scriu** câmpurile; oricine altcineva le poate doar **citi**,
-fără să atragă driverul.
-
-Nici `point_of_sale` nu e în dependențe: mixinul pe `pos.order` îl aplică `deltatech_pos`,
-care oricum depinde de POS. Altfel `deltatech_sale_store` — alternativa de magazin
-**fără** POS — ar fi tras Point of Sale ca dependență obligatorie doar ca să ajungă la
-câmpuri.
-
-La instalare, un `pre_init_hook` preia rândurile din `ir_model_data` de la cele două
-module donoare, ca actualizarea lor să nu ducă la ștergerea coloanelor și a numerelor de
-bon fiscal deja înregistrate.
+On install, a `pre_init_hook` takes over the `ir_model_data` rows of the two former owners, so
+updating them does not drop the columns and the fiscal receipt numbers already recorded.
