@@ -6,6 +6,12 @@ Both product image and template onchange/write call werkzeug.urls.url_parse outs
 
 ## URLIMAGE-002 — P1: unrestricted server-side URL fetching
 
+- **Status:** Fixed in 19.0.1.0.4. The download is now the private `_load_image_from_url`, run only for
+  users with write access on products (the onchange no longer fetches for read-only users). Only http/https
+  URLs whose host resolves exclusively to public addresses are fetched (loopback, private, link-local,
+  multicast and reserved IPv4/IPv6 ranges refused); redirects are followed manually (max 5) and each hop is
+  revalidated; 15 s timeout, streamed body capped at 10 MiB, HTTP 200 and an `image/*` Content-Type required.
+
 Public load_image_from_url passes caller URL directly to requests.get, without scheme/host/network restrictions; image validation happens after the request. An authorized RPC caller or product editor can direct the Odoo server to internal/loopback destinations, and redirects are not validated. Invalid image content does not undo a request already made. Restrict supported external sources, validate resolved targets and redirects, and enforce intended caller access. No internal/private network requests or exploit tests performed. Source-supported SSRF capability; exact deployment exposure/egress and endpoint effects unverified.
 
 ## Limits
