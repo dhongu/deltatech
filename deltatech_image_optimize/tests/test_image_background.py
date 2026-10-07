@@ -54,11 +54,25 @@ class TestImageBackground(TransactionCase):
         _webp_available()
         return Image.open(io.BytesIO(base64.b64decode(record[field])))
 
-    def test_remove_background_keeps_original_and_writes_webp(self):
-        self.product.action_dt_remove_background()
+    def _run(self, records, untick=None):
+        """Rulează acțiunea și aplică wizard-ul, ca utilizatorul."""
+        action = records.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+        if untick:
+            wizard.line_ids.filtered(lambda line: line.res_id in untick.ids).to_apply = False
+        wizard.action_apply()
+        return wizard
+
+    def test_preview_then_apply_writes_webp(self):
+        action = self.product.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+
+        self.assertEqual(wizard.mode, "preview")
+        self.assertEqual(self.product.image_1920, self.image, "the preview writes nothing")
+        self.assertTrue(wizard.line_ids.image_after)
+        wizard.action_apply()
 
         self.assertEqual(self.product.bg_removal_state, "done")
-        self.assertEqual(self.product.image_bg_original, self.image)
         result = self._decoded(self.product)
         self.assertEqual(result.size, (400, 300), "without crop the canvas stays the same")
         self.assertEqual(result.convert("RGBA").getpixel((5, 5))[3], 0, "the background is transparent")
@@ -70,31 +84,23 @@ class TestImageBackground(TransactionCase):
             # Odoo nu redimensionează WebP: variantele trebuie generate înainte de conversie
             self.assertLessEqual(max(Image.open(io.BytesIO(variant.raw)).size), 128)
 
-    def test_restore_background(self):
-        self.product.action_dt_remove_background()
-        self.product.action_dt_restore_background()
+    def test_unticked_line_is_not_applied(self):
+        self._run(self.product, untick=self.product)
 
         self.assertEqual(self.product.image_1920, self.image)
-        self.assertFalse(self.product.image_bg_original)
         self.assertFalse(self.product.bg_removal_state)
-
-    def test_second_pass_keeps_real_original(self):
-        self.product.action_dt_remove_background()
-        self.product.action_dt_remove_background()
-
-        self.assertEqual(self.product.image_bg_original, self.image)
 
     def test_crop_square_with_margin(self):
         self._set_param("bg_crop", "1")
         self._set_param("bg_margin", "10")
-        self.product.action_dt_remove_background()
+        self._run(self.product)
 
         # produsul are 200 px pe latura lungă, plus 10% margine pe fiecare parte
         self.assertEqual(self._decoded(self.product).size, (240, 240))
 
     def test_solid_color_background(self):
         self._set_param("bg_color", "#FFFFFF")
-        self.product.action_dt_remove_background()
+        self._run(self.product)
 
         result = self._decoded(self.product).convert("RGB")
         self.assertEqual(result.getpixel((5, 5)), (255, 255, 255))
@@ -103,29 +109,30 @@ class TestImageBackground(TransactionCase):
         extra = self.env["product.image"].create(
             {"name": "extra", "image_1920": self.image, "product_tmpl_id": self.product.id}
         )
-        self.product.action_dt_remove_background()
+        wizard = self._run(self.product)
 
+        self.assertEqual(len(wizard.line_ids), 2)
         self.assertEqual(extra.bg_removal_state, "done")
         self.assertEqual(extra.image_checksum, self._attachment(extra, "image_1920").checksum)
-        self.product.action_dt_restore_background()
-        self.assertEqual(extra.image_1920, self.image)
 
     def test_large_selection_is_queued_for_cron(self):
         self._set_param("bg_sync_limit", "0")
-        self.product.action_dt_remove_background()
-        self.assertEqual(self.product.bg_removal_state, "pending")
+        wizard = self._run(self.product)
 
+        self.assertEqual(wizard.mode, "queue")
+        self.assertFalse(wizard.line_ids.image_after, "no preview is computed for a queue")
+        self.assertEqual(self.product.bg_removal_state, "pending")
         with patch.object(self.env.cr, "commit", lambda: None):
             self.env["ir.attachment"]._dt_bg_remove_cron()
         self.assertEqual(self.product.bg_removal_state, "done")
 
-    def test_empty_cutout_marks_error(self):
+    def test_empty_cutout_is_not_applied(self):
         with patch.object(image_background, "_rembg_cutout", lambda img, m: img.convert("RGBA").point(lambda v: 0)):
-            self.product.action_dt_remove_background()
+            wizard = self._run(self.product)
 
-        self.assertEqual(self.product.bg_removal_state, "error")
+        self.assertEqual(wizard.failed_count, 1)
+        self.assertFalse(wizard.line_ids.to_apply)
         self.assertEqual(self.product.image_1920, self.image)
-        self.assertFalse(self.product.image_bg_original)
 
     def test_missing_rembg_raises(self):
         with patch.object(image_background, "_rembg_available", lambda: False), self.assertRaises(UserError):

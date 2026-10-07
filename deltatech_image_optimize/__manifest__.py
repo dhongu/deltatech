@@ -18,6 +18,7 @@
         "data/ir_actions_server.xml",
         "views/product_image_duplicate_view.xml",
         "wizard/product_image_dedup_view.xml",
+        "wizard/image_background_wizard_view.xml",
     ],
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",

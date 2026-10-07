@@ -136,19 +136,24 @@ Select products (or product images) in a list and use
 **Action → Remove Image Background**. On a product the action also covers the
 extra images of its eCommerce gallery.
 
-- Up to ``bg_sync_limit`` images (default 5) are processed on the spot; a larger
-  selection is queued and handled by the scheduled action
-  ``Image Optimizer: remove product image background``, in batches of
-  ``bg_batch``, committing after every image.
-- The image before removal is kept in ``image_bg_original``.
-  **Action → Restore Image Background** puts it back. A second removal on the
-  same product keeps the first original, not the already cut-out image.
+**The original image is not kept.** Keeping a copy of every image would double
+the images in the database, so the check happens *before* anything is written,
+in a wizard:
+
+- Up to ``bg_sync_limit`` images (default 5), the wizard shows each image
+  **before and after**. Untick the ones where the product was not cut out well,
+  then **Apply**. Only the ticked images are written; the preview itself lives
+  in the wizard and disappears with it.
+- A larger selection is too slow to preview. The wizard asks for confirmation
+  and **queues** the images for the scheduled action
+  ``Image Optimizer: remove product image background``, which processes them in
+  batches of ``bg_batch``, committing after every image. Try a few images first.
 - The cut-out is written as PNG through the record, so Odoo generates the
   resized variants, and then each attachment is re-encoded to WebP in place:
   Odoo does not resize WebP, so writing a WebP through the field would leave
   every variant at full size.
-- When the model finds no object in the image, the image is left untouched and
-  the record is marked *Failed* (``bg_removal_state = error``).
+- When the model finds no object in an image, it is left untouched: unticked in
+  the preview, marked *Failed* (``bg_removal_state = error``) in the queue.
 
 ### Requirement: the rembg library
 
@@ -172,7 +177,7 @@ while it runs. On CPU an image takes about one second.
 | ``deltatech_image_optimize.bg_crop`` | 0 | 1 = frame the product in a square, 0 = keep the original canvas |
 | ``deltatech_image_optimize.bg_margin`` | 5 | margin around the product, in percent, when cropping |
 | ``deltatech_image_optimize.bg_color`` | (empty) | empty = transparent; a color such as ``#FFFFFF`` = solid background |
-| ``deltatech_image_optimize.bg_sync_limit`` | 5 | images processed on the spot; more are queued |
+| ``deltatech_image_optimize.bg_sync_limit`` | 5 | up to this many images get a preview; more are queued |
 | ``deltatech_image_optimize.bg_batch`` | 20 | images per scheduled run |
 
 Check the marketplaces and feeds the images are sent to before converting a
