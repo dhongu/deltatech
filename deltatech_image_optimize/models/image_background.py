@@ -119,12 +119,6 @@ class ImageBackgroundMixin(models.AbstractModel):
     _name = "deltatech.image.background.mixin"
     _description = "Product Image Background Removal"
 
-    image_bg_original = fields.Image(
-        string="Image Before Background Removal",
-        attachment=True,
-        copy=False,
-        help="The image as it was before its background was removed. Kept so the removal can be undone.",
-    )
     bg_removal_state = fields.Selection(
         [("pending", "Pending"), ("done", "Removed"), ("error", "Failed")],
         string="Background Removal",
@@ -135,6 +129,11 @@ class ImageBackgroundMixin(models.AbstractModel):
     # === ACTIONS ===#
 
     def action_dt_remove_background(self):
+        """Deschide wizard-ul: previzualizare pentru puține imagini, coadă pentru multe.
+
+        Originalul nu se păstrează după aplicare (ar dubla imaginile în baza de
+        date), deci verificarea se face înainte, în wizard.
+        """
         if not _rembg_available():
             raise UserError(
                 self.env._(
@@ -142,36 +141,16 @@ class ImageBackgroundMixin(models.AbstractModel):
                     'Add "rembg[cpu]" to the requirements.txt of the deployment and rebuild.'
                 )
             )
-        params = self.env["ir.attachment"]._dt_bg_params()
         targets = [records.filtered(IMAGE_FIELD) for records in self._dt_bg_targets()]
-        total = sum(len(records) for records in targets)
-        if total <= params["sync_limit"]:
-            done = 0
-            for records in targets:
-                for record in records:
-                    done += record._dt_bg_remove(params)
-            message = self.env._("Background removed on %(done)s of %(total)s images.", done=done, total=total)
-        else:
-            for records in targets:
-                records.write({"bg_removal_state": "pending"})
-            self.env.ref("deltatech_image_optimize.ir_cron_dt_image_remove_background")._trigger()
-            message = self.env._(
-                "%(count)s images were queued; their background is removed by a scheduled action, in batches.",
-                count=total,
-            )
+        wizard = self.env["deltatech.image.background.wizard"]._dt_create_for(targets)
         return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {"message": message, "type": "info", "next": {"type": "ir.actions.client", "tag": "soft_reload"}},
+            "type": "ir.actions.act_window",
+            "name": self.env._("Remove Image Background"),
+            "res_model": wizard._name,
+            "res_id": wizard.id,
+            "view_mode": "form",
+            "target": "new",
         }
-
-    def action_dt_restore_background(self):
-        for records in self._dt_bg_targets():
-            for record in records.filtered("image_bg_original"):
-                record.write(
-                    {IMAGE_FIELD: record.image_bg_original, "image_bg_original": False, "bg_removal_state": False}
-                )
-        return {"type": "ir.actions.client", "tag": "soft_reload"}
 
     # === HELPERS ===#
 
@@ -179,28 +158,31 @@ class ImageBackgroundMixin(models.AbstractModel):
         """Recordurile ale căror imagini le atinge acțiunea, grupate pe model."""
         return [self]
 
-    def _dt_bg_remove(self, params):
-        """Elimină fundalul imaginii principale a acestui record și o salvează ca WebP."""
+    def _dt_bg_cutout(self, params):
+        """Imaginea fără fundal, ca PNG, fără să scrie nimic; ``None`` la eșec."""
         self.ensure_one()
-        attachment_model = self.env["ir.attachment"]
-        original = self[IMAGE_FIELD]
         try:
-            data = attachment_model._dt_image_remove_background(
-                base64.b64decode(original), params["model"], params["crop"], params["margin"], params["color"]
+            return self.env["ir.attachment"]._dt_image_remove_background(
+                base64.b64decode(self[IMAGE_FIELD]), params["model"], params["crop"], params["margin"], params["color"]
             )
         except Exception as exc:  # noqa: BLE001 - o imagine stricată nu oprește lotul
             _logger.warning("Background removal failed for %s(%s): %s", self._name, self.id, exc)
-            data = None
+            return None
+
+    def _dt_bg_apply(self, data):
+        """Scrie imaginea fără fundal și o trece pe WebP, cu variante cu tot."""
+        self.ensure_one()
+        # scrierea prin record regenerează variantele redimensionate din PNG
+        self.write({IMAGE_FIELD: base64.b64encode(data), "bg_removal_state": "done"})
+        self._dt_bg_compress_attachments()
+
+    def _dt_bg_remove(self, params):
+        """Elimină fundalul fără previzualizare (coada procesată de cron)."""
+        data = self._dt_bg_cutout(params)
         if not data:
             self.bg_removal_state = "error"
             return False
-        vals = {IMAGE_FIELD: base64.b64encode(data), "bg_removal_state": "done"}
-        if not self.image_bg_original:
-            # o a doua trecere nu suprascrie originalul real
-            vals["image_bg_original"] = original
-        # scrierea prin record regenerează variantele redimensionate din PNG
-        self.write(vals)
-        self._dt_bg_compress_attachments()
+        self._dt_bg_apply(data)
         return True
 
     def _dt_bg_compress_attachments(self):
