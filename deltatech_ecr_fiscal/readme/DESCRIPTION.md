@@ -1,12 +1,12 @@
 Defines, in a single place, the fields that record the result of printing on a fiscal
 cash register (ECR/AMEF):
 
-- **Fiscal receipt (BF)** — receipt number within the current Z report; restarts at every Z
-- **Fiscal document (NR)** — fiscal document number, unique per device; the one to use
+- **Fiscal receipt (BF)**: Receipt number within the current Z report; restarts at every Z
+- **Fiscal document (NR)**: Fiscal document number, unique per device; the one to use
   when a document must be identified without ambiguity
-- **Z report** — number of the Z report the receipt belongs to
-- **Fiscal state** — outcome reported by the device driver
-- **Fiscal error** — error message, when the device refused or failed
+- **Z report**: Number of the Z report the receipt belongs to
+- **Fiscal state**: Outcome reported by the device driver
+- **Fiscal error**: Error message, when the device refused or failed
 
 The fields are added to **journal entries** here, and to **POS orders** by
 `deltatech_pos`, through the abstract mixin `deltatech.ecr.fiscal.mixin`.
