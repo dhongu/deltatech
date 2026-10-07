@@ -134,3 +134,8 @@ msgid ""
 msgstr ""
 "Toate codurile GTIN ale prefixului de companie GS1 %(prefix)s sunt folosite. "
 "Solicitați un prefix nou la GS1."
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__prefix_barcode
+msgid "Prefixes 20-29 are reserved by GS1 for internal use; 40-44 belong to GS1 Germany."
+msgstr "Prefixele 20-29 sunt rezervate de GS1 pentru uz intern; 40-44 aparțin GS1 Germania."

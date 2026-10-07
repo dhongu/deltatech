@@ -138,3 +138,8 @@ msgstr ""
 #: code:addons/deltatech_product_code/models/product.py:0
 msgid "The GS1 company prefix must have between 6 and 11 digits."
 msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__prefix_barcode
+msgid "Prefixes 20-29 are reserved by GS1 for internal use; 40-44 belong to GS1 Germany."
+msgstr ""

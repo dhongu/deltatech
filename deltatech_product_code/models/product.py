@@ -16,7 +16,11 @@ class ProductCategory(models.Model):
 
     sequence_id = fields.Many2one("ir.sequence", string="Code Sequence")
     generate_barcode = fields.Boolean()
-    prefix_barcode = fields.Char(default="40", size=2)
+    prefix_barcode = fields.Char(
+        default="20",
+        size=2,
+        help="Prefixes 20-29 are reserved by GS1 for internal use; 40-44 belong to GS1 Germany.",
+    )
     barcode_random = fields.Boolean(default=True)
     barcode_source = fields.Selection(
         [("internal", "Internal prefix"), ("gs1", "GS1 company prefix")],
