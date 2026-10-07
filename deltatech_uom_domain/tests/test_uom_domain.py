@@ -90,3 +90,46 @@ class TestUomDomain(AccountTestInvoicingCommon):
             }
         )
         self.assertNotIn(self.uom_ten, move.invoice_line_ids.allowed_uom_ids)
+
+    def test_supplierinfo_offers_only_convertible_uoms(self):
+        """Pe linia de furnizor standardul nu are domeniu pe UM.
+
+        Cazul real: "ml" (mililitru) ales ca UM de achizitie pentru un cablu in metri;
+        conversia trece fara eroare si 22,5 m devin 22.500 ml pe cererea de oferta.
+        """
+        uom_meter = self.env.ref("uom.product_uom_meter")
+        uom_ml = self.env.ref("uom.product_uom_milliliter")
+        uom_mlin = self.env["uom.uom"].create({"name": "mlin.", "relative_uom_id": uom_meter.id, "relative_factor": 1})
+        cable = self.env["product.product"].create({"name": "Cablu", "uom_id": uom_meter.id})
+        seller = self.env["product.supplierinfo"].create(
+            {"partner_id": self.partner.id, "product_tmpl_id": cable.product_tmpl_id.id, "price": 1}
+        )
+        self.assertEqual(seller.product_uom_id, uom_meter)
+        self.assertIn(uom_meter, seller.allowed_uom_ids)
+        self.assertIn(uom_mlin, seller.allowed_uom_ids)
+        self.assertNotIn(uom_ml, seller.allowed_uom_ids)
+        self.assertNotIn(self.uom_unit, seller.allowed_uom_ids)
+
+    def test_supplierinfo_variant_and_packagings(self):
+        """Linia pe varianta foloseste UM variantei; ambalajele produsului raman in lista."""
+        self.product.uom_ids = self.uom_kg
+        seller = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner.id,
+                "product_tmpl_id": self.product.product_tmpl_id.id,
+                "product_id": self.product.id,
+                "price": 1,
+            }
+        )
+        self.assertIn(self.uom_ten, seller.allowed_uom_ids)
+        self.assertIn(self.uom_kg, seller.allowed_uom_ids, "ambalajul legat explicit de produs ramane")
+
+    def test_supplierinfo_views_load_domain_field(self):
+        """Campul din domeniu trebuie sa ajunga in vederi, altfel clientul web crapa.
+
+        UM pe linia de furnizor e vizibila doar cu grupul `uom.group_uom`.
+        """
+        self.env.user.group_ids |= self.env.ref("uom.group_uom")
+        for view_type in ("form", "list"):
+            arch = self.env["product.supplierinfo"].get_view(view_type=view_type)["arch"]
+            self.assertIn('name="allowed_uom_ids"', arch, view_type)

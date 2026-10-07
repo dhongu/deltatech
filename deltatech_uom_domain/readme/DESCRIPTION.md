@@ -15,8 +15,18 @@ Criteriul e cel folosit intern de Odoo pentru conversie - aceeași rădăcină d
 (`uom.uom._has_common_reference()`), care joacă exact rolul vechii categorii. Un
 produs în bucăți oferă „Duzina", „10 buc", „100 buc"; nu oferă „kg".
 
+Același criteriu se aplică și unității de pe linia de furnizor (lista de prețuri a
+furnizorului). Aici standardul nu pune niciun domeniu: se putea alege orice unitate,
+inclusiv una dintr-un alt arbore. Exemplu real: „ml” (mililitru) ales ca unitate de
+achiziție pentru un cablu în metri - conversia trece fără eroare, iar 22,5 m devin
+22.500 ml pe cererea de ofertă. Cu modulul, pe linia de furnizor apar doar unitatea
+produsului, ambalajele lui (`uom_ids`) și unitățile din același arbore. Pentru metrul
+liniar se creează o unitate proprie (ex. „mlin.”, cu unitatea de referință „m” și
+raportul 1), care apare automat la toate produsele în metri.
+
 Ce calculează standardul se păstrează: unitatea produsului, `uom_ids` și unitatea de
-pe linia de furnizor rămân în listă. Modulul doar adaugă.
+pe linia de furnizor rămân în listă. Pe comenzi și facturi modulul doar adaugă;
+singura restrângere e pe linia de furnizor, unde standardul nu avea niciun domeniu.
 
 ## De ce contează limita la același arbore
 
