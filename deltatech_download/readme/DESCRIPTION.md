@@ -1,11 +1,12 @@
-This module improves the PDF report experience in Odoo by opening reports in a new browser tab
-instead of triggering a file download. On mobile devices, the standard download behavior is preserved.
+By default, Odoo downloads every PDF report as a file, and the user has to open it from the
+downloads folder to look at it or print it. With this module, PDF reports open directly in a
+new browser tab, ready to read or print, and nothing piles up in the downloads folder.
 
-- Features:
-
-  - Downloading files
-  - A direct download option can be set in the report
-  - PDF reports are opened in a new browser tab instead of being downloaded
-  - On mobile devices, the standard download behavior is preserved (file is downloaded directly)
-  - Reports configured with `direct_download` flag use the standard Odoo download flow
-  - Reports sent to IoT devices are not affected
+- **PDF reports in a new tab**: Invoices, quotations, delivery slips and any other PDF report
+  open in the browser's PDF viewer instead of being downloaded.
+- **Direct download per report**: Reports that should still be saved as a file can be marked
+  for direct download, one by one.
+- **Mobile and IoT left as they are**: On phones and tablets, and for reports printed through
+  an IoT box, the standard Odoo behaviour is kept.
+- **Pop-up blocker safe**: If the browser blocks the new tab, the user is not stopped by an
+  error.
