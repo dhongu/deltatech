@@ -1,43 +1,18 @@
-Features:
+Cash advances to employees, settled with an expense report, the way Romanian accounting books
+them: the advance goes to account 542, the employee brings the receipts, and validating the
+report books the purchase receipts, the per diem and the difference to return or to pay, until
+542 is back to zero for that person.
 
-- Introducerea decontului de cheltuieli într-un document distinct care generează automat chitanțe de achiziție
-- Validarea documentului duce la generarea notelor contabile de avans și înregistrarea plăților
+- **Advance on account 542**: The advance is paid from the cash journal and booked on the
+  employee's 542.
+- **Receipts as report lines**: Each line is a receipt, with its VAT computed from the tax on the
+  line; validation creates the purchase receipts and settles them from the advance. A line can also be a payment
+  to a supplier made from the advance.
+- **Per diem**: A daily amount (42.5 by default) times the number of days, booked on a travel
+  expense account (625 by default).
+- **Difference settled**: What is left of the advance is returned by the employee, or what was
+  spent above it is paid to the employee, through the cash journal.
+- **Printable report**: Each expense report can be printed.
 
-Configurare:
-- În registrul de numerar trebuie completat câmpul "Cash advances" cu 542.
-
-
-# Exemplu de Testare: Decontarea Cheltuielilor din Avans
-
-## 🎯 Obiectivul Testului
-Decontarea corectă a unui avans de **1.000 RON**, cu cheltuieli totale de **800 RON**, rezultând în **restituirea diferenței** de **200 RON** de către angajat.
-
-## ⚙️ Pașii de Testare (Scenariu)
-
-| Pas | Acțiune Utilizator (Tester) | Rezultat Așteptat (Verificare) |
-|---|---|---|
-| **1. Acordare Avans** | Se înregistrează acordarea unui avans de 1.000 RON angajatului X. | Soldul contului **542** (Avansuri de decontat) crește cu 1.000 RON. |
-| **2. Creare Decont** | Angajatul X inițiază un nou decont, făcând referire la avansul primit. | Decontul preia automat valoarea avansului de 1.000 RON. |
-| **3. Introducere Cheltuieli** | Se introduc cheltuielile: Cazare (500 RON, TVA inclus) și Transport (300 RON, TVA inclus). | Total cheltuieli = **800 RON**. Se calculează corect TVA-ul deductibil. |
-| **4. Validare Calcul** | Se verifică automat calculul diferenței. | **Avans (1.000) - Cheltuieli (800) = Diferență de restituit (200 RON)**. |
-| **5. Aprobare Decont** | Decontul este trimis și aprobat de toți factorii decizionali. | Statutul decontului se schimbă în "**Aprobat/Decontat**". |
-| **6. Restituire Avans** | Angajatul restituie diferența de 200 RON (înregistrare la Casierie/Bancă). | Se generează documentul de încasare (Chitanță/Dispoziție de Încasare). |
-| **7. Contabilizare Finală** | Sistemul contabilizează decontul și restituirea. | Contul **542** al angajatului se închide (Sold **0**). |
-
----
-
-## 📝 Note Contabile Aferente
-
-Acestea sunt notele contabile așteptate pentru a testa închiderea corectă a avansului (Contul 542 - Avansuri de decontat):
-
-| Nr. Crt. | Operațiune | Cont Debitor | Cont Creditor | Suma (RON) | Explicație |
-|---|---|---|---|---|---|
-| **1** | Acordare Avans | **542** (Avans X) | **5311/5121** (Casa/Banca) | 1.000 | Acordarea avansului. |
-| **2** | Decontare Cheltuieli | **6xx** (Cheltuieli) | **542** (Avans X) | 672.27 | Valoarea cheltuielilor fără TVA (ex: 800 - 127.73). |
-| | | **4426** (TVA Deductibil) | **542** (Avans X) | 127.73 | TVA aferent cheltuielilor (ex: 19%). |
-| **3** | Restituire Sold | **5311/5121** (Casa/Banca) | **542** (Avans X) | 200 | Diferența restituită de angajat. |
-
-**Verificare Sold Final Cont 542 (Avans X):**
-* **Total Debitor:** 1.000 RON
-* **Total Creditor:** 800 RON (Cheltuieli) + 200 RON (Restituire) = 1.000 RON
-* **Sold Final:** 1.000 (D) - 1.000 (C) = **0 RON (Corect)**
+The module does not replace the standard Expenses app (`hr_expense`), which reimburses expenses
+paid by employees and has no cash advance. Both can be used in the same database.
