@@ -1,3 +1,8 @@
+# 19.0.1.1.0 (2026-10-07)
+
+- Barcodes from the GS1 company prefix: on the product category, "Barcode Source" = "GS1 company prefix" allocates to each new product the next free GTIN-13 in the range of the prefix received from GS1 (prefix + item reference + check digit). Product and packaging barcodes, including archived ones, are taken into account; the category shows how many codes are still free, and an error is raised when the range is used up.
+- The default internal barcode prefix of new categories is now 20 (GS1 range for internal use) instead of 40, which belongs to GS1 Germany. Existing categories keep their prefix.
+
 # 19.0.1.0.8 (2026-10-02)
 
 - Fix the "Find Duplicate" action on product variants: it referenced a non-existent action (`product.product_open_variants`) and the SQL looked for `company_id` in `product_product` (the company is read from the template). Queries moved to `SQL()` and the models are flushed before the search; regression test added.

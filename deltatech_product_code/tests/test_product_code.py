@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -220,3 +221,34 @@ class TestProductCode(TransactionCase):
         found = self.env["product.product"].search(action["domain"])
         self.assertIn(tmpl1.product_variant_id, found)
         self.assertIn(tmpl2.product_variant_id, found)
+
+    def test_gs1_barcode(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        self.assertEqual(self.product_category.gs1_available_count, 100)
+        product_1 = self.env["product.product"].create({"name": "GS1 1", "categ_id": self.product_category.id})
+        product_2 = self.env["product.product"].create({"name": "GS1 2", "categ_id": self.product_category.id})
+        self.assertEqual(product_1.barcode, "5940000123000")
+        self.assertEqual(product_2.barcode, "5940000123017")
+        self.product_category.invalidate_recordset(["gs1_available_count"])
+        self.assertEqual(self.product_category.gs1_available_count, 98)
+
+    def test_gs1_barcode_skips_used_codes(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        # cod alocat manual (sau importat) si arhivat: se continua peste el
+        self.env["product.product"].create({"name": "Old", "barcode": "5940000123406", "active": False})
+        product = self.env["product.product"].create({"name": "GS1", "categ_id": self.product_category.id})
+        self.assertEqual(product.barcode, "5940000123413")
+
+    def test_gs1_barcode_range_full(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        self.env["product.product"].create({"name": "Last", "barcode": "5940000123994"})
+        self.product_category.invalidate_recordset(["gs1_available_count"])
+        self.assertEqual(self.product_category.gs1_available_count, 0)
+        with self.assertRaises(UserError):
+            self.env["product.product"].create({"name": "GS1", "categ_id": self.product_category.id})
+
+    def test_gs1_prefix_check(self):
+        with self.assertRaises(ValidationError):
+            self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "59A123"})
+        with self.assertRaises(ValidationError):
+            self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "594000012345"})

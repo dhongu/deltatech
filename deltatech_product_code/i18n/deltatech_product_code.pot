@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:24+0000\n"
-"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"POT-Creation-Date: 2026-10-07 09:37+0000\n"
+"PO-Revision-Date: 2026-10-07 09:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,33 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_product_code
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid ""
+"All GTIN codes of the GS1 company prefix %(prefix)s are used. Request a new "
+"prefix from GS1."
+msgstr ""
+
+#. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__barcode_random
 msgid "Barcode Random"
 msgstr ""
 
 #. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__barcode_source
+msgid "Barcode Source"
+msgstr ""
+
+#. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__sequence_id
 msgid "Code Sequence"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__gs1_company_prefix
+msgid ""
+"Company prefix received from GS1 (e.g. 594xxxx). The GTIN-13 codes are "
+"allocated in its range."
 msgstr ""
 
 #. module: deltatech_product_code
@@ -45,6 +65,21 @@ msgid "Force new internal code"
 msgstr ""
 
 #. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__gs1_available_count
+msgid "Free GTIN Codes"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__gs1_company_prefix
+msgid "GS1 Company Prefix"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields.selection,name:deltatech_product_code.selection__product_category__barcode_source__gs1
+msgid "GS1 company prefix"
+msgstr ""
+
+#. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__generate_barcode
 msgid "Generate Barcode"
 msgstr ""
@@ -59,6 +94,18 @@ msgstr ""
 #. module: deltatech_product_code
 #: model:ir.model.constraint,message:deltatech_product_code.constraint_product_template_name_code_unique
 msgid "Internal Reference already exists !"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields.selection,name:deltatech_product_code.selection__product_category__barcode_source__internal
+msgid "Internal prefix"
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__barcode_source
+msgid ""
+"Internal prefix: the barcode is built from the prefix and the internal reference (or a random number).\n"
+"GS1 company prefix: the barcode is the next free GTIN-13 in the range of the GS1 company prefix."
 msgstr ""
 
 #. module: deltatech_product_code
@@ -84,4 +131,15 @@ msgstr ""
 #. module: deltatech_product_code
 #: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_category_form_view
 msgid "Products"
+msgstr ""
+
+#. module: deltatech_product_code
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid "The GS1 company prefix must have between 6 and 11 digits."
+msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__prefix_barcode
+msgid "Prefixes 20-29 are reserved by GS1 for internal use; 40-44 belong to GS1 Germany."
 msgstr ""

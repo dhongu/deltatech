@@ -11,8 +11,15 @@
                         <group string="Products">
                             <field name="sequence_id" />
                             <field name="generate_barcode" />
-                            <field name="prefix_barcode" />
-                            <field name="barcode_random" />
+                            <field name="barcode_source" invisible="not generate_barcode" />
+                            <field name="prefix_barcode" invisible="not generate_barcode or barcode_source == 'gs1'" />
+                            <field name="barcode_random" invisible="not generate_barcode or barcode_source == 'gs1'" />
+                            <field
+                                name="gs1_company_prefix"
+                                invisible="not generate_barcode or barcode_source != 'gs1'"
+                                required="generate_barcode and barcode_source == 'gs1'"
+                            />
+                            <field name="gs1_available_count" invisible="not generate_barcode or barcode_source != 'gs1'" />
                         </group>
                     </group>
                 </group>
