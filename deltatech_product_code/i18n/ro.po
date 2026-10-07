@@ -75,3 +75,62 @@ msgstr "Variantă produs"
 #: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_category_form_view
 msgid "Products"
 msgstr ""
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__barcode_source
+msgid "Barcode Source"
+msgstr "Sursă cod de bare"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields.selection,name:deltatech_product_code.selection__product_category__barcode_source__internal
+msgid "Internal prefix"
+msgstr "Prefix intern"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields.selection,name:deltatech_product_code.selection__product_category__barcode_source__gs1
+msgid "GS1 company prefix"
+msgstr "Prefix de companie GS1"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__barcode_source
+msgid ""
+"Internal prefix: the barcode is built from the prefix and the internal reference (or a random number).\n"
+"GS1 company prefix: the barcode is the next free GTIN-13 in the range of the GS1 company prefix."
+msgstr ""
+"Prefix intern: codul de bare se formează din prefix și referința internă (sau un număr aleator).\n"
+"Prefix de companie GS1: codul de bare este următorul GTIN-13 liber din plaja prefixului GS1 al companiei."
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__gs1_company_prefix
+msgid "GS1 Company Prefix"
+msgstr "Prefix de companie GS1"
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,help:deltatech_product_code.field_product_category__gs1_company_prefix
+msgid ""
+"Company prefix received from GS1 (e.g. 594xxxx). The GTIN-13 codes are "
+"allocated in its range."
+msgstr ""
+"Prefixul de companie primit de la GS1 (de ex. 594xxxx). Codurile GTIN-13 se "
+"alocă în plaja lui."
+
+#. module: deltatech_product_code
+#: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__gs1_available_count
+msgid "Free GTIN Codes"
+msgstr "Coduri GTIN libere"
+
+#. module: deltatech_product_code
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid "The GS1 company prefix must have between 6 and 11 digits."
+msgstr "Prefixul de companie GS1 trebuie să aibă între 6 și 11 cifre."
+
+#. module: deltatech_product_code
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid ""
+"All GTIN codes of the GS1 company prefix %(prefix)s are used. Request a new "
+"prefix from GS1."
+msgstr ""
+"Toate codurile GTIN ale prefixului de companie GS1 %(prefix)s sunt folosite. "
+"Solicitați un prefix nou la GS1."
