@@ -3,7 +3,7 @@
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Expenses Deduction - HR Expense Bridge" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Expenses Deduction - HR Expense Bridge</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Preia cheltuielile standard (hr_expense) &#238;n Decontul de cheltuieli (deltatech_expenses)</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Bring Odoo expenses into the cash advance expense report</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Accounting &amp; Finance</span>
@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-romana"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-romana" href="#tb-panel-romana"
+       style="padding:10px 22px;">Rom&#226;n&#259;</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -35,25 +45,65 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Punte &#238;ntre modulul standard de cheltuieli <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></strong> &#537;i <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code></strong> (Decont de
-cheltuieli din avans de trezorerie, cont 542), pentru companiile care folosesc ambele fluxuri &#537;i vor
-s&#259; evite dubla contabilizare a acelora&#537;i cheltuieli.</p>
-<p>Se instaleaz&#259; <strong>automat</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_install</code>) doar atunci c&#226;nd ambele module &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> &#537;i
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> &#8212; sunt prezente &#238;n baza de date. Companiile care nu folosesc modulul standard de
-cheltuieli nu primesc acest modul, deci nu v&#259;d bifa &#8222;Cheltuieli" pe produs adus&#259; de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>
-dec&#226;t dac&#259; chiar au nevoie de el.</p>
-<p>Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Buton <strong>&#8222;Preia cheltuieli HR"</strong> pe formularul Decontului (st&#259;rile Ciorn&#259;/Avans): deschide un wizard
-  cu cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> eligibile ale angajatului (aprobate/depuse, f&#259;r&#259; not&#259; contabil&#259;
-  proprie, nelegate de alt decont) &#537;i le adaug&#259; ca linii de decont.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Ac&#539;iune contextual&#259; pe lista de cheltuieli standard: &#8222;Adaug&#259; &#238;n decont de cheltuieli" &#8212; trimite mai
-  multe cheltuieli selectate c&#259;tre un decont ales.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Cheltuielile <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> legate de un decont (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">expenses_deduction_id</code>) nu se mai posteaz&#259; prin
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_post</code> standard &#8212; contabilizarea se face exclusiv prin Decont, evit&#226;nd dublarea. Formularul
-  cheltuielii arat&#259; un banner &#537;i ascunde butoanele de postare standard.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>La invalidarea unui decont, liniile importate din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> se &#537;terg automat, iar cheltuielile
-  respective sunt eliberate &#8212; redevin disponibile pentru fluxul standard sau o nou&#259; preluare.</div></div></li></ul>
-<p>Configurare: niciuna suplimentar&#259; &#8212; func&#539;ioneaz&#259; imediat ce ambele module sunt instalate.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">A bridge between the standard Odoo Expenses app (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>) and the Terrabit expense report
+for cash advances (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code>, account 542), for companies that use both and want to
+avoid booking the same expense twice.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Import HR expenses into the report</span><div>The <strong>Preia cheltuieli HR</strong> button on the expense
+  report adds the employee's submitted or approved expenses as report lines.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Send from the expense list</span><div>The <strong>Adaug&#259; &#238;n decont de cheltuieli</strong> action sends several
+  selected expenses to a chosen report in one step.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">No double booking</span><div>An expense linked to a report is posted only through the report; its
+  own posting buttons are hidden.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Released on cancel</span><div>When a report is cancelled, its imported lines are removed and the
+  expenses become available again.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Installed automatically</span><div>The module installs itself when both <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> and
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> are present; no configuration is needed.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open an expense report in <strong>Draft</strong> or <strong>Advance</strong> and click <strong>Preia cheltuieli HR</strong>.</li>
+<li>The wizard lists the employee's submitted or approved expenses that are not posted and not
+   linked to another report; select them and confirm.</li>
+<li>Each expense becomes a report line, with its amount, taxes, vendor, account and analytic
+   distribution. The report is then validated and posted as usual.</li>
+</ol>
+<p>From <em>Expenses</em>, you can also select several expenses of the same employee and use
+<em>Actions &gt; Adaug&#259; &#238;n decont de cheltuieli</em>.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-romana" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rom&#226;n&#259;</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Prezentare</h3>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Punte &#238;ntre aplica&#539;ia standard de cheltuieli Odoo (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>) &#537;i decontul de cheltuieli
+Terrabit pentru avansuri de trezorerie (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code>, cont 542), pentru companiile care
+folosesc ambele fluxuri &#537;i vor s&#259; evite dubla contabilizare a acelora&#537;i cheltuieli.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Preluarea cheltuielilor HR &#238;n decont</span><div>Butonul <strong>Preia cheltuieli HR</strong> de pe decont adaug&#259;
+  cheltuielile depuse sau aprobate ale angajatului ca linii de decont.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Trimitere din lista de cheltuieli</span><div>Ac&#539;iunea <strong>Adaug&#259; &#238;n decont de cheltuieli</strong> trimite
+  dintr-o dat&#259; mai multe cheltuieli selectate c&#259;tre un decont ales.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">F&#259;r&#259; dubl&#259; contabilizare</span><div>O cheltuial&#259; legat&#259; de un decont se contabilizeaz&#259; doar prin
+  decont; butoanele ei de contabilizare sunt ascunse.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Eliberare la anulare</span><div>La invalidarea decontului, liniile preluate se &#537;terg, iar
+  cheltuielile redevin disponibile.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Instalare automat&#259;</span><div>Modulul se instaleaz&#259; singur c&#226;nd sunt prezente at&#226;t
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code>, c&#226;t &#537;i <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>; nu necesit&#259; configurare.</div></div></li></ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
+<ol>
+<li>Deschide&#539;i un decont &#238;n starea <strong>Ciorn&#259;</strong> sau <strong>Avans</strong> &#537;i ap&#259;sa&#539;i <strong>Preia cheltuieli HR</strong>.</li>
+<li>Asistentul afi&#537;eaz&#259; cheltuielile depuse sau aprobate ale angajatului, necontabilizate &#537;i
+   nelegate de alt decont; selecta&#539;i-le &#537;i confirma&#539;i.</li>
+<li>Fiecare cheltuial&#259; devine o linie de decont, cu suma, taxele, furnizorul, contul &#537;i
+   distribu&#539;ia analitic&#259;. Decontul se valideaz&#259; &#537;i se contabilizeaz&#259; apoi ca de obicei.</li>
+</ol>
+<p>Din <em>Cheltuieli</em> pute&#539;i selecta &#537;i mai multe cheltuieli ale aceluia&#537;i angajat &#537;i folosi
+<em>Ac&#539;iuni &gt; Adaug&#259; &#238;n decont de cheltuieli</em>.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.1 (2026-10-07)</h2>
+<ul>
+<li>Apps Store page in English (it was in Romanian): what the module does, with a Usage section,
+  and the Romanian translation in its own tab (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/*.ro.md</code>), since the module is meant for
+  companies in Romania. Summary in English; support address.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-10-01)</h2>
+<ul>
+<li>Imported expenses keep their total with VAT included as the line amount,
+  matching the new rule of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> (the amount is always gross).</li>
+<li>The screenshot test writes only its own captures (03, 04) into this module.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
