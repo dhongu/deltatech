@@ -7,7 +7,7 @@ from PIL import ImageChops
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
-from odoo.addons.deltatech_image_optimize.models import image_background
+from odoo.addons.deltatech_image_optimize.models import image_background, ir_attachment
 from odoo.addons.deltatech_image_optimize.models.ir_attachment import Image, _webp_available
 
 BG_COLOR = (120, 200, 120)
@@ -37,7 +37,7 @@ class TestImageBackground(TransactionCase):
 
     def setUp(self):
         super().setUp()
-        self.startPatcher(patch.object(image_background, "_rembg_cutout", _fake_cutout))
+        self.startPatcher(patch.object(ir_attachment, "_rembg_cutout", _fake_cutout))
         self.startPatcher(patch.object(image_background, "_rembg_available", lambda: True))
 
     def _set_param(self, key, value):
@@ -127,7 +127,7 @@ class TestImageBackground(TransactionCase):
         self.assertEqual(self.product.bg_removal_state, "done")
 
     def test_empty_cutout_is_not_applied(self):
-        with patch.object(image_background, "_rembg_cutout", lambda img, m: img.convert("RGBA").point(lambda v: 0)):
+        with patch.object(ir_attachment, "_rembg_cutout", lambda img, m: img.convert("RGBA").point(lambda v: 0)):
             wizard = self._run(self.product)
 
         self.assertEqual(wizard.failed_count, 1)
