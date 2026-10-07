@@ -107,7 +107,7 @@ class StockPicking(models.Model):
     @api.onchange("picking_type_id")
     def _compute_is_transit_transfer(self):
         for record in self:
-            if self.second_transfer_created:
+            if record.second_transfer_created:
                 record.is_transit_transfer = False
                 return
             if record.picking_type_id.code == "internal" and record.picking_type_id.two_step_transfer_use == "delivery":
