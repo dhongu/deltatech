@@ -15,7 +15,7 @@ class ProductImage(models.Model):
     def onchange_name(self):
         parsed_url = werkzeug.urls.url_parse(self.name)
         if parsed_url.scheme:
-            data = self.product_tmpl_id.load_image_from_url(self.name)
+            data = self.product_tmpl_id._load_image_from_url(self.name)
             if data:
                 self.name = self.name.split("/")[-1]
                 self.image_1920 = data
@@ -25,7 +25,7 @@ class ProductImage(models.Model):
             image_file_name = vals["name"]
             parsed_url = werkzeug.urls.url_parse(image_file_name)
             if parsed_url.scheme:
-                data = self.product_tmpl_id.load_image_from_url(image_file_name)
+                data = self.product_tmpl_id._load_image_from_url(image_file_name)
                 if data:
                     vals["name"] = image_file_name.split("/")[-1]
                     vals["image_1920"] = data
