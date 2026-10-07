@@ -3,7 +3,7 @@
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Expenses Deduction" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Expenses Deduction</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Expenses Deduction &amp; Disposition of Cashing</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Cash advances settled with an expense report (account 542)</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 20.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Accounting &amp; Finance</span>
@@ -27,6 +27,21 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-romana"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-romana" href="#tb-panel-romana"
+       style="padding:10px 22px;">Rom&#226;n&#259;</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -35,197 +50,102 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Introducerea decontului de cheltuieli &#238;ntr-un document distinct care genereaz&#259; automat chitan&#539;e de achizi&#539;ie</li>
-<li>Validarea documentului duce la generarea notelor contabile de avans &#537;i &#238;nregistrarea pl&#259;&#539;ilor</li>
-</ul>
-<p>Configurare:</p>
-<ul>
-<li>&#206;n registrul de numerar trebuie completat c&#226;mpul "Cash advances" cu 542.</li>
-<li>Angaja&#539;ii sunt &#238;nregistra&#539;i ca <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>. Dac&#259; angajatul are completat c&#226;mpul "Work Contact"
-  (partenerul), acesta este folosit pe notele contabile. Dac&#259; nu, notele se genereaz&#259; f&#259;r&#259; partener
-  (&#238;nregistr&#259;ri interne) &#8212; validarea decontului func&#539;ioneaz&#259; &#238;n ambele cazuri.</li>
-</ul>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Diferen&#539;a fa&#539;&#259; de modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></h1>
-<p>Acest modul <strong>nu</strong> &#238;nlocuie&#537;te &#537;i <strong>nu</strong> se suprapune cu modulul standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>. Cele dou&#259;
-acoper&#259; procese de business distincte &#537;i pot coexista &#238;n aceea&#537;i baz&#259; de date:</p>
-<table class="table table-bordered" style="font-size:14px;">
-<thead>
-<tr>
-<th>Aspect</th>
-<th><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> (acest modul)</th>
-<th><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> (standard Odoo)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Scop</strong></td>
-<td>Decont de cheltuieli din <strong>avans de trezorerie</strong> (cont 542), specific contabilit&#259;&#539;ii din Rom&#226;nia</td>
-<td>Not&#259; de cheltuial&#259; angajat &#8594; <strong>rambursare</strong> sumelor pl&#259;tite din buzunar</td>
-</tr>
-<tr>
-<td><strong>Model central</strong></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.expenses.deduction</code> (mo&#537;tene&#537;te doar <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.thread</code>)</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense.sheet</code></td>
-</tr>
-<tr>
-<td><strong>Angajatul</strong></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">employee_id</code>); partenerul contabil deriv&#259; din <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">work_contact_id</code></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>, flux integrat HR</td>
-</tr>
-<tr>
-<td><strong>Avans de trezorerie (542)</strong></td>
-<td>Da &#8212; acordare, decontare &#537;i &#238;nchiderea contului 542</td>
-<td>Nu</td>
-</tr>
-<tr>
-<td><strong>Diurn&#259;</strong></td>
-<td>Da &#8212; c&#226;mp <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">diem</code> (implicit 42,5) &#537;i calcul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">total_diem</code></td>
-<td>Nu</td>
-</tr>
-<tr>
-<td><strong>Documente generate</strong></td>
-<td>Chitan&#539;e de achizi&#539;ie (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_receipt</code>), pl&#259;&#539;i (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.payment</code>) &#537;i note contabile de diferen&#539;&#259;/diurn&#259;</td>
-<td>&#206;n func&#539;ie de modul de plat&#259; (vezi mai jos)</td>
-</tr>
-<tr>
-<td><strong>Dependen&#539;e</strong></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_partner_generic</code></td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code></td>
-</tr>
-<tr>
-<td><strong>Specific RO</strong></td>
-<td>Da &#8212; numerotare proprie, jurnale cas&#259;/diurn&#259;, plan de conturi RO</td>
-<td>Nu (generic, multi-&#539;ar&#259;)</td>
-</tr>
-</tbody>
-</table>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Notele contabile generate de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></h2>
-<p>&#536;i <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> genereaz&#259; note contabile (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>) la postare, dar tipul lor depinde de <strong>modul de plat&#259;</strong> al cheltuielii:</p>
-<ul>
-<li><strong>Pl&#259;tit&#259; de angajat</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_mode = own_account</code>): se creeaz&#259; un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> de tip chitan&#539;&#259; de achizi&#539;ie
-  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_receipt</code>) &#8212; debit cont de cheltuial&#259; (6xx) + TVA deductibil / credit <strong>contul de datorie (payable) al angajatului</strong>.
-  Firma r&#259;m&#226;ne datoare angajatului, urm&#226;nd rambursarea efectiv&#259;.</li>
-<li><strong>Pl&#259;tit&#259; de firm&#259;</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_mode = company_account</code>): se creeaz&#259; direct note de plat&#259; legate de un <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.payment</code> &#8212;
-  debit cont de cheltuial&#259; + TVA / credit cont <strong>banc&#259;/cas&#259;</strong>. Nu mai exist&#259; datorie de rambursat, fiindc&#259; firma a achitat deja.</li>
-</ul>
-<p>&#206;n ambele cazuri contrapartida este fie <strong>datoria c&#259;tre angajat</strong>, fie <strong>trezoreria firmei</strong> &#8212; niciodat&#259; un avans de decontat (cont 542),
-care este specific modulului <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code>.</p>
-<p>Pe scurt: folose&#537;te <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code></strong> pentru fluxul rom&#226;nesc <em>avans de trezorerie &#8594; decont &#8594; diurn&#259; &#8594;
-&#238;nchidere cont 542</em>, &#537;i <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code></strong> pentru fluxul generic <em>angajatul/firma pl&#259;te&#537;te &#8594; (eventual) rambursare</em>.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Integrarea cu <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> (modul separat, op&#539;ional)</h1>
-<p>Nucleul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses</code> nu depinde de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>. Companiile care folosesc &#537;i modulul standard de
-cheltuieli al Odoo pot instala suplimentar <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses_hr_expense</code></strong>, care adaug&#259; puntea dintre
-cele dou&#259; (preluarea cheltuielilor <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.expense</code> ca linii de decont &#537;i prevenirea dublei contabiliz&#259;ri) &#8212;
-vezi descrierea acelui modul.</p>
-<p>Fi&#537;a angajatului (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr.employee</code>) are un buton smart <strong>"Deconturi"</strong> care afi&#537;eaz&#259; num&#259;rul deconturilor &#537;i
-deschide lista filtrat&#259; pentru acel angajat (disponibil indiferent dac&#259; puntea <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code> e instalat&#259;).</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Exemplu de Testare: Decontarea Cheltuielilor din Avans</h1>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">&#127919; Obiectivul Testului</h2>
-<p>Decontarea corect&#259; a unui avans de <strong>1.000 RON</strong>, cu cheltuieli totale de <strong>800 RON</strong>, rezult&#226;nd &#238;n <strong>restituirea diferen&#539;ei</strong> de <strong>200 RON</strong> de c&#259;tre angajat.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">&#9881;&#65039; Pa&#537;ii de Testare (Scenariu)</h2>
-<table class="table table-bordered" style="font-size:14px;">
-<thead>
-<tr>
-<th>Pas</th>
-<th>Ac&#539;iune Utilizator (Tester)</th>
-<th>Rezultat A&#537;teptat (Verificare)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Acordare Avans</strong></td>
-<td>Se &#238;nregistreaz&#259; acordarea unui avans de 1.000 RON angajatului X.</td>
-<td>Soldul contului <strong>542</strong> (Avansuri de decontat) cre&#537;te cu 1.000 RON.</td>
-</tr>
-<tr>
-<td><strong>2. Creare Decont</strong></td>
-<td>Angajatul X ini&#539;iaz&#259; un nou decont, f&#259;c&#226;nd referire la avansul primit.</td>
-<td>Decontul preia automat valoarea avansului de 1.000 RON.</td>
-</tr>
-<tr>
-<td><strong>3. Introducere Cheltuieli</strong></td>
-<td>Se introduc cheltuielile: Cazare (500 RON, TVA inclus) &#537;i Transport (300 RON, TVA inclus).</td>
-<td>Total cheltuieli = <strong>800 RON</strong>. Se calculeaz&#259; corect TVA-ul deductibil.</td>
-</tr>
-<tr>
-<td><strong>4. Validare Calcul</strong></td>
-<td>Se verific&#259; automat calculul diferen&#539;ei.</td>
-<td><strong>Avans (1.000) - Cheltuieli (800) = Diferen&#539;&#259; de restituit (200 RON)</strong>.</td>
-</tr>
-<tr>
-<td><strong>5. Aprobare Decont</strong></td>
-<td>Decontul este trimis &#537;i aprobat de to&#539;i factorii decizionali.</td>
-<td>Statutul decontului se schimb&#259; &#238;n "<strong>Aprobat/Decontat</strong>".</td>
-</tr>
-<tr>
-<td><strong>6. Restituire Avans</strong></td>
-<td>Angajatul restituie diferen&#539;a de 200 RON (&#238;nregistrare la Casierie/Banc&#259;).</td>
-<td>Se genereaz&#259; documentul de &#238;ncasare (Chitan&#539;&#259;/Dispozi&#539;ie de &#206;ncasare).</td>
-</tr>
-<tr>
-<td><strong>7. Contabilizare Final&#259;</strong></td>
-<td>Sistemul contabilizeaz&#259; decontul &#537;i restituirea.</td>
-<td>Contul <strong>542</strong> al angajatului se &#238;nchide (Sold <strong>0</strong>).</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">&#128221; Note Contabile Aferente</h2>
-<p>Acestea sunt notele contabile a&#537;teptate pentru a testa &#238;nchiderea corect&#259; a avansului (Contul 542 - Avansuri de decontat):</p>
-<table class="table table-bordered" style="font-size:14px;">
-<thead>
-<tr>
-<th>Nr. Crt.</th>
-<th>Opera&#539;iune</th>
-<th>Cont Debitor</th>
-<th>Cont Creditor</th>
-<th>Suma (RON)</th>
-<th>Explica&#539;ie</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1</strong></td>
-<td>Acordare Avans</td>
-<td><strong>542</strong> (Avans X)</td>
-<td><strong>5311/5121</strong> (Casa/Banca)</td>
-<td>1.000</td>
-<td>Acordarea avansului.</td>
-</tr>
-<tr>
-<td><strong>2</strong></td>
-<td>Decontare Cheltuieli</td>
-<td><strong>6xx</strong> (Cheltuieli)</td>
-<td><strong>542</strong> (Avans X)</td>
-<td>672.27</td>
-<td>Valoarea cheltuielilor f&#259;r&#259; TVA (ex: 800 - 127.73).</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><strong>4426</strong> (TVA Deductibil)</td>
-<td><strong>542</strong> (Avans X)</td>
-<td>127.73</td>
-<td>TVA aferent cheltuielilor (ex: 19%).</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>Restituire Sold</td>
-<td><strong>5311/5121</strong> (Casa/Banca)</td>
-<td><strong>542</strong> (Avans X)</td>
-<td>200</td>
-<td>Diferen&#539;a restituit&#259; de angajat.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total Debitor:</span><div class="mt-1">1.000 RON</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total Creditor:</span><div class="mt-1">800 RON (Cheltuieli) + 200 RON (Restituire) = 1.000 RON</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Sold Final:</span><div class="mt-1">1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Cash advances to employees, settled with an expense report, the way Romanian accounting books
+them: the advance goes to account 542, the employee brings the receipts, and validating the
+report books the purchase receipts, the per diem and the difference to return or to pay, until
+542 is back to zero for that employee.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Advance on account 542</span><div>The advance is paid from the cash journal and booked on the
+  employee's 542.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Receipts as report lines</span><div>Each line is a receipt, entered with VAT included; validation
+  creates the purchase receipts and settles them from the advance. A line can also be a payment
+  to a supplier made from the advance.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Per diem</span><div>A daily amount (42.5 by default) times the number of days, booked on a travel
+  expense account (625 by default).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Difference settled</span><div>What is left of the advance is returned by the employee, or what was
+  spent above it is paid to the employee, through the cash journal.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Approval roles</span><div>Employee, Approver and Accountant: the approver validates the advance,
+  only the accountant posts or reverses the report.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Employee view</span><div>A smart button on the employee shows their expense reports; each report
+  can be printed.</div></div></li></ul>
+<p>The module does not replace the standard Expenses app (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>), which reimburses expenses
+paid by employees and has no cash advance. Both can be used in the same database.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ol>
+<li>Prepare a journal whose default account is <strong>542</strong> (advances to be settled). Choose it as the
+   <strong>Expense Journal</strong> of each report.</li>
+<li>The <strong>Cash Journal</strong> (the first cash journal by default), the <strong>Diem Journal</strong> (a general
+   journal) and the <strong>Diem Account</strong> (625 by default) are filled in on the report and can be
+   changed there.</li>
+<li>In <em>Settings &gt; Users</em>, give each user a role for expense reports: <strong>Angajat</strong> (employee),
+   <strong>Aprobator</strong> (approver) or <strong>Contabil</strong> (accountant).</li>
+<li>On each employee, the <strong>Work Contact</strong> is used as partner on the journal entries; without it,
+   the entries are posted without a partner.</li>
+</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>In <em>Accounting &gt; Vendors &gt; Expenses Deduction</em>, create a report for the employee, with the
+   advance amount and date, and click <strong>Advance</strong>: the advance is booked on 542 against the cash
+   journal.</li>
+<li>When the employee returns, add the receipts as lines (amount with VAT included, supplier,
+   account) and, for a trip, the number of days for the per diem.</li>
+<li>The accountant clicks <strong>Validate</strong>: the purchase receipts, their settlement from 542, the per
+   diem and the payment of the difference are posted, and the report is <strong>Done</strong>.</li>
+<li><strong>Invalidate</strong> reverses a validated report, so it can be corrected.</li>
+</ol>
+<p>Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON to be returned by the
+employee; after validation, the employee's 542 balance is zero.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-romana" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rom&#226;n&#259;</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Prezentare</h3>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Avansuri de trezorerie pentru angaja&#539;i, decontate cu un decont de cheltuieli, a&#537;a cum le
+&#238;nregistreaz&#259; contabilitatea din Rom&#226;nia: avansul se &#238;nregistreaz&#259; &#238;n contul 542, angajatul aduce
+bonurile, iar validarea decontului contabilizeaz&#259; chitan&#539;ele de achizi&#539;ie, diurna &#537;i diferen&#539;a de
+restituit sau de pl&#259;tit, p&#226;n&#259; c&#226;nd contul 542 al angajatului ajunge la zero.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Avans &#238;n contul 542</span><div>Avansul se pl&#259;te&#537;te din registrul de cas&#259; &#537;i se &#238;nregistreaz&#259; &#238;n
+  contul 542 al angajatului.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Bonurile ca linii de decont</span><div>Fiecare linie este un bon, introdus cu TVA inclus; validarea
+  creeaz&#259; chitan&#539;ele de achizi&#539;ie &#537;i le deconteaz&#259; din avans. O linie poate fi &#537;i o plat&#259; c&#259;tre un
+  furnizor f&#259;cut&#259; din avans.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Diurn&#259;</span><div>O sum&#259; pe zi (implicit 42,5) &#238;nmul&#539;it&#259; cu num&#259;rul de zile, &#238;nregistrat&#259; &#238;ntr-un cont
+  de cheltuieli cu deplas&#259;rile (implicit 625).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Diferen&#539;a decontat&#259;</span><div>Ce r&#259;m&#226;ne din avans este restituit de angajat, iar ce s-a cheltuit peste
+  avans i se pl&#259;te&#537;te angajatului, prin registrul de cas&#259;.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Roluri de aprobare</span><div>Angajat, Aprobator &#537;i Contabil: aprobatorul valideaz&#259; avansul, doar
+  contabilul contabilizeaz&#259; sau anuleaz&#259; decontul.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Vederea angajatului</span><div>Un buton pe fi&#537;a angajatului arat&#259; deconturile lui; fiecare decont se
+  poate tip&#259;ri.</div></div></li></ul>
+<p>Modulul nu &#238;nlocuie&#537;te aplica&#539;ia standard de cheltuieli (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>), care ramburseaz&#259;
+cheltuielile pl&#259;tite de angaja&#539;i &#537;i nu are avans de trezorerie. Cele dou&#259; pot fi folosite &#238;n aceea&#537;i baz&#259; de date.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Configurare</h3>
+<ol>
+<li>Preg&#259;ti&#539;i un jurnal al c&#259;rui cont implicit este <strong>542</strong> (avansuri de trezorerie). Alege&#539;i-l ca
+   <strong>Expense Journal</strong> pe fiecare decont.</li>
+<li><strong>Registrul de cas&#259;</strong> (implicit primul registru de cas&#259;), <strong>jurnalul de diurn&#259;</strong> (un jurnal
+   general) &#537;i <strong>contul de diurn&#259;</strong> (implicit 625) se completeaz&#259; pe decont &#537;i pot fi schimbate acolo.</li>
+<li>&#206;n <em>Set&#259;ri &gt; Utilizatori</em>, da&#539;i fiec&#259;rui utilizator un rol pentru deconturi: <strong>Angajat</strong>,
+   <strong>Aprobator</strong> sau <strong>Contabil</strong>.</li>
+<li>Pe fiecare angajat, <strong>contactul de lucru</strong> este folosit ca partener pe notele contabile; f&#259;r&#259;
+   el, notele se &#238;nregistreaz&#259; f&#259;r&#259; partener.</li>
+</ol>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
+<ol>
+<li>&#206;n <em>Contabilitate &gt; Furnizori &gt; Expenses Deduction</em>, crea&#539;i un decont pentru angajat, cu suma &#537;i
+   data avansului, &#537;i ap&#259;sa&#539;i <strong>Advance</strong>: avansul se &#238;nregistreaz&#259; &#238;n contul 542 pe registrul de
+   cas&#259;.</li>
+<li>La &#238;ntoarcere, ad&#259;uga&#539;i bonurile ca linii (suma cu TVA inclus, furnizorul, contul) &#537;i, pentru o
+   deplasare, num&#259;rul de zile de diurn&#259;.</li>
+<li>Contabilul apas&#259; <strong>Validate</strong>: se contabilizeaz&#259; chitan&#539;ele de achizi&#539;ie, decontarea lor din 542,
+   diurna &#537;i plata diferen&#539;ei, iar decontul trece &#238;n starea <strong>Efectuat</strong>.</li>
+<li><strong>Invalidate</strong> anuleaz&#259; un decont validat, ca s&#259; poat&#259; fi corectat.</li>
+</ol>
+<p>Exemplu: un avans de 1.000 RON &#537;i bonuri de 800 RON las&#259; 200 RON de restituit de c&#259;tre angajat;
+dup&#259; validare, soldul contului 542 al angajatului este zero.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.3.3.3 (2026-10-07)</h2>
+<ul>
+<li>Apps Store page in English (it was in Romanian), written from the 20.0 code, with
+  Configuration and Usage sections, and the Romanian translation in its own tab
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/*.ro.md</code>). The test scenario is left out of the page. Summary in English; support
+  address.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.3.3.2 (2026-10-04)</h2>
 <ul>
 <li><strong>Fix (EXPENSES-002): the expense lines are always in the company currency
