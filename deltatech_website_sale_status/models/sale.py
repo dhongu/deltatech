@@ -3,7 +3,17 @@
 # See README.rst file on addons root folder for license details
 
 
+from datetime import timedelta
+
 from odoo import api, fields, models
+
+# Parameter of the detailed stage: the website quotation sent to the customer
+# is `placed` and the stage follows the carrier status of the transfers.
+DETAILED_STAGE_PARAM = "deltatech_website_sale_status.detailed_stage"
+# The carrier status is tracked for the transfers validated in the last days
+# (`_cron_get_status_history`). An older transfer keeps the last status read,
+# which is not the final one when the carrier stopped answering.
+CARRIER_TRACKING_DAYS = 30
 
 
 class SaleOrder(models.Model):
@@ -40,10 +50,11 @@ class SaleOrder(models.Model):
         "postponed_delivery",
     )
     def _compute_stage(self):
+        detailed = self._is_detailed_stage()
         for order in self:
             order.stage = "in_process"
 
-            if order.state == "sent" and order.website_id:
+            if detailed and order.state == "sent" and order.website_id:
                 order.stage = "placed"
             elif order.state == "draft" and order.website_id:
                 order.stage = False
@@ -63,8 +74,9 @@ class SaleOrder(models.Model):
                     order.stage = "to_be_delivery"
                 else:
                     order.stage = "delivered"
+                    final_states = ["draft", "delivered", "pre_advice"] if detailed else ["draft", "delivered"]
                     for picking in order.picking_ids:
-                        if picking.delivery_state not in ["draft", "delivered", "pre_advice"]:
+                        if picking.delivery_state not in final_states:
                             order.stage = "in_delivery"
 
                 for picking in order.picking_ids:
@@ -96,8 +108,18 @@ class SaleOrder(models.Model):
                     if all_delivered:
                         order.stage = "delivered"
 
-                if order.stage in ["to_be_delivery", "delivered"]:
+                if detailed and order.stage in ["to_be_delivery", "delivered"]:
                     order.stage = order._get_stage_from_delivery_state() or order.stage
+
+    @api.model
+    def _is_detailed_stage(self):
+        """The detailed stage is enabled in the Sales settings (off by default).
+
+        Off, the order is `delivered` at the validation of its transfers. On,
+        the website quotation sent to the customer is `placed` and the stage
+        follows the carrier status of the transfers.
+        """
+        return bool(self.env["ir.config_parameter"].sudo().get_param(DETAILED_STAGE_PARAM))
 
     def _get_stage_from_delivery_state(self):
         """Stage given by the carrier status (`delivery_state`) of the transfers.
@@ -108,9 +130,17 @@ class SaleOrder(models.Model):
         carrier (`in_transit`/`in_warehouse`/`in_delivery`) or delivered to
         all its recipients (`delivered`). Returns False when the carrier gave
         no such status, and the stock stage stays.
+
+        Only the transfers still tracked count: a transfer validated more than
+        `CARRIER_TRACKING_DAYS` ago keeps the last status read, not the final
+        one, and the order keeps its stock stage.
         """
         self.ensure_one()
-        delivery_states = set(self.picking_ids.filtered(lambda p: p.state != "cancel").mapped("delivery_state"))
+        tracked_since = fields.Datetime.now() - timedelta(days=CARRIER_TRACKING_DAYS)
+        pickings = self.picking_ids.filtered(
+            lambda p: p.state != "cancel" and (not p.date_done or p.date_done >= tracked_since)
+        )
+        delivery_states = set(pickings.mapped("delivery_state"))
         if delivery_states & {"in_transit", "in_warehouse", "in_delivery"}:
             return "in_delivery"
         if "pre_advice" in delivery_states:

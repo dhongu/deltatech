@@ -86,3 +86,35 @@ msgstr "De livrat"
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__waiting
 msgid "Waiting availability"
 msgstr "Așteaptă disponibilitate"
+
+#. module: deltatech_website_sale_status
+#: model:ir.model,name:deltatech_website_sale_status.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields,field_description:deltatech_website_sale_status.field_res_config_settings__sale_detailed_stage
+msgid "Detailed order stage"
+msgstr "Etapă detaliată a comenzii"
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields,help:deltatech_website_sale_status.field_res_config_settings__sale_detailed_stage
+msgid ""
+"The website quotation sent to the customer is Placed and the order stage "
+"follows the carrier status of the parcel (Pre advice, In Delivery) until the"
+" carrier delivers it. Off, the order is Delivered at the validation of the "
+"delivery. Applies to the orders whose stage is recomputed from now on."
+msgstr ""
+"Oferta de pe website trimisă clientului este Plasată, iar etapa comenzii "
+"urmează statusul coletului transmis de curier (Preavizare, În livrare) până "
+"când curierul îl livrează. Dezactivată, comanda este Livrată la validarea "
+"livrării. Se aplică comenzilor a căror etapă se recalculează de acum înainte."
+
+#. module: deltatech_website_sale_status
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.res_config_settings_view_form
+msgid ""
+"Website quotations sent are Placed and the order stage follows the carrier "
+"status of the parcel"
+msgstr ""
+"Ofertele trimise de pe website sunt Plasate, iar etapa comenzii urmează "
+"statusul coletului transmis de curier"
