@@ -3,10 +3,11 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Team Logo",
-    "summary": "Logo de firmă în rapoarte în funcție de echipa de vânzare",
-    "version": "20.0.1.0.1",
+    "summary": "A different logo on PDF reports for each sales team",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "support": "support@terrabit.ro",
     "license": "LGPL-3",
     "category": "Sales/CRM",
     "depends": [
