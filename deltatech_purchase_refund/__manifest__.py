@@ -4,10 +4,11 @@
 
 {
     "name": "Refund Purchase",
-    "summary": "Generare factura storno pentru retururi",
-    "version": "18.0.1.0.1",
+    "summary": "Vendor credit notes for negative quantities",
+    "version": "18.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "support": "support@terrabit.ro",
     "category": "Purchases",
     "depends": ["base", "purchase_stock", "stock"],
     "price": 5.00,
