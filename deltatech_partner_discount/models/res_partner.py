@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
 
 class ResPartner(models.Model):
@@ -23,3 +24,12 @@ class ResPartner(models.Model):
                 if "discount" in vals and vals["discount"] > 0.0:
                     raise UserError(self.env._("Your user cannot create a partner with discount."))
         return super().create(vals_list)
+
+    def write(self, vals):
+        # The onchange above is only UI feedback: import, RPC and server-side writes bypass it.
+        if "discount" in vals and not self.env.su:
+            new_discount = vals["discount"] or 0.0
+            changed = any(float_compare(partner.discount, new_discount, precision_digits=6) for partner in self)
+            if changed and not self.env.user.has_group("deltatech_partner_discount.group_partner_discount"):
+                raise UserError(self.env._("Your user cannot modify the discount."))
+        return super().write(vals)
