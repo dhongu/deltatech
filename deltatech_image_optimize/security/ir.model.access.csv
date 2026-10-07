@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_product_image_duplicate_user,deltatech.product.image.duplicate.user,model_deltatech_product_image_duplicate,base.group_user,1,0,0,0
 access_product_image_dedup_manager,deltatech.product.image.dedup.manager,model_deltatech_product_image_dedup,base.group_system,1,1,1,1
+access_image_background_wizard,deltatech.image.background.wizard,model_deltatech_image_background_wizard,product.group_product_manager,1,1,1,0
+access_image_background_wizard_line,deltatech.image.background.wizard.line,model_deltatech_image_background_wizard_line,product.group_product_manager,1,1,1,0
