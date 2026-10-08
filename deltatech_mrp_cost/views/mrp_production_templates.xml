@@ -74,7 +74,7 @@
                                 <span t-field="line.quantity" />
                                 <span t-field="line.product_uom.name" groups="uom.group_uom" />
                             </td>
-                            <t t-set="value" t-value="-sum(line.mapped('stock_valuation_layer_ids.value'))" />
+                            <t t-set="value" t-value="line.value" />
                             <td class="text-right">
                                 <span t-if="line.quantity">
                                    <span t-field="line.price_unit" />
@@ -84,7 +84,7 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                <span t-esc="abs(value)" t-options='{"widget": "float", "precision": 2}' />
+                                <span t-esc="value" t-options='{"widget": "float", "precision": 2}' />
                             </td>
                         </tr>
                     </t>
@@ -113,7 +113,7 @@
                 <span t-field="raw_line.quantity" />
                 <span t-field="raw_line.product_uom.name" groups="uom.group_uom" />
             </td>
-            <t t-set="value" t-value="-sum(raw_line.mapped('stock_valuation_layer_ids.value'))" />
+            <t t-set="value" t-value="raw_line.value" />
             <td t-attf-class="text-end">
                 <span t-if="raw_line.quantity">
                     <t t-set="price_unit" t-value="value/raw_line.quantity" />
