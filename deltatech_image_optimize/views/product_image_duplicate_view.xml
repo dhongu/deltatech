@@ -9,7 +9,7 @@
                 <field name="sample_image" widget="image" options="{'size': [64, 64]}" />
                 <field name="image_count" sum="Copies" />
                 <field name="product_count" sum="Products" />
-                <field name="removable_count" sum="Removable" decoration-warning="removable_count > 0" />
+                <field name="removable_count" sum="Removable" decoration-warning="removable_count > 0" width="100px" />
                 <field name="product_names" />
                 <field name="image_checksum" optional="hide" />
                 <button
