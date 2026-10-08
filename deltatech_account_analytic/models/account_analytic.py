@@ -17,10 +17,16 @@ class AccountAnalyticLine(models.Model):
         for vals in vals_list:
             if "move_line_id" in vals and vals["move_line_id"]:
                 move_line_id = self.env["account.move.line"].browse(vals["move_line_id"])
-                stock_move_id = move_line_id.move_id.stock_move_ids[:1]
+                # stock_move_ids comes from stock_account, which is not a dependency of this module
+                stock_move_id = (
+                    move_line_id.move_id.stock_move_ids[:1]
+                    if "stock_move_ids" in move_line_id.move_id._fields
+                    else False
+                )
                 if move_line_id.move_id.move_type == "entry" and stock_move_id:
                     picking_id = stock_move_id.picking_id
-                    if picking_id and picking_id.sale_id:
+                    # sale_id on transfers comes from sale_stock
+                    if picking_id and "sale_id" in picking_id._fields and picking_id.sale_id:
                         vals["team_id"] = picking_id.sale_id.team_id.id
                 elif move_line_id.move_id.move_type in ["out_invoice", "out_refund", "out_receipt"]:
                     vals["team_id"] = move_line_id.move_id.team_id.id
