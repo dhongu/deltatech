@@ -39,6 +39,7 @@ class TestImageBackground(TransactionCase):
         super().setUp()
         self.startPatcher(patch.object(ir_attachment, "_rembg_cutout", _fake_cutout))
         self.startPatcher(patch.object(image_background, "_rembg_available", lambda: True))
+        self.startPatcher(patch.object(ir_attachment, "_rembg_available", lambda: True))
 
     def _set_param(self, key, value):
         self.env["ir.config_parameter"].sudo().set_param(f"deltatech_image_optimize.{key}", value)
@@ -127,6 +128,7 @@ class TestImageBackground(TransactionCase):
         self.assertEqual(self.product.bg_removal_state, "done")
 
     def test_empty_cutout_is_not_applied(self):
+        self._set_param("bg_method", "rembg")
         with patch.object(ir_attachment, "_rembg_cutout", lambda img, m: img.convert("RGBA").point(lambda v: 0)):
             wizard = self._run(self.product)
 
@@ -135,5 +137,96 @@ class TestImageBackground(TransactionCase):
         self.assertEqual(self.product.image_1920, self.image)
 
     def test_missing_rembg_raises(self):
+        self._set_param("bg_method", "rembg")
         with patch.object(image_background, "_rembg_available", lambda: False), self.assertRaises(UserError):
             self.product.action_dt_remove_background()
+
+    # === uniform background ===#
+
+    def _product_with(self, draw, background=BG_COLOR):
+        """Un produs nou, cu imaginea desenată de ``draw`` peste imaginea de bază."""
+        img = Image.new("RGB", (400, 300), background)
+        img.paste(Image.new("RGB", (200, 50), PRODUCT_COLOR), (50, 100))
+        draw(img)
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        return self.env["product.template"].create({"name": "BG Extra", "image_1920": base64.b64encode(buf.getvalue())})
+
+    @staticmethod
+    def _accessory(img):
+        # accesoriu închis la culoare, separat de produs, ca pâlnia de lângă flacon
+        img.paste(Image.new("RGB", (40, 60), (15, 15, 15)), (300, 80))
+
+    def test_uniform_background_keeps_accessory(self):
+        product = self._product_with(self._accessory)
+        self._run(product)
+
+        result = self._decoded(product).convert("RGBA")
+        self.assertEqual(result.getpixel((320, 110))[3], 255, "the accessory stays")
+        self.assertEqual(result.getpixel((150, 125))[3], 255)
+        self.assertEqual(result.getpixel((5, 5))[3], 0)
+
+    def test_ai_model_dropping_accessory_is_flagged(self):
+        def drops_accessory(img, model_name):
+            rgba = _fake_cutout(img, model_name)
+            rgba.paste((0, 0, 0, 0), (290, 70, 350, 150))
+            return rgba
+
+        product = self._product_with(self._accessory)
+        self._set_param("bg_method", "rembg")
+        with patch.object(ir_attachment, "_rembg_cutout", drops_accessory):
+            action = product.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+
+        self.assertTrue(wizard.line_ids.image_after)
+        self.assertTrue(wizard.line_ids.warning)
+        self.assertFalse(wizard.line_ids.to_apply, "a suspicious cut-out is unticked")
+        self.assertEqual(wizard.warning_count, 1)
+
+        # aceeași imagine, refăcută din wizard cu fundalul uniform, nu mai e suspectă
+        wizard.method = "uniform"
+        wizard.action_refresh()
+        self.assertFalse(wizard.line_ids.warning)
+        self.assertTrue(wizard.line_ids.to_apply)
+
+    def test_specks_are_removed(self):
+        product = self._product_with(lambda img: img.paste(Image.new("RGB", (3, 3), (40, 40, 40)), (350, 250)))
+        self._run(product)
+
+        self.assertEqual(self._decoded(product).convert("RGBA").getpixel((351, 251))[3], 0)
+
+    def test_white_inside_product_stays_opaque(self):
+        # zonă de culoarea fundalului închisă în produs (eticheta albă a unui flacon)
+        product = self._product_with(lambda img: img.paste(Image.new("RGB", (40, 20), BG_COLOR), (120, 115)))
+        self._run(product)
+
+        self.assertEqual(self._decoded(product).convert("RGBA").getpixel((140, 125))[3], 255)
+
+    def test_without_rembg_only_uniform_backgrounds(self):
+        def gradient(img):
+            for x in range(img.width):
+                img.paste((x * 255 // img.width, 80, 160), (x, 0, x + 1, 30))
+
+        product = self._product_with(gradient)
+        with (
+            patch.object(image_background, "_rembg_available", lambda: False),
+            patch.object(ir_attachment, "_rembg_available", lambda: False),
+        ):
+            action = (product | self.product).action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+
+        lines = {line.res_id: line for line in wizard.line_ids}
+        self.assertFalse(lines[product.id].image_after, "a real background needs the AI model")
+        self.assertIn("rembg", lines[product.id].warning)
+        self.assertTrue(lines[self.product.id].image_after)
+
+    def test_gallery_line_names_show_position(self):
+        self.env["product.image"].create(
+            {"name": "BG Test", "image_1920": self.image, "product_tmpl_id": self.product.id}
+        )
+        action = self.product.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+
+        names = wizard.line_ids.mapped("name")
+        self.assertIn("main image", names[0])
+        self.assertIn("gallery image 1", names[1])

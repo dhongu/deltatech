@@ -155,12 +155,34 @@ in a wizard:
 - When the model finds no object in an image, it is left untouched: unticked in
   the preview, marked *Failed* (``bg_removal_state = error``) in the queue.
 
-### Requirement: the rembg library
+### How the product is cut out
+
+| Method (``bg_method``) | When | What it does |
+| --- | --- | --- |
+| ``uniform`` | photo on a plain background (white, studio grey) | no AI model: the background is what has the color of the image border and touches it; dark accessories next to the product are kept, white areas inside the product stay |
+| ``rembg`` | photo on a real background | the AI model ``bg_model`` |
+| ``auto`` (default) | any | ``uniform`` when at least 90% of the image border has one color, otherwise ``rembg`` |
+
+After the cut-out, pieces smaller than ``bg_min_island`` percent of the main
+object are removed — the specks a model leaves next to the product.
+
+The AI model tends to keep only the main object: on a bottle with a funnel
+beside it, the funnel is cut away or broken in pieces. When the model works on
+a plain background, its result is compared with the color cut-out; if it left
+out at least ``bg_lost_warning`` percent of the product, the line gets a
+warning and is **unticked**.
+
+In the wizard, the method and the AI model can be changed and the preview
+refreshed; the result is shown on a checkerboard, so the transparent parts and
+any leftovers are visible. The queue always uses the system parameters.
+
+### Requirement for photos on a real background: the rembg library
 
 The cut-out is done by [rembg](https://github.com/danielgatis/rembg), a local
 segmentation model on ONNX Runtime — images are not sent to any external
 service. It is an **optional** dependency, not declared in the manifest, so the
-module still installs where it is missing; the action then says what to add.
+module still installs where it is missing; images on a plain background are then
+cut out by color, and the others say in the wizard what to add.
 Add it to the ``requirements.txt`` of the deployment:
 
 ```
@@ -173,6 +195,10 @@ while it runs. On CPU an image takes about one second.
 
 | Key | Default | Meaning |
 | --- | --- | --- |
+| ``deltatech_image_optimize.bg_method`` | auto | ``auto``, ``uniform`` (by color, no AI model) or ``rembg`` (AI model) |
+| ``deltatech_image_optimize.bg_tolerance`` | 24 | how far (0..255 per channel) a pixel may be from the border color and still be background; raise it for noisy JPEGs or soft shadows |
+| ``deltatech_image_optimize.bg_min_island`` | 1 | pieces smaller than this percent of the main object are removed; 0 = keep all |
+| ``deltatech_image_optimize.bg_lost_warning`` | 5 | warn and untick when the AI model left out this percent of a product on a plain background |
 | ``deltatech_image_optimize.bg_model`` | isnet-general-use | rembg model; ``birefnet-general`` is finer but ~10x slower and 970 MB |
 | ``deltatech_image_optimize.bg_crop`` | 0 | 1 = frame the product in a square, 0 = keep the original canvas |
 | ``deltatech_image_optimize.bg_margin`` | 5 | margin around the product, in percent, when cropping |

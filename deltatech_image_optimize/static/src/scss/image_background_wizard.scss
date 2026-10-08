@@ -1,0 +1,6 @@
+// imaginea fără fundal, pe tablă de șah: transparența și urmele rămase se văd în orice temă
+.o_dt_bg_checker img {
+    background-color: #ffffff;
+    background-image: conic-gradient(#d0d0d0 25%, #ffffff 0 50%, #d0d0d0 0 75%, #ffffff 0);
+    background-size: 16px 16px;
+}

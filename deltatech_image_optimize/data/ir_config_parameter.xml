@@ -84,7 +84,37 @@
         <field name="value">20480</field>
     </record>
 
-    <!-- Background removal (needs the optional Python library rembg).
+    <!-- Background removal method: uniform = the background is the color of the
+         image border (photos on white), no AI model, keeps dark accessories;
+         rembg = AI model below; auto = uniform when the border has a single
+         color, otherwise rembg. -->
+    <record id="cp_bg_method" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_method</field>
+        <field name="value">auto</field>
+    </record>
+
+    <!-- How far (0..255, per channel) a pixel may be from the border color and
+         still count as background. Raise it for noisy JPEGs or soft shadows. -->
+    <record id="cp_bg_tolerance" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_tolerance</field>
+        <field name="value">24</field>
+    </record>
+
+    <!-- Pieces smaller than this percent of the main object are removed
+         (specks left next to the product). 0 = keep everything. -->
+    <record id="cp_bg_min_island" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_min_island</field>
+        <field name="value">1</field>
+    </record>
+
+    <!-- On a uniform background, warn and untick the image when the AI model
+         left out at least this percent of the product. -->
+    <record id="cp_bg_lost_warning" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_lost_warning</field>
+        <field name="value">5</field>
+    </record>
+
+    <!-- Background removal with the AI model (needs the optional Python library rembg).
          rembg model: isnet-general-use is fast (~1 s/image on CPU, 180 MB);
          birefnet-general is finer but ~10x slower and 970 MB. -->
     <record id="cp_bg_model" model="ir.config_parameter">
