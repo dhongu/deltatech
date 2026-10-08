@@ -1,3 +1,16 @@
+## 20.0.1.0.0 (2026-10-08)
+
+- Migration to 20.0: access rights in `security/ir.access.csv`, icons
+  without Font Awesome, `zoneinfo` instead of `pytz`, `date_from` instead
+  of the removed `date` of the vehicle services (fuel log order and
+  odometer, map sheet report).
+- The cost analysis uses the standard query: Odoo 20 groups the service
+  and contract costs by service type (`service_type`), which replaces the
+  module's own SQL view and its `cost_type_id` column.
+- The company fields of the vehicle (ownership, contract, utilized by)
+  offer only companies, not their contacts (`is_company` is computed from
+  the VAT in 20.0).
+
 ## 19.0.1.0.0 (2026-10-08)
 
 - Migration to 19.0: `models.Constraint` instead of `_sql_constraints`,

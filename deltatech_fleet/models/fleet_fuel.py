@@ -22,7 +22,7 @@ class FleetVehicleLogFuel(models.Model):
     _inherits = {"fleet.vehicle.log.services": "log_service_id"}
     _name = "fleet.vehicle.log.fuel"
     _description = "Vehicle Fuel Log"
-    _order = "date desc"
+    _order = "date_from desc"
 
     name = fields.Char()
     liter = fields.Float()
@@ -113,7 +113,7 @@ class FleetVehicleLogFuel(models.Model):
             odometer = self.env["fleet.vehicle.odometer"].create(
                 {
                     "value": record.odometer,
-                    "date": record.date or fields.Date.context_today(record),
+                    "date": record.date_from or fields.Date.context_today(record),
                     "vehicle_id": record.vehicle_id.id,
                 }
             )

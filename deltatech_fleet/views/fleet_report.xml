@@ -15,7 +15,6 @@
             <field name="model">fleet.map.sheet</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_fleet.report_map_sheet</field>
-            <field name="report_file">deltatech_fleet.report_map_sheet</field>
         <field name="binding_type">report</field>
         </record>
 

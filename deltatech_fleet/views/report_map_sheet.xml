@@ -190,7 +190,7 @@
                             <tbody>
                                 <tr t-foreach="o.log_fuel_ids" t-as="log_fuel">
                                     <td>
-                                        <span t-field="log_fuel.date" />
+                                        <span t-field="log_fuel.date_from" />
                                     </td>
                                     <td>
                                         <span t-field="log_fuel.inv_ref" />

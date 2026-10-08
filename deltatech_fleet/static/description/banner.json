@@ -1,0 +1,10 @@
+{
+  "title": "Fleet Map Sheets & Fuel",
+  "summary": "Route sheets, fuel logs and fuel cards for your vehicles",
+  "icon": "truck",
+  "features": [
+    "Map sheets with routes, odometer & consumption",
+    "Fuel logs, fuel cards & reservoir level",
+    "Cost per kilometre report per vehicle"
+  ]
+}

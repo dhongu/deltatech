@@ -14,7 +14,7 @@ Deltatech Fleet Geo
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fleet_geo
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_fleet_geo
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -35,6 +35,11 @@ Features:
 
 Changelog
 =========
+
+20.0.1.0.0 (2026-10-08)
+-----------------------
+
+- Migration to 20.0.
 
 19.0.1.0.0 (2026-10-08)
 -----------------------
@@ -76,6 +81,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_fleet_geo>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_fleet_geo>`_ project on GitHub.
 
 You are welcome to contribute.

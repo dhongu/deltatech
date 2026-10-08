@@ -134,7 +134,7 @@ class TestFleet(TransactionCase):
     def test_cost_report(self):
         self._create_fuel_log(30, fields.Datetime.now())
         lines = self.env["fleet.vehicle.cost.report"].search_read(
-            [("vehicle_id", "=", self.vehicle.id)], ["vehicle_type", "cost", "cost_type_id"]
+            [("vehicle_id", "=", self.vehicle.id)], ["vehicle_type", "cost", "service_type"]
         )
         self.assertTrue(lines)
 

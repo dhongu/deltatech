@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Deltatech Fleet",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
@@ -18,7 +18,7 @@
         "views/fleet_report.xml",
         "views/report_map_sheet.xml",
         "wizard/fleet_dist_report_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

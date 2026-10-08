@@ -2,9 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from datetime import datetime
-
-import pytz
+from datetime import UTC, datetime
+from zoneinfo import ZoneInfo
 
 from odoo import api, fields, models
 
@@ -42,16 +41,22 @@ class FleetVehicle(models.Model):
 
     # usage_mod = fields.Selection([()])
     allocation_mode = fields.Char("Allocation mode")
+    # 20.0: is_company is computed from the VAT and the contacts of a company
+    # inherit it, so the company itself is the one without a parent
     ownership_partner_id = fields.Many2one(
-        "res.partner", string="Ownership Company", domain=[("is_company", "=", True)]
+        "res.partner",
+        string="Ownership Company",
+        domain=[("is_company", "=", True), ("parent_id", "=", False)],
     )
     contract_partner_id = fields.Many2one(
         "res.partner",
         string="Contract Owner Company",
-        domain=[("is_company", "=", True)],
+        domain=[("is_company", "=", True), ("parent_id", "=", False)],
     )
     utilized_partner_id = fields.Many2one(
-        "res.partner", string="Utilized by company", domain=[("is_company", "=", True)]
+        "res.partner",
+        string="Utilized by company",
+        domain=[("is_company", "=", True), ("parent_id", "=", False)],
     )
 
     division = fields.Many2one("fleet.division")
@@ -79,14 +84,14 @@ class FleetVehicle(models.Model):
     @api.model
     def _conv_local_datetime_to_utc(self, date):
         tz_name = self.env.context["tz"]
-        local = pytz.timezone(tz_name)
+        local = ZoneInfo(tz_name)
         if isinstance(date, str):
             naive = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
         else:
             naive = date
         if naive.tzinfo is None:
-            local_dt = local.localize(naive, is_dst=None)
+            local_dt = naive.replace(tzinfo=local)
         else:
             local_dt = naive
-        utc_dt = local_dt.astimezone(pytz.utc)
+        utc_dt = local_dt.astimezone(UTC)
         return utc_dt.strftime("%Y-%m-%d %H:%M:%S")

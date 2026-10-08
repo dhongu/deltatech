@@ -51,7 +51,7 @@
                                     class="oe_inline oe_edit_only"
                                     string="Read odometer start"
                                     invisible="state!='draft'"
-                                    icon="fa-calculator"
+                                    icon="calculate"
                                 />
                                 <field name="odometer_start" class="oe_inline" />
                             </div>
@@ -71,7 +71,7 @@
                                     class="oe_inline oe_edit_only"
                                     string="Read odometer end"
                                     invisible="state!='draft'"
-                                    icon="fa-calculator"
+                                    icon="calculate"
                                 />
                                 <field name="odometer_end" class="oe_inline" />
                             </div>

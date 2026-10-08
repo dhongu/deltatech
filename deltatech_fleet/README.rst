@@ -14,7 +14,7 @@ Deltatech Fleet
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fleet
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_fleet
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -48,6 +48,20 @@ Features:
 
 Changelog
 =========
+
+20.0.1.0.0 (2026-10-08)
+-----------------------
+
+- Migration to 20.0: access rights in ``security/ir.access.csv``, icons
+  without Font Awesome, ``zoneinfo`` instead of ``pytz``, ``date_from``
+  instead of the removed ``date`` of the vehicle services (fuel log
+  order and odometer, map sheet report).
+- The cost analysis uses the standard query: Odoo 20 groups the service
+  and contract costs by service type (``service_type``), which replaces
+  the module's own SQL view and its ``cost_type_id`` column.
+- The company fields of the vehicle (ownership, contract, utilized by)
+  offer only companies, not their contacts (``is_company`` is computed
+  from the VAT in 20.0).
 
 19.0.1.0.0 (2026-10-08)
 -----------------------
@@ -102,6 +116,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_fleet>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_fleet>`_ project on GitHub.
 
 You are welcome to contribute.
