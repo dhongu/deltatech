@@ -1,3 +1,26 @@
+# 19.0.1.11.0
+
+- Background removal keeps what the AI model loses. Product photos on a plain
+  background (white, studio grey) are now cut out by color, without the AI
+  model: the background is what has the color of the image border and touches
+  it. Dark accessories next to the product (the black funnel beside a bottle)
+  are kept whole, and white areas inside the product (a label) stay opaque.
+  The AI model is still used for photos on a real background; method
+  ``deltatech_image_optimize.bg_method`` = ``auto`` (default), ``uniform`` or
+  ``rembg``. Without ``rembg`` installed, images on a plain background can now
+  be cut out too.
+- Specks left next to the product are removed: pieces smaller than
+  ``bg_min_island`` percent (default 1) of the main object.
+- When the AI model leaves out part of a product on a plain background, the
+  image gets a warning in the wizard and is **unticked**; it is applied only if
+  ticked by hand.
+- In the wizard: choose the method and the AI model and **Refresh Preview**;
+  the result is shown on a checkerboard, so leftovers are visible in any theme;
+  each line says whether it is the main image or which gallery image of which
+  product; larger previews.
+- Works with Pillow 9.0 too (no ``Image.Resampling`` there), the oldest
+  version Odoo 19 accepts.
+
 # 19.0.1.10.0
 
 - Remove the background of product images: **Action → Remove Image Background**

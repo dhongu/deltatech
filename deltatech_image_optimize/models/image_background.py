@@ -35,12 +35,14 @@ class ImageBackgroundMixin(models.AbstractModel):
         """Deschide wizard-ul: previzualizare pentru puține imagini, coadă pentru multe.
 
         Originalul nu se păstrează după aplicare (ar dubla imaginile în baza de
-        date), deci verificarea se face înainte, în wizard.
+        date), deci verificarea se face înainte, în wizard. Fără rembg se pot
+        decupa doar imaginile pe fundal uniform.
         """
-        if not _rembg_available():
+        params = self.env["ir.attachment"]._dt_bg_params()
+        if params["method"] == "rembg" and not _rembg_available():
             raise UserError(
                 self.env._(
-                    "Background removal needs the Python library rembg. "
+                    "Background removal with the AI model needs the Python library rembg. "
                     'Add "rembg[cpu]" to the requirements.txt of the deployment and rebuild.'
                 )
             )
@@ -53,6 +55,7 @@ class ImageBackgroundMixin(models.AbstractModel):
             "res_id": wizard.id,
             "view_mode": "form",
             "target": "new",
+            "context": {"dialog_size": "extra-large"},
         }
 
     # === HELPERS ===#
@@ -61,16 +64,22 @@ class ImageBackgroundMixin(models.AbstractModel):
         """Recordurile ale căror imagini le atinge acțiunea, grupate pe model."""
         return [self]
 
+    def _dt_bg_line_name(self):
+        """Numele imaginii în wizard."""
+        self.ensure_one()
+        return self.display_name
+
     def _dt_bg_cutout(self, params):
-        """Imaginea fără fundal, ca PNG, fără să scrie nimic; ``None`` la eșec."""
+        """Imaginea fără fundal, ca PNG, fără să scrie nimic.
+
+        :return: ``(png, avertisment)``; ``png`` este ``None`` la eșec.
+        """
         self.ensure_one()
         try:
-            return self.env["ir.attachment"]._dt_image_remove_background(
-                base64.b64decode(self[IMAGE_FIELD]), params["model"], params["crop"], params["margin"], params["color"]
-            )
+            return self.env["ir.attachment"]._dt_image_cutout(base64.b64decode(self[IMAGE_FIELD]), params)
         except Exception as exc:  # noqa: BLE001 - o imagine stricată nu oprește lotul
             _logger.warning("Background removal failed for %s(%s): %s", self._name, self.id, exc)
-            return None
+            return None, str(exc)
 
     def _dt_bg_apply(self, data):
         """Scrie imaginea fără fundal și o trece pe WebP, cu variante cu tot."""
@@ -81,8 +90,9 @@ class ImageBackgroundMixin(models.AbstractModel):
 
     def _dt_bg_remove(self, params):
         """Elimină fundalul fără previzualizare (coada procesată de cron)."""
-        data = self._dt_bg_cutout(params)
+        data, warning = self._dt_bg_cutout(params)
         if not data:
+            _logger.info("Background not removed for %s(%s): %s", self._name, self.id, warning)
             self.bg_removal_state = "error"
             return False
         self._dt_bg_apply(data)
@@ -126,10 +136,28 @@ class ProductTemplate(models.Model):
         # pe produs, acțiunea curăță și imaginile suplimentare din galerie
         return [self, self.product_template_image_ids]
 
+    def _dt_bg_line_name(self):
+        self.ensure_one()
+        return self.env._("%(product)s — main image", product=self.display_name)
+
 
 class ProductImage(models.Model):
     _name = "product.image"
     _inherit = ["product.image", "deltatech.image.background.mixin"]
+
+    def _dt_bg_line_name(self):
+        # numele imaginii din galerie e de obicei numele produsului: arătăm și poziția,
+        # ca o imagine pusă la produsul greșit să se vadă
+        self.ensure_one()
+        owner = self.product_variant_id or self.product_tmpl_id
+        if not owner:
+            return self.display_name
+        gallery = owner.product_variant_image_ids if self.product_variant_id else owner.product_template_image_ids
+        position = gallery.ids.index(self.id) + 1 if self.id in gallery.ids else 0
+        name = self.env._("%(product)s — gallery image %(position)s", product=owner.display_name, position=position)
+        if self.name and self.name not in owner.display_name:
+            name = f"{name} ({self.name})"
+        return name
 
     def _dt_bg_compress_attachments(self):
         res = super()._dt_bg_compress_attachments()

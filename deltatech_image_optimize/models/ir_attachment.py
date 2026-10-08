@@ -6,6 +6,8 @@ import logging
 from odoo import api, fields, models
 from odoo.tools import SQL
 
+from . import bg_mask
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -73,6 +75,9 @@ def _webp_available():
             )
     return _WEBP_OK
 
+
+# metodele de decupare; vezi IrAttachment._dt_image_cutout
+BG_METHODS = ("auto", "uniform", "rembg")
 
 # o sesiune rembg încarcă modelul ONNX (~180 MB pentru isnet); o păstrăm per proces
 _REMBG_SESSIONS = {}
@@ -451,8 +456,13 @@ class IrAttachment(models.Model):
     @api.model
     def _dt_bg_params(self):
         get = self.env["ir.config_parameter"].sudo().get_param
+        method = get("deltatech_image_optimize.bg_method", "auto")
         return {
+            "method": method if method in BG_METHODS else "auto",
             "model": get("deltatech_image_optimize.bg_model", "isnet-general-use"),
+            "tolerance": max(1, min(80, int(get("deltatech_image_optimize.bg_tolerance", 24)))),
+            "min_island": max(0.0, float(get("deltatech_image_optimize.bg_min_island", 1))),
+            "lost_warning": max(0.0, float(get("deltatech_image_optimize.bg_lost_warning", 5))),
             "crop": get("deltatech_image_optimize.bg_crop", "0") in ("1", "True", "true"),
             "margin": max(0, min(40, int(get("deltatech_image_optimize.bg_margin", 5)))),
             "color": (get("deltatech_image_optimize.bg_color", "") or "").strip(),
@@ -460,19 +470,31 @@ class IrAttachment(models.Model):
             "batch": max(1, int(get("deltatech_image_optimize.bg_batch", 20))),
         }
 
-    @staticmethod
-    def _dt_image_remove_background(raw, model_name, crop=False, margin=5, color=""):
-        """Elimină fundalul din octeții unei imagini.
+    @api.model
+    def _dt_image_cutout(self, raw, params):
+        """Elimină fundalul din octeții unei imagini, fără să scrie nimic.
+
+        Metoda (``params["method"]``):
+
+        - ``uniform``: fundalul e culoarea marginilor (fotografie pe alb), fără
+          model ML; păstrează accesoriile închise la culoare, pe care modelul le
+          pierde des;
+        - ``rembg``: modelul ML ``params["model"]``, pentru fundaluri reale;
+        - ``auto``: ``uniform`` când marginile au o singură culoare, altfel ``rembg``.
+
+        După decupare, bucățile mai mici de ``min_island`` procente din produs se
+        elimină. Când modelul ML lucrează pe un fundal uniform și lasă deoparte o
+        parte din ce nu e fundal, rezultatul vine cu un avertisment.
 
         - ``crop``: încadrează produsul într-un pătrat, cu ``margin`` procente
           margine de jur împrejur; altfel păstrează pânza originală.
         - ``color``: fundal plin (de ex. ``#FFFFFF``) în locul transparenței.
 
-        :return: octeții unui PNG (RGBA, sau RGB când e dată o culoare), sau
-            ``None`` când modelul nu a găsit niciun obiect în imagine.
+        :return: ``(png, avertisment)``; ``png`` este ``None`` când nu s-a găsit
+            niciun obiect, iar avertismentul spune atunci de ce.
         """
         if not raw or Image is None:
-            return None
+            return None, ""
         # imaginile de produs sunt deseori WebP, iar Odoo nu înregistrează pluginul
         _webp_available()
         img = Image.open(io.BytesIO(raw))
@@ -480,23 +502,49 @@ class IrAttachment(models.Model):
         from PIL import ImageOps
 
         img = ImageOps.exif_transpose(img).convert("RGB")
-        out = _rembg_cutout(img, model_name).convert("RGBA")
-        bbox = out.getchannel("A").getbbox()
+        method, tolerance, min_island = params["method"], params["tolerance"], params["min_island"]
+        bg_color = bg_mask.border_color(img, tolerance)
+        reference = bg_color and bg_mask.uniform_alpha(img, bg_color, tolerance, min_island)
+        warning = ""
+        if method == "uniform" or (method == "auto" and reference):
+            if not bg_color:
+                return None, self.env._("The background is not a single color; use the AI model.")
+            alpha = reference
+        else:
+            if not _rembg_available():
+                if bg_color:
+                    return None, self.env._("The AI model (rembg) is not installed; use the uniform background method.")
+                return None, self.env._(
+                    "The background is not a single color and the AI model (rembg) is not installed."
+                )
+            alpha = _rembg_cutout(img, params["model"]).convert("RGBA").getchannel("A")
+            alpha = bg_mask.drop_islands(alpha, min_island)[0]
+            lost = reference and bg_mask.lost_share(reference, alpha)
+            if lost and lost * 100 >= params["lost_warning"]:
+                warning = self.env._(
+                    "The AI model left out about %(share)s%% of the product (accessories, thin parts). "
+                    "Check the result, or use the uniform background method.",
+                    share=round(lost * 100),
+                )
+        bbox = alpha.getbbox() if alpha else None
         if not bbox:
-            return None
-        if crop:
+            return None, self.env._("No product was found in the image.")
+        out = img.convert("RGBA")
+        out.putalpha(alpha)
+        if params["crop"]:
+            margin = params["margin"]
             out = out.crop(bbox)
             side = int(max(out.size) * (1 + 2 * margin / 100.0))
             canvas = Image.new("RGBA", (side, side), (0, 0, 0, 0))
             canvas.paste(out, ((side - out.width) // 2, (side - out.height) // 2), out)
             out = canvas
-        if color:
-            flat = Image.new("RGBA", out.size, color)
+        if params["color"]:
+            flat = Image.new("RGBA", out.size, params["color"])
             flat.alpha_composite(out)
             out = flat.convert("RGB")
         buf = io.BytesIO()
         out.save(buf, format="PNG")
-        return buf.getvalue()
+        return buf.getvalue(), warning
 
     @api.model
     def _dt_bg_remove_cron(self):
