@@ -72,6 +72,7 @@ def _xml_invoice(
                     {std_id}
                     <cbc:Name>{l.get("name", "")}</cbc:Name>
                     <cac:ClassifiedTaxCategory>
+                        {f"<cbc:ID>{l['tax_category']}</cbc:ID>" if l.get("tax_category") else ""}
                         <cbc:Percent>{l.get("tax", "0")}</cbc:Percent>
                     </cac:ClassifiedTaxCategory>
                 </cac:Item>
