@@ -16,7 +16,10 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PICKSPLIT-002 — P1: RPC quantities can create negative backorders and inflate demand
 
-- **Status:** Open. Identified on 2026-10-02.
+- **Status:** Fixed in 19.0.1.0.2. `do_create_backorder()` validates every line
+  (0 <= kept_qty <= current move demand, UoM precision, move still on the
+  transfer, transfer not done/cancelled) before writing; the split uses the
+  current move demand, not the wizard copy. Covered by `tests/test_manual_backorder.py`.
 - **Location:** `wizard/stock_picking_manual_backorder.py:37–83, do_create_backorder(); onchange_kept_qty()`.
 - **Trigger:** Set kept_qty above demand or below zero through ORM/RPC, bypassing the browser onchange, and invoke do_create_backorder.
 - **Actual behavior / impact:** The only bounds check is an onchange. The server action blindly writes kept_qty as original demand and copies demand - kept_qty to the backorder. An excessive kept quantity inflates the original demand and generates a negative backorder quantity.
