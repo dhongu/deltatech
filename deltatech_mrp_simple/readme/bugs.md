@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## SIMPLE-001 — P1: Multiple output lines each receive the entire consumed cost
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.1.3. `_allocate_finit_price()` splits the consumed cost once, by standard value (standard price x quantity in the product unit), or by quantity when no standard price is set; the last line absorbs the rounding; zero-quantity lines get price 0. Used by the form button and the line onchange. Covered by `test_cost_split_over_several_received_products`, `test_cost_split_by_quantity_without_standard_price`, `test_single_received_product_keeps_whole_cost`.
 - **Location:** models/mrp_simple.py, compute_finit_price() and MRPSimpleLineIn.compute_finit_price().
 - **Trigger:** Produce two or more output lines and recompute their prices, or change an output quantity in the form.
 - **Actual behavior:** The full input cost is divided by each output line quantity independently. Therefore each output line has a value equal to the complete input cost; summed output value multiplies cost by the number of output lines.
@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## SIMPLE-002 — P1: Confirm can create duplicate transfers after production is done
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.1.3. `do_transfer()` starts with `_check_can_transfer()`: row lock (`SELECT ... FOR UPDATE`), then refuses a record not in draft or already linked to transfers. Covered by `test_confirm_only_once`.
 - **Location:** models/mrp_simple.py, do_transfer(); views/mrp_simple_view.xml.
 - **Trigger:** Call do_transfer again on a done record through ORM/RPC or another server-side caller.
 - **Actual behavior:** Only the form hides Confirm after draft. The method has no draft-state check or existing-transfer guard. It creates new receipt/consumption pickings, optionally creates another sale/output line, overwrites consume_id/receipt_id and validates according to the flags.
