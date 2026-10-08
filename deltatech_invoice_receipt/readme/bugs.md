@@ -27,7 +27,7 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 ## RECEIPT-002 — P1: Negative purchase lines access a nonexistent stock move UoM field
 
-- **Status:** Open; reviewed 2026-10-03.
+- **Status:** Fixed in 19.0.2.0.3. The loops read `move.product_uom`; the already returned quantity now adds the outgoing (return) moves and subtracts the incoming ones (the former signs were inverted, hidden by the error). Covered by `test_return_moves_count_existing_returns`.
 - **Location:** models/purchase.py, PurchaseOrderLine._prepare_stock_moves().
 - **Trigger:** Recompute negative purchase-line stock moves after at least one incoming or outgoing stock move exists.
 - **Actual behavior:** The quantity accumulation loops read move.product_uom_id. Native Odoo 19 stock.move declares product_uom instead.
@@ -38,7 +38,7 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 ## RECEIPT-003 — P1: Purchase-unit propagation loses the return move unit
 
-- **Status:** Open; reviewed 2026-10-03.
+- **Status:** Fixed in 19.0.2.0.3. The move template carries `product_uom` from `_adjust_uom_quantities()`. Covered by `test_return_keeps_purchase_unit` and `test_return_converted_to_product_unit`.
 - **Location:** models/purchase.py, PurchaseOrderLine._prepare_stock_moves(), template and _adjust_uom_quantities result.
 - **Trigger:** Set stock.propagate_uom to 1 and create a negative purchase line in Dozens for a product based in Units.
 - **Actual behavior:** The native helper retains the purchase UoM and its numeric quantity, but the addon drops product_uom from the new move template. Native stock.move defaults its UoM to the product base unit. A return of 2 dozens therefore requests 2 Units instead of 24.
@@ -49,7 +49,7 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 ## RECEIPT-004 — P2: Batch return-picking creation calls a singleton helper on the whole batch
 
-- **Status:** Open; reviewed 2026-10-03.
+- **Status:** Fixed in 19.0.2.0.3. `_create_picking()` uses `order` for the return operation type, locations and supplier. Covered by `test_create_return_pickings_for_several_orders`.
 - **Location:** models/purchase.py, PurchaseOrder._create_picking().
 - **Trigger:** Approve two purchase orders together, with a negative storable line requiring a return picking on at least one order.
 - **Actual behavior:** Inside for order in self, the return values use self._get_destination_location(), self.picking_type_id and self.partner_id instead of order. The native destination helper starts with ensure_one.

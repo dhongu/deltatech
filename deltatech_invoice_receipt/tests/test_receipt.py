@@ -216,3 +216,69 @@ class TestStockPicking(TransactionCase):
             purchase_order.picking_type_id.return_picking_type_id,
             "Picking type should be return picking type.",
         )
+
+    def _return_order(self, qty, uom=None, partner=None):
+        purchase_order = self.PurchaseOrder.create(
+            {"partner_id": (partner or self.partner).id, "date_order": "2024-07-30"}
+        )
+        self.PurchaseOrderLine.create(
+            {
+                "order_id": purchase_order.id,
+                "product_id": self.product.id,
+                "product_qty": qty,
+                "product_uom_id": (uom or self.uom_unit).id,
+                "price_unit": 100,
+            }
+        )
+        return purchase_order
+
+    def _return_moves(self, purchase_order):
+        return self.StockPicking.search([("origin", "=", purchase_order.name)]).move_ids
+
+    def test_return_moves_count_existing_returns(self):
+        """RECEIPT-002: existing return moves are read through stock.move.product_uom"""
+        purchase_order = self._return_order(-5)
+        purchase_order._create_picking()
+        self.assertEqual(self._return_moves(purchase_order).product_uom_qty, 5)
+
+        line = purchase_order.order_line
+        line.product_qty = -7
+        picking = self._return_moves(purchase_order).picking_id
+        vals = line.with_context(return_picking=True)._prepare_stock_moves(picking)
+        # 5 already returned, only the 2 extra units are requested
+        self.assertEqual([v["product_uom_qty"] for v in vals], [2])
+
+        line.product_qty = -5
+        self.assertEqual(line.with_context(return_picking=True)._prepare_stock_moves(picking), [])
+
+    def test_return_keeps_purchase_unit(self):
+        """RECEIPT-003: with propagated units, a return of 2 dozens moves 24 units"""
+        self.env["ir.config_parameter"].sudo().set_param("stock.propagate_uom", "1")
+        uom_dozen = self.env.ref("uom.product_uom_dozen")
+        purchase_order = self._return_order(-2, uom=uom_dozen)
+        purchase_order._create_picking()
+        move = self._return_moves(purchase_order)
+        self.assertEqual(move.product_uom, uom_dozen)
+        self.assertEqual(move.product_uom_qty, 2)
+        self.assertEqual(move.product_qty, 24)
+
+    def test_return_converted_to_product_unit(self):
+        """Without propagated units the return is expressed in the product unit"""
+        self.env["ir.config_parameter"].sudo().set_param("stock.propagate_uom", "0")
+        purchase_order = self._return_order(-2, uom=self.env.ref("uom.product_uom_dozen"))
+        purchase_order._create_picking()
+        move = self._return_moves(purchase_order)
+        self.assertEqual(move.product_uom, self.uom_unit)
+        self.assertEqual(move.product_uom_qty, 24)
+
+    def test_create_return_pickings_for_several_orders(self):
+        """RECEIPT-004: several orders with returns are processed together"""
+        other_partner = self.Partner.create({"name": "Other Return Partner"})
+        orders = self._return_order(-3) | self._return_order(-4, partner=other_partner)
+        orders._create_picking()
+        for order, partner, qty in zip(orders, [self.partner, other_partner], [3, 4], strict=True):
+            picking = self.StockPicking.search([("origin", "=", order.name)])
+            self.assertEqual(len(picking), 1)
+            self.assertEqual(picking.partner_id, partner)
+            self.assertEqual(picking.location_dest_id, partner.property_stock_supplier)
+            self.assertEqual(picking.move_ids.product_uom_qty, qty)

@@ -52,9 +52,9 @@ class PurchaseOrder(models.Model):
                 res = order._prepare_picking()
                 res.update(
                     {
-                        "picking_type_id": self.picking_type_id.return_picking_type_id.id or self.picking_type_id.id,
-                        "location_id": self._get_destination_location(),
-                        "location_dest_id": self.partner_id.property_stock_supplier.id,
+                        "picking_type_id": order.picking_type_id.return_picking_type_id.id or order.picking_type_id.id,
+                        "location_id": order._get_destination_location(),
+                        "location_dest_id": order.partner_id.property_stock_supplier.id,
                     }
                 )
                 picking = StockPicking.create(res)
@@ -87,12 +87,14 @@ class PurchaseOrderLine(models.Model):
         qty = 0.0
         price_unit = self._get_stock_move_price_unit()
         outgoing_moves, incoming_moves = self._get_outgoing_incoming_moves()
+        # quantity already returned, in the purchase line unit: the return moves go out to the
+        # supplier, a reverse of them comes back in
         for move in outgoing_moves:
-            qty -= move.product_uom_id._compute_quantity(
+            qty += move.product_uom._compute_quantity(
                 move.product_uom_qty, self.product_uom_id, rounding_method="HALF-UP"
             )
         for move in incoming_moves:
-            qty += move.product_uom_id._compute_quantity(
+            qty -= move.product_uom._compute_quantity(
                 move.product_uom_qty, self.product_uom_id, rounding_method="HALF-UP"
             )
         description_picking = self.product_id.with_context(
@@ -100,7 +102,6 @@ class PurchaseOrderLine(models.Model):
         )._get_description(self.order_id.picking_type_id)
         template = {
             "product_id": self.product_id.id,
-            # "product_uom_id": self.product_uom_id.id,
             "date": self.order_id.date_order,
             "location_dest_id": self.order_id.partner_id.property_stock_supplier.id,
             "location_id": self.order_id._get_destination_location(),
@@ -133,6 +134,7 @@ class PurchaseOrderLine(models.Model):
             quant_uom = self.product_id.uom_id
             product_uom_qty, product_uom = po_line_uom._adjust_uom_quantities(-diff_quantity, quant_uom)
             template["product_uom_qty"] = product_uom_qty
-            # template["product_uom_id"] = product_uom.id
+            # without the unit the move falls back to the product unit and returns 2 units instead of 2 dozens
+            template["product_uom"] = product_uom.id
             res.append(template)
         return res
