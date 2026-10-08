@@ -18,6 +18,8 @@
   the result is shown on a checkerboard, so leftovers are visible in any theme;
   each line says whether it is the main image or which gallery image of which
   product; larger previews.
+- Works with Pillow 9.0 too (no ``Image.Resampling`` there), the oldest
+  version Odoo 19 accepts.
 
 # 19.0.1.10.0
 
