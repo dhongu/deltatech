@@ -167,7 +167,7 @@ class FleetMapSheet(models.Model):
     )
     category_id = fields.Many2one(
         "fleet.vehicle.category",
-        related="vehicle_id.category_id",
+        related="vehicle_id.vehicle_category_id",
         readonly=True,
         string="Vehicle Category",
     )
@@ -339,7 +339,7 @@ class FleetMapSheet(models.Model):
         default.update(
             {
                 "log_fuel_ids": [],
-                "name": self.env["ir.sequence"].next_by_code("fleet.map.sheet"),
+                "name": self.env["ir.sequence"].next_by_code("fleet.map.sheet") or "/",
                 "date": date,
                 "date_start": date_start,
                 "date_end": date_end,
@@ -500,7 +500,7 @@ class FleetRouteLog(models.Model):
         string="Date End",
         default=_get_default_date_begin,
     )
-    week_day = fields.Integer(compute="_compute_week_day", string="Name", store=False)
+    week_day = fields.Integer(compute="_compute_week_day", string="Week Day", store=False)
     route_id = fields.Many2one("fleet.route", string="Route")
     vehicle_id = fields.Many2one(
         "fleet.vehicle",

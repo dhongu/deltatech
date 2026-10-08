@@ -46,17 +46,17 @@
     />
 
     <record id="view_fleet_distance_report_line_tree" model="ir.ui.view">
-        <field name="name">fleet.distance.report.line.tree</field>
+        <field name="name">fleet.distance.report.line.list</field>
         <field name="model">fleet.distance.report.line</field>
         <field name="arch" type="xml">
-            <tree edit="0" create="0" import="0">
+            <list edit="0" create="0" import="0">
 
                 <field name="vehicle_id" />
                 <field name="cost" />
                 <field name="distance" />
                 <field name="price" />
 
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -75,7 +75,7 @@
     <record id="action_fleet_distance_report_line" model="ir.actions.act_window">
         <field name="name">Distance Report</field>
         <field name="res_model">fleet.distance.report.line</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="domain">[('report_id','=',active_id)]</field>
     </record>
 

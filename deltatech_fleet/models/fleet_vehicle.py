@@ -36,7 +36,7 @@ class FleetVehicle(models.Model):
     avg_cons_ex = fields.Float(string="Average Consumption Exterior", default=7.0)
     avg_cons_in = fields.Float(string="Average Consumption Urban", default=9.0)
     avg_speed = fields.Float(string="Average Speed", default=70.0)
-    category_id = fields.Many2one("fleet.vehicle.category", string="Vehicle Category")
+    vehicle_category_id = fields.Many2one("fleet.vehicle.category", string="Vehicle Category")
 
     engine_sn = fields.Char("Engine Serial Number", copy=False)
 

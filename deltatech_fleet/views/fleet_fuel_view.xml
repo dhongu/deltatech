@@ -43,10 +43,10 @@
     </record>
 
     <record id='fleet_vehicle_log_fuel_view_tree' model='ir.ui.view'>
-        <field name="name">fleet.vehicle.log.fuel.tree</field>
+        <field name="name">fleet.vehicle.log.fuel.list</field>
         <field name="model">fleet.vehicle.log.fuel</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name" />
                 <field name="date_time" />
                 <field name="vehicle_id" />
@@ -59,7 +59,7 @@
                                         <field name="full" />
                         <field name="reservoir_level" />
                         <field name="map_sheet_id" />
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -69,13 +69,13 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile">
                 <templates>
-                    <t t-name="kanban-box">
-                        <div t-attf-class="oe_kanban_global_click">
+                    <t t-name="card">
+                        <div>
                             <div>
                                 <strong>
                                     <field name="name" />
                                     <field name="vehicle_id" />
-                                    <span class="float-right">
+                                    <span class="float-end">
                                         <field name="date_time" />
                                     </span>
                                 </strong>
@@ -86,7 +86,7 @@
                                     <field name="liter" />
                                     Liter
                                 </span>
-                                <span class="float-right">
+                                <span class="float-end">
                                     <field name="amount" />
                                 </span>
                             </div>
@@ -127,7 +127,7 @@
     <record id='fleet_vehicle_log_fuel_action' model='ir.actions.act_window'>
         <field name="name">Vehicles Fuel Logs</field>
         <field name="res_model">fleet.vehicle.log.fuel</field>
-        <field name="view_mode">tree,kanban,form,graph</field>
+        <field name="view_mode">list,kanban,form,graph</field>
         <field name="context">{"search_default_groupby_vehicle" : True}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

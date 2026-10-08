@@ -14,20 +14,34 @@ Deltatech Fleet Geo
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/17.0/deltatech_fleet_geo
+    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_fleet_geo
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
 
-Feature:
+Adds geographical information to the Fleet extensions from
+``deltatech_fleet``.
 
-- add Latitude, Longitude and Radius inside the fleet location and fleet
-  route
+Features:
+
+- Latitude, longitude and radius on fleet locations.
+- Latitude and longitude of the start and end location on fleet routes.
+- Latitude and longitude on vehicle location entries.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+18.0.1.0.0 (2026-10-08)
+-----------------------
+
+- Migration to 18.0.
+- Description rewritten.
+- Own module icon.
 
 Bug Tracker
 ===========
@@ -57,6 +71,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/17.0/deltatech_fleet_geo>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_fleet_geo>`_ project on GitHub.
 
 You are welcome to contribute.
