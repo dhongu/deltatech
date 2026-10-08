@@ -116,3 +116,44 @@ class TestMrpProductionBom(TransactionCase):
         )
         prod_blue.action_compute_derived_bom()
         self.assertEqual(prod_blue.bom_id.code, "D2")
+
+    def test_derived_bom_keeps_base_recipe(self):
+        """MRPBOM-001: the derived BoM keeps the base yield, operations and by-products."""
+        workcenter = self.env["mrp.workcenter"].create({"name": "Mixer"})
+        byproduct = self.env["product.product"].create({"name": "Scrap", "is_storable": True})
+        self.base_bom.write(
+            {
+                "product_qty": 10.0,
+                "operation_ids": [(0, 0, {"name": "Mix", "workcenter_id": workcenter.id, "time_cycle_manual": 30})],
+            }
+        )
+        operation = self.base_bom.operation_ids
+        self.base_bom.bom_line_ids.write({"product_qty": 20.0, "operation_id": operation.id})
+        self.base_bom.byproduct_ids = [(0, 0, {"product_id": byproduct.id, "product_qty": 2.0})]
+
+        production = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_variant.id,
+                "uom_id": self.product_tmpl.uom_id.id,
+                "bom_id": self.base_bom.id,
+                "product_qty": 10.0,
+            }
+        )
+        production.action_compute_derived_bom()
+        derived_bom = production.bom_id
+        self.assertEqual(derived_bom.base_type, "derived")
+        self.assertEqual(derived_bom.product_qty, 10.0)
+        self.assertEqual(derived_bom.uom_id, self.base_bom.uom_id)
+        self.assertEqual(derived_bom.operation_ids.mapped("name"), ["Mix"])
+        self.assertNotEqual(derived_bom.operation_ids, operation)
+        self.assertEqual(derived_bom.bom_line_ids.operation_id, derived_bom.operation_ids)
+        self.assertEqual(derived_bom.byproduct_ids.product_id, byproduct)
+
+        production._compute_move_raw_ids()
+        self.assertEqual(production.move_raw_ids.product_uom_qty, 20.0)
+
+        # Recomputing replaces the recipe instead of duplicating it
+        derived_bom.recompute_from_base()
+        self.assertEqual(len(derived_bom.bom_line_ids), 1)
+        self.assertEqual(len(derived_bom.operation_ids), 1)
+        self.assertEqual(len(derived_bom.byproduct_ids), 1)
