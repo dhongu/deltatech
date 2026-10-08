@@ -79,6 +79,20 @@ class TestPosStockAvailable(TransactionCase):
         self.assertIn("qty_available", fields_available)
         self.assertIn("free_qty", fields_available)
 
+    def test_reservation_gate_stays_shut_on_default_settings(self):
+        """`reserved_quantity` is written on every reservation. With no register asking for the
+        available quantity, nothing on that path should be worth doing."""
+        self.config.write({"display_stock": True, "stock_badge_quantity": "on_hand"})
+        self.assertFalse(self.env["stock.quant"]._pos_available_badge_in_use())
+
+    def test_reservation_gate_opens_for_available_badges(self):
+        self.config.write({"display_stock": True, "stock_badge_quantity": "available"})
+        self.assertTrue(self.env["stock.quant"]._pos_available_badge_in_use())
+
+    def test_reservation_gate_ignores_registers_with_the_badge_off(self):
+        self.config.write({"display_stock": False, "stock_badge_quantity": "available"})
+        self.assertFalse(self.env["stock.quant"]._pos_available_badge_in_use())
+
     def test_no_stock_fields_when_the_badge_is_off(self):
         self.config.display_stock = False
         loaded = self.env["product.template"]._load_pos_data_fields(self.config)
