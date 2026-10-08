@@ -4,3 +4,9 @@
     background-image: conic-gradient(#d0d0d0 25%, #ffffff 0 50%, #d0d0d0 0 75%, #ffffff 0);
     background-size: 16px 16px;
 }
+
+// numele imaginii („… — gallery image 2") și avertismentul se citesc întregi, pe mai multe rânduri
+.o_list_renderer td.o_dt_bg_wrap {
+    white-space: normal !important;
+    word-break: break-word;
+}

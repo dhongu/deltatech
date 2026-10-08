@@ -1,3 +1,21 @@
+# 19.0.1.11.1
+
+- The AI model no longer runs the worker out of memory. BiRefNet is gone from
+  the wizard's model list: on an odoo.sh worker it stopped with
+  ``Failed to allocate memory`` from ONNX Runtime. Only one model is kept
+  loaded per worker, a model that fails is dropped from memory, and ONNX
+  Runtime runs without its memory arena, which never gave back what it had
+  reserved. When memory still runs out, the wizard line says so and suggests
+  ISNet or the uniform background method instead of showing the raw error.
+- **Duplicated Images** opens again. The list stopped with
+  ``Invalid field 'write_date'`` as soon as there was a duplicate to show: the
+  report is an SQL view without the log fields, and the image widget always
+  reads ``write_date``. The view now provides it.
+- The background removal wizard shows the whole image name (main image or
+  gallery image N) and the whole warning, on several lines; the list of what
+  **Remove Duplicated Images** deletes uses the full width of the dialog, and
+  the *Removable* column of **Duplicated Images** is no longer cut.
+
 # 19.0.1.11.0
 
 - Background removal keeps what the AI model loses. Product photos on a plain

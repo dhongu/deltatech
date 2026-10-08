@@ -38,8 +38,8 @@
                     </div>
                     <field name="line_ids" nolabel="1">
                         <list editable="bottom" create="false" delete="false">
-                            <field name="to_apply" readonly="not image_after" />
-                            <field name="name" readonly="1" />
+                            <field name="to_apply" readonly="not image_after" width="70px" />
+                            <field name="name" readonly="1" class="o_dt_bg_wrap" />
                             <field
                                 name="image_before"
                                 widget="image"
@@ -55,7 +55,7 @@
                                 width="230px"
                                 class="o_dt_bg_checker"
                             />
-                            <field name="warning" decoration-warning="warning" width="260px" />
+                            <field name="warning" decoration-warning="warning" width="260px" class="o_dt_bg_wrap" />
                         </list>
                     </field>
                 </div>

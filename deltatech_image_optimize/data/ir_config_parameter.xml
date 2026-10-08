@@ -116,7 +116,8 @@
 
     <!-- Background removal with the AI model (needs the optional Python library rembg).
          rembg model: isnet-general-use is fast (~1 s/image on CPU, 180 MB);
-         birefnet-general is finer but ~10x slower and 970 MB. -->
+         birefnet-general is finer but ~10x slower and 970 MB, and needs
+         more memory than an odoo.sh worker has. -->
     <record id="cp_bg_model" model="ir.config_parameter">
         <field name="key">deltatech_image_optimize.bg_model</field>
         <field name="value">isnet-general-use</field>
