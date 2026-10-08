@@ -1,6 +1,7 @@
 # Ce e nou în 19.0 — Optimizare imagini
 
 ## Funcționalități noi
+- **Eliminarea watermark-ului din imaginile de produs.** *Acțiune → Remove Watermark* învață din imaginile selectate sigla semi-transparentă pusă peste fotografii și o scoate, cu previzualizare înainte și după. Funcționează pentru watermark-urile care și-au lăsat urma în transparența imaginii. Asistentul amintește că se poate elimina doar un watermark propriu sau cu acordul titularului drepturilor.
 - **Eliminarea fundalului din imaginile de produs.** Din lista de produse, *Acțiune → Remove Image Background* decupează produsul și îl salvează pe fundal transparent, în format WebP, inclusiv imaginile din galerie. Un wizard arată fiecare imagine înainte și după, ca rezultatul să fie verificat înainte de aplicare; originalul nu se păstrează. Fotografiile pe fundal real necesită biblioteca `rembg` pe server.
 - **Eliminarea imaginilor de produs duplicate.** Sunt găsite imaginile identice octet cu octet și păstrată una singură — pe cataloagele importate din mai multe surse recuperează spațiu important, fără risc de a pierde o imagine unică.
 

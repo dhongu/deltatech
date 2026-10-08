@@ -73,9 +73,23 @@ Tip: try a few images with the preview first, to see the result on your own cata
 
 ![Queue for a large selection](https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png)
 
+## Remove a watermark
+
+**Step 6 — Remove the watermark of your catalog images**
+
+Only on images whose watermark you have the right to remove (your own, or with the rights holder's
+written consent): the wizard opens with this reminder.
+
+1. In *Website → eCommerce → Products → Products*, list view, tick the products that carry the
+   **same** watermark — the more, the better the watermark is learned — and choose
+   **Actions → Remove Watermark**.
+2. Check the **Detected Watermark**: it is the logo the module found in the images.
+3. Check each image before and after; untick the ones that are not good, then **Apply**. Above
+   ``wm_sync_limit`` images the selection is queued instead.
+
 ## Duplicated images
 
-**Step 6 — Find the duplicates**
+**Step 7 — Find the duplicates**
 
 *Website → eCommerce → Products → Duplicated Images* (administrator only). The list opens filtered
 on the groups that can be cleaned (*Removable*).
@@ -90,7 +104,7 @@ on the groups that can be cleaned (*Removable*).
 
 ![List of duplicated images](https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_list.png)
 
-**Step 7 — Delete the duplicates**
+**Step 8 — Delete the duplicates**
 
 *Website → eCommerce → Products → Remove Duplicated Images*. The wizard shows how many contents have
 copies to delete, how many images will be deleted and kept, and the exact list. From each group
@@ -101,7 +115,7 @@ always stay. **Remove Duplicates** asks for confirmation and deletes permanently
 
 ## Recompression
 
-**Step 8 — Recompress oversized images**
+**Step 9 — Recompress oversized images**
 
 Go to *Settings → Technical → Automation → Scheduled Actions* and open *Image Optimizer: recompress
 oversized images*. The action is **inactive** after installation. Run it first on a staging
