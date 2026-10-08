@@ -4,10 +4,10 @@
 
 import json
 import time
+from urllib.parse import parse_qsl, urlsplit
 
-from werkzeug.urls import url_decode
-
-from odoo.http import content_disposition, request, route
+from odoo.http import request, route
+from odoo.http.stream import content_disposition
 from odoo.tools.safe_eval import safe_eval
 
 import odoo.addons.web.controllers.report as report
@@ -21,7 +21,7 @@ class ReportController(report.ReportController):
         return super().report_routes(reportname, docids, converter, **data)
 
     @route()
-    def report_download(self, data, context=None):
+    def report_download(self, data, context=None, token=None, readonly=True):
         """This function is used by 'action_manager_report.js' in order to trigger the download of
         a pdf/controller report.
 
@@ -48,7 +48,7 @@ class ReportController(report.ReportController):
                 response = self.report_routes(reportname, docids=docids, converter=converter, context=context)
             else:
                 # Particular report:
-                data = dict(url_decode(url.split("?")[1]).items())  # decoding the args represented in JSON
+                data = dict(parse_qsl(urlsplit(url).query))  # decoding the args represented in JSON
                 if "context" in data:
                     context, data_context = json.loads(context or "{}"), json.loads(data.pop("context"))
                     context = json.dumps({**context, **data_context})
@@ -58,7 +58,7 @@ class ReportController(report.ReportController):
             filename = f"{report.name}.{extension}"
 
             if docids:
-                ids = [int(x) for x in docids.split(",")]
+                ids = [int(x) for x in docids.split(",") if x.isdigit()]
                 obj = request.env[report.model].browse(ids)
                 if report.print_report_name and not len(obj) > 1:
                     report_name = safe_eval(report.print_report_name, {"object": obj, "time": time})
@@ -66,4 +66,4 @@ class ReportController(report.ReportController):
             response.headers.add("Content-Disposition", content_disposition(filename))
             return response
 
-        return super().report_download(data, context)
+        return super().report_download(data, context=context, token=token, readonly=readonly)

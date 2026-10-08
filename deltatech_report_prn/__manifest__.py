@@ -4,7 +4,7 @@
 {
     "name": "Raport PRN",
     "summary": "Raport PRN",
-    "version": "19.0.1.1.1",
+    "version": "20.0.1.1.1",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

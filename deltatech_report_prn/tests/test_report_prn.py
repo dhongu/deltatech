@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 from odoo.tests.common import HttpCase, TransactionCase, tagged
 
-QWEB_ARCH = '<t t-name="deltatech_report_prn.test_prn_tmpl">Hello PRN: <t t-esc="docs and docs[0].name or \'\'"/></t>'
+QWEB_ARCH = '<t t-name="deltatech_report_prn.test_prn_tmpl">Hello PRN: <t t-out="docs and docs[0].name or \'\'"/></t>'
 
 
 @tagged("post_install", "-at_install")
