@@ -1,0 +1,995 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_account_move_template
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-08 13:05+0000\n"
+"PO-Revision-Date: 2026-10-08 13:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "%s (copy)"
+msgstr "%s (copie)"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "%s templates created."
+msgstr "%s șabloane create."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "A template can have only one balance line."
+msgstr "Un șablon poate avea o singură linie de sold."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.constraint,message:deltatech_account_move_template.constraint_account_move_template_name_company_uniq
+msgid "A template with this name already exists in this company."
+msgstr "Există deja un șablon cu acest nume în companie."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__account_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__account_id
+msgid "Account"
+msgstr "Cont"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Accumulated amortisation"
+msgstr "Amortizarea imobilizărilor necorporale"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Accumulated depreciation"
+msgstr "Amortizarea imobilizărilor corporale"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/wizard/account_move_template_run.py:0
+msgid "All the amounts are zero: there is nothing to record."
+msgstr "Toate sumele sunt zero: nu există nimic de înregistrat."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Amortisation"
+msgstr "Amortizare"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__fixed_amount
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__amount
+msgid "Amount"
+msgstr "Sumă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__amount_type
+msgid "Amount Type"
+msgstr "Tip sumă"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Amount collected, VAT included"
+msgstr "Suma încasată, cu TVA"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Amount paid, VAT included"
+msgstr "Suma plătită, cu TVA"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__line_ids
+msgid "Amounts"
+msgstr "Sume"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__analytic_distribution
+msgid "Analytic Distribution"
+msgstr "Distribuție analitică"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__analytic_precision
+msgid "Analytic Precision"
+msgstr "Precizie analitică"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_search
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset received for use"
+msgstr "Bun primit în folosință"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset received for use (loan for use or rent) - receipt"
+msgstr "Bun primit în folosință (comodat sau chirie) - intrare"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset received for use (loan for use or rent) - return"
+msgstr "Bun primit în folosință (comodat sau chirie) - restituire"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset returned"
+msgstr "Bun restituit"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__balance
+msgid "Balance"
+msgstr "Sold"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__base_code
+msgid "Base Code"
+msgstr "Cod bază"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_run_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__code
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__code
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__base_code
+msgid "Code of the line the percentage applies to."
+msgstr "Codul liniei la care se aplică procentul."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__company_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__company_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__create_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__create_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__create_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__create_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__create_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__direction__credit
+msgid "Credit"
+msgstr "Credit"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__currency_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__currency_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__currency_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__date
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__direction__debit
+msgid "Debit"
+msgstr "Debit"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template__ref
+msgid "Default reference of the generated entries."
+msgstr "Referința implicită a notelor generate."
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.actions.act_window,help:deltatech_account_move_template.action_account_move_template
+msgid "Define a journal entry template"
+msgstr "Definiți un șablon de notă contabilă"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Depreciation"
+msgstr "Amortizare"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Depreciation - intangible assets"
+msgstr "Amortizare - imobilizări necorporale"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Depreciation - tangible assets"
+msgstr "Amortizare - imobilizări corporale"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__direction
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__direction
+msgid "Direction"
+msgstr "Sens"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "Cont analitic de distribuție"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__input
+msgid "Entered"
+msgstr "Introdusă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__amount_type
+msgid ""
+"Entered: typed in when the entry is generated; the suggested value is the formula, if set, otherwise the amount below.\n"
+"Fixed: always the amount below.\n"
+"Percentage: a percentage of the line with the base code.\n"
+"Formula: a Python expression on the codes of the other lines, e.g. GROSS * 0.25.\n"
+"Balance: the amount that balances the entry, taxes included."
+msgstr ""
+"Introdusă: se completează la generarea notei; valoarea propusă este formula, dacă există, altfel suma de mai jos.\n"
+"Fixă: întotdeauna suma de mai jos.\n"
+"Procent: un procent din linia cu codul de bază.\n"
+"Formulă: o expresie Python pe codurile celorlalte linii, de ex. GROSS * 0.25.\n"
+"Sold: suma care echilibrează nota, inclusiv taxele."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__move_count
+msgid "Entries"
+msgstr "Note"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_bank_statement_line__move_template_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move__move_template_id
+msgid "Entry Template"
+msgstr "Șablon notă"
+
+#. module: deltatech_account_move_template
+#: model:ir.actions.act_window,name:deltatech_account_move_template.action_account_move_template_run
+#: model:ir.ui.menu,name:deltatech_account_move_template.menu_account_move_template_run
+msgid "Entry from Template"
+msgstr "Notă din șablon"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__fixed
+msgid "Fixed"
+msgstr "Fixă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__formula
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__formula
+msgid "Formula"
+msgstr "Formulă"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_filter
+msgid "From Template"
+msgstr "Din șablon"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Garnishments"
+msgstr "Popriri"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_list
+msgid "Generate"
+msgstr "Generează"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_run_form
+msgid "Generate Entry"
+msgstr "Generează nota"
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template_run
+msgid "Generate Journal Entry from Template"
+msgstr "Generare notă contabilă din șablon"
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template_run_line
+msgid "Generate Journal Entry from Template - Amount"
+msgstr "Generare notă contabilă din șablon - sumă"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Gross salaries"
+msgstr "Salarii brute"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__has_formula
+msgid "Has Formula"
+msgstr "Are formulă"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Health insurance contribution"
+msgstr "Contribuția de asigurări sociale de sănătate"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Income tax"
+msgstr "Impozit pe venit"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Input VAT"
+msgstr "TVA deductibilă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__note
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__note
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "Instructions"
+msgstr "Instrucțiuni"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Invoices not received"
+msgstr "Facturi nesosite"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Invoices to be issued"
+msgstr "Facturi de întocmit"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__journal_id
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template
+msgid "Journal Entry Template"
+msgstr "Șablon de notă contabilă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template_line
+msgid "Journal Entry Template Line"
+msgstr "Linie șablon de notă contabilă"
+
+#. module: deltatech_account_move_template
+#: model:ir.actions.act_window,name:deltatech_account_move_template.action_account_move_template
+#: model:ir.ui.menu,name:deltatech_account_move_template.menu_account_move_template
+msgid "Journal Entry Templates"
+msgstr "Șabloane note contabile"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run_line__use_default
+msgid ""
+"Keep the amount computed by the template formula. Uncheck it to type another"
+" amount."
+msgstr ""
+"Păstrează suma calculată de formula din șablon. Debifați pentru a introduce "
+"altă sumă."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__name
+msgid "Label"
+msgstr "Etichetă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__write_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__write_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__write_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__write_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__write_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__account_id
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run_line__account_id
+msgid ""
+"Leave empty for a parameter of the computation (e.g. an amount including "
+"VAT, a rate): it is entered or computed, but not recorded in the entry."
+msgstr ""
+"Lăsați gol pentru un parametru de calcul (de ex. o sumă cu TVA, o cotă): se "
+"introduce sau se calculează, dar nu se înregistrează în notă."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %(code)s uses unknown codes: %(unknown)s"
+msgstr "Linia %(code)s folosește coduri necunoscute: %(unknown)s"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s cannot use its own amount."
+msgstr "Linia %s nu își poate folosi propria sumă."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid ""
+"Line %s cannot use the balance line: its amount is known only after all the "
+"other lines."
+msgstr ""
+"Linia %s nu poate folosi linia de sold: suma ei se cunoaște doar după toate "
+"celelalte linii."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: a line with taxes needs an account."
+msgstr "Linia %s: o linie cu taxe trebuie să aibă cont."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: set the base code of the percentage."
+msgstr "Linia %s: completați codul de bază al procentului."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: set the formula."
+msgstr "Linia %s: completați formula."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: the balance line cannot have taxes."
+msgstr "Linia %s: linia de sold nu poate avea taxe."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: the balance line needs an account."
+msgstr "Linia %s: linia de sold trebuie să aibă cont."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__line_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_list
+msgid "Load Romanian Templates"
+msgstr "Încarcă șabloanele românești"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Makes the VAT deductible for an amount paid. Use it only for opening "
+"balances or corrections: the cash basis taxes of Odoo already do it on "
+"reconciliation. Invoices with chargeable event before 1 August 2025 use the "
+"19% rate."
+msgstr ""
+"Face deductibilă TVA pentru o sumă plătită. Folosiți-l doar pentru solduri "
+"inițiale sau corecții: taxele Odoo cu TVA la încasare fac deja această "
+"înregistrare la reconciliere. Facturile cu fapt generator înainte de 1 "
+"august 2025 folosesc cota de 19%."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Makes the VAT due for an amount collected. Use it only for opening balances "
+"or corrections: the cash basis taxes of Odoo already do it on "
+"reconciliation. Invoices with chargeable event before 1 August 2025 use the "
+"19% rate."
+msgstr ""
+"Face exigibilă TVA pentru o sumă încasată. Folosiți-l doar pentru solduri "
+"inițiale sau corecții: taxele Odoo cu TVA la încasare fac deja această "
+"înregistrare la reconciliere. Facturile cu fapt generator înainte de 1 "
+"august 2025 folosesc cota de 19%."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Meal vouchers"
+msgstr "Tichete de masă"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Meal vouchers granted"
+msgstr "Tichete de masă acordate"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Monthly amortisation recorded by hand. Account 2805 is for licences and "
+"software; use 2803 for development costs and 2808 for other intangible "
+"assets. Do not use it for assets managed with the Assets module: the "
+"amortisation would be recorded twice."
+msgstr ""
+"Amortizare lunară înregistrată manual. Contul 2805 este pentru licențe și "
+"programe informatice; folosiți 2803 pentru cheltuieli de dezvoltare și 2808 "
+"pentru alte imobilizări necorporale. Nu îl folosiți pentru imobilizările "
+"gestionate cu modulul de active: amortizarea s-ar înregistra de două ori."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Monthly depreciation recorded by hand. Change account 2813 to the one of the"
+" asset group (2812 buildings, 2814 other tangible assets). Do not use it for"
+" assets managed with the Assets module: the depreciation would be recorded "
+"twice."
+msgstr ""
+"Amortizare lunară înregistrată manual. Schimbați contul 2813 cu cel al "
+"grupei imobilizării (2812 construcții, 2814 alte imobilizări corporale). Nu "
+"îl folosiți pentru imobilizările gestionate cu modulul de active: "
+"amortizarea s-ar înregistra de două ori."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Monthly rent - invoice not received (tenant)"
+msgstr "Chirie lunară - factură nesosită (chiriaș)"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Monthly rent - invoice to be issued (lessor)"
+msgstr "Chirie lunară - factură de întocmit (locator)"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Off-balance counterpart"
+msgstr "Contrapartidă în afara bilanțului"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Off-balance record of an asset received under a loan for use or a rent "
+"contract, at the value in the handover report. Off-balance accounts are kept"
+" in single entry: account 8000 is only the technical counterpart that Odoo "
+"needs to balance the entry. Use 8033 for goods in custody and 8039 for goods"
+" in consignment."
+msgstr ""
+"Evidența în afara bilanțului a unui bun primit în comodat sau cu chirie, la "
+"valoarea din procesul-verbal de predare-primire. Conturile în afara "
+"bilanțului se țin în partidă simplă: contul 8000 este doar contrapartida "
+"tehnică de care Odoo are nevoie pentru a echilibra nota. Folosiți 8033 "
+"pentru valori primite în păstrare sau custodie și 8039 pentru mărfuri "
+"primite în consignație."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Off-balance record of the return of an asset received for use, at the "
+"receipt value."
+msgstr ""
+"Evidența în afara bilanțului a restituirii unui bun primit în folosință, la "
+"valoarea de la intrare."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Off-balance technical counterpart"
+msgstr "Contrapartidă tehnică în afara bilanțului"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Other values"
+msgstr "Alte valori"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Output VAT"
+msgstr "TVA colectată"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__partner_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__partner_id
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Payroll - external payslip"
+msgstr "Salarii - stat de plată extern"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__percent
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__percent
+msgid "Percentage"
+msgstr "Procent"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__post
+msgid "Post the Entry"
+msgstr "Validează nota"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Records the payslip computed in another program. Enter the totals of the "
+"payslip: the contributions are suggested from the gross amount (25%, 10%, "
+"2.25%), but the payslip totals prevail (part-time work, rounding per "
+"employee). Sick leave is not included."
+msgstr ""
+"Înregistrează statul de plată calculat în alt program. Introduceți "
+"totalurile din stat: contribuțiile sunt propuse din brut (25%, 10%, 2,25%), "
+"dar totalurile din stat au prioritate (normă parțială, rotunjire pe "
+"salariat). Concediile medicale nu sunt incluse."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Records the rent income of the month when the invoice is issued later. Real "
+"estate rent is VAT exempt unless the lessor opted for taxation: leave the "
+"VAT rate 0 in that case. When the invoice is issued, book it on account 418 "
+"and move the VAT from 4428 to 4427."
+msgstr ""
+"Înregistrează venitul din chirie al lunii când factura se emite ulterior. "
+"Închirierea de imobile este scutită de TVA, cu excepția cazului în care "
+"locatorul a optat pentru taxare: în acest caz lăsați cota TVA 0. La emiterea"
+" facturii, înregistrați-o pe contul 418 și treceți TVA din 4428 în 4427."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Records the rent of the month when the invoice comes later. Real estate rent"
+" is VAT exempt unless the lessor opted for taxation: leave the VAT rate 0 in"
+" that case. When the invoice arrives, book it on account 408 and move the "
+"VAT from 4428 to 4426."
+msgstr ""
+"Înregistrează chiria lunii când factura vine ulterior. Închirierea de "
+"imobile este scutită de TVA, cu excepția cazului în care locatorul a optat "
+"pentru taxare: în acest caz lăsați cota TVA 0. Când sosește factura, "
+"înregistrați-o pe contul 408 și treceți TVA din 4428 în 4426."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__ref
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__ref
+msgid "Reference"
+msgstr "Referință"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Rent"
+msgstr "Chirie"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Salaries payable"
+msgstr "Salarii datorate"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Salary advances"
+msgstr "Avansuri salariale"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__sequence
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__sequence
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run__partner_id
+msgid "Set on the template lines that have no partner."
+msgstr "Se completează pe liniile șablonului care nu au partener."
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.actions.act_window,help:deltatech_account_move_template.action_account_move_template
+msgid ""
+"Set the accounts once; when the entry is due, enter only the base amounts "
+"and the date."
+msgstr ""
+"Definiți conturile o singură dată; când nota e scadentă, introduceți doar "
+"sumele de bază și data."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__code
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run_line__code
+msgid ""
+"Short identifier of the line, used by the percentage and formula lines (e.g."
+" GROSS). Filled in automatically (L1, L2...) when left empty."
+msgstr ""
+"Identificator scurt al liniei, folosit de liniile cu procent și cu formulă "
+"(de ex. GROSS). Se completează automat (L1, L2...) dacă rămâne gol."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template__note
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run__note
+msgid "Shown to the user in the generation wizard."
+msgstr "Afișat utilizatorului în asistentul de generare."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Skipped (existing name or missing account): %s"
+msgstr "Omise (nume existent sau cont lipsă): %s"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Social security contribution"
+msgstr "Contribuția de asigurări sociale"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__use_default
+msgid "Suggested"
+msgstr "Propusă"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__tax_tag_ids
+msgid "Tax Grids"
+msgstr "Grile de taxe"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__tax_tag_ids
+msgid ""
+"Tax grids set directly on the journal item, for the lines without taxes "
+"(e.g. a VAT adjustment)."
+msgstr ""
+"Grile de taxe puse direct pe linia notei, pentru liniile fără taxe (de ex. o"
+" regularizare de TVA)."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__tax_ids
+msgid "Taxes"
+msgstr "Taxe"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__tax_ids
+msgid ""
+"Taxes computed on this line. Odoo adds the tax lines, with their tax grids, "
+"to the entry."
+msgstr ""
+"Taxe calculate pe această linie. Odoo adaugă în notă liniile de taxă, cu "
+"grilele lor."
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__template_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__template_id
+msgid "Template"
+msgstr "Șablon"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__template_line_id
+msgid "Template Line"
+msgstr "Linie șablon"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_bank_statement_line__move_template_id
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move__move_template_id
+msgid "Template the entry was generated from."
+msgstr "Șablonul din care a fost generată nota."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The Romanian templates need a company with Romania as fiscal country."
+msgstr "Șabloanele românești necesită o companie cu România ca țară fiscală."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid ""
+"The code %s is not valid: use letters, digits and underscore, starting with "
+"a letter."
+msgstr ""
+"Codul %s nu este valid: folosiți litere, cifre și liniuță jos, începând cu o"
+" literă."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/wizard/account_move_template_run.py:0
+msgid ""
+"The entry is not balanced: debit minus credit is %(residual)s. Check the "
+"amounts or add a balance line to the template %(template)s."
+msgstr ""
+"Nota nu este echilibrată: debit minus credit este %(residual)s. Verificați "
+"sumele sau adăugați o linie de sold în șablonul %(template)s."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The formula of line %(code)s could not be computed: %(error)s"
+msgstr "Formula liniei %(code)s nu a putut fi calculată: %(error)s"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The formula of line %(code)s is not valid: %(formula)s"
+msgstr "Formula liniei %(code)s nu este validă: %(formula)s"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The formula of line %s must return a number."
+msgstr "Formula liniei %s trebuie să returneze un număr."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The line codes must be unique: %s"
+msgstr "Codurile liniilor trebuie să fie unice: %s"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The lines %s depend on each other in a loop."
+msgstr "Liniile %s depind una de alta în buclă."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "The purchase of the vouchers is recorded separately (5328 = 401)."
+msgstr "Achiziția tichetelor se înregistrează separat (5328 = 401)."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The template %s has no line with an account."
+msgstr "Șablonul %s nu are nicio linie cu cont."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT not yet due"
+msgstr "TVA neexigibilă"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT on cash basis - deductible on payment"
+msgstr "TVA la încasare - deducere la plată"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT on cash basis - due on collection"
+msgstr "TVA la încasare - exigibilizare la încasare"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT rate (%)"
+msgstr "Cota TVA (%)"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__partner_id
+msgid ""
+"When empty, the line takes the partner chosen in the generation wizard."
+msgstr ""
+"Dacă rămâne gol, linia primește partenerul ales în asistentul de generare."
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "Where the amounts come from, when to generate the entry..."
+msgstr "De unde vin sumele, când se generează nota..."
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Withholdings from salaries"
+msgstr "Rețineri din salarii"
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__wizard_id
+msgid "Wizard"
+msgstr "Asistent"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Work insurance contribution"
+msgstr "Contribuția asiguratorie pentru muncă"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "auto"
+msgstr "auto"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "e.g. GROSS * 0.25"
+msgstr "de ex. GROSS * 0.25"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "e.g. Monthly rent"
+msgstr "de ex. Chirie lunară"
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "parameter"
+msgstr "parametru"

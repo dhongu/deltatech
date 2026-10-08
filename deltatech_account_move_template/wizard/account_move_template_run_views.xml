@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_move_template_run_form" model="ir.ui.view">
+        <field name="name">account.move.template.run.form</field>
+        <field name="model">account.move.template.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="template_id" options="{'no_create': True}" />
+                        <field name="date" />
+                        <field name="ref" />
+                    </group>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="post" />
+                        <field name="company_id" invisible="1" />
+                        <field name="currency_id" invisible="1" />
+                    </group>
+                </group>
+                <div invisible="not note" class="alert alert-info" role="status">
+                    <field name="note" readonly="1" />
+                </div>
+                <field name="line_ids" invisible="not line_ids">
+                    <list editable="bottom" create="0" delete="0">
+                        <field name="code" readonly="1" />
+                        <field name="account_id" readonly="1" />
+                        <field name="name" readonly="1" />
+                        <field name="direction" readonly="1" />
+                        <field name="use_default" invisible="not has_formula" widget="boolean_toggle" />
+                        <field name="amount" readonly="use_default" force_save="1" />
+                        <field name="has_formula" column_invisible="True" />
+                        <field name="template_line_id" column_invisible="True" />
+                        <field name="currency_id" column_invisible="True" />
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate Entry" class="btn-primary" />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_move_template_run" model="ir.actions.act_window">
+        <field name="name">Entry from Template</field>
+        <field name="res_model">account.move.template.run</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_account_move_template_run"
+        action="action_account_move_template_run"
+        parent="account.account_transactions_menu"
+        groups="account.group_account_user"
+        sequence="2"
+    />
+</odoo>

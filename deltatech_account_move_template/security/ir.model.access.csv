@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_move_template_readonly,account.move.template readonly,model_account_move_template,account.group_account_readonly,1,0,0,0
+access_account_move_template_user,account.move.template user,model_account_move_template,account.group_account_user,1,0,0,0
+access_account_move_template_manager,account.move.template manager,model_account_move_template,account.group_account_manager,1,1,1,1
+access_account_move_template_line_readonly,account.move.template.line readonly,model_account_move_template_line,account.group_account_readonly,1,0,0,0
+access_account_move_template_line_user,account.move.template.line user,model_account_move_template_line,account.group_account_user,1,0,0,0
+access_account_move_template_line_manager,account.move.template.line manager,model_account_move_template_line,account.group_account_manager,1,1,1,1
+access_account_move_template_run,account.move.template.run,model_account_move_template_run,account.group_account_user,1,1,1,1
+access_account_move_template_run_line,account.move.template.run.line,model_account_move_template_run_line,account.group_account_user,1,1,1,1

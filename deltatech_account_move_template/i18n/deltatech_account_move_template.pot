@@ -1,0 +1,934 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_account_move_template
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-08 13:05+0000\n"
+"PO-Revision-Date: 2026-10-08 13:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "%s (copy)"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "%s templates created."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "A template can have only one balance line."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.constraint,message:deltatech_account_move_template.constraint_account_move_template_name_company_uniq
+msgid "A template with this name already exists in this company."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__account_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__account_id
+msgid "Account"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Accumulated amortisation"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Accumulated depreciation"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/wizard/account_move_template_run.py:0
+msgid "All the amounts are zero: there is nothing to record."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Amortisation"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__fixed_amount
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__amount
+msgid "Amount"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__amount_type
+msgid "Amount Type"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Amount collected, VAT included"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Amount paid, VAT included"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__line_ids
+msgid "Amounts"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__analytic_distribution
+msgid "Analytic Distribution"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__analytic_precision
+msgid "Analytic Precision"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_search
+msgid "Archived"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset received for use"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset received for use (loan for use or rent) - receipt"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset received for use (loan for use or rent) - return"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Asset returned"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__balance
+msgid "Balance"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__base_code
+msgid "Base Code"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_run_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__code
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__code
+msgid "Code"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__base_code
+msgid "Code of the line the percentage applies to."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__company_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__company_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__create_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__create_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__create_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__create_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__create_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__direction__credit
+msgid "Credit"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__currency_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__currency_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__currency_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__date
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__direction__debit
+msgid "Debit"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template__ref
+msgid "Default reference of the generated entries."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.actions.act_window,help:deltatech_account_move_template.action_account_move_template
+msgid "Define a journal entry template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Depreciation"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Depreciation - intangible assets"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Depreciation - tangible assets"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__direction
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__direction
+msgid "Direction"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__display_name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__input
+msgid "Entered"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__amount_type
+msgid ""
+"Entered: typed in when the entry is generated; the suggested value is the formula, if set, otherwise the amount below.\n"
+"Fixed: always the amount below.\n"
+"Percentage: a percentage of the line with the base code.\n"
+"Formula: a Python expression on the codes of the other lines, e.g. GROSS * 0.25.\n"
+"Balance: the amount that balances the entry, taxes included."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__move_count
+msgid "Entries"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_bank_statement_line__move_template_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move__move_template_id
+msgid "Entry Template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.actions.act_window,name:deltatech_account_move_template.action_account_move_template_run
+#: model:ir.ui.menu,name:deltatech_account_move_template.menu_account_move_template_run
+msgid "Entry from Template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__fixed
+msgid "Fixed"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__formula
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__formula
+msgid "Formula"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_filter
+msgid "From Template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Garnishments"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_list
+msgid "Generate"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_run_form
+msgid "Generate Entry"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template_run
+msgid "Generate Journal Entry from Template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template_run_line
+msgid "Generate Journal Entry from Template - Amount"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Gross salaries"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__has_formula
+msgid "Has Formula"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Health insurance contribution"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Income tax"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Input VAT"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__note
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__note
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "Instructions"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Invoices not received"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Invoices to be issued"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template
+msgid "Journal Entry Template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model,name:deltatech_account_move_template.model_account_move_template_line
+msgid "Journal Entry Template Line"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.actions.act_window,name:deltatech_account_move_template.action_account_move_template
+#: model:ir.ui.menu,name:deltatech_account_move_template.menu_account_move_template
+msgid "Journal Entry Templates"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run_line__use_default
+msgid ""
+"Keep the amount computed by the template formula. Uncheck it to type another"
+" amount."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__name
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__name
+msgid "Label"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__write_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__write_uid
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__write_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__write_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__write_date
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__account_id
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run_line__account_id
+msgid ""
+"Leave empty for a parameter of the computation (e.g. an amount including "
+"VAT, a rate): it is entered or computed, but not recorded in the entry."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %(code)s uses unknown codes: %(unknown)s"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s cannot use its own amount."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid ""
+"Line %s cannot use the balance line: its amount is known only after all the "
+"other lines."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: a line with taxes needs an account."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: set the base code of the percentage."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: set the formula."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: the balance line cannot have taxes."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Line %s: the balance line needs an account."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__line_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "Lines"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_list
+msgid "Load Romanian Templates"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Makes the VAT deductible for an amount paid. Use it only for opening "
+"balances or corrections: the cash basis taxes of Odoo already do it on "
+"reconciliation. Invoices with chargeable event before 1 August 2025 use the "
+"19% rate."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Makes the VAT due for an amount collected. Use it only for opening balances "
+"or corrections: the cash basis taxes of Odoo already do it on "
+"reconciliation. Invoices with chargeable event before 1 August 2025 use the "
+"19% rate."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Meal vouchers"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Meal vouchers granted"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Monthly amortisation recorded by hand. Account 2805 is for licences and "
+"software; use 2803 for development costs and 2808 for other intangible "
+"assets. Do not use it for assets managed with the Assets module: the "
+"amortisation would be recorded twice."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Monthly depreciation recorded by hand. Change account 2813 to the one of the"
+" asset group (2812 buildings, 2814 other tangible assets). Do not use it for"
+" assets managed with the Assets module: the depreciation would be recorded "
+"twice."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Monthly rent - invoice not received (tenant)"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Monthly rent - invoice to be issued (lessor)"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Off-balance counterpart"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Off-balance record of an asset received under a loan for use or a rent "
+"contract, at the value in the handover report. Off-balance accounts are kept"
+" in single entry: account 8000 is only the technical counterpart that Odoo "
+"needs to balance the entry. Use 8033 for goods in custody and 8039 for goods"
+" in consignment."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Off-balance record of the return of an asset received for use, at the "
+"receipt value."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Off-balance technical counterpart"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Other values"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Output VAT"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__partner_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Payroll - external payslip"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__percent
+#: model:ir.model.fields.selection,name:deltatech_account_move_template.selection__account_move_template_line__amount_type__percent
+msgid "Percentage"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__post
+msgid "Post the Entry"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Records the payslip computed in another program. Enter the totals of the "
+"payslip: the contributions are suggested from the gross amount (25%, 10%, "
+"2.25%), but the payslip totals prevail (part-time work, rounding per "
+"employee). Sick leave is not included."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Records the rent income of the month when the invoice is issued later. Real "
+"estate rent is VAT exempt unless the lessor opted for taxation: leave the "
+"VAT rate 0 in that case. When the invoice is issued, book it on account 418 "
+"and move the VAT from 4428 to 4427."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid ""
+"Records the rent of the month when the invoice comes later. Real estate rent"
+" is VAT exempt unless the lessor opted for taxation: leave the VAT rate 0 in"
+" that case. When the invoice arrives, book it on account 408 and move the "
+"VAT from 4428 to 4426."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__ref
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__ref
+msgid "Reference"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Rent"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Salaries payable"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Salary advances"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__sequence
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__sequence
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run__partner_id
+msgid "Set on the template lines that have no partner."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.actions.act_window,help:deltatech_account_move_template.action_account_move_template
+msgid ""
+"Set the accounts once; when the entry is due, enter only the base amounts "
+"and the date."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__code
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run_line__code
+msgid ""
+"Short identifier of the line, used by the percentage and formula lines (e.g."
+" GROSS). Filled in automatically (L1, L2...) when left empty."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template__note
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_run__note
+msgid "Shown to the user in the generation wizard."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "Skipped (existing name or missing account): %s"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Social security contribution"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__use_default
+msgid "Suggested"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__tax_tag_ids
+msgid "Tax Grids"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__tax_tag_ids
+msgid ""
+"Tax grids set directly on the journal item, for the lines without taxes "
+"(e.g. a VAT adjustment)."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__tax_ids
+msgid "Taxes"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__tax_ids
+msgid ""
+"Taxes computed on this line. Odoo adds the tax lines, with their tax grids, "
+"to the entry."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_line__template_id
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run__template_id
+msgid "Template"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__template_line_id
+msgid "Template Line"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_bank_statement_line__move_template_id
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move__move_template_id
+msgid "Template the entry was generated from."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The Romanian templates need a company with Romania as fiscal country."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid ""
+"The code %s is not valid: use letters, digits and underscore, starting with "
+"a letter."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/wizard/account_move_template_run.py:0
+msgid ""
+"The entry is not balanced: debit minus credit is %(residual)s. Check the "
+"amounts or add a balance line to the template %(template)s."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The formula of line %(code)s could not be computed: %(error)s"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The formula of line %(code)s is not valid: %(formula)s"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The formula of line %s must return a number."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The line codes must be unique: %s"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The lines %s depend on each other in a loop."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "The purchase of the vouchers is recorded separately (5328 = 401)."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/account_move_template.py:0
+msgid "The template %s has no line with an account."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT not yet due"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT on cash basis - deductible on payment"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT on cash basis - due on collection"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "VAT rate (%)"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,help:deltatech_account_move_template.field_account_move_template_line__partner_id
+msgid ""
+"When empty, the line takes the partner chosen in the generation wizard."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "Where the amounts come from, when to generate the entry..."
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Withholdings from salaries"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template_run_line__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#. odoo-python
+#: code:addons/deltatech_account_move_template/models/ro_templates.py:0
+msgid "Work insurance contribution"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "auto"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "e.g. GROSS * 0.25"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "e.g. Monthly rent"
+msgstr ""
+
+#. module: deltatech_account_move_template
+#: model_terms:ir.ui.view,arch_db:deltatech_account_move_template.view_account_move_template_form
+msgid "parameter"
+msgstr ""

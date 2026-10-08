@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_move_template_list" model="ir.ui.view">
+        <field name="name">account.move.template.list</field>
+        <field name="model">account.move.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <header>
+                    <button
+                        name="action_load_ro_templates"
+                        type="object"
+                        string="Load Romanian Templates"
+                        display="always"
+                        groups="account.group_account_manager"
+                    />
+                </header>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="journal_id" />
+                <field name="ref" optional="show" />
+                <field name="company_id" groups="base.group_multi_company" optional="show" />
+                <button name="action_generate" type="object" string="Generate" icon="fa-play" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_account_move_template_form" model="ir.ui.view">
+        <field name="name">account.move.template.form</field>
+        <field name="model">account.move.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate" type="object" string="Generate Entry" class="btn-primary" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_moves"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            invisible="not move_count"
+                        >
+                            <field name="move_count" widget="statinfo" />
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active" />
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1>
+                            <field name="name" placeholder="e.g. Monthly rent" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="journal_id" />
+                            <field name="ref" />
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="company_id" invisible="1" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="active" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="code" placeholder="auto" />
+                                    <field name="account_id" placeholder="parameter" />
+                                    <field name="name" optional="show" />
+                                    <field name="partner_id" optional="show" />
+                                    <field name="direction" />
+                                    <field name="amount_type" />
+                                    <field
+                                        name="fixed_amount"
+                                        invisible="amount_type not in ('input', 'fixed')"
+                                    />
+                                    <field
+                                        name="percent"
+                                        invisible="amount_type != 'percent'"
+                                        required="amount_type == 'percent'"
+                                    />
+                                    <field
+                                        name="base_code"
+                                        invisible="amount_type != 'percent'"
+                                        required="amount_type == 'percent'"
+                                    />
+                                    <field
+                                        name="formula"
+                                        invisible="amount_type not in ('formula', 'input')"
+                                        required="amount_type == 'formula'"
+                                        placeholder="e.g. GROSS * 0.25"
+                                    />
+                                    <field
+                                        name="tax_ids"
+                                        widget="many2many_tags"
+                                        optional="hide"
+                                        invisible="amount_type == 'balance'"
+                                    />
+                                    <field
+                                        name="tax_tag_ids"
+                                        widget="many2many_tags"
+                                        optional="hide"
+                                        invisible="amount_type == 'balance' or not account_id"
+                                    />
+                                    <field
+                                        name="analytic_distribution"
+                                        widget="analytic_distribution"
+                                        groups="analytic.group_analytic_accounting"
+                                        optional="show"
+                                    />
+                                    <field name="company_id" column_invisible="True" />
+                                    <field name="currency_id" column_invisible="True" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Instructions" name="note">
+                            <field name="note" placeholder="Where the amounts come from, when to generate the entry..." />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_move_template_search" model="ir.ui.view">
+        <field name="name">account.move.template.search</field>
+        <field name="model">account.move.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="journal_id" />
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_account_move_template" model="ir.actions.act_window">
+        <field name="name">Journal Entry Templates</field>
+        <field name="res_model">account.move.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define a journal entry template</p>
+            <p>
+                Set the accounts once; when the entry is due, enter only the base amounts and the date.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_account_move_template"
+        action="action_account_move_template"
+        parent="account.account_account_menu"
+        sequence="20"
+    />
+</odoo>
