@@ -1,3 +1,10 @@
+## 20.0.1.2.11 (2026-10-07)
+
+- **Fix: `product.supplierinfo.create` lipsea decoratorul
+  `@api.model_create_multi`.** Semnătura (`vals_list`) aștepta o listă de
+  dict-uri, dar fără decorator ORM-ul nu garanta asta — un apel cu un singur
+  dict ar fi ajuns direct în `super().create()` cu forma greșită.
+
 ## 20.0.1.2.10 (2026-10-04)
 
 - **Fix (PURCHASEPRICE-002): forced supplier-price update converts the price
