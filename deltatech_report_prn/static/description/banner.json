@@ -1,0 +1,6 @@
+{
+  "title": "PRN Report",
+  "icon": "file",
+  "summary": "Print Zebra (.prn) label files",
+  "features": ["Prints .prn files for Zebra printers", "Direct label syntax output"]
+}
