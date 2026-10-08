@@ -536,12 +536,12 @@ msgid ""
 "Makes the VAT deductible for an amount paid. Use it only for opening "
 "balances or corrections: the cash basis taxes of Odoo already do it on "
 "reconciliation. Invoices with chargeable event before 1 August 2025 use the "
-"19% rate."
+"rates of that time (19%, 9%, 5%)."
 msgstr ""
 "Face deductibilă TVA pentru o sumă plătită. Folosiți-l doar pentru solduri "
 "inițiale sau corecții: taxele Odoo cu TVA la încasare fac deja această "
 "înregistrare la reconciliere. Facturile cu fapt generator înainte de 1 "
-"august 2025 folosesc cota de 19%."
+"august 2025 folosesc cotele de atunci (19%, 9%, 5%)."
 
 #. module: deltatech_account_move_template
 #. odoo-python
@@ -550,12 +550,12 @@ msgid ""
 "Makes the VAT due for an amount collected. Use it only for opening balances "
 "or corrections: the cash basis taxes of Odoo already do it on "
 "reconciliation. Invoices with chargeable event before 1 August 2025 use the "
-"19% rate."
+"rates of that time (19%, 9%, 5%)."
 msgstr ""
 "Face exigibilă TVA pentru o sumă încasată. Folosiți-l doar pentru solduri "
 "inițiale sau corecții: taxele Odoo cu TVA la încasare fac deja această "
 "înregistrare la reconciliere. Facturile cu fapt generator înainte de 1 "
-"august 2025 folosesc cota de 19%."
+"august 2025 folosesc cotele de atunci (19%, 9%, 5%)."
 
 #. module: deltatech_account_move_template
 #. odoo-python
@@ -573,15 +573,16 @@ msgstr "Tichete de masă acordate"
 #. odoo-python
 #: code:addons/deltatech_account_move_template/models/ro_templates.py:0
 msgid ""
-"Monthly amortisation recorded by hand. Account 2805 is for licences and "
-"software; use 2803 for development costs and 2808 for other intangible "
-"assets. Do not use it for assets managed with the Assets module: the "
-"amortisation would be recorded twice."
+"Monthly amortisation recorded by hand. Account 2808 is for software and "
+"other intangible assets; use 2805 for concessions, patents, licences and "
+"trademarks, and 2803 for development costs. Do not use it for assets managed"
+" with the Assets module: the amortisation would be recorded twice."
 msgstr ""
-"Amortizare lunară înregistrată manual. Contul 2805 este pentru licențe și "
-"programe informatice; folosiți 2803 pentru cheltuieli de dezvoltare și 2808 "
-"pentru alte imobilizări necorporale. Nu îl folosiți pentru imobilizările "
-"gestionate cu modulul de active: amortizarea s-ar înregistra de două ori."
+"Amortizare lunară înregistrată manual. Contul 2808 este pentru programe "
+"informatice și alte imobilizări necorporale; folosiți 2805 pentru "
+"concesiuni, brevete, licențe și mărci și 2803 pentru cheltuieli de "
+"dezvoltare. Nu îl folosiți pentru imobilizările gestionate cu modulul de "
+"active: amortizarea s-ar înregistra de două ori."
 
 #. module: deltatech_account_move_template
 #. odoo-python
@@ -707,28 +708,30 @@ msgstr ""
 #: code:addons/deltatech_account_move_template/models/ro_templates.py:0
 msgid ""
 "Records the rent income of the month when the invoice is issued later. Real "
-"estate rent is VAT exempt unless the lessor opted for taxation: leave the "
-"VAT rate 0 in that case. When the invoice is issued, book it on account 418 "
-"and move the VAT from 4428 to 4427."
+"estate rent is VAT exempt: leave the VAT rate 0. If you opted for taxation, "
+"and for the rent of movable goods (equipment, cars), enter the rate 21. When"
+" the invoice is issued: 4111 = 418 and 4427 = 4428."
 msgstr ""
 "Înregistrează venitul din chirie al lunii când factura se emite ulterior. "
-"Închirierea de imobile este scutită de TVA, cu excepția cazului în care "
-"locatorul a optat pentru taxare: în acest caz lăsați cota TVA 0. La emiterea"
-" facturii, înregistrați-o pe contul 418 și treceți TVA din 4428 în 4427."
+"Închirierea de imobile este scutită de TVA: lăsați cota TVA 0. Dacă ați "
+"optat pentru taxare, precum și la închirierea de bunuri mobile (echipamente,"
+" autoturisme), introduceți cota 21. La emiterea facturii: 4111 = 418 și 4427"
+" = 4428."
 
 #. module: deltatech_account_move_template
 #. odoo-python
 #: code:addons/deltatech_account_move_template/models/ro_templates.py:0
 msgid ""
 "Records the rent of the month when the invoice comes later. Real estate rent"
-" is VAT exempt unless the lessor opted for taxation: leave the VAT rate 0 in"
-" that case. When the invoice arrives, book it on account 408 and move the "
-"VAT from 4428 to 4426."
+" is VAT exempt: leave the VAT rate 0. If the lessor opted for taxation, and "
+"for the rent of movable goods (equipment, cars), enter the rate 21. When the"
+" invoice arrives: 408 = 401 and 4426 = 4428."
 msgstr ""
 "Înregistrează chiria lunii când factura vine ulterior. Închirierea de "
-"imobile este scutită de TVA, cu excepția cazului în care locatorul a optat "
-"pentru taxare: în acest caz lăsați cota TVA 0. Când sosește factura, "
-"înregistrați-o pe contul 408 și treceți TVA din 4428 în 4426."
+"imobile este scutită de TVA: lăsați cota TVA 0. Dacă locatorul a optat "
+"pentru taxare, precum și la închirierea de bunuri mobile (echipamente, "
+"autoturisme), introduceți cota 21. La sosirea facturii: 408 = 401 și 4426 = "
+"4428."
 
 #. module: deltatech_account_move_template
 #: model:ir.model.fields,field_description:deltatech_account_move_template.field_account_move_template__ref

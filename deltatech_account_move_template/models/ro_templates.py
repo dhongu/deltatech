@@ -25,9 +25,9 @@ class AccountMoveTemplate(models.Model):
             {
                 "name": self.env._("Monthly rent - invoice not received (tenant)"),
                 "note": self.env._(
-                    "Records the rent of the month when the invoice comes later. Real estate rent is VAT exempt "
-                    "unless the lessor opted for taxation: leave the VAT rate 0 in that case. When the invoice "
-                    "arrives, book it on account 408 and move the VAT from 4428 to 4426."
+                    "Records the rent of the month when the invoice comes later. Real estate rent is VAT exempt: "
+                    "leave the VAT rate 0. If the lessor opted for taxation, and for the rent of movable goods "
+                    "(equipment, cars), enter the rate 21. When the invoice arrives: 408 = 401 and 4426 = 4428."
                 ),
                 "lines": [
                     line("RENT", "612", "debit", name=self.env._("Rent")),
@@ -47,8 +47,9 @@ class AccountMoveTemplate(models.Model):
                 "name": self.env._("Monthly rent - invoice to be issued (lessor)"),
                 "note": self.env._(
                     "Records the rent income of the month when the invoice is issued later. Real estate rent is "
-                    "VAT exempt unless the lessor opted for taxation: leave the VAT rate 0 in that case. When the "
-                    "invoice is issued, book it on account 418 and move the VAT from 4428 to 4427."
+                    "VAT exempt: leave the VAT rate 0. If you opted for taxation, and for the rent of movable "
+                    "goods (equipment, cars), enter the rate 21. When the invoice is issued: 4111 = 418 and "
+                    "4427 = 4428."
                 ),
                 "lines": [
                     line("RENT", "706", "credit", name=self.env._("Rent")),
@@ -79,13 +80,14 @@ class AccountMoveTemplate(models.Model):
             {
                 "name": self.env._("Depreciation - intangible assets"),
                 "note": self.env._(
-                    "Monthly amortisation recorded by hand. Account 2805 is for licences and software; use 2803 for "
-                    "development costs and 2808 for other intangible assets. Do not use it for assets managed "
-                    "with the Assets module: the amortisation would be recorded twice."
+                    "Monthly amortisation recorded by hand. Account 2808 is for software and other intangible "
+                    "assets; use 2805 for concessions, patents, licences and trademarks, and 2803 for development "
+                    "costs. Do not use it for assets managed with the Assets module: the amortisation would be "
+                    "recorded twice."
                 ),
                 "lines": [
                     line("DEP", "6811", "debit", name=self.env._("Amortisation")),
-                    line("ACC", "2805", "credit", "balance", name=self.env._("Accumulated amortisation")),
+                    line("ACC", "2808", "credit", "balance", name=self.env._("Accumulated amortisation")),
                 ],
             },
             {
@@ -168,7 +170,7 @@ class AccountMoveTemplate(models.Model):
                 "note": self.env._(
                     "Makes the VAT due for an amount collected. Use it only for opening balances or corrections: "
                     "the cash basis taxes of Odoo already do it on reconciliation. Invoices with chargeable event "
-                    "before 1 August 2025 use the 19% rate."
+                    "before 1 August 2025 use the rates of that time (19%, 9%, 5%)."
                 ),
                 "lines": [
                     parameter("TOTAL", self.env._("Amount collected, VAT included")),
@@ -189,7 +191,7 @@ class AccountMoveTemplate(models.Model):
                 "note": self.env._(
                     "Makes the VAT deductible for an amount paid. Use it only for opening balances or "
                     "corrections: the cash basis taxes of Odoo already do it on reconciliation. Invoices with "
-                    "chargeable event before 1 August 2025 use the 19% rate."
+                    "chargeable event before 1 August 2025 use the rates of that time (19%, 9%, 5%)."
                 ),
                 "lines": [
                     parameter("TOTAL", self.env._("Amount paid, VAT included")),
