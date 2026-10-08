@@ -154,4 +154,22 @@
         <field name="value">20</field>
     </record>
 
+    <!-- Watermark removal (needs the optional Python library numpy).
+         Up to wm_sync_limit images get a preview; more are queued. The
+         watermark is learned from at most wm_learn_limit of the selected images. -->
+    <record id="cp_wm_sync_limit" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.wm_sync_limit</field>
+        <field name="value">10</field>
+    </record>
+
+    <record id="cp_wm_learn_limit" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.wm_learn_limit</field>
+        <field name="value">60</field>
+    </record>
+
+    <record id="cp_wm_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.wm_batch</field>
+        <field name="value">20</field>
+    </record>
+
 </odoo>

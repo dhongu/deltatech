@@ -30,4 +30,16 @@
         <field name="active" eval="True" />
     </record>
 
+    <!-- Processes the images queued by the "Remove Watermark" action, with the
+         watermark learned in the wizard. Triggered by the action itself; the
+         hourly run only picks up a batch interrupted by a worker restart. -->
+    <record id="ir_cron_dt_image_remove_watermark" model="ir.cron">
+        <field name="name">Image Optimizer: remove product image watermark</field>
+        <field name="model_id" ref="base.model_ir_attachment" />
+        <field name="state">code</field>
+        <field name="code">model._dt_wm_remove_cron()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True" />
+    </record>
 </odoo>

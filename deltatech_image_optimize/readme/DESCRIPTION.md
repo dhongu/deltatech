@@ -1,8 +1,10 @@
-Clean, light product images for the eCommerce catalog, in three jobs on the same images:
+Clean, light product images for the eCommerce catalog, in four jobs on the same images:
 
 - **Remove the background** of product photos: the product is cut out and saved on a
   transparent background (or a solid color), with a before / after preview so the result is
   checked before anything is written.
+- **Remove a watermark** your catalog images carry: a semi-transparent logo blended over the
+  photos is learned from the images themselves and removed, with the same preview.
 - **Remove duplicated images**: the same picture stored twice in a product's gallery is found and
   deleted; a picture shared by several products is reported, never deleted.
 - **Recompress oversized images**: originals are downscaled and re-encoded (JPEG, or WebP when they
@@ -47,6 +49,32 @@ it, photos on a plain background are still cut out by color.
 Check the marketplaces and feeds the images are sent to before converting a whole catalog: some
 accept only JPEG or PNG, and show a transparent image on a black background. A solid white
 background can be chosen instead.
+
+## Watermark removal
+
+Some catalogs carry a semi-transparent logo blended over every photo — often the shop's own logo,
+added once to protect the images and unwanted later (marketplaces such as eMAG refuse watermarked
+images). Select the products and use **Actions → Remove Watermark**.
+
+The watermark is **learned from the selected images**, not drawn by hand: the wizard shows the
+watermark it found, then each image before and after, with the same checks as for the background
+(preview up to ``wm_sync_limit`` images, a queue above it, nothing written before **Apply**). The
+cleaned image is saved opaque.
+
+Removed today: a watermark whose blend **also lowered the transparency** of the image where it was
+drawn — some watermarking tools do this, and the image then keeps the exact mask of the logo, even
+over the product. From it, the module learns how strongly the logo was blended at every step and
+reverses the blend, instead of guessing what was under the logo. A watermark that left no trace in
+the transparency is reported as not found.
+
+**Only remove a watermark you have the right to remove** — your own, or with the written consent of
+the rights holder. A supplier's or manufacturer's watermark shows who holds the rights to the photo;
+removing it to publish the image is not allowed without their consent (EU Directive 2001/29/EC,
+art. 7). The wizard says so before anything else. For supplier photos, ask the supplier for the
+images without watermark.
+
+The original image is **not kept**. At 100% zoom faint outlines of the logo can remain on plain
+backgrounds, as lossy compression blurs the edges of the mask.
 
 ## Duplicated product images
 
