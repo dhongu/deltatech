@@ -4,7 +4,7 @@
 {
     "name": "MRP Extension",
     "summary": "MRP Extension",
-    "version": "20.0.1.0.6",
+    "version": "20.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
