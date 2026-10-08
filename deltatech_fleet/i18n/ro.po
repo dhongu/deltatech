@@ -958,7 +958,6 @@ msgstr ""
 #. module: deltatech_fleet
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route__name
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log__name
-#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log__week_day
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle_log_fuel__name
 msgid "Name"
 msgstr ""
@@ -1422,7 +1421,7 @@ msgstr "Vehicul"
 #: model:ir.actions.act_window,name:deltatech_fleet.fleet_vehicle_category_act
 #: model:ir.model,name:deltatech_fleet.model_fleet_vehicle_category
 #: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_map_sheet__category_id
-#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle__category_id
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_vehicle__vehicle_category_id
 #: model:ir.ui.menu,name:deltatech_fleet.fleet_vehicle_category_menu
 msgid "Vehicle Category"
 msgstr "Categorie vehicul"
@@ -1477,6 +1476,11 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_vehicle_log_fuel__website_message_ids
 msgid "Website communication history"
 msgstr ""
+
+#. module: deltatech_fleet
+#: model:ir.model.fields,field_description:deltatech_fleet.field_fleet_route_log__week_day
+msgid "Week Day"
+msgstr "Ziua săptămânii"
 
 #. module: deltatech_fleet
 #: model:ir.model.fields,help:deltatech_fleet.field_fleet_map_sheet__state

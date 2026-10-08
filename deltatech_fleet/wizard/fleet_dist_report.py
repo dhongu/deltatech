@@ -100,4 +100,4 @@ class FleetDistanceReportLine(models.Model):
     vehicle_id = fields.Many2one("fleet.vehicle", "Vehicle", readonly=True)
     cost = fields.Float("Cost", readonly=True)
     distance = fields.Float("Distance", readonly=True)
-    price = fields.Float("Price", readonly=True, group_operator="avg")
+    price = fields.Float("Price", readonly=True, aggregator="avg")

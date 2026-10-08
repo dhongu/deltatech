@@ -1,3 +1,7 @@
-Feature:
+Adds geographical information to the Fleet extensions from `deltatech_fleet`.
 
-- add Latitude, Longitude and Radius inside the fleet location and fleet route
+Features:
+
+- Latitude, longitude and radius on fleet locations.
+- Latitude and longitude of the start and end location on fleet routes.
+- Latitude and longitude on vehicle location entries.

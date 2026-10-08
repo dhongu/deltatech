@@ -28,12 +28,15 @@ WITH service_costs AS (
         ve.driver_id AS driver_id,
         ve.fuel_type AS fuel_type,
         date(date_trunc('month', d)) AS date_start,
+        vem.vehicle_type AS vehicle_type,
         COALESCE(sum(se.amount), 0) AS
         COST,
         'service' AS cost_type,
         se.service_type_id as cost_type_id
     FROM
         fleet_vehicle ve
+    JOIN
+        fleet_vehicle_model vem ON vem.id = ve.model_id
     CROSS JOIN generate_series((
             SELECT
                 min(date)
@@ -45,6 +48,7 @@ WITH service_costs AS (
     GROUP BY
         ve.id,
         ve.company_id,
+        vem.vehicle_type,
         ve.name,
         date_start,
         d,
@@ -61,6 +65,7 @@ contract_costs AS (
         ve.driver_id AS driver_id,
         ve.fuel_type AS fuel_type,
         date(date_trunc('month', d)) AS date_start,
+        vem.vehicle_type AS vehicle_type,
         (COALESCE(sum(co.amount), 0) +
         COALESCE(sum(cod.cost_generated *
         extract(day FROM least (date_trunc('month', d) + interval '1 month', cod.expiration_date) -
@@ -70,6 +75,8 @@ contract_costs AS (
         COALESCE(co.cost_subtype_id, cod.cost_subtype_id, com.cost_subtype_id, coy.cost_subtype_id ) as cost_type_id
     FROM
         fleet_vehicle ve
+    JOIN
+        fleet_vehicle_model vem ON vem.id = ve.model_id
     CROSS JOIN generate_series((
             SELECT
                 min(acquisition_date)
@@ -94,6 +101,7 @@ WHERE
 GROUP BY
     ve.id,
     ve.company_id,
+    vem.vehicle_type,
     ve.name,
     date_start,
     d,
@@ -110,6 +118,7 @@ SELECT
     driver_id,
     fuel_type,
     date_start,
+    vehicle_type,
     COST,
     'service' as cost_type,
     sc.cost_type_id,
@@ -126,6 +135,7 @@ UNION ALL (
         driver_id,
         fuel_type,
         date_start,
+        vehicle_type,
         COST,
         'contract' as cost_type,
         cc.cost_type_id,
