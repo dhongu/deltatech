@@ -72,8 +72,31 @@ class AccountAnalyticSplit(models.Model):
         else:
             raise UserError(self.env._("You must select a split template"))
 
-    def action_create_analytic_lines(self):
+    def _check_can_confirm(self):
+        """Checks done before anything is created or deleted: the Confirm button can be pressed
+        before Compute, and RPC can call it again on a confirmed split."""
         self.ensure_one()
+        if self.state != "draft":
+            raise UserError(self.env._("The split %s is already confirmed.", self.display_name))
+        if not self.line_ids:
+            raise UserError(self.env._("There are no split lines. Use Compute before Confirm."))
+        if self.split_type == "line" and not self.line_to_split.exists():
+            raise UserError(self.env._("Select the analytic line to split."))
+        if self.line_ids.analytic_line_id:
+            raise UserError(self.env._("The split lines already have analytic entries."))
+        expected = self.line_to_split.amount if self.split_type == "line" else self.amount
+        currency = self.env.company.currency_id
+        if currency.compare_amounts(sum(self.line_ids.mapped("amount")), expected):
+            raise UserError(
+                self.env._(
+                    "The split lines total %(total)s, but %(expected)s must be split.",
+                    total=currency.round(sum(self.line_ids.mapped("amount"))),
+                    expected=expected,
+                )
+            )
+
+    def action_create_analytic_lines(self):
+        self._check_can_confirm()
         analytic_lines = self.env["account.analytic.line"]
         for line in self.line_ids:
             value = {
