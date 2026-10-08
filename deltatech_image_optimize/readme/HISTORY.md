@@ -1,3 +1,14 @@
+# 19.0.1.12.0
+
+- New action **Remove Watermark** on products and product images. It learns,
+  from the selected images, a semi-transparent watermark whose blend also
+  lowered the image transparency (the exact mask of the logo stays in the
+  alpha channel), shows the detected watermark and a before / after preview,
+  and saves the cleaned image opaque. Large selections are queued with the
+  learned watermark. The wizard opens with an information box on the legal
+  limits: only a watermark one has the right to remove (own, or with the
+  rights holder's consent; EU Directive 2001/29/EC, art. 7). Needs ``numpy``.
+
 # 19.0.1.11.1
 
 - The AI model no longer runs the worker out of memory. BiRefNet is gone from

@@ -35,6 +35,20 @@ loaded at a time.
 **Access rights.** The action needs *Products: Create*. Writing gallery images needs *Sales:
 Administrator* or *Website: Restricted Editor*, as in standard Odoo.
 
+## Watermark removal
+
+Needs the Python library **numpy** (installed together with ``rembg``; otherwise add ``numpy`` to the
+``requirements.txt`` of the deployment).
+
+| Key | Default | Meaning |
+| --- | --- | --- |
+| ``wm_sync_limit`` | 10 | up to this many images (main and gallery) get a preview; more are queued |
+| ``wm_learn_limit`` | 60 | the watermark is learned from at most this many of the selected images |
+| ``wm_batch`` | 20 | images per run of the scheduled action |
+
+The watermark learned in the wizard is kept as a *Learned Image Watermark* record and used by the
+scheduled action **Image Optimizer: remove product image watermark** for queued images.
+
 ## Recompression
 
 | Key | Default | Meaning |
