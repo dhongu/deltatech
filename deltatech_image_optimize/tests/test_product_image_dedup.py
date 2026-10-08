@@ -118,6 +118,17 @@ class TestProductImageDedup(TransactionCase):
         self.assertEqual(group.product_count, 2)
         self.assertEqual(group.removable_count, 1)
 
+    def test_report_list_loads_in_the_web_client(self):
+        """Lista citește și write_date (widget-ul de imagine); vederea SQL trebuie să-l aibă."""
+        self.create_image("red 1", self.product_a, self.red)
+        self.create_image("red 2", self.product_a, self.red)
+        self.env.flush_all()
+
+        spec = {name: {} for name in ("sample_image", "image_count", "product_names", "write_date")}
+        result = self.env["deltatech.product.image.duplicate"].web_search_read([], spec)
+        self.assertTrue(result["records"])
+        self.assertTrue(result["records"][0]["write_date"])
+
     def test_backfill_fills_missing_checksums(self):
         image = self.create_image("red", self.product_a, self.red)
         expected = image.image_checksum
