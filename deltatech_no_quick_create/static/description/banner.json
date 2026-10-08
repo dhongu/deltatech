@@ -1,0 +1,5 @@
+{
+  "icon": "grid",
+  "summary": "Disable quick-create on relations",
+  "features": ["Blocks quick-create on m2o fields", "Prevents empty records"]
+}
