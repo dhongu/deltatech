@@ -24,7 +24,7 @@
                         name="compute_finit_price"
                         type="object"
                         string="Recompute prices"
-                        invvisible="state!='draft'"
+                        invisible="state!='draft'"
                     />
                     <button type="object" name="add_multiple_lines" string="Add lines" />
                     <field name="state" widget="statusbar" />

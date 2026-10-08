@@ -4,6 +4,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import SQL
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -42,7 +43,18 @@ class MRPSimple(models.Model):
     final_product_uom_id = fields.Many2one("uom.uom", "Unit of Measure", copy=False)
     final_product_id = fields.Many2one("product.product", "Final Product", copy=False)
 
+    def _check_can_transfer(self):
+        """Confirm only once: the button is hidden after draft, but RPC or a retried request
+        would consume and receive the stock a second time."""
+        self.ensure_one()
+        # lock the record so that two concurrent confirmations cannot both pass the check
+        self.env.cr.execute(SQL("SELECT id FROM mrp_simple WHERE id = %s FOR UPDATE", self.id))
+        self.invalidate_recordset(["state", "consume_id", "receipt_id"])
+        if self.state != "draft" or self.consume_id or self.receipt_id:
+            raise UserError(self.env._("The simple production %s is already confirmed.", self.display_name))
+
     def do_transfer(self):
+        self._check_can_transfer()
         picking_type_consume = self.picking_type_consume
         picking_type_receipt_production = self.picking_type_receipt_production
 
@@ -237,8 +249,37 @@ class MRPSimple(models.Model):
         finit_price = 0.0
         for line in self.product_out_ids:
             finit_price += line.value
-        for line in self.product_in_ids:
-            line.price_unit = finit_price / line.quantity
+        self._allocate_finit_price(finit_price)
+
+    def _allocate_finit_price(self, total_cost):
+        """Split the consumed cost over the received products, so that their values add up to it.
+
+        The cost is shared in proportion to the standard value of each received product
+        (standard price x quantity); when none of them has a standard price, in proportion
+        to the quantity in the product unit. A line with no quantity gets no price.
+        """
+        lines = self.product_in_ids.filtered(lambda line: line.quantity)
+        (self.product_in_ids - lines).price_unit = 0.0
+        if not lines:
+            return
+
+        def product_qty(line):
+            uom = line.uom_id or line.product_id.uom_id
+            return uom._compute_quantity(line.quantity, line.product_id.uom_id) if line.product_id else line.quantity
+
+        weights = {line: line.product_id.standard_price * product_qty(line) for line in lines}
+        if not any(weights.values()):
+            weights = {line: product_qty(line) for line in lines}
+        total_weight = sum(weights.values())
+        allocated = 0.0
+        for index, line in enumerate(lines):
+            if index == len(lines) - 1:
+                # the last line takes what is left after the rounding of the others
+                line.price_unit = (total_cost - allocated) / line.quantity
+            else:
+                share = weights[line] / total_weight if total_weight else 1.0 / len(lines)
+                line.price_unit = total_cost * share / line.quantity
+                allocated += line.price_unit * line.quantity
 
     def create_picking_lines_in(self, picking_in):
         if not self.product_in_ids:
@@ -307,8 +348,7 @@ class MRPSimpleLineIn(models.Model):
         price = 0.0
         for line in mrpsimple.product_out_ids:
             price += line.product_id.standard_price * line.quantity
-        for line in mrpsimple.product_in_ids:
-            line.price_unit = price / line.quantity
+        mrpsimple._allocate_finit_price(price)
 
     @api.depends("quantity", "price_unit")
     def _compute_value(self):
