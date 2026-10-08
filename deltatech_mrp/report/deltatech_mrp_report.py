@@ -109,21 +109,20 @@ SELECT s.id, s.id as production_id,
      LEFT JOIN uom_uom u ON ((u.id = s.uom_id)))
      LEFT JOIN ( SELECT sm.production_id,
             sum(sm.product_qty) AS product_qty_ef,
-            sum(CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) AS product_val_ef,
-            sm.procure_method
+            sum(CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) AS product_val_ef
            FROM  stock_move sm
 
 
           WHERE ((sm.state)::text = 'done'::text)
-          GROUP BY sm.production_id, sm.procure_method) sub_prod_ef ON ((sub_prod_ef.production_id = s.id)))
+          GROUP BY sm.production_id) sub_prod_ef ON ((sub_prod_ef.production_id = s.id)))
 
 left join (
 SELECT
     sm.raw_material_production_id AS production_id,
    SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) AS consumed_val,
-      CASE WHEN pc.cost_categ='semi' THEN SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) else 0.0 end as  consumed_sem_val,
-      CASE WHEN pc.cost_categ='pak' THEN SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) else 0.0 end as  consumed_pak_val,
-      CASE WHEN pc.cost_categ='raw' THEN SUM (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) else 0.0 end as  consumed_raw_val
+      SUM (CASE WHEN pc.cost_categ='semi' THEN (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) ELSE 0.0 END) AS consumed_sem_val,
+      SUM (CASE WHEN pc.cost_categ='pak' THEN (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) ELSE 0.0 END) AS consumed_pak_val,
+      SUM (CASE WHEN pc.cost_categ='raw' THEN (CASE WHEN sm.is_out THEN -sm.value ELSE sm.value END) ELSE 0.0 END) AS consumed_raw_val
     FROM
         stock_move sm
 
@@ -134,7 +133,7 @@ SELECT
         raw_material_production_id IS NOT NULL
         AND sm.state = 'done' :: TEXT
     GROUP BY
-        sm.raw_material_production_id, pc.cost_categ
+        sm.raw_material_production_id
 
 
     ) sub_consumed ON ((sub_consumed.production_id = s.id)))
