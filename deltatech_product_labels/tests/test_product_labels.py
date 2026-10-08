@@ -1,6 +1,8 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+import base64
+
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -41,7 +43,7 @@ class TestProductLabels(TransactionCase):
     def test_get_wrapped_and_action_override(self):
         # Enable override via system parameter
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("terrabit_labels.override_print_button", "True")
+        ICP.set_bool("terrabit_labels.override_print_button", True)
 
         # get_wrapped should wrap by given length and hide default_code in display_name context
         wrapped = self.product.get_wrapped(5)
@@ -54,7 +56,7 @@ class TestProductLabels(TransactionCase):
         self.assertEqual(action.get("res_model"), "product.product.label")
 
         # Disable override and ensure standard action is still a dict (sanity)
-        ICP.set_param("terrabit_labels.override_print_button", "False")
+        ICP.set_bool("terrabit_labels.override_print_button", False)
         action2 = self.product.action_open_label_layout()
         self.assertIsInstance(action2, dict)
 
@@ -171,7 +173,7 @@ class TestProductLabels(TransactionCase):
         move = self.env["stock.move"].create(
             {
                 "product_id": self.stock_product.id,
-                "product_uom": self.stock_product.uom_id.id,
+                "uom_id": self.stock_product.uom_id.id,
                 "product_uom_qty": 1.0,
                 "picking_id": picking.id,
                 "location_id": self.loc_stock.id,
@@ -182,7 +184,7 @@ class TestProductLabels(TransactionCase):
             {
                 "move_id": move.id,
                 "product_id": self.stock_product.id,
-                "product_uom_id": self.stock_product.uom_id.id,
+                "uom_id": self.stock_product.uom_id.id,
                 "picking_id": picking.id,
                 "location_id": self.loc_stock.id,
                 "location_dest_id": self.loc_stock.id,
@@ -242,10 +244,12 @@ class TestProductLabels(TransactionCase):
         # get_location_line should safely return False if feature not installed
         self.assertFalse(line.get_location_line())
         # get_barcode_url requires base url param
-        self.env["ir.config_parameter"].sudo().set_param("web.base.url", "http://example.test")
+        self.env["ir.config_parameter"].sudo().set_str("web.base.url", "http://example.test")
         url = line.get_barcode_url(code_format="Code128", barcode="TEST", width=100, height=40)
         self.assertIsInstance(url, str)
         self.assertIn("/report/barcode/", url)
         # compute barcode image works with default_code fallback
         line._compute_barcode_image()
-        self.assertTrue(line.barcode_image)
+        self.assertTrue(line.barcode_image.startswith("data:image/svg+xml;base64,"))
+        svg = base64.b64decode(line.barcode_image.split(",", 1)[1])
+        self.assertIn(b"<svg", svg)

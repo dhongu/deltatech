@@ -5,7 +5,6 @@
         <field name="model">product.product.label</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_product_labels.product_product_label</field>
-        <field name="report_file">deltatech_product_labels.product_product_label</field>
         <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
         <field name="binding_type">report</field>
     </record>
@@ -15,7 +14,6 @@
         <field name="model">product.product.label</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_product_labels.product_product_label_100x50</field>
-        <field name="report_file">deltatech_product_labels.product_product_label_100x50</field>
         <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
         <field name="binding_type">report</field>
     </record>
@@ -37,29 +35,14 @@
                     }
                 </style>
                 <div class="article">
-                    <t t-raw="0" />
+                    <t t-out="0" />
                 </div>
             </div>
         </t>
     </template>
     <template id="set_barcode">
+        <!-- Kept for compatibility; the barcode is now rendered by the <img> of each label -->
         <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
-        <t t-if="code">
-            <t t-set="image_barcode" t-value="'data:image/png;base64,%s' % line.barcode_image" />
-            <style>
-                .barcode
-                <t t-esc="line.product_id.id" />
-                {
-                background-repeat: no-repeat;
-                width: 100%;
-                height: 100%;
-                background-size : 100% 100%;
-                background-image: url(
-                <t t-esc="image_barcode" />
-                )
-                }
-            </style>
-        </t>
     </template>
     <template id="product_product_label">
         <t t-call="deltatech_product_labels.label_layout">
@@ -71,8 +54,8 @@
                             <strong t-field="line.product_id.display_name" />
                             <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
                             <span t-if="code">
-                                <img t-att-class="'barcode%s' % line.product_id.id" />
-                                <span t-esc="code" />
+                                <img t-att-src="line.barcode_image" class="barcode" />
+                                <span t-out="code" />
                             </span>
                         </div>
                     </t>
@@ -90,8 +73,8 @@
                             <strong t-field="line.product_id.display_name" />
                             <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
                             <span t-if="code">
-                                <img t-att-class="'barcode%s' % line.product_id.id" style="width:8cm; height:2cm" />
-                                <span t-esc="code" />
+                                <img t-att-src="line.barcode_image" class="barcode" style="width:8cm; height:2cm" />
+                                <span t-out="code" />
                             </span>
                         </div>
                     </t>

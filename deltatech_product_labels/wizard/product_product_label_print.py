@@ -278,43 +278,30 @@ class ProductProductLabelLine(models.TransientModel):
     product_id = fields.Many2one(comodel_name="product.product", string="Product")
     quantity = fields.Integer(string="Label Qty", default=1)
 
-    barcode_image = fields.Binary(string="Barcode Image", compute="_compute_barcode_image")
+    # Odoo 20: Binary fields hold raw bytes; the report needs a ready-to-use data URI
+    barcode_image = fields.Char(string="Barcode Image", compute="_compute_barcode_image")
 
     lot = fields.Char()
     price = fields.Float(compute="_compute_price")
 
     def _compute_barcode_image(self):
         for line in self:
-            if line.product_id.barcode or line.product_id.default_code:
-                if line.product_id.barcode:
-                    barcode_image = createBarcodeDrawing(
-                        "EAN13",
-                        value=line.product_id.barcode,
-                        width=200,
-                        height=100,
-                        format="svg",
-                        humanReadable=True,
-                    )
-
-                    code = line.product_id.barcode
-                else:
-                    barcode_image = createBarcodeDrawing(
-                        "Code128",
-                        value=line.product_id.default_code or "no_barcode",
-                        width=600,
-                        height=100,
-                        format="svg",
-                        humanReadable=False,
-                    )
-                    code = line.product_id.default_code
-
-                barcode_image.save(["svg"], fnRoot=code, outDir="/tmp")
-                filename = f"/tmp/{code}.svg"
-                with open(filename) as f:
-                    barcode_image = f.read()
-
-                barcode_image = base64.b64encode(barcode_image.encode())
-                line.barcode_image = f"data:image/svg+xml;base64,{barcode_image.decode()}"
+            product = line.product_id
+            if product.barcode:
+                drawing = createBarcodeDrawing(
+                    "EAN13", value=product.barcode, width=200, height=100, format="svg", humanReadable=True
+                )
+            elif product.default_code:
+                drawing = createBarcodeDrawing(
+                    "Code128", value=product.default_code, width=600, height=100, format="svg", humanReadable=False
+                )
+            else:
+                line.barcode_image = False
+                continue
+            svg = drawing.asString("svg")
+            if isinstance(svg, str):
+                svg = svg.encode()
+            line.barcode_image = f"data:image/svg+xml;base64,{base64.b64encode(svg).decode()}"
 
     def get_label_data(self):
         return {
@@ -350,7 +337,7 @@ class ProductProductLabelLine(models.TransientModel):
     def get_barcode_url(self, code_format="Code128", barcode="", width=200, height=60, humanreadable=1, quiet=0):
         self.ensure_one()
         if self.product_id:
-            base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+            base_url = self.env["ir.config_parameter"].sudo().get_str("web.base.url")
             # url = "{}/report/barcode/{}/{}".format(base_url, format, barcode)
             url = f"{base_url}/report/barcode/?barcode_type={code_format}&value={barcode}&width={width}&height={height}&humanreadable={humanreadable}&quiet={quiet}"
 

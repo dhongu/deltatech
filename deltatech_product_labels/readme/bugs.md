@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## LABEL-001 — P2: Report wraps an SVG data URI inside another PNG data URI
 
-- **Status:** Open.
+- **Status:** Fixed in 20.0.1.1.4 — `barcode_image` is a computed Char holding one valid SVG data URI (generated in memory, no `/tmp` file), rendered by the label `<img src>`; the CSS background rule (its selector was also broken by whitespace) is gone. Still open on 19.0.
 - **Location:** wizard/product_product_label_print.py, _compute_barcode_image(); views/report_product_labels.xml, set_barcode.
 - **Trigger:** Print either supplied PDF label layout for a product with a barcode or internal reference.
 - **Actual behavior:** The compute assigns a complete data:image/svg+xml;base64,... URI to barcode_image. The template prepends data:image/png;base64, to that value, yielding a nested URI rather than valid base64 image data (and may render the Binary value as bytes). CSS background-image therefore cannot load the barcode.
