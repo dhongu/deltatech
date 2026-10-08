@@ -1,0 +1,11 @@
+{
+  "title": "Journal Entry Templates",
+  "summary": "Generate journal entries by entering only the base amounts",
+  "icon": "file",
+  "lang": "en",
+  "features": [
+    "Reusable templates with formulas",
+    "Taxes and tax grids included in VAT return",
+    "Ready-made Romanian templates"
+  ]
+}
