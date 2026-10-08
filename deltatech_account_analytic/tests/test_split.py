@@ -3,6 +3,7 @@
 
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
@@ -49,3 +50,65 @@ class TestSplit(TransactionCase):
         )
         self.assertEqual(line1.amount, 60)
         self.assertEqual(line2.amount, 40)
+
+    def _amount_split(self, amount=100):
+        return self.env["account.analytic.split"].create(
+            {
+                "name": "test_split",
+                "split_template_id": self.split_template.id,
+                "split_type": "amount",
+                "amount": amount,
+            }
+        )
+
+    def _line_split(self):
+        source = self.env["account.analytic.line"].create(
+            {"name": "Source", "account_id": self.analytic1.id, "amount": -200}
+        )
+        split = self.env["account.analytic.split"].create(
+            {
+                "name": "line_split",
+                "split_template_id": self.split_template.id,
+                "split_type": "line",
+                "line_to_split": source.id,
+            }
+        )
+        return split, source
+
+    def test_confirm_line_split_without_lines_keeps_source(self):
+        """ANALYTICSPLIT-001: Confirm before Compute must not delete the source line"""
+        split, source = self._line_split()
+        with self.assertRaises(UserError):
+            split.action_create_analytic_lines()
+        self.assertTrue(source.exists())
+        self.assertEqual(split.state, "draft")
+
+    def test_line_split_replaces_source(self):
+        split, source = self._line_split()
+        split.action_prepare_lines()
+        lines = split.action_create_analytic_lines()
+        self.assertFalse(source.exists())
+        self.assertEqual(sorted(lines.mapped("amount")), [-120, -80])
+
+    def test_confirm_with_changed_amounts_refused(self):
+        split, source = self._line_split()
+        split.action_prepare_lines()
+        split.line_ids[0].amount = -50
+        with self.assertRaises(UserError):
+            split.action_create_analytic_lines()
+        self.assertTrue(source.exists())
+
+    def test_confirm_twice_does_not_duplicate(self):
+        """ANALYTICSPLIT-002: a second confirmation creates no further entries"""
+        split = self._amount_split()
+        split.action_prepare_lines()
+        lines = split.action_create_analytic_lines()
+        with self.assertRaises(UserError):
+            split.action_create_analytic_lines()
+        self.assertEqual(split.line_ids.analytic_line_id, lines)
+        self.assertEqual(
+            self.env["account.analytic.line"].search_count([("name", "=", "test_split")]),
+            2,
+        )
+        split.action_reset_split()
+        self.assertFalse(lines.exists())

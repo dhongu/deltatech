@@ -31,7 +31,8 @@ class AccountMoveLine(models.Model):
         res = super()._prepare_analytic_lines()
         if self.move_id.move_type in ["in_invoice", "in_refund"]:
             for line in res:
-                if line["account_id"]:
+                # a distribution only on an additional plan has x_plan<ID>_id and no account_id
+                if line.get("account_id"):
                     # se presupune ca numele echipei = nume analitic, deocamdata
                     analytic_account_id = self.env["account.analytic.account"].sudo().browse(line["account_id"])
                     sale_team = self.env["crm.team"].sudo().search([("name", "=", analytic_account_id.name)])

@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ANALYTICSPLIT-001 — P1: Confirming an empty line split deletes the source without replacement
 
-- **Status:** Open. Identified on 2026-10-02.
+- **Status:** Fixed in 19.0.0.0.8. `_check_can_confirm()` runs before any create/unlink: draft state, nonempty split lines, existing source line for a *Line* split, no existing entries, lines total equal to the amount/source amount. Covered by `test_confirm_line_split_without_lines_keeps_source`, `test_line_split_replaces_source`, `test_confirm_with_changed_amounts_refused`.
 - **Location:** `models/account_analytic_split.py:72–91, action_create_analytic_lines(); views/account_analytic_split.xml:10–15`.
 - **Trigger:** Create a line-type split, select the original analytic line, and press Confirm before Compute or after removing every split line.
 - **Actual behavior / impact:** Confirm is available in draft regardless of whether line_ids is empty. The method creates no replacement lines, sets the split to confirmed and unlinks line_to_split. The original analytic entry is lost. Template/amount validation occurs only in action_prepare_lines, which can be skipped.
@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ANALYTICSPLIT-002 — P2: Repeated confirmation duplicates analytic amounts and loses links
 
-- **Status:** Open. Identified on 2026-10-02.
+- **Status:** Fixed in 19.0.0.0.8. Same `_check_can_confirm()`: a non-draft split or lines already linked to entries are refused. Covered by `test_confirm_twice_does_not_duplicate`.
 - **Location:** `models/account_analytic_split.py:72–89, action_create_analytic_lines()`.
 - **Trigger:** An RPC client retries confirmation of an amount split already confirmed, or a caller invokes the public action twice. The UI normally hides Confirm once confirmed.
 - **Actual behavior / impact:** There is no server-side state check. Each call creates another set of analytic entries and overwrites the stored analytic_line_id links with the latest entries. Earlier entries remain in the ledger and cannot be removed by action_reset_split, which follows only current links.
@@ -26,7 +26,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ANALYTICSPLIT-003 — P1: Analytic entry creation requires undeclared stock accounting
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.8. `create()` reads `stock_move_ids` / `picking_id.sale_id` only when the fields exist (`stock_account`, `sale_stock`); no new dependency added, since the module is installed on customer databases. The existing team tests now run on a database without `stock_account`.
 - **Location:** models/account_analytic.py, create(); __manifest__.py.
 - **Trigger:** Install with only declared dependencies and create an invoice analytic entry carrying move_line_id.
 - **Actual behavior:** The override reads move_line_id.move_id.stock_move_ids before checking move_type. This field is supplied by stock_account, which is absent from the declared account/analytic/sale/purchase dependency closure.
@@ -38,7 +38,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ANALYTICSPLIT-004 — P1: Vendor distributions in additional analytic plans raise KeyError
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.8. `_prepare_analytic_lines()` uses `line.get("account_id")`. Covered by `test_vendor_bill_additional_plan_only`.
 - **Location:** models/account_move.py, _prepare_analytic_lines().
 - **Trigger:** Post a vendor bill/refund whose analytic distribution contains an account only in an additional plan.
 - **Actual behavior:** The override indexes line["account_id"] unconditionally. Native Odoo prepares analytic account columns per plan; additional-plan-only lines contain x_plan<ID>_id and can omit account_id entirely.

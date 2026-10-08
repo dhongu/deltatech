@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Account Analytic",
     "summary": "Analytic lines enhancements",
-    "version": "19.0.0.0.7",
+    "version": "19.0.0.0.8",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

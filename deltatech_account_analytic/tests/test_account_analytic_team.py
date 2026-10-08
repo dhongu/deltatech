@@ -76,3 +76,22 @@ class TestAccountAnalyticTeam(AccountTestInvoicingCommon):
         analytic_lines = self.env["account.analytic.line"].search([("move_line_id.move_id", "=", move.id)])
         self.assertTrue(analytic_lines)
         self.assertFalse(analytic_lines.team_id)
+
+    def test_vendor_bill_additional_plan_only(self):
+        """ANALYTICSPLIT-004: a vendor distribution only on an additional plan has no account_id"""
+        project_plan, _other_plans = self.env["account.analytic.plan"]._get_all_plans()
+        extra_plan = self.env["account.analytic.plan"].create({"name": "Extra Plan"})
+        self.assertNotEqual(extra_plan, project_plan)
+        extra_account = self.env["account.analytic.account"].create({"name": "Test Team", "plan_id": extra_plan.id})
+        bill = self._create_invoice(
+            move_type="in_invoice",
+            invoice_line_ids=[
+                self._prepare_invoice_line(
+                    product_id=self.product_a,
+                    analytic_distribution={str(extra_account.id): 100},
+                ),
+            ],
+        )
+        bill.action_post()
+        analytic_lines = self.env["account.analytic.line"].search([("move_line_id.move_id", "=", bill.id)])
+        self.assertEqual(analytic_lines[extra_plan._column_name()], extra_account)
