@@ -528,8 +528,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 # Odoo 19: stock.move.line uses `quantity` (qty_done removed) and
                 # the move/line `picked` flag drives validation in _action_done.
                 picked_moves = self.env["stock.move"]
+                receipt_qtys = self._allocate_receipt_quantities(picking.move_ids, line_map)
                 for move in picking.move_ids:
-                    qty = self._receipt_qty_in_move_uom(move, line_map)
+                    qty = receipt_qtys.get(move, 0.0)
                     if qty and qty > 0:
                         move._set_quantity_done(qty)
                         picked_moves |= move
@@ -539,8 +540,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 return True
         # Fallback: original behavior using button_validate with backorder wizard handling
         # Odoo 19: iterate move_ids (move_ids_without_package was removed from stock.picking)
+        receipt_qtys = self._allocate_receipt_quantities(picking.move_ids, line_map)
         for move in picking.move_ids:
-            qty = self._receipt_qty_in_move_uom(move, line_map)
+            qty = receipt_qtys.get(move, 0.0)
             if qty and qty > 0:
                 move._set_quantity_done(qty)
                 move.picked = True
@@ -549,6 +551,28 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             wiz = self.env[action["res_model"]].browse(action.get("res_id"))
             wiz.with_context(skip_backorder=True).process()
         return True
+
+    def _allocate_receipt_quantities(self, moves, line_map):
+        """Split the received quantity of each product over its moves, in the move unit.
+
+        Each move gets at most its demand; the last move of a product takes what is left, so
+        the total received equals the source document instead of being repeated per move.
+        """
+        remaining = dict(line_map)
+        allocation = {}
+        moves_by_product = {}
+        for move in moves:
+            moves_by_product.setdefault(move.product_id.id, []).append(move)
+        for product_id, product_moves in moves_by_product.items():
+            for index, move in enumerate(product_moves):
+                left = remaining.get(product_id, 0.0)
+                if left <= 0:
+                    break
+                demand = move.product_uom._compute_quantity(move.product_uom_qty, move.product_id.uom_id)
+                qty = left if index == len(product_moves) - 1 else min(left, demand)
+                remaining[product_id] = left - qty
+                allocation[move] = self._receipt_qty_in_move_uom(move, {product_id: qty})
+        return allocation
 
     def _receipt_qty_in_move_uom(self, move, line_map):
         qty = line_map.get(move.product_id.id, 0.0)
@@ -604,28 +628,66 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             limit=1,
         )
 
+    # source categories for which a 0% rate is applied as such: zero rated (Z), exempt (E),
+    # outside the scope of VAT, e.g. a supplier not registered for VAT (O), and export (G).
+    # For reverse charge (AE), intra-community supply (K) and unknown categories the buyer
+    # self-assesses the VAT through the fiscal position, so the existing taxes are kept.
+    _ZERO_RATE_TAX_CATEGORIES = ("Z", "E", "O", "G")
+
+    def _source_tax_percent(self, source_line):
+        """Tax rate declared by a source line, or None when it must not override the bill.
+
+        A 0 rate counts only with an explicit zero-rated/exempt category: the PDF parsers
+        report 0 when they could not read the rate.
+        """
+        tax_pct = source_line.get("tax_percent")
+        if tax_pct is None:
+            return None
+        tax_pct = float(tax_pct)
+        if tax_pct:
+            return tax_pct
+        if (source_line.get("tax_category") or "").upper() in self._ZERO_RATE_TAX_CATEGORIES:
+            return 0.0
+        return None
+
     def _apply_xml_taxes_to_bill(self, bill, mapped_lines):
-        """Override bill line taxes with the tax percentage declared in the source document."""
-        product_tax_pct = {}
+        """Override bill line taxes with the tax percentage declared in the source document.
+
+        Each bill line takes the rate of the source line matched to its purchase order line;
+        lines without that link fall back to the product, when all its source lines agree.
+        """
+        pct_by_purchase_line = {}
+        pct_by_product = {}
         for ml in mapped_lines:
             product = ml.get("product")
-            tax_pct = ml.get("tax_percent")
-            if product and tax_pct:
-                product_tax_pct[product.id] = float(tax_pct)
+            tax_pct = self._source_tax_percent(ml)
+            if not product or tax_pct is None:
+                continue
+            if ml.get("purchase_line"):
+                pct_by_purchase_line[ml["purchase_line"].id] = tax_pct
+            pct_by_product.setdefault(product.id, set()).add(tax_pct)
 
-        if not product_tax_pct:
+        if not pct_by_purchase_line and not pct_by_product:
             return
 
         for line in bill.invoice_line_ids:
-            if not line.product_id or line.product_id.id not in product_tax_pct:
+            if not line.product_id:
                 continue
-            pct = product_tax_pct[line.product_id.id]
+            if line.purchase_line_id and line.purchase_line_id.id in pct_by_purchase_line:
+                pct = pct_by_purchase_line[line.purchase_line_id.id]
+            elif len(pct_by_product.get(line.product_id.id, ())) == 1:
+                pct = next(iter(pct_by_product[line.product_id.id]))
+            else:
+                continue
+            if line.tax_ids and all(tax.amount_type == "percent" for tax in line.tax_ids):
+                if line.currency_id.compare_amounts(sum(line.tax_ids.mapped("amount")), pct) == 0:
+                    continue
             tax = self.env["account.tax"].search(
                 [
                     ("type_tax_use", "=", "purchase"),
                     ("amount_type", "=", "percent"),
                     ("amount", "=", pct),
-                    ("company_id", "=", self.env.company.id),
+                    ("company_id", "=", bill.company_id.id),
                     ("active", "=", True),
                 ],
                 limit=1,
@@ -729,6 +791,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 if not lines_for_prod:
                     continue
                 src_ln = lines_for_prod.pop(0)
+                src_ln["purchase_line"] = line
                 vals = {}
                 # source qty/price are in the source unit; the order line keeps its own unit
                 qty, price = self._convert_source_line(src_ln, line.product_uom_id, uom_warnings)
@@ -767,6 +830,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     if src_ln.get("discount") and "discount" in self.env["purchase.order.line"]._fields:
                         vals["discount"] = src_ln.get("discount")
                     new_line = POL.create(vals)
+                    src_ln["purchase_line"] = new_line
                     added_count += 1
                     self._mark_line_received_if_manual(new_line)
 
@@ -776,12 +840,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if order:
                 picking = self._find_receipt(order)
                 if picking:
-                    # receipt quantities are passed in the product unit
-                    line_map = {
-                        ml.get("product").id: self._convert_source_line(ml, ml.get("product").uom_id)[0] or 0.0
-                        for ml in mapped_lines
-                        if ml.get("product")
-                    }
+                    # receipt quantities are passed in the product unit; a product repeated on
+                    # several source lines receives the sum of its lines
+                    line_map = {}
+                    for ml in mapped_lines:
+                        product = ml.get("product")
+                        if product:
+                            qty = self._convert_source_line(ml, product.uom_id)[0] or 0.0
+                            line_map[product.id] = line_map.get(product.id, 0.0) + qty
                     self._validate_receipt_quantities(picking, line_map, order=order)
                     pick_log = self.env._("Receipt updated: %s") % picking.name
                 else:

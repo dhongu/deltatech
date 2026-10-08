@@ -4,7 +4,12 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## UBL-001 — P1: Explicit zero VAT is ignored when creating the vendor bill
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.4.5. The UBL parser also reads the tax category
+  (`ClassifiedTaxCategory/cbc:ID`); `_source_tax_percent()` applies 0% for categories
+  Z, E, O and G and keeps the existing taxes for AE, K and lines without a category
+  (the PDF parsers report 0 when the rate is unknown). Covered by
+  `tests/test_ubl_import_lines.py`. Reverse charge (AE) on a domestic supplier whose
+  order has no reverse-charge fiscal position still keeps the order tax (follow-up).
 - **Location:** models/purchase_invoice_import_mixin.py, _apply_xml_taxes_to_bill(); wizard/ubl_import_wizard.py, line tax parsing.
 - **Trigger:** Import a line whose UBL tax Percent is 0, while the matched purchase/bill line has a nonzero default supplier tax (for example 21%).
 - **Actual behavior:** The parser returns numeric 0.0, but the tax override only records truthy tax_percent values. It returns without overriding that line, leaving the nonzero default tax.
@@ -15,7 +20,10 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## UBL-002 — P2: Different tax rates for the same product collapse to the last rate
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.4.5. Each source line remembers the purchase order
+  line it updated or created; `_apply_xml_taxes_to_bill()` maps bill lines through
+  `purchase_line_id`, falling back to the product only when all its source lines agree.
+  Covered by `test_same_product_with_different_rates`.
 - **Location:** models/purchase_invoice_import_mixin.py, _apply_xml_taxes_to_bill().
 - **Trigger:** Import two lines mapped to the same product but carrying different source tax rates, such as 21% and 9%.
 - **Actual behavior:** The override stores one percentage per product ID; the last source line overwrites earlier entries. It then applies that percentage to every invoice line for the product rather than matching each source line.
@@ -26,7 +34,9 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## UBL-003 — P1: Repeated product lines produce incorrect received quantities
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.4.5. The receipt map sums repeated products and
+  `_allocate_receipt_quantities()` splits the total over the moves (each move up to its
+  demand, the last one takes the rest). Covered by `test_repeated_product_receipt_total`.
 - **Location:** models/purchase_invoice_import_mixin.py, _process_invoice_data() receipt line_map and _validate_receipt_quantities().
 - **Trigger:** Import two source lines for the same product with quantities 2 and 3 and enable receipt validation.
 - **Actual behavior:** The dict keyed only by product ID retains the last quantity (3). The receipt helper assigns that entire quantity to every matching move. With two moves, the result is 3+3 instead of 2+3; if moves are merged, it receives 3 instead of the source total 5.

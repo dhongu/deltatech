@@ -180,6 +180,8 @@ class PurchaseUblImportWizard(models.TransientModel):
                 "cac:Item/cbc:Description", namespaces=NS
             )
             tax_percent = inv_line.findtext("cac:Item/cac:ClassifiedTaxCategory/cbc:Percent", namespaces=NS)
+            # UNCL5305 category (S, Z, E, AE, K, G, O): tells an explicit 0% apart from reverse charge
+            tax_category = inv_line.findtext("cac:Item/cac:ClassifiedTaxCategory/cbc:ID", namespaces=NS)
             unit = inv_line.find("cbc:InvoicedQuantity", namespaces=NS)
             unit_code = unit.get("unitCode") if unit is not None else False
 
@@ -211,6 +213,7 @@ class PurchaseUblImportWizard(models.TransientModel):
                     "discount": discount_percent,
                     "line_total": _to_float(line_total),
                     "tax_percent": _to_float(tax_percent),
+                    "tax_category": (tax_category or "").strip().upper(),
                     "unit_code": unit_code,
                 }
             )
