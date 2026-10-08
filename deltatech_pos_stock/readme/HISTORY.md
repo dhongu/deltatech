@@ -1,3 +1,20 @@
+## 19.0.1.2.0 (2026-10-08)
+
+- New POS setting **Quantity shown**: the badge can display the stock *on hand* (the default,
+  unchanged behaviour) or the *available* quantity, which subtracts what is already reserved
+  for orders that have not left the warehouse yet. Needed wherever the picking is validated by
+  the warehouse rather than at the till — on hand does not move until then, so the cashier
+  would otherwise be looking at stock that is already sold.
+- `free_qty` is now computed on `product.template` by summing its variants. Core aggregates
+  `qty_available` and the forecast onto the template but stops short of the free quantity, and
+  the POS card is handed a template.
+- `stock.quant` also notifies open sessions when `reserved_quantity` changes, so the available
+  badge keeps up. Restricted to the registers actually showing the available quantity:
+  reservations move with every sale, and registers left on "on hand" must not be woken up.
+- Products with nothing left to sell show the quantity in red, and adding one raises a warning
+  in the register. The sale still goes through — a hard block would stop the cashier whenever
+  the figure in Odoo is behind.
+
 ## 19.0.1.1.1 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

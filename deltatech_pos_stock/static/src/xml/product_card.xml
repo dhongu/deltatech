@@ -10,8 +10,11 @@
                 <div t-if="pos.config.display_price and formattedPrice" class="product-price-badge">
                     <t t-esc="formattedPrice" />
                 </div>
-                <div t-if="pos.config.display_stock and props.product.is_storable" class="product-qty">
-                    <t t-esc="props.product.qty_available or 0" />
+                <div
+                    t-if="pos.config.display_stock and props.product.is_storable"
+                    t-attf-class="product-qty {{ stockBadgeClass }}"
+                >
+                    <t t-esc="stockQuantity" />
                 </div>
             </div>
         </xpath>

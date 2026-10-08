@@ -32,4 +32,17 @@ patch(ProductCard.prototype, {
             return "";
         }
     },
+    get stockQuantity() {
+        // "Available" subtracts what is already reserved, which is the honest figure when
+        // the picking is validated by the warehouse rather than at the till.
+        const product = this.props.product;
+        if (!product) {
+            return 0;
+        }
+        const useFreeQty = this.pos?.config?.stock_badge_quantity === "available";
+        return (useFreeQty ? product.free_qty : product.qty_available) || 0;
+    },
+    get stockBadgeClass() {
+        return this.stockQuantity <= 0 ? "product-qty-out-of-stock" : "";
+    },
 });
