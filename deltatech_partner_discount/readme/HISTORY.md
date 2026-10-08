@@ -1,3 +1,12 @@
+## 19.0.1.0.3 (2026-10-08)
+
+- Fixed PARTNERDISC-001: users outside *Can modify partner discount* could
+  still change the proposed discount of an existing partner by import, RPC or
+  any server-side write, because only the form onchange checked the group.
+  The check is now done on write as well. Creating a partner with a negative
+  discount (or one coming from a context default) is also refused for these
+  users. Saving a partner without changing its discount is still allowed.
+
 ## 19.0.1.0.2 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
