@@ -6,12 +6,12 @@ import base64
 
 from odoo import api, fields, models
 
-# modelele rembg oferite în wizard; cel din parametrul de sistem se adaugă dacă lipsește
+# modelele rembg oferite în wizard; cel din parametrul de sistem se adaugă dacă lipsește.
+# Fără BiRefNet: pe un worker Odoo obișnuit (odoo.sh) nu încape în limita de memorie.
 BG_MODELS = [
-    ("isnet-general-use", "ISNet (fast)"),
-    ("birefnet-general-lite", "BiRefNet lite"),
-    ("birefnet-general", "BiRefNet (fine, slow)"),
+    ("isnet-general-use", "ISNet"),
     ("u2net", "U2Net"),
+    ("silueta", "Silueta (small)"),
 ]
 
 

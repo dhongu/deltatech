@@ -199,7 +199,7 @@ while it runs. On CPU an image takes about one second.
 | ``deltatech_image_optimize.bg_tolerance`` | 24 | how far (0..255 per channel) a pixel may be from the border color and still be background; raise it for noisy JPEGs or soft shadows |
 | ``deltatech_image_optimize.bg_min_island`` | 1 | pieces smaller than this percent of the main object are removed; 0 = keep all |
 | ``deltatech_image_optimize.bg_lost_warning`` | 5 | warn and untick when the AI model left out this percent of a product on a plain background |
-| ``deltatech_image_optimize.bg_model`` | isnet-general-use | rembg model; ``birefnet-general`` is finer but ~10x slower and 970 MB |
+| ``deltatech_image_optimize.bg_model`` | isnet-general-use | rembg model; ``birefnet-general`` is finer but ~10x slower, 970 MB, and does not fit in the memory of an odoo.sh worker |
 | ``deltatech_image_optimize.bg_crop`` | 0 | 1 = frame the product in a square, 0 = keep the original canvas |
 | ``deltatech_image_optimize.bg_margin`` | 5 | margin around the product, in percent, when cropping |
 | ``deltatech_image_optimize.bg_color`` | (empty) | empty = transparent; a color such as ``#FFFFFF`` = solid background |
