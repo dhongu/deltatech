@@ -79,7 +79,9 @@ def _webp_available():
 # metodele de decupare; vezi IrAttachment._dt_image_cutout
 BG_METHODS = ("auto", "uniform", "rembg")
 
-# o sesiune rembg încarcă modelul ONNX (~180 MB pentru isnet); o păstrăm per proces
+# o sesiune rembg încarcă modelul ONNX (~180 MB pentru isnet); o păstrăm per proces.
+# Una singură: un model încercat din wizard nu rămâne în memoria workerului
+# lângă cel obișnuit (BiRefNet ocupă singur peste 1 GB).
 _REMBG_SESSIONS = {}
 
 
@@ -98,12 +100,26 @@ def _rembg_cutout(img, model_name):
     modelul se descarcă la prima folosire), iar modulul nu trebuie să ceară
     instalarea ei la clienții care folosesc doar recomprimarea.
     """
+    import onnxruntime
     from rembg import new_session, remove
 
     session = _REMBG_SESSIONS.get(model_name)
     if session is None:
-        session = _REMBG_SESSIONS[model_name] = new_session(model_name)
-    return remove(img, session=session, post_process_mask=True)
+        _REMBG_SESSIONS.clear()
+        gc.collect()
+        # fără arenă și fără tipar de memorie: vârful de memorie scade, viteza aproape deloc;
+        # workerul Odoo are o limită de memorie, iar arena ONNX nu dă înapoi ce a rezervat
+        options = onnxruntime.SessionOptions()
+        options.enable_cpu_mem_arena = False
+        options.enable_mem_pattern = False
+        session = _REMBG_SESSIONS[model_name] = new_session(model_name, sess_opts=options)
+    try:
+        return remove(img, session=session, post_process_mask=True)
+    except Exception:
+        # după un eșec (de obicei lipsă de memorie) sesiunea nu se mai refolosește
+        _REMBG_SESSIONS.clear()
+        gc.collect()
+        raise
 
 
 class IrAttachment(models.Model):
@@ -517,7 +533,16 @@ class IrAttachment(models.Model):
                 return None, self.env._(
                     "The background is not a single color and the AI model (rembg) is not installed."
                 )
-            alpha = _rembg_cutout(img, params["model"]).convert("RGBA").getchannel("A")
+            try:
+                alpha = _rembg_cutout(img, params["model"]).convert("RGBA").getchannel("A")
+            except Exception as exc:
+                if "allocate memory" not in str(exc):
+                    raise
+                return None, self.env._(
+                    "Not enough memory on the server for the AI model %(model)s; use ISNet or the uniform "
+                    "background method.",
+                    model=params["model"],
+                )
             alpha = bg_mask.drop_islands(alpha, min_island)[0]
             lost = reference and bg_mask.lost_share(reference, alpha)
             if lost and lost * 100 >= params["lost_warning"]:

@@ -136,6 +136,18 @@ class TestImageBackground(TransactionCase):
         self.assertFalse(wizard.line_ids.to_apply)
         self.assertEqual(self.product.image_1920, self.image)
 
+    def test_out_of_memory_says_so(self):
+        def out_of_memory(img, model_name):
+            raise RuntimeError("[ONNXRuntimeError] : 1 : FAIL : ... Failed to allocate memory for requested buffer")
+
+        self._set_param("bg_method", "rembg")
+        with patch.object(ir_attachment, "_rembg_cutout", out_of_memory):
+            action = self.product.action_dt_remove_background()
+        line = self.env[action["res_model"]].browse(action["res_id"]).line_ids
+
+        self.assertFalse(line.image_after)
+        self.assertIn("Not enough memory", line.warning)
+
     def test_missing_rembg_raises(self):
         self._set_param("bg_method", "rembg")
         with patch.object(image_background, "_rembg_available", lambda: False), self.assertRaises(UserError):

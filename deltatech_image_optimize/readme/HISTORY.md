@@ -1,3 +1,13 @@
+# 19.0.1.11.1
+
+- The AI model no longer runs the worker out of memory. BiRefNet is gone from
+  the wizard's model list: on an odoo.sh worker it stopped with
+  ``Failed to allocate memory`` from ONNX Runtime. Only one model is kept
+  loaded per worker, a model that fails is dropped from memory, and ONNX
+  Runtime runs without its memory arena, which never gave back what it had
+  reserved. When memory still runs out, the wizard line says so and suggests
+  ISNet or the uniform background method instead of showing the raw error.
+
 # 19.0.1.11.0
 
 - Background removal keeps what the AI model loses. Product photos on a plain
