@@ -61,9 +61,11 @@ class ResPartnerMergeCron(models.Model):
             partners = self.env["res.partner"].browse(ids).exists()
             if len(partners) <= 1:
                 continue
-            partners.write({"parent_id": False})
             main = partners[0]  # îl păstrăm ca principal
             secundar = partners[1]
+            # only the merged pair is detached from its company; the other contacts of the group
+            # keep their parent and are merged by a later run
+            (main | secundar).write({"parent_id": False})
             _logger.info("Contactul %s a fost unit cu %s (Email: %s)", main.display_name, secundar.display_name, email)
             wizard = MergeWizard.create(
                 {

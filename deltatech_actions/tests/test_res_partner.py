@@ -132,3 +132,16 @@ class TestResPartnerActions(TransactionCase):
             ]
         )
         self.assertLessEqual(len(companies), 1)
+
+    def test_merge_contacts_keeps_parent_of_unmerged_contacts(self):
+        """ACTIONS-001: only the merged pair is detached from its company"""
+        contacts = self.env["res.partner"].create(
+            [
+                {"name": f"Jane {index}", "email": "jane.merge@example.com", "parent_id": parent.id}
+                for index, parent in enumerate([self.company1, self.company1, self.company2])
+            ]
+        )
+        self.env["res.partner"]._cron_merge_duplicate_contacts(limit=100)
+        third = contacts[2]
+        self.assertTrue(third.exists())
+        self.assertEqual(third.parent_id, self.company2)

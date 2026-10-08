@@ -22,12 +22,13 @@ class TestCronCleanXMLAttachments(TransactionCase):
             }
         )
 
-    def _create_xml(self, name: str):
+    def _create_xml(self, name: str, record=None):
+        record = record or self.move
         return self.env["ir.attachment"].create(
             {
                 "name": name,
-                "res_model": "account.move",
-                "res_id": self.move.id,
+                "res_model": record._name,
+                "res_id": record.id,
                 "type": "binary",
                 "datas": base64.b64encode(b"<xml>test</xml>"),
                 "mimetype": "application/xml",
@@ -90,3 +91,34 @@ class TestCronCleanXMLAttachments(TransactionCase):
         # Created today: protected by the cutoff, even though they duplicate.
         self.assertTrue(recent1.exists())
         self.assertTrue(recent2.exists())
+
+    def test_xml_cron_counts_duplicates_per_invoice(self):
+        """ACTIONS-003: the same file name on other invoices or documents is not a duplicate"""
+        other_move = self.move.copy()
+        own1 = self._create_xml("SHARED.xml")
+        own2 = self._create_xml("SHARED.xml")
+        other = self._create_xml("SHARED.xml", other_move)
+        on_partner = self._create_xml("SHARED.xml", self.partner)
+
+        self.env["account.move"].cron_clean_xml_attachments(
+            limit=10, duplicates=1, max_attachments_to_delete=50, dry_run=False
+        )
+
+        # one copy is removed on the invoice that has two, the newest is kept
+        self.assertFalse(own1.exists())
+        self.assertTrue(own2.exists())
+        self.assertTrue(other.exists())
+        self.assertTrue(on_partner.exists())
+
+    def test_xml_cron_keeps_attachment_used_by_invoice(self):
+        """An attachment the invoice points to is never deleted, even if it is the oldest copy"""
+        used = self._create_xml("USED.xml")
+        newer = self._create_xml("USED.xml")
+        self.move.message_main_attachment_id = used
+
+        self.env["account.move"].cron_clean_xml_attachments(
+            limit=10, duplicates=1, max_attachments_to_delete=50, dry_run=False
+        )
+
+        self.assertTrue(used.exists())
+        self.assertTrue(newer.exists())
