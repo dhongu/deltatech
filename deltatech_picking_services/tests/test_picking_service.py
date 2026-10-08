@@ -1,6 +1,7 @@
 # ©  2008-now Deltatech
 # See README.rst file on addons root folder for license details
 
+from odoo.exceptions import AccessError
 from odoo.tests.common import TransactionCase
 
 
@@ -73,3 +74,63 @@ class TestPickingServiceLine(TransactionCase):
         # Check that the onchange method sets the appropriate fields
         self.assertEqual(picking_service_line.product_uom, self.service_product.uom_id)
         self.assertEqual(picking_service_line.description_picking, self.service_product.name)
+
+    def test_service_line_company_isolation(self):
+        """PICKSERVICE-001: a stock user cannot reach the service lines of another company"""
+        other_company = self.env["res.company"].create({"name": "Picking Services Other Company"})
+        other_warehouse = self.env["stock.warehouse"].search([("company_id", "=", other_company.id)], limit=1)
+        other_picking = self.env["stock.picking"].create(
+            {
+                "location_id": other_warehouse.lot_stock_id.id,
+                "location_dest_id": other_warehouse.lot_stock_id.id,
+                "picking_type_id": other_warehouse.int_type_id.id,
+                "company_id": other_company.id,
+            }
+        )
+        other_line = self.env["picking.service.line"].create(
+            {
+                "product_id": self.service_product.id,
+                "product_uom": self.service_product.uom_id.id,
+                "price_unit": 75,
+                "picking_id": other_picking.id,
+            }
+        )
+        own_line = self.env["picking.service.line"].create(
+            {
+                "product_id": self.service_product.id,
+                "product_uom": self.service_product.uom_id.id,
+                "price_unit": 50,
+                "picking_id": self.stock_picking.id,
+            }
+        )
+        self.assertEqual(other_line.company_id, other_company)
+
+        stock_user = self.env["res.users"].create(
+            {
+                "name": "Stock User Main Company",
+                "login": "picking_services_stock_user",
+                "company_id": self.company.id,
+                "company_ids": [(6, 0, self.company.ids)],
+                "group_ids": [(6, 0, self.env.ref("stock.group_stock_user").ids)],
+            }
+        )
+        lines = self.env["picking.service.line"].with_user(stock_user)
+        found = lines.search([("id", "in", (other_line | own_line).ids)])
+        self.assertEqual(found, own_line.with_user(stock_user))
+        with self.assertRaises(AccessError):
+            other_line.with_user(stock_user).price_unit  # noqa: B018
+        with self.assertRaises(AccessError):
+            other_line.with_user(stock_user).write({"price_unit": 0.0})
+        with self.assertRaises(AccessError):
+            other_line.with_user(stock_user).unlink()
+
+    def test_service_lines_deleted_with_picking(self):
+        line = self.env["picking.service.line"].create(
+            {
+                "product_id": self.service_product.id,
+                "product_uom": self.service_product.uom_id.id,
+                "picking_id": self.stock_picking.id,
+            }
+        )
+        self.stock_picking.unlink()
+        self.assertFalse(line.exists())

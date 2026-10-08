@@ -38,7 +38,9 @@ class PickingServiceLine(models.Model):
         required=True,
     )
     description_picking = fields.Char("Description")
-    picking_id = fields.Many2one("stock.picking", "Transfer", index=True)
+    picking_id = fields.Many2one("stock.picking", "Transfer", index=True, ondelete="cascade")
+    # stored so that the multi-company record rule can filter the lines like their transfer
+    company_id = fields.Many2one(related="picking_id.company_id", store=True, index=True)
     price_unit = fields.Float("Unit Price", required=True, digits="Product Price", default=0.0)
     price_subtotal = fields.Float(compute="_compute_amount", string="Subtotal", store=True)
 
