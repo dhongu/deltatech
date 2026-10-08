@@ -1,3 +1,21 @@
+## 20.0.1.4.5 (2026-10-08)
+
+- Fixed UBL-001: a line with an explicit 0% VAT kept the default 21% tax of the
+  order on the vendor bill. The 0% rate is now applied when the line declares a
+  zero-rated (Z), exempt (E), out-of-scope (O, e.g. a supplier not registered
+  for VAT) or export (G) category. For reverse charge (AE), intra-community (K)
+  or lines without a category the taxes of the order are kept, as before; the
+  PDF imports, which report 0 when they cannot read the rate, are not affected.
+- Fixed UBL-002: two lines of the same product with different VAT rates both
+  received the last rate. Each bill line now takes the rate of the source line
+  matched to its purchase order line.
+- Fixed UBL-003: with receipt validation, a product present on several source
+  lines (e.g. 2 + 3 units) was received with the last quantity on every stock
+  move (3 + 3). The quantities are now summed per product and split over the
+  moves, so the received total matches the document (5).
+- A bill line whose taxes already match the source rate is left unchanged, and
+  the tax is searched in the bill company instead of the current company.
+
 ## 20.0.1.4.4 (2026-10-04)
 
 - Fixed: the import copied the source quantity and unit price into purchase lines, receipts and
