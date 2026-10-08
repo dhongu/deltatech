@@ -4,7 +4,10 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## MRP-001 — P1: Consumption categories multiply production totals
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.7. The consumed subquery returns one row per
+  production (`SUM(CASE ...)` per category); the finished subquery is no longer
+  grouped by `procure_method`. Covered by `tests/test_mrp_report.py` (raw +
+  packing consumption, totals stay 10 instead of 20).
 - **Location:** `report/deltatech_mrp_report.py`, `init()`, finished/consumed joins and outer SUM expressions.
 - **Trigger:** A production order consumes materials belonging to more than one cost category, such as raw materials and packaging.
 - **Actual behavior:** The consumed subquery returns one row per production and cost category. Joining it to the finished-production aggregate repeats the planned and finished quantities and finished value once per category, then the outer SUM adds the duplicates.
