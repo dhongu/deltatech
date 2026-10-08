@@ -12,7 +12,7 @@ class TestTestSystem(TransactionCase):
         super().setUp()
         # Ensure the parameter starts as False for deterministic behavior
         icp = self.env["ir.config_parameter"].sudo()
-        icp.set_param("database.is_neutralized", False)
+        icp.set_bool("database.is_neutralized", False)
         # Create a settings transient record we can reuse
         self.settings = self.env["res.config.settings"].create({})
 
@@ -49,7 +49,7 @@ class TestTestSystem(TransactionCase):
     def test_set_values_updates_banner_and_triggers_neutralize_on_first_enable(self):
         # Ensure parameter is currently False
         icp = self.env["ir.config_parameter"].sudo()
-        self.assertFalse(icp.get_param("database.is_neutralized", default=False))
+        self.assertFalse(icp.get_bool("database.is_neutralized"))
 
         # Track whether neutralize_database is invoked when enabling
         flags = {"neutralize_called": 0}
@@ -64,7 +64,7 @@ class TestTestSystem(TransactionCase):
             self.settings.set_values()
 
         # After enabling, parameter should be True
-        self.assertEqual(icp.get_param("database.is_neutralized", default=False), "True")
+        self.assertTrue(icp.get_bool("database.is_neutralized"))
         # And our neutralization should have been triggered exactly once
         self.assertEqual(flags["neutralize_called"], 1)
 
@@ -83,11 +83,11 @@ class TestTestSystem(TransactionCase):
         icp = self.env["ir.config_parameter"].sudo()
 
         # When parameter False
-        icp.set_param("database.is_neutralized", False)
+        icp.set_bool("database.is_neutralized", False)
         module._compute_database_is_neutralized()
         self.assertFalse(module.database_is_neutralized)
 
         # When parameter True
-        icp.set_param("database.is_neutralized", True)
+        icp.set_bool("database.is_neutralized", True)
         module._compute_database_is_neutralized()
         self.assertTrue(module.database_is_neutralized)

@@ -5,7 +5,7 @@
             <div>
                  <t
                     t-set="database_notification_banner"
-                    t-value="request.env['ir.config_parameter'].sudo().get_param('database_notification_banner',False)"
+                    t-value="request.env['ir.config_parameter'].sudo().get_str('database_notification_banner',False)"
                 />
 
                 <span
@@ -27,7 +27,7 @@
 
                 <t
                     t-set="database_news_notification"
-                    t-value="request.env['ir.config_parameter'].sudo().get_param('database_news_notification',False)"
+                    t-value="request.env['ir.config_parameter'].sudo().get_str('database_news_notification',False)"
                 />
 
                 <span

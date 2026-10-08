@@ -44,8 +44,8 @@ class ResConfigSettings(models.TransientModel):
         _logger.info("Neutralization finished")
 
     def set_values(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        is_neutralized = get_param("database.is_neutralized", default=False)
+        # Odoo 20: typed config parameters; the core reads this one with `get_bool`
+        is_neutralized = self.env["ir.config_parameter"].sudo().get_bool("database.is_neutralized")
         res = super().set_values()
 
         if not is_neutralized and self.database_is_neutralized:
