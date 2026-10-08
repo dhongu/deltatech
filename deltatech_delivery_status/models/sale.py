@@ -47,6 +47,7 @@ class SaleOrder(models.Model):
         Se traduce în livrări, unde `postponed` e câmp stocat.
         """
         if operator not in ("=", "!=") or not isinstance(value, bool):
+            # in / not in: the ORM retries the search with = / != for each value
             raise NotImplementedError(self.env._("Unsupported search on Postponed delivery"))
         positive = (operator == "=") == value
         domain = [("picking_ids.postponed", "=", True)]
@@ -58,10 +59,14 @@ class SaleOrder(models.Model):
             tx = order.sudo().transaction_ids._get_last()
             if not tx and order.sudo().transaction_ids:
                 tx = order.sudo().transaction_ids[-1]
-            if tx and tx.provider_id.postponed_delivery:
+            # a payment already done (e.g. the order is confirmed by the payment post-processing,
+            # after _set_done) has nothing left to wait for: _set_done will not run again
+            if not tx or tx.state == "done":
+                continue
+            if tx.provider_id.postponed_delivery:
                 order.postpone_delivery()
             if order.team_id.postpone_payment_transfer:
-                if tx and tx.provider_id.custom_mode == "wire_transfer":
+                if tx.provider_id.custom_mode == "wire_transfer":
                     order.postpone_delivery()
 
         return res
