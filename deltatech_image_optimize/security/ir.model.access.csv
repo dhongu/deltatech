@@ -3,3 +3,7 @@ access_product_image_duplicate_user,deltatech.product.image.duplicate.user,model
 access_product_image_dedup_manager,deltatech.product.image.dedup.manager,model_deltatech_product_image_dedup,base.group_system,1,1,1,1
 access_image_background_wizard,deltatech.image.background.wizard,model_deltatech_image_background_wizard,product.group_product_manager,1,1,1,0
 access_image_background_wizard_line,deltatech.image.background.wizard.line,model_deltatech_image_background_wizard_line,product.group_product_manager,1,1,1,0
+access_image_watermark_profile_manager,deltatech.image.watermark.profile.manager,model_deltatech_image_watermark_profile,product.group_product_manager,1,1,1,0
+access_image_watermark_profile_system,deltatech.image.watermark.profile.system,model_deltatech_image_watermark_profile,base.group_system,1,1,1,1
+access_image_watermark_wizard,deltatech.image.watermark.wizard,model_deltatech_image_watermark_wizard,product.group_product_manager,1,1,1,0
+access_image_watermark_wizard_line,deltatech.image.watermark.wizard.line,model_deltatech_image_watermark_wizard_line,product.group_product_manager,1,1,1,0

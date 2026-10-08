@@ -586,3 +586,31 @@ class IrAttachment(models.Model):
             remaining += model.search_count([("bg_removal_state", "=", "pending")])
         if remaining:
             self.env.ref("deltatech_image_optimize.ir_cron_dt_image_remove_background")._trigger()
+
+    # ------------------------------------------------------------------
+    # Watermark removal
+    # ------------------------------------------------------------------
+    @api.model
+    def _dt_wm_params(self):
+        get = self.env["ir.config_parameter"].sudo().get_param
+        return {
+            "sync_limit": int(get("deltatech_image_optimize.wm_sync_limit", 10)),
+            "learn_limit": max(1, int(get("deltatech_image_optimize.wm_learn_limit", 60))),
+            "batch": max(1, int(get("deltatech_image_optimize.wm_batch", 20))),
+        }
+
+    @api.model
+    def _dt_wm_remove_cron(self):
+        """Procesează imaginile puse în coadă de acțiunea „Remove Watermark”."""
+        params = self._dt_wm_params()
+        remaining = 0
+        for model_name in ("product.template", "product.image"):
+            model = self.env[model_name].sudo()
+            records = model.search([("wm_removal_state", "=", "pending")], limit=params["batch"])
+            for record in records:
+                record._dt_wm_remove()
+                # un lot întrerupt de limita de timp a workerului nu reia ce s-a făcut deja
+                self.env.cr.commit()  # pylint: disable=invalid-commit
+            remaining += model.search_count([("wm_removal_state", "=", "pending")])
+        if remaining:
+            self.env.ref("deltatech_image_optimize.ir_cron_dt_image_remove_watermark")._trigger()

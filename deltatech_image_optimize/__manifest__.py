@@ -5,10 +5,10 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Image Optimizer",
-    "version": "19.0.1.11.1",
+    "version": "19.0.1.12.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Recompress oversized image attachments, remove duplicated product images and product image backgrounds",
+    "summary": "Recompress oversized image attachments, remove duplicated product images, product image backgrounds and watermarks",
     "category": "Administration",
     "depends": ["base", "website_sale"],
     "data": [
@@ -19,6 +19,7 @@
         "views/product_image_duplicate_view.xml",
         "wizard/product_image_dedup_view.xml",
         "wizard/image_background_wizard_view.xml",
+        "wizard/image_watermark_wizard_view.xml",
     ],
     "assets": {
         "web.assets_backend": ["deltatech_image_optimize/static/src/scss/image_background_wizard.scss"],
