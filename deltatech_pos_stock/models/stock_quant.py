@@ -5,12 +5,19 @@ class StockQuant(models.Model):
     _inherit = "stock.quant"
 
     def write(self, vals):
-        # Doar `quantity` (stocul fizic) afectează `qty_available`; `reserved_quantity`
-        # nu schimbă valoarea afișată în badge-ul POS, deci nu merită să declanșeze
-        # o notificare (rezervările se schimbă mult mai des decât stocul fizic).
-        templates = self._get_pos_templates_to_notify() if "quantity" in vals else self.env["product.template"]
+        # `quantity` (stocul fizic) afectează `qty_available`, deci interesează orice casă.
+        # `reserved_quantity` afectează doar `free_qty`, deci notificăm doar casele al căror
+        # badge arată disponibilul — rezervările se schimbă la fiecare vânzare și nu merită
+        # trimise către casele lăsate pe stoc fizic.
+        templates = self.env["product.template"]
+        only_available = False
+        if "quantity" in vals:
+            templates = self._get_pos_templates_to_notify()
+        elif "reserved_quantity" in vals:
+            templates = self._get_pos_templates_to_notify()
+            only_available = True
         res = super().write(vals)
-        templates._notify_pos_stock_change()
+        templates._notify_pos_stock_change(only_available_badges=only_available)
         return res
 
     @api.model_create_multi

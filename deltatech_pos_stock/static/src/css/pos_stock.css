@@ -34,3 +34,8 @@
     width: 100%;
     text-align: center;
 }
+
+/* Nothing left to sell: red on the dark badge, so it reads at a glance across the grid. */
+.product-qty-out-of-stock {
+    color: #ff5252;
+}

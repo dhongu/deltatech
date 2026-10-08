@@ -6,3 +6,6 @@ class ResConfigSettings(models.TransientModel):
 
     pos_display_stock = fields.Boolean(related="pos_config_id.display_stock", readonly=False)
     pos_display_price = fields.Boolean(related="pos_config_id.display_price", readonly=False)
+    pos_stock_badge_quantity = fields.Selection(
+        related="pos_config_id.stock_badge_quantity", readonly=False, required=True
+    )
