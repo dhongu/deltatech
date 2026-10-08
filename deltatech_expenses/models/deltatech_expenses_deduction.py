@@ -190,8 +190,10 @@ class DeltatechExpensesDeduction(models.Model):
         # states={"draft": [("readonly", False)], "advance": [("readonly", False)]},
         default=42.5,
     )
-    days = fields.Integer(
+    # zecimal: diurna externă se acordă și pe fracțiuni de zi (50% până la 12 ore, HG 518/1995 art. 7^1)
+    days = fields.Float(
         string="Days",
+        digits=(16, 1),
         readonly=True,
         # states={"draft": [("readonly", False)], "advance": [("readonly", False)]},
     )
