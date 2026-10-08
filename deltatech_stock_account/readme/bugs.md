@@ -4,7 +4,11 @@ Review date: 2026-10-03. Target version: Odoo 19.
 
 ## STOCKACCOUNT-001 — P1: Category account propagation and parent onchange read removed fields
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.7. Propagation and the parent onchange use a
+  single list of Odoo 19 fields (`property_price_difference_account_id`,
+  expense/income, stock valuation, stock journal, costing method, valuation).
+  Covered by `tests/test_product_category.py`. The stock journal is not on the
+  Odoo 19 category form, so the parent onchange cannot save it from the client.
 - **Location:** models/product_category.py, write(), propagate_account(), _onchange_parent_id().
 - **Trigger:** Set a category stock valuation account, run Propagate Accounts with an existing valuation account, or select a parent category.
 - **Actual behavior:** Propagation accesses property_account_creditor_price_difference_categ and the stock input/output category accounts. Parent onchange also reads the removed input/output fields. Odoo 19 category defines property_price_difference_account_id instead of the old price-difference field and no longer declares those input/output fields.
