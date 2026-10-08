@@ -102,3 +102,44 @@ class TestMrpOrder(TestMrpCommon):
         expected_amount = total_materials + extra_costs
         self.assertAlmostEqual(man_order.amount, expected_amount)
         self.assertAlmostEqual(man_order.calculate_price, expected_amount / 2.0)
+
+    def test_report_with_move_values(self):
+        """The production order report reads the Odoo 19 move values of a done order."""
+        avco_category = self.env["product.category"].create(
+            {"name": "AVCO", "property_cost_method": "average", "property_valuation": "real_time"}
+        )
+        (self.product_1 | self.product_2 | self.product_4).categ_id = avco_category
+        self.product_1.write({"is_storable": True, "standard_price": 10.0})
+        self.product_2.write({"is_storable": True, "standard_price": 20.0})
+        for product in self.product_1 | self.product_2:
+            self.env["stock.quant"].create(
+                {"location_id": self.stock_location.id, "product_id": product.id, "inventory_quantity": 500}
+            ).action_apply_inventory()
+        self.product_4.is_storable = True
+
+        man_order = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_4.id,
+                "bom_id": self.bom_1.id,
+                "product_uom_id": self.product_4.uom_id.id,
+                "product_qty": 2.0,
+                "location_src_id": self.stock_location.id,
+                "location_dest_id": self.output_location.id,
+            }
+        )
+        man_order.action_confirm()
+        man_order.qty_producing = 2.0
+        man_order.move_raw_ids.picked = True
+        man_order.button_mark_done()
+        self.assertEqual(man_order.state, "done")
+
+        raw_value = sum(man_order.move_raw_ids.mapped("value"))
+        finished_value = sum(man_order.move_finished_ids.mapped("value"))
+        self.assertGreater(raw_value, 0.0)
+        self.assertGreater(finished_value, 0.0)
+
+        html = self.env["ir.actions.report"]._render_qweb_html("mrp.report_mrporder", man_order.ids)[0].decode()
+        self.assertIn("Finished Products", html)
+        self.assertIn(f"{finished_value:.2f}", html)
+        for move in man_order.move_raw_ids:
+            self.assertIn(f"{move.value:.2f}", html)

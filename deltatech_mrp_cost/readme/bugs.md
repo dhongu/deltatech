@@ -2,6 +2,11 @@
 
 ## MRPCOST-001 — P1: production reports still read removed valuation layers
 
+**Status:** Fixed in 19.0.2.0.8. Both tables use `stock.move.value` (positive
+for consumed and finished moves in Odoo 19). Covered by
+`test_report_with_move_values`, which renders `mrp.report_mrporder` for a done
+order.
+
 `views/mrp_production_templates.xml:77,116` maps stock_valuation_layer_ids.value on finished/raw stock moves. Native Odoo19 valuation is on stock.move.value and has no stock_valuation_layer_ids field. Rendering either nonempty table therefore fails at the mapped field lookup. Adapt both calculations to native move.value with correct direction sign.
 
 Evidence: exact QWeb expressions inspected against current native stock_account move fields; removed relation absent. No QWeb render/database report executed.
