@@ -80,4 +80,5 @@ class TestRunNowButton(TransactionCase):
             limit=10, duplicates=10, max_attachments_to_delete=50, dry_run=True
         )
         self.assertTrue(result["dry_run"])
-        self.assertEqual(result["count"], 12)
+        # the most recent of the 12 copies is kept
+        self.assertEqual(result["count"], 11)

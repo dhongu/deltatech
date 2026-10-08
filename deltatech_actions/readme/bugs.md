@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ACTIONS-001 — P1: Contact merge detaches contacts that it does not merge
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.9.5. `parent_id` is cleared only on the merged pair. Covered by `test_merge_contacts_keeps_parent_of_unmerged_contacts`.
 - **Location:** models/res_partner.py, `_cron_merge_duplicate_contacts()`.
 - **Trigger:** Three or more individual contacts share an email, have no VAT and belong to parent companies.
 - **Actual behavior:** The method writes parent_id=False to every contact in the duplicate group, then sends only the first two IDs to the merge wizard. The remaining contacts retain no company parent even though they were not merged.
@@ -30,7 +30,7 @@ All eligible module source has been manually read. Isolated mocks are not Odoo d
 
 ## ACTIONS-003 — P1: XML cleanup expands candidates by name and protects only one invoice
 
-- **Status:** Open; source verified 2026-10-02.
+- **Status:** Fixed in 19.0.0.9.5. SQL groups by `res_id, name`; the ORM domain keeps `res_model`, `res_id` and `mimetype`; the newest copy is kept; `_get_xml_attachments_in_use()` protects the EDI documents and every `ir.attachment` many2one of that invoice. Covered by `test_xml_cron_counts_duplicates_per_invoice` and `test_xml_cron_keeps_attachment_used_by_invoice`.
 - **Location:** models/account_move.py, `cron_clean_xml_attachments()`.
 - **Trigger:** Multiple invoices have XML attachments with a common name, or another document has an attachment with the same name.
 - **Actual behavior:** SQL groups by name across account.move XML attachments, but the subsequent ORM search restricts only name and optional age. It omits res_model, res_id and mimetype. EDI protection uses the invoice obtained from attachments[0].res_id; all attachments linked to other invoices remain in the deletion candidates.
