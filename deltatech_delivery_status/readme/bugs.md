@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## DELIVERYSTATUS-001 — P2: Postponed-delivery search rejects normalized boolean operators
 
-- **Status:** Open.
+- **Status:** Not reproduced (2026-10-08). Odoo 19 retries a search method that refuses `in` / `not in` with `=` / `!=` for each value (`DomainCondition._optimize_field_search_method()`), so `[("postponed_delivery", "in", [True])]` works with the current hook. Covered by `test_search_postponed_delivery_in_operators`, which passes on the original code.
 - **Location:** models/sale.py, _search_postponed_delivery().
 - **Trigger:** Use the provided Postponed delivery order filter or any domain on the nonstored postponed_delivery Boolean.
 - **Actual behavior:** The search method accepts only =/!= and a Boolean scalar. Odoo 19 normalizes Boolean comparisons to in/not in with [True] before custom search evaluation, so the hook raises NotImplementedError instead of returning a domain.
@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## DELIVERYSTATUS-002 — P1: Confirmation postpones delivery even after its payment is done
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.2.3.3. `_action_confirm()` postpones only when the last transaction is not `done`. Covered by `test_paid_quotation_is_not_postponed_on_confirmation` and `test_pending_payment_postpones_on_confirmation`.
 - **Location:** models/sale.py, _action_confirm(); models/payment_transaction.py, _set_done().
 - **Trigger:** A provider has postponed_delivery enabled; payment completes while the linked sale order is still a quotation, then native payment post-processing confirms it.
 - **Actual behavior:** _set_done tries to release only orders already reporting postponed_delivery. A quotation without transfers is not postponed. Later _action_confirm creates transfers and unconditionally postpones them when the selected provider has the flag, without checking transaction state. The already-completed transaction does not transition to done again to release those new transfers. The team wire-transfer branch also ignores completed payment state.
