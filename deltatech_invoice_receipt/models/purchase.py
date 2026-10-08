@@ -89,10 +89,12 @@ class PurchaseOrderLine(models.Model):
         qty = 0.0
         price_unit = self._get_stock_move_price_unit()
         outgoing_moves, incoming_moves = self._get_outgoing_incoming_moves()
+        # quantity already returned, in the purchase line unit: the return moves go out to the
+        # supplier, a reverse of them comes back in
         for move in outgoing_moves:
-            qty -= move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
-        for move in incoming_moves:
             qty += move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
+        for move in incoming_moves:
+            qty -= move.uom_id._compute_quantity(move.product_uom_qty, self.uom_id, rounding_method="HALF-UP")
         description_picking = self.product_id.with_context(
             lang=self.order_id.dest_address_id.lang or self.env.user.lang
         )._get_description(self.order_id.picking_type_id)

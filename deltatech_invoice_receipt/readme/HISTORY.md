@@ -1,3 +1,9 @@
+## 20.0.2.0.3 (2026-10-08)
+
+- Returns to the vendor from negative purchase lines: the quantity already returned is now
+  subtracted from the requested return (it was added, so raising a return of 5 to 7
+  requested 12 more units instead of 2). Port of the 19.0 fix.
+
 ## 20.0.2.0.2 (2026-10-01)
 
 - Migration to 20.0, including the automatic receipt fix (RECEIPT-001). Adapted to the
