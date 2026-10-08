@@ -21,15 +21,12 @@ class MrpBom(models.Model):
             # cantitatea de baza * concentatia produsului finit / concentratia ingredientului principal
             primary_bom_line.product_qty = self.product_qty * self.concentration / self.concentration_primary
 
+            # dilution adds the secondary ingredient, concentration produces a by-product:
+            # the group not used by the current ratio is set to zero
             diff = self.product_qty - primary_bom_line.product_qty
-            if diff > 0:
-                secondary_bom_line = self.bom_line_ids.filtered(lambda x: x.ingredient_type == "secondary")
-                if secondary_bom_line:
-                    secondary_bom_line.product_qty = self.product_qty - primary_bom_line.product_qty
-            else:
-                secondary_bom_line = self.byproduct_ids
-                if secondary_bom_line:
-                    secondary_bom_line.product_qty = -1 * diff
+            secondary_bom_line = self.bom_line_ids.filtered(lambda x: x.ingredient_type == "secondary")
+            secondary_bom_line.product_qty = max(diff, 0.0)
+            self.byproduct_ids.product_qty = max(-diff, 0.0)
 
 
 class MrpBomLine(models.Model):

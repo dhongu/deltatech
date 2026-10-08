@@ -108,3 +108,57 @@ class TestMrpConcentration(TransactionCase):
 
         self.assertEqual(move_primary.product_uom_qty, 50.0)
         self.assertEqual(move_secondary.product_uom_qty, 50.0)
+
+    def _add_byproduct(self):
+        byproduct = self.env["product.product"].create({"name": "Evaporated Water", "is_storable": True})
+        self.bom.byproduct_ids = [(0, 0, {"product_id": byproduct.id, "product_qty": 1.0})]
+        return self.bom.byproduct_ids
+
+    def test_03_bom_switch_dilution_concentration(self):
+        """CONCENTRATION-002: switching the ratio clears the group that is no longer used"""
+        bom_byproduct = self._add_byproduct()
+
+        # concentration: 100 * 80 / 50 = 160 primary, 60 by-product, no secondary
+        self.bom.concentration = 80.0
+        self.bom._onchange_concentration_primary()
+        self.assertEqual(self.bom_line_primary.product_qty, 160.0)
+        self.assertEqual(self.bom_line_secondary.product_qty, 0.0)
+        self.assertEqual(bom_byproduct.product_qty, 60.0)
+
+        # back to dilution: 100 * 20 / 50 = 40 primary, 60 secondary, no by-product
+        self.bom.concentration = 20.0
+        self.bom._onchange_concentration_primary()
+        self.assertEqual(self.bom_line_primary.product_qty, 40.0)
+        self.assertEqual(self.bom_line_secondary.product_qty, 60.0)
+        self.assertEqual(bom_byproduct.product_qty, 0.0)
+
+    def test_04_production_byproduct_quantity(self):
+        """CONCENTRATION-001: the by-product demand is written on product_uom_qty"""
+        self._add_byproduct()
+        production = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_final.id,
+                "bom_id": self.bom.id,
+                "product_qty": 100.0,
+            }
+        )
+        production._onchange_bom_id()
+        move_primary = production.move_raw_ids.filtered(lambda m: m.bom_line_id == self.bom_line_primary)
+        move_secondary = production.move_raw_ids.filtered(lambda m: m.bom_line_id == self.bom_line_secondary)
+        move_byproduct = production.move_byproduct_ids
+        self.assertTrue(move_byproduct)
+
+        # concentration: 100 * 80 / 50 = 160 primary, 60 by-product, no secondary
+        production.concentration = 80.0
+        production._onchange_concentration_primary()
+        self.assertEqual(move_primary.product_uom_qty, 160.0)
+        self.assertEqual(move_secondary.product_uom_qty, 0.0)
+        self.assertEqual(move_byproduct.product_uom_qty, 60.0)
+        self.assertEqual(move_byproduct.product_qty, 60.0)
+
+        # back to dilution: the by-product is cleared
+        production.concentration = 20.0
+        production._onchange_concentration_primary()
+        self.assertEqual(move_primary.product_uom_qty, 40.0)
+        self.assertEqual(move_secondary.product_uom_qty, 60.0)
+        self.assertEqual(move_byproduct.product_uom_qty, 0.0)
