@@ -7,6 +7,10 @@
   Runtime runs without its memory arena, which never gave back what it had
   reserved. When memory still runs out, the wizard line says so and suggests
   ISNet or the uniform background method instead of showing the raw error.
+- **Duplicated Images** opens again. The list stopped with
+  ``Invalid field 'write_date'`` as soon as there was a duplicate to show: the
+  report is an SQL view without the log fields, and the image widget always
+  reads ``write_date``. The view now provides it.
 
 # 19.0.1.11.0
 

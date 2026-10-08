@@ -33,6 +33,9 @@ class ProductImageDuplicate(models.Model):
         help="Copies that repeat inside the same product. Removing them loses nothing — "
         "every product keeps one copy of the image.",
     )
+    # vederea nu are câmpurile de jurnal (_auto = False), dar widget-ul de imagine din listă cere
+    # mereu write_date, pentru adresa imaginii; fără el lista nu se deschide
+    write_date = fields.Datetime(readonly=True)
     sample_image = fields.Binary(string="Image", compute="_compute_sample", compute_sudo=True)
     product_names = fields.Char(string="Used On", compute="_compute_sample", compute_sudo=True)
 
@@ -55,6 +58,7 @@ class ProductImageDuplicate(models.Model):
                 """
                 CREATE VIEW %s AS (
                     SELECT min(pi.id)                       AS id,
+                           max(pi.write_date)               AS write_date,
                            pi.image_checksum                AS image_checksum,
                            count(*)                         AS image_count,
                            count(DISTINCT (
