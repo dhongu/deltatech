@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<record id="module_view_kanban" model="ir.ui.view">
+            <field name="name">ir.module.module.kanban</field>
+            <field name="model">ir.module.module</field>
+            <field name="priority">99</field>
+            <field name="inherit_id" ref="base.module_view_kanban" />
+            <field name="arch" type="xml">
+                <xpath expr="//templates" position="before">
+                    <field name="database_is_neutralized" />
+                </xpath>
+                <xpath expr="//a[@name='button_uninstall_wizard']" position="attributes">
+                    <attribute name="invisible">not database_is_neutralized</attribute>
+                </xpath>
+
+                <xpath expr="//button[@name='button_immediate_install']" position="attributes">
+                    <attribute name="invisible">state != 'uninstalled' or not database_is_neutralized</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_immediate_install']" position="after">
+                    <div invisible="database_is_neutralized">
+                        <span invisible="state != 'installed'" class="text-success">Is installed</span>
+                        <span invisible="state == 'installed'" class="text-muted">Is not installed</span>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+        <record id="module_form" model="ir.ui.view">
+            <field name="name">ir.module.module.form</field>
+            <field name="model">ir.module.module</field>
+            <field name="priority">99</field>
+            <field name="inherit_id" ref="base.module_form" />
+            <field name="arch" type="xml">
+                 <xpath expr="//button[@name='button_immediate_install']" position="before">
+                    <field name="database_is_neutralized" invisible="1" />
+                </xpath>
+                <xpath expr="//button[@name='button_immediate_install']" position="attributes">
+                    <attribute
+                    name="invisible"
+                >to_buy or state != 'uninstalled' or not database_is_neutralized</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_uninstall_wizard']" position="attributes">
+                    <attribute name="invisible">state != 'installed' or not database_is_neutralized</attribute>
+                </xpath>
+            </field>
+        </record>
+</odoo>
