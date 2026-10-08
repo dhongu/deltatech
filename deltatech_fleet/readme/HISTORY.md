@@ -1,3 +1,10 @@
+## 19.0.1.0.0 (2026-10-08)
+
+- Migration to 19.0: `models.Constraint` instead of `_sql_constraints`,
+  `SQL()` builder for the raw queries and the cost report view,
+  `_read_group` in the cost per kilometre report, `self.env._()`
+  translations, company check on map sheets.
+
 ## 18.0.1.0.0 (2026-10-08)
 
 - Migration to 18.0: `list` views, `<chatter/>`, kanban `card` template,

@@ -37,24 +37,23 @@ class FleetDistanceReport(models.Model):
             ("date_start", "<=", self.date_to),
             ("company_id", "=", self.company_id.id),
         ]
-        costs = self.env["fleet.vehicle.cost.report"].read_group(
+        costs = self.env["fleet.vehicle.cost.report"]._read_group(
             domain=domain,
-            fields=["company_id", "vehicle_id", "cost"],
-            groupby=["company_id", "vehicle_id"],
-            lazy=False,
+            groupby=["vehicle_id"],
+            aggregates=["cost:sum"],
         )
         lines = []
-        for line in costs:
-            distance = self.get_distance(line["vehicle_id"][0])
+        for vehicle, cost in costs:
+            distance = self.get_distance(vehicle.id)
             price = 0
             if distance:
-                price = line["cost"] / distance
+                price = cost / distance
             lines += [
                 {
                     "report_id": self.id,
                     "company_id": self.company_id.id,
-                    "vehicle_id": line["vehicle_id"][0],
-                    "cost": line["cost"],
+                    "vehicle_id": vehicle.id,
+                    "cost": cost,
                     "distance": distance,
                     "price": price,
                 }

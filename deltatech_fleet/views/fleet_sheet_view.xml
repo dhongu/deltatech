@@ -214,7 +214,7 @@
             <search string="Map Sheet">
                 <field name="vehicle_id" />
                 <field name="date" />
-                <group expand="1" string="Group By...">
+                <group>
                     <filter name="groupby_date" context="{'group_by' : 'date'}" string="Date" />
                     <filter name="groupby_vehicle_id" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
                 </group>

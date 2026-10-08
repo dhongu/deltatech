@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -109,7 +109,7 @@ class FleetVehicleLogFuel(models.Model):
     def _inverse_odometer(self):
         for record in self:
             if not record.odometer:
-                raise UserError(_("Emptying the odometer value of a vehicle is not allowed."))
+                raise UserError(self.env._("Emptying the odometer value of a vehicle is not allowed."))
             odometer = self.env["fleet.vehicle.odometer"].create(
                 {
                     "value": record.odometer,

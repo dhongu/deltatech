@@ -14,7 +14,7 @@ Deltatech Fleet
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_fleet
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fleet
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -48,6 +48,14 @@ Features:
 
 Changelog
 =========
+
+19.0.1.0.0 (2026-10-08)
+-----------------------
+
+- Migration to 19.0: ``models.Constraint`` instead of
+  ``_sql_constraints``, ``SQL()`` builder for the raw queries and the
+  cost report view, ``_read_group`` in the cost per kilometre report,
+  ``self.env._()`` translations, company check on map sheets.
 
 18.0.1.0.0 (2026-10-08)
 -----------------------
@@ -94,6 +102,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_fleet>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_fleet>`_ project on GitHub.
 
 You are welcome to contribute.

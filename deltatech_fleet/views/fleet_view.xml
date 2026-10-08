@@ -149,7 +149,7 @@
         <field name="arch" type="xml">
             <search string="Route Log">
                 <field name="vehicle_id" />
-                <group expand="1" string="Group By...">
+                <group>
                     <filter name="groupby_vehicle_id" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
                 </group>
             </search>
@@ -206,7 +206,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="vehicle_id" />
-                <group expand="1" string="Group By...">
+                <group>
                     <filter name="groupby_vehicle_id" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
                 </group>
             </search>

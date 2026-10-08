@@ -57,7 +57,10 @@ class FleetVehicle(models.Model):
     division = fields.Many2one("fleet.division")
     scope_id = fields.Many2one("fleet.scope", string="Scope")
 
-    _sql_constraints = [("indicative_uniq", "unique (indicative)", "The Indicative must be unique !")]
+    _indicative_uniq = models.Constraint(
+        "unique (indicative)",
+        "The Indicative must be unique !",
+    )
 
     def act_show_map_sheet(self):
         """This opens map sheet view to view and add new map sheet for this vehicle
@@ -71,10 +74,7 @@ class FleetVehicle(models.Model):
 
     def _compute_reservoir_level(self):
         for vehicle in self:
-            if not isinstance(vehicle.id, models.NewId):
-                vehicle.reservoir_level = self.env["fleet.reservoir.level"].get_level(vehicle.id)
-            else:
-                vehicle.reservoir_level = 0
+            vehicle.reservoir_level = self.env["fleet.reservoir.level"].get_level(vehicle._origin.id)
 
     @api.model
     def _conv_local_datetime_to_utc(self, date):

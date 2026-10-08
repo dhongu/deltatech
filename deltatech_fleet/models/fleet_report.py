@@ -3,9 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from psycopg2 import sql
-
-from odoo import fields, models, tools
+from odoo import fields, models
+from odoo.tools import SQL, drop_view_if_exists
 
 
 class FleetReport(models.Model):
@@ -144,7 +143,5 @@ UNION ALL (
     FROM
         contract_costs cc)
 """
-        tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute(
-            sql.SQL("""CREATE or REPLACE VIEW {} as ({})""").format(sql.Identifier(self._table), sql.SQL(query))
-        )
+        drop_view_if_exists(self.env.cr, self._table)
+        self.env.cr.execute(SQL("""CREATE or REPLACE VIEW %s as (%s)""", SQL.identifier(self._table), SQL(query)))
