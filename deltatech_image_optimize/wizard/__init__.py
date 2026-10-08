@@ -3,3 +3,4 @@
 
 from . import product_image_dedup
 from . import image_background_wizard
+from . import image_watermark_wizard
