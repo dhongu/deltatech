@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.3.5.0 (2026-10-08)
+
+- The number of per diem days now accepts one decimal (for example 2.5). For
+  trips abroad the per diem is also paid for a part of a day (half up to 12
+  hours), which a whole number could not hold. Existing values are kept; the
+  column is converted on update.
+
 ## 19.0.3.4.2 (2026-10-07)
 
 - Apps Store page in English (it was in Romanian), written from the 19.0 code, with
