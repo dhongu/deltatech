@@ -31,14 +31,36 @@ class ManualBackOrder(models.TransientModel):
         defaults["line_ids"] = line_ids
         return defaults
 
+    def _check_kept_quantities(self, picking):
+        # the onchange only guards the form; RPC/imports reach this method directly and the
+        # wizard may be stale, so the bounds are checked against the current move demand
+        if picking.state in ["done", "cancel"]:
+            raise UserError(self.env._("The transfer status does not allow the change"))
+        for line in self.line_ids:
+            move = line.move_id
+            if move.picking_id != picking:
+                raise UserError(
+                    self.env._("The move of %s does not belong to this transfer.", line.product_id.display_name)
+                )
+            if move.uom_id.compare(line.kept_qty, 0.0) < 0 or (
+                move.uom_id.compare(line.kept_qty, move.product_uom_qty) > 0
+            ):
+                raise UserError(
+                    self.env._(
+                        "The kept quantity of %(product)s must be between 0 and the demand %(demand)s.",
+                        product=line.product_id.display_name,
+                        demand=move.product_uom_qty,
+                    )
+                )
+
     def do_create_backorder(self):
+        active_id = self.env.context.get("active_id")
+        picking = self.env["stock.picking"].browse(active_id)
+        self._check_kept_quantities(picking)
         quality = 0
         for line in self.line_ids:
             quality += line.kept_qty
         if quality:
-            active_id = self.env.context.get("active_id")
-            picking = self.env["stock.picking"].browse(active_id)
-
             backorder_picking = picking.copy(
                 {
                     "name": "/",
@@ -62,8 +84,8 @@ class ManualBackOrder(models.TransientModel):
                     line.move_id.write({"picking_id": backorder_picking.id})
                     line.move_id.mapped("move_line_ids").write({"picking_id": backorder_picking.id})
                 else:
-                    diff = line.product_uom_qty - line.kept_qty
-                    if diff:
+                    diff = line.move_id.product_uom_qty - line.kept_qty
+                    if not line.move_id.uom_id.is_zero(diff):
                         line.move_id.write({"product_uom_qty": line.kept_qty})
                         line.move_id.copy(
                             {

@@ -3,7 +3,7 @@
 {
     "name": "Picking Split",
     "summary": "Picking Manual Backorder",
-    "version": "20.0.1.0.1",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
