@@ -1,3 +1,17 @@
+## 19.0.0.9.5 (2026-10-08)
+
+- Fixed ACTIONS-001: the duplicate contact merge detached every contact of a
+  duplicate group from its company, although only the first two were merged.
+  Only the merged pair is detached now; the other contacts keep their company
+  until a later run merges them.
+- Fixed ACTIONS-003: the XML attachment cleanup grouped attachments by name
+  across all invoices, then selected every attachment with that name, on any
+  invoice or document, protecting the EDI files of a single invoice. Duplicates
+  are now counted per invoice (same invoice, same name, XML); the most recent
+  copy is kept, and the EDI documents and the attachments the invoice points to
+  (e.g. its UBL XML or main attachment) are never deleted. The *Duplicates*
+  setting now applies per invoice.
+
 ## 19.0.0.9.4 (2026-10-02)
 
 - Security: the public cleanup methods (`cron_clean_generated_pdfs` on invoices, sale

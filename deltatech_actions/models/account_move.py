@@ -61,7 +61,7 @@ class AccountMove(models.Model):
         :param limit: how many invoices with duplicate attachments should be processed.
         Increase this number if you have many invoices with few duplicate attachments
         Decrease this number if you have few invoices with many duplicates attachments
-        :param duplicates: how many attachments with same name are found
+        :param duplicates: how many attachments with the same name on the same invoice are found
         :param max_attachments_to_delete: maximum attachment number to delete
         :param dry_run: if set to True, just selects the attachments and does not delete anything
         :param max_date_days: only consider attachments older than this many days. Ex. 30 =
@@ -73,13 +73,15 @@ class AccountMove(models.Model):
         max_date = datetime.now() - relativedelta(days=max_date_days) if max_date_days else None
         date_clause = SQL("AND create_date <= %s", max_date) if max_date else SQL()
 
+        # duplicates are counted per invoice: the same file name on another invoice or on
+        # another document is not a duplicate
         query = SQL(
-            """SELECT name, count(name) as count_name
+            """SELECT res_id, name, count(*) as count_name
         FROM ir_attachment
-        WHERE mimetype='application/xml' AND res_model='account.move'
+        WHERE mimetype='application/xml' AND res_model='account.move' AND res_id IS NOT NULL
         %s
-        GROUP BY name
-        HAVING COUNT(name) > %s limit %s;
+        GROUP BY res_id, name
+        HAVING COUNT(*) > %s limit %s;
         """,
             date_clause,
             duplicates,
@@ -90,22 +92,27 @@ class AccountMove(models.Model):
         counter = 1
         att_count = len(res)
         total_attachments = 0
-        for attachment_name in res:
-            domain = [("name", "=", attachment_name[0])]
+        for invoice_res_id, attachment_name, _count in res:
+            domain = [
+                ("res_model", "=", "account.move"),
+                ("res_id", "=", invoice_res_id),
+                ("name", "=", attachment_name),
+                ("mimetype", "=", "application/xml"),
+            ]
             if max_date:
                 domain.append(("create_date", "<=", max_date))
-            attachments = self.env["ir.attachment"].search(domain)
+            attachments = self.env["ir.attachment"].search(domain, order="id desc")
             if attachments:
                 counter += 1
-                invoice_id = self.browse(attachments[0].res_id)
-                linked_attachments = invoice_id.edi_document_ids.attachment_id
-                attachments -= linked_attachments
+                invoice = self.browse(invoice_res_id).exists()
+                # the most recent copy is kept, and so is every attachment the invoice still uses
+                attachments = attachments[1:] - self._get_xml_attachments_in_use(invoice)
                 if attachments:
                     if len(attachments) > max_attachments_to_delete:
                         attachments = attachments[:max_attachments_to_delete]
                     total_attachments += len(attachments)
                     _logger.info(
-                        f"{log_prefix(dry_run)} attachments: {attachment_name[0]} "
+                        f"{log_prefix(dry_run)} attachments: {attachment_name} on invoice {invoice_res_id} "
                         f"({counter}/{att_count} - {len(attachments)} attachments)"
                     )
                     if not dry_run:
@@ -116,6 +123,18 @@ class AccountMove(models.Model):
 
         _logger.info(f"{log_prefix(dry_run)} {total_attachments} attachments.")
         return {"count": total_attachments, "size": None, "dry_run": dry_run}
+
+    def _get_xml_attachments_in_use(self, invoice):
+        """Attachments an invoice still points to: its EDI documents and any attachment field
+        (e.g. the UBL/CII XML or the main attachment)."""
+        attachments = self.env["ir.attachment"]
+        if not invoice:
+            return attachments
+        attachments |= invoice.edi_document_ids.attachment_id
+        for field in invoice._fields.values():
+            if field.type == "many2one" and field.comodel_name == "ir.attachment":
+                attachments |= invoice[field.name]
+        return attachments
 
     @api.model
     def cron_clean_generated_pdfs(self, limit=100, pattern="", max_date_days=False, dry_run=False):
