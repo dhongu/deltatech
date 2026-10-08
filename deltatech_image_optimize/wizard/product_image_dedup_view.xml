@@ -18,9 +18,10 @@
                         Nothing to remove. The duplicated images are spread across different
                         products, and each product needs its own copy.
                     </div>
-                    <group invisible="removable_count == 0" string="What Will Be Removed">
+                    <div invisible="removable_count == 0">
+                        <separator string="What Will Be Removed" />
                         <field name="preview" nolabel="1" readonly="1" />
-                    </group>
+                    </div>
                 </div>
                 <div invisible="state != 'done'">
                     <group>

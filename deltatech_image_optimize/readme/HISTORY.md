@@ -11,6 +11,10 @@
   ``Invalid field 'write_date'`` as soon as there was a duplicate to show: the
   report is an SQL view without the log fields, and the image widget always
   reads ``write_date``. The view now provides it.
+- The background removal wizard shows the whole image name (main image or
+  gallery image N) and the whole warning, on several lines; the list of what
+  **Remove Duplicated Images** deletes uses the full width of the dialog, and
+  the *Removable* column of **Duplicated Images** is no longer cut.
 
 # 19.0.1.11.0
 
