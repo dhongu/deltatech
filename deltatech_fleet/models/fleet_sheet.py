@@ -6,7 +6,7 @@
 import math
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -14,6 +14,7 @@ class FleetMapSheet(models.Model):
     _inherit = "mail.thread"
     _name = "fleet.map.sheet"
     _description = "Fleet Map Sheet"
+    _check_company_auto = True
 
     @api.depends("vehicle_id", "date_start", "distance_total")
     def _compute_odometer_start(self):
@@ -156,7 +157,7 @@ class FleetMapSheet(models.Model):
         string="Date",
         required=True,
         readonly=True,
-        default=_get_default_date,
+        default=lambda self: self._get_default_date(),
     )
     vehicle_id = fields.Many2one(
         "fleet.vehicle",
@@ -164,6 +165,7 @@ class FleetMapSheet(models.Model):
         required=True,
         help="Vehicle",
         readonly=False,
+        check_company=True,
     )
     category_id = fields.Many2one(
         "fleet.vehicle.category",
@@ -186,13 +188,13 @@ class FleetMapSheet(models.Model):
     date_start = fields.Datetime(
         string="Date Start",
         help="Date time at the start of this map sheet",
-        default=_get_default_date_start,
+        default=lambda self: self._get_default_date_start(),
     )
     date_start_old = fields.Datetime(string="Old Date Start")  # Camp tehnic
     date_end = fields.Datetime(
         string="Date End",
         help="Date time at the end of this map sheet",
-        default=_get_default_date_end,
+        default=lambda self: self._get_default_date_end(),
     )
 
     odometer_end = fields.Float(
@@ -307,8 +309,11 @@ class FleetMapSheet(models.Model):
         for sheet in self:
             if sheet.date_start > sheet.date_end:
                 raise ValidationError(
-                    _("Map Sheet end-date (%(end_date)s) must be greater then start-date (%(start_date)s)")
-                    % {"end_date": sheet.date_end, "start_date": sheet.date_start}
+                    self.env._(
+                        "Map Sheet end-date (%(end_date)s) must be greater then start-date (%(start_date)s)",
+                        end_date=sheet.date_end,
+                        start_date=sheet.date_start,
+                    )
                 )
 
     # @api.model
@@ -448,7 +453,7 @@ class FleetMapSheet(models.Model):
     def action_done(self):
         for rec in self:
             if rec.distance_total == 0:
-                raise UserError(_("Cannot set done a map sheet which distance equal with zero."))
+                raise UserError(self.env._("Cannot set done a map sheet which distance equal with zero."))
 
         self.write({"state": "done"})
         for map_sheet in self:
@@ -494,11 +499,11 @@ class FleetRouteLog(models.Model):
     scope_id = fields.Many2one("fleet.scope", string="Scope")
     date_begin = fields.Datetime(
         string="Date Begin",
-        default=_get_default_date_begin,
+        default=lambda self: self._get_default_date_begin(),
     )
     date_end = fields.Datetime(
         string="Date End",
-        default=_get_default_date_begin,
+        default=lambda self: self._get_default_date_begin(),
     )
     week_day = fields.Integer(compute="_compute_week_day", string="Week Day", store=False)
     route_id = fields.Many2one("fleet.route", string="Route")
@@ -557,7 +562,7 @@ class FleetRouteLog(models.Model):
     def _check_dates(self):
         for item in self:
             if item.date_begin > item.date_end:
-                raise ValidationError(_("Route end-date must be greater then route begin-date"))
+                raise ValidationError(self.env._("Route end-date must be greater then route begin-date"))
 
     #     """
     #     def _check_dates(self, cr, uid, ids, context=None):

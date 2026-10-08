@@ -106,7 +106,7 @@
                 <field name="date_time" />
                 <field name="liter" />
                 <field name="amount" sum="Price" />
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="groupby_vehicle" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
                 </group>
             </search>

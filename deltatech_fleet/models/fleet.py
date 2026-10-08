@@ -4,6 +4,7 @@
 
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 # class FleetVehicleCost(models.Model):
 #     _inherit = "fleet.vehicle.cost"
@@ -101,7 +102,10 @@ class FleetCard(models.Model):
     log_fuel_ids = fields.One2many("fleet.vehicle.log.fuel", "card_id", string="Fuel log")
     active = fields.Boolean(string="Active", default=1)
 
-    _sql_constraints = [("serie_uniq", "unique (name)", "The series must be unique !")]
+    _serie_uniq = models.Constraint(
+        "unique (name)",
+        "The series must be unique !",
+    )
 
 
 class FleetFuel(models.Model):
@@ -167,12 +171,14 @@ class FleetReservoirLevel(models.Model):
             return level
 
         self.env.cr.execute(
-            """SELECT  sum(liter) AS liter
+            SQL(
+                """SELECT  sum(liter) AS liter
               FROM fleet_vehicle_log_fuel
                    JOIN fleet_vehicle_log_services as sl on sl.id = log_service_id
               WHERE sl.vehicle_id = %s
            """,
-            (vehicle_id,),
+                vehicle_id,
+            )
         )
         results = self.env.cr.dictfetchone()
         if results:
@@ -180,11 +186,13 @@ class FleetReservoirLevel(models.Model):
             if level is None:
                 level = 0
         self.env.cr.execute(
-            """SELECT  sum(norm_cons) AS liter
+            SQL(
+                """SELECT  sum(norm_cons) AS liter
               FROM fleet_route_log
               WHERE vehicle_id = %s
            """,
-            (vehicle_id,),
+                vehicle_id,
+            )
         )
         results = self.env.cr.dictfetchone()
         if results and results["liter"]:
@@ -200,16 +208,16 @@ class FleetReservoirLevel(models.Model):
 
         vehicle_id = vehicle.id
         self.env.cr.execute(
-            """SELECT  sum(liter) AS liter
+            SQL(
+                """SELECT  sum(liter) AS liter
               FROM fleet_vehicle_log_fuel
               JOIN fleet_vehicle_log_services as sl on sl.id = log_service_id
               WHERE sl.vehicle_id = %s and
                    date_time <= %s
            """,
-            (
                 vehicle_id,
                 to_date,
-            ),
+            )
         )
         results = self.env.cr.dictfetchone()
         if results and results["liter"]:
@@ -217,15 +225,15 @@ class FleetReservoirLevel(models.Model):
             if level is None:
                 level = 0
         self.env.cr.execute(
-            """SELECT  sum(norm_cons) AS liter
+            SQL(
+                """SELECT  sum(norm_cons) AS liter
               FROM fleet_route_log
               WHERE vehicle_id = %s  and
                    date_end <= %s
            """,
-            (
                 vehicle_id,
                 to_date,
-            ),
+            )
         )
         results = self.env.cr.dictfetchone()
         if results and results["liter"]:
