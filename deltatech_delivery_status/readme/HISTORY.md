@@ -1,3 +1,12 @@
+## 19.0.2.3.3 (2026-10-08)
+
+- Fixed DELIVERYSTATUS-002: when the payment was completed before the order
+  was confirmed (the usual online payment flow, where the payment confirms the
+  quotation), the transfers created at confirmation were postponed and stayed
+  blocked, because the payment had already been processed. The delivery is now
+  postponed at confirmation only while the last payment is not done, for the
+  provider option and for the team wire-transfer option.
+
 ## 19.0.2.3.2 (2026-09-29)
 
 - Romanian translations completed and corrected: *Refused* was not translated (the state showed in
