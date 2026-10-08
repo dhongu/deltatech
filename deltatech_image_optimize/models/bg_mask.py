@@ -16,6 +16,9 @@ din imaginea la rezoluția întreagă.
 
 from PIL import Image, ImageChops, ImageFilter
 
+# Image.Resampling apare abia în Pillow 9.1; Odoo 19 acceptă și 9.0.1
+_RESAMPLE = getattr(Image, "Resampling", Image)
+
 WORK_SIDE = 400
 # ponderea pixelilor de pe margine care trebuie să aibă culoarea fundalului
 UNIFORM_BORDER_SHARE = 0.9
@@ -38,7 +41,7 @@ def _shrink_mask(mask, size):
     Media pe bloc (BOX) urmată de prag > 0 nu pierde detaliile subțiri, cum ar fi
     tubul unei pâlnii, care la o micșorare obișnuită s-ar topi în fundal.
     """
-    return mask.resize(size, Image.Resampling.BOX).point(lambda v: 255 if v else 0)
+    return mask.resize(size, _RESAMPLE.BOX).point(lambda v: 255 if v else 0)
 
 
 def _neighbours(index, width, height, diagonal):
@@ -119,7 +122,7 @@ def _keep_large(components, min_island):
 
 def border_color(rgb, tolerance):
     """Culoarea fundalului când marginile imaginii o au aproape toate; altfel ``None``."""
-    small = rgb.resize(_work_size(rgb.size), Image.Resampling.BOX)
+    small = rgb.resize(_work_size(rgb.size), _RESAMPLE.BOX)
     width, height = small.size
     pixels = small.load()
     border = [pixels[x, y] for x in range(width) for y in {0, height - 1}]
@@ -149,8 +152,8 @@ def uniform_alpha(rgb, color, tolerance, min_island):
         return None
     region = _mask_from_indices(size, (index for component in kept for index in component))
     # interiorul (micșorat cu un bloc) e opac; banda de contur ia alfa din diferența de culoare
-    interior = region.filter(ImageFilter.MinFilter(3)).resize(rgb.size, Image.Resampling.NEAREST)
-    band = region.filter(ImageFilter.MaxFilter(3)).resize(rgb.size, Image.Resampling.NEAREST)
+    interior = region.filter(ImageFilter.MinFilter(3)).resize(rgb.size, _RESAMPLE.NEAREST)
+    band = region.filter(ImageFilter.MaxFilter(3)).resize(rgb.size, _RESAMPLE.NEAREST)
     high = min(255, tolerance * 3)
     edge = diff.point(
         lambda v: 0 if v <= tolerance else 255 if v >= high else (v - tolerance) * 255 // max(1, high - tolerance)
@@ -171,7 +174,7 @@ def drop_islands(alpha, min_island):
     if not dropped:
         return alpha, 0
     region = _mask_from_indices(size, (index for component in kept for index in component))
-    keep = region.filter(ImageFilter.MaxFilter(3)).resize(alpha.size, Image.Resampling.NEAREST)
+    keep = region.filter(ImageFilter.MaxFilter(3)).resize(alpha.size, _RESAMPLE.NEAREST)
     return ImageChops.darker(alpha, keep), dropped
 
 
@@ -179,7 +182,7 @@ def lost_share(reference, alpha):
     """Ce parte din ``reference`` (masca după culoare) lipsește din ``alpha`` (masca modelului)."""
     size = _work_size(alpha.size)
     ref = _shrink_mask(reference.point(lambda v: 255 if v > 127 else 0), size)
-    got = alpha.point(lambda v: 255 if v > 127 else 0).resize(size, Image.Resampling.BOX)
+    got = alpha.point(lambda v: 255 if v > 127 else 0).resize(size, _RESAMPLE.BOX)
     total = ref.histogram()[255]
     if not total:
         return 0.0
