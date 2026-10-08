@@ -1,34 +1,20 @@
-Acest modul este o extensie a aplicatiei de gestiune parc auto.
+Extends the Fleet application with map sheets (route sheets), fuel logs and
+fuel cards.
 
-- Features:
+Features:
 
-  - - Campuri suplimentare in detele de baza ale unui vehicul.
-
-      - indicativ
-      - sofer de rezerva
-      - categorie
-      - nivel rezervor
-      - capacitate rezervor
-      - consum mediu
-      - viteza medie
-      - carduri de alimentare
-
-  - - Gestionare carduri de alimentare
-
-      - alocare carduri la masini si la alimentari
-
-  - - Gestionare trasee
-
-      - gestionare locatii
-      - gestionare distante intre locatii si durate de deplasare
-
-  - - Gestionare foi de parcurs
-
-      - trasee aferente unei foi de parcusrs
-      - carburant
-
-  - - Calculare automata a nivelului de carburant din rezervor
-
-      - caclul carburant in foaia de parcurs dupa alocarea alimentarilor
-
-Nota Campul data din fleet trebuie modificat in datatime
+- Additional vehicle data: indicative, backup driver, vehicle category,
+  engine serial number, mass capacity, useful weight, reservoir capacity,
+  average consumption (urban / exterior / mixed), average speed, ownership
+  and allocation details, fuel cards.
+- Fuel cards: allocate cards to vehicles and to refuelling entries.
+- Fuel logs: refuelling entries per vehicle, linked to a fuel card and to a
+  map sheet; the reservoir level is computed at the refuelling moment.
+- Routes and locations: locations, distances and travel durations between
+  them, with one-click creation of the reverse route.
+- Map sheets: route logs and fuel logs per vehicle and period, start/end
+  odometer, total distance, normal consumption, reservoir level at start and
+  end, PDF report.
+- Automatic computation of the fuel level in the reservoir from refuelling
+  entries and the normal consumption of the route logs.
+- Cost per kilometre report per vehicle and period.

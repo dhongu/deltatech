@@ -16,6 +16,7 @@
 
         <record id="sequence_fleet_road_map" model="ir.sequence">
             <field name="name">Map Sheet</field>
+            <field name="code">fleet.map.sheet</field>
             <field name="prefix">MS/</field>
             <field name="padding">5</field>
             <field name="number_next">10</field>
