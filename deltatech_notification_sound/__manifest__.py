@@ -5,7 +5,7 @@
 {
     "name": "Notification Sound",
     "summary": "Notification Sound",
-    "version": "19.0.2.0.1",
+    "version": "19.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
