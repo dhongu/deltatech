@@ -7,7 +7,12 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='inventory']/group[@name='inventory']" position="inside">
                 <group name="packaging" string="Packaging materials">
-                    <field name="packaging_material_ids" nolabel="1" colspan="2">
+                    <field
+                        name="packaging_material_ids"
+                        nolabel="1"
+                        colspan="2"
+                        invisible="packaging_material_no_inherit"
+                    >
                         <list editable="bottom">
                             <field name="material_type"/>
                             <field name="qty_purchase"/>
@@ -17,17 +22,9 @@
                     <field name="packaging_material_no_inherit" invisible="packaging_material_ids"/>
                     <div colspan="2" invisible="packaging_material_ids or packaging_material_no_inherit">
                         <span class="text-muted">
-                            Materials taken from the product category. Add a material above to
-                            configure this product on its own.
+                            Without materials of its own, the product uses the ones configured on its
+                            category.
                         </span>
-                        <field name="inherited_packaging_material_ids" nolabel="1" readonly="1">
-                            <list create="false" delete="false" edit="false">
-                                <field name="categ_id"/>
-                                <field name="material_type"/>
-                                <field name="qty_purchase"/>
-                                <field name="qty_sale"/>
-                            </list>
-                        </field>
                     </div>
                 </group>
             </xpath>

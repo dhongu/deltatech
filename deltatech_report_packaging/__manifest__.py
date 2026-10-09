@@ -2,7 +2,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Report Packaging",
     "summary": "Report packaging materials used for invoiced products",
-    "version": "19.0.1.3.2",
+    "version": "19.0.1.3.3",
     "category": "Product",
     "author": "Terrabit",
     "website": "https://www.terrabit.ro",
