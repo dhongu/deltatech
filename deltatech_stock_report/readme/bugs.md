@@ -14,6 +14,8 @@ Evidence: original SQL on a positive outgoing native-value fixture yields negati
 
 ## STOCKREPORT-003 — P1: report bypasses native company separation
 
+**Status:** Fixed in 19.0.1.0.6. Global record rule `[('company_id', 'in', company_ids)]` on `stock.picking.report`.
+
 The SQL view selects all companies, while the manifest loads only a stock-manager read ACL and report views, with no company record rule for `stock.picking.report`. Source stock-move rules do not automatically apply to a separate SQL-view model. The action has no company domain either. A stock manager restricted to one company can query stock quantities, valuations and partners from other companies through the report. Add a company rule on the report model.
 
 Evidence: all eligible module source and ACL reviewed; repository searches found no report-model company rule. Original SELECT returns both company fixture rows. This demonstrates SQL scope; an ORM access scenario on a multi-company database remains unexecuted.
