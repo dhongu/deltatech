@@ -19,7 +19,11 @@ def migrate(cr, version):
 
     Copiem arhitectura view-ului generic doar în copiile care au încă xpath-ul vechi. Câmpul
     `active` nu e atins, deci opțiunea rămâne activă sau oprită pe fiecare website, așa cum
-    a ales clientul în editor."""
+    a ales clientul în editor.
+
+    Rulează ca `post-migrate`, nu `end-migration`: verificarea de template-uri a platformei de
+    upgrade (`19.0.0.0.1 end-migration`) rulează înaintea `end-migration`-urilor modulelor și
+    raporta copia ca stricată, deși era reparată la câteva secunde după."""
     cr.execute(
         SQL(
             """
@@ -36,4 +40,4 @@ def migrate(cr, version):
             old_xpath="%itemprop='offers'%",
         )
     )
-    _logger.info("Reset %s website-specific view(s) %s with the 18.0 arch", cr.rowcount, VIEW_KEY)
+    _logger.info("Reset %s website-specific view(s) %s with the 19.0 arch", cr.rowcount, VIEW_KEY)
