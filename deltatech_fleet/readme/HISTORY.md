@@ -1,3 +1,7 @@
+## 20.0.1.0.1 (2026-10-09)
+
+- New module icon (yellow car, flat Terrabit style).
+
 ## 20.0.1.0.0 (2026-10-08)
 
 - Migration to 20.0: access rights in `security/ir.access.csv`, icons
