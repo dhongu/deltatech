@@ -386,8 +386,12 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
          class="card h-100 text-decoration-none border" style="color:%(body)s;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:%(primary)s;">%(initials)s</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:%(primary)s;">%(initials)s</span>
+              <img src="https://apps.odoocdn.com/apps/assets/%(series)s/%(tech)s/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">%(name)s</span>
               <span class="d-block" style="font-size:13px;color:%(muted)s;">%(category)s</span>
@@ -744,6 +748,10 @@ def build_tabs(tabs):
     panes = []
     for i, (key, title, md_text) in enumerate(tabs):
         heading = f'<h2 class="fw-bold mb-3" style="{accent_bar}">{title}</h2>'
+        if key == "romana":
+            # tabul se numește deja „Română”: titlul ar repeta numele tabului, iar
+            # subtitlurile Prezentare / Configurare / Utilizare țin loc de titlu
+            heading = ""
         panes.append(
             PANEL
             % {
