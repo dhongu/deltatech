@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## CATEGORYGROUP-001 — P1: Category manager group implies user IDs as group IDs
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.6. `security.xml` adds `base.user_root` and `base.user_admin` as members (`user_ids`) of the group instead of implying their IDs as groups; the 19.0.0.0.6 migration removes the wrong `res_groups_implied_rel` links of this group in existing databases.
 - **Location:** security/security.xml, category_group_manager.implied_ids.
 - **Trigger:** Install/update the addon or assign its Manage category groups group.
 - **Actual behavior:** implied_ids receives (4, ref('base.user_root')) and (4, ref('base.user_admin')). These references return res.users IDs, but implied_ids targets res.groups. Numeric ID collisions link unrelated groups; if no group with that number exists, the relation fails. This also does not assign the intended manager group to those users.
