@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## CUSTOMRATE-001 — P1: Custom rate changes rely on onchange instead of server recomputation
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.2. On invoices `currency_rate_custom` is a dependency of the native `_compute_invoice_currency_rate` (`invoice_currency_rate = 1 / custom`), so create/write recompute the line `currency_rate`, the balances and the taxes through the standard invoice synchronization; the line rate compute also depends on the custom field; changing it on a posted entry raises an error. Journal entries (non-invoice) keep the interactive onchange recomputation.
 - **Location:** models/account_move.py, currency_rate_custom, onchange_currency_rate_custome(), _compute_currency_rate().
 - **Trigger:** Import/RPC/ORM updates currency_rate_custom on an existing invoice, or changes it after line currency rates have already been read in the same environment.
 - **Actual behavior:** Recalculation is explicitly performed only by the invoice onchange. The line compute reads move_id.currency_rate_custom but neither its own nor native dependencies include this custom field. A plain write does not call onchange or invalidate cached line rates through this dependency, and does not invoke the custom balance inverse merely because this invoice field changed.

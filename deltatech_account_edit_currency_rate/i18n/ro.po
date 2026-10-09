@@ -77,3 +77,13 @@ msgstr "Comandă de vânzare"
 #: model:ir.model,name:deltatech_select_journal.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Linie comandă vânzare"
+
+#. module: deltatech_account_edit_currency_rate
+#. odoo-python
+#: code:addons/deltatech_account_edit_currency_rate/models/account_move.py:0
+msgid ""
+"You cannot change the custom currency rate of the posted entry %(move)s. "
+"Reset it to draft first."
+msgstr ""
+"Nu puteți modifica cursul valutar personalizat al înregistrării postate %(move)s. "
+"Readuceți-o mai întâi în ciornă."
