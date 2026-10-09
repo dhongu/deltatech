@@ -1,3 +1,19 @@
+## 19.0.1.2.0 (2026-10-09)
+
+**Fix** — scheduling an activity on a sale order no longer fails when
+`deltatech_website_sale_status` is not installed: the order stage is copied
+into the journal only when the field exists (ACTIVITY-001).
+
+**Fix** — the activity journal follows the access scope of sale orders
+(ACTIVITY-002):
+
+- salespeople see only the journal of their own orders (or unassigned ones),
+  "All Documents" salespeople and managers see all, always limited to the
+  allowed companies;
+- salespeople can only read the journal; only the Sales Administrator can
+  edit or delete entries; internal users without sales rights have no access;
+- entries keep being written automatically, by the system, for every user.
+
 ## 19.0.1.1.2 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_order_activity_record,access_sale_order_activity_record,model_sale_order_activity_record,base.group_user,1,1,1,1
+access_sale_order_activity_record_salesman,sale.order.activity.record salesman,model_sale_order_activity_record,sales_team.group_sale_salesman,1,0,0,0
+access_sale_order_activity_record_manager,sale.order.activity.record manager,model_sale_order_activity_record,sales_team.group_sale_manager,1,1,1,1
