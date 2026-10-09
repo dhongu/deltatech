@@ -172,7 +172,8 @@ class IrAttachment(models.Model):
           written directly on its attachment, never through the record field.
           If WebP encoding is unavailable, keep an optimized PNG (never flatten
           real transparency to a solid background).
-        - animated GIFs                    -> skipped (never flattened)
+        - animated images (GIF, APNG, WebP) -> skipped (never flattened to
+          their first frame)
 
         :return: tuple ``(data, output_format)`` where output_format is
             ``"JPEG"``, ``"WEBP"`` or ``"PNG"``; or ``(None, None)`` when the
@@ -185,8 +186,9 @@ class IrAttachment(models.Model):
             img.load()
         except Exception:  # noqa: BLE001 - any unreadable image is skipped
             return None, None
-        fmt = (img.format or "").upper()
-        if fmt == "GIF" and getattr(img, "is_animated", False):
+        # Any multi-frame image (animated GIF, APNG, animated WebP) is left
+        # untouched: re-encoding keeps only the first frame.
+        if getattr(img, "is_animated", False) or getattr(img, "n_frames", 1) > 1:
             return None, None
         # Normalize palette (incl. palette transparency) to a real RGBA/RGB
         # image so alpha can be inspected reliably.

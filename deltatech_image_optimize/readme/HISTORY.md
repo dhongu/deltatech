@@ -1,3 +1,10 @@
+# 19.0.1.12.2
+
+- IMAGE-001: animated PNG (APNG) and animated WebP images are no longer
+  optimized. Only animated GIFs were left alone; the others were saved as their
+  first frame and the animation was lost. Every animated image, whatever its
+  format, is now skipped by both the original and the variant optimizer.
+
 # 19.0.1.12.1
 
 - Apps Store banner (banner.json).
