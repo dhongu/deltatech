@@ -11,7 +11,7 @@ class ProductProduct(models.Model):
 
     vendor_qty_available = fields.Float(
         "Vendor Quantity Available",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         compute="_compute_vendor_qty_available",
     )
     other_qty_available = fields.Float("Other Quantity Available", compute="_compute_vendor_qty_available")

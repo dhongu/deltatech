@@ -3,28 +3,28 @@
 
     <t t-name="qtyAtDate" t-inherit="sale_stock.QtyAtDate" t-inherit-mode="extension" owl="1">
         <xpath expr="//a" position="replace">
-            <t t-set="stock_colors" t-value="stockColors or {}" />
+            <t t-set="stock_colors" t-value="this.stockColors or {}" />
             <t t-set="icon_color" t-value="stock_colors.color_default or '#007bff'" />
 
-            <t t-if="calcData.will_be_fulfilled">
+            <t t-if="this.calcData().will_be_fulfilled">
                 <t t-set="icon_color" t-value="stock_colors.color_fulfilled or '#28a745'" />
-                <t t-if="!props.record.data.free_qty_today">
+                <t t-if="!this.props.record.data.free_qty_today">
                     <t t-set="icon_color" t-value="stock_colors.color_fulfilled_no_free_qty or '#17a2b8'" />
                 </t>
             </t>
             <t t-else="">
                 <t t-set="icon_color" t-value="stock_colors.color_not_fulfilled or '#dc3545'" />
-                <t t-if="props.record.data.vendor_qty_available">
+                <t t-if="this.props.record.data.vendor_qty_available">
                     <t t-set="icon_color" t-value="stock_colors.color_vendor_available or '#ffc107'" />
                 </t>
             </t>
 
             <a
-                t-att-tabindex="props.record.data.display_qty_widget ? '0' : '-1'"
-                t-att-class="!props.record.data.display_qty_widget ? 'invisible' : ''"
-                t-on-click="showPopup"
+                t-att-tabindex="this.props.record.data.display_qty_widget ? '0' : '-1'"
+                t-att-class="!this.props.record.data.display_qty_widget ? 'invisible' : ''"
+                t-on-click="this.showPopup"
                 t-att-style="'color: ' + icon_color"
-                class="fa fa-area-chart cursor-pointer"
+                class="oi cursor-pointer" data-icon="area_chart"
             />
         </xpath>
     </t>
@@ -37,25 +37,25 @@
                     <strong>Vendor Stock</strong>
                 </td>
                 <td>
-                    <b t-out='props.record.data.vendor_qty_available' />
-                    <t t-if="props.record.data.product_uom_id" t-out='props.record.data.product_uom_id[1]' />
+                    <b t-out='this.props.record.data.vendor_qty_available' />
+                    <t t-if="this.props.record.data.product_uom_id" t-out='this.props.record.data.product_uom_id[1]' />
                 </td>
             </tr>
-            <tr t-if="props.record.data.other_qty_available">
+            <tr t-if="this.props.record.data.other_qty_available">
                 <td>
                     <strong>Other Stock</strong>
                 </td>
                 <td class="text-end">
-                    <b t-out='props.record.data.other_qty_available' />
-                    <t t-if="props.record.data.product_uom_id" t-out='props.record.data.product_uom_id[1]' />
+                    <b t-out='this.props.record.data.other_qty_available' />
+                    <t t-if="this.props.record.data.product_uom_id" t-out='this.props.record.data.product_uom_id[1]' />
                 </td>
             </tr>
-            <tr t-if="props.record.data.warehouse_stock">
+            <tr t-if="this.props.record.data.warehouse_stock">
                 <td>
                     <strong>Warehouse Stock</strong>
                 </td>
                 <td class="text-end">
-                    <b class="text-nowrap" style="white-space: pre-line;" t-out='props.record.data.warehouse_stock' />
+                    <b class="text-nowrap" style="white-space: pre-line;" t-out='this.props.record.data.warehouse_stock' />
                 </td>
             </tr>
         </xpath>

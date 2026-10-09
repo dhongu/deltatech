@@ -103,7 +103,7 @@ class TestWarehouseStock(TransactionCase):
         self.assertAlmostEqual(line.vendor_qty_available, 2)
 
     def test_stock_colors_from_settings(self):
-        self.env["ir.config_parameter"].sudo().set_param("deltatech_vendor_stock.color_fulfilled", "#000001")
+        self.env["ir.config_parameter"].sudo().set_str("deltatech_vendor_stock.color_fulfilled", "#000001")
         colors = self.env["sale.order.line"].get_stock_colors()
         self.assertEqual(colors["color_fulfilled"], "#000001")
         self.assertEqual(colors["color_default"], "#007bff")

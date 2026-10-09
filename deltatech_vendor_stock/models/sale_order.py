@@ -5,7 +5,6 @@
 
 from odoo import api, fields, models
 from odoo.tools.misc import formatLang
-from odoo.tools.safe_eval import safe_eval
 
 
 class SaleOrderLine(models.Model):
@@ -13,12 +12,12 @@ class SaleOrderLine(models.Model):
 
     vendor_qty_available = fields.Float(
         "Vendor Quantity Available",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         compute="_compute_qty_at_date",
     )
     other_qty_available = fields.Float(
         "Other Quantity Available",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         compute="_compute_qty_at_date",
     )
 
@@ -26,13 +25,13 @@ class SaleOrderLine(models.Model):
 
     def _get_stock_colors(self):
         """Get stock colors from system parameters"""
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_str = self.env["ir.config_parameter"].sudo().get_str
         return {
-            "color_fulfilled": get_param("deltatech_vendor_stock.color_fulfilled", "#28a745"),
-            "color_fulfilled_no_free_qty": get_param("deltatech_vendor_stock.color_fulfilled_no_free_qty", "#17a2b8"),
-            "color_not_fulfilled": get_param("deltatech_vendor_stock.color_not_fulfilled", "#dc3545"),
-            "color_vendor_available": get_param("deltatech_vendor_stock.color_vendor_available", "#ffc107"),
-            "color_default": get_param("deltatech_vendor_stock.color_default", "#007bff"),
+            "color_fulfilled": get_str("deltatech_vendor_stock.color_fulfilled", "#28a745"),
+            "color_fulfilled_no_free_qty": get_str("deltatech_vendor_stock.color_fulfilled_no_free_qty", "#17a2b8"),
+            "color_not_fulfilled": get_str("deltatech_vendor_stock.color_not_fulfilled", "#dc3545"),
+            "color_vendor_available": get_str("deltatech_vendor_stock.color_vendor_available", "#ffc107"),
+            "color_default": get_str("deltatech_vendor_stock.color_default", "#007bff"),
         }
 
     @api.model
@@ -42,8 +41,7 @@ class SaleOrderLine(models.Model):
 
     @api.model
     def _vendor_stock_use_only_main_location(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        return bool(safe_eval(get_param("deltatech_vendor_stock.use_only_main_location", "0")))
+        return self.env["ir.config_parameter"].sudo().get_bool("deltatech_vendor_stock.use_only_main_location")
 
     @api.model
     def _vendor_stock_free_qty_by_warehouse(self, products, warehouses):
