@@ -19,7 +19,13 @@ class AccountEdiXmlUBLBis3(models.AbstractModel):
         invoice = vals["invoice"]
         if invoice.move_type != "out_invoice":
             return
+        # Integrarea cu livrările este opțională: `sale_line_ids` vine din `sale`,
+        # `stock.picking` din `stock`, iar `sale.order.line.move_ids` din
+        # `sale_stock`. Fără oricare dintre ele exportul continuă fără referința
+        # la aviz, în loc să cadă.
         if "sale_line_ids" not in invoice.invoice_line_ids._fields:
+            return
+        if "stock.picking" not in self.env or "move_ids" not in self.env["sale.order.line"]._fields:
             return
         pickings = self.env["stock.picking"]
         for line in invoice.invoice_line_ids:
