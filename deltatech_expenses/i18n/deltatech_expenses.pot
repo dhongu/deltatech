@@ -908,3 +908,9 @@ msgstr ""
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid "The status of an expenses deduction is changed only with the workflow buttons (Advance, Validate, Invalidate), not by a direct write."
 msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The advance of the expenses deduction %(number)s is already posted: the advance amount, journals, advance date, employee and company can no longer be changed. To change the advance, invalidate the deduction."
+msgstr ""

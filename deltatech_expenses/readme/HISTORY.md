@@ -11,6 +11,12 @@
   days, journals, accounts, dates, employee and lines can no longer be changed,
   and a correction is made by invalidating and validating again. A deduction is
   cancelled only by the accountant and only in Draft.
+- In the Advance state, once the advance entry is posted, the advance amount,
+  the cash and advance journals, the advance date, the employee and the company
+  can no longer be changed (the settlement difference was computed against a
+  different advance than the posted one: a fictitious refund and a credit
+  balance on 542). Lines, days and per diem stay editable; to change the
+  advance, invalidate the deduction.
 
 ## 19.0.3.5.1 (2026-10-09)
 

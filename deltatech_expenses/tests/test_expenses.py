@@ -904,3 +904,66 @@ class TestExpenses(TransactionCase):
         self.assertEqual(deduction.state, "cancel")
         deduction.sudo().write({"advance": 50.0, "state": "draft"})
         self.assertEqual(deduction.state, "draft")
+
+    def test_advance_entry_fields_locked_in_advance_state(self):
+        """Cu nota de avans postată, avansul, jurnalele, data avansului, angajatul și compania nu se
+        mai modifică prin write; liniile și diurna rămân editabile, iar corecția avansului trece
+        prin invalidare."""
+        account_group = "account.group_account_invoice"
+        approver = self._expenses_user(
+            "expenses_001_adv_approver", ["deltatech_expenses.group_expenses_approver", account_group]
+        )
+        accountant = self._expenses_user(
+            "expenses_001_adv_accountant", ["deltatech_expenses.group_expenses_accounting", account_group]
+        )
+        other_employee = self.env["hr.employee"].create({"name": "Angajat Z"})
+        other_cash = self.env["account.journal"].create(
+            {"name": "Cash 2", "code": "CSH2", "type": "cash", "company_id": self.company.id}
+        )
+        deduction = self.env["deltatech.expenses.deduction"].with_user(accountant).create(self._deduction_vals(1000.0))
+        deduction.with_user(approver).validate_advance()
+        self.assertEqual(deduction.state, "advance")
+        advance_lines = self._lines_for_expenses(deduction)
+        self.assertAlmostEqual(sum(advance_lines.mapped("debit")), 1000.0, places=2)
+
+        for vals in (
+            {"advance": 1500.0},
+            {"journal_id": other_cash.id},
+            {"expense_journal_id": self.diary_journal.id},
+            {"date_advance": fields.Date.add(fields.Date.today(), days=-1)},
+            {"employee_id": other_employee.id},
+        ):
+            with self.assertRaises(UserError):
+                deduction.with_user(accountant).write(vals)
+        self.assertEqual(deduction.advance, 1000.0)
+        self.assertEqual(deduction.employee_id, self.employee)
+
+        # liniile, diurna și zilele rămân editabile în Avans
+        deduction.with_user(accountant).write({"days": 2, "diem": 50.0})
+        line = (
+            self.env["deltatech.expenses.deduction.line"]
+            .with_user(accountant)
+            .create(
+                {
+                    "expenses_deduction_id": deduction.id,
+                    "name": "Cazare",
+                    "amount": 1100.0,
+                    "expense_account_id": self.acc_exp.id,
+                    "partner_id": self.supplier.id,
+                }
+            )
+        )
+        line.write({"amount": 1200.0})
+        deduction.with_user(accountant).write({"days": 0})
+
+        # fluxul complet: Validează → Invalidează → corectare avans → Avans → Validează
+        deduction.with_user(accountant).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        deduction.with_user(accountant).invalidate_expenses()
+        self.assertEqual(deduction.state, "draft")
+        deduction.with_user(accountant).write({"advance": 1500.0})
+        deduction.with_user(approver).validate_advance()
+        deduction.with_user(accountant).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)

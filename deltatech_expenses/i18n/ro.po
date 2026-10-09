@@ -719,3 +719,9 @@ msgstr "Decontul %(number)s nu poate fi anulat: se anulează doar un decont în 
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid "The status of an expenses deduction is changed only with the workflow buttons (Advance, Validate, Invalidate), not by a direct write."
 msgstr "Starea decontului de cheltuieli se schimbă doar prin butoanele fluxului (Avans, Validare, Invalidare), nu prin modificare directă."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The advance of the expenses deduction %(number)s is already posted: the advance amount, journals, advance date, employee and company can no longer be changed. To change the advance, invalidate the deduction."
+msgstr "Avansul decontului %(number)s este deja contabilizat: suma avansului, jurnalele, data avansului, angajatul și compania nu se mai pot modifica. Pentru a schimba avansul, invalidați decontul."

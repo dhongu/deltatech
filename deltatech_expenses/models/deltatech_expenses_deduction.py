@@ -269,6 +269,12 @@ class DeltatechExpensesDeduction(models.Model):
             "payment_ids",
         }
 
+    def _get_advance_locked_fields(self):
+        """Câmpurile care au intrat în nota de avans (Dr 542 = Cr casă) postată la „Avans”: nu se mai
+        modifică în starea Avans, altfel diferența de la decontare se calculează față de alt avans
+        decât cel din registru (restituire fictivă, sold creditor pe 542)."""
+        return {"advance", "journal_id", "expense_journal_id", "date_advance", "employee_id", "company_id"}
+
     def _check_workflow_write(self, vals):
         """EXPENSES-001: starea și câmpurile de flux se schimbă doar prin metodele de flux, iar un
         decont Finalizat/Anulat nu își mai schimbă sumele, liniile sau notele. Superuserul (sudo,
@@ -297,6 +303,17 @@ class DeltatechExpensesDeduction(models.Model):
                         "The expenses deduction %(number)s is done or cancelled: its amounts, lines and "
                         "accounting data can no longer be changed. Invalidate it and validate it again.",
                         number=closed[0].number,
+                    )
+                )
+        if self._get_advance_locked_fields() & set(vals):
+            advanced = self.filtered(lambda rec: rec.state == "advance")
+            if advanced:
+                raise UserError(
+                    self.env._(
+                        "The advance of the expenses deduction %(number)s is already posted: the advance amount, "
+                        "journals, advance date, employee and company can no longer be changed. To change the "
+                        "advance, invalidate the deduction.",
+                        number=advanced[0].number,
                     )
                 )
 
