@@ -5,7 +5,7 @@
 {
     "name": "Stock Reports",
     "summary": "Report with positions from picking lists",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
@@ -15,6 +15,7 @@
     "license": "OPL-1",
     "data": [
         "security/ir.model.access.csv",
+        "security/stock_picking_report_security.xml",
         "report/stock_picking_report.xml",
         # "report/monthly_stock_report_view.xml",
         # "report/stock_balance_view.xml",
