@@ -1,0 +1,7 @@
+{
+  "title": "FontAwesome Widget",
+  "summary": "Font Awesome icons on form fields",
+  "icon": "grid",
+  "lang": "en",
+  "features": ["Widget fontawesome for icon fields", "Simple to add in any form view"]
+}
