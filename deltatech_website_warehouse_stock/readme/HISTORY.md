@@ -1,3 +1,7 @@
+## 19.0.0.0.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.0.3 (2026-10-07)
 
 - The public product page lists only the warehouses (and their stock) of the current website's
