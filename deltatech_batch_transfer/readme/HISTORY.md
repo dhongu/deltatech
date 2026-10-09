@@ -1,3 +1,7 @@
+## 19.0.0.0.6 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.0.5 (2026-10-02)
 
 - **Fix (BATCHTRANSFER-001): batch preparation with quantities no longer
