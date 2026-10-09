@@ -26,6 +26,11 @@ msgid "Inventory Locations"
 msgstr "Locații inventar"
 
 #. module: deltatech_stock_analytic
+#: model:ir.model.fields,field_description:deltatech_stock_analytic.field_stock_move__location_analytic_line_ids
+msgid "Location Analytic Lines"
+msgstr "Linii analitice locație"
+
+#. module: deltatech_stock_analytic
 #: model:ir.model,name:deltatech_stock_analytic.model_stock_move
 msgid "Stock Move"
 msgstr "Mișcare stoc"

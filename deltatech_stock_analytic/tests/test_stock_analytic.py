@@ -116,3 +116,61 @@ class TestStockMoveAnalytics(TransactionCase):
         self.assertEqual(source_line.amount, -dest_line.amount)
         self.assertTrue(source_line.amount)
         self.assertIn(self.picking.name, source_line.ref)
+
+    def _analytic_lines(self):
+        return self.env["account.analytic.line"].search(
+            [("account_id", "in", (self.analytic_account_source + self.analytic_account_dest).ids)]
+        )
+
+    def _validate_picking(self, picking):
+        picking.action_confirm()
+        picking.action_assign()
+        for move in picking.move_ids:
+            move.quantity = move.product_uom_qty
+        picking.button_validate()
+
+    def test_repeated_done_write_does_not_duplicate(self):
+        """STOCKANALYTIC-002: o scriere repetată cu state=done nu dublează intrările analitice."""
+        self._validate_picking(self.picking)
+        self.assertEqual(self.move.state, "done")
+        self.assertEqual(len(self._analytic_lines()), 2)
+
+        self.move.write({"state": "done"})
+        self.move.write({"state": "done"})
+
+        lines = self._analytic_lines()
+        self.assertEqual(len(lines), 2)
+        self.assertEqual(sum(lines.mapped("amount")), 0)
+        self.assertEqual(sum(lines.mapped("unit_amount")), 20)
+
+    def test_direct_done_write_is_idempotent(self):
+        """Tranziția directă prin write creează o singură pereche, legată de mișcare."""
+        self.move.quantity = 10
+        self.move.write({"state": "done"})
+        self.assertEqual(len(self._analytic_lines()), 2)
+        self.move.write({"state": "done"})
+        self.assertEqual(len(self._analytic_lines()), 2)
+
+    def test_batched_completion_one_pair_per_move(self):
+        """Finalizarea în lot creează câte o pereche per mișcare, indiferent de locații."""
+        product2 = self.env["product.product"].create(
+            {"name": "Test Product 2", "type": "consu", "is_storable": True, "standard_price": 50}
+        )
+        self.env["stock.quant"].create(
+            {"product_id": product2.id, "location_id": self.location_source.id, "quantity": 100}
+        )
+        move2 = self.env["stock.move"].create(
+            {
+                "product_id": product2.id,
+                "product_uom_qty": 5,
+                "product_uom": product2.uom_id.id,
+                "picking_id": self.picking.id,
+                "location_id": self.location_source.id,
+                "location_dest_id": self.location_dest.id,
+            }
+        )
+        self._validate_picking(self.picking)
+        self.assertEqual(len(self._analytic_lines()), 4)
+        (self.move + move2).write({"state": "done"})
+        self.assertEqual(len(self._analytic_lines()), 4)
+        self.assertEqual(sorted(self._analytic_lines().mapped("unit_amount")), [5, 5, 10, 10])

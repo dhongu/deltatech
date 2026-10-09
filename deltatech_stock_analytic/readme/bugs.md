@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## STOCKANALYTIC-002 — P1: Repeated done-state writes duplicate analytic entries
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.3. Analytic lines are created only on the actual transition into done (moves already done are skipped in write()), and each move keeps its source/destination pair in location_analytic_line_ids, so repeated or batched done writes never create a second pair.
 - **Location:** models/stock.py, write().
 - **Trigger:** A caller writes state=done on an already completed move with both locations configured for analytics.
 - **Actual behavior:** The method checks only the incoming state value, not the previous state or existing analytic entries. Every invocation creates another source/destination pair, with no move link used to identify or update prior entries.
