@@ -39,3 +39,9 @@ msgstr ""
 #: model:ir.model,name:deltatech_invoice_to_draft.model_account_move
 msgid "Journal Entry"
 msgstr ""
+
+#. module: deltatech_invoice_to_draft
+#. odoo-python
+#: code:addons/deltatech_invoice_to_draft/models/account_move.py:0
+msgid "Your user is not allowed to reset journal entries to draft."
+msgstr ""

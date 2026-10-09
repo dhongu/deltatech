@@ -1,3 +1,5 @@
+from odoo.exceptions import AccessError
+from odoo.service.model import call_kw
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -41,6 +43,56 @@ class TestInvoiceToDraft(AccountTestInvoicingCommon):
 
     def test_button_draft_cancel(self):
         """The shortcut takes a posted move straight to cancelled."""
+        self.env.user.group_ids |= self.group_reset
         self.assertEqual(self.invoice.state, "posted")
         self.invoice.button_draft_cancel()
         self.assertEqual(self.invoice.state, "cancel")
+
+    def _rpc(self, method):
+        """Call a public method of the invoice the way the web client / XML-RPC does."""
+        return call_kw(self.env["account.move"], method, [self.invoice.ids], {})
+
+    def test_rpc_button_draft_without_group_refused(self):
+        """DRAFTACCESS-001: a direct remote call of button_draft is refused without the group."""
+        self.env.user.group_ids -= self.group_reset
+        with self.assertRaises(AccessError):
+            self._rpc("button_draft")
+        self.assertEqual(self.invoice.state, "posted")
+
+    def test_rpc_button_cancel_posted_without_group_refused(self):
+        """button_cancel on a posted move resets it to draft first: refused without the group."""
+        self.env.user.group_ids -= self.group_reset
+        with self.assertRaises(AccessError):
+            self._rpc("button_cancel")
+        self.assertEqual(self.invoice.state, "posted")
+
+    def test_button_draft_cancel_without_group_refused(self):
+        """The Cancel Entry shortcut follows the same permission."""
+        self.env.user.group_ids -= self.group_reset
+        with self.assertRaises(AccessError):
+            self._rpc("button_draft_cancel")
+        with self.assertRaises(AccessError):
+            self.invoice.button_draft_cancel()
+        self.assertEqual(self.invoice.state, "posted")
+
+    def test_rpc_button_draft_with_group_allowed(self):
+        self.env.user.group_ids |= self.group_reset
+        self._rpc("button_draft")
+        self.assertEqual(self.invoice.state, "draft")
+
+    def test_superuser_not_blocked(self):
+        self.env.user.group_ids -= self.group_reset
+        call_kw(self.env["account.move"].sudo(), "button_draft", [self.invoice.ids], {})
+        self.assertEqual(self.invoice.state, "draft")
+
+    def test_internal_flows_not_blocked(self):
+        """Server code resetting a move as part of another flow is not blocked by the group."""
+        self.env.user.group_ids -= self.group_reset
+        # payment reset to draft resets its journal entry through button_draft
+        payment = self.init_payment(100.0, post=True)
+        self.assertTrue(payment.move_id)
+        call_kw(self.env["account.payment"], "action_draft", [payment.ids], {})
+        self.assertEqual(payment.move_id.state, "draft")
+        # direct server-side call (not a remote request), e.g. from another module
+        self.invoice.button_draft()
+        self.assertEqual(self.invoice.state, "draft")
