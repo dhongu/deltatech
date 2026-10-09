@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech POS Stock",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "category": "Point of Sale",
     "summary": "Display stock in POS",
     "author": "Terrabit, Dorin Hongu",
