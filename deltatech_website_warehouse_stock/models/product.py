@@ -10,7 +10,12 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     def get_warehouse_stock_distribution(self):
-        warehouses = self.env["stock.warehouse"].search([("website_stock_display", "=", True)])
+        # Called with sudo() from the public product page: company rules do not apply,
+        # so the warehouses are restricted explicitly to the current website's company.
+        company = self.env["website"].get_current_website().company_id
+        warehouses = self.env["stock.warehouse"].search(
+            [("website_stock_display", "=", True), ("company_id", "=", company.id)]
+        )
         threshold = int(
             self.env["ir.config_parameter"].sudo().get_param("deltatech_website_warehouse_stock.threshold", "10")
         )
