@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Verifică compatibilitatea licenței fiecărui modul cu licențele dependențelor sale.
 
-Regulile sunt cele din FAQ-ul Odoo Apps (https://apps.odoo.com/apps/faq#maintainer_faq_04).
-Doar trei licențe restrâng dependențele; restul (LGPL-3, OPL-1, alte licențe) pot depinde
-de orice:
+Regulile sunt cele din tabelul de compatibilitate din FAQ-ul Odoo Apps
+(https://apps.odoo.com/apps/faq#maintainer_faq_04). Un modul poate depinde doar de
+licențele din coloana a doua; în special OPL-1 și LGPL-3 NU pot depinde de AGPL-3/GPL-3:
 
     AGPL-3  → AGPL-3, GPL-3, LGPL-3
     GPL-3   → GPL-3, LGPL-3
+    LGPL-3  → LGPL-3, OPL-1, OEEL-1, OSI, proprietar
+    OPL-1   → LGPL-3, OPL-1, OEEL-1, OSI, proprietar
     OEEL-1  → LGPL-3, OEEL-1
 
 Licența unei dependențe se caută întâi în suită, apoi în directoarele de addons vecine
@@ -22,9 +24,15 @@ import ast
 import os
 import sys
 
+PERMISSIVE = {"LGPL-3", "OPL-1", "OEEL-1", "Other OSI approved licence", "Other proprietary"}
+
 ALLOWED_DEPENDENCIES = {
     "AGPL-3": {"AGPL-3", "GPL-3", "LGPL-3"},
     "GPL-3": {"GPL-3", "LGPL-3"},
+    "LGPL-3": PERMISSIVE,
+    "OPL-1": PERMISSIVE,
+    "Other OSI approved licence": PERMISSIVE,
+    "Other proprietary": PERMISSIVE,
     "OEEL-1": {"LGPL-3", "OEEL-1"},
 }
 
@@ -70,6 +78,17 @@ ENTERPRISE_MODULES = {
 }
 
 
+# Module copyleft (AGPL-3) din afara suitelor, de care ar putea depinde modulele noastre.
+# Folosite doar când suita OCA nu e clonată (CI); altfel licența se citește din manifest.
+# Adăugați aici orice modul AGPL/GPL nou folosit ca dependență.
+COPYLEFT_MODULES = {
+    "l10n_ro_config",
+    "l10n_ro_stock",
+    "l10n_ro_stock_report",
+    "queue_job_cron_jobrunner",
+}
+
+
 def read_manifest(path):
     with open(path, encoding="utf-8") as f:
         return ast.literal_eval(f.read())
@@ -102,6 +121,7 @@ def external_licenses(addons_dir):
     if os.path.isdir(siblings):
         candidates += [os.path.join(siblings, d) for d in sorted(os.listdir(siblings))]
     licenses = dict.fromkeys(ENTERPRISE_MODULES, "OEEL-1")
+    licenses.update(dict.fromkeys(COPYLEFT_MODULES, "AGPL-3"))
     own = os.path.abspath(addons_dir)
     for directory in candidates:
         if os.path.abspath(directory) != own:
@@ -135,7 +155,8 @@ def main():
         print(error)
     if errors:
         print(
-            "\nVezi https://apps.odoo.com/apps/faq#maintainer_faq_04 — de regulă soluția e trecerea modulului pe OPL-1."
+            "\nVezi https://apps.odoo.com/apps/faq#maintainer_faq_04 — soluții: modulul copyleft devine "
+            "OPL-1/LGPL-3, sau dependența se elimină, sau modulul trece pe AGPL-3."
         )
     return 1 if errors else 0
 
