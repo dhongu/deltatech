@@ -1,3 +1,7 @@
+## 20.0.1.1.1 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.1.1.0 (2026-10-07)
 
 - Vendor pricelist lines (`product.supplierinfo`) now restrict the vendor unit

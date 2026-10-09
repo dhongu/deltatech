@@ -1,0 +1,7 @@
+{
+  "title": "Sale Return Cause",
+  "summary": "Track and analyze why customers return goods",
+  "icon": "trend",
+  "features": ["Return cause on the sale order", "Return amount from credit notes", "Sales Analysis pivot and graph"],
+  "lang": "en"
+}

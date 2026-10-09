@@ -4,7 +4,7 @@
 {
     "name": "Sale Return Cause",
     "summary": "Return Cause",
-    "version": "20.0.0.0.10",
+    "version": "20.0.0.0.11",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

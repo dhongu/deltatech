@@ -4,7 +4,7 @@
 {
     "name": "Deltatech Purchase UBL",
     "summary": "Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills",
-    "version": "20.0.1.4.5",
+    "version": "20.0.1.4.6",
     "category": "Purchases",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
