@@ -98,7 +98,8 @@ Date minime pentru demo:
    fie facturată automat. Același lucru se întâmplă și la **Transfer bancar**, după **Confirmă** în
    fereastră, dacă oferta a fost confirmată (vezi pasul 4).
 5. Setați contul avansurilor: **Facturare → Configurare → Setări**, secțiunea **Conturi implicite** →
-   **Conturi produse** → **Cont plată în avans** = **419 Clienți – creditori**. Planul RO nu îl
+   **Conturi produse** → **Cont plată în avans** = **419 Clienți – creditori** (blocul e vizibil
+   utilizatorilor cu drepturi complete de contabilitate). Planul RO nu îl
    completează; fără el, linia de avans a facturii merge pe contul de venit al produsului (70x), nu pe
    419. Contul e folosit și de factura de avans pe care Odoo o emite singur, cu facturarea automată
    bifată, când o comandă confirmată e încasată **parțial**.
@@ -233,7 +234,8 @@ Dacă banii intră înainte de emiterea facturii (fără facturare automată, sa
 factură de avans, iar avansul se regularizează pe factura finală. Cu facturarea automată bifată, la o
 încasare parțială Odoo emite singur factura de avans; altfel o emiteți din comandă. Linia de avans merge
 pe **419** doar cu **Cont plată în avans** setat (secțiunea 5, pasul 5). La o companie cu TVA la
-încasare, TVA-ul facturii de avans merge pe **4428**, nu pe 4427.
+încasare, TVA-ul facturii de avans merge pe **4428** și trece pe 4427 la reconcilierea cu încasarea
+(la procesatorii fără plată automată, după ce contabilul înregistrează plata).
 
 | Operațiune | Debit | Credit |
 |---|---|---|
@@ -267,7 +269,7 @@ tranzacțiilor sau facturilor). Pentru procesatorii **electronici**, Odoo standa
 După **Confirmă încasarea** pe **Transfer bancar**, la fel: oferta se confirmă (dacă nu cere
 semnătură online) și, opțional, se facturează, fără plată contabilă.
 
-Procesatorul **Plată la livrare** (din magazinul online) se comportă ca **Transfer bancar**: nici el nu
+Procesatorul **Numerar la livrare** (din magazinul online) se comportă ca **Transfer bancar**: nici el nu
 are metodă de plată contabilă, deci Odoo nu creează plată. Rambursul se înregistrează de contabil prin
 461 (vezi „Note de monografie și raportare").
 
@@ -321,7 +323,7 @@ procesatorilor.
 | „Vă rog să selectați o comandă de vânzare" | Fereastra a fost deschisă fără o comandă activă | Deschideți-o din formularul comenzii, **⚙ → Confirmă încasarea** |
 | „Valoarea trebuie să fie pozitivă" | Valoare negativă în fereastră | Introduceți suma încasată, pozitivă; un retur de bani se face din factură / nota de credit |
 | „Ups! Se pare că ai dat peste niște înregistrări strict confidențiale. Ne pare rău, … nu are acces de «write» la: …" la **Confirmă** / **Adaugă** | Vânzătorul are **Numai documente proprii**, iar comanda e a altui vânzător | Confirmarea o face vânzătorul comenzii sau un utilizator cu **Toate documentele** |
-| Comanda e **Efectuată**, dar nu există plată contabilă | Procesator **Transfer bancar** sau **Plată la livrare**: Odoo nu creează plată pentru ei (dacă jurnalul nu are linie de metodă pentru procesator) | Contabilul înregistrează plata din extras sau pe factură |
+| Comanda e **Efectuată**, dar nu există plată contabilă | Procesator **Transfer bancar** sau **Numerar la livrare**: Odoo nu creează plată pentru ei (dacă jurnalul nu are linie de metodă pentru procesator) | Contabilul înregistrează plata din extras sau pe factură |
 | Comanda e **Efectuată**, dar a rămas **Ofertă** | Oferta cere semnătură online și nu e semnată | Confirmați comanda din antetul ei |
 | Plata cardului debitează contul **Încasări restante** (5121xx) | Linia metodei procesatorului are contul implicit | Setați **5125** pe linia metodei (secțiunea 5) |
 | Sold debitor rămas pe 5125 după decontarea procesatorului | Comisionul reținut de procesator nu a fost înregistrat | Înregistrați comisionul pe 627 la reconcilierea extrasului |
