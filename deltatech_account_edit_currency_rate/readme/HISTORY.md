@@ -5,6 +5,10 @@
   recomputes the line rates, the company-currency balances and the taxes, exactly as the
   form does. Clearing it restores the official rate. It can no longer be changed on a posted
   entry (read-only in the form, blocked on write).
+- The custom rate is no longer copied when an invoice is duplicated; a reversal (credit
+  note) keeps the rate of the original document, so it is regularized with the same
+  amounts in company currency.
+- Help text on the field: only a rate allowed by Art. 290 of the Fiscal Code.
 
 ## 19.0.1.0.1 (2026-09-29)
 

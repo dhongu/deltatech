@@ -10,7 +10,12 @@ from odoo.tools import float_compare
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    currency_rate_custom = fields.Float(digits=(6, 4))
+    currency_rate_custom = fields.Float(
+        digits=(6, 4),
+        copy=False,
+        help="Use only a rate allowed by Art. 290 of the Fiscal Code: the NBR rate, the ECB rate, "
+        "or the rate of the settlement bank when the contract provides for it.",
+    )
 
     @api.depends("currency_rate_custom")
     def _compute_invoice_currency_rate(self):
@@ -37,6 +42,16 @@ class AccountMove(models.Model):
                         )
                     )
         return super().write(vals)
+
+    def _reverse_moves(self, default_values_list=None, cancel=False):
+        # Not copied on duplicate, but a reversal (credit note) is regularized
+        # at the rate of the original document, so the custom rate is kept.
+        if not default_values_list:
+            default_values_list = [{} for _move in self]
+        for move, default_values in zip(self, default_values_list, strict=False):
+            if move.currency_rate_custom and "currency_rate_custom" not in default_values:
+                default_values["currency_rate_custom"] = move.currency_rate_custom
+        return super()._reverse_moves(default_values_list=default_values_list, cancel=cancel)
 
     @api.onchange("currency_rate_custom")
     def onchange_currency_rate_custome(self):
