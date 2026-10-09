@@ -87,3 +87,14 @@ msgid ""
 msgstr ""
 "Nu puteți modifica cursul valutar personalizat al înregistrării postate %(move)s. "
 "Readuceți-o mai întâi în ciornă."
+
+#. module: deltatech_account_edit_currency_rate
+#: model:ir.model.fields,help:deltatech_account_edit_currency_rate.field_account_bank_statement_line__currency_rate_custom
+#: model:ir.model.fields,help:deltatech_account_edit_currency_rate.field_account_move__currency_rate_custom
+msgid ""
+"Use only a rate allowed by Art. 290 of the Fiscal Code: the NBR rate, the ECB "
+"rate, or the rate of the settlement bank when the contract provides for it."
+msgstr ""
+"Folosiți doar un curs permis de art. 290 din Codul fiscal: cursul BNR, cursul "
+"BCE sau cursul băncii prin care se face decontarea, când contractul prevede "
+"acest lucru."

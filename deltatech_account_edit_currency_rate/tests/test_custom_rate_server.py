@@ -86,3 +86,35 @@ class TestCustomRateServer(AccountTestInvoicingCommon):
         # writing the same value is allowed (e.g. a form save) and changes nothing
         invoice.write({"currency_rate_custom": 5.0})
         self._assert_balances(invoice, -500.0, 0.0, 500.0)
+
+    def test_duplicate_does_not_copy_custom_rate(self):
+        invoice = self._invoice()
+        invoice.currency_rate_custom = 5.0
+        duplicate = invoice.copy()
+        self.assertFalse(duplicate.currency_rate_custom)
+        self.assertAlmostEqual(duplicate.invoice_currency_rate, 2.0)
+        self._assert_balances(duplicate, -50.0, 0.0, 50.0)
+
+    def test_reversal_keeps_custom_rate(self):
+        invoice = self._invoice(taxes=self.tax)
+        invoice.currency_rate_custom = 5.0
+        invoice.action_post()
+        reversal = (
+            self.env["account.move.reversal"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create({"journal_id": invoice.journal_id.id, "date": invoice.invoice_date})
+        )
+        credit_note = self.env["account.move"].browse(reversal.refund_moves()["res_id"])
+        self.assertEqual(credit_note.move_type, "out_refund")
+        self.assertAlmostEqual(credit_note.currency_rate_custom, 5.0)
+        self.assertAlmostEqual(credit_note.invoice_currency_rate, 0.2)
+        # same RON amounts as the original invoice, with opposite sign
+        self._assert_balances(credit_note, 500.0, 105.0, -605.0)
+
+    def test_reverse_moves_direct_keeps_custom_rate(self):
+        invoice = self._invoice()
+        invoice.currency_rate_custom = 5.0
+        invoice.action_post()
+        credit_note = invoice._reverse_moves()
+        self.assertAlmostEqual(credit_note.currency_rate_custom, 5.0)
+        self._assert_balances(credit_note, 500.0, 0.0, -500.0)
