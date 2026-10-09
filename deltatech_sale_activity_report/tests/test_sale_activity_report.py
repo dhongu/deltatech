@@ -6,7 +6,8 @@ from datetime import date
 
 from PIL import Image
 
-from odoo.tests import TransactionCase, tagged
+from odoo.exceptions import AccessError
+from odoo.tests import TransactionCase, new_test_user, tagged
 
 from odoo.addons.deltatech_sale_activity_report.models.sale_order import (
     MAX_LOG_LENGTH,
@@ -295,12 +296,10 @@ class TestSaleActivityReport(TransactionCase):
     def test_mail_activity_create_logs(self):
         """Scheduling a mail.activity on the order records an activity entry.
 
-        The module reads ``sale.order.stage`` here, a field contributed by
-        deltatech_website_sale_status. Skip when that field is absent.
+        ACTIVITY-001: ``sale.order.stage`` comes from the optional
+        deltatech_website_sale_status; without it the activity must still be
+        created and journaled, instead of failing with AttributeError.
         """
-        if "stage" not in self.env["sale.order"]._fields:
-            self.skipTest("sale.order.stage not present (deltatech_website_sale_status)")
-
         activity_type = self.env.ref("mail.mail_activity_data_todo")
         self.env["mail.activity"].with_user(self.salesman).create(
             {
@@ -314,3 +313,76 @@ class TestSaleActivityReport(TransactionCase):
         records = self._records()
         self.assertEqual(len(records), 1)
         self.assertEqual(records.state, self.order.state)
+
+
+@tagged("post_install", "-at_install")
+class TestSaleActivityRecordAccess(TransactionCase):
+    """ACTIVITY-002: the activity journal follows the sale.order access scope
+    and cannot be altered by ordinary sales users."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.Record = cls.env["sale.order.activity.record"]
+        cls.salesman = new_test_user(cls.env, "act_own", groups="sales_team.group_sale_salesman")
+        cls.other_salesman = new_test_user(cls.env, "act_other", groups="sales_team.group_sale_salesman")
+        cls.all_leads = new_test_user(cls.env, "act_all", groups="sales_team.group_sale_salesman_all_leads")
+        cls.manager = new_test_user(cls.env, "act_mgr", groups="sales_team.group_sale_manager")
+        cls.internal = new_test_user(cls.env, "act_internal", groups="base.group_user")
+        partner = cls.env["res.partner"].create({"name": "Access Customer"})
+        cls.order = cls.env["sale.order"].create({"partner_id": partner.id, "user_id": cls.salesman.id})
+        cls.record = cls.Record.create(
+            {"sale_order_id": cls.order.id, "user_id": cls.salesman.id, "activity_log": "original"}
+        )
+
+    def test_salesman_reads_only_own_orders_journal(self):
+        self.assertEqual(self.Record.with_user(self.salesman).search([("id", "=", self.record.id)]), self.record)
+        self.assertFalse(self.Record.with_user(self.other_salesman).search([("id", "=", self.record.id)]))
+        with self.assertRaises(AccessError):
+            self.record.with_user(self.other_salesman).read(["activity_log"])
+        self.assertEqual(self.Record.with_user(self.all_leads).search([("id", "=", self.record.id)]), self.record)
+
+    def test_internal_user_without_sales_has_no_access(self):
+        with self.assertRaises(AccessError):
+            self.Record.with_user(self.internal).search([])
+
+    def test_salesman_cannot_tamper_with_journal(self):
+        record = self.record.with_user(self.salesman)
+        with self.assertRaises(AccessError):
+            record.write({"activity_log": "forged", "user_id": self.other_salesman.id})
+        with self.assertRaises(AccessError):
+            record.unlink()
+        with self.assertRaises(AccessError):
+            self.Record.with_user(self.salesman).create(
+                {"sale_order_id": self.order.id, "user_id": self.other_salesman.id}
+            )
+        self.assertEqual(self.record.activity_log, "original")
+
+    def test_manager_can_correct_journal(self):
+        self.record.with_user(self.manager).write({"activity_log": "corrected"})
+        self.assertEqual(self.record.activity_log, "corrected")
+
+    def test_other_company_journal_hidden(self):
+        company_b = self.env["res.company"].create({"name": "Activity Company B"})
+        partner = self.env["res.partner"].create({"name": "B Customer", "company_id": company_b.id})
+        order_b = self.env["sale.order"].create({"partner_id": partner.id, "company_id": company_b.id})
+        record_b = self.Record.create({"sale_order_id": order_b.id, "user_id": self.manager.id})
+        self.assertFalse(self.Record.with_user(self.manager).search([("id", "=", record_b.id)]))
+
+    def test_salesman_activity_still_logged(self):
+        """Logging is a system path: it must keep working with read-only ACL."""
+        self.order.with_user(self.salesman).write({"note": "<p>changed</p>"})
+        self.assertIn(
+            "Updated:",
+            self.Record.search([("sale_order_id", "=", self.order.id), ("user_id", "=", self.salesman.id)]).mapped(
+                "activity_log"
+            )[-1],
+        )
+        self.env["mail.activity"].with_user(self.salesman).create(
+            {
+                "activity_type_id": self.env.ref("mail.mail_activity_data_todo").id,
+                "res_model_id": self.env["ir.model"]._get("sale.order").id,
+                "res_id": self.order.id,
+                "summary": "Follow up",
+            }
+        )

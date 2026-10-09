@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ACTIVITY-001 — P1: Sale activity creation requires an undeclared order stage extension
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.2.0. `mail.activity.create()` copies `stage` into the journal only when `sale.order` has the field (optional `deltatech_website_sale_status`); no new dependency.
 - **Location:** models/mail_activity.py, create(); __manifest__.py.
 - **Trigger:** Install the addon with its declared sale/data_recycle dependencies, then an internal user schedules an activity on a sale order with no existing daily activity record.
 - **Actual behavior:** The create override unconditionally reads sale_order.stage when creating the journal entry. Core sale.order has no stage field; the local provider is deltatech_website_sale_status, absent from the declared dependency closure. There is no optional-field check or exception guard in this override.
@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## ACTIVITY-002 — P1: Activity journals bypass sale access scope and allow unrestricted tampering
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.2.0. ACL: Sales / User: Own Documents Only read-only, Sales / Administrator full; internal users without sales rights have no access. Record rules mirror `sale.order` (personal orders, all orders, multi-company on `sale_order_id.company_id`). Journal entries are written only through sudo by the logging hooks.
 - **Location:** security/ir.model.access.csv; models/sale_order_activity_record.py; models/sale_order.py, _log_activity().
 - **Trigger:** An ordinary internal user searches/reads/writes sale.order.activity.record directly through ORM/RPC, including records for orders they cannot access.
 - **Actual behavior:** The journal model grants all internal users full CRUD, with no company/owner/order-scoped record rule and no field restrictions. Journal entries are created/updated under sudo, so limited users do not prevent global entries. Parent sale.order rules are not inherited by the separate model. Form activity_log readonly and list create=false only affect the UI.

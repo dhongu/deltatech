@@ -18,7 +18,10 @@ class MailActivity(models.Model):
                 if self.env.user.has_group("base.group_user") and self.env.user.login != "__system__":
                     sale_order = self.env["sale.order"].browse(record.res_id)
                     today = datetime.now().date()
-                    existing_record = self.env["sale.order.activity.record"].search(
+                    # Jurnalul e scris de sistem: utilizatorii de vânzări îl pot
+                    # doar citi (ACTIVITY-002), deci căutarea și scrierea merg pe sudo.
+                    Record = self.env["sale.order.activity.record"].sudo()
+                    existing_record = Record.search(
                         [
                             ("sale_order_id", "=", sale_order.id),
                             ("change_date", "=", today),
@@ -28,15 +31,17 @@ class MailActivity(models.Model):
                     )
 
                     if not existing_record:
-                        self.env["sale.order.activity.record"].create(
-                            {
-                                "sale_order_id": sale_order.id,
-                                "change_date": today,
-                                "user_id": self.env.user.id,
-                                "state": sale_order.state,
-                                "stage": sale_order.stage,
-                            }
-                        )
+                        vals = {
+                            "sale_order_id": sale_order.id,
+                            "change_date": today,
+                            "user_id": self.env.user.id,
+                            "state": sale_order.state,
+                        }
+                        # `stage` vine din deltatech_website_sale_status, care nu e
+                        # dependență: îl preluăm doar dacă modulul e instalat.
+                        if "stage" in sale_order._fields:
+                            vals["stage"] = sale_order.stage
+                        Record.create(vals)
                     else:
                         existing_record.write({"state": sale_order.state})
         return records
