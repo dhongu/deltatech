@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## UBLADVICE-001 — P1: Sales-only UBL export reaches undeclared stock dependencies
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.3. The despatch reference is added only when the stock integration is present: the export skips it when `stock.picking` or `sale.order.line.move_ids` (`sale_stock`) is missing, so a sales-only installation exports the invoice without it. No new dependency was declared.
 - **Location:** models/account_edi_ubl.py, _add_invoice_header_nodes(); __manifest__.py.
 - **Trigger:** Install the addon with account_edi_ubl_cii and sale, without sale_stock/stock, then export a customer invoice through UBL BIS3.
 - **Actual behavior:** The only optional dependency guard checks sale_line_ids. That field exists with sale alone. The method then accesses env['stock.picking'] and sale_line.move_ids, supplied by stock and sale_stock respectively. The manifest declares neither. The header export therefore fails on an otherwise valid sales-only installation.
