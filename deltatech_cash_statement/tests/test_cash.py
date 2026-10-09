@@ -112,3 +112,55 @@ class TestCash(AccountTestInvoicingCommon):
         wizard.date = date(2026, 3, 1)
         with self.assertRaises(UserError):
             wizard.do_update_balance()
+
+    def _second_journal_statements(self):
+        """Second cash journal with statements interleaved by date with the first journal."""
+        journal_b = self.env["account.journal"].create({"name": "Cash B", "type": "cash", "code": "CSHB"})
+        statements_b = self.env["account.bank.statement"]
+        for day, amount in ((date(2026, 3, 1), 200.0), (date(2026, 3, 3), 30.0)):
+            line = self.env["account.bank.statement.line"].create(
+                {
+                    "journal_id": journal_b.id,
+                    "date": day,
+                    "payment_ref": f"Cash B {day}",
+                    "amount": amount,
+                    "counterpart_account_id": self.income.id,
+                }
+            )
+            statements_b |= self.env["account.bank.statement"].create(
+                {"name": f"CSHB {day}", "line_ids": [(6, 0, line.ids)]}
+            )
+        return statements_b
+
+    def test_batch_on_two_journals_chains_each_journal(self):
+        """Statements of two cash journals, interleaved by date: each journal keeps its own chain."""
+        statements_a = self.previous | self.statement
+        statements_b = self._second_journal_statements()
+        (statements_a | statements_b).write({"balance_start": 999.0})
+        wizard = self._wizard(statements_a | statements_b)
+        self.assertTrue(wizard.multi_journal)
+        wizard.do_update_balance()
+        self.assertRecordValues(
+            statements_a | statements_b,
+            [
+                {"balance_start": 0.0, "balance_end_real": 500.0},
+                {"balance_start": 500.0, "balance_end_real": 550.0},
+                {"balance_start": 0.0, "balance_end_real": 200.0},
+                {"balance_start": 200.0, "balance_end_real": 230.0},
+            ],
+        )
+
+    def test_other_journal_in_context_is_not_chained(self):
+        """The wizard only touches its own statements, whatever active_ids the button sends."""
+        statements_b = self._second_journal_statements()
+        statements_b.write({"balance_start": 999.0})
+        wizard = self._wizard(self.previous | self.statement)
+        wizard.with_context(active_ids=(self.previous | self.statement | statements_b).ids).do_update_balance()
+        self.assertEqual(statements_b.mapped("balance_start"), [999.0, 999.0])
+        self.assertEqual(self.statement.balance_start, 500.0)
+
+    def test_cash_difference_needs_a_single_journal(self):
+        wizard = self._wizard(self.statement | self._second_journal_statements())
+        wizard.mode = "difference"
+        with self.assertRaises(UserError):
+            wizard.do_update_balance()

@@ -13,6 +13,9 @@ class AccountCashUpdateBalances(models.TransientModel):
     _description = "Account Cash Update Balances"
 
     statement_id = fields.Many2one("account.bank.statement", readonly=True)
+    statement_ids = fields.Many2many("account.bank.statement", string="Statements")
+    journal_ids = fields.Many2many("account.journal", string="Journals", compute="_compute_journal_ids")
+    multi_journal = fields.Boolean(compute="_compute_journal_ids")
     journal_id = fields.Many2one(related="statement_id.journal_id")
     company_id = fields.Many2one(related="statement_id.company_id")
     currency_id = fields.Many2one("res.currency", compute="_compute_currency_id")
@@ -64,6 +67,12 @@ class AccountCashUpdateBalances(models.TransientModel):
                 account.account_type == "asset_receivable" or (account.code or "").startswith("428")
             )
 
+    @api.depends("statement_ids")
+    def _compute_journal_ids(self):
+        for wizard in self:
+            wizard.journal_ids = wizard.statement_ids.journal_id
+            wizard.multi_journal = len(wizard.journal_ids) > 1
+
     @api.depends("journal_id")
     def _compute_currency_id(self):
         for wizard in self:
@@ -106,13 +115,12 @@ class AccountCashUpdateBalances(models.TransientModel):
         statements = self._selected_statements()
         if not statements:
             raise UserError(self.env._("Please select only Open or Posted statements"))
-        if len(statements.journal_id) > 1:
-            raise UserError(self.env._("Select statements of a single journal."))
         statement = statements[0]
         accounting_balance = self._get_accounting_balance(statement)
         defaults.update(
             {
                 "statement_id": statement.id,
+                "statement_ids": [(6, 0, statements.ids)],
                 "balance_start": statement.balance_start,
                 "accounting_balance": accounting_balance,
                 "counted_balance": accounting_balance,
@@ -150,17 +158,25 @@ class AccountCashUpdateBalances(models.TransientModel):
 
     def do_update_balance(self):
         self.ensure_one()
-        statements = self._selected_statements()
+        # Extrasele vin din câmpul asistentului, nu din active_ids-ul contextului de la buton.
+        statements = self.statement_ids or self.statement_id
+        if self.mode == "difference" and len(statements.journal_id) > 1:
+            raise UserError(self.env._("A cash difference can be registered for one journal at a time."))
         if self.mode == "difference" and not self.currency_id.is_zero(self.difference):
             self._create_difference_line()
-        # Lanțul de solduri declarate se aliniază la ce e acum în contabilitate: soldul
-        # inițial al primului extras este soldul contului, iar fiecare extras următor
-        # pornește de la soldul final real al celui dinainte.
-        balance_start = self._get_accounting_balance(self.statement_id)
-        for statement in statements:
-            statement.write({"balance_start": balance_start})
-            statement.write({"balance_end_real": statement.balance_end})
-            balance_start = statement.balance_end
+        # Lanțul de solduri declarate se aliniază la ce e acum în contabilitate, separat pe
+        # fiecare jurnal (deci pe companie și monedă), ca în standard: soldul inițial al primului
+        # extras al jurnalului este soldul contului lui de casă, iar fiecare extras următor
+        # (după dată, apoi id) pornește de la soldul final real al celui dinainte din același jurnal.
+        for journal in statements.journal_id:
+            chain = statements.filtered(lambda st, journal=journal: st.journal_id == journal).sorted(
+                lambda st: (st.date, st.id)
+            )
+            balance_start = self._get_accounting_balance(chain[0])
+            for statement in chain:
+                statement.write({"balance_start": balance_start})
+                statement.write({"balance_end_real": statement.balance_end})
+                balance_start = statement.balance_end
         return {"type": "ir.actions.act_window_close"}
 
     def _create_difference_line(self):

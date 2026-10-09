@@ -185,12 +185,6 @@ msgstr ""
 #. module: deltatech_cash_statement
 #. odoo-python
 #: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
-msgid "Select statements of a single journal."
-msgstr ""
-
-#. module: deltatech_cash_statement
-#. odoo-python
-#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
 msgid "Select the account on which the cash difference is booked."
 msgstr ""
 
@@ -237,4 +231,32 @@ msgstr ""
 msgid ""
 "The person the shortage is charged to (4282). The receivable is followed on "
 "this partner."
+msgstr ""
+
+#. module: deltatech_cash_statement
+#. odoo-python
+#: code:addons/deltatech_cash_statement/wizard/account_cash_update_balances.py:0
+msgid "A cash difference can be registered for one journal at a time."
+msgstr ""
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__journal_ids
+msgid "Journals"
+msgstr ""
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__multi_journal
+msgid "Multi Journal"
+msgstr ""
+
+#. module: deltatech_cash_statement
+#: model:ir.model.fields,field_description:deltatech_cash_statement.field_account_cash_update_balances__statement_ids
+msgid "Statements"
+msgstr ""
+
+#. module: deltatech_cash_statement
+#: model_terms:ir.ui.view,arch_db:deltatech_cash_statement.view_account_cash_update_balances_form
+msgid ""
+"The statements of each journal are chained separately: the first statement of each\n"
+"                    journal starts from the balance of that journal's cash account."
 msgstr ""

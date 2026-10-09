@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## CASHBALANCE-001 — P1: Balance update chains statements from different journals
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.3.1.3. The statements are grouped by journal (hence by company and currency); each journal is chained separately by date and id, starting from its own cash account balance. The wizard stores the selected statements instead of re-reading `active_ids` when the button runs, and a cash difference is refused for statements of more than one journal. Overwriting the real ending balance stays the deliberate behavior of the Align mode (19.0.3.1.0).
 - **Location:** wizard/account_cash_update_balances.py, default_get() and do_update_balance().
 - **Trigger:** Select bank/cash statements belonging to different journals and run Cash Update Balances.
 - **Actual behavior:** Both searches accept all selected IDs without checking journal/company/currency consistency. do_update_balance orders them by date and carries each statement's ending balance into the next statement's starting balance, even across unrelated journals. It also overwrites each real ending balance with the computed ending balance.
