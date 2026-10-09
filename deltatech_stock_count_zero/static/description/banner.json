@@ -1,0 +1,11 @@
+{
+  "title": "Stock Count Zero",
+  "summary": "Set missing items to zero on count",
+  "icon": "clipboard",
+  "features": [
+    "Set Count to Zero option",
+    "Applies to selected inventory lines",
+    "Less manual input for missing items"
+  ],
+  "lang": "en"
+}
