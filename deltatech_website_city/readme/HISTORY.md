@@ -1,3 +1,7 @@
+## 20.0.1.2.5 (2026-10-09)
+
+- Fix: a database upgraded from 18.0 kept the old view `address` (inheriting `website_sale.address` on `div_city`), and every website reported it as a broken template. A migration removes it; the city field is added by `portal.address_form_fields`.
+
 ## 20.0.1.2.4 (2026-10-01)
 
 - Test: the free-text city test posts its phone number in international format. With `deltatech_website_phone_validation` installed, a national number could not be parsed for the fictitious test country and the address was refused for the phone, failing the `website` CI shard.
