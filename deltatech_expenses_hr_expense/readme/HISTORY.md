@@ -1,3 +1,7 @@
+## 19.0.1.1.2 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.1.1 (2026-10-07)
 
 - Apps Store page in English (it was in Romanian): what the module does, with a Usage section,
