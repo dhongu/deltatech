@@ -1,0 +1,7 @@
+{
+  "title": "Sale Analysis by VAT",
+  "summary": "Turnover by VAT rate in reports",
+  "icon": "trend",
+  "features": ["VAT rate filter and group by", "Flags invoices for fiscal receipts", "Turnover without duplication"],
+  "lang": "en"
+}

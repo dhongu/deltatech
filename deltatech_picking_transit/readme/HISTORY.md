@@ -1,3 +1,7 @@
+## 19.0.0.0.13 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.0.12 (2026-10-02)
 
 - Port the 18.0 fix for ticket 8970: the second transfer is created with `sudo()` (warehouse and reception type lookup, picking creation, move copy), so an operator without access rights on the receiving warehouse can validate the first leg.

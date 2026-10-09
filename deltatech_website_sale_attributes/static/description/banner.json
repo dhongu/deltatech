@@ -1,0 +1,7 @@
+{
+  "title": "eCommerce Attribute Values",
+  "summary": "Show only relevant attribute values in the shop",
+  "icon": "bag",
+  "lang": "en",
+  "features": ["Only attribute values of available products", "Cleaner product filtering", "Faster attribute selection"]
+}

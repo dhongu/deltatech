@@ -5,7 +5,7 @@
     "name": "eCommerce Wishlist",
     "category": "Website",
     "summary": "Backend wishlist management and replenishment",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

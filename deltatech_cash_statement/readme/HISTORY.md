@@ -1,3 +1,7 @@
+## 19.0.3.1.2 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.3.1.1 (2026-10-06)
 
 - Consultant sheet (`readme/FISA_CONSULTANT.md`, in Romanian) for aligning cash

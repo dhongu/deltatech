@@ -1,0 +1,7 @@
+{
+  "title": "Price List Line Viewer",
+  "summary": "A dedicated list view for pricelist lines",
+  "icon": "trend",
+  "features": ["List view of all pricelist rules", "Advanced search and filtering", "Edit prices without Sales Admin"],
+  "lang": "en"
+}

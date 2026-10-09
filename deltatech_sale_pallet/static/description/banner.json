@@ -1,0 +1,7 @@
+{
+  "title": "Sale Pallet",
+  "summary": "Add pallets to sale orders automatically",
+  "icon": "box",
+  "features": ["Pallet product by category", "Minimum quantity per pallet", "Pallet quantity follows order lines"],
+  "lang": "en"
+}

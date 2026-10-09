@@ -1,0 +1,7 @@
+{
+  "title": "Partner Merge in Bulk",
+  "summary": "Merge duplicates by VAT number, in bulk",
+  "icon": "people",
+  "features": ["Thousands of merges in minutes", "Safe simulation before applying", "Foreign keys kept enabled"],
+  "lang": "en"
+}

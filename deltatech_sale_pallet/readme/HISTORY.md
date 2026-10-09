@@ -1,3 +1,7 @@
+# 19.0.1.0.12
+
+- Apps Store banner (banner.json).
+
 # 19.0.1.0.11
 
 - Fix: pallet count was wrong near multiples of the minimum quantity per

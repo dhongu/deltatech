@@ -1,0 +1,7 @@
+{
+  "title": "Stock Report for Resellers",
+  "summary": "Stock levels with reseller prices, in one report",
+  "icon": "box",
+  "lang": "en",
+  "features": ["Stock report by location", "Prices from partner or pricelist", "Low / limited stock thresholds"]
+}

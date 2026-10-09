@@ -1,3 +1,7 @@
+## 19.0.1.4.11 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.4.10 (2026-10-01)
 
 - Contact display name with `show_phone` no longer fails for contacts without a phone: the removed `mobile` field is no longer read (CONTACT-001).

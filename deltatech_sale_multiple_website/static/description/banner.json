@@ -1,0 +1,11 @@
+{
+  "title": "eCommerce Qty Multiple",
+  "summary": "Enforce minimum and multiple quantities on the website",
+  "icon": "globe",
+  "features": [
+    "Website-only or global rules",
+    "Restrictions shown on product and cart",
+    "Cart quantities auto-adjusted"
+  ],
+  "lang": "en"
+}

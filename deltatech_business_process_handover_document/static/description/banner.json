@@ -1,0 +1,11 @@
+{
+  "title": "Project Handover Document",
+  "summary": "Generate the formal handover PDF from a project",
+  "icon": "file",
+  "features": [
+    "Provider and recipient company details",
+    "Developments collected automatically",
+    "A4 PDF report in English and Romanian"
+  ],
+  "lang": "en"
+}

@@ -1,3 +1,7 @@
+## 19.0.1.5.1
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.5.0
 
 - [FIX] changing the product of the main line replaces the extra line: the extra line of the old product used to stay, with only its quantity updated, so the quotation kept charging and delivering an unrelated extra product. When the new product requires another extra product, the old line is removed and the right one is generated with the computed price; when it requires none, the extra line is removed

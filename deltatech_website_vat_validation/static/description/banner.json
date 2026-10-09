@@ -1,0 +1,11 @@
+{
+  "title": "Website VAT Validation",
+  "summary": "VAT checks on website checkout and portal",
+  "icon": "clipboard",
+  "lang": "en",
+  "features": [
+    "VAT validated at checkout and portal",
+    "Duplicate VAT numbers blocked",
+    "Whitespace trimmed automatically"
+  ]
+}

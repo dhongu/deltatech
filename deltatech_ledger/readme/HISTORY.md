@@ -1,3 +1,7 @@
+## 19.0.0.1.1 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.1.0 (2026-10-05)
 
 - **Reservations:** new *Reserved* state and *Reserve a Number* menu. A reserved

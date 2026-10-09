@@ -1,0 +1,7 @@
+{
+  "title": "Replenishment Explain",
+  "summary": "See why a reordering rule orders this much",
+  "icon": "trend",
+  "features": ["Forecast and to-order breakdown", "Lead time and horizon timeline", "Flags risks like missing vendor"],
+  "lang": "en"
+}

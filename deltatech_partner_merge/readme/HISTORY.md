@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.0.3 (2026-10-03)
 
 - MERGE-001 (security): the analysis read the partners of all companies and grouped them by VAT alone, and *Apply* rewrote and deleted them without any company or access check, so an operator limited to one company could merge or delete partners of other companies, and partners kept separately per company were merged into a partner of another company. Now:

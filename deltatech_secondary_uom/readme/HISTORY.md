@@ -1,3 +1,7 @@
+## 19.0.1.2.1 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.2.0 (2026-10-01)
 
 - Creating, editing or deleting a product unit conversion now recomputes the
