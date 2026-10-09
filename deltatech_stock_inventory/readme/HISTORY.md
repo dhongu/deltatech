@@ -1,3 +1,7 @@
+## 20.0.2.10.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.2.10.3 (2026-10-04)
 
 - INVENTORY-003 (security): the inventory documents (`stock.inventory`) and their lines (`stock.inventory.line`) had no company rule, so a stock user working in company A could search, read, change or delete the inventories, quantities and owners of other companies. Both models are now restricted to the allowed companies (lines without a company stay visible).

@@ -1,3 +1,7 @@
+# 20.0.1.0.13
+
+- Apps Store banner (banner.json).
+
 # 20.0.1.0.12
 
 - Fix: the `order_line` onchange is now `_onchange_order_line_pallet`. It was

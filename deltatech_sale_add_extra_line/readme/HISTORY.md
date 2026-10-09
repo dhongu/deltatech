@@ -1,3 +1,7 @@
+## 20.0.1.5.2 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.1.5.1 (2026-10-01)
 
 - [FIX] the extra line was never generated in the order form when `deltatech_sale_pallet` was installed: both modules defined the `order_line` onchange as `sale.order.onchange_order_line`, so the last one loaded replaced the other. The onchange is now `_onchange_order_line_extra_product`.

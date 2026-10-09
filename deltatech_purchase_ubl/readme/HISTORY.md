@@ -1,3 +1,7 @@
+## 20.0.1.4.6 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.1.4.5 (2026-10-08)
 
 - Fixed UBL-001: a line with an explicit 0% VAT kept the default 21% tax of the

@@ -1,0 +1,7 @@
+{
+  "title": "Record Types",
+  "summary": "Types with defaults for sales and invoices",
+  "icon": "clipboard",
+  "features": ["Types for orders and invoices", "Default values per type", "Users and stock routes per type"],
+  "lang": "en"
+}

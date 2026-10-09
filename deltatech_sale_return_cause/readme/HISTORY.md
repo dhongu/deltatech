@@ -1,3 +1,7 @@
+## 20.0.0.0.11 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.0.0.10 (2026-10-01)
 
 - Migration to Odoo 20.0, including the RETURNCAUSE-001 fix from 19.0.0.0.10.

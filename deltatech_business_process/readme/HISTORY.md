@@ -1,3 +1,7 @@
+## 20.0.1.9.6 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.1.9.5 (2026-10-04)
 
 - BUSINESS-003 (security): *Start User Acceptance Test* (and the *Start Test* smart button, which calls it) created the test as superuser on any process id passed through RPC, including processes hidden by the company or "Allowed users" rules. The caller must now be a Business Process user and be able to read the processes; the test is still created as superuser and is returned in the caller's environment.

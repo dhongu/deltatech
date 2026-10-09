@@ -1,3 +1,7 @@
+## 20.0.2.3.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.2.3.3 (2026-10-08)
 
 - Fixed DELIVERYSTATUS-002: when the payment was completed before the order

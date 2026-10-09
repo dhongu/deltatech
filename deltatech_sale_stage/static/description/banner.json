@@ -1,0 +1,11 @@
+{
+  "title": "Sale Order Phases",
+  "summary": "Track orders through your own phases",
+  "icon": "clipboard",
+  "lang": "en",
+  "features": [
+    "Custom colored phases per order",
+    "Auto-advance on invoice and delivery",
+    "Server actions on phase change"
+  ]
+}

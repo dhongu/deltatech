@@ -1,0 +1,7 @@
+{
+  "title": "Products Extension",
+  "summary": "Logistic and manufacturer data on products",
+  "icon": "box",
+  "features": ["Shelf life and its unit", "Manufacturer on product form", "Length, width and height"],
+  "lang": "en"
+}

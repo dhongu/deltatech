@@ -1,3 +1,7 @@
+## 20.0.1.0.3 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 20.0.1.0.2 (2026-10-08)
 
 - Fixed PICKSPLIT-002: the manual backorder wizard checked the kept quantity

@@ -1,3 +1,7 @@
+## 20.0.1.1.11 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.1.10 (2026-09-29)
 
 - The stock colors set in Settings are applied again: the colors service imported `jsonrpc`,
