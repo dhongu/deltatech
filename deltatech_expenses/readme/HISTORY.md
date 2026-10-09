@@ -1,5 +1,17 @@
 # Changelog
 
+## 19.0.3.5.2 (2026-10-09)
+
+- **Fix (EXPENSES-001): the workflow and a done deduction are protected on the
+  server.** The status could be changed by a direct write (for example over
+  RPC) without the role checked by the Advance / Validate / Invalidate buttons,
+  and the amounts and lines of a done deduction could still be changed after the
+  receipts and journal entries were posted. The status is now changed only by
+  the workflow buttons; on a done or cancelled deduction the advance, per diem,
+  days, journals, accounts, dates, employee and lines can no longer be changed,
+  and a correction is made by invalidating and validating again. A deduction is
+  cancelled only by the accountant and only in Draft.
+
 ## 19.0.3.5.1 (2026-10-09)
 
 - Apps Store banner (banner.json).

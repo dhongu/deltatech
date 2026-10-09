@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## EXPENSES-001 — P1: Direct writes bypass workflow roles and alter finalized deductions
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.3.5.2 — `state`, `approved_by_id`, `accounted_by_id` and `move_id` are written only by the workflow methods (which check the same groups as the buttons and then write as superuser); a direct `write`/`create` by a user is refused. On a done or cancelled deduction, `write` refuses the fields that make up the amounts and the journal entries (`_get_locked_fields()`: advance, days, per diem, journals, accounts, dates, employee, lines, receipts, payments), and the lines cannot be created, changed or deleted; corrections go through Invalidate. `cancel_expenses` requires the Accounting role and the Draft state. Superuser/`sudo()` is not blocked. Covered by `test_user_without_role_cannot_write_state`, `test_finalized_deduction_is_locked_for_accountant` and `test_superuser_and_cancel_draft_not_blocked` in `tests/test_expenses.py`.
 - **Location:** models/deltatech_expenses_deduction.py; security/ir.model.access.csv.
 - **Trigger:** An Expenses Employee writes state or an expense line through ORM/RPC, including on their own finalized deduction.
 - **Actual behavior:** Employee has write permission on both models. The role checks protect named validation/invalidation methods, but there is no write override or field group restriction enforcing the state/role invariant. State readonly is a UI property. Lines also have no finalized-state write guard. cancel_expenses directly writes cancel without a role or current-state check.

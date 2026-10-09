@@ -689,3 +689,33 @@ msgstr "Jurnal diurnă"
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
 msgid "Diem Account"
 msgstr "Cont diurnă"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "An expenses deduction is created in the Draft status; the status is changed only with the workflow buttons."
+msgstr "Un decont de cheltuieli se creează în starea Ciornă; starea se schimbă doar prin butoanele fluxului."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is done or cancelled: its amounts, lines and accounting data can no longer be changed. Invalidate it and validate it again."
+msgstr "Decontul %(number)s este finalizat sau anulat: sumele, liniile și datele contabile nu se mai pot modifica. Invalidați decontul și validați-l din nou."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is done or cancelled: its lines can no longer be changed. Invalidate it and validate it again."
+msgstr "Decontul %(number)s este finalizat sau anulat: liniile nu se mai pot modifica. Invalidați decontul și validați-l din nou."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s cannot be cancelled: only a draft deduction can be cancelled (an advanced or done one has journal entries)."
+msgstr "Decontul %(number)s nu poate fi anulat: se anulează doar un decont în starea Ciornă (cel cu avans acordat sau finalizat are note contabile)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The status of an expenses deduction is changed only with the workflow buttons (Advance, Validate, Invalidate), not by a direct write."
+msgstr "Starea decontului de cheltuieli se schimbă doar prin butoanele fluxului (Avans, Validare, Invalidare), nu prin modificare directă."
