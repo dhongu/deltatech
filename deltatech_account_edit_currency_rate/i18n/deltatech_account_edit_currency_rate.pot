@@ -49,3 +49,11 @@ msgstr ""
 #: model:ir.model,name:deltatech_account_edit_currency_rate.model_account_move_line
 msgid "Journal Item"
 msgstr ""
+
+#. module: deltatech_account_edit_currency_rate
+#. odoo-python
+#: code:addons/deltatech_account_edit_currency_rate/models/account_move.py:0
+msgid ""
+"You cannot change the custom currency rate of the posted entry %(move)s. "
+"Reset it to draft first."
+msgstr ""
