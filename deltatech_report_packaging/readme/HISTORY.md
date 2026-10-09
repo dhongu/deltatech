@@ -1,3 +1,7 @@
+## 19.0.1.3.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.3.3 (2026-10-09)
 
 - The product form no longer lists the materials of the category: they are configured and shown only on the category form, and the product form says in one line that it uses them while it has none of its own. Ticking "No packaging material" now hides the product's own materials list as well, so no table is left on the form.
