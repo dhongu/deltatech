@@ -57,6 +57,11 @@ NEUTRAL_PATH_PARTS = ("/readme/", "/screenshots/", "/static/description/", "/i18
 # tests either, so they are neutral too. `static/description/index.html` is
 # already covered by NEUTRAL_PATH_PARTS.
 NEUTRAL_PREFIXES = ("scripts/",)
+# Folders at the root of an addon that hold only Apps Store material: the
+# manifest `images` key may point to `<addon>/images/main_screenshot.png`, and
+# Odoo never loads anything from there at runtime. Matched on the second path
+# component only, so `static/src/images/` (used by code) stays relevant.
+NEUTRAL_ADDON_DIRS = ("images",)
 
 # Root files that can affect every addon: filtering makes no sense for them.
 INFRA_PREFIXES = (
@@ -161,13 +166,16 @@ def is_neutral(path):
     """True for files that cannot change a test outcome.
 
     Documentation (`readme/`, `*.md`, `*.rst`), presentation material
-    (`static/description/`, `screenshots/`) and translations (`i18n/`). Without
+    (`static/description/`, `screenshots/`, `<addon>/images/`) and translations (`i18n/`). Without
     the filter, a `readme/DESCRIPTION.md` on a base addon pulls every reverse
     dependent into the matrix, and a root-level `*.md` forces a full run.
     """
     if path.endswith(NEUTRAL_SUFFIXES):
         return True
     if path.startswith(NEUTRAL_PREFIXES):
+        return True
+    parts = path.split("/")
+    if len(parts) > 2 and parts[1] in NEUTRAL_ADDON_DIRS:
         return True
     probe = "/" + path
     return any(part in probe for part in NEUTRAL_PATH_PARTS)
