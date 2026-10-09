@@ -1,0 +1,7 @@
+{
+  "title": "Invoice Renumbering",
+  "summary": "Control invoice numbers and their order",
+  "icon": "file",
+  "features": ["Chronological order check", "Number edit for authorized users", "Number draft invoices from sequence"],
+  "lang": "en"
+}
