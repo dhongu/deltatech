@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- SQL view model: account.move.line rules do not apply here -->
+    <record id="account_average_payment_report_company_rule" model="ir.rule">
+        <field name="name">Average payment report: multi-company</field>
+        <field name="model_id" ref="model_account_average_payment_report" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
