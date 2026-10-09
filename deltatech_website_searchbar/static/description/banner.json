@@ -1,0 +1,7 @@
+{
+  "title": "Website Searchbar Optimization",
+  "summary": "Fewer autocomplete requests from the search bar",
+  "icon": "globe",
+  "lang": "en",
+  "features": ["Debounce increased to 800 ms", "No request under 4 characters", "Lower server load"]
+}
