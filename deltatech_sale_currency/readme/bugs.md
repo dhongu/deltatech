@@ -4,7 +4,7 @@ Review date: 2026-10-03. Target version: Odoo 19.
 
 ## SALECUR-001 — P1: Invoice date repricing ignores the invoice line unit of measure
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.3. `_onchange_invoice_date()` converts the price of the first linked sale line from the sale line UoM into the invoice line UoM (`product_uom_id._compute_price`) before the currency conversion. With several linked sale lines the first one is still the price source.
 - **Location:** models/account_move.py, _onchange_invoice_date().
 - **Trigger:** Create an invoice linked to a sale line priced at 10 per Unit. Change the draft invoice line to Dozen with the corresponding unit price 120, then change the invoice date.
 - **Actual behavior:** The onchange takes the first linked sale-line price and converts currency only. It writes 10 onto the invoice line still expressed in Dozens. It never converts the source unit price into the invoice line UoM.
