@@ -1,3 +1,7 @@
+## 19.0.1.3.6 (2026-10-09)
+
+- Fix: the migration that resets the per-website copies of `product_item_code` still carrying the 18.0 xpath ran as `end-migration`, after the upgrade platform's template check, so that check reported the shop template as broken a few seconds before it was repaired. It now runs as `post-migrate`, when the module is loaded. The result for the database is the same.
+
 ## 19.0.1.3.5 (2026-10-02)
 
 - WEBCODE-001 (security): on a shop restricted to logged-in users, `/shop/products-json` and `/shop/products-search` still returned product names, codes and prices to anonymous visitors. They now return an empty list, as the standard website search does, and `/shop/product-code/<code>` redirects the visitor to the login page. External pages or scripts that call these endpoints anonymously on such a shop now get no results.
