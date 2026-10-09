@@ -15,7 +15,7 @@ Review date: 2026-10-03. Target version: Odoo 19.
 
 ## AVGPAY-002 — P1: The SQL payment-history report bypasses company isolation
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.4. The view exposes `company_id` and a global record rule `[('company_id', 'in', company_ids)]` restricts the report to the active companies.
 - **Location:** report/account_average_payment.py; security/ir.model.access.csv; manifest security data.
 - **Trigger:** An accounting user restricted to company A queries account.average.payment.report while posted fully reconciled invoices exist in company B.
 - **Actual behavior:** The SQL view selects journal items from every company. The independent report model has no company rule; its read ACL permits account users. Parent account.move and account.move.line rules are not automatically applied to a separate SQL-view model.
