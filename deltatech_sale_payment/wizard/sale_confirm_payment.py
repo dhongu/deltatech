@@ -90,7 +90,9 @@ class SaleConfirmPayment(models.TransientModel):
                 )
             )
         provider = self.provider_id.sudo()
-        if provider and provider.company_id and provider.company_id != order.company_id:
+        # Same rule as the provider's own company check (parent_of): a branch uses the providers of
+        # its parent companies; parent_ids includes the company itself.
+        if provider and provider.company_id and provider.company_id not in order.company_id.parent_ids:
             raise UserError(
                 self.env._(
                     "The payment provider %(provider)s belongs to another company than the order %(order)s.",

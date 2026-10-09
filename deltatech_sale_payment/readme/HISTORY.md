@@ -1,3 +1,7 @@
+## 19.0.1.3.4 (2026-10-09)
+
+- SALEPAY-008: the "Confirm Payment" wizard accepts again the payment provider of a parent company on an order of a branch, as Odoo does everywhere else for providers. Since 19.0.1.3.2 (SALEPAY-006) such an order, with a pending transaction on the parent company's provider, could no longer be confirmed ("The payment provider … belongs to another company than the order …"). A provider of an unrelated company is still refused.
+
 ## 19.0.1.3.3 (2026-10-09)
 
 - The three messages added by SALEPAY-006 (transaction of another order, provider of another company, payment method not available for the provider) are translated in Romanian; they showed in English.

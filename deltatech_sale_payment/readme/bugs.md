@@ -58,6 +58,16 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Add `@tagged("post_install", "-at_install")` to the class.
 - **Validation needed:** Run the module tests on a database with website_sale installed; assert no NotNullViolation.
 
+## SALEPAY-008 — P2: Provider of the parent company refused on a branch order
+
+- **Status:** Fixed in 19.0.1.3.4 — `_check_payment_values()` accepts the provider when its company is the order's company or one of its parents (`order.company_id.parent_ids`, which includes the company itself), the same rule as `check_company_domain_parent_of` on `payment.provider`. Covered by `test_provider_of_the_parent_company_is_accepted_on_a_branch` in `tests/test_confirm_payment.py`; `test_provider_of_another_company_is_refused` still passes.
+- **Location:** wizard/sale_confirm_payment.py, `_check_payment_values()`.
+- **Trigger:** An order of a branch (child company) with a pending transaction on a provider of the parent company (standard Odoo: the provider's company check is `parent_of`), confirmed through **Confirm Payment**.
+- **Actual behavior:** Regression introduced by SALEPAY-006 in 19.0.1.3.2: the check compared `provider.company_id != order.company_id` and refused with "The payment provider %(provider)s belongs to another company than the order %(order)s.", so the payment could no longer be confirmed through the wizard.
+- **Evidence:** The new test fails with that `UserError` on the 19.0.1.3.3 code and passes after the fix.
+- **Impact:** Companies with branches sharing the parent's payment providers could not confirm the payment of branch orders from the order.
+- **Validation needed:** Branch order with the parent's provider (accepted); provider of an unrelated company (refused).
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run at review time. SALEPAY-001 to SALEPAY-005 were fixed on 2026-10-01 with database-backed tests.

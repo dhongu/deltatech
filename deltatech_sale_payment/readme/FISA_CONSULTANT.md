@@ -327,7 +327,7 @@ procesatorilor.
 | Comanda e **Efectuată**, dar a rămas **Ofertă** | Oferta cere semnătură online și nu e semnată | Confirmați comanda din antetul ei |
 | Plata cardului debitează contul **Încasări restante** (5121xx) | Linia metodei procesatorului are contul implicit | Setați **5125** pe linia metodei (secțiunea 5) |
 | Sold debitor rămas pe 5125 după decontarea procesatorului | Comisionul reținut de procesator nu a fost înregistrat | Înregistrați comisionul pe 627 la reconcilierea extrasului |
-| „Procesatorul de plată … aparține altei companii decât comanda …" | Utilizatorul are mai multe companii active și a ales în fereastră procesatorul altei companii | Alegeți procesatorul companiei comenzii. Atenție: în versiunea actuală e refuzat și procesatorul companiei-mamă pe comanda unei sucursale |
+| „Procesatorul de plată … aparține altei companii decât comanda …" | Utilizatorul are mai multe companii active și a ales în fereastră procesatorul altei companii | Alegeți procesatorul companiei comenzii sau al unei companii-mamă (pe comanda unei sucursale) |
 | „Metoda de plată … nu este disponibilă pentru procesatorul …" | În fereastră s-a ales o metodă de plată care nu aparține procesatorului (ex. Card pe Transfer bancar) | Alegeți o metodă a procesatorului sau lăsați câmpul gol |
 | „Tranzacția … nu aparține comenzii …" | Apare doar din integrări sau cod personalizat, care trimit ferestrei o tranzacție a altei comenzi | Corectați integrarea; din formularul comenzii mesajul nu apare |
 | Pe o comandă **Efectuată**, fereastra propune **Valoare 0** | Comanda e încasată integral; fereastra propune doar restul de încasat | Nimic de confirmat. O încasare suplimentară se completează manual și se adaugă ca tranzacție nouă |

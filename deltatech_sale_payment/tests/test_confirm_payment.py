@@ -287,6 +287,29 @@ class TestSaleConfirmPayment(AccountTestInvoicingCommon):
             wizard.do_confirm()
         self.assertRecordValues(tx, [{"state": "pending", "provider_id": self.provider.id}])
 
+    def test_provider_of_the_parent_company_is_accepted_on_a_branch(self):
+        company = self.company_data["company"]
+        branch = self.env["res.company"].create({"name": "SALEPAY-008 branch", "parent_id": company.id})
+        self.env.user.company_ids |= branch
+        order = (
+            self.env["sale.order"]
+            .with_company(branch)
+            .create(
+                {
+                    "partner_id": self.partner_a.id,
+                    "company_id": branch.id,
+                    "require_signature": False,
+                    "order_line": [Command.create({"product_id": self.product_a.id, "price_unit": 100.0})],
+                }
+            )
+        )
+        self.assertEqual(self.provider.company_id, company)
+        tx = self._create_transaction(order, order.amount_total, "pending")
+        wizard = self._wizard(order.with_company(branch))
+        self.assertEqual(wizard.provider_id, self.provider)
+        wizard.do_confirm()
+        self.assertRecordValues(tx, [{"state": "done", "provider_id": self.provider.id}])
+
     def test_payment_method_of_another_provider_is_refused(self):
         method = (
             self.env["payment.method"]
