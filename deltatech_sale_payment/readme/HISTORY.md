@@ -1,3 +1,8 @@
+## 19.0.1.3.3 (2026-10-09)
+
+- The three messages added by SALEPAY-006 (transaction of another order, provider of another company, payment method not available for the provider) are translated in Romanian; they showed in English.
+- Consultant sheet corrected after its audit: the default outstanding account of an electronic provider is the "Outstanding Receipts" 5121 sub-account created with the chart, not 581; payment received before the invoice is an advance (advance invoice 419 + output VAT, art. 282(2) Fiscal Code); the down payment account (419) to set in the settings, as the RO chart leaves it empty; processor fees (627) at settlement and cash on delivery through the courier (461, courier fee); the quotation is confirmed once the required prepayment is reached, a partial payment included when no online payment is required; new error messages of the wizard. Screenshots regenerated.
+
 ## 19.0.1.3.2 (2026-10-02)
 
 - SALEPAY-006 (security): through RPC, an internal user could create a "Confirm Payment" wizard with any transaction and call `update_transaction` on it, changing as superuser the amount, provider and payment method of another order's pending payment, or confirm it through an order they could access. The method is now private (`_update_transaction`), and every step of the wizard checks that the transaction belongs to the order, that the provider is of the order's company and that the payment method belongs to the provider. The normal use of the wizard from the order is unchanged; a custom code calling `update_transaction()` must call `do_add_payment()` instead.

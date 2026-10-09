@@ -218,6 +218,32 @@ msgstr ""
 #. module: deltatech_sale_payment
 #. odoo-python
 #: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
+msgid ""
+"The payment method %(method)s is not available for the provider "
+"%(provider)s."
+msgstr ""
+"Metoda de plată %(method)s nu este disponibilă pentru procesatorul "
+"%(provider)s."
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
+msgid ""
+"The payment provider %(provider)s belongs to another company than the order "
+"%(order)s."
+msgstr ""
+"Procesatorul de plată %(provider)s aparține altei companii decât comanda "
+"%(order)s."
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
+msgid "The transaction %(reference)s does not belong to the order %(order)s."
+msgstr "Tranzacția %(reference)s nu aparține comenzii %(order)s."
+
+#. module: deltatech_sale_payment
+#. odoo-python
+#: code:addons/deltatech_sale_payment/wizard/sale_confirm_payment.py:0
 msgid "The transaction %(reference)s is no longer waiting for the payment."
 msgstr "Tranzacția %(reference)s nu mai așteaptă plata."
 
