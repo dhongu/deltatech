@@ -1,3 +1,7 @@
+# 19.0.1.12.1
+
+- Apps Store banner (banner.json).
+
 # 19.0.1.12.0
 
 - New action **Remove Watermark** on products and product images. It learns,
