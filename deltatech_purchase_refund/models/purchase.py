@@ -25,7 +25,7 @@ class PurchaseOrder(models.Model):
                     invoice_type = "in_refund"
             if isinstance(action["context"], str):
                 action["context"] = safe_eval(action["context"])
-            action["context"]["default_type"] = invoice_type
+            action["context"]["default_move_type"] = invoice_type
             action["context"]["default_invoice_date"] = purchase.date_planned
 
             if "l10n_ro_notice" in purchase.picking_ids._fields:
