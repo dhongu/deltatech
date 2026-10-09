@@ -270,13 +270,13 @@ msgstr "Lemn"
 #: model_terms:ir.ui.view,arch_db:deltatech_report_packaging.product_template_form_view
 msgid ""
 "<span class=\"text-muted\">\n"
-"                            Materials taken from the product category. Add a material above to\n"
-"                            configure this product on its own.\n"
+"                            Without materials of its own, the product uses the ones configured on its\n"
+"                            category.\n"
 "                        </span>"
 msgstr ""
 "<span class=\"text-muted\">\n"
-"                            Materiale preluate de la categoria de produs. Adăugați un material mai sus pentru\n"
-"                            a configura acest produs separat.\n"
+"                            Fără materiale proprii, produsul le folosește pe cele configurate pe\n"
+"                            categoria sa.\n"
 "                        </span>"
 
 #. module: deltatech_report_packaging
