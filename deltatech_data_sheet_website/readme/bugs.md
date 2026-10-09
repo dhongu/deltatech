@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## DATASHEETWEB-001 — P2: Data sheet links disappear when no standard product documents exist
 
-- **Status:** Open.
+- **Status:** Fixed in 20.0.1.0.1 — the links are an independent section after `website_sale.documents` (Odoo 20 moved the documents block to its own template). Still open on 19.0.
 - **Location:** views/templates.xml, product_data_sheet; native website_sale.product product_documents block.
 - **Trigger:** Assign a public data_sheet_id or safety_data_sheet_id attachment to a product with no standard product.document marked shown_on_product_page.
 - **Actual behavior:** The inherited template inserts both links inside div#product_documents. The native ancestor has t-if=product_documents, where the variable contains only the standard shown product documents. Custom attachment fields do not populate that collection; the entire ancestor and its inserted links are skipped.
