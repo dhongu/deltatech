@@ -4,7 +4,7 @@ Review date: 2026-10-03. Target version: Odoo 19.
 
 ## PRODUCTTRANSFER-001 — P1: Backorder confirmation is discarded and the replacement can complete alone
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.4. `action_confirm` validates only the source leg and returns its result, so the native `stock.backorder.confirmation` wizard reaches the user. The replacement leg is passed in context and validated from `stock.picking._action_done` after the source leg is done, for the executed quantity (UoM converted), mirroring the decision: native backorder on the replacement for "Create Backorder" / `always`, none for "No Backorder" / `never`. Discarding the confirmation leaves both legs pending. Covered by `tests/test_transfer_product_to_product.py` (fully available, partial with and without backorder, `never` policy).
 - **Location:** wizard/transfer_product_to_product_wizard.py, action_confirm().
 - **Trigger:** Replace quantity 5 with only part of the source quantity reservable, using an operation type configured to ask about backorders.
 - **Actual behavior:** The source button_validate returns a backorder confirmation action without completing that picking. The wizard ignores the action and proceeds to validate the target inventory-to-internal picking. It returns None instead of the pending confirmation.

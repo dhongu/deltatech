@@ -98,6 +98,7 @@ class InvoiceWizard(models.TransientModel):
         picking_id.action_confirm()
         picking_id2.action_confirm()
 
-        # Validate the pickings
-        picking_id.button_validate()
-        picking_id2.button_validate()
+        # Validate the source leg first; the replacement leg is validated in stock.picking._action_done
+        # for the quantity actually removed, so a pending backorder confirmation is returned to the user
+        # instead of completing the replacement alone
+        return picking_id.with_context(transfer_product_target_picking_id=picking_id2.id).button_validate()
