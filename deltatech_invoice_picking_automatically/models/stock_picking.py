@@ -42,19 +42,25 @@ class StockPicking(models.Model):
             if picking.invoice_state != "to_invoice":
                 continue
             try:
-                sale_orders = picking.sale_id
-                if sale_orders:
-                    sale_orders.order_line._compute_qty_delivered()
-                    invoices = sale_orders._create_invoices(final=True)
-                    if picking.picking_type_id.post_invoice_automatically:
-                        invoices.filtered(lambda i: i.state == "draft").action_post()
-
-                    # mark all pickings of the same sale as invoiced
-                    all_pickings = self.search(
-                        [("sale_id", "in", sale_orders.ids), ("invoice_state", "=", "to_invoice")]
-                    )
-                    all_pickings.write({"invoice_state": "invoiced"})
+                # Each invoicing runs in its own savepoint: an error rolls back only
+                # this unit (draft invoice, sale line links), the others continue.
+                with self.env.cr.savepoint():
+                    picking._auto_invoice_picking()
             except Exception:
                 _logger.exception("Error in automatic invoicing for picking %s", picking.name)
-                # We update the state in the main transaction if it fails
+                # the savepoint was rolled back, the transaction is usable again
                 picking.invoice_state = "failed"
+
+    def _auto_invoice_picking(self):
+        self.ensure_one()
+        sale_orders = self.sale_id
+        if not sale_orders:
+            return
+        sale_orders.order_line._compute_qty_delivered()
+        invoices = sale_orders._create_invoices(final=True)
+        if self.picking_type_id.post_invoice_automatically:
+            invoices.filtered(lambda i: i.state == "draft").action_post()
+
+        # mark all pickings of the same sale as invoiced
+        all_pickings = self.search([("sale_id", "in", sale_orders.ids), ("invoice_state", "=", "to_invoice")])
+        all_pickings.write({"invoice_state": "invoiced"})
