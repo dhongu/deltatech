@@ -1,3 +1,7 @@
+## 19.0.0.0.6 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.0.5 (2026-10-03)
 
 - **Fix (ANALYTICENFORCE-002): the validation follows the company of the
