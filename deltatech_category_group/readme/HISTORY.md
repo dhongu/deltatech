@@ -1,3 +1,9 @@
+## 19.0.0.0.6 (2026-10-09)
+
+- Fix CATEGORYGROUP-001: the "Manage category groups" group implied the IDs of the root and
+  admin users as if they were groups (e.g. "Access Rights"); these users are now members of
+  the group, and the upgrade removes the wrong implied groups.
+
 ## 19.0.0.0.5 (2026-10-09)
 
 - Apps Store banner (banner.json).
