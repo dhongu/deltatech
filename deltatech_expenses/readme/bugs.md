@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## EXPENSES-001 — P1: Direct writes bypass workflow roles and alter finalized deductions
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.3.5.2 — `state`, `approved_by_id`, `accounted_by_id` and `move_id` are written only by the workflow methods (which check the same groups as the buttons and then write as superuser); a direct `write`/`create` by a user is refused. On a done or cancelled deduction, `write` refuses the fields that make up the amounts and the journal entries (`_get_locked_fields()`: advance, days, per diem, journals, accounts, dates, employee, lines, receipts, payments), and the lines cannot be created, changed or deleted; corrections go through Invalidate. In the Advance state, once the advance entry (Dr 542 = Cr cash) is posted, the fields that went into it (`_get_advance_locked_fields()`: advance, cash journal, advance journal, advance date, employee, company) are locked as well, so the settlement difference is always computed against the posted advance; lines, days and per diem stay editable. `cancel_expenses` requires the Accounting role and the Draft state. Superuser/`sudo()` is not blocked. Covered by `test_user_without_role_cannot_write_state`, `test_finalized_deduction_is_locked_for_accountant`, `test_advance_entry_fields_locked_in_advance_state` and `test_superuser_and_cancel_draft_not_blocked` in `tests/test_expenses.py`.
 - **Location:** models/deltatech_expenses_deduction.py; security/ir.model.access.csv.
 - **Trigger:** An Expenses Employee writes state or an expense line through ORM/RPC, including on their own finalized deduction.
 - **Actual behavior:** Employee has write permission on both models. The role checks protect named validation/invalidation methods, but there is no write override or field group restriction enforcing the state/role invariant. State readonly is a UI property. Lines also have no finalized-state write guard. cancel_expenses directly writes cancel without a role or current-state check.
@@ -34,6 +34,16 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Impact:** Company-specific employee attribution is lost, and deductions may become associated with an employee from another company. Employee-based ownership rules and accounting partner attribution then use the wrong employee association.
 - **Suggested fix:** Map by deduction company and original partner, search/create the employee within that company, and restrict each UPDATE to that company. Handle shared contacts explicitly.
 - **Validation needed:** Upgrade two companies sharing a contact with separate employees, and shared-contact deductions without existing employees; verify employee company and ownership after migration.
+
+## EXPENSES-004 — P2: Invalidation deletes posted entries instead of reversing them
+
+- **Status:** Open.
+- **Location:** models/deltatech_expenses_deduction.py, `invalidate_expenses()`.
+- **Trigger:** Invalidate a done deduction (for example to correct an amount).
+- **Actual behavior:** The deduction goes back to Draft and every posted entry linked to it is cancelled and deleted with `force_delete`, including the advance entry Dr 542 = Cr 5311, together with the receipts, the settlement entries (401 = 542), the difference and the per diem entries.
+- **Impact:** OMFP 1802/2014 pct. 65 para. (2) and pct. 69 require a posted entry to be corrected by reversal at the date the error is found, not deleted. Deleting leaves numbering gaps in the cash and expense journals, the advance entry is recreated with a different number than the cash disbursement voucher, and the cash register is changed retroactively.
+- **Suggested fix:** Invalidation stops in the Advance state and keeps the advance entry; the other entries are reversed with `_reverse_moves` (dated on the invalidation) instead of being deleted.
+- **Validation needed:** Invalidate a done deduction with advance, receipts, difference and per diem; the advance entry stays posted with its number, the other entries are reversed, 542 and 401 balance, and the deduction can be validated again.
 
 ## Review limitations
 

@@ -57,6 +57,7 @@ class DeltatechExpensesDeduction(models.Model):
         readonly=True,
         tracking=True,
         default="draft",
+        copy=False,
         help=" * The 'Draft' status is used when a user is encoding a new and unconfirmed expenses deduction. \
             \n* The 'Done' status is set automatically when the expenses deduction is confirm.  \
             \n* The 'Cancelled' status is used when user cancel expenses deduction.",
@@ -180,7 +181,7 @@ class DeltatechExpensesDeduction(models.Model):
         default=lambda self: self._default_account_diem(),
     )
 
-    move_id = fields.Many2one("account.move", string="Account Entry", readonly=True)
+    move_id = fields.Many2one("account.move", string="Account Entry", readonly=True, copy=False)
     # move_ids = fields.One2many("account.move.line", related="move_id.line_ids", string="Journal Items", readonly=True)
     move_ids = fields.Many2many("account.move.line", string="Journal Items", readonly=True, compute="_compute_move_ids")
 
@@ -240,6 +241,100 @@ class DeltatechExpensesDeduction(models.Model):
             return
         if not self.env.user.has_group(group_xmlid):
             raise AccessError(self.env._("Nu aveți rolul necesar pentru a %s decontul de cheltuieli.") % (action,))
+
+    # Câmpuri scrise doar de metodele de flux (validate_advance / validate_expenses /
+    # invalidate_expenses / cancel_expenses), care verifică rolul și scriu în sudo.
+    _WORKFLOW_FIELDS = ("state", "approved_by_id", "accounted_by_id", "move_id")
+    # Stările în care decontul e închis: sumele și notele contabile nu se mai modifică prin write.
+    _LOCKED_STATES = ("done", "cancel")
+
+    def _get_locked_fields(self):
+        """Câmpurile care intră în sume, linii sau note contabile și care nu se mai modifică pe un
+        decont Finalizat/Anulat. Modulele care adaugă câmpuri cu efect contabil le adaugă aici."""
+        return {
+            "number",
+            "company_id",
+            "employee_id",
+            "date_advance",
+            "date_expense",
+            "journal_id",
+            "expense_journal_id",
+            "journal_diem_id",
+            "account_diem_id",
+            "advance",
+            "diem",
+            "days",
+            "expenses_line_ids",
+            "voucher_ids",
+            "payment_ids",
+        }
+
+    def _get_advance_locked_fields(self):
+        """Câmpurile care au intrat în nota de avans (Dr 542 = Cr casă) postată la „Avans”: nu se mai
+        modifică în starea Avans, altfel diferența de la decontare se calculează față de alt avans
+        decât cel din registru (restituire fictivă, sold creditor pe 542)."""
+        return {"advance", "journal_id", "expense_journal_id", "date_advance", "employee_id", "company_id"}
+
+    def _check_workflow_write(self, vals):
+        """EXPENSES-001: starea și câmpurile de flux se schimbă doar prin metodele de flux, iar un
+        decont Finalizat/Anulat nu își mai schimbă sumele, liniile sau notele. Superuserul (sudo,
+        migrări, metodele de flux după verificarea rolului) nu este blocat."""
+        if self.env.su:
+            return
+
+        def _changes(rec, fname):
+            current = rec[fname]
+            current = current.id if isinstance(current, models.BaseModel) else current
+            return (current or False) != (vals[fname] or False)
+
+        if any(_changes(rec, fname) for fname in self._WORKFLOW_FIELDS if fname in vals for rec in self):
+            raise UserError(
+                self.env._(
+                    "The status of an expenses deduction is changed only with the workflow buttons "
+                    "(Advance, Validate, Invalidate), not by a direct write."
+                )
+            )
+        locked = self._get_locked_fields() & set(vals)
+        if locked:
+            closed = self.filtered(lambda rec: rec.state in self._LOCKED_STATES)
+            if closed:
+                raise UserError(
+                    self.env._(
+                        "The expenses deduction %(number)s is done or cancelled: its amounts, lines and "
+                        "accounting data can no longer be changed. Invalidate it and validate it again.",
+                        number=closed[0].number,
+                    )
+                )
+        if self._get_advance_locked_fields() & set(vals):
+            advanced = self.filtered(lambda rec: rec.state == "advance")
+            if advanced:
+                raise UserError(
+                    self.env._(
+                        "The advance of the expenses deduction %(number)s is already posted: the advance amount, "
+                        "journals, advance date, employee and company can no longer be changed. To change the "
+                        "advance, invalidate the deduction.",
+                        number=advanced[0].number,
+                    )
+                )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if not self.env.su:
+            for vals in vals_list:
+                if vals.get("state", "draft") != "draft" or any(
+                    vals.get(fname) for fname in self._WORKFLOW_FIELDS if fname != "state"
+                ):
+                    raise UserError(
+                        self.env._(
+                            "An expenses deduction is created in the Draft status; the status is changed "
+                            "only with the workflow buttons."
+                        )
+                    )
+        return super().create(vals_list)
+
+    def write(self, vals):
+        self._check_workflow_write(vals)
+        return super().write(vals)
 
     def unlink(self):
         self._check_role("deltatech_expenses.group_expenses_accounting", "șterge")
@@ -723,7 +818,18 @@ class DeltatechExpensesDeduction(models.Model):
     #     return statement
 
     def cancel_expenses(self):
-        self.write({"state": "cancel"})
+        self._check_role("deltatech_expenses.group_expenses_accounting", "anula")
+        for expenses in self:
+            if expenses.state != "draft":
+                # din Avans/Finalizat există note contabile postate: anularea le-ar lăsa în urmă
+                raise UserError(
+                    self.env._(
+                        "The expenses deduction %(number)s cannot be cancelled: only a draft deduction can "
+                        "be cancelled (an advanced or done one has journal entries).",
+                        number=expenses.number,
+                    )
+                )
+        self.sudo().write({"state": "cancel"})
         return True
 
 
@@ -781,18 +887,43 @@ class DeltatechExpensesDeductionLine(models.Model):
             company = line.expenses_deduction_id.company_id or self.env.company
             line.currency_id = company.currency_id
 
+    def _check_deduction_open(self, deductions):
+        """EXPENSES-001: liniile unui decont Finalizat/Anulat nu se mai creează, modifică sau
+        șterg (ar schimba totalurile față de chitanțele și notele deja postate)."""
+        if self.env.su:
+            return
+        closed = deductions.filtered(lambda d: d.state in self.env["deltatech.expenses.deduction"]._LOCKED_STATES)
+        if closed:
+            raise UserError(
+                self.env._(
+                    "The expenses deduction %(number)s is done or cancelled: its lines can no longer "
+                    "be changed. Invalidate it and validate it again.",
+                    number=closed[0].number,
+                )
+            )
+
     @api.model_create_multi
     def create(self, vals_list):
         # the currency is derived from the deduction company, a value sent by the caller is ignored
         for vals in vals_list:
             vals.pop("currency_id", None)
+        deduction_ids = [vals["expenses_deduction_id"] for vals in vals_list if vals.get("expenses_deduction_id")]
+        self._check_deduction_open(self.env["deltatech.expenses.deduction"].browse(deduction_ids))
         return super().create(vals_list)
 
     def write(self, vals):
         if "currency_id" in vals:
             vals = dict(vals)
             vals.pop("currency_id")
+        deductions = self.mapped("expenses_deduction_id")
+        if vals.get("expenses_deduction_id"):
+            deductions |= self.env["deltatech.expenses.deduction"].browse(vals["expenses_deduction_id"])
+        self._check_deduction_open(deductions)
         return super().write(vals)
+
+    def unlink(self):
+        self._check_deduction_open(self.mapped("expenses_deduction_id"))
+        return super().unlink()
 
     @api.model
     def _get_company(self):

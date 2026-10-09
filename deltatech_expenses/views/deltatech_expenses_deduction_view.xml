@@ -67,7 +67,7 @@
                             <field name="date_expense" readonly="state not in ['draft', 'advance']" />
                         </group>
                         <group>
-                            <field name="advance" readonly="state not in ['draft', 'advance']" />
+                            <field name="advance" readonly="state != 'draft'" />
                             <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
 
                         </group>
@@ -212,10 +212,10 @@
                         </page>
                         <page string="Other information">
                             <group>
-                                <field name="journal_id" widget="selection" />
-                                <field name="expense_journal_id" widget="selection" />
+                                <field name="journal_id" widget="selection" readonly="state != 'draft'" />
+                                <field name="expense_journal_id" widget="selection" readonly="state != 'draft'" />
                                 <field name="journal_diem_id" widget="selection" />
-                                <field name="company_id" groups="base.group_multi_company" />
+                                <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'" />
                                 <field name="currency_id" invisible="1" />
                             </group>
                             <group string="Traseu aprobare">
