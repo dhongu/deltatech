@@ -1,0 +1,11 @@
+{
+  "title": "Putaway Strategy",
+  "summary": "Capacity-aware putaway for warehouse locations",
+  "icon": "box",
+  "features": [
+    "Capacity and occupancy per location",
+    "Splits moves when location is full",
+    "Prefers empty or stocked shelves"
+  ],
+  "lang": "en"
+}

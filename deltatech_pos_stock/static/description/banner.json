@@ -1,0 +1,7 @@
+{
+  "title": "POS Stock Display",
+  "summary": "Show available stock on POS product cards",
+  "icon": "bag",
+  "features": ["Stock on hand or available", "Price and stock badge on image", "Toggle in POS settings"],
+  "lang": "en"
+}

@@ -2,7 +2,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "eCommerce Qty Multiple",
     "summary": "Enforce product quantity multiples in eCommerce",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

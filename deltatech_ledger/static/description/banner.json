@@ -1,0 +1,7 @@
+{
+  "title": "Incoming / Outgoing Register",
+  "summary": "Numbered register of documents entering or leaving the company",
+  "icon": "clipboard",
+  "features": ["Gap-free yearly numbering", "Number reservations and cancellation", "PDF report for a period"],
+  "lang": "en"
+}

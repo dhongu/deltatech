@@ -1,0 +1,7 @@
+{
+  "title": "Stock Auto Transfer",
+  "summary": "Internal transfers via a transit location",
+  "icon": "truck",
+  "features": ["Next operation on picking type", "Second transfer in one click", "Optional automatic second transfer"],
+  "lang": "en"
+}

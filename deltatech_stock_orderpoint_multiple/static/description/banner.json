@@ -1,0 +1,7 @@
+{
+  "title": "Orderpoint Qty Multiple",
+  "summary": "Order in multiples of a quantity on reordering rules",
+  "icon": "truck",
+  "features": ["Qty multiple on the orderpoint", "No extra units of measure needed", "Never rounds the order to zero"],
+  "lang": "en"
+}

@@ -1,3 +1,7 @@
+## 19.0.0.1.7 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.1.6 (2026-10-03)
 
 - **Fix (REORDER-001): automatic reordering rules are created in the active

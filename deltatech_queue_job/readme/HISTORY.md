@@ -1,3 +1,7 @@
+## 19.0.1.4.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.4.3 (2026-10-02)
 
 - Security: the module shipped the same API key on every installation

@@ -1,0 +1,7 @@
+{
+  "title": "Pricelist on Cost with VAT",
+  "summary": "Base your selling prices on the tax-included purchase cost",
+  "icon": "trend",
+  "features": ["Cost with VAT on every product", "Default purchase tax applied", "Pricelist markups on VAT cost"],
+  "lang": "en"
+}

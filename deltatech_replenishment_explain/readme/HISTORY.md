@@ -1,3 +1,7 @@
+## 19.0.1.1.5 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.1.4 (2026-10-04)
 
 - Extend unit tests to cover the replenishment explanation values, the scheduled-move

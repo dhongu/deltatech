@@ -1,0 +1,11 @@
+{
+  "title": "UoM Domain by Reference",
+  "summary": "Every convertible unit offered, as before Odoo 19",
+  "icon": "gear",
+  "lang": "en",
+  "features": [
+    "Convertible units on purchase documents",
+    "Safe vendor unit on pricelist lines",
+    "No per-product reconfiguration"
+  ]
+}

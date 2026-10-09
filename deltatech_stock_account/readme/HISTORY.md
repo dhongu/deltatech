@@ -1,3 +1,7 @@
+## 19.0.1.0.8 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.0.7 (2026-10-08)
 
 - Fixed STOCKACCOUNT-001: saving a stock valuation account on a category, the

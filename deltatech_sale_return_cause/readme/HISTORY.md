@@ -1,3 +1,7 @@
+## 19.0.0.0.11 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.0.10 (2026-10-01)
 
 - Setting the return cause on several orders at once no longer fails with "Expected singleton": orders that

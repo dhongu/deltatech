@@ -1,0 +1,11 @@
+{
+  "title": "Credentials Store",
+  "summary": "Secure external service logins",
+  "icon": "gear",
+  "features": [
+    "User/password, API key or token modes",
+    "Password masked, admin-only access",
+    "Shared by integration modules"
+  ],
+  "lang": "en"
+}

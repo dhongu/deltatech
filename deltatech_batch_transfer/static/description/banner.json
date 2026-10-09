@@ -1,0 +1,11 @@
+{
+  "title": "Batch Transfer Extension",
+  "summary": "Better control over batches with empty transfers",
+  "icon": "truck",
+  "features": [
+    "Empty pickings removed on validate",
+    "Prepare Batch wizard from orders",
+    "Add to Batch button on transfers"
+  ],
+  "lang": "en"
+}

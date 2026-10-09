@@ -1,0 +1,7 @@
+{
+  "title": "Sale Add Extra Line",
+  "summary": "Auto-add a companion line to orders",
+  "icon": "cart",
+  "features": ["Extra line added by product config", "Price by percent or pricelist", "Works in eCommerce and POS"],
+  "lang": "en"
+}

@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.0.3.5.1 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.3.5.0 (2026-10-08)
 
 - The number of per diem days now accepts one decimal (for example 2.5). For

@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.1.0.3 (2026-10-03)
 
 - Tests: the "other models not restricted" test gives its user read access on journal entries when `account` is installed, because the accounting audit-log check on message deletion reads them (it failed with `AccessError` in the full CI run). No functional change.

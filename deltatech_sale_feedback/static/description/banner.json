@@ -1,0 +1,7 @@
+{
+  "title": "Sale Feedback",
+  "summary": "Ask customers for feedback after invoicing",
+  "icon": "user",
+  "features": ["Automatic e-mail after invoice", "Configurable delay (default 3 days)", "Scheduled by cron job"],
+  "lang": "en"
+}

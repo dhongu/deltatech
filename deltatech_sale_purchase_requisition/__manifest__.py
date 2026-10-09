@@ -4,7 +4,7 @@
 {
     "name": "Sale → Purchase RFQ (Alternative Purchase Orders)",
     "summary": "Create Purchase RFQ(s) from Sales Quotations and link them back to the quote.",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",

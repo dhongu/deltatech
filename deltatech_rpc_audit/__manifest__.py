@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "RPC Audit Log",
     "summary": "Log XML-RPC / JSON-RPC calls with the client IP",
-    "version": "19.0.1.2.3",
+    "version": "19.0.1.2.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Technical",
