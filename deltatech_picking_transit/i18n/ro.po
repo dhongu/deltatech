@@ -157,6 +157,12 @@ msgstr "Există sublocatie"
 #. module: deltatech_picking_transit
 #. odoo-python
 #: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid "The products of this backorder will be received in %s."
+msgstr "Produsele acestei restanțe vor fi recepționate în %s."
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
 #, python-format
 msgid "This transfer was generated from %s."
 msgstr "Acest transfer a fost generat din %s."

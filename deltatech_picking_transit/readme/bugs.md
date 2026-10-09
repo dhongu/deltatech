@@ -47,7 +47,7 @@ Compared the current local `19.0` source with the original audit snapshot. Repos
 
 ## TRANSIT-004 — P1: Partial delivery backorders orphan products in the receiving leg
 
-- **Status:** Open; reviewed 2026-10-03.
+- **Status:** Fixed in 19.0.0.0.14. The product guard in `button_validate` of the receiving leg now checks the source transfer and all its backorders (`_get_transit_source_chain`), as on 18.0. `_create_backorder` explicitly keeps `second_transfer_created` on source backorders whose original transfer already has a receiving leg (that leg holds the pending demand, so no duplicate reception is generated) and posts the receiving transfer's name on the backorder. Covered by `test_partial_delivery_backorder_keeps_receiving_leg_executable` (A delivered, B backordered on both legs, then shipped and received). Explicit `move_orig_ids` chaining is left to the "Link Second Transfer to First" option (PR #3109).
 - **Location:** models/stock_picking.py, button_validate(), create_second_transfer_wizard(), copy_move_lines(); native stock.picking._create_backorder().
 - **Trigger:** Automatically generate the reception for a delivery containing products A and B. Deliver A but leave B wholly unprocessed and choose to create a backorder.
 - **Actual behavior:** The addon creates the reception with both products before native delivery validation. Core backordering moves the unprocessed B move to another source picking. The reception still references the original picking, so its validation rejects B because the original source now contains only A. The source backorder inherits second_transfer_created=True, preventing its automatic creation path from producing a separate reception. Copied moves have no explicit native move_orig_ids/move_dest_ids chain.
