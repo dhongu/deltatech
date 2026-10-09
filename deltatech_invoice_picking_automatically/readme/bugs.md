@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## AUTOINVOICE-001 — P1: Caught invoicing errors leave partial work in the cron transaction
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.0.6. Each picking is invoiced inside `self.env.cr.savepoint()` (`_auto_invoice_picking()`); on error the savepoint is rolled back (draft invoice and sale line links included), the error is logged and the picking is marked failed outside the savepoint, so later pickings in the same run continue. Covered by tests with a posting UserError and an SQL error. Retry of failed pickings is unchanged (manual reset to To Invoice).
 - **Location:** models/stock_picking.py, _cron_generate_invoices().
 - **Trigger:** Invoice creation succeeds but automatic posting raises a business validation error, or an invoicing operation raises a database error.
 - **Actual behavior:** The broad exception handler marks the picking failed without a per-picking savepoint. For ordinary validation exceptions, preceding invoice creation remains in the transaction and can be committed alongside failed status. For SQL errors, the transaction can remain aborted, so even writing failed status raises and interrupts the job.

@@ -2,8 +2,12 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from unittest.mock import patch
+
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 @tagged("post_install", "-at_install")
@@ -125,3 +129,63 @@ class TestInvoicePickingAutomatically(TransactionCase):
             )
         finally:
             self.picking_type_out.write({"post_invoice_automatically": True})
+
+    def _run_cron_with_failing_post(self, fail_partner, failure):
+        """Run the cron while posting the invoices of ``fail_partner`` raises."""
+        move_class = type(self.env["account.move"])
+        original_post = move_class.action_post
+
+        def action_post(moves):
+            if fail_partner in moves.partner_id:
+                failure(moves)
+            return original_post(moves)
+
+        with (
+            patch.object(move_class, "action_post", action_post),
+            mute_logger("odoo.addons.deltatech_invoice_picking_automatically.models.stock_picking", "odoo.sql_db"),
+        ):
+            self.env["stock.picking"]._cron_generate_invoices()
+
+    def _assert_isolated_failure(self, good_order, good_picking, bad_order, bad_picking):
+        self.assertEqual(good_picking.invoice_state, "invoiced")
+        self.assertTrue(good_order.invoice_ids)
+        self.assertEqual(set(good_order.invoice_ids.mapped("state")), {"posted"})
+
+        self.assertEqual(bad_picking.invoice_state, "failed")
+        self.assertFalse(bad_order.invoice_ids, "The failed invoicing must not leave a draft invoice")
+        self.assertFalse(
+            self.env["account.move"].search([("partner_id", "=", bad_order.partner_id.id)]),
+            "No orphan invoice may remain for the failed picking",
+        )
+        self.assertFalse(bad_order.order_line.invoice_lines)
+        self.assertEqual(bad_order.order_line.qty_invoiced, 0.0)
+        self.assertEqual(bad_order.invoice_status, "to invoice")
+
+    def _create_two_pickings(self):
+        good_order = self._create_sale_order()
+        good_picking = self._confirm_and_validate_picking(good_order)
+        bad_partner = self.env["res.partner"].create({"name": "Test Partner Failing"})
+        bad_order = self._create_sale_order()
+        bad_order.partner_id = bad_partner
+        bad_picking = self._confirm_and_validate_picking(bad_order)
+        return good_order, good_picking, bad_order, bad_picking
+
+    def test_cron_validation_error_rolls_back_only_failed_picking(self):
+        """A posting error rolls back the draft of that picking; the other one is invoiced."""
+        good_order, good_picking, bad_order, bad_picking = self._create_two_pickings()
+
+        def failure(moves):
+            raise UserError(moves.env._("Posting blocked for test"))
+
+        self._run_cron_with_failing_post(bad_order.partner_id, failure)
+        self._assert_isolated_failure(good_order, good_picking, bad_order, bad_picking)
+
+    def test_cron_sql_error_does_not_abort_transaction(self):
+        """A database error in one invoicing does not abort the cron transaction."""
+        good_order, good_picking, bad_order, bad_picking = self._create_two_pickings()
+
+        def failure(moves):
+            moves.env.cr.execute("SELECT 1/0")
+
+        self._run_cron_with_failing_post(bad_order.partner_id, failure)
+        self._assert_isolated_failure(good_order, good_picking, bad_order, bad_picking)
