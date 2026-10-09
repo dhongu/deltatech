@@ -1,3 +1,7 @@
+## 19.0.0.9.6 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
 ## 19.0.0.9.5 (2026-10-08)
 
 - Fixed ACTIONS-001: the duplicate contact merge detached every contact of a
