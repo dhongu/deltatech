@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class BusinessProcessTestReport(models.Model):
@@ -98,13 +99,21 @@ class BusinessProcessTestReport(models.Model):
 
     @property
     def _table_query(self):
-        return f"{self._select()} {self._from()} {self._where()} {self._order_by()}"
+        return SQL(
+            "%s %s %s %s",
+            SQL(self._select()),
+            SQL(self._from()),
+            SQL(self._where()),
+            SQL(self._order_by()),
+        )
 
     @api.model
     def _select(self):
+        # One row per step test (bpst): the step id repeats across test runs,
+        # so it cannot be the row id.
         return """
             SELECT
-                bps.id AS id,
+                bpst.id AS id,
                 bp.id AS process_id,
                 bp.project_id AS project_id,
                 bps.id AS step_id,

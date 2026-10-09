@@ -19,3 +19,4 @@ from . import test_company_rules
 from . import test_open_issue_mail
 from . import test_business_project_create_multi
 from . import test_formatted_display_name
+from . import test_test_report_id
