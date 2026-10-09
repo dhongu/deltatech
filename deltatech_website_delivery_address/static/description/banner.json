@@ -1,0 +1,7 @@
+{
+  "title": "eCommerce Delivery Address",
+  "summary": "Default delivery address for website users",
+  "icon": "truck",
+  "lang": "en",
+  "features": ["Default address set per website user", "Pre-selected at checkout", "Fewer address selection errors"]
+}
