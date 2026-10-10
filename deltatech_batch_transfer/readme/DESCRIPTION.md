@@ -4,7 +4,7 @@ Prevents Odoo's default behaviour of validating zero-quantity pickings and adds 
 "Prepare Batch" wizard for quickly grouping receipts or deliveries from sales/purchase
 orders into a single batch.
 
-**Key features:**
+**✨ Key features:**
 
 - **Empty-picking management on validate** — when the Validate button is pressed on a
   batch, pickings that have all done quantities equal to zero are handled according to
