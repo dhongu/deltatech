@@ -38,22 +38,22 @@
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Overview:
 Adds audible feedback to Odoo backend notifications so operators are alerted instantly without watching the screen.</p>
 <p>Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Plays different sounds depending on notification type:<ul class="ps-3 mt-2">
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Plays different sounds depending on notification type:<ul class="ps-3 mt-1 mb-0">
 <li class="small">Success &#8594; notify.wav</li>
 <li class="small">Warning &#8594; exclamation.wav</li>
 <li class="small">Error (danger) &#8594; error.wav</li>
 <li class="small">Info &#8594; bell.wav</li>
 </ul>
-</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Seamless integration with the backend (no extra UI); patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Assets are loaded via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.assets_backend</code> (JS + sounds).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Per-user toggle in Preferences: each user can enable/disable notification sounds from their profile.</div></div></li></ul>
+</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Seamless integration with the backend (no extra UI); patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Assets are loaded via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.assets_backend</code> (JS + sounds).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Per-user toggle in Preferences: each user can enable/disable notification sounds from their profile.</div></div></li></ul>
 <p>How it works (technical):</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Frontend logic patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/core/notifications/notification_service</code>) and
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Frontend logic patches the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">notification</code> service (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/core/notifications/notification_service</code>) and
   wraps its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">add()</code> method, so a sound is played whenever a backend notification is shown. This decouples the
-  feature from the lifecycle of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Notification</code> OWL component.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The user preference is read from the session info (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/session</code>), under
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">session.user_context.notification_sound_enabled</code>. No extra RPC is performed.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Backend exposes the preference through:<ul class="ps-3 mt-2">
+  feature from the lifecycle of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Notification</code> OWL component.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The user preference is read from the session info (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@web/session</code>), under
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">session.user_context.notification_sound_enabled</code>. No extra RPC is performed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Backend exposes the preference through:<ul class="ps-3 mt-1 mb-0">
 <li class="small">new field <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.users.notification_sound_enabled</code> (default True)</li>
 <li class="small"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.http.session_info()</code> enriched to include the flag in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_context</code>.</li>
 </ul>
-</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Sound files live under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/src/sounds/</code> and can be replaced if desired.</div></div></li></ul>
+</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Sound files live under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/src/sounds/</code> and can be replaced if desired.</div></div></li></ul>
 <p>Installation &amp; Usage:
 1) Install the module like any other addon.
 2) Use Odoo normally; when a backend notification pops (success/warning/error/info), a short sound plays automatically.
@@ -64,12 +64,16 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
 <li>Modern desktop browsers. Note: Browser auto-play policies may require at least one prior user interaction with the page before sounds can play.</li>
 </ul>
 <p>Troubleshooting / Notes:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>If your browser blocks auto-play, the first notification may be silent until you interact (click/keypress) on the page.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>After changing the preference, reload the page so the cached value and session info are refreshed.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Mobile browsers may mute auto-played audio by default.</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>If your browser blocks auto-play, the first notification may be silent until you interact (click/keypress) on the page.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>After changing the preference, reload the page so the cached value and session info are refreshed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Mobile browsers may mute auto-played audio by default.</div></div></li></ul>
 <p>Credits:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Author: Terrabit, Dorin Hongu</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Maintainer: dhongu</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>License: LGPL-3</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Website: https://www.terrabit.ro</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Author: Terrabit, Dorin Hongu</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Maintainer: dhongu</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>License: LGPL-3</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Website: https://www.terrabit.ro</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.2 (2026-10-09)</h2>
+<ul>
+<li>Apps Store banner (banner.json).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.1 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -119,8 +123,12 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -135,8 +143,12 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">MF</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">MF</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_markdown_field/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Markdown Field</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -151,8 +163,12 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">NQ</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">NQ</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_no_quick_create/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">No quick_create</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -167,8 +183,12 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PM</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PM</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_partner_merge/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Partner Merge in Bulk</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -183,8 +203,12 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RR</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_restrict_reports/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech - Restrict Reports Access</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -199,8 +223,12 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TS</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_test_system/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Test System</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -211,34 +239,42 @@ Adds audible feedback to Odoo backend notifications so operators are alerted ins
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_watermark" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WA</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Watermark</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Watermark field</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
         </div>
       </a>
     </div>
