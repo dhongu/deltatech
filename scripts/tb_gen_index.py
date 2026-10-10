@@ -158,6 +158,15 @@ I18N = {
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
+        "deps_title": "What you pay for",
+        "deps_intro_own": "This module costs <strong>%(own)s</strong>.",
+        "deps_intro_free": "This module is <strong>free</strong>.",
+        "deps_intro_rest": " It needs the paid modules below, and Odoo Apps adds them to your cart "
+        "automatically &mdash; the order total is <strong>%(total)s</strong>.",
+        "deps_auto": "It installs itself once these modules are present, so it is not charged separately.",
+        "deps_free_price": "free",
+        "deps_own_row": "This module",
+        "deps_total_row": "Order total",
         "badge_hosting": "Odoo.sh &bull; On-premise",
         "subscription_title": "For projects implemented by Terrabit,",
         "subscription_body": "the post-implementation subscription includes access to our module portfolio, with no "
@@ -204,6 +213,15 @@ I18N = {
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
+        "deps_title": "Ce plătiți de fapt",
+        "deps_intro_own": "Acest modul costă <strong>%(own)s</strong>.",
+        "deps_intro_free": "Acest modul este <strong>gratuit</strong>.",
+        "deps_intro_rest": " Are nevoie de modulele cu preț de mai jos, iar Odoo Apps le adaugă automat în "
+        "coș &mdash; totalul comenzii este <strong>%(total)s</strong>.",
+        "deps_auto": "Se instalează singur când modulele de mai jos sunt prezente, deci nu se taxează separat.",
+        "deps_free_price": "gratuit",
+        "deps_own_row": "Acest modul",
+        "deps_total_row": "Total comandă",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
         "subscription_title": "Pentru proiectele implementate de Terrabit,",
         "subscription_body": "abonamentul postimplementare include accesul la portofoliul nostru de module, f&#259;r&#259; "
@@ -425,6 +443,36 @@ CROSS_SELL_CARD = """    <div class="col-md-3 col-sm-6">
     </div>
 """
 CROSS_SELL_CLOSE = "  </div>\n</section>\n"
+
+# Prețul real al unui modul care atrage după el alte module cu preț din aceeași suită: pe Apps Store
+# dependențele plătite intră automat în coș, deci cumpărătorul vede un total mai mare decât prețul
+# modulului. Lista are iconiță, nume (link spre Apps), descriere și preț; apare doar dacă există
+# cel puțin o dependență plătită, și pe module gratuite (punți auto_install).
+DEPS_OPEN = """
+<section class="rounded-4 p-4 mt-4 mb-3 border">
+  <h2 class="fw-bold mb-2" style="font-size:20px;border:none;color:%(body)s;">%(deps_title)s</h2>
+  <p class="mb-3" style="color:%(body)s;line-height:1.6;font-size:15px;">%(intro)s</p>
+"""
+DEPS_ROW = """  <a href="https://apps.odoo.com/apps/modules/%(series)s/%(tech)s" target="_blank" rel="noopener"
+     class="d-flex align-items-center text-decoration-none border rounded-3 p-3 mb-2" style="color:%(body)s;">
+    <span class="d-inline-block position-relative me-3 flex-shrink-0" style="width:40px;height:40px;">
+      <span class="d-inline-block text-center fw-bold rounded"
+            style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:%(primary)s;">%(initials)s</span>
+      <img src="https://apps.odoocdn.com/apps/assets/%(series)s/%(tech)s/icon.png" alt="" loading="lazy"
+           class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+    </span>
+    <span class="flex-grow-1 me-3">
+      <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;color:%(primary)s;">%(name)s</span>
+      <span class="d-block" style="font-size:14px;line-height:1.4;color:%(muted)s;">%(summary)s</span>
+    </span>
+    <span class="fw-bold flex-shrink-0 text-end" style="font-size:16px;white-space:nowrap;">%(price)s</span>
+  </a>
+"""
+DEPS_TOTAL = """  <div class="d-flex justify-content-between px-3 pt-2" style="color:%(body)s;font-size:16px;">
+    <span class="fw-semibold">%(deps_total_row)s</span><span class="fw-bold">%(total)s</span>
+  </div>
+"""
+DEPS_CLOSE = "</section>\n"
 
 # --- carduri de funcții (grilă Bootstrap responsivă), moștenite din tb_skin_index v5 --- #
 # Casete compacte (Cozmin, 06.10.2026): 8px sus/jos și 16px lateral în casetă, 8px între casete,
@@ -864,6 +912,57 @@ def build_cross_sell(addon_dir, manifest, count=CROSS_SELL_COUNT, lang="en"):
     return (CROSS_SELL_OPEN % dict(TB, **I18N[lang])) + "".join(cards) + CROSS_SELL_CLOSE
 
 
+def _series(manifest):
+    m = re.match(r"(\d+\.\d+)", str(manifest.get("version", "")))
+    return m.group(1) if m else "19.0"
+
+
+def _money(amount, manifest):
+    currency = str(manifest.get("currency") or "EUR")
+    return f"{amount:g} &euro;" if currency == "EUR" else f"{amount:g} {html_mod.escape(currency)}"
+
+
+def paid_dependencies(addon_dir):
+    """Dependențele plătite din aceeași suită (tranzitiv), ca (nume tehnic, manifest)."""
+    root = os.path.dirname(os.path.abspath(addon_dir)) or "."
+    closure = _dependency_closure(os.path.basename(os.path.abspath(addon_dir)), root)[1:]
+    deps = [(tech, read_manifest(os.path.join(root, tech))) for tech in closure]
+    return [(tech, man) for tech, man in deps if man.get("price")]
+
+
+def build_dependencies(addon_dir, manifest, lang="en"):
+    deps = paid_dependencies(addon_dir)
+    if not deps:
+        return ""
+    strings = dict(TB, **I18N[lang])
+    own = manifest.get("price") or 0
+    total = own + sum(man["price"] for _tech, man in deps)
+    intro = strings["deps_intro_own"] % {"own": _money(own, manifest)} if own else strings["deps_intro_free"]
+    intro += strings["deps_intro_rest"] % {"total": _money(total, manifest)}
+    if manifest.get("auto_install") and not own:
+        intro += " " + strings["deps_auto"]
+    rows = []
+    for tech, man in deps:
+        rows.append(
+            DEPS_ROW
+            % dict(
+                strings,
+                series=_series(man),
+                tech=tech,
+                initials=_initials(man.get("name") or tech),
+                name=html_mod.escape(man.get("name") or tech),
+                summary=html_mod.escape(_truncate(man.get("summary") or man.get("name") or tech)),
+                price=_money(man["price"], man),
+            )
+        )
+    return (
+        (DEPS_OPEN % dict(strings, intro=intro))
+        + "".join(rows)
+        + (DEPS_TOTAL % dict(strings, total=_money(total, manifest)))
+        + DEPS_CLOSE
+    )
+
+
 def build_rating(manifest, lang="en"):
     strings = I18N[lang]
     kind = "paid" if manifest.get("price") else "free"
@@ -890,6 +989,7 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=
         build_tabs(tabs),
         build_stats(lang),
         (SUBSCRIPTION % strings) if manifest.get("price") else "",
+        build_dependencies(addon_dir, manifest, lang),
         (SCOPE_NOTE % strings) if scope_note else "",
         SUPPORT % strings,
         build_cross_sell(addon_dir, manifest, lang=lang) if cross_sell else "",
