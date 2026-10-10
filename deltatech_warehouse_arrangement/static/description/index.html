@@ -42,6 +42,24 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.8 (2026-10-04)</h2>
+<ul>
+<li>Fix the full name of storehouses: it showed only the stock location name, without the storehouse name.</li>
+<li>Fix the full name of zones, shelves, sections and racks when a parent level is not set: the missing level is
+  now skipped instead of raising an error when the record name was displayed.</li>
+<li>Fix lot creation: locations given explicitly for the lot are no longer replaced by the product's ones
+  (ARRANGE-002), each lot in a batch now takes the locations of its own product, and creating a lot without a
+  product no longer fails with an internal error.</li>
+<li>Lot change location wizard: scanning a new lot clears the rack chosen for the previous one, so it cannot be
+  applied to the wrong lot by mistake (ARRANGE-001); an ambiguous lot name now shows an error instead of being
+  ignored.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.7 (2026-10-04)</h2>
+<ul>
+<li>Add unit tests covering the location hierarchy names, lot location defaults on create,
+  the lot location update on stock moves into/out of the master location and the
+  lot change location barcode wizard.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.6 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -110,8 +128,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AR</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_auto_reorder_rule/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Auto Reorder Rule</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -126,8 +148,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BT</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_batch_transfer/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Batch Transfer</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -142,8 +168,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_picking_services/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Picking Service Lines</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -158,8 +188,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_product_labels/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Labels</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -174,8 +208,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RN</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RN</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_reception_note/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech reception_note</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -190,8 +228,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_report_prn/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Raport PRN</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -206,8 +248,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_stock_count_zero/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech stock count zero</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -222,8 +268,12 @@
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>

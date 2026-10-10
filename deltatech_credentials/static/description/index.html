@@ -45,8 +45,8 @@ within Odoo. Instead of scattering API keys, tokens, and login pairs across syst
 parameters or configuration files, administrators can manage all access data in one
 secure location &#8212; available directly under <strong>Settings &gt; Users &amp; Companies &gt; Credentials</strong>.</p>
 <p><strong>Key features:</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Store credentials for any external service with a descriptive name and optional code.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Three access-type modes: <strong>User / Password</strong>, <strong>Client ID / Client Secret (API key)</strong>,
-  and <strong>Access Token</strong> &#8212; only the relevant fields are shown for each mode.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Password field is masked in the UI for security.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Access restricted to Odoo Administrators (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.group_system</code>) out of the box.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Designed as a shared dependency: other Deltatech modules (integrations, EDI connectors,
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Store credentials for any external service with a descriptive name and optional code.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Three access-type modes: <strong>User / Password</strong>, <strong>Client ID / Client Secret (API key)</strong>,
+  and <strong>Access Token</strong> &#8212; only the relevant fields are shown for each mode.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Password field is masked in the UI for security.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Access restricted to Odoo Administrators (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.group_system</code>) out of the box.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Designed as a shared dependency: other Deltatech modules (integrations, EDI connectors,
   API bridges) can reference <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">access.credentials</code> records to retrieve their credentials
   programmatically, keeping secrets out of module settings.</div></div></li></ul>
 </div>
@@ -74,6 +74,10 @@ it as needed.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-10-09)</h2>
+<ul>
+<li>Apps Store banner (banner.json).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -123,8 +127,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_backup_attachment/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Backup Attachments</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -139,8 +147,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CO</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CO</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_contact/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Contacts</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -155,8 +167,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_data_sheet/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Data Sheet</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -171,8 +187,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_data_sheet_website/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Data Sheet Website</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -187,8 +207,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PG</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PG</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_gln/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Partner GLN </span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -203,14 +227,18 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IO</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IO</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Image Optimizer</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Recompress oversized image attachments and remove duplicated product images</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Recompress oversized image attachments, remove duplicated product images, product image backgrounds and watermarks</p>
         </div>
       </a>
     </div>
@@ -219,8 +247,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UU</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UU</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_uom_unece/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech UoM UNECE Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -235,8 +267,12 @@ it as needed.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>

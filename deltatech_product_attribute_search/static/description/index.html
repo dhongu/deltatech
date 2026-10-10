@@ -53,15 +53,15 @@ nothing, and the operator has to open <strong>Search more&#8230;</strong> and sc
 database id.</p>
 <p>This module makes the values searchable, on every product field and in every search view.</p>
 <p>Key business benefits:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Fewer wrong lines.</span><div class="mt-1">The operator finds the variant by the words printed on the
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fewer wrong lines.</span><div>The operator finds the variant by the words printed on the
   goods &#8212; variety, size, grade &#8212; instead of picking from a list where only the position
-  differs.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Same list in sales and purchasing.</span><div class="mt-1">A variant found by attribute is found the same
+  differs.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Same list in sales and purchasing.</span><div>A variant found by attribute is found the same
   way wherever the product field appears, so the two departments stop seeing different
-  results for the same query.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Words can be mixed.</span><div class="mt-1">Every word typed has to match somewhere &#8212; the name, the
+  results for the same query.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Words can be mixed.</span><div>Every word typed has to match somewhere &#8212; the name, the
   reference or one of the values &#8212; so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">apples gala 80</code> narrows down in one go, without
-  any single field holding all three words.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Noisy attributes can be left out.</span><div class="mt-1">An attribute whose values are too generic to
+  any single field holding all three words.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Noisy attributes can be left out.</span><div>An attribute whose values are too generic to
   search on (a grade named <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">1/5</code>, a colour named <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">2</code>) can be excluded, so it does not
-  flood the results.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">No cost on searches that already worked.</span><div class="mt-1">Standard Odoo answers first; the extra
+  flood the results.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">No cost on searches that already worked.</span><div>Standard Odoo answers first; the extra
   lookup runs only when it left the page unfilled.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -175,8 +175,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PT</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_product_trade_markup/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product trade markup</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales/Sales</span>
@@ -191,8 +195,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -207,8 +215,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
@@ -223,8 +235,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
@@ -239,8 +255,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech UBL despatch advice</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
@@ -255,8 +275,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
@@ -271,8 +295,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_actions/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Actions</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Other</span>
@@ -287,8 +315,12 @@ are ANDed, so adding one always narrows the result, never widens it.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Agreement Management</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Services/Agreement</span>

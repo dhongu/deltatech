@@ -71,6 +71,11 @@ Usage
 Changelog
 =========
 
+19.0.0.0.3
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 Changelog
 =========
 

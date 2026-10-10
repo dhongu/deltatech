@@ -1,5 +1,5 @@
 ========================
-Replenish negative stock
+Replenish Negative Stock
 ========================
 
 ..
@@ -19,113 +19,111 @@ Replenish negative stock
 
 |badge1| |badge2|
 
-Replenish Negative Stock
-========================
+When a location sells or consumes more than it holds, such as a showroom
+or a shop floor, its stock goes negative and someone has to work out
+what to bring in from the warehouse. This module does that in one click:
+an internal transfer fills itself with every product that is negative in
+its destination location, in the quantity needed to bring it back to
+zero. A daily email tells the person in charge which products are
+negative in their location.
 
-This module provides a convenient way to identify and resolve negative
-inventory levels at specific stock locations by automatically populating
-transfers with required quantities from other source locations.
-
-Key Features
-============
-
-1. **Automated Negative Qty Identification**:
-
-   - Adds a dedicated **Get negative products** button to the stock
-     picking form.
-   - Automatically identifies all products with a negative quantity in
-     the destination location of the current picking.
-
-2. **Effortless Transfer Population**:
-
-   - Quickly adds lines to the current transfer for all identified
-     negative stock items.
-   - Populates the move lines with the exact quantities needed to bring
-     the destination inventory back to at least zero.
-
-3. **Stock Health Monitoring**:
-
-   - Designed for inventory managers who need to maintain clean,
-     non-negative stock records across multiple locations.
-   - Streamlines the process of internal stock replenishment and
-     correction.
-
-4. **Daily Notification**:
-
-   - Each internal location can be assigned a **Manager**.
-   - A daily scheduled action emails the manager the list of products
-     with negative stock in that location, aggregated over its
-     sub-locations.
-   - Locations without a manager are skipped.
-
-Usage
-=====
-
-1. Create or open an internal **Stock Picking** (Transfer).
-2. Set the **Source Location** and **Destination Location** as needed.
-3. Click the **Get negative products** button in the header of the
-   transfer.
-4. The system will scan the destination location for any negative
-   inventory.
-5. Move lines will be automatically created or updated to include the
-   necessary quantities to fix the negative levels.
-6. Validate the picking as usual to complete the replenishment.
-7. Optionally, set a **Manager** on the location to receive the daily
-   negative stock email.
+- **One-click replenishment**: The **Get negative products** button on a
+  draft transfer adds a line for every product with negative stock in
+  the destination location.
+- **Exact quantities**: Each line brings the negative quantity back to
+  zero, taken from the source location of the transfer.
+- **Still your transfer**: The lines can be edited, removed or completed
+  by hand before you validate, like any other transfer.
+- **Daily negative stock email**: Assign a manager to an internal
+  location and they receive, once a day, the list of products with
+  negative stock there.
+- **Sub-locations included in the email**: The report adds up the
+  negative quantities of the location and all its sub-locations, per
+  product.
 
 **Table of contents**
 
 .. contents::
    :local:
 
-Usage
-=====
+Configuration
+=============
 
-- 
-
-  - Configure your operation type:
-
-    - Inventory -> Configuration -> Operation Types
+1. Optionally, create an internal operation type for the replenishment,
+   in *Inventory > Configuration > Operation Types*, with the warehouse
+   stock as **Default Source Location** and the location to refill (for
+   example a showroom) as **Default Destination Location**. The
+   transfers then open with the right locations already set.
 
 |image1|
 
-- Sell some stuff from your location, resulting in negative stock:
+2. For the daily email, open *Inventory > Configuration > Locations*,
+   choose an internal location and set its **Manager**. Locations
+   without a manager are skipped.
+
+3. The **Send negative stock** scheduled action runs once a day. Its
+   frequency can be changed among the scheduled actions, under *Settings
+   > Technical* (developer mode).
+
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/op-type.png
+
+Usage
+=====
+
+A location ends up with negative stock, for example after sales from the
+showroom:
+
+|image1|
+
+1. Create an internal transfer, with the location to refill as
+   **Destination Location** and the location to take the goods from as
+   **Source Location**.
 
 |image2|
 
-- Create a picking with the previuous Operation type
+2. While the transfer is in **Draft**, click **Get negative products**.
 
 |image3|
 
-- Press the <Get negative products> button:
+3. A line is added for every product with negative stock in the
+   destination location, with the quantity that brings it back to zero.
 
 |image4|
 
-- You products will be added to the picking:
+4. Adjust the lines if needed, then confirm and validate the transfer as
+   usual.
 
-|image5|
+Each click adds the lines again, so click once per transfer. The button
+looks at the destination location itself, not at its sub-locations.
 
-- Other info:
+The daily email goes to the manager of each internal location that has
+negative stock, with the subject *"Negative stock for location
+WH/Stock/Showroom"* and one line per product: reference, name, negative
+quantity and unit of measure.
 
-  - You can manually add, delete or edit the picking after negative
-    values have been added
-  - The negative stock products will be added with each click on the
-    <Get negative products> button.
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/negative-stock.png
+.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking1.png
+.. |image3| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking2.png
+.. |image4| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking3.png
 
-- Daily notification:
+Changelog
+=========
 
-  - Set the **Manager** field on an internal location (Inventory ->
-    Configuration -> Locations).
-  - The **Send negative stock** scheduled action runs once a day and
-    emails that user the products with negative stock in the location,
-    summed over its sub-locations.
-  - Locations without a manager are skipped.
+19.0.1.1.3 (2026-09-30)
+-----------------------
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/op-type.png
-.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/negative-stock.png
-.. |image3| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking1.png
-.. |image4| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking2.png
-.. |image5| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking3.png
+- Description rewritten for the Apps Store: what the module does and
+  why, with separate Configuration and Usage sections. Screenshots on
+  the Apps Store page load again (the description pointed to
+  ``static/description/…``, which the store does not resolve). Clearer
+  summary; category moved to Inventory.
+- Apps Store banner aligned with the module name and the new
+  description.
+
+19.0.1.1.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

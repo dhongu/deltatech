@@ -37,15 +37,50 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
 <p>Key features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Automatic vendor and order resolution</span><div class="mt-1">the wizard keeps the selected purchase order on itself and can also identify the vendor and purchase order from the XML (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">OrderReference</code>, supplier VAT, supplier name) when context is no longer available.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Automatic matching</span><div class="mt-1">products are matched by barcode (GS1/EAN), supplier code, internal reference, or exact name.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Purchase order integration</span><div class="mt-1"><ul class="ps-3 mt-2">
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Automatic vendor and order resolution</span><div>the wizard keeps the selected purchase order on itself and can also identify the vendor and purchase order from the XML (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">OrderReference</code>, supplier VAT, supplier name) when context is no longer available.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Automatic matching</span><div>products are matched by barcode (GS1/EAN), supplier code, internal reference, or exact name.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Purchase order integration</span><div><ul class="ps-3 mt-1 mb-0">
 <li class="small">existing matching lines are updated (quantity, price, discount) and lines whose product is not yet on the order are added, instead of being silently dropped;</li>
 <li class="small">the wizard warns before import when the order already has lines, so the user can review what will change;</li>
 <li class="small">when no purchase order is resolved, the wizard can still identify the vendor from XML and update supplier prices.</li>
-</ul></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Price management</span><div class="mt-1">updates vendor prices in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.supplierinfo</code> directly from the XML data.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Discount support</span><div class="mt-1">extracts line discounts from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code>) and applies them as percentage discounts on purchase order lines.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Total check</span><div class="mt-1">compares the purchase order total with the XML total (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PayableAmount</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TaxInclusiveAmount</code>, with untaxed fallback) and shows a warning when there is a difference.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Stock automation</span><div class="mt-1">optionally validates the associated stock receipt by matching quantities from the XML.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Accounting</span><div class="mt-1">optionally creates and links a vendor bill from the purchase order when an order is resolved.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Missing products</span><div class="mt-1">option to automatically create missing products using data from the UBL file. Automated callers can pass <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ubl_no_new_products</code> in context to leave unmatched lines unmatched instead of silently creating duplicates.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Mapping preview</span><div class="mt-1">the interactive flow previews one row per invoice line with the product the matcher found and how it found it (green = supplier code or barcode, yellow = name only, red = no match); any row can be reassigned to a different product before confirming.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Unattended runs surface themselves</span><div class="mt-1">a headless import whose total does not add up, or that leaves lines unmatched, posts a color-coded log and schedules a "SPV import needs review" to-do activity on the purchase order, assigned to its buyer.</div></div></li></ul>
+</ul></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Price management</span><div>updates vendor prices in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.supplierinfo</code> directly from the XML data.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Discount support</span><div>extracts line discounts from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code>) and applies them as percentage discounts on purchase order lines.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Total check</span><div>compares the purchase order total with the XML total (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PayableAmount</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TaxInclusiveAmount</code>, with untaxed fallback) and shows a warning when there is a difference.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Stock automation</span><div>optionally validates the associated stock receipt by matching quantities from the XML.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Accounting</span><div>optionally creates and links a vendor bill from the purchase order when an order is resolved.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Missing products</span><div>option to automatically create missing products using data from the UBL file. Automated callers can pass <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ubl_no_new_products</code> in context to leave unmatched lines unmatched instead of silently creating duplicates.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Mapping preview</span><div>the interactive flow previews one row per invoice line with the product the matcher found and how it found it (green = supplier code or barcode, yellow = name only, red = no match); any row can be reassigned to a different product before confirming.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Unattended runs surface themselves</span><div>a headless import whose total does not add up, or that leaves lines unmatched, posts a color-coded log and schedules a "SPV import needs review" to-do activity on the purchase order, assigned to its buyer.</div></div></li></ul>
 <p>The module supports standard UBL Invoice namespaces and common unit code mappings (C62, KGM, LTR, etc.).</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.6 (2026-10-09)</h2>
+<ul>
+<li>Apps Store banner (banner.json).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.5 (2026-10-08)</h2>
+<ul>
+<li>Fixed UBL-001: a line with an explicit 0% VAT kept the default 21% tax of the
+  order on the vendor bill. The 0% rate is now applied when the line declares a
+  zero-rated (Z), exempt (E), out-of-scope (O, e.g. a supplier not registered
+  for VAT) or export (G) category. For reverse charge (AE), intra-community (K)
+  or lines without a category the taxes of the order are kept, as before; the
+  PDF imports, which report 0 when they cannot read the rate, are not affected.</li>
+<li>Fixed UBL-002: two lines of the same product with different VAT rates both
+  received the last rate. Each bill line now takes the rate of the source line
+  matched to its purchase order line.</li>
+<li>Fixed UBL-003: with receipt validation, a product present on several source
+  lines (e.g. 2 + 3 units) was received with the last quantity on every stock
+  move (3 + 3). The quantities are now summed per product and split over the
+  moves, so the received total matches the document (5).</li>
+<li>A bill line whose taxes already match the source rate is left unchanged, and
+  the tax is searched in the bill company instead of the current company.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.4 (2026-10-03)</h2>
+<ul>
+<li>Fixed: the import copied the source quantity and unit price into purchase lines, receipts and
+  vendor prices without looking at the source unit (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unitCode</code>). A kg order line receiving
+  "1000 GRM at 0.01" became 1000 kg at 0.01. Quantities and prices are now converted from the
+  source unit to the unit of the existing order line, of the stock move and of the existing
+  vendor pricelist row; new order lines and new vendor prices keep the source unit when it is
+  compatible with the product unit. A source unit that is unknown is treated as before (same unit
+  as the destination); an incompatible unit is left unconverted and reported as a warning in the
+  import log. The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">MLT</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">MMT</code> codes now resolve to millilitre/millimetre (they fell back to Units)
+  and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">DZN</code> resolves to Dozens (UBL-005). Imported quantities, prices and receipt quantities change
+  for documents whose unit differs from the order/product unit.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.3</h1>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -179,40 +214,6 @@ creating an empty bill.</li>
 </ul>
 </li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.1] - 2026-07-14</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
-<ul>
-<li><strong>Bug</strong> (ported from 18.0 PR #2645): when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped &#8212; no new order line was created and no message was shown. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.<ul>
-<li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_new_product_added_as_line_when_order_already_has_lines</code>.</li>
-</ul>
-</li>
-<li><strong>Bug</strong> (ported from 18.0 PR #2645): the supplier's invoice number/date (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">invoice_id</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">issue_date</code> from the source document) were lost whenever the user ran the import wizard without ticking "Create vendor bill" (its default), then created the vendor bill later from the standard purchase order flow. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now auto-creates the vendor bill whenever the source document identifies an invoice number, regardless of the "Create vendor bill" checkbox.<ul>
-<li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_vendor_bill_auto_created_when_invoice_id_present</code>.</li>
-</ul>
-</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.0] - 2026-07-05</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Changed</h3>
-<ul>
-<li><strong>Refactor</strong> (ported from 18.0): extracted the format-agnostic matching/bill-creation logic (product matching, supplier price update, purchase order line creation/update, receipt validation, vendor bill creation, log building) into a new shared <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.invoice.import.mixin</code> abstract model (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">models/purchase_invoice_import_mixin.py</code>).<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.ubl.import.wizard</code> now inherits this mixin and keeps only the UBL-XML-specific parts (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_parse_xml</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_is_ubl_invoice</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">default_get</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_uom_from_ubl</code>).</li>
-<li>No behavior change for UBL import: same model name, fields, and public methods remain available.</li>
-<li>Enables other invoice-import wizards (PDF-based importers for Marso, Delta, Sigemo, Procar) to reuse the same processing via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self._process_invoice_data(invoice_data)</code>.</li>
-<li>Preserves the 19.0-specific API adaptations already present in this branch (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_uom_id</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_uom</code> on purchase order lines, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_ids</code> instead of the removed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move_ids_without_package</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_set_quantity_done</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">picked</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_done</code>).</li>
-</ul>
-</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[18.0.1.1.0] - 2026-05-26</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
-<ul>
-<li><strong>Discount support from e-Factura SPV XML</strong>: Line-level <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> elements with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code> are now extracted and applied as percentage discounts on purchase order lines.<ul>
-<li>Discount percent is calculated as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allowance_amount / (price * qty) * 100</code>.</li>
-<li>Applied on both newly created order lines and existing order lines during update.</li>
-<li>The gross price (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount</code>) is preserved as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">price_unit</code>; the discount is stored separately in the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount</code> field.</li>
-</ul>
-</li>
-<li><strong>Test coverage</strong>: Added automated test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_allowance_charge_discount_applied_on_order_line</code> verifying correct discount extraction and application (based on real e-Factura SPV invoice data: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PriceAmount=372.20</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge/Amount=93.05</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty=1</code> &#8594; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount=25%</code>).</li>
-</ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
 </div>
@@ -259,8 +260,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">FP</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">FP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_fast_purchase/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Fast Purchase</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
@@ -275,8 +280,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_create_bill_button/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Create Bill Button</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
@@ -291,8 +300,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_mail/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase: Send Multi Orders by Email with XLSX</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
@@ -307,8 +320,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_refund/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Refund Purchase</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
@@ -323,8 +340,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
@@ -339,8 +360,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
@@ -355,8 +380,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
@@ -371,8 +400,12 @@ creating an empty bill.</li>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech UBL despatch advice</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>

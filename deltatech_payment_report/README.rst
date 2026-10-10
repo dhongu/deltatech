@@ -14,7 +14,7 @@ Deltatech Payment Report
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_payment_report
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_report
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -71,6 +71,38 @@ Usage
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-02)
+-----------------------
+
+- **Fix (PAYREPORT-001): the payment report is no longer empty.** It
+  searched customer receipts in the states ``posted``/``reconciled``,
+  which no longer exist on ``account.payment`` in Odoo 19, so no receipt
+  was ever reported. It now includes receipts *In Process* and *Paid*;
+  draft, canceled and rejected receipts are still excluded.
+
+19.0.1.0.2
+==========
+
+- New Apps Store banner, with the module icon, instead of the old one.
+
+19.0.1.0.1
+==========
+
+- Own module icon, instead of the generic gears it had.
+
+History
+=======
+
+19.0.1.0.0 (2026-09-24)
+-----------------------
+
+- Port from 18.0. No code changes: the wizard fields,
+  ``account.payment.method`` override and views already followed the
+  Odoo 19 conventions (``<list>`` view, no ``attrs``/``states``).
+
 Bug Tracker
 ===========
 
@@ -99,6 +131,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_payment_report>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_report>`_ project on GitHub.
 
 You are welcome to contribute.

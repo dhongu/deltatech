@@ -3,7 +3,7 @@
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Image Optimizer" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Image Optimizer</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Recompress oversized image attachments and remove duplicated product images</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Recompress oversized image attachments, remove duplicated product images, product image backgrounds and watermarks</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Administration</span>
@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -35,66 +45,85 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Two related jobs on the same images: <strong>recompress</strong> them to reclaim filestore
-space, and <strong>remove the ones stored twice</strong>.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Recompression</h2>
-<p>Recompresses oversized <strong>original</strong> image attachments (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">image_1920</code> and
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">image_variant_1920</code> by default) to reclaim filestore space.</p>
-<p>For each targeted image the module:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>downscales it to a maximum side of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_dim</code> pixels (default 1920);</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>re-encodes photos without transparency as progressive <strong>JPEG</strong> at the
-  configured quality (default 85);</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>keeps genuinely transparent images as <strong>WebP</strong> (alpha preserved), or as
-  optimized <strong>PNG</strong> when the Pillow build has no WebP encoder;</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>skips animated GIFs (never flattens the animation);</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>keeps the result only when it is actually smaller.</div></div></li></ul>
-<p>The optimized image is written back <strong>through the owning record</strong>, so Odoo
-regenerates the resized variants (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">image_1024/512/256/128</code>) from the new,
-smaller original.</p>
-<p>Processed attachments are flagged (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimized</code>) and skipped on
-the next run. Because Odoo creates a fresh attachment whenever an image field is
-updated, newly uploaded or changed images are picked up automatically.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">How much space you actually get back</h2>
-<p>The batch methods return two figures, and the difference between them matters:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Clean, light product images for the eCommerce catalog, in four jobs on the same images:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Remove the background</span><div>of product photos: the product is cut out and saved on a
+  transparent background (or a solid color), with a before / after preview so the result is
+  checked before anything is written.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Remove a watermark</span><div>your catalog images carry: a semi-transparent logo blended over the
+  photos is learned from the images themselves and removed, with the same preview.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Remove duplicated images</span><div>the same picture stored twice in a product's gallery is found and
+  deleted; a picture shared by several products is reported, never deleted.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Recompress oversized images</span><div>originals are downscaled and re-encoded (JPEG, or WebP when they
+  have transparency), so the filestore and every shop page get lighter.</div></div></li></ul>
+<p>Everything runs on the Odoo server: no image is sent to an external service.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Background removal</h2>
+<p>Product photos taken on a printed mat, on a table or on a supplier's white background end up
+looking the same in the shop once the background is gone. Select products in a list and use
+<strong>Actions &#8594; Remove Image Background</strong>; on a product the action also covers its eCommerce gallery.</p>
+<p><strong>The original image is not kept</strong> &#8212; keeping a copy of every image would double the images in the
+database. The check therefore happens <em>before</em> anything is written, in a wizard:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>up to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code> images (default 5, main and gallery images counted), the wizard shows
+  each image <strong>before and after</strong>, on a checkerboard so leftovers are visible. Untick the ones that
+  were not cut out well, then <strong>Apply</strong>;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>a larger selection is <strong>queued</strong> for a scheduled action, which processes it in batches. Try a few
+  images first;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the result is saved as WebP, resized variants included.</div></div></li></ul>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">How the product is cut out</h3>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
 <tr>
-<th>Key</th>
-<th>Meaning</th>
+<th>Method</th>
+<th>Used for</th>
+<th>How</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed</code></td>
-<td>sum of the per-attachment size difference</td>
+<td><strong>Uniform background</strong></td>
+<td>photos on white or studio grey</td>
+<td>no AI model: the background is what has the color of the image border and touches it. Dark accessories next to the product (a funnel beside a bottle) stay whole, white areas inside the product (a label) stay opaque</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed_disk</code></td>
-<td>only the attachments whose filestore file was <strong>not</strong> shared</td>
+<td><strong>AI model</strong></td>
+<td>photos on a real background</td>
+<td>a local segmentation model (<a href="https://github.com/danielgatis/rembg">rembg</a>, ISNet by default)</td>
+</tr>
+<tr>
+<td><strong>Automatic</strong> (default)</td>
+<td>any photo</td>
+<td>uniform background when the image border has one color, the AI model otherwise</td>
 </tr>
 </tbody>
 </table>
-<p>Odoo stores one file per checksum, so attachments with identical content share
-a single file. Recompressing one of them frees nothing while the others still
-point at the old file. On a catalog that reuses the same picture across
-products, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed</code> therefore overstates the saving &#8212; on a real deployment it
-counted <strong>29 GB</strong> where the disk gave back about <strong>4 GB</strong>, because 815 000 image
-attachments lived in 508 000 files.</p>
-<p>Use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed_disk</code> when you report space. Use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">freed</code> only to see how much
-lighter the images themselves got &#8212; which is the real win on a website, since
-that is bytes off every page load, regardless of deduplication.</p>
-<p>To measure the whole database rather than one run:</p>
-<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">SELECT pg_size_pretty(sum(sz)) FROM (
-    SELECT DISTINCT ON (checksum) file_size AS sz
-    FROM ir_attachment WHERE res_field IS NOT NULL AND checksum IS NOT NULL
-    ORDER BY checksum, id
-) t;
-</code></pre>
-<p>Note also that the filestore grows <em>before</em> it shrinks: the new file is written
-while the old one is still referenced, and the space comes back only when the
-filestore GC runs (the scheduled action does it at the end of each pass).</p>
+<p>After the cut-out, the specks left next to the product are removed.</p>
+<p>An AI model tends to keep only the main object and to lose accessories or thin parts. When it works
+on a plain background, its result is compared with the color cut-out: if part of the product is
+missing, the image is flagged and <strong>unticked</strong> in the wizard. The method and the model can be
+changed in the wizard and the preview refreshed.</p>
+<p>The AI model needs the optional Python library <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> on the server (see Configuration). Without
+it, photos on a plain background are still cut out by color.</p>
+<p>Check the marketplaces and feeds the images are sent to before converting a whole catalog: some
+accept only JPEG or PNG, and show a transparent image on a black background. A solid white
+background can be chosen instead.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Watermark removal</h2>
+<p>Some catalogs carry a semi-transparent logo blended over every photo &#8212; often the shop's own logo,
+added once to protect the images and unwanted later (marketplaces such as eMAG refuse watermarked
+images). Select the products and use <strong>Actions &#8594; Remove Watermark</strong>.</p>
+<p>The watermark is <strong>learned from the selected images</strong>, not drawn by hand: the wizard shows the
+watermark it found, then each image before and after, with the same checks as for the background
+(preview up to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wm_sync_limit</code> images, a queue above it, nothing written before <strong>Apply</strong>). The
+cleaned image is saved opaque.</p>
+<p>Removed today: a watermark whose blend <strong>also lowered the transparency</strong> of the image where it was
+drawn &#8212; some watermarking tools do this, and the image then keeps the exact mask of the logo, even
+over the product. From it, the module learns how strongly the logo was blended at every step and
+reverses the blend, instead of guessing what was under the logo. A watermark that left no trace in
+the transparency is reported as not found.</p>
+<p><strong>Only remove a watermark you have the right to remove</strong> &#8212; your own, or with the written consent of
+the rights holder. A supplier's or manufacturer's watermark shows who holds the rights to the photo;
+removing it to publish the image is not allowed without their consent (EU Directive 2001/29/EC,
+art. 7). The wizard says so before anything else. For supplier photos, ask the supplier for the
+images without watermark.</p>
+<p>The original image is <strong>not kept</strong>. At 100% zoom faint outlines of the logo can remain on plain
+backgrounds, as lossy compression blurs the edges of the mask.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Duplicated product images</h2>
-<p>Finds <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> records whose content is <strong>byte-identical</strong> and removes the
-redundant ones. Odoo already computes a SHA1 checksum for every image attachment
-when it is written, so this reads that value instead of decoding images &#8212; the
-whole catalog is scanned with one indexed query.</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">The distinction that matters</h3>
+<p>Finds product gallery images whose content is <strong>byte-identical</strong>, from the checksum Odoo already
+computes for every image: the whole catalog is scanned with one indexed query, without decoding a
+single image.</p>
 <p>Two images with the same checksum are not automatically redundant:</p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
@@ -106,53 +135,61 @@ whole catalog is scanned with one indexed query.</p>
 </thead>
 <tbody>
 <tr>
-<td>The same picture appears <strong>twice on one product</strong></td>
-<td>A genuine duplicate &#8212; the gallery shows the same thing twice.</td>
-<td>Safe to remove.</td>
+<td>The same picture <strong>twice on one product</strong></td>
+<td>a genuine duplicate: the gallery shows the same thing twice</td>
+<td>removed</td>
 </tr>
 <tr>
-<td>The same picture appears on <strong>several products</strong></td>
-<td>Usually a supplier feed shipping one generic photo for a whole range.</td>
-<td><strong>Never removed</strong> &#8212; each product needs its own copy, or it ends up with no image.</td>
+<td>The same picture on <strong>several products</strong></td>
+<td>usually a supplier feed shipping one generic photo for a whole range</td>
+<td><strong>never removed</strong> &#8212; each product needs its own copy</td>
 </tr>
 </tbody>
 </table>
-<p>Both happen at once, and at scale. On a real catalog of 69 761 product images
-(19 959 distinct contents), <strong>17 821 &#8212; 25.5% &#8212; were redundant inside a single
-product</strong>, while 1 204 contents were legitimately shared across products. One
-single photo appeared 1 204 times over 565 products: 565 of those must stay.</p>
-<p>The wizard removes only the first kind. In each group of <em>(content, product,
-variant)</em> it keeps the image that comes first by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sequence, id</code> &#8212; the one the
-website shows first anyway &#8212; and deletes the rest. Records carrying a
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">video_url</code> are always kept, since the video is not a duplicate.</p>
-<p>The report shows both figures side by side, so the cross-product case stays
-visible as a data-quality signal instead of being silently deleted.</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">What it does not find</h3>
-<p>Only identical content. The same photo re-exported, resized or recompressed has
-a different checksum and is reported as distinct &#8212; and this is not a corner
-case. On a product re-imported from Shopify in three passes, 22 images held only
-10 distinct pictures, yet the checksum matched on just one pair: the same
-1080&#215;1080 shot came back at 62 KB, 76 KB and 77 KB because the source
-re-encoded it every time. Catching those needs perceptual hashing, which
-decodes every image and needs a similarity threshold.</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Space</h3>
-<p>Removing duplicates frees <strong>catalog clutter, not much disk</strong>. Odoo stores one
-file per checksum, so the copies already shared a single file; deleting them
-drops the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_attachment</code> rows. Use the recompression above for actual filestore
-savings.</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Usage</h3>
-<p>Website &#8594; Configuration &#8594; eCommerce &#8594; Products &#8594; <strong>Duplicated Images</strong></p>
-<p>The list opens filtered on the removable groups. Select the ones you want and
-use <strong>Remove Duplicated Images</strong>, which shows exactly what will be deleted
-before it deletes anything. The same menu entry run without a selection works on
-the whole catalog.</p>
-<p>On install, the hook fills <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">image_checksum</code> with a single SQL <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">UPDATE</code> from
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_attachment</code>. Computing it through the ORM would read every image out of the
-filestore. To refresh it later from the shell:</p>
-<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">env[&quot;product.image&quot;]._dedup_backfill_checksums()
+<p>Both happen at once, and at scale. On a real catalog of 69 761 product images (19 959 distinct
+contents), <strong>17 821 &#8212; 25.5% &#8212; were redundant inside a single product</strong>, while 1 204 contents were
+legitimately shared across products.</p>
+<p><strong>Duplicated Images</strong> lists the groups side by side, so the cross-product case stays visible as a
+data-quality signal. <strong>Remove Duplicated Images</strong> shows exactly what will be deleted, then keeps, in
+each group of the same content on the same product, the image the website shows first; images
+carrying a video are always kept.</p>
+<p>Only identical content is found. The same photo re-exported, resized or recompressed has a different
+checksum &#8212; on a product re-imported from Shopify, the same 1080&#215;1080 shot came back at 62 KB, 76 KB
+and 77 KB. Removing duplicates frees <strong>catalog clutter, not much disk</strong>: Odoo stores one file per
+checksum, so the copies already shared a file.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Recompression</h2>
+<p>Recompresses oversized <strong>original</strong> product images and then their resized variants:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>downscaled to a maximum side of 1920 pixels;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>photos without transparency re-encoded as progressive <strong>JPEG</strong> (quality 85);</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>images with real transparency kept as <strong>WebP</strong> (or optimized PNG when the server has no WebP
+  encoder), alpha preserved;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>animated GIFs skipped;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the result kept only when it is actually smaller.</div></div></li></ul>
+<p>The new image is written through the product, so Odoo regenerates the resized variants from it.
+Processed images are flagged and skipped on the next run; new or changed images are picked up
+automatically.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">How much space you actually get back</h3>
+<p>Odoo stores one file per checksum, so images with identical content share one file, and recompressing
+one of them frees nothing while the others still point at it. Each run therefore logs two figures:
+the images got lighter by <em>freed</em>, and the disk gave back <em>on disk</em>. On a real deployment the first
+was <strong>29 GB</strong> and the second about <strong>4 GB</strong> &#8212; 815 000 image attachments lived in 508 000 files. Quote
+the <em>on disk</em> figure when someone asks how much space this recovers; the <em>freed</em> one is what every
+page load saves.</p>
+<p>The filestore grows <em>before</em> it shrinks: the space comes back once the filestore cleanup runs, at
+the end of each scheduled pass.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>The module works with its defaults. Everything below is tuned in <em>Settings &#8594; Technical &#8594;
+Parameters &#8594; System Parameters</em> (developer mode), keys prefixed with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.</code>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Background removal</h2>
+<p><strong>The rembg library</strong>, for photos on a real background. Photos on a plain background are cut out
+by color without it. <a href="https://github.com/danielgatis/rembg">rembg</a> is a local segmentation model on
+ONNX Runtime; it is an optional dependency, not declared in the manifest, so the module installs
+without it. Add it to the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">requirements.txt</code> of the deployment (on odoo.sh, in the project
+repository) and rebuild:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>rembg[cpu]
 </code></pre>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
-<p>System Parameters (Settings &#8594; Technical &#8594; System Parameters):</p>
+<p>The model is downloaded on first use (ISNet: 180 MB, under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">~/.rembg/models</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$U2NET_HOME</code>)
+and kept loaded per worker process; on CPU an image takes about one second. Only one model is kept
+loaded at a time.</p>
+<p><img alt="System parameters for background removal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_system_parameters.png" /></p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
 <tr>
@@ -163,75 +200,173 @@ filestore. To refresh it later from the shell:</p>
 </thead>
 <tbody>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.quality</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_method</code></td>
+<td>auto</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uniform</code> (by color, no AI model) or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> (always the AI model)</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_model</code></td>
+<td>isnet-general-use</td>
+<td>rembg model. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">birefnet-general</code> is finer but about 10&#215; slower, 970 MB, and does not fit in the memory of an odoo.sh worker</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_tolerance</code></td>
+<td>24</td>
+<td>how far (0..255 per channel) a pixel may be from the border color and still be background; raise it for noisy JPEGs or soft shadows</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_min_island</code></td>
+<td>1</td>
+<td>pieces smaller than this percent of the main object are removed; 0 = keep all</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_lost_warning</code></td>
+<td>5</td>
+<td>flag and untick an image when the AI model left out this percent of a product on a plain background</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_crop</code></td>
+<td>0</td>
+<td>1 = frame the product in a square, 0 = keep the original canvas</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_margin</code></td>
+<td>5</td>
+<td>margin around the product, in percent, when cropping</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_color</code></td>
+<td>(empty)</td>
+<td>empty = transparent (WebP); a color such as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">#FFFFFF</code> = solid background (JPEG)</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code></td>
+<td>5</td>
+<td>up to this many images (main and gallery) get a preview; more are queued</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_batch</code></td>
+<td>20</td>
+<td>images per run of the scheduled action</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Access rights.</strong> The action needs <em>Products: Create</em>. Writing gallery images needs <em>Sales:
+Administrator</em> or <em>Website: Restricted Editor</em>, as in standard Odoo.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Watermark removal</h2>
+<p>Needs the Python library <strong>numpy</strong> (installed together with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code>; otherwise add <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numpy</code> to the
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">requirements.txt</code> of the deployment).</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wm_sync_limit</code></td>
+<td>10</td>
+<td>up to this many images (main and gallery) get a preview; more are queued</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wm_learn_limit</code></td>
+<td>60</td>
+<td>the watermark is learned from at most this many of the selected images</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wm_batch</code></td>
+<td>20</td>
+<td>images per run of the scheduled action</td>
+</tr>
+</tbody>
+</table>
+<p>The watermark learned in the wizard is kept as a <em>Learned Image Watermark</em> record and used by the
+scheduled action <strong>Image Optimizer: remove product image watermark</strong> for queued images.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Recompression</h2>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">quality</code></td>
 <td>85</td>
 <td>JPEG quality (1..95)</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.max_dim</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_dim</code></td>
 <td>1920</td>
 <td>max side in pixels</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.min_size</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">min_size</code></td>
 <td>102400</td>
-<td>only images larger than this (bytes)</td>
+<td>only originals larger than this (bytes)</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.batch</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">batch</code></td>
 <td>50</td>
-<td>images per cron run</td>
+<td>images per run</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.flush_every</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">flush_every</code></td>
 <td>20</td>
-<td>flush/invalidate the ORM cache every N images</td>
+<td>flush and drop the ORM cache every N images; lower it for very large images</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.target_fields</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">target_fields</code></td>
 <td>image_1920,image_variant_1920</td>
 <td>original fields to optimize</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.webp_quality</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">webp_quality</code></td>
 <td>85</td>
 <td>WebP quality for transparent images</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.force_jpeg</code></td>
-<td>0</td>
-<td>ignore alpha, always JPEG &#8212; <strong>destructive, see below</strong></td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.variant_fields</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">variant_fields</code></td>
 <td>image_1024,image_512,image_256,image_128</td>
-<td>resized variants to recompress in place</td>
+<td>resized variants recompressed in place</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.variant_quality</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">variant_quality</code></td>
 <td>85</td>
 <td>quality for re-encoding the variants</td>
 </tr>
 <tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.variant_min_size</code></td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">variant_min_size</code></td>
 <td>20480</td>
 <td>only recompress variants larger than this (bytes)</td>
 </tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code></td>
+<td>0</td>
+<td>ignore alpha, always JPEG &#8212; <strong>destructive, see below</strong></td>
+</tr>
 </tbody>
 </table>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">&#9888; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> is destructive &#8212; probe before enabling it</h3>
-<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg=1</code> makes the optimizer ignore the alpha channel entirely. JPEG has
-no transparency, so every transparent area is <strong>flattened to black</strong>, and the
-original is gone: the optimized image is written through the record, so the
-previous attachment no longer exists. There is no undo &#8212; the images have to be
-re-imported from wherever they came from.</p>
-<p>Enable it only on a catalog you have <em>verified</em> has no real transparency. "The
-originals are stored elsewhere" is not that verification: it covers resolution,
-not the alpha channel. A catalog that looks like solid white product shots can
-still be a third transparent PNGs &#8212; this is what happened on a real deployment,
-where 32% of a 40-image sample turned out to have real alpha.</p>
-<p>Probe it first, without writing anything (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_dt_image_recompress</code> is a pure
-function &#8212; it returns the bytes and the chosen format, and touches nothing):</p>
+<p>The scheduled action <strong>Image Optimizer: recompress oversized images</strong> runs daily and is <strong>disabled
+by default</strong>: review the parameters, run it manually on staging, then enable it. Its state survives
+module upgrades.</p>
+<p>For a large one-time backlog, loop the batch method from the shell:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">while env[&quot;ir.attachment&quot;]._dt_image_optimize_run(limit=200)[&quot;scanned&quot;]:
+    env.cr.commit()
+</code></pre>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> is destructive &#8212; probe before enabling it</h3>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg=1</code> makes the optimizer ignore the alpha channel. JPEG has no transparency, so every
+transparent area is <strong>flattened to black</strong>, and the original is gone: there is no undo, the images
+have to be re-imported.</p>
+<p>Enable it only on a catalog <em>verified</em> to have no real transparency. "The originals are stored
+elsewhere" is not that verification: it covers resolution, not the alpha channel. On a real
+deployment, 32% of a 40-image sample of a catalog believed to be plain white shots had real alpha.</p>
+<p>Probe first, without writing anything (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_dt_image_recompress</code> returns the bytes and the chosen
+format and touches nothing):</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">A = env[&quot;ir.attachment&quot;].sudo()
 counts = {}
 for att in A.search([(&quot;res_field&quot;, &quot;in&quot;, [&quot;image_1920&quot;, &quot;image_variant_1920&quot;]),
@@ -240,20 +375,196 @@ for att in A.search([(&quot;res_field&quot;, &quot;in&quot;, [&quot;image_1920&q
     counts[fmt] = counts.get(fmt, 0) + 1
 print(counts)  # any WEBP/PNG result = images that force_jpeg would destroy
 </code></pre>
-<p>Every <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">WEBP</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PNG</code> in that count is an image with real transparency. If
-there is even one, leave <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code> &#8212; the module already sends
-opaque images to JPEG on its own, so you lose almost nothing by keeping it off.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Scheduled action</h2>
-<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Image Optimizer: recompress oversized images</code> runs daily. It is
-<strong>disabled by default</strong> &#8212; review the configuration, test on staging, then
-enable it.</p>
-<p>For a large one-time backlog you can loop the batch method from the shell:</p>
-<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">while env[&quot;ir.attachment&quot;]._dt_image_optimize_run(limit=200)[&quot;scanned&quot;]:
-    env.cr.commit()
+<p>Every <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">WEBP</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PNG</code> in that count is an image with real transparency. If there is even one,
+leave <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code> at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0</code>: opaque images already go to JPEG on their own.</p>
+<p>To measure the real image occupancy of the whole database (one file per checksum):</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-sql">SELECT pg_size_pretty(sum(sz)) FROM (
+    SELECT DISTINCT ON (checksum) file_size AS sz
+    FROM ir_attachment WHERE res_field IS NOT NULL AND checksum IS NOT NULL
+    ORDER BY checksum, id
+) t;
 </code></pre>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Duplicated images</h2>
+<p>The menus <strong>Duplicated Images</strong> and <strong>Remove Duplicated Images</strong> (Website &#8594; eCommerce &#8594; Products)
+are for administrators. On install, a hook fills the image checksum of the existing gallery images
+with one SQL update; to refresh it later from the shell:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">env[&quot;product.image&quot;]._dedup_backfill_checksums()
+</code></pre>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, see <em>Configuration</em> for the optional AI library and the system parameters.</p>
+<p>The module covers three flows on the same product images: <strong>Remove background</strong>,
+<strong>Duplicated images</strong> and <strong>Recompression</strong>.</p>
+<blockquote>
+<p><strong>Important:</strong> the original image is <strong>not kept</strong>, neither when the background is removed nor
+when images are recompressed. Always check the preview before applying.</p>
+</blockquote>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Remove background</h2>
+<p><strong>Step 1 &#8212; Select the products and start the action</strong></p>
+<p>Go to <em>Website &#8594; eCommerce &#8594; Products &#8594; Products</em> and switch to list view. Tick the products whose
+photos you want to clean, then choose <strong>Actions &#8594; Remove Image Background</strong>. On a product, the action
+also covers the images of its eCommerce gallery.</p>
+<p>Access rights: the action needs the <strong>Products: Create</strong> right. To modify gallery images you also
+need <strong>Sales: Administrator</strong> or <strong>Website: Restricted Editor</strong>; without them <strong>Apply</strong> stops with an
+access error.</p>
+<p><img alt="Remove Image Background action on the product list" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_action.png" /></p>
+<p><strong>Step 2 &#8212; Check the preview</strong></p>
+<p>When the selection has at most <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code> images (default 5), the wizard cuts them out on the
+spot, writes nothing yet, and shows <strong>Before</strong> and <strong>After</strong> for each one. The limit counts
+<strong>images</strong>, not products: the main image plus every gallery image of each product.</p>
+<ul>
+<li>Each row is one image: <em>main image</em> is the product's main picture, <em>gallery image N</em> is the N-th
+  picture of its gallery. The <em>After</em> column shows the result on a checkerboard; the squares are the
+  transparent area.</li>
+<li>Check that the product is complete (accessories, cap, funnel), that nothing is left around it and
+  that white areas inside the product (the label) stayed opaque.</li>
+<li>Untick the rows whose result is not good and press <strong>Apply</strong>. Only ticked rows are written.</li>
+</ul>
+<p>With the <em>Automatic</em> method, the wizard cuts by color when the image border has a single color and
+uses the AI model otherwise.</p>
+<p><img alt="Preview with the automatic method" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_preview_automatic.png" /></p>
+<p><strong>Step 3 &#8212; When the AI model loses part of the product</strong></p>
+<p>When the AI model is used on a photo with a uniform background, its result is compared with the
+cut-out by color. If it left out at least <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_lost_warning</code> percent of the product, the row shows a
+warning in the <em>Warning</em> column and is <strong>unticked</strong>.</p>
+<p>Choose another <em>Method</em> or <em>AI Model</em> and press <strong>Refresh Preview</strong>. Refresh rebuilds the preview
+<strong>and also the ticks</strong>. So first choose the method and press <strong>Refresh Preview</strong>, and only then
+untick what is not good, right before <strong>Apply</strong>.</p>
+<p><img alt="Warning: the AI model lost the funnel" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_ai_warning.png" /></p>
+<p><strong>Step 4 &#8212; The result on the product</strong></p>
+<p>After <strong>Apply</strong>, the product image (and its resized variants) is saved on a transparent background,
+in WebP format (PNG if the server cannot encode WebP; JPEG if a solid <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_color</code> is set). The
+<em>Background Removal</em> status becomes <em>Removed</em>. On the shop, the product appears on the page background.</p>
+<p><img alt="Product after background removal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_after.png" /></p>
+<p><strong>Step 5 &#8212; Many images: the queue</strong></p>
+<p>Above <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code> images, a live preview would take too long. The wizard only asks for
+confirmation and sends the images to the <strong>Queue</strong>. The scheduled action <em>Image Optimizer: remove
+product image background</em> processes them in batches of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_batch</code>, using the method from the system
+parameters. An image that cannot be cut out stays unchanged and is marked <em>Failed</em>; the reason
+appears only in the server log.</p>
+<p>To find pending or failed images, use <em>Filters &#8594; Add a custom filter</em> on the product list, on the
+<em>Background Removal</em> field (<em>Pending</em> or <em>Failed</em>).</p>
+<p>Tip: try a few images with the preview first, to see the result on your own catalog photos.</p>
+<p><img alt="Queue for a large selection" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png" /></p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Remove a watermark</h2>
+<p><strong>Step 6 &#8212; Remove the watermark of your catalog images</strong></p>
+<p>Only on images whose watermark you have the right to remove (your own, or with the rights holder's
+written consent): the wizard opens with this reminder.</p>
+<ol>
+<li>In <em>Website &#8594; eCommerce &#8594; Products &#8594; Products</em>, list view, tick the products that carry the
+   <strong>same</strong> watermark &#8212; the more, the better the watermark is learned &#8212; and choose
+   <strong>Actions &#8594; Remove Watermark</strong>.</li>
+<li>Check the <strong>Detected Watermark</strong>: it is the logo the module found in the images.</li>
+<li>Check each image before and after; untick the ones that are not good, then <strong>Apply</strong>. Above
+   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wm_sync_limit</code> images the selection is queued instead.</li>
+</ol>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Duplicated images</h2>
+<p><strong>Step 7 &#8212; Find the duplicates</strong></p>
+<p><em>Website &#8594; eCommerce &#8594; Products &#8594; Duplicated Images</em> (administrator only). The list opens filtered
+on the groups that can be cleaned (<em>Removable</em>).</p>
+<ul>
+<li>Each row is an image content that is identical byte for byte. <em>Copies</em> is how many images have
+  this content, <em>Products</em> is on how many products, <em>Removable</em> is how many copies repeat inside
+  the same product.</li>
+<li><em>Removable</em> is lower than <em>Copies</em>: one image always remains on each product.</li>
+<li>The <em>Shared Across Products</em> filter shows a picture used on several products. It is reported but
+  <strong>never deleted</strong>.</li>
+<li>The <strong>Images</strong> button opens the images of the group.</li>
+</ul>
+<p><img alt="List of duplicated images" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_list.png" /></p>
+<p><strong>Step 8 &#8212; Delete the duplicates</strong></p>
+<p><em>Website &#8594; eCommerce &#8594; Products &#8594; Remove Duplicated Images</em>. The wizard shows how many contents have
+copies to delete, how many images will be deleted and kept, and the exact list. From each group
+(same content, same product) the image that appears first in the gallery stays; images with a video
+always stay. <strong>Remove Duplicates</strong> asks for confirmation and deletes permanently.</p>
+<p><img alt="Wizard for removing duplicates" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_remove.png" /></p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Recompression</h2>
+<p><strong>Step 9 &#8212; Recompress oversized images</strong></p>
+<p>Go to <em>Settings &#8594; Technical &#8594; Automation &#8594; Scheduled Actions</em> and open <em>Image Optimizer: recompress
+oversized images</em>. The action is <strong>inactive</strong> after installation. Run it first on a staging
+database with <strong>Run Manually</strong>: one run takes the largest <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">batch</code> originals (default 50) above
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">min_size</code>, shrinks them to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max_dim</code> pixels and re-encodes them (JPEG, or WebP when they have
+transparency), then recompresses the same number of variants and cleans the filestore. The result
+is kept only if it is smaller. Check the products with the largest images, then activate the action
+on production.</p>
+<p>The parameters are in <em>Settings &#8594; Technical &#8594; Parameters &#8594; System Parameters</em> (developer mode),
+keys starting with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.</code>. Do not change <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code>: at 1, transparency
+becomes black permanently.</p>
+<p><img alt="Scheduled action for recompression" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_recompress_cron.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.1</h1>
+<ul>
+<li>Apps Store banner (banner.json).</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.0</h1>
+<ul>
+<li>New action <strong>Remove Watermark</strong> on products and product images. It learns,
+  from the selected images, a semi-transparent watermark whose blend also
+  lowered the image transparency (the exact mask of the logo stays in the
+  alpha channel), shows the detected watermark and a before / after preview,
+  and saves the cleaned image opaque. Large selections are queued with the
+  learned watermark. The wizard opens with an information box on the legal
+  limits: only a watermark one has the right to remove (own, or with the
+  rights holder's consent; EU Directive 2001/29/EC, art. 7). Needs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numpy</code>.</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.11.1</h1>
+<ul>
+<li>The AI model no longer runs the worker out of memory. BiRefNet is gone from
+  the wizard's model list: on an odoo.sh worker it stopped with
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Failed to allocate memory</code> from ONNX Runtime. Only one model is kept
+  loaded per worker, a model that fails is dropped from memory, and ONNX
+  Runtime runs without its memory arena, which never gave back what it had
+  reserved. When memory still runs out, the wizard line says so and suggests
+  ISNet or the uniform background method instead of showing the raw error.</li>
+<li><strong>Duplicated Images</strong> opens again. The list stopped with
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Invalid field 'write_date'</code> as soon as there was a duplicate to show: the
+  report is an SQL view without the log fields, and the image widget always
+  reads <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write_date</code>. The view now provides it.</li>
+<li>The background removal wizard shows the whole image name (main image or
+  gallery image N) and the whole warning, on several lines; the list of what
+  <strong>Remove Duplicated Images</strong> deletes uses the full width of the dialog, and
+  the <em>Removable</em> column of <strong>Duplicated Images</strong> is no longer cut.</li>
+<li>Documentation: the description is reorganized around the three jobs of the
+  module, the parameters move to a configuration page, and a step-by-step
+  usage guide with screenshots is added, with a consultant sheet in Romanian
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) whose screenshots are generated by
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>.</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.11.0</h1>
+<ul>
+<li>Background removal keeps what the AI model loses. Product photos on a plain
+  background (white, studio grey) are now cut out by color, without the AI
+  model: the background is what has the color of the image border and touches
+  it. Dark accessories next to the product (the black funnel beside a bottle)
+  are kept whole, and white areas inside the product (a label) stay opaque.
+  The AI model is still used for photos on a real background; method
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.bg_method</code> = <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto</code> (default), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uniform</code> or
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code>. Without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> installed, images on a plain background can now
+  be cut out too.</li>
+<li>Specks left next to the product are removed: pieces smaller than
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_min_island</code> percent (default 1) of the main object.</li>
+<li>When the AI model leaves out part of a product on a plain background, the
+  image gets a warning in the wizard and is <strong>unticked</strong>; it is applied only if
+  ticked by hand.</li>
+<li>In the wizard: choose the method and the AI model and <strong>Refresh Preview</strong>;
+  the result is shown on a checkerboard, so leftovers are visible in any theme;
+  each line says whether it is the main image or which gallery image of which
+  product; larger previews.</li>
+<li>Works with Pillow 9.0 too (no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Image.Resampling</code> there), the oldest
+  version Odoo 19 accepts.</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.10.0</h1>
+<ul>
+<li>Remove the background of product images: <strong>Action &#8594; Remove Image Background</strong>
+  on products (including their eCommerce gallery) and on product images. The
+  product is cut out with the optional library <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> and saved on a
+  transparent background as WebP, variants included. The original is not kept;
+  a wizard shows each image before and after so the result is checked before it
+  is written. Large selections are queued for a new scheduled action.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.2</h1>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -430,8 +741,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_backup_attachment/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Backup Attachments</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -446,8 +761,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CO</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CO</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_contact/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Contacts</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -462,8 +781,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CR</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_credentials/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Credentials</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -478,8 +801,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_data_sheet/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Data Sheet</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -494,8 +821,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_data_sheet_website/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Data Sheet Website</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -510,8 +841,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PG</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PG</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_gln/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Partner GLN </span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -526,8 +861,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UU</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UU</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_uom_unece/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech UoM UNECE Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
@@ -542,8 +881,12 @@ uncompressed. No change for opaque images.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>

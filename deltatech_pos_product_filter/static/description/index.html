@@ -47,7 +47,7 @@
 <p>This module is a small standalone addition to standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code>. It is designed to work
 alongside the rest of the Terrabit POS suite and the official Romanian fiscal compliance modules,
 without any overlap:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos</span><div class="mt-1">/ <strong>deltatech_pos_base</strong> &#8212; print fiscal receipts and drive cash management on a certified cash register</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_ecr_connect</span><div class="mt-1">&#8212; shared fiscal document model, ECR format converter and Terrabit Connect sender</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_stock</span><div class="mt-1">&#8212; shows available stock directly in the POS interface</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_price_sync</span><div class="mt-1">&#8212; pushes live product price changes to already open POS sessions</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">deltatech_pos_fix</span><div class="mt-1">&#8212; corrects POS total calculation for tax-included fiscal position mapping</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_pos_fiscal_compliance</span><div class="mt-1">&#8212; AMEF fiscal receipt tracking, Z report reconciliation and session blocking</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_anaf_d394_pos</span><div class="mt-1">&#8212; reports POS fiscal receipts in the D394 (op. 2) declaration to ANAF</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">l10n_ro_pos_returns</span><div class="mt-1">&#8212; dedicated return invoice and cash register line for every POS return</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">deltatech_pos</span><div>/ <strong>deltatech_pos_base</strong> &#8212; print fiscal receipts and drive cash management on a certified cash register</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">deltatech_ecr_connect</span><div>&#8212; shared fiscal document model, ECR format converter and Terrabit Connect sender</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">deltatech_pos_stock</span><div>&#8212; shows available stock directly in the POS interface</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">deltatech_pos_price_sync</span><div>&#8212; pushes live product price changes to already open POS sessions</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">deltatech_pos_fix</span><div>&#8212; corrects POS total calculation for tax-included fiscal position mapping</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">l10n_ro_pos_fiscal_compliance</span><div>&#8212; AMEF fiscal receipt tracking, Z report reconciliation and session blocking</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">l10n_ro_anaf_d394_pos</span><div>&#8212; reports POS fiscal receipts in the D394 (op. 2) declaration to ANAF</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">l10n_ro_pos_returns</span><div>&#8212; dedicated return invoice and cash register line for every POS return</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -100,8 +100,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AD</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_analytic_distribution/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Analytic distribution enforcer</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -116,8 +120,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CS</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_cash_statement/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Cash Statement Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -132,8 +140,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IF</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IF</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_followup/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Followup</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -148,8 +160,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IN</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IN</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_number/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Number</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -164,8 +180,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_product_filter/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Product Filter</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -180,8 +200,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IR</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_receipt/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Invoice Receipt</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -196,8 +220,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IR</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_report/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -212,8 +240,12 @@ without any overlap:</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IT</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_to_draft/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Invoice to Draft</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
