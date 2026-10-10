@@ -135,7 +135,8 @@ I18N = {
         "stat_partner": "Odoo Partner &mdash; implementation &amp; support",
         "scope_title": "What the price covers",
         "scope_licence": "<strong>The module licence only.</strong> Assistance, installation, "
-        "configuration, data migration and training are not included and are quoted separately.",
+        "configuration, data migration and training are not included and are quoted separately "
+        "&mdash; except for Terrabit implementation customers, whose subscription covers them.",
         "scope_used": "<strong>These modules are not shelfware.</strong> We build and maintain them "
         "for our own Odoo implementations &mdash; they run in production at our customers, which is "
         "why they keep up with each Odoo release and with the changes ANAF publishes.",
@@ -158,6 +159,9 @@ I18N = {
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
         "badge_hosting": "Odoo.sh &bull; On-premise",
+        "subscription_title": "Terrabit customers don&rsquo;t buy this module.",
+        "subscription_body": "Companies we implement Odoo for get it in their module subscription, together with "
+        "upgrades to new Odoo versions and support.",
         "rating_free_title": "Did this module help you?",
         "rating_free_body": "It is free, built and maintained by the Terrabit developers. If it saved you time, "
         "a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. "
@@ -178,7 +182,8 @@ I18N = {
         "scope_title": "Ce acoper&#259; pre&#539;ul",
         "scope_licence": "<strong>Doar licen&#539;a modulului.</strong> Asisten&#539;a, instalarea, "
         "configurarea, migrarea datelor &#537;i instruirea nu sunt incluse &#537;i se "
-        "contracteaz&#259; separat.",
+        "contracteaz&#259; separat &mdash; cu excep&#539;ia clien&#539;ilor de implementare "
+        "Terrabit, la care sunt cuprinse &#238;n abonament.",
         "scope_used": "<strong>Modulele nu stau pe raft.</strong> Le construim &#537;i le "
         "&#238;ntre&#539;inem pentru propriile noastre implement&#259;ri Odoo &mdash; ruleaz&#259; "
         "&#238;n produc&#539;ie la clien&#539;ii no&#537;tri, de aceea &#539;in pasul cu fiecare "
@@ -199,6 +204,9 @@ I18N = {
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
+        "subscription_title": "Clien&#539;ii Terrabit nu cump&#259;r&#259; modulul.",
+        "subscription_body": "Companiile la care facem implementarea &#238;l primesc &#238;n abonamentul de module, "
+        "&#238;mpreun&#259; cu actualiz&#259;rile la versiunile noi de Odoo &#537;i suportul.",
         "rating_free_title": "V-a ajutat acest modul?",
         "rating_free_body": "E gratuit, construit &#537;i &#238;ntre&#539;inut de programatorii Terrabit. Dac&#259; v-a economisit timp, "
         "un rating pe aceast&#259; pagin&#259; e cel mai bun mod de a ne mul&#539;umi &mdash; &#537;i &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259;. "
@@ -344,6 +352,18 @@ SCOPE_NOTE = """
     <li>%(scope_fit)s</li>
   </ul>
 </section>
+"""
+
+# Abonamentul Terrabit: clienții de implementare primesc modulele cu preț în abonament (cu upgrade-uri și
+# suport), deci nu le cumpără de pe Apps. Apare doar pe modulele cu preț, înaintea notei de acoperire și a
+# CTA-ului de suport; caseta are culorile cererii de rating.
+SUBSCRIPTION = """
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mt-4 mb-3" style="background-color:#DEF1DD;color:%(body)s;">
+  <span class="flex-shrink-0 me-3" style="font-size:24px;line-height:1.2;color:%(primary)s;">&#10003;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:%(primary)s;">%(subscription_title)s</span> %(subscription_body)s
+  </div>
+</div>
 """
 
 # Butonul: verde pal #DEF1DD (ca la caseta de rating) cu text verde închis, 9.7:1 pe cardul
@@ -852,6 +872,7 @@ def gen_index(addon_dir, cross_sell=True, allow_ro=False, lang="en", scope_note=
         build_rating(manifest, lang),
         build_tabs(tabs),
         build_stats(lang),
+        (SUBSCRIPTION % strings) if manifest.get("price") else "",
         (SCOPE_NOTE % strings) if scope_note else "",
         SUPPORT % strings,
         build_cross_sell(addon_dir, manifest, lang=lang) if cross_sell else "",
