@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -66,8 +76,82 @@
 <li>The system will automatically add the extra product as a separate line with the pre-calculated price.</li>
 </ol>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>The extra line is configured once, on the main product.</p>
+<ol>
+<li>Create the <strong>extra</strong> product as an ordinary product, with the right price and
+   taxes (for example a "Transport and handling" service).</li>
+<li>Open the <strong>main product</strong> and go to the <strong>Purchase</strong> tab, group <strong>Extra Line</strong>:<ul>
+<li><strong>Extra Product</strong> - the product that is added automatically;</li>
+<li><strong>Extra Percent</strong> - percentage of the main line's unit price. Leave <strong>0</strong> if
+ the extra product has its own price (vendor price list or purchase price);</li>
+<li><strong>Extra Quantity</strong> - quantity multiplier (1 = one extra unit for every unit
+ purchased).</li>
+</ul>
+</li>
+<li>Save.</li>
+</ol>
+<p>Writing these fields requires write access on products (Purchase or Inventory
+Manager). Daily use only requires <strong>Purchase / User</strong>.</p>
+<p>The same fields are shown on the <strong>Sales</strong> tab when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_add_extra_line</code>
+is installed: the configuration is shared, so a configured product generates the
+extra line on both sales and purchase orders.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, configure the main product as described in <em>Configuration</em>.</p>
+<p>The extra line works only while the order is a <strong>Request for Quotation</strong> or a
+<strong>Quotation Sent</strong>. After confirmation it is no longer generated or synchronized.</p>
+<p><strong>Step 1 - Configure the main product</strong></p>
+<p>Go to <strong>Purchase &#8594; Products &#8594; Products</strong>, open the main product and select the
+<strong>Purchase</strong> tab, group <strong>Extra Line</strong>. Fill in the extra product, the percentage
+and the quantity multiplier, then save.</p>
+<p>In the example, "Motor electric 7,5 kW" has "Transport &#537;i manipulare" attached,
+with <strong>Extra Percent = 5</strong> and <strong>Extra Quantity = 1</strong>.</p>
+<p><img alt="Extra line configuration on the main product" src="/extra_line_product_config.png" /></p>
+<p><strong>Step 2 - Create the request for quotation: the extra line appears automatically</strong></p>
+<p>Go to <strong>Purchase &#8594; Orders &#8594; Requests for Quotation &#8594; New</strong>, choose the vendor and
+add the main product with the quantity you need. The extra line is inserted right
+below the main line.</p>
+<ul>
+<li><strong>Quantity</strong> = main line quantity &#215; <strong>Extra Quantity</strong> (5 motors &#8594; 5 transports).</li>
+<li><strong>Unit price</strong> = main line unit price &#215; <strong>Extra Percent</strong> / 100 (5% of 2,400.00
+  = 120.00).</li>
+</ul>
+<p>The line is also generated when lines are saved through import or API, and when
+the request is sent by email or printed.</p>
+<p><img alt="Request for quotation with the automatically generated extra line" src="/extra_line_rfq_generated.png" /></p>
+<p><strong>Step 3 - Quantity stays in sync</strong></p>
+<p>Change the quantity of the main line. The extra line follows it, always multiplied
+by <strong>Extra Quantity</strong>, and the subtotal grows accordingly. The quantity and unit of
+measure of the extra line are read-only; only its price can be edited.</p>
+<p><img alt="Extra line quantity follows the main line" src="/extra_line_qty_synced.png" /></p>
+<p><strong>Step 4 - Negotiate the price manually</strong></p>
+<p>If the vendor accepts a fixed price, edit the <strong>Unit Price</strong> directly on the extra
+line and save. The manual price is kept: it is not overwritten when you change the
+quantity or the price of the main line. In the example the transport was negotiated
+at 80.00 instead of 120.00.</p>
+<p><img alt="Manual price kept on the extra line" src="/extra_line_manual_price.png" /></p>
+<p><strong>Step 5 - Go back to the calculated price</strong></p>
+<p>Delete the extra line (trash icon). It is regenerated immediately with the price
+calculated from the percentage (120.00 in the example). This is the normal
+regeneration mechanism, not a failed deletion.</p>
+<p><img alt="Extra line regenerated with the calculated price" src="/extra_line_price_restored.png" /></p>
+<p>If you delete the <strong>main line</strong>, the associated extra line is deleted too.</p>
+<p><strong>Step 6 - Confirm the order</strong></p>
+<p>Click <strong>Confirm Order</strong>. The extra line becomes a normal purchase order line, with
+the quantity and price you set. It is then picked up by the receipt (if the extra
+product is storable) and by the vendor bill. From this point the extra line is no
+longer synchronized.</p>
+<p><img alt="Confirmed purchase order with the extra line" src="/extra_line_order_confirmed.png" /></p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.5.1 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.5.0</h2>
 <ul>
 <li>[IMP] the extra line is mandatory: confirming the RFQ regenerates an extra line deleted outside the form (ORM, import, XML-RPC), which was otherwise only restored on the next change of the order lines</li>

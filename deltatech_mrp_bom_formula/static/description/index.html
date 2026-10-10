@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -62,8 +72,131 @@ the component line, evaluated against the configuration of the product being man
 <p>The quantity of the line is available as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty</code>, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ceil</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">floor</code> are available besides the
 usual mathematical builtins. A line without a formula keeps its quantity unchanged.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ul>
+<li>Enable <strong>Product Variants</strong> in <em>Settings</em>. The formula fields are shown only to
+  users who have variants enabled.</li>
+<li>Formula codes can be edited by users with the <em>Manufacturing / Administrator</em>
+  access right.</li>
+</ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, make sure variants are enabled and you have the right access
+(see <em>Configuration</em>).</p>
+<p><strong>Step 1 &#8212; Set the formula codes on the attribute</strong></p>
+<p>Go to <em>Inventory &#8227; Configuration &#8227; Attributes</em> and open an attribute that
+influences consumption (for example <em>Width</em>).</p>
+<ul>
+<li><strong>Formula Code</strong> (next to the display type) is the technical identifier under
+  which the attribute is visible in formulas. It is generated from the name
+  (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">finish</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">width</code>), can be edited and is unique.</li>
+<li>On each attribute value, <strong>Formula Code</strong> is what the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attr</code> dictionary
+  returns, and <strong>Numeric Value</strong> is what the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">num</code> dictionary returns. Fill
+  the numeric value only for measurable characteristics (width, length,
+  thickness). The <em>Numeric Value</em> column is optional: show it from the column
+  selector.</li>
+</ul>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Value</th>
+<th>Formula Code</th>
+<th>Numeric Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1000 mm</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">a_1000_mm</code></td>
+<td>1000</td>
+</tr>
+<tr>
+<td>1250 mm</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">a_1250_mm</code></td>
+<td>1250</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Attribute with Formula Code and numeric values" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_attribute_code.png" /></p>
+<p><strong>Step 2 &#8212; Write the formula on the component line</strong></p>
+<p>Go to <em>Manufacturing &#8227; Products &#8227; Bills of Materials</em> and open a bill of
+materials defined on the product template. On the <strong>Components</strong> tab, show the
+optional <strong>Quantity Formula</strong> column (or open the line and use the field below
+<em>Apply on Variants</em>) and write the formula. One line now covers all variants.</p>
+<p><img alt="Bill of materials with Quantity Formula" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_bom_lines.png" /></p>
+<p>Three patterns cover most cases:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">num[&quot;width&quot;] / 1000                                # proportional to a dimension
+0.8 if attr[&quot;finish&quot;] == &quot;galvanized&quot; else 0.1     # discrete value
+qty * num[&quot;width&quot;] / 1000                          # qty = base quantity of the line
+</code></pre>
+<p>Available in the formula:</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Name</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attr</code></td>
+<td>attribute code &#8594; code of the selected value</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">num</code></td>
+<td>attribute code &#8594; numeric value of the selected value</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty</code></td>
+<td>quantity entered on the BoM line</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ceil</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">floor</code></td>
+<td>round up / round down</td>
+</tr>
+</tbody>
+</table>
+<p>The usual math functions <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">min</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">max</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">abs</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">round</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">int</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">float</code> are
+also available.</p>
+<p><strong>Step 3 &#8212; Save</strong></p>
+<p>The formula is checked on save. A wrong expression, such as a reference to a
+code that does not exist, is rejected immediately in the BoM editor, with the
+code named in the message, not when the order is confirmed.</p>
+<p><img alt="Validation error for an invalid formula" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_invalid_error.png" /></p>
+<p><strong>Step 4 &#8212; Launch production</strong></p>
+<p>Create a manufacturing order for a configured variant. When the BoM is
+exploded (manufacturing order, kit, forecast), each component quantity is
+calculated from the configuration of the manufactured product. For example, an
+order for 3 pieces of the <em>Galvanized, 1250 mm</em> variant gives
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">num["width"] / 1000</code> = 1.25 kg per piece, so <strong>3.75 kg</strong> of sheet metal, and
+0.8 kg per piece, so <strong>2.40 kg</strong> of zinc. Rounding to the unit of measure is
+done upwards, as in standard Odoo.</p>
+<p><img alt="Manufacturing order with calculated quantities" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_mo_quantities.png" /></p>
+<p><strong>Good to know</strong></p>
+<ul>
+<li>A line without a formula keeps its quantity.</li>
+<li>An attribute that the product does not carry has a neutral value: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code> in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attr</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0.0</code> in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">num</code>. A semi-finished product BoM can therefore use a
+  characteristic of the finished product.</li>
+<li>On nested BoMs, the configuration of the root product stays available; only
+  the values the intermediate product actually carries override it.</li>
+<li>The formula must return a non-negative number. It is evaluated in isolation
+  and cannot read or change records.</li>
+<li>The quantity on the line stays relevant: use it as a base through <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty</code>; it
+  is the applied quantity if the formula is cleared.</li>
+<li>Formulas apply to components only, not to operation times or by-products,
+  and only to attribute values defined in the catalogue (not free custom
+  values typed on a sales order line).</li>
+</ul>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-09-30)</h2>
 <ul>
 <li>New module icon in the flat style of the other modules; it replaces the old one.</li>

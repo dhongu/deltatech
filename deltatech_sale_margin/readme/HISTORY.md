@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.0.1.2.2 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
 ## 19.0.1.2.1 (2026-10-01)
 
 - **Fix (MARGIN-001): the block now follows the same unit policy as the flag.**
