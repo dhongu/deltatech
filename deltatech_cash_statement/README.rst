@@ -16,25 +16,37 @@ Deltatech Cash Statement Extension
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_cash_statement
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_cash_statement/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
-This module provides a utility for easily updating cash balances within
-Odoo's bank statement records. It is particularly useful for accounting
-managers who need to adjust starting balances on cash statements to
-ensure financial records are accurate.
+This module keeps the balances of cash statements consistent with the
+accounting, and books a counted cash difference as a dated entry instead
+of silently overwriting a balance.
 
 **Key features:**
 
-- Adds a dedicated wizard to update the starting balance of selected
-  cash statements.
-- Automatically recalculates the real ending balance after each update,
-  keeping the chain of balances consistent across multiple statements.
-- Seamlessly integrates with the standard Odoo bank statement model —
-  accessible directly from the bank statement list view via the
-  **Action** menu.
-- Designed for accounting professionals to help resolve discrepancies in
-  cash registers without manual account journal entries.
+- A wizard on the bank statement list (**Action → Cash Update
+  Balances**) with two modes:
+
+  - **Align with the accounting balance**: the starting balance of the
+    first selected statement becomes the balance of the cash account
+    from the posted entries dated before it, and each following
+    statement starts from the real ending balance of the previous one.
+    No journal entry is created.
+  - **Register a cash difference**: when the counted cash differs from
+    the accounting balance, a statement line dated on the inventory date
+    books the difference on the income account (surplus) or the expense
+    account (shortage). On a Romanian company the defaults are 7588 and
+    6588; elsewhere the cash difference accounts of the journal. The
+    account can be changed, e.g. to 4282 when the shortage is charged to
+    the cashier.
+
+- The difference is never hidden: a statement balance that does not
+  match the cash account can only be corrected through a dated,
+  documented entry.
 
 **Table of contents**
 
@@ -44,26 +56,85 @@ ensure financial records are accurate.
 Usage
 =====
 
-Updating Cash Statement Balances
---------------------------------
+Aligning statement balances with the accounting
+-----------------------------------------------
 
-1. Navigate to **Accounting > Accounting > Bank Statements** (or open a
-   Cash journal from the Accounting dashboard).
-2. Switch to the **list view** of bank statements.
-3. Select one or more statements whose starting balance needs to be
-   corrected.
-4. Open the **Action** menu and choose **Cash Update Balances**.
-5. In the wizard that appears, enter the correct **Starting Balance**.
-6. Click **Apply**.
+1. Go to **Accounting > Accounting > Bank Statements** (or open a Cash
+   journal from the Accounting dashboard) and switch to the **list
+   view**.
+2. Select one or more statements of the same journal.
+3. Open the **Action** menu and choose **Cash Update Balances**.
+4. Keep the mode **Align with the accounting balance**. The wizard shows
+   the current starting balance and the balance of the cash account
+   before the first selected statement.
+5. Click **Apply**. The statements are updated in chronological order;
+   no journal entry is created.
 
-The module updates each selected statement in chronological order: the
-starting balance of the first statement is set to the value you entered,
-and the real ending balance of each statement is automatically
-recalculated so that the starting balance of the next statement stays
-consistent.
+Registering a cash difference found at inventory
+------------------------------------------------
+
+1. Open the wizard as above, on the statement of the inventory date.
+2. Choose **Register a cash difference** and enter the **Counted
+   Balance**: the cash actually counted at the start of that day.
+3. Check the **Difference**, the **Date** and the **Account** (7588 for
+   a surplus, 6588 for a shortage on a Romanian company, or 4282 when
+   the shortage is charged to the cashier, with the **Responsible
+   Person**), and the label. The date cannot be earlier than the
+   statement.
+4. Click **Apply**. A statement line with the difference is added to the
+   statement, with its journal entry already posted, and the statement
+   balances are aligned.
+
+A shortage that is not charged to anyone (6588) is usually a
+non-deductible expense for the Romanian profit tax; check it with your
+accountant.
 
 Changelog
 =========
+
+19.0.3.1.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.3.1.1 (2026-10-06)
+-----------------------
+
+- Consultant sheet (``readme/FISA_CONSULTANT.md``, in Romanian) for
+  aligning cash register balances and booking a cash difference found at
+  inventory, with screenshots generated by ``tests/test_screenshots.py``
+  (runs only with ``--test-tags=fise_screenshots`` and
+  ``l10n_ro_doc_screenshots`` available).
+- In the **Register a cash difference** mode, the date, the counterpart
+  account, the responsible person and the label take the full width of
+  the wizard, so the account name is no longer cut and the two columns
+  stay balanced.
+
+19.0.3.1.0 (2026-10-06)
+-----------------------
+
+- **The wizard no longer overwrites the starting balance with an
+  arbitrary value.** Typing a balance hid the difference between the
+  statement and the cash account, with no journal entry and no date.
+  That conflicts with the rule that every cash operation needs a
+  supporting document, and with the Romanian requirement that balances
+  are carried forward automatically (OMFP 2634/2015, Annex 1, item 58).
+- New mode **Align with the accounting balance**: the starting balance
+  comes from the posted entries on the cash account, and no entry is
+  created.
+- New mode **Register a cash difference**: the difference between the
+  counted cash and the accounting balance is booked through a dated
+  statement line on 7588 / 6588 (Romanian company) or on the journal's
+  cash difference accounts.
+- The wizard refuses statements of more than one journal.
+- A cash difference cannot be dated before the statement (it would be
+  counted twice), and a shortage charged to a person (4282) requires the
+  responsible person, so the receivable is followed on that partner.
+
+19.0.3.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.3.0.1 (2026-09-23)
 -----------------------
