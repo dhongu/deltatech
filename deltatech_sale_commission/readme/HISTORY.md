@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.0.1.6.3 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
 ## 19.0.1.6.2 (2026-10-03)
 
 - COMMISSION-003 (security): the commission rates (`commission.users`) had no company rule, so a Commission Manager allowed only in company A could read, change, delete or create the rates of company B (salesperson, manager and director rates). A multi-company record rule now limits the rates to the allowed companies, and moving a rate to another company requires access to that company.

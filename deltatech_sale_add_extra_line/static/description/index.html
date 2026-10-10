@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -61,8 +71,72 @@
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adding fields to product templates for extra product configuration</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Overriding sale order line creation methods to trigger extra line addition</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Implementing quantity and price calculation logic</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Providing Point of Sale integration through JavaScript patches</div></div></li></ul>
 <p>This automation helps businesses ensure consistency in their sales processes and reduces manual errors when adding related products or services to customer orders.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Install the module together with its dependencies (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code>). Then set up the products:</p>
+<ol>
+<li>Create the <strong>extra</strong> product as a regular sellable product, with the correct sales price and taxes.</li>
+<li>Open the <strong>main</strong> product and, on the <strong>Sales</strong> tab, fill in the <strong>Extra Line</strong> group:<ul>
+<li><strong>Extra Product</strong>: the product that is added automatically;</li>
+<li><strong>Extra Percent</strong>: percentage of the main line price. Leave <strong>0</strong> if the extra product must be sold at its own price;</li>
+<li><strong>Extra Quantity</strong>: quantity multiplier (1 = one extra unit for each unit sold).</li>
+</ul>
+</li>
+<li>Make sure the user has the <strong>Sales / User</strong> access group.</li>
+</ol>
+<p>For the Point of Sale, install the optional module <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_add_extra_line_pos</code>.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, set up the extra product on the main product as described in <em>Configuration</em>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Add an extra line automatically to a sales order</h2>
+<p><strong>Step 1 &#8212; Set up the main product</strong></p>
+<p>Go to <strong>Sales &#8594; Products &#8594; Products</strong>, open the main product and switch to the <strong>Sales</strong> tab. In the <strong>Extra Line</strong> group, fill in the extra product, the percentage and the quantity multiplier, then save. In the example, the boiler has an installation service attached, with <strong>Extra Percent = 10</strong> (installation costs 10% of the boiler price) and <strong>Extra Quantity = 1</strong> (one installation for each boiler sold).</p>
+<p><img alt="Extra Line group on the main product form" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_add_extra_line/extra_line_product_setup.png" /></p>
+<p><strong>Step 2 &#8212; Create the order: the extra line appears by itself</strong></p>
+<p>Go to <strong>Sales &#8594; Orders &#8594; Quotations &#8594; New</strong>, choose the customer and add the main product with the quantity you need. As soon as you leave the line, a second line with the extra product is inserted right below the main one.</p>
+<ul>
+<li>Extra line <strong>quantity</strong> = main line quantity &#215; <strong>Extra Quantity</strong> (2 boilers &#8594; 2 installations).</li>
+<li>Extra line <strong>unit price</strong> = main line price &#215; <strong>Extra Percent</strong> / 100 (450.00, i.e. 10% of 4,500.00).</li>
+</ul>
+<p><img alt="Quotation with the automatically generated extra line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_add_extra_line/extra_line_order_auto.png" /></p>
+<p>The line shows up immediately in the form and is stored when you save the order.</p>
+<p><strong>Step 3 &#8212; Use the quantity multiplier</strong></p>
+<p>The extra line quantity always follows the main line, multiplied by <strong>Extra Quantity</strong>. In the example, a case of beer has <strong>Extra Quantity = 6</strong> (six packagings per case) and <strong>Extra Percent = 0</strong>.</p>
+<ul>
+<li>Selling <strong>10 cases</strong> gives <strong>60</strong> packagings on the extra line.</li>
+<li>With <strong>Extra Percent = 0</strong> the extra product keeps its own price (here 0.50), taken from the customer's pricelist.</li>
+<li>Whenever you change the main quantity, the extra quantity is recalculated in the same ratio.</li>
+</ul>
+<p><img alt="Extra line quantity follows the main line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_add_extra_line/extra_line_quantity_multiplier.png" /></p>
+<p><strong>Step 4 &#8212; Negotiate a price manually on the extra line</strong></p>
+<p>When the calculated price does not fit, change the <strong>unit price directly on the extra line</strong> and save. The price you typed is kept: it is no longer overwritten when you change the quantity or the price of the main line. In the example the installation was negotiated at <strong>300.00</strong> instead of 450.00, and the boiler quantity was then raised to 3. The price stays at 300.00 while the extra quantity is updated to 3.</p>
+<p>This works with a percentage as well as with <strong>Extra Percent = 0</strong>.</p>
+<p><img alt="Manual price kept on the extra line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_add_extra_line/extra_line_manual_price.png" /></p>
+<p><strong>Step 5 &#8212; Go back to the calculated price</strong></p>
+<p>If the negotiated price is no longer valid, <strong>delete the extra line</strong> (trash icon at the end of the line), then change anything on the main line. The extra line is generated again with the price calculated from the percentage (450.00 in the example, instead of the negotiated 300.00).</p>
+<p><img alt="Extra line regenerated with the calculated price" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_add_extra_line/extra_line_price_regenerated.png" /></p>
+<p>If you delete the <strong>main line</strong>, the associated extra line is deleted automatically, so no orphan line is left on the order.</p>
+<p><strong>Step 6 &#8212; Invoice the order</strong></p>
+<p>Confirm the order and click <strong>Create Invoice</strong>. The extra line reaches the invoice as a normal line, with the product, quantity and price from the order. On the draft invoice, check that:</p>
+<ul>
+<li>the extra line is present, with the price from the order and the matching amount (900.00 for 2 installations);</li>
+<li>the account of each line comes from the <strong>product category</strong>, and the tax is the one set on the extra product.</li>
+</ul>
+<p><img alt="Invoice with the extra line taken over from the order" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_add_extra_line/extra_line_invoice.png" /></p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Good to know</h2>
+<ul>
+<li><strong>Online shop:</strong> the extra line is generated automatically in the cart. The customer cannot remove it: if the quantity is set to 0, it is regenerated at the next cart update while the main product stays in the cart.</li>
+<li><strong>Point of Sale</strong> (optional module): only the quantity is synchronized. The <strong>Extra Percent</strong> is not applied, so set the extra product to the desired price and leave the percentage at 0.</li>
+<li><strong>Orders created in other ways</strong> (file import, API, quotation templates, other modules) do not receive the extra line automatically.</li>
+</ul>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.5.2 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.5.1</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>

@@ -1,3 +1,7 @@
+## 19.0.1.5.2 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
 ## 19.0.1.5.1
 
 - Apps Store banner (banner.json).

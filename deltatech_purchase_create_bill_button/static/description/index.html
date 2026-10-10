@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -50,8 +60,32 @@ list (the default dashboard list) lost it. This module restores it there as well
 several purchase orders can be selected and billed in one go &#8212; including returns,
 which Odoo converts automatically into a vendor credit note when the total is negative.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>No configuration is required. The module adds no menus, settings or access groups.</p>
+<p>To see the full flow, prepare a purchase order with the <strong>Vendor Reference</strong> filled in and confirm it (the state must be <em>Purchase Order</em>, not draft).</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, see the <em>Configuration</em> section: the module needs no setup, only a confirmed purchase order.</p>
+<p><strong>Step 1 &#8212; Confirm the purchase order</strong></p>
+<p>Go to <strong>Purchase &#8594; Orders &#8594; Purchase Orders</strong> and open an order. Fill in the <strong>Vendor Reference</strong> (for example the vendor's invoice or delivery note number), then click <strong>Confirm Order</strong>.</p>
+<p><img alt="Confirmed purchase order with the Vendor Reference filled in" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_create_bill_button/bill_button_confirmed_order.png" /></p>
+<p><strong>Step 2 &#8212; Click "Create Bill"</strong></p>
+<p>Once the order is confirmed, a highlighted <strong>Create Bill</strong> button appears in the order's top bar, next to the vendor bill upload widget. It is visible only while the order is in the <em>Purchase Order</em> state and still has something to invoice.</p>
+<p><img alt="The highlighted Create Bill button next to the upload widget" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_create_bill_button/bill_button_create_bill.png" /></p>
+<p>Click it. The vendor bill is created straight away, with no attached file required, just like in Odoo 18. The upload widget stays available if you prefer to start from a scanned bill.</p>
+<p><strong>Step 3 &#8212; Check the generated bill</strong></p>
+<p>Open the new bill from the order's <strong>Bills</strong> smart button, or from <strong>Accounting &#8594; Vendors &#8594; Bills</strong>. The <strong>Bill Reference</strong> and <strong>Payment Reference</strong> fields are already filled in with the <strong>Vendor Reference</strong> from the purchase order. If the order has no vendor reference, both fields stay empty.</p>
+<p><img alt="Generated bill with Reference and Payment Reference taken from the order" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_create_bill_button/bill_button_generated_bill.png" /></p>
+<p>As with any bill generated from purchases, review the amounts, taxes and accounts on the lines before confirming it.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-09-30)</h2>
 <ul>
 <li>New Apps Store banner, specific to this module (it had the generic Deltatech one).</li>

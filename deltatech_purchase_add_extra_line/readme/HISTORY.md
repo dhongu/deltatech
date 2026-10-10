@@ -1,3 +1,7 @@
+## 19.0.1.5.1 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
 ## 19.0.1.5.0
 
 - [IMP] the extra line is mandatory: confirming the RFQ regenerates an extra line deleted outside the form (ORM, import, XML-RPC), which was otherwise only restored on the next change of the order lines

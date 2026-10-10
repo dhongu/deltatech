@@ -20,6 +20,24 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deltatech Record Type</h1>
@@ -44,6 +62,95 @@ types of records with specific default values and routing configurations.</p>
 can have specific default values for fields, which are automatically applied when the type is selected on a document.
 On sales orders, the types can be restricted to specific users, ensuring that users only see and use the appropriate
 record types for their role. This module is maintained by Terrabit and is available for Odoo 19.0.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Install <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_record_type</code> (it pulls in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase</code>), then:</p>
+<ul>
+<li><strong>Settings &#8594; Sales &#8594; Quotations &amp; Orders &#8594; Confirmed without record type</strong>:<ul>
+<li>ticked: all internal users can confirm orders without a type;</li>
+<li>cleared: only members of the group <em>Can confirm orders without order type</em> can do so.
+After installation only the administrator and the system user are in that group, so as soon
+as you define a type, all other users must pick one before confirming. Grant the group only
+to those who need the exception.</li>
+</ul>
+</li>
+<li>Define the types you need (see <em>Usage</em>, Step 1). A document shows the type field only if at
+  least one type exists for it.</li>
+<li>To use stock routes on a type, enable <strong>Settings &#8594; Inventory &#8594; Multi-Step Routes</strong>. The
+  <strong>Routes</strong> field is visible only then.</li>
+</ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, check the <em>Configuration</em> section: types are defined once, then offered on
+sales orders, purchase orders and invoices. A type is a classification, a source of default values
+and (for sales) stock routes. It has no direct accounting effect.</p>
+<p><strong>Step 1 &#8212; Define an order type</strong></p>
+<p>Go to <strong>Sales &#8594; Configuration &#8594; Order Types</strong> and click <strong>New</strong>. Fill in <strong>Name</strong> (for example
+"Wholesale sale"), keep <strong>Model</strong> = <em>Sales Order</em> (it is filled in automatically when you open
+the list from this menu), and optionally set <strong>Allowed Users</strong>, <strong>Routes</strong> and <strong>Company</strong>.
+Empty <strong>Allowed Users</strong> means the type is available to everyone; the restriction applies to
+sales orders only. Empty <strong>Company</strong> means all companies.</p>
+<p>Do not change <strong>Model</strong> after creation: the default values are tied to fields of the chosen
+model. For another document, create a new type.</p>
+<p><img alt="Order type form for sales orders" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_form.png" /></p>
+<p><strong>Step 2 &#8212; Add default values</strong></p>
+<p>On the <strong>Default Values</strong> tab add one line per field to pre-fill: choose the <strong>Field</strong> (for
+example <em>Customer Reference</em> or <em>Payment Terms</em>) and fill in <strong>Field Value</strong>:</p>
+<ul>
+<li>text and selection values go <strong>between apostrophes</strong>, for example <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">'Wholesale order'</code>;</li>
+<li>booleans are <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code>;</li>
+<li>numbers are written without apostrophes, for example <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">5</code>;</li>
+<li>relational fields (customer, payment terms, warehouse, journal) are picked in the <strong>Related</strong> column.
+  Odoo pre-fills the first record found, so check it and change it if needed.</li>
+</ul>
+<p>The <strong>Field Type</strong> column is filled in automatically for relational, char, selection, integer
+and boolean fields. For float, monetary, date, datetime and long text fields, check it manually
+(for example <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">12.5</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">'2026-12-31'</code>). Many2many and one2many fields cannot be used.</p>
+<p><img alt="Default values of a type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_default_values.png" /></p>
+<p>Purchase types are defined in <strong>Purchase &#8594; Configuration &#8594; Order Types</strong>, and invoice types in
+<strong>Accounting &#8594; Configuration &#8594; Invoicing &#8594; Invoice Types</strong>. The screen is the same; only the
+target document differs.</p>
+<p><img alt="List of order types" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_list.png" /></p>
+<p><strong>Step 3 &#8212; Pick the type on a sales order</strong></p>
+<p>Go to <strong>Sales &#8594; Orders &#8594; Quotations &#8594; New</strong>. The <strong>Order Type</strong> field appears before the
+customer and offers only the types you are allowed to use. When you pick one, its default values
+are applied to the order. Default values apply at selection time, so existing documents are
+not changed. The field becomes read-only after confirmation or cancellation.</p>
+<p>The <strong>Journal</strong> (invoice journal) is also visible on the order, in <strong>Other Info &#8594; Invoicing</strong>.</p>
+<p><img alt="Sales order with the type selected and default payment terms applied" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_order.png" /></p>
+<p><strong>Step 4 &#8212; Confirm the order</strong></p>
+<p>Click <strong>Confirm</strong>. If types exist for sales and the order has none, users without the exception
+right get the message <em>"You do not have the rights to confirm an order without specifying an
+Order Type."</em> Orders from the website are not blocked. Quotations accepted or paid by the customer
+in the portal are confirmed normally and stay without a type, so pick the type on the quotation
+before sending it if you need it for reporting.</p>
+<p>When the order lines have no route of their own, procurement uses the <strong>routes of the type</strong>;
+the effect shows on the generated transfers.</p>
+<p><img alt="Blocking message when confirming without a type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_confirm_blocked.png" /></p>
+<p><strong>Step 5 &#8212; Pick the type on a purchase order</strong></p>
+<p>Go to <strong>Purchase &#8594; Orders &#8594; Requests for Quotation &#8594; New</strong>. <strong>Order Type</strong> appears before the
+vendor, and <strong>Journal</strong> in <strong>Other Info</strong>, after <strong>Fiscal Position</strong>. The list of types is not
+filtered by allowed users. The type can be changed only while the order is a draft. Confirmation
+follows the same rule as for sales, without the website exception.</p>
+<p>Set <strong>Journal</strong> manually or through a default value of the type. When you click <strong>Create Bill</strong>,
+the vendor bill is issued in the order's journal and follows its sequence. If <strong>Journal</strong> is
+empty, the default purchase journal is used.</p>
+<p><img alt="Purchase order with type and journal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_purchase_order.png" /></p>
+<p><img alt="Vendor bill generated in the order's journal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_vendor_bill_journal.png" /></p>
+<p><strong>Step 6 &#8212; Pick the type on an invoice</strong></p>
+<p>Go to <strong>Accounting &#8594; Customers &#8594; Invoices &#8594; New</strong>. <strong>Invoice Type</strong> is in <strong>Other Info</strong>,
+<strong>Invoice</strong> group, after <strong>Sales Team</strong>, and is editable only in draft. The type is optional on
+invoices: posting does not check it. It exists only on customer invoices and credit notes, and it is
+not copied from the sales order, so choose it on the invoice. Its default values apply when picked.</p>
+<p><img alt="Invoice with the type selected" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_invoice.png" /></p>
+<p><strong>Step 7 &#8212; Filter, group and analyze</strong></p>
+<p>The <strong>Order Type</strong> column is available (optional) in the lists of sales orders, purchase orders
+and invoices. In search you get an <strong>Order Type</strong> field and an <strong>Order Type</strong> group-by. Sales and
+purchase reports expose the type as a dimension through <strong>Custom Group</strong>.</p>
+<p><img alt="Sales orders grouped by type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_group_by.png" /></p>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">

@@ -1,3 +1,7 @@
+## 19.0.1.9.11 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
 ## 19.0.1.9.10 (2026-10-09)
 
 - BUSINESS-001: in the *Business process test report*, two test runs of the same step showed up as the same row, because the row id was the step id. Each row now has the id of its step test, so every run keeps its own result, dates and data in the list, the form and the pivot.

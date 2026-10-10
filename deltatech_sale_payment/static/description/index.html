@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -44,8 +54,113 @@
 </li>
 </ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ul>
+<li>Install the module. On install, the payment status is computed for existing orders.</li>
+<li>Enable the payment providers you use: <strong>Accounting &#8594; Configuration &#8594; Online Payments &#8594; Payment
+  Providers</strong> (e.g. <strong>Bank Transfer</strong>). The <strong>Confirm Payment</strong> window offers only providers that are
+  not disabled.</li>
+<li>For <strong>electronic</strong> providers (card, online payments), check the <strong>Payment Journal</strong> field in the
+  <strong>Configuration</strong> tab of the provider. On the bank journal, under <strong>Incoming Payments</strong>, set the
+  <strong>Outstanding Receipts</strong> account of the provider's line to an account for amounts in course of
+  settlement (a dedicated analytic account per provider is recommended), so the money not yet settled
+  does not appear as available in the bank.</li>
+<li>Optionally, in <strong>Sales &#8594; Configuration &#8594; Settings</strong>, enable automatic invoicing, so an order paid
+  through an <strong>electronic</strong> provider (or confirmed with <strong>Confirm</strong> on <strong>Bank Transfer</strong>) is invoiced
+  automatically.</li>
+<li>Set the down payment account: <strong>Accounting &#8594; Configuration &#8594; Settings &#8594; Default Accounts &#8594;
+  Down Payment Account</strong> (customer advances account), otherwise the down payment invoice line goes to
+  the product income account.</li>
+<li>In the order list, the <strong>Payment Status</strong> column is visible by default; <strong>Payment Provider</strong> is added
+  from the optional columns selector.</li>
+</ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, see <em>Configuration</em> to enable the payment providers you use.</p>
+<p>Scenario: a customer ordered 2 pcs &#215; 500 + VAT (1,210.00 in total) and chose to pay by bank
+transfer. The money has arrived in the bank account, and the sales operator confirms the payment on
+the order.</p>
+<p><strong>Step 1 &#8212; Check the order with the payment pending</strong></p>
+<p>Go to <strong>Sales &#8594; Orders &#8594; Quotations</strong> (or <strong>Orders</strong>) and open the order.</p>
+<p>Under <strong>Payment Terms</strong> the module adds:</p>
+<ul>
+<li><strong>Payment</strong> &#8212; the amount collected so far (here 0.00) and, next to it, the payment provider
+  (<strong>Bank Transfer</strong>);</li>
+<li><strong>Payment Status</strong> &#8212; <strong>Pending</strong>: the customer chose bank transfer, but the money has not been
+  confirmed yet.</li>
+</ul>
+<p>Colors make it easy to read: green = <strong>Paid</strong>, orange = <strong>Partially paid / Pending / Initiated /
+Authorized</strong>, red = <strong>Cancelled</strong>, gray = <strong>Without payment</strong>.</p>
+<p><img alt="Order with the payment pending" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_payment_pending.png" /></p>
+<p><strong>Step 2 &#8212; Open "Confirm Payment"</strong></p>
+<p>On the order form, click the <strong>&#9881;</strong> icon next to the order number (actions menu) &#8594;
+<strong>Confirm Payment</strong>.</p>
+<p><img alt="Order actions menu with Confirm Payment" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_action_menu.png" /></p>
+<p><strong>Step 3 &#8212; Fill in and confirm the payment</strong></p>
+<p>The <strong>Confirm Payment</strong> window opens. When the order has a <strong>pending</strong> transaction (our case), the
+window picks it up: <strong>Transaction</strong>, <strong>Provider</strong>, <strong>Payment Method</strong> and <strong>Amount</strong> are prefilled
+from it. Otherwise <strong>Amount</strong> proposes the <strong>remaining amount</strong> (order total minus <strong>Payment</strong>) and
+you choose the provider.</p>
+<p>The window never changes an already <strong>confirmed</strong> transaction: on a partially paid order it adds a
+new transaction for the remainder, and on a fully paid one it proposes 0 and does nothing. An order
+with an <strong>authorized</strong> card payment is refused: capture or cancel the authorization from the payment
+provider.</p>
+<p>Check before confirming:</p>
+<ul>
+<li><strong>Amount</strong> is the sum actually received (on the bank statement or in cash), not necessarily the
+  order total. A smaller amount leaves the order <strong>Partially paid</strong>;</li>
+<li><strong>Provider</strong> is the one through which the money came;</li>
+<li><strong>Payment Date</strong> is the date from the statement (default: today).</li>
+</ul>
+<p>Buttons:</p>
+<ul>
+<li><strong>Confirm</strong> &#8212; the transaction becomes confirmed; the order goes to <strong>Paid</strong> (or <strong>Partially paid</strong>);</li>
+<li><strong>Add</strong> &#8212; records the transaction as <strong>pending</strong>, without confirmation (e.g. the customer announced
+  the payment, but the money has not arrived yet);</li>
+<li><strong>Cancel</strong> &#8212; closes the window without changes.</li>
+</ul>
+<p>The payment date is kept in the order chatter note, in the transaction status message and, for
+<strong>electronic</strong> providers, as the date of the accounting payment created by Odoo.</p>
+<p><img alt="Confirm Payment window" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/confirm_payment_wizard.png" /></p>
+<p><strong>Step 4 &#8212; See the paid order</strong></p>
+<p>After <strong>Confirm</strong>, the same order shows <strong>Payment 1,210.00</strong>, the provider <strong>Bank Transfer</strong> and
+<strong>Payment Status: Paid</strong> (green).</p>
+<p>The transaction is processed immediately, as with electronic providers:</p>
+<ul>
+<li>the quotation is <strong>confirmed automatically</strong> when the payment reaches the prepayment percentage
+  required on the quotation (<strong>Online Payment</strong>) or, if the quotation does not require online
+  payment, on any payment, even partial. In both cases only if online signature is not required. If
+  the quotation requires a signature, it stays a <strong>Quotation</strong> and you confirm it with <strong>Confirm</strong>
+  from the order header;</li>
+<li>with automatic invoicing enabled (see <em>Configuration</em>), the confirmed order is invoiced: a final
+  invoice on full payment, a down payment invoice on partial payment;</li>
+<li>for <strong>Bank Transfer</strong> no accounting payment is created. The accountant registers the payment on the
+  invoice or when reconciling the bank statement.</li>
+</ul>
+<p><img alt="Order paid in full" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_payment_done.png" /></p>
+<p><strong>Step 5 &#8212; Follow the payments in the order list</strong></p>
+<p>Go to <strong>Sales &#8594; Orders &#8594; Orders</strong>.</p>
+<ul>
+<li><strong>Find</strong> &#8212; the <strong>Payment Status</strong> column shows the status of each order. Use <strong>Filters</strong> (Without
+  payment, Payment initiated, Payment pending, Payment authorized, Partially paid, Paid, Payment
+  cancelled) or <strong>Group By &#8594; Payment Status</strong> for an overview by group. The <strong>Payment Provider</strong>
+  column can be added from the optional columns selector.</li>
+<li><strong>Check</strong> &#8212; <strong>Partially paid</strong> orders have a remainder to collect (order total minus <strong>Payment</strong>).
+  Orders <strong>Pending</strong> for several days are announced transfers that have not arrived: follow them up
+  with the customer. No prepaid order should ship before it is <strong>Paid</strong>.</li>
+<li><strong>Go further</strong> &#8212; open the order to follow up, or export the list (<strong>select rows &#8594; &#9881; Actions &#8594;
+  Export</strong>) for accounting.</li>
+</ul>
+<p><img alt="Order list grouped by payment status" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_list_grouped_status.png" /></p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.3.5 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.3.4 (2026-10-09)</h2>
 <ul>
 <li>SALEPAY-008: the "Confirm Payment" wizard accepts again the payment provider of a parent company on an order of a branch, as Odoo does everywhere else for providers. Since 19.0.1.3.2 (SALEPAY-006) such an order, with a pending transaction on the parent company's provider, could no longer be confirmed ("The payment provider &#8230; belongs to another company than the order &#8230;"). A provider of an unrelated company is still refused.</li>
@@ -96,12 +211,6 @@
 <li>Search filters for every status (without, initiated, pending, authorized, partially paid, paid, cancelled), a "Payment Status" group-by, and colour decorations on the form.</li>
 <li>The payment link proposes what is left to pay on the order (total minus the amount paid); it used to propose 0 once an invoice existed.</li>
 <li>Migration: the three fields are computed in SQL, set-based, before the registry loads (seconds instead of an ORM recompute of every order), for databases coming from 18.0 as well as from 19.0.1.1.x. Only the rows that change are written, and the receipts that <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code> adds to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">invoice_ids</code> are included. Checked against <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_compute_payment</code> order by order, and on a 470,000-order database: 26 s for the whole module update, 0 differences on a random sample.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.6 (2026-09-23)</h2>
-<ul>
-<li>Translatable strings in code use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env._()</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_()</code>, the Odoo 19
-  convention (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prefer-env-translation</code>). The translated messages are
-  unchanged.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>

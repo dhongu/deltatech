@@ -27,6 +27,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -62,9 +72,81 @@ to that percentage, a positive value also reports thin but positive margins.</p>
 sale.margin_limit_check_validate - system parameter - if set, the verificaion is made at order confirmation (users with
 no rights to sell below margin/purchase price can still create draft sale orders)</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Set this up once per company, ideally together with the customer: choosing the policy is a commercial decision, not a technical detail.</p>
+<p><strong>Step 1 &#8212; Choose the policy</strong></p>
+<p>Go to <strong>Settings &#8594; Sales &#8594; Pricing &#8594; Selling below cost</strong>. Pick one of:</p>
+<ul>
+<li><strong>Block the sale</strong> (default): the price cannot be saved and the order cannot be confirmed below cost.</li>
+<li><strong>Warn only</strong>: the line is flagged and the order can still be confirmed.</li>
+<li><strong>No check</strong>: nothing is flagged or blocked.</li>
+</ul>
+<p><strong>Step 2 &#8212; Set the margin limit (%)</strong></p>
+<p>In the same place. <strong>0</strong> flags only negative margins; a negative value (for example -10) tolerates a loss up to that percentage; a positive value (for example 5) also flags thin margins that are still profitable.</p>
+<p><strong>Step 3 &#8212; Optional: check on confirmation only</strong></p>
+<p>On the <strong>Block the sale</strong> policy you can tick <strong>Check margin on confirmation only</strong>. Salespeople can then prepare a quotation freely, and the check runs when the order is confirmed.</p>
+<p><img alt="Selling below cost policy and margin limit in Settings &#8594; Sales &#8594; Pricing" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_policy_settings.png" /></p>
+<p><strong>Step 4 &#8212; Repeat for every company</strong></p>
+<p>The policy is stored per company. A newly created company starts on <strong>Block the sale</strong>.</p>
+<p><strong>Step 5 &#8212; Check user groups</strong></p>
+<ul>
+<li><em>Hide purchase price in sale order and customer invoice</em>: users without it do not see cost and margin. Keep regular salespeople out of this group.</li>
+<li><em>Sell below the purchase price</em> and <em>Sell below margin limit</em>: members can go past the block (a note remains in the chatter).</li>
+<li><em>No change price on sale order</em>: price and discount become read-only.</li>
+</ul>
+<p><strong>Step 6 &#8212; Fill in the purchase cost on products</strong></p>
+<p>Without a cost (or with cost 0) there is nothing to compare and no warning is shown.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, set the policy and the margin limit as described in <em>Configuration</em>.</p>
+<p><strong>Step 1 &#8212; Create the order</strong></p>
+<p>Go to <strong>Sales &#8594; Orders</strong> and create a quotation. Add a product that has a purchase cost, and enter the <strong>Unit Price</strong>.</p>
+<p><strong>Step 2 &#8212; See the signal</strong></p>
+<p>As soon as you leave the price field, if the margin falls below the configured limit, the line is highlighted and a banner appears at the top of the order. The signal comes when the price is decided, not at confirmation, when it is too late.</p>
+<p>On the <strong>Warn only</strong> policy the banner states that the order can be confirmed, so nobody waits for an approval that does not exist. On the <strong>Block the sale</strong> policy, a user outside the exception group gets an error and cannot save the price.</p>
+<p>The comparison is made in the unit of the line. Example: at a cost of 3 per kg, a 12 kg box costs 36, so a price of 30 per box is below cost.</p>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>What you see</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Highlighted line and banner</td>
+<td>The margin is below the configured limit</td>
+</tr>
+<tr>
+<td><strong>Margin</strong> at the bottom of the order</td>
+<td>The exact figure, shown only to users allowed to see costs</td>
+</tr>
+<tr>
+<td><strong>Confirm</strong> button active</td>
+<td>The order is not blocked (Warn only policy)</td>
+</tr>
+<tr>
+<td>Nothing, although the price looks low</td>
+<td>The product has no cost, or the units cannot be compared (for example a wrong base unit)</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Order below cost: banner, highlighted line and negative margin, with the Confirm button active" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_below_cost_order.png" /></p>
+<p><strong>Step 3 &#8212; Confirm the order</strong></p>
+<p>Click <strong>Confirm</strong>. On the <strong>Warn only</strong> policy, the order chatter receives one note listing the lines sold below cost and the margin of each. The note is written once, at confirmation, not on every price correction.</p>
+<p><strong>Step 4 &#8212; Invoice</strong></p>
+<p>The same policy applies on the customer invoice line, so an invoice for an order sold below cost is created without error on <strong>Warn only</strong>.</p>
+<p>Delivery lines, services, loyalty rewards and website orders are not checked.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.2 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-10-01)</h2>
 <ul>
 <li><strong>Fix (MARGIN-001): the block now follows the same unit policy as the flag.</strong>
