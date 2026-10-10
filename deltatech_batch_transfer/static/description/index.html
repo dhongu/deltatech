@@ -51,21 +51,21 @@ Prevents Odoo's default behaviour of validating zero-quantity pickings and adds 
 "Prepare Batch" wizard for quickly grouping receipts or deliveries from sales/purchase
 orders into a single batch.</p>
 <p><strong>Key features:</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Empty-picking management on validate</span><div class="mt-1">&#8212; when the Validate button is pressed on a
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Empty-picking management on validate</span><div>&#8212; when the Validate button is pressed on a
   batch, pickings that have all done quantities equal to zero are handled according to
-  the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_batch_keep_pickings</code> system parameter:<ul class="ps-3 mt-2">
+  the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_batch_keep_pickings</code> system parameter:<ul class="ps-3 mt-1 mb-0">
 <li class="small"><em>(default, parameter absent)</em> empty pickings are automatically removed from the
 batch; only non-empty pickings are validated. Removed pickings can be manually
 added to another batch.</li>
 <li class="small"><em>(parameter present)</em> empty pickings are kept in the batch but skipped during
 validation, allowing them to be processed later (not recommended with the barcode
 interface).</li>
-</ul></div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Prepare Batch wizard</span><div class="mt-1">&#8212; creates a new batch from open sale or purchase order
+</ul></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Prepare Batch wizard</span><div>&#8212; creates a new batch from open sale or purchase order
   receipts/deliveries for a selected partner; optionally sets done quantities from a
-  product list.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Add to Batch button</span><div class="mt-1">&#8212; shortcut button on the stock picking form to attach a
-  single transfer to an existing batch.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Extra batch fields</span><div class="mt-1">&#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Direction</code> (incoming/outgoing), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Reference</code>, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Note</code>
-  added to the batch transfer form for better identification and traceability.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Received lines tab</span><div class="mt-1">&#8212; dedicated notebook tab on incoming batches showing only
-  move lines with quantity &gt; 0 (bold) vs. zero-quantity lines (muted).</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100"><span class="fw-bold">Deliveries batch report</span><div class="mt-1">&#8212; PDF report that prints all delivery documents in a
+  product list.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Add to Batch button</span><div>&#8212; shortcut button on the stock picking form to attach a
+  single transfer to an existing batch.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Extra batch fields</span><div>&#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Direction</code> (incoming/outgoing), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Reference</code>, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Note</code>
+  added to the batch transfer form for better identification and traceability.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Received lines tab</span><div>&#8212; dedicated notebook tab on incoming batches showing only
+  move lines with quantity &gt; 0 (bold) vs. zero-quantity lines (muted).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Deliveries batch report</span><div>&#8212; PDF report that prints all delivery documents in a
   batch in a single action.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -169,6 +169,22 @@ customer and sets mode to <em>Sale</em>.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.6 (2026-10-09)</h2>
+<ul>
+<li>Apps Store banner (banner.json).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.5 (2026-10-02)</h2>
+<ul>
+<li><strong>Fix (BATCHTRANSFER-001): batch preparation with quantities no longer
+  crashes.</strong> The wizard read and wrote <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_uom_qty</code> on
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.move.line</code>, a field removed in Odoo 19, so confirming a preparation
+  with <em>Set Done Qty</em> or with product quantities raised an error and rolled
+  back. The allocation now uses the Odoo 19 API: each move line can receive up
+  to its reserved <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">quantity</code> (converted between the product unit and the move
+  line unit), the rest is shown as additional quantity. With <em>Set Done Qty</em>
+  the lines are set to the allocated quantity and marked as picked; without it
+  only the requested quantities stay reserved and nothing is marked as picked.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.4 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -224,8 +240,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AR</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_auto_reorder_rule/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Auto Reorder Rule</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -240,8 +260,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_picking_services/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Picking Service Lines</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -256,8 +280,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_product_labels/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Labels</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -272,8 +300,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RN</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RN</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_reception_note/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech reception_note</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -288,8 +320,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_report_prn/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Raport PRN</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -304,8 +340,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SC</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_stock_count_zero/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech stock count zero</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -320,8 +360,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WA</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_warehouse_arrangement/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Warehouse Arrangement</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
@@ -336,8 +380,12 @@ customer and sets mode to <em>Sale</em>.</p>
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
