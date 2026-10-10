@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## BUSINESS-001 — P1: Test report rows reuse the process-step ID across test runs
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.9.10. The test report row id is now the step test id (`bpst.id`, the base table of the query), so two runs of the same step give two distinct rows; the view query is built with `SQL()`. Covered by `tests/test_test_report_id.py` (two runs with passed/failed results: distinct ids, direct read and grouping).
 - **Location:** report/business_process_test_report.py, `_select()`.
 - **Trigger:** Test the same process step in two test runs.
 - **Actual behavior:** The query selects `bps.id AS id` although each row represents a distinct `business_process_step_test` record. Two runs of the same step therefore share the ORM record ID.
