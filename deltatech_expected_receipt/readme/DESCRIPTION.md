@@ -4,7 +4,7 @@ and the accountant has to split the bank amount by hand. This module registers
 the card payment the moment it is received and settles it against the grouped
 bank transfer, to the cent.
 
-**Key features:**
+**✨ Key features:**
 
 - **Card Payment button** on sales orders, on customer invoices and on the
   customer (for an older balance). Partial payments are normal: the remaining
