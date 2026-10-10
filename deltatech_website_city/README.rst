@@ -71,6 +71,38 @@ Usage
 Changelog
 =========
 
+19.0.1.2.5 (2026-10-09)
+-----------------------
+
+- Fix: the upgrade from 18.0 left the old view ``address`` (inheriting
+  ``website_sale.address`` on ``div_city``) in the database, and every
+  website reported it as a broken template. A migration removes it; the
+  city field is added by the view ``address_form_fields``.
+
+19.0.1.2.4 (2026-10-01)
+-----------------------
+
+- Test: the free-text city test posts its phone number in international
+  format. With ``deltatech_website_phone_validation`` installed, a
+  national number could not be parsed for the fictitious test country
+  and the address was refused for the phone, failing the ``website`` CI
+  shard.
+
+19.0.1.2.3 (2026-10-01)
+-----------------------
+
+- Fix: an address saved at checkout kept only the chosen locality
+  (``city_id``) and left the free-text ``city`` empty, a step lost in
+  the 19.0 migration. Posting the invoice of such a customer was refused
+  for a missing city. The city is filled again from the chosen locality,
+  and a migration fills it on the partners already saved without it.
+
+19.0.1.2.2 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
+
 19.0.1.2.1 (2026-08-13)
 -----------------------
 

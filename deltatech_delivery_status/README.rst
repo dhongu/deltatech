@@ -118,24 +118,54 @@ and payment processes.
 Changelog
 =========
 
+19.0.2.3.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.2.3.3 (2026-10-08)
+-----------------------
+
+- Fixed DELIVERYSTATUS-002: when the payment was completed before the
+  order was confirmed (the usual online payment flow, where the payment
+  confirms the quotation), the transfers created at confirmation were
+  postponed and stayed blocked, because the payment had already been
+  processed. The delivery is now postponed at confirmation only while
+  the last payment is not done, for the provider option and for the team
+  wire-transfer option.
+
+19.0.2.3.2 (2026-09-29)
+-----------------------
+
+- Romanian translations completed and corrected: *Refused* was not
+  translated (the state showed in English on the delivery), *Ready in
+  warehouse* lacked its diacritics, and the postponed-delivery labels
+  were missing. On upgrade the corrected ones replace the old.
+
+19.0.2.3.1
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.2.3.0
 ==========
 
-- Comenzile cu livrarea amânată pot fi acum **găsite**: filtru „Livrare
-  amânată" în căutarea comenzilor de vânzare și „Amânată" în căutarea
-  transferurilor. Fără ele, un flux care cere eliberare manuală era
-  practic imposibil de operat — butonul „Eliberează" apare doar pe
-  comanda deschisă, iar comenzile care așteptau nu erau vizibile
-  nicăieri.
-- ``sale.order.postponed_delivery`` devine **căutabil** (metodă
-  ``search`` care se traduce în ``picking_ids.postponed``, câmp stocat).
-  Fiind calculat și nestocat, nu putea fi folosit în niciun domeniu —
-  nici în filtre predefinite, nici în filtre personalizate create de
-  utilizator din interfață.
-- Acțiunile server „Postpone Delivery" / „Release Delivery" au acum
-  ``binding_model_id``, deci apar în meniul *Acțiuni* și permit operarea
-  **în masă** din lista de comenzi, nu doar una câte una.
-- Test nou pentru căutarea pe ``postponed_delivery`` (inclusiv negarea).
+- Orders with a postponed delivery can now be **found**: a "Postponed
+  delivery" filter in the sale order search and "Postponed" in the
+  transfer search. Without them, a flow that requires a manual release
+  was practically impossible to operate — the "Release" button only
+  appears on the open order, and the waiting orders were not visible
+  anywhere.
+- ``sale.order.postponed_delivery`` becomes **searchable** (a ``search``
+  method that is translated into ``picking_ids.postponed``, a stored
+  field). Being computed and not stored, it could not be used in any
+  domain — neither in predefined filters, nor in custom filters created
+  by the user from the interface.
+- The "Postpone Delivery" / "Release Delivery" server actions now have
+  ``binding_model_id``, so they appear in the *Actions* menu and allow
+  **mass** operation from the order list, not only one by one.
+- New test for the search on ``postponed_delivery`` (including the
+  negation).
 
 19.0.2.2.0 (2026-08-04)
 -----------------------
