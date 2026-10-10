@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## IMAGE-001 — P1: Animated PNG and WebP images are flattened during optimization
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.12.2. `_dt_image_recompress()` now skips every multi-frame image (`is_animated` or `n_frames` > 1), whatever the format: animated GIF, APNG and animated WebP are left untouched by both the original and the variant runner. Covered by `tests/test_image_animated.py` (APNG/WebP/GIF skipped, static PNG/WebP still recompressed, APNG attachment unchanged after both runners).
 - **Location:** models/ir_attachment.py, _dt_image_recompress().
 - **Trigger:** An eligible original or resized attachment contains an animated PNG or WebP and recompression produces a smaller image.
 - **Actual behavior:** Animation is skipped only when the format equals GIF. For other multi-frame formats, the method loads and converts the first frame, then saves a single-frame JPEG/PNG/WebP. The batch runner overwrites the attachment with this result.
