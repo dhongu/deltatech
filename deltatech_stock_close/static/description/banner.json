@@ -1,11 +1,11 @@
 {
   "title": "Stock Close",
-  "summary": "Close stock valuations at a given date",
+  "summary": "Closed stock moves left out of the storage sheet",
   "icon": "box",
   "features": [
-    "Only active filter in the storage sheet",
     "Valuation Active flag on stock moves",
-    "Integrates with Romanian stock reports"
+    "Only active option in the storage sheet",
+    "Romanian storage sheet unchanged otherwise"
   ],
   "lang": "en"
 }
