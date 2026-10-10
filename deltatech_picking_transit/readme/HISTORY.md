@@ -1,3 +1,7 @@
+## 20.0.0.0.14 (2026-10-10)
+
+- Fix partial deliveries with a backorder (TRANSIT-004): the receiving leg checks its products against the source transfer and all its backorders, so the products left for a source backorder can still be received. A source backorder created by the native `_create_backorder` keeps "Second Transfer Created" (its products are already in the receiving leg, no duplicate reception) and its chatter names the receiving transfer.
+
 ## 20.0.0.0.13 (2026-10-09)
 
 - Apps Store banner (banner.json).

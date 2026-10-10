@@ -1,5 +1,5 @@
 from odoo.exceptions import UserError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
 
@@ -176,3 +176,80 @@ class TestStockPickingTransit(TransactionCase):
         self.assertEqual(len(second), 1)
         self.assertEqual(second.picking_type_id, self.reception_type)
         self.assertEqual(second.move_ids.product_uom_qty, 4)
+
+    def _process_backorder(self, action):
+        # the native backorder confirmation, "Create Backorder"
+        self.assertIsInstance(action, dict)
+        self.assertEqual(action.get("res_model"), "stock.backorder.confirmation")
+        wizard = Form(self.env["stock.backorder.confirmation"].with_context(**action["context"])).save()
+        wizard.process()
+
+    def test_partial_delivery_backorder_keeps_receiving_leg_executable(self):
+        # TRANSIT-004: A delivered, B wholly left for a backorder
+        self.delivery_type.auto_second_transfer = True
+        picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": self.delivery_type.id,
+                "partner_id": self.dest_partner.id,
+                "location_id": self.warehouse.lot_stock_id.id,
+                "location_dest_id": self.transit_location.id,
+                "move_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "product_uom_qty": 4,
+                            "location_id": self.warehouse.lot_stock_id.id,
+                            "location_dest_id": self.transit_location.id,
+                        },
+                    )
+                    for product in (self.product, self.other_product)
+                ],
+            }
+        )
+        picking.action_confirm()
+        picking.action_assign()
+        move_a = picking.move_ids.filtered(lambda m: m.product_id == self.product)
+        move_a.quantity = 4
+        move_a.picked = True
+        self._process_backorder(picking.button_validate())
+
+        self.assertEqual(picking.state, "done")
+        self.assertEqual(picking.move_ids.product_id, self.product)
+        source_backorder = picking.backorder_ids
+        self.assertEqual(len(source_backorder), 1)
+        self.assertEqual(source_backorder.move_ids.product_id, self.other_product)
+        # the pending products are already in the receiving leg: no second reception for the backorder
+        self.assertTrue(source_backorder.second_transfer_created)
+
+        reception = self._second_picking(picking)
+        self.assertEqual(len(reception), 1)
+        self.assertIn(reception.name, "".join(source_backorder.message_ids.mapped("body")))
+        self.assertEqual(reception.move_ids.product_id, self.product | self.other_product)
+
+        # receive A, leave B for a reception backorder: B now comes from the source backorder
+        reception.action_assign()
+        reception_a = reception.move_ids.filtered(lambda m: m.product_id == self.product)
+        reception_a.quantity = 4
+        reception_a.picked = True
+        self._process_backorder(reception.button_validate())
+        self.assertEqual(reception.state, "done")
+        reception_backorder = reception.backorder_ids
+        self.assertEqual(reception_backorder.move_ids.product_id, self.other_product)
+        self.assertEqual(reception_backorder.source_transfer_id, picking)
+
+        # ship B, then receive it: the whole flow completes
+        self.env["stock.quant"]._update_available_quantity(self.other_product, self.warehouse.lot_stock_id, 4)
+        source_backorder.action_assign()
+        source_backorder.move_ids.quantity = 4
+        source_backorder.move_ids.picked = True
+        source_backorder.button_validate()
+        self.assertEqual(source_backorder.state, "done")
+        self.assertFalse(self._second_picking(source_backorder))
+
+        reception_backorder.action_assign()
+        reception_backorder.move_ids.quantity = 4
+        reception_backorder.move_ids.picked = True
+        reception_backorder.button_validate()
+        self.assertEqual(reception_backorder.state, "done")
