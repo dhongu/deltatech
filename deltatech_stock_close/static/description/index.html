@@ -2,8 +2,8 @@
 <!-- tb-gen v1 -->
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   
-  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech Stock Close</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Close stock operations at date</p>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Stock Close</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Closed stock valuations left out of the storage sheet</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 18.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Warehouse</span>
@@ -27,6 +27,21 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-romana"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-romana" href="#tb-panel-romana"
+       style="padding:10px 22px;">Rom&#226;n&#259;</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -35,17 +50,81 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Stock Closing Operations</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides tools for managing stock closing operations at a specific date.
-It helps maintain inventory accuracy by allowing users to deactivate valuation layers that are no longer relevant after a certain period or when closing the fiscal year.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Ability to close stock operations as of a given date.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds an "Active" field in the stock valuation layer for better visibility.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Improves reporting performance by filtering out old or closed stock layers.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Integration with Romanian localization stock reports.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 mt-1 mb-4"><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Go to Inventory &gt; Reporting &gt; Valuation.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Select the valuation layers to be closed or deactivated.</div></div></li><li class="col"><div class="border rounded-3 p-3 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Mark the records as closed according to your business needs.</div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Leaves closed stock valuation layers out of the Romanian <strong>storage sheet</strong> (<em>fi&#537;a de magazie</em>, from
+the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code> module of the Romanian localization): the valuation layers that no longer
+matter can be archived, and the storage sheet can then be run on the active layers only.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Archivable valuation layers</span><div>Stock valuation layers get an <em>Active</em> field, so they can be
+  archived from <em>Inventory &gt; Reporting &gt; Valuation</em>; the valuation layers of a transfer still show the
+  archived ones.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Only active option</span><div>The storage sheet wizard gets an <strong>Only active</strong> option; when ticked, the
+  initial balance, the receipts, the deliveries and the final balance leave out the archived layers.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">More on the storage sheet lines</span><div>The receipt and delivery lines of the storage sheet also store
+  the operation type and the invoice date.</div></div></li></ul>
+<p><strong>Important:</strong> an archived valuation layer is also left out of Odoo's own stock valuation (the value
+and valued quantity of the products, the valuation report), not only of the storage sheet. Archive
+layers only after checking the effect on the valuation of the products concerned.</p>
+<p><strong>Data sent outside Odoo:</strong> none.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ol>
+<li>Install the module; it needs the storage sheet of the Romanian localization
+   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>).</li>
+<li>No setting is needed: the <strong>Only active</strong> option appears in the storage sheet wizard.</li>
+</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>In <em>Inventory &gt; Reporting &gt; Valuation</em>, select the valuation layers to close and archive them
+   (<em>Actions &gt; Archive</em>), after checking the effect on the valuation of the products concerned.</li>
+<li>Open the storage sheet of the Romanian localization (<em>Inventory &gt; Reporting</em>) and tick <strong>Only
+   active</strong> to leave the archived layers out; leave it unticked for the full report.</li>
+<li>To bring a layer back, show the archived layers in the valuation list and unarchive it.</li>
+</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-romana" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Rom&#226;n&#259;</h2>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Prezentare</h3>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Scoate &#238;nregistr&#259;rile de evaluare a stocului &#238;nchise din <strong>fi&#537;a de magazie</strong> a localiz&#259;rii rom&#226;ne&#537;ti
+(modulul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>): &#238;nregistr&#259;rile de evaluare care nu mai conteaz&#259; se pot arhiva, iar
+fi&#537;a de magazie se poate rula apoi doar pe cele active.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">&#206;nregistr&#259;ri de evaluare arhivabile</span><div>&#206;nregistr&#259;rile de evaluare a stocului primesc c&#226;mpul
+  <em>Active</em>, deci se pot arhiva din <em>Inventar &gt; Raportare &gt; Evaluare</em>; &#238;nregistr&#259;rile de evaluare ale
+  unui transfer le arat&#259; &#537;i pe cele arhivate.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Op&#539;iunea Only active</span><div>Asistentul fi&#537;ei de magazie prime&#537;te op&#539;iunea <strong>Only active</strong>; c&#226;nd e
+  bifat&#259;, soldul ini&#539;ial, intr&#259;rile, ie&#537;irile &#537;i soldul final nu mai iau &#238;n calcul &#238;nregistr&#259;rile
+  arhivate.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Mai mult pe liniile fi&#537;ei</span><div>Liniile de intrare &#537;i de ie&#537;ire ale fi&#537;ei de magazie p&#259;streaz&#259; &#537;i tipul
+  opera&#539;iunii &#537;i data facturii.</div></div></li></ul>
+<p><strong>Important:</strong> o &#238;nregistrare de evaluare arhivat&#259; nu mai intr&#259; nici &#238;n evaluarea standard a stocului
+din Odoo (valoarea &#537;i cantitatea evaluat&#259; a produselor, raportul de evaluare), nu doar &#238;n fi&#537;a de
+magazie. Arhiva&#539;i &#238;nregistr&#259;ri doar dup&#259; ce verifica&#539;i efectul asupra evalu&#259;rii produselor respective.</p>
+<p><strong>Date trimise &#238;n afara Odoo:</strong> niciuna.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Configurare</h3>
+<ol>
+<li>Instala&#539;i modulul; are nevoie de fi&#537;a de magazie din localizarea rom&#226;neasc&#259;
+   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>).</li>
+<li>Nu e nevoie de nicio setare: op&#539;iunea <strong>Only active</strong> apare &#238;n asistentul fi&#537;ei de magazie.</li>
+</ol>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
+<ol>
+<li>&#206;n <em>Inventar &gt; Raportare &gt; Evaluare</em>, selecta&#539;i &#238;nregistr&#259;rile de evaluare de &#238;nchis &#537;i arhiva&#539;i-le
+   (<em>Ac&#539;iuni &gt; Arhivare</em>), dup&#259; ce verifica&#539;i efectul asupra evalu&#259;rii produselor respective.</li>
+<li>Deschide&#539;i fi&#537;a de magazie a localiz&#259;rii rom&#226;ne&#537;ti (<em>Inventar &gt; Raportare</em>) &#537;i bifa&#539;i <strong>Only
+   active</strong> ca s&#259; l&#259;sa&#539;i deoparte &#238;nregistr&#259;rile arhivate; l&#259;sa&#539;i-o nebifat&#259; pentru raportul complet.</li>
+<li>Ca s&#259; readuce&#539;i o &#238;nregistrare, afi&#537;a&#539;i &#238;nregistr&#259;rile arhivate &#238;n lista de evaluare &#537;i
+   dezarhiva&#539;i-o.</li>
+</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.6 (2026-10-11)</h2>
+<ul>
+<li>Apps Store page: description written from the code (the "close at date" feature, which the module
+  does not have, removed; archivable valuation layers and the Only active option of the storage sheet
+  described, with a warning that archived layers also leave the product valuation), Configuration and
+  Usage added, and the Romanian translation in its own tab (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/*.ro.md</code>). Known bugs in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/bugs.md</code>. English summary.</li>
+<li>Module name: "Stock Close" (was "Deltatech Stock Close"), without the brand name, as on 19.0.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.5</h2>
 <ul>
 <li>Stop duplicating <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">do_compute_product()</code> and the four SQL builders from

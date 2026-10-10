@@ -1,5 +1,14 @@
 # Changelog
 
+## 18.0.1.0.6 (2026-10-11)
+
+- Apps Store page: description written from the code (the "close at date" feature, which the module
+  does not have, removed; archivable valuation layers and the Only active option of the storage sheet
+  described, with a warning that archived layers also leave the product valuation), Configuration and
+  Usage added, and the Romanian translation in its own tab (`readme/*.ro.md`). Known bugs in
+  `readme/bugs.md`. English summary.
+- Module name: "Stock Close" (was "Deltatech Stock Close"), without the brand name, as on 19.0.
+
 ## 18.0.1.0.5
 
 - Stop duplicating `do_compute_product()` and the four SQL builders from
