@@ -16,3 +16,11 @@ Review date: 2026-10-02. Target version: Odoo 19.
 ## Review limitations
 
 All eligible Python/XML source was read. Native compute and dependency collection compared; no Odoo invoice, currency or database integration tests executed.
+
+## CUSTOMRATE-002 — P3: On journal entries the custom rate is applied from the form only
+
+- **Status:** Open; found 2026-10-10 during the CUSTOMRATE-001 fix.
+- **Location:** `models/account_move.py`, onchange kept for `move_type == "entry"`.
+- **Trigger:** A journal entry (not an invoice) created or written over RPC/import with `currency_rate_custom`.
+- **Actual behavior / impact:** Invoices now apply the custom rate on the server; journal entries still rely on the onchange, so the field can show a rate that was not applied to the RON amounts. Entries usually come with explicit debit/credit, so the ledger stays balanced; the issue is consistency.
+- **Suggested fix:** Apply the rate on the server for entries as well, or hide/ignore the field on `entry`.
