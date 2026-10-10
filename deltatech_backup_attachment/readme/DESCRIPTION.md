@@ -3,7 +3,7 @@ single ZIP archive. By providing a domain filter on the `ir.attachment` model, y
 choose which files to include — for example, only attachments of a specific MIME type, linked
 to specific records, or stored on a particular field.
 
-**Key features:**
+**✨ Key features:**
 
 - Export attachments filtered by any Odoo domain expression (MIME type, related model, field name, etc.).
 - All matching files are bundled into a single downloadable ZIP archive.
@@ -12,7 +12,7 @@ to specific records, or stored on a particular field.
 - Only files physically present on disk (`store_fname` set and path exists) are included,
   avoiding broken references.
 
-**Example domains:**
+**📝 Example domains:**
 
 - `[("mimetype","not in",["image/png","image/jpeg","application/pdf"])]` — export all
   attachments that are not common images or PDFs.
