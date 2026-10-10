@@ -1,7 +1,7 @@
 Manage commercial and service agreements with partners — track reference numbers,
 dates, statuses, and print agreement documents directly from Odoo.
 
-**Key features:**
+**✨ Key features:**
 
 - Create agreements linked to a partner, with agreement date and expiry date.
 - Each agreement follows a lifecycle: **Draft** → **In Progress** → **Terminated**.
