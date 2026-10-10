@@ -14,7 +14,7 @@
   `X-Forwarded-For`. That entry is set by the caller (nginx only appends to the
   header), so anyone with an API key could send the address of an `ignore_ips` entry
   and drop out of the audit on `/xmlrpc`, `/jsonrpc` and `/json/2`, or log a false IP.
-  Behind a reverse proxy run the server with `proxy_mode` (always on for Odoo.sh):
+  Behind a reverse proxy run the server with `proxy_mode` (always on for managed hosting):
   core then resolves `remote_addr` from the entry the trusted proxy added.
 - The raw header is still written at the end of the line as `xff=...`, as
   information only; it is never used to skip a call.
@@ -36,7 +36,7 @@
 - The line keeps the same fields as the legacy one, so a single grep still finds every
   call, and adds `via=json2` to tell the two endpoints apart while integrations are
   being moved.
-- `/json/2/ir.cron/acquire_job` is skipped: Odoo.sh drives the scheduler through it in
+- `/json/2/ir.cron/acquire_job` is skipped: the hosting platform drives the scheduler through it in
   a tight loop, and logging that would bury the handful of lines the audit exists for.
   Skipped by (model, method), because the address the platform calls from is not stable
   enough to skip by IP.
@@ -55,7 +55,7 @@
 
 - Add an on/off switch, so the module can stay installed but idle:
   - config-file key `rpc_audit_enabled` (self-hosted);
-  - System Parameter `rpc_audit.enabled` (works on Odoo.sh, no rebuild),
+  - System Parameter `rpc_audit.enabled` (works on managed hosting, no rebuild),
     cached 60s alongside the ignore list.
   Either source can disable; default is enabled.
 - Skip all work (including `repr()` of the arguments) when the `odoo.rpc.audit`
@@ -74,4 +74,4 @@
 - Optional ignore list (comma separated) to skip noisy IPs (e.g. health
   checks), from two sources merged together:
   - config-file key `rpc_audit_ignore_ips` (self-hosted);
-  - System Parameter `rpc_audit.ignore_ips` (works on Odoo.sh), cached 60s.
+  - System Parameter `rpc_audit.ignore_ips` (works on managed hosting), cached 60s.

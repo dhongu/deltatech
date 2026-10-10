@@ -41,7 +41,7 @@
   scanned the whole table: 40 ms against under 1 ms on 1.36 million codes.
 - Configuration notes: `ALTER FUNCTION public.unaccent(text) IMMUTABLE` is no
   longer recommended, because `pg_dump` does not keep it and the restore fails
-  on the indexes that use `unaccent`. They now describe the odoo.sh setup
+  on the indexes that use `unaccent`. They now describe the managed-hosting setup
   (extension in its own schema, `IMMUTABLE` wrapper in `public`), with a
   script for self-hosted databases, and how to reuse the index that 18.0
   created (`product_alternative_name_unaccent_gin`).

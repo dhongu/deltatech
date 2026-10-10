@@ -27,4 +27,4 @@
   proposed code is taken (including by archived products or other companies),
   the sequence is now moved past the highest number already used with its
   prefix/suffix and the next number is taken. Sequences with date ranges are
-  not synchronised. Ported from the Agroamat project.
+  not synchronised. Ported from a customer project.

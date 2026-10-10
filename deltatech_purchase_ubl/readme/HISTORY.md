@@ -62,14 +62,14 @@
 
 ### Added
 
-- **Warning indicator on the import wizard** (`has_warning`, ticket #9287): set alongside
+- **Warning indicator on the import wizard** (`has_warning`): set alongside
   `log`/`log_html` so a headless caller can tell whether a run needs a human's attention without
   re-parsing the log text. Deliberately narrower than "any warning-classified message": only a
   **total that doesn't add up** and **lines the matcher couldn't place** count. Routine steps of an
   unattended import — bill creation skipped because the order isn't confirmed yet, no receipt to
   validate — also classify as "warning" via `_classify_message`'s generic keywords and would
   otherwise fire on every successful headless import.
-- **Review activity on the purchase order** (ticket #9287): when the headless import sets
+- **Review activity on the purchase order**: when the headless import sets
   `has_warning`, `_process_attachments_for_post` schedules a `mail.mail_activity_data_todo`
   activity "SPV import needs review" on the order, assigned to the order's buyer (`user_id`,
   falling back to the current user), with the import log as the activity note. A plain chatter note
@@ -93,7 +93,7 @@
   ("Created products (%s):"). On a real SPV import the log was long enough that the warning at the
   end was below the fold.
 - Log messages now say "source document" instead of "XML", because the same mixin serves the PDF
-  import wizards (Marso, Delta, Sigemo, Procar), not just UBL XML.
+  import wizards (supplier-specific importers), not just UBL XML.
 
 ### Fixed
 
@@ -110,7 +110,7 @@
 
 ### Added
 
-- **Mapping preview in the import wizard** (ticket #9315): the interactive flow is now
+- **Mapping preview in the import wizard**: the interactive flow is now
   two-step — "Preview" parses the XML and shows one line per invoice line with the product
   the matcher found and how it found it, color-coded: green = matched by supplier code or
   barcode (trustworthy), yellow = matched only by name (double-check), red = no match (a new
@@ -121,10 +121,10 @@
 
 ### Fixed
 
-- **Bug** (ticket #9315): `_process_attachments_for_post` always ran the headless UBL import
+- **Bug**: `_process_attachments_for_post` always ran the headless UBL import
   with `create_missing_products=True`. This is fine for the interactive wizard, where a user
   reviews what gets created, but it's also the only entry point for XML attachments posted by
-  automated callers (e.g. `l10n_ro_message_spv_purchase`, since ticket #9287 started attaching
+  automated callers (e.g. `l10n_ro_message_spv_purchase`, since the SPV import started attaching
   the SPV XML on purchase orders created before the vendor bill exists). When the source invoice
   line has no supplier product code and its name doesn't match an existing product exactly, the
   headless import silently created a duplicate product with no one reviewing it.
@@ -148,7 +148,7 @@
 
 ### Fixed
 
-- **Bug** (found via ticket #9287): auto-creating the vendor bill whenever the source document
+- **Bug**: auto-creating the vendor bill whenever the source document
   identifies an invoice number (added in 19.0.1.2.1) ran regardless of the purchase order's
   state. A draft/unconfirmed order has `qty_to_invoice = 0` on every line
   (`purchase_order_line._compute_qty_invoiced` only computes a nonzero value once the order is
@@ -165,7 +165,7 @@
 
 ### Fixed
 
-- **Bug** (ported from 18.0 PR #2649): purchase order lines for service products with `purchase_method="receive"` (e.g. Marso's "Ecovaloare" eco-tax lines) never get a `qty_received` from stock moves, since services have no stock picking. Only `_validate_receipt_quantities` (used for physical products) previously set received quantities, so these service lines stayed at `qty_to_invoice == 0` and `action_create_invoice()` silently dropped them from the vendor bill even though they were present on the order.
+- **Bug** (ported from 18.0): purchase order lines for service products with `purchase_method="receive"` (e.g. "Ecovaloare" eco-tax lines) never get a `qty_received` from stock moves, since services have no stock picking. Only `_validate_receipt_quantities` (used for physical products) previously set received quantities, so these service lines stayed at `qty_to_invoice == 0` and `action_create_invoice()` silently dropped them from the vendor bill even though they were present on the order.
   - `_process_invoice_data` now marks a line as received (`qty_received_manual` = ordered quantity) whenever its `qty_received_method` is `"manual"`, for both updated existing lines and newly added ones.
   - Added test `test_service_line_receive_policy_is_marked_received_for_billing`.
 
@@ -173,9 +173,9 @@
 
 ### Fixed
 
-- **Bug** (ported from 18.0 PR #2645): when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped — no new order line was created and no message was shown. `_process_invoice_data` now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.
+- **Bug** (ported from 18.0): when the purchase order already had lines, source lines whose product wasn't already on the order (e.g. an "Ecovaloare" line added by the supplier that wasn't on the original PO) were silently dropped — no new order line was created and no message was shown. `_process_invoice_data` now adds any unconsumed matched source line as a new purchase order line, mirroring the behavior already used when the order has no lines.
   - Added test `test_new_product_added_as_line_when_order_already_has_lines`.
-- **Bug** (ported from 18.0 PR #2645): the supplier's invoice number/date (`invoice_id`/`issue_date` from the source document) were lost whenever the user ran the import wizard without ticking "Create vendor bill" (its default), then created the vendor bill later from the standard purchase order flow. `_process_invoice_data` now auto-creates the vendor bill whenever the source document identifies an invoice number, regardless of the "Create vendor bill" checkbox.
+- **Bug** (ported from 18.0): the supplier's invoice number/date (`invoice_id`/`issue_date` from the source document) were lost whenever the user ran the import wizard without ticking "Create vendor bill" (its default), then created the vendor bill later from the standard purchase order flow. `_process_invoice_data` now auto-creates the vendor bill whenever the source document identifies an invoice number, regardless of the "Create vendor bill" checkbox.
   - Added test `test_vendor_bill_auto_created_when_invoice_id_present`.
 
 ## [19.0.1.2.0] - 2026-07-05
@@ -185,7 +185,7 @@
 - **Refactor** (ported from 18.0): extracted the format-agnostic matching/bill-creation logic (product matching, supplier price update, purchase order line creation/update, receipt validation, vendor bill creation, log building) into a new shared `purchase.invoice.import.mixin` abstract model (`models/purchase_invoice_import_mixin.py`).
   - `purchase.ubl.import.wizard` now inherits this mixin and keeps only the UBL-XML-specific parts (`_parse_xml`, `_is_ubl_invoice`, `default_get`, `_uom_from_ubl`).
   - No behavior change for UBL import: same model name, fields, and public methods remain available.
-  - Enables other invoice-import wizards (PDF-based importers for Marso, Delta, Sigemo, Procar) to reuse the same processing via `self._process_invoice_data(invoice_data)`.
+  - Enables other invoice-import wizards (PDF-based supplier importers) to reuse the same processing via `self._process_invoice_data(invoice_data)`.
   - Preserves the 19.0-specific API adaptations already present in this branch (`product_uom_id` instead of `product_uom` on purchase order lines, `move_ids` instead of the removed `move_ids_without_package`, `_set_quantity_done`/`picked` instead of `qty_done`).
 
 ## [18.0.1.1.0] - 2026-05-26
