@@ -155,6 +155,12 @@ msgstr ""
 #. module: deltatech_picking_transit
 #. odoo-python
 #: code:addons/deltatech_picking_transit/models/stock_picking.py:0
+msgid "The products of this backorder will be received in %s."
+msgstr ""
+
+#. module: deltatech_picking_transit
+#. odoo-python
+#: code:addons/deltatech_picking_transit/models/stock_picking.py:0
 msgid "This transfer was generated from %s."
 msgstr ""
 

@@ -20,7 +20,12 @@ class AccountMove(models.Model):
                 price_unit = line.price_unit
                 if line.sale_line_ids:
                     from_currency = line.sale_line_ids.mapped("currency_id")
-                    price_unit = line.sale_line_ids.mapped("price_unit")[0]
+                    sale_line = line.sale_line_ids[0]
+                    price_unit = sale_line.price_unit
+                    # the sale price is expressed in the sale line UoM; bring it
+                    # into the invoice line UoM before the currency conversion
+                    if sale_line.product_uom_id and line.product_uom_id:
+                        price_unit = sale_line.product_uom_id._compute_price(price_unit, line.product_uom_id)
                 if len(from_currency) > 1:
                     raise UserError(self.env._("You cannot have multiple currencies in the same invoice line."))
 

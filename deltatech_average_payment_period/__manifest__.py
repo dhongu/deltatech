@@ -6,7 +6,7 @@
 {
     "name": "Deltatech Average Payment Period",
     "summary": "Computes average duration of cash accounting",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",

@@ -112,6 +112,36 @@ class StockPicking(models.Model):
             else:
                 record.is_transit_transfer = False
 
+    def _get_transit_source_chain(self):
+        """The source transfers and all their backorders, recursively."""
+        chain = todo = self.sudo()
+        while todo:
+            todo = todo.backorder_ids - chain
+            chain |= todo
+        return chain
+
+    def _create_backorder(self, backorder_moves=None, from_manual_backorder=False):
+        backorders = super()._create_backorder(
+            backorder_moves=backorder_moves, from_manual_backorder=from_manual_backorder
+        )
+        for backorder in backorders.filtered(lambda p: p.backorder_id.second_transfer_created):
+            # the pending moves are already in the receiving leg of the original transfer:
+            # the backorder must not generate a second one
+            backorder.second_transfer_created = True
+            origin = origins = backorder.sudo().backorder_id
+            while origin.backorder_id and origin.backorder_id not in origins:
+                origin = origin.backorder_id
+                origins |= origin
+            receptions = self.sudo().search([("source_transfer_id", "in", origins.ids)])
+            if receptions:
+                backorder.message_post(
+                    body=self.env._(
+                        "The products of this backorder will be received in %s.",
+                        ", ".join(receptions.mapped("name")),
+                    )
+                )
+        return backorders
+
     def button_validate(self):
         for picking in self:
             # to make the module work automatically without the wizard will have some conditions, if the document was an origin it will not create the second transfer automatically because it assumes that the picking comes from a different document so it has the counter part created (eg: replenishment, sale order with replenishment form a different warehouse, etc))
@@ -151,10 +181,10 @@ class StockPicking(models.Model):
                 else:
                     raise UserError(self.env._("No warehouse found for partner %s", picking.partner_id.name))
             if picking.source_transfer_id:
+                # the unprocessed moves of the source transfer go to its backorders (native _create_backorder)
+                source_products = picking.source_transfer_id._get_transit_source_chain().move_ids.product_id
                 for move in picking.move_ids:
-                    other_moves = picking.source_transfer_id.move_ids.filtered(
-                        lambda x: x.product_id == move.product_id
-                    )
+                    other_moves = move.product_id & source_products
                     if not other_moves:
                         raise UserError(
                             self.env._(

@@ -1,2 +1,3 @@
 id,name,model_id,group_id/id,operation,domain
 access_account_average_payment_report,access_account_average_payment_report,account.average.payment.report,account.group_account_user,r,
+account_average_payment_report_company_rule,Average payment report: multi-company,account.average.payment.report,,crud,"[('company_id', 'in', company_ids)]"
