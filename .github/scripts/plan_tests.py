@@ -63,6 +63,34 @@ NEUTRAL_PREFIXES = ("scripts/",)
 # component only, so `static/src/images/` (used by code) stays relevant.
 NEUTRAL_ADDON_DIRS = ("images",)
 
+# Manifest keys that change neither what gets installed nor what the tests run: a
+# version bump with its HISTORY entry, a new Apps Store image or a repriced module
+# touch the manifest but not the behaviour of the addon. If ONLY these keys differ,
+# the manifest is treated as a neutral file. Any other key (`depends`, `data`,
+# `assets`, `excludes`, hooks, `installable`...) or a new / unreadable manifest
+# keeps the usual rule: the addon goes into the tests.
+# The version is included on purpose: the tests install fresh databases, so they do
+# not run migrations; a script under `migrations/` is a non-neutral file anyway.
+MANIFEST_METADATA_KEYS = frozenset(
+    {
+        "name",
+        "summary",
+        "description",
+        "version",
+        "images",
+        "price",
+        "currency",
+        "author",
+        "maintainers",
+        "website",
+        "support",
+        "category",
+        "development_status",
+        "live_test_url",
+        "license",
+    }
+)
+
 # Root files that can affect every addon: filtering makes no sense for them.
 INFRA_PREFIXES = (
     ".github/",
@@ -181,6 +209,30 @@ def is_neutral(path):
     return any(part in probe for part in NEUTRAL_PATH_PARTS)
 
 
+def read_manifest_at(sha, path):
+    """The manifest `path` as it was at commit `sha`; None if missing or unreadable."""
+    result = subprocess.run(["git", "show", f"{sha}:{path}"], capture_output=True, text=True)
+    if result.returncode != 0:
+        return None
+    try:
+        manifest = ast.literal_eval(result.stdout)
+    except (SyntaxError, ValueError):
+        return None
+    return manifest if isinstance(manifest, dict) else None
+
+
+def is_metadata_only_manifest_change(path, base_sha, head_sha):
+    """True if between `base` and `head` the manifest differs only in MANIFEST_METADATA_KEYS."""
+    if not path.endswith("/__manifest__.py") or path.count("/") != 1:
+        return False
+    before = read_manifest_at(base_sha, path)
+    after = read_manifest_at(head_sha, path)
+    if before is None or after is None:
+        return False
+    keys = (set(before) | set(after)) - MANIFEST_METADATA_KEYS
+    return all(before.get(key) == after.get(key) for key in keys)
+
+
 def changed_addons(manifests, base_sha, head_sha):
     """Addons touched by the diff, or None when infrastructure changed."""
     diff = subprocess.run(
@@ -195,7 +247,7 @@ def changed_addons(manifests, base_sha, head_sha):
     for path in diff:
         # Neutral files first: otherwise a root `README.md` or a `.md` under
         # `.github/` would read as an infrastructure change and force a full run.
-        if is_neutral(path):
+        if is_neutral(path) or is_metadata_only_manifest_change(path, base_sha, head_sha):
             neutral += 1
             continue
         if path.startswith(INFRA_PREFIXES):
@@ -209,7 +261,7 @@ def changed_addons(manifests, base_sha, head_sha):
         if top in manifests:
             touched.add(top)
     if neutral:
-        print(f"{neutral} documentation/translation file(s) ignored for selection.")
+        print(f"{neutral} documentation/translation/manifest-metadata file(s) ignored for selection.")
     return touched
 
 

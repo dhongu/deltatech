@@ -94,7 +94,7 @@ Empty <strong>Allowed Users</strong> means the type is available to everyone; th
 sales orders only. Empty <strong>Company</strong> means all companies.</p>
 <p>Do not change <strong>Model</strong> after creation: the default values are tied to fields of the chosen
 model. For another document, create a new type.</p>
-<p><img alt="Order type form for sales orders" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_form.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Order type form for sales orders" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_form.png" /></p>
 <p><strong>Step 2 &#8212; Add default values</strong></p>
 <p>On the <strong>Default Values</strong> tab add one line per field to pre-fill: choose the <strong>Field</strong> (for
 example <em>Customer Reference</em> or <em>Payment Terms</em>) and fill in <strong>Field Value</strong>:</p>
@@ -108,18 +108,18 @@ example <em>Customer Reference</em> or <em>Payment Terms</em>) and fill in <stro
 <p>The <strong>Field Type</strong> column is filled in automatically for relational, char, selection, integer
 and boolean fields. For float, monetary, date, datetime and long text fields, check it manually
 (for example <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">12.5</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">'2026-12-31'</code>). Many2many and one2many fields cannot be used.</p>
-<p><img alt="Default values of a type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_default_values.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Default values of a type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_default_values.png" /></p>
 <p>Purchase types are defined in <strong>Purchase &#8594; Configuration &#8594; Order Types</strong>, and invoice types in
 <strong>Accounting &#8594; Configuration &#8594; Invoicing &#8594; Invoice Types</strong>. The screen is the same; only the
 target document differs.</p>
-<p><img alt="List of order types" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_list.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="List of order types" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_list.png" /></p>
 <p><strong>Step 3 &#8212; Pick the type on a sales order</strong></p>
 <p>Go to <strong>Sales &#8594; Orders &#8594; Quotations &#8594; New</strong>. The <strong>Order Type</strong> field appears before the
 customer and offers only the types you are allowed to use. When you pick one, its default values
 are applied to the order. Default values apply at selection time, so existing documents are
 not changed. The field becomes read-only after confirmation or cancellation.</p>
 <p>The <strong>Journal</strong> (invoice journal) is also visible on the order, in <strong>Other Info &#8594; Invoicing</strong>.</p>
-<p><img alt="Sales order with the type selected and default payment terms applied" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_order.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales order with the type selected and default payment terms applied" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_order.png" /></p>
 <p><strong>Step 4 &#8212; Confirm the order</strong></p>
 <p>Click <strong>Confirm</strong>. If types exist for sales and the order has none, users without the exception
 right get the message <em>"You do not have the rights to confirm an order without specifying an
@@ -128,7 +128,7 @@ in the portal are confirmed normally and stay without a type, so pick the type o
 before sending it if you need it for reporting.</p>
 <p>When the order lines have no route of their own, procurement uses the <strong>routes of the type</strong>;
 the effect shows on the generated transfers.</p>
-<p><img alt="Blocking message when confirming without a type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_confirm_blocked.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Blocking message when confirming without a type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_confirm_blocked.png" /></p>
 <p><strong>Step 5 &#8212; Pick the type on a purchase order</strong></p>
 <p>Go to <strong>Purchase &#8594; Orders &#8594; Requests for Quotation &#8594; New</strong>. <strong>Order Type</strong> appears before the
 vendor, and <strong>Journal</strong> in <strong>Other Info</strong>, after <strong>Fiscal Position</strong>. The list of types is not
@@ -137,19 +137,19 @@ follows the same rule as for sales, without the website exception.</p>
 <p>Set <strong>Journal</strong> manually or through a default value of the type. When you click <strong>Create Bill</strong>,
 the vendor bill is issued in the order's journal and follows its sequence. If <strong>Journal</strong> is
 empty, the default purchase journal is used.</p>
-<p><img alt="Purchase order with type and journal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_purchase_order.png" /></p>
-<p><img alt="Vendor bill generated in the order's journal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_vendor_bill_journal.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Purchase order with type and journal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_purchase_order.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Vendor bill generated in the order's journal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_vendor_bill_journal.png" /></p>
 <p><strong>Step 6 &#8212; Pick the type on an invoice</strong></p>
 <p>Go to <strong>Accounting &#8594; Customers &#8594; Invoices &#8594; New</strong>. <strong>Invoice Type</strong> is in <strong>Other Info</strong>,
 <strong>Invoice</strong> group, after <strong>Sales Team</strong>, and is editable only in draft. The type is optional on
 invoices: posting does not check it. It exists only on customer invoices and credit notes, and it is
 not copied from the sales order, so choose it on the invoice. Its default values apply when picked.</p>
-<p><img alt="Invoice with the type selected" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_invoice.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Invoice with the type selected" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_invoice.png" /></p>
 <p><strong>Step 7 &#8212; Filter, group and analyze</strong></p>
 <p>The <strong>Order Type</strong> column is available (optional) in the lists of sales orders, purchase orders
 and invoices. In search you get an <strong>Order Type</strong> field and an <strong>Order Type</strong> group-by. Sales and
 purchase reports expose the type as a dimension through <strong>Custom Group</strong>.</p>
-<p><img alt="Sales orders grouped by type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_group_by.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales orders grouped by type" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_group_by.png" /></p>
 </div>
 </div>
 

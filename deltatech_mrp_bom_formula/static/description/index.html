@@ -119,13 +119,13 @@ influences consumption (for example <em>Width</em>).</p>
 </tr>
 </tbody>
 </table>
-<p><img alt="Attribute with Formula Code and numeric values" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_attribute_code.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Attribute with Formula Code and numeric values" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_attribute_code.png" /></p>
 <p><strong>Step 2 &#8212; Write the formula on the component line</strong></p>
 <p>Go to <em>Manufacturing &#8227; Products &#8227; Bills of Materials</em> and open a bill of
 materials defined on the product template. On the <strong>Components</strong> tab, show the
 optional <strong>Quantity Formula</strong> column (or open the line and use the field below
 <em>Apply on Variants</em>) and write the formula. One line now covers all variants.</p>
-<p><img alt="Bill of materials with Quantity Formula" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_bom_lines.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Bill of materials with Quantity Formula" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_bom_lines.png" /></p>
 <p>Three patterns cover most cases:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">num[&quot;width&quot;] / 1000                                # proportional to a dimension
 0.8 if attr[&quot;finish&quot;] == &quot;galvanized&quot; else 0.1     # discrete value
@@ -164,7 +164,7 @@ also available.</p>
 <p>The formula is checked on save. A wrong expression, such as a reference to a
 code that does not exist, is rejected immediately in the BoM editor, with the
 code named in the message, not when the order is confirmed.</p>
-<p><img alt="Validation error for an invalid formula" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_invalid_error.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Validation error for an invalid formula" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_invalid_error.png" /></p>
 <p><strong>Step 4 &#8212; Launch production</strong></p>
 <p>Create a manufacturing order for a configured variant. When the BoM is
 exploded (manufacturing order, kit, forecast), each component quantity is
@@ -173,7 +173,7 @@ order for 3 pieces of the <em>Galvanized, 1250 mm</em> variant gives
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">num["width"] / 1000</code> = 1.25 kg per piece, so <strong>3.75 kg</strong> of sheet metal, and
 0.8 kg per piece, so <strong>2.40 kg</strong> of zinc. Rounding to the unit of measure is
 done upwards, as in standard Odoo.</p>
-<p><img alt="Manufacturing order with calculated quantities" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_mo_quantities.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Manufacturing order with calculated quantities" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/bom_formula_mo_quantities.png" /></p>
 <p><strong>Good to know</strong></p>
 <ul>
 <li>A line without a formula keeps its quantity.</li>

@@ -734,6 +734,19 @@ def style_images(rendered):
     )
 
 
+def style_inline_images(rendered):
+    """Capturile din celelalte taburi (Utilizare etc.): responsive, fără să depășească textul.
+
+    Fără stil, Apps Store le afișează la dimensiunea intrinsecă, peste coloana de text.
+    `max-width:100%` le păstrează la dimensiunea lor cât încap și le micșorează odată cu fereastra.
+    """
+    return re.sub(
+        r"<img (?![^>]*\bstyle=)",
+        '<img class="img-fluid d-block" style="max-width:100%;height:auto;" ',
+        rendered,
+    )
+
+
 def fix_image_paths(rendered):
     """Căile imaginilor relative la index.html, nu la rădăcina modulului.
 
@@ -751,6 +764,8 @@ def build_panel_body(key, md_text):
     rendered = style_code(rendered)
     if key == "presentation":
         rendered = style_images(rendered)
+    else:
+        rendered = style_inline_images(rendered)
     if key in ("overview", "romana"):
         rendered = style_feature_lists(rendered)
         rendered = style_lead_paragraph(rendered)

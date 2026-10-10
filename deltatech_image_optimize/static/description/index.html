@@ -189,7 +189,7 @@ repository) and rebuild:</p>
 <p>The model is downloaded on first use (ISNet: 180 MB, under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">~/.rembg/models</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$U2NET_HOME</code>)
 and kept loaded per worker process; on CPU an image takes about one second. Only one model is kept
 loaded at a time.</p>
-<p><img alt="System parameters for background removal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_system_parameters.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="System parameters for background removal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_system_parameters.png" /></p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
 <tr>
@@ -408,7 +408,7 @@ also covers the images of its eCommerce gallery.</p>
 <p>Access rights: the action needs the <strong>Products: Create</strong> right. To modify gallery images you also
 need <strong>Sales: Administrator</strong> or <strong>Website: Restricted Editor</strong>; without them <strong>Apply</strong> stops with an
 access error.</p>
-<p><img alt="Remove Image Background action on the product list" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_action.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Remove Image Background action on the product list" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_action.png" /></p>
 <p><strong>Step 2 &#8212; Check the preview</strong></p>
 <p>When the selection has at most <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code> images (default 5), the wizard cuts them out on the
 spot, writes nothing yet, and shows <strong>Before</strong> and <strong>After</strong> for each one. The limit counts
@@ -423,7 +423,7 @@ spot, writes nothing yet, and shows <strong>Before</strong> and <strong>After</s
 </ul>
 <p>With the <em>Automatic</em> method, the wizard cuts by color when the image border has a single color and
 uses the AI model otherwise.</p>
-<p><img alt="Preview with the automatic method" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_preview_automatic.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Preview with the automatic method" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_preview_automatic.png" /></p>
 <p><strong>Step 3 &#8212; When the AI model loses part of the product</strong></p>
 <p>When the AI model is used on a photo with a uniform background, its result is compared with the
 cut-out by color. If it left out at least <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_lost_warning</code> percent of the product, the row shows a
@@ -431,12 +431,12 @@ warning in the <em>Warning</em> column and is <strong>unticked</strong>.</p>
 <p>Choose another <em>Method</em> or <em>AI Model</em> and press <strong>Refresh Preview</strong>. Refresh rebuilds the preview
 <strong>and also the ticks</strong>. So first choose the method and press <strong>Refresh Preview</strong>, and only then
 untick what is not good, right before <strong>Apply</strong>.</p>
-<p><img alt="Warning: the AI model lost the funnel" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_ai_warning.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Warning: the AI model lost the funnel" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_ai_warning.png" /></p>
 <p><strong>Step 4 &#8212; The result on the product</strong></p>
 <p>After <strong>Apply</strong>, the product image (and its resized variants) is saved on a transparent background,
 in WebP format (PNG if the server cannot encode WebP; JPEG if a solid <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_color</code> is set). The
 <em>Background Removal</em> status becomes <em>Removed</em>. On the shop, the product appears on the page background.</p>
-<p><img alt="Product after background removal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_after.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Product after background removal" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_after.png" /></p>
 <p><strong>Step 5 &#8212; Many images: the queue</strong></p>
 <p>Above <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code> images, a live preview would take too long. The wizard only asks for
 confirmation and sends the images to the <strong>Queue</strong>. The scheduled action <em>Image Optimizer: remove
@@ -446,7 +446,7 @@ appears only in the server log.</p>
 <p>To find pending or failed images, use <em>Filters &#8594; Add a custom filter</em> on the product list, on the
 <em>Background Removal</em> field (<em>Pending</em> or <em>Failed</em>).</p>
 <p>Tip: try a few images with the preview first, to see the result on your own catalog photos.</p>
-<p><img alt="Queue for a large selection" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Queue for a large selection" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png" /></p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Remove a watermark</h2>
 <p><strong>Step 6 &#8212; Remove the watermark of your catalog images</strong></p>
 <p>Only on images whose watermark you have the right to remove (your own, or with the rights holder's
@@ -472,13 +472,13 @@ on the groups that can be cleaned (<em>Removable</em>).</p>
   <strong>never deleted</strong>.</li>
 <li>The <strong>Images</strong> button opens the images of the group.</li>
 </ul>
-<p><img alt="List of duplicated images" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_list.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="List of duplicated images" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_list.png" /></p>
 <p><strong>Step 8 &#8212; Delete the duplicates</strong></p>
 <p><em>Website &#8594; eCommerce &#8594; Products &#8594; Remove Duplicated Images</em>. The wizard shows how many contents have
 copies to delete, how many images will be deleted and kept, and the exact list. From each group
 (same content, same product) the image that appears first in the gallery stays; images with a video
 always stay. <strong>Remove Duplicates</strong> asks for confirmation and deletes permanently.</p>
-<p><img alt="Wizard for removing duplicates" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_remove.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Wizard for removing duplicates" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_remove.png" /></p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Recompression</h2>
 <p><strong>Step 9 &#8212; Recompress oversized images</strong></p>
 <p>Go to <em>Settings &#8594; Technical &#8594; Automation &#8594; Scheduled Actions</em> and open <em>Image Optimizer: recompress
@@ -491,10 +491,17 @@ on production.</p>
 <p>The parameters are in <em>Settings &#8594; Technical &#8594; Parameters &#8594; System Parameters</em> (developer mode),
 keys starting with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.</code>. Do not change <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_jpeg</code>: at 1, transparency
 becomes black permanently.</p>
-<p><img alt="Scheduled action for recompression" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_recompress_cron.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Scheduled action for recompression" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_recompress_cron.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.2</h1>
+<ul>
+<li>IMAGE-001: animated PNG (APNG) and animated WebP images are no longer
+  optimized. Only animated GIFs were left alone; the others were saved as their
+  first frame and the animation was lost. Every animated image, whatever its
+  format, is now skipped by both the original and the variant optimizer.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.1</h1>
 <ul>
 <li>Apps Store banner (banner.json).</li>
