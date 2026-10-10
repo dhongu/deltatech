@@ -1,9 +1,9 @@
 # ©  2015-2023 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Stock Close",
-    "summary": "Close stock operations at date",
-    "version": "18.0.1.0.5",
+    "name": "Stock Close",
+    "summary": "Closed stock valuations left out of the storage sheet",
+    "version": "18.0.1.0.6",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
