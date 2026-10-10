@@ -3,7 +3,7 @@ single button click directly on the sale order. Designed for businesses that nee
 process straightforward orders quickly — no separate picking validation or invoice wizard
 steps required.
 
-**Key features:**
+**✨ Key features:**
 
 - **Confirm, Deliver and Invoice** — one-click button on draft/sent sale orders that
   confirms the order, validates the delivery (using order quantities), and opens the
