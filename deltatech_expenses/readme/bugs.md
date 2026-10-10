@@ -37,7 +37,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## EXPENSES-004 — P2: Invalidation deletes posted entries instead of reversing them
 
-- **Status:** Open.
+- **Status:** By design (2026-10-10). Invalidating a deduction deletes its posted entries, including the advance entry, and the deduction is validated again from Draft; this is the intended workflow of the module, operated by the accountant. Posted entries in a locked period or with a hash are still protected by the standard `button_draft` checks. Not to be changed.
 - **Location:** models/deltatech_expenses_deduction.py, `invalidate_expenses()`.
 - **Trigger:** Invalidate a done deduction (for example to correct an amount).
 - **Actual behavior:** The deduction goes back to Draft and every posted entry linked to it is cancelled and deleted with `force_delete`, including the advance entry Dr 542 = Cr 5311, together with the receipts, the settlement entries (401 = 542), the difference and the per diem entries.
