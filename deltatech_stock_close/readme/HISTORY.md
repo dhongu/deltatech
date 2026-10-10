@@ -1,4 +1,4 @@
-## 19.0.1.1.2 (2026-10-11)
+## 19.0.1.1.2 (2026-10-10)
 
 - Apps Store page: description written from the code (the "close at date" feature, which the module
   does not have, removed; the Valuation Active flag and the Only active option of the storage sheet
