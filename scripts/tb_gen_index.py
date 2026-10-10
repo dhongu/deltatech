@@ -159,9 +159,10 @@ I18N = {
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
         "badge_hosting": "Odoo.sh &bull; On-premise",
-        "subscription_title": "Terrabit customers don&rsquo;t buy this module.",
-        "subscription_body": "Companies we implement Odoo for get it in their module subscription, together with "
-        "upgrades to new Odoo versions and support.",
+        "subscription_title": "For projects implemented by Terrabit,",
+        "subscription_body": "the post-implementation subscription includes access to our module portfolio, with no "
+        "separate purchase, together with upgrades to every new Odoo version and support from the developers who "
+        "build the modules.",
         "rating_free_title": "Did this module help you?",
         "rating_free_body": "It is free, built and maintained by the Terrabit developers. If it saved you time, "
         "a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. "
@@ -204,9 +205,10 @@ I18N = {
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
-        "subscription_title": "Clien&#539;ii Terrabit nu cump&#259;r&#259; modulul.",
-        "subscription_body": "Companiile la care facem implementarea &#238;l primesc &#238;n abonamentul de module, "
-        "&#238;mpreun&#259; cu actualiz&#259;rile la versiunile noi de Odoo &#537;i suportul.",
+        "subscription_title": "Pentru proiectele implementate de Terrabit,",
+        "subscription_body": "abonamentul postimplementare include accesul la portofoliul nostru de module, f&#259;r&#259; "
+        "achizi&#539;ie separat&#259;, &#238;mpreun&#259; cu actualizarea lor la fiecare versiune nou&#259; de Odoo "
+        "&#537;i suportul dezvoltatorilor care le construiesc.",
         "rating_free_title": "V-a ajutat acest modul?",
         "rating_free_body": "E gratuit, construit &#537;i &#238;ntre&#539;inut de programatorii Terrabit. Dac&#259; v-a economisit timp, "
         "un rating pe aceast&#259; pagin&#259; e cel mai bun mod de a ne mul&#539;umi &mdash; &#537;i &#238;i ajut&#259; pe al&#539;i utilizatori Odoo s&#259; &#238;l g&#259;seasc&#259;. "
@@ -354,8 +356,8 @@ SCOPE_NOTE = """
 </section>
 """
 
-# Abonamentul Terrabit: clienții de implementare primesc modulele cu preț în abonament (cu upgrade-uri și
-# suport), deci nu le cumpără de pe Apps. Apare doar pe modulele cu preț, înaintea notei de acoperire și a
+# Abonamentul Terrabit: proiectele implementate de Terrabit au acces la portofoliul de module prin abonamentul
+# postimplementare (cu upgrade-uri și suport), fără să le cumpere de pe Apps. Apare doar pe modulele cu preț, înaintea notei de acoperire și a
 # CTA-ului de suport; caseta are culorile cererii de rating.
 SUBSCRIPTION = """
 <div class="d-flex align-items-start rounded-4 px-4 py-3 mt-4 mb-3" style="background-color:#DEF1DD;color:%(body)s;">
