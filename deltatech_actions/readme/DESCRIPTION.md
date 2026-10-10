@@ -1,7 +1,7 @@
 Provides a set of scheduled maintenance actions (cron jobs) to keep an Odoo database clean and performant.
 All jobs are **disabled by default** and run in **dry mode** (no data is changed until explicitly enabled by an administrator).
 
-**Key features:**
+**✨ Key features:**
 
 - Delete duplicate XML (EDI/ANAF) attachments on invoices — cron: *Delete duplicate xml attachments*
 - Delete old generated PDF attachments on invoices — cron: *Delete pdf invoice attachments*
