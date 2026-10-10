@@ -1,3 +1,7 @@
+## 20.0.1.0.5 (2026-10-11)
+
+- Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
+
 ## 20.0.1.0.4 (2026-10-10)
 
 - Fix AVGPAY-002: the *Average payment period* report (SQL view) selected the journal items of every company and had no company restriction, exposing invoices, payment history and amounts of other companies. The view now exposes `company_id` (query built with `SQL()`) and a global restriction `[('company_id', 'in', company_ids)]` is added in `security/ir.access.csv`.

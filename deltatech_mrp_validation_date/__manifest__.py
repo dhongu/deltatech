@@ -3,7 +3,7 @@
 {
     "name": "MRP Validation Date",
     "summary": "Validation date on production order",
-    "version": "20.0.0.0.2",
+    "version": "20.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
