@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Category Group",
     "summary": "Groups for internal categories",
-    "version": "19.0.0.0.6",
+    "version": "19.0.0.0.7",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Other",
