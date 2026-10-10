@@ -11,6 +11,6 @@
   `group_ids` respectively) — `ValueError: Invalid field 'users' in
   'res.groups'` at registry load. No other API removed in Odoo 19 is
   touched (no `attrs`/`states`, no `target="inline"`, no search-view
-  `<group>`). Ported for Ridacon (helpdesk #9538), which installs it
-  standalone (not a `terrabit_ridacon` dependency) to restrict the
+  `<group>`). Ported for a customer, who installs it
+  standalone (not as a dependency of a customer module) to restrict the
   Contacts/Sales/Finance menus to a dedicated internal-access group.
