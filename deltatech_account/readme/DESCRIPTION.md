@@ -3,7 +3,7 @@ additional journal configuration options, and an extra setting for Anglo-Saxon a
 cost recognition — useful for businesses that need tighter control over their financial
 workflows.
 
-**Key Features:**
+**✨ Key Features:**
 
 - Adds an **Anglo-Saxon Accounting** toggle to the General Accounting settings,
   allowing companies to record cost of goods sold directly in journal entries.
