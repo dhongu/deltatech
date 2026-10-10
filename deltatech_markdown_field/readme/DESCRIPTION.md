@@ -15,7 +15,7 @@ runtime:
 Both libraries are bundled locally as UMD builds, so the module works offline and
 needs no external CDN.
 
-**Key features**
+**✨ Key features**
 
 - WYSIWYG toolbar: bold, italic, headings, lists, quotes, code blocks and links.
 - Stores raw Markdown — portable, diff-friendly and readable anywhere.
@@ -24,7 +24,7 @@ needs no external CDN.
   toolbar.
 - Configurable minimum editor height via the `min_height` option.
 
-**Usage**
+**⚙️ Usage**
 
 ```xml
 <field name="notes" widget="markdown"/>
