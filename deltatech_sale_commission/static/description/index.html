@@ -77,10 +77,10 @@ and if the difference between the date of the last payment and the due date is l
 <p>Before you start, see <em>Configuration</em> for access groups, agent rates and the optional payment-delay limit.</p>
 <p><strong>Step 1 &#8212; Choose who earns the commission</strong></p>
 <p>Go to <strong>Settings &#8594; Sales</strong>, section <strong>Invoicing</strong>, option <strong>Salesperson commission compute</strong>. Choose <strong>Invoice</strong> (the agent set on the invoice) or <strong>Sales Order</strong> (the agent of the order the line was invoiced from), then click <strong>Save</strong>. Decide this at implementation time: changing it later reassigns all existing lines, including commissions already paid.</p>
-<p><img alt="Setting that decides which agent earns the commission" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_settings_agent.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Setting that decides which agent earns the commission" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_settings_agent.png" /></p>
 <p><strong>Step 2 &#8212; Set the rates per agent</strong></p>
 <p>Go to <strong>Sales &#8594; Configuration &#8594; Users Commission</strong>. The list is editable in place. For each agent enter the agent rate, the sales manager and director with their own rates, and the sales journal. Rates are fractions of the profit: 0.100 means 10%. The journal is mandatory, and an agent can have only one row per journal.</p>
-<p><img alt="Commission rates per agent, manager and director" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_agent_rates.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission rates per agent, manager and director" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_agent_rates.png" /></p>
 <p><strong>Step 3 &#8212; Check the cost on the customer invoice</strong></p>
 <p>On the customer invoice, the <strong>Cost Price</strong> column shows the unit cost of the goods next to the <strong>Price</strong>. It is computed automatically:
 - from the <strong>delivery</strong> of the invoiced order (value of the stock move to the customer divided by quantity);
@@ -88,33 +88,33 @@ and if the difference between the date of the last payment and the due date is l
 - for invoices without an order or delivery, from the product cost;
 - for credit notes, from the <strong>goods return</strong>. Without a return, a reversal of the invoice takes the cost of the invoice line (invoice and reversal net to zero profit), while a price or discount reduction has cost 0.</p>
 <p>The column is visible only to users in the cost group from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin</code>. If your company uses the <strong>Block sale</strong> policy, a draft invoice with a price below cost cannot be saved.</p>
-<p><img alt="Customer invoice with the cost price on each line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_invoice_cost_price.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Customer invoice with the cost price on each line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_invoice_cost_price.png" /></p>
 <p><strong>Step 4 &#8212; Analyse the profit</strong></p>
 <p>Go to <strong>Sales &#8594; Reporting &#8594; Profit Analysis</strong>. The pivot opens on last month, grouped by product. Each row shows the sale value, cost value, profit value, <strong>Markup</strong> (profit / cost) and <strong>Margin</strong> (profit / sale). Regroup by agent, category, customer, invoice, journal or month. Totals recalculate markup and margin from the sums. Use <strong>Insert in Spreadsheet</strong> or the export to take the table to Excel. Credit notes reduce both sale and cost.</p>
-<p><img alt="Profit analysis report" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_profit_report.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Profit analysis report" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_profit_report.png" /></p>
 <p><strong>Step 5 &#8212; Review the commissions to compute</strong></p>
 <p>Go to <strong>Sales &#8594; Orders &#8594; Commission &#8594; Commission</strong>. The list opens on last month and only on <strong>paid</strong> invoices (including <em>In payment</em>); remove the <em>Paid</em> filter to see unpaid ones as well. Each line shows the invoice, product, agent, customer, sale, cost, profit, <strong>Computed commission</strong> (agent rate &#215; profit), <strong>Real commission</strong> (initially 0) and <strong>Commission paid</strong>. Manager and director commissions are optional columns and are informative only.</p>
-<p><img alt="Commission list before the calculation" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_list_before.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission list before the calculation" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_list_before.png" /></p>
 <p><strong>Step 6 &#8212; Compute the commissions</strong></p>
 <p>Select the lines and choose <strong>Actions &#8594; Compute Commission</strong>. The wizard lists the selected lines. Click <strong>Apply</strong>. <strong>Real commission</strong> becomes:
 - the computed commission, if the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_commission.days_for_commission</code> parameter is not set;
 - with the parameter: 0 if the invoice is not fully paid or was paid later than that number of days after the due date, otherwise the computed commission;
 - for credit notes: always the computed commission, which is negative and reduces the agent's total.</p>
 <p>Only the agent's commission is written; manager and director amounts stay informative.</p>
-<p><img alt="Compute Commission wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_compute_wizard.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Compute Commission wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_compute_wizard.png" /></p>
 <p><strong>Step 7 &#8212; Review the result</strong></p>
 <p>After <strong>Apply</strong>, the list opens on the computed lines. Compare <strong>Computed commission</strong> with <strong>Real commission</strong>: every line with real commission 0 is an unpaid invoice or one paid after the limit, and the difference between the totals is the amount lost to late payment. If needed, correct <strong>Real commission</strong> manually before payment: open the row and edit the field in the form.</p>
-<p><img alt="Commissions after the calculation" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_list_after.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commissions after the calculation" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_list_after.png" /></p>
 <p><strong>Step 8 &#8212; Mark commissions as paid</strong></p>
 <p>After the agent has been paid (outside this module), select the lines and click <strong>Set Paid</strong> in the list header. The filters <strong>Commission not paid</strong> and <strong>Commission paid</strong> then separate what is settled from what is still due.</p>
-<p><img alt="Commission marked as paid" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_marked_paid.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission marked as paid" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_marked_paid.png" /></p>
 <p><strong>Step 9 &#8212; Recompute the cost when needed</strong></p>
 <p>If a line cost is wrong (for example the delivery was validated after invoicing), select the lines and choose <strong>Actions &#8594; Update Purchase Price</strong>:
 - <strong>Price from delivery</strong> (default) recomputes the cost from the delivery, falling back to the product cost;
 - unchecked, it takes the current product cost;
 - <strong>For all lines</strong> applies to every line in the report, not only the selected ones.</p>
 <p>Profit and computed commission update immediately; <strong>Real commission</strong> stays as set until you compute again (Step 6). A scheduled action also refreshes the cost of lines invoiced in the last 7 days every day.</p>
-<p><img alt="Update Purchase Price wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_update_cost_wizard.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Update Purchase Price wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_update_cost_wizard.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
