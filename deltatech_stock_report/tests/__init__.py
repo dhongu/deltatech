@@ -2,3 +2,4 @@
 
 from . import test_stock_picking_report_basic
 from . import test_stock_picking_report_values
+from . import test_stock_picking_report_company
