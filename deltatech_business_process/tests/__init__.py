@@ -17,3 +17,4 @@ from . import test_screenshots
 from . import test_acceptance_test_access
 from . import test_company_rules
 from . import test_open_issue_mail
+from . import test_test_report_id

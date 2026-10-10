@@ -103,9 +103,11 @@ class BusinessProcessTestReport(models.Model):
 
     @api.model
     def _select(self):
+        # One row per step test (bpst): the step id repeats across test runs,
+        # so it cannot be the row id.
         return """
             SELECT
-                bps.id AS id,
+                bpst.id AS id,
                 bp.id AS process_id,
                 bp.project_id AS project_id,
                 bps.id AS step_id,
