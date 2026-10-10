@@ -1,10 +1,10 @@
 # Known bugs
 
-Review date: 2026-10-11. Target version: Odoo 18.
+Review date: 2026-10-10. Target version: Odoo 18.
 
 ## STC-001 — P1: An archived valuation layer also leaves Odoo's own stock valuation
 
-- **Status:** Open. Found on 2026-10-11 while writing the Apps page.
+- **Status:** Open. Found on 2026-10-10 while writing the Apps page.
 - **Location:** `models/stock_valuation_layer.py` (`active = fields.Boolean(default=True)`).
 - **Trigger:** Archive valuation layers to close them for the storage sheet.
 - **Actual behavior / impact:** With an `active` field, every search and read_group on

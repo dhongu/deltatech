@@ -1,6 +1,6 @@
 # Changelog
 
-## 18.0.1.0.6 (2026-10-11)
+## 18.0.1.0.6 (2026-10-10)
 
 - Apps Store page: description written from the code (the "close at date" feature, which the module
   does not have, removed; archivable valuation layers and the Only active option of the storage sheet
