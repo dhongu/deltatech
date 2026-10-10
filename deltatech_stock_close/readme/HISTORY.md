@@ -1,3 +1,12 @@
+## 19.0.1.1.2 (2026-10-11)
+
+- Apps Store page: description written from the code (the "close at date" feature, which the module
+  does not have, removed; the Valuation Active flag and the Only active option of the storage sheet
+  described), Configuration and Usage added, and the Romanian translation in its own tab
+  (`readme/*.ro.md`). Known bugs in `readme/bugs.md`. English summary; banner aligned.
+- Module name: "Stock Close" (was "Deltatech Stock Close"), without the brand name and the same as the
+  banner.
+
 # 19.0.1.1.1
 
 - Own module icon, instead of the generic gears it had.

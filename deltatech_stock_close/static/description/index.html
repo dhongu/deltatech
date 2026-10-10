@@ -1,9 +1,9 @@
 <div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
 <!-- tb-gen v1 -->
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
-  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech Stock Close" style="width:72px;height:72px;border:none;"/></span></div>
-  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech Stock Close</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Close stock operations at date</p>
+  <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Stock Close" style="width:72px;height:72px;border:none;"/></span></div>
+  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Stock Close</h1>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Closed stock moves left out of the storage sheet</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Warehouse</span>
@@ -27,6 +27,21 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-romana"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-romana" href="#tb-panel-romana"
+       style="padding:10px 22px;">Rom&#226;n&#259;</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -35,16 +50,77 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Stock Closing Operations</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides tools for managing stock closing operations at a specific date.
-It helps maintain inventory accuracy by allowing users to mark stock move valuations as closed, so they can be excluded from the Romanian storage sheet after a certain period or when closing the fiscal year.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Ability to close stock operations as of a given date.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds a "Valuation Active" field on stock moves (Odoo 19 stores valuation on stock moves) for better visibility.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Improves reporting performance by filtering out old or closed stock move valuations in the storage sheet ("Only active" option).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Integration with Romanian localization stock reports.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Go to Inventory &gt; Reporting &gt; Romanian Stock Storage Sheet.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Enable the "Only active" option to exclude closed valuations from the report.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Mark stock move valuations as closed (unset "Valuation Active") according to your business needs.</div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Leaves closed stock moves out of the Romanian <strong>storage sheet</strong> (<em>fi&#537;a de magazie</em>, from the
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code> module of the Romanian localization): once a period or a fiscal year is closed,
+the storage sheet can be run on the stock moves that are still open only.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Valuation Active flag</span><div>Each stock move gets a <strong>Valuation Active</strong> flag, on by default; a move
+  whose flag is off counts as closed. In Odoo 19 the valuation is kept on the stock move, so the flag
+  is set there.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Only active option</span><div>The storage sheet wizard gets an <strong>Only active</strong> option; when ticked, the
+  initial balance, the receipts, the deliveries and the final balance leave out the closed moves.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Report unchanged otherwise</span><div>With the option off, the storage sheet is exactly the one of the
+  Romanian localization; the stock moves themselves are never hidden elsewhere in Odoo.</div></div></li></ul>
+<p>The <strong>Valuation Active</strong> flag is not shown on the stock move form in this version: it is set by import
+or by a script.</p>
+<p><strong>Data sent outside Odoo:</strong> none.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ol>
+<li>Install the module; it needs the storage sheet of the Romanian localization
+   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>).</li>
+<li>Decide which stock moves count as closed (for instance every move of a closed fiscal year) and
+   untick <strong>Valuation Active</strong> on them, by import (<em>Inventory &gt; Reporting &gt; Moves History</em>, export and
+   import of the field) or by a script.</li>
+</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open the storage sheet of the Romanian localization (<em>Inventory &gt; Reporting</em>).</li>
+<li>Tick <strong>Only active</strong> to leave the closed stock moves out; leave it unticked for the full report.</li>
+<li>Run the report as usual.</li>
+</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-romana" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Prezentare</h3>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Scoate mi&#537;c&#259;rile de stoc &#238;nchise din <strong>fi&#537;a de magazie</strong> a localiz&#259;rii rom&#226;ne&#537;ti (modulul
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>): dup&#259; &#238;nchiderea unei perioade sau a unui an fiscal, fi&#537;a de magazie se poate
+rula doar pe mi&#537;c&#259;rile de stoc &#238;nc&#259; deschise.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Indicatorul Valuation Active</span><div>Fiecare mi&#537;care de stoc prime&#537;te indicatorul <strong>Valuation Active</strong>,
+  activ implicit; o mi&#537;care cu indicatorul dezactivat e considerat&#259; &#238;nchis&#259;. &#206;n Odoo 19 evaluarea se
+  &#539;ine pe mi&#537;carea de stoc, deci indicatorul st&#259; acolo.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Op&#539;iunea Only active</span><div>Asistentul fi&#537;ei de magazie prime&#537;te op&#539;iunea <strong>Only active</strong>; c&#226;nd e
+  bifat&#259;, soldul ini&#539;ial, intr&#259;rile, ie&#537;irile &#537;i soldul final nu mai iau &#238;n calcul mi&#537;c&#259;rile &#238;nchise.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Raportul r&#259;m&#226;ne altfel neschimbat</span><div>Cu op&#539;iunea nebifat&#259;, fi&#537;a de magazie e exact cea din
+  localizarea rom&#226;neasc&#259;; mi&#537;c&#259;rile de stoc nu sunt ascunse nic&#259;ieri altundeva &#238;n Odoo.</div></div></li></ul>
+<p>Indicatorul <strong>Valuation Active</strong> nu apare pe formularul mi&#537;c&#259;rii de stoc &#238;n aceast&#259; versiune: se seteaz&#259;
+prin import sau printr-un script.</p>
+<p><strong>Date trimise &#238;n afara Odoo:</strong> niciuna.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Configurare</h3>
+<ol>
+<li>Instala&#539;i modulul; are nevoie de fi&#537;a de magazie din localizarea rom&#226;neasc&#259;
+   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>).</li>
+<li>Stabili&#539;i ce mi&#537;c&#259;ri de stoc sunt &#238;nchise (de exemplu toate mi&#537;c&#259;rile unui an fiscal &#238;nchis) &#537;i
+   debifa&#539;i pe ele <strong>Valuation Active</strong>, prin import (<em>Inventar &gt; Raportare &gt; Istoric mi&#537;c&#259;ri</em>, export
+   &#537;i import al c&#226;mpului) sau printr-un script.</li>
+</ol>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
+<ol>
+<li>Deschide&#539;i fi&#537;a de magazie a localiz&#259;rii rom&#226;ne&#537;ti (<em>Inventar &gt; Raportare</em>).</li>
+<li>Bifa&#539;i <strong>Only active</strong> ca s&#259; l&#259;sa&#539;i deoparte mi&#537;c&#259;rile de stoc &#238;nchise; l&#259;sa&#539;i-o nebifat&#259; pentru
+   raportul complet.</li>
+<li>Rula&#539;i raportul ca de obicei.</li>
+</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-10-11)</h2>
+<ul>
+<li>Apps Store page: description written from the code (the "close at date" feature, which the module
+  does not have, removed; the Valuation Active flag and the Only active option of the storage sheet
+  described), Configuration and Usage added, and the Romanian translation in its own tab
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/*.ro.md</code>). Known bugs in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/bugs.md</code>. English summary; banner aligned.</li>
+<li>Module name: "Stock Close" (was "Deltatech Stock Close"), without the brand name and the same as the
+  banner.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.1</h1>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
