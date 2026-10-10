@@ -4,7 +4,7 @@ Instead of building a payment schedule line by line, users fill in a simple wiza
 and the system generates the complete term with the correct advance, number of
 installments, and due dates automatically.
 
-**Key features:**
+**✨ Key features:**
 
 - **Rate generation wizard** — a single form (name, type, advance amount/percentage,
   number of installments, day of the month) generates a full `account.payment.term`

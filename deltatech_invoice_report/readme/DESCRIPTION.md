@@ -2,7 +2,7 @@ Extends the standard Odoo invoice analysis report and the product form with
 purchase/sales history data, making it easy to see how much of each product
 was bought or sold in any given year without leaving the product record.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds **Region** (partner state) and **Default Supplier** fields to
   `account.invoice.report`, so invoice analysis can be grouped or filtered by

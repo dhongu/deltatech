@@ -1,3 +1,7 @@
+## 19.0.2.1.7 (2026-10-11)
+
+- Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
+
 ## 19.0.2.1.6 (2026-10-05)
 
 **Fixed**

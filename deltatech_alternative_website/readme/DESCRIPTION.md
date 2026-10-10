@@ -1,6 +1,6 @@
 This module extends the Odoo website shop to expose **alternative product codes** directly on the product page and in the website search engine. It is designed for businesses (spare parts distributors, industrial suppliers) where customers search by OEM codes, cross-reference numbers, or manufacturer codes rather than internal SKUs.
 
-**Key features:**
+**✨ Key features:**
 
 - Displays the alternative code(s) stored on the product (`alternative_ids`) as hidden `<span>` elements with `itemprop="alternateName"`, making them available to search engines and the internal site search.
 - Shows a dedicated **"Alternative code"** section on the product page (visible to logged-in users only) with the primary `alternative_code` value.

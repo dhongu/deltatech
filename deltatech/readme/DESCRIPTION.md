@@ -2,7 +2,7 @@ The `deltatech` module is the foundational technical dependency for the entire D
 of Odoo addons. It provides shared base extensions and minor infrastructure improvements that
 all other Deltatech modules rely on for consistent behaviour.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a `model_name` convenience field on `ir.rule` records, making record rule configuration
   easier by displaying the technical model name directly on the form alongside the domain widget.

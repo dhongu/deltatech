@@ -1,6 +1,6 @@
 Automatically creates reorder rules (replenishment rules) for products in Odoo, reducing the manual overhead of setting up stock replenishment in warehouses that manage many SKUs.
 
-**Key features:**
+**✨ Key features:**
 
 - Automatically creates a `stock.warehouse.orderpoint` entry for every new storable product, using the warehouse and route marked for auto-rules.
 - Provides a **Create rule** server action (available on the Products list) to generate rules in bulk for existing products that do not yet have one.

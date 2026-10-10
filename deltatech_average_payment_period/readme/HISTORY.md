@@ -1,3 +1,7 @@
+## 19.0.1.0.5 (2026-10-11)
+
+- Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
+
 ## 19.0.1.0.4 (2026-10-09)
 
 - Average Payment Period report: company field and company record rule, users

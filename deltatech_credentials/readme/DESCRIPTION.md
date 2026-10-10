@@ -3,7 +3,7 @@ within Odoo. Instead of scattering API keys, tokens, and login pairs across syst
 parameters or configuration files, administrators can manage all access data in one
 secure location — available directly under **Settings > Users & Companies > Credentials**.
 
-**Key features:**
+**✨ Key features:**
 
 - Store credentials for any external service with a descriptive name and optional code.
 - Three access-type modes: **User / Password**, **Client ID / Client Secret (API key)**,

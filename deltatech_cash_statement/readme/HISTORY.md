@@ -1,3 +1,7 @@
+## 19.0.3.1.4 (2026-10-11)
+
+- Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
+
 ## 19.0.3.1.3 (2026-10-09)
 
 - **Balances are chained per journal.** Statements selected from several cash

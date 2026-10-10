@@ -2,7 +2,7 @@ This module keeps the balances of cash statements consistent with the
 accounting, and books a counted cash difference as a dated entry instead of
 silently overwriting a balance.
 
-**Key features:**
+**✨ Key features:**
 
 - A wizard on the bank statement list (**Action → Cash Update Balances**) with
   two modes:

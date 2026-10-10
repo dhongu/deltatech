@@ -13,7 +13,7 @@ on: the connection layer, the job protocol, and the one job type that is pure
 transport rather than a specific device — an HTTP call inside the customer's
 network.
 
-**What it gives you**
+**✨ What it gives you**
 
 - **Station registry** (`deltatech.tc.station`) — one record per workstation
   running Terrabit Connect, each with a unique API key, a last-seen timestamp

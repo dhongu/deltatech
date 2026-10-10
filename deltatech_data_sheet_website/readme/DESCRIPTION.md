@@ -3,7 +3,7 @@ directly to website visitors. When a product has an associated data sheet or saf
 sheet (managed via the **Deltatech Product Data Sheet** module), download buttons are
 automatically displayed on the public product page — no extra configuration required.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a **Show Data Sheet** button on the website product page when a data sheet is
   attached to the product template.

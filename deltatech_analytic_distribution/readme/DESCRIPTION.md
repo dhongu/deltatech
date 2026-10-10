@@ -1,7 +1,7 @@
 This module enforces strict analytic distribution rules on vendor bills, ensuring every
 invoice line is fully allocated across the company's analytic dimensions before posting.
 
-**Key features:**
+**✨ Key features:**
 
 - Blocks posting of vendor bills (invoices, refunds, receipts) when any line is missing
   an analytic distribution.

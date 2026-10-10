@@ -3,7 +3,7 @@ This module is useful when the same product is known under different references 
 codes, manufacturer part numbers, legacy codes, or customer-specific identifiers — and your
 team needs to locate it regardless of which code they have at hand.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a dedicated **Alternative** tab on the product form where you can record any number
   of extra codes, reorder them, and optionally hide individual codes from the combined

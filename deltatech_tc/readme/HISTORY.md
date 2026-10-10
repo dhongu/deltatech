@@ -1,3 +1,7 @@
+## 19.0.1.2.4 (2026-10-11)
+
+- Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
+
 ## 19.0.1.2.3 (2026-10-03)
 
 - TC-001 (security): downloading a station config (`/tc/config/<station_id>`) read the station as superuser, so a Terrabit Connect manager limited to company A could download the config, including the API key, of a station of company B by changing the id in the URL. The station is now looked up with the manager's own rights: a station of a company the manager does not have access to answers 404, like a missing one; the API key itself is still read as superuser.

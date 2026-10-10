@@ -3,7 +3,7 @@ grouping dimensions — **Category type** and **Category class** — enabling
 businesses to segment and analyse inventory, sales margins, and invoices
 at a finer level than the built-in category hierarchy.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds **Category type** and **Category class** fields to every product
   category (many2one relations to dedicated configuration lists).

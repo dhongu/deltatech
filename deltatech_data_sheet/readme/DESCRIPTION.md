@@ -1,6 +1,6 @@
 Attach product documentation — technical data sheets and safety data sheets — directly to product records in Odoo, making the PDFs accessible from the product form for sales and logistics teams.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a **Data Sheet** group on the product form (after the Description group) with two PDF attachment fields.
 - **Data Sheet Attachment** — links a public PDF attachment (e.g. technical specifications, product catalogue page).
