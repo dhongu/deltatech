@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Payment Terms in Working Days",
     "summary": "Due dates counted in working days or moved off weekends and public holidays",
-    "version": "20.0.1.0.0",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
