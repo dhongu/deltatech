@@ -2,10 +2,30 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+import logging
 
+import requests
+
+from odoo import fields
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+
+_logger = logging.getLogger(__name__)
+
+ANAF_URL = "https://webservicesp.anaf.ro/api/PlatitorTvaRest/v9/tva"
+# the customer waits at the checkout: better accept the number than keep them 30 s
+ANAF_TIMEOUT = 5
+# check digit weights of the Romanian personal numeric code (CNP)
+CNP_WEIGHTS = (2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9)
+
+
+def is_cnp(number):
+    """Whether ``number`` is a valid Romanian personal numeric code (13 digits, check digit)."""
+    if len(number) != 13 or not number.isdigit() or number[0] not in "12345678":
+        return False
+    rest = sum(int(number[i]) * CNP_WEIGHTS[i] for i in range(12)) % 11
+    return int(number[12]) == (1 if rest == 10 else rest)
 
 
 class WebsiteSaleVATValidation(WebsiteSale):
@@ -40,12 +60,21 @@ class WebsiteSaleVATValidation(WebsiteSale):
                     vat = address_values["vat"].strip().upper()
                     if vat.startswith("RO"):
                         vat = vat[2:]
-                    if vat.isdigit():
+                    if is_cnp(vat):
+                        # a person who buys for themselves types their CNP here: ANAF would not
+                        # find it as a company, and the message would send them looking for an error
+                        invalid_fields.add("vat")
+                        error_messages.append(
+                            request.env._(
+                                "This looks like a personal numeric code (CNP). This field is for the "
+                                "tax code (CUI) of a company; if you buy as an individual, leave it empty."
+                            )
+                        )
+                    elif vat.isdigit():
                         res_partner_sudo = request.env["res.partner"].sudo()
-                        if hasattr(res_partner_sudo, "_get_Anaf") and hasattr(res_partner_sudo, "_Anaf_to_Odoo"):
-                            anaf_error, result = res_partner_sudo._get_Anaf(vat)
-                            if not anaf_error and result:
-                                anaf_data = res_partner_sudo._Anaf_to_Odoo(result)
+                        if hasattr(res_partner_sudo, "_Anaf_to_Odoo"):
+                            state, anaf_data = self._anaf_lookup(vat)
+                            if state == "found":
                                 # Actualizăm valorile adresei cu datele de la ANAF
                                 for field in ["name", "street", "city", "zip"]:
                                     if anaf_data.get(field):
@@ -55,9 +84,13 @@ class WebsiteSaleVATValidation(WebsiteSale):
 
                                 if anaf_data.get("company_type") == "company":
                                     address_values["is_company"] = True
-                            else:
+                            elif state == "not_found":
                                 invalid_fields.add("vat")
                                 error_messages.append(request.env._("The VAT number is not valid according to ANAF"))
+                            else:
+                                # ANAF does not answer: the sale goes on with the number as typed
+                                # (its format is checked above) and the salesperson is told
+                                self._anaf_unavailable_note(address_values["vat"])
                     else:
                         invalid_fields.add("vat")
                         error_messages.append(
@@ -80,3 +113,61 @@ class WebsiteSaleVATValidation(WebsiteSale):
                     error_messages.append(request.env._("An other partner already exists with the same %s", value))
 
         return invalid_fields, missing_fields, error_messages
+
+    def _anaf_lookup(self, vat):
+        """Look ``vat`` up at ANAF.
+
+        Its own request rather than ``_get_Anaf`` of ``l10n_ro_partner_create_by_vat``: that one
+        waits up to 30 s and answers the same text for a company not found and for a service
+        down, while the checkout must tell them apart. The settings are the same.
+
+        :return: ``(state, values)``: ``found`` with the partner values, ``not_found`` or
+            ``unavailable``
+        """
+        partner_sudo = request.env["res.partner"].sudo()
+        test_data = request.env.context.get("anaf_data")
+        if test_data is not None:
+            result = test_data.get(vat)
+            if not result:
+                return "not_found", {}
+            if result.get("unavailable"):
+                return "unavailable", {}
+            return "found", partner_sudo._Anaf_to_Odoo(result)
+        get_param = request.env["ir.config_parameter"].sudo().get_param
+        headers = {"Content-Type": "application/json"}
+        api_key = get_param("l10n_ro_partner_create_by_vat.anaf_api_key", "")
+        if api_key:
+            headers[get_param("l10n_ro_partner_create_by_vat.anaf_api_key_header_tag", "x-api-key")] = api_key
+        try:
+            response = requests.post(
+                get_param("l10n_ro_partner_create_by_vat.anaf_url", ANAF_URL),
+                json=[{"cui": vat, "data": fields.Date.to_string(fields.Date.today())}],
+                headers=headers,
+                timeout=ANAF_TIMEOUT,
+            )
+            response.raise_for_status()
+            found = response.json().get("found") or []
+        except (requests.RequestException, ValueError) as error:
+            _logger.warning("ANAF did not answer for the VAT number %s: %s", vat, error)
+            return "unavailable", {}
+        result = found[0] if found else {}
+        if not result.get("date_generale"):
+            return "not_found", {}
+        return "found", partner_sudo._Anaf_to_Odoo(result)
+
+    def _anaf_unavailable_note(self, vat):
+        """An internal note on the cart: its VAT number was not checked at ANAF."""
+        try:
+            order_sudo = request.cart
+        except AttributeError:
+            # no eCommerce cart on this request (portal address form)
+            order_sudo = None
+        if order_sudo:
+            order_sudo.message_post(
+                body=request.env._(
+                    "The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
+                    "Please check the customer details.",
+                    vat=vat,
+                ),
+                subtype_xmlid="mail.mt_note",
+            )

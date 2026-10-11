@@ -33,3 +33,23 @@ msgstr "Codul TVA nu este valid conform ANAF"
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
 msgid "The VAT number must contain only digits (after the country code)"
 msgstr "Codul TVA trebuie să conțină doar cifre (după codul țării)"
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
+"Please check the customer details."
+msgstr ""
+"Codul fiscal %(vat)s nu a putut fi verificat la ANAF (serviciu indisponibil). "
+"Verificați datele clientului."
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"This looks like a personal numeric code (CNP). This field is for the tax "
+"code (CUI) of a company; if you buy as an individual, leave it empty."
+msgstr ""
+"Acesta pare a fi un cod numeric personal (CNP). Câmpul este pentru codul "
+"fiscal (CUI) al unei firme; dacă cumpărați ca persoană fizică, lăsați-l gol."
