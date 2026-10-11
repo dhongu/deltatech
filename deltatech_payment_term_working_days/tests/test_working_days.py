@@ -20,14 +20,13 @@ class TestPaymentTermWorkingDays(AccountTestInvoicingCommon):
             {
                 "name": "Working Days Test",
                 "company_id": cls.company.id,
-                "tz": "Europe/Bucharest",
                 "attendance_ids": [
-                    Command.create({"name": str(day), "dayofweek": str(day), "hour_from": 8, "hour_to": 16})
-                    for day in range(5)
+                    Command.create({"dayofweek": str(day), "hour_from": 8, "hour_to": 16}) for day in range(5)
                 ],
             }
         )
         cls.company.resource_calendar_id = cls.calendar
+        cls.company.tz = "Europe/Bucharest"
         # Romanian public holidays of spring 2026: Good Friday, Easter, Easter Monday, Labour Day
         for day in (date(2026, 4, 10), date(2026, 4, 12), date(2026, 4, 13), date(2026, 5, 1)):
             cls.env["resource.calendar.leaves"].create(
@@ -38,7 +37,7 @@ class TestPaymentTermWorkingDays(AccountTestInvoicingCommon):
                     # 00:00-23:59 in Bucharest (UTC+3 in summer time)
                     "date_from": datetime.combine(day, time.min) - timedelta(hours=3),
                     "date_to": datetime.combine(day, time.max) - timedelta(hours=3),
-                    "time_type": "leave",
+                    "count_as": "absence",
                 }
             )
 
@@ -119,7 +118,6 @@ class TestPaymentTermWorkingDays(AccountTestInvoicingCommon):
 
     def test_company_without_calendar(self):
         self.company.resource_calendar_id = False
-        self.company.partner_id.tz = "Europe/Bucharest"
         # Monday to Friday with the global holidays of the company: Friday + 1 working day = Monday
         invoice = self._invoice(self._term(1), "2026-03-06")
         self.assertEqual(invoice.invoice_date_due, date(2026, 3, 9))

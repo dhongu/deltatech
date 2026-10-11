@@ -14,7 +14,7 @@ Payment Terms in Working Days
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_term_working_days
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_term_working_days
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -65,7 +65,7 @@ them.
    mode) and check that the company has a working schedule with the
    right working days.
 2. Open **Settings > Technical > Resource > Resource Time Off** (or
-   **Time Off > Configuration > Public Holidays** when the Time Off
+   **Time Off > Configuration > Company Holidays** when the Time Off
    application is installed) and add the public holidays of the year,
    with no resource. A holiday linked to another working schedule or to
    another company is ignored.
@@ -136,6 +136,14 @@ from the day after the (moved) due date.
 Changelog
 =========
 
+20.0.1.0.0 (2026-10-12)
+-----------------------
+
+- Migration to Odoo 20: the time zone of the holidays is the company's
+  (the working schedule no longer has one), the global time off is
+  filtered on ``count_as`` (was ``time_type``) and ``zoneinfo`` replaces
+  ``pytz``.
+
 19.0.1.0.0 (2026-10-12)
 -----------------------
 
@@ -173,6 +181,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_term_working_days>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_term_working_days>`_ project on GitHub.
 
 You are welcome to contribute.

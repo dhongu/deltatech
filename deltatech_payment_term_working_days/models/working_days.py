@@ -1,9 +1,8 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 
-from datetime import datetime, timedelta
-
-import pytz
+from datetime import UTC, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 
 class WorkingDays:
@@ -19,7 +18,7 @@ class WorkingDays:
         self.env = env
         self.company = company
         self.calendar = company.resource_calendar_id
-        self.tz = pytz.timezone(self.calendar.tz or company.partner_id.tz or env.user.tz or "UTC")
+        self.tz = ZoneInfo(company.tz or env.user.tz or "UTC")
         self._holidays = {}
 
     def _year_holidays(self, year):
@@ -33,7 +32,7 @@ class WorkingDays:
                 .search(
                     [
                         ("resource_id", "=", False),
-                        ("time_type", "=", "leave"),
+                        ("count_as", "=", "absence"),
                         ("company_id", "in", [False, self.company.id]),
                         ("calendar_id", "in", [False, self.calendar.id]),
                         ("date_from", "<=", stop),
@@ -43,8 +42,8 @@ class WorkingDays:
             )
             days = set()
             for leave in leaves:
-                day = pytz.utc.localize(leave.date_from).astimezone(self.tz).date()
-                last = pytz.utc.localize(leave.date_to).astimezone(self.tz).date()
+                day = leave.date_from.replace(tzinfo=UTC).astimezone(self.tz).date()
+                last = leave.date_to.replace(tzinfo=UTC).astimezone(self.tz).date()
                 while day <= last:
                     days.add(day)
                     day += timedelta(days=1)

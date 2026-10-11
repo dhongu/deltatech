@@ -6,7 +6,7 @@ The module reads the public holidays of the company; it does not create them.
    and check that the company has a working schedule with the right working
    days.
 2. Open **Settings > Technical > Resource > Resource Time Off** (or
-   **Time Off > Configuration > Public Holidays** when the Time Off application
+   **Time Off > Configuration > Company Holidays** when the Time Off application
    is installed) and add the public holidays of the year, with no resource.
    A holiday linked to another working schedule or to another company is
    ignored.
