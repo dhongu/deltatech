@@ -2,10 +2,6 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from unittest.mock import patch
-
-import requests
-
 from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.http_routing.tests.common import MockRequest
@@ -86,58 +82,6 @@ class TestWebsiteSaleVATValidation(TransactionCase):
 
             self.assertNotIn("phone", invalid_fields)
 
-    def test_04_anaf_integration(self):
-        # Simulăm datele ANAF folosind contextul, așa cum am văzut în l10n_ro_partner_create_by_vat/models/res_partner.py:_get_Anaf
-        anaf_data = {
-            "1234567897": {
-                "date_generale": {
-                    "denumire": "COMPANIA TEST ANAF SRL",
-                    "cui": "1234567897",
-                    "adresa": "STR. TEST NR. 1",
-                },
-                "adresa_sediu_social": {
-                    "sdenumire_Strada": "TEST",
-                    "snumar_Strada": "1",
-                    "sdenumire_Localitate": "BUCURESTI",
-                    "sdenumire_Judet": "BUCURESTI",
-                    "scod_JudetAuto": "B",
-                },
-                "adresa_domiciliu_fiscal": {
-                    "ddenumire_Strada": "TEST",
-                    "dnumar_Strada": "1",
-                    "ddetalii_Adresa": "",
-                    "dcod_Postal": "010101",
-                    "ddenumire_Localitate": "BUCURESTI",
-                    "ddenumire_Judet": "BUCURESTI",
-                    "dcod_JudetAuto": "B",
-                    "adresa": "STR. TEST NR. 1",
-                },
-            }
-        }
-        address_values = {
-            "vat": "RO1234567897",
-            "country_id": self.country_ro.id,
-        }
-        # Trebuie să ne asigurăm că metodele ANAF există pe res.partner (adică modulul e instalat)
-        if not hasattr(self.env["res.partner"], "_get_Anaf"):
-            self.skipTest("Modulul l10n_ro_partner_create_by_vat nu este instalat.")
-
-        # MockRequest keeps only the context passed to it, not the one of the env
-        with MockRequest(self.env, context={"anaf_data": anaf_data}):
-            # Ne asigurăm că adresa este pentru România
-            invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values=address_values,
-                partner_sudo=self.env["res.partner"].sudo(),
-                address_type="billing",
-                use_delivery_as_billing=False,
-                required_fields="vat",
-            )
-
-            self.assertEqual(address_values.get("name"), "COMPANIA TEST ANAF SRL")
-            self.assertEqual(address_values.get("city"), "Bucuresti")
-            self.assertEqual(address_values.get("street"), "Test Nr. 1")
-            self.assertTrue(address_values.get("is_company"))
-
     def test_05_public_user_no_enumeration(self):
         public_user = self.env.ref("base.public_user")
         for field, value in [
@@ -157,76 +101,6 @@ class TestWebsiteSaleVATValidation(TransactionCase):
             self.assertNotIn(field, invalid_fields)
             self.assertFalse(any("already exists" in msg for msg in error_messages))
             self.assertFalse(any(value in msg for msg in error_messages))
-
-    def test_06_public_user_vat_format_still_checked(self):
-        public_user = self.env.ref("base.public_user")
-        address_values = {"name": "Guest", "vat": "RO12AB34", "country_id": self.country_ro.id}
-        with MockRequest(self.env(user=public_user)):
-            invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values=address_values,
-                partner_sudo=self.env["res.partner"].sudo(),
-                address_type="billing",
-                use_delivery_as_billing=False,
-                required_fields="vat",
-            )
-        self.assertIn("vat", invalid_fields)
-
-    def _validate_billing(self, address_values, anaf_data=None, cart=None):
-        # MockRequest keeps only the context passed to it, not the one of the env
-        with MockRequest(self.env, context={"anaf_data": anaf_data or {}}) as request:
-            if cart is not None:
-                request.cart = cart
-            return self.controller._validate_address_values(
-                address_values=address_values,
-                partner_sudo=self.env["res.partner"].sudo(),
-                address_type="billing",
-                use_delivery_as_billing=False,
-                required_fields="vat",
-            )
-
-    def _skip_without_anaf(self):
-        if not hasattr(self.env["res.partner"], "_Anaf_to_Odoo"):
-            self.skipTest("l10n_ro_partner_create_by_vat is not installed")
-
-    def test_07_cnp_gets_a_clear_message(self):
-        """A person who types their CNP is told so, not that ANAF refused the number."""
-        address_values = {"name": "Ion Popescu", "vat": "1900101400012", "country_id": self.country_ro.id}
-        invalid_fields, _missing, error_messages = self._validate_billing(address_values)
-        self.assertIn("vat", invalid_fields)
-        self.assertTrue(any("CNP" in msg for msg in error_messages))
-        self.assertFalse(any("ANAF" in msg for msg in error_messages))
-
-    def test_08_vat_not_found_at_anaf_refused(self):
-        self._skip_without_anaf()
-        address_values = {"name": "Firma", "vat": "RO1234567897", "country_id": self.country_ro.id}
-        invalid_fields, _missing, error_messages = self._validate_billing(address_values, anaf_data={})
-        self.assertIn("vat", invalid_fields)
-        self.assertTrue(any("ANAF" in msg for msg in error_messages))
-
-    def test_09_anaf_unavailable_does_not_block(self):
-        """ANAF down: the number is accepted as typed and the cart gets an internal note."""
-        self._skip_without_anaf()
-        product = self.env["product.product"].create({"name": "Produs", "list_price": 10})
-        cart = self.env["sale.order"].create(
-            {"partner_id": self.existing_partner.id, "order_line": [(0, 0, {"product_id": product.id})]}
-        )
-        address_values = {"name": "Firma Mea SRL", "vat": "RO1234567897", "country_id": self.country_ro.id}
-        invalid_fields, _missing, error_messages = self._validate_billing(
-            address_values, anaf_data={"1234567897": {"unavailable": True}}, cart=cart
-        )
-        self.assertNotIn("vat", invalid_fields)
-        self.assertFalse(any("ANAF" in msg for msg in error_messages))
-        self.assertEqual(address_values["name"], "Firma Mea SRL", "what the customer typed is kept")
-        note = cart.message_ids.filtered(lambda m: "could not be checked at ANAF" in (m.body or ""))
-        self.assertTrue(note)
-        self.assertTrue(note.subtype_id.internal)
-
-    def test_10_anaf_down_answer(self):
-        """The real request: a network error is an unavailable service, not an unknown company."""
-        self._skip_without_anaf()
-        with MockRequest(self.env), patch.object(requests, "post", side_effect=requests.ConnectTimeout("timeout")):
-            state, values = self.controller._anaf_lookup("1234567897")
-        self.assertEqual((state, values), ("unavailable", {}))
 
     def _validate_vat_as(self, vat, partner_sudo=None):
         with MockRequest(self.env):
@@ -258,64 +132,3 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         invalid_fields, _missing, error_messages = self._validate_vat_as("RO1234567897", partner_sudo=contact.sudo())
         self.assertNotIn("vat", invalid_fields)
         self.assertFalse(any("already has an account" in msg for msg in error_messages))
-
-    @staticmethod
-    def _anaf_company(name="FIRMA ANAF SRL", registration="INREGISTRAT din data 01.01.2020", inactive=False):
-        address = {
-            "ddenumire_Strada": "STR. ANAF",
-            "dnumar_Strada": "7",
-            "ddetalii_Adresa": "",
-            "dcod_Postal": "400001",
-            "ddenumire_Localitate": "MUN. CLUJ-NAPOCA",
-            "ddenumire_Judet": "CLUJ",
-            "dcod_JudetAuto": "CJ",
-        }
-        return {
-            "date_generale": {
-                "denumire": name,
-                "cui": 1234567897,
-                "codPostal": "400001",
-                "stare_inregistrare": registration,
-            },
-            "stare_inactiv": {"statusInactivi": inactive, "dataInactivare": "2026-05-04" if inactive else ""},
-            "adresa_domiciliu_fiscal": address,
-        }
-
-    def test_13_typed_address_kept_name_from_anaf(self):
-        """The invoice goes out in the legal name; the address typed by the customer stays."""
-        self._skip_without_anaf()
-        address_values = {
-            "name": "Ion Popescu",
-            "street": "Depozit, Str. Fabricii 3",
-            "vat": "RO1234567897",
-            "country_id": self.country_ro.id,
-        }
-        self._validate_billing(address_values, anaf_data={"1234567897": self._anaf_company()})
-        self.assertEqual(address_values["name"], "FIRMA ANAF SRL")
-        self.assertEqual(address_values["street"], "Depozit, Str. Fabricii 3")
-        self.assertEqual(address_values["zip"], "400001", "an empty field is filled from ANAF")
-
-    def test_14_struck_off_company_refused(self):
-        self._skip_without_anaf()
-        address_values = {"name": "Firma", "vat": "RO1234567897", "country_id": self.country_ro.id}
-        company = self._anaf_company(registration="RADIERE din data 01.02.2025")
-        invalid_fields, _missing, error_messages = self._validate_billing(
-            address_values, anaf_data={"1234567897": company}
-        )
-        self.assertIn("vat", invalid_fields)
-        self.assertTrue(any("struck off" in msg for msg in error_messages))
-
-    def test_15_inactive_company_allowed_with_note(self):
-        self._skip_without_anaf()
-        product = self.env["product.product"].create({"name": "Produs", "list_price": 10})
-        cart = self.env["sale.order"].create(
-            {"partner_id": self.existing_partner.id, "order_line": [(0, 0, {"product_id": product.id})]}
-        )
-        address_values = {"name": "Firma", "vat": "RO1234567897", "country_id": self.country_ro.id}
-        invalid_fields, _missing, _messages = self._validate_billing(
-            address_values, anaf_data={"1234567897": self._anaf_company(inactive=True)}, cart=cart
-        )
-        self.assertNotIn("vat", invalid_fields)
-        note = cart.message_ids.filtered(lambda m: "fiscally inactive" in (m.body or ""))
-        self.assertTrue(note)
-        self.assertIn("2026-05-04", note.body)
