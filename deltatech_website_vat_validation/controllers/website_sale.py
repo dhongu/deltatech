@@ -83,16 +83,36 @@ class WebsiteSaleVATValidation(WebsiteSale):
                         res_partner_sudo = request.env["res.partner"].sudo()
                         if hasattr(res_partner_sudo, "_Anaf_to_Odoo"):
                             state, anaf_data = self._anaf_lookup(vat)
-                            if state == "found":
-                                # Actualizăm valorile adresei cu datele de la ANAF
-                                for field in ["name", "street", "city", "zip"]:
-                                    if anaf_data.get(field):
+                            if state == "found" and anaf_data["anaf_radiated"]:
+                                # a struck-off company no longer exists: it cannot be the buyer
+                                invalid_fields.add("vat")
+                                error_messages.append(
+                                    request.env._("The company with this tax code is struck off at ANAF.")
+                                )
+                            elif state == "found":
+                                # the invoice goes out in the legal name of the company (e-Factura);
+                                # the address typed by the customer is kept, ANAF only fills the gaps
+                                if anaf_data.get("name"):
+                                    address_values["name"] = anaf_data["name"]
+                                for field in ["street", "city", "zip"]:
+                                    if anaf_data.get(field) and not address_values.get(field):
                                         address_values[field] = anaf_data[field]
                                 if anaf_data.get("state_id") and not address_values.get("state_id"):
                                     address_values["state_id"] = anaf_data["state_id"].id
 
                                 if anaf_data.get("company_type") == "company":
                                     address_values["is_company"] = True
+                                if anaf_data["anaf_inactive"]:
+                                    self._cart_note(
+                                        request.env._(
+                                            "Customer %(vat)s is declared fiscally inactive at ANAF (since "
+                                            "%(date)s), its VAT code is cancelled: invoice with VAT, without "
+                                            "reverse charge, tax code without the RO prefix. Check the "
+                                            "collection, preferably payment in advance.",
+                                            vat=address_values["vat"],
+                                            date=anaf_data["anaf_inactive_date"] or "-",
+                                        )
+                                    )
                             elif state == "not_found":
                                 invalid_fields.add("vat")
                                 error_messages.append(request.env._("The VAT number is not valid according to ANAF"))
@@ -184,7 +204,6 @@ class WebsiteSaleVATValidation(WebsiteSale):
         :return: ``(state, values)``: ``found`` with the partner values, ``not_found`` or
             ``unavailable``
         """
-        partner_sudo = request.env["res.partner"].sudo()
         test_data = request.env.context.get("anaf_data")
         if test_data is not None:
             result = test_data.get(vat)
@@ -192,7 +211,7 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 return "not_found", {}
             if result.get("unavailable"):
                 return "unavailable", {}
-            return "found", partner_sudo._Anaf_to_Odoo(result)
+            return self._anaf_values(result)
         get_param = request.env["ir.config_parameter"].sudo().get_param
         headers = {"Content-Type": "application/json"}
         api_key = get_param("l10n_ro_partner_create_by_vat.anaf_api_key", "")
@@ -213,21 +232,38 @@ class WebsiteSaleVATValidation(WebsiteSale):
         result = found[0] if found else {}
         if not result.get("date_generale"):
             return "not_found", {}
-        return "found", partner_sudo._Anaf_to_Odoo(result)
+        return self._anaf_values(result)
+
+    def _anaf_values(self, result):
+        """The partner values of an ANAF answer, with its status: ``anaf_radiated`` (struck off,
+        read from the registration state), ``anaf_inactive`` and ``anaf_inactive_date``."""
+        general = result.get("date_generale") or {}
+        status = result.get("stare_inactiv") or {}
+        radiated = "RADIERE" in (general.get("stare_inregistrare") or "").upper()
+        inactive = bool(status.get("statusInactivi"))
+        inactive_date = (status.get("dataInactivare") or "").strip()
+        values = request.env["res.partner"].sudo()._Anaf_to_Odoo(result)
+        if not values:
+            return "not_found", {}
+        values.update(anaf_radiated=radiated, anaf_inactive=inactive, anaf_inactive_date=inactive_date)
+        return "found", values
 
     def _anaf_unavailable_note(self, vat):
         """An internal note on the cart: its VAT number was not checked at ANAF."""
+        self._cart_note(
+            request.env._(
+                "The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
+                "Please check the customer details.",
+                vat=vat,
+            )
+        )
+
+    def _cart_note(self, body):
+        """An internal note on the cart of the request, for the salesperson."""
         try:
             order_sudo = request.cart
         except AttributeError:
             # no eCommerce cart on this request (portal address form)
             order_sudo = None
         if order_sudo:
-            order_sudo.message_post(
-                body=request.env._(
-                    "The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
-                    "Please check the customer details.",
-                    vat=vat,
-                ),
-                subtype_xmlid="mail.mt_note",
-            )
+            order_sudo.message_post(body=body, subtype_xmlid="mail.mt_note")

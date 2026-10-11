@@ -1,3 +1,14 @@
+## 19.0.0.1.0 (2026-10-11)
+
+- The ANAF data no longer overwrites what the customer typed: the street, city, zip and county
+  from ANAF fill only the empty fields. The partner name stays the legal name of the company from
+  ANAF, the name the invoice (e-Factura) is issued to; with `l10n_ro_website_anaf_prefill` the
+  customer sees it before submitting.
+- A struck-off company (registration state "RADIERE" at ANAF) is refused: it no longer exists and
+  cannot be the buyer.
+- A fiscally inactive company can order; the cart gets an internal note for the salesperson
+  (VAT code cancelled: invoice with VAT, without reverse charge, check the collection).
+
 ## 19.0.0.0.9 (2026-10-11)
 
 - Duplicate check of a logged-in customer, clearer and fairer:
