@@ -1,3 +1,5 @@
+# Image Optimizer
+
 Clean, light product images for the eCommerce catalog, in four jobs on the same images:
 
 - **Remove the background** of product photos: the product is cut out and saved on a

@@ -16,233 +16,377 @@ Image Optimizer
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_image_optimize
     :alt: dhongu/deltatech
-.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_image_optimize/readme/FISA_CONSULTANT.md
-    :alt: Fișă consultant
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2|
 
 Image Optimizer
 ===============
 
-Two related jobs on the same images: **recompress** them to reclaim
-filestore space, and **remove the ones stored twice**.
+Clean, light product images for the eCommerce catalog, in four jobs on
+the same images:
 
-Recompression
--------------
+- **Remove the background** of product photos: the product is cut out
+  and saved on a transparent background (or a solid color), with a
+  before / after preview so the result is checked before anything is
+  written.
+- **Remove a watermark** your catalog images carry: a semi-transparent
+  logo blended over the photos is learned from the images themselves and
+  removed, with the same preview.
+- **Remove duplicated images**: the same picture stored twice in a
+  product's gallery is found and deleted; a picture shared by several
+  products is reported, never deleted.
+- **Recompress oversized images**: originals are downscaled and
+  re-encoded (JPEG, or WebP when they have transparency), so the
+  filestore and every shop page get lighter.
 
-Recompresses oversized **original** image attachments (``image_1920``
-and ``image_variant_1920`` by default) to reclaim filestore space.
+Everything runs on the Odoo server: no image is sent to an external
+service.
 
-For each targeted image the module:
+Background removal
+------------------
 
-- downscales it to a maximum side of ``max_dim`` pixels (default 1920);
-- re-encodes photos without transparency as progressive **JPEG** at the
-  configured quality (default 85);
-- keeps genuinely transparent images as **WebP** (alpha preserved), or
-  as optimized **PNG** when the Pillow build has no WebP encoder;
-- skips animated GIFs (never flattens the animation);
-- keeps the result only when it is actually smaller.
+Product photos taken on a printed mat, on a table or on a supplier's
+white background end up looking the same in the shop once the background
+is gone. Select products in a list and use **Actions → Remove Image
+Background**; on a product the action also covers its eCommerce gallery.
 
-The optimized image is written back **through the owning record**, so
-Odoo regenerates the resized variants (``image_1024/512/256/128``) from
-the new, smaller original.
+**The original image is not kept** — keeping a copy of every image would
+double the images in the database. The check therefore happens *before*
+anything is written, in a wizard:
 
-Processed attachments are flagged (``deltatech_image_optimized``) and
-skipped on the next run. Because Odoo creates a fresh attachment
-whenever an image field is updated, newly uploaded or changed images are
-picked up automatically.
+- up to ``bg_sync_limit`` images (default 5, main and gallery images
+  counted), the wizard shows each image **before and after**, on a
+  checkerboard so leftovers are visible. Untick the ones that were not
+  cut out well, then **Apply**;
+- a larger selection is **queued** for a scheduled action, which
+  processes it in batches. Try a few images first;
+- the result is saved as WebP, resized variants included.
 
-How much space you actually get back
-------------------------------------
+How the product is cut out
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The batch methods return two figures, and the difference between them
-matters:
++----------------------+----------------------+----------------------------------------------------+
+| Method               | Used for             | How                                                |
++======================+======================+====================================================+
+| **Uniform            | photos on white or   | no AI model: the background is what has the color  |
+| background**         | studio grey          | of the image border and touches it. Dark           |
+|                      |                      | accessories next to the product (a funnel beside a |
+|                      |                      | bottle) stay whole, white areas inside the product |
+|                      |                      | (a label) stay opaque                              |
++----------------------+----------------------+----------------------------------------------------+
+| **AI model**         | photos on a real     | a local segmentation model                         |
+|                      | background           | (`rembg <https://github.com/danielgatis/rembg>`__, |
+|                      |                      | ISNet by default)                                  |
++----------------------+----------------------+----------------------------------------------------+
+| **Automatic**        | any photo            | uniform background when the image border has one   |
+| (default)            |                      | color, the AI model otherwise                      |
++----------------------+----------------------+----------------------------------------------------+
 
-+----------------+-----------------------------------------------------+
-| Key            | Meaning                                             |
-+================+=====================================================+
-| ``freed``      | sum of the per-attachment size difference           |
-+----------------+-----------------------------------------------------+
-| ``freed_disk`` | only the attachments whose filestore file was       |
-|                | **not** shared                                      |
-+----------------+-----------------------------------------------------+
+After the cut-out, the specks left next to the product are removed.
 
-Odoo stores one file per checksum, so attachments with identical content
-share a single file. Recompressing one of them frees nothing while the
-others still point at the old file. On a catalog that reuses the same
-picture across products, ``freed`` therefore overstates the saving — on
-a real deployment it counted **29 GB** where the disk gave back about
-**4 GB**, because 815 000 image attachments lived in 508 000 files.
+An AI model tends to keep only the main object and to lose accessories
+or thin parts. When it works on a plain background, its result is
+compared with the color cut-out: if part of the product is missing, the
+image is flagged and **unticked** in the wizard. The method and the
+model can be changed in the wizard and the preview refreshed.
 
-Use ``freed_disk`` when you report space. Use ``freed`` only to see how
-much lighter the images themselves got — which is the real win on a
-website, since that is bytes off every page load, regardless of
-deduplication.
+The AI model needs the optional Python library ``rembg`` on the server
+(see Configuration). Without it, photos on a plain background are still
+cut out by color.
 
-To measure the whole database rather than one run:
+Check the marketplaces and feeds the images are sent to before
+converting a whole catalog: some accept only JPEG or PNG, and show a
+transparent image on a black background. A solid white background can be
+chosen instead.
 
-.. code:: sql
+Watermark removal
+-----------------
 
-   SELECT pg_size_pretty(sum(sz)) FROM (
-       SELECT DISTINCT ON (checksum) file_size AS sz
-       FROM ir_attachment WHERE res_field IS NOT NULL AND checksum IS NOT NULL
-       ORDER BY checksum, id
-   ) t;
+Some catalogs carry a semi-transparent logo blended over every photo —
+often the shop's own logo, added once to protect the images and unwanted
+later (marketplaces such as eMAG refuse watermarked images). Select the
+products and use **Actions → Remove Watermark**.
 
-Note also that the filestore grows *before* it shrinks: the new file is
-written while the old one is still referenced, and the space comes back
-only when the filestore GC runs (the scheduled action does it at the end
-of each pass).
+The watermark is **learned from the selected images**, not drawn by
+hand: the wizard shows the watermark it found, then each image before
+and after, with the same checks as for the background (preview up to
+``wm_sync_limit`` images, a queue above it, nothing written before
+**Apply**). The cleaned image is saved opaque.
+
+Removed today: a watermark whose blend **also lowered the transparency**
+of the image where it was drawn — some watermarking tools do this, and
+the image then keeps the exact mask of the logo, even over the product.
+From it, the module learns how strongly the logo was blended at every
+step and reverses the blend, instead of guessing what was under the
+logo. A watermark that left no trace in the transparency is reported as
+not found.
+
+**Only remove a watermark you have the right to remove** — your own, or
+with the written consent of the rights holder. A supplier's or
+manufacturer's watermark shows who holds the rights to the photo;
+removing it to publish the image is not allowed without their consent
+(EU Directive 2001/29/EC, art. 7). The wizard says so before anything
+else. For supplier photos, ask the supplier for the images without
+watermark.
+
+The original image is **not kept**. At 100% zoom faint outlines of the
+logo can remain on plain backgrounds, as lossy compression blurs the
+edges of the mask.
 
 Duplicated product images
 -------------------------
 
-Finds ``product.image`` records whose content is **byte-identical** and
-removes the redundant ones. Odoo already computes a SHA1 checksum for
-every image attachment when it is written, so this reads that value
-instead of decoding images — the whole catalog is scanned with one
-indexed query.
-
-The distinction that matters
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Finds product gallery images whose content is **byte-identical**, from
+the checksum Odoo already computes for every image: the whole catalog is
+scanned with one indexed query, without decoding a single image.
 
 Two images with the same checksum are not automatically redundant:
 
 +----------------------+----------------------+----------------------+
 | Situation            | Meaning              | Action               |
 +======================+======================+======================+
-| The same picture     | A genuine duplicate  | Safe to remove.      |
-| appears **twice on   | — the gallery shows  |                      |
-| one product**        | the same thing       |                      |
-|                      | twice.               |                      |
+| The same picture     | a genuine duplicate: | removed              |
+| **twice on one       | the gallery shows    |                      |
+| product**            | the same thing twice |                      |
 +----------------------+----------------------+----------------------+
-| The same picture     | Usually a supplier   | **Never removed** —  |
-| appears on **several | feed shipping one    | each product needs   |
-| products**           | generic photo for a  | its own copy, or it  |
-|                      | whole range.         | ends up with no      |
-|                      |                      | image.               |
+| The same picture on  | usually a supplier   | **never removed** —  |
+| **several products** | feed shipping one    | each product needs   |
+|                      | generic photo for a  | its own copy         |
+|                      | whole range          |                      |
 +----------------------+----------------------+----------------------+
 
 Both happen at once, and at scale. On a real catalog of 69 761 product
 images (19 959 distinct contents), **17 821 — 25.5% — were redundant
 inside a single product**, while 1 204 contents were legitimately shared
-across products. One single photo appeared 1 204 times over 565
-products: 565 of those must stay.
+across products.
 
-The wizard removes only the first kind. In each group of *(content,
-product, variant)* it keeps the image that comes first by
-``sequence, id`` — the one the website shows first anyway — and deletes
-the rest. Records carrying a ``video_url`` are always kept, since the
-video is not a duplicate.
+**Duplicated Images** lists the groups side by side, so the
+cross-product case stays visible as a data-quality signal. **Remove
+Duplicated Images** shows exactly what will be deleted, then keeps, in
+each group of the same content on the same product, the image the
+website shows first; images carrying a video are always kept.
 
-The report shows both figures side by side, so the cross-product case
-stays visible as a data-quality signal instead of being silently
-deleted.
+Only identical content is found. The same photo re-exported, resized or
+recompressed has a different checksum — on a product re-imported from
+Shopify, the same 1080×1080 shot came back at 62 KB, 76 KB and 77 KB.
+Removing duplicates frees **catalog clutter, not much disk**: Odoo
+stores one file per checksum, so the copies already shared a file.
 
-What it does not find
-~~~~~~~~~~~~~~~~~~~~~
+Recompression
+-------------
 
-Only identical content. The same photo re-exported, resized or
-recompressed has a different checksum and is reported as distinct — and
-this is not a corner case. On a product re-imported from Shopify in
-three passes, 22 images held only 10 distinct pictures, yet the checksum
-matched on just one pair: the same 1080×1080 shot came back at 62 KB, 76
-KB and 77 KB because the source re-encoded it every time. Catching those
-needs perceptual hashing, which decodes every image and needs a
-similarity threshold.
+Recompresses oversized **original** product images and then their
+resized variants:
 
-Space
-~~~~~
+- downscaled to a maximum side of 1920 pixels;
+- photos without transparency re-encoded as progressive **JPEG**
+  (quality 85);
+- images with real transparency kept as **WebP** (or optimized PNG when
+  the server has no WebP encoder), alpha preserved;
+- animated GIFs skipped;
+- the result kept only when it is actually smaller.
 
-Removing duplicates frees **catalog clutter, not much disk**. Odoo
-stores one file per checksum, so the copies already shared a single
-file; deleting them drops the ``ir_attachment`` rows. Use the
-recompression above for actual filestore savings.
+The new image is written through the product, so Odoo regenerates the
+resized variants from it. Processed images are flagged and skipped on
+the next run; new or changed images are picked up automatically.
 
-Usage
-~~~~~
+How much space you actually get back
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Website → Configuration → eCommerce → Products → **Duplicated Images**
+Odoo stores one file per checksum, so images with identical content
+share one file, and recompressing one of them frees nothing while the
+others still point at it. Each run therefore logs two figures: the
+images got lighter by *freed*, and the disk gave back *on disk*. On a
+real deployment the first was **29 GB** and the second about **4 GB** —
+815 000 image attachments lived in 508 000 files. Quote the *on disk*
+figure when someone asks how much space this recovers; the *freed* one
+is what every page load saves.
 
-The list opens filtered on the removable groups. Select the ones you
-want and use **Remove Duplicated Images**, which shows exactly what will
-be deleted before it deletes anything. The same menu entry run without a
-selection works on the whole catalog.
+The filestore grows *before* it shrinks: the space comes back once the
+filestore cleanup runs, at the end of each scheduled pass.
 
-On install, the hook fills ``image_checksum`` with a single SQL
-``UPDATE`` from ``ir_attachment``. Computing it through the ORM would
-read every image out of the filestore. To refresh it later from the
-shell:
+**Table of contents**
+
+.. contents::
+   :local:
+
+Configuration
+=============
+
+The module works with its defaults. Everything below is tuned in
+*Settings → Technical → Parameters → System Parameters* (developer
+mode), keys prefixed with ``deltatech_image_optimize.``.
+
+Background removal
+------------------
+
+**The rembg library**, for photos on a real background. Photos on a
+plain background are cut out by color without it.
+`rembg <https://github.com/danielgatis/rembg>`__ is a local segmentation
+model on ONNX Runtime; it is an optional dependency, not declared in the
+manifest, so the module installs without it. Add it to the
+``requirements.txt`` of the deployment (on odoo.sh, in the project
+repository) and rebuild:
+
+::
+
+   rembg[cpu]
+
+The model is downloaded on first use (ISNet: 180 MB, under
+``~/.rembg/models`` or ``$U2NET_HOME``) and kept loaded per worker
+process; on CPU an image takes about one second. Only one model is kept
+loaded at a time.
+
+|System parameters for background removal|
+
++---------------------+-------------------+----------------------------+
+| Key                 | Default           | Meaning                    |
++=====================+===================+============================+
+| ``bg_method``       | auto              | ``auto``, ``uniform`` (by  |
+|                     |                   | color, no AI model) or     |
+|                     |                   | ``rembg`` (always the AI   |
+|                     |                   | model)                     |
++---------------------+-------------------+----------------------------+
+| ``bg_model``        | isnet-general-use | rembg model.               |
+|                     |                   | ``birefnet-general`` is    |
+|                     |                   | finer but about 10×        |
+|                     |                   | slower, 970 MB, and does   |
+|                     |                   | not fit in the memory of   |
+|                     |                   | an odoo.sh worker          |
++---------------------+-------------------+----------------------------+
+| ``bg_tolerance``    | 24                | how far (0..255 per        |
+|                     |                   | channel) a pixel may be    |
+|                     |                   | from the border color and  |
+|                     |                   | still be background; raise |
+|                     |                   | it for noisy JPEGs or soft |
+|                     |                   | shadows                    |
++---------------------+-------------------+----------------------------+
+| ``bg_min_island``   | 1                 | pieces smaller than this   |
+|                     |                   | percent of the main object |
+|                     |                   | are removed; 0 = keep all  |
++---------------------+-------------------+----------------------------+
+| ``bg_lost_warning`` | 5                 | flag and untick an image   |
+|                     |                   | when the AI model left out |
+|                     |                   | this percent of a product  |
+|                     |                   | on a plain background      |
++---------------------+-------------------+----------------------------+
+| ``bg_crop``         | 0                 | 1 = frame the product in a |
+|                     |                   | square, 0 = keep the       |
+|                     |                   | original canvas            |
++---------------------+-------------------+----------------------------+
+| ``bg_margin``       | 5                 | margin around the product, |
+|                     |                   | in percent, when cropping  |
++---------------------+-------------------+----------------------------+
+| ``bg_color``        | (empty)           | empty = transparent        |
+|                     |                   | (WebP); a color such as    |
+|                     |                   | ``#FFFFFF`` = solid        |
+|                     |                   | background (JPEG)          |
++---------------------+-------------------+----------------------------+
+| ``bg_sync_limit``   | 5                 | up to this many images     |
+|                     |                   | (main and gallery) get a   |
+|                     |                   | preview; more are queued   |
++---------------------+-------------------+----------------------------+
+| ``bg_batch``        | 20                | images per run of the      |
+|                     |                   | scheduled action           |
++---------------------+-------------------+----------------------------+
+
+**Access rights.** The action needs *Products: Create*. Writing gallery
+images needs *Sales: Administrator* or *Website: Restricted Editor*, as
+in standard Odoo.
+
+Watermark removal
+-----------------
+
+Needs the Python library **numpy** (installed together with ``rembg``;
+otherwise add ``numpy`` to the ``requirements.txt`` of the deployment).
+
++--------------------+---------+---------------------------------------+
+| Key                | Default | Meaning                               |
++====================+=========+=======================================+
+| ``wm_sync_limit``  | 10      | up to this many images (main and      |
+|                    |         | gallery) get a preview; more are      |
+|                    |         | queued                                |
++--------------------+---------+---------------------------------------+
+| ``wm_learn_limit`` | 60      | the watermark is learned from at most |
+|                    |         | this many of the selected images      |
++--------------------+---------+---------------------------------------+
+| ``wm_batch``       | 20      | images per run of the scheduled       |
+|                    |         | action                                |
++--------------------+---------+---------------------------------------+
+
+The watermark learned in the wizard is kept as a *Learned Image
+Watermark* record and used by the scheduled action **Image Optimizer:
+remove product image watermark** for queued images.
+
+Recompression
+-------------
+
++----------------------+------------------------------------------+-----------------------+
+| Key                  | Default                                  | Meaning               |
++======================+==========================================+=======================+
+| ``quality``          | 85                                       | JPEG quality (1..95)  |
++----------------------+------------------------------------------+-----------------------+
+| ``max_dim``          | 1920                                     | max side in pixels    |
++----------------------+------------------------------------------+-----------------------+
+| ``min_size``         | 102400                                   | only originals larger |
+|                      |                                          | than this (bytes)     |
++----------------------+------------------------------------------+-----------------------+
+| ``batch``            | 50                                       | images per run        |
++----------------------+------------------------------------------+-----------------------+
+| ``flush_every``      | 20                                       | flush and drop the    |
+|                      |                                          | ORM cache every N     |
+|                      |                                          | images; lower it for  |
+|                      |                                          | very large images     |
++----------------------+------------------------------------------+-----------------------+
+| ``target_fields``    | image_1920,image_variant_1920            | original fields to    |
+|                      |                                          | optimize              |
++----------------------+------------------------------------------+-----------------------+
+| ``webp_quality``     | 85                                       | WebP quality for      |
+|                      |                                          | transparent images    |
++----------------------+------------------------------------------+-----------------------+
+| ``variant_fields``   | image_1024,image_512,image_256,image_128 | resized variants      |
+|                      |                                          | recompressed in place |
++----------------------+------------------------------------------+-----------------------+
+| ``variant_quality``  | 85                                       | quality for           |
+|                      |                                          | re-encoding the       |
+|                      |                                          | variants              |
++----------------------+------------------------------------------+-----------------------+
+| ``variant_min_size`` | 20480                                    | only recompress       |
+|                      |                                          | variants larger than  |
+|                      |                                          | this (bytes)          |
++----------------------+------------------------------------------+-----------------------+
+| ``force_jpeg``       | 0                                        | ignore alpha, always  |
+|                      |                                          | JPEG — **destructive, |
+|                      |                                          | see below**           |
++----------------------+------------------------------------------+-----------------------+
+
+The scheduled action **Image Optimizer: recompress oversized images**
+runs daily and is **disabled by default**: review the parameters, run it
+manually on staging, then enable it. Its state survives module upgrades.
+
+For a large one-time backlog, loop the batch method from the shell:
 
 .. code:: python
 
-   env["product.image"]._dedup_backfill_checksums()
+   while env["ir.attachment"]._dt_image_optimize_run(limit=200)["scanned"]:
+       env.cr.commit()
 
-Configuration
--------------
+``force_jpeg`` is destructive — probe before enabling it
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-System Parameters (Settings → Technical → System Parameters):
+``force_jpeg=1`` makes the optimizer ignore the alpha channel. JPEG has
+no transparency, so every transparent area is **flattened to black**,
+and the original is gone: there is no undo, the images have to be
+re-imported.
 
-+-----------------------------------------------+------------------------------------------+----------------------+
-| Key                                           | Default                                  | Meaning              |
-+===============================================+==========================================+======================+
-| ``deltatech_image_optimize.quality``          | 85                                       | JPEG quality (1..95) |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.max_dim``          | 1920                                     | max side in pixels   |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.min_size``         | 102400                                   | only images larger   |
-|                                               |                                          | than this (bytes)    |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.batch``            | 50                                       | images per cron run  |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.flush_every``      | 20                                       | flush/invalidate the |
-|                                               |                                          | ORM cache every N    |
-|                                               |                                          | images               |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.target_fields``    | image_1920,image_variant_1920            | original fields to   |
-|                                               |                                          | optimize             |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.webp_quality``     | 85                                       | WebP quality for     |
-|                                               |                                          | transparent images   |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.force_jpeg``       | 0                                        | ignore alpha, always |
-|                                               |                                          | JPEG —               |
-|                                               |                                          | **destructive, see   |
-|                                               |                                          | below**              |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.variant_fields``   | image_1024,image_512,image_256,image_128 | resized variants to  |
-|                                               |                                          | recompress in place  |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.variant_quality``  | 85                                       | quality for          |
-|                                               |                                          | re-encoding the      |
-|                                               |                                          | variants             |
-+-----------------------------------------------+------------------------------------------+----------------------+
-| ``deltatech_image_optimize.variant_min_size`` | 20480                                    | only recompress      |
-|                                               |                                          | variants larger than |
-|                                               |                                          | this (bytes)         |
-+-----------------------------------------------+------------------------------------------+----------------------+
+Enable it only on a catalog *verified* to have no real transparency.
+"The originals are stored elsewhere" is not that verification: it covers
+resolution, not the alpha channel. On a real deployment, 32% of a
+40-image sample of a catalog believed to be plain white shots had real
+alpha.
 
-⚠ ``force_jpeg`` is destructive — probe before enabling it
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``force_jpeg=1`` makes the optimizer ignore the alpha channel entirely.
-JPEG has no transparency, so every transparent area is **flattened to
-black**, and the original is gone: the optimized image is written
-through the record, so the previous attachment no longer exists. There
-is no undo — the images have to be re-imported from wherever they came
-from.
-
-Enable it only on a catalog you have *verified* has no real
-transparency. "The originals are stored elsewhere" is not that
-verification: it covers resolution, not the alpha channel. A catalog
-that looks like solid white product shots can still be a third
-transparent PNGs — this is what happened on a real deployment, where 32%
-of a 40-image sample turned out to have real alpha.
-
-Probe it first, without writing anything (``_dt_image_recompress`` is a
-pure function — it returns the bytes and the chosen format, and touches
-nothing):
+Probe first, without writing anything (``_dt_image_recompress`` returns
+the bytes and the chosen format and touches nothing):
 
 .. code:: python
 
@@ -255,35 +399,314 @@ nothing):
    print(counts)  # any WEBP/PNG result = images that force_jpeg would destroy
 
 Every ``WEBP`` or ``PNG`` in that count is an image with real
-transparency. If there is even one, leave ``force_jpeg`` at ``0`` — the
-module already sends opaque images to JPEG on its own, so you lose
-almost nothing by keeping it off.
+transparency. If there is even one, leave ``force_jpeg`` at ``0``:
+opaque images already go to JPEG on their own.
 
-Scheduled action
-----------------
+To measure the real image occupancy of the whole database (one file per
+checksum):
 
-``Image Optimizer: recompress oversized images`` runs daily. It is
-**disabled by default** — review the configuration, test on staging,
-then enable it.
+.. code:: sql
 
-For a large one-time backlog you can loop the batch method from the
-shell:
+   SELECT pg_size_pretty(sum(sz)) FROM (
+       SELECT DISTINCT ON (checksum) file_size AS sz
+       FROM ir_attachment WHERE res_field IS NOT NULL AND checksum IS NOT NULL
+       ORDER BY checksum, id
+   ) t;
+
+Duplicated images
+-----------------
+
+The menus **Duplicated Images** and **Remove Duplicated Images**
+(Website → eCommerce → Products) are for administrators. On install, a
+hook fills the image checksum of the existing gallery images with one
+SQL update; to refresh it later from the shell:
 
 .. code:: python
 
-   while env["ir.attachment"]._dt_image_optimize_run(limit=200)["scanned"]:
-       env.cr.commit()
+   env["product.image"]._dedup_backfill_checksums()
 
-**Table of contents**
+.. |System parameters for background removal| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_system_parameters.png
 
-.. contents::
-   :local:
+Usage
+=====
+
+Before you start, see *Configuration* for the optional AI library and
+the system parameters.
+
+The module covers three flows on the same product images: **Remove
+background**, **Duplicated images** and **Recompression**.
+
+   **Important:** the original image is **not kept**, neither when the
+   background is removed nor when images are recompressed. Always check
+   the preview before applying.
+
+Remove background
+-----------------
+
+**Step 1 — Select the products and start the action**
+
+Go to *Website → eCommerce → Products → Products* and switch to list
+view. Tick the products whose photos you want to clean, then choose
+**Actions → Remove Image Background**. On a product, the action also
+covers the images of its eCommerce gallery.
+
+Access rights: the action needs the **Products: Create** right. To
+modify gallery images you also need **Sales: Administrator** or
+**Website: Restricted Editor**; without them **Apply** stops with an
+access error.
+
+|Remove Image Background action on the product list|
+
+**Step 2 — Check the preview**
+
+When the selection has at most ``bg_sync_limit`` images (default 5), the
+wizard cuts them out on the spot, writes nothing yet, and shows
+**Before** and **After** for each one. The limit counts **images**, not
+products: the main image plus every gallery image of each product.
+
+- Each row is one image: *main image* is the product's main picture,
+  *gallery image N* is the N-th picture of its gallery. The *After*
+  column shows the result on a checkerboard; the squares are the
+  transparent area.
+- Check that the product is complete (accessories, cap, funnel), that
+  nothing is left around it and that white areas inside the product (the
+  label) stayed opaque.
+- Untick the rows whose result is not good and press **Apply**. Only
+  ticked rows are written.
+
+With the *Automatic* method, the wizard cuts by color when the image
+border has a single color and uses the AI model otherwise.
+
+|Preview with the automatic method|
+
+**Step 3 — When the AI model loses part of the product**
+
+When the AI model is used on a photo with a uniform background, its
+result is compared with the cut-out by color. If it left out at least
+``bg_lost_warning`` percent of the product, the row shows a warning in
+the *Warning* column and is **unticked**.
+
+Choose another *Method* or *AI Model* and press **Refresh Preview**.
+Refresh rebuilds the preview **and also the ticks**. So first choose the
+method and press **Refresh Preview**, and only then untick what is not
+good, right before **Apply**.
+
+|Warning: the AI model lost the funnel|
+
+**Step 4 — The result on the product**
+
+After **Apply**, the product image (and its resized variants) is saved
+on a transparent background, in WebP format (PNG if the server cannot
+encode WebP; JPEG if a solid ``bg_color`` is set). The *Background
+Removal* status becomes *Removed*. On the shop, the product appears on
+the page background.
+
+|Product after background removal|
+
+**Step 5 — Many images: the queue**
+
+Above ``bg_sync_limit`` images, a live preview would take too long. The
+wizard only asks for confirmation and sends the images to the **Queue**.
+The scheduled action *Image Optimizer: remove product image background*
+processes them in batches of ``bg_batch``, using the method from the
+system parameters. An image that cannot be cut out stays unchanged and
+is marked *Failed*; the reason appears only in the server log.
+
+To find pending or failed images, use *Filters → Add a custom filter* on
+the product list, on the *Background Removal* field (*Pending* or
+*Failed*).
+
+Tip: try a few images with the preview first, to see the result on your
+own catalog photos.
+
+|Queue for a large selection|
+
+Remove a watermark
+------------------
+
+**Step 6 — Remove the watermark of your catalog images**
+
+Only on images whose watermark you have the right to remove (your own,
+or with the rights holder's written consent): the wizard opens with this
+reminder.
+
+1. In *Website → eCommerce → Products → Products*, list view, tick the
+   products that carry the **same** watermark — the more, the better the
+   watermark is learned — and choose **Actions → Remove Watermark**.
+2. Check the **Detected Watermark**: it is the logo the module found in
+   the images.
+3. Check each image before and after; untick the ones that are not good,
+   then **Apply**. Above ``wm_sync_limit`` images the selection is
+   queued instead.
+
+Duplicated images
+-----------------
+
+**Step 7 — Find the duplicates**
+
+*Website → eCommerce → Products → Duplicated Images* (administrator
+only). The list opens filtered on the groups that can be cleaned
+(*Removable*).
+
+- Each row is an image content that is identical byte for byte. *Copies*
+  is how many images have this content, *Products* is on how many
+  products, *Removable* is how many copies repeat inside the same
+  product.
+- *Removable* is lower than *Copies*: one image always remains on each
+  product.
+- The *Shared Across Products* filter shows a picture used on several
+  products. It is reported but **never deleted**.
+- The **Images** button opens the images of the group.
+
+|List of duplicated images|
+
+**Step 8 — Delete the duplicates**
+
+*Website → eCommerce → Products → Remove Duplicated Images*. The wizard
+shows how many contents have copies to delete, how many images will be
+deleted and kept, and the exact list. From each group (same content,
+same product) the image that appears first in the gallery stays; images
+with a video always stay. **Remove Duplicates** asks for confirmation
+and deletes permanently.
+
+|Wizard for removing duplicates|
+
+Recompression
+-------------
+
+**Step 9 — Recompress oversized images**
+
+Go to *Settings → Technical → Automation → Scheduled Actions* and open
+*Image Optimizer: recompress oversized images*. The action is
+**inactive** after installation. Run it first on a staging database with
+**Run Manually**: one run takes the largest ``batch`` originals (default
+50) above ``min_size``, shrinks them to ``max_dim`` pixels and
+re-encodes them (JPEG, or WebP when they have transparency), then
+recompresses the same number of variants and cleans the filestore. The
+result is kept only if it is smaller. Check the products with the
+largest images, then activate the action on production.
+
+The parameters are in *Settings → Technical → Parameters → System
+Parameters* (developer mode), keys starting with
+``deltatech_image_optimize.``. Do not change ``force_jpeg``: at 1,
+transparency becomes black permanently.
+
+|Scheduled action for recompression|
+
+.. |Remove Image Background action on the product list| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_action.png
+.. |Preview with the automatic method| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_preview_automatic.png
+.. |Warning: the AI model lost the funnel| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_ai_warning.png
+.. |Product after background removal| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_product_after.png
+.. |Queue for a large selection| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png
+.. |List of duplicated images| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_list.png
+.. |Wizard for removing duplicates| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_duplicates_remove.png
+.. |Scheduled action for recompression| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_recompress_cron.png
 
 Changelog
 =========
 
-Changelog
-=========
+19.0.1.12.3 (2026-10-12)
+------------------------
+
+- Readme: the description starts with the module title, like the other
+  modules, and the changelog uses one heading level for every version.
+  The description began directly with second-level headings, so the
+  generated ``README.rst`` jumped from level 2 to level 4 at *Usage* and
+  the readme generator stopped on the whole repository.
+
+19.0.1.12.2 (2026-10-09)
+------------------------
+
+- IMAGE-001: animated PNG (APNG) and animated WebP images are no longer
+  optimized. Only animated GIFs were left alone; the others were saved
+  as their first frame and the animation was lost. Every animated image,
+  whatever its format, is now skipped by both the original and the
+  variant optimizer.
+
+19.0.1.12.1 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.12.0 (2026-10-09)
+------------------------
+
+- New action **Remove Watermark** on products and product images. It
+  learns, from the selected images, a semi-transparent watermark whose
+  blend also lowered the image transparency (the exact mask of the logo
+  stays in the alpha channel), shows the detected watermark and a before
+  / after preview, and saves the cleaned image opaque. Large selections
+  are queued with the learned watermark. The wizard opens with an
+  information box on the legal limits: only a watermark one has the
+  right to remove (own, or with the rights holder's consent; EU
+  Directive 2001/29/EC, art. 7). Needs ``numpy``.
+
+19.0.1.11.1 (2026-10-08)
+------------------------
+
+- The AI model no longer runs the worker out of memory. BiRefNet is gone
+  from the wizard's model list: on a managed-hosting worker it stopped
+  with ``Failed to allocate memory`` from ONNX Runtime. Only one model
+  is kept loaded per worker, a model that fails is dropped from memory,
+  and ONNX Runtime runs without its memory arena, which never gave back
+  what it had reserved. When memory still runs out, the wizard line says
+  so and suggests ISNet or the uniform background method instead of
+  showing the raw error.
+- **Duplicated Images** opens again. The list stopped with
+  ``Invalid field 'write_date'`` as soon as there was a duplicate to
+  show: the report is an SQL view without the log fields, and the image
+  widget always reads ``write_date``. The view now provides it.
+- The background removal wizard shows the whole image name (main image
+  or gallery image N) and the whole warning, on several lines; the list
+  of what **Remove Duplicated Images** deletes uses the full width of
+  the dialog, and the *Removable* column of **Duplicated Images** is no
+  longer cut.
+- Documentation: the description is reorganized around the three jobs of
+  the module, the parameters move to a configuration page, and a
+  step-by-step usage guide with screenshots is added, with a consultant
+  sheet in Romanian (``readme/FISA_CONSULTANT.md``) whose screenshots
+  are generated by ``tests/test_screenshots.py``.
+
+19.0.1.11.0 (2026-10-08)
+------------------------
+
+- Background removal keeps what the AI model loses. Product photos on a
+  plain background (white, studio grey) are now cut out by color,
+  without the AI model: the background is what has the color of the
+  image border and touches it. Dark accessories next to the product (the
+  black funnel beside a bottle) are kept whole, and white areas inside
+  the product (a label) stay opaque. The AI model is still used for
+  photos on a real background; method
+  ``deltatech_image_optimize.bg_method`` = ``auto`` (default),
+  ``uniform`` or ``rembg``. Without ``rembg`` installed, images on a
+  plain background can now be cut out too.
+- Specks left next to the product are removed: pieces smaller than
+  ``bg_min_island`` percent (default 1) of the main object.
+- When the AI model leaves out part of a product on a plain background,
+  the image gets a warning in the wizard and is **unticked**; it is
+  applied only if ticked by hand.
+- In the wizard: choose the method and the AI model and **Refresh
+  Preview**; the result is shown on a checkerboard, so leftovers are
+  visible in any theme; each line says whether it is the main image or
+  which gallery image of which product; larger previews.
+- Works with Pillow 9.0 too (no ``Image.Resampling`` there), the oldest
+  version Odoo 19 accepts.
+
+19.0.1.10.0 (2026-10-08)
+------------------------
+
+- Remove the background of product images: **Action → Remove Image
+  Background** on products (including their eCommerce gallery) and on
+  product images. The product is cut out with the optional library
+  ``rembg`` and saved on a transparent background as WebP, variants
+  included. The original is not kept; a wizard shows each image before
+  and after so the result is checked before it is written. Large
+  selections are queued for a new scheduled action.
+
+19.0.1.9.2 (2026-10-07)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.9.0 (2026-08-27)
 -----------------------
