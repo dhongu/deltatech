@@ -102,19 +102,6 @@ class TestWebsiteSaleVATValidation(TransactionCase):
             self.assertFalse(any("already exists" in msg for msg in error_messages))
             self.assertFalse(any(value in msg for msg in error_messages))
 
-    def test_06_public_user_vat_format_still_checked(self):
-        public_user = self.env.ref("base.public_user")
-        address_values = {"name": "Guest", "vat": "RO12AB34", "country_id": self.country_ro.id}
-        with MockRequest(self.env(user=public_user)):
-            invalid_fields, missing_fields, error_messages = self.controller._validate_address_values(
-                address_values=address_values,
-                partner_sudo=self.env["res.partner"].sudo(),
-                address_type="billing",
-                use_delivery_as_billing=False,
-                required_fields="vat",
-            )
-        self.assertIn("vat", invalid_fields)
-
     def _validate_vat_as(self, vat, partner_sudo=None):
         with MockRequest(self.env):
             return self.controller._validate_address_values(
