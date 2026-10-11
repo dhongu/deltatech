@@ -18,12 +18,6 @@ msgstr ""
 #. module: deltatech_website_vat_validation
 #. odoo-python
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "An other partner already exists with the same %s"
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
 msgid "The VAT number is not valid according to ANAF"
 msgstr ""
 
@@ -47,4 +41,29 @@ msgstr ""
 msgid ""
 "This looks like a personal numeric code (CNP). This field is for the tax "
 "code (CUI) of a company; if you buy as an individual, leave it empty."
+msgstr ""
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"A company with this tax code already has an account with us. To order on "
+"its behalf, ask a colleague who has access to add you, or contact us."
+msgstr ""
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"A company with this tax code already has an account with us. To order on "
+"its behalf, ask a colleague who has access to add you, or send an access "
+"request from %(url)s."
+msgstr ""
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"This e-mail address belongs to another account. Log in with that account or "
+"use another address."
 msgstr ""

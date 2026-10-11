@@ -47,7 +47,8 @@ class TestWebsiteSaleVATValidation(TransactionCase):
             )
 
             self.assertIn("vat", invalid_fields)
-            self.assertTrue(any("already exists" in msg for msg in error_messages))
+            self.assertTrue(any("already has an account" in msg for msg in error_messages))
+            self.assertFalse(any("Existing Partner" in msg for msg in error_messages), "the account is not named")
 
     def test_02_email_uniqueness(self):
         address_values = {
@@ -65,11 +66,10 @@ class TestWebsiteSaleVATValidation(TransactionCase):
             )
 
             self.assertIn("email", invalid_fields)
-            self.assertTrue(any("already exists" in msg for msg in error_messages))
+            self.assertTrue(any("belongs to another account" in msg for msg in error_messages))
 
-    def test_03_phone_uniqueness(self):
-        # Pentru telefon, validarea unicității se face după striping în deltatech_website_vat_validation
-        # Dar atenție, phone_validation poate formata numărul în super()
+    def test_03_phone_shared_is_accepted(self):
+        """Colleagues share the company phone, relatives a home phone: not a duplicate."""
         address_values = {
             "name": "New Partner",
             "phone": " +40711111111 ",
@@ -84,8 +84,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
                 required_fields="phone",
             )
 
-            self.assertIn("phone", invalid_fields)
-            self.assertTrue(any("already exists" in msg for msg in error_messages))
+            self.assertNotIn("phone", invalid_fields)
 
     def test_04_anaf_integration(self):
         # Simulăm datele ANAF folosind contextul, așa cum am văzut în l10n_ro_partner_create_by_vat/models/res_partner.py:_get_Anaf
@@ -228,3 +227,34 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         with MockRequest(self.env), patch.object(requests, "post", side_effect=requests.ConnectTimeout("timeout")):
             state, values = self.controller._anaf_lookup("1234567897")
         self.assertEqual((state, values), ("unavailable", {}))
+
+    def _validate_vat_as(self, vat, partner_sudo=None):
+        with MockRequest(self.env):
+            return self.controller._validate_address_values(
+                address_values={"name": "Contact", "vat": vat, "country_id": self.country_ro.id},
+                partner_sudo=partner_sudo or self.env["res.partner"].sudo(),
+                address_type="billing",
+                use_delivery_as_billing=False,
+                required_fields="vat",
+            )
+
+    def test_11_vat_duplicate_with_or_without_prefix(self):
+        self.env["res.partner"].create(
+            {"name": "Firma Existenta SRL", "is_company": True, "vat": "RO1234567897", "country_id": self.country_ro.id}
+        )
+        invalid_fields, _missing, error_messages = self._validate_vat_as("1234567897")
+        self.assertIn("vat", invalid_fields)
+        if "b2b_state" in self.env["res.partner"]._fields:
+            self.assertTrue(any("/b2b" in msg for msg in error_messages), "the access request form is offered")
+        else:
+            self.assertTrue(any("contact us" in msg for msg in error_messages))
+
+    def test_12_own_company_vat_is_not_a_duplicate(self):
+        """A contact of a company who types the tax code of their own company is not blocked."""
+        company = self.env["res.partner"].create(
+            {"name": "Firma Mea SRL", "is_company": True, "vat": "RO1234567897", "country_id": self.country_ro.id}
+        )
+        contact = self.env["res.partner"].create({"name": "Coleg", "parent_id": company.id, "type": "invoice"})
+        invalid_fields, _missing, error_messages = self._validate_vat_as("RO1234567897", partner_sudo=contact.sudo())
+        self.assertNotIn("vat", invalid_fields)
+        self.assertFalse(any("already has an account" in msg for msg in error_messages))
