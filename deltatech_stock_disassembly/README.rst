@@ -14,7 +14,7 @@ Free Disassembly
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_disassembly
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_disassembly
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -127,6 +127,16 @@ Usage
 Changelog
 =========
 
+20.0.1.0.0 (2026-10-12)
+-----------------------
+
+- Migration to Odoo 20: the value of a stock move is signed (negative
+  for the disassembled product), ``_get_value_from_production`` no
+  longer takes ``at_date``, the moves and move lines use ``uom_id``, the
+  quantities are compared with ``uom.compare`` (``uom.uom.rounding`` is
+  gone), a product without tracking has ``tracking`` empty (no more
+  ``'none'``) and the access rights are in ``ir.access``.
+
 19.0.1.0.0 (2026-10-12)
 -----------------------
 
@@ -167,6 +177,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_disassembly>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_disassembly>`_ project on GitHub.
 
 You are welcome to contribute.
