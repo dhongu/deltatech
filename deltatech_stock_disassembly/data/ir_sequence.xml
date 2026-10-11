@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="seq_stock_disassembly" model="ir.sequence">
+        <field name="name">Disassembly Report</field>
+        <field name="code">stock.disassembly</field>
+        <field name="prefix">PVD/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
+</odoo>
