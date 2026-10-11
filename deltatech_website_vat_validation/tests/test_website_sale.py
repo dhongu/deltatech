@@ -258,3 +258,64 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         invalid_fields, _missing, error_messages = self._validate_vat_as("RO1234567897", partner_sudo=contact.sudo())
         self.assertNotIn("vat", invalid_fields)
         self.assertFalse(any("already has an account" in msg for msg in error_messages))
+
+    @staticmethod
+    def _anaf_company(name="FIRMA ANAF SRL", registration="INREGISTRAT din data 01.01.2020", inactive=False):
+        address = {
+            "ddenumire_Strada": "STR. ANAF",
+            "dnumar_Strada": "7",
+            "ddetalii_Adresa": "",
+            "dcod_Postal": "400001",
+            "ddenumire_Localitate": "MUN. CLUJ-NAPOCA",
+            "ddenumire_Judet": "CLUJ",
+            "dcod_JudetAuto": "CJ",
+        }
+        return {
+            "date_generale": {
+                "denumire": name,
+                "cui": 1234567897,
+                "codPostal": "400001",
+                "stare_inregistrare": registration,
+            },
+            "stare_inactiv": {"statusInactivi": inactive, "dataInactivare": "2026-05-04" if inactive else ""},
+            "adresa_domiciliu_fiscal": address,
+        }
+
+    def test_13_typed_address_kept_name_from_anaf(self):
+        """The invoice goes out in the legal name; the address typed by the customer stays."""
+        self._skip_without_anaf()
+        address_values = {
+            "name": "Ion Popescu",
+            "street": "Depozit, Str. Fabricii 3",
+            "vat": "RO1234567897",
+            "country_id": self.country_ro.id,
+        }
+        self._validate_billing(address_values, anaf_data={"1234567897": self._anaf_company()})
+        self.assertEqual(address_values["name"], "FIRMA ANAF SRL")
+        self.assertEqual(address_values["street"], "Depozit, Str. Fabricii 3")
+        self.assertEqual(address_values["zip"], "400001", "an empty field is filled from ANAF")
+
+    def test_14_struck_off_company_refused(self):
+        self._skip_without_anaf()
+        address_values = {"name": "Firma", "vat": "RO1234567897", "country_id": self.country_ro.id}
+        company = self._anaf_company(registration="RADIERE din data 01.02.2025")
+        invalid_fields, _missing, error_messages = self._validate_billing(
+            address_values, anaf_data={"1234567897": company}
+        )
+        self.assertIn("vat", invalid_fields)
+        self.assertTrue(any("struck off" in msg for msg in error_messages))
+
+    def test_15_inactive_company_allowed_with_note(self):
+        self._skip_without_anaf()
+        product = self.env["product.product"].create({"name": "Produs", "list_price": 10})
+        cart = self.env["sale.order"].create(
+            {"partner_id": self.existing_partner.id, "order_line": [(0, 0, {"product_id": product.id})]}
+        )
+        address_values = {"name": "Firma", "vat": "RO1234567897", "country_id": self.country_ro.id}
+        invalid_fields, _missing, _messages = self._validate_billing(
+            address_values, anaf_data={"1234567897": self._anaf_company(inactive=True)}, cart=cart
+        )
+        self.assertNotIn("vat", invalid_fields)
+        note = cart.message_ids.filtered(lambda m: "fiscally inactive" in (m.body or ""))
+        self.assertTrue(note)
+        self.assertIn("2026-05-04", note.body)
