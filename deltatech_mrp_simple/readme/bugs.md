@@ -24,6 +24,14 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Suggested fix:** Enforce draft-only confirmation on the server and protect against existing linked transfers/repeated requests; provide a separately validated correction workflow if needed.
 - **Validation needed:** Second call on done must create no extra pickings/moves/sales; concurrent or retried calls must preserve one confirmation.
 
+## SIMPLE-003 — P1: Received products are valued at their own cost, not at the consumed cost
+
+- **Status:** Fixed in 19.0.1.1.4. The receipt moves carry `mrp_simple_id`; `stock.move._get_value_from_production()` values them at the move `price_unit` (converted to the product unit), the allocated cost. Moves merged in `add_picking_line()` keep the weighted average price. Covered by `test_receipt_valued_at_consumed_cost`, `test_merged_receipt_lines_keep_weighted_price`.
+- **Location:** models/mrp_simple.py, add_picking_line() and create_picking_lines_in().
+- **Trigger:** Confirm a simple production whose received product has a cost different from the allocated price.
+- **Actual behavior:** In Odoo 19 `stock_account` does not use `stock.move.price_unit` for valuation; without a bill, purchase line, return or manufacturing order the move falls back to `standard_price x quantity`. Consumed 70, received 2 units with cost 100: receipt value 200 instead of 70.
+- **Impact:** Stock value and average cost of the produced goods are wrong, without any error; the difference reaches the accounting.
+
 ## Review limitations
 
 All eligible Python/XML module source manually reviewed, including transfer creation/validation, stock move aggregation, sale generation, cost calculations, multi-line wizard, ACLs and views. Cost reproduction uses mocked records; no Odoo transfers, sales, valuation entries or database integration tests executed.
