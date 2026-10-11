@@ -1,0 +1,62 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_stock_disassembly_mrp
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly_mrp.field_stock_disassembly__bom_id
+msgid "Bill of Materials"
+msgstr "Listă de materiale"
+
+#. module: deltatech_stock_disassembly_mrp
+#: model:ir.model,name:deltatech_stock_disassembly_mrp.model_stock_disassembly
+msgid "Disassembly Report"
+msgstr "Proces-verbal de dezmembrare"
+
+#. module: deltatech_stock_disassembly_mrp
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly_mrp.field_stock_disassembly__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_disassembly_mrp
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly_mrp.field_stock_disassembly__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_disassembly_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly_mrp.view_stock_disassembly_form_bom
+msgid "Load from BoM"
+msgstr "Încarcă din lista de materiale"
+
+#. module: deltatech_stock_disassembly_mrp
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly_mrp/models/stock_disassembly.py:0
+msgid "Only a draft disassembly report can be filled in."
+msgstr "Doar un proces-verbal de dezmembrare în ciornă poate fi completat."
+
+#. module: deltatech_stock_disassembly_mrp
+#: model:ir.model.fields,help:deltatech_stock_disassembly_mrp.field_stock_disassembly__bom_id
+msgid ""
+"Optional: the resulting products can be filled in from the components of "
+"this bill of materials, then changed freely."
+msgstr ""
+"Opțional: articolele rezultate se pot completa din componentele acestei "
+"liste de materiale, apoi se modifică liber."
+
+#. module: deltatech_stock_disassembly_mrp
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly_mrp/models/stock_disassembly.py:0
+msgid "Select a bill of materials."
+msgstr "Alegeți o listă de materiale."
+
+#. module: deltatech_stock_disassembly_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly_mrp.view_stock_disassembly_form_bom
+msgid ""
+"The product lines are replaced by the components of the bill of materials."
+msgstr ""
+"Rândurile de tip articol se înlocuiesc cu componentele listei de materiale."
