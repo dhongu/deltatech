@@ -183,3 +183,37 @@ class TestMRPSimple(TransactionCase):
             mrp.do_transfer()
         self.assertEqual(self.env["stock.picking"].search_count([]), pickings)
         self.assertEqual((mrp.consume_id, mrp.receipt_id), (consume, receipt))
+
+    def _avco_product(self, standard_price=100):
+        category = self.env["product.category"].create({"name": "AVCO", "property_cost_method": "average"})
+        return self.env["product.product"].create(
+            {"name": "Test Result", "is_storable": True, "categ_id": category.id, "standard_price": standard_price}
+        )
+
+    def test_receipt_valued_at_consumed_cost(self):
+        """SIMPLE-003: the received product enters stock at the consumed cost, not at its own cost"""
+        product = self._avco_product()
+        # one Test B consumed, standard price 70
+        mrp = self._simple([(product, 2)], consumed_value=70.0)
+        mrp.compute_finit_price()
+        self.assertAlmostEqual(mrp.product_in_ids.price_unit, 35.0)
+        mrp.validation_consume = True
+        mrp.do_transfer()
+        self.assertEqual(mrp.receipt_id.state, "done")
+        self.assertAlmostEqual(mrp.consume_id.move_ids.value, 70.0)
+        self.assertAlmostEqual(mrp.receipt_id.move_ids.value, 70.0)
+        # the average cost follows the value of the receipt
+        self.assertAlmostEqual(product.standard_price, 35.0)
+
+    def test_merged_receipt_lines_keep_weighted_price(self):
+        """Two received lines of the same product make one move, valued at their weighted price"""
+        product = self._avco_product()
+        mrp = self._simple([(product, 1), (product, 3)], consumed_value=180.0)
+        line_1, line_3 = mrp.product_in_ids
+        line_1.price_unit, line_3.price_unit = 30.0, 50.0
+        mrp.do_transfer()
+        move = mrp.receipt_id.move_ids
+        self.assertEqual(len(move), 1)
+        self.assertAlmostEqual(move.product_uom_qty, 4.0)
+        self.assertAlmostEqual(move.price_unit, 45.0)
+        self.assertAlmostEqual(move.value, 180.0)

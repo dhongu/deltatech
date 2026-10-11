@@ -122,7 +122,11 @@ class MRPSimple(models.Model):
         )
         if move:
             qty = move.product_uom_qty + quantity
-            move.write({"product_uom_qty": qty})
+            vals = {"product_uom_qty": qty}
+            if qty:
+                # the merged move keeps the weighted average price of its lines
+                vals["price_unit"] = (move.product_uom_qty * move.price_unit + quantity * price_unit) / qty
+            move.write(vals)
         else:
             values = {
                 "state": "confirmed",
@@ -290,13 +294,15 @@ class MRPSimple(models.Model):
             if not line.price_unit and not allow_zero:
                 raise UserError(self.env._("Price 0 for result product!"))
             if line.product_id.type != "service":
-                self.add_picking_line(
+                move = self.add_picking_line(
                     picking=picking_in,
                     product=line.product_id,
                     quantity=line.quantity,
                     uom=line.uom_id,
                     price_unit=line.price_unit,
                 )
+                # the receipt is valued at the allocated price, see stock.move._get_value_from_production
+                move.mrp_simple_id = self
 
     def create_picking_lines_out(self, picking_out):
         for line in self.product_out_ids:
