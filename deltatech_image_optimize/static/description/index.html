@@ -520,7 +520,7 @@ becomes black permanently.</p>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.11.1</h1>
 <ul>
 <li>The AI model no longer runs the worker out of memory. BiRefNet is gone from
-  the wizard's model list: on an odoo.sh worker it stopped with
+  the wizard's model list: on a managed-hosting worker it stopped with
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Failed to allocate memory</code> from ONNX Runtime. Only one model is kept
   loaded per worker, a model that fails is dropped from memory, and ONNX
   Runtime runs without its memory arena, which never gave back what it had
