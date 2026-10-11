@@ -19,12 +19,6 @@ msgstr ""
 #. module: deltatech_website_vat_validation
 #. python-format
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "An other partner already exists with the same %s"
-msgstr "Un alt partener există deja cu același %s"
-
-#. module: deltatech_website_vat_validation
-#. python-format
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
 msgid "The VAT number is not valid according to ANAF"
 msgstr "Codul TVA nu este valid conform ANAF"
 
@@ -53,3 +47,35 @@ msgid ""
 msgstr ""
 "Acesta pare a fi un cod numeric personal (CNP). Câmpul este pentru codul "
 "fiscal (CUI) al unei firme; dacă cumpărați ca persoană fizică, lăsați-l gol."
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"A company with this tax code already has an account with us. To order on "
+"its behalf, ask a colleague who has access to add you, or contact us."
+msgstr ""
+"Firma cu acest cod fiscal are deja cont la noi. Pentru a comanda în numele "
+"ei, cereți unui coleg care are acces să vă adauge sau contactați-ne."
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"A company with this tax code already has an account with us. To order on "
+"its behalf, ask a colleague who has access to add you, or send an access "
+"request from %(url)s."
+msgstr ""
+"Firma cu acest cod fiscal are deja cont la noi. Pentru a comanda în numele "
+"ei, cereți unui coleg care are acces să vă adauge sau trimiteți o cerere de "
+"acces de la %(url)s."
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"This e-mail address belongs to another account. Log in with that account or "
+"use another address."
+msgstr ""
+"Această adresă de e-mail aparține altui cont. Autentificați-vă cu acel cont "
+"sau folosiți altă adresă."

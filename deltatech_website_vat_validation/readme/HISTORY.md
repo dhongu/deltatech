@@ -1,3 +1,15 @@
+## 19.0.0.0.9 (2026-10-11)
+
+- Duplicate check of a logged-in customer, clearer and fairer:
+  - a tax code (VAT) already used by another customer now says what to do: ask a colleague who
+    has access, or send an access request from the /b2b page (with `deltatech_b2b_portal`), or
+    contact us. Before: "An other partner already exists with the same ...";
+  - an e-mail address of another account asks to log in with that account or use another address;
+  - the tax code is compared without its country prefix and spaces (`RO12345678` = `12345678`);
+  - the customer's own company and its contacts are no longer duplicates;
+  - the phone is no longer checked: colleagues share the company phone, relatives a home phone.
+- The messages never name the account found.
+
 ## 19.0.0.0.8 (2026-10-11)
 
 - ANAF unavailable no longer blocks the checkout. The VAT number is looked up with a 5 s timeout
