@@ -5,7 +5,6 @@
         <field name="model">stock.disassembly</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_stock_disassembly.report_stock_disassembly</field>
-        <field name="report_file">deltatech_stock_disassembly.report_stock_disassembly</field>
         <field name="print_report_name">'Disassembly - %s' % object.name</field>
         <field name="binding_model_id" ref="model_stock_disassembly" />
         <field name="binding_type">report</field>

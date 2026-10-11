@@ -5,15 +5,14 @@
 {
     "name": "Free Disassembly",
     "summary": "Disassembly report without bill of materials, with cost allocation",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
     "depends": ["stock_account"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
-        "security/ir_rule.xml",
+        "security/ir.access.csv",
         "data/ir_sequence.xml",
         "report/report_stock_disassembly.xml",
         "views/stock_disassembly_views.xml",

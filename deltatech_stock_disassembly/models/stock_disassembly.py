@@ -278,16 +278,16 @@ class StockDisassembly(models.Model):
 
     def _check_before_validate(self):
         self.ensure_one()
-        rounding = self.product_id.uom_id.rounding
-        if float_compare(self.product_qty, 0.0, precision_rounding=rounding) <= 0:
+        uom = self.product_id.uom_id
+        if uom.compare(self.product_qty, 0.0) <= 0:
             raise ValidationError(self.env._("The quantity to disassemble must be positive."))
         if self.date > fields.Date.context_today(self):
             raise ValidationError(self.env._("The date of the disassembly report cannot be in the future."))
-        if self.tracking != "none" and not self.lot_id:
+        if self.tracking and not self.lot_id:
             raise ValidationError(
                 self.env._("Set the lot/serial number of the disassembled product %s.", self.product_id.display_name)
             )
-        if self.tracking == "serial" and float_compare(self._get_source_qty(), 1.0, precision_rounding=rounding):
+        if self.tracking == "serial" and uom.compare(self._get_source_qty(), 1.0):
             raise ValidationError(self.env._("A product tracked by serial number is disassembled one unit at a time."))
         products = self.line_ids.filtered(lambda line: line.line_type == "product")
         if not products:
@@ -358,7 +358,8 @@ class StockDisassembly(models.Model):
         self._create_source_move()
         # the localization may split the move by FIFO layer: the cost is the sum of the pieces
         source_moves = self.move_ids.filtered(lambda move: not move.disassembly_line_id and move.state == "done")
-        self.source_value = sum(source_moves.mapped("value"))
+        # the value of a move is signed: negative for an outgoing move
+        self.source_value = -sum(source_moves.mapped("value"))
         self._check_allocation()
 
         result_moves = self.env["stock.move"]
@@ -388,7 +389,7 @@ class StockDisassembly(models.Model):
         move = self.env["stock.move"].create(
             {
                 "product_id": self.product_id.id,
-                "product_uom": self.product_uom_id.id,
+                "uom_id": self.product_uom_id.id,
                 "product_uom_qty": self.product_qty,
                 "location_id": self.location_id.id,
                 "location_dest_id": self.product_id.with_company(self.company_id).property_stock_production.id,
@@ -401,7 +402,7 @@ class StockDisassembly(models.Model):
         taken = move._update_reserved_quantity(
             move.product_qty, self.location_id, lot_id=self.lot_id or None, strict=False
         )
-        if float_compare(taken, move.product_qty, precision_rounding=self.product_id.uom_id.rounding) < 0:
+        if self.product_id.uom_id.compare(taken, move.product_qty) < 0:
             raise UserError(
                 self.env._(
                     "Not enough stock of %(product)s in %(location)s to disassemble %(qty)s %(uom)s.",
@@ -762,8 +763,8 @@ class StockDisassemblyLine(models.Model):
 
     def _check_before_validate(self):
         self.ensure_one()
-        rounding = self.product_id.uom_id.rounding
-        if float_compare(self.quantity, 0.0, precision_rounding=rounding) <= 0:
+        uom = self.product_id.uom_id
+        if uom.compare(self.quantity, 0.0) <= 0:
             raise ValidationError(self.env._("The quantity of %s must be positive.", self.product_id.display_name))
         if self.line_type == "product":
             if not self.product_id.is_storable:
@@ -786,12 +787,12 @@ class StockDisassemblyLine(models.Model):
                     self.product_id.display_name,
                 )
             )
-        if self.product_id.is_storable and self.tracking != "none":
+        if self.product_id.is_storable and self.tracking:
             if not self.lot_id and not self.lot_name:
                 raise ValidationError(
                     self.env._("Set the lot/serial number of the resulting product %s.", self.product_id.display_name)
                 )
-            if self.tracking == "serial" and float_compare(self._get_product_qty(), 1.0, precision_rounding=rounding):
+            if self.tracking == "serial" and uom.compare(self._get_product_qty(), 1.0):
                 raise ValidationError(
                     self.env._(
                         "A product tracked by serial number (%s) is entered one unit per line.",
@@ -801,7 +802,7 @@ class StockDisassemblyLine(models.Model):
 
     def _get_or_create_lot(self):
         self.ensure_one()
-        if self.lot_id or not self.lot_name or self.tracking == "none" or not self.product_id.is_storable:
+        if self.lot_id or not self.lot_name or not self.tracking or not self.product_id.is_storable:
             return self.lot_id
         lot = self.env["stock.lot"].search(
             [
@@ -826,7 +827,7 @@ class StockDisassemblyLine(models.Model):
         move = self.env["stock.move"].create(
             {
                 "product_id": self.product_id.id,
-                "product_uom": self.product_uom_id.id,
+                "uom_id": self.product_uom_id.id,
                 "product_uom_qty": self.quantity,
                 "location_id": source_location.id,
                 "location_dest_id": self.location_dest_id.id,
@@ -842,7 +843,7 @@ class StockDisassemblyLine(models.Model):
             {
                 "move_id": move.id,
                 "product_id": self.product_id.id,
-                "product_uom_id": self.product_uom_id.id,
+                "uom_id": self.product_uom_id.id,
                 "quantity": self.quantity,
                 "location_id": source_location.id,
                 "location_dest_id": self.location_dest_id.id,

@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_stock_disassembly_user,stock.disassembly user,stock.disassembly,stock.group_stock_user,crud,
+stock_disassembly_comp_rule,Disassembly report multi-company,stock.disassembly,,crud,"[('company_id', 'in', company_ids)]"
+access_stock_disassembly_line_user,stock.disassembly.line user,stock.disassembly.line,stock.group_stock_user,crud,
+stock_disassembly_line_comp_rule,Disassembly report line multi-company,stock.disassembly.line,,crud,"[('company_id', 'in', company_ids)]"

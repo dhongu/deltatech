@@ -20,10 +20,10 @@ class StockMove(models.Model):
         # the disassembly report posts one entry for all its moves, with the accounts of its own
         return super(StockMove, self.filtered(lambda move: not move.disassembly_id))._create_account_move()
 
-    def _get_value_from_production(self, quantity, at_date=None):
+    def _get_value_from_production(self, quantity):
         line = self.disassembly_line_id
         if not line or line.line_type != "product":
-            return super()._get_value_from_production(quantity, at_date=at_date)
+            return super()._get_value_from_production(quantity)
         line_qty = line._get_product_qty()
         value = line.value * quantity / line_qty if line_qty else 0.0
         return {

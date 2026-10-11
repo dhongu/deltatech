@@ -29,7 +29,7 @@
                             name="action_view_moves"
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-exchange"
+                            icon="swap_horiz"
                             invisible="not move_count"
                         >
                             <field name="move_count" widget="statinfo" string="Stock Moves" />
@@ -38,7 +38,7 @@
                             name="action_view_account_move"
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-book"
+                            icon="book"
                             string="Journal Entry"
                             invisible="not account_move_id"
                             groups="account.group_account_readonly"
@@ -56,8 +56,8 @@
                             <field name="tracking" invisible="1" />
                             <field
                                 name="lot_id"
-                                invisible="tracking == 'none'"
-                                required="tracking != 'none'"
+                                invisible="not tracking"
+                                required="tracking"
                                 readonly="state != 'draft'"
                                 context="{'default_product_id': product_id}"
                             />
@@ -103,13 +103,13 @@
                                         name="lot_id"
                                         optional="show"
                                         groups="stock.group_production_lot"
-                                        readonly="tracking == 'none'"
+                                        readonly="not tracking"
                                         context="{'default_product_id': product_id}"
                                     />
                                     <field
                                         name="lot_name"
                                         optional="show"
-                                        readonly="tracking == 'none' or lot_id"
+                                        readonly="not tracking or lot_id"
                                         groups="stock.group_production_lot"
                                     />
                                     <field name="location_dest_id" groups="stock.group_stock_multi_locations" />

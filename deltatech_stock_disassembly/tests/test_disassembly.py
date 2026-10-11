@@ -10,6 +10,13 @@ from odoo.addons.stock_account.tests.common import TestStockValuationCommon
 
 @tagged("post_install", "-at_install")
 class TestStockDisassembly(TestStockValuationCommon):
+    _test_user_groups = (
+        "stock.group_stock_manager",  # in moves of the setup carry a manual value (product.value)
+        "product.group_product_manager",  # resulting products created in the setup
+        "account.group_account_invoice",
+        "account.group_account_readonly",  # the journal entry of the report is asserted
+    )
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -254,6 +261,11 @@ class TestStockDisassembly(TestStockValuationCommon):
 class TestStockDisassemblyRomania(TestStockValuationCommon):
     """Romanian chart: stock to stock entries, 34x only through 711."""
 
+    _test_user_groups = (
+        *TestStockDisassembly._test_user_groups,
+        "account.group_account_manager",  # accounts of the Romanian chart created in the setup
+    )
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -331,7 +343,7 @@ class TestStockDisassemblyRomania(TestStockValuationCommon):
         with self.assertRaises(UserError):
             disassembly.action_validate()
         self.assertEqual(disassembly.state, "draft")
-        self.company.disassembly_allow_reclassification = True
+        self.company.sudo().disassembly_allow_reclassification = True  # an Inventory setting, set by the administrator
         disassembly.action_validate()
         self.assertAlmostEqual(self._balance(disassembly, self.acc_301), 10)
         self.assertAlmostEqual(self._balance(disassembly, self.acc_371), -10)
