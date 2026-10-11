@@ -32,3 +32,19 @@ msgstr ""
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
 msgid "The VAT number must contain only digits (after the country code)"
 msgstr ""
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
+"Please check the customer details."
+msgstr ""
+
+#. module: deltatech_website_vat_validation
+#. odoo-python
+#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
+msgid ""
+"This looks like a personal numeric code (CNP). This field is for the tax "
+"code (CUI) of a company; if you buy as an individual, leave it empty."
+msgstr ""

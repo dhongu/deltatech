@@ -1,3 +1,14 @@
+## 19.0.0.0.8 (2026-10-11)
+
+- ANAF unavailable no longer blocks the checkout. The VAT number is looked up with a 5 s timeout
+  (instead of 30 s) and the answer is read in three ways: company found (the address is filled in,
+  as before), company not found (the number is refused, as before), service unavailable (the
+  number is accepted as typed, the address is kept and the cart gets an internal note for the
+  salesperson). Before, a down or slow ANAF refused every VAT number with "not valid according to
+  ANAF".
+- A personal numeric code (CNP) typed in the VAT field gets its own message, asking an individual
+  to leave the field empty, instead of "not valid according to ANAF".
+
 ## 19.0.0.0.7 (2026-10-09)
 
 - Apps Store banner (banner.json).

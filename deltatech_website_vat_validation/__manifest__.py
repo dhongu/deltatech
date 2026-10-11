@@ -5,7 +5,7 @@
 {
     "name": "Website VAT Validation",
     "summary": "VAT Validation",
-    "version": "19.0.0.0.7",
+    "version": "19.0.0.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
