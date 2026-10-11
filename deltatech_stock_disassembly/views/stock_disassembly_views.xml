@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_disassembly_form" model="ir.ui.view">
+        <field name="name">stock.disassembly.form</field>
+        <field name="model">stock.disassembly</field>
+        <field name="arch" type="xml">
+            <form string="Disassembly Report">
+                <header>
+                    <button
+                        name="action_validate"
+                        type="object"
+                        string="Validate"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                    />
+                    <button
+                        name="%(action_report_stock_disassembly)d"
+                        type="action"
+                        string="Print"
+                        invisible="state != 'done'"
+                    />
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state != 'draft'" />
+                    <button name="action_draft" type="object" string="Reset to Draft" invisible="state != 'cancel'" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="action_view_moves"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-exchange"
+                            invisible="not move_count"
+                        >
+                            <field name="move_count" widget="statinfo" string="Stock Moves" />
+                        </button>
+                        <button
+                            name="action_view_account_move"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-book"
+                            string="Journal Entry"
+                            invisible="not account_move_id"
+                            groups="account.group_account_readonly"
+                        />
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" invisible="name == '/'" />
+                            <span invisible="name != '/'">Draft</span>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Disassembled Product">
+                            <field name="product_id" readonly="state != 'draft'" />
+                            <field name="tracking" invisible="1" />
+                            <field
+                                name="lot_id"
+                                invisible="tracking == 'none'"
+                                required="tracking != 'none'"
+                                readonly="state != 'draft'"
+                                context="{'default_product_id': product_id}"
+                            />
+                            <label for="product_qty" />
+                            <div class="o_row">
+                                <field name="product_qty" readonly="state != 'draft'" />
+                                <field
+                                    name="product_uom_id"
+                                    groups="uom.group_uom"
+                                    readonly="state != 'draft'"
+                                    options="{'no_create': True}"
+                                />
+                            </div>
+                            <field name="location_id" readonly="state != 'draft'" groups="stock.group_stock_multi_locations" />
+                            <field name="value" />
+                        </group>
+                        <group string="Results">
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="allocation_method" readonly="state != 'draft'" />
+                            <field
+                                name="location_dest_id"
+                                readonly="state != 'draft'"
+                                groups="stock.group_stock_multi_locations"
+                            />
+                            <field name="scrap_location_id" readonly="state != 'draft'" />
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Results" name="results">
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="line_type" />
+                                    <field name="product_id" />
+                                    <field name="tracking" column_invisible="1" />
+                                    <field name="currency_id" column_invisible="1" />
+                                    <field name="company_id" column_invisible="1" />
+                                    <field name="quantity" />
+                                    <field name="product_uom_id" groups="uom.group_uom" options="{'no_create': True}" />
+                                    <field
+                                        name="lot_id"
+                                        optional="show"
+                                        groups="stock.group_production_lot"
+                                        readonly="tracking == 'none'"
+                                        context="{'default_product_id': product_id}"
+                                    />
+                                    <field
+                                        name="lot_name"
+                                        optional="show"
+                                        readonly="tracking == 'none' or lot_id"
+                                        groups="stock.group_production_lot"
+                                    />
+                                    <field name="location_dest_id" groups="stock.group_stock_multi_locations" />
+                                    <field name="over_norm" readonly="line_type != 'scrap'" />
+                                    <field
+                                        name="reference_price"
+                                        column_invisible="parent.allocation_method != 'price'"
+                                    />
+                                    <field name="percent" column_invisible="parent.allocation_method != 'percent'" />
+                                    <field name="use_fixed_value" column_invisible="parent.allocation_method == 'fixed'" />
+                                    <field
+                                        name="fixed_value"
+                                        readonly="parent.allocation_method != 'fixed' and not use_fixed_value"
+                                    />
+                                    <field name="unit_cost" optional="show" />
+                                    <field name="value" sum="Total" />
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer">
+                                <field name="allocated_value" string="Allocated" />
+                                <field name="over_norm_value" invisible="not over_norm_value" />
+                            </group>
+                        </page>
+                        <page string="Committee and Reason" name="notes">
+                            <group>
+                                <field name="reason" readonly="state != 'draft'" />
+                                <field
+                                    name="committee"
+                                    readonly="state != 'draft'"
+                                    placeholder="Name, position (one per line)"
+                                />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="view_stock_disassembly_list" model="ir.ui.view">
+        <field name="name">stock.disassembly.list</field>
+        <field name="model">stock.disassembly</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancel'" decoration-info="state == 'draft'">
+                <field name="name" />
+                <field name="date" />
+                <field name="product_id" />
+                <field name="lot_id" optional="show" />
+                <field name="product_qty" />
+                <field name="product_uom_id" groups="uom.group_uom" />
+                <field name="location_id" groups="stock.group_stock_multi_locations" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="value" optional="show" />
+                <field name="company_id" groups="base.group_multi_company" optional="show" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'draft'"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_stock_disassembly_search" model="ir.ui.view">
+        <field name="name">stock.disassembly.search</field>
+        <field name="model">stock.disassembly</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="product_id" />
+                <field name="lot_id" />
+                <field name="line_ids" string="Resulting Product" filter_domain="[('line_ids.product_id', 'ilike', self)]" />
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]" />
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+                <separator />
+                <filter name="filter_date" string="Date" date="date" />
+                <group>
+                    <filter name="group_product" string="Product" context="{'group_by': 'product_id'}" />
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_stock_disassembly" model="ir.actions.act_window">
+        <field name="name">Disassembly Reports</field>
+        <field name="res_model">stock.disassembly</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create a disassembly report</p>
+            <p>
+                Take a product out of stock and bring in the products obtained from it, without a bill
+                of materials. Its cost is split over the resulting products.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_stock_disassembly"
+        name="Disassembly"
+        parent="stock.menu_stock_adjustments"
+        action="action_stock_disassembly"
+        sequence="100"
+    />
+</odoo>

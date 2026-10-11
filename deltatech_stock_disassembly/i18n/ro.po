@@ -1,0 +1,1107 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"%(source_account)s cannot become %(result_account)s through a disassembly "
+"report: the chart of accounts does not provide this correspondence. If the "
+"accounting policy of the company allows it, enable it in the Inventory "
+"settings."
+msgstr ""
+"%(source_account)s nu poate deveni %(result_account)s prin procesul-verbal "
+"de dezmembrare: planul de conturi nu prevede această corespondență. Dacă "
+"politica contabilă a firmei o permite, activați-o în setările Inventar."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_move.py:0
+msgid "%(value)s for %(quantity)s %(unit)s from %(report)s"
+msgstr "%(value)s pentru %(quantity)s %(unit)s din %(report)s"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.actions.report,print_report_name:deltatech_stock_disassembly.action_report_stock_disassembly
+msgid "'Disassembly - %s' % object.name"
+msgstr "'Dezmembrare - %s' % object.name"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid ""
+") is a\n"
+"                        non-deductible expense; the input VAT of this part is adjusted, except where the\n"
+"                        destruction of the goods is proven."
+msgstr ""
+") este o\n"
+"                        cheltuială nedeductibilă; TVA dedusă aferentă acestei părți se ajustează, cu excepția\n"
+"                        cazului în care distrugerea bunurilor este dovedită."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid ""
+"<br/>\n"
+"                                ____________________"
+msgstr ""
+"<br/>\n"
+"                                ____________________"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid ""
+"<br/>\n"
+"                        <strong>Allocation method:</strong>"
+msgstr ""
+"<br/>\n"
+"                        <strong>Metoda de repartizare:</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid ""
+"<br/>\n"
+"                        <strong>Source location:</strong>"
+msgstr ""
+"<br/>\n"
+"                        <strong>Locația sursă:</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "<span invisible=\"name != '/'\">Draft</span>"
+msgstr "<span invisible=\"name != '/'\">Ciornă</span>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "<strong>Allocated</strong>"
+msgstr "<strong>Repartizat</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "<strong>Committee</strong>"
+msgstr "<strong>Comisia</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "<strong>Cost of the disassembled product</strong>"
+msgstr "<strong>Costul articolului dezmembrat</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "<strong>Date:</strong>"
+msgstr "<strong>Data:</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid ""
+"<strong>Handed over by (storekeeper)</strong>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        ____________________"
+msgstr ""
+"<strong>Am predat (gestionar)</strong>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        ____________________"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "<strong>Reason:</strong>"
+msgstr "<strong>Motivul:</strong>"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid ""
+"<strong>Received by (storekeeper)</strong>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        ____________________\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <strong>Approved</strong>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        ____________________"
+msgstr ""
+"<strong>Am primit (gestionar)</strong>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        ____________________\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        <strong>Aprobat</strong>\n"
+"                        <br/>\n"
+"                        <br/>\n"
+"                        ____________________"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "<strong>VAT:</strong>"
+msgstr "<strong>CUI:</strong>"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "A fixed value cannot be negative."
+msgstr "O valoare fixă nu poate fi negativă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "A percentage must be between 0 and 100."
+msgstr "Un procent trebuie să fie între 0 și 100."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "A product tracked by serial number (%s) is entered one unit per line."
+msgstr "Un articol urmărit pe serie (%s) se introduce câte o bucată pe rând."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "A product tracked by serial number is disassembled one unit at a time."
+msgstr "Un articol urmărit pe serie se dezmembrează câte o bucată."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "A validated disassembly report cannot be deleted."
+msgstr "Un proces-verbal de dezmembrare validat nu poate fi șters."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__over_norm
+msgid "Above Norm"
+msgstr "Peste normă"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Above norm"
+msgstr "Peste normă"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"Account 711 (change in inventories) is missing from the chart of accounts."
+msgstr ""
+"Contul 711 (venituri aferente costurilor stocurilor de produse) lipsește din"
+" planul de conturi."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_needaction
+msgid "Action Needed"
+msgstr "Acțiune necesară"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_ids
+msgid "Activities"
+msgstr "Activități"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decorare excepție activitate"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_state
+msgid "Activity State"
+msgstr "Stare activitate"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Pictogramă tip activitate"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__source_value
+msgid "Actual Cost"
+msgstr "Cost real"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Add at least one resulting product."
+msgstr "Adăugați cel puțin un articol rezultat."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Allocated"
+msgstr "Repartizat"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__allocated_value
+msgid "Allocated Value"
+msgstr "Valoare repartizată"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__allocation_method
+msgid "Allocation Method"
+msgstr "Metoda de repartizare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr atașamente"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__state__cancel
+msgid "Cancelled"
+msgstr "Anulat"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__committee
+msgid "Committee"
+msgstr "Comisia"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Committee and Reason"
+msgstr "Comisie și motiv"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model,name:deltatech_stock_disassembly.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__company_id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model,name:deltatech_stock_disassembly.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__source_value
+msgid ""
+"Cost at which the disassembled product left the stock, set at validation."
+msgstr ""
+"Costul la care articolul dezmembrat a ieșit din stoc, stabilit la validare."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.actions.act_window,help:deltatech_stock_disassembly.action_stock_disassembly
+msgid "Create a disassembly report"
+msgstr "Creați un proces-verbal de dezmembrare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly_line__lot_name
+msgid "Created at validation if no lot is selected."
+msgstr "Se creează la validare dacă nu e ales un lot."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__currency_id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "DRAFT - not valid as an accounting document"
+msgstr "CIORNĂ - fără valoare de document justificativ"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__date
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_search
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__scrap_location_id
+msgid "Default location of the loss lines."
+msgstr "Locația implicită a rândurilor de pierderi."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__location_dest_id
+msgid "Default location of the resulting products."
+msgstr "Locația implicită a articolelor rezultate."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__location_dest_id
+msgid "Destination"
+msgstr "Destinație"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__location_dest_id
+msgid "Destination Location"
+msgstr "Locația de destinație"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Disassembled Product"
+msgstr "Articol dezmembrat"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Disassembled product"
+msgstr "Articol dezmembrat"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__disassembly_id
+#: model:ir.ui.menu,name:deltatech_stock_disassembly.menu_stock_disassembly
+msgid "Disassembly"
+msgstr "Dezmembrări"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_move__disassembly_line_id
+msgid "Disassembly Line"
+msgstr "Rând dezmembrare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.actions.report,name:deltatech_stock_disassembly.action_report_stock_disassembly
+#: model:ir.model,name:deltatech_stock_disassembly.model_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_move__disassembly_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Disassembly Report"
+msgstr "Proces-verbal de dezmembrare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model,name:deltatech_stock_disassembly.model_stock_disassembly_line
+msgid "Disassembly Report Line"
+msgstr "Rând proces-verbal de dezmembrare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.actions.act_window,name:deltatech_stock_disassembly.action_stock_disassembly
+msgid "Disassembly Reports"
+msgstr "Procese-verbale de dezmembrare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_res_company__disassembly_allow_reclassification
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_res_config_settings__disassembly_allow_reclassification
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.res_config_settings_view_form_stock_disassembly
+msgid "Disassembly: reclassify goods and materials"
+msgstr "Dezmembrare: reclasificare mărfuri și materiale"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_move__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__state__done
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_search
+msgid "Done"
+msgstr "Validat"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__state__draft
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_search
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__tracking
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly_line__tracking
+msgid "Ensure the traceability of a storable product in your warehouse."
+msgstr "Asigură trasabilitatea unui produs stocabil în depozit."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__value
+msgid ""
+"Estimated cost of the disassembled product while in draft, actual cost once "
+"validated."
+msgstr ""
+"Costul estimat al articolului dezmembrat cât timp e ciornă, costul real după"
+" validare."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__use_fixed_value
+msgid "Fixed"
+msgstr "Fixă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__fixed_value
+msgid "Fixed Value"
+msgstr "Valoare fixă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__allocation_method__fixed
+msgid "Fixed value"
+msgstr "Valoare fixă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_follower_ids
+msgid "Followers"
+msgstr "Urmăritori"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Urmăritori (parteneri)"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Pictogramă Font Awesome, de ex. fa-tasks"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__has_message
+msgid "Has Message"
+msgstr "Are mesaj"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__allocation_method
+msgid ""
+"How the value of the disassembled product is split over the resulting products:\n"
+"- Quantity: in proportion to the quantity, in the unit of each product;\n"
+"- Reference price: in proportion to reference price x quantity;\n"
+"- Percentage: the percentages entered on the lines, which must add up to 100;\n"
+"- Fixed value: the values entered on the lines; the difference goes to the last line.\n"
+"Lines with a fixed value are deducted first, whatever the method; rounding differences go to the last line."
+msgstr ""
+"Cum se repartizează valoarea articolului dezmembrat pe articolele rezultate:\n"
+"- Cantitate: proporțional cu cantitatea, în unitatea fiecărui articol;\n"
+"- Preț de referință: proporțional cu preț de referință x cantitate;\n"
+"- Procent: procentele introduse pe rânduri, care trebuie să însumeze 100;\n"
+"- Valoare fixă: valorile introduse pe rânduri; diferența merge pe ultimul rând.\n"
+"Rândurile cu valoare fixă se scad primele, indiferent de metodă; diferențele de rotunjire merg pe ultimul rând."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_move__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_exception_icon
+msgid "Icon"
+msgstr "Pictogramă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Pictogramă care indică o activitate de excepție."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Dacă e bifat, mesajele noi necesită atenția dvs."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__message_has_error
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă e bifat, unele mesaje au o eroare de livrare."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__account_move_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly_line__use_fixed_value
+msgid "Keep the value entered on this line."
+msgstr "Păstrează valoarea introdusă pe acest rând."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Location"
+msgstr "Locație"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly_line__line_type__scrap
+msgid "Loss"
+msgstr "Pierdere"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__over_norm_value
+msgid "Loss Above Norm"
+msgstr "Pierdere peste normă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__scrap_location_id
+msgid "Loss Location"
+msgstr "Locația pentru pierderi"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"Loss above the technological norm valued at %s: non-deductible expense. "
+"Check the adjustment of the input VAT for this part."
+msgstr ""
+"Pierdere peste norma tehnologică în valoare de %s: cheltuială nedeductibilă."
+" Verificați ajustarea TVA deduse pentru această parte."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly_line__over_norm
+msgid "Loss above the technological norm."
+msgstr "Pierdere peste norma tehnologică."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Losses and non-recoverable waste"
+msgstr "Pierderi și deșeuri nerecuperabile"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Lot/Serial"
+msgstr "Lot/Serie"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__lot_id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__lot_id
+msgid "Lot/Serial Number"
+msgstr "Lot/Serie"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__committee
+msgid "Members of the committee, one per line (name, position)."
+msgstr "Membrii comisiei, câte unul pe rând (nume, funcție)."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_has_error
+msgid "Message Delivery error"
+msgstr "Eroare de livrare mesaj"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__move_ids
+msgid "Move"
+msgstr "Mișcare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__move_count
+msgid "Move Count"
+msgstr "Număr mișcări"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termenul activității mele"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Name, position (one per line)"
+msgstr "Nume, funcție (câte unul pe rând)"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "New"
+msgstr "Nou"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__lot_name
+msgid "New Lot/Serial Number"
+msgstr "Lot/Serie nou"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termenul următoarei activități"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_summary
+msgid "Next Activity Summary"
+msgstr "Rezumatul următoarei activități"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_type_id
+msgid "Next Activity Type"
+msgstr "Tipul următoarei activități"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Norm"
+msgstr "Normă"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"Not enough stock of %(product)s in %(location)s to disassemble %(qty)s "
+"%(uom)s."
+msgstr ""
+"Stoc insuficient de %(product)s în %(location)s pentru a dezmembra %(qty)s "
+"%(uom)s."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__name
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Număr de acțiuni"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_has_error_counter
+msgid "Number of errors"
+msgstr "Număr de erori"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Număr de mesaje care necesită acțiune"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Număr de mesaje cu eroare de livrare"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Only cancelled disassembly reports can be reset to draft."
+msgstr ""
+"Doar procesele-verbale de dezmembrare anulate pot fi readuse în ciornă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Only draft disassembly reports can be cancelled."
+msgstr "Doar procesele-verbale de dezmembrare în ciornă pot fi anulate."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__allocation_method__percent
+msgid "Percentage"
+msgstr "Procent"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Print"
+msgstr "Tipărește"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__product_id
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly_line__line_type__product
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_search
+msgid "Product"
+msgstr "Articol"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly_line__line_type
+msgid ""
+"Product: enters the stock and gets its share of the value; recoverable waste that is kept in stock is a product line too.\n"
+"Loss: technological loss or non-recoverable waste, sent to the loss location; within the norm it gets no value (its cost stays in the resulting products), above the norm it gets its share and is booked as an expense."
+msgstr ""
+"Articol: intră în stoc și primește cota lui din valoare; deșeul recuperabil păstrat în stoc este tot un rând de tip articol.\n"
+"Pierdere: pierdere tehnologică sau deșeu nerecuperabil, trimis pe locația pentru pierderi; în normă nu primește valoare (costul rămâne în articolele rezultate), peste normă primește cota lui și se înregistrează pe cheltuieli."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__product_qty
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__quantity
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__allocation_method__quantity
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__reason
+msgid "Reason"
+msgstr "Motiv"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__reference_price
+msgid "Reference Price"
+msgstr "Preț de referință"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields.selection,name:deltatech_stock_disassembly.selection__stock_disassembly__allocation_method__price
+msgid "Reference price"
+msgstr "Preț de referință"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Reset to Draft"
+msgstr "Readu în ciornă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__activity_user_id
+msgid "Responsible User"
+msgstr "Utilizator responsabil"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_search
+msgid "Resulting Product"
+msgstr "Articol rezultat"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Resulting products"
+msgstr "Articole rezultate"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__line_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Results"
+msgstr "Rezultate"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.res_config_settings_view_form_stock_disassembly
+msgid ""
+"Romanian chart of accounts: allow a disassembly report to turn goods (371) "
+"into materials (30x), or materials of one kind into another (30x), with a "
+"direct entry, as set by the accounting policy."
+msgstr ""
+"Plan de conturi RO: permite ca prin procesul-verbal de dezmembrare mărfurile"
+" (371) să devină materiale (30x), sau materialele de un fel să devină de alt"
+" fel (30x), cu notă directă, conform politicii contabile."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_res_company__disassembly_allow_reclassification
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_res_config_settings__disassembly_allow_reclassification
+msgid ""
+"Romanian chart of accounts: allow a disassembly report to turn goods (371) "
+"into raw materials or consumables (30x), or materials of one kind into "
+"another (301 <-> 302 <-> 303), with a direct entry. The chart does not "
+"provide these correspondences, so they must be covered by the accounting "
+"policy of the company."
+msgstr ""
+"Plan de conturi RO: permite ca prin procesul-verbal de dezmembrare mărfurile"
+" (371) să devină materii prime sau materiale consumabile (30x), sau "
+"materialele de un fel să devină de alt fel (301 <-> 302 <-> 303), cu notă "
+"directă. Planul de conturi nu prevede aceste corespondențe, deci trebuie "
+"acoperite de politica contabilă a firmei."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Eroare de livrare SMS"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Set a reference price on the resulting products."
+msgstr "Completați prețul de referință pe articolele rezultate."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Set the expense account of the product %s."
+msgstr "Completați contul de cheltuieli al articolului %s."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Set the lot/serial number of the disassembled product %s."
+msgstr "Completați lotul/seria articolului dezmembrat %s."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Set the lot/serial number of the resulting product %s."
+msgstr "Completați lotul/seria articolului rezultat %s."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Set the stock journal of the company %s."
+msgstr "Completați jurnalul de stoc al companiei %s."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "Set the stock valuation account of the product %s."
+msgstr "Completați contul de stoc al articolului %s."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__location_id
+msgid "Source Location"
+msgstr "Locația sursă"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__state
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_search
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stare bazată pe activități\n"
+"Întârziată: termenul a trecut deja\n"
+"Astăzi: activitatea este azi\n"
+"Planificată: activități viitoare."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model,name:deltatech_stock_disassembly.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare de stoc"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__move_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Stock Moves"
+msgstr "Mișcări de stoc"
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"Stock owned by %s cannot be disassembled: only the own stock of the company."
+msgstr ""
+"Stocul deținut de %s nu poate fi dezmembrat: doar stocul propriu al firmei."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.actions.act_window,help:deltatech_stock_disassembly.action_stock_disassembly
+msgid ""
+"Take a product out of stock and bring in the products obtained from it, without a bill\n"
+"                of materials. Its cost is split over the resulting products."
+msgstr ""
+"Scoateți un articol din stoc și intrați în stoc articolele obținute din el, fără listă\n"
+"                de materiale. Costul lui se repartizează pe articolele rezultate."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The date of the disassembly report cannot be in the future."
+msgstr "Data procesului-verbal de dezmembrare nu poate fi în viitor."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"The disassembly from account %(source_account)s into account "
+"%(result_account)s is not supported."
+msgstr ""
+"Dezmembrarea din contul %(source_account)s în contul %(result_account)s nu "
+"este acceptată."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The disassembly report %s is not in draft."
+msgstr "Procesul-verbal de dezmembrare %s nu este în ciornă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"The fixed values exceed the cost of the disassembled product (%s): a "
+"resulting product would get a negative value."
+msgstr ""
+"Valorile fixe depășesc costul articolului dezmembrat (%s): un articol "
+"rezultat ar primi valoare negativă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"The loss %s goes to a loss location; recoverable waste that enters the stock"
+" is a product line."
+msgstr ""
+"Pierderea %s merge pe o locație pentru pierderi; deșeul recuperabil care "
+"intră în stoc se introduce ca rând de tip articol."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"The loss above the norm (%s) has no value: give it a fixed value or a "
+"percentage, otherwise it stays in the cost of the resulting products."
+msgstr ""
+"Pierderea peste normă (%s) nu are valoare: dați-i o valoare fixă sau un "
+"procent, altfel rămâne în costul articolelor rezultate."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "The loss above the technological norm ("
+msgstr "Pierderea peste norma tehnologică ("
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The percentages of the lines must add up to 100."
+msgstr "Procentele rândurilor trebuie să însumeze 100."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The quantity of %s must be positive."
+msgstr "Cantitatea pentru %s trebuie să fie pozitivă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The quantity to disassemble must be positive."
+msgstr "Cantitatea de dezmembrat trebuie să fie pozitivă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The resulting product %s must be tracked in stock, to carry its value."
+msgstr ""
+"Articolul rezultat %s trebuie să fie urmărit în stoc, ca să preia valoarea."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The resulting product %s must enter an internal location."
+msgstr "Articolul rezultat %s trebuie să intre într-o locație internă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid ""
+"The resulting products %s are not valued like the disassembled product "
+"(automated or manual valuation): the journal entry would be incomplete."
+msgstr ""
+"Articolele rezultate %s nu sunt evaluate la fel ca articolul dezmembrat "
+"(evaluare automată sau manuală): nota contabilă ar fi incompletă."
+
+#. module: deltatech_stock_disassembly
+#. odoo-python
+#: code:addons/deltatech_stock_disassembly/models/stock_disassembly.py:0
+msgid "The values of the lines do not add up to the cost of the product."
+msgstr "Valorile rândurilor nu însumează costul articolului."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__tracking
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__tracking
+msgid "Tracking"
+msgstr "Urmărire"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__line_type
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipul activității de excepție din înregistrare."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__product_uom_id
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__product_uom_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Unit"
+msgstr "UM"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__unit_cost
+msgid "Unit Cost"
+msgstr "Cost unitar"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Unit cost"
+msgstr "Cost unitar"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly_line__reference_price
+msgid ""
+"Unit price used to weigh the allocation; by default the cost of the product."
+msgstr ""
+"Prețul unitar folosit ca pondere la repartizare; implicit costul "
+"articolului."
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.view_stock_disassembly_form
+msgid "Validate"
+msgstr "Validează"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__value
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly_line__value
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Value"
+msgstr "Valoare"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__over_norm_value
+msgid ""
+"Value of the loss above the technological norm: non-deductible expense, and "
+"the input VAT of this part must be adjusted."
+msgstr ""
+"Valoarea pierderii peste norma tehnologică: cheltuială nedeductibilă, iar "
+"TVA dedusă aferentă acestei părți trebuie ajustată."
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,field_description:deltatech_stock_disassembly.field_stock_disassembly__website_message_ids
+msgid "Website Messages"
+msgstr "Mesaje website"
+
+#. module: deltatech_stock_disassembly
+#: model:ir.model.fields,help:deltatech_stock_disassembly.field_stock_disassembly__website_message_ids
+msgid "Website communication history"
+msgstr "Istoric comunicare website"
+
+#. module: deltatech_stock_disassembly
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_disassembly.report_stock_disassembly_document
+msgid "Within norm"
+msgstr "În normă"

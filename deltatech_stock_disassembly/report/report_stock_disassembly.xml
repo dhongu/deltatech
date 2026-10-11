@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_stock_disassembly" model="ir.actions.report">
+        <field name="name">Disassembly Report</field>
+        <field name="model">stock.disassembly</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_stock_disassembly.report_stock_disassembly</field>
+        <field name="report_file">deltatech_stock_disassembly.report_stock_disassembly</field>
+        <field name="print_report_name">'Disassembly - %s' % object.name</field>
+        <field name="binding_model_id" ref="model_stock_disassembly" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_stock_disassembly_document">
+        <t t-call="web.external_layout">
+            <t t-set="currency" t-value="o.currency_id" />
+            <div class="page">
+                <h2>
+                    Disassembly Report <span t-field="o.name" />
+                </h2>
+                <p t-if="o.state != 'done'" class="text-danger fw-bold">DRAFT - not valid as an accounting document</p>
+                <div class="row mt-3 mb-3">
+                    <div class="col-6">
+                        <strong>Date:</strong> <span t-field="o.date" /><br />
+                        <strong>Source location:</strong> <span t-field="o.location_id" /><br />
+                        <strong>Allocation method:</strong> <span t-field="o.allocation_method" />
+                    </div>
+                    <div class="col-6">
+                        <t t-if="o.company_id.vat">
+                            <strong>VAT:</strong> <span t-field="o.company_id.vat" /><br />
+                        </t>
+                    </div>
+                </div>
+                <div t-if="o.reason" class="mb-3">
+                    <strong>Reason:</strong>
+                    <div t-field="o.reason" />
+                </div>
+
+                <h5>Disassembled product</h5>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Product</th>
+                            <th>Lot/Serial</th>
+                            <th class="text-end">Quantity</th>
+                            <th>Unit</th>
+                            <th class="text-end">Unit cost</th>
+                            <th class="text-end">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span t-field="o.product_id.default_code" /></td>
+                            <td><span t-field="o.product_id.name" /></td>
+                            <td><span t-field="o.lot_id" /></td>
+                            <td class="text-end"><span t-field="o.product_qty" /></td>
+                            <td><span t-field="o.product_uom_id" /></td>
+                            <td class="text-end">
+                                <span
+                                    t-out="o.value / o.product_qty if o.product_qty else 0.0"
+                                    t-options="{'widget': 'monetary', 'display_currency': currency}"
+                                />
+                            </td>
+                            <td class="text-end"><span t-field="o.value" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <t t-set="products" t-value="o.line_ids.filtered(lambda line: line.line_type == 'product')" />
+                <t t-set="scraps" t-value="o.line_ids.filtered(lambda line: line.line_type == 'scrap')" />
+                <h5>Resulting products</h5>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Product</th>
+                            <th>Lot/Serial</th>
+                            <th>Location</th>
+                            <th class="text-end">Quantity</th>
+                            <th>Unit</th>
+                            <th class="text-end">Unit cost</th>
+                            <th class="text-end">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="products" t-as="line">
+                            <td><span t-field="line.product_id.default_code" /></td>
+                            <td><span t-field="line.product_id.name" /></td>
+                            <td><span t-out="line.lot_id.name or line.lot_name or ''" /></td>
+                            <td><span t-field="line.location_dest_id" /></td>
+                            <td class="text-end"><span t-field="line.quantity" /></td>
+                            <td><span t-field="line.product_uom_id" /></td>
+                            <td class="text-end"><span t-field="line.unit_cost" /></td>
+                            <td class="text-end"><span t-field="line.value" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <t t-if="scraps">
+                    <h5>Losses and non-recoverable waste</h5>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Location</th>
+                                <th class="text-end">Quantity</th>
+                                <th>Unit</th>
+                                <th>Norm</th>
+                                <th class="text-end">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="scraps" t-as="line">
+                                <td><span t-field="line.product_id.display_name" /></td>
+                                <td><span t-field="line.location_dest_id" /></td>
+                                <td class="text-end"><span t-field="line.quantity" /></td>
+                                <td><span t-field="line.product_uom_id" /></td>
+                                <td>
+                                    <t t-if="line.over_norm">Above norm</t>
+                                    <t t-else="">Within norm</t>
+                                </td>
+                                <td class="text-end"><span t-field="line.value" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p t-if="o.over_norm_value" class="small">
+                        The loss above the technological norm (<span t-field="o.over_norm_value" />) is a
+                        non-deductible expense; the input VAT of this part is adjusted, except where the
+                        destruction of the goods is proven.
+                    </p>
+                </t>
+
+                <div class="row justify-content-end">
+                    <div class="col-5">
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>Cost of the disassembled product</strong></td>
+                                <td class="text-end"><span t-field="o.value" /></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Allocated</strong></td>
+                                <td class="text-end"><span t-field="o.allocated_value" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mt-4" style="page-break-inside: avoid;">
+                    <div class="col-4">
+                        <strong>Committee</strong>
+                        <t t-foreach="(o.committee or '').splitlines()" t-as="member">
+                            <div t-if="member.strip()" class="mt-3">
+                                <span t-out="member" />
+                                <br />
+                                ____________________
+                            </div>
+                        </t>
+                    </div>
+                    <div class="col-4">
+                        <strong>Handed over by (storekeeper)</strong>
+                        <br />
+                        <br />
+                        ____________________
+                    </div>
+                    <div class="col-4">
+                        <strong>Received by (storekeeper)</strong>
+                        <br />
+                        <br />
+                        ____________________
+                        <br />
+                        <br />
+                        <strong>Approved</strong>
+                        <br />
+                        <br />
+                        ____________________
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_stock_disassembly">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="deltatech_stock_disassembly.report_stock_disassembly_document" t-lang="o.company_id.partner_id.lang" />
+            </t>
+        </t>
+    </template>
+</odoo>
