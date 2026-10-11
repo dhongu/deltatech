@@ -57,7 +57,7 @@ without any overlap:</p>
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos_stock</code>'s <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">STOCK_SYNCHRONISATION</code>) whenever <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">list_price</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">standard_price</code> changes
   on a product available in POS, to every open POS session. The frontend subscribes to it and merges
   the fresh <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.template</code> data straight into the in-memory model.</li>
-<li>Root cause (Terrabit ticket #9305, client Damira COM SRL): a POS session that stays open never
+<li>Root cause: a POS session that stays open never
   re-runs the write_date-based sync on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">loadInitialData()</code> (see <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data_service.js</code>), so pressing F5
   kept showing the old price even though the change was saved on the backend.</li>
 </ul>
