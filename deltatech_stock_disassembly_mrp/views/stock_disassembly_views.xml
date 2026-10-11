@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_disassembly_form_bom" model="ir.ui.view">
+        <field name="name">stock.disassembly.form.bom</field>
+        <field name="model">stock.disassembly</field>
+        <field name="inherit_id" ref="deltatech_stock_disassembly.view_stock_disassembly_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_validate']" position="after">
+                <button
+                    name="action_load_bom"
+                    type="object"
+                    string="Load from BoM"
+                    invisible="state != 'draft' or not bom_id"
+                    confirm="The product lines are replaced by the components of the bill of materials."
+                />
+            </xpath>
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field
+                    name="bom_id"
+                    readonly="state != 'draft'"
+                    context="{'default_product_id': product_id}"
+                    groups="mrp.group_mrp_user"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
