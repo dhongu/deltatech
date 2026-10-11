@@ -20,6 +20,15 @@ ANAF_TIMEOUT = 5
 CNP_WEIGHTS = (2, 7, 9, 1, 4, 6, 3, 5, 8, 2, 7, 9)
 
 
+def normalize_vat(vat):
+    """``RO 12 34 567``, ``ro1234567`` and ``1234567`` are the same tax code: letters and digits
+    only, upper case, without a two-letter country prefix."""
+    vat = "".join(ch for ch in (vat or "") if ch.isalnum()).upper()
+    if len(vat) > 2 and vat[:2].isalpha():
+        vat = vat[2:]
+    return vat
+
+
 def is_cnp(number):
     """Whether ``number`` is a valid Romanian personal numeric code (13 digits, check digit)."""
     if len(number) != 13 or not number.isdigit() or number[0] not in "12345678":
@@ -103,16 +112,67 @@ class WebsiteSaleVATValidation(WebsiteSale):
         if request.env.user._is_public():
             return invalid_fields, missing_fields, error_messages
 
-        for field in ["vat", "email", "phone"]:
-            value = address_values.get(field, False)
-            if value and field not in invalid_fields:
-                domain = [(field, "=", value), ("id", "!=", partner.id), ("parent_id", "=", False)]
-                partner_exists = request.env["res.partner"].sudo().search(domain, limit=1)
-                if partner_exists:
-                    invalid_fields.add(field)
-                    error_messages.append(request.env._("An other partner already exists with the same %s", value))
+        # The company of the customer and its contacts are not duplicates. The phone is not
+        # checked: colleagues share the company phone, relatives share a home phone. The
+        # messages do not name the account found.
+        own_company = partner.commercial_partner_id
+        vat = address_values.get("vat")
+        if vat and "vat" not in invalid_fields and self._vat_duplicate(vat, own_company):
+            invalid_fields.add("vat")
+            error_messages.append(self._vat_duplicate_message())
+        email = address_values.get("email")
+        if email and "email" not in invalid_fields:
+            domain = [
+                ("email", "=", email),
+                ("parent_id", "=", False),
+                ("commercial_partner_id", "!=", own_company.id),
+            ]
+            if request.env["res.partner"].sudo().search_count(domain, limit=1):
+                invalid_fields.add("email")
+                error_messages.append(
+                    request.env._(
+                        "This e-mail address belongs to another account. "
+                        "Log in with that account or use another address."
+                    )
+                )
 
         return invalid_fields, missing_fields, error_messages
+
+    def _vat_duplicate(self, vat, own_company):
+        """Whether another customer has this tax code, written with or without its country prefix."""
+        key = normalize_vat(vat)
+        if not key:
+            return False
+        # the stored code may carry a prefix or spaces: search on its last digits, which any
+        # spelling keeps together, then compare the normalised forms
+        candidates = (
+            request.env["res.partner"]
+            .sudo()
+            .search(
+                [
+                    ("vat", "ilike", key[-3:]),
+                    ("parent_id", "=", False),
+                    ("commercial_partner_id", "!=", own_company.id),
+                ]
+            )
+        )
+        return any(normalize_vat(candidate.vat) == key for candidate in candidates)
+
+    def _vat_duplicate_message(self):
+        """What a customer can do when their company already has an account."""
+        if "b2b_state" in request.env["res.partner"]._fields:
+            # deltatech_b2b_portal: its form recognises the company by its tax code, adds only the
+            # contact and gives the salesperson an activity: an access request
+            return request.env._(
+                "A company with this tax code already has an account with us. To order on its "
+                "behalf, ask a colleague who has access to add you, or send an access request "
+                "from %(url)s.",
+                url=f"{request.httprequest.host_url.rstrip('/')}/b2b",
+            )
+        return request.env._(
+            "A company with this tax code already has an account with us. To order on its "
+            "behalf, ask a colleague who has access to add you, or contact us."
+        )
 
     def _anaf_lookup(self, vat):
         """Look ``vat`` up at ANAF.
