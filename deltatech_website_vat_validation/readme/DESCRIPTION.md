@@ -13,6 +13,9 @@ This module enhances the VAT (Value Added Tax) validation functionality on Odoo 
 - Integration with both website sale checkout process and customer portal
 - Clear error messages when a VAT number is already in use
 
+The Romanian checks of the tax code (ANAF look-up, personal numeric code, struck-off company)
+are in `l10n_ro_website_anaf` (l10n-romania): this module stays country-neutral.
+
 ## Benefits
 
 - Improved data quality by preventing duplicate VAT registrations

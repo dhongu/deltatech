@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-11 18:11+0000\n"
-"PO-Revision-Date: 2026-10-11 18:11+0000\n"
+"POT-Creation-Date: 2026-10-11 23:23+0000\n"
+"PO-Revision-Date: 2026-10-11 23:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,15 +33,6 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid ""
-"Customer %(vat)s is declared fiscally inactive at ANAF (since %(date)s), its"
-" VAT code is cancelled: invoice with VAT, without reverse charge, tax code "
-"without the RO prefix. Check the collection, preferably payment in advance."
-msgstr ""
-
-#. module: deltatech_website_vat_validation
 #: model:ir.model.fields,field_description:deltatech_website_vat_validation.field_website__display_name
 msgid "Display Name"
 msgstr ""
@@ -55,42 +46,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
 msgid ""
-"The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
-"Please check the customer details."
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The VAT number is not valid according to ANAF"
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The VAT number must contain only digits (after the country code)"
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The company with this tax code is struck off at ANAF."
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid ""
 "This e-mail address belongs to another account. Log in with that account or "
 "use another address."
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid ""
-"This looks like a personal numeric code (CNP). This field is for the tax "
-"code (CUI) of a company; if you buy as an individual, leave it empty."
 msgstr ""
 
 #. module: deltatech_website_vat_validation

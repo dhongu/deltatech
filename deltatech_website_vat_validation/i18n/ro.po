@@ -19,38 +19,6 @@ msgstr ""
 #. module: deltatech_website_vat_validation
 #. odoo-python
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The VAT number is not valid according to ANAF"
-msgstr "Codul TVA nu este valid conform ANAF"
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The VAT number must contain only digits (after the country code)"
-msgstr "Codul TVA trebuie să conțină doar cifre (după codul țării)"
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid ""
-"The VAT number %(vat)s could not be checked at ANAF (service unavailable). "
-"Please check the customer details."
-msgstr ""
-"Codul fiscal %(vat)s nu a putut fi verificat la ANAF (serviciu "
-"indisponibil). Verificați datele clientului."
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid ""
-"This looks like a personal numeric code (CNP). This field is for the tax "
-"code (CUI) of a company; if you buy as an individual, leave it empty."
-msgstr ""
-"Acesta pare a fi un cod numeric personal (CNP). Câmpul este pentru codul "
-"fiscal (CUI) al unei firme; dacă cumpărați ca persoană fizică, lăsați-l gol."
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
 msgid ""
 "A company with this tax code already has an account with us. To order on its"
 " behalf, ask a colleague who has access to add you, or contact us."
@@ -81,35 +49,16 @@ msgstr ""
 "sau folosiți altă adresă."
 
 #. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid ""
-"Customer %(vat)s is declared fiscally inactive at ANAF (since %(date)s), its"
-" VAT code is cancelled: invoice with VAT, without reverse charge, tax code "
-"without the RO prefix. Check the collection, preferably payment in advance."
-msgstr ""
-"Clientul %(vat)s este declarat inactiv fiscal la ANAF (din %(date)s), iar "
-"codul său de TVA este anulat: facturăm cu TVA, fără taxare inversă, cu codul"
-" fiscal fără prefixul RO. Verificați încasarea, de preferat cu plată în "
-"avans."
-
-#. module: deltatech_website_vat_validation
 #: model:ir.model.fields,field_description:deltatech_website_vat_validation.field_website__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
 
 #. module: deltatech_website_vat_validation
 #: model:ir.model.fields,field_description:deltatech_website_vat_validation.field_website__id
 msgid "ID"
-msgstr ""
-
-#. module: deltatech_website_vat_validation
-#. odoo-python
-#: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The company with this tax code is struck off at ANAF."
-msgstr "Firma cu acest cod fiscal este radiată la ANAF."
+msgstr "ID"
 
 #. module: deltatech_website_vat_validation
 #: model:ir.model,name:deltatech_website_vat_validation.model_website
 msgid "Website"
-msgstr ""
+msgstr "Website"
