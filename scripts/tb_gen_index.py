@@ -922,12 +922,38 @@ def _money(amount, manifest):
     return f"{amount:g} &euro;" if currency == "EUR" else f"{amount:g} {html_mod.escape(currency)}"
 
 
+def _sibling_suites(root):
+    """Directoarele suitelor-frate ale suitei `root` (alte repo-uri Terrabit din același părinte)."""
+    parent = os.path.dirname(os.path.abspath(root))
+    return [
+        os.path.join(parent, d)
+        for d in sorted(os.listdir(parent))
+        if os.path.join(parent, d) != os.path.abspath(root) and os.path.isdir(os.path.join(parent, d))
+    ]
+
+
+def _paid_closure(manifest, roots, found=None):
+    """Dependențele din `manifest` (tranzitiv, DFS), căutate în `roots` (suita proprie prima, apoi frații).
+    Întoarce {nume tehnic: manifest}; ce nu e găsit (Odoo core, OCA) nu intră."""
+    found = found if found is not None else {}
+    for dep in manifest.get("depends") or []:
+        if dep in found:
+            continue
+        dep_man = next((m for m in (read_manifest(os.path.join(r, dep)) for r in roots) if m), None)
+        if dep_man:
+            found[dep] = dep_man
+            _paid_closure(dep_man, roots, found)
+    return found
+
+
 def paid_dependencies(addon_dir):
-    """Dependențele plătite din aceeași suită (tranzitiv), ca (nume tehnic, manifest)."""
-    root = os.path.dirname(os.path.abspath(addon_dir)) or "."
-    closure = _dependency_closure(os.path.basename(os.path.abspath(addon_dir)), root)[1:]
-    deps = [(tech, read_manifest(os.path.join(root, tech))) for tech in closure]
-    return [(tech, man) for tech, man in deps if man.get("price")]
+    """Dependențele plătite (tranzitiv) din suita modulului și din celelalte suite Terrabit
+    (repo-uri-frate), ca (nume tehnic, manifest). Pe Apps Store intră în coș toate."""
+    addon_dir = os.path.abspath(addon_dir)
+    root = os.path.dirname(addon_dir)
+    roots = [root] + _sibling_suites(root)
+    found = _paid_closure(read_manifest(addon_dir), roots)
+    return [(tech, man) for tech, man in found.items() if man.get("price")]
 
 
 def build_dependencies(addon_dir, manifest, lang="en"):
