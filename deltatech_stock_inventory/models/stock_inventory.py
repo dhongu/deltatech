@@ -602,7 +602,7 @@ class InventoryLine(models.Model):
             theoretical_qty = 0
         # Sanity check on the lot.
         if self.prod_lot_id:
-            if self.product_id.tracking == "none" or self.product_id != self.prod_lot_id.product_id:
+            if not self.product_id.tracking or self.product_id != self.prod_lot_id.product_id:
                 self.prod_lot_id = False
 
         if self.prod_lot_id and self.product_id.tracking == "serial":
