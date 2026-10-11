@@ -41,6 +41,20 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-09)</h2>
+<p><strong>Fix</strong> &#8212; scheduling an activity on a sale order no longer fails when
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_website_sale_status</code> is not installed: the order stage is copied
+into the journal only when the field exists (ACTIVITY-001).</p>
+<p><strong>Fix</strong> &#8212; the activity journal follows the access scope of sale orders
+(ACTIVITY-002):</p>
+<ul>
+<li>salespeople see only the journal of their own orders (or unassigned ones),
+  "All Documents" salespeople and managers see all, always limited to the
+  allowed companies;</li>
+<li>salespeople can only read the journal; only the Sales Administrator can
+  edit or delete entries; internal users without sales rights have no access;</li>
+<li>entries keep being written automatically, by the system, for every user.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
