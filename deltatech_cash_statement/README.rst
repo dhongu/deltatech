@@ -26,7 +26,7 @@ This module keeps the balances of cash statements consistent with the
 accounting, and books a counted cash difference as a dated entry instead
 of silently overwriting a balance.
 
-**Key features:**
+**✨ Key features:**
 
 - A wizard on the bank statement list (**Action → Cash Update
   Balances**) with two modes:
@@ -91,6 +91,25 @@ accountant.
 
 Changelog
 =========
+
+19.0.3.1.4 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.3.1.3 (2026-10-09)
+-----------------------
+
+- **Balances are chained per journal.** Statements selected from several
+  cash journals are aligned in one run, but each journal keeps its own
+  chain (by date, then id): the first statement of each journal starts
+  from the balance of that journal's cash account, and the ending
+  balance of a statement is no longer carried into a statement of
+  another journal (another cash register, company or currency).
+- The wizard keeps the statements it was opened on and ignores other
+  statements sent by the button context.
+- A cash difference is still registered for one journal at a time.
 
 19.0.3.1.2 (2026-10-09)
 -----------------------
