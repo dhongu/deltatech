@@ -1,3 +1,15 @@
+## 19.0.0.2.0 (2026-10-12)
+
+- The Romanian checks of the tax code moved to `l10n_ro_website_anaf` (l10n-romania): ANAF
+  look-up, personal numeric code (CNP) message, company not found or struck off refused, legal
+  name and empty fields from ANAF, notes on the cart for an inactive company or ANAF unavailable.
+  An OPL-1 module cannot depend on the AGPL-3 `l10n_ro_partner_create_by_vat` it used, and the
+  ANAF code was written twice. This module keeps the country-neutral part: trimmed values and the
+  duplicate tax code and e-mail checks.
+- On update, a database that had the ANAF check (`l10n_ro_partner_create_by_vat` installed) gets
+  `l10n_ro_website_anaf` installed, when l10n-romania is on the addons path; otherwise a warning in
+  the log says to add it.
+
 ## 19.0.0.1.0 (2026-10-11)
 
 - The ANAF data no longer overwrites what the customer typed: the street, city, zip and county
