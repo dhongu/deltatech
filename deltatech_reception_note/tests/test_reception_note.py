@@ -231,3 +231,22 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         reception_order = self._order("note", 1, self.env.ref("uom.product_uom_dozen"))
         with self.assertRaisesRegex(UserError, "quantity 0.5 of"):
             reception_order.button_confirm()
+
+    def test_reconfirm_does_not_consume_rfq_again(self):
+        """RECEPTION-003: o nota confirmata a doua oara nu mai scade din RFQ."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 5, self.product.uom_id)
+        reception_order.button_confirm()
+        self.assertEqual(reception_order.state, "purchase")
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.product_qty, 5)
+
+    def test_confirm_with_an_already_confirmed_note(self):
+        """RECEPTION-003: intr-o selectie mixta scade doar nota care se confirma acum."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        confirmed = self._order("note", 3, self.product.uom_id)
+        confirmed.button_confirm()
+        new_note = self._order("note", 2, self.product.uom_id)
+        (confirmed | new_note).button_confirm()
+        self.assertEqual(new_note.state, "purchase")
+        self.assertEqual(rfq_order.order_line.product_qty, 5)

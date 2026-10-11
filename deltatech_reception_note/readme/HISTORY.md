@@ -1,3 +1,9 @@
+## 19.0.0.1.6 (2026-10-11)
+
+- Fixed: confirming again a reception note that was already confirmed (through RPC, an import or
+  a double click) consumed the sent RFQs a second time. Only the notes that are confirmed now, from
+  Draft or Sent, consume the RFQs (RECEPTION-003).
+
 ## 19.0.0.1.5 (2026-10-11)
 
 - Fixed: a reception note consumed the sent RFQs without unit conversion, so a note of 1 dozen

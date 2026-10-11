@@ -37,26 +37,29 @@ class PurchaseOrder(models.Model):
         if not orders:
             raise UserError(self.env._("Unable to confirm"))
 
+        # Confirmarea standard sare peste comenzile care nu sunt in draft/sent; doar notele care se
+        # confirma acum consuma din RFQ-uri, altfel o reconfirmare ar scadea a doua oara.
+        notes_to_reduce = orders.filtered(lambda o: o.reception_type == "note" and o.state in ("draft", "sent"))
+
         res = super(PurchaseOrder, orders).button_confirm()
 
-        for order in self:
-            if order.reception_type == "note":
-                if order.ignore_quantities:
-                    lines = order.with_company(order.company_id).reduce_from_rfq()
-                    if lines:
-                        message = self.env._("Quantities forced on this reception note:<br />")
-                        for line in lines:
-                            message += self.env._(
-                                "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
-                            ).format(
-                                product_code=line["product_id"].default_code,
-                                product_name=line["product_id"].name,
-                                quantity=line["product_qty"],
-                                uom=line["uom"].name,
-                            )
-                        order.message_post(body=message)
-                else:
-                    order.with_company(order.company_id).reduce_from_rfq()
+        for order in notes_to_reduce:
+            if order.ignore_quantities:
+                lines = order.with_company(order.company_id).reduce_from_rfq()
+                if lines:
+                    message = self.env._("Quantities forced on this reception note:<br />")
+                    for line in lines:
+                        message += self.env._(
+                            "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+                        ).format(
+                            product_code=line["product_id"].default_code,
+                            product_name=line["product_id"].name,
+                            quantity=line["product_qty"],
+                            uom=line["uom"].name,
+                        )
+                    order.message_post(body=message)
+            else:
+                order.with_company(order.company_id).reduce_from_rfq()
         return res
 
     def reduce_from_rfq(self):

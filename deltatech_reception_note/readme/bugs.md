@@ -26,7 +26,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## RECEPTION-003 — P2: Confirming an already confirmed note consumes RFQ demand again
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.1.6 — `button_confirm()` selects, before `super()`, the reception notes in Draft or Sent (the orders the native confirmation actually processes) and calls `reduce_from_rfq()` only for them. Covered by `test_reconfirm_does_not_consume_rfq_again` and `test_confirm_with_an_already_confirmed_note` in `tests/test_reception_note.py`.
 - **Location:** models/purchase.py, button_confirm()/reduce_from_rfq().
 - **Trigger:** Call button_confirm again on a reception_type=note order already in purchase state, through ORM or another client.
 - **Actual behavior:** Native confirmation skips orders outside draft/sent. This override still loops over every original order after super and invokes reduce_from_rfq, regardless of whether confirmation occurred or demand was previously consumed.
@@ -56,6 +56,16 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Impact:** Technical traceback on an unusual call path; no data change.
 - **Suggested fix:** Initialize `purchase_ids` to an empty recordset (or use `active_id`) and raise a UserError when nothing is selected.
 - **Validation needed:** Call the wizard with no `active_ids`, with one and with several purchase orders.
+
+## RECEPTION-006 — P3: Cancelling a confirmed note does not give the quantity back to the RFQ
+
+- **Status:** Open. Found on 2026-10-11 while fixing RECEPTION-003.
+- **Location:** models/purchase.py; no `button_cancel()` override.
+- **Trigger:** Confirm a reception note (it consumes the sent RFQs), cancel it, set it back to Draft and confirm it again.
+- **Actual behavior:** The cancellation leaves the RFQ lines reduced (and an emptied RFQ marked `is_empty`). The second confirmation consumes the same quantity again, or raises "quantity not found" if the RFQ was emptied.
+- **Impact:** The RFQ demand no longer matches what was actually received; the operator must correct the RFQ by hand or tick "Ignore quantities".
+- **Suggested fix:** Record which RFQ lines and quantities a note consumed, and give them back on cancellation (clearing `is_empty`), or forbid cancelling a confirmed note that consumed RFQs.
+- **Validation needed:** Confirm, cancel, reset to Draft and confirm again; the RFQ ends with the same remainder as after a single confirmation.
 
 ## Review limitations
 
