@@ -245,7 +245,6 @@ Changelog
   ran on ``create()`` and on the form's live ``onchange_order_line``, so
   a quantity change saved through an inline list edit, an import or an
   XML-RPC write left the extra line at its old quantity and price
-  (ticket #9275)
 
 19.0.1.2.0
 ----------

@@ -107,14 +107,14 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.4.0] - 2026-08-31</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
 <ul>
-<li><strong>Warning indicator on the import wizard</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>, ticket #9287): set alongside
+<li><strong>Warning indicator on the import wizard</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>): set alongside
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code> so a headless caller can tell whether a run needs a human's attention without
   re-parsing the log text. Deliberately narrower than "any warning-classified message": only a
   <strong>total that doesn't add up</strong> and <strong>lines the matcher couldn't place</strong> count. Routine steps of an
   unattended import &#8212; bill creation skipped because the order isn't confirmed yet, no receipt to
   validate &#8212; also classify as "warning" via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_classify_message</code>'s generic keywords and would
   otherwise fire on every successful headless import.</li>
-<li><strong>Review activity on the purchase order</strong> (ticket #9287): when the headless import sets
+<li><strong>Review activity on the purchase order</strong>: when the headless import sets
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> schedules a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.mail_activity_data_todo</code>
   activity "SPV import needs review" on the order, assigned to the order's buyer (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_id</code>,
   falling back to the current user), with the import log as the activity note. A plain chatter note
@@ -138,7 +138,7 @@
   ("Created products (%s):"). On a real SPV import the log was long enough that the warning at the
   end was below the fold.</li>
 <li>Log messages now say "source document" instead of "XML", because the same mixin serves the PDF
-  import wizards (Marso, Delta, Sigemo, Procar), not just UBL XML.</li>
+  import wizards (supplier-specific importers), not just UBL XML.</li>
 </ul>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
 <ul>
@@ -154,7 +154,7 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.3.0] - 2026-08-24</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
 <ul>
-<li><strong>Mapping preview in the import wizard</strong> (ticket #9315): the interactive flow is now
+<li><strong>Mapping preview in the import wizard</strong>: the interactive flow is now
   two-step &#8212; "Preview" parses the XML and shows one line per invoice line with the product
   the matcher found and how it found it, color-coded: green = matched by supplier code or
   barcode (trustworthy), yellow = matched only by name (double-check), red = no match (a new
@@ -165,10 +165,10 @@
 </ul>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
 <ul>
-<li><strong>Bug</strong> (ticket #9315): <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> always ran the headless UBL import
+<li><strong>Bug</strong>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> always ran the headless UBL import
   with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">create_missing_products=True</code>. This is fine for the interactive wizard, where a user
   reviews what gets created, but it's also the only entry point for XML attachments posted by
-  automated callers (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_message_spv_purchase</code>, since ticket #9287 started attaching
+  automated callers (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_message_spv_purchase</code>, since the SPV import started attaching
   the SPV XML on purchase orders created before the vendor bill exists). When the source invoice
   line has no supplier product code and its name doesn't match an existing product exactly, the
   headless import silently created a duplicate product with no one reviewing it.
@@ -190,7 +190,7 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.3] - 2026-08-20</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
 <ul>
-<li><strong>Bug</strong> (found via ticket #9287): auto-creating the vendor bill whenever the source document
+<li><strong>Bug</strong>: auto-creating the vendor bill whenever the source document
   identifies an invoice number (added in 19.0.1.2.1) ran regardless of the purchase order's
   state. A draft/unconfirmed order has <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_to_invoice = 0</code> on every line
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_order_line._compute_qty_invoiced</code> only computes a nonzero value once the order is
@@ -208,7 +208,7 @@ creating an empty bill.</li>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.2] - 2026-07-18</h2>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
 <ul>
-<li><strong>Bug</strong> (ported from 18.0 PR #2649): purchase order lines for service products with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_method="receive"</code> (e.g. Marso's "Ecovaloare" eco-tax lines) never get a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received</code> from stock moves, since services have no stock picking. Only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_validate_receipt_quantities</code> (used for physical products) previously set received quantities, so these service lines stayed at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_to_invoice == 0</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_create_invoice()</code> silently dropped them from the vendor bill even though they were present on the order.<ul>
+<li><strong>Bug</strong> (ported from 18.0): purchase order lines for service products with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_method="receive"</code> (e.g. "Ecovaloare" eco-tax lines) never get a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received</code> from stock moves, since services have no stock picking. Only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_validate_receipt_quantities</code> (used for physical products) previously set received quantities, so these service lines stayed at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_to_invoice == 0</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_create_invoice()</code> silently dropped them from the vendor bill even though they were present on the order.<ul>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now marks a line as received (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received_manual</code> = ordered quantity) whenever its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_received_method</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"manual"</code>, for both updated existing lines and newly added ones.</li>
 <li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_service_line_receive_policy_is_marked_received_for_billing</code>.</li>
 </ul>

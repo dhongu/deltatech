@@ -67,6 +67,12 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.3 (2026-10-09)</h2>
+<ul>
+<li>Fix SALECUR-001: when the invoice date or currency changes, the sale line price is first
+  converted from the sale line unit of measure into the invoice line unit of measure, then
+  into the invoice currency (e.g. 10 per Unit becomes 120 per Dozen, not 10 per Dozen).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.2 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>

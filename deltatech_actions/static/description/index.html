@@ -42,7 +42,7 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Provides a set of scheduled maintenance actions (cron jobs) to keep an Odoo database clean and performant.
 All jobs are <strong>disabled by default</strong> and run in <strong>dry mode</strong> (no data is changed until explicitly enabled by an administrator).</p>
-<p><strong>Key features:</strong></p>
+<p><strong>&#10024; Key features:</strong></p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Delete duplicate XML (EDI/ANAF) attachments on invoices &#8212; cron: <em>Delete duplicate xml attachments</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Delete old generated PDF attachments on invoices &#8212; cron: <em>Delete pdf invoice attachments</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Delete old generated PDF attachments on sale orders &#8212; cron: <em>Delete pdf sale order attachments</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Delete old generated PDF attachments on stock pickings &#8212; cron: <em>Delete pdf pickings attachments</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Delete old chatter messages (with linked non-ANAF attachments) &#8212; cron: <em>Delete mail messages</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Create missing stock reordering rules for storable products &#8212; cron: <em>Create missing reordering rules (0/0)</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Merge duplicate contacts by e-mail address &#8212; cron: <em>Merge duplicate contacts by email</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Merge duplicate companies by VAT number &#8212; cron: <em>Merge duplicate companies by VAT</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Normalize company name suffixes (SRL &#8594; S.R.L., SA &#8594; S.A., etc.) &#8212; cron: <em>Normalize company names</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Force-cancel a sale order together with all its pickings, stock moves and account moves via a server action
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_cancel_order_and_moves</code>); the server action must be created manually for security reasons</div></div></li></ul>
 </div>
@@ -141,6 +141,10 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.9.7 (2026-10-11)</h2>
+<ul>
+<li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.9.6 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -232,28 +236,7 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
   reports work remaining: it selects the same rows every call, and would otherwise
   spin until the cron ran out of time, starving the other vacuum methods.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.6.0</h2>
-<ul>
-<li>Cron code no longer carries call arguments. The cleanup crons ship in a
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">noupdate="1"</code> data file, so the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code</code> field of an already-created cron is
-  frozen the day the database is created -- every later change to those
-  arguments was silently ignored. Measured on a production instance: the module
-  reported 19.0.0.5.0 while its AWB label cron was still running
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">cron_clean_generated_pdfs(limit=50, pattern="Label%", max_date_days=90)</code>, a
-  limit five times smaller than the daily inflow and a pattern matching less
-  than 60% of the real label names, with not a single <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_actions.*</code>
-  system parameter in the database. Nothing failed and nothing was logged: the
-  crons ran green every night and deleted almost nothing.</li>
-<li>Added a migration that rewrites the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code</code> of existing crons to the
-  parameterless <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">*_from_settings()</code> entry points. To keep the switch from
-  changing what a cron deletes, the arguments found in the old code are copied
-  into the matching system parameters first: an argument written explicitly in
-  the old call wins, one the old call never passed keeps the module default.
-  Parameters already set from the Settings screen are never overwritten, and a
-  cron edited by hand is left untouched with a warning in the log.</li>
-<li>Added tests asserting that no cron in the data file passes arguments and that
-  every method it names exists, so the problem cannot come back unnoticed.</li>
-</ul>
+<p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
 </div>
 

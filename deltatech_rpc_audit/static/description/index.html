@@ -85,7 +85,7 @@ affected, since it uses a different endpoint.</p>
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Forwarded-For</code>. That entry is set by the caller (nginx only appends to the
   header), so anyone with an API key could send the address of an <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ignore_ips</code> entry
   and drop out of the audit on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/xmlrpc</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/jsonrpc</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/json/2</code>, or log a false IP.
-  Behind a reverse proxy run the server with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">proxy_mode</code> (always on for Odoo.sh):
+  Behind a reverse proxy run the server with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">proxy_mode</code> (always on for managed hosting):
   core then resolves <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">remote_addr</code> from the entry the trusted proxy added.</li>
 <li>The raw header is still written at the end of the line as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">xff=...</code>, as
   information only; it is never used to skip a call.</li>
@@ -107,7 +107,7 @@ affected, since it uses a different endpoint.</p>
 <li>The line keeps the same fields as the legacy one, so a single grep still finds every
   call, and adds <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">via=json2</code> to tell the two endpoints apart while integrations are
   being moved.</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/json/2/ir.cron/acquire_job</code> is skipped: Odoo.sh drives the scheduler through it in
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/json/2/ir.cron/acquire_job</code> is skipped: the hosting platform drives the scheduler through it in
   a tight loop, and logging that would bury the handful of lines the audit exists for.
   Skipped by (model, method), because the address the platform calls from is not stable
   enough to skip by IP.</li>
@@ -126,7 +126,7 @@ affected, since it uses a different endpoint.</p>
 <ul>
 <li>Add an on/off switch, so the module can stay installed but idle:<ul>
 <li>config-file key <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rpc_audit_enabled</code> (self-hosted);</li>
-<li>System Parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rpc_audit.enabled</code> (works on Odoo.sh, no rebuild),
+<li>System Parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rpc_audit.enabled</code> (works on managed hosting, no rebuild),
 cached 60s alongside the ignore list.
   Either source can disable; default is enabled.</li>
 </ul>
@@ -147,7 +147,7 @@ cached 60s alongside the ignore list.
 <li>Optional ignore list (comma separated) to skip noisy IPs (e.g. health
   checks), from two sources merged together:<ul>
 <li>config-file key <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rpc_audit_ignore_ips</code> (self-hosted);</li>
-<li>System Parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rpc_audit.ignore_ips</code> (works on Odoo.sh), cached 60s.</li>
+<li>System Parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rpc_audit.ignore_ips</code> (works on managed hosting), cached 60s.</li>
 </ul>
 </li>
 </ul>

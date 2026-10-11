@@ -42,7 +42,7 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Tracks how long customers and suppliers actually take to pay, giving finance teams a concrete measure of cash-collection and payment efficiency.</p>
 <p>For each reconciled journal entry the module records the exact payment date and computes the number of days elapsed since the invoice date. An aggregated pivot/graph report &#8212; <strong>Average Payment Period</strong> &#8212; is added directly to the Accounting Reports menu so managers can slice the data by partner, journal, or period at a glance.</p>
-<p><strong>Key features:</strong></p>
+<p><strong>&#10024; Key features:</strong></p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Payment Date</span><div>&#8212; automatically derived from the reconciliation partner line and stored on each <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line</code>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Payment Days</span><div>&#8212; difference (in days) between the invoice date and the payment date, weighted by the line amount for accurate averages across grouped data.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Plain Payment Days</span><div>&#8212; simplified variant limited to customer invoices (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">out_invoice</code>) and vendor bills (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_invoice</code>), excluding credit notes, for cleaner KPI reporting.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Average Payment Period report</span><div>&#8212; a dedicated pivot and graph view (menu: Accounting &gt; Reporting &gt; Average Payment Period) grouped by partner by default; filterable by date, partner, journal, and account.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Weighted average calculation</span><div>&#8212; when grouping rows, the average is computed as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sum(amount &#215; days) / sum(amount)</code> rather than a plain arithmetic mean, preventing distortion from small-amount outliers.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -71,6 +71,10 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-10-11)</h2>
+<ul>
+<li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-10-09)</h2>
 <ul>
 <li>Average Payment Period report: company field and company record rule, users

@@ -57,7 +57,7 @@ automatic updates are published at
 on: the connection layer, the job protocol, and the one job type that is pure
 transport rather than a specific device &#8212; an HTTP call inside the customer's
 network.</p>
-<p><strong>What it gives you</strong></p>
+<p><strong>&#10024; What it gives you</strong></p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Station registry</span><div>(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.station</code>) &#8212; one record per workstation
   running Terrabit Connect, each with a unique API key, a last-seen timestamp
   and reported metadata (TC version, operating system, enabled features).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Outbound job queue</span><div>(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.tc.job</code>) &#8212; Odoo enqueues <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code> jobs;
@@ -323,6 +323,10 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.4 (2026-10-11)</h2>
+<ul>
+<li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.3 (2026-10-03)</h2>
 <ul>
 <li>TC-001 (security): downloading a station config (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/config/&lt;station_id&gt;</code>) read the station as superuser, so a Terrabit Connect manager limited to company A could download the config, including the API key, of a station of company B by changing the id in the URL. The station is now looked up with the manager's own rights: a station of a company the manager does not have access to answers 404, like a missing one; the API key itself is still read as superuser.</li>
