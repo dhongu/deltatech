@@ -55,7 +55,7 @@ Configuration
    example a showroom) as **Default Destination Location**. The
    transfers then open with the right locations already set.
 
-|image1|
+|Replenishment operation type|
 
 2. For the daily email, open *Inventory > Configuration > Locations*,
    choose an internal location and set its **Manager**. Locations
@@ -65,7 +65,7 @@ Configuration
    frequency can be changed among the scheduled actions, under *Settings
    > Technical* (developer mode).
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/op-type.png
+.. |Replenishment operation type| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/op-type.png
 
 Usage
 =====
@@ -73,22 +73,22 @@ Usage
 A location ends up with negative stock, for example after sales from the
 showroom:
 
-|image1|
+|Location with negative stock|
 
 1. Create an internal transfer, with the location to refill as
    **Destination Location** and the location to take the goods from as
    **Source Location**.
 
-|image2|
+|Internal transfer to refill the location|
 
 2. While the transfer is in **Draft**, click **Get negative products**.
 
-|image3|
+|Get negative products button|
 
 3. A line is added for every product with negative stock in the
    destination location, with the quantity that brings it back to zero.
 
-|image4|
+|Lines added for the negative products|
 
 4. Adjust the lines if needed, then confirm and validate the transfer as
    usual.
@@ -101,13 +101,21 @@ negative stock, with the subject *"Negative stock for location
 WH/Stock/Showroom"* and one line per product: reference, name, negative
 quantity and unit of measure.
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/negative-stock.png
-.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking1.png
-.. |image3| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking2.png
-.. |image4| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking3.png
+.. |Location with negative stock| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/negative-stock.png
+.. |Internal transfer to refill the location| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking1.png
+.. |Get negative products button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking2.png
+.. |Lines added for the negative products| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_move_negative_stock/static/description/picking3.png
 
 Changelog
 =========
+
+19.0.1.1.4 (2026-10-12)
+-----------------------
+
+- Readme: alt text on the screenshots of the configuration and usage
+  sections. Both sections numbered their images from 1, so the generated
+  ``README.rst`` defined ``|image1|`` twice and the readme generator
+  stopped on the whole repository.
 
 19.0.1.1.3 (2026-09-30)
 -----------------------

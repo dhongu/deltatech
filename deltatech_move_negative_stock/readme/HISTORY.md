@@ -1,3 +1,9 @@
+## 19.0.1.1.4 (2026-10-12)
+
+- Readme: alt text on the screenshots of the configuration and usage sections. Both sections
+  numbered their images from 1, so the generated `README.rst` defined `|image1|` twice and the
+  readme generator stopped on the whole repository.
+
 ## 19.0.1.1.3 (2026-09-30)
 
 - Description rewritten for the Apps Store: what the module does and why, with separate

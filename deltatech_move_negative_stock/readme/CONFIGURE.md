@@ -3,7 +3,7 @@
    Location** and the location to refill (for example a showroom) as **Default Destination
    Location**. The transfers then open with the right locations already set.
 
-![](static/description/op-type.png)
+![Replenishment operation type](static/description/op-type.png)
 
 2. For the daily email, open *Inventory > Configuration > Locations*, choose an internal
    location and set its **Manager**. Locations without a manager are skipped.
