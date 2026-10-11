@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## RECEPTION-001 — P2: RFQ consumption ignores differing purchase units
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.0.1.5 — `reduce_from_rfq()` converts the note line and each RFQ line to the product unit (`round=False`), compares them with the product unit precision, writes the remainder back in the RFQ line unit, and reports the missing or forced quantity in the note line unit. Covered by `test_reduce_from_rfq_note_in_dozens`, `test_reduce_from_rfq_rfq_in_packs` and `test_reduce_from_rfq_missing_quantity_in_note_unit` in `tests/test_reception_note.py`.
 - **Location:** models/purchase.py, reduce_from_rfq().
 - **Trigger:** Reception-note and sent-RFQ lines for the same product use different units.
 - **Actual behavior:** The method compares/subtracts raw product_qty and writes the raw remainder to each RFQ without converting between product_uom_id values.
