@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        Odoo 20: the product documents live in `website_sale.documents`, rendered only when the
+        product has standard documents. The data sheets get their own section right after it,
+        so they are shown even for a product without other documents (DATASHEETWEB-001).
+    -->
+    <template id="product_data_sheet" inherit_id="website_sale.product" name="Show Data Sheet">
+        <xpath expr="//t[@t-call='website_sale.documents']" position="after">
+            <div
+                t-if="product.data_sheet_id or product.safety_data_sheet_id"
+                id="product_data_sheets"
+                class="o_wsale_product_details_content_section mb-4"
+            >
+                <div class="list-group">
+                    <a
+                        t-if="product.data_sheet_id"
+                        class="list-group-item list-group-item-action"
+                        t-attf-href="/web/content/{{product.data_sheet_id.id}}"
+                    >
+                        <i class="oi me-2" data-icon="download" />
+                        Show Data Sheet
+                    </a>
+                    <a
+                        t-if="product.safety_data_sheet_id"
+                        class="list-group-item list-group-item-action"
+                        t-attf-href="/web/content/{{product.safety_data_sheet_id.id}}"
+                    >
+                        <i class="oi me-2" data-icon="download" />
+                        Show Safety Data Sheet
+                    </a>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
