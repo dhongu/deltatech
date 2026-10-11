@@ -77,3 +77,19 @@ class TestInventoryLineOnchange(TransactionCase):
         self.assertEqual(line.product_qty, 2.0)
         # standard price still updated
         self.assertEqual(line.standard_price, self.product.standard_price)
+
+    def test_onchange_clears_lot_on_untracked_product(self):
+        # In 20 product.tracking is False (no 'none' value) for untracked products
+        self.assertFalse(self.product.tracking)
+        lot = self.env["stock.lot"].create({"name": "LOT-UNTRACKED", "product_id": self.product.id})
+        line = self.env["stock.inventory.line"].create(
+            {
+                "inventory_id": self.inventory.id,
+                "product_id": self.product.id,
+                "location_id": self.location.id,
+                "prod_lot_id": lot.id,
+            }
+        )
+        line._onchange_quantity_context()
+
+        self.assertFalse(line.prod_lot_id)
