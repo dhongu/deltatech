@@ -3,7 +3,7 @@
 
 {
     "name": "POS Add Extra Line",
-    "summary": "POS Add Extra Line",
+    "summary": "Add extra lines to POS orders automatically, per product",
     "version": "19.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
