@@ -26,7 +26,8 @@ Reguli sanitizer Apps Store (moștenite din tb_skin_index v5, validate pe store 
     (Confirmat pe module live, ex. bom_excel_import / NextERP.)
 
 Structura paginii (doar EN):
-  HERO verde brand (icon.png + nume + summary + badge-uri din manifest)
+  HERO verde brand (icon.png + nume + summary + badge-uri din manifest + teste/acoperire
+  din scripts/test_stats.json, dacă suita îl are)
   NAV-PILLS cu taburi: Overview / Presentation / Configuration / Usage / Română / Versions
     - Overview      = DESCRIPTION.md (+ CONTEXT.md la final); listele de funcții cu
                       ≥3 itemi devin carduri Bootstrap cu bifă verde. Dacă modulul
@@ -72,6 +73,7 @@ Utilizare:
 import argparse
 import ast
 import html as html_mod
+import json
 import logging
 import os
 import re
@@ -113,6 +115,13 @@ MD_EXTENSIONS = ["tables", "fenced_code", "sane_lists"]
 # oricărui modul care depinde de el — inclusiv la el însuși. Înainte, doar Shopify le
 # documenta, de mână, și rămăsese deja o versiune în urmă până a apucat să iasă pe store.
 FRAMEWORK_FRAGMENT = "FRAMEWORK_FEATURES.md"
+
+# Badge-ul de teste din antet: `scripts/test_stats.json` al suitei, scris de
+# scripts/tb_test_stats.py (teste numărate din cod, acoperire din Codecov). Fără fișier,
+# badge-ul lipsește, deci suitele care nu-l produc rămân neschimbate. Acoperirea apare doar
+# de la COVERAGE_MIN în sus; sub prag, badge-ul arată doar numărul de teste.
+TEST_STATS = os.path.join("scripts", "test_stats.json")
+COVERAGE_MIN = 70
 
 # ----------------------------------------------------------------------------- #
 # Stringurile vizibile ale paginii, pe limbi
@@ -158,16 +167,20 @@ I18N = {
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
-        "deps_title": "What you pay for",
-        "deps_intro_own": "This module costs <strong>%(own)s</strong>.",
-        "deps_intro_free": "This module is <strong>free</strong>.",
-        "deps_intro_rest": " It needs the paid modules below, and Odoo Apps adds them to your cart "
-        "automatically &mdash; the order total is <strong>%(total)s</strong>.",
+        "deps_title": "What the price includes",
+        "deps_intro_own": "The price of this module on Odoo Apps, <strong>%(total)s</strong>, already includes the "
+        "modules it needs: Odoo Apps adds them to the same order, so you pay once. The module itself costs "
+        "%(own)s.",
+        "deps_intro_free": "This module is free; its price on Odoo Apps, <strong>%(total)s</strong>, is the price "
+        "of the modules it needs, added to the same order.",
         "deps_auto": "It installs itself once these modules are present, so it is not charged separately.",
         "deps_free_price": "free",
         "deps_own_row": "This module",
-        "deps_total_row": "Order total",
+        "deps_total_row": "Price on Odoo Apps",
         "badge_hosting": "Odoo.sh &bull; On-premise",
+        "badge_test": "&#10003; 1 automated test",
+        "badge_tests": "&#10003; %(n)s automated tests",
+        "badge_coverage": " &middot; %(p)s%% code coverage",
         "subscription_title": "For projects implemented by Terrabit,",
         "subscription_body": "the post-implementation subscription includes access to our module portfolio, with no "
         "separate purchase, together with upgrades to every new Odoo version and support from the developers who "
@@ -213,16 +226,20 @@ I18N = {
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
-        "deps_title": "Ce plătiți de fapt",
-        "deps_intro_own": "Acest modul costă <strong>%(own)s</strong>.",
-        "deps_intro_free": "Acest modul este <strong>gratuit</strong>.",
-        "deps_intro_rest": " Are nevoie de modulele cu preț de mai jos, iar Odoo Apps le adaugă automat în "
-        "coș &mdash; totalul comenzii este <strong>%(total)s</strong>.",
+        "deps_title": "Ce include prețul",
+        "deps_intro_own": "Prețul acestui modul pe Odoo Apps, <strong>%(total)s</strong>, include deja modulele de "
+        "care are nevoie: Odoo Apps le adaugă în aceeași comandă, deci plătiți o singură dată. Modulul propriu-zis "
+        "costă %(own)s.",
+        "deps_intro_free": "Modulul e gratuit; prețul lui pe Odoo Apps, <strong>%(total)s</strong>, e prețul "
+        "modulelor de care are nevoie, adăugate în aceeași comandă.",
         "deps_auto": "Se instalează singur când modulele de mai jos sunt prezente, deci nu se taxează separat.",
         "deps_free_price": "gratuit",
         "deps_own_row": "Acest modul",
-        "deps_total_row": "Total comandă",
+        "deps_total_row": "Preț pe Odoo Apps",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
+        "badge_test": "&#10003; 1 test automat",
+        "badge_tests": "&#10003; %(n)s teste automate",
+        "badge_coverage": " &middot; acoperire cod %(p)s%%",
         "subscription_title": "Pentru proiectele implementate de Terrabit,",
         "subscription_body": "abonamentul postimplementare include accesul la portofoliul nostru de module, f&#259;r&#259; "
         "achizi&#539;ie separat&#259;, &#238;mpreun&#259; cu actualizarea lor la fiecare versiune nou&#259; de Odoo "
@@ -712,7 +729,35 @@ def render_markdown(md_text):
 # ----------------------------------------------------------------------------- #
 
 
-def build_badges(manifest, lang="en"):
+_TEST_STATS_CACHE = {}
+
+
+def read_test_stats(addon_dir):
+    """Intrarea modulului din test_stats.json al suitei (directorul părinte al modulului)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(addon_dir)), TEST_STATS)
+    if path not in _TEST_STATS_CACHE:
+        try:
+            with open(path, encoding="utf8") as f:
+                _TEST_STATS_CACHE[path] = json.load(f).get("addons", {})
+        except (OSError, ValueError):
+            _TEST_STATS_CACHE[path] = {}
+    return _TEST_STATS_CACHE[path].get(os.path.basename(os.path.abspath(addon_dir)), {})
+
+
+def build_test_badge(stats, lang="en"):
+    """„✓ 42 automated tests · 87% code coverage”; acoperirea doar peste COVERAGE_MIN."""
+    tests = stats.get("tests") or 0
+    if not tests:
+        return ""
+    strings = I18N[lang]
+    text = strings["badge_test"] if tests == 1 else strings["badge_tests"] % {"n": tests}
+    coverage = stats.get("coverage")
+    if coverage is not None and coverage >= COVERAGE_MIN:
+        text += strings["badge_coverage"] % {"p": int(coverage)}
+    return text
+
+
+def build_badges(manifest, lang="en", test_stats=None):
     items = []
     ver = str(manifest.get("version", ""))
     m = re.match(r"(\d+\.\d+)", ver)
@@ -726,6 +771,9 @@ def build_badges(manifest, lang="en"):
         items.append((BADGE, html_mod.escape(str(license_))))
     # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ)
     items.append((BADGE, I18N[lang]["badge_hosting"]))
+    tests = build_test_badge(test_stats or {}, lang)
+    if tests:
+        items.append((BADGE, tests))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
 
@@ -741,7 +789,7 @@ def build_hero(addon_dir, manifest, lang="en"):
         icon=icon,
         name=name,
         summary=(SUMMARY % summary) if summary else "",
-        badges=build_badges(manifest, lang),
+        badges=build_badges(manifest, lang, read_test_stats(addon_dir)),
     )
 
 
@@ -922,12 +970,38 @@ def _money(amount, manifest):
     return f"{amount:g} &euro;" if currency == "EUR" else f"{amount:g} {html_mod.escape(currency)}"
 
 
+def _sibling_suites(root):
+    """Directoarele suitelor-frate ale suitei `root` (alte repo-uri Terrabit din același părinte)."""
+    parent = os.path.dirname(os.path.abspath(root))
+    return [
+        os.path.join(parent, d)
+        for d in sorted(os.listdir(parent))
+        if os.path.join(parent, d) != os.path.abspath(root) and os.path.isdir(os.path.join(parent, d))
+    ]
+
+
+def _paid_closure(manifest, roots, found=None):
+    """Dependențele din `manifest` (tranzitiv, DFS), căutate în `roots` (suita proprie prima, apoi frații).
+    Întoarce {nume tehnic: manifest}; ce nu e găsit (Odoo core, OCA) nu intră."""
+    found = found if found is not None else {}
+    for dep in manifest.get("depends") or []:
+        if dep in found:
+            continue
+        dep_man = next((m for m in (read_manifest(os.path.join(r, dep)) for r in roots) if m), None)
+        if dep_man:
+            found[dep] = dep_man
+            _paid_closure(dep_man, roots, found)
+    return found
+
+
 def paid_dependencies(addon_dir):
-    """Dependențele plătite din aceeași suită (tranzitiv), ca (nume tehnic, manifest)."""
-    root = os.path.dirname(os.path.abspath(addon_dir)) or "."
-    closure = _dependency_closure(os.path.basename(os.path.abspath(addon_dir)), root)[1:]
-    deps = [(tech, read_manifest(os.path.join(root, tech))) for tech in closure]
-    return [(tech, man) for tech, man in deps if man.get("price")]
+    """Dependențele plătite (tranzitiv) din suita modulului și din celelalte suite Terrabit
+    (repo-uri-frate), ca (nume tehnic, manifest). Pe Apps Store intră în coș toate."""
+    addon_dir = os.path.abspath(addon_dir)
+    root = os.path.dirname(addon_dir)
+    roots = [root] + _sibling_suites(root)
+    found = _paid_closure(read_manifest(addon_dir), roots)
+    return [(tech, man) for tech, man in found.items() if man.get("price")]
 
 
 def build_dependencies(addon_dir, manifest, lang="en"):
@@ -937,8 +1011,8 @@ def build_dependencies(addon_dir, manifest, lang="en"):
     strings = dict(TB, **I18N[lang])
     own = manifest.get("price") or 0
     total = own + sum(man["price"] for _tech, man in deps)
-    intro = strings["deps_intro_own"] % {"own": _money(own, manifest)} if own else strings["deps_intro_free"]
-    intro += strings["deps_intro_rest"] % {"total": _money(total, manifest)}
+    values = {"own": _money(own, manifest), "total": _money(total, manifest)}
+    intro = (strings["deps_intro_own"] if own else strings["deps_intro_free"]) % values
     if manifest.get("auto_install") and not own:
         intro += " " + strings["deps_auto"]
     rows = []
