@@ -1,3 +1,11 @@
+## 19.0.2.0.4 (2026-10-12)
+
+- Fixed: the purchase order generated from a vendor bill ignored the discount
+  of the bill line, so a line of 5 x 100 with 10% discount appeared on the
+  order at 500 instead of 450. The stock cost was already right (90), corrected
+  from the bill; only the order amount was wrong. The discount is now copied to
+  the purchase order line.
+
 ## 19.0.2.0.3 (2026-10-08)
 
 - Fixed RECEIPT-002: recomputing the return moves of a negative purchase line

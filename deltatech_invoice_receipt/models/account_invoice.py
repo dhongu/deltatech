@@ -87,7 +87,7 @@ class AccountInvoice(models.Model):
                             "name": line.name,
                             "price_unit": line.price_unit,
                             "product_qty": line.quantity,
-                            #  'discount': line.discount,  #
+                            "discount": line.discount,
                             "tax_ids": [(6, 0, line.tax_ids.ids)],
                         }
                     )
