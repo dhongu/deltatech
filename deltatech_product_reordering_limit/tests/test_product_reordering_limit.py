@@ -2,7 +2,6 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import io
 
 from odoo.exceptions import UserError
@@ -189,7 +188,7 @@ class TestProductReorderingLimit(TransactionCase):
             import openpyxl
         except ImportError:
             return
-        content = base64.b64decode(wizard.file)
+        content = wizard.file.content
         sheet = openpyxl.load_workbook(io.BytesIO(content)).active
         rows = list(sheet.iter_rows(values_only=True))
         self.assertEqual(sheet.title, "Reordering Report")

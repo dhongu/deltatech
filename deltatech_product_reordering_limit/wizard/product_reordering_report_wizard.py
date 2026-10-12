@@ -1,10 +1,10 @@
-import base64
 import io
 
 import xlsxwriter
 
 from odoo import fields, models
 from odoo.exceptions import UserError
+from odoo.tools import BinaryBytes
 
 
 class ProductReorderingReportWizard(models.TransientModel):
@@ -58,8 +58,8 @@ class ProductReorderingReportWizard(models.TransientModel):
             row += 1
 
         workbook.close()
-        output.seek(0)
-        file_data = base64.b64encode(output.read())
+        # Odoo 20: câmpurile Binary primesc BinaryValue (bytes brute), nu base64
+        file_data = BinaryBytes(output.getvalue())
         output.close()
 
         self.write({"file": file_data, "filename": "Reordering_Report.xlsx"})
