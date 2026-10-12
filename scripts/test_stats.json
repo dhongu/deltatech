@@ -156,7 +156,7 @@
       "tests": 4
     },
     "deltatech_expected_receipt": {
-      "coverage": 33.9,
+      "coverage": 95.9,
       "lines": 637,
       "tests": 61
     },
@@ -181,9 +181,9 @@
       "tests": 2
     },
     "deltatech_fleet": {
-      "coverage": 77.2,
-      "lines": 583,
-      "tests": 7
+      "coverage": 97.2,
+      "lines": 563,
+      "tests": 42
     },
     "deltatech_fleet_geo": {
       "coverage": 95.7,
@@ -204,9 +204,9 @@
       "tests": 1
     },
     "deltatech_image_optimize": {
-      "coverage": 68.3,
+      "coverage": 94.2,
       "lines": 986,
-      "tests": 46
+      "tests": 73
     },
     "deltatech_invoice_number": {
       "coverage": 97.4,
@@ -559,9 +559,9 @@
       "tests": 3
     },
     "deltatech_purchase_ubl": {
-      "coverage": 78.3,
-      "lines": 752,
-      "tests": 81
+      "coverage": 94.1,
+      "lines": 750,
+      "tests": 86
     },
     "deltatech_purchase_xls": {
       "coverage": 97.0,
@@ -589,7 +589,7 @@
       "tests": 7
     },
     "deltatech_record_type": {
-      "coverage": 72.8,
+      "coverage": 74.9,
       "lines": 191,
       "tests": 14
     },
@@ -824,8 +824,8 @@
       "tests": 1
     },
     "deltatech_stock_inventory": {
-      "coverage": 81.9,
-      "lines": 1035,
+      "coverage": 95.5,
+      "lines": 1028,
       "tests": 97
     },
     "deltatech_stock_inventory_product_display": {
@@ -1083,7 +1083,7 @@
     }
   },
   "branch": "19.0",
-  "commit": "5d2b87ce6d1dc5bcf355d7c9622acc12fb04c24e",
+  "commit": "1687ef437fab1250eb659ad0f06b6879742fe517",
   "generated": "2026-10-12",
   "source": "codecov:dhongu/deltatech"
 }
