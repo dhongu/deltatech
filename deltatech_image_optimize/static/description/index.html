@@ -9,7 +9,7 @@
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Administration</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 46 automated tests</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 73 automated tests &middot; 94% code coverage</span>
   </div>
 </div>
 
@@ -496,6 +496,15 @@ becomes black permanently.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.4 (2026-10-12)</h2>
+<ul>
+<li>Tests: the watermark tests now run in CI. They were skipped because the CI image has
+  no numpy; the repository gets a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test-requirements.txt</code> with numpy (numpy stays an
+  optional dependency of the module). New tests cover the error and queue paths of
+  watermark and background removal, recompression edge cases (unreadable input,
+  palette images, PNG fallback without WebP, orphan attachments, failed writes) and
+  the duplicate image report and wizard.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.3 (2026-10-12)</h2>
 <ul>
 <li>Readme: the description starts with the module title, like the other modules, and the
@@ -591,20 +600,6 @@ becomes black permanently.</p>
   product. The same picture used on several products is reported but never
   deleted &#8212; each product needs its own copy.</li>
 <li>Adds a dependency on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>, where <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> is defined.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.8.1 (2026)</h2>
-<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data/ir_cron.xml</code> is now <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">noupdate="1"</code>. It was not, so <strong>every module
-  upgrade reapplied <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">active = False</code> and switched the scheduled action back
-  off</strong>, silently, however long ago someone had enabled it. Seen in production:
-  the cron was enabled one day, an upgrade the next morning disabled it again,
-  and nothing in the logs said so -- it simply never ran. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir_config_parameter.xml</code>
-  already had the flag, which is why the tuned parameters survived the same
-  upgrade while the cron did not.</li>
-<li>Existing databases: the flag stops future upgrades from touching the record,
-  but it cannot restore a cron already switched off. Check
-  Settings &gt; Technical &gt; Scheduled Actions after upgrading, and re-enable it if
-  it was on before.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
