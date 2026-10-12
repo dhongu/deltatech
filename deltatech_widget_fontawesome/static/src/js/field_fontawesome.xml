@@ -2,7 +2,14 @@
 <templates xml:space="preserve">
 
     <t t-name="fontawesome.FieldFontAwesome">
-        <i t-att-class="icon" t-att-data-tooltip="title" />
+        <i
+            t-if="this.icon"
+            t-att-class="this.iconClass"
+            t-att-data-icon="this.icon"
+            t-att-data-tooltip="this.title"
+            t-att-aria-label="this.title"
+            role="img"
+        />
     </t>
 
 </templates>

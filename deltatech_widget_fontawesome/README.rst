@@ -14,7 +14,7 @@ FontAwesome Widget
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_widget_fontawesome
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_widget_fontawesome
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -22,11 +22,38 @@ FontAwesome Widget
 Features:
 
 - <field name="icon" widget="fontawesome" />
+- the field value can be a Font Awesome name (``fa-globe``,
+  ``fa fa-globe``), translated to the equivalent Material Symbols icon,
+  or directly a Material Symbols name (``public``, ``shopping_cart``)
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.2 (2026-10-12)
+-----------------------
+
+- Migration to 20.0: Font Awesome is no longer shipped with Odoo 20, so
+  the widget renders Material Symbols icons
+  (``<i class="oi" data-icon="..."/>``). Stored Font Awesome values
+  (``fa-globe``, ``fa fa-globe``, ``globe``) are translated with the
+  official FA -> Material Symbols mapping; a Material Symbols name
+  (``public``) can also be stored directly. Props declared with
+  ``useProps`` (Owl 3). Empty values no longer raise an error.
+
+19.0.1.0.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -56,6 +83,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_widget_fontawesome>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_widget_fontawesome>`_ project on GitHub.
 
 You are welcome to contribute.
