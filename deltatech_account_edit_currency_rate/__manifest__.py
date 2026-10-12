@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Edit Currency Rate",
+    "name": "Edit Currency Rate",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
