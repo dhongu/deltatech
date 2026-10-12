@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="fontawesome.FieldFontAwesome">
+        <i
+            t-if="this.icon"
+            t-att-class="this.iconClass"
+            t-att-data-icon="this.icon"
+            t-att-data-tooltip="this.title"
+            t-att-aria-label="this.title"
+            role="img"
+        />
+    </t>
+
+</templates>

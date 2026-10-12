@@ -210,12 +210,16 @@ class ProductTemplate(models.Model):
         if not warehouse_id:
             warehouse_id = self.env.ref("stock.warehouse0").id
 
+        Location = self.env["product.warehouse.location"].sudo()
         for product in self:
-            domain = [
-                ("product_id", "=", product.id),
-                ("warehouse_id", "=", warehouse_id),
-            ]
-            loc = self.env["product.warehouse.location"].sudo().search(domain, limit=1)
+            # a product not saved yet (form onchange) has only a NewId
+            loc = Location
+            if product._origin.id:
+                domain = [
+                    ("product_id", "=", product._origin.id),
+                    ("warehouse_id", "=", warehouse_id),
+                ]
+                loc = Location.search(domain, limit=1)
             product.loc_rack = loc.loc_rack
             product.loc_row = loc.loc_row
             product.loc_shelf = loc.loc_shelf

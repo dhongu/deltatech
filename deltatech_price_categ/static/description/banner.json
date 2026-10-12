@@ -1,0 +1,6 @@
+{
+  "title": "Price Category",
+  "icon": "cart",
+  "summary": "Tiered Bronze / Silver / Gold pricing",
+  "features": ["Bronze, Copper, Silver, Gold tiers", "Markup % from a base price", "Pricelist integration"]
+}

@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_inventory_product_display
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_inventory_product_display
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory_product_display.invoice_view_form_saleorder_button
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory_product_display.sale_order_view_form
+msgid "<span>Products</span>"
+msgstr ""
+
+#. module: deltatech_stock_inventory_product_display
+#: model:ir.model.fields,field_description:deltatech_stock_inventory_product_display.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_inventory_product_display.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory_product_display
+#: model:ir.model.fields,field_description:deltatech_stock_inventory_product_display.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_stock_inventory_product_display.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_stock_inventory_product_display
+#: model:ir.model,name:deltatech_stock_inventory_product_display.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_stock_inventory_product_display
+#: model:ir.model,name:deltatech_stock_inventory_product_display.model_sale_order
+msgid "Sales Order"
+msgstr ""
