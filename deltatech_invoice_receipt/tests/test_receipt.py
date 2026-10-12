@@ -282,3 +282,47 @@ class TestStockPicking(TransactionCase):
             self.assertEqual(picking.partner_id, partner)
             self.assertEqual(picking.location_dest_id, partner.property_stock_supplier)
             self.assertEqual(picking.move_ids.product_uom_qty, qty)
+
+
+class TestInvoiceDiscount(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.partner = self.env["res.partner"].create({"name": "Test Partner Discount"})
+        self.uom_unit = self.env.ref("uom.product_uom_unit")
+        category = self.env["product.category"].create({"name": "AVCO", "property_cost_method": "average"})
+        self.product = self.env["product.product"].create(
+            {"name": "Test Product Discount", "is_storable": True, "categ_id": category.id, "standard_price": 0}
+        )
+
+    def test_invoice_line_discount_reaches_purchase_and_stock_cost(self):
+        # Vendor bill 5 x 100 with 10% discount: the stock must be valued at the net price, 90
+        invoice = self.env["account.move"].create(
+            {
+                "partner_id": self.partner.id,
+                "move_type": "in_invoice",
+                "invoice_date": "2024-07-31",
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "quantity": 5,
+                            "price_unit": 100,
+                            "discount": 10,
+                            "tax_ids": [(5, 0, 0)],
+                            "product_uom_id": self.uom_unit.id,
+                            "name": "Test Product Discount",
+                        },
+                    )
+                ],
+            }
+        )
+        invoice.action_post()
+        purchase_order = self.env["purchase.order"].search([("from_invoice_id", "=", invoice.id)])
+        purchase_order.button_confirm()
+        invoice.action_post()
+
+        self.assertEqual(invoice.state, "posted")
+        self.assertAlmostEqual(self.product.standard_price, 90.0)
+        self.assertAlmostEqual(purchase_order.order_line.price_subtotal, invoice.invoice_line_ids.price_subtotal)
