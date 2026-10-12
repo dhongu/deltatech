@@ -158,7 +158,7 @@
     "deltatech_expected_receipt": {
       "coverage": 33.9,
       "lines": 637,
-      "tests": 20
+      "tests": 61
     },
     "deltatech_expenses": {
       "coverage": 87.8,
