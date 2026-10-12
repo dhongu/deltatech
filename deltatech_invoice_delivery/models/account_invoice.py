@@ -93,5 +93,6 @@ class AccountInvoice(models.Model):
             sale_orders = invoice.invoice_line_ids.sale_line_ids.order_id
             # the delivery is validated only for the sale orders generated from this invoice
             sale_orders = sale_orders.filtered(lambda order: order.from_invoice_id == invoice)
-            invoice_date = invoice.invoice_date or fields.Date.context_today(invoice)
-            sale_orders.with_env(env).delivery_from_stock(invoice_date)
+            # the accounting date of the invoice, so that 707 and 607 fall in the same period
+            accounting_date = invoice.date or invoice.invoice_date or fields.Date.context_today(invoice)
+            sale_orders.with_env(env).delivery_from_stock(accounting_date)

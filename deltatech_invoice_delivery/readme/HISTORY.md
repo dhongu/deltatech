@@ -12,4 +12,6 @@
 - When the stock is not enough, the message lists each product with the available and the requested quantity.
 - The delivery is refused, with a clear message, for warehouses that deliver in more than one step.
 - A negative quantity is returned by the standard Odoo 19 flow; the custom stock rule override was removed.
+- The delivery takes the accounting date of the invoice, so that the sale and the cost of the goods sold
+  fall in the same period.
 - Own module icon, in the flat style of the other invoice modules, instead of the generic gears.
