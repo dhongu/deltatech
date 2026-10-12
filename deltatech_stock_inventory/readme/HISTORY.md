@@ -1,3 +1,9 @@
+## 19.0.2.10.6 (2026-10-12)
+
+- The *Clear* button on a counted quant now detaches it from its inventory document and line again.
+  The override still used the pre-19.0 method name `action_set_inventory_quantity_to_zero`, which no
+  longer exists, so it never ran: after *Clear*, a new count was applied into the old document.
+
 ## 19.0.2.10.5 (2026-10-12)
 
 - Tests: new coverage tests for the return, adjustment reason and merge wizards, quant/inventory
