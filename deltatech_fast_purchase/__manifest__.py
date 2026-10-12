@@ -7,7 +7,7 @@
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Achizitie rapida",
+    "summary": "Confirm, receive and bill a purchase order in one click",
     "category": "Purchases",
     "depends": ["base", "purchase_stock", "stock"],
     "license": "OPL-1",
