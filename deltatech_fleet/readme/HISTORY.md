@@ -3,6 +3,10 @@
 - The normal consumption of a route log is recomputed when its distance or
   vehicle changes; it used to keep the value from creation, so the map sheet
   total and the reservoir level stayed wrong after editing a route.
+- Opening a map sheet no longer creates an odometer reading on the vehicle.
+  The odometer start used to write the end value as a side effect, and the
+  next opening took that reading as start, losing the distance of the sheet.
+  The readings of the sheet itself are no longer taken as the other end.
 - A route log without a begin date no longer crashes on the week day.
 - Map sheet default dates work for users without a time zone (UTC is used).
 - Removed unused odometer methods on fuel logs and a no-op domain in the

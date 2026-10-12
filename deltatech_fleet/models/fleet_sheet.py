@@ -26,14 +26,13 @@ class FleetMapSheet(models.Model):
                     [
                         ("vehicle_id", "=", record.vehicle_id.id),
                         ("date", "<=", record.date_start),
+                        ("id", "!=", record.odometer_end_id.id),
                     ],
                     limit=1,
-                    order="date desc",
+                    order="date desc, value desc",
                 )
                 if odometer:
                     record.odometer_start = odometer.value
-                    if not record.odometer_end_id:
-                        record.odometer_end = record.odometer_start + record.distance_total
                 else:
                     if record.odometer_end_id:
                         record.odometer_start = record.odometer_end_id.value - record.distance_total
@@ -50,9 +49,10 @@ class FleetMapSheet(models.Model):
                     [
                         ("vehicle_id", "=", record.vehicle_id.id),
                         ("date", ">=", record.date_end),
+                        ("id", "!=", record.odometer_start_id.id),
                     ],
                     limit=1,
-                    order="date",
+                    order="date, value",
                 )
                 if odometer:
                     record.odometer_end = odometer.value
