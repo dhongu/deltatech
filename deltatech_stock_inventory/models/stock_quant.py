@@ -57,10 +57,14 @@ class StockQuant(models.Model):
 
         return inventory
 
-    def action_set_inventory_quantity_to_zero(self):
-        self.inventory_id = False
-        self.inventory_line_id = False
-        return super().action_set_inventory_quantity_to_zero()
+    def action_clear_inventory_quantity(self):
+        # Butonul "Clear" renunta la numarare: quant-ul nu mai apartine documentului de inventar,
+        # altfel o aplicare ulterioara ar refolosi documentul si linia vechi. Standardul apeleaza
+        # metoda si la finalul _apply_inventory; acolo legaturile raman, action_apply_inventory
+        # le foloseste ca sa finalizeze documentul si le goleste singur.
+        if not self.env.context.get("apply_inventory"):
+            self.write({"inventory_id": False, "inventory_line_id": False})
+        return super().action_clear_inventory_quantity()
 
     def action_apply_inventory(self, date=None):
         for quant in self:
