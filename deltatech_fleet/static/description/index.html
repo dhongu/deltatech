@@ -9,7 +9,7 @@
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Human Resources/Fleet</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 7 automated tests &middot; 77% code coverage</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 42 automated tests &middot; 97% code coverage</span>
   </div>
 </div>
 
@@ -51,6 +51,30 @@ fuel cards.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-10-12)</h2>
+<ul>
+<li>The normal consumption of a route log is recomputed when its distance or
+  vehicle changes; it used to keep the value from creation, so the map sheet
+  total and the reservoir level stayed wrong after editing a route.</li>
+<li>Opening a map sheet no longer creates an odometer reading on the vehicle.
+  The odometer start used to write the end value as a side effect, and the
+  next opening took that reading as start, losing the distance of the sheet.
+  The readings of the sheet itself are no longer taken as the other end.</li>
+<li>The reservoir level includes the fuel logs and route logs not yet saved
+  in the same transaction (for example when a map sheet is saved with new
+  routes); it used to show the level without their consumption.</li>
+<li>Changing the vehicle of a map sheet moves its fuel logs, route logs and
+  odometer readings to the new vehicle; they used to keep the old one.</li>
+<li>Moving the start of a map sheet moves its draft routes by that change
+  only. The first change used to move nothing and the later ones were
+  measured from the first start, so the routes drifted.</li>
+<li>A route log without a begin date no longer crashes on the week day.</li>
+<li>Map sheet default dates work for users without a time zone (UTC is used).</li>
+<li>Removed unused odometer methods on fuel logs and a no-op domain in the
+  route log onchange.</li>
+<li>Tests for map sheets, fuel logs, vehicles, routes, the distance report and
+  the map sheet printout.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-09)</h2>
 <ul>
 <li>New module icon (yellow car, flat Terrabit style).</li>
