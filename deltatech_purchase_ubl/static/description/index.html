@@ -9,7 +9,7 @@
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Purchases</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 81 automated tests &middot; 78% code coverage</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 86 automated tests &middot; 94% code coverage</span>
   </div>
 </div>
 
@@ -47,6 +47,33 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.10 (2026-10-12)</h2>
+<ul>
+<li>Fixed: a supplier credit note (a CreditNote document, or an Invoice with type
+  code 381) was imported as an invoice. A CreditNote created a vendor bill from
+  the order instead of a refund; an Invoice 381 wrote negative quantities on the
+  order lines and overwrote the vendor prices. Credit notes are now recognised
+  and not imported: the order is left as it is, the log shows a warning and the
+  automatic import schedules the "SPV import needs review" activity. Record the
+  vendor refund manually.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.9 (2026-10-12)</h2>
+<ul>
+<li>Fixed: a supplier invoice imported on a purchase order with nothing left to
+  invoice (already fully invoiced, or billed on received quantities with nothing
+  received yet) created a vendor bill with every line at zero quantity. The bill
+  is now skipped with a message in the log, and the automatic import schedules
+  the "SPV import needs review" activity on the order, since it may be a
+  duplicate invoice or an extra charge.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.8 (2026-10-12)</h2>
+<ul>
+<li>Fixed: a receipt validated without a purchase order context (or still waiting
+  for another operation) stayed undone when the invoice covered only part of it,
+  while the log said "Receipt updated". The received quantities are now validated
+  and the rest goes to a backorder. When the receipt still cannot be validated,
+  the log shows a warning instead.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.7 (2026-10-12)</h2>
 <ul>
 <li>Tests: 33 new tests for the automatic import on attachment, XML parsing and
@@ -158,60 +185,6 @@
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> was older than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code>, so exactly the new terms were dropped while the old ones kept
   working. Regenerated the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> and resynchronized <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code> (the regeneration merges the info
   icon with its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;span&gt;</code> into a single term, so the banner needed a new entry).</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.3.0] - 2026-08-24</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
-<ul>
-<li><strong>Mapping preview in the import wizard</strong>: the interactive flow is now
-  two-step &#8212; "Preview" parses the XML and shows one line per invoice line with the product
-  the matcher found and how it found it, color-coded: green = matched by supplier code or
-  barcode (trustworthy), yellow = matched only by name (double-check), red = no match (a new
-  product would be created). The user can pick a different product on any line before
-  confirming the import; manual choices override automatic matching
-  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data(product_map=...)</code>). The headless entry point <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_import</code> is
-  unchanged, so automated callers keep working.</li>
-</ul>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
-<ul>
-<li><strong>Bug</strong>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> always ran the headless UBL import
-  with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">create_missing_products=True</code>. This is fine for the interactive wizard, where a user
-  reviews what gets created, but it's also the only entry point for XML attachments posted by
-  automated callers (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_message_spv_purchase</code>, since the SPV import started attaching
-  the SPV XML on purchase orders created before the vendor bill exists). When the source invoice
-  line has no supplier product code and its name doesn't match an existing product exactly, the
-  headless import silently created a duplicate product with no one reviewing it.
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> now honors a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ubl_no_new_products</code> context key: when
-  set, the headless import runs with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">create_missing_products=False</code> and leaves unmatched lines
-  in the wizard's "unmatched products" log instead of creating a product.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.4] - 2026-08-20</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
-<ul>
-<li><strong>Bug</strong>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> listed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase</code> + <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code> separately, but the module actually uses fields
-  defined by their glue module <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.order.picking_ids</code>,
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking.purchase_id</code>) in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_find_receipt</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_validate_receipt_quantities</code>.
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_install=True</code>, and CI's test database init runs with
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--skip-auto-install</code> (Odoo &#8805; 19) - so it was only ever getting installed incidentally, when
-  another module in the same CI shard happened to declare it explicitly. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">depends</code> now lists
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> directly instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase</code> + <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code>.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.2.3] - 2026-08-20</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
-<ul>
-<li><strong>Bug</strong>: auto-creating the vendor bill whenever the source document
-  identifies an invoice number (added in 19.0.1.2.1) ran regardless of the purchase order's
-  state. A draft/unconfirmed order has <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">qty_to_invoice = 0</code> on every line
-  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_order_line._compute_qty_invoiced</code> only computes a nonzero value once the order is
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">state == "purchase"</code>), so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_create_invoice()</code> still "succeeded" but produced a vendor
-  bill with every line at zero quantity/amount &#8212; a useless ghost document. This hit the SPV
-  auto-import flow, where a purchase order can be created and attached to its XML before it is
-  ever confirmed.<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_invoice_data</code> now skips vendor bill creation (logging why) when the resolved
-order isn't confirmed yet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">state not in ("purchase", "done")</code>), instead of silently
-creating an empty bill.</li>
-<li>Added test <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_vendor_bill_skipped_when_order_not_confirmed</code>.</li>
-</ul>
-</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
