@@ -154,15 +154,20 @@ class TestFleetMapSheet(FleetCommon):
 
     def test_onchange_date_start_moves_draft_routes(self):
         sheet = self._sheet()
-        sheet.date_start_old = sheet.date_start
         draft = self._route_log(sheet, 10, 7)
         done = self._route_log(sheet, 10, 9, state="done")
-        form = Form(sheet)
-        form.date_start = sheet.date_start + timedelta(hours=1)
-        form.save()
-        self.assertEqual(draft.date_begin, self.day.replace(hour=8))
-        self.assertEqual(draft.date_end, self.day.replace(hour=9))
+        # each change of the start moves the draft routes by that change only
+        for hour in (7, 8, 9):
+            form = Form(sheet)
+            form.date_start = self.day.replace(hour=hour)
+            form.save()
+            self.assertEqual(draft.date_begin, self.day.replace(hour=hour + 1))
+        self.assertEqual(draft.date_end, self.day.replace(hour=11))
         self.assertEqual(done.date_begin, self.day.replace(hour=9))
+        form = Form(sheet)
+        form.date_end = self.day.replace(hour=20)
+        form.save()
+        self.assertEqual(draft.date_begin, self.day.replace(hour=10))
 
     def test_vehicle_change_reaches_lines_and_odometers(self):
         sheet = self._sheet()

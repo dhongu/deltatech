@@ -361,12 +361,12 @@ class FleetMapSheet(models.Model):
 
     @api.onchange("date_start", "date_end")
     def on_change_date_start(self):
-        if not self.date_start_old:
-            self.date_start_old = self.date_start
-
-        new_date_start_int = fields.Datetime.from_string(self.date_start)
-        old_date_start_int = fields.Datetime.from_string(self.date_start_old)
-        date_dif = new_date_start_int - old_date_start_int
+        old_date_start = self.date_start_old or self._origin.date_start or self.date_start
+        if not self.date_start or not old_date_start:
+            return
+        date_dif = self.date_start - old_date_start
+        # the next change is measured from this start, not from the first one
+        self.date_start_old = self.date_start
 
         # new_date_end_int = fields.Datetime.from_string(self.date_end)
         # date_end = fields.Datetime.to_string(new_date_end_int + date_dif)
