@@ -3,14 +3,12 @@
 
 
 import base64
-import html as _html
 import json
-
-# Helper to normalize descriptions coming from JSON (may contain HTML)
 import re
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.mail import plaintext2html
 
 # Legacy selection keys (from before implementation_stage became a record)
 # mapped to their human-readable stage names, so old exports still import.
@@ -21,14 +19,22 @@ _LEGACY_STAGE_LABELS = {
 }
 
 
+_HTML_TAG_RE = re.compile(r"<\s*/?\s*[a-zA-Z][^>]*>")
+
+
 def _normalize_description(value):
+    """Return the value for the Html description field.
+
+    The export writes the description as HTML, so markup is kept as it is (the Html
+    field sanitizes it on write). A plain-text description (e.g. from a hand-written
+    process.json) is converted to HTML so line breaks are not lost.
+    """
     if not value:
         return ""
-    if isinstance(value, str):
-        # Strip HTML tags and unescape entities
-        text = _html.unescape(re.sub(r"<[^>]*>", "", value))
-        return text.strip()
-    return str(value)
+    value = str(value).strip()
+    if _HTML_TAG_RE.search(value):
+        return value
+    return plaintext2html(value)
 
 
 class BusinessProcessImport(models.TransientModel):
