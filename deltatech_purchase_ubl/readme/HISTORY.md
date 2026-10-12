@@ -1,3 +1,12 @@
+## 19.0.1.4.11 (2026-10-12)
+
+- Fixed: the vendor was not found by its tax id when the invoice and the partner
+  wrote the Romanian CUI differently (with or without the RO prefix, with
+  spaces); only an exact name match was left. The tax ids are now compared
+  without spaces and without the RO prefix (other countries keep theirs), which
+  also removes the false "Supplier VAT ... differs" warning. For a supplier not
+  registered for VAT, the CUI is read from PartyLegalEntity/CompanyID.
+
 ## 19.0.1.4.10 (2026-10-12)
 
 - Fixed: a supplier credit note (a CreditNote document, or an Invoice with type
