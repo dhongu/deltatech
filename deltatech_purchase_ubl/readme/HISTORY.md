@@ -1,3 +1,13 @@
+## 19.0.1.4.10 (2026-10-12)
+
+- Fixed: a supplier credit note (a CreditNote document, or an Invoice with type
+  code 381) was imported as an invoice. A CreditNote created a vendor bill from
+  the order instead of a refund; an Invoice 381 wrote negative quantities on the
+  order lines and overwrote the vendor prices. Credit notes are now recognised
+  and not imported: the order is left as it is, the log shows a warning and the
+  automatic import schedules the "SPV import needs review" activity. Record the
+  vendor refund manually.
+
 ## 19.0.1.4.9 (2026-10-12)
 
 - Fixed: a supplier invoice imported on a purchase order with nothing left to
