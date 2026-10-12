@@ -8,3 +8,4 @@ from . import test_ubl_import_lines
 from . import test_ubl_import_parse
 from . import test_ubl_import_resolve
 from . import test_ubl_import_flow
+from . import test_ubl_import_credit_note
