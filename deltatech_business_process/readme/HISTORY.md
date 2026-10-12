@@ -1,3 +1,7 @@
+## 19.0.1.9.12 (2026-10-12)
+
+- JSON export/import: the process *Description* lost its formatting (lists, bold, paragraphs) on import, because the import stripped every HTML tag. The HTML written by the export is now kept (the Html field still sanitizes it), and a plain-text description (e.g. from a hand-written `process.json`) is converted to HTML so its line breaks are preserved.
+
 ## 19.0.1.9.11 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.

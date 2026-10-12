@@ -373,8 +373,34 @@ class TestBusinessProcessImportExport(TransactionCase):
     def test_normalize_description(self):
         self.assertEqual(_normalize_description(False), "")
         self.assertEqual(_normalize_description(""), "")
-        self.assertEqual(_normalize_description("<p>Hello &amp; bye</p>"), "Hello & bye")
-        self.assertEqual(_normalize_description(42), "42")
+        # HTML (as written by the export) keeps its formatting
+        html = "<p>Hello &amp; <b>bye</b></p><ul><li>one</li></ul>"
+        self.assertEqual(_normalize_description(html), html)
+        # plain text is converted so line breaks are kept
+        self.assertEqual(_normalize_description("a < b"), "<p>a &lt; b</p>")
+        self.assertIn("<br/>", _normalize_description("line 1\nline 2"))
+        self.assertIn("42", _normalize_description(42))
+
+    def test_description_html_roundtrip(self):
+        self.process.description = "<p>Intro <b>bold</b></p><ul><li>one</li><li>two</li></ul>"
+        export_wiz = (
+            self.env["business.process.export"]
+            .with_context(active_ids=self.process.ids, active_model="business.process")
+            .create({})
+        )
+        export_wiz.do_export()
+        new_project = self.env["business.project"].create({"name": "Imported Project", "customer_id": self.partner.id})
+        import_wiz = (
+            self.env["business.process.import"]
+            .with_context(active_ids=new_project.ids, active_model="business.project")
+            .create({"name": "bp.json", "data_file": export_wiz.data_file})
+        )
+        import_wiz.do_import()
+        proc = self.env["business.process"].search(
+            [("project_id", "=", new_project.id), ("code", "=", self.process.code)], limit=1
+        )
+        self.assertIn("<b>bold</b>", proc.description)
+        self.assertIn("<li>two</li>", proc.description)
 
 
 class TestLibraryImportLine(TransactionCase):
