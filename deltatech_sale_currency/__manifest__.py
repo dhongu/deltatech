@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale Currency",
+    "name": "Sale Currency",
     "version": "20.0.0.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

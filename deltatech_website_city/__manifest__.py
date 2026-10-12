@@ -4,7 +4,7 @@
 {
     "name": "Website City",
     "category": "Website/Website",
-    "summary": "City extension",
+    "summary": "Choose the city from a list in eCommerce and portal addresses",
     "version": "20.0.1.2.5",
     "author": "Terrabit, Dorin Hongu",
     "support": "odoo@terrabit.ro",

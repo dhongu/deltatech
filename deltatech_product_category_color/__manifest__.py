@@ -5,7 +5,7 @@
 
 {
     "name": "Products Category Color",
-    "summary": "Products Category Color",
+    "summary": "Assign a color to product categories for quicker visual identification",
     "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

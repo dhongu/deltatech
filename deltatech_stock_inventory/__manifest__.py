@@ -4,7 +4,7 @@
 
 {
     "name": "Stock Inventory",
-    "summary": "Inventory Old Method",
+    "summary": "Restore the classic inventory adjustment document with valuation control",
     "version": "20.0.2.10.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

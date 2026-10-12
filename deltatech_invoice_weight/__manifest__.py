@@ -3,7 +3,7 @@
 
 {
     "name": "Invoice Weight",
-    "summary": "Invoice Weight",
+    "summary": "Net and gross weight totals on invoices, sale and purchase orders",
     "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

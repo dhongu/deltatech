@@ -4,7 +4,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Stock Removal Location by Priority",
-    "summary": "Stock Removal Location by Priority",
+    "summary": "Pick stock from locations in a configurable priority order",
     "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

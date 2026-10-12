@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Products Extension",
+    "name": "Products Extension",
     "summary": "New fields in product: Manufacturer  Dimensions, Shelf Life and Unit of Measure for Shelf Life",
     "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",

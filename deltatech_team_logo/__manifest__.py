@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Team Logo",
+    "name": "Team Logo",
     "summary": "A different logo on PDF reports for each sales team",
     "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
