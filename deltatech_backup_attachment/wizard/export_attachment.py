@@ -1,13 +1,13 @@
 # ©  2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 import zipfile
 from io import BytesIO
 from os import path
 
 from odoo import fields, models
-from odoo.tools import safe_eval
+from odoo.tools import BinaryBytes
+from odoo.tools.safe_eval import safe_eval
 
 
 class ExportAttachment(models.TransientModel):
@@ -38,7 +38,8 @@ class ExportAttachment(models.TransientModel):
         # Here you finish editing your zip. Now all the information is
         # in your buff StringIO object
         zip_archive.close()
-        out = base64.encodebytes(buff.getvalue())
+        # Odoo 20: Binary fields take raw bytes wrapped in a BinaryValue, not base64
+        out = BinaryBytes(buff.getvalue())
         buff.close()
 
         filename = "ExportOdooAttachment"

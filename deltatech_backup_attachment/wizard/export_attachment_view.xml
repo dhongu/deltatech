@@ -10,7 +10,7 @@
                     <field name="name" invisible="1" />
                     <group invisible="state!='choose'" string="Export">
                         <group>
-                            <field name="domain" widget="domain" />
+                            <field name="domain" widget="domain" options="{'model': 'ir.attachment'}" />
                         </group>
                     </group>
                     <div invisible="state!='get'">
