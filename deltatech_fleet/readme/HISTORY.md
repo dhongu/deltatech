@@ -10,6 +10,8 @@
 - The reservoir level includes the fuel logs and route logs not yet saved
   in the same transaction (for example when a map sheet is saved with new
   routes); it used to show the level without their consumption.
+- Changing the vehicle of a map sheet moves its fuel logs, route logs and
+  odometer readings to the new vehicle; they used to keep the old one.
 - A route log without a begin date no longer crashes on the week day.
 - Map sheet default dates work for users without a time zone (UTC is used).
 - Removed unused odometer methods on fuel logs and a no-op domain in the

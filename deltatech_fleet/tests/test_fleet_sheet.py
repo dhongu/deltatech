@@ -164,6 +164,20 @@ class TestFleetMapSheet(FleetCommon):
         self.assertEqual(draft.date_end, self.day.replace(hour=9))
         self.assertEqual(done.date_begin, self.day.replace(hour=9))
 
+    def test_vehicle_change_reaches_lines_and_odometers(self):
+        sheet = self._sheet()
+        route_log = self._route_log(sheet, 100, 7)
+        fuel = self._fuel_log(40, self.day.replace(hour=8))
+        sheet.action_get_log_fuel()
+        sheet.odometer_start = 1000
+        sheet.odometer_end = 1100
+        sheet.vehicle_id = self.vehicle2
+        self.assertEqual(route_log.vehicle_id, self.vehicle2)
+        self.assertEqual(fuel.vehicle_id, self.vehicle2)
+        self.assertEqual((sheet.odometer_start_id | sheet.odometer_end_id).vehicle_id, self.vehicle2)
+        # 100 km at 20 l/100 km
+        self.assertEqual(sheet.norm_cons, 20)
+
     def test_onchange_route_logs_extend_date_end(self):
         form = Form(self.env["fleet.map.sheet"])
         form.vehicle_id = self.vehicle

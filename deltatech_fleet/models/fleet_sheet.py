@@ -397,15 +397,16 @@ class FleetMapSheet(models.Model):
         self.date_end = new_date_end
 
     def write(self, vals):
-        for map_sheet in self:
-            map_sheet.log_fuel_ids.write({"vehicle_id": map_sheet.vehicle_id.id})
-            map_sheet.route_log_ids.write({"vehicle_id": map_sheet.vehicle_id.id})
-            if map_sheet.odometer_start_id:
-                map_sheet.odometer_start_id.write({"vehicle_id": map_sheet.vehicle_id.id})
-            if map_sheet.odometer_end_id:
-                map_sheet.odometer_end_id.write({"vehicle_id": map_sheet.vehicle_id.id})
-
         res = super().write(vals)
+        # after super, so that a changed vehicle reaches the lines and the odometer readings
+        for map_sheet in self:
+            vehicle = map_sheet.vehicle_id
+            for records in (
+                map_sheet.log_fuel_ids,
+                map_sheet.route_log_ids,
+                map_sheet.odometer_start_id | map_sheet.odometer_end_id,
+            ):
+                records.filtered(lambda r, v=vehicle: r.vehicle_id != v).write({"vehicle_id": vehicle.id})
         return res
 
     # def unlink(self):
