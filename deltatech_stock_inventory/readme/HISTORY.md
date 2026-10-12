@@ -1,3 +1,8 @@
+## 20.0.2.10.6 (2026-10-12)
+
+- Opening the form of a new product no longer logs *Domains don't support NewId*: the rack / row / shelf / case
+  are searched only for saved products (the warning failed the CI of the modules tested together with this one).
+
 ## 20.0.2.10.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
