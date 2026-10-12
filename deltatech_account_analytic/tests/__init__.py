@@ -4,3 +4,4 @@
 
 from . import test_account_analytic_team
 from . import test_split
+from . import test_search_view
