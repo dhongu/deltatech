@@ -316,6 +316,12 @@ msgstr ""
 #. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Warning: receipt %s could not be validated; check it manually."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid ""
 "Receipt validation skipped: no purchase order was resolved from the context "
 "or source document."
