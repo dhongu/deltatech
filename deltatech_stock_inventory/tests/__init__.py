@@ -16,3 +16,6 @@ from . import test_screenshots
 from . import test_audit_fixes
 from . import test_inventory_conflict
 from . import test_company_rules
+from . import test_coverage_wizards
+from . import test_coverage_inventory_product
+from . import test_quant_clear

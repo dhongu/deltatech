@@ -9,7 +9,7 @@
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Warehouse</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
-    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 69 automated tests &middot; 81% code coverage</span>
+    <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">&#10003; 97 automated tests &middot; 81% code coverage</span>
   </div>
 </div>
 
@@ -113,6 +113,19 @@ cost only for a product that has no valued stock yet.</li>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.10.6 (2026-10-12)</h2>
+<ul>
+<li>The <em>Clear</em> button on a counted quant now detaches it from its inventory document and line again.
+  The override still used the pre-19.0 method name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">action_set_inventory_quantity_to_zero</code>, which no
+  longer exists, so it never ran: after <em>Clear</em>, a new count was applied into the old document.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.10.5 (2026-10-12)</h2>
+<ul>
+<li>Tests: new coverage tests for the return, adjustment reason and merge wizards, quant/inventory
+  links and quantity rights, inventory states and line generation without locations, line onchanges
+  and search helpers, detailed warehouse stock and product warehouse location (93 tests, coverage
+  82.7% &#8594; 94.9%). No functional change.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.10.4 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -192,24 +205,6 @@ cost only for a product that has no valued stock yet.</li>
 <li>Applying an inventory adjustment through the standard <em>Apply</em> flow no longer crashes: the counting
   date sent by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.inventory.adjustment.name</code> is accepted and now also dates the generated
   inventory document, not only its moves.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.7.4 (2026-08-22)</h2>
-<ul>
-<li>The <strong>delete guard</strong> on inventory adjustments is active again: only adjustments
-  in <em>Draft</em> or <em>Cancelled</em> state can be deleted. An adjustment that is <em>In
-  Progress</em> or <em>Validated</em> has already generated stock moves, and deleting it
-  left those moves behind without their source document. The guard existed in
-  18.0 but had been commented out during the 19.0 port, so any adjustment could
-  be deleted regardless of its state &#8212; silently, with no warning.</li>
-<li>The two documented exceptions are preserved: module uninstall
-  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_force_unlink</code>) and the explicit merge of adjustments, which deletes the
-  merged (validated) documents with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">merge_inventory=True</code> in the context after
-  moving their lines and stock moves to the resulting adjustment.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.7.3 (2026-08-15)</h2>
-<ul>
-<li>Imp: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.inventory.line.partner_id</code> is now indexed &#8212; a foreign key to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res_partner</code> on a table that grows with every stock count.
-  Context: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res_partner</code> is referenced by ~158 foreign-key columns; on a production database 77 of them had no index, so a single partner deletion triggered sequential scans over 3.180 MB of tables. Deleting 5.350 merged partner records took over 8 minutes without indexes and 190 seconds with them, foreign keys left ENABLED.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>

@@ -26,14 +26,13 @@ class FleetMapSheet(models.Model):
                     [
                         ("vehicle_id", "=", record.vehicle_id.id),
                         ("date", "<=", record.date_start),
+                        ("id", "!=", record.odometer_end_id.id),
                     ],
                     limit=1,
-                    order="date desc",
+                    order="date desc, value desc",
                 )
                 if odometer:
                     record.odometer_start = odometer.value
-                    if not record.odometer_end_id:
-                        record.odometer_end = record.odometer_start + record.distance_total
                 else:
                     if record.odometer_end_id:
                         record.odometer_start = record.odometer_end_id.value - record.distance_total
@@ -50,9 +49,10 @@ class FleetMapSheet(models.Model):
                     [
                         ("vehicle_id", "=", record.vehicle_id.id),
                         ("date", ">=", record.date_end),
+                        ("id", "!=", record.odometer_start_id.id),
                     ],
                     limit=1,
-                    order="date",
+                    order="date, value",
                 )
                 if odometer:
                     record.odometer_end = odometer.value
@@ -361,12 +361,12 @@ class FleetMapSheet(models.Model):
 
     @api.onchange("date_start", "date_end")
     def on_change_date_start(self):
-        if not self.date_start_old:
-            self.date_start_old = self.date_start
-
-        new_date_start_int = fields.Datetime.from_string(self.date_start)
-        old_date_start_int = fields.Datetime.from_string(self.date_start_old)
-        date_dif = new_date_start_int - old_date_start_int
+        old_date_start = self.date_start_old or self._origin.date_start or self.date_start
+        if not self.date_start or not old_date_start:
+            return
+        date_dif = self.date_start - old_date_start
+        # the next change is measured from this start, not from the first one
+        self.date_start_old = self.date_start
 
         # new_date_end_int = fields.Datetime.from_string(self.date_end)
         # date_end = fields.Datetime.to_string(new_date_end_int + date_dif)
@@ -397,15 +397,16 @@ class FleetMapSheet(models.Model):
         self.date_end = new_date_end
 
     def write(self, vals):
-        for map_sheet in self:
-            map_sheet.log_fuel_ids.write({"vehicle_id": map_sheet.vehicle_id.id})
-            map_sheet.route_log_ids.write({"vehicle_id": map_sheet.vehicle_id.id})
-            if map_sheet.odometer_start_id:
-                map_sheet.odometer_start_id.write({"vehicle_id": map_sheet.vehicle_id.id})
-            if map_sheet.odometer_end_id:
-                map_sheet.odometer_end_id.write({"vehicle_id": map_sheet.vehicle_id.id})
-
         res = super().write(vals)
+        # after super, so that a changed vehicle reaches the lines and the odometer readings
+        for map_sheet in self:
+            vehicle = map_sheet.vehicle_id
+            for records in (
+                map_sheet.log_fuel_ids,
+                map_sheet.route_log_ids,
+                map_sheet.odometer_start_id | map_sheet.odometer_end_id,
+            ):
+                records.filtered(lambda r, v=vehicle: r.vehicle_id != v).write({"vehicle_id": vehicle.id})
         return res
 
     # def unlink(self):
@@ -536,13 +537,12 @@ class FleetRouteLog(models.Model):
                                       When the Route Log is closed, the status is set to 'Done'.",
     )
 
-    @api.depends("dist_c1", "dist_c2", "dist_c3")
+    @api.depends("dist_c1", "dist_c2", "dist_c3", "distance", "vehicle_id")
     def _compute_dist_echiv(self):
         # daca modifc consumul la la o masina nu trebuie sa modific toate foile din urma, 'vehicle_id.avg_cons')
         for item in self:
             item.dist_echiv = item.dist_c1 + 1.1 * item.dist_c2 + 1.4 * item.dist_c3
-            if item.vehicle_id:
-                item.norm_cons = item.distance * item.vehicle_id.avg_cons / 100
+            item.norm_cons = item.distance * item.vehicle_id.avg_cons / 100 if item.vehicle_id else 0.0
 
     @api.depends("route_id.name")
     def _compute_route_name(self):
@@ -555,8 +555,7 @@ class FleetRouteLog(models.Model):
     @api.depends("date_begin")
     def _compute_week_day(self):
         for item in self:
-            date_int = fields.Datetime.from_string(item.date_begin)
-            item.week_day = date_int.strftime("%w")
+            item.week_day = int(item.date_begin.strftime("%w")) if item.date_begin else 0
 
     @api.constrains("date_begin", "date_end")
     def _check_dates(self):
@@ -586,15 +585,6 @@ class FleetRouteLog(models.Model):
 
     @api.onchange("route_id", "date_begin")
     def on_change_route(self):
-        domain = []
-        if self.map_sheet_id:
-            prev_route_log = None
-            for route_log in self.map_sheet_id.route_log_ids:
-                if route_log.date_end <= self.date_begin:
-                    prev_route_log = route_log
-            if prev_route_log:
-                domain = domain.append(("from_loc_id", "=", prev_route_log.route_id.to_loc_id.id))
-
         if self.route_id and self.date_begin:
             date_int = fields.Datetime.from_string(self.date_begin)
             week_day = int(date_int.strftime("%w"))

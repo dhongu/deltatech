@@ -78,7 +78,7 @@ class FleetVehicle(models.Model):
 
     @api.model
     def _conv_local_datetime_to_utc(self, date):
-        tz_name = self.env.context["tz"]
+        tz_name = self.env.context.get("tz") or self.env.user.tz or "UTC"
         local = pytz.timezone(tz_name)
         if isinstance(date, str):
             naive = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")

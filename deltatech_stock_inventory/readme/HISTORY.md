@@ -1,3 +1,23 @@
+## 19.0.2.10.7 (2026-10-12)
+
+- Removed dead code: the `stock.picking` override of `action_view_stock_valuation_layers` (the
+  parent method no longer exists in 19.0, stock valuation layers were removed) and the unused
+  `stock.request.count` extension (`wizard/stock_request_count.py`, never imported). No functional
+  change.
+
+## 19.0.2.10.6 (2026-10-12)
+
+- The *Clear* button on a counted quant now detaches it from its inventory document and line again.
+  The override still used the pre-19.0 method name `action_set_inventory_quantity_to_zero`, which no
+  longer exists, so it never ran: after *Clear*, a new count was applied into the old document.
+
+## 19.0.2.10.5 (2026-10-12)
+
+- Tests: new coverage tests for the return, adjustment reason and merge wizards, quant/inventory
+  links and quantity rights, inventory states and line generation without locations, line onchanges
+  and search helpers, detailed warehouse stock and product warehouse location (93 tests, coverage
+  82.7% → 94.9%). No functional change.
+
 ## 19.0.2.10.4 (2026-10-09)
 
 - Apps Store banner (banner.json).

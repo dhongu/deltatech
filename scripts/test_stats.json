@@ -158,7 +158,7 @@
     "deltatech_expected_receipt": {
       "coverage": 33.9,
       "lines": 637,
-      "tests": 20
+      "tests": 61
     },
     "deltatech_expenses": {
       "coverage": 87.8,
@@ -561,7 +561,7 @@
     "deltatech_purchase_ubl": {
       "coverage": 78.3,
       "lines": 752,
-      "tests": 48
+      "tests": 81
     },
     "deltatech_purchase_xls": {
       "coverage": 97.0,
@@ -826,7 +826,7 @@
     "deltatech_stock_inventory": {
       "coverage": 81.9,
       "lines": 1035,
-      "tests": 69
+      "tests": 97
     },
     "deltatech_stock_inventory_product_display": {
       "coverage": 92.3,
