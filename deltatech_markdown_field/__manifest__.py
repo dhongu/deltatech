@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Deltatech Markdown Field",
+    "name": "Markdown Field",
     "summary": "WYSIWYG markdown widget storing raw Markdown in a Text field",
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
