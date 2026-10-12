@@ -1,3 +1,12 @@
+## 19.0.1.0.3 (2026-10-12)
+
+- Tests: the test suite now runs on the generic chart of accounts, so it also runs
+  where the Romanian localization is not installed; the Romanian down payment
+  entry (419 / 4427) is checked in a separate test class. New tests for the card
+  payment dialog (defaults, warnings, refusals), the settlement search and its
+  refusals, the register (cancellation, synchronization with accounting, late
+  receipts) and the card terminals. No change in behaviour.
+
 ## 19.0.1.0.2 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
