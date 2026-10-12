@@ -37,26 +37,29 @@ class PurchaseOrder(models.Model):
         if not orders:
             raise UserError(self.env._("Unable to confirm"))
 
+        # Confirmarea standard sare peste comenzile care nu sunt in draft/sent; doar notele care se
+        # confirma acum consuma din RFQ-uri, altfel o reconfirmare ar scadea a doua oara.
+        notes_to_reduce = orders.filtered(lambda o: o.reception_type == "note" and o.state in ("draft", "sent"))
+
         res = super(PurchaseOrder, orders).button_confirm()
 
-        for order in self:
-            if order.reception_type == "note":
-                if order.ignore_quantities:
-                    lines = order.with_company(order.company_id).reduce_from_rfq()
-                    if lines:
-                        message = self.env._("Quantities forced on this reception note:<br />")
-                        for line in lines:
-                            message += self.env._(
-                                "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
-                            ).format(
-                                product_code=line["product_id"].default_code,
-                                product_name=line["product_id"].name,
-                                quantity=line["product_qty"],
-                                uom=line["uom"].name,
-                            )
-                        order.message_post(body=message)
-                else:
-                    order.with_company(order.company_id).reduce_from_rfq()
+        for order in notes_to_reduce:
+            if order.ignore_quantities:
+                lines = order.with_company(order.company_id).reduce_from_rfq()
+                if lines:
+                    message = self.env._("Quantities forced on this reception note:<br />")
+                    for line in lines:
+                        message += self.env._(
+                            "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+                        ).format(
+                            product_code=line["product_id"].default_code,
+                            product_name=line["product_id"].name,
+                            quantity=line["product_qty"],
+                            uom=line["uom"].name,
+                        )
+                    order.message_post(body=message)
+            else:
+                order.with_company(order.company_id).reduce_from_rfq()
         return res
 
     def reduce_from_rfq(self):
@@ -74,7 +77,11 @@ class PurchaseOrder(models.Model):
         quantity_errors = []
         lines_to_add = []
         for line in self.order_line:
-            quantity = line.product_qty
+            # Nota si RFQ-urile pot fi in unitati diferite (nota in bucati, RFQ in baxuri): consumul
+            # se calculeaza in unitatea produsului si se scrie inapoi in unitatea fiecarei linii RFQ.
+            product_uom = line.product_id.uom_id
+            line_qty = line.product_uom_id._compute_quantity(line.product_qty, product_uom, round=False)
+            quantity = line_qty
             domain = [
                 ("order_id", "in", rfq_orders.ids),
                 ("product_id", "=", line.product_id.id),
@@ -95,11 +102,16 @@ class PurchaseOrder(models.Model):
             if not found_errors:
                 # check for quantities without writing the rfq lines
                 for rfq_line in rfq_lines:
-                    if quantity < rfq_line.product_qty:
+                    rfq_qty = rfq_line.product_uom_id._compute_quantity(rfq_line.product_qty, product_uom, round=False)
+                    if product_uom.compare(quantity, rfq_qty) < 0:
                         quantity = 0
                     else:
-                        quantity -= rfq_line.product_qty
-                if quantity != 0:
+                        quantity -= rfq_qty
+                if not product_uom.is_zero(quantity):
+                    # the missing quantity is reported in the unit of the reception note line
+                    missing_qty = product_uom._compute_quantity(
+                        quantity, line.product_uom_id, rounding_method="HALF-UP"
+                    )
                     if not self.ignore_quantities:
                         quantity_errors.append(
                             self.env._(
@@ -107,7 +119,7 @@ class PurchaseOrder(models.Model):
                                 "in a sent RFQ. Tick 'Ignore quantities' to receive it anyway."
                             )
                             % {
-                                "quantity": quantity,
+                                "quantity": missing_qty,
                                 "default_code": line.product_id.default_code,
                                 "name": line.product_id.name,
                             }
@@ -116,19 +128,24 @@ class PurchaseOrder(models.Model):
                     else:
                         vals = {
                             "product_id": line.product_id,
-                            "product_qty": quantity,
+                            "product_qty": missing_qty,
                             "uom": line.product_uom_id,
                         }
                         lines_to_add.append(vals)
                 if not quantity_errors:
-                    quantity = line.product_qty
+                    quantity = line_qty
                     for rfq_line in rfq_lines:
-                        if quantity < rfq_line.product_qty:
-                            product_qty = rfq_line.product_qty - quantity
+                        rfq_qty = rfq_line.product_uom_id._compute_quantity(
+                            rfq_line.product_qty, product_uom, round=False
+                        )
+                        if product_uom.compare(quantity, rfq_qty) < 0:
+                            product_qty = product_uom._compute_quantity(
+                                rfq_qty - quantity, rfq_line.product_uom_id, round=False
+                            )
                             rfq_line.write({"product_qty": product_qty})
                             quantity = 0
                         else:
-                            quantity -= rfq_line.product_qty
+                            quantity -= rfq_qty
                             rfq_line.write({"product_qty": 0})
                 rfq_lines.order_id.check_if_empty()
         errors = found_errors + quantity_errors

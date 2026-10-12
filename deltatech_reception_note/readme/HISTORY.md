@@ -1,3 +1,17 @@
+## 19.0.0.1.6 (2026-10-11)
+
+- Fixed: confirming again a reception note that was already confirmed (through RPC, an import or
+  a double click) consumed the sent RFQs a second time. Only the notes that are confirmed now, from
+  Draft or Sent, consume the RFQs (RECEPTION-003).
+
+## 19.0.0.1.5 (2026-10-11)
+
+- Fixed: a reception note consumed the sent RFQs without unit conversion, so a note of 1 dozen
+  took 1 unit from an RFQ of 12 units, and 6 units emptied an RFQ of 2 packs of 12. The quantities
+  are now compared in the product unit, and what is left on the RFQ is written back in the unit of
+  the RFQ line. The missing or forced quantity in the messages is shown in the unit of the
+  reception note line (RECEPTION-001).
+
 ## 19.0.0.1.4 (2026-10-03)
 
 - Fixed: confirming a reception note consumed sent RFQs of every allowed company, so a receipt in
