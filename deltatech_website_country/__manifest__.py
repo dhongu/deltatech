@@ -4,7 +4,7 @@
 {
     "name": "eCommerce Country",
     "category": "Website",
-    "summary": "eCommerce extension",
+    "summary": "Preselect the website company's country in the checkout address form",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",

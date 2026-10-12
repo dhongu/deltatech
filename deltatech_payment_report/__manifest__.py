@@ -7,7 +7,7 @@
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Payment Report",
+    "summary": "Payment analysis report by journal and period, with a filter wizard",
     "category": "Generic Modules",
     "depends": ["account"],
     "license": "OPL-1",

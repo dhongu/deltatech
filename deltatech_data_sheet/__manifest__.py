@@ -3,7 +3,7 @@
 
 {
     "name": "Product Data Sheet",
-    "summary": "Data Sheet",
+    "summary": "Attach technical and safety data sheets (PDF) to products",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

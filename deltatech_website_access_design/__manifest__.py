@@ -1,6 +1,6 @@
 {
     "name": "Website web designer access",
-    "summary": "Access for web designer",
+    "summary": "Website designer access without full administrator rights",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

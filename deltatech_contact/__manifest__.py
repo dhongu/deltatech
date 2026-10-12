@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Contacts",
-    "summary": "New fields in partner",
+    "summary": "Personal data on contacts: CNP with validation, ID card, birthdate, gender",
     "version": "19.0.1.4.12",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -1,6 +1,6 @@
 {
     "name": "Product MPN",
-    "summary": "Add MPN to product",
+    "summary": "Manufacturer Part Number (MPN) on products, searchable",
     "version": "19.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",

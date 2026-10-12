@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Deltatech Account",
-    "summary": "Deltatech Account",
+    "summary": "Extra invoice views, journal options and an Anglo-Saxon cost recognition setting",
     "version": "19.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

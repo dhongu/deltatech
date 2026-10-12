@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "summary": "Purchase Order Stage",
+    "summary": "Configurable stages on purchase orders, with automatic transitions",
     "category": "Purchase",
     "depends": ["purchase_stock", "deltatech_widget_many2one_badge"],
     "data": [

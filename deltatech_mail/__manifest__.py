@@ -3,7 +3,7 @@
 
 {
     "name": "Mail Substitution",
-    "summary": "Mail Substitution",
+    "summary": "Filter outgoing emails and redirect them to another address per model",
     "version": "19.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

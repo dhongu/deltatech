@@ -4,7 +4,7 @@
 
 {
     "name": "Purchase Stock",
-    "summary": "Purchase Stock",
+    "summary": "Keep manual purchase orders separate from replenishment purchase orders",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

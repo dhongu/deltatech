@@ -4,7 +4,7 @@
 
 {
     "name": "Warehouse Access",
-    "summary": "Warehouse Access",
+    "summary": "Restrict warehouse operations to authorized users per warehouse",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

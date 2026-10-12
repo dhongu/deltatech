@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Picking Split",
-    "summary": "Picking Manual Backorder",
+    "summary": "Split a transfer into a backorder manually, line by line",
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

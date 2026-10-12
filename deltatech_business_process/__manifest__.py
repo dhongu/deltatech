@@ -4,7 +4,7 @@
 
 {
     "name": "Business process",
-    "summary": "Business process",
+    "summary": "Plan implementation projects: business processes, steps, tests and issues",
     "version": "19.0.1.9.11",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

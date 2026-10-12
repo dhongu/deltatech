@@ -9,7 +9,7 @@
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "summary": "Sale Cost on Order",
+    "summary": "Purchase cost and margin on sale order lines",
     "category": "Sales",
     "depends": ["sale", "product"],
     "data": ["security/security.xml", "views/sale_view.xml", "data/server_action.xml"],

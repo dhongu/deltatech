@@ -3,7 +3,7 @@
 <div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;"><img src="icon.png" alt="Deltatech reception_note" style="width:72px;height:72px;border:none;"/></span></div>
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech reception_note</h1>
-  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Batch reception note</p>
+  <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Create reception notes for several receipts at once</p>
   <div>
     <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Stock</span>
@@ -72,6 +72,20 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.6 (2026-10-11)</h2>
+<ul>
+<li>Fixed: confirming again a reception note that was already confirmed (through RPC, an import or
+  a double click) consumed the sent RFQs a second time. Only the notes that are confirmed now, from
+  Draft or Sent, consume the RFQs (RECEPTION-003).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.5 (2026-10-11)</h2>
+<ul>
+<li>Fixed: a reception note consumed the sent RFQs without unit conversion, so a note of 1 dozen
+  took 1 unit from an RFQ of 12 units, and 6 units emptied an RFQ of 2 packs of 12. The quantities
+  are now compared in the product unit, and what is left on the RFQ is written back in the unit of
+  the RFQ line. The missing or forced quantity in the messages is shown in the unit of the
+  reception note line (RECEPTION-001).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.4 (2026-10-03)</h2>
 <ul>
 <li>Fixed: confirming a reception note consumed sent RFQs of every allowed company, so a receipt in
@@ -154,7 +168,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Auto create reorder rule</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Automatically create reordering rules for new storable products</p>
         </div>
       </a>
     </div>
@@ -214,7 +228,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print Labels on Products</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print product and lot labels from products, sale orders and transfers</p>
         </div>
       </a>
     </div>
@@ -234,7 +248,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Raport PRN</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print .prn files (Zebra label printer syntax) from Odoo reports</p>
         </div>
       </a>
     </div>
@@ -294,7 +308,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic module</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>

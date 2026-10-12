@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "summary": "Sale Order Stage",
+    "summary": "Custom fulfilment stages on sale orders: prepared, shipped, delivered",
     "category": "Sales",
     "depends": ["sale_stock", "deltatech_widget_many2one_badge"],
     "data": [

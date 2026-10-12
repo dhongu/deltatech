@@ -48,6 +48,14 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.4 (2026-10-12)</h2>
+<ul>
+<li>Fixed: the purchase order generated from a vendor bill ignored the discount
+  of the bill line, so a line of 5 x 100 with 10% discount appeared on the
+  order at 500 instead of 450. The stock cost was already right (90), corrected
+  from the bill; only the order amount was wrong. The discount is now copied to
+  the purchase order line.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.3 (2026-10-08)</h2>
 <ul>
 <li>Fixed RECEIPT-002: recomputing the return moves of a negative purchase line
@@ -126,7 +134,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Block posting vendor bills until every line is 100% analytically distributed</p>
         </div>
       </a>
     </div>
@@ -146,7 +154,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Update cash balance</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Align cash statement balances with accounting and book cash differences as entries</p>
         </div>
       </a>
     </div>
@@ -186,7 +194,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Renumbering invoice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Enforce chronological invoice dates and let authorized users change invoice numbers</p>
         </div>
       </a>
     </div>
@@ -226,7 +234,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Invoice Report</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Yearly bought/sold quantities on the product, plus region and supplier in invoice analysis</p>
         </div>
       </a>
     </div>
@@ -266,7 +274,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Invoice Weight</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Net and gross weight totals on invoices, sale and purchase orders</p>
         </div>
       </a>
     </div>

@@ -81,6 +81,10 @@ without the toolbar.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-10-12)</h2>
+<ul>
+<li>Fix: on servers with Python &lt; 3.11 (rjsmin 1.1.0) the minified asset bundle broke on a regular expression of the vendored marked library (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Invalid regular expression: /^*-+:*$/</code>), stopping the backend in non-debug mode and the JS unit tests. The expression is now wrapped in parentheses, so it survives minification.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-11)</h2>
 <ul>
 <li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
@@ -153,7 +157,7 @@ without the toolbar.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic module</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>
@@ -173,7 +177,7 @@ without the toolbar.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Disable quick_create</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Disable quick create in many2one fields to prevent empty products and contacts</p>
         </div>
       </a>
     </div>
@@ -193,7 +197,7 @@ without the toolbar.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Notification Sound</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Play a different sound for success, warning, error and info notifications</p>
         </div>
       </a>
     </div>
@@ -273,7 +277,7 @@ without the toolbar.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
         </div>
       </a>
     </div>

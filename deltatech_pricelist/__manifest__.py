@@ -5,7 +5,7 @@
 
 {
     "name": "Price List Currency Extension",
-    "summary": "Price list currency",
+    "summary": "Set the product list price in a currency other than the company's",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
