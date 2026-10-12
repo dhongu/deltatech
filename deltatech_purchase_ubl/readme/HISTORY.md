@@ -1,3 +1,11 @@
+## 19.0.1.4.8 (2026-10-12)
+
+- Fixed: a receipt validated without a purchase order context (or still waiting
+  for another operation) stayed undone when the invoice covered only part of it,
+  while the log said "Receipt updated". The received quantities are now validated
+  and the rest goes to a backorder. When the receipt still cannot be validated,
+  the log shows a warning instead.
+
 ## 19.0.1.4.7 (2026-10-12)
 
 - Tests: 33 new tests for the automatic import on attachment, XML parsing and

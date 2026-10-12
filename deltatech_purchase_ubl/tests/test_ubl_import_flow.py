@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from base64 import b64encode
+from unittest.mock import patch
 
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
@@ -131,9 +132,34 @@ class TestUblImportFlow(TransactionCase):
         order = self._order([(self.product_a, 5.0), (self.product_b, 1.0)])
         picking = order.picking_ids
         self.assertTrue(self.Wizard._validate_receipt_quantities(picking, {self.product_a.id: 2.0}))
-        move_a = picking.move_ids.filtered(lambda move: move.product_id == self.product_a)
-        self.assertEqual(move_a.quantity, 2.0)
-        self.assertTrue(move_a.picked)
+        self.assertEqual(picking.state, "done")
+        self.assertEqual(picking.move_ids.filtered(lambda move: move.product_id == self.product_a).quantity, 2.0)
+        backorder = order.picking_ids - picking
+        self.assertEqual(backorder.state, "assigned", "The rest of the receipt goes to a backorder")
+        self.assertEqual(
+            {(move.product_id, move.product_uom_qty) for move in backorder.move_ids},
+            {(self.product_a, 3.0), (self.product_b, 1.0)},
+        )
+
+    def test_validate_receipt_fallback_blocked_by_another_wizard(self):
+        """A pre-validation wizard returned by button_validate leaves the receipt undone."""
+        order = self._order([(self.product_a, 5.0)])
+        picking = order.picking_ids
+        picking_cls = type(picking)
+        with patch.object(picking_cls, "button_validate", return_value={"type": "ir.actions.act_window"}):
+            self.assertFalse(self.Wizard._validate_receipt_quantities(picking, {self.product_a.id: 5.0}))
+        self.assertNotEqual(picking.state, "done")
+
+    def test_receipt_not_validated_is_reported(self):
+        order = self._order([(self.product_a, 5.0)])
+        wizard_cls = type(self.Wizard)
+        with patch.object(wizard_cls, "_validate_receipt_quantities", return_value=False):
+            wizard = self._import(
+                order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "5"}], validate_receipt=True
+            )
+        self.assertIn("could not be validated", wizard.log)
+        self.assertNotIn("Receipt updated", wizard.log)
+        self.assertIn("text-warning", wizard.log_html)
 
     # ------------------------------------------------------------------
     # Vendor bill
