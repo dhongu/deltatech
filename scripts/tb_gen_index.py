@@ -26,7 +26,8 @@ Reguli sanitizer Apps Store (moștenite din tb_skin_index v5, validate pe store 
     (Confirmat pe module live, ex. bom_excel_import / NextERP.)
 
 Structura paginii (doar EN):
-  HERO verde brand (icon.png + nume + summary + badge-uri din manifest)
+  HERO verde brand (icon.png + nume + summary + badge-uri din manifest + teste/acoperire
+  din scripts/test_stats.json, dacă suita îl are)
   NAV-PILLS cu taburi: Overview / Presentation / Configuration / Usage / Română / Versions
     - Overview      = DESCRIPTION.md (+ CONTEXT.md la final); listele de funcții cu
                       ≥3 itemi devin carduri Bootstrap cu bifă verde. Dacă modulul
@@ -72,6 +73,7 @@ Utilizare:
 import argparse
 import ast
 import html as html_mod
+import json
 import logging
 import os
 import re
@@ -113,6 +115,13 @@ MD_EXTENSIONS = ["tables", "fenced_code", "sane_lists"]
 # oricărui modul care depinde de el — inclusiv la el însuși. Înainte, doar Shopify le
 # documenta, de mână, și rămăsese deja o versiune în urmă până a apucat să iasă pe store.
 FRAMEWORK_FRAGMENT = "FRAMEWORK_FEATURES.md"
+
+# Badge-ul de teste din antet: `scripts/test_stats.json` al suitei, scris de
+# scripts/tb_test_stats.py (teste numărate din cod, acoperire din Codecov). Fără fișier,
+# badge-ul lipsește, deci suitele care nu-l produc rămân neschimbate. Acoperirea apare doar
+# de la COVERAGE_MIN în sus; sub prag, badge-ul arată doar numărul de teste.
+TEST_STATS = os.path.join("scripts", "test_stats.json")
+COVERAGE_MIN = 70
 
 # ----------------------------------------------------------------------------- #
 # Stringurile vizibile ale paginii, pe limbi
@@ -168,6 +177,9 @@ I18N = {
         "deps_own_row": "This module",
         "deps_total_row": "Order total",
         "badge_hosting": "Odoo.sh &bull; On-premise",
+        "badge_test": "&#10003; 1 automated test",
+        "badge_tests": "&#10003; %(n)s automated tests",
+        "badge_coverage": " &middot; %(p)s%% code coverage",
         "subscription_title": "For projects implemented by Terrabit,",
         "subscription_body": "the post-implementation subscription includes access to our module portfolio, with no "
         "separate purchase, together with upgrades to every new Odoo version and support from the developers who "
@@ -223,6 +235,9 @@ I18N = {
         "deps_own_row": "Acest modul",
         "deps_total_row": "Total comandă",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
+        "badge_test": "&#10003; 1 test automat",
+        "badge_tests": "&#10003; %(n)s teste automate",
+        "badge_coverage": " &middot; acoperire cod %(p)s%%",
         "subscription_title": "Pentru proiectele implementate de Terrabit,",
         "subscription_body": "abonamentul postimplementare include accesul la portofoliul nostru de module, f&#259;r&#259; "
         "achizi&#539;ie separat&#259;, &#238;mpreun&#259; cu actualizarea lor la fiecare versiune nou&#259; de Odoo "
@@ -712,7 +727,35 @@ def render_markdown(md_text):
 # ----------------------------------------------------------------------------- #
 
 
-def build_badges(manifest, lang="en"):
+_TEST_STATS_CACHE = {}
+
+
+def read_test_stats(addon_dir):
+    """Intrarea modulului din test_stats.json al suitei (directorul părinte al modulului)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(addon_dir)), TEST_STATS)
+    if path not in _TEST_STATS_CACHE:
+        try:
+            with open(path, encoding="utf8") as f:
+                _TEST_STATS_CACHE[path] = json.load(f).get("addons", {})
+        except (OSError, ValueError):
+            _TEST_STATS_CACHE[path] = {}
+    return _TEST_STATS_CACHE[path].get(os.path.basename(os.path.abspath(addon_dir)), {})
+
+
+def build_test_badge(stats, lang="en"):
+    """„✓ 42 automated tests · 87% code coverage”; acoperirea doar peste COVERAGE_MIN."""
+    tests = stats.get("tests") or 0
+    if not tests:
+        return ""
+    strings = I18N[lang]
+    text = strings["badge_test"] if tests == 1 else strings["badge_tests"] % {"n": tests}
+    coverage = stats.get("coverage")
+    if coverage is not None and coverage >= COVERAGE_MIN:
+        text += strings["badge_coverage"] % {"p": int(coverage)}
+    return text
+
+
+def build_badges(manifest, lang="en", test_stats=None):
     items = []
     ver = str(manifest.get("version", ""))
     m = re.match(r"(\d+\.\d+)", ver)
@@ -726,6 +769,9 @@ def build_badges(manifest, lang="en"):
         items.append((BADGE, html_mod.escape(str(license_))))
     # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ)
     items.append((BADGE, I18N[lang]["badge_hosting"]))
+    tests = build_test_badge(test_stats or {}, lang)
+    if tests:
+        items.append((BADGE, tests))
     return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
 
 
@@ -741,7 +787,7 @@ def build_hero(addon_dir, manifest, lang="en"):
         icon=icon,
         name=name,
         summary=(SUMMARY % summary) if summary else "",
-        badges=build_badges(manifest, lang),
+        badges=build_badges(manifest, lang, read_test_stats(addon_dir)),
     )
 
 
