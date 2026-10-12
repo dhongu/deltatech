@@ -167,15 +167,16 @@ I18N = {
         "cross_title": "More apps by Terrabit",
         "cross_body": "Other modules from the same publisher, built to work together.",
         "cross_all": "All apps &rarr;",
-        "deps_title": "What you pay for",
-        "deps_intro_own": "This module costs <strong>%(own)s</strong>.",
-        "deps_intro_free": "This module is <strong>free</strong>.",
-        "deps_intro_rest": " It needs the paid modules below, and Odoo Apps adds them to your cart "
-        "automatically &mdash; the order total is <strong>%(total)s</strong>.",
+        "deps_title": "What the price includes",
+        "deps_intro_own": "The price of this module on Odoo Apps, <strong>%(total)s</strong>, already includes the "
+        "modules it needs: Odoo Apps adds them to the same order, so you pay once. The module itself costs "
+        "%(own)s.",
+        "deps_intro_free": "This module is free; its price on Odoo Apps, <strong>%(total)s</strong>, is the price "
+        "of the modules it needs, added to the same order.",
         "deps_auto": "It installs itself once these modules are present, so it is not charged separately.",
         "deps_free_price": "free",
         "deps_own_row": "This module",
-        "deps_total_row": "Order total",
+        "deps_total_row": "Price on Odoo Apps",
         "badge_hosting": "Odoo.sh &bull; On-premise",
         "badge_test": "&#10003; 1 automated test",
         "badge_tests": "&#10003; %(n)s automated tests",
@@ -225,15 +226,16 @@ I18N = {
         "cross_title": "Alte aplica&#539;ii Terrabit",
         "cross_body": "Alte module de la acela&#537;i editor, construite s&#259; lucreze &#238;mpreun&#259;.",
         "cross_all": "Toate aplica&#539;iile &rarr;",
-        "deps_title": "Ce plătiți de fapt",
-        "deps_intro_own": "Acest modul costă <strong>%(own)s</strong>.",
-        "deps_intro_free": "Acest modul este <strong>gratuit</strong>.",
-        "deps_intro_rest": " Are nevoie de modulele cu preț de mai jos, iar Odoo Apps le adaugă automat în "
-        "coș &mdash; totalul comenzii este <strong>%(total)s</strong>.",
+        "deps_title": "Ce include prețul",
+        "deps_intro_own": "Prețul acestui modul pe Odoo Apps, <strong>%(total)s</strong>, include deja modulele de "
+        "care are nevoie: Odoo Apps le adaugă în aceeași comandă, deci plătiți o singură dată. Modulul propriu-zis "
+        "costă %(own)s.",
+        "deps_intro_free": "Modulul e gratuit; prețul lui pe Odoo Apps, <strong>%(total)s</strong>, e prețul "
+        "modulelor de care are nevoie, adăugate în aceeași comandă.",
         "deps_auto": "Se instalează singur când modulele de mai jos sunt prezente, deci nu se taxează separat.",
         "deps_free_price": "gratuit",
         "deps_own_row": "Acest modul",
-        "deps_total_row": "Total comandă",
+        "deps_total_row": "Preț pe Odoo Apps",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
         "badge_test": "&#10003; 1 test automat",
         "badge_tests": "&#10003; %(n)s teste automate",
@@ -1009,8 +1011,8 @@ def build_dependencies(addon_dir, manifest, lang="en"):
     strings = dict(TB, **I18N[lang])
     own = manifest.get("price") or 0
     total = own + sum(man["price"] for _tech, man in deps)
-    intro = strings["deps_intro_own"] % {"own": _money(own, manifest)} if own else strings["deps_intro_free"]
-    intro += strings["deps_intro_rest"] % {"total": _money(total, manifest)}
+    values = {"own": _money(own, manifest), "total": _money(total, manifest)}
+    intro = (strings["deps_intro_own"] if own else strings["deps_intro_free"]) % values
     if manifest.get("auto_install") and not own:
         intro += " " + strings["deps_auto"]
     rows = []
