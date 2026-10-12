@@ -4,7 +4,7 @@
 
 {
     "name": "Notification Sound",
-    "summary": "Notification Sound",
+    "summary": "Play a different sound for success, warning, error and info notifications",
     "version": "19.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
