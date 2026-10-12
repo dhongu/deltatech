@@ -1,3 +1,10 @@
+## 19.0.2.10.7 (2026-10-12)
+
+- Removed dead code: the `stock.picking` override of `action_view_stock_valuation_layers` (the
+  parent method no longer exists in 19.0, stock valuation layers were removed) and the unused
+  `stock.request.count` extension (`wizard/stock_request_count.py`, never imported). No functional
+  change.
+
 ## 19.0.2.10.6 (2026-10-12)
 
 - The *Clear* button on a counted quant now detaches it from its inventory document and line again.
