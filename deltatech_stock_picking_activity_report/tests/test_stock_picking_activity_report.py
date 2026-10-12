@@ -7,6 +7,7 @@ from datetime import date
 from PIL import Image
 
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import BinaryBytes
 
 from odoo.addons.deltatech_stock_picking_activity_report.models.stock_picking import (
     MAX_LOG_LENGTH,
@@ -85,7 +86,7 @@ class TestStockPickingActivityReport(TransactionCase):
                         {
                             "product_id": self.product.id,
                             "product_uom_qty": qty,
-                            "product_uom": self.product.uom_id.id,
+                            "uom_id": self.product.uom_id.id,
                             "location_id": self.stock_location.id,
                             "location_dest_id": self.customer_location.id,
                         },
@@ -95,10 +96,17 @@ class TestStockPickingActivityReport(TransactionCase):
         )
 
     def _binary_payload(self):
-        """Conținut binar valid pentru un câmp de tip imagine (semnătura)."""
+        """Conținut binar valid pentru un câmp de tip imagine (semnătura).
+
+        În 20.0 câmpurile Binary primesc un ``BinaryValue`` cu bytes brute (nu base64)."""
         buffer = io.BytesIO()
         Image.new("RGB", (400, 400), "#123456").save(buffer, format="PNG")
-        return base64.b64encode(buffer.getvalue())
+        return BinaryBytes(buffer.getvalue())
+
+    def _binary_traces(self, payload):
+        """Fragmente după care s-ar recunoaște conținutul binar în jurnal."""
+        content = payload.content
+        return [base64.b64encode(content).decode()[:50], repr(content)[:50]]
 
     def _records(self, picking):
         return self.Record.search([("picking_id", "=", picking.id), ("user_id", "=", self.stock_user.id)])
@@ -150,7 +158,8 @@ class TestStockPickingActivityReport(TransactionCase):
         # Semnarea postează un mesaj în chatter ("Order signed"), deci o
         # înregistrare tot apare — dar fără urmă din conținutul binar.
         log = self._records(picking).activity_log or ""
-        self.assertNotIn(payload.decode()[:50], log)
+        for trace in self._binary_traces(payload):
+            self.assertNotIn(trace, log)
         self.assertLess(len(log), 1000)
 
     def test_binary_field_skipped_but_others_logged(self):
@@ -163,7 +172,8 @@ class TestStockPickingActivityReport(TransactionCase):
         records = self._records(picking)
         self.assertEqual(len(records), 1)
         self.assertIn("SRC-BIN", records.activity_log)
-        self.assertNotIn(payload.decode()[:50], records.activity_log)
+        for trace in self._binary_traces(payload):
+            self.assertNotIn(trace, records.activity_log)
         self.assertLess(len(records.activity_log), 1000)
 
     def test_virtual_line_id_is_not_read_from_db(self):
