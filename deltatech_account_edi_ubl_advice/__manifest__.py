@@ -1,7 +1,7 @@
 # ©  2024 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech UBL despatch advice",
+    "name": "UBL Despatch Advice",
     "summary": "Deltatech Account UBL despatch advice",
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
