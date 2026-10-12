@@ -4,7 +4,6 @@
 
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 
 
 class FleetServiceType(models.Model):
@@ -99,22 +98,3 @@ class FleetVehicleLogFuel(models.Model):
     @api.onchange("vehicle_id")
     def _onchange_vehicle(self):
         self.map_sheet_id = False
-
-    def _compute_odometer(self):
-        self.odometer = 0
-        for record in self:
-            if record.odometer_id:
-                record.odometer = record.odometer_id.value
-
-    def _inverse_odometer(self):
-        for record in self:
-            if not record.odometer:
-                raise UserError(self.env._("Emptying the odometer value of a vehicle is not allowed."))
-            odometer = self.env["fleet.vehicle.odometer"].create(
-                {
-                    "value": record.odometer,
-                    "date": record.date or fields.Date.context_today(record),
-                    "vehicle_id": record.vehicle_id.id,
-                }
-            )
-            self.odometer_id = odometer
