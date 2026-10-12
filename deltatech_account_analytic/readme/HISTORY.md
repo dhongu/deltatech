@@ -1,3 +1,12 @@
+# 19.0.0.0.9
+
+- Fixed: with this module installed, Timesheets (`hr_timesheet`, and so
+  `sale_timesheet` or `helpdesk_timesheet`) could not be installed: the
+  *Sale team* and *Product category* groupings were added to the base analytic
+  search view, which the timesheet analysis report inherits without having these
+  fields. They are now added to the accounting search view of analytic items
+  (*Analytic Items*, *Analytic Reporting*).
+
 # 19.0.0.0.8
 
 - Fixed ANALYTICSPLIT-001: confirming a *Line* split before *Compute*, or
