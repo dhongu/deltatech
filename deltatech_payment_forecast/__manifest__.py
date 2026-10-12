@@ -2,7 +2,7 @@
 
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Terrabit payment forecast",
+    "name": "Payment Forecast",
     "summary": "Generates a report to estimate payments at a certain date",
     "author": "Terrabit",
     "license": "OPL-1",

@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale Order Search by Partner Fields",
+    "name": "Sale Order Search by Partner Fields",
     "summary": "Search sale order by partner e-mail, phone",
     "version": "20.0.1.0.3",
     "author": "Terrabit, Dan Stoica",

@@ -3,7 +3,7 @@
 
 {
     "name": "MRP Bom",
-    "summary": "MRP Bom",
+    "summary": "Base BoM templates that propagate automatically to product variants",
     "version": "20.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

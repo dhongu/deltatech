@@ -4,12 +4,12 @@
 
 
 {
-    "name": "Deltatech Sale Cost on Order",
+    "name": "Sale Cost on Order",
     "version": "20.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
-    "summary": "Sale Cost on Order",
+    "summary": "Purchase cost and margin on sale order lines",
     "category": "Sales",
     "depends": ["sale", "product"],
     "data": ["security/security.xml", "views/sale_view.xml", "data/server_action.xml"],

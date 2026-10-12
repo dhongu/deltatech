@@ -1,5 +1,5 @@
 {
-    "name": "Deltatech Sale Invoice Status",
+    "name": "Sale Invoice Status",
     "summary": "Sale Invoice Status will not be To Be Invoiced if services present and products are not delivered",
     "version": "20.0.0.0.2",
     "author": "Terrabit, Dorin Hongu",

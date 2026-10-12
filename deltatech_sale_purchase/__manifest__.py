@@ -3,7 +3,7 @@
 
 {
     "name": "Sale Purchase",
-    "summary": "Sale Purchase",
+    "summary": "Remove lines from purchase orders when the linked sale order is cancelled",
     "version": "20.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",

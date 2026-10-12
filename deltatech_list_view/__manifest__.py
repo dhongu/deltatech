@@ -3,7 +3,7 @@
 
 {
     "name": "List View Select Text",
-    "summary": "List View Select Text",
+    "summary": "Select text in list views without opening the record",
     "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

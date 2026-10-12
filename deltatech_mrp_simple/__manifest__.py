@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Simple MRP",
-    "summary": "Simple production",
+    "summary": "Simple production without a BoM: consume components, output products, cost computed",
     "version": "20.0.1.1.3",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",

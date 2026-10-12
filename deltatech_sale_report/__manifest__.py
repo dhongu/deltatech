@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Sale Report Additional Info",
-    "summary": "Sale Report Additional Info",
+    "summary": "Customer email in the sales analysis report",
     "version": "20.0.0.0.1",
     "author": "Terrabit, Voicu Stefa",
     "website": "https://www.terrabit.ro",

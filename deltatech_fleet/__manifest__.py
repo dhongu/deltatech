@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Fleet",
+    "name": "Fleet Routes and Map Sheets",
     "version": "20.0.1.0.1",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",

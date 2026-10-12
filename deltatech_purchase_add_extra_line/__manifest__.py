@@ -3,7 +3,7 @@
 
 {
     "name": "Purchase Add Extra Line",
-    "summary": "Purchase Add Extra Line",
+    "summary": "Add extra lines (fees, packaging) to purchase orders automatically, per product",
     "version": "20.0.1.5.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",

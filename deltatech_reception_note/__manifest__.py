@@ -1,8 +1,8 @@
 # ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech reception_note",
-    "summary": "Batch reception note",
+    "name": "Batch Reception Note",
+    "summary": "Create reception notes for several receipts at once",
     "version": "20.0.0.1.4",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

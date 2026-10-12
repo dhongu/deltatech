@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Terrabit - Record Type",
+    "name": "Record Type",
     "summary": "Manage multiple record types",
     "version": "20.0.1.1.16",
     "author": "Terrabit, Voicu Stefan",

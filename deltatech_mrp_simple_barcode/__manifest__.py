@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Simple MRP barcode",
-    "summary": "Simple production",
+    "summary": "Scan barcodes to add components in simple production",
     "version": "20.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",

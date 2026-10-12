@@ -4,7 +4,7 @@
 
 {
     "name": "Sale Prepare Transfer",
-    "summary": "Sale Prepare Transfer",
+    "summary": "Create inter-warehouse transfers on order confirmation when stock is missing",
     "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

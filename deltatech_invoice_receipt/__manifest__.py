@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Deltatech Invoice Receipt",
+    "name": "Invoice Receipt",
     "summary": "Create receipt form invoice",
     "version": "20.0.2.0.3",
     "author": "Terrabit, Dorin Hongu",

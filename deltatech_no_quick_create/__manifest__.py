@@ -4,7 +4,7 @@
 
 {
     "name": "No quick_create",
-    "summary": "Disable quick_create",
+    "summary": "Disable quick create in many2one fields to prevent empty products and contacts",
     "version": "20.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
