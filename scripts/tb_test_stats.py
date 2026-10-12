@@ -3,6 +3,9 @@
 # See README.rst file on addons root folder for license details
 """Scrie ``scripts/test_stats.json``: numărul de teste și acoperirea de cod pe fiecare modul.
 
+SURSA CANONICĂ: odoo-addons/bitshop/scripts/tb_test_stats.py. Celelalte suite țin o copie
+identică, sincronizată împreună cu tb_gen_index.py de ``bitshop/scripts/tb_sync_gen_index.py``.
+
 ``tb_gen_index.py`` citește fișierul și pune în antetul paginii de pe Apps Store badge-ul
 „N automated tests · X% coverage”. Badge-ul e text static în ``index.html``, nu o imagine
 live de pe Codecov: store-ul arată versiunea publicată a modulului, deci cifra trebuie să
@@ -13,8 +16,10 @@ Surse:
 
 - **testele** se numără static, din ``<modul>/tests/**/*.py``: metodele ``test*`` din
   clase, adică exact ce descoperă runner-ul Odoo. Nu e nevoie de CI.
-- **acoperirea** vine din API-ul public Codecov (fără token, repo public), pe ultimul
-  commit al branch-ului. Raportul îl urcă rularea completă de noapte din
+- **acoperirea** vine din API-ul Codecov, pe ultimul commit al branch-ului. La un repo
+  public merge fără token; la unul privat API-ul răspunde 404 fără token, deci scriptul
+  citește ``CODECOV_API_TOKEN`` din mediu (token personal din Codecov, Settings → Access,
+  nu tokenul de upload din CI). Fără acoperire disponibilă, scrie doar numărul de teste. Raportul îl urcă rularea completă de noapte din
   ``.github/workflows/test.yml``, iar fișierele ``tests/`` sunt excluse din el prin
   ``codecov.yml``. Acoperirea unui modul = liniile atinse / liniile măsurate, adunate pe
   toate fișierele lui. O linie parțial atinsă (ramură neexecutată) nu se numără ca
@@ -35,6 +40,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 
 OUTPUT = os.path.join("scripts", "test_stats.json")
@@ -83,9 +89,19 @@ def repo_from_git(addons_dir):
 
 
 def fetch_codecov(owner, repo, branch):
+    """Raportul Codecov al branch-ului, sau None dacă nu e accesibil (repo privat fără token)."""
     url = CODECOV_API % dict(owner=owner, repo=repo, branch=branch)
-    with urllib.request.urlopen(url, timeout=60) as resp:
-        return json.load(resp)
+    request = urllib.request.Request(url)
+    token = os.environ.get("CODECOV_API_TOKEN")
+    if token:
+        request.add_header("Authorization", f"Bearer {token}")
+    try:
+        with urllib.request.urlopen(request, timeout=60) as resp:
+            return json.load(resp)
+    except urllib.error.HTTPError as err:
+        hint = "" if token else " (repo privat? setează CODECOV_API_TOKEN)"
+        sys.stderr.write(f"Codecov {owner}/{repo}@{branch}: HTTP {err.code}{hint}; scriu doar numărul de teste\n")
+        return None
 
 
 def coverage_by_addon(report, addons):
@@ -125,9 +141,10 @@ def main():
     if not args.no_coverage:
         owner, repo = args.repo.split("/", 1) if args.repo else repo_from_git(addons_dir)
         report = fetch_codecov(owner, repo, args.branch)
-        coverage = coverage_by_addon(report, set(addons))
-        data["source"] = f"codecov:{owner}/{repo}"
-        data["commit"] = commit_from_report(report)
+        if report:
+            coverage = coverage_by_addon(report, set(addons))
+            data["source"] = f"codecov:{owner}/{repo}"
+            data["commit"] = commit_from_report(report)
 
     for addon in addons:
         entry = {"tests": count_tests(os.path.join(addons_dir, addon))}
@@ -143,7 +160,7 @@ def main():
         f.write("\n")
 
     tested = sum(1 for e in data["addons"].values() if e["tests"])
-    print(f"{path}: {len(addons)} module, {tested} cu teste, {len(coverage)} cu acoperire")
+    sys.stdout.write(f"{path}: {len(addons)} module, {tested} cu teste, {len(coverage)} cu acoperire\n")
 
 
 if __name__ == "__main__":
