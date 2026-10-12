@@ -26,13 +26,6 @@ msgid "Journal Entry"
 msgstr "Notă contabilă"
 
 #. module: deltatech_invoice_delivery
-#. odoo-python
-#: code:addons/deltatech_invoice_delivery/models/sale.py:0
-#, python-format
-msgid "Not all products are available."
-msgstr "Nu toate produsele sunt disponibile."
-
-#. module: deltatech_invoice_delivery
 #: model:ir.model,name:deltatech_invoice_delivery.model_sale_order
 msgid "Sales Order"
 msgstr "Comandă de vânzare"
@@ -48,3 +41,56 @@ msgstr "Linie comandă vânzare"
 #, python-format
 msgid "The sale order %s was generated."
 msgstr "Comanda de vânzare %s a fost generată."
+
+#. module: deltatech_invoice_delivery
+#: model:ir.model,name:deltatech_invoice_delivery.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_invoice_delivery
+#: model:ir.model.fields,field_description:deltatech_invoice_delivery.field_account_journal__invoice_delivery
+msgid "Delivery from invoice"
+msgstr "Livrare din factură"
+
+#. module: deltatech_invoice_delivery
+#: model:ir.model.fields,help:deltatech_invoice_delivery.field_account_journal__invoice_delivery
+msgid ""
+"When a customer invoice of this journal is posted, the storable products "
+"without a sale order are added to a new confirmed sale order and delivered "
+"from stock, at the invoice date."
+msgstr ""
+"La validarea unei facturi de client din acest jurnal, produsele stocabile "
+"fără comandă de vânzare sunt adăugate într-o comandă de vânzare nouă, "
+"confirmată, și livrate din stoc la data facturii."
+
+#. module: deltatech_invoice_delivery
+#. odoo-python
+#: code:addons/deltatech_invoice_delivery/models/sale.py:0
+msgid ""
+"Delivery from invoice works only with warehouses that deliver in one step. "
+"Warehouse %s uses more steps."
+msgstr ""
+"Livrarea din factură funcționează doar cu depozite care livrează într-un "
+"singur pas. Depozitul %s folosește mai mulți pași."
+
+#. module: deltatech_invoice_delivery
+#. odoo-python
+#: code:addons/deltatech_invoice_delivery/models/sale.py:0
+msgid "%(product)s: available %(available)s %(uom)s, requested %(requested)s %(uom)s"
+msgstr "%(product)s: disponibil %(available)s %(uom)s, cerut %(requested)s %(uom)s"
+
+#. module: deltatech_invoice_delivery
+#. odoo-python
+#: code:addons/deltatech_invoice_delivery/models/sale.py:0
+msgid "%(product)s: the lot or serial number could not be reserved"
+msgstr "%(product)s: lotul sau numărul de serie nu a putut fi rezervat"
+
+#. module: deltatech_invoice_delivery
+#. odoo-python
+#: code:addons/deltatech_invoice_delivery/models/sale.py:0
+msgid ""
+"The invoice cannot be posted, the stock is not enough:\n"
+"%s"
+msgstr ""
+"Factura nu poate fi validată, stocul nu este suficient:\n"
+"%s"
