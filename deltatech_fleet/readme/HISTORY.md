@@ -1,3 +1,15 @@
+## 19.0.1.0.3 (2026-10-12)
+
+- The normal consumption of a route log is recomputed when its distance or
+  vehicle changes; it used to keep the value from creation, so the map sheet
+  total and the reservoir level stayed wrong after editing a route.
+- A route log without a begin date no longer crashes on the week day.
+- Map sheet default dates work for users without a time zone (UTC is used).
+- Removed unused odometer methods on fuel logs and a no-op domain in the
+  route log onchange.
+- Tests for map sheets, fuel logs, vehicles, routes, the distance report and
+  the map sheet printout.
+
 ## 19.0.1.0.2 (2026-10-09)
 
 - New module icon (yellow car, flat Terrabit style).
