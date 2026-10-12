@@ -9,106 +9,16 @@ Cifra de aur vine din extrasul real pe care s-a construit fluxul:
 import time
 from datetime import date, timedelta
 
-from odoo import Command
 from odoo.exceptions import AccessError, UserError, ValidationError
-from odoo.tests import Form, tagged
+from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
-GOLDEN = (301.59, 33.17, 3184.27)
-GOLDEN_TOTAL = 3519.03
+from .common import GOLDEN_TOTAL, ExpectedReceiptCommon
 
 
 @tagged("post_install", "-at_install")
-class TestExpectedReceipt(AccountTestInvoicingCommon):
-    @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.company = cls.env.company
-        cls.journal = cls.env["account.journal"].create(
-            {"name": "ING POS", "code": "INGP", "type": "bank", "company_id": cls.company.id}
-        )
-        cls.suspense = cls.journal.suspense_account_id
-        cls.suspense.reconcile = True
-        cls.cashier = cls._user(
-            "cashier",
-            [
-                "deltatech_expected_receipt.group_cashier",
-                "sales_team.group_sale_manager",
-                "account.group_account_readonly",
-            ],
-        )
-        cls.manager = cls._user(
-            "manager", ["deltatech_expected_receipt.group_manager", "account.group_account_manager"]
-        )
-        cls.terminal = cls.env["deltatech.card.terminal"].create(
-            {"name": "ING Shop", "user_id": cls.cashier.id, "journal_id": cls.journal.id}
-        )
-        cls.partners = cls.env["res.partner"].create([{"name": "Glassmart"}, {"name": "Mansoor"}, {"name": "Davinox"}])
-        cls.day = date(2026, 8, 21)
-        cls.acc_419 = cls._account("419")
-        cls.acc_4427 = cls._account("4427")
-        cls.company.downpayment_account_id = cls.acc_419
-
-    @classmethod
-    def _account(cls, code):
-        return cls.env["account.account"].search(
-            [("code", "=like", code + "%"), ("company_ids", "in", cls.company.ids)], order="code", limit=1
-        )
-
-    @classmethod
-    def _user(cls, login, groups):
-        return cls.env["res.users"].create(
-            {
-                "name": login.title(),
-                "login": f"er_{login}",
-                "email": f"{login}@example.com",
-                "company_id": cls.company.id,
-                "company_ids": [Command.set(cls.company.ids)],
-                "group_ids": [Command.set([cls.env.ref(xmlid).id for xmlid in ["base.group_user", *groups]])],
-            }
-        )
-
-    # ------------------------------------------------------------------
-    def _pay(self, partner=None, amount=100.0, day=None, user=None, record=None, **values):
-        """Încasare prin dialog, ca în realitate (plată + rând în registru)."""
-        user = user or self.manager
-        context = {"active_model": record._name, "active_id": record.id} if record else {}
-        with Form(self.env["deltatech.card.payment"].with_user(user).with_context(**context)) as form:
-            if not record:
-                form.partner_id = partner
-            form.amount = amount
-            form.date = day or self.day
-            form.terminal_id = self.terminal
-            for name, value in values.items():
-                setattr(form, name, value)
-        form.record.action_confirm()
-        return self.env["deltatech.expected.receipt"].search([], order="id desc", limit=1)
-
-    def _statement_line(self, amount, day=None):
-        return self.env["account.bank.statement.line"].create(
-            {"journal_id": self.journal.id, "date": day or self.day, "payment_ref": "ING POS", "amount": amount}
-        )
-
-    def _settlement(self, statement_line):
-        wizard = (
-            self.env["deltatech.card.settlement"]
-            .with_user(self.manager)
-            .create({"statement_line_id": statement_line.id, "company_id": self.company.id})
-        )
-        wizard.action_search()
-        return wizard
-
-    def _golden_receipts(self):
-        return self.env["deltatech.expected.receipt"].concat(
-            *[
-                self._pay(partner, amount, self.day - timedelta(days=offset))
-                for partner, amount, offset in zip(self.partners, GOLDEN, (1, 2, 3), strict=True)
-            ]
-        )
-
-    # ------------------------------------------------------------------
+class TestExpectedReceipt(ExpectedReceiptCommon):
     def test_card_payment_waits_on_5125(self):
         """Încasarea pe client: Dr 5125 = Cr 4111, rândul stă în așteptare."""
         receipt = self._pay(self.partners[0], 250.0)
@@ -178,17 +88,7 @@ class TestExpectedReceipt(AccountTestInvoicingCommon):
 
     def test_payment_on_order_issues_downpayment_invoice(self):
         """Pe o comandă nefacturată se emite factura de avans și se încasează pe ea."""
-        order = (
-            self.env["sale.order"]
-            .with_user(self.cashier)
-            .create(
-                {
-                    "partner_id": self.partners[0].id,
-                    "order_line": [Command.create({"product_id": self.product_a.id, "product_uom_qty": 2})],
-                }
-            )
-        )
-        order.action_confirm()
+        order = self._order(qty=2)
         receipt = self._pay(amount=121.0, record=order, user=self.cashier)
         invoice = receipt.invoice_id
         self.assertTrue(invoice)
@@ -196,37 +96,23 @@ class TestExpectedReceipt(AccountTestInvoicingCommon):
         self.assertIn(invoice, order.invoice_ids)
         self.assertAlmostEqual(invoice.amount_total, 121.0)
         self.assertIn(invoice.payment_state, ("paid", "in_payment"))
-        # Avansul se creditează pe 419, cu TVA colectat pe 4427 (Dr 4111 = Cr 419 + Cr 4427).
+        # Avansul se creditează pe contul de avans, cu TVA colectat separat.
         credit = invoice.line_ids.filtered(lambda line: line.credit)
-        self.assertIn(self.acc_419, credit.account_id)
-        self.assertIn(self.acc_4427, credit.account_id)
         self.assertAlmostEqual(
-            sum(credit.filtered(lambda line: line.account_id == self.acc_419).mapped("credit")), 100.0
+            sum(credit.filtered(lambda line: line.account_id == self.downpayment_account).mapped("credit")), 100.0
         )
+        self.assertAlmostEqual(sum(credit.filtered("tax_line_id").mapped("credit")), 21.0)
 
     def test_downpayment_needs_the_down_payment_account(self):
         """Fără cont de avans, factura ar credita 707: emiterea se oprește."""
         self.company.downpayment_account_id = False
-        order = (
-            self.env["sale.order"]
-            .with_user(self.cashier)
-            .create(
-                {"partner_id": self.partners[2].id, "order_line": [Command.create({"product_id": self.product_a.id})]}
-            )
-        )
+        order = self._order(self.partners[2], confirm=False)
         with self.assertRaises(UserError):
             self._pay(amount=50.0, record=order, user=self.cashier)
         self.assertFalse(order.invoice_ids)
 
     def test_cashier_cannot_skip_downpayment_invoice(self):
-        order = (
-            self.env["sale.order"]
-            .with_user(self.cashier)
-            .create(
-                {"partner_id": self.partners[0].id, "order_line": [Command.create({"product_id": self.product_a.id})]}
-            )
-        )
-        order.action_confirm()
+        order = self._order()
         with self.assertRaises(UserError):
             self._pay(amount=50.0, record=order, user=self.cashier, invoice_mode="none")
 
@@ -256,9 +142,7 @@ class TestExpectedReceipt(AccountTestInvoicingCommon):
 
     def test_cron_catches_reconciliation_done_elsewhere(self):
         receipt = self._pay(self.partners[0], 75.0)
-        statement_line = self._statement_line(75.0)
-        _liquidity, suspense, _other = statement_line._seek_for_lines()
-        (suspense | receipt._settlement_lines()).reconcile()
+        self._reconcile_elsewhere(receipt, self._statement_line(75.0))
         self.env["deltatech.expected.receipt"]._cron_sync_settlements()
         self.assertEqual(receipt.state, "settled")
         self.assertEqual(receipt.settlement_date, self.day)
@@ -289,15 +173,35 @@ class TestExpectedReceipt(AccountTestInvoicingCommon):
 
     def test_payment_on_quotation_confirms_the_order(self):
         """Clientul plătește oferta: comanda se confirmă și avansul se facturează."""
-        order = (
-            self.env["sale.order"]
-            .with_user(self.cashier)
-            .create(
-                {"partner_id": self.partners[1].id, "order_line": [Command.create({"product_id": self.product_a.id})]}
-            )
-        )
+        order = self._order(self.partners[1], confirm=False)
         self.assertEqual(order.state, "draft")
         receipt = self._pay(amount=60.5, record=order, user=self.cashier)
         self.assertEqual(order.state, "sale")
         self.assertAlmostEqual(receipt.invoice_id.amount_total, 60.5)
         self.assertEqual(receipt.sale_order_id, order)
+
+
+@tagged("post_install", "-at_install")
+class TestExpectedReceiptRo(ExpectedReceiptCommon):
+    """Monografia românească a avansului, pe planul de conturi RO (sărită fără `l10n_ro`)."""
+
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("ro")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.acc_4427 = cls._account("4427")
+
+    @classmethod
+    def _downpayment_account(cls):
+        return cls._account("419")
+
+    def test_downpayment_invoice_on_419_and_4427(self):
+        """Dr 4111 = Cr 419 + Cr 4427: avansul nu trece prin venituri."""
+        order = self._order(qty=2)
+        invoice = self._pay(amount=121.0, record=order, user=self.cashier).invoice_id
+        credit = invoice.line_ids.filtered(lambda line: line.credit)
+        self.assertEqual(self.downpayment_account.code[:3], "419")
+        self.assertEqual(credit.account_id, self.downpayment_account | self.acc_4427)
+        self.assertAlmostEqual(
+            sum(credit.filtered(lambda line: line.account_id == self.acc_4427).mapped("credit")), 21.0
+        )
