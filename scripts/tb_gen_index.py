@@ -309,11 +309,14 @@ WRAP_OPEN = (
 # panoul de calitate (teste + bara de acoperire). Rândul e `flex-wrap`: pe ecran îngust
 # panoul coboară sub text. Fără media queries (sanitizer-ul taie <style>), deci panoul are
 # fundal propriu în loc de bordură laterală, care ar rămâne agățată după wrap.
+# Spațiile vin din margin, nu din `gap`: sanitizer-ul scoate `gap` și `flex-basis` din style
+# (iconița se lipea de titlu). Lățimea de pornire a textului e `width` (= baza flex la
+# flex-basis:auto); marginea dreaptă a textului dispare natural când panoul coboară.
 HERO = """%(marker)s
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
-  <div class="d-flex flex-wrap align-items-center" style="gap:24px;">
+  <div class="d-flex flex-wrap align-items-center">
     %(icon)s
-    <div class="flex-grow-1" style="flex-basis:320px;min-width:0;">
+    <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">%(name)s</h1>
       %(summary)s
       <div>
@@ -326,7 +329,7 @@ HERO = """%(marker)s
 """
 
 HERO_ICON = (
-    '<span class="d-inline-block rounded-4 p-2 flex-shrink-0" style="background-color:#ffffff;">'
+    '<span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;">'
     '<img src="icon.png" alt="%(name)s" style="width:80px;height:80px;border:none;"/></span>'
 )
 
@@ -351,7 +354,7 @@ BADGE_LICENSE = (
 # Panoul de calitate din dreapta antetului: numărul de teste și, de la COVERAGE_MIN în sus,
 # bara de acoperire. Bara e din două <div> cu `background-color` (singurul fundal care trece
 # de sanitizer); lățimea plinului = procentul de acoperire.
-QUALITY = """<div class="flex-shrink-0 rounded-3 px-3 py-3" style="width:240px;background-color:%(dark)s;">
+QUALITY = """<div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:%(dark)s;">
       <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; %(tests)s</div>
       %(coverage)s
     </div>"""
