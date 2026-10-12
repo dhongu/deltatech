@@ -82,10 +82,14 @@ class TestSaleActivityReport(TransactionCase):
         return self.Record.search([("sale_order_id", "=", order.id), ("user_id", "=", self.salesman.id)])
 
     def _binary_payload(self):
-        """Conținut binar valid pentru un câmp de tip imagine (semnătura)."""
+        """Conținut binar valid pentru un câmp de tip imagine (semnătura).
+
+        Șir base64 (ca de la clientul web / RPC): în 20.0 câmpurile Binary
+        refuză bytes codați base64 (``TypeError``), dar acceptă ``str`` base64.
+        """
         buffer = io.BytesIO()
         Image.new("RGB", (400, 400), "#123456").save(buffer, format="PNG")
-        return base64.b64encode(buffer.getvalue())
+        return base64.b64encode(buffer.getvalue()).decode()
 
     def test_binary_field_is_not_logged(self):
         """Câmpurile binare (semnătură, etichetă AWB) nu ajung în jurnal.
@@ -98,7 +102,7 @@ class TestSaleActivityReport(TransactionCase):
         self.order.with_user(self.salesman).write({"signature": payload})
 
         log = self._records().activity_log or ""
-        self.assertNotIn(payload.decode()[:50], log)
+        self.assertNotIn(payload[:50], log)
         self.assertLess(len(log), 1000)
 
     def test_binary_field_skipped_but_others_logged(self):
@@ -110,7 +114,7 @@ class TestSaleActivityReport(TransactionCase):
         records = self._records()
         self.assertEqual(len(records), 1)
         self.assertIn("PO-BIN", records.activity_log)
-        self.assertNotIn(payload.decode()[:50], records.activity_log)
+        self.assertNotIn(payload[:50], records.activity_log)
         self.assertLess(len(records.activity_log), 1000)
 
     def test_long_value_is_truncated(self):

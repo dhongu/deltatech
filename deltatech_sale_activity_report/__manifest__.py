@@ -1,6 +1,6 @@
 {
     "name": "Sale Order Last Modified",
-    "version": "19.0.1.2.0",
+    "version": "20.0.1.2.0",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
@@ -8,8 +8,7 @@
     "depends": ["sale", "data_recycle"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
-        "security/ir_rule.xml",
+        "security/ir.access.csv",
         "views/sale_activity_record_view.xml",
         "data/recycle_rules.xml",
     ],

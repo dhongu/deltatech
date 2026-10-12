@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+sale_order_activity_record_personal_rule,Sale Order Activity Record: personal orders,sale.order.activity.record,sales_team.group_sale_salesman,r,"['|', ('sale_order_id.user_id', '=', user.id), ('sale_order_id.user_id', '=', False)]"
+sale_order_activity_record_see_all,Sale Order Activity Record: all orders,sale.order.activity.record,sales_team.group_sale_salesman_all_leads,r,
+sale_order_activity_record_see_all_1,Sale Order Activity Record: all orders,sale.order.activity.record,sales_team.group_sale_manager,crud,
+sale_order_activity_record_comp_rule,Sale Order Activity Record multi-company,sale.order.activity.record,,crud,"[('sale_order_id.company_id', 'in', company_ids)]"
