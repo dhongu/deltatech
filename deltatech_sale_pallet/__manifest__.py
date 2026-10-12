@@ -3,7 +3,7 @@
 
 {
     "name": "Sale Pallet",
-    "summary": "Sale pallet",
+    "summary": "Add pallets automatically to sale orders based on product quantity",
     "version": "19.0.1.0.12",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",

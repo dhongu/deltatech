@@ -8,7 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "AGPL-3",
-    "summary": "Print Labels on Products",
+    "summary": "Print product and lot labels from products, sale orders and transfers",
     "depends": ["product", "sale", "stock"],
     "data": [
         "views/report_product_labels.xml",

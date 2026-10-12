@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Invoice Report",
-    "summary": "Invoice Report",
+    "summary": "Yearly bought/sold quantities on the product, plus region and supplier in invoice analysis",
     "version": "19.0.1.0.10",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

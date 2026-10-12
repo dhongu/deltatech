@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Sale Qty Available",
-    "summary": "Quantity Available",
+    "summary": "Highlight sale orders ready for delivery in the order list",
     "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

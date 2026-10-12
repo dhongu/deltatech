@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech  Queue Job Enhancements",
-    "summary": "Deltatech Queue Job",
+    "summary": "Faster, lock-safe job queue execution with SKIP LOCKED concurrency",
     "author": "Terrabit, Dorin Hongu",
     "version": "19.0.1.4.4",
     "license": "AGPL-3",

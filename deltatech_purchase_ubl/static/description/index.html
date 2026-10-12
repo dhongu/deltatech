@@ -47,6 +47,15 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.11 (2026-10-12)</h2>
+<ul>
+<li>Fixed: the vendor was not found by its tax id when the invoice and the partner
+  wrote the Romanian CUI differently (with or without the RO prefix, with
+  spaces); only an exact name match was left. The tax ids are now compared
+  without spaces and without the RO prefix (other countries keep theirs), which
+  also removes the false "Supplier VAT ... differs" warning. For a supplier not
+  registered for VAT, the CUI is read from PartyLegalEntity/CompanyID.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.10 (2026-10-12)</h2>
 <ul>
 <li>Fixed: a supplier credit note (a CreditNote document, or an Invoice with type
@@ -139,53 +148,6 @@
   from the database, so no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">-u</code> can compensate for a stale build: the manifest version is the only
   handle an audit has. Bumped so it is one.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.4.0] - 2026-08-31</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Added</h3>
-<ul>
-<li><strong>Warning indicator on the import wizard</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>): set alongside
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code> so a headless caller can tell whether a run needs a human's attention without
-  re-parsing the log text. Deliberately narrower than "any warning-classified message": only a
-  <strong>total that doesn't add up</strong> and <strong>lines the matcher couldn't place</strong> count. Routine steps of an
-  unattended import &#8212; bill creation skipped because the order isn't confirmed yet, no receipt to
-  validate &#8212; also classify as "warning" via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_classify_message</code>'s generic keywords and would
-  otherwise fire on every successful headless import.</li>
-<li><strong>Review activity on the purchase order</strong>: when the headless import sets
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">has_warning</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_attachments_for_post</code> schedules a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.mail_activity_data_todo</code>
-  activity "SPV import needs review" on the order, assigned to the order's buyer (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">user_id</code>,
-  falling back to the current user), with the import log as the activity note. A plain chatter note
-  was not enough: on a production database a total mismatch and 4 unmatched lines sat unnoticed in
-  the chatter for hours, buried among the SPV cron's other automated traffic. The activity is
-  guarded on its summary, because the SPV cron is known to reprocess the same message (observed
-  ~10x in one morning) and would otherwise pile up duplicates.</li>
-<li>Tests <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_unmatched_line_schedules_activity_instead_of_silent_chatter_note</code> (including the
-  reprocessing case) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_matched_import_does_not_schedule_activity</code>.</li>
-<li><strong>Screenshot test</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code> (tag <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fise_screenshots</code>): generates the consultant
-  sheet's captures for the mapping preview (all three match colors) and for the review activity.</li>
-</ul>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Changed</h3>
-<ul>
-<li>The headless import now posts the <strong>color-coded</strong> log (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log_html</code>) on the purchase order instead
-  of the plain-text <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">log</code>, so mismatches and unmatched lines stand out in red/orange instead of
-  blending into a wall of text.</li>
-<li><strong>Shorter log.</strong> Updated prices are no longer listed line by line &#8212; a single
-  "Identified products and updated prices for %s line(s)." message replaces the per-line dump.
-  Created products keep their per-product detail but gain a count in the header
-  ("Created products (%s):"). On a real SPV import the log was long enough that the warning at the
-  end was below the fold.</li>
-<li>Log messages now say "source document" instead of "XML", because the same mixin serves the PDF
-  import wizards (supplier-specific importers), not just UBL XML.</li>
-</ul>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
-<ul>
-<li><strong>Romanian translations were not applied at all</strong> for terms added since the last <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code>
-  regeneration (the whole preview wizard: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Supplier Code</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Match Type</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">By name</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Not found</code>,
-  the legend banner, and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SPV import needs review</code> activity title). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PoFileReader</code> merges
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code> with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/&lt;module&gt;.pot</code> to refresh references, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">polib.merge()</code> marks every
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.po</code> entry absent from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> as <strong>obsolete</strong> &#8212; which the reader then skips silently. The
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> was older than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code>, so exactly the new terms were dropped while the old ones kept
-  working. Regenerated the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code> and resynchronized <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code> (the regeneration merges the info
-  icon with its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;span&gt;</code> into a single term, so the banner needed a new entry).</li>
-</ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
 </div>
@@ -243,7 +205,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Achizitie rapida</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm, receive and bill a purchase order in one click</p>
         </div>
       </a>
     </div>
@@ -323,7 +285,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic module</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>
@@ -343,7 +305,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
         </div>
       </a>
     </div>

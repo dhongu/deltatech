@@ -3,7 +3,7 @@
 
 {
     "name": "Sale Commission",
-    "summary": "Compute sale commission",
+    "summary": "Salesperson commissions, margin control and a warning when selling below cost",
     "version": "19.0.1.6.3",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",

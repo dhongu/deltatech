@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Sale Pallet Website",
-    "summary": "Sale pallet",
+    "summary": "Pallet quantities and information on eCommerce product pages",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

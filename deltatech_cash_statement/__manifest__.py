@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Cash Statement Extension",
-    "summary": "Update cash balance",
+    "summary": "Align cash statement balances with accounting and book cash differences as entries",
     "version": "19.0.3.1.4",
     "author": "Terrabit,Dorin Hongu",
     "license": "OPL-1",

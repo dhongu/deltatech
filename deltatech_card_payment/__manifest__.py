@@ -7,7 +7,7 @@
     "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Deltatech Payment Method Card",
+    "summary": "Add a Card Payment method to tell card receipts apart from other payments",
     "category": "Generic Modules",
     "depends": ["account"],
     "license": "OPL-1",

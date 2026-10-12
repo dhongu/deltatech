@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "FontAwesome Widget",
-    "summary": "Font Awesome Widget",
+    "summary": "Field widget that shows a Font Awesome icon picker and preview",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

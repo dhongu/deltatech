@@ -4,7 +4,7 @@
 {
     "name": "Deltatech Auto Reorder Rule",
     "category": "Stock",
-    "summary": "Auto create reorder rule",
+    "summary": "Automatically create reordering rules for new storable products",
     "version": "19.0.0.1.8",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

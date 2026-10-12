@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Base pricelist on cost with vat",
-    "summary": "Base pricelist on cost with vat",
+    "summary": "Pricelist rules based on product cost including VAT",
     "version": "19.0.1.0.4",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
