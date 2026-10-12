@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Invoice Number",
-    "summary": "Renumbering invoice",
+    "summary": "Enforce chronological invoice dates and let authorized users change invoice numbers",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
