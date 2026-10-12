@@ -8,6 +8,12 @@ from odoo.addons.stock_account.tests.common import TestStockValuationCommon
 
 @tagged("post_install", "-at_install")
 class TestStockDisassemblyBom(TestStockValuationCommon):
+    _test_user_groups = (
+        "stock.group_stock_manager",  # in moves of the setup carry a manual value (product.value)
+        "product.group_product_manager",  # components created in the setup
+        "mrp.group_mrp_manager",  # bills of materials created in the setup
+    )
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

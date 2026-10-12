@@ -43,7 +43,7 @@ class StockDisassembly(models.Model):
             bom = disassembly.bom_id
             if not bom:
                 raise UserError(self.env._("Select a bill of materials."))
-            qty = disassembly.product_uom_id._compute_quantity(disassembly.product_qty, bom.product_uom_id)
+            qty = disassembly.product_uom_id._compute_quantity(disassembly.product_qty, bom.uom_id)
             _boms, lines = bom.explode(disassembly.product_id, qty / bom.product_qty)
             disassembly.line_ids.filtered(lambda line: line.line_type == "product").unlink()
             vals_list = []
@@ -58,7 +58,7 @@ class StockDisassembly(models.Model):
                         "line_type": "product",
                         "product_id": bom_line.product_id.id,
                         "quantity": line_data["qty"],
-                        "product_uom_id": bom_line.product_uom_id.id,
+                        "product_uom_id": bom_line.uom_id.id,
                     }
                 )
                 sequence += 1
