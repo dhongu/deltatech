@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Promissory Note",
+    "name": "Promissory Note",
     "summary": "Track issued and received promissory notes with due dates and status",
     "version": "19.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
