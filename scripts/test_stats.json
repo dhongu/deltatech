@@ -826,7 +826,7 @@
     "deltatech_stock_inventory": {
       "coverage": 81.9,
       "lines": 1035,
-      "tests": 69
+      "tests": 97
     },
     "deltatech_stock_inventory_product_display": {
       "coverage": 92.3,
