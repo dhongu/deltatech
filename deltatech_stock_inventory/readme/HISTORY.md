@@ -1,3 +1,10 @@
+## 19.0.2.10.5 (2026-10-12)
+
+- Tests: new coverage tests for the return, adjustment reason and merge wizards, quant/inventory
+  links and quantity rights, inventory states and line generation without locations, line onchanges
+  and search helpers, detailed warehouse stock and product warehouse location (93 tests, coverage
+  82.7% → 94.9%). No functional change.
+
 ## 19.0.2.10.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
