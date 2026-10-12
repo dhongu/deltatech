@@ -64,6 +64,44 @@ class TestUblImportResolve(TransactionCase):
         self.assertEqual(self.Wizard._find_supplier_partner("RO99999999", "resolve vendor srl"), self.vendor)
         self.assertFalse(self.Wizard._find_supplier_partner("", ""))
 
+    def test_find_supplier_partner_ignores_ro_prefix_and_spaces(self):
+        Partner = self.env["res.partner"]
+        with_prefix = Partner.create({"name": "VAT With Prefix SRL", "vat": "RO31000003", "supplier_rank": 1})
+        without_prefix = Partner.create({"name": "VAT Without Prefix SRL", "vat": "32000004", "supplier_rank": 1})
+        foreign = Partner.create({"name": "VAT Foreign GmbH", "vat": "DE123456789", "supplier_rank": 1})
+        find = self.Wizard._find_supplier_partner
+
+        self.assertEqual(find("31000003", ""), with_prefix)
+        self.assertEqual(find("ro 31000003", ""), with_prefix)
+        self.assertEqual(find("RO32000004", ""), without_prefix)
+        # a longer or shorter number is another company
+        self.assertFalse(find("RO3100000", ""))
+        self.assertFalse(find("RO310000031", ""))
+        # only the Romanian prefix is optional
+        self.assertFalse(find("123456789", ""))
+        self.assertEqual(find("de 123456789", ""), foreign)
+
+    def test_vat_mismatch_warning_ignores_prefix(self):
+        order = self._order()
+        wizard = self.Wizard.create({"data_file": b64encode(_xml_invoice()), "order_id": order.id})
+        _order, _partner, mismatch = wizard._resolve_order_and_partner({"supplier_vat": "20000002"})
+        self.assertFalse(mismatch)
+        _order, _partner, mismatch = wizard._resolve_order_and_partner({"supplier_vat": "RO 20000002"})
+        self.assertFalse(mismatch)
+        _order, _partner, mismatch = wizard._resolve_order_and_partner({"supplier_vat": "RO20000003"})
+        self.assertTrue(mismatch)
+
+    def test_supplier_without_vat_scheme_found_by_legal_entity_id(self):
+        """A supplier not registered for VAT sends its CUI only in PartyLegalEntity/CompanyID."""
+        xml = _xml_invoice(order_ref="", supplier_vat="20000002", supplier_name="Some Other Name")
+        xml = xml.replace(b"<cac:PartyTaxScheme><cbc:CompanyID>20000002</cbc:CompanyID></cac:PartyTaxScheme>", b"")
+        xml = xml.replace(
+            b"<cac:PartyLegalEntity>", b"<cac:PartyLegalEntity><cbc:CompanyID>20000002</cbc:CompanyID>", 1
+        )
+        data = self.Wizard._parse_xml(xml)
+        self.assertEqual(data["supplier_vat"], "20000002")
+        self.assertEqual(self.Wizard._find_supplier_partner(data["supplier_vat"], data["supplier_name"]), self.vendor)
+
     def test_unknown_vendor_without_order_raises(self):
         xml = _xml_invoice(order_ref="", supplier_vat="RO30000003", supplier_name="Unknown Vendor SRL")
         wizard = self.Wizard.create({"data_file": b64encode(xml)})
