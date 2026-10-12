@@ -180,3 +180,67 @@ class TestProductImageDedup(TransactionCase):
 
         self.env.invalidate_all(flush=False)
         self.assertEqual(image.image_checksum, expected)
+
+    def test_checksum_of_an_unsaved_image(self):
+        """Un record nou n-are atașament: checksum-ul vine din imaginea însăși."""
+        image = self.env["product.image"].new({"name": "draft", "image_1920": self.red})
+        saved = self.create_image("red", self.product_a, self.red)
+        self.assertEqual(image.image_checksum, saved.image_checksum)
+        self.assertFalse(self.env["product.image"].new({"name": "empty"})._dedup_checksum_from_binary())
+
+    def test_duplicate_count_and_view_copies(self):
+        first = self.create_image("red 1", self.product_a, self.red)
+        self.create_image("red 2", self.product_b, self.red)
+        single = self.create_image("blue", self.product_a, self.blue)
+
+        self.assertEqual(first.duplicate_count, 2)
+        self.assertEqual(single.duplicate_count, 1)
+        action = first.action_view_duplicates()
+        self.assertEqual(action["res_model"], "product.image")
+        self.assertEqual(action["domain"], [("image_checksum", "=", first.image_checksum)])
+
+    def test_report_actions(self):
+        first = self.create_image("red 1", self.product_a, self.red)
+        self.create_image("red 2", self.product_a, self.red)
+        self.env.flush_all()
+        group = self.env["deltatech.product.image.duplicate"].search([("image_checksum", "=", first.image_checksum)])
+
+        images = self.env["product.image"].search(group.action_view_images()["domain"])
+        self.assertEqual(len(images), 2)
+        context = group.action_clean()["context"]
+        self.assertEqual(context, {"active_model": group._name, "active_ids": group.ids})
+
+    def test_wizard_works_only_on_the_selected_groups(self):
+        self.create_image("red 1", self.product_a, self.red)
+        red_copy = self.create_image("red 2", self.product_a, self.red, sequence=20)
+        self.create_image("blue 1", self.product_b, self.blue)
+        blue_copy = self.create_image("blue 2", self.product_b, self.blue, sequence=20)
+        self.env.flush_all()
+        red_group = self.env["deltatech.product.image.duplicate"].search(
+            [("image_checksum", "=", red_copy.image_checksum)]
+        )
+
+        action = red_group.action_clean()
+        wizard = self.env[action["res_model"]].with_context(**action["context"]).create({})
+        self.assertEqual(wizard.checksums, red_copy.image_checksum)
+        self.assertEqual(wizard.removable_count, 1)
+        self.assertEqual(wizard.kept_count, 1)
+        wizard.action_apply()
+
+        self.assertEqual(wizard.removed_count, 1)
+        self.assertFalse(red_copy.exists())
+        self.assertTrue(blue_copy.exists(), "a group that was not selected is left alone")
+
+    def test_counts_without_checksums_and_long_preview(self):
+        Dedup = self.env["deltatech.product.image.dedup"]
+        self.assertEqual(Dedup._kept_count([]), 0)
+        self.assertFalse(Dedup._images_to_remove([]))
+
+        first = self.create_image("red 1", self.product_a, self.red)
+        second = self.create_image("red 2", self.product_b, self.red)
+        self.assertEqual(Dedup._kept_count([first.image_checksum]), 2)
+
+        preview = Dedup._build_preview(first | second, limit=1).splitlines()
+        self.assertEqual(len(preview), 2)
+        self.assertIn(f"(#{first.id})", preview[0])
+        self.assertIn("1 more", preview[1])

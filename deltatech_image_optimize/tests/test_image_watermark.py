@@ -1,5 +1,6 @@
 import base64
 import io
+import sys
 import unittest
 from unittest.mock import patch
 
@@ -149,3 +150,61 @@ class TestImageWatermark(TransactionCase):
     def test_missing_numpy_raises(self):
         with patch.object(watermark, "numpy_available", lambda: False), self.assertRaises(UserError):
             self._wizard(self.product)
+
+    def test_numpy_import_error_is_detected(self):
+        with patch.dict(sys.modules, {"numpy": None}):
+            self.assertFalse(watermark.numpy_available())
+
+    # === învățarea ===#
+
+    def test_nothing_to_learn(self):
+        self.assertIsNone(watermark.learn_alpha_trace([]))
+        self.assertIsNone(watermark.learn_alpha_trace([self.original.convert("RGBA")]))
+
+    def test_large_image_is_reduced_before_learning(self):
+        with patch.object(watermark, "LEARN_SIDE", 300):
+            model = watermark.learn_alpha_trace([_watermarked(self.original)])
+        self.assertTrue(model)
+        self.assertAlmostEqual(model["t"][MAX_DROP], MAX_OPACITY, delta=0.05)
+
+    def test_learn_limit_stops_early(self):
+        self._set_param("wm_learn_limit", "1")
+        other = self.env["product.template"].create({"name": "WM Test 2", "image_1920": self.image})
+        wizard = self._wizard(self.product | other)
+
+        self.assertEqual(wizard.learned_count, 1)
+        self.assertEqual(len(wizard.line_ids), 2)
+
+    def test_watermark_over_uniform_background_cannot_be_learned(self):
+        # fără zone închise sub siglă, opacitatea nu se poate separa de culoare
+        white = Image.new("RGB", SIZE, (255, 255, 255))
+        product = self.env["product.template"].create({"name": "WM White", "image_1920": _png(_watermarked(white))})
+        with self.assertRaisesRegex(UserError, "could not be learned"):
+            self._wizard(product)
+
+    # === coada ===#
+
+    def test_broken_image_in_queue_is_marked_failed(self):
+        profile = self._wizard(self.product).profile_id
+        self.product.write({"wm_removal_state": "pending", "wm_profile_id": profile.id})
+        with (
+            patch.object(type(profile), "_dt_clean", side_effect=OSError("cannot identify image file")),
+            patch.object(self.env.cr, "commit", lambda: None),
+        ):
+            self.env["ir.attachment"]._dt_wm_remove_cron()
+
+        self.assertEqual(self.product.wm_removal_state, "error")
+        self.assertEqual(self.product.image_1920, self.image)
+
+    def test_queue_larger_than_batch_triggers_again(self):
+        self._set_param("wm_batch", "1")
+        other = self.env["product.template"].create({"name": "WM Test 2", "image_1920": self.image})
+        profile = self._wizard(self.product).profile_id
+        (self.product | other).write({"wm_removal_state": "pending", "wm_profile_id": profile.id})
+        cron = type(self.env["ir.cron"])
+        with patch.object(cron, "_trigger") as trigger, patch.object(self.env.cr, "commit", lambda: None):
+            self.env["ir.attachment"]._dt_wm_remove_cron()
+
+        states = (self.product | other).mapped("wm_removal_state")
+        self.assertEqual(sorted(states), ["done", "pending"])
+        trigger.assert_called_once()
