@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Deltatech Invoice Delivery",
+    "name": "Invoice Delivery",
     "summary": "Create delivery form invoice",
     "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",

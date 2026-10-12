@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech SMS Sale",
+    "name": "SMS on Sale Order Confirmation",
     "summary": "send SMS at sale order confirmation",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",

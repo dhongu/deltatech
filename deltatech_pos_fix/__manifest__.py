@@ -1,5 +1,5 @@
 {
-    "name": "Deltatech POS Fix",
+    "name": "POS Tax-Included Total Fix",
     "version": "19.0.1.0.2",
     "category": "Point of Sale",
     "summary": "Fix POS total calculation when using tax-included fiscal position mapping",

@@ -1,6 +1,6 @@
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Warehouse Map",
+    "name": "Warehouse Map",
     "summary": "Visual warehouse map: navigate locations by hierarchy (levels, lines, racks, shelves, cells)",
     "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",

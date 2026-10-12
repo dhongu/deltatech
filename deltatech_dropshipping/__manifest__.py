@@ -1,7 +1,7 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Drop Shipping",
+    "name": "Drop Shipping",
     "summary": "Delivery address in picking",
     "version": "19.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",

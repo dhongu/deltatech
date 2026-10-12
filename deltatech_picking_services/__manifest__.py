@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Picking Service Lines",
+    "name": "Picking Service Lines",
     "summary": "Service lines in pickings",
     "version": "19.0.1.0.2",
     "category": "Stock",

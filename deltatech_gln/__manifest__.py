@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Partner GLN ",
+    "name": "Partner GLN",
     "summary": "Partner Global Location Number",
     "version": "19.0.1.1.1",
     "author": "Terrabit,Dorin Hongu",

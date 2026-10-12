@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech SMS",
+    "name": "SMS Custom Gateway",
     "summary": "Send SMS to custom endpoint",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",

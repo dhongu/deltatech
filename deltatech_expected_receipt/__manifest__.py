@@ -1,7 +1,7 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Expected Receipts",
+    "name": "Expected Receipts",
     "summary": "Card payments registered when received, settled against the grouped bank transfer to the cent",
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",

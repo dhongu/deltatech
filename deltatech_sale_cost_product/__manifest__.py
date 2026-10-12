@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Deltatech Sale Cost on Order",
+    "name": "Sale Cost on Order",
     "version": "19.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",

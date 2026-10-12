@@ -1,7 +1,7 @@
 # ©  2023-now Terrabit
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Account Analytic",
+    "name": "Account Analytic",
     "summary": "Analytic lines enhancements",
     "version": "19.0.0.0.9",
     "author": "Terrabit, Dan Stoica",

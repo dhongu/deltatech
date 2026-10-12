@@ -2,7 +2,7 @@
 #              Dan Stoica <danila(@)terrabit(.)ro
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech stock move analytic",
+    "name": "Stock Move Analytic",
     "category": "Project",
     "summary": "Create analytic lines from stock moves",
     "version": "19.0.1.0.3",

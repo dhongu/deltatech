@@ -1,6 +1,6 @@
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech POS Stock",
+    "name": "POS Stock",
     "version": "19.0.1.2.1",
     "category": "Point of Sale",
     "summary": "Show stock quantity and price as a badge on POS product cards",

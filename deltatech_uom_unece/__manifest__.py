@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech UoM UNECE Codes",
+    "name": "UoM UNECE Codes",
     "summary": "Editable UNECE Rec 20/21 code on each unit of measure",
     "version": "19.0.1.0.1",
     "author": "Terrabit,Dorin Hongu",

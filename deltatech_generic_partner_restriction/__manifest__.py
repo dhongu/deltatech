@@ -1,6 +1,6 @@
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Generic Partner Restriction",
+    "name": "Generic Partner Restriction",
     "summary": "Transition module: merged into Deltatech Generic Partner",
     "version": "19.0.3.0.2",
     "author": "Terrabit, cojocariudaniel1",

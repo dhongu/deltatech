@@ -1,5 +1,5 @@
 {
-    "name": "Deltatech Line Counter",
+    "name": "Code Line Counter",
     "version": "19.0.1.0.2",
     "category": "Extra Tools",
     "summary": "Count lines of code in selected modules",

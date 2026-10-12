@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Deltatech Purchase Order Stage",
+    "name": "Purchase Order Stage",
     "version": "19.0.1.2.7",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

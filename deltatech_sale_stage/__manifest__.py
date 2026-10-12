@@ -4,7 +4,7 @@
 
 
 {
-    "name": "Deltatech Sale Order Stage",
+    "name": "Sale Order Stage",
     "version": "19.0.1.2.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

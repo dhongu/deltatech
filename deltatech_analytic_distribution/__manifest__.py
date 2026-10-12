@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Analytic distribution enforcer",
+    "name": "Analytic Distribution Enforcer",
     "category": "Accounting",
     "summary": "Block posting vendor bills until every line is 100% analytically distributed",
     "version": "19.0.0.0.7",

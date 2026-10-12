@@ -2,7 +2,7 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Purchase UBL",
+    "name": "Purchase UBL",
     "summary": "Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills",
     "version": "19.0.1.4.11",
     "category": "Purchases",
