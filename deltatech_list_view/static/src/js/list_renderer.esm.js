@@ -5,8 +5,9 @@ import {patch} from "@web/core/utils/patch";
 
 patch(ListRenderer.prototype, {
     onCellClicked() {
+        // Nu deschide înregistrarea când utilizatorul selectează text din celulă
         if (this.getSelectedText() === "") {
-            super.onCellClicked(...arguments);
+            return super.onCellClicked(...arguments);
         }
     },
 

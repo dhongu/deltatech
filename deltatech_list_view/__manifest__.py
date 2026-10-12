@@ -4,14 +4,13 @@
 {
     "name": "List View Select Text",
     "summary": "List View Select Text",
-    "version": "19.0.1.0.3",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
     "depends": ["web"],
     "license": "OPL-1",
     "data": [],
-    "qweb": ["static/src/xml/*.xml"],
     "images": ["static/description/main_screenshot.png"],
     "assets": {
         "web.assets_backend": ["deltatech_list_view/static/src/js/list_renderer.esm.js"],
