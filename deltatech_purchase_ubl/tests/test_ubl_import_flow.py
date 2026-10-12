@@ -23,10 +23,22 @@ class TestUblImportFlow(TransactionCase):
             {"name": "Flow Vendor SRL", "is_company": True, "vat": "RO40000004", "supplier_rank": 1}
         )
         cls.product_a = cls.env["product.product"].create(
-            {"name": "Flow Product A", "default_code": "FLOW-A", "is_storable": True, "purchase_ok": True}
+            {
+                "name": "Flow Product A",
+                "default_code": "FLOW-A",
+                "is_storable": True,
+                "purchase_ok": True,
+                "purchase_method": "purchase",
+            }
         )
         cls.product_b = cls.env["product.product"].create(
-            {"name": "Flow Product B", "default_code": "FLOW-B", "is_storable": True, "purchase_ok": True}
+            {
+                "name": "Flow Product B",
+                "default_code": "FLOW-B",
+                "is_storable": True,
+                "purchase_ok": True,
+                "purchase_method": "purchase",
+            }
         )
         Tax = cls.env["account.tax"]
         tax_vals = {"type_tax_use": "purchase", "amount_type": "percent", "company_id": cls.company.id}
@@ -206,3 +218,45 @@ class TestUblImportFlow(TransactionCase):
         self.assertIsNone(self.Wizard._source_tax_percent({"tax_percent": 0.0, "tax_category": "AE"}))
         self.assertEqual(self.Wizard._source_tax_percent({"tax_percent": 0.0, "tax_category": "e"}), 0.0)
         self.assertEqual(self.Wizard._source_tax_percent({"tax_percent": "11"}), 11.0)
+
+    def test_no_ghost_bill_when_order_already_invoiced(self):
+        """A second supplier invoice on a fully invoiced order creates no zero-quantity bill."""
+        order = self._order([(self.product_a, 1.0)])
+        order.action_create_invoice()
+        order.invoice_ids.ref = "FLOW-FIRST"
+        wizard = self._import(
+            order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "1"}], invoice_id="FLOW-SECOND"
+        )
+        self.assertEqual(len(order.invoice_ids), 1)
+        self.assertFalse(wizard.bill_id)
+        self.assertIn("nothing left to invoice", wizard.log)
+        self.assertTrue(wizard.has_warning, "A second invoice on an invoiced order needs a review")
+
+    def test_no_bill_before_receipt_when_billed_on_received_quantities(self):
+        product = self.env["product.product"].create(
+            {"name": "Flow Receive Policy", "default_code": "FLOW-R", "is_storable": True, "purchase_method": "receive"}
+        )
+        order = self._order([(product, 2.0)])
+        wizard = self._import(order, [{"code": "FLOW-R", "name": product.name, "qty": "2"}], invoice_id="FLOW-R-1")
+        self.assertFalse(order.invoice_ids)
+        self.assertIn("nothing left to invoice", wizard.log)
+
+    def test_bill_created_after_receipt_when_billed_on_received_quantities(self):
+        product = self.env["product.product"].create(
+            {
+                "name": "Flow Receive Billed",
+                "default_code": "FLOW-RB",
+                "is_storable": True,
+                "purchase_method": "receive",
+            }
+        )
+        order = self._order([(product, 2.0)])
+        wizard = self._import(
+            order,
+            [{"code": "FLOW-RB", "name": product.name, "qty": "2", "line_total": "20"}],
+            invoice_id="FLOW-RB-1",
+            validate_receipt=True,
+        )
+        self.assertEqual(order.invoice_ids.invoice_line_ids.quantity, 2.0)
+        self.assertEqual(wizard.bill_id, order.invoice_ids)
+        self.assertFalse(wizard.has_warning)

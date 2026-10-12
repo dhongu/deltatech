@@ -853,6 +853,8 @@ class TestPurchaseUblImport(TransactionCase):
                     "default_code": "BILLPROD",
                     "is_storable": True,
                     "purchase_ok": True,
+                    # billed on ordered quantities: the bill tests run without a receipt
+                    "purchase_method": "purchase",
                 }
             )
         line_vals = {
