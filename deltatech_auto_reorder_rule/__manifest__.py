@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Auto Reorder Rule",
+    "name": "Auto Reorder Rule",
     "category": "Stock",
     "summary": "Automatically create reordering rules for new storable products",
     "version": "19.0.0.1.8",
