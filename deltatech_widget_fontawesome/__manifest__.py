@@ -12,7 +12,6 @@
     "depends": ["web"],
     "data": [],
     "installable": True,
-    "qweb": ["static/src/xml/*.xml"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
     "assets": {
