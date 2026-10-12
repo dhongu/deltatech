@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Project Pricelist",
+    "name": "Project Pricelist",
     "summary": "Project-level pricelist used when creating Sales Orders from a project",
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
