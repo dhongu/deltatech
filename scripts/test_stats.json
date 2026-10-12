@@ -561,7 +561,7 @@
     "deltatech_purchase_ubl": {
       "coverage": 78.3,
       "lines": 752,
-      "tests": 48
+      "tests": 81
     },
     "deltatech_purchase_xls": {
       "coverage": 97.0,
