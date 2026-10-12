@@ -7,6 +7,9 @@
   The odometer start used to write the end value as a side effect, and the
   next opening took that reading as start, losing the distance of the sheet.
   The readings of the sheet itself are no longer taken as the other end.
+- The reservoir level includes the fuel logs and route logs not yet saved
+  in the same transaction (for example when a map sheet is saved with new
+  routes); it used to show the level without their consumption.
 - A route log without a begin date no longer crashes on the week day.
 - Map sheet default dates work for users without a time zone (UTC is used).
 - Removed unused odometer methods on fuel logs and a no-op domain in the

@@ -36,6 +36,17 @@ class TestFleetMapSheet(FleetCommon):
         self.assertFalse(fuel.map_sheet_id)
         self.assertEqual(self.vehicle.reservoir_level, 30)
 
+    def test_reservoir_level_sees_unflushed_route_logs(self):
+        self._fuel_log(50, self.day.replace(hour=5))
+        sheet = self._sheet()
+        self.env.flush_all()
+        route_log = self._route_log(sheet, 100, 7)
+        route_log.distance = 200  # 20 l, still pending in the ORM
+        sheet.invalidate_recordset(["reservoir_level_end"])
+        self.assertEqual(sheet.reservoir_level_end, 30)
+        self.vehicle.invalidate_recordset(["reservoir_level"])
+        self.assertEqual(self.vehicle.reservoir_level, 30)
+
     def test_norm_cons_follows_distance_and_vehicle(self):
         sheet = self._sheet()
         route_log = self._route_log(sheet, 100, 7)

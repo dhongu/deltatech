@@ -165,10 +165,18 @@ class FleetReservoirLevel(models.Model):
     liter = fields.Float("Liter")
 
     @api.model
+    def _flush_level_sources(self):
+        self.env["fleet.vehicle.log.services"].flush_model(["vehicle_id"])
+        self.env["fleet.vehicle.log.fuel"].flush_model(["liter", "date_time", "log_service_id"])
+        self.env["fleet.route.log"].flush_model(["vehicle_id", "norm_cons", "date_end"])
+
+    @api.model
     def get_level(self, vehicle_id):
         level = 0.0
         if not vehicle_id:
             return level
+
+        self._flush_level_sources()
 
         self.env.cr.execute(
             SQL(
@@ -207,6 +215,7 @@ class FleetReservoirLevel(models.Model):
             return level
 
         vehicle_id = vehicle.id
+        self._flush_level_sources()
         self.env.cr.execute(
             SQL(
                 """SELECT  sum(liter) AS liter
