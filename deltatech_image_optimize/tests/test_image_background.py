@@ -242,3 +242,89 @@ class TestImageBackground(TransactionCase):
         names = wizard.line_ids.mapped("name")
         self.assertIn("main image", names[0])
         self.assertIn("gallery image 1", names[1])
+
+    # === ramuri de eroare ===#
+
+    @staticmethod
+    def _gradient(img):
+        for x in range(img.width):
+            img.paste((x * 255 // img.width, 80, 160), (x, 0, x + 1, 30))
+
+    def test_uniform_method_on_a_real_background(self):
+        product = self._product_with(self._gradient)
+        self._set_param("bg_method", "uniform")
+        action = product.action_dt_remove_background()
+        line = self.env[action["res_model"]].browse(action["res_id"]).line_ids
+
+        self.assertFalse(line.image_after)
+        self.assertIn("not a single color", line.warning)
+
+    def test_ai_method_without_rembg_on_uniform_background(self):
+        params = dict(self.env["ir.attachment"]._dt_bg_params(), method="rembg")
+        with patch.object(ir_attachment, "_rembg_available", lambda: False):
+            data, warning = self.env["ir.attachment"]._dt_image_cutout(base64.b64decode(self.image), params)
+
+        self.assertIsNone(data)
+        self.assertIn("uniform background method", warning)
+
+    def test_ai_model_error_fails_only_that_image(self):
+        def broken(img, model_name):
+            raise RuntimeError("model file is corrupt")
+
+        self._set_param("bg_method", "rembg")
+        with patch.object(ir_attachment, "_rembg_cutout", broken):
+            action = self.product.action_dt_remove_background()
+        line = self.env[action["res_model"]].browse(action["res_id"]).line_ids
+
+        self.assertFalse(line.image_after)
+        self.assertFalse(line.to_apply)
+        self.assertIn("model file is corrupt", line.warning)
+
+    def test_failed_queue_item_and_retrigger(self):
+        other = self._product_with(self._accessory)
+        self._set_param("bg_sync_limit", "0")
+        self._set_param("bg_batch", "1")
+        self._set_param("bg_method", "rembg")
+        self._run(self.product | other)
+        self.assertEqual((self.product | other).mapped("bg_removal_state"), ["pending", "pending"])
+
+        def broken(img, model_name):
+            raise RuntimeError("model file is corrupt")
+
+        cron = type(self.env["ir.cron"])
+        with (
+            patch.object(ir_attachment, "_rembg_cutout", broken),
+            patch.object(cron, "_trigger") as trigger,
+            patch.object(self.env.cr, "commit", lambda: None),
+        ):
+            self.env["ir.attachment"]._dt_bg_remove_cron()
+
+        self.assertEqual(sorted((self.product | other).mapped("bg_removal_state")), ["error", "pending"])
+        trigger.assert_called_once()
+
+    # === imagini din galerie, direct ===#
+
+    def test_action_on_gallery_image_without_product(self):
+        image = self.env["product.image"].create({"name": "Loose image", "image_1920": self.image})
+        action = image.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+
+        self.assertEqual(len(wizard.line_ids), 1, "only the selected image, no product gallery")
+        self.assertEqual(wizard.line_ids.name, image.display_name)
+        wizard.action_apply()
+        self.assertEqual(image.bg_removal_state, "done")
+
+    # === wizard ===#
+
+    def test_custom_model_is_offered_and_refresh_without_model(self):
+        self._set_param("bg_model", "birefnet-general")
+        wizard_model = self.env["deltatech.image.background.wizard"]
+        self.assertIn(("birefnet-general", "birefnet-general"), wizard_model._selection_bg_model())
+        self.assertIn(("u2net", "U2Net"), wizard_model._selection_bg_model())
+
+        action = self.product.action_dt_remove_background()
+        wizard = wizard_model.browse(action["res_id"])
+        wizard.bg_model = False
+        wizard.method = "uniform"
+        self.assertEqual(wizard.action_refresh()["res_id"], wizard.id)
+        self.assertTrue(wizard.line_ids.image_after)

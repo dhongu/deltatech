@@ -1,3 +1,12 @@
+## 19.0.1.12.4 (2026-10-12)
+
+- Tests: the watermark tests now run in CI. They were skipped because the CI image has
+  no numpy; the repository gets a `test-requirements.txt` with numpy (numpy stays an
+  optional dependency of the module). New tests cover the error and queue paths of
+  watermark and background removal, recompression edge cases (unreadable input,
+  palette images, PNG fallback without WebP, orphan attachments, failed writes) and
+  the duplicate image report and wizard.
+
 ## 19.0.1.12.3 (2026-10-12)
 
 - Readme: the description starts with the module title, like the other modules, and the

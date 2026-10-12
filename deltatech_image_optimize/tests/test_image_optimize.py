@@ -1,6 +1,7 @@
 import base64
 import io
 import os
+from unittest.mock import patch
 
 from odoo.tests import TransactionCase, tagged
 
@@ -11,6 +12,7 @@ try:
     # plugin first, which Odoo's preinit() leaves out. Probing directly at
     # import time reports "no WebP" on a Pillow that encodes WebP perfectly
     # well, and the test then skips itself for a reason that is not true.
+    from odoo.addons.deltatech_image_optimize.models import ir_attachment
     from odoo.addons.deltatech_image_optimize.models.ir_attachment import _webp_available
 
     WEBP_OK = _webp_available()
@@ -250,3 +252,178 @@ class TestImageOptimize(TransactionCase):
         # ...but the first rewrite left the old file in place for the second,
         # so at most one of the two can count as disk actually reclaimed.
         self.assertLess(stats["freed_disk"], stats["freed"])
+
+    # === recompresia, fără înregistrări ===#
+
+    def _noise_palette_png(self, size=400, transparent=True):
+        """PNG paletizat din zgomot; cu ``transparent`` indexul 0 e transparent."""
+        img = Image.frombytes("P", (size, size), os.urandom(size * size))
+        img.putpalette(list(os.urandom(768)))
+        buf = io.BytesIO()
+        if transparent:
+            img.save(buf, format="PNG", transparency=0)
+        else:
+            img.save(buf, format="PNG")
+        return buf.getvalue()
+
+    def test_unreadable_input_is_skipped(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        recompress = self.env["ir.attachment"]._dt_image_recompress
+        self.assertEqual(recompress(b"", 85, 0), (None, None))
+        self.assertEqual(recompress(b"this is not an image", 85, 0), (None, None))
+
+    def test_without_pillow_nothing_runs(self):
+        Attachment = self.env["ir.attachment"]
+        empty = {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
+        with patch.object(ir_attachment, "Image", None):
+            self.assertEqual(Attachment._dt_image_recompress(b"raw", 85, 0), (None, None))
+            self.assertEqual(Attachment._dt_image_optimize_run(), empty)
+            self.assertEqual(Attachment._dt_image_optimize_variants_run(), empty)
+            self.assertEqual(Attachment._dt_image_cutout(b"raw", {}), (None, ""))
+
+    def test_palette_images_are_normalized_and_resized(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        recompress = self.env["ir.attachment"]._dt_image_recompress
+
+        data, out_format = recompress(self._noise_palette_png(), 85, 100)
+        self.assertEqual(out_format, "WEBP" if WEBP_OK else "PNG")
+        img = Image.open(io.BytesIO(data))
+        self.assertLessEqual(max(img.size), 100)
+        self.assertIn(img.mode, ("RGBA", "LA"), "palette transparency becomes a real alpha channel")
+
+        data, out_format = recompress(self._noise_palette_png(transparent=False), 85, 100)
+        self.assertEqual(out_format, "JPEG")
+
+    def test_transparent_image_without_webp_stays_png(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        raw = base64.b64decode(self._make_big_transparent_png(size=300))
+        recompress = self.env["ir.attachment"]._dt_image_recompress
+
+        with patch.object(ir_attachment, "_webp_available", lambda: False):
+            data, out_format = recompress(raw, 85, 100)
+        self.assertEqual(out_format, "PNG")
+        self.assertEqual(Image.open(io.BytesIO(data)).mode, "RGBA")
+
+        original_save = Image.Image.save
+
+        def save_without_webp(img, fp, format=None, **params):  # pylint: disable=redefined-builtin
+            if format == "WEBP":
+                raise OSError("encoder webp not available")
+            return original_save(img, fp, format=format, **params)
+
+        with (
+            patch.object(ir_attachment, "_webp_available", lambda: True),
+            patch.object(Image.Image, "save", save_without_webp),
+        ):
+            data, out_format = recompress(raw, 85, 100)
+        self.assertEqual(out_format, "PNG", "a failing WebP encoder falls back to PNG")
+
+    # === rularea pe atașamente ===#
+
+    def _set_params(self, **params):
+        ICP = self.env["ir.config_parameter"].sudo()
+        for key, value in params.items():
+            ICP.set_param(f"deltatech_image_optimize.{key}", value)
+
+    def test_result_not_smaller_is_flagged_and_kept(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        self._set_params(min_size="0", target_fields="image_1920")
+        buf = io.BytesIO()
+        Image.new("RGB", (16, 16), (200, 30, 30)).save(buf, format="PNG")
+        partner = self.env["res.partner"].create({"name": "Tiny Image", "image_1920": base64.b64encode(buf.getvalue())})
+        att = self._image_attachment(partner)
+        raw = att.raw
+
+        self.env["ir.attachment"]._dt_image_optimize_run(limit=1000)
+
+        self.assertTrue(att.deltatech_image_optimized)
+        self.assertEqual(att.raw, raw)
+
+    def test_orphan_attachment_is_flagged(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        self._set_params(min_size="1", target_fields="image_1920")
+        orphan = (
+            self.env["ir.attachment"]
+            .sudo()
+            .create(
+                {
+                    "name": "image_1920",
+                    "res_model": "res.partner",
+                    "res_field": "image_1920",
+                    "res_id": 2147483000,
+                    "raw": base64.b64decode(self._make_big_jpeg(size=600)),
+                }
+            )
+        )
+        raw = orphan.raw
+
+        self.env["ir.attachment"]._dt_image_optimize_run(limit=1000)
+
+        self.assertTrue(orphan.deltatech_image_optimized)
+        self.assertEqual(orphan.raw, raw, "nothing is written for a deleted record")
+
+    def test_failed_record_write_is_flagged(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        self._set_params(min_size="1", target_fields="image_1920")
+        partner = self.env["res.partner"].create({"name": "Write Fails", "image_1920": self._make_big_jpeg(size=600)})
+        att = self._image_attachment(partner)
+        raw = att.raw
+        Partner = type(self.env["res.partner"])
+        original_write = Partner.write
+
+        def write(records, vals):
+            if partner in records and "image_1920" in vals:
+                raise ValueError("record is locked")
+            return original_write(records, vals)
+
+        with patch.object(Partner, "write", write):
+            self.env["ir.attachment"]._dt_image_optimize_run(limit=1000)
+
+        self.assertTrue(att.deltatech_image_optimized)
+        self.assertEqual(att.raw, raw)
+
+    def test_failed_variant_write_does_not_stop_the_batch(self):
+        if Image is None:
+            self.skipTest("Pillow not available")
+        self._set_params(variant_min_size="1", variant_fields="image_1024,image_512")
+        partner = self.env["res.partner"].create(
+            {"name": "Variant Fails", "image_1920": self._make_big_jpeg(size=1200)}
+        )
+        _ = partner.image_1024, partner.image_512
+        self.env.flush_all()
+        variants = (
+            self.env["ir.attachment"]
+            .sudo()
+            .search(
+                [
+                    ("res_model", "=", "res.partner"),
+                    ("res_id", "=", partner.id),
+                    ("res_field", "in", ["image_1024", "image_512"]),
+                ]
+            )
+        )
+        failing = variants.filtered(lambda att: att.res_field == "image_1024")
+        Attachment = type(self.env["ir.attachment"])
+        original_write = Attachment.write
+
+        def write(records, vals):
+            if failing in records and "deltatech_image_optimized" in vals:
+                raise ValueError("storage unavailable")
+            return original_write(records, vals)
+
+        with patch.object(Attachment, "write", write):
+            self.env["ir.attachment"]._dt_image_optimize_variants_run(limit=1000)
+
+        self.assertFalse(failing.deltatech_image_optimized)
+        self.assertTrue((variants - failing).deltatech_image_optimized, "the next variant is still processed")
+
+    def test_attachment_stored_in_database_is_not_shared(self):
+        att = self.env["ir.attachment"].create({"name": "link", "type": "url", "url": "https://example.com/a.png"})
+        self.assertFalse(att.store_fname)
+        self.assertFalse(att._dt_image_shared_file())
