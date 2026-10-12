@@ -2,7 +2,7 @@
 # See README.rst file on the addons root folder for license details
 
 {
-    "name": "Deltatech Kit Price",
+    "name": "Kit Price",
     "summary": "Compute product cost price in sale order line based on kit",
     "version": "19.0.0.0.3",
     "author": "Terrabit, Dan Stoica",

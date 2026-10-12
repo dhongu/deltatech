@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Replenish",
+    "name": "Replenish Vendor (Compatibility)",
     "summary": "Compatibility module: vendor choice in replenishment is now standard in Odoo 19",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",

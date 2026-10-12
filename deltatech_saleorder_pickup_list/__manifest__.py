@@ -4,7 +4,7 @@
 
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Sale Order Pickup List",
+    "name": "Sale Order Pickup List",
     "summary": "Pickup list report from sale order",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",

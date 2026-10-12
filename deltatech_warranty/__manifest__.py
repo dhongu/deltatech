@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Warranty",
+    "name": "Product Warranty",
     "summary": "Warranty field in product, report for sale order",
     "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",

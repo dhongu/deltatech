@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Cash Statement Extension",
+    "name": "Cash Statement Extension",
     "summary": "Align cash statement balances with accounting and book cash differences as entries",
     "version": "19.0.3.1.4",
     "author": "Terrabit,Dorin Hongu",

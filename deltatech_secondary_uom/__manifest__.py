@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Product Secondary UoM",
+    "name": "Product Secondary UoM",
     "version": "19.0.1.2.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

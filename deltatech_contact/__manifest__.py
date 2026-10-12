@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Contacts",
+    "name": "Contact Personal Data",
     "summary": "Personal data on contacts: CNP with validation, ID card, birthdate, gender",
     "version": "19.0.1.4.12",
     "author": "Terrabit,Dorin Hongu",

@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale XLS",
+    "name": "Sale XLS",
     "summary": "Import/export sale line from/to Excel",
     "author": "Terrabit, Voicu Stefan",
     "version": "19.0.1.0.3",

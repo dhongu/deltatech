@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Actions",
+    "name": "Cleanup Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
     "version": "19.0.0.9.7",

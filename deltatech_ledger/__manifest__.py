@@ -1,5 +1,5 @@
 {
-    "name": "Deltatech Ledger",
+    "name": "Incoming and Outgoing Document Register",
     "summary": "Register of incoming and outgoing documents",
     "category": "Productivity",
     "version": "19.0.0.1.1",

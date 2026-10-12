@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Fleet Geo",
+    "name": "Fleet Routes Geolocation",
     "summary": "Fleet Geographical Information",
     "version": "19.0.1.0.1",
     "author": "Dorin Hongu, Terrabit",

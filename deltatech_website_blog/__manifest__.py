@@ -1,6 +1,6 @@
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Deltatech Web Site Blog",
+    "name": "Blog Post Sorting",
     "summary": "Sort blog posts by publication date",
     "version": "19.0.1.0.2",
     "category": "Website",

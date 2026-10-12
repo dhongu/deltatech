@@ -3,7 +3,7 @@
 
 
 {
-    "name": "Deltatech partner discount",
+    "name": "Partner Discount",
     "summary": "Creates a discount field on partner and alerts the user on invoice",
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dan Stoica",

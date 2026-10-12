@@ -1,5 +1,5 @@
 {
-    "name": "Deltatech Website Product Placeholder",
+    "name": "Website Product Placeholder",
     "summary": "Serve placeholder image for products without images",
     "version": "19.0.1.0.1",
     "category": "Website",
