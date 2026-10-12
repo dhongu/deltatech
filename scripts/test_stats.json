@@ -1,0 +1,582 @@
+{
+  "addons": {
+    "deltatech_account": {
+      "coverage": 100.0,
+      "lines": 6,
+      "tests": 0
+    },
+    "deltatech_alternative": {
+      "coverage": 87.9,
+      "lines": 124,
+      "tests": 26
+    },
+    "deltatech_average_payment_period": {
+      "coverage": 75.4,
+      "lines": 114,
+      "tests": 5
+    },
+    "deltatech_backup_attachment": {
+      "coverage": 47.1,
+      "lines": 34,
+      "tests": 0
+    },
+    "deltatech_business_process": {
+      "coverage": 91.2,
+      "lines": 1598,
+      "tests": 128
+    },
+    "deltatech_contact": {
+      "coverage": 69.4,
+      "lines": 98,
+      "tests": 5
+    },
+    "deltatech_data_sheet": {
+      "coverage": 100.0,
+      "lines": 7,
+      "tests": 1
+    },
+    "deltatech_data_sheet_website": {
+      "coverage": 100.0,
+      "lines": 1,
+      "tests": 0
+    },
+    "deltatech_dc": {
+      "coverage": 89.9,
+      "lines": 148,
+      "tests": 9
+    },
+    "deltatech_delivery_status": {
+      "coverage": 85.1,
+      "lines": 114,
+      "tests": 8
+    },
+    "deltatech_ecr_fiscal": {
+      "coverage": 94.3,
+      "lines": 35,
+      "tests": 4
+    },
+    "deltatech_expenses": {
+      "coverage": 88.7,
+      "lines": 353,
+      "tests": 21
+    },
+    "deltatech_fleet": {
+      "coverage": 76.9,
+      "lines": 577,
+      "tests": 7
+    },
+    "deltatech_fleet_geo": {
+      "coverage": 95.7,
+      "lines": 23,
+      "tests": 0
+    },
+    "deltatech_gln": {
+      "coverage": 100.0,
+      "lines": 33,
+      "tests": 5
+    },
+    "deltatech_invoice_product_filter": {
+      "tests": 0
+    },
+    "deltatech_invoice_receipt": {
+      "coverage": 82.4,
+      "lines": 108,
+      "tests": 11
+    },
+    "deltatech_invoice_weight": {
+      "coverage": 100.0,
+      "lines": 63,
+      "tests": 4
+    },
+    "deltatech_kit_price": {
+      "coverage": 87.0,
+      "lines": 23,
+      "tests": 4
+    },
+    "deltatech_line_counter": {
+      "coverage": 87.9,
+      "lines": 33,
+      "tests": 3
+    },
+    "deltatech_list_view": {
+      "tests": 0
+    },
+    "deltatech_logistic_docs": {
+      "coverage": 73.0,
+      "lines": 141,
+      "tests": 5
+    },
+    "deltatech_mail": {
+      "coverage": 96.4,
+      "lines": 83,
+      "tests": 15
+    },
+    "deltatech_mrp": {
+      "coverage": 83.6,
+      "lines": 73,
+      "tests": 8
+    },
+    "deltatech_mrp_bom": {
+      "coverage": 81.9,
+      "lines": 127,
+      "tests": 10
+    },
+    "deltatech_mrp_bom_formula": {
+      "coverage": 88.1,
+      "lines": 177,
+      "tests": 14
+    },
+    "deltatech_mrp_concentration": {
+      "coverage": 85.7,
+      "lines": 49,
+      "tests": 6
+    },
+    "deltatech_mrp_cost": {
+      "coverage": 93.2,
+      "lines": 59,
+      "tests": 2
+    },
+    "deltatech_mrp_simple": {
+      "coverage": 89.8,
+      "lines": 265,
+      "tests": 10
+    },
+    "deltatech_mrp_simple_barcode": {
+      "coverage": 100.0,
+      "lines": 38,
+      "tests": 10
+    },
+    "deltatech_mrp_validation_date": {
+      "coverage": 100.0,
+      "lines": 11,
+      "tests": 2
+    },
+    "deltatech_no_quick_create": {
+      "tests": 0
+    },
+    "deltatech_partner_generic": {
+      "coverage": 92.0,
+      "lines": 113,
+      "tests": 24
+    },
+    "deltatech_payment_forecast": {
+      "coverage": 78.6,
+      "lines": 84,
+      "tests": 7
+    },
+    "deltatech_payment_term": {
+      "coverage": 99.0,
+      "lines": 98,
+      "tests": 11
+    },
+    "deltatech_payment_term_working_days": {
+      "coverage": 93.4,
+      "lines": 91,
+      "tests": 12
+    },
+    "deltatech_picking_restrict": {
+      "coverage": 69.2,
+      "lines": 26,
+      "tests": 3
+    },
+    "deltatech_picking_restrict_entry_exit": {
+      "coverage": 92.6,
+      "lines": 81,
+      "tests": 32
+    },
+    "deltatech_picking_services": {
+      "coverage": 93.9,
+      "lines": 33,
+      "tests": 4
+    },
+    "deltatech_picking_split": {
+      "coverage": 78.3,
+      "lines": 60,
+      "tests": 4
+    },
+    "deltatech_picking_transit": {
+      "coverage": 77.9,
+      "lines": 113,
+      "tests": 6
+    },
+    "deltatech_price_categ": {
+      "coverage": 90.0,
+      "lines": 50,
+      "tests": 10
+    },
+    "deltatech_product_category_color": {
+      "coverage": 100.0,
+      "lines": 17,
+      "tests": 3
+    },
+    "deltatech_product_category_group": {
+      "coverage": 91.7,
+      "lines": 36,
+      "tests": 4
+    },
+    "deltatech_product_chatter": {
+      "coverage": 84.6,
+      "lines": 26,
+      "tests": 5
+    },
+    "deltatech_product_code": {
+      "coverage": 91.4,
+      "lines": 163,
+      "tests": 16
+    },
+    "deltatech_product_dimension": {
+      "coverage": 91.7,
+      "lines": 12,
+      "tests": 1
+    },
+    "deltatech_product_extension": {
+      "coverage": 100.0,
+      "lines": 22,
+      "tests": 4
+    },
+    "deltatech_product_labels": {
+      "coverage": 79.2,
+      "lines": 245,
+      "tests": 8
+    },
+    "deltatech_product_list": {
+      "coverage": 100.0,
+      "lines": 11,
+      "tests": 1
+    },
+    "deltatech_product_mpn": {
+      "coverage": 100.0,
+      "lines": 6,
+      "tests": 0
+    },
+    "deltatech_product_reordering_limit": {
+      "coverage": 100.0,
+      "lines": 67,
+      "tests": 15
+    },
+    "deltatech_product_trade_markup": {
+      "coverage": 100.0,
+      "lines": 12,
+      "tests": 2
+    },
+    "deltatech_product_unique_code": {
+      "coverage": 100.0,
+      "lines": 76,
+      "tests": 22
+    },
+    "deltatech_purchase_add_extra_line": {
+      "coverage": 95.0,
+      "lines": 101,
+      "tests": 13
+    },
+    "deltatech_purchase_create_bill_button": {
+      "coverage": 100.0,
+      "lines": 9,
+      "tests": 6
+    },
+    "deltatech_purchase_mail": {
+      "coverage": 93.0,
+      "lines": 100,
+      "tests": 7
+    },
+    "deltatech_purchase_phase": {
+      "coverage": 72.7,
+      "lines": 55,
+      "tests": 3
+    },
+    "deltatech_purchase_picking_status": {
+      "coverage": 100.0,
+      "lines": 6,
+      "tests": 5
+    },
+    "deltatech_purchase_price": {
+      "coverage": 88.3,
+      "lines": 274,
+      "tests": 16
+    },
+    "deltatech_purchase_refund": {
+      "coverage": 72.5,
+      "lines": 40,
+      "tests": 2
+    },
+    "deltatech_purchase_stock": {
+      "coverage": 100.0,
+      "lines": 18,
+      "tests": 3
+    },
+    "deltatech_purchase_ubl": {
+      "coverage": 80.0,
+      "lines": 761,
+      "tests": 50
+    },
+    "deltatech_purchase_xls": {
+      "coverage": 56.0,
+      "lines": 232,
+      "tests": 7
+    },
+    "deltatech_putaway_strategy": {
+      "coverage": 78.1,
+      "lines": 192,
+      "tests": 29
+    },
+    "deltatech_ral": {
+      "coverage": 82.6,
+      "lines": 46,
+      "tests": 6
+    },
+    "deltatech_reception_note": {
+      "coverage": 67.9,
+      "lines": 106,
+      "tests": 7
+    },
+    "deltatech_record_type": {
+      "coverage": 76.5,
+      "lines": 183,
+      "tests": 15
+    },
+    "deltatech_replenish": {
+      "tests": 3
+    },
+    "deltatech_report_prn": {
+      "coverage": 47.5,
+      "lines": 59,
+      "tests": 3
+    },
+    "deltatech_sale_activity_report": {
+      "coverage": 82.0,
+      "lines": 228,
+      "tests": 22
+    },
+    "deltatech_sale_activity_search": {
+      "coverage": 100.0,
+      "lines": 32,
+      "tests": 3
+    },
+    "deltatech_sale_add_extra_line": {
+      "coverage": 100.0,
+      "lines": 74,
+      "tests": 22
+    },
+    "deltatech_sale_commission": {
+      "coverage": 75.9,
+      "lines": 394,
+      "tests": 35
+    },
+    "deltatech_sale_contact": {
+      "coverage": 97.5,
+      "lines": 40,
+      "tests": 9
+    },
+    "deltatech_sale_cost_product": {
+      "coverage": 100.0,
+      "lines": 16,
+      "tests": 4
+    },
+    "deltatech_sale_currency": {
+      "coverage": 75.0,
+      "lines": 56,
+      "tests": 4
+    },
+    "deltatech_sale_invoice_status": {
+      "coverage": 100.0,
+      "lines": 7,
+      "tests": 5
+    },
+    "deltatech_sale_margin": {
+      "coverage": 82.0,
+      "lines": 206,
+      "tests": 37
+    },
+    "deltatech_sale_multiple": {
+      "coverage": 75.0,
+      "lines": 124,
+      "tests": 12
+    },
+    "deltatech_sale_pallet": {
+      "coverage": 86.9,
+      "lines": 84,
+      "tests": 2
+    },
+    "deltatech_sale_payment": {
+      "coverage": 95.5,
+      "lines": 154,
+      "tests": 42
+    },
+    "deltatech_sale_phone": {
+      "coverage": 100.0,
+      "lines": 19,
+      "tests": 2
+    },
+    "deltatech_sale_picking_status": {
+      "coverage": 100.0,
+      "lines": 6,
+      "tests": 5
+    },
+    "deltatech_sale_purchase": {
+      "coverage": 100.0,
+      "lines": 20,
+      "tests": 6
+    },
+    "deltatech_sale_purchase_requisition": {
+      "coverage": 90.2,
+      "lines": 41,
+      "tests": 6
+    },
+    "deltatech_sale_qty_available": {
+      "coverage": 73.8,
+      "lines": 80,
+      "tests": 7
+    },
+    "deltatech_sale_report": {
+      "coverage": 100.0,
+      "lines": 10,
+      "tests": 2
+    },
+    "deltatech_sale_return_cause": {
+      "coverage": 95.3,
+      "lines": 64,
+      "tests": 7
+    },
+    "deltatech_sale_stage": {
+      "coverage": 77.7,
+      "lines": 121,
+      "tests": 10
+    },
+    "deltatech_sale_team": {
+      "coverage": 100.0,
+      "lines": 28,
+      "tests": 9
+    },
+    "deltatech_sale_transfer": {
+      "coverage": 88.6,
+      "lines": 88,
+      "tests": 8
+    },
+    "deltatech_sale_xls": {
+      "coverage": 98.3,
+      "lines": 58,
+      "tests": 12
+    },
+    "deltatech_saleorder_search": {
+      "tests": 2
+    },
+    "deltatech_secondary_uom": {
+      "coverage": 92.3,
+      "lines": 207,
+      "tests": 14
+    },
+    "deltatech_sms": {
+      "coverage": 95.7,
+      "lines": 93,
+      "tests": 7
+    },
+    "deltatech_stock_delivery": {
+      "coverage": 76.7,
+      "lines": 30,
+      "tests": 3
+    },
+    "deltatech_stock_disassembly": {
+      "coverage": 83.1,
+      "lines": 451,
+      "tests": 17
+    },
+    "deltatech_stock_disassembly_mrp": {
+      "coverage": 79.4,
+      "lines": 34,
+      "tests": 1
+    },
+    "deltatech_stock_inventory": {
+      "coverage": 82.4,
+      "lines": 1031,
+      "tests": 71
+    },
+    "deltatech_stock_inventory_product_display": {
+      "coverage": 92.3,
+      "lines": 26,
+      "tests": 2
+    },
+    "deltatech_stock_negative": {
+      "coverage": 96.2,
+      "lines": 53,
+      "tests": 32
+    },
+    "deltatech_stock_picking_activity_report": {
+      "coverage": 91.2,
+      "lines": 226,
+      "tests": 20
+    },
+    "deltatech_stock_removal_priority": {
+      "coverage": 78.6,
+      "lines": 117,
+      "tests": 6
+    },
+    "deltatech_stock_report": {
+      "coverage": 100.0,
+      "lines": 39,
+      "tests": 7
+    },
+    "deltatech_tc": {
+      "coverage": 84.4,
+      "lines": 339,
+      "tests": 42
+    },
+    "deltatech_team_logo": {
+      "coverage": 100.0,
+      "lines": 15,
+      "tests": 9
+    },
+    "deltatech_test_system": {
+      "coverage": 92.7,
+      "lines": 41,
+      "tests": 6
+    },
+    "deltatech_uom_domain": {
+      "coverage": 100.0,
+      "lines": 58,
+      "tests": 10
+    },
+    "deltatech_vendor_stock": {
+      "coverage": 94.6,
+      "lines": 92,
+      "tests": 9
+    },
+    "deltatech_warranty": {
+      "coverage": 100.0,
+      "lines": 6,
+      "tests": 3
+    },
+    "deltatech_watermark": {
+      "coverage": 100.0,
+      "lines": 11,
+      "tests": 3
+    },
+    "deltatech_web_kpi_cards": {
+      "tests": 1
+    },
+    "deltatech_website_checkout_confirm": {
+      "coverage": 95.7,
+      "lines": 23,
+      "tests": 11
+    },
+    "deltatech_website_city": {
+      "coverage": 88.0,
+      "lines": 92,
+      "tests": 17
+    },
+    "deltatech_website_short_description": {
+      "coverage": 100.0,
+      "lines": 11,
+      "tests": 1
+    },
+    "deltatech_widget_fontawesome": {
+      "tests": 0
+    },
+    "deltatech_widget_many2one_badge": {
+      "tests": 1
+    }
+  },
+  "branch": "20.0",
+  "commit": "c735c420f44b8cb186a1c559120a5f9cdb78e324",
+  "generated": "2026-10-12",
+  "source": "codecov:dhongu/deltatech"
+}
