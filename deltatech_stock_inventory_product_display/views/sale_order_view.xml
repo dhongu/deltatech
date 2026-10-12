@@ -10,7 +10,7 @@
                     name="action_view_products"
                     type="object"
                     class="oe_stat_button"
-                    icon="fa-th-large"
+                    icon="view_module"
                     invisible="not order_line or state not in ('sent','sale', 'done')"
                 >
                     <span>Products</span>

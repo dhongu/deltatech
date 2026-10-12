@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button name="action_view_products" type="object" class="oe_stat_button" icon="fa-th-large">
+                <button name="action_view_products" type="object" class="oe_stat_button" icon="view_module">
                     <span>Products</span>
                 </button>
             </div>
