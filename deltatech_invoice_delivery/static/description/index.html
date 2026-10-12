@@ -5,7 +5,7 @@
   <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">Deltatech Invoice Delivery</h1>
   <p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">Create delivery form invoice</p>
   <div>
-    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 18.0</span>
+    <span class="d-inline-block rounded-pill fw-bold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo 19.0</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Accounting</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">OPL-1</span>
     <span class="d-inline-block rounded-pill fw-semibold m-1" style="background-color:#00432a;color:#ffffff;padding:8px 16px;font-size:12px;">Odoo.sh &bull; On-premise</span>
@@ -20,17 +20,92 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Deliver the goods straight from the customer invoice: when an invoice is posted, the storable products
+are added to a sale order, the order is confirmed and the delivery is validated, in one step and without
+a separate quotation.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">One step</span><div>posting the invoice creates the sale order, confirms it and delivers the goods from stock.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Enabled per journal</span><div>only the sales journals with <em>Delivery from invoice</em> checked use the flow, so the
+  invoices issued from sale orders keep the standard behaviour.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Only what needs a delivery</span><div>services and lines already linked to a sale order are left as they are.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Same values as the invoice</span><div>quantity, unit, price, discount and taxes are copied to the order line, which
+  stays linked to the invoice line, so the order is shown as delivered and invoiced.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Stock check before posting</span><div>when the stock is not enough, the invoice is not posted and the message lists
+  each product with the available and the requested quantity.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Returns on the same invoice</span><div>a line with a negative quantity brings the goods back to stock.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ol>
+<li>Go to <em>Invoicing &gt; Configuration &gt; Journals</em> and open the sales journal used for these invoices.</li>
+<li>Check <strong>Delivery from invoice</strong>. A separate journal, for example <em>Store invoices</em>, keeps the invoices
+   issued from sale orders on the standard flow.</li>
+<li>The warehouse of the generated order must deliver in one step (<em>Inventory &gt; Configuration &gt; Warehouses</em>,
+   <em>Outgoing shipments: Deliver goods directly</em>).</li>
+</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Create a customer invoice in the journal with <em>Delivery from invoice</em> and add the products.</li>
+<li>Click <strong>Confirm</strong>. The sale order is created and confirmed, the delivery is validated and a note on the
+   invoice links to the order.</li>
+<li>When a product does not have enough stock, the invoice stays in draft and the message shows the available
+   and the requested quantity.</li>
+<li>To take goods back on the same invoice, add the product with a negative quantity: a return is validated
+   together with the delivery.</li>
+</ol>
+<p>With <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_account_date</code> installed, the stock accounting entries of the delivery take the accounting
+date of the invoice, so the sale (707) and the cost of the goods sold (607) fall in the same period.</p>
+<p>Limits:</p>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
+<li>Use this journal only when the goods leave on the invoice date. Goods delivered earlier, especially in a
+  previous month, are recorded at the delivery date (418) and invoiced afterwards, from the delivery.</li>
+<li>A negative line on the invoice must refer to the original invoice (number and date). The goods returned this way
+  enter the stock at the current cost of the product, not at the cost of the original delivery: for an exact
+  reversal of the cost, return them from the original delivery and issue a credit note.</li>
+</ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-12)</h2>
 <ul>
-<li>Generation of a sale order and delivery automatically when validating a sale invoice</li>
-<li>Allows negative quantity in sale order</li>
+<li>Migrated to Odoo 19.</li>
+<li>The flow is enabled per sales journal (<em>Delivery from invoice</em>). Up to 18.0 it ran on every customer
+  invoice; when upgrading, the option is checked on all the sales journals, so the behaviour stays the same.</li>
+<li>The discount of the invoice line is copied to the sale order line, and the order line stays linked to the
+  invoice line.</li>
+<li>The lines without a sale order always go to a new order. Up to 18.0 they could be added to an existing order
+  of the customer, which was then not delivered.</li>
+<li>The delivery keeps the reserved quantities: every move with a demand is delivered in full. The 18.0 code
+  deleted the moves that already had a quantity, so those products were not delivered.</li>
+<li>When the stock is not enough, the message lists each product with the available and the requested quantity.</li>
+<li>The delivery is refused, with a clear message, for warehouses that deliver in more than one step.</li>
+<li>A negative quantity is returned by the standard Odoo 19 flow; the custom stock rule override was removed.</li>
+<li>The delivery takes the accounting date of the invoice, so that the sale and the cost of the goods sold
+  fall in the same period.</li>
+<li>Own module icon, in the flat style of the other invoice modules, instead of the generic gears.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -71,76 +146,56 @@
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_account_restrict_date" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_analytic_distribution" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RA</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Restrict account date</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_analytic_distribution/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Restrict certain operations depending on date</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_analytic_distribution" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AD</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Analytic distribution enforcer</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Block posting vendor bills until every line is 100% analytically distributed</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_cash_statement" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_cash_statement" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CS</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_cash_statement/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Cash Statement Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Update cash balance</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Align cash statement balances with accounting and book cash differences as entries</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_change_uom" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_followup" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CU</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Change Unit of measure</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IF</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_followup/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Change unit of measure in product</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_followup" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IF</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Followup</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
@@ -151,50 +206,102 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_invoice_number" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_number" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IN</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IN</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_number/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Number</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Renumbering invoice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Enforce chronological invoice dates and let authorized users change invoice numbers</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_invoice_payment" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_product_filter" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Payment</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_product_filter/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Show payments from invoice</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_invoice_product_filter" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block text-center fw-bold rounded me-2 flex-shrink-0"
-                  style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
             <span>
               <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Product Filter</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Searching invoice using product</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_receipt" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_receipt/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Invoice Receipt</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create receipt form invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_report" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_report/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Report</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Yearly bought/sold quantities on the product, plus region and supplier in invoice analysis</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_to_draft" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_to_draft/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Invoice to Draft</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Restricted access to reset account move to draft</p>
         </div>
       </a>
     </div>
