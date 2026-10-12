@@ -1,10 +1,10 @@
 # Known bugs
 
-Review date: 2026-10-11. Target version: Odoo 19.
+Review date: 2026-10-10. Target version: Odoo 19.
 
 ## STC-001 — P2: Stock moves cannot be closed from the interface
 
-- **Status:** Open. Found on 2026-10-11 while writing the Apps page.
+- **Status:** Open. Found on 2026-10-10 while writing the Apps page.
 - **Location:** `models/stock_move.py` (`l10n_ro_valuation_active`); no view shows the field.
 - **Trigger:** A user wants to close the stock moves of a past period.
 - **Actual behavior / impact:** The field exists and the storage sheet filters on it, but it is on no
