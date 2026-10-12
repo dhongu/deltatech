@@ -26,8 +26,10 @@ Reguli sanitizer Apps Store (moștenite din tb_skin_index v5, validate pe store 
     (Confirmat pe module live, ex. bom_excel_import / NextERP.)
 
 Structura paginii (doar EN):
-  HERO verde brand (icon.png + nume + summary + badge-uri din manifest + teste/acoperire
-  din scripts/test_stats.json, dacă suita îl are)
+  HERO verde brand, pe un rând: icon.png | nume + summary (din banner.json, altfel din
+  manifest) + badge-uri din manifest
+  (versiune, categorie, găzduire, licență) | panou cu teste și bara de acoperire din
+  scripts/test_stats.json (panoul lipsește la modulele fără teste)
   NAV-PILLS cu taburi: Overview / Presentation / Configuration / Usage / Română / Versions
     - Overview      = DESCRIPTION.md (+ CONTEXT.md la final); listele de funcții cu
                       ≥3 itemi devin carduri Bootstrap cu bifă verde. Dacă modulul
@@ -178,9 +180,9 @@ I18N = {
         "deps_own_row": "This module",
         "deps_total_row": "Price on Odoo Apps",
         "badge_hosting": "Odoo.sh &bull; On-premise",
-        "badge_test": "&#10003; 1 automated test",
-        "badge_tests": "&#10003; %(n)s automated tests",
-        "badge_coverage": " &middot; %(p)s%% code coverage",
+        "quality_test": "1 automated test",
+        "quality_tests": "%(n)s automated tests",
+        "quality_coverage": "%(p)s%% code coverage",
         "subscription_title": "For projects implemented by Terrabit,",
         "subscription_body": "the post-implementation subscription includes access to our module portfolio, with no "
         "separate purchase, together with upgrades to every new Odoo version and support from the developers who "
@@ -237,9 +239,9 @@ I18N = {
         "deps_own_row": "Acest modul",
         "deps_total_row": "Preț pe Odoo Apps",
         "badge_hosting": "Odoo.sh &bull; Instalare local&#259; (on-premise)",
-        "badge_test": "&#10003; 1 test automat",
-        "badge_tests": "&#10003; %(n)s teste automate",
-        "badge_coverage": " &middot; acoperire cod %(p)s%%",
+        "quality_test": "1 test automat",
+        "quality_tests": "%(n)s teste automate",
+        "quality_coverage": "acoperire cod %(p)s%%",
         "subscription_title": "Pentru proiectele implementate de Terrabit,",
         "subscription_body": "abonamentul postimplementare include accesul la portofoliul nostru de module, f&#259;r&#259; "
         "achizi&#539;ie separat&#259;, &#238;mpreun&#259; cu actualizarea lor la fiecare versiune nou&#259; de Odoo "
@@ -303,34 +305,60 @@ WRAP_OPEN = (
     f'color:{BODY};font-weight:400;{THEME_RESET}">'
 )
 
+# Antet pe un rând (varianta 5, aleasă 12.10.2026): iconița | nume, summary și insigne |
+# panoul de calitate (teste + bara de acoperire). Rândul e `flex-wrap`: pe ecran îngust
+# panoul coboară sub text. Fără media queries (sanitizer-ul taie <style>), deci panoul are
+# fundal propriu în loc de bordură laterală, care ar rămâne agățată după wrap.
 HERO = """%(marker)s
-<div class="text-center rounded-4 shadow px-4 pt-4 pb-3 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
-  %(icon)s
-  <h1 class="fw-bold mb-3" style="color:#ffffff;font-size:42px;line-height:1.08;letter-spacing:-0.5px;border:none;">%(name)s</h1>
-  %(summary)s
-  <div>
-    %(badges)s
+<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:%(primary)s;color:#ffffff;">
+  <div class="d-flex flex-wrap align-items-center" style="gap:24px;">
+    %(icon)s
+    <div class="flex-grow-1" style="flex-basis:320px;min-width:0;">
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">%(name)s</h1>
+      %(summary)s
+      <div>
+        %(badges)s
+      </div>
+    </div>
+    %(quality)s
   </div>
 </div>
 """
 
 HERO_ICON = (
-    '<div class="mb-3"><span class="d-inline-block rounded-3 p-2" style="background-color:#ffffff;">'
-    '<img src="icon.png" alt="%(name)s" style="width:72px;height:72px;border:none;"/></span></div>'
+    '<span class="d-inline-block rounded-4 p-2 flex-shrink-0" style="background-color:#ffffff;">'
+    '<img src="icon.png" alt="%(name)s" style="width:80px;height:80px;border:none;"/></span>'
 )
 
-SUMMARY = '<p class="mx-auto mb-4" style="font-size:19px;color:#cdeccf;max-width:620px;line-height:1.5;">%s</p>'
+SUMMARY = '<p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">%s</p>'
 
+# Insignele din antet, aliniate la stânga (me-2/mb-2, nu m-1). Conturul pe verdele
+# primary ține albul lizibil (~6.4:1); versiunea Odoo e singura plină, alb cu text verde.
 BADGE = (
-    '<span class="d-inline-block rounded-pill fw-semibold m-1"'
-    ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
+    '<span class="d-inline-block rounded-pill fw-semibold me-2 mb-2"'
+    ' style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">%(t)s</span>'
 )
-# Versiunea Odoo: aceleași culori ca celelalte insigne (alb pe verde închis, 11.4:1);
-# verdele deschis cu text închis nu se distingea pe fundalul verde al cardului.
 BADGE_ACCENT = (
-    '<span class="d-inline-block rounded-pill fw-bold m-1"'
-    ' style="background-color:%(dark)s;color:#ffffff;padding:8px 16px;font-size:12px;">%(t)s</span>'
+    '<span class="d-inline-block rounded-pill fw-bold me-2 mb-2"'
+    ' style="background-color:#ffffff;border:1px solid #ffffff;color:%(primary)s;padding:6px 14px;font-size:12px;">%(t)s</span>'
 )
+# Licența e informație secundară pentru cumpărător: contur punctat, ultima în rând.
+BADGE_LICENSE = (
+    '<span class="d-inline-block rounded-pill fw-semibold me-2 mb-2"'
+    ' style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">%(t)s</span>'
+)
+
+# Panoul de calitate din dreapta antetului: numărul de teste și, de la COVERAGE_MIN în sus,
+# bara de acoperire. Bara e din două <div> cu `background-color` (singurul fundal care trece
+# de sanitizer); lățimea plinului = procentul de acoperire.
+QUALITY = """<div class="flex-shrink-0 rounded-3 px-3 py-3" style="width:240px;background-color:%(dark)s;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; %(tests)s</div>
+      %(coverage)s
+    </div>"""
+QUALITY_COVERAGE = """<div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:%(p)s%%;background-color:%(accent)s;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">%(label)s</div>"""
 
 # Nav-pills: fără JS propriu — data-bs-toggle e activat de bootstrap.bundle.js al store-ului.
 # pilula activă în verde Terrabit prin variabila CSS Bootstrap (inline, deci trece de
@@ -744,20 +772,25 @@ def read_test_stats(addon_dir):
     return _TEST_STATS_CACHE[path].get(os.path.basename(os.path.abspath(addon_dir)), {})
 
 
-def build_test_badge(stats, lang="en"):
-    """„✓ 42 automated tests · 87% code coverage”; acoperirea doar peste COVERAGE_MIN."""
+def build_quality(stats, lang="en"):
+    """Panoul „✓ 26 automated tests” + bara „88% code coverage”; gol la modulele fără teste.
+
+    Acoperirea (din Codecov) apare doar de la COVERAGE_MIN în sus; sub prag, panoul arată
+    doar numărul de teste."""
     tests = stats.get("tests") or 0
     if not tests:
         return ""
     strings = I18N[lang]
-    text = strings["badge_test"] if tests == 1 else strings["badge_tests"] % {"n": tests}
+    text = strings["quality_test"] if tests == 1 else strings["quality_tests"] % {"n": tests}
     coverage = stats.get("coverage")
+    bar = ""
     if coverage is not None and coverage >= COVERAGE_MIN:
-        text += strings["badge_coverage"] % {"p": int(coverage)}
-    return text
+        p = int(coverage)
+        bar = QUALITY_COVERAGE % dict(TB, p=p, label=strings["quality_coverage"] % {"p": p})
+    return QUALITY % dict(TB, tests=text, coverage=bar)
 
 
-def build_badges(manifest, lang="en", test_stats=None):
+def build_badges(manifest, lang="en"):
     items = []
     ver = str(manifest.get("version", ""))
     m = re.match(r"(\d+\.\d+)", ver)
@@ -766,20 +799,36 @@ def build_badges(manifest, lang="en", test_stats=None):
     category = manifest.get("category")
     if category:
         items.append((BADGE, html_mod.escape(str(category))))
+    # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ): găzduirea e
+    # mereu doar Odoo.sh și on-premise, niciodată „Online”
+    items.append((BADGE, I18N[lang]["badge_hosting"]))
     license_ = manifest.get("license")
     if license_:
-        items.append((BADGE, html_mod.escape(str(license_))))
-    # modulele terțe cu cod Python nu rulează pe Odoo Online (Apps FAQ)
-    items.append((BADGE, I18N[lang]["badge_hosting"]))
-    tests = build_test_badge(test_stats or {}, lang)
-    if tests:
-        items.append((BADGE, tests))
-    return "\n    ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
+        items.append((BADGE_LICENSE, html_mod.escape(str(license_))))
+    return "\n        ".join(tmpl % dict(TB, t=t) for tmpl, t in items)
+
+
+def read_banner(addon_dir, lang="en"):
+    """Titlul și summary-ul din static/description/banner.json (sursa miniaturii din lista
+    Apps), doar dacă banner-ul e în limba paginii; altfel {}."""
+    path = os.path.join(addon_dir, "static", "description", "banner.json")
+    try:
+        with open(path, encoding="utf8") as f:
+            banner = json.load(f)
+    except (OSError, ValueError):
+        return {}
+    if banner.get("lang", "en") != lang:
+        return {}
+    return banner
 
 
 def build_hero(addon_dir, manifest, lang="en"):
-    name = html_mod.escape(manifest.get("name") or os.path.basename(os.path.abspath(addon_dir)))
-    summary = html_mod.escape((manifest.get("summary") or "").strip())
+    # Titlul și summary-ul vin întâi din banner.json, ca antetul paginii să spună același
+    # lucru ca miniatura pe care clientul tocmai a dat click (ex. „Alternative Product
+    # Codes”, nu `name` = „Products Alternative” din manifest). Fără banner, manifestul.
+    banner = read_banner(addon_dir, lang)
+    name = html_mod.escape(banner.get("title") or manifest.get("name") or os.path.basename(os.path.abspath(addon_dir)))
+    summary = html_mod.escape((banner.get("summary") or manifest.get("summary") or "").strip())
     icon = ""
     if os.path.exists(os.path.join(addon_dir, "static", "description", "icon.png")):
         icon = HERO_ICON % {"name": name}
@@ -789,7 +838,8 @@ def build_hero(addon_dir, manifest, lang="en"):
         icon=icon,
         name=name,
         summary=(SUMMARY % summary) if summary else "",
-        badges=build_badges(manifest, lang, read_test_stats(addon_dir)),
+        badges=build_badges(manifest, lang),
+        quality=build_quality(read_test_stats(addon_dir), lang),
     )
 
 
