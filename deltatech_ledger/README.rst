@@ -16,8 +16,11 @@ Deltatech Ledger
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_ledger
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_ledger
+    :alt: 21 automated tests · 90% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Register of incoming and outgoing documents (a "registru de
 intrări-ieșiri"). Every document that enters or leaves the company gets
