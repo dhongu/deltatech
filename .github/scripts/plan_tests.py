@@ -164,8 +164,12 @@ def group_of(name):
     return "misc"
 
 
-def build_matrix(modules):
-    """Split the addons into shards: group by family, then cut at MAX_PER_SHARD."""
+def build_matrix(modules, manifests=None):
+    """Split the addons into shards: group by family, then cut at MAX_PER_SHARD.
+
+    With `manifests`, the split is then corrected by `colocate_preinstalled`, so
+    that no addon is already installed when its shard's database is initialised.
+    """
     groups = {}
     for name in sorted(modules):
         groups.setdefault(group_of(name), []).append(name)
@@ -181,7 +185,108 @@ def build_matrix(modules):
         for index, chunk in enumerate(chunks, start=1):
             shard_name = group if len(chunks) == 1 else f"{group}-{index}"
             shards.append({"name": shard_name, "modules": ",".join(chunk)})
+    if manifests is not None:
+        shards = colocate_preinstalled(manifests, shards)
     return shards
+
+
+def repo_dependencies(manifests, modules):
+    """Transitive dependencies of `modules` that are addons of this repo."""
+    found = set()
+    queue = list(modules)
+    while queue:
+        current = queue.pop()
+        for dep in manifests.get(current, {}).get("depends", []):
+            if dep in manifests and dep not in found:
+                found.add(dep)
+                queue.append(dep)
+    return found
+
+
+def preinstalled(manifests, members):
+    """Addons of the shard that `oca_init_test_database` already installs.
+
+    The init step installs the dependencies of the shard's addons, without the
+    addons themselves. An addon of this repo sitting in another shard (the
+    `intermediary`) is therefore installed at init together with everything it
+    needs, and if it needs an addon of this shard, that one is installed too.
+    `oca_run_tests` then runs `-i` on an already installed addon, which does
+    nothing: its tests never run and nobody notices, because the job is green.
+
+    Returns {preinstalled_addon: [intermediaries depending directly on it]}.
+    """
+    intermediaries = repo_dependencies(manifests, members) - members
+    caught = members & repo_dependencies(manifests, intermediaries)
+    return {
+        name: sorted(i for i in intermediaries if name in manifests[i].get("depends", []))
+        for name in sorted(caught)
+    }
+
+
+def excludes_conflict(manifests, module, members):
+    """True if `module` and any addon of `members` exclude each other (`excludes` key)."""
+    excluded = set(manifests.get(module, {}).get("excludes", []))
+    return any(
+        other in excluded or module in manifests.get(other, {}).get("excludes", []) for other in members
+    )
+
+
+def colocate_preinstalled(manifests, shards):
+    """Move preinstalled addons (see `preinstalled`) next to the intermediary pulling them in.
+
+    With the addon in the intermediary's shard, both are installed by the test
+    step, so its tests run. In the shard it left, the addon becomes an ordinary
+    dependency installed at init, which is correct.
+
+    Real case (full run of 13.10.2026): `deltatech_partner_generic` sat in
+    `misc-3`, but `deltatech_expenses`, in another shard and required by
+    `deltatech_expenses_hr_expense`, installed it at init: 0 tests run.
+
+    One addon is moved at a time, then everything is re-evaluated, because a
+    move can solve or create other cases. If the intermediary is in no shard
+    (targeted manual run), it joins the addon's shard: its tests run on top, but
+    the requested addon's tests are no longer lost.
+
+    A move that would put addons excluding each other (`excludes` key) in the
+    same database is not made: the addon stays put, with a warning.
+    """
+    members = {shard["name"]: set(shard["modules"].split(",")) for shard in shards}
+    stuck = set()
+    for _iteration in range(len(manifests) + 1):
+        move = None
+        for name in sorted(members):
+            caught = preinstalled(manifests, members[name])
+            # Only addons with a direct intermediary; the others are solved once
+            # the addon of the shard that pulls them in has been moved.
+            caught = {module: vias for module, vias in caught.items() if vias and module not in stuck}
+            if caught:
+                module = min(caught)
+                move = (name, module, caught[module][0])
+                break
+        if move is None:
+            break
+        source, module, via = move
+        target = next((name for name in sorted(members) if via in members[name]), None)
+        incoming, host = (via, source) if target is None else (module, target)
+        if excludes_conflict(manifests, incoming, members[host]):
+            print(f"::warning::{module}: installed at init through {via}, but {incoming} cannot join {host} (`excludes`).")
+            stuck.add(module)
+            continue
+        if target is None:
+            print(f"::notice::{module}: installed at init through {via}; {via} joins shard {source}.")
+            members[source].add(via)
+        else:
+            print(f"{module}: moved from {source} to {target} (installed at init through {via}).")
+            members[source].discard(module)
+            members[target].add(module)
+    else:
+        print("::warning::The shard split did not stabilise; some addons may run without tests.")
+
+    return [
+        {"name": shard["name"], "modules": ",".join(sorted(members[shard["name"]]))}
+        for shard in shards
+        if members[shard["name"]]
+    ]
 
 
 def usable(sha):
@@ -321,7 +426,7 @@ def main():
     manifests = load_manifests()
     selection, full = select(manifests)
 
-    shards = build_matrix(selection)
+    shards = build_matrix(selection, manifests)
     if not shards:
         # Only non-addon content changed (docs, images outside any addon).
         print("No addon affected, nothing to test.")
