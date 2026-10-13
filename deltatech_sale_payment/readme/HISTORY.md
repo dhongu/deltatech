@@ -1,3 +1,8 @@
+## 20.0.1.3.3 (2026-10-09)
+
+- SALEPAY-008: the "Confirm Payment" wizard accepts again the payment provider of a parent company on an order of a branch, as Odoo does everywhere else for providers. Since 20.0.1.3.2 (SALEPAY-006) such an order, with a pending transaction on the parent company's provider, could no longer be confirmed ("The payment provider … belongs to another company than the order …"). A provider of an unrelated company is still refused.
+- Port of 19.0.1.3.4.
+
 ## 20.0.1.3.2 (2026-10-04)
 
 - SALEPAY-006 (security): through RPC, an internal user could create a "Confirm Payment" wizard with any transaction and call `update_transaction` on it, changing as superuser the amount, provider and payment method of another order's pending payment, or confirm it through an order they could access. The method is now private (`_update_transaction`), and every step of the wizard checks that the transaction belongs to the order, that the provider is of the order's company and that the payment method belongs to the provider. The normal use of the wizard from the order is unchanged; a custom code calling `update_transaction()` must call `do_add_payment()` instead.
