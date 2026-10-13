@@ -1,0 +1,27 @@
+name: nightly tests on other branches
+
+# Scheduled workflows only fire on the default branch (19.0), so a `schedule`
+# in the 18.0 or 20.0 test.yml would never run. This job starts their full test
+# run (workflow_dispatch without input = the whole repo, coverage uploaded to
+# Codecov), one hour after the 19.0 nightly run.
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: ["18.0", "20.0"]
+    name: test.yml on ${{ matrix.branch }}
+    steps:
+      - name: Start the full test run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run test.yml --repo "${{ github.repository }}" --ref "${{ matrix.branch }}"
