@@ -19,8 +19,11 @@ Deltatech Cash Statement Extension
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_cash_statement/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_cash_statement
+    :alt: 10 automated tests · 88% code coverage
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 This module keeps the balances of cash statements consistent with the
 accounting, and books a counted cash difference as a dated entry instead

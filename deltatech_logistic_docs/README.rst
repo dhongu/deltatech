@@ -16,8 +16,11 @@ Logistic Documents
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_logistic_docs
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2073%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_logistic_docs
+    :alt: 5 automated tests · 73% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Logistic Documents Centralizer
 ==============================

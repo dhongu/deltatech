@@ -16,8 +16,11 @@ Sale Catalog Website Categories & Image Zoom
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_catalog_website
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_catalog_website
+    :alt: 6 automated tests · 100% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Sale Catalog Website Categories & Image Zoom
 ============================================

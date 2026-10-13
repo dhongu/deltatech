@@ -19,8 +19,11 @@ Deltatech Putaway Strategy
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_putaway_strategy
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-29%20automated%20tests%20%C2%B7%2071%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_putaway_strategy
+    :alt: 29 automated tests · 71% code coverage
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_tests|
 
 Deltatech Putaway Strategy
 ==========================

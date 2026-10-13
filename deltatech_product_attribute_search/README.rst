@@ -16,8 +16,11 @@ Product Attribute Search
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_attribute_search
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-13%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_attribute_search
+    :alt: 13 automated tests · 92% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 On a product with variants, what tells two variants apart on screen is
 the attribute values in their name — ``Apples (Gala Mast, 70/75 mm)``.
