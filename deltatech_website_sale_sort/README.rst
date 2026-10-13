@@ -19,8 +19,11 @@ eCommerce Product sort
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_sale_sort
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_sale_sort
+    :alt: 1 automated test · 94% code coverage
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_tests|
 
 - Features:
 
