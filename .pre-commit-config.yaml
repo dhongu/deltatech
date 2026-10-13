@@ -25,19 +25,13 @@ default_language_version:
   python: python3
   node: "16.19.0"
 repos:
-  - repo: local
+  # Hook-urile comune Terrabit (pyproject)
+  - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
+    rev: v1.0.0
     hooks:
       - id: update-pyproject-name
-        name: Update pyproject.toml project name
-        # NU mai folositi 'python' sau 'python3' aici
-        entry: scripts/update_pyproject_name.py
-        # Schimbati la 'python'
-        language: python
-        files: 'pyproject\.toml$'
-        pass_filenames: false
-        # Specificati dependentele aici pentru un mediu izolat
-        additional_dependencies: ["tomli", "tomli-w"]
-
+  - repo: local
+    hooks:
       # These files are most likely copier diff rejection junks; if found,
       # review them manually, fix the problem (if needed) and remove them
       - id: forbidden-files
@@ -179,17 +173,12 @@ repos:
       - id: pylint_odoo
         args:
           - --rcfile=.pylintrc-mandatory
-  # Terrabit skin pentru static/description/index.html (Odoo Apps Store).
-  # Generează index.html (Apps Store, stil Terrabit) DIRECT din readme/*.md +
-  # __manifest__.py — succesorul lui tb_skin_index.py (care post-procesa docutils).
-  # Determinist: aceleași surse -> același HTML; sare index.html scrise manual.
-  # Regenerare completă: `pre-commit run --hook-stage manual --all-files`.
-  - repo: local
+
+  # Pagina Apps Store, la cerere: `pre-commit run --hook-stage manual --all-files`.
+  # Ordinea contează: tb-test-stats -> tb-gen-index, după oca-gen-addon-readme.
+  - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
+    rev: v1.0.0
     hooks:
+      - id: tb-test-stats
+        args: [--branch=18.0]
       - id: tb-gen-index
-        name: Terrabit index.html generator (Apps Store)
-        entry: python3 scripts/tb_gen_index.py --addons-dir=.
-        language: system
-        stages: [manual]
-        pass_filenames: false
-        always_run: true
