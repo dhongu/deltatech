@@ -1,3 +1,10 @@
+## 19.0.1.0.8 (2026-10-13)
+
+- The tests run again: they had been switched off since the migration to 19.0,
+  because the form requires both banks and the tests did not fill them in. They
+  now also check the issuer/beneficiary set by the note type, the state changes
+  and the notification sent when the last note is cashed.
+
 ## 19.0.1.0.7 (2026-10-09)
 
 - Apps Store banner (banner.json).

@@ -4,7 +4,7 @@
 {
     "name": "POS Add Extra Line",
     "summary": "Add extra lines to POS orders automatically, per product",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -15,6 +15,9 @@
     "assets": {
         "point_of_sale._assets_pos": [
             "deltatech_sale_add_extra_line_pos/static/src/js/models.esm.js",
+        ],
+        "web.assets_tests": [
+            "deltatech_sale_add_extra_line_pos/static/tests/tours/**/*",
         ],
     },
     "license": "OPL-1",

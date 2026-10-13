@@ -1,3 +1,9 @@
+## 19.0.1.0.3
+
+- Tests: a POS tour checks that the extra line is added with the configured
+  quantity multiplier and follows the main line quantity; the previous test
+  class had no test method, so nothing ran.
+
 ## 19.0.1.0.2
 
 - Own module icon, instead of the generic gears it had.
