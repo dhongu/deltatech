@@ -7,6 +7,7 @@
     "version": "19.0.0.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking_automatically?v=19.0",
     "summary": "Generate invoice automatically from picking after validation",
     "category": "Sales",
     "depends": ["stock_account", "sale_stock", "sale", "stock", "account"],
