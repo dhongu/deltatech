@@ -22,11 +22,8 @@ Sale Payment
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_payment/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-42%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_payment
-    :alt: 42 automated tests · 95% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 - Features:
 
@@ -39,6 +36,18 @@ Sale Payment
 
 Changelog
 =========
+
+20.0.1.3.3 (2026-10-09)
+-----------------------
+
+- SALEPAY-008: the "Confirm Payment" wizard accepts again the payment
+  provider of a parent company on an order of a branch, as Odoo does
+  everywhere else for providers. Since 20.0.1.3.2 (SALEPAY-006) such an
+  order, with a pending transaction on the parent company's provider,
+  could no longer be confirmed ("The payment provider … belongs to
+  another company than the order …"). A provider of an unrelated company
+  is still refused.
+- Port of 19.0.1.3.4.
 
 20.0.1.3.2 (2026-10-04)
 -----------------------
