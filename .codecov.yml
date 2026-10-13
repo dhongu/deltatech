@@ -7,7 +7,9 @@ coverage:
   status:
     project:
       default:
-        target: 70%
+        # Tests are excluded from the totals (see ignore), so the floor is the
+        # coverage of the addon code alone: 65.65% when the ignore was added.
+        target: 65%
         threshold: 1%
     patch:
       default:
