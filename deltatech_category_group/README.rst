@@ -16,8 +16,11 @@ Deltatech Category Group
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_category_group
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_category_group
+    :alt: 3 automated tests · 93% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 This module extends Odoo's internal product categories with two
 additional grouping dimensions — **Category type** and **Category
