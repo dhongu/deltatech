@@ -57,6 +57,11 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.3.3 (2026-10-09)</h2>
+<ul>
+<li>SALEPAY-008: the "Confirm Payment" wizard accepts again the payment provider of a parent company on an order of a branch, as Odoo does everywhere else for providers. Since 20.0.1.3.2 (SALEPAY-006) such an order, with a pending transaction on the parent company's provider, could no longer be confirmed ("The payment provider &#8230; belongs to another company than the order &#8230;"). A provider of an unrelated company is still refused.</li>
+<li>Port of 19.0.1.3.4.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.3.2 (2026-10-04)</h2>
 <ul>
 <li>SALEPAY-006 (security): through RPC, an internal user could create a "Confirm Payment" wizard with any transaction and call <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">update_transaction</code> on it, changing as superuser the amount, provider and payment method of another order's pending payment, or confirm it through an order they could access. The method is now private (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_update_transaction</code>), and every step of the wizard checks that the transaction belongs to the order, that the provider is of the order's company and that the payment method belongs to the provider. The normal use of the wizard from the order is unchanged; a custom code calling <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">update_transaction()</code> must call <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">do_add_payment()</code> instead.</li>
@@ -115,10 +120,7 @@
   convention (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prefer-env-translation</code>). The translated messages are
   unchanged.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.5 (2026-09-23)</h2>
-<ul>
-<li>Fix: "Amount Payment" on the sale order dropped confirmed transactions that never produced an accounting payment once the invoice had any amount paid. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_compute_payment</code> added the amount paid on the invoice and then subtracted every post-processed transaction of that invoice, assuming its amount was already in the invoice. A transaction confirmed on a provider without a journal (e.g. orders imported from Shopify, paid by card) has no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_id</code>, so it simply vanished from the total: an order paid 382 by card at checkout plus 44 through a payment link showed 44 instead of 426, with status <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partial</code>. Only transactions that have a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_id</code> are subtracted now.</li>
-</ul>
+<p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
 </div>
 
