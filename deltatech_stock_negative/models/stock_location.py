@@ -12,5 +12,7 @@ class StockLocation(models.Model):
     check_serial_no = fields.Boolean(
         default=True,
         string="Check Serial No.",
-        help="If checked, the serial numbers will be checked on the moves and an error will be raised if the serial number is reserved on another move or is unavailable.",
+        help="If checked, the no-negative-stock check of serial-tracked products is done per serial number. "
+        "If unchecked, it is done on the total of all serial numbers in the location, and reservation ignores the "
+        "serial number.",
     )

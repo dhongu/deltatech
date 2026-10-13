@@ -2,10 +2,10 @@
 #              Dan Stoica <danila(@)terrabit(.)ro
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech stock count zero",
+    "name": "Stock Count Zero",
     "category": "Stock",
     "summary": "Set inventory line to 0 when empty count is requested",
-    "version": "19.0.0.0.0",
+    "version": "19.0.0.0.2",
     "license": "OPL-1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",

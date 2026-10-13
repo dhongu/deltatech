@@ -1,0 +1,6 @@
+{
+  "title": "Transport Change",
+  "icon": "gear",
+  "summary": "Transport config changes across envs",
+  "features": ["Export config to CSV / XML", "Map relations to XMLIDs", "Git commit & push transport"]
+}

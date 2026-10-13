@@ -1,0 +1,20 @@
+# ©  2008-2023 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+{
+    "name": "Products Category User Group",
+    "summary": "Assign transfer responsibles automatically from the product category user group",
+    "version": "19.0.1.0.9",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "category": "Sales",
+    "depends": ["product", "stock"],
+    "license": "LGPL-3",
+    "data": ["views/product_category_view.xml", "views/stock_picking_view.xml"],
+    "images": ["static/description/main_screenshot.png"],
+    "installable": True,
+    "development_status": "Mature",
+    "maintainers": ["dhongu"],
+}

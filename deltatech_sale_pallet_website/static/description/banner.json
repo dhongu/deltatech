@@ -1,0 +1,10 @@
+{
+  "title": "Pallet Sales on Website",
+  "summary": "Show pallet pricing and handle pallet logic in your eCommerce store",
+  "icon": "cart",
+  "features": [
+    "Show pallet price on product pages",
+    "Auto-recalculate pallet lines in cart",
+    "Pallet category rules on checkout"
+  ]
+}

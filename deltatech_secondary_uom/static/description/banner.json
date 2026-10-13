@@ -1,0 +1,11 @@
+{
+  "title": "Product Secondary UoM",
+  "summary": "Per-product unit conversions",
+  "icon": "box",
+  "features": [
+    "Alternative units per product",
+    "Quantity on sale, purchase, stock moves",
+    "Price and valuation stay in base unit"
+  ],
+  "lang": "en"
+}

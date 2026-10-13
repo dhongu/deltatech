@@ -1,0 +1,7 @@
+{
+  "title": "Purchase UBL Import",
+  "summary": "Vendor UBL invoices into purchases",
+  "icon": "file",
+  "features": ["Match products by barcode or code", "Update order lines and prices", "Line discounts from the XML"],
+  "lang": "en"
+}

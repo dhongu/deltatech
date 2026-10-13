@@ -1,0 +1,6 @@
+{
+  "title": "SMS on Sale",
+  "icon": "cart",
+  "summary": "SMS on sale order confirmation",
+  "features": ["Auto SMS when the SO is confirmed", "Customer order notification"]
+}

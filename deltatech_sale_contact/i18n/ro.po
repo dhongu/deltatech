@@ -32,3 +32,19 @@ msgstr "Telefon"
 #: model:ir.model,name:deltatech_sale_phone.model_sale_order
 msgid "Sales Order"
 msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_contact
+#: model:ir.model.fields,field_description:deltatech_sale_contact.field_res_partner__print_green_invoice
+#: model:ir.model.fields,field_description:deltatech_sale_contact.field_res_users__print_green_invoice
+msgid "Green Invoice"
+msgstr "Factură verde"
+
+#. module: deltatech_sale_contact
+#: model:ir.model.fields,help:deltatech_sale_contact.field_res_partner__print_green_invoice
+#: model:ir.model.fields,help:deltatech_sale_contact.field_res_users__print_green_invoice
+msgid ""
+"Informative flag: the partner prefers paperless invoices. It does not change "
+"the behavior of the Send & Print wizard."
+msgstr ""
+"Indicator informativ: partenerul preferă facturi fără tipărire. Nu modifică "
+"comportamentul asistentului Trimite și tipărește."

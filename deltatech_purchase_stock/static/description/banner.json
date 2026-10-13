@@ -1,0 +1,6 @@
+{
+  "title": "Purchase Stock",
+  "summary": "Keep replenishment POs separate",
+  "icon": "truck",
+  "features": ["Flags auto-replenishment orders", "Manual POs stay untouched", "Merges only same-source orders"]
+}

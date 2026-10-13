@@ -1,0 +1,8 @@
+{
+  "summary": "Production costing & BOM extensions",
+  "features": [
+    "Overhead % on BOM for indirect cost",
+    "Auto production lot generation",
+    "Production cost analysis report"
+  ]
+}

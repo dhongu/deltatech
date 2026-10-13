@@ -1,0 +1,7 @@
+{
+  "title": "Card Payment Method",
+  "summary": "Payment tracking for card transactions",
+  "icon": "clipboard",
+  "features": ["Dedicated card payment method", "Simplifies bank reconciliation", "Ready for journal configuration"],
+  "lang": "en"
+}

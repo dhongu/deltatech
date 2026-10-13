@@ -1,0 +1,7 @@
+{
+  "title": "Stock Inventory",
+  "summary": "Inventory documents with value control",
+  "icon": "clipboard",
+  "features": ["Inventory documents and lines", "Theoretical and counted value", "Surplus valued at line price"],
+  "lang": "en"
+}

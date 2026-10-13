@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <record id="view_export_purchase_line_form" model="ir.ui.view">
+            <field name="name">export.purchase.line</field>
+            <field name="model">export.purchase.line</field>
+            <field name="arch" type="xml">
+                <form string="Export Purchase Line">
+                    <field name="state" invisible="1" />
+                    <div invisible="state!='choose'">
+                        <p>Export selected purchase order lines</p>
+                    </div>
+                    <div invisible="state!='get'">
+                        <h2>Export Complete</h2>
+                        <p>Here is the exported file: <field name="data_file" readonly="1" filename="name" /></p>
+                    </div>
+
+                    <footer invisible="state!='choose'">
+                        <button name="do_export" string="Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    <footer invisible="state!='get'">
+                        <button string="Exit" class="oe_link" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+     </record>
+
+
+    <record id="action_working_days_export" model="ir.actions.act_window">
+        <field name="name">Export Purchase Lines</field>
+        <field name="res_model">export.purchase.line</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order" />
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+</odoo>

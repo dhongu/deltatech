@@ -17,6 +17,24 @@ class ResPartnerMergeCron(models.Model):
             return
         return super()._compute_vies_valid()
 
+    @api.model
+    def _cron_merge_duplicate_contacts_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        return self._cron_merge_duplicate_contacts(
+            limit=int(icp.get_param("deltatech_actions.merge_contacts_limit", 10))
+        )
+
+    @api.model
+    def _cron_merge_duplicate_companies_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        return self._cron_merge_duplicate_companies(
+            limit=int(icp.get_param("deltatech_actions.merge_companies_limit", 10))
+        )
+
     def _cron_merge_duplicate_contacts(self, limit=10):
         MergeWizard = self.env["base.partner.merge.automatic.wizard"]
         need_retrigger = False
@@ -43,9 +61,11 @@ class ResPartnerMergeCron(models.Model):
             partners = self.env["res.partner"].browse(ids).exists()
             if len(partners) <= 1:
                 continue
-            partners.write({"parent_id": False})
             main = partners[0]  # îl păstrăm ca principal
             secundar = partners[1]
+            # only the merged pair is detached from its company; the other contacts of the group
+            # keep their parent and are merged by a later run
+            (main | secundar).write({"parent_id": False})
             _logger.info("Contactul %s a fost unit cu %s (Email: %s)", main.display_name, secundar.display_name, email)
             wizard = MergeWizard.create(
                 {

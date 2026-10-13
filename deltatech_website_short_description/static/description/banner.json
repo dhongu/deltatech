@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Short Description",
+  "summary": "Add a short product description for feeds & shop listings",
+  "icon": "globe",
+  "features": [
+    "HTML short description field per product",
+    "Bulk publish products from list view",
+    "Translatable content for multilingual shops"
+  ]
+}

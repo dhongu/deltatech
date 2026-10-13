@@ -1,0 +1,7 @@
+{
+  "title": "List View Select Text",
+  "summary": "Select text without opening the record",
+  "icon": "grid",
+  "features": ["Select and copy text in lists", "No accidental record opening"],
+  "lang": "en"
+}

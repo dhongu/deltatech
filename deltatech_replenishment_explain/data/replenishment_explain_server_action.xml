@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_explain_replenishment_server" model="ir.actions.server">
+        <field name="name">Why this replenishment?</field>
+        <field name="model_id" ref="stock.model_stock_warehouse_orderpoint" />
+        <field name="binding_model_id" ref="stock.model_stock_warehouse_orderpoint" />
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records[0].action_explain_replenishment()
+        </field>
+    </record>
+</odoo>

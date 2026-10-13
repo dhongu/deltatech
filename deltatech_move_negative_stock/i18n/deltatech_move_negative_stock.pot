@@ -1,0 +1,88 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_move_negative_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_move_negative_stock
+#: model:mail.template,body_html:deltatech_move_negative_stock.mail_template_negative_stock
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px; font-size: 12px;\">\n"
+"                    Negative quantity products:\n"
+"                </p>\n"
+"                <p>\n"
+"                    <t t-foreach=\"object.get_negative_products()\" t-as=\"product\">\n"
+"                        [<t t-out=\"product.default_code\"/>]<t t-out=\"product.with_context(lang=object.user_id.lang).name\"/>:\n"
+"                        <t t-out=\"product_value\"/>\n"
+"                        <t t-out=\"product.with_context(lang=object.user_id.lang).uom_id.name\"/>\n"
+"                        <br/>\n"
+"                    </t>\n"
+"                </p>\n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model.fields,field_description:deltatech_move_negative_stock.field_stock_location__display_name
+#: model:ir.model.fields,field_description:deltatech_move_negative_stock.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_move_negative_stock.view_picking_form
+msgid "Get negative products"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model.fields,field_description:deltatech_move_negative_stock.field_stock_location__id
+#: model:ir.model.fields,field_description:deltatech_move_negative_stock.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model,name:deltatech_move_negative_stock.model_stock_location
+msgid "Inventory Locations"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:mail.template,name:deltatech_move_negative_stock.mail_template_negative_stock
+msgid "Location: send negative stock"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model.fields,field_description:deltatech_move_negative_stock.field_stock_location__user_id
+msgid "Manager"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:mail.template,subject:deltatech_move_negative_stock.mail_template_negative_stock
+msgid "Negative stock for location {{object.complete_name}}"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.actions.server,name:deltatech_move_negative_stock.ir_cron_negative_stock_ir_actions_server
+msgid "Send negative stock"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model,name:deltatech_move_negative_stock.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_move_negative_stock
+#: model:ir.model.fields,help:deltatech_move_negative_stock.field_stock_location__user_id
+msgid ""
+"User notified by the daily cron when this location holds negative stock."
+msgstr ""

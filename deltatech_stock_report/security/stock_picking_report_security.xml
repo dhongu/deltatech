@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- SQL view model: stock.picking / stock.move rules do not apply here -->
+    <record id="stock_picking_report_company_rule" model="ir.rule">
+        <field name="name">Stock picking report: multi-company</field>
+        <field name="model_id" ref="model_stock_picking_report" />
+        <field name="global" eval="True" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

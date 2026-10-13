@@ -3,3 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from . import test_sale
+from . import test_sale_invoice_payment
+from . import test_confirm_payment
+from . import test_screenshots

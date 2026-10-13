@@ -1,0 +1,11 @@
+{
+  "title": "UoM UNECE Codes",
+  "summary": "Correct units in electronic documents",
+  "features": [
+    "Give your own units a real UNECE code",
+    "Fixes m², ft² and ml, sent as pieces",
+    "Codes editable from the interface"
+  ],
+  "icon": "box",
+  "lang": "en"
+}

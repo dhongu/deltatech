@@ -1,0 +1,11 @@
+{
+  "title": "Purchase Create Bill Button",
+  "summary": "One-click Create Bill on purchase orders, plus vendor reference copy",
+  "icon": "file",
+  "lang": "en",
+  "features": [
+    "One-click Create Bill, no file needed",
+    "Vendor Reference copied on the bill",
+    "Create Bills on RFQ list, returns too"
+  ]
+}

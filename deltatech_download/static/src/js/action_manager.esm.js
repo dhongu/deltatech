@@ -1,12 +1,13 @@
 /* @odoo-module */
 
+import {isMobileOS} from "@web/core/browser/feature_detection";
 import {registry} from "@web/core/registry";
-// Import config from "@web.config";
 
 async function pdfReportHandler(action, options, env) {
-    // If (config.device.isMobile) {
-    //     return;
-    // }
+    if (isMobileOS()) {
+        // On mobile the standard download is the only thing that works
+        return;
+    }
     if (action.device_id) {
         // Raportul se va tipari prin IoT
         return;
@@ -42,7 +43,13 @@ async function pdfReportHandler(action, options, env) {
         env.services.ui.block();
         try {
             var pdfWindow = window.open(url_, "_blank");
-            pdfWindow.document.title = "Download";
+            if (pdfWindow) {
+                try {
+                    pdfWindow.document.title = "Download";
+                } catch {
+                    // Cross-origin or popup blocker
+                }
+            }
         } finally {
             env.services.ui.unblock();
         }

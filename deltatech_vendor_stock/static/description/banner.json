@@ -1,0 +1,11 @@
+{
+  "title": "Vendor Stock",
+  "summary": "Supplier stock on the sale order",
+  "icon": "truck",
+  "lang": "en",
+  "features": [
+    "Update supplier quantity on products",
+    "Supplier stock shown on sale order",
+    "Icon for stock that will arrive"
+  ]
+}

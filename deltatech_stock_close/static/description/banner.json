@@ -1,0 +1,11 @@
+{
+  "title": "Stock Close",
+  "summary": "Closed stock moves left out of the storage sheet",
+  "icon": "box",
+  "features": [
+    "Valuation Active flag on stock moves",
+    "Only active option in the storage sheet",
+    "Romanian storage sheet unchanged otherwise"
+  ],
+  "lang": "en"
+}

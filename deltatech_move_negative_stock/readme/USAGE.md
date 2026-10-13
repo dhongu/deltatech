@@ -1,0 +1,26 @@
+A location ends up with negative stock, for example after sales from the showroom:
+
+![Location with negative stock](static/description/negative-stock.png)
+
+1. Create an internal transfer, with the location to refill as **Destination Location** and the
+   location to take the goods from as **Source Location**.
+
+![Internal transfer to refill the location](static/description/picking1.png)
+
+2. While the transfer is in **Draft**, click **Get negative products**.
+
+![Get negative products button](static/description/picking2.png)
+
+3. A line is added for every product with negative stock in the destination location, with the
+   quantity that brings it back to zero.
+
+![Lines added for the negative products](static/description/picking3.png)
+
+4. Adjust the lines if needed, then confirm and validate the transfer as usual.
+
+Each click adds the lines again, so click once per transfer. The button looks at the
+destination location itself, not at its sub-locations.
+
+The daily email goes to the manager of each internal location that has negative stock, with the
+subject *"Negative stock for location WH/Stock/Showroom"* and one line per product: reference,
+name, negative quantity and unit of measure.

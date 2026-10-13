@@ -1,0 +1,10 @@
+{
+  "title": "Transfer Product to Product",
+  "summary": "Swap stock between two products in one guided move",
+  "icon": "box",
+  "features": [
+    "Replace product A with product B",
+    "Two automatic internal transfers",
+    "Warns when product costs differ"
+  ]
+}

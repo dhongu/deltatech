@@ -17,6 +17,45 @@ class StockInventory(models.Model):
     note = fields.Text(string="Note")
     filterbyrack = fields.Char("Rack")
 
+    currency_id = fields.Many2one(related="company_id.currency_id", readonly=True)
+    total_theoretical_value = fields.Monetary(
+        string="Theoretical Value",
+        compute="_compute_total_values",
+        groups="stock.group_stock_manager",
+        help="Value of the on hand quantities, at the unit cost snapshotted on the lines.",
+    )
+    total_counted_value = fields.Monetary(
+        string="Counted Value",
+        compute="_compute_total_values",
+        groups="stock.group_stock_manager",
+    )
+    total_diff_value = fields.Monetary(
+        string="Difference Value",
+        compute="_compute_total_values",
+        groups="stock.group_stock_manager",
+        help="Estimated value of the inventory difference, before validation.",
+    )
+    total_posted_value = fields.Monetary(
+        string="Posted Value",
+        compute="_compute_total_values",
+        groups="stock.group_stock_manager",
+        help="Value actually posted by the inventory moves, filled in at validation.",
+    )
+
+    @api.depends(
+        "line_ids.theoretical_value",
+        "line_ids.counted_value",
+        "line_ids.diff_value",
+        "line_ids.posted_value",
+    )
+    def _compute_total_values(self):
+        for inventory in self:
+            lines = inventory.line_ids.sudo()
+            inventory.total_theoretical_value = sum(lines.mapped("theoretical_value"))
+            inventory.total_counted_value = sum(lines.mapped("counted_value"))
+            inventory.total_diff_value = sum(lines.mapped("diff_value"))
+            inventory.total_posted_value = sum(lines.mapped("posted_value"))
+
     def _get_inventory_lines_values(self):
         lines = super()._get_inventory_lines_values()
         for line in lines:
@@ -49,6 +88,7 @@ class StockInventory(models.Model):
             for move in inv.move_ids:
                 if move.date != inv.date:
                     move.write({"date": inv.date})
+            inv.line_ids._snapshot_posted_value()
         return True
 
     def action_remove_not_ok(self):
@@ -70,10 +110,93 @@ class StockInventoryLine(models.Model):
     categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string="Price")
 
+    currency_id = fields.Many2one(related="company_id.currency_id", readonly=True)
+    unit_value = fields.Monetary(
+        string="Unit Value",
+        readonly=True,
+        groups="stock.group_stock_manager",
+        help="Unit valuation cost snapshotted when the line was generated: the stock value of the "
+        "matching quants divided by their quantity, falling back to the product cost. "
+        "Unlike Price, it is not edited by the operator, so the values below stay comparable.",
+    )
+    theoretical_value = fields.Monetary(
+        string="Theoretical Value",
+        compute="_compute_line_values",
+        store=True,
+        groups="stock.group_stock_manager",
+    )
+    counted_value = fields.Monetary(
+        string="Counted Value",
+        compute="_compute_line_values",
+        store=True,
+        groups="stock.group_stock_manager",
+    )
+    diff_value = fields.Monetary(
+        string="Difference Value",
+        compute="_compute_line_values",
+        store=True,
+        groups="stock.group_stock_manager",
+        help="Estimated value of the difference, available before validation.",
+    )
+    posted_value = fields.Monetary(
+        string="Posted Value",
+        readonly=True,
+        groups="stock.group_stock_manager",
+        help="Value actually posted by the inventory move of this line, filled in at validation. "
+        "It can differ from the estimate for FIFO products, where the outgoing move is valued "
+        "on the consumed layers.",
+    )
+
     loc_rack = fields.Char("Rack Name", size=16, compute="_compute_loc", store=True)
     loc_row = fields.Char("Row Name", size=16, compute="_compute_loc", store=True)
     loc_case = fields.Char("Case Name", size=16, compute="_compute_loc", store=True)
     is_ok = fields.Boolean("Is Ok", default=True)
+
+    @api.depends("unit_value", "theoretical_qty", "product_qty")
+    def _compute_line_values(self):
+        for line in self:
+            line.theoretical_value = line.unit_value * line.theoretical_qty
+            line.counted_value = line.unit_value * line.product_qty
+            line.diff_value = line.counted_value - line.theoretical_value
+
+    def _get_unit_value(self):
+        """Costul unitar de valorizare al liniei, citit din quanturi si cazut pe costul produsului."""
+        self.ensure_one()
+        quants = self.get_quants().sudo()
+        # quant.value nu depinde de standard_price, deci ramane in cache dupa o schimbare
+        # de cost in aceeasi tranzactie; la re-fotografiere vrem valoarea recalculata
+        quants.invalidate_recordset(["value"])
+        quantity = sum(quants.mapped("quantity"))
+        value = sum(quants.mapped("value"))
+        if quantity and value:
+            return value / quantity
+        company = self.company_id or self.env.company
+        return self.product_id.with_company(company).sudo().standard_price
+
+    def _snapshot_unit_value(self):
+        # Scris cu sudo: unit_value e restrans la managerii de stoc, dar inventarul
+        # e generat de operatori care nu au grupul.
+        for line in self:
+            line.sudo().unit_value = line._get_unit_value()
+
+    def _snapshot_posted_value(self):
+        for line in self:
+            moves = line.inventory_id.move_ids.sudo().filtered(lambda move, ln=line: move.inventory_line_id == ln)
+            if not moves:
+                continue
+            sign = -1 if line.difference_qty < 0 else 1
+            line.sudo().posted_value = sign * sum(abs(value) for value in moves.mapped("value"))
+
+    def _get_move_values(self, qty, location_id, location_dest_id, out):
+        values = super()._get_move_values(qty, location_id, location_dest_id, out)
+        values["inventory_line_id"] = self.id
+        return values
+
+    def action_refresh_quantity(self):
+        res = super().action_refresh_quantity()
+        # Butonul reciteste stocul, deci si costul unitar de valorizare
+        self.filtered(lambda line: line.state != "done")._snapshot_unit_value()
+        return res
 
     @api.depends("location_id", "product_id")
     def _compute_loc(self):
@@ -94,7 +217,9 @@ class StockInventoryLine(models.Model):
                 elif self.env.context.get("default_product_id", False):
                     product = self.env["product.product"].browse(self.env.context.get("default_product_id", False))
                     values["standard_price"] = product.standard_price
-        return super().create(vals_list)
+        lines = super().create(vals_list)
+        lines.filtered(lambda line: not line.sudo().unit_value)._snapshot_unit_value()
+        return lines
 
     @api.onchange(
         "product_id",
@@ -120,27 +245,37 @@ class StockInventoryLine(models.Model):
         #         #price = self.product_id.with_context(to_date=self.accounting_date).stock_value / self.theoretical_qty
         return price
 
-    def _generate_moves(self):
-        config_parameter = self.env["ir.config_parameter"].sudo()
-        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
-        use_inventory_price = safe_eval(use_inventory_price)
+    def _use_inventory_price(self):
+        """Pretul de pe linie valorizeaza plusul de inventar?
 
-        # actualizare pret in produs
-        for inventory_line in self:
+        Parametrul ``stock.use_inventory_price`` decide mereu. Cu el activ, pretul liniei se
+        foloseste la FIFO / cost mediu, iar la cost standard doar pe liniile cu stoc scriptic 0.
+        """
+        self.ensure_one()
+        use_inventory_price = self.env["ir.config_parameter"].sudo().get_param("stock.use_inventory_price", "True")
+        if not safe_eval(use_inventory_price):
+            return False
+        cost_method = self.product_id.with_company(self.company_id).cost_method
+        return not self.theoretical_qty or cost_method in ("fifo", "average")
+
+    def _generate_moves(self):
+        # La cost standard, pe o linie cu scriptic 0, pretul liniei devine costul produsului doar daca
+        # produsul nu are stoc deloc in companie: altfel schimbarea costului ar reevalua stocul existent.
+        # Pe FIFO / cost mediu costul nu se rescrie: plusul intra la pretul liniei prin valoarea
+        # miscarii (stock.move._get_value_from_std_price), iar costul mediu se recalculeaza ponderat.
+        for line in self:
+            company = line.company_id or self.env.company
+            product = line.product_id.with_company(company).with_context(allowed_company_ids=company.ids).sudo()
             if (
-                not inventory_line.theoretical_qty
-                or (
-                    inventory_line.product_id.cost_method == "fifo"
-                    or inventory_line.product_id.cost_method == "average"
-                )
-                and use_inventory_price
+                product.cost_method == "standard"
+                and line.difference_qty > 0
+                and line._use_inventory_price()
+                and product.standard_price != line.standard_price
+                # stocul valorizat al companiei, in orice locatie, nu doar in depozite
+                and product.uom_id.is_zero(product._with_valuation_context().qty_available)
             ):
-                inventory_line.product_id.sudo().with_context(disable_auto_svl=True).write(
-                    {"standard_price": inventory_line.standard_price}
-                )
-        moves = super()._generate_moves()
-        # self.set_last_last_inventory()
-        return moves
+                product.standard_price = line.standard_price
+        return super()._generate_moves()
 
     # def set_last_last_inventory(self):
     #     for inventory_line in self:

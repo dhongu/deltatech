@@ -3,8 +3,8 @@
 
 {
     "name": "Invoice Weight",
-    "summary": "Invoice Weight",
-    "version": "19.0.1.0.2",
+    "summary": "Net and gross weight totals on invoices, sale and purchase orders",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

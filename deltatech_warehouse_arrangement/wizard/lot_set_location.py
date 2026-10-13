@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import fields, models
 from odoo.exceptions import UserError
 
 
@@ -20,22 +20,24 @@ class LotChangeLocation(models.TransientModel):
         lot_id = self.env["stock.lot"].search([("name", "=", barcode)])
         if lot_id:
             if len(lot_id) > 1:
-                # error, multiple lots found
-                pass
-            else:
-                self.lot_id = lot_id
-                self.lot_scanned = True
+                raise UserError(
+                    self.env._("Several lots/serials named %(barcode)s were found, scan another one", barcode=barcode)
+                )
+            # a new lot needs its own rack scan: never reuse the rack picked for the previous lot
+            self.lot_id = lot_id
+            self.rack_id = False
+            self.lot_scanned = True
         else:
             if self.lot_scanned:
                 # search for location
                 rack_id = self.env["warehouse.location.rack"].search([("barcode", "=", barcode)])
                 if not rack_id:
-                    raise UserError(_(f"Location {barcode} not found"))
+                    raise UserError(self.env._("Location %(barcode)s not found", barcode=barcode))
                 else:
                     self.rack_id = rack_id
             else:
                 # error, lot not found
-                raise UserError(_(f"Lot/serial {barcode} not found"))
+                raise UserError(self.env._("Lot/serial %(barcode)s not found", barcode=barcode))
 
     def do_change(self):
         if self.lot_id and self.rack_id:

@@ -148,7 +148,7 @@
                                     <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                 </t>
                             </t>
-                            <t t-foreach="o.line_ids" t-as="line">
+                            <t t-foreach="o.line_ids.filtered(lambda l: l.location_id == location)" t-as="line">
                                 <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
                                 <t t-set="dif" t-value="line.product_qty-line.theoretical_qty or 0" />
                                 <t t-if='dif&lt;0'>
@@ -179,25 +179,25 @@
             <th>
                 <strong>Package</strong>
             </th>
-            <th class="text-right">
+            <th class="text-end">
                 <strong>Theoretical Quantity</strong>
             </th>
-            <th class="text-right">
+            <th class="text-end">
                 <strong>Real Quantity</strong>
             </th>
             <th>
                 <strong>Unit of measure</strong>
             </th>
-            <th class="text-right">
+            <th class="text-end">
                 <strong>Amount</strong>
             </th>
-            <th class="text-right">
+            <th class="text-end">
                 <strong>Difference Quantity</strong>
             </th>
-            <th class="text-right">
+            <th class="text-end">
                 <strong>Plus Amount</strong>
             </th>
-            <th class="text-right">
+            <th class="text-end">
                 <strong>Minus Amount</strong>
             </th>
         </tr>
@@ -213,10 +213,10 @@
             <td>
                 <span t-field="line.package_id" />
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <span t-field="line.theoretical_qty" />
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <t t-if="line.state == 'done'">
                     <span t-field="line.product_qty" />
                 </t>
@@ -224,20 +224,20 @@
             <td>
                 <span t-field="line.product_uom_id" groups="uom.group_uom" />
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <span t-esc="round(line.product_qty*price,2)" t-options='{"widget": "float", "precision": 2}' />
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <t t-if='dif!=0'>
-                    <span t-esc="round(dif)" t-options='{"widget": "float", "precision": 0}' />
+                    <span t-esc="dif" t-options='{"widget": "float", "decimal_precision": "Product Unit"}' />
                 </t>
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <t t-if='dif&gt;0'>
                     <span t-esc="round(dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                 </t>
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <t t-if='dif&lt;0'>
                     <span t-esc="round(-1*dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                 </t>
@@ -252,8 +252,8 @@
             </td>
             <td />
             <td />
-            <td class="text-right" />
-            <td class="text-right" />
+            <td class="text-end" />
+            <td class="text-end" />
             <td>
                 <div>
                     <strong>Before:</strong>
@@ -262,7 +262,7 @@
                     <strong>After:</strong>
                 </div>
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <div>
                     <strong t-esc="round(total_before,2)" t-options='{"widget": "float", "precision": 2}' />
                 </div>
@@ -273,11 +273,11 @@
                     />
                 </div>
             </td>
-            <td class="text-right" />
-            <td class="text-right">
+            <td class="text-end" />
+            <td class="text-end">
                 <strong t-esc="round(total_plus,2)" t-options='{"widget": "float", "precision": 2}' />
             </td>
-            <td class="text-right">
+            <td class="text-end">
                 <strong t-esc="round(total_minus,2)" t-options='{"widget": "float", "precision": 2}' />
             </td>
         </tr>

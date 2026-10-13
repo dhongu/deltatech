@@ -1,0 +1,110 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_backup_attachment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_backup_attachment
+#: model_terms:ir.ui.view,arch_db:deltatech_backup_attachment.view_export_attachment_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_backup_attachment
+#: model_terms:ir.ui.view,arch_db:deltatech_backup_attachment.view_export_attachment_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__domain
+msgid "Domain"
+msgstr "Domeniu"
+
+#. module: deltatech_backup_attachment
+#: model_terms:ir.ui.view,arch_db:deltatech_backup_attachment.view_export_attachment_form
+msgid "Export"
+msgstr "Export"
+
+#. module: deltatech_backup_attachment
+#: model_terms:ir.ui.view,arch_db:deltatech_backup_attachment.view_export_attachment_form
+msgid "Export Complete"
+msgstr "Export complet"
+
+#. module: deltatech_backup_attachment
+#: model:ir.actions.act_window,name:deltatech_backup_attachment.action_export_attachment
+#: model:ir.model,name:deltatech_backup_attachment.model_export_attachment
+#: model:ir.ui.menu,name:deltatech_backup_attachment.menu_export_attachment
+#: model_terms:ir.ui.view,arch_db:deltatech_backup_attachment.view_export_attachment_form
+msgid "Export attachment"
+msgstr "Export atașament"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__data_file
+msgid "File"
+msgstr "Fișier"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__name
+msgid "File Name"
+msgstr "Nume fișier"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields,field_description:deltatech_backup_attachment.field_export_attachment__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields.selection,name:deltatech_backup_attachment.selection__export_attachment__state__choose
+msgid "choose"
+msgstr "alege"
+
+#. module: deltatech_backup_attachment
+#: model:ir.model.fields.selection,name:deltatech_backup_attachment.selection__export_attachment__state__get
+msgid "get"
+msgstr "obține"
+
+#. module: deltatech_backup_attachment
+#: model_terms:ir.ui.view,arch_db:deltatech_backup_attachment.view_export_attachment_form
+msgid "or"
+msgstr "sau"

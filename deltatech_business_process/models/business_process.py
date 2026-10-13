@@ -2,14 +2,16 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
-from odoo.fields import Domain
+from odoo.exceptions import AccessError, UserError
+
+from ..tools.display_name import code_display_name
 
 
 class BusinessProcess(models.Model):
     _name = "business.process"
     _description = "Business process"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _rec_names_search = ["name", "code"]
 
     name = fields.Char(
         string="Name",
@@ -61,6 +63,12 @@ class BusinessProcess(models.Model):
         string="Customer Responsible",
         domain="[('is_company', '=', False)]",
         comodel_name="res.partner",
+    )
+    allowed_user_ids = fields.Many2many(
+        comodel_name="res.users",
+        string="Visible only to",
+        help="If set, only these users and business admins can see this process, "
+        "its steps, tests and issues. Leave empty to keep it visible to everyone.",
     )
     state = fields.Selection(
         [
@@ -164,9 +172,10 @@ class BusinessProcess(models.Model):
     testing_duration = fields.Float(string="Testing duration", default=0.0)
     duration_for_completion = fields.Float(string="Total duration", compute="_compute_duration_for_completion")
 
-    implementation_stage = fields.Selection(
-        [("first_stage", "First stage"), ("second_stage", "Second stage"), ("start", "Start")],
+    implementation_stage_id = fields.Many2one(
+        "business.process.implementation.stage",
         string="Implementation stage",
+        ondelete="restrict",
     )
     module_type = fields.Selection(
         [("standard", "Standard"), ("custom", "Custom"), ("implementor", "Implementor")], string="Module type"
@@ -180,15 +189,19 @@ class BusinessProcess(models.Model):
         for vals in vals_list:
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        results = super().create(vals_list)
-        for result in results:
-            if result.area_id.responsible_id and not result.responsible_id:
-                result.responsible_id = result.area_id.responsible_id
-        return results
+            # responsabilul zonei se pune din valori: dupa create ar cere drept de scriere,
+            # pe care grupul Process Responsible nu il are
+            if not vals.get("responsible_id") and vals.get("area_id"):
+                area = self.env["business.area"].browse(vals["area_id"])
+                if area.responsible_id:
+                    vals["responsible_id"] = area.responsible_id.id
+        return super().create(vals_list)
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for process in self:
-            process.display_name = "{}{}".format(process.code and f"[{process.code}] " or "", process.name)
+            process.display_name = code_display_name(process)
 
     def _compute_developments(self):
         for process in self:
@@ -241,46 +254,25 @@ class BusinessProcess(models.Model):
         return action
 
     def action_view_acceptance_tests(self):
-        test = self.start_user_acceptance_test()
+        # deschide testul de acceptanta existent; il creeaza doar daca procesul nu are niciunul
+        self.ensure_one()
+        domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
         context = {
             "default_process_id": self.id,
             "default_scope": "user_acceptance",
         }
-        action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
-        action.update(
-            {
-                "res_id": test.id,
-                "view_mode": "form",
-                "context": context,
-            }
-        )
+        tests = self.env["business.process.test"].search(domain)
+        if not tests:
+            tests = self.start_user_acceptance_test().with_env(self.env)
+        if len(tests) == 1:
+            action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
+            action.update({"res_id": tests.id, "view_mode": "form", "context": context})
+        else:
+            action = self.env["ir.actions.actions"]._for_xml_id(
+                "deltatech_business_process.action_business_process_test"
+            )
+            action.update({"domain": domain, "context": context})
         return action
-        # domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
-        # context = {
-        #     "default_process_id": self.id,
-        #     "default_scope": "user_acceptance",
-        # }
-        # tests = self.env["business.process.test"].search(domain)
-        # if len(tests) == 1:
-        #     action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
-        #     action.update(
-        #         {
-        #             "res_id": tests.id,
-        #             "view_mode": "form",
-        #             "context": context,
-        #         }
-        #     )
-        # else:
-        #     action = self.env["ir.actions.actions"]._for_xml_id(
-        #         "deltatech_business_process.action_business_process_test"
-        #     )
-        #     action.update(
-        #         {
-        #             "domain": domain,
-        #             "context": context,
-        #         }
-        #     )
-        # return action
 
     def action_view_developments(self):
         domain = [("id", "=", self.development_ids.ids)]
@@ -334,33 +326,8 @@ class BusinessProcess(models.Model):
 
         return super()._load_records(data_list, update)
 
-    # todo: de verificat
-    @api.model
-    def name_search(self, name="", args=None, operator="ilike", limit=100):
-        if not name:
-            return super().name_search(name, args, operator, limit)
-        domain = args or []
-        processes = self.search_fetch(Domain.AND([domain, [("code", operator, name)]]), ["display_name"], limit=limit)
-        return [(process.id, process.display_name) for process in processes.sudo()]
-
-    # nu mai exista in 18.0  def _name_search
-    # @api.model
-    # def _name_search(self, name, domain=None, operator="ilike", limit=None, order=None):
-    #     args = domain or []
-    #     project_id = self.env.context.get("default_project_id", False)
-    #     local_domain = [("code", "=", name)]
-    #     if project_id:
-    #         local_domain.append(("project_id", "=", project_id))
-    #     ids = list(self._search(local_domain + args, limit=limit, order=order))
-    #
-    #     search_domain = [("name", operator, name)]
-    #     if ids:
-    #         search_domain.append(("id", "not in", ids))
-    #     ids += list(self._search(search_domain + args, limit=limit))
-    #
-    #     return ids
-
     def _start_test(self, scope):
+        all_tests = self.env["business.process.test"]
         for process in self:
             domain = [("process_id", "=", process.id), ("scope", "=", scope)]
             tests = self.env["business.process.test"].search(domain)
@@ -370,7 +337,7 @@ class BusinessProcess(models.Model):
                     {
                         "name": self.env._("Internal Test %s", process.code if process.code else process.name),
                         "process_id": process.id,
-                        "tester_id": self.responsible_id.id,
+                        "tester_id": process.responsible_id.id,
                         "scope": scope,
                     }
                 )
@@ -387,7 +354,8 @@ class BusinessProcess(models.Model):
                     }
                 )
             test._onchange_process_id()
-            return test
+            all_tests |= test
+        return all_tests
 
     def _add_followers(self):
         for process in self:
@@ -401,17 +369,30 @@ class BusinessProcess(models.Model):
                     followers |= step.responsible_id
             process.message_subscribe(followers.ids)
 
+    def _check_state_access(self):
+        """Tranzitiile de stare sunt permise responsabilului de proces, care are doar citire
+        pe business.process (campurile raman editabile doar de Business Admin).
+        Intoarce recordset-ul in sudo, dupa verificarea grupului si a regulilor de acces."""
+        if not self.env.su and not self.env.user.has_group(
+            "deltatech_business_process.group_business_process_responsible"
+        ):
+            raise AccessError(self.env._("Only process responsibles can change the state of a business process."))
+        self.check_access("read")
+        return self.sudo()
+
     def button_start_design(self):
-        self._add_followers()
-        for process in self:
+        processes = self._check_state_access()
+        processes._add_followers()
+        for process in processes:
             values = {"state": "design"}
             if not process.date_start_bbp:
                 values["date_start_bbp"] = fields.Date.today()
             process.write(values)
 
     def button_start_test(self):
-        self._add_followers()
-        for process in self:
+        processes = self._check_state_access()
+        processes._add_followers()
+        for process in processes:
             values = {"state": "test"}
             if not process.date_end_bbp:
                 values["date_end_bbp"] = fields.Date.today()
@@ -420,14 +401,25 @@ class BusinessProcess(models.Model):
             process.write(values)
 
     def button_end_test(self):
-        # se verifica daca toate testele sunt finalizate
-        self.write({"state": "ready"})
+        processes = self._check_state_access()
+        # testarea se incheie doar daca toate testele procesului sunt finalizate
+        for process in processes:
+            open_tests = process.test_ids.filtered(lambda t: t.state != "done")
+            if open_tests:
+                raise UserError(
+                    self.env._(
+                        "Process %(process)s still has unfinished tests: %(tests)s",
+                        process=process.display_name,
+                        tests=", ".join(open_tests.mapped("name")),
+                    )
+                )
+        processes.write({"state": "ready"})
 
     def button_go_live(self):
-        self.write({"state": "production"})
+        self._check_state_access().write({"state": "production"})
 
     def button_draft(self):
-        self.write({"state": "draft"})
+        self._check_state_access().write({"state": "draft"})
 
     def button_abandon(self):
         self.write({"state": "abandoned"})
@@ -439,7 +431,12 @@ class BusinessProcess(models.Model):
         self._start_test("integration")
 
     def start_user_acceptance_test(self):
-        return self.sudo()._start_test("user_acceptance")
+        # The test is created as superuser (steps and step tests included), but only on processes the
+        # caller may read: the method is public, reachable through RPC with any process id.
+        if not self.env.su and not self.env.user.has_group("deltatech_business_process.group_business_end_user"):
+            raise AccessError(self.env._("Only business process users can start an acceptance test."))
+        self.check_access("read")
+        return self.sudo()._start_test("user_acceptance").with_env(self.env)
 
     def button_install_modules(self):
         found_modules = False

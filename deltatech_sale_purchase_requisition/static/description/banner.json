@@ -1,0 +1,7 @@
+{
+  "title": "Sale to Purchase RFQ",
+  "summary": "Create purchase RFQs straight from a quotation",
+  "icon": "clipboard",
+  "features": ["Prefilled RFQ from quotation lines", "Smart button to linked RFQs", "No purchase agreements needed"],
+  "lang": "en"
+}

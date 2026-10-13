@@ -12,6 +12,7 @@ class BusinessProcessReport(models.Model):
 
     project_id = fields.Many2one(string="Project", comodel_name="business.project", required=True)
     process_id = fields.Many2one("business.process", string="Business process", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", readonly=True)
     sequence = fields.Integer(string="Sequence", readonly=True)
 
@@ -79,7 +80,8 @@ class BusinessProcessReport(models.Model):
                 bps.transaction_id AS transaction_id,
                 bt.transaction_type AS transaction_type,
                 bps.responsible_id AS responsible_step_id,
-                bps.role_id AS role_id
+                bps.role_id AS role_id,
+                bp.company_id AS company_id
 
         """
 

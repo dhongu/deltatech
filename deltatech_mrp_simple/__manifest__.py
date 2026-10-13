@@ -2,12 +2,12 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Simple MRP",
-    "summary": "Simple production",
-    "version": "19.0.1.1.1",
+    "summary": "Simple production without a BoM: consume components, output products, cost computed",
+    "version": "19.0.1.1.4",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
-    "depends": ["stock", "sale"],
+    "depends": ["stock_account", "sale"],
     "license": "OPL-1",
     "data": [
         "security/groups.xml",

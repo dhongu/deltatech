@@ -55,7 +55,7 @@
                     <strong>Warehouse Stock</strong>
                 </td>
                 <td class="text-end">
-                    <b t-out='props.record.data.warehouse_stock' />
+                    <b class="text-nowrap" style="white-space: pre-line;" t-out='props.record.data.warehouse_stock' />
                 </td>
             </tr>
         </xpath>

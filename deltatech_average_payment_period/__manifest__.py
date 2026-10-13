@@ -4,9 +4,9 @@
 
 
 {
-    "name": "Deltatech Average Payment Period",
+    "name": "Average Payment Period",
     "summary": "Computes average duration of cash accounting",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
@@ -16,6 +16,7 @@
         "views/account_view.xml",
         "report/account_average_payment_view.xml",
         "security/ir.model.access.csv",
+        "security/account_average_payment_security.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

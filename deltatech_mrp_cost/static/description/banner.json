@@ -1,0 +1,6 @@
+{
+  "title": "MRP Cost",
+  "summary": "Track labor & overhead in manufacturing orders",
+  "icon": "gear",
+  "features": ["Overhead & salary costs on BoM", "Auto unit cost calculation", "Actual vs estimated cost compare"]
+}

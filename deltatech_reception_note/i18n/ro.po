@@ -131,8 +131,8 @@ msgstr "Note recepție"
 #. odoo-python
 #: code:addons/deltatech_reception_note/models/purchase.py:0
 #, python-format
-msgid "Product [{}]{}: quantity: {} {}<br />"
-msgstr "Produs [{}]{}: cantitate: {} {}<br />"
+msgid "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+msgstr "Produs [{product_code}]{product_name}: cantitate: {quantity} {uom}<br />"
 
 #. module: deltatech_reception_note
 #: model:ir.model,name:deltatech_reception_note.model_purchase_order
@@ -189,15 +189,24 @@ msgstr "Setează trimis"
 #. odoo-python
 #: code:addons/deltatech_reception_note/models/purchase.py:0
 #, python-format
-msgid "The product [{}]{} is not found in a rfq"
-msgstr "Produsul [{}]{} nu a fost găsit in niciun rfq"
+msgid ""
+"The product [%(default_code)s]%(name)s is not found in a sent RFQ. Tick "
+"'Ignore quantities' to receive it anyway."
+msgstr ""
+"Produsul [%(default_code)s]%(name)s nu se găsește într-o CdO trimisă. Bifați "
+"„Ignoră cantitățile negăsite” pentru a-l recepționa oricum."
 
 #. module: deltatech_reception_note
 #. odoo-python
 #: code:addons/deltatech_reception_note/models/purchase.py:0
 #, python-format
-msgid "The quantity {} of the [{}] {} product is not found in a rfq"
-msgstr "Cantitatea {} pentru produsul [{}] {} nu a fost găsită in niciun rfq"
+msgid ""
+"The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not "
+"found in a sent RFQ. Tick 'Ignore quantities' to receive it anyway."
+msgstr ""
+"Cantitatea %(quantity)s pentru produsul [%(default_code)s] %(name)s nu se "
+"găsește într-o CdO trimisă. Bifați „Ignoră cantitățile negăsite” pentru a o "
+"recepționa oricum."
 
 #. module: deltatech_reception_note
 #: model:ir.ui.menu,name:deltatech_reception_note.menu_action_reception_note_view

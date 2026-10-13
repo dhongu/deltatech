@@ -5,6 +5,8 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare, float_is_zero
 from odoo.tools.safe_eval import safe_eval
 
+from odoo.addons.base.models.ir_model import MODULE_UNINSTALL_FLAG
+
 
 class Inventory(models.Model):
     _name = "stock.inventory"
@@ -103,20 +105,20 @@ class Inventory(models.Model):
         default = dict(default or {}, name=name)
         return super().copy_data(default)
 
-    # def unlink(self):
-    #     for inventory in self:
-    #         if (
-    #             inventory.state not in ("draft", "cancel")
-    #             and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
-    #             and not self.env.context.get("merge_inventory", False)
-    #         ):
-    #             raise UserError(
-    #                 self.env._(
-    #                     "You can only delete a draft inventory adjustment. "
-    #                     "If the inventory adjustment is not done, you can cancel it."
-    #                 )
-    #             )
-    #     return super().unlink()
+    def unlink(self):
+        for inventory in self:
+            if (
+                inventory.state not in ("draft", "cancel")
+                and not self.env.context.get(MODULE_UNINSTALL_FLAG, False)
+                and not self.env.context.get("merge_inventory", False)
+            ):
+                raise UserError(
+                    self.env._(
+                        "You can only delete a draft inventory adjustment. "
+                        "If the inventory adjustment is not done, you can cancel it."
+                    )
+                )
+        return super().unlink()
 
     def action_validate(self):
         if not self.exists():
@@ -177,8 +179,9 @@ class Inventory(models.Model):
                 self.env._(
                     "You cannot set a negative product quantity in an inventory line:\n\t"
                     "%(product_name)s - qty: %(product_qty)s",
-                ),
-                {"product_name": negative.product_id.display_name, "product_qty": negative.product_qty},
+                    product_name=negative.product_id.display_name,
+                    product_qty=negative.product_qty,
+                )
             )
         self.action_check()
         self.write({"state": "done", "date": self.date})
@@ -362,7 +365,7 @@ class Inventory(models.Model):
                     "|",
                     ("company_id", "=", self.company_id.id),
                     ("company_id", "=", False),
-                    ("type", "=", "product"),
+                    ("is_storable", "=", True),
                     ("active", "=", True),
                 ],
                 ["id"],
@@ -447,7 +450,9 @@ class InventoryLine(models.Model):
     )
     inventory_id = fields.Many2one("stock.inventory", "Inventory", check_company=True, index=True, ondelete="cascade")
 
-    partner_id = fields.Many2one("res.partner", "Owner", check_company=True)
+    # index=True: coloană FK spre res_partner pe tabela de linii de inventar, care crește cu
+    # fiecare inventariere. Fără index, ștergerea/unificarea unui partener o scanează integral.
+    partner_id = fields.Many2one("res.partner", "Owner", check_company=True, index=True)
     product_id = fields.Many2one(
         "product.product",
         "Product",
@@ -744,6 +749,8 @@ class InventoryLine(models.Model):
             "location_id": location_id,
             "location_dest_id": location_dest_id,
             "is_inventory": True,
+            # referinta miscarii (si a notei contabile) = numele documentului de inventar
+            "inventory_name": self.inventory_id.name,
             "move_line_ids": [
                 (
                     0,

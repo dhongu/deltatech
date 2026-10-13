@@ -1,6 +1,7 @@
 {
-    "name": "DeltaTech Transport Change",
-    "version": "19.0.0.1.4",
+    "images": ["static/description/main_screenshot.png"],
+    "name": "Transport Change",
+    "version": "19.0.0.1.7",
     "license": "LGPL-3",
     "category": "Technical",
     "summary": "Export configuration changes to CSV and manage transport through Git",

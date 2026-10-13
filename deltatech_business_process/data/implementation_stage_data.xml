@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<odoo noupdate="1">
+    <!-- Default implementation stages (kept from the former selection field).
+         noupdate="1" so user edits/additions/deletions survive upgrades. -->
+        <record id="implementation_stage_first" model="business.process.implementation.stage">
+            <field name="name">First stage</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="implementation_stage_second" model="business.process.implementation.stage">
+            <field name="name">Second stage</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="implementation_stage_start" model="business.process.implementation.stage">
+            <field name="name">Start</field>
+            <field name="sequence">30</field>
+        </record>>
+</odoo>

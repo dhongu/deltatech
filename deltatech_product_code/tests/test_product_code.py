@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -164,3 +165,90 @@ class TestProductCode(TransactionCase):
         )
         self.assertTrue(product_template.barcode)
         self.assertEqual(len(product_template.barcode), 13)  # EAN13
+
+    def test_new_code_skips_used_codes(self):
+        # coduri create pe alta cale decat secventa (import, scriere manuala)
+        for code in ("TEST/0001", "TEST/0002", "TEST/0007"):
+            self.env["product.product"].create({"name": code, "default_code": code})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # secventa propunea TEST/0001, deja folosit: se continua peste cel mai mare cod
+        self.assertEqual(product_template.default_code, "TEST/0008")
+        self.assertEqual(self.product_category.sequence_id.number_next_actual, 9)
+
+    def test_new_code_keeps_sequence_when_free(self):
+        self.env["product.product"].create({"name": "Manual", "default_code": "TEST/0050"})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        # codul dat de secventa e liber, deci nu se sare peste goluri
+        self.assertEqual(product_template.default_code, "TEST/0001")
+
+    def test_new_code_skips_archived_code(self):
+        self.env["product.product"].create({"name": "Old", "default_code": "TEST/0001", "active": False})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        self.assertEqual(product_template.default_code, "TEST/0002")
+
+    def test_show_not_unique(self):
+        tmpl1 = self.env["product.template"].create({"name": "Dup 1", "default_code": "DUP/1"})
+        tmpl2 = self.env["product.template"].create({"name": "Dup 2", "default_code": "UNIQ/1"})
+        # constrangerea unique e pe template; duplicatul se creeaza direct in SQL
+        self.env.flush_all()
+        self.env.cr.execute("UPDATE product_template SET default_code = 'DUP/1' WHERE id = %s", (tmpl2.id,))
+        self.env.cr.execute("UPDATE product_product SET default_code = 'DUP/1' WHERE product_tmpl_id = %s", (tmpl2.id,))
+        self.env.invalidate_all()
+
+        action = self.env["product.template"].show_not_unique()
+        self.assertEqual(action["res_model"], "product.template")
+        found = self.env["product.template"].search(action["domain"])
+        self.assertIn(tmpl1, found)
+        self.assertIn(tmpl2, found)
+
+        action = self.env["product.product"].show_not_unique()
+        self.assertEqual(action["res_model"], "product.product")
+        found = self.env["product.product"].search(action["domain"])
+        self.assertIn(tmpl1.product_variant_id, found)
+        self.assertIn(tmpl2.product_variant_id, found)
+
+    def test_gs1_barcode(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        self.assertEqual(self.product_category.gs1_available_count, 100)
+        product_1 = self.env["product.product"].create({"name": "GS1 1", "categ_id": self.product_category.id})
+        product_2 = self.env["product.product"].create({"name": "GS1 2", "categ_id": self.product_category.id})
+        self.assertEqual(product_1.barcode, "5940000123000")
+        self.assertEqual(product_2.barcode, "5940000123017")
+        self.product_category.invalidate_recordset(["gs1_available_count"])
+        self.assertEqual(self.product_category.gs1_available_count, 98)
+
+    def test_gs1_barcode_skips_used_codes(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        # cod alocat manual (sau importat) si arhivat: se continua peste el
+        self.env["product.product"].create({"name": "Old", "barcode": "5940000123406", "active": False})
+        product = self.env["product.product"].create({"name": "GS1", "categ_id": self.product_category.id})
+        self.assertEqual(product.barcode, "5940000123413")
+
+    def test_gs1_barcode_range_full(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        self.env["product.product"].create({"name": "Last", "barcode": "5940000123994"})
+        self.product_category.invalidate_recordset(["gs1_available_count"])
+        self.assertEqual(self.product_category.gs1_available_count, 0)
+        with self.assertRaises(UserError):
+            self.env["product.product"].create({"name": "GS1", "categ_id": self.product_category.id})
+
+    def test_gs1_prefix_check(self):
+        with self.assertRaises(ValidationError):
+            self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "59A123"})
+        with self.assertRaises(ValidationError):
+            self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "594000012345"})

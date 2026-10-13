@@ -1,9 +1,9 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Delivery Status",
+    "name": "Delivery Status",
     "summary": "Carrier status on picking",
-    "version": "19.0.2.1.3",
+    "version": "19.0.2.3.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

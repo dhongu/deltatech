@@ -16,8 +16,13 @@ class ReceptionNoteCreate(models.TransientModel):
             purchase_ids = self.env["purchase.order"].browse(active_ids)
         for purchase in purchase_ids:
             if not purchase.reception_type or purchase.reception_type == "normal":
+                # keep the company, currency and fiscal position of the source order: the
+                # prices and taxes copied below are expressed in them
                 new_values = {
                     "state": "sent",
+                    "company_id": purchase.company_id.id,
+                    "currency_id": purchase.currency_id.id,
+                    "fiscal_position_id": purchase.fiscal_position_id.id,
                     "partner_id": purchase.partner_id.id,
                     "partner_ref": purchase.partner_ref,
                     "date_approve": purchase.date_approve,
@@ -27,7 +32,7 @@ class ReceptionNoteCreate(models.TransientModel):
                     "picking_type_id": purchase.picking_type_id.id,
                     "payment_term_id": purchase.payment_term_id.id,
                 }
-                new_purchase = self.env["purchase.order"].create(new_values)
+                new_purchase = self.env["purchase.order"].with_company(purchase.company_id).create(new_values)
 
                 for line in purchase.order_line:
                     if line.product_qty > line.qty_received:

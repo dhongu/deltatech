@@ -8,3 +8,14 @@ from . import test_onchange_quantity_context
 from . import test_product_methods
 from . import test_stock_inventory_methods_extra
 from . import test_compute_warehouse_stocks
+from . import test_inventory_note
+from . import test_quant_apply_counting_date
+from . import test_inventory_line_value
+from . import test_product_replenish_reference
+from . import test_screenshots
+from . import test_audit_fixes
+from . import test_inventory_conflict
+from . import test_company_rules
+from . import test_coverage_wizards
+from . import test_coverage_inventory_product
+from . import test_quant_clear

@@ -18,7 +18,7 @@ types of records with specific default values and routing configurations.
 
 The module implements a flexible framework through two main models:
 
-- : Defines the type configuration including allowed users and routing `record.type`
+- `record.type`: Defines the type configuration including allowed users and routing
 - `record.type.default.values`: Manages default field values for each record type with dynamic field selection
 
 ## Integration Points
@@ -36,7 +36,7 @@ The module implements a flexible framework through two main models:
 
 ## Usage
 
-Record types can be configured in the system settings. Each type can have specific default values for fields, which will
-be automatically applied when creating new records of that type. User access to record types can be restricted, ensuring
-that users only see and use the appropriate record types for their role. This module is maintained by Terrabit and is
-available for Odoo 17.0.
+Record types are configured from the Configuration menu of each application (Sales, Purchase, Invoicing). Each type
+can have specific default values for fields, which are automatically applied when the type is selected on a document.
+On sales orders, the types can be restricted to specific users, ensuring that users only see and use the appropriate
+record types for their role. This module is maintained by Terrabit and is available for Odoo 19.0.

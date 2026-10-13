@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_expected_receipt_cashier,expected receipt cashier,model_deltatech_expected_receipt,group_cashier,1,0,0,0
+access_expected_receipt_readonly,expected receipt readonly,model_deltatech_expected_receipt,account.group_account_readonly,1,0,0,0
+access_expected_receipt_manager,expected receipt manager,model_deltatech_expected_receipt,group_manager,1,1,0,0
+access_card_terminal_user,card terminal user,model_deltatech_card_terminal,base.group_user,1,0,0,0
+access_card_terminal_manager,card terminal manager,model_deltatech_card_terminal,group_manager,1,1,1,1
+access_card_payment_cashier,card payment cashier,model_deltatech_card_payment,group_cashier,1,1,1,0
+access_card_settlement_manager,card settlement manager,model_deltatech_card_settlement,group_manager,1,1,1,0
+access_card_settlement_line_manager,card settlement line manager,model_deltatech_card_settlement_line,group_manager,1,1,1,1

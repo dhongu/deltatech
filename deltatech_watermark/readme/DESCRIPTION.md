@@ -1,30 +1,14 @@
-Watermark Field Base
-====================
+Upload the company watermark once, in the settings, and let other modules use it where it is
+needed. This module stores the watermark image on each company and shows it in the General
+Settings. It does not change any page or document by itself: the
+[Website Watermark Image](https://apps.odoo.com/apps/modules/19.0/deltatech_website_watermark)
+module uses it to mark the product pictures of the online shop.
 
-This module provides a base field for watermark images or text within Odoo. It's designed to act as a centralized storage and configuration point for watermarking functionalities used across different areas of the system, particularly in reports and on the website.
-
-Key Features
-============
-
-1.  **Centralized Watermark Storage**:
-    *   Adds a dedicated **Watermark** field (usually on the Company model).
-    *   Provides a standardized place to upload and manage the image or define the text used for watermarking corporate documents or media.
-
-2.  **Configuration Settings**:
-    *   Integrates with Odoo's standard configuration settings for easy management.
-    *   Allows administrators to quickly update the corporate watermark globally.
-
-3.  **Foundation for Extensions**:
-    *    Acts as a necessary dependency for more specific watermarking modules, such as those that apply watermarks to website images or generated PDF reports.
-
-Usage
-=====
-
-1.  Navigate to **Settings > General Settings**.
-2.  Locate the **Watermark** section (if configured) or open the **Company** record.
-3.  Upload the desired image or enter the text you wish to use as a watermark.
-4.  Install other modules that depend on this base module (e.g., `deltatech_website_watermark`) to see the watermark applied in specific contexts.
-
-WARNING:
-
-   This module provides the necessary fields and configuration but does not apply the watermark by itself. It requires additional extension modules to perform the actual watermarking on specific documents or images.
+- **One watermark per company**: Each company keeps its own watermark image. In a
+  multi-company database, the setting applies to the current company.
+- **Set in General Settings**: The image is uploaded in the Companies section of the settings,
+  with a preview.
+- **Base for Website Watermark**: Website Watermark Image applies it to the product pictures of
+  the shop when they are displayed, so the original images stay clean.
+- **Lightweight**: It depends only on the standard settings (`base_setup` and `web`), so other
+  modules can build on it without pulling in the website.

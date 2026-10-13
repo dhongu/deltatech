@@ -56,7 +56,7 @@
                     decoration-warning="status_user_acceptance_test == 'wait'"
                     decoration-success="status_user_acceptance_test == 'done'"
                 />
-                <field name="implementation_stage" optional="hide" />
+                <field name="implementation_stage_id" optional="hide" />
 
             </list>
         </field>
@@ -97,12 +97,14 @@
                         string="Go live"
                         class="oe_highlight"
                         invisible="state!='ready'"
+                        groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
                         name="button_draft"
                         type="object"
                         string="Reset to Draft"
-                        invisible="state not in ('design','test','ready','abandoned')"
+                        invisible="state == 'draft'"
+                        groups="deltatech_business_process.group_business_process_responsible"
                     />
                     <button
                         name="button_abandon"
@@ -170,7 +172,7 @@
                                                 </group>-->
 
                         <group string="Implementation">
-                            <field name="implementation_stage" />
+                            <field name="implementation_stage_id" />
                             <field name="module_type" />
                         </group>
 
@@ -242,6 +244,12 @@
                                     <field name="customer_id" readonly="state not in ('draft','design')" />
                                     <field name="approved_id" readonly="state not in ('draft','design')" />
                                 </group>
+                                <group
+                                    string="Visibility"
+                                    groups="deltatech_business_process.group_business_process_manager"
+                                >
+                                    <field name="allowed_user_ids" widget="many2many_tags" />
+                                </group>
                             </group>
 
 
@@ -309,7 +317,7 @@
                 <field name="project_id" />
                 <field name="area_id" />
                 <field name="responsible_id" />
-                <field name="implementation_stage" />
+                <field name="implementation_stage_id" />
                 <field name="module_type" />
                 <group>
                     <filter name="group_area" string="Area" domain="[]" context="{'group_by':'area_id'}" />

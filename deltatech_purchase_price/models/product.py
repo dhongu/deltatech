@@ -11,6 +11,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     standard_price = fields.Float(tracking=True)
+    last_purchase_price = fields.Float(digits="Product Price", tracking=True, company_dependent=True)
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -22,7 +23,58 @@ class ProductTemplate(models.Model):
 
     standard_price = fields.Float(tracking=True)
     list_price = fields.Float(tracking=True)
-    last_purchase_price = fields.Float(digits="Product Price", tracking=True)
+    last_purchase_price = fields.Float(
+        digits="Product Price",
+        compute="_compute_last_purchase_price",
+        inverse="_inverse_last_purchase_price",
+        search="_search_last_purchase_price",
+        tracking=True,
+        company_dependent=True,
+        # Compute-ul citește seller_ids (product.supplierinfo) pentru template-urile
+        # multi-variantă (fix tichet 8403). Câmpul e afișat indirect pe website prin
+        # deltatech_price_categ (list_price_base = "last_purchase_price"), deci
+        # recalcularea trebuie să ruleze ca sudo, altfel userul Public — care nu are
+        # drept pe product.supplierinfo — primește 403 la /shop (tichet 8921).
+        compute_sudo=True,
+    )
+
+    @api.depends("product_variant_ids.last_purchase_price", "seller_ids.price", "seller_ids.product_id")
+    @api.depends_context("company")
+    def _compute_last_purchase_price(self):
+        # Single-variant (and variant-less) templates keep the native behaviour:
+        # the template value mirrors its only variant. For multi-variant
+        # templates the native helper would fall back to 0 (variants may hold
+        # different costs), which leaves the template price at 0 and breaks the
+        # markup-based sale price. Instead we surface the most recently updated
+        # supplier price, regardless of variant (ticket 8403).
+        single = self.filtered(lambda t: len(t.product_variant_ids) <= 1)
+        single._compute_template_field_from_variant_field("last_purchase_price")
+        for template in self - single:
+            template.last_purchase_price = template._get_last_purchase_price_from_sellers()
+
+    def _get_last_purchase_price_from_sellers(self):
+        """Last purchase price to show on a multi-variant template.
+
+        Picks the purchase price of the variant tied to the most recently
+        updated vendor line (``product.supplierinfo``); a template-level vendor
+        line falls back to the first variant. When no vendor line yields a
+        price, falls back to the highest known purchase price across variants,
+        so the template never collapses to 0 while any variant has a cost.
+        """
+        self.ensure_one()
+        sellers = self.seller_ids.sorted(key=lambda s: s.write_date or s.create_date, reverse=True)
+        for seller in sellers:
+            variant = seller.product_id or self.product_variant_ids[:1]
+            if variant.last_purchase_price:
+                return variant.last_purchase_price
+        prices = [p for p in self.product_variant_ids.mapped("last_purchase_price") if p]
+        return max(prices) if prices else 0.0
+
+    def _inverse_last_purchase_price(self):
+        self._set_product_variant_field("last_purchase_price")
+
+    def _search_last_purchase_price(self, operator, value):
+        return [("product_variant_ids.last_purchase_price", operator, value)]
 
     @api.onchange("list_price")
     def onchange_list_price(self):
@@ -42,8 +94,11 @@ class ProductTemplate(models.Model):
             return
         AccountTax = self.env["account.tax"]
 
-        currency = self.env.user.company_id.currency_id
-        company = self.env.user.company_id
+        # The purchase price is company dependent: it is read in the active company (set with with_company()
+        # by the supplier price update), so its currency and the conversion rate are those of the same company,
+        # not of the default company of the user.
+        company = self.env.company
+        currency = company.currency_id
         date = self.env.context.get("date") or fields.Date.today()
 
         for product in self:
@@ -61,12 +116,10 @@ class ProductTemplate(models.Model):
                         trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
                         product.trade_markup = trade_markup
                 list_price = product.last_purchase_price * (1 + product.trade_markup / 100)
-                list_price_tax = 0
                 if any(tax.price_include for tax in product.taxes_id):
-                    list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(
-                        list_price, 1
-                    )
-                list_price = list_price + list_price_tax
+                    list_price = product.taxes_id.compute_all(list_price, quantity=1, handle_price_include=False)[
+                        "total_included"
+                    ]
 
                 list_price = currency._convert(list_price, product.currency_id, company, date)
                 list_price_round = safe_eval(get_param("sale.list_price_round", "2"))
@@ -75,6 +128,14 @@ class ProductTemplate(models.Model):
 
 class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
+
+    @api.model
+    def default_get(self, fields):
+        # the purchase product views pass default_price=standard_price:
+        # a new vendor pricing row must not start at the product cost
+        if "default_price" in self.env.context:
+            self = self.with_context(default_price=0.0)  # pylint: disable=self-cls-assignment
+        return super().default_get(fields)
 
     def update_last_purchase_price(self):
         date = self.env.context.get("date") or fields.Date.today()
@@ -87,21 +148,28 @@ class SupplierInfo(models.Model):
                 )
             price = from_uom._compute_price(item.price, to_uom)
 
+            company = item.company_id or self.env.company
             if item.currency_id:
-                to_currency = self.env.user.company_id.currency_id
-                company = self.env.user.company_id
+                to_currency = company.currency_id
                 price = item.currency_id._convert(price, to_currency, company, date)
             if price:
-                item.product_tmpl_id.last_purchase_price = price
-                item.product_tmpl_id.onchange_last_purchase_price()
+                if item.product_id:
+                    item.product_id.with_company(company).last_purchase_price = price
+                    item.product_id.with_company(company).onchange_last_purchase_price()
+                else:
+                    item.product_tmpl_id.with_company(company).last_purchase_price = price
+                    item.product_tmpl_id.with_company(company).onchange_last_purchase_price()
 
     def write(self, vals):
         res = super().write(vals)
         if "price" in vals:
-            self.update_last_purchase_price()
+            if not self.env.context.get("from_po_confirmation"):
+                self.update_last_purchase_price()
         return res
 
+    @api.model_create_multi
     def create(self, vals_list):
         res = super().create(vals_list)
-        res.update_last_purchase_price()
+        if not self.env.context.get("from_po_confirmation"):
+            res.update_last_purchase_price()
         return res

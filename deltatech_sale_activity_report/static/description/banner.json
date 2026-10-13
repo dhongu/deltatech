@@ -1,0 +1,10 @@
+{
+  "title": "Sale Activity Log",
+  "summary": "Track every change on sales orders, per user",
+  "icon": "trend",
+  "features": [
+    "Auto-log all field & button changes",
+    "Pivot report by user in Sales menu",
+    "Auto-delete records older than 2 months"
+  ]
+}

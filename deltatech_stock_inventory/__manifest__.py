@@ -4,8 +4,8 @@
 
 {
     "name": "Stock Inventory",
-    "summary": "Inventory Old Method",
-    "version": "19.0.2.3.9",
+    "summary": "Restore the classic inventory adjustment document with valuation control",
+    "version": "19.0.2.10.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -20,6 +20,7 @@
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
+        "security/ir_rule.xml",
         "data/data.xml",
         "views/res_config_settings_view.xml",
         "views/stock_inventory_views.xml",
@@ -33,6 +34,7 @@
         "wizard/stock_inventory_merge.xml",
         "wizard/product_replenish_views.xml",
         "views/stock_warehouse_view.xml",
+        "views/stock_location_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,

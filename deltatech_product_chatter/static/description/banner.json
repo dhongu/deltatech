@@ -1,0 +1,7 @@
+{
+  "title": "Product Chatter Protection",
+  "summary": "Keep the audit trail of product messages safe",
+  "icon": "user",
+  "features": ["Blocks deleting product messages", "Dedicated security group", "Covers UI, ORM and RPC"],
+  "lang": "en"
+}

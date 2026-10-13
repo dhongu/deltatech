@@ -3,8 +3,8 @@
 
 {
     "name": "Logistic Documents",
-    "summary": "Logistic Documents",
-    "version": "19.0.1.0.3",
+    "summary": "Keep CMRs, certificates and other shipping documents in one place",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

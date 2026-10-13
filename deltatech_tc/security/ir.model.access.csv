@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_deltatech_tc_station_user,deltatech.tc.station user,model_deltatech_tc_station,group_deltatech_tc_user,1,0,0,0
+access_deltatech_tc_station_manager,deltatech.tc.station manager,model_deltatech_tc_station,group_deltatech_tc_manager,1,1,1,1
+access_deltatech_tc_job_user,deltatech.tc.job user,model_deltatech_tc_job,group_deltatech_tc_user,1,0,0,0
+access_deltatech_tc_job_manager,deltatech.tc.job manager,model_deltatech_tc_job,group_deltatech_tc_manager,1,1,1,1

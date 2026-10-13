@@ -17,19 +17,48 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||(n%100==0)&&(n!=0))?2:1));\n"
 
 #. module: deltatech_website_vat_validation
-#. python-format
+#. odoo-python
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "An other partner already exists with the same %s"
-msgstr "Un alt partener există deja cu același %s"
+msgid ""
+"A company with this tax code already has an account with us. To order on its"
+" behalf, ask a colleague who has access to add you, or contact us."
+msgstr ""
+"Firma cu acest cod fiscal are deja cont la noi. Pentru a comanda în numele "
+"ei, cereți unui coleg care are acces să vă adauge sau contactați-ne."
 
 #. module: deltatech_website_vat_validation
-#. python-format
+#. odoo-python
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The VAT number is not valid according to ANAF"
-msgstr "Codul TVA nu este valid conform ANAF"
+msgid ""
+"A company with this tax code already has an account with us. To order on its"
+" behalf, ask a colleague who has access to add you, or send an access "
+"request from %(url)s."
+msgstr ""
+"Firma cu acest cod fiscal are deja cont la noi. Pentru a comanda în numele "
+"ei, cereți unui coleg care are acces să vă adauge sau trimiteți o cerere de "
+"acces de la %(url)s."
 
 #. module: deltatech_website_vat_validation
-#. python-format
+#. odoo-python
 #: code:addons/deltatech_website_vat_validation/controllers/website_sale.py:0
-msgid "The VAT number must contain only digits (after the country code)"
-msgstr "Codul TVA trebuie să conțină doar cifre (după codul țării)"
+msgid ""
+"This e-mail address belongs to another account. Log in with that account or "
+"use another address."
+msgstr ""
+"Această adresă de e-mail aparține altui cont. Autentificați-vă cu acel cont "
+"sau folosiți altă adresă."
+
+#. module: deltatech_website_vat_validation
+#: model:ir.model.fields,field_description:deltatech_website_vat_validation.field_website__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_website_vat_validation
+#: model:ir.model.fields,field_description:deltatech_website_vat_validation.field_website__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_website_vat_validation
+#: model:ir.model,name:deltatech_website_vat_validation.model_website
+msgid "Website"
+msgstr "Website"

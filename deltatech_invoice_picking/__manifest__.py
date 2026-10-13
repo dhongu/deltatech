@@ -4,10 +4,12 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "19.0.1.0.9",
+    "version": "19.0.1.0.14",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Facturare livrari",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking?v=19.0",
+    "support": "support@terrabit.ro",
+    "summary": "Create invoices directly from stock pickings or batch transfers",
     "category": "Sales",
     "depends": [
         "account",
@@ -16,6 +18,7 @@
         "sale_stock",
         "stock_picking_batch",
         "purchase",
+        "purchase_stock",
     ],
     "price": 5.00,
     "currency": "EUR",

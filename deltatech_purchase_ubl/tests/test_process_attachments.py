@@ -4,7 +4,9 @@
 
 from base64 import b64encode
 from textwrap import dedent
+from unittest.mock import patch
 
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -131,3 +133,160 @@ class TestProcessAttachmentsForPost(TransactionCase):
         # A log message should have been posted on the PO
         last_msg = self.po.message_ids.sorted(key=lambda m: m.id)[-1] if self.po.message_ids else False
         self.assertTrue(last_msg, "A log message should be posted on the PO")
+
+    def test_auto_import_does_not_create_product_with_no_new_products_context(self):
+        """Ticket #9315: an automated caller (e.g. l10n_ro_message_spv_purchase attaching an
+        SPV XML on a PO created before the vendor bill) must be able to opt out of silent
+        product creation when the invoice line has no supplier code and no exact name match —
+        the line should be reported as unmatched instead of spawning a duplicate product."""
+        xml = _xml_invoice(order_ref=self.po.name)
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "invoice_attach_no_new_products.xml",
+                "datas": b64encode(xml),
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": self.po.id,
+            }
+        )
+
+        products_before = self.env["product.product"].search_count([])
+        self.po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+
+        self.assertFalse(self.po.order_line, "No order line should be created when no product could be matched")
+        self.assertEqual(
+            self.env["product.product"].search_count([]),
+            products_before,
+            "No new product should have been created",
+        )
+
+    def test_unmatched_line_schedules_activity_instead_of_silent_chatter_note(self):
+        """Tichet #9287 (continuare): a plain chatter note is easy to miss among the SPV
+        cron's other automated traffic — an unmatched line (or a total mismatch) must
+        surface as a to-do activity on the purchase order, not just as log text."""
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+                "partner_ref": "ATT-EXT-PO-REF-WARN",
+            }
+        )
+        xml = _xml_invoice(order_ref=po.name)
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "invoice_attach_warning.xml",
+                "datas": b64encode(xml),
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": po.id,
+            }
+        )
+
+        po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+
+        activities = po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review")
+        self.assertTrue(activities, "An unmatched line must schedule a review activity on the PO")
+
+        # Reprocessing the same attachment (the SPV cron is known to retry) must not pile up
+        # duplicate activities.
+        po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+        activities_after = po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review")
+        self.assertEqual(len(activities_after), 1, "Reprocessing must not create duplicate review activities")
+
+    def test_matched_import_does_not_schedule_activity(self):
+        """A clean import (everything matched, totals agree) must not create noise."""
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+                "partner_ref": "ATT-EXT-PO-REF-CLEAN",
+            }
+        )
+        existing_product = self.env["product.product"].create({"name": "Matched Product", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": existing_product.product_tmpl_id.id,
+                "product_id": existing_product.id,
+                "product_code": "VEND-ATT-NEW",
+            }
+        )
+        xml = _xml_invoice(order_ref=po.name)
+        att = self.env["ir.attachment"].create(
+            {
+                "name": "invoice_attach_clean.xml",
+                "datas": b64encode(xml),
+                "mimetype": "application/xml",
+                "res_model": "purchase.order",
+                "res_id": po.id,
+            }
+        )
+
+        po._process_attachments_for_post([], [att.id], {})
+
+        self.assertFalse(
+            po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review"),
+            "A fully matched import must not schedule a review activity",
+        )
+
+    def _new_po(self, ref):
+        return self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+                "partner_ref": ref,
+            }
+        )
+
+    def _attachment(self, po, name, content, mimetype="application/xml"):
+        return self.env["ir.attachment"].create(
+            {
+                "name": name,
+                "datas": b64encode(content) if content else False,
+                "mimetype": mimetype,
+                "res_model": "purchase.order",
+                "res_id": po.id,
+            }
+        )
+
+    def test_auto_import_disabled_by_parameter(self):
+        po = self._new_po("ATT-DISABLED")
+        att = self._attachment(po, "disabled.xml", _xml_invoice(order_ref=po.name))
+        self.env["ir.config_parameter"].sudo().set_param("deltatech_purchase_ubl.auto_import", "False")
+        po._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line, "Nothing is imported when the feature is switched off")
+
+    def test_auto_import_skips_unrelated_attachments(self):
+        """Attachments of another order, non-XML files, empty files and non-UBL XML are ignored."""
+        po = self._new_po("ATT-SKIP")
+        other_po = self._new_po("ATT-SKIP-OTHER")
+        attachments = (
+            self._attachment(other_po, "other_order.xml", _xml_invoice(order_ref=other_po.name))
+            | self._attachment(po, "notes.txt", b"plain text", mimetype="text/plain")
+            | self._attachment(po, "empty.xml", b"")
+            | self._attachment(po, "not_ubl.xml", b"<foo/>")
+        )
+        po._process_attachments_for_post([], attachments.ids, {})
+        self.assertFalse(po.order_line)
+        self.assertFalse(other_po.order_line, "Only attachments of the posting order are processed")
+
+    def test_auto_import_ubl_check_error_is_ignored(self):
+        po = self._new_po("ATT-CHECK-ERR")
+        att = self._attachment(po, "check_error.xml", _xml_invoice(order_ref=po.name))
+        wizard_cls = type(self.env["purchase.ubl.import.wizard"])
+        with patch.object(wizard_cls, "_is_ubl_invoice", side_effect=ValueError("boom")):
+            po._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line)
+
+    def test_auto_import_error_does_not_break_posting(self):
+        """An import error is swallowed: the message is still posted, nothing is imported."""
+        po = self._new_po("ATT-IMPORT-ERR")
+        att = self._attachment(po, "import_error.xml", _xml_invoice(order_ref=po.name))
+        wizard_cls = type(self.env["purchase.ubl.import.wizard"])
+        with patch.object(wizard_cls, "action_import", side_effect=UserError("Import failed")):
+            po._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line)
+        self.assertFalse(po.activity_ids)

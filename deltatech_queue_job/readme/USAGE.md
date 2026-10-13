@@ -1,5 +1,4 @@
-External Job Processor Configuration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**External Job Processor Configuration**
 
 To process jobs every minute using an external service like [cron-job.org](https://cron-job.org):
 
@@ -22,14 +21,14 @@ To process jobs every minute using an external service like [cron-job.org](https
     }
     ```
 
-API Endpoints
-~~~~~~~~~~~~~
+**API Endpoints**
 
 Process Queue (External)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 **POST** `/api/v1/queue/process`
 
 Parameters:
+
 - `api_key` (required): Authentication key
 - `batch_size` (optional): Maximum number of jobs to process (default: 20)
 - `max_seconds` (optional): Maximum processing time in seconds (default: 50)
@@ -40,13 +39,17 @@ Response:
 {
   "status": "success",
   "processed": 15,
-  "failed": 0,
+  "done": 13,
+  "failed": 1,
+  "postponed": 1,
   "pending_count": 10,
   "time_elapsed": 12.34,
   "timestamp": "2026-03-18 04:40:00"
 }
 ```
 
-Manual Processing
-~~~~~~~~~~~~~~~~~
+`processed` counts the jobs attempted in this call: `done` finished, `failed` ended in
+the failed state and `postponed` were put back to pending for a retry.
+
+**Manual Processing**
 You can manually trigger job processing from the Queue Job list view using the **Process** button (internal cron trigger) or **Process (Thread)** (API-style runner in a new thread), or trigger a background execution using **Cron Trigger**.

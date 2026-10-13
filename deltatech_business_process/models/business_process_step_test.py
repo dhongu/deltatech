@@ -74,7 +74,7 @@ class BusinessProcessStepTest(models.Model):
         "res.company", string="Company", related="process_id.company_id", store=True, readonly=True
     )
 
-    @api.depends("issue_ids")
+    @api.depends("issue_ids", "issue_ids.state")
     def _compute_count_issues(self):
         for record in self:
             record.count_issues = len(record.issue_ids.filtered(lambda x: x.state != "closed"))

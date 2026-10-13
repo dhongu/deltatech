@@ -4,9 +4,10 @@
 import logging
 import threading
 import time
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from odoo import api, fields, models, modules
+from odoo.tools import config
 
 _logger = logging.getLogger(__name__)
 
@@ -14,12 +15,91 @@ _logger = logging.getLogger(__name__)
 class QueueJob(models.Model):
     _inherit = "queue.job"
 
+    def autovacuum(self):
+        """Șterge și joburile terminale rămase fără dată de finalizare.
+
+        Cronul standard selectează după ``date_done`` sau ``date_cancelled``,
+        deci joburile anulate în lanț de ``cancel_dependent_jobs()`` — care le
+        scria doar starea — nu erau eliminate niciodată. `job_patch` completează
+        data de acum înainte; aici curățăm ce s-a adunat înainte de el, folosind
+        ``date_created``, singurul câmp completat mereu.
+        """
+        res = super().autovacuum()
+        for channel in self.env["queue.job.channel"].search([]):  # pylint: disable=no-search-all
+            deadline = datetime.now() - timedelta(days=int(channel.removal_interval))
+            while True:
+                jobs = self.search(
+                    [
+                        ("state", "in", ("done", "cancelled")),
+                        ("date_done", "=", False),
+                        ("date_cancelled", "=", False),
+                        ("date_created", "<=", deadline),
+                        ("channel", "=", channel.complete_name),
+                    ],
+                    order="date_created",
+                    limit=1000,
+                )
+                if not jobs:
+                    break
+                _logger.info("Removing %d terminal job(s) left without a completion date", len(jobs))
+                jobs.sudo().unlink()
+                if not config["test_enable"]:
+                    self.env.cr.commit()  # pylint: disable=E8102
+        return res
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._remove_failed_duplicates()
+        return records
+
+    def _remove_failed_duplicates(self):
+        """Cancel older jobs left in 'failed' state that share the same
+        identity_key as a freshly created job.
+
+        The standard deduplication (job_record_with_same_identity_key) only
+        considers active states (pending/enqueued/wait_dependencies), so a
+        failed job never blocks a new enqueue and dead duplicates pile up.
+        When a new job with the same identity_key is created we move the
+        previous failed ones to 'cancelled': the record (and its traceback) is
+        kept for diagnostics and the standard autovacuum cron will remove it
+        later based on the channel removal_interval.
+        """
+        keys = {record.identity_key for record in self if record.identity_key}
+        if not keys:
+            return
+        old_failed = self.sudo().search(
+            [
+                ("identity_key", "in", list(keys)),
+                ("state", "=", "failed"),
+                ("id", "not in", self.ids),
+            ]
+        )
+        if old_failed:
+            _logger.info(
+                "Cancelling %d failed job(s) superseded by a new job with the same identity_key",
+                len(old_failed),
+            )
+            old_failed._change_job_state(
+                "cancelled",
+                result=self.env._("Superseded by a new job with the same identity_key"),
+            )
+
     @api.model
     def _api_job_runner(self, batch_size=20, max_seconds=50):
-        """Runner dedicated to External API calls (e.g. cron-job.org)"""
+        """Runner dedicated to External API calls (e.g. cron-job.org)
+
+        ``_process()`` catches the exceptions raised by the job and stores the
+        job as failed, or as pending again for a retry, then returns normally.
+        The counters are therefore taken from the stored job state, not from
+        exceptions: ``processed`` counts the attempted jobs, split into
+        ``done``, ``failed`` and ``postponed``.
+        """
         start_time = time.time()
         processed = 0
+        done = 0
         failed = 0
+        postponed = 0
 
         _logger.info("🚀 Starting queue processing via API - Batch size: %d", batch_size)
 
@@ -32,19 +112,29 @@ class QueueJob(models.Model):
                 _logger.warning("⏱️ Time budget exceeded (%.1fs > %ds), stopping.", elapsed, max_seconds)
                 break
 
+            processed += 1
             try:
                 # Process the job (includes its own internal commit/rollback)
                 job._process(commit=True)
-                processed += 1
             except Exception as e:
                 failed += 1
                 _logger.error("❌ Job %s failed in API runner: %s", job.id, str(e))
+            else:
+                job.invalidate_recordset(["state"])
+                if job.state == "done":
+                    done += 1
+                elif job.state == "pending":
+                    postponed += 1
+                else:
+                    failed += 1
 
             job = self._acquire_one_job()
 
         return {
             "processed": processed,
+            "done": done,
             "failed": failed,
+            "postponed": postponed,
             "time_elapsed": round(time.time() - start_time, 2),
             "pending_remaining": self.search_count([("state", "=", "pending")]),
         }
@@ -192,25 +282,50 @@ class QueueJob(models.Model):
 
     @api.model
     def _cron_trigger(self, at=None):
-        domain = [("queue_job_runner", "=", True)]
-        crones = self.env["ir.cron"].sudo().search(domain)
+        """Trigger the runner crons, debouncing redundant triggers.
+
+        ``at`` may be None (run as soon as possible), a datetime, or a list of
+        datetimes (the OCA job runner passes the delayed job ETAs as a list).
+        A request is skipped when a pending trigger already fires between now
+        and the requested time, since that run will pick the jobs up anyway.
+
+        The previous implementation compared against ``search(..., limit=1)``
+        without an order or a future filter, so it usually looked at a stale
+        past trigger and created a new one on every call - measured in
+        production at 4,312 trigger inserts in 13 hours. Passing the ETA list
+        also built a ``('call_at', '=', [...])`` domain, spamming the log with
+        osv.expression warnings.
+        """
+        crons = self.env["ir.cron"].sudo().search([("queue_job_runner", "=", True)])
         res = "nothing"
 
-        for cron in crones:
-            trigger_domain = [("cron_id", "=", cron.id)]
-            if at:
-                trigger_domain.append(("call_at", "=", at))
-            trigger = self.env["ir.cron.trigger"].search(trigger_domain, limit=1)
+        now = fields.Datetime.now()
+        if at is None:
+            at_list = [now + timedelta(seconds=5)]
+        elif isinstance(at, datetime):
+            at_list = [at]
+        else:
+            at_list = list(at)
+        # past ETAs mean "as soon as possible"; earliest first, so the first
+        # trigger created debounces the later requests of the same call
+        at_list = sorted(max(at_trigger, now) for at_trigger in at_list)
 
-            if trigger and trigger.call_at >= fields.Datetime.now():
-                # triggerul exista si e in viitor - valid
-                res = "exists"
-            else:
-                # nu exista SAU e in trecut - retriggeram
-                res = "triggered"
-                # calculam at_trigger local, fara sa modificam parametrul `at`
-                at_trigger = at or fields.Datetime.now() + timedelta(seconds=5)
-                cron._trigger(at=at_trigger)
-                _logger.info(f"CRON trigger scheduled for {cron.name} at {at_trigger}")
+        for cron in crons:
+            for at_trigger in at_list:
+                covered = self.env["ir.cron.trigger"].search_count(
+                    [
+                        ("cron_id", "=", cron.id),
+                        ("call_at", ">=", now),
+                        ("call_at", "<=", at_trigger),
+                    ],
+                    limit=1,
+                )
+                if covered:
+                    if res == "nothing":
+                        res = "exists"
+                else:
+                    res = "triggered"
+                    cron._trigger(at=at_trigger)
+                    _logger.debug("CRON trigger scheduled for %s at %s", cron.name, at_trigger)
 
         return res

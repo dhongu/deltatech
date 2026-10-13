@@ -1,0 +1,9 @@
+{
+  "title": "Sales Catalog by Website Category",
+  "summary": "Browse the Sales catalog by the eCommerce categories",
+  "features": [
+    "Website categories tree in the catalog panel",
+    "Parent category includes its children",
+    "Full-size product image on click"
+  ]
+}

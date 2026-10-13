@@ -4,10 +4,10 @@
 
 {
     "name": "Deltatech",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Generic module",
+    "summary": "Shared base for the Deltatech suite: common technical extensions used by all modules",
     "category": "Tools",
     "depends": ["web", "base"],
     "data": ["views/base_view.xml", "views/ir_rule_view.xml"],

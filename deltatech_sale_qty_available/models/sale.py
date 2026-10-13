@@ -4,6 +4,7 @@
 
 
 from odoo import api, fields, models
+from odoo.fields import Domain
 
 
 class SaleOrder(models.Model):
@@ -12,12 +13,21 @@ class SaleOrder(models.Model):
     is_ready = fields.Boolean(
         string="Is ready",
         compute="_compute_is_ready",
-        store=False,
+        store=True,
         search="_search_is_ready",
     )
 
-    # @api.depends('state', 'invoice_status', 'order_line.product_id.qty_available', 'order_line.qty_to_deliver',
-    #              'picking_ids.move_ids.reserved_availability')
+    @api.depends(
+        "state",
+        "invoice_status",
+        "picking_policy",
+        "order_line.product_id.qty_available",
+        "order_line.product_id.outgoing_qty",
+        "order_line.qty_to_deliver",
+        "picking_ids.state",
+        "picking_ids.move_ids.quantity",
+        "picking_ids.move_ids.product_uom_qty",
+    )
     def _compute_is_ready(self):
         for order in self:
             is_ready = order.state in [
@@ -53,6 +63,15 @@ class SaleOrder(models.Model):
 
     @api.model
     def _search_is_ready(self, operator, value):
+        # ORM-ul normalizeaza ('is_ready', '=', True) in ('is_ready', 'in', [True]);
+        # pentru 'not in' intoarcem NotImplemented si ORM-ul neaga domeniul.
+        if operator != "in":
+            return NotImplemented
+        value = {bool(val) for val in value}
+        if value == {True, False}:
+            return Domain.TRUE
+        if not value:
+            return Domain.FALSE
         # comenzi deschise
         orders = self.env["sale.order"].search(
             [
@@ -64,7 +83,7 @@ class SaleOrder(models.Model):
         for order in orders:
             if order.is_ready:
                 ready_orders += order
-        if operator == "=" and value:
+        if True in value:
             domain = [("id", "in", ready_orders.ids)]
         else:
             domain = [("id", "not in", ready_orders.ids)]

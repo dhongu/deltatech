@@ -4,9 +4,9 @@
 
 
 {
-    "name": "Terrabit - Record Type",
+    "name": "Record Type",
     "summary": "Manage multiple record types",
-    "version": "19.0.1.1.11",
+    "version": "19.0.1.1.20",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",

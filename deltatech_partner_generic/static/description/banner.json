@@ -1,0 +1,10 @@
+{
+  "title": "Generic Partner",
+  "icon": "user",
+  "summary": "Default generic / anonymous partner",
+  "features": [
+    "Define a default generic partner",
+    "Auto-used when none is required",
+    "Simplifies one-time customer entry"
+  ]
+}

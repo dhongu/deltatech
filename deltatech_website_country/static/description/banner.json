@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Country",
+  "summary": "Auto-select default country at checkout",
+  "icon": "globe",
+  "features": [
+    "Pre-fills company country on address form",
+    "Reduces checkout friction for customers",
+    "Foundation for region-specific address modules"
+  ]
+}

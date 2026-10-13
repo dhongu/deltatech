@@ -1,594 +1,351 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Expenses Deduction</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-Despite the name, some widely supported CSS2 features are used.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: gray; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic, pre.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="expenses-deduction">
-<h1 class="title">Expenses Deduction</h1>
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:2f8ff1ce3fe6012564c39fb1ab47a932b08faf5cb478ef9d86623b07a464def4
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_expenses"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
-<ul class="simple">
-<li>Introducerea decontului de cheltuieli într-un document distinct care
-generează automat chitanțe de achiziție</li>
-<li>Validarea documentului duce la generarea notelor contabile de avans și
-înregistrarea plăților</li>
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
+<!-- tb-gen v1 -->
+<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+  <div class="d-flex flex-wrap align-items-center">
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Expenses Deduction" style="width:80px;height:80px;border:none;"/></span>
+    <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Expenses Deduction</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Cash advances on account 542</p>
+      <div>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Accounting &amp; Finance</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
+      </div>
+    </div>
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 24 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:87%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">87% code coverage</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:#212529;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:#006F42;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:#006F42;">Did this module help you?</span> It is free, built and maintained by the Terrabit developers. If it saved you time, a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. Thank you for your support!
+  </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-romana"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-romana" href="#tb-panel-romana"
+       style="padding:10px 22px;">Rom&#226;n&#259;</a>
+  </li>
 </ul>
-<p>Configurare:</p>
-<ul class="simple">
-<li>În registrul de numerar trebuie completat câmpul “Cash advances” cu
-542.</li>
-</ul>
-<div class="section" id="exemplu-de-testare-decontarea-cheltuielilor-din-avans">
-<h1>Exemplu de Testare: Decontarea Cheltuielilor din Avans</h1>
-<div class="section" id="obiectivul-testului">
-<h2>🎯 Obiectivul Testului</h2>
-<p>Decontarea corectă a unui avans de <strong>1.000 RON</strong>, cu cheltuieli totale
-de <strong>800 RON</strong>, rezultând în <strong>restituirea diferenței</strong> de <strong>200 RON</strong>
-de către angajat.</p>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Cash advances to employees, settled with an expense report, the way Romanian accounting books
+them: the advance goes to account 542, the employee brings the receipts, and validating the
+report books the purchase receipts, the per diem and the difference to return or to pay, until
+542 is back to zero for that employee.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Advance on account 542</span><div>The advance is paid from the cash journal and booked on the
+  employee's 542.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Receipts as report lines</span><div>Each line is a receipt, entered with VAT included; validation
+  creates the purchase receipts and settles them from the advance. A line can also be a payment
+  to a supplier made from the advance.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Per diem</span><div>A daily amount (42.5 by default) times the number of days, booked on a travel
+  expense account (625 by default).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Difference settled</span><div>What is left of the advance is returned by the employee, or what was
+  spent above it is paid to the employee, through the cash journal.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Approval roles</span><div>Employee, Approver and Accountant: the approver validates the advance,
+  only the accountant posts or reverses the report.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Employee view</span><div>A smart button on the employee shows their expense reports; each report
+  can be printed.</div></div></li></ul>
+<p>The module does not replace the standard Expenses app (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>), which reimburses expenses
+paid by employees and has no cash advance. Both can be used together; the optional module
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses_hr_expense</code> brings standard expenses into this report without booking them
+twice.</p>
 </div>
-<div class="section" id="pasii-de-testare-scenariu">
-<h2>⚙️ Pașii de Testare (Scenariu)</h2>
-<table border="1" class="docutils">
-<colgroup>
-<col width="32%" />
-<col width="32%" />
-<col width="36%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Pas</th>
-<th class="head">Acțiune Utilizator
-(Tester)</th>
-<th class="head">Rezultat Așteptat
-(Verificare)</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td><strong>1. Acordare
-Avans</strong></td>
-<td>Se înregistrează
-acordarea unui avans
-de 1.000 RON
-angajatului X.</td>
-<td>Soldul contului <strong>542</strong>
-(Avansuri de decontat)
-crește cu 1.000 RON.</td>
-</tr>
-<tr><td><strong>2. Creare Decont</strong></td>
-<td>Angajatul X inițiază
-un nou decont,
-făcând referire la
-avansul primit.</td>
-<td>Decontul preia automat
-valoarea avansului de
-1.000 RON.</td>
-</tr>
-<tr><td><strong>3. Introducere
-Cheltuieli</strong></td>
-<td>Se introduc
-cheltuielile: Cazare
-(500 RON, TVA
-inclus) și Transport
-(300 RON, TVA
-inclus).</td>
-<td>Total cheltuieli =
-<strong>800 RON</strong>. Se
-calculează corect
-TVA-ul deductibil.</td>
-</tr>
-<tr><td><strong>4. Validare
-Calcul</strong></td>
-<td>Se verifică automat
-calculul diferenței.</td>
-<td><strong>Avans (1.000) -
-Cheltuieli (800) =
-Diferență de restituit
-(200 RON)</strong>.</td>
-</tr>
-<tr><td><strong>5. Aprobare
-Decont</strong></td>
-<td>Decontul este trimis
-și aprobat de toți
-factorii
-decizionali.</td>
-<td>Statutul decontului se
-schimbă în
-“<strong>Aprobat/Decontat</strong>”.</td>
-</tr>
-<tr><td><strong>6. Restituire
-Avans</strong></td>
-<td>Angajatul restituie
-diferența de 200 RON
-(înregistrare la
-Casierie/Bancă).</td>
-<td>Se generează documentul
-de încasare
-(Chitanță/Dispoziție de
-Încasare).</td>
-</tr>
-<tr><td><strong>7. Contabilizare
-Finală</strong></td>
-<td>Sistemul
-contabilizează
-decontul și
-restituirea.</td>
-<td>Contul <strong>542</strong> al
-angajatului se închide
-(Sold <strong>0</strong>).</td>
-</tr>
-</tbody>
-</table>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ol>
+<li>Prepare a journal whose default account is <strong>542</strong> (advances to be settled). Choose it as the
+   <strong>Expense Journal</strong> of each report.</li>
+<li>The <strong>Cash Journal</strong> (the first cash journal by default), the <strong>Diem Journal</strong> (a general
+   journal) and the <strong>Diem Account</strong> (625 by default) are filled in on the report and can be
+   changed there.</li>
+<li>In <em>Settings &gt; Users</em>, give each user a role for expense reports: <strong>Angajat</strong> (employee),
+   <strong>Aprobator</strong> (approver) or <strong>Contabil</strong> (accountant).</li>
+<li>On each employee, the <strong>Work Contact</strong> is used as partner on the journal entries; without it,
+   the entries are posted without a partner.</li>
+</ol>
 </div>
-<hr class="docutils" />
-<div class="section" id="note-contabile-aferente">
-<h2>📝 Note Contabile Aferente</h2>
-<p>Acestea sunt notele contabile așteptate pentru a testa închiderea
-corectă a avansului (Contul 542 - Avansuri de decontat):</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="13%" />
-<col width="15%" />
-<col width="19%" />
-<col width="19%" />
-<col width="15%" />
-<col width="19%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">Nr. Crt.</th>
-<th class="head">Operațiune</th>
-<th class="head">Cont Debitor</th>
-<th class="head">Cont Creditor</th>
-<th class="head">Suma (RON)</th>
-<th class="head">Explicație</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td><strong>1</strong></td>
-<td>Acordare
-Avans</td>
-<td><strong>542</strong>
-(Avans X)</td>
-<td><strong>5311/5121</strong>
-(Casa/Banca)</td>
-<td>1.000</td>
-<td>Acordarea
-avansului.</td>
-</tr>
-<tr><td><strong>2</strong></td>
-<td>Decontare
-Cheltuieli</td>
-<td><strong>6xx</strong>
-(Cheltuieli)</td>
-<td><strong>542</strong>
-(Avans X)</td>
-<td>672.27</td>
-<td>Valoarea
-cheltuielilor
-fără TVA (ex:
-800 -
-127.73).</td>
-</tr>
-<tr><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td><strong>4426</strong> (TVA
-Deductibil)</td>
-<td><strong>542</strong>
-(Avans X)</td>
-<td>127.73</td>
-<td>TVA aferent
-cheltuielilor
-(ex: 19%).</td>
-</tr>
-<tr><td><strong>3</strong></td>
-<td>Restituire
-Sold</td>
-<td><strong>5311/5121</strong>
-(Casa/Banca)</td>
-<td><strong>542</strong>
-(Avans X)</td>
-<td>200</td>
-<td>Diferența
-restituită de
-angajat.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Verificare Sold Final Cont 542 (Avans X):</strong></p>
-<ul class="simple">
-<li><strong>Total Debitor:</strong> 1.000 RON</li>
-<li><strong>Total Creditor:</strong> 800 RON (Cheltuieli) + 200 RON (Restituire) =
-1.000 RON</li>
-<li><strong>Sold Final:</strong> 1.000 (D) - 1.000 (C) = <strong>0 RON (Corect)</strong></li>
-</ul>
-<p><strong>Table of contents</strong></p>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>In <em>Accounting &gt; Vendors &gt; Expenses Deduction</em>, create a report for the employee, with the
+   advance amount and date, and click <strong>Advance</strong>: the advance is booked on 542 against the cash
+   journal.</li>
+<li>When the employee returns, add the receipts as lines (amount with VAT included, supplier,
+   account) and, for a trip, the number of days for the per diem.</li>
+<li>The accountant clicks <strong>Validate</strong>: the purchase receipts, their settlement from 542, the per
+   diem and the payment of the difference are posted, and the report is <strong>Done</strong>.</li>
+<li><strong>Invalidate</strong> reverses a validated report, so it can be corrected.</li>
+</ol>
+<p>Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON to be returned by the
+employee; after validation, the employee's 542 balance is zero.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-romana" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Prezentare</h3>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Avansuri de trezorerie pentru angaja&#539;i, decontate cu un decont de cheltuieli, a&#537;a cum le
+&#238;nregistreaz&#259; contabilitatea din Rom&#226;nia: avansul se &#238;nregistreaz&#259; &#238;n contul 542, angajatul aduce
+bonurile, iar validarea decontului contabilizeaz&#259; chitan&#539;ele de achizi&#539;ie, diurna &#537;i diferen&#539;a de
+restituit sau de pl&#259;tit, p&#226;n&#259; c&#226;nd contul 542 al angajatului ajunge la zero.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Avans &#238;n contul 542</span><div>Avansul se pl&#259;te&#537;te din registrul de cas&#259; &#537;i se &#238;nregistreaz&#259; &#238;n
+  contul 542 al angajatului.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Bonurile ca linii de decont</span><div>Fiecare linie este un bon, introdus cu TVA inclus; validarea
+  creeaz&#259; chitan&#539;ele de achizi&#539;ie &#537;i le deconteaz&#259; din avans. O linie poate fi &#537;i o plat&#259; c&#259;tre un
+  furnizor f&#259;cut&#259; din avans.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Diurn&#259;</span><div>O sum&#259; pe zi (implicit 42,5) &#238;nmul&#539;it&#259; cu num&#259;rul de zile, &#238;nregistrat&#259; &#238;ntr-un cont
+  de cheltuieli cu deplas&#259;rile (implicit 625).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Diferen&#539;a decontat&#259;</span><div>Ce r&#259;m&#226;ne din avans este restituit de angajat, iar ce s-a cheltuit peste
+  avans i se pl&#259;te&#537;te angajatului, prin registrul de cas&#259;.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Roluri de aprobare</span><div>Angajat, Aprobator &#537;i Contabil: aprobatorul valideaz&#259; avansul, doar
+  contabilul contabilizeaz&#259; sau anuleaz&#259; decontul.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Vederea angajatului</span><div>Un buton pe fi&#537;a angajatului arat&#259; deconturile lui; fiecare decont se
+  poate tip&#259;ri.</div></div></li></ul>
+<p>Modulul nu &#238;nlocuie&#537;te aplica&#539;ia standard de cheltuieli (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hr_expense</code>), care ramburseaz&#259;
+cheltuielile pl&#259;tite de angaja&#539;i &#537;i nu are avans de trezorerie. Cele dou&#259; pot fi folosite &#238;mpreun&#259;;
+modulul op&#539;ional <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_expenses_hr_expense</code> preia cheltuielile standard &#238;n acest decont f&#259;r&#259;
+dubl&#259; contabilizare.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Configurare</h3>
+<ol>
+<li>Preg&#259;ti&#539;i un jurnal al c&#259;rui cont implicit este <strong>542</strong> (avansuri de trezorerie). Alege&#539;i-l ca
+   <strong>Expense Journal</strong> pe fiecare decont.</li>
+<li><strong>Registrul de cas&#259;</strong> (implicit primul registru de cas&#259;), <strong>jurnalul de diurn&#259;</strong> (un jurnal
+   general) &#537;i <strong>contul de diurn&#259;</strong> (implicit 625) se completeaz&#259; pe decont &#537;i pot fi schimbate acolo.</li>
+<li>&#206;n <em>Set&#259;ri &gt; Utilizatori</em>, da&#539;i fiec&#259;rui utilizator un rol pentru deconturi: <strong>Angajat</strong>,
+   <strong>Aprobator</strong> sau <strong>Contabil</strong>.</li>
+<li>Pe fiecare angajat, <strong>contactul de lucru</strong> este folosit ca partener pe notele contabile; f&#259;r&#259;
+   el, notele se &#238;nregistreaz&#259; f&#259;r&#259; partener.</li>
+</ol>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
+<ol>
+<li>&#206;n <em>Contabilitate &gt; Furnizori &gt; Expenses Deduction</em>, crea&#539;i un decont pentru angajat, cu suma &#537;i
+   data avansului, &#537;i ap&#259;sa&#539;i <strong>Advance</strong>: avansul se &#238;nregistreaz&#259; &#238;n contul 542 pe registrul de
+   cas&#259;.</li>
+<li>La &#238;ntoarcere, ad&#259;uga&#539;i bonurile ca linii (suma cu TVA inclus, furnizorul, contul) &#537;i, pentru o
+   deplasare, num&#259;rul de zile de diurn&#259;.</li>
+<li>Contabilul apas&#259; <strong>Validate</strong>: se contabilizeaz&#259; chitan&#539;ele de achizi&#539;ie, decontarea lor din 542,
+   diurna &#537;i plata diferen&#539;ei, iar decontul trece &#238;n starea <strong>Efectuat</strong>.</li>
+<li><strong>Invalidate</strong> anuleaz&#259; un decont validat, ca s&#259; poat&#259; fi corectat.</li>
+</ol>
+<p>Exemplu: un avans de 1.000 RON &#537;i bonuri de 800 RON las&#259; 200 RON de restituit de c&#259;tre angajat;
+dup&#259; validare, soldul contului 542 al angajatului este zero.</p>
 </div>
 </div>
-<div class="section" id="bug-tracker">
-<h1>Bug Tracker</h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-6">
+    <div class="border rounded-3 px-4 py-2 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded-3 px-4 py-2 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
 </div>
-<div class="section" id="credits">
-<h1>Credits</h1>
-<div class="section" id="authors">
-<h2>Authors</h2>
-<ul class="simple">
-<li>Terrabit</li>
-<li>Dorin Hongu</li>
-</ul>
+
+
+<div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Questions about this module, or need it adapted to your processes?
+     Write to us &mdash; the developers who build it will answer.</p>
+  <a href="mailto:support@terrabit.ro" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#DEF1DD;color:#00432a;padding:14px 32px;font-size:15px;">Terrabit support &rarr;</a>
 </div>
-<div class="section" id="maintainers">
-<h2>Maintainers</h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_expenses">dhongu/deltatech</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
+
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Accounting Extensions</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Despatch Advice</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_average_payment_period" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_average_payment_period/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Average Payment Period</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Computes average duration of cash accounting</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_expenses_hr_expense" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ED</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_expenses_hr_expense/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Expenses Deduction - HR Expense Bridge</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Bring Odoo expenses into the cash advance expense report</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Edit Currency Rate</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_actions/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Cleanup Actions</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Other</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Cleaning and other actions</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 </div>
-</div>
-</div>
-</body>
-</html>

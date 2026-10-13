@@ -1,0 +1,139 @@
+## 19.0.2.10.7 (2026-10-12)
+
+- Removed dead code: the `stock.picking` override of `action_view_stock_valuation_layers` (the
+  parent method no longer exists in 19.0, stock valuation layers were removed) and the unused
+  `stock.request.count` extension (`wizard/stock_request_count.py`, never imported). No functional
+  change.
+
+## 19.0.2.10.6 (2026-10-12)
+
+- The *Clear* button on a counted quant now detaches it from its inventory document and line again.
+  The override still used the pre-19.0 method name `action_set_inventory_quantity_to_zero`, which no
+  longer exists, so it never ran: after *Clear*, a new count was applied into the old document.
+
+## 19.0.2.10.5 (2026-10-12)
+
+- Tests: new coverage tests for the return, adjustment reason and merge wizards, quant/inventory
+  links and quantity rights, inventory states and line generation without locations, line onchanges
+  and search helpers, detailed warehouse stock and product warehouse location (93 tests, coverage
+  82.7% → 94.9%). No functional change.
+
+## 19.0.2.10.4 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
+## 19.0.2.10.3 (2026-10-03)
+
+- INVENTORY-003 (security): the inventory documents (`stock.inventory`) and their lines (`stock.inventory.line`) had no company record rule, so a stock user working in company A could search, read, change or delete the inventories, quantities and owners of other companies. New multi-company rules (`security/ir_rule.xml`) restrict both models to the allowed companies (lines without an inventory stay visible).
+
+## 19.0.2.10.2 (2026-10-01)
+
+- Applying a count on a quant moved since it was counted no longer closes the inventory before the
+  conflict is resolved. The inventory stays in progress until the *Conflict in Inventory Adjustment*
+  wizard is confirmed, and then the same document is finalized (no second document is created) and
+  the note reaches the inventory move.
+
+## 19.0.2.10.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
+## 19.0.2.10.0 (2026-09-24)
+
+- **The inventory price no longer revalues the existing stock.** Until now, validating an inventory
+  wrote the line *Price* into the product cost with a context key that no longer exists in 19.0
+  (`disable_auto_svl`). On average cost products, and on standard cost products on lines with no
+  theoretical quantity, this created a `product.value`, i.e. it revalued the whole stock of the
+  product, in all locations. Now the product cost is not rewritten: only the surplus of the count
+  enters at the line price (the value of the inventory move is difference × line price), and the
+  average cost is recomputed as a weighted average. On FIFO the new layer enters at the line price;
+  missing quantities still leave at the current cost. On standard cost the line price becomes the
+  standard cost only on a line with no theoretical quantity, and only if the product has no valued
+  stock in the company.
+- The `stock.use_inventory_price` parameter now always decides: when it is off, the line price is
+  ignored, including on the lines with no theoretical quantity.
+- A **negative counted quantity** raises the explanatory message again, instead of a server error
+  (`TypeError`).
+- **Include Exhausted Products** works again when *Products* is left empty: the product filter used
+  the product type `product`, which no longer exists in 19.0.
+- The inventory moves, and therefore the accounting entries, carry the **inventory document name** as
+  reference, instead of *Product Quantity Updated (user)*.
+- **Inventory Diff** report: on a document with several locations, the missing quantities are no
+  longer repeated under every location. The quantity difference keeps its decimals (it was rounded to
+  an integer) and the numeric columns are right-aligned again (`text-end`).
+- The **Merge** wizard proposes the current date, not the date the server was started.
+- The chatter message of **Confirm Stock** shows the location again (broken placeholder).
+- Romanian translations completed; the group *Can update quantities* is now translated as such.
+
+## 19.0.2.9.0 (2026-09-14)
+
+- **Grupare** is available again in the product replenishment wizard (*product.replenish*).
+  The field existed in 18.0 as `group_id` (`procurement.group`), removed during the 19.0 port because
+  the `procurement.group` model no longer exists in core — it has now been replaced with the new O19 mechanism,
+  `stock.reference` (`reference_ids` on `stock.move`).
+- The grouping is filled in **automatically, once per day and per warehouse**: all replenishments launched
+  on the same day, from the same warehouse, receive the same reference and thus end up on a single
+  `stock.picking`, instead of a separate document per product. The field remains editable, if a
+  different manual grouping is wanted.
+- The anti-duplication guard is kept, but it is now per product+reference (not per reference, as it was in
+  18.0 per group) — otherwise the automatic daily grouping would block the replenishment of the second
+  product on the same day.
+
+## 19.0.2.8.0 (2026-09-10)
+
+- **Valuation snapshot on the inventory line.** The line now carries the unit valuation cost
+  (*Unit Value*), the value of the on hand and counted quantities, the estimated difference value and
+  the value actually posted at validation (*Posted Value*), with the four totals summed on the
+  document. Until now the document showed only quantities and an editable price, so the money impact
+  of a count could not be seen anywhere — neither before validating it, nor afterwards.
+- The inventory move keeps an **Inventory Line** link (`stock.move.inventory_line_id`), which is how
+  the posted value is read back per line.
+- All the new fields are restricted to `stock.group_stock_manager`, like the standard valuation
+  fields on quants, so warehouse operators keep counting without seeing values.
+- Lines created before this version keep an empty *Unit Value*, so their values stay at zero: the
+  snapshot is taken when the line is generated and is not reconstructed retroactively.
+
+## 19.0.2.7.5 (2026-09-10)
+
+- Applying an inventory adjustment through the standard *Apply* flow no longer crashes: the counting
+  date sent by `stock.inventory.adjustment.name` is accepted and now also dates the generated
+  inventory document, not only its moves.
+
+## 19.0.2.7.4 (2026-08-22)
+
+- The **delete guard** on inventory adjustments is active again: only adjustments
+  in *Draft* or *Cancelled* state can be deleted. An adjustment that is *In
+  Progress* or *Validated* has already generated stock moves, and deleting it
+  left those moves behind without their source document. The guard existed in
+  18.0 but had been commented out during the 19.0 port, so any adjustment could
+  be deleted regardless of its state — silently, with no warning.
+- The two documented exceptions are preserved: module uninstall
+  (`_force_unlink`) and the explicit merge of adjustments, which deletes the
+  merged (validated) documents with `merge_inventory=True` in the context after
+  moving their lines and stock moves to the resulting adjustment.
+
+## 19.0.2.7.3 (2026-08-15)
+
+- Imp: `stock.inventory.line.partner_id` is now indexed — a foreign key to `res_partner` on a table that grows with every stock count.
+  Context: `res_partner` is referenced by ~158 foreign-key columns; on a production database 77 of them had no index, so a single partner deletion triggered sequential scans over 3.180 MB of tables. Deleting 5.350 merged partner records took over 8 minutes without indexes and 190 seconds with them, foreign keys left ENABLED.
+
+## 19.0.2.7.2 (2026-08-05)
+
+- **Inventory Note** is again carried over to the generated stock move, so the
+  reason of a quantity update stays visible in the product move history. The
+  18.0 code wrote it to `name`, but in 19.0 the standard no longer returns a
+  `name` key in `_get_inventory_move_values` — it uses `inventory_name`, which
+  feeds `stock.move.reference` for inventory moves. The line had been commented
+  out during a 19.0 cleanup, which silently dropped the per-line reason: the
+  note could be filled in, but was stored nowhere permanent.
+- The note is cleared when the adjustment is applied, so it is not silently
+  reused as the reason of a later adjustment on the same quant (the standard
+  `action_clear_inventory_quantity` does not reset custom fields).
+
+## 19.0.2.7.1 (2026-08-04)
+
+- The **Inventory Note** column in the inventory adjustment list is now shown by
+  default (`optional="show"` instead of `optional="hide"`). Users had to enable
+  it manually from the optional-columns menu to record why a quantity was
+  changed, so in practice the reason was almost never filled in. The note is
+  used as the name of the generated stock move, which makes it the only
+  per-line trace of the reason in the product move history.

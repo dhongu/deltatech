@@ -4,10 +4,11 @@
 
 {
     "name": "Fast Purchase",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Achizitie rapida",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_fast_purchase?v=19.0",
+    "summary": "Confirm, receive and bill a purchase order in one click",
     "category": "Purchases",
     "depends": ["base", "purchase_stock", "stock"],
     "license": "OPL-1",

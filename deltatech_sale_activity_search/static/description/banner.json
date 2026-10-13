@@ -1,0 +1,10 @@
+{
+  "title": "Sale Activity Search",
+  "summary": "Filter sale orders by active activity type",
+  "icon": "clipboard",
+  "features": [
+    "Active activity types on the order",
+    "Search and filter by activity type",
+    "Prioritize follow-up at a glance"
+  ]
+}

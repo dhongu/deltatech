@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Sale Return Cause",
-    "summary": "Return Cause",
-    "version": "19.0.0.0.7",
+    "summary": "Record and analyze the reasons for sale returns",
+    "version": "19.0.0.0.11",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
@@ -19,7 +19,7 @@
         "views/sale_report_view.xml",
         "data/ir_cron_data.xml",
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],

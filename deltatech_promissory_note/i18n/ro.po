@@ -137,11 +137,6 @@ msgid "Customer"
 msgstr "Client"
 
 #. module: deltatech_promissory_note
-#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
-msgid "Date Due"
-msgstr "Data scadenței"
-
-#. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__display_name
 msgid "Display Name"
 msgstr ""
@@ -164,11 +159,6 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
-
-#. module: deltatech_promissory_note
-#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
-msgid "Group By..."
 msgstr ""
 
 #. module: deltatech_promissory_note
@@ -249,11 +239,6 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: deltatech_promissory_note
-#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr ""
-
-#. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -293,12 +278,6 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
-
-#. module: deltatech_promissory_note
-#: model:mail.message.subtype,description:deltatech_promissory_note.mt_state_cashed
-#: model:mail.message.subtype,name:deltatech_promissory_note.mt_state_cashed
-msgid "PN Cashed"
-msgstr "BO încasat"
 
 #. module: deltatech_promissory_note
 #: model:res.groups,name:deltatech_promissory_note.bo_notifications
@@ -419,3 +398,15 @@ msgstr "Suma"
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
 msgid "cashed_amount"
 msgstr "Suma încasată"
+
+#. module: deltatech_promissory_note
+#. odoo-python
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+msgid "BO - the last - %(name)s for %(issuer_name)s has been cashed"
+msgstr "BO – ultimul – %(name)s pentru %(issuer_name)s a fost încasat"
+
+#. module: deltatech_promissory_note
+#. odoo-python
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+msgid "The last promissory note cashed: %(name)s, date: %(date)s. Issuer: %(issuer_name)s, amount: %(cashed_amount)s, agreement: %(agreement)s"
+msgstr "Ultimul bilet la ordin încasat: %(name)s, data: %(date)s. Emitent: %(issuer_name)s, suma: %(cashed_amount)s, contract: %(agreement)s"

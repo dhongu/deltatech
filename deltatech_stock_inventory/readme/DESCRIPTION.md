@@ -11,7 +11,19 @@ additional features for better inventory management and stock valuation control.
   Odoo versions.
 - **Enhanced Stock Valuation**:
   - Displays columns with the stock price in inventory views.
-  - Allows updating product cost prices during inventory validation.
+  - Values the surplus of a count at the price of the inventory line, without revaluing the existing stock.
+- **Valuation snapshot on the inventory line** (restricted to *Inventory / Administrator*):
+  - **Unit Value** — the unit valuation cost snapshotted when the line is generated (stock value of
+    the matching quants over their quantity, falling back to the product cost). It is refreshed by
+    the *Refresh quantity* button and, unlike *Price*, it is never edited by the operator.
+  - **Theoretical Value** / **Counted Value** / **Difference Value** — the value of the on hand
+    quantity, of the counted quantity and of the difference, so the money impact of the count is
+    visible **before** validation, not only after it.
+  - **Posted Value** — the value actually posted by the inventory move of that line, filled in at
+    validation. It can differ from the estimate for FIFO products, where the outgoing move is valued
+    on the consumed layers.
+  - The same four totals are summed on the inventory document, and the inventory move now carries an
+    **Inventory Line** link, so a stock move can be traced back to the counted line.
 - **Multi-Warehouse Stock Visibility**:
   - Displays stock broken down by warehouse codes directly in the product Kanban view.
   - Configuration option per warehouse to display total stock or only from the main location.
@@ -21,8 +33,10 @@ additional features for better inventory management and stock valuation control.
 - **Security Controls**:
   - Adds the "Can update quantities" security group to restrict who can modify inventory quantities.
 - **Inventory Price Update**:
-  - When the system parameter "stock.use_inventory_price" is set to True, the cost price of products (with FIFO evaluation)
-    is updated with the price from the inventory lines.
+  - When the system parameter "stock.use_inventory_price" is True (the default), the surplus found on FIFO and average
+    cost products enters the stock at the price of the inventory line; the average cost is recomputed as a weighted
+    average and the existing stock is not revalued. On standard cost products, the line price becomes the standard
+    cost only for a product that has no valued stock yet.
 - **Inventory Archiving**:
   - Option to archive old stock valuation layers (SVL) and create new ones based on inventory counts.
   - Supports compatibility with Romanian accounting modules (l10n_ro).
@@ -41,7 +55,7 @@ additional features for better inventory management and stock valuation control.
 
 ## Configuration
 
-- Set the system parameter "stock.use_inventory_price" to True to enable cost price updates during inventory.
+- Set the system parameter "stock.use_inventory_price" to False if the price of the inventory lines must be ignored.
 - Enable "Show manual location fields" in Settings -> Inventory to use manual location fields.
 - The "Can update quantities" security group must be assigned to users who need to update inventory quantities.
 

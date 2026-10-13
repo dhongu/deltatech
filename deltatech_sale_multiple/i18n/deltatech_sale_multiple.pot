@@ -1,0 +1,91 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_multiple
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model,name:deltatech_sale_multiple.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model,name:deltatech_sale_multiple.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__qty_minim
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__qty_minim
+msgid "Qty Minim"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_product__qty_multiple
+#: model:ir.model.fields,field_description:deltatech_sale_multiple.field_product_template__qty_multiple
+msgid "Qty Multiple"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple.product_template_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple.product_variant_easy_edit_view
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model,name:deltatech_sale_multiple.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#. odoo-python
+#: code:addons/deltatech_sale_multiple/models/product.py:0
+#: model:ir.model.constraint,message:deltatech_sale_multiple.constraint_product_product_qty_minim_non_negative
+msgid "The minimum sale quantity must be greater than or equal to zero."
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_product__qty_minim
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_template__qty_minim
+msgid "The minimum sale quantity. If it is 0, no minimum is enforced."
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#. odoo-python
+#: code:addons/deltatech_sale_multiple/models/product.py:0
+#: model:ir.model.constraint,message:deltatech_sale_multiple.constraint_product_product_qty_multiple_non_negative
+msgid "The sale quantity multiple must be greater than or equal to zero."
+msgstr ""
+
+#. module: deltatech_sale_multiple
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_product__qty_multiple
+#: model:ir.model.fields,help:deltatech_sale_multiple.field_product_template__qty_multiple
+msgid ""
+"The sale quantity will be rounded up to this multiple. If it is 0 or 1, no "
+"multiple is enforced."
+msgstr ""

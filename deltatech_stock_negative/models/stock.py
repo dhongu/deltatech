@@ -2,7 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, models
+from collections import defaultdict
+
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -12,6 +14,10 @@ class StockQuant(models.Model):
     def _get_available_quantity(
         self, product_id, location_id, lot_id=None, package_id=None, owner_id=None, strict=False, allow_negative=False
     ):
+        # This is a plain read/compute helper called from many places (forecast
+        # availability on lists/kanban, reservation math, inventory adjustments...).
+        # It must stay side-effect free: the "no negative stock" rule is enforced
+        # only at actual move validation time, in StockMoveLine._action_done().
         if (
             location_id
             and not location_id.allow_negative_stock
@@ -19,7 +25,7 @@ class StockQuant(models.Model):
             and product_id.tracking == "serial"
         ):
             lot_id = None
-        res = super()._get_available_quantity(
+        return super()._get_available_quantity(
             product_id=product_id,
             location_id=location_id,
             lot_id=lot_id,
@@ -28,24 +34,78 @@ class StockQuant(models.Model):
             strict=strict,
             allow_negative=allow_negative,
         )
-        company = self.mapped("company_id") or self.env.company
-        if len(company) > 1:
-            raise UserError(_("You cannot search for available quantity across several companies."))
-        if not company.no_negative_stock:
-            return res
-        # check if reception. Sometimes at reception, _get_available_quantity returns
-        # a negative quantity for newly created quants, so the check should be skipped
-        if self.env.context.get("restricted_picking_type_code") == "incoming":
-            return res
-        if location_id and not location_id.allow_negative_stock and res < 0.0 and location_id.usage == "internal":
-            err = _(
-                "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s"
-                " are remaining in location %(location_name)s. "
-                "Please adjust your quantities or correct your stock with an inventory adjustment."
-            ) % {
-                "lot_qty": res,
-                "product_name": product_id.name,
-                "location_name": location_id.name,
-            }
-            raise UserError(err)
-        return res
+
+
+class StockMoveLine(models.Model):
+    _inherit = "stock.move.line"
+
+    def _action_done(self):
+        self._check_no_negative_stock()
+        return super()._action_done()
+
+    def _check_no_negative_stock(self):
+        """Block only the actual validation of a move, not the browsing of
+        stock or the correction of an existing deviation via an inventory
+        adjustment (that flow does not go through here).
+
+        Checked against the raw physical `quantity` on the quant, not the
+        `available_quantity` (quantity minus reserved): this move already
+        holds its own reservation on that quant, so netting reservations out
+        here would count the move's own reservation as competing demand.
+
+        The whole recordset is validated in one call, before `super()` writes
+        anything to the quants, so every line reads the same untouched stock.
+        Checked one by one, two lines of 1 against a stock of 1 are each legal
+        and the transfer still lands at -1 -- the way PTC reached negative
+        stock twice, by picking 2 pieces to shelve when only 1 was on hand.
+        `consumed` therefore carries what the earlier lines of this same batch
+        already took from each quant.
+        """
+        Quant = self.env["stock.quant"]
+        consumed = defaultdict(float)
+        for ml in self:
+            location = ml.location_id
+            if not location or location.usage != "internal" or location.allow_negative_stock:
+                continue
+            company = ml.company_id or self.env.company
+            if not company.no_negative_stock:
+                continue
+            quantity = ml.product_uom_id._compute_quantity(ml.quantity, ml.product_id.uom_id, rounding_method="HALF-UP")
+            if ml.product_id.uom_id.compare(quantity, 0) <= 0:
+                continue
+            domain = [
+                ("product_id", "=", ml.product_id.id),
+                ("location_id", "=", location.id),
+                ("package_id", "=", ml.package_id.id if ml.package_id else False),
+                ("owner_id", "=", ml.owner_id.id if ml.owner_id else False),
+            ]
+            # With the serial check disabled, the stock is counted across all
+            # serial numbers of the location: no lot filter at all, and every
+            # line of the product consumes from the same aggregate.
+            if ml.product_id.tracking == "serial" and not location.check_serial_no:
+                lot_key = None
+            else:
+                lot_key = ml.lot_id.id if ml.lot_id else False
+                domain.append(("lot_id", "=", lot_key))
+            key = (
+                ml.product_id.id,
+                location.id,
+                lot_key,
+                ml.package_id.id if ml.package_id else False,
+                ml.owner_id.id if ml.owner_id else False,
+            )
+            physical_qty = sum(Quant.sudo().search(domain).mapped("quantity")) - consumed[key]
+            if ml.product_id.uom_id.compare(physical_qty - quantity, 0) < 0:
+                raise UserError(
+                    self.env._(
+                        "You have chosen to avoid negative stock. %(lot_qty)s pieces of %(product_name)s"
+                        " are remaining in location %(location_name)s. "
+                        "Please adjust your quantities or correct your stock with an inventory adjustment."
+                    )
+                    % {
+                        "lot_qty": physical_qty - quantity,
+                        "product_name": ml.product_id.name,
+                        "location_name": location.name,
+                    }
+                )
+            consumed[key] += quantity

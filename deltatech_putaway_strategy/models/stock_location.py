@@ -168,9 +168,16 @@ class StockLocation(models.Model):
         if self.env.context.get("putaway_location_standard"):
             return putaway_location
 
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+
+        prefer_existing = safe_eval(get_param("deltatech_putaway_strategy.prefer_existing_stock_location", "False"))
+        if prefer_existing:
+            existing_location = self._get_putaway_existing_stock_location(product, quantity, package, putaway_location)
+            if existing_location:
+                return existing_location
+
         # Dacă am găsit o locație
         # de adauga un paramentru de sistem pentru a cauta o sublocatie
-        get_param = self.env["ir.config_parameter"].sudo().get_param
         search_sublocation = get_param("deltatech_putaway_strategy.search_sublocation", "False")
 
         search_sublocation = safe_eval(search_sublocation)
@@ -209,3 +216,53 @@ class StockLocation(models.Model):
                     return leaf
 
         return putaway_location
+
+    def _get_putaway_existing_stock_location(self, product, quantity, package, putaway_location):
+        """Caută raftul pe care produsul are deja stoc, oriunde sub locația de intrare (`self`),
+        chiar dacă nu e sub locația dată de regula de putaway.
+
+        Acoperă produsele mutate fizic pe alt raft fără actualizarea regulii: regula trimite
+        în continuare pe raftul vechi, iar căutarea din `search_sublocation` nu ajunge la raftul
+        nou, pentru că se uită doar sub locația din regulă.
+
+        Contează doar stocul liber (cantitate minus rezervat): un raft de pe care marfa tocmai
+        pleacă nu e o destinație. Locațiile sursă ale operației, primite în contextul
+        `putaway_exclude_location_ids`, sunt excluse explicit, ca un transfer de pe raft să nu
+        primească drept destinație chiar raftul de pe care pleacă.
+
+        Întoarce o locație goală dacă produsul e deja pe locația din regulă (nu e nimic de
+        corectat) sau dacă niciun raft cu stoc nu mai are capacitate; atunci rămâne valabilă
+        strategia obișnuită.
+        """
+        empty = self.env["stock.location"]
+        if not product or not self.child_ids:
+            return empty
+        excluded_ids = [self.id, *self.env.context.get("putaway_exclude_location_ids", [])]
+        groups = self.env["stock.quant"]._read_group(
+            [
+                ("product_id", "=", product.id),
+                ("location_id", "child_of", self.id),
+                ("location_id", "not in", excluded_ids),
+                ("location_id.usage", "=", "internal"),
+                ("location_id.child_ids", "=", False),
+                ("quantity", ">", 0),
+            ],
+            ["location_id"],
+            ["quantity:sum", "reserved_quantity:sum"],
+        )
+        stock_by_location = [
+            (location, quantity - reserved)
+            for location, quantity, reserved in groups
+            if product.uom_id.compare(quantity - reserved, 0) > 0
+        ]
+        if not stock_by_location:
+            return empty
+        locations = self.env["stock.location"].concat(*(location for location, _qty in stock_by_location))
+        if putaway_location in locations:
+            return empty
+        # Raftul cu cea mai mare cantitate întâi; la egalitate, ordinea alfabetică, ca rezultatul
+        # să fie stabil de la o scanare la alta.
+        for location, _qty in sorted(stock_by_location, key=lambda item: (-item[1], item[0].complete_name)):
+            if location._check_can_be_used(product, quantity, package):
+                return location
+        return empty

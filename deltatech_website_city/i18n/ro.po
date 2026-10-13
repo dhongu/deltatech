@@ -30,3 +30,9 @@ msgstr "Localitate"
 #: model:ir.model,name:deltatech_website_city.model_res_country_state
 msgid "Country state"
 msgstr "Județ"
+
+#. module: deltatech_website_city
+#. odoo-python
+#: code:addons/deltatech_website_city/controller/portal.py:0
+msgid "The selected city is not served by the chosen delivery method."
+msgstr "Localitatea selectată nu este deservită de metoda de livrare aleasă."

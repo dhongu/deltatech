@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="255" height="255" viewBox="0 0 100 100">
+  <!-- Patru carduri KPI: cardul Terrabit (verde) + trei accente din paleta Odoo -->
+  <!-- umbre decalate, ca la iconițele standard -->
+  <rect x="9" y="11" width="40" height="36" rx="6" fill="#006F42"/>
+  <rect x="55" y="11" width="40" height="36" rx="6" fill="#005E7A"/>
+  <rect x="9" y="57" width="40" height="36" rx="6" fill="#C87A12"/>
+  <rect x="55" y="57" width="40" height="36" rx="6" fill="#712258"/>
+  <!-- carduri -->
+  <rect x="5" y="7" width="40" height="36" rx="6" fill="#57B952"/>
+  <rect x="51" y="7" width="40" height="36" rx="6" fill="#2EBCFA"/>
+  <rect x="5" y="53" width="40" height="36" rx="6" fill="#FBB945"/>
+  <rect x="51" y="53" width="40" height="36" rx="6" fill="#985184"/>
+  <!-- cifra (bară groasă) și eticheta (bară subțire) pe fiecare card -->
+  <g fill="#FEFEFE">
+    <rect x="12" y="15" width="18" height="8" rx="2"/><rect x="12" y="29" width="26" height="4" rx="2"/>
+    <rect x="58" y="15" width="14" height="8" rx="2"/><rect x="58" y="29" width="26" height="4" rx="2"/>
+    <rect x="12" y="61" width="22" height="8" rx="2"/><rect x="12" y="75" width="26" height="4" rx="2"/>
+    <rect x="58" y="61" width="12" height="8" rx="2"/><rect x="58" y="75" width="26" height="4" rx="2"/>
+  </g>
+</svg>

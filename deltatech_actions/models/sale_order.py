@@ -8,12 +8,36 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
+from odoo.tools import str2bool
+
+from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
+
+PREFIX = "deltatech_actions."
 
 _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
+
+    @api.autovacuum
+    def _gc_generated_pdfs(self):
+        """Run the sale order PDF cleanup from the autovacuum job -- see autovacuum_run()."""
+        return autovacuum_run(self, "cron_clean_generated_pdfs_from_settings", PREFIX + "sale_pdf_limit")
+
+    @api.model
+    def cron_clean_generated_pdfs_from_settings(self):
+        """Entry point used by the cron: reads its parameters from Settings
+        (General Settings > Database Cleanup) instead of hardcoded values."""
+        icp = self.env["ir.config_parameter"].sudo()
+        dry_run = str2bool(icp.get_param("deltatech_actions.sale_pdf_dry_run", "True"))
+        rows = self.cron_clean_generated_pdfs(
+            limit=int(icp.get_param("deltatech_actions.sale_pdf_limit", 5000)),
+            pattern=icp.get_param("deltatech_actions.sale_pdf_pattern", "") or "",
+            max_date_days=int(icp.get_param("deltatech_actions.sale_pdf_max_date_days", 90)),
+            dry_run=dry_run,
+        )
+        return rows_summary(rows, dry_run)
 
     def force_cancel_order_and_moves(self):
         """
@@ -50,6 +74,7 @@ class SaleOrder(models.Model):
         :param dry_run: if set to True, just selects the attachments and does not delete anything
         :return: None
         """
+        check_cleanup_access(self.env)
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
         else:
@@ -65,10 +90,11 @@ class SaleOrder(models.Model):
         self.env.cr.execute(query, params=params)
         res = self.env.cr.fetchall()
         attachment_ids = [item[0] for item in res]
-        sizes = [item[1] for item in res]
-        sum_sizes = 0
-        for size in sizes:
-            sum_sizes += size
+        # `or 0`: ir_attachment.file_size is nullable, and a single NULL row used to
+        # raise TypeError here. Inside the autovacuum job that failure is invisible --
+        # _run_vacuum_cleaner logs the exception, rolls the transaction back and moves
+        # on, so a crashing cleanup looks exactly like one with nothing to delete.
+        sum_sizes = sum((item[1] or 0) for item in res)
         if not dry_run:
             attachments = self.env["ir.attachment"].browse(attachment_ids)
             try:
@@ -76,6 +102,7 @@ class SaleOrder(models.Model):
             except Exception as e:
                 _logger.info(e)
         _logger.info(
-            f"Deleted {len(attachment_ids)} attachments., total size: {round(sum_sizes / (1024 * 1024), 3)} MB"
+            f"{log_prefix(dry_run)} {len(attachment_ids)} attachments, "
+            f"total size: {round(sum_sizes / (1024 * 1024), 3)} MB"
         )
         return res

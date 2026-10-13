@@ -19,9 +19,9 @@
                             <div>
                                 <span>Subsemnatul</span>
                                 <strong t-field="o.employee_id" />
-                                <t t-if="o.employee_id.function">
+                                <t t-if="o.employee_id.job_title">
                                     <span> având funcția de</span>
-                                    <span t-field="o.employee_id.function" />
+                                    <span t-field="o.employee_id.job_title" />
                                 </t>
                                 anexez prezentului
                                 <t t-if="nr_docs!=1">

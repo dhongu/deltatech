@@ -1,0 +1,78 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_line_counter
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_line_counter
+#: model_terms:ir.ui.view,arch_db:deltatech_line_counter.view_line_counter_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model_terms:ir.ui.view,arch_db:deltatech_line_counter.view_line_counter_wizard_form
+msgid "Count Lines"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.actions.act_window,name:deltatech_line_counter.action_line_counter_wizard
+#: model:ir.ui.menu,name:deltatech_line_counter.menu_line_counter_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_line_counter.view_line_counter_wizard_form
+msgid "Line Counter"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model,name:deltatech_line_counter.model_line_counter_wizard
+msgid "Module Line Counter Wizard"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__module_ids
+msgid "Modules"
+msgstr ""
+
+#. module: deltatech_line_counter
+#: model:ir.model.fields,field_description:deltatech_line_counter.field_line_counter_wizard__result
+msgid "Result"
+msgstr ""

@@ -1,0 +1,11 @@
+{
+  "title": "Stock Account Extension",
+  "summary": "Show stock valuation directly on transfers",
+  "icon": "file",
+  "features": [
+    "Stock valuation on the picking",
+    "Valuation displayed on picking form",
+    "Valuation account propagation"
+  ],
+  "lang": "en"
+}

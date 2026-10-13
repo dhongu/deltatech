@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="module_category_restrict_reports" model="ir.module.category">
+        <field name="name">Restrict Reports</field>
+        <field name="sequence">90</field>
+    </record>
+
+    <record id="res_groups_privilege_restrict_reports" model="res.groups.privilege">
+        <field name="name">Restrict Reports</field>
+        <field name="category_id" ref="module_category_restrict_reports" />
+    </record>
+
+    <!--
+        Two groups gate the Sales Analysis (sale.report) and Invoice Analysis
+        (account.invoice.report) reporting menus, independently of any other
+        access the user already has (Salesperson, Invoicing, Accounting...):
+          - group_restrict_reports_own: sees only his own records
+            (sale.report.user_id / account.invoice.report.invoice_user_id).
+          - group_restrict_reports_all: sees every record.
+        A user in neither group sees zero rows in these two reports.
+        Nobody is granted these groups automatically - no other group implies
+        them - assignment is manual, per client requirement.
+    -->
+    <record id="group_restrict_reports_own" model="res.groups">
+        <field name="name">Rapoarte Vânzări/Facturi: doar propriile înregistrări</field>
+        <field name="privilege_id" ref="res_groups_privilege_restrict_reports" />
+    </record>
+
+    <record id="group_restrict_reports_all" model="res.groups">
+        <field name="name">Rapoarte Vânzări/Facturi: toate înregistrările</field>
+        <field name="privilege_id" ref="res_groups_privilege_restrict_reports" />
+        <field name="implied_ids" eval="[(4, ref('group_restrict_reports_own'))]" />
+    </record>
+
+</odoo>

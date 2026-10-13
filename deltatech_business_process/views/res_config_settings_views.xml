@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.business.process.library</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Business Process" string="Business Process" name="deltatech_business_process">
+                    <block title="Process Library" name="process_library_sources">
+                        <setting
+                            string="Discover processes from all modules"
+                            help="Scan every installed module that ships a processes/ folder. Disabled = only the modules listed below.">
+                            <field name="process_library_autodiscover"/>
+                        </setting>
+                        <setting
+                            string="Restrict to modules"
+                            help="Comma-separated list of modules. When set, the sources are restricted to exactly the listed modules.">
+                            <field name="process_library_whitelist" placeholder="e.g. l10n_ro_process_library, other_processes_module"/>
+                        </setting>
+                        <setting
+                            string="Git repositories"
+                            help="Comma-separated git URLs cloned/pulled automatically. Example: https://github.com/terrabit-ro/procese">
+                            <field name="process_library_git_repos" placeholder="https://github.com/terrabit-ro/procese"/>
+                            <button name="action_sync_git_repos" string="Sync now" type="object" class="btn-secondary"/>
+                        </setting>
+                        <setting
+                            string="Private repository credentials"
+                            help="Token used for private HTTPS repositories. Sent as an HTTP Basic header per git command; not stored in the cloned repo's config. SSH URLs use their own keys.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label string="Username" for="process_library_git_user" class="col-lg-4 o_light_label"/>
+                                    <field name="process_library_git_user" placeholder="x-access-token (GitHub) / oauth2 (GitLab)"/>
+                                </div>
+                                <div class="row">
+                                    <label string="Token / password" for="process_library_git_token" class="col-lg-4 o_light_label"/>
+                                    <field name="process_library_git_token" password="True" placeholder="personal access token"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_business_process_config_settings" model="ir.actions.act_window">
+        <field name="name">Process Library</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'module': 'deltatech_business_process'}</field>
+    </record>
+
+    <menuitem
+        id="menu_business_process_config_settings"
+        name="Process Library"
+        parent="menu_config"
+        action="action_business_process_config_settings"
+        sequence="950"/>
+
+</odoo>

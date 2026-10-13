@@ -3,8 +3,8 @@
 
 {
     "name": "RAL",
-    "summary": "RAL",
-    "version": "19.0.1.0.3",
+    "summary": "Choose the RAL pigment on the manufacturing order and replace it in the BoM",
+    "version": "19.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

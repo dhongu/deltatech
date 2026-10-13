@@ -8,12 +8,15 @@ import xlsxwriter
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+from ..tools.display_name import code_display_name
+
 # from odoo.tools import date_utils
 
 
 class BusinessProject(models.Model):
     _name = "business.project"
     _description = "Business project"
+    _rec_names_search = ["name", "code"]
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     code = fields.Char(string="Code")
@@ -109,11 +112,13 @@ class BusinessProject(models.Model):
         for vals in vals_list:
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        return super().create(vals)
+        return super().create(vals_list)
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for project in self:
-            project.display_name = "{}{}".format(project.code and f"[{project.code}] " or "", project.name)
+            project.display_name = code_display_name(project)
 
     def _compute_count_processes(self):
         for project in self:
@@ -231,13 +236,13 @@ class BusinessProject(models.Model):
 
         # Add headers
         headers = [
-            "Code",
-            "Name",
-            "Configuration Duration",
-            "Training duration",
-            "Testing duration",
-            "Data Migration Duration",
-            "Total Duration",
+            self.env._("Code"),
+            self.env._("Name"),
+            self.env._("Configuration Duration"),
+            self.env._("Training duration"),
+            self.env._("Testing duration"),
+            self.env._("Data Migration Duration"),
+            self.env._("Total Duration"),
         ]
         for col_num, header in enumerate(headers):
             worksheet.write(0, col_num, header, header_format)
@@ -270,18 +275,18 @@ class BusinessProject(models.Model):
                 configuration_duration += process.configuration_duration
                 worksheet.write(row, 3, self.float_to_time(process.instructing_duration), format_to_use)
                 instructing_duration += process.instructing_duration
-                worksheet.write(row, 4, self.float_to_time(process.data_migration_duration), format_to_use)
-                data_migration_duration += process.data_migration_duration
-                worksheet.write(row, 5, self.float_to_time(process.testing_duration), format_to_use)
+                worksheet.write(row, 4, self.float_to_time(process.testing_duration), format_to_use)
                 duration_for_testing += process.testing_duration
+                worksheet.write(row, 5, self.float_to_time(process.data_migration_duration), format_to_use)
+                data_migration_duration += process.data_migration_duration
                 worksheet.write(row, 6, self.float_to_time(process.duration_for_completion), format_to_use)
                 duration_for_completion += process.duration_for_completion
                 row += 1
-        worksheet.write(row, 1, "Total", header_format)
+        worksheet.write(row, 1, self.env._("Total"), header_format)
         worksheet.write(row, 2, self.float_to_time(configuration_duration), header_format)
         worksheet.write(row, 3, self.float_to_time(instructing_duration), header_format)
-        worksheet.write(row, 4, self.float_to_time(data_migration_duration), header_format)
-        worksheet.write(row, 5, self.float_to_time(duration_for_testing), header_format)
+        worksheet.write(row, 4, self.float_to_time(duration_for_testing), header_format)
+        worksheet.write(row, 5, self.float_to_time(data_migration_duration), header_format)
         worksheet.write(row, 6, self.float_to_time(duration_for_completion), header_format)
         # for project in self:
         #     worksheet.write(row, 0, project.code)

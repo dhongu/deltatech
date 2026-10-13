@@ -1,9 +1,9 @@
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Account",
-    "summary": "Deltatech Account",
-    "version": "19.0.2.0.0",
+    "name": "Accounting Extensions",
+    "summary": "Extra invoice views, journal options and an Anglo-Saxon cost recognition setting",
+    "version": "19.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

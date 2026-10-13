@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="product" inherit_id="website_sale.product">
+        <xpath expr="//ol[hasclass('breadcrumb')]" position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+        <xpath expr="//ol[hasclass('breadcrumb')]" position="before">
+            <t t-call="deltatech_website_breadcrumb.breadcrumb" />
+        </xpath>
+    </template>
+
+
+    <template id="breadcrumb_recursive">
+        <t t-if="category.parent_id">
+            <t t-set="category" t-value="category.parent_id" />
+            <t t-call="deltatech_website_breadcrumb.breadcrumb_recursive" />
+            <li class="breadcrumb-item">
+                <a t-att-href="keep('/shop/category/' + slug(category), category=0)" t-field="category.name" />
+            </li>
+        </t>
+        <t t-if="not category.parent_id" />
+    </template>
+
+    <template id="breadcrumb">
+        <ol class="breadcrumb">
+            <t t-if="len(product.public_categ_ids) > 0">
+                <t t-set="category" t-value="product.public_categ_ids[0]" />
+                <li class="breadcrumb-item">
+                    <a t-att-href="keep('/shop',category=0)">Products</a>
+                </li>
+                <t t-call="deltatech_website_breadcrumb.breadcrumb_recursive" />
+                <li class="breadcrumb-item">
+                    <a t-att-href="keep('/shop/category/' + slug(category), category=0)" t-field="category.name" />
+                </li>
+            </t>
+            <li class="breadcrumb-item active">
+                <span t-esc="product.name" />
+            </li>
+        </ol>
+    </template>
+
+</odoo>

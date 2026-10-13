@@ -10,7 +10,7 @@ class StockConfirmInventory(models.TransientModel):
     _description = "Stock Confirm Inventory"
 
     location_id = fields.Many2one("stock.location", string="Location", domain="[('usage', '=', 'internal')]")
-    product_tmpl_id = fields.Many2one("product.template")
+    product_tmpl_id = fields.Many2one("product.template", string="Product")
     qty_available = fields.Float(compute="_compute_last_inventory")
     last_inventory_date = fields.Date(string="Last Inventory Date", compute="_compute_last_inventory")
     last_inventory_id = fields.Many2one("stock.inventory", string="Last Inventory", compute="_compute_last_inventory")

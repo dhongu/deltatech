@@ -1,0 +1,11 @@
+{
+  "title": "Agreement Management",
+  "summary": "Track and print agreements",
+  "icon": "file",
+  "features": [
+    "Draft, In Progress, Terminated lifecycle",
+    "Automatic numbering by agreement type",
+    "PDF agreement from a report template"
+  ],
+  "lang": "en"
+}

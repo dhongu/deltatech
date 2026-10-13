@@ -10,4 +10,12 @@
         <field name="model_id" ref="model_record_type" />
         <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
     </record>
+    <!-- TYPE-001: the default values follow the company of their record type -->
+    <record model="ir.rule" id="record_type_default_values_comp_rule">
+        <field name="name">Record type default values multi-company</field>
+        <field name="model_id" ref="model_record_type_default_values" />
+        <field
+            name="domain_force"
+        >['|', '|', ('record_type_id', '=', False), ('record_type_id.company_id', '=', False), ('record_type_id.company_id', 'in', company_ids)]</field>
+    </record>
 </odoo>

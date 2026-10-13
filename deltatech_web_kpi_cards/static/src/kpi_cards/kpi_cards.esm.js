@@ -1,0 +1,198 @@
+import {Component, useEnv} from "@odoo/owl";
+import {formatCurrency} from "@web/core/currency";
+import {humanNumber} from "@web/core/utils/numbers";
+import {localization} from "@web/core/l10n/localization";
+import {formatFloat, formatInteger} from "@web/views/fields/formatters";
+
+/**
+ * A band of KPI cards. Presentation only: what a card counts, and what a
+ * click on it does, belong to the module that shows it.
+ *
+ * A card: `key` (also its `data-card`), `label`, then either `count` or
+ * `amounts` (formatted lines, one per currency), optional `subtitle`,
+ * `icon` (a Font Awesome class), `tone` (one of KPI_TONES), `active` and
+ * `title` (the tooltip, the label by default: the place for exact amounts).
+ *
+ * Three optional extras, each drawn only when given, for a card that is a
+ * figure followed over time: `delta` (the change in percent against the
+ * previous period, green when up and red when down) with `deltaLabel` (its
+ * text, for instance "vs previous period"); `progress` (percent of a target,
+ * drawn as a bar) with `progressLabel`; and `trend` (the last values, drawn
+ * as a line).
+ */
+export const KPI_TONES = ["info", "success", "warning", "danger", "purple", "action", "slate"];
+
+// From this value on, a number is shown in thousands or millions (Odoo's
+// own humanNumber: 1.9M, 123.5k), so that it fits on a card.
+export const KPI_COMPACT_FROM = 100000;
+
+// HumanNumber keeps its decimal below a thousand: 250.0k reads better as 250k
+function dropZeroDecimal(text) {
+    return text.replace(`${localization.decimalPoint}0k`, "k").replace(`${localization.decimalPoint}0M`, "M");
+}
+
+/**
+ * An amount as a card shows it: whole below KPI_COMPACT_FROM (851 lei),
+ * compact from there on (1.9M lei), with the currency where it belongs.
+ */
+export function formatKpiAmount(amount, currencyId) {
+    const options = Math.abs(amount) >= KPI_COMPACT_FROM ? {humanReadable: true, digits: [16, 1]} : {digits: [16, 0]};
+    return dropZeroDecimal(formatCurrency(amount, currencyId, options));
+}
+
+/** A count as a card shows it: 9,227, then 123.5k. */
+export function formatKpiCount(count) {
+    return Math.abs(count) >= KPI_COMPACT_FROM
+        ? dropZeroDecimal(humanNumber(count, {decimals: 1}))
+        : formatInteger(count);
+}
+
+/** A change as a card shows it: +93.8%, -4%. */
+export function formatKpiDelta(delta) {
+    return `${delta > 0 ? "+" : ""}${formatFloat(delta, {trailingZeros: false, digits: [false, 1]})}%`;
+}
+
+// The sparkline is drawn in a 100 x KPI_SPARK_HEIGHT box and stretched by the CSS
+const KPI_SPARK_HEIGHT = 28;
+
+/**
+ * The `points` attribute of the trend line of a card, or an empty string when
+ * there is nothing to draw (fewer than two values). A flat series is drawn
+ * in the middle.
+ */
+export function kpiSparklinePoints(values) {
+    if (!values || values.length < 2) {
+        return "";
+    }
+    const min = Math.min(...values);
+    const span = Math.max(...values) - min;
+    return values
+        .map((value, index) => {
+            const x = (index / (values.length - 1)) * 100;
+            const y = span
+                ? KPI_SPARK_HEIGHT - 1 - ((value - min) / span) * (KPI_SPARK_HEIGHT - 2)
+                : KPI_SPARK_HEIGHT / 2;
+            return `${x.toFixed(2)},${y.toFixed(2)}`;
+        })
+        .join(" ");
+}
+
+export class KpiCards extends Component {
+    static template = "deltatech_web_kpi_cards.KpiCards";
+    static props = {
+        cards: {
+            type: Array,
+            element: {
+                type: Object,
+                shape: {
+                    key: String,
+                    label: String,
+                    count: {type: Number, optional: true},
+                    amounts: {type: Array, element: String, optional: true},
+                    subtitle: {type: String, optional: true},
+                    icon: {type: String, optional: true},
+                    tone: {type: String, optional: true},
+                    title: {type: String, optional: true},
+                    active: {type: Boolean, optional: true},
+                    delta: {type: Number, optional: true},
+                    deltaLabel: {type: String, optional: true},
+                    progress: {type: Number, optional: true},
+                    progressLabel: {type: String, optional: true},
+                    trend: {type: Array, element: Number, optional: true},
+                    "*": true,
+                },
+            },
+        },
+        onCardClick: {type: Function, optional: true},
+    };
+
+    toneOf(card) {
+        return KPI_TONES.includes(card.tone) ? card.tone : "slate";
+    }
+
+    formatCount(count) {
+        return formatKpiCount(count || 0);
+    }
+
+    hasDelta(card) {
+        return typeof card.delta === "number" && !Number.isNaN(card.delta);
+    }
+
+    deltaClass(card) {
+        if (!card.delta) {
+            return "";
+        }
+        return card.delta > 0 ? "o_kpi_card_delta_up" : "o_kpi_card_delta_down";
+    }
+
+    deltaIcon(card) {
+        return card.delta > 0 ? "fa-caret-up" : card.delta < 0 ? "fa-caret-down" : "fa-minus";
+    }
+
+    deltaText(card) {
+        return formatKpiDelta(card.delta);
+    }
+
+    hasProgress(card) {
+        return typeof card.progress === "number" && !Number.isNaN(card.progress);
+    }
+
+    progressWidth(card) {
+        return Math.max(0, Math.min(100, card.progress));
+    }
+
+    sparkline(card) {
+        return kpiSparklinePoints(card.trend);
+    }
+
+    isZero(card) {
+        return card.amounts ? !card.amounts.length : !card.count;
+    }
+
+    onClick(card) {
+        if (this.props.onCardClick) {
+            this.props.onCardClick(card);
+        }
+    }
+}
+
+/**
+ * Binds cards to filters of the search view the component lives in.
+ *
+ * `toggle(name)` activates the filter `name` and drops the other card
+ * filters, so that the facets of two cards never add up; a second call on
+ * the same filter clears it. The user's own filters are kept, provided the
+ * card filters sit in a group of their own in the search view (a
+ * `<separator/>` before and after them): a group is what gets cleared.
+ *
+ * @param {string[] | () => string[]} filterNames the card filters
+ */
+export function useKpiCardFilters(filterNames) {
+    const env = useEnv();
+    const names = () => new Set(typeof filterNames === "function" ? filterNames() : filterNames);
+    const items = () => {
+        const wanted = names();
+        return env.searchModel.getSearchItems((item) => item.type === "filter" && wanted.has(item.name));
+    };
+    return {
+        isActive(name) {
+            return items().some((item) => item.name === name && item.isActive);
+        },
+        toggle(name) {
+            const searchModel = env.searchModel;
+            const cardItems = items();
+            const target = cardItems.find((item) => item.name === name);
+            if (!target) {
+                return;
+            }
+            const wasActive = target.isActive;
+            const groups = new Set(cardItems.filter((item) => item.isActive).map((item) => item.groupId));
+            for (const groupId of groups) {
+                searchModel.deactivateGroup(groupId);
+            }
+            if (!wasActive) {
+                searchModel.toggleSearchItem(target.id);
+            }
+        },
+    };
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Project Pricelist",
+  "summary": "Sales orders from a project use its pricelist",
+  "icon": "cart",
+  "features": ["Pricelist on each project", "Prefilled on quotations", "Never overrides a manual choice"],
+  "lang": "en"
+}

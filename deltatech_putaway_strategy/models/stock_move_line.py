@@ -13,8 +13,26 @@ class StockMove(models.Model):
     def _action_assign(self, force_qty=False):
         """Suprascrie atribuirea pentru a aplica automat splitarea liniilor de mișcare
         în funcție de capacitatea locațiilor de destinație.
+
+        Suplimentar, pentru livrările al căror tip de operație are activ
+        `avoid_root_location_on_reservation`, locația sursă (rădăcina depozitului,
+        ex. `D1/S`) este exclusă din rezervare: marfa care nu a fost încă pusă la raft
+        nu trebuie alocată automat pe vânzări. Excluderea se transmite prin cheia de
+        context `exclude_location_ids`, consumată de `deltatech_stock_removal_priority`
+        în `_get_gather_domain`. Filtrul este `not in` (potrivire exactă), deci
+        sublocațiile (rafturile) rămân eligibile pentru rezervare.
         """
         start_time = time.time()
+
+        # Excluderea se calculează per livrare, nu global pe recordset: dacă
+        # `_action_assign` primește mișcări din mai multe tipuri de operație, doar
+        # locațiile tipurilor care au flagul activ trebuie excluse.
+        exclude_location_ids = self.picking_id.filtered(
+            lambda p: p.picking_type_id.code == "outgoing" and p.picking_type_id.avoid_root_location_on_reservation
+        ).location_id.ids
+        if exclude_location_ids:
+            self = self.with_context(exclude_location_ids=exclude_location_ids)
+
         res = super()._action_assign(force_qty=force_qty)
         # Apelăm splitarea pe toate liniile de mișcare implicate
         # Facem o buclă până când nu mai sunt necesare splitări
@@ -22,7 +40,10 @@ class StockMove(models.Model):
         lines_to_process = self.move_line_ids
 
         while lines_to_process:
-            _logger.info("Processing %d move lines", len(lines_to_process))
+            # per-reservation tracing: useful when debugging a putaway split, but it runs on
+            # every _action_assign - 8.150 lines in 16h of production, for nothing an operator
+            # or a reader of the log ever acts on. DEBUG keeps it available with --log-level.
+            _logger.debug("Processing %d move lines", len(lines_to_process))
             is_split, to_reprocess = lines_to_process._split_by_putaway_capacity()
             if is_split:
                 # Dacă am făcut split, verificăm să nu fi intrat într-o buclă infinită
@@ -37,7 +58,7 @@ class StockMove(models.Model):
         if lines_with_zero_qty:
             lines_with_zero_qty.unlink()
 
-        _logger.info("_action_assign executed in %.3f seconds", time.time() - start_time)
+        _logger.debug("_action_assign executed in %.3f seconds", time.time() - start_time)
         return res
 
     def _action_done(self, cancel_backorder=False):
@@ -46,15 +67,26 @@ class StockMove(models.Model):
         """
         res = super()._action_done(cancel_backorder=cancel_backorder)
         for move in res:
-            if move.location_dest_id.usage == "internal" and move.location_dest_id.max_products_leaf:
-                move.location_dest_id._compute_warehouse_occupancy()
-                if move.location_dest_id.current_products > move.location_dest_id.max_products_leaf:
+            location_dest = move.location_dest_id
+            if location_dest.usage == "internal" and location_dest.max_products_leaf:
+                # `current_products` / `max_products` sunt compute *nestocate*. Apelarea directă a
+                # metodei de compute se face în afara mașinăriei ORM, deci atribuirile din ea nu
+                # mai umplu doar cache-ul: devin `write()` real pe `stock.location`. Asta cere
+                # drepturi de Inventory/Administrator și bloca validarea transferurilor pentru un
+                # simplu utilizator de stoc (`stock.group_stock_user`). Pe deasupra, valoarea era
+                # oricum recalculată la citirea de mai jos, care se făcea pe alt env.
+                # Corect: invalidăm cache-ul și lăsăm ORM-ul să calculeze la citire, pe același
+                # recordset. `sudo()` fiindcă sunt metrici derivate din quant-uri (deja citite cu
+                # sudo în interiorul compute-ului), nu date de business.
+                location_dest = location_dest.sudo()
+                location_dest.invalidate_recordset(["current_products", "max_products", "occupancy_ratio"])
+                if location_dest.current_products > location_dest.max_products_leaf:
                     raise UserError(
                         self.env._(
                             "Location %(location)s is over capacity (%(current)s > %(max)s)",
-                            location=move.location_dest_id.display_name,
-                            current=move.location_dest_id.current_products,
-                            max=move.location_dest_id.max_products_leaf,
+                            location=location_dest.display_name,
+                            current=location_dest.current_products,
+                            max=location_dest.max_products_leaf,
                         )
                     )
         return res
@@ -69,7 +101,11 @@ class StockMoveLine(models.Model):
         if any(self.mapped("picking_type_id.avoid_putaway_rules")):
             return super(StockMoveLine, self.with_context(avoid_putaway_rules=True))._apply_putaway_strategy()
 
-        return super()._apply_putaway_strategy()
+        # Raftul de pe care pleacă marfa nu poate fi propus ca destinație de
+        # `prefer_existing_stock_location`, chiar dacă produsul mai are stoc acolo.
+        return super(
+            StockMoveLine, self.with_context(putaway_exclude_location_ids=self.location_id.ids)
+        )._apply_putaway_strategy()
 
     def _split_by_putaway_capacity(self):
         # Logica de splitare a liniilor care depășesc capacitatea locației
@@ -79,9 +115,14 @@ class StockMoveLine(models.Model):
         new_lines = self.env["stock.move.line"]
         for line in self:
             if line.location_dest_id.max_products_leaf:
-                # Spațiul ocupat deja (fizic + planificat în DB)
-                line.location_dest_id.with_context(exclude_move_line_id=line.id)._compute_planned_products()
-                occupied = line.location_dest_id.current_products + line.location_dest_id.planned_products
+                # Spațiul ocupat deja (fizic + planificat în DB). Vezi nota din `_action_done`:
+                # compute-urile nestocate se citesc prin ORM, nu se apelează direct, altfel
+                # atribuirile din ele devin `write()` pe stock.location și cer drepturi de
+                # administrator de stoc. Citirea se face acum pe *același* recordset pe care se
+                # aplică `exclude_move_line_id`, altfel contextul nu avea niciun efect.
+                location_dest = line.location_dest_id.sudo().with_context(exclude_move_line_id=line.id)
+                location_dest.invalidate_recordset(["current_products", "planned_products"])
+                occupied = location_dest.current_products + location_dest.planned_products
 
                 qty_available = line.location_dest_id.max_products_leaf - occupied
 

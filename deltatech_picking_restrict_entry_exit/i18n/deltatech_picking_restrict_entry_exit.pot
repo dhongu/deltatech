@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_picking_restrict_entry_exit
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_picking_restrict_entry_exit
+#: model:ir.model.fields,field_description:deltatech_picking_restrict_entry_exit.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#: model:ir.model.fields,field_description:deltatech_picking_restrict_entry_exit.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#: model:res.groups,name:deltatech_picking_restrict_entry_exit.group_picking_restrict_entry_exit
+msgid "Picking create permission"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#: model:ir.model,name:deltatech_picking_restrict_entry_exit.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+msgid ""
+"You can't add a line where the quantity done is greater than the quantity "
+"needed"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+msgid "You can't manually add moves to an incoming/outgoing picking"
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+msgid ""
+"You cannot save the picking because the quantity done is greater than the "
+"quantity ordered for the product %s."
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+msgid ""
+"You cannot validate the picking because the product %s is not linked to a "
+"purchase order line."
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+msgid ""
+"You cannot validate the picking because the product %s is not linked to a "
+"sale order line."
+msgstr ""
+
+#. module: deltatech_picking_restrict_entry_exit
+#. odoo-python
+#: code:addons/deltatech_picking_restrict_entry_exit/models/stock_picking.py:0
+msgid ""
+"You cannot validate the picking because the quantity done is greater than "
+"the quantity ordered for the product %s."
+msgstr ""

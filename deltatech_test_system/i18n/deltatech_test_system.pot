@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_test_system
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_test_system
+#: model_terms:ir.ui.view,arch_db:deltatech_test_system.module_view_kanban
+msgid ""
+"<span invisible=\"state != 'installed'\" class=\"text-success\">Is installed</span>\n"
+"                        <span invisible=\"state == 'installed'\" class=\"text-muted\">Is not installed</span>"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model:ir.model,name:deltatech_test_system.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model:ir.model.fields,field_description:deltatech_test_system.field_ir_module_module__database_is_neutralized
+#: model:ir.model.fields,field_description:deltatech_test_system.field_res_config_settings__database_is_neutralized
+#: model_terms:ir.ui.view,arch_db:deltatech_test_system.res_config_settings_view_form
+msgid "Database Is Neutralized"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model:ir.model.fields,field_description:deltatech_test_system.field_ir_module_module__display_name
+#: model:ir.model.fields,field_description:deltatech_test_system.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model:ir.model.fields,field_description:deltatech_test_system.field_ir_module_module__id
+#: model:ir.model.fields,field_description:deltatech_test_system.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model_terms:ir.ui.view,arch_db:deltatech_test_system.res_config_settings_view_form
+msgid "It is a productive system"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model_terms:ir.ui.view,arch_db:deltatech_test_system.res_config_settings_view_form
+msgid "It is a test system"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model:ir.model,name:deltatech_test_system.model_ir_module_module
+msgid "Module"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model_terms:ir.ui.view,arch_db:deltatech_test_system.notification_banner
+msgid ""
+"Some functionalities may run in restricted mode. Please check the support "
+"contract payment!"
+msgstr ""
+
+#. module: deltatech_test_system
+#: model_terms:ir.ui.view,arch_db:deltatech_test_system.res_config_settings_view_form
+msgid ""
+"This setting is used to determine if the database is a test or production "
+"system."
+msgstr ""

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_order_form_secondary_uom" model="ir.ui.view">
+        <field name="name">purchase.order.form.secondary.uom</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list//field[@name='product_qty']" position="before">
+                <field name="allowed_secondary_uom_ids" column_invisible="True"/>
+                <field name="secondary_uom_qty" optional="hide" readonly="not secondary_uom_id"/>
+                <field name="secondary_uom_id" optional="hide" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

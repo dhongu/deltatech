@@ -3,8 +3,8 @@
 
 {
     "name": "MRP Concentration",
-    "summary": "MRP Concentration",
-    "version": "19.0.1.0.1",
+    "summary": "Adjust production quantities to the actual concentration of active components",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

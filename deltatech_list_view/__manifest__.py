@@ -3,8 +3,8 @@
 
 {
     "name": "List View Select Text",
-    "summary": "List View Select Text",
-    "version": "19.0.1.0.1",
+    "summary": "Select text in list views without opening the record",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

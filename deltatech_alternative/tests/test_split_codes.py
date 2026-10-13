@@ -1,0 +1,188 @@
+# ©  2024 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from odoo.tests.common import TransactionCase
+
+
+class TestSplitMultiCodes(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.product = self.env["product.template"].create({"name": "Test Product for Split"})
+        self.Alternative = self.env["product.alternative"]
+
+    def _make(self, name, sequence=10, hide=False):
+        return self.Alternative.create(
+            {
+                "name": name,
+                "product_tmpl_id": self.product.id,
+                "sequence": sequence,
+                "hide": hide,
+            }
+        )
+
+    def _split_and_get(self, record):
+        self.Alternative.split_multi_codes()
+        return self.Alternative.search([("product_tmpl_id", "=", self.product.id)], order="id asc")
+
+    # ------------------------------------------------------------------
+    # Separatori simpli
+    # ------------------------------------------------------------------
+
+    def test_split_by_semicolon(self):
+        self._make("CODE1;CODE2;CODE3")
+        all_records = self._split_and_get(None)
+        names = all_records.mapped("name")
+        self.assertEqual(sorted(names), ["CODE1", "CODE2", "CODE3"])
+
+    def test_split_by_comma(self):
+        self._make("AAA,BBB,CCC")
+        all_records = self._split_and_get(None)
+        names = all_records.mapped("name")
+        self.assertEqual(sorted(names), ["AAA", "BBB", "CCC"])
+
+    def test_no_split_by_space(self):
+        # Spaces are part of the code (OEM part numbers such as "366 200 05 01"),
+        # never a delimiter.
+        self._make("X1 X2 X3")
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), ["X1 X2 X3"])
+
+    def test_no_split_oem_code_with_spaces(self):
+        code = "366 200 05 01 MERCEDES 366 200 15 01 MERCEDES"
+        self._make(code)
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), [code])
+
+    # ------------------------------------------------------------------
+    # Separatori cu spații suplimentare
+    # ------------------------------------------------------------------
+
+    def test_split_semicolon_with_spaces(self):
+        self._make("CODE1; CODE2; CODE3")
+        all_records = self._split_and_get(None)
+        names = all_records.mapped("name")
+        self.assertEqual(sorted(names), ["CODE1", "CODE2", "CODE3"])
+
+    def test_split_comma_with_spaces(self):
+        self._make("A1 , A2 , A3")
+        all_records = self._split_and_get(None)
+        names = all_records.mapped("name")
+        self.assertEqual(sorted(names), ["A1", "A2", "A3"])
+
+    # ------------------------------------------------------------------
+    # Separatori mixti
+    # ------------------------------------------------------------------
+
+    def test_split_mixed_separators(self):
+        self._make("C1; C2, C3 C4")
+        all_records = self._split_and_get(None)
+        names = all_records.mapped("name")
+        self.assertEqual(sorted(names), ["C1", "C2", "C3 C4"])
+
+    # ------------------------------------------------------------------
+    # Delimitator rătăcit în jurul unui singur cod
+    # ------------------------------------------------------------------
+
+    def test_stray_delimiter_is_trimmed(self):
+        self._make("98411382, ")
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), ["98411382"])
+
+    def test_stray_leading_delimiter_is_trimmed(self):
+        self._make("; 0018908711")
+        all_records = self._split_and_get(None)
+        self.assertEqual(all_records.mapped("name"), ["0018908711"])
+
+    # ------------------------------------------------------------------
+    # Record fără separator — nu trebuie atins
+    # ------------------------------------------------------------------
+
+    def test_no_split_single_code(self):
+        self._make("SINGLE")
+        self.Alternative.split_multi_codes()
+        remaining = self.Alternative.search([("product_tmpl_id", "=", self.product.id)])
+        self.assertEqual(len(remaining), 1)
+        self.assertEqual(remaining.name, "SINGLE")
+
+    # ------------------------------------------------------------------
+    # Atribute moștenite (sequence, hide)
+    # ------------------------------------------------------------------
+
+    def test_inherited_attributes(self):
+        self._make("P1;P2;P3", sequence=20, hide=True)
+        self.Alternative.split_multi_codes()
+        all_records = self.Alternative.search([("product_tmpl_id", "=", self.product.id)])
+        for rec in all_records:
+            self.assertEqual(rec.sequence, 20)
+            self.assertTrue(rec.hide)
+
+    # ------------------------------------------------------------------
+    # Primul cod rămâne pe înregistrarea originală
+    # ------------------------------------------------------------------
+
+    def test_first_code_stays_on_original_record(self):
+        rec = self._make("FIRST;SECOND;THIRD")
+        original_id = rec.id
+        self.Alternative.split_multi_codes()
+        updated = self.Alternative.browse(original_id)
+        self.assertEqual(updated.name, "FIRST")
+
+    # ------------------------------------------------------------------
+    # Înregistrare fără product_tmpl_id
+    # ------------------------------------------------------------------
+
+    def test_split_without_product_tmpl_id(self):
+        orphan = self.Alternative.create({"name": "ORF1;ORF2", "product_tmpl_id": False})
+        self.Alternative.split_multi_codes()
+        results = self.Alternative.search([("id", "in", [orphan.id]), ("name", "=", "ORF1")])
+        self.assertEqual(len(results), 1)
+        new_code = self.Alternative.search([("name", "=", "ORF2"), ("product_tmpl_id", "=", False)])
+        self.assertEqual(len(new_code), 1)
+
+    # ------------------------------------------------------------------
+    # Batch: maxim 5000 înregistrări procesate per apel
+    # ------------------------------------------------------------------
+
+    def test_batch_limit_not_exceeded(self):
+        # Creăm 10 înregistrări cu câte 2 coduri — toate eligibile pentru split
+        for i in range(10):
+            self._make(f"BATCH{i}A;BATCH{i}B")
+
+        # Prima execuție — toate 10 ar trebui procesate (sub limita de 5000)
+        self.Alternative.split_multi_codes()
+        all_records = self.Alternative.search([("product_tmpl_id", "=", self.product.id)])
+        names = all_records.mapped("name")
+        # Fiecare pereche a fost spartă, deci avem 20 de înregistrări individuale
+        self.assertEqual(len(names), 20)
+        for name in names:
+            self.assertNotIn(";", name)
+
+    # ------------------------------------------------------------------
+    # Coduri deja existente pe produs — nu se dublează
+    # ------------------------------------------------------------------
+
+    def test_skip_code_already_on_product(self):
+        self._make("DUP1")
+        self._make("DUP1;DUP2")
+        all_records = self._split_and_get(None)
+        self.assertEqual(sorted(all_records.mapped("name")), ["DUP1", "DUP1", "DUP2"])
+
+    def test_skip_repeated_code_in_same_line(self):
+        self._make("R1;R2;R2;R1")
+        all_records = self._split_and_get(None)
+        self.assertEqual(sorted(all_records.mapped("name")), ["R1", "R2"])
+
+    def test_same_code_on_other_product_is_created(self):
+        other = self.env["product.template"].create({"name": "Other Product for Split"})
+        self.Alternative.create({"name": "SHARED", "product_tmpl_id": other.id})
+        self._make("OWN;SHARED")
+        all_records = self._split_and_get(None)
+        self.assertEqual(sorted(all_records.mapped("name")), ["OWN", "SHARED"])
+
+    def test_limit_parameter(self):
+        for i in range(3):
+            self._make(f"LIM{i}A;LIM{i}B")
+        self.Alternative.split_multi_codes(limit=1)
+        all_records = self.Alternative.search([("product_tmpl_id", "=", self.product.id)])
+        self.assertEqual(len(all_records), 4)

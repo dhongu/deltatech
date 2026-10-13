@@ -1,0 +1,6 @@
+{
+  "title": "Sale Qty Multiple",
+  "icon": "cart",
+  "summary": "Minimum & multiple sale quantities",
+  "features": ["Minimum quantity per product", "Sell only in set multiples", "Auto-bumps below the minimum"]
+}

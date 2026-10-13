@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_sale_attributes
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model,name:deltatech_website_sale_attributes.model_product_attribute_value
+msgid "Attribute Value"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model.fields,field_description:deltatech_website_sale_attributes.field_product_attribute_value__display_name
+#: model:ir.model.fields,field_description:deltatech_website_sale_attributes.field_product_template_attribute_value__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model.fields.selection,name:deltatech_website_sale_attributes.selection__product_attribute_value__visibility__hidden
+msgid "Hidden"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model.fields,field_description:deltatech_website_sale_attributes.field_product_attribute_value__id
+#: model:ir.model.fields,field_description:deltatech_website_sale_attributes.field_product_template_attribute_value__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model,name:deltatech_website_sale_attributes.model_product_template_attribute_value
+msgid "Product Template Attribute Value"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model.fields,field_description:deltatech_website_sale_attributes.field_product_attribute_value__visibility
+msgid "Visibility"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model.fields.selection,name:deltatech_website_sale_attributes.selection__product_attribute_value__visibility__visible
+msgid "Visible"
+msgstr ""
+
+#. module: deltatech_website_sale_attributes
+#: model:ir.model.fields,field_description:deltatech_website_sale_attributes.field_product_template_attribute_value__website_visible
+msgid "Website visible"
+msgstr ""

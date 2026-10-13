@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="replenishment_explanation">
+        <div class="o_replenishment_explain">
+            <h3 class="mb-1">
+                <t t-out="product_name" />
+            </h3>
+            <p class="text-muted mb-3">
+                <t t-out="location_name" /> · <t t-out="warehouse_name" />
+                · <span t-attf-class="badge text-bg-#{'info' if trigger == 'auto' else 'secondary'}">
+                    <t t-out="'Auto' if trigger == 'auto' else 'Manual'" />
+                </span>
+            </p>
+
+            <!-- Bottom line -->
+            <div t-attf-class="alert alert-#{'primary' if below_min else 'success'} d-flex justify-content-between align-items-center">
+                <span class="fw-bold">To order now</span>
+                <span class="fs-4 fw-bold">
+                    <t t-out="qty_to_order" /> <t t-out="uom_name" />
+                </span>
+            </div>
+
+            <!-- Visual summary: quantity bar (forecast vs Min/Max + to-order) and lead-horizon timeline -->
+            <svg viewBox="0 0 760 150" style="width:100%;height:auto" class="my-3"
+                 xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+                <!-- quantity bar -->
+                <text x="12" y="20" font-size="11" fill="#6c757d">Quantity (UoM)</text>
+                <rect t-att-x="diagram['x0']" t-att-y="diagram['bar_y']"
+                      t-attf-width="#{diagram['x1']-diagram['x0']}" t-att-height="diagram['bar_h']"
+                      rx="3" fill="#e9ecef" />
+                <rect t-att-x="diagram['x0']" t-att-y="diagram['bar_y']"
+                      t-att-width="diagram['forecast_w']" t-att-height="diagram['bar_h']"
+                      rx="3" fill="#0d6efd" />
+                <g t-if="diagram['to_order_w'] &gt; 0">
+                    <rect t-att-x="diagram['to_order_x']" t-att-y="diagram['bar_y']"
+                          t-att-width="diagram['to_order_w']" t-att-height="diagram['bar_h']"
+                          rx="3" fill="#fd7e14" fill-opacity="0.85" />
+                </g>
+                <!-- Min / Max threshold lines -->
+                <line t-att-x1="diagram['min_x']" t-att-x2="diagram['min_x']"
+                      t-attf-y1="#{diagram['bar_y']-4}" t-attf-y2="#{diagram['bar_y']+diagram['bar_h']+4}"
+                      stroke="#dc3545" stroke-width="1.5" stroke-dasharray="3,2" />
+                <text t-att-x="diagram['min_x']" t-attf-y="#{diagram['bar_y']+diagram['bar_h']+16}"
+                      font-size="10" fill="#dc3545" text-anchor="middle">Min <t t-out="min_qty" /></text>
+                <line t-att-x1="diagram['max_x']" t-att-x2="diagram['max_x']"
+                      t-attf-y1="#{diagram['bar_y']-4}" t-attf-y2="#{diagram['bar_y']+diagram['bar_h']+4}"
+                      stroke="#198754" stroke-width="1.5" stroke-dasharray="3,2" />
+                <text t-att-x="diagram['max_x']" t-attf-y="#{diagram['bar_y']-6}"
+                      font-size="10" fill="#198754" text-anchor="middle">Max <t t-out="max_qty" /></text>
+                <!-- forecast / to-order legend -->
+                <text x="12" t-attf-y="#{diagram['bar_y']+diagram['bar_h']+30}" font-size="10" fill="#0d6efd">
+                    ▆ Forecast <t t-out="forecast" /></text>
+                <text t-if="below_min" x="150" t-attf-y="#{diagram['bar_y']+diagram['bar_h']+30}"
+                      font-size="10" fill="#fd7e14">▆ To order <t t-out="qty_to_order" /></text>
+
+                <!-- horizon timeline: today -> lead-time boundary -> lead horizon -->
+                <line t-att-x1="diagram['today_x']" t-att-x2="diagram['horizon_x']"
+                      t-att-y1="diagram['time_y']" t-att-y2="diagram['time_y']"
+                      stroke="#adb5bd" stroke-width="1.5" />
+                <circle t-att-cx="diagram['today_x']" t-att-cy="diagram['time_y']" r="3.5" fill="#6c757d" />
+                <text t-att-x="diagram['today_x']" t-attf-y="#{diagram['time_y']+16}" font-size="9"
+                      fill="#6c757d" text-anchor="start">Today</text>
+                <line t-att-x1="diagram['lead_x']" t-att-x2="diagram['lead_x']"
+                      t-attf-y1="#{diagram['time_y']-5}" t-attf-y2="#{diagram['time_y']+5}"
+                      stroke="#0d6efd" stroke-width="1.5" />
+                <text t-att-x="diagram['lead_x']" t-attf-y="#{diagram['time_y']-8}" font-size="9"
+                      fill="#0d6efd" text-anchor="middle">lead time</text>
+                <circle t-att-cx="diagram['horizon_x']" t-att-cy="diagram['time_y']" r="3.5" fill="#198754" />
+                <text t-att-x="diagram['horizon_x']" t-attf-y="#{diagram['time_y']+16}" font-size="9"
+                      fill="#198754" text-anchor="end">Horizon <t t-out="lead_horizon_date" /></text>
+            </svg>
+
+            <!-- 1. Forecast breakdown -->
+            <h5 class="mt-4">1 · How the forecast was built</h5>
+            <p class="text-muted small mb-2">
+                Stock projected at the <b>lead horizon</b> (<t t-out="lead_horizon_date" />),
+                i.e. today + lead time + horizon. Demand/receipts up to that date are counted.
+            </p>
+            <table class="table table-sm w-auto">
+                <tr>
+                    <td>On hand (now)</td>
+                    <td class="text-end fw-bold"><t t-out="on_hand" /></td>
+                </tr>
+                <tr class="text-success">
+                    <td>+ Scheduled receipts (≤ horizon)</td>
+                    <td class="text-end"><t t-out="incoming" /></td>
+                </tr>
+                <tr class="text-danger">
+                    <td>− Scheduled demand (≤ horizon)</td>
+                    <td class="text-end"><t t-out="outgoing" /></td>
+                </tr>
+                <tr t-if="not in_progress_zero">
+                    <td>± In progress (POs/MOs not yet moves)</td>
+                    <td class="text-end"><t t-out="in_progress" /></td>
+                </tr>
+                <tr class="border-top">
+                    <td class="fw-bold">= Forecast</td>
+                    <td class="text-end fw-bold"><t t-out="forecast" /> <t t-out="uom_name" /></td>
+                </tr>
+            </table>
+
+            <!-- 2. Decision + order math -->
+            <h5 class="mt-4">2 · Why this quantity</h5>
+            <div t-if="below_min">
+                <p class="mb-2">
+                    Forecast <b><t t-out="forecast" /></b> is <b>below</b> Min <b><t t-out="min_qty" /></b>
+                    → replenish up to <b>max(Min, Max) = <t t-out="target" /></b>.
+                </p>
+                <table class="table table-sm w-auto">
+                    <tr>
+                        <td>Target — max(Min <t t-out="min_qty" />, Max <t t-out="max_qty" />)</td>
+                        <td class="text-end"><t t-out="target" /></td>
+                    </tr>
+                    <tr>
+                        <td>− Forecast</td>
+                        <td class="text-end"><t t-out="forecast" /></td>
+                    </tr>
+                    <tr class="border-top">
+                        <td>= Raw need</td>
+                        <td class="text-end"><t t-out="raw_to_order" /></td>
+                    </tr>
+                    <tr t-if="multiple_name">
+                        <td>Rounded up to multiple of '<t t-out="multiple_name" />'</td>
+                        <td class="text-end fw-bold"><t t-out="rounded_to_order" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div t-else="">
+                <p>
+                    Forecast <b><t t-out="forecast" /></b> is <b>at or above</b> Min
+                    <b><t t-out="min_qty" /></b>, so the rule orders <b>nothing</b>.
+                </p>
+            </div>
+            <p t-if="is_manual_override" class="text-warning small">
+                A manual To Order quantity is set and overrides the computed value above.
+            </p>
+
+            <!-- 3. Lead time + horizon -->
+            <h5 class="mt-4">3 · Lead time &amp; horizon</h5>
+            <table class="table table-sm w-auto">
+                <tr>
+                    <td>Today</td>
+                    <td class="text-end"><t t-out="today" /></td>
+                </tr>
+                <tr t-foreach="delay_rows" t-as="row">
+                    <td><t t-out="row[0]" /></td>
+                    <td class="text-end"><t t-out="row[1]" /></td>
+                </tr>
+                <tr class="border-top fw-bold">
+                    <td>= Lead horizon date</td>
+                    <td class="text-end"><t t-out="lead_horizon_date" /></td>
+                </tr>
+            </table>
+            <p class="text-muted small">
+                Lead time <b><t t-out="total_delay" /> day(s)</b> + Replenishment Horizon
+                <b><t t-out="horizon_days" /> day(s)</b>
+                <t t-if="horizon_from_context"> (overridden in the replenishment view)</t>.
+                The horizon is what makes future demand visible to the forecast.
+            </p>
+
+            <!-- 4. Risks -->
+            <h5 class="mt-4">4 · Where it may lose</h5>
+            <div t-foreach="risks" t-as="risk" t-attf-class="alert alert-#{risk['level']} py-2">
+                <b><t t-out="risk['title'] " /></b><br />
+                <span class="small"><t t-out="risk['detail']" /></span>
+            </div>
+        </div>
+    </template>
+</odoo>

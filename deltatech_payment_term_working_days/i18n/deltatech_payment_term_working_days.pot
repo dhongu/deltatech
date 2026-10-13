@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_payment_term_working_days
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-11 22:52+0000\n"
+"PO-Revision-Date: 2026-10-11 22:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_payment_term_working_days
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term_working_days.view_payment_term_form
+msgid ""
+"A line counted in working days may exceed 60 calendar days after the invoice date,\n"
+"                    the usual legal ceiling of the payment terms between professionals."
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields.selection,name:deltatech_payment_term_working_days.selection__account_payment_term_line__day_count__calendar
+msgid "Calendar Days"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term_line__day_count
+msgid "Count"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term__display_name
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term__id
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term__postpone_to_working_day
+msgid "Move to the Next Working Day"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model,name:deltatech_payment_term_working_days.model_account_payment_term
+msgid "Payment Terms"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model,name:deltatech_payment_term_working_days.model_account_payment_term_line
+msgid "Payment Terms Line"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,help:deltatech_payment_term_working_days.field_account_payment_term__postpone_to_working_day
+msgid ""
+"When a due date falls on a weekend or on a public holiday of the company, it"
+" is moved to the next working day."
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields.selection,name:deltatech_payment_term_working_days.selection__account_payment_term_line__day_count__working
+msgid "Working Days"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,field_description:deltatech_payment_term_working_days.field_account_payment_term__working_days_warning
+msgid "Working Days Warning"
+msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#: model:ir.model.fields,help:deltatech_payment_term_working_days.field_account_payment_term_line__day_count
+msgid ""
+"Working days skip the weekends and the public holidays of the company. They "
+"are not used when the due date is a fixed day of the next month."
+msgstr ""

@@ -1,0 +1,5 @@
+{
+  "icon": "file",
+  "summary": "Attach product data sheets",
+  "features": ["Data Sheet field on product", "Safety Data Sheet (PDF) field"]
+}

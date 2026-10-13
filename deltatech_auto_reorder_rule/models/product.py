@@ -8,21 +8,24 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def create_rule(self):
-        warehouses = self.env["stock.warehouse"].search(
-            [("generate_reorder_rules", "=", True), ("company_id", "=", self.env.user.company_id.id)]
-        )
-        routes = self.env["stock.route"].search(
-            [
-                ("use_this_for_auto_rules", "=", True),
-            ]
-        )
-        route = False
-        if routes:
-            route = routes[0].id
+        # The rules are generated for the company of the product or, for products shared between companies,
+        # for the active company (env.company), not for the default company of the user.
         for record in self:
-            rules = record.env["stock.warehouse.orderpoint"].search(
-                [("product_id", "=", record.id), ("company_id", "=", self.env.user.company_id.id)]
+            company = record.company_id or self.env.company
+            warehouses = self.env["stock.warehouse"].search(
+                [("generate_reorder_rules", "=", True), ("company_id", "=", company.id)]
             )
+            routes = self.env["stock.route"].search(
+                [
+                    ("use_this_for_auto_rules", "=", True),
+                    ("company_id", "in", [company.id, False]),
+                ]
+            )
+            route = False
+            if routes:
+                route = routes[0].id
+            orderpoint_model = record.env["stock.warehouse.orderpoint"].with_company(company)
+            rules = orderpoint_model.search([("product_id", "=", record.id), ("company_id", "=", company.id)])
             if not rules:
                 values = []
                 for warehouse in warehouses:
@@ -35,10 +38,11 @@ class ProductProduct(models.Model):
                                 "trigger": "manual",
                                 "route_id": route,
                                 "location_id": warehouse.lot_stock_id.id,
+                                "company_id": company.id,
                             }
                         )
                 if values:
-                    record.env["stock.warehouse.orderpoint"].create(values)
+                    orderpoint_model.create(values)
 
             # if not rules and record.type == "product":
             #     record.env["stock.warehouse.orderpoint"].create(

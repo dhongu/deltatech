@@ -1,0 +1,10 @@
+{
+  "title": "UBL Despatch Advice",
+  "summary": "Attach delivery references to UBL e-invoices",
+  "icon": "truck",
+  "features": [
+    "Links pickings to UBL invoice",
+    "Adds DespatchDocumentReference node",
+    "Works with sales & stock modules"
+  ]
+}

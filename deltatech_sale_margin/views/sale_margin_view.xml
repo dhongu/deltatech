@@ -23,6 +23,26 @@
     </record>
 
 
+    <!-- The signal has to be where the decision is taken: the row turns orange
+         as soon as the seller leaves the price field, because `margin_below_limit`
+         is a non-stored compute and is therefore re-evaluated on onchange.
+         The flag itself is readable by anyone - it says THAT the margin is under
+         the limit, not what the cost is, so it does not leak the cost to sellers
+         who are not allowed to see it. -->
+    <record id="view_order_form_margin_flag" model="ir.ui.view">
+        <field name="name">sale.order.form.margin.flag</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list" position="attributes">
+                <attribute name="decoration-warning">margin_below_limit</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list//field[@name='price_unit']" position="after">
+                <field name="margin_below_limit" column_invisible="1" />
+            </xpath>
+        </field>
+    </record>
+
     <record id="sale_margin_sale_order" model="ir.ui.view">
         <field name="name">sale.order.margin.view.form</field>
         <field name="model">sale.order</field>

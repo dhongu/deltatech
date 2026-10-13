@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Sale Qty Multiple",
-    "summary": "Sale quantity multiple",
-    "version": "19.0.1.0.1",
+    "summary": "Minimum and multiple sale quantities per product, applied automatically",
+    "version": "19.0.1.1.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

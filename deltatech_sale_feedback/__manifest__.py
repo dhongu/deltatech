@@ -3,8 +3,8 @@
 
 {
     "name": "Sale Feedback",
-    "summary": "Sale Feedback",
-    "version": "19.0.1.0.5",
+    "summary": "Email customers automatically for feedback a few days after invoicing",
+    "version": "19.0.1.0.7",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

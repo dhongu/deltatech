@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_warehouse_orderpoint_form_explain" model="ir.ui.view">
+        <field name="name">stock.warehouse.orderpoint.form.explain</field>
+        <field name="model">stock.warehouse.orderpoint</field>
+        <field name="inherit_id" ref="stock.view_warehouse_orderpoint_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button
+                        name="action_explain_replenishment"
+                        string="Why this replenishment?"
+                        type="object"
+                        icon="fa-question-circle"
+                    />
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>

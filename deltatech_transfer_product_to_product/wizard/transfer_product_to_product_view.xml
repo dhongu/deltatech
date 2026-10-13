@@ -1,0 +1,57 @@
+<odoo>
+    <record id="view_transfer_wizard" model="ir.ui.view">
+        <field name="name">transfer.product.to.product.form</field>
+        <field name="model">transfer.product.to.product</field>
+        <field name="arch" type="xml">
+            <form string="Transfer Wizard">
+                <field name="price_state" invisible="1" />
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="price_state!= 'different'"
+                >
+                    <field name="alert_message" nolabel="1" readonly="1" />
+                </div>
+                <div
+                    class="alert alert-success"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    invisible="price_state!= 'equal'"
+                >
+                    <field name="alert_message" nolabel="1" readonly="1" />
+                </div>
+                <group>
+                    <field name="from_product_id" />
+                    <field name="location_adjustment" />
+                    <field name="to_product_id" />
+                    <field name="quantity" />
+                    <field name="location_id" />
+                    <field name="operation_type" />
+                </group>
+
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_invoice_stock_adjustment_wizard" model="ir.actions.act_window">
+        <field name="name">Transfer Product to Product</field>
+        <field name="res_model">transfer.product.to.product</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Define the menu item that triggers the action -->
+    <menuitem
+        id="menu_transfer_product_to_product"
+        name="Transfer Product to Product"
+        parent="stock.menu_stock_adjustments"
+        sequence="10"
+        action="action_invoice_stock_adjustment_wizard"
+    />
+</odoo>

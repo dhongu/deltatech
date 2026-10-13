@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!--
+        Odoo 19 injects the "Upload Bill" uploader right after the selection box, so it
+        lands in front of every header button coming from the arch. Move it after them,
+        to keep "Create Bills" as the first action on the selection bar.
+    -->
+    <t t-name="deltatech_purchase_create_bill_button.ListView"
+       t-inherit="purchase.ListView" t-inherit-mode="extension">
+        <xpath expr="//PurchaseFileUploader" position="replace"/>
+        <xpath expr="//t[@t-if='props.info.actionMenus']" position="before">
+            <PurchaseFileUploader list="model.root"/>
+        </xpath>
+    </t>
+
+</templates>

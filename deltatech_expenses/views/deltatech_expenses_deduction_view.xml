@@ -13,6 +13,7 @@
                         invisible="state != 'draft'"
                         class="oe_highlight"
                         type="object"
+                        groups="deltatech_expenses.group_expenses_approver"
                     />
                     <button
                         name="validate_expenses"
@@ -20,8 +21,15 @@
                         invisible="state != 'advance'"
                         class="oe_highlight"
                         type="object"
+                        groups="deltatech_expenses.group_expenses_accounting"
                     />
-                    <button name="invalidate_expenses" string="Invalidate" invisible="state != 'done'" type="object" />
+                    <button
+                        name="invalidate_expenses"
+                        string="Invalidate"
+                        invisible="state != 'done'"
+                        type="object"
+                        groups="deltatech_expenses.group_expenses_accounting"
+                    />
                     <!-- <button name="cancel_expenses" string="Cancel" states="draft" type="object" />  -->
                     <field
                         name="state"
@@ -34,9 +42,8 @@
                     <div class="oe_title">
                         <!-- Invoice draft header -->
                         <span class="o_form_label">Expenses Deduction</span>
-                        <h1>
-                            <span invisible="state != 'draft' or number != '/'">Draft
-                            </span>
+                        <h1 invisible="state != 'draft' or number != '/'">
+                            <span>Draft</span>
                         </h1>
 
                         <!-- Number -->
@@ -48,7 +55,7 @@
 
                     <group>
                         <group>
-                            <field name="employee_id" domain="[('is_company','=',False)]" readonly="state != 'draft'" />
+                            <field name="employee_id" readonly="state != 'draft'" />
                         </group>
                         <group>
                             <field name="journal_id" widget="selection" readonly="state != 'draft'" />
@@ -60,7 +67,7 @@
                             <field name="date_expense" readonly="state not in ['draft', 'advance']" />
                         </group>
                         <group>
-                            <field name="advance" readonly="state not in ['draft', 'advance']" />
+                            <field name="advance" readonly="state != 'draft'" />
                             <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
 
                         </group>
@@ -92,11 +99,11 @@
                                     <field
                                         name="tax_ids"
                                         widget="many2many_tags"
-                                        optional="hide"
+                                        optional="show"
                                         domain="[('type_tax_use','=','purchase')]"
                                         context="{'default_type_tax_use': 'purchase'}"
                                     />
-                                    <field name="tax_amount" sum="Total Tax" optional="hide" />
+                                    <field name="tax_amount" sum="Total Tax" optional="show" />
                                     <field
                                         name="partner_id"
                                         string="Supplier"
@@ -106,7 +113,7 @@
                                     <field
                                         name="expense_account_id"
                                         groups="account.group_account_user"
-                                        optional="hide"
+                                        optional="show"
                                     />
                                      <field
                                         name="analytic_distribution"
@@ -117,7 +124,7 @@
                                     />
                                     <field name="type" />
                                     <field name="state" optional="hide" />
-                                    <field name="currency_id" invisible="1" />
+                                    <field name="currency_id" column_invisible="1" />
                                 </list>
                                 <form>
                                     <field name="date" />
@@ -180,7 +187,21 @@
                                 </list>
                             </field>
                         </page>
-                        <page string="Payments">
+                        <page string="Vouchers" invisible="not voucher_ids">
+                            <field name="voucher_ids" readonly="1">
+                                <list>
+                                    <field name="name" />
+                                    <field name="invoice_date" />
+                                    <field name="partner_id" />
+                                    <field name="ref" />
+                                    <field name="amount_untaxed" sum="Total Untaxed" />
+                                    <field name="amount_tax" sum="Total Tax" />
+                                    <field name="amount_total" sum="Total Amount" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Payments" invisible="not payment_ids">
                             <field name="payment_ids" readonly="1">
                                 <list>
                                     <field name="partner_id" />
@@ -191,11 +212,15 @@
                         </page>
                         <page string="Other information">
                             <group>
-                                <field name="journal_id" widget="selection" />
-                                <field name="expense_journal_id" widget="selection" />
+                                <field name="journal_id" widget="selection" readonly="state != 'draft'" />
+                                <field name="expense_journal_id" widget="selection" readonly="state != 'draft'" />
                                 <field name="journal_diem_id" widget="selection" />
-                                <field name="company_id" groups="base.group_multi_company" />
+                                <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'" />
                                 <field name="currency_id" invisible="1" />
+                            </group>
+                            <group string="Traseu aprobare">
+                                <field name="approved_by_id" />
+                                <field name="accounted_by_id" />
                             </group>
                         </page>
                     </notebook>
@@ -231,7 +256,7 @@
                 <field name="date_expense" />
                 <filter name="state_new" domain="[('state','=','draft')]" string="New" help="New Expenses Deduction" />
                 <separator/>
-                <filter name="my_expenses" domain="[('employee_id', '=', uid)]" string="My Expenses" />
+                <filter name="my_expenses" domain="[('employee_id.user_id', '=', uid)]" string="My Expenses" />
                 <group>
                     <filter name="group_by_employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}" />
                     <filter name="group_by_month" string="Month" domain="[]" context="{'group_by':'date_expense'}" />

@@ -7,8 +7,9 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    provider_id = fields.Many2one("payment.provider", compute="_compute_payment")
-    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment")
+    # Stored, so the order list can be filtered, grouped and sorted on them in SQL
+    provider_id = fields.Many2one("payment.provider", compute="_compute_payment", store=True)
+    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment", store=True)
 
     payment_status = fields.Selection(
         [
@@ -17,11 +18,12 @@ class SaleOrder(models.Model):
             ("authorized", "Authorized"),
             ("partial", "Partial"),
             ("done", "Done"),
+            ("pending", "Pending"),
             ("cancelled", "Cancelled"),
         ],
         default="without",
         compute="_compute_payment",
-        search="_search_payment_status",
+        store=True,
     )
 
     def action_payment_link(self):
@@ -29,7 +31,9 @@ class SaleOrder(models.Model):
             {
                 "res_id": self.id,
                 "res_model": "sale.order",
-                "amount": self.amount_total - sum(self.invoice_ids.mapped("amount_total")),
+                # what is still to be paid on the order, whatever was paid through
+                # transactions or directly on its invoices
+                "amount": max(0.0, self.amount_total - self.payment_amount),
                 "currency_id": self.currency_id.id,
                 "partner_id": self.partner_id.id,
                 "amount_max": self.amount_total,
@@ -42,65 +46,80 @@ class SaleOrder(models.Model):
             "target": "new",
         }
 
-    @api.depends("transaction_ids", "transaction_ids.state")
+    def _payment_to_order_currency(self, amount, currency, date):
+        """Suma platita intr-o alta moneda, la cursul de la data documentului."""
+        self.ensure_one()
+        if not currency or currency == self.currency_id:
+            return amount
+        return currency._convert(
+            amount, self.currency_id, self.company_id, date or self.date_order or fields.Date.context_today(self)
+        )
+
+    @api.depends(
+        "amount_total",
+        "currency_id",
+        "transaction_ids.state",
+        "transaction_ids.amount",
+        "transaction_ids.provider_id",
+        "transaction_ids.currency_id",
+        "invoice_ids.state",
+        "invoice_ids.currency_id",
+        "invoice_ids.amount_residual",
+        "invoice_ids.amount_total",
+    )
     def _compute_payment(self):
         for order in self:
-            amount = 0
-            payment_status = "without"
+            # filtrează tranzacțiile NewId (din onchange) înainte de sortare, ca să evităm
+            # TypeError la compararea NewId cu int
+            all_tx = order.sudo().transaction_ids.filtered(lambda t: isinstance(t.id, int)).sorted("id")
+            done_tx = all_tx.filtered(lambda t: t.state == "done")
+            authorized_tx = all_tx.filtered(lambda t: t.state == "authorized")
+            pending_tx = all_tx.filtered(lambda t: t.state == "pending")
+            cancel_tx = all_tx.filtered(lambda t: t.state == "cancel")
 
-            provider = self.env["payment.provider"]
-            all_transactions = order.sudo().transaction_ids.sorted(lambda a: a.id)
-            if all_transactions:
-                provider = all_transactions[-1].provider_id
+            # Aceiasi bani pot fi vazuti de doua ori: ca tranzactie confirmata si ca suma incasata
+            # pe factura. O tranzactie fara plata contabila (provider fara jurnal, ex. card Shopify)
+            # ajunge pe factura abia la reconcilierea decontarii, deci nu se poate sti din date daca
+            # e deja inclusa. Se ia maximul celor doua surse: nu dubleaza decontarea si nici nu pierde
+            # tranzactia inca nedecontata (card 382 + link 44 cu plata pe factura -> 426).
+            # Toate sumele se aduc in moneda comenzii: *_signed de pe factura sunt in moneda companiei
+            # si, la o comanda in valuta, comparate cu amount_total ar da o comanda platita partial
+            # drept platita integral.
+            invoice_paid = sum(
+                order._payment_to_order_currency(
+                    (invoice.amount_total - invoice.amount_residual) * (1 if invoice.is_inbound() else -1),
+                    invoice.currency_id,
+                    invoice.invoice_date,
+                )
+                for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted")
+            )
+            transaction_paid = sum(
+                order._payment_to_order_currency(tx.amount, tx.currency_id, tx.last_state_change) for tx in done_tx
+            )
+            amount_paid = max(0.0, invoice_paid, transaction_paid)
+            order.payment_amount = amount_paid
 
-            transactions = all_transactions.filtered(lambda a: a.state == "done")
+            # Status — ordinea contează: authorized > pending > cancelled > initiated
+            if amount_paid and order.currency_id.compare_amounts(amount_paid, order.amount_total) >= 0:
+                status = "done"
+            elif amount_paid:
+                status = "partial"
+            elif not all_tx:
+                status = "without"
+            elif authorized_tx:
+                status = "authorized"
+            elif pending_tx:
+                status = "pending"
+            elif cancel_tx:
+                status = "cancelled"
+            else:
+                status = "initiated"  # draft / error
+            order.payment_status = status
 
-            for invoice in order.invoice_ids.filtered(lambda a: a.state == "posted"):
-                amount_invoice = invoice.amount_total_signed - invoice.amount_residual_signed
-                if amount_invoice:
-                    amount += amount_invoice
-                    transactions = transactions - invoice.transaction_ids.filtered(lambda a: a.is_post_processed)
-
-            for transaction in transactions:
-                amount += transaction.amount
-                provider = transaction.provider_id
-
-            order.payment_amount = amount
-            if amount:
-                if amount < order.amount_total:
-                    payment_status = "partial"
-                else:
-                    payment_status = "done"
-
-            if not amount:
-                payment_status = "without"
-                if order.transaction_ids:
-                    payment_status = "initiated"
-
-                    cancel_tx = order.transaction_ids.filtered(lambda t: t.state == "cancel")
-                    if cancel_tx:
-                        payment_status = "cancelled"
-
-                    for transaction in all_transactions.sorted(lambda a: a.id):
-                        provider = transaction.provider_id
-
-                    authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
-                    if authorized_transaction_ids:
-                        payment_status = "authorized"
-                        for transaction in authorized_transaction_ids:
-                            provider = transaction.provider_id
-
-            order.payment_status = payment_status
-            order.provider_id = provider
-
-    def _search_payment_status(self, operator, value):
-        if operator == "=":
-            if value == "without":
-                return [("transaction_ids", "=", False)]
-            if value == "initiated":
-                return [("transaction_ids.state", "!=", "done")]
-            if value == "authorized":
-                return [("transaction_ids.state", "=", "authorized")]
-            if value == "done":
-                return [("transaction_ids.state", "=", "done")]
-        return []
+            # Procesatorul afișat: al celei mai relevante tranzacții, cea mai recentă din grup
+            for group in (done_tx, authorized_tx, pending_tx, cancel_tx, all_tx):
+                if group:
+                    order.provider_id = group[-1].provider_id
+                    break
+            else:
+                order.provider_id = self.env["payment.provider"]

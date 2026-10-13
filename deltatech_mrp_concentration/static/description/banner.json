@@ -1,0 +1,4 @@
+{
+  "summary": "Active-ingredient concentration in BOM",
+  "features": ["Concentration field on BOM lines", "Adjusts consumed quantities", "Traceability on BOM & MO"]
+}

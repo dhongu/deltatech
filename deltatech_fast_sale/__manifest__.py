@@ -4,10 +4,11 @@
 
 {
     "name": "Fast Sale",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Vanzare rapida",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_fast_sale?v=19.0",
+    "summary": "Confirm, deliver and invoice a sale order in one click",
     "category": "Sales",
     "depends": ["base", "sale_management", "stock", "sale_stock"],
     "price": 5.00,

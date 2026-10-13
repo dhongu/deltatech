@@ -1,6 +1,8 @@
 # ©  2008-2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
+from unittest.mock import patch
+
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -44,3 +46,27 @@ class TestSale(TransactionCase):
 
         self.so = so.save()
         self.so.action_confirm()
+
+    def test_stage_without_sale_purchase(self):
+        """The stage is computed even when sale_purchase is not installed.
+
+        The confirmed order has no picking left, which is the branch that looks
+        for purchase RFQs. The field is hidden from `_fields` to reproduce a
+        database without sale_purchase.
+        """
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.partner_a
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_a
+            so_line.product_uom_qty = 5
+        so = so.save()
+        so.action_confirm()
+        so.picking_ids.action_cancel()
+        so.picking_ids.unlink()
+
+        fields_without_purchase = {
+            name: field for name, field in type(so)._fields.items() if name != "purchase_order_count"
+        }
+        with patch.object(type(so), "_fields", fields_without_purchase):
+            so._compute_stage()
+        self.assertEqual(so.stage, "waiting")

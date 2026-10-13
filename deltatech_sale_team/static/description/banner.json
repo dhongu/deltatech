@@ -1,0 +1,6 @@
+{
+  "title": "Sale Team Access Control",
+  "summary": "Restrict orders, invoices and stock to each sales team",
+  "icon": "people",
+  "features": ["Team-scoped orders & invoices", "Default warehouse per sales team", "Role-based Team Manager group"]
+}

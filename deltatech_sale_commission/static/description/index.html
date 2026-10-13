@@ -1,432 +1,432 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Sale Commission</title>
-<style type="text/css">
-
-/*
-:Author: David Goodger (goodger@python.org)
-:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
-:Copyright: This stylesheet has been placed in the public domain.
-
-Default cascading style sheet for the HTML output of Docutils.
-Despite the name, some widely supported CSS2 features are used.
-
-See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
-*/
-
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
-.first {
-  /* Override more specific margin styles with "! important". */
-  margin-top: 0 ! important }
-
-.last, .with-subtitle {
-  margin-bottom: 0 ! important }
-
-.hidden {
-  display: none }
-
-.subscript {
-  vertical-align: sub;
-  font-size: smaller }
-
-.superscript {
-  vertical-align: super;
-  font-size: smaller }
-
-a.toc-backref {
-  text-decoration: none ;
-  color: black }
-
-blockquote.epigraph {
-  margin: 2em 5em ; }
-
-dl.docutils dd {
-  margin-bottom: 0.5em }
-
-object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
-  overflow: hidden;
-}
-
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-
-div.abstract {
-  margin: 2em 5em }
-
-div.abstract p.topic-title {
-  font-weight: bold ;
-  text-align: center }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em ;
-  border: medium outset ;
-  padding: 1em }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold ;
-  font-family: sans-serif }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: red ;
-  font-weight: bold ;
-  font-family: sans-serif }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-
-div.dedication {
-  margin: 2em 5em ;
-  text-align: center ;
-  font-style: italic }
-
-div.dedication p.topic-title {
-  font-weight: bold ;
-  font-style: normal }
-
-div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-div.footer, div.header {
-  clear: both;
-  font-size: smaller }
-
-div.line-block {
-  display: block ;
-  margin-top: 1em ;
-  margin-bottom: 1em }
-
-div.line-block div.line-block {
-  margin-top: 0 ;
-  margin-bottom: 0 ;
-  margin-left: 1.5em }
-
-div.sidebar {
-  margin: 0 0 0.5em 1em ;
-  border: medium outset ;
-  padding: 1em ;
-  background-color: #ffffee ;
-  width: 40% ;
-  float: right ;
-  clear: right }
-
-div.sidebar p.rubric {
-  font-family: sans-serif ;
-  font-size: medium }
-
-div.system-messages {
-  margin: 5em }
-
-div.system-messages h1 {
-  color: red }
-
-div.system-message {
-  border: medium outset ;
-  padding: 1em }
-
-div.system-message p.system-message-title {
-  color: red ;
-  font-weight: bold }
-
-div.topic {
-  margin: 2em }
-
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
-h1.title {
-  text-align: center }
-
-h2.subtitle {
-  text-align: center }
-
-hr.docutils {
-  width: 75% }
-
-img.align-left, .figure.align-left, object.align-left, table.align-left {
-  clear: left ;
-  float: left ;
-  margin-right: 1em }
-
-img.align-right, .figure.align-right, object.align-right, table.align-right {
-  clear: right ;
-  float: right ;
-  margin-left: 1em }
-
-img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-table.align-center {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.align-left {
-  text-align: left }
-
-.align-center {
-  clear: both ;
-  text-align: center }
-
-.align-right {
-  text-align: right }
-
-/* reset inner alignment in figures */
-div.align-right {
-  text-align: inherit }
-
-/* div.align-center * { */
-/*   text-align: left } */
-
-.align-top    {
-  vertical-align: top }
-
-.align-middle {
-  vertical-align: middle }
-
-.align-bottom {
-  vertical-align: bottom }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em }
-
-ol.arabic {
-  list-style: decimal }
-
-ol.loweralpha {
-  list-style: lower-alpha }
-
-ol.upperalpha {
-  list-style: upper-alpha }
-
-ol.lowerroman {
-  list-style: lower-roman }
-
-ol.upperroman {
-  list-style: upper-roman }
-
-p.attribution {
-  text-align: right ;
-  margin-left: 50% }
-
-p.caption {
-  font-style: italic }
-
-p.credits {
-  font-style: italic ;
-  font-size: smaller }
-
-p.label {
-  white-space: nowrap }
-
-p.rubric {
-  font-weight: bold ;
-  font-size: larger ;
-  color: maroon ;
-  text-align: center }
-
-p.sidebar-title {
-  font-family: sans-serif ;
-  font-weight: bold ;
-  font-size: larger }
-
-p.sidebar-subtitle {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-p.topic-title {
-  font-weight: bold }
-
-pre.address {
-  margin-bottom: 0 ;
-  margin-top: 0 ;
-  font: inherit }
-
-pre.literal-block, pre.doctest-block, pre.math, pre.code {
-  margin-left: 2em ;
-  margin-right: 2em }
-
-pre.code .ln { color: gray; } /* line numbers */
-pre.code, code { background-color: #eeeeee }
-pre.code .comment, code .comment { color: #5C6576 }
-pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
-pre.code .literal.string, code .literal.string { color: #0C5404 }
-pre.code .name.builtin, code .name.builtin { color: #352B84 }
-pre.code .deleted, code .deleted { background-color: #DEB0A1}
-pre.code .inserted, code .inserted { background-color: #A3D289}
-
-span.classifier {
-  font-family: sans-serif ;
-  font-style: oblique }
-
-span.classifier-delimiter {
-  font-family: sans-serif ;
-  font-weight: bold }
-
-span.interpreted {
-  font-family: sans-serif }
-
-span.option {
-  white-space: nowrap }
-
-span.pre {
-  white-space: pre }
-
-span.problematic, pre.problematic {
-  color: red }
-
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
-table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
-
-table.docinfo {
-  margin: 2em 4em }
-
-table.docutils {
-  margin-top: 0.5em ;
-  margin-bottom: 0.5em }
-
-table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em ;
-  padding-right: 0.5em ;
-  vertical-align: top }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: bold ;
-  text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
-
-/* "booktabs" style (no vertical lines) */
-table.docutils.booktabs {
-  border: 0px;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-collapse: collapse;
-}
-table.docutils.booktabs * {
-  border: 0px;
-}
-table.docutils.booktabs th {
-  border-bottom: thin solid;
-  text-align: left;
-}
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100% }
-
-ul.auto-toc {
-  list-style-type: none }
-
-</style>
-</head>
-<body>
-<div class="document" id="sale-commission">
-<h1 class="title">Sale Commission</h1>
-
-<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! This file is generated by oca-gen-addon-readme !!
-!! changes will be overwritten.                   !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!! source digest: sha256:e8b536699010af381340d89d5ab9389e457f757ff56e389a602dd35ff9f8beea
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Mature" src="https://img.shields.io/badge/maturity-Mature-brightgreen.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_commission"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<ul class="simple">
-<li>Features:<ul>
-<li>New technical access group for display margin and purchase price in
-customer invoice</li>
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
+<!-- tb-gen v1 -->
+<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+  <div class="d-flex flex-wrap align-items-center">
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Sale Commission" style="width:80px;height:80px;border:none;"/></span>
+    <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Sale Commission</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Automatic commission calc for your sales team</p>
+      <div>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Sales</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
+      </div>
+    </div>
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 47 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:82%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">82% code coverage</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:#212529;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:#006F42;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:#006F42;">Did this module help you?</span> It is free, built and maintained by the Terrabit developers. If it saved you time, a rating on this page is the best way to say thanks &mdash; and it helps other Odoo users find it too. Thank you for your support!
+  </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<ul>
+<li>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
+<ul>
+<li>New technical access group for display margin and purchase price in customer invoice</li>
 <li>Technical access group to prevent changing price in customer invoice</li>
-<li>New technical access group to allow sale price below the purchase
-price</li>
-<li>Warning/Error on customer invoice if sale price is below the
-purchase price</li>
+<li>New technical access group to allow sale price below the purchase price</li>
+<li>Warning/Error on customer invoice if sale price is below the purchase price</li>
 <li>New report for analysis profitability</li>
-<li>Calculation of sales commissions on sale order salesperson or
-invoice salesperson (configurable)</li>
-<li>Added parameter “deltatech_sale_commission.days_for_commission”, the
-value should be an integer</li>
-<li>When the parameter is set when the commission is calculated, the
-system will check if the invoice is <em>fully paid</em> and if the
-difference between the date of the last payment and the due date is
-less than the value of the parameter</li>
-<li>If the difference is grater than the value of the parameter, the
-commission will be 0</li>
-</ul>
-</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li>Calculation of sales commissions on sale order salesperson or invoice salesperson (configurable)</li>
+<li>Added parameter "deltatech_sale_commission.days_for_commission", the value should be an integer</li>
+<li>When the parameter is set when the commission is calculated, the system will check if the invoice is <em>fully paid</em>
+and if the difference between the date of the last payment and the due date is less than the value of the parameter</li>
+<li>If the difference is grater than the value of the parameter, the commission will be 0</li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
-<p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
-In case of trouble, please check there if your issue has already been reported.</p>
-<p>Do not contact contributors directly about support or help with technical issues.</p>
-</div>
-<div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
-<div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
-<ul class="simple">
-<li>Terrabit</li>
-<li>Dorin Hongu</li>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ul>
+<li><strong>Access rights.</strong> The commission groups are not assigned to anyone on installation, not even the administrator. In <strong>Settings &#8594; Users</strong>, give <strong>Commission Manager</strong> to those who compute commissions and <strong>Commission Viewer</strong> to those who only consult them. Until then, the <em>Commission</em> and <em>Profit Analysis</em> menus are hidden. The viewer group shows cost and margin, so grant it only to people allowed to see costs. To see the cost on invoices, also add the cost group from `deltatech_sale_margin`.</li>
+<li><strong>Who earns the commission.</strong> In <strong>Settings &#8594; Sales &#8594; Invoicing</strong>, set <strong>Salesperson commission compute</strong> to <em>Invoice</em> or <em>Sales Order</em>. Do not enable the standard <em>Commissions</em> option below it: it is a different mechanism.</li>
+<li><strong>Rates.</strong> In <strong>Sales &#8594; Configuration &#8594; Users Commission</strong>, add one row per agent and sales journal, with the agent, manager and director rates as fractions of the profit (0.100 = 10%).</li>
+<li><strong>Payment on time (optional).</strong> In <strong>Settings &#8594; Technical &#8594; System Parameters</strong> (developer mode), create `deltatech_sale_commission.days_for_commission` with the maximum number of days between due date and last payment, as an integer (0 = paid by the due date). Without it, commission is granted whether or not the invoice is paid.</li>
 </ul>
 </div>
-<div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
-<p>Current maintainer:</p>
-<p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
-<p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_commission">dhongu/deltatech</a> project on GitHub.</p>
-<p>You are welcome to contribute.</p>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, see <em>Configuration</em> for access groups, agent rates and the optional payment-delay limit.</p>
+<p><strong>Step 1 &#8212; Choose who earns the commission</strong></p>
+<p>Go to <strong>Settings &#8594; Sales</strong>, section <strong>Invoicing</strong>, option <strong>Salesperson commission compute</strong>. Choose <strong>Invoice</strong> (the agent set on the invoice) or <strong>Sales Order</strong> (the agent of the order the line was invoiced from), then click <strong>Save</strong>. Decide this at implementation time: changing it later reassigns all existing lines, including commissions already paid.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Setting that decides which agent earns the commission" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_settings_agent.png" /></p>
+<p><strong>Step 2 &#8212; Set the rates per agent</strong></p>
+<p>Go to <strong>Sales &#8594; Configuration &#8594; Users Commission</strong>. The list is editable in place. For each agent enter the agent rate, the sales manager and director with their own rates, and the sales journal. Rates are fractions of the profit: 0.100 means 10%. The journal is mandatory, and an agent can have only one row per journal.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission rates per agent, manager and director" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_agent_rates.png" /></p>
+<p><strong>Step 3 &#8212; Check the cost on the customer invoice</strong></p>
+<p>On the customer invoice, the <strong>Cost Price</strong> column shows the unit cost of the goods next to the <strong>Price</strong>. It is computed automatically:
+- from the <strong>delivery</strong> of the invoiced order (value of the stock move to the customer divided by quantity);
+- for kit products, from the delivered components;
+- for invoices without an order or delivery, from the product cost;
+- for credit notes, from the <strong>goods return</strong>. Without a return, a reversal of the invoice takes the cost of the invoice line (invoice and reversal net to zero profit), while a price or discount reduction has cost 0.</p>
+<p>The column is visible only to users in the cost group from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin</code>. If your company uses the <strong>Block sale</strong> policy, a draft invoice with a price below cost cannot be saved.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Customer invoice with the cost price on each line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_invoice_cost_price.png" /></p>
+<p><strong>Step 4 &#8212; Analyse the profit</strong></p>
+<p>Go to <strong>Sales &#8594; Reporting &#8594; Profit Analysis</strong>. The pivot opens on last month, grouped by product. Each row shows the sale value, cost value, profit value, <strong>Markup</strong> (profit / cost) and <strong>Margin</strong> (profit / sale). Regroup by agent, category, customer, invoice, journal or month. Totals recalculate markup and margin from the sums. Use <strong>Insert in Spreadsheet</strong> or the export to take the table to Excel. Credit notes reduce both sale and cost.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Profit analysis report" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_profit_report.png" /></p>
+<p><strong>Step 5 &#8212; Review the commissions to compute</strong></p>
+<p>Go to <strong>Sales &#8594; Orders &#8594; Commission &#8594; Commission</strong>. The list opens on last month and only on <strong>paid</strong> invoices (including <em>In payment</em>); remove the <em>Paid</em> filter to see unpaid ones as well. Each line shows the invoice, product, agent, customer, sale, cost, profit, <strong>Computed commission</strong> (agent rate &#215; profit), <strong>Real commission</strong> (initially 0) and <strong>Commission paid</strong>. Manager and director commissions are optional columns and are informative only.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission list before the calculation" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_list_before.png" /></p>
+<p><strong>Step 6 &#8212; Compute the commissions</strong></p>
+<p>Select the lines and choose <strong>Actions &#8594; Compute Commission</strong>. The wizard lists the selected lines. Click <strong>Apply</strong>. <strong>Real commission</strong> becomes:
+- the computed commission, if the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_commission.days_for_commission</code> parameter is not set;
+- with the parameter: 0 if the invoice is not fully paid or was paid later than that number of days after the due date, otherwise the computed commission;
+- for credit notes: always the computed commission, which is negative and reduces the agent's total.</p>
+<p>Only the agent's commission is written; manager and director amounts stay informative.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Compute Commission wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_compute_wizard.png" /></p>
+<p><strong>Step 7 &#8212; Review the result</strong></p>
+<p>After <strong>Apply</strong>, the list opens on the computed lines. Compare <strong>Computed commission</strong> with <strong>Real commission</strong>: every line with real commission 0 is an unpaid invoice or one paid after the limit, and the difference between the totals is the amount lost to late payment. If needed, correct <strong>Real commission</strong> manually before payment: open the row and edit the field in the form.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commissions after the calculation" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_list_after.png" /></p>
+<p><strong>Step 8 &#8212; Mark commissions as paid</strong></p>
+<p>After the agent has been paid (outside this module), select the lines and click <strong>Set Paid</strong> in the list header. The filters <strong>Commission not paid</strong> and <strong>Commission paid</strong> then separate what is settled from what is still due.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission marked as paid" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_marked_paid.png" /></p>
+<p><strong>Step 9 &#8212; Recompute the cost when needed</strong></p>
+<p>If a line cost is wrong (for example the delivery was validated after invoicing), select the lines and choose <strong>Actions &#8594; Update Purchase Price</strong>:
+- <strong>Price from delivery</strong> (default) recomputes the cost from the delivery, falling back to the product cost;
+- unchecked, it takes the current product cost;
+- <strong>For all lines</strong> applies to every line in the report, not only the selected ones.</p>
+<p>Profit and computed commission update immediately; <strong>Real commission</strong> stays as set until you compute again (Step 6). A scheduled action also refreshes the cost of lines invoiced in the last 7 days every day.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Update Purchase Price wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_commission/commission_update_cost_wizard.png" /></p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.6.3 (2026-10-10)</h2>
+<ul>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.6.2 (2026-10-03)</h2>
+<ul>
+<li>COMMISSION-003 (security): the commission rates (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.users</code>) had no company rule, so a Commission Manager allowed only in company A could read, change, delete or create the rates of company B (salesperson, manager and director rates). A multi-company record rule now limits the rates to the allowed companies, and moving a rate to another company requires access to that company.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.6.1 (2026-10-01)</h2>
+<ul>
+<li>Margin report: the quantity of an invoice line in another unit than the product
+  unit is converted with the right ratio. Two dozen of a product sold by the unit
+  now show as 24 units (they showed as 1/6). Refunds keep their sign. The SQL
+  view is built with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SQL()</code>.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.6.0 (2026-09-24)</h2>
+<p>Fixes from the consultant sheet audit:</p>
+<ul>
+<li>Rights: the commission and cost wizards (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.compute</code>,
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.update.purchase.price</code>) and their <em>Actions</em> entries are limited to
+  <em>Commission Manager</em>. <strong>Apply</strong> now works for a Commission Manager without an
+  invoicing right: the wizard checks the group and writes the commission with
+  sudo. Writes on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin.report</code> go through the access check, so a
+  <em>Commission Viewer</em> can no longer mark a commission paid or change it; the
+  <em>Set Paid</em> button is shown to managers only.</li>
+<li>A write on the margin report no longer puts the product cost on a line whose
+  cost is 0 (it did so even on <em>Set Paid</em>).</li>
+<li>Cost of a credit note line without a return of goods: a reversal of the invoice
+  (same product, unit and price, for all or part of the quantity) keeps the unit
+  cost of the invoice line, so the pair nets to a zero profit, as before. A line
+  whose price or discount was changed (a price reduction), or a credit note that
+  reverses no invoice, has cost 0. It used to get the product cost, or keep the
+  copied invoice cost after the price was edited, and could produce a positive
+  profit and commission. The cost is recomputed when the price or the discount
+  changes; because <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Cost Price</code> is a computed field, a cost typed in by hand on a
+  <strong>draft</strong> line is lost when the price is changed afterwards, as it already was
+  when the product was changed. The update wizard and the daily cron read the
+  same rule (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line._purchase_price_from_document</code>) but do not write
+  the same way, on purpose: the wizard is run by hand and <em>resets</em> the cost, 0
+  included, which is how a credit note wrongly costed in the past gets corrected;
+  the cron runs unattended over a whole week of invoicing and only <em>fills in</em> a
+  missing cost, so that it can never silently undo a cost set by hand.</li>
+<li>Careful with <strong>Update purchase price &#8594; for all</strong> after the upgrade: the rule
+  for the cost of a credit note changed, so running it over the whole history
+  rewrites the cost of the old credit notes, and with it the profit already
+  reported for those months. It is the correction the audit asked for, but it
+  changes figures the client has already seen &#8212; agree on it first.</li>
+<li>Changing <em>Salesperson commission compute</em> rebuilds the report after the setting
+  is saved; the onchange rebuilt it with the old value.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.users</code>: the journal is required (sales journals only; the domain
+  used the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_refund</code> type, gone in Odoo 19) and (salesperson, journal,
+  company) is unique, so the report lines are no longer duplicated. The
+  migration fills the journal where the company has a single sales journal, one
+  row per salesperson and only if the salesperson has no row on that journal yet
+  (so it creates no duplicates), and logs the rows left without journal and the
+  duplicates with different rates, to be cleaned up by hand; exact duplicates are
+  deleted. The margin report takes at most one rate row per invoice line (the
+  oldest), so a duplicate left in the data can no longer double the sale, cost,
+  profit and commission, and the ORM refuses a new duplicate even where the
+  unique index could not be created yet. Before upgrading a production
+  database, run <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scripts/sale_commission_precheck_1_6_0.py</code> (read-only) to see
+  what changes for the client.</li>
+<li>The margin report also matches the rate on the <strong>company</strong>, which it did not do
+  before: a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.users</code> row filed under a company other than the one of
+  its journal used to apply and would now be ignored, taking a salesperson's
+  commission away with nothing on screen to say why. The migration moves such a
+  row onto the company of its journal, so nothing changes for it, and reports the
+  ones it can not move (the salesperson already has a row there). A new row can
+  no longer be created with the wrong company, by the form or by an import.</li>
+<li>Invoices <em>In Payment</em> count as paid for the commission, and the wizards opened
+  without a selection list the paid lines without commission (the default filter
+  used a non-existent invoice state); the <em>Paid</em> filter includes them too.
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">days_for_commission = 0</code> now means "paid at
+  the latest on the due date"; only a missing or empty parameter disables the
+  condition. A non-numeric or negative value is refused. Because that default
+  selection now really returns something &#8212; it used to be empty on every database
+  &#8212; <em>Compute commission</em> writes the lines grouped by the value it sets, one write
+  per distinct commission instead of one per line.</li>
+<li>Removed the unused <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.commission.condition</code> model.</li>
+<li>The <em>Commission</em> list no longer shows <em>Due Date</em> twice.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.5.2 (2026-09-23)</h2>
+<ul>
+<li>Translatable strings in code use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env._()</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_()</code>, the Odoo 19
+  convention (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prefer-env-translation</code>). The translated messages are
+  unchanged.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.5.0 (2026-08-20)</h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line._check_sale_price</code> now honours the company policy
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.company.sale_margin_check_mode</code> from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin</code>. It used to
+  raise unconditionally, which meant a company allowed to sell below cost would
+  pass the sale order and then hit the wall at invoicing &#8212; once the goods were
+  already delivered. The constraint still blocks in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> mode, which stays the
+  default.</li>
+</ul>
 </div>
 </div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-6">
+    <div class="border rounded-3 px-4 py-2 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded-3 px-4 py-2 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
 </div>
-</body>
-</html>
+
+
+<div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Questions about this module, or need it adapted to your processes?
+     Write to us &mdash; the developers who build it will answer.</p>
+  <a href="mailto:support@terrabit.ro" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#DEF1DD;color:#00432a;padding:14px 32px;font-size:15px;">Terrabit support &rarr;</a>
+</div>
+
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Edit Currency Rate</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_alternative" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_alternative/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_discount_policy" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_discount_policy/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Discount Policy</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Bring back Odoo 17 discount policy</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_fast_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">FS</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_fast_sale/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Fast Sale</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm, deliver and invoice a sale order in one click</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_picking/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create invoices directly from stock pickings or batch transfers</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking_automatically" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_invoice_picking_automatically/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings Automatically</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generate invoice automatically from picking after validation</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Currency Extension</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set the product list price in a currency other than the company&#x27;s</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist_line_viewer" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist_line_viewer/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Line Viewer</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Creates a list view for the lines of a price list for search and management</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>

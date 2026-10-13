@@ -1,0 +1,6 @@
+{
+  "title": "Sale Payment",
+  "summary": "Register & track payments on sale orders",
+  "icon": "bag",
+  "features": ["Payment button on sale order", "Track payment status (partial/done)", "Generate & send payment link"]
+}

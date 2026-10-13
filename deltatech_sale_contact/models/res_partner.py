@@ -11,11 +11,15 @@ class Partner(models.Model):
 
     contact_default = fields.Boolean(string="Contact Default", default=False)
     print_green_invoice = fields.Boolean(
-        "Green Invoice", default=False, help="If checked, the invoice will not be printed."
+        "Green Invoice",
+        default=False,
+        help="Informative flag: the partner prefers paperless invoices. "
+        "It does not change the behavior of the Send & Print wizard.",
     )
 
     def address_get(self, adr_pref=None):
         res = super().address_get(adr_pref)
+        adr_pref = set(adr_pref or [])
         if "delivery" in adr_pref:
             for partner in self:
                 for child_id in partner.child_ids.filtered(lambda x: x.type == "delivery"):

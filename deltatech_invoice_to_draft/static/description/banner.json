@@ -1,0 +1,10 @@
+{
+  "title": "Invoice to Draft",
+  "summary": "Restricted reset of journal entries to draft",
+  "icon": "file",
+  "features": [
+    "\"Reset To Draft\" only for an allowed group",
+    "New \"Cancel Entry\" button",
+    "Works on any account move"
+  ]
+}

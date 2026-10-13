@@ -1,0 +1,22 @@
+{
+    "name": "Incoming and Outgoing Document Register",
+    "summary": "Register of incoming and outgoing documents",
+    "category": "Productivity",
+    "version": "19.0.0.1.1",
+    "author": "Terrabit, Voicu Stefan",
+    "depends": ["base", "mail"],
+    "website": "https://www.terrabit.ro",
+    "license": "OPL-1",
+    "data": [
+        "security/ledger_security.xml",
+        "security/ir.model.access.csv",
+        "data/ir_sequence_data.xml",
+        "views/ledger_view.xml",
+        "wizard/ledger_wizard_views.xml",
+        "report/ledger_report.xml",
+    ],
+    "images": ["static/description/main_screenshot.png"],
+    "development_status": "Beta",
+    "maintainers": ["VoicuStefan2001"],
+    "application": True,
+}

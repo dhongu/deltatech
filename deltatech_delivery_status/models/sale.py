@@ -2,13 +2,17 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    postponed_delivery = fields.Boolean(string="Postponed delivery", compute="_compute_postponed_delivery")
+    postponed_delivery = fields.Boolean(
+        string="Postponed delivery",
+        compute="_compute_postponed_delivery",
+        search="_search_postponed_delivery",
+    )
 
     def postpone_delivery(self):
         pickings = self.env["stock.picking"]
@@ -29,9 +33,25 @@ class SaleOrder(models.Model):
             pickings |= order.picking_ids
         pickings.write({"postponed": False})
 
+    @api.depends("picking_ids.postponed")
     def _compute_postponed_delivery(self):
         for order in self:
-            order.postponed_delivery = any([p.postponed for p in order.picking_ids])
+            order.postponed_delivery = any(p.postponed for p in order.picking_ids)
+
+    def _search_postponed_delivery(self, operator, value):
+        """Face câmpul căutabil, deși e calculat și nestocat.
+
+        Fără asta nu se poate construi nici filtru predefinit, nici filtru
+        personalizat din interfață pe „Livrare amânată" — iar comenzile cu
+        livrarea amânată devin practic imposibil de găsit de operatori.
+        Se traduce în livrări, unde `postponed` e câmp stocat.
+        """
+        if operator not in ("=", "!=") or not isinstance(value, bool):
+            # in / not in: Odoo 19 retries the search with = / != for each value
+            raise NotImplementedError(self.env._("Unsupported search on Postponed delivery"))
+        positive = (operator == "=") == value
+        domain = [("picking_ids.postponed", "=", True)]
+        return domain if positive else [("id", "not in", self.search(domain).ids)]
 
     def _action_confirm(self):
         res = super()._action_confirm()
@@ -39,10 +59,14 @@ class SaleOrder(models.Model):
             tx = order.sudo().transaction_ids._get_last()
             if not tx and order.sudo().transaction_ids:
                 tx = order.sudo().transaction_ids[-1]
-            if tx and tx.provider_id.postponed_delivery:
+            # a payment already done (e.g. the order is confirmed by the payment post-processing,
+            # after _set_done) has nothing left to wait for: _set_done will not run again
+            if not tx or tx.state == "done":
+                continue
+            if tx.provider_id.postponed_delivery:
                 order.postpone_delivery()
             if order.team_id.postpone_payment_transfer:
-                if tx and tx.provider_id.custom_mode == "wire_transfer":
+                if tx.provider_id.custom_mode == "wire_transfer":
                     order.postpone_delivery()
 
         return res

@@ -88,6 +88,28 @@ class TestRal(TransactionCase):
                     move.product_id.id, self.product_ral_red.id, "Componenta RAL ar fi trebuit înlocuită la creare"
                 )
 
+    def test_05_substitution_survives_recompute(self):
+        """RAL substituit trebuie să reziste recalculării componentelor (O19: move_raw_ids calculat)"""
+        production = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_finished_variant.id,
+                "bom_id": self.bom.id,
+                "product_qty": 1.0,
+            }
+        )
+        production.ral_id = self.product_ral_red
+        production.onchange_ral_id()
+        # Modificarea cantității retrigăruiește _compute_move_raw_ids și regenerează componentele
+        production.product_qty = 5.0
+        ral_moves = production.move_raw_ids.filtered(lambda m: m.bom_line_id.product_id == self.product_ral_0000)
+        self.assertTrue(ral_moves, "Ar fi trebuit să existe o mișcare pentru componenta RAL")
+        for move in ral_moves:
+            self.assertEqual(
+                move.product_id.id,
+                self.product_ral_red.id,
+                "Substituția RAL trebuie păstrată după recalcularea componentelor",
+            )
+
     def test_04_action_generate_serial(self):
         """Test propagarea RAL către lot"""
         production = self.env["mrp.production"].create(

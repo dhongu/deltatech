@@ -1,0 +1,19 @@
+# 19.0.1.1.1
+
+- Own module icon, instead of the generic gears it had.
+
+# History
+
+## 19.0.1.1.0 (2026-09-26)
+
+- An invalid `?order=` on the shop (unknown field, non-sortable field or
+  malformed clause, e.g. `?order=1034054500` sent by crawlers) now returns
+  `404` instead of a `500` with a `ValueError: Invalid field` traceback.
+
+## 19.0.1.0.0 (2026-07-30)
+
+- Initial release. Shop listing pages beyond the last real one now return
+  `404` instead of being silently clamped to the last page by
+  `portal.controllers.portal.pager`, which made every `/shop/page/N` answer
+  `200` with duplicate content and left crawlers walking the page number
+  upwards without end.

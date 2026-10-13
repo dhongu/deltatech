@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="uom_uom_view_form_inherit" model="ir.ui.view">
+        <field name="name">uom.uom.form.unece</field>
+        <field name="model">uom.uom</field>
+        <field name="inherit_id" ref="uom.product_uom_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Ancorat pe grup, nu pe `relative_factor`: acesta stă într-un
+                 <div class="o_row">, iar un `position="after"` pe el ar băga
+                 câmpul pe aceeași linie cu factorul de conversie. -->
+            <xpath expr="//group[@name='uom_details']" position="inside">
+                <field name="unece_code_id" groups="base.group_system"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="uom_uom_view_list_inherit" model="ir.ui.view">
+        <field name="name">uom.uom.list.unece</field>
+        <field name="model">uom.uom</field>
+        <field name="inherit_id" ref="uom.product_uom_tree_view"/>
+        <field name="arch" type="xml">
+            <!-- Opțională: ascunsă până o cere utilizatorul, dar disponibilă
+                 pentru completarea în masă, care e cazul obișnuit la punerea
+                 în funcțiune. -->
+            <field name="relative_uom_id" position="after">
+                <field name="unece_code_id" optional="hide" groups="base.group_system"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

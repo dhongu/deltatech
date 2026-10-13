@@ -73,6 +73,9 @@
                 />
                 <filter string="Available" domain="[('available_state', '=', 'available')]" name="available" />
                 <filter string="Unavailable" domain="[('available_state', '=', 'unavailable')]" name="unavailable" />
+                <separator />
+                <!-- transferurile amânate nu se pot valida; fără filtru nu se pot găsi -->
+                <filter string="Postponed" domain="[('postponed', '=', True)]" name="postponed" />
             </xpath>
 
             <xpath expr="//group/filter[@name='status']" position="after">

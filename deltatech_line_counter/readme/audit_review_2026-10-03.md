@@ -1,0 +1,3 @@
+# Integrated source review — 2026-10-03
+
+Entire eligible source plus auxiliary ACL CSV read. Wizard restricted to system group; selected ir.module.module technical names resolved through native modules.get_module_path. Counts nonblank Python/XML/JS/CSS/SCSS physical lines, excludes directories named tests and skips unreadable files as implemented. This is a simple code-line count, not semantic coverage; no audit-equivalence inferred. HTML result is a default sanitized Html field, so unescaped module descriptions are not asserted as executable XSS. Markup-like names can affect presentation; no malicious input/browser test. No new confirmed defect. No module counting runtime or database/UI tests executed.

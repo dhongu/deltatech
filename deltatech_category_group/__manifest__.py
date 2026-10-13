@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Category Group",
+    "name": "Internal Category Groups",
     "summary": "Groups for internal categories",
-    "version": "19.0.0.0.3",
+    "version": "19.0.0.0.7",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Other",

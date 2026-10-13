@@ -9,6 +9,11 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
+    hide_out_of_stock_message = fields.Boolean(
+        string="Hide Out-of-Stock Message",
+        help="Do not show the 'Out of stock' website message for this product, "
+        "even when it has no own or vendor availability.",
+    )
 
     def _get_combination_info(
         self,
@@ -29,6 +34,11 @@ class ProductTemplate(models.Model):
         if not self.env.context.get("website_sale_stock_get_quantity"):
             return combination_info
 
+        if "free_qty" not in combination_info and combination_info.get("product_id"):
+            product = self.env["product.product"].sudo().browse(combination_info["product_id"])
+            website = self.env["website"].get_current_website()
+            combination_info["free_qty"] = website._get_product_available_qty(product)
+
         combination_info["lead_time"] = 0
         if combination_info["product_id"]:
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
@@ -40,6 +50,8 @@ class ProductTemplate(models.Model):
             combination_info["sale_delay_safety"] = product.sale_delay_safety
             combination_info["purchase_lead_time"] = company_lead_time + supplier_lead_time
             combination_info["availability_vendor"] = availability_vendor
+            combination_info["product_template"] = self.id
+            combination_info["hide_out_of_stock_message"] = self.hide_out_of_stock_message
             if (
                 product.seller_ids
                 and product.seller_ids[0].date_start

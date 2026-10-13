@@ -1,0 +1,7 @@
+{
+  "title": "Product Website Visibility",
+  "summary": "A 0-100 score for how findable each product is",
+  "icon": "trend",
+  "features": ["Traffic-light score on product", "Breakdown of missing criteria", "Filter and group by level"],
+  "lang": "en"
+}

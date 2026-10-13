@@ -4,8 +4,8 @@
 
 {
     "name": "Sale Team Access",
-    "summary": "Sale Team Access",
-    "version": "19.0.1.0.2",
+    "summary": "Restrict users to their own sales team, with a default warehouse per team",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

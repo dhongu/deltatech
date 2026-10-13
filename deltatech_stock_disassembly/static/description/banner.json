@@ -1,0 +1,7 @@
+{
+  "title": "Free Disassembly",
+  "summary": "Disassembly report without bill of materials",
+  "icon": "scissors",
+  "features": ["Actual cost of the source", "Cost allocation with rounding", "One journal entry per report"],
+  "lang": "en"
+}

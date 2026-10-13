@@ -1,0 +1,411 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_replenishment_explain
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"%(qty)s %(uom)s of demand is scheduled after the lead horizon (%(date)s) and"
+" is NOT counted in the forecast. If it falls due before a replenishment "
+"arrives, you can stock out. Increase the Replenishment Horizon (currently "
+"%(horizon)s days) to make it visible."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "(overridden in the replenishment view)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid ""
+"),\n"
+"                i.e. today + lead time + horizon. Demand/receipts up to that date are counted."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "+ Replenishment Horizon"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "+ Scheduled receipts (≤ horizon)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid ", Max"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid ", so the rule orders <b>nothing</b>."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid ""
+".\n"
+"                The horizon is what makes future demand visible to the forecast."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "1 · How the forecast was built"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "2 · Why this quantity"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "3 · Lead time &amp; horizon"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "4 · Where it may lose"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "<span class=\"fw-bold\">To order now</span>"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "= Forecast"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "= Lead horizon date"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "= Raw need"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"A manual To Order quantity (%(manual)s) is set, overriding the computed "
+"%(computed)s."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid ""
+"A manual To Order quantity is set and overrides the computed value above."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.view_stock_replenishment_explanation_form
+msgid "Close"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "Demand beyond the horizon is invisible"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__display_name
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_warehouse_orderpoint__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__explanation_html
+msgid "Explanation Html"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__qty_forecast
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Forecast"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"Forecast (%(forecast)s) is at or above Min (%(min)s), so nothing is ordered "
+"— but a deadline of %(deadline)s was found. A future arrival is likely "
+"expected only after stock dips below Min. Check the Forecast Report."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Horizon"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__id
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_warehouse_orderpoint__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Lead time"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "Manual quantity override"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Max"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Min"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model,name:deltatech_replenishment_explain.model_stock_warehouse_orderpoint
+msgid "Minimum Inventory Rule"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"No stock rule resolves for this product at this location, so nothing can be "
+"procured even when stock is needed. Check the product's routes."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"No supplier is configured, so Odoo injects a %(days)s-day lead time. This "
+"pushes the forecast horizon a year out and usually distorts the quantity. "
+"Set a vendor on the product."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "No supply route / rule"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "No vendor found"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "No visibility or horizon issues detected"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "On hand (now)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.view_stock_replenishment_explanation_form
+msgid "Open Forecast Report"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__orderpoint_id
+msgid "Orderpoint"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "Potential stockout despite no order"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__product_id
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Quantity (UoM)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model,name:deltatech_replenishment_explain.model_stock_replenishment_explanation
+msgid "Replenishment Explanation"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "Rounded up to a multiple"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Rounded up to multiple of '"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "Snoozed"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Stock projected at the <b>lead horizon</b> ("
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Target — max(Min"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"The forecast window covers the scheduled demand and a supply route is "
+"available."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid ""
+"The raw need (%(raw)s) was rounded up to %(rounded)s to respect the multiple"
+" '%(multiple)s' (+%(extra)s %(uom)s)."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+msgid "This rule is snoozed until %(date)s and will be skipped until then."
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__qty_to_order
+msgid "To Order"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "Today"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model:ir.model.fields,field_description:deltatech_replenishment_explain.field_stock_replenishment_explanation__warehouse_id
+msgid "Warehouse"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#. odoo-python
+#: code:addons/deltatech_replenishment_explain/models/stock_orderpoint.py:0
+#: model:ir.actions.server,name:deltatech_replenishment_explain.action_explain_replenishment_server
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.view_warehouse_orderpoint_form_explain
+msgid "Why this replenishment?"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "day(s)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "is <b>at or above</b> Min"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "is <b>below</b> Min"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "lead time"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "max(Min, Max) ="
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "± In progress (POs/MOs not yet moves)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "→ replenish up to"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "− Forecast"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "− Scheduled demand (≤ horizon)"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "▆ Forecast"
+msgstr ""
+
+#. module: deltatech_replenishment_explain
+#: model_terms:ir.ui.view,arch_db:deltatech_replenishment_explain.replenishment_explanation
+msgid "▆ To order"
+msgstr ""

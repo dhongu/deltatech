@@ -54,7 +54,14 @@ patch(CustomerAddress.prototype, {
         const stateId = this.elementState.value;
         let choices = [];
         if (stateId) {
-            const data = await this.waitFor(rpc(`/portal/state_infos/${stateId}`, {}));
+            // The address type tells the server whether the courier's locality
+            // catalog applies: it only restricts the delivery address.
+            const data = await this.waitFor(
+                rpc(`/portal/state_infos/${stateId}`, {
+                    address_type: this.addressForm.address_type?.value || "billing",
+                    use_delivery_as_billing: this.addressForm.use_delivery_as_billing?.value || false,
+                })
+            );
             choices = data.cities;
         }
         this._changeOption(this.elementCities, choices);

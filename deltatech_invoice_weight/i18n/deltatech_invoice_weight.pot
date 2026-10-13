@@ -1,0 +1,114 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_invoice_weight
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_weight.report_invoice_document_weight
+msgid ""
+"<br/>\n"
+"                <strong>New weight:</strong>"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_weight.report_invoice_document_weight
+msgid "<strong>Gross weight:</strong>"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_bank_statement_line__weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_move__weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_purchase_order__weight_gross
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_sale_order__weight_gross
+msgid "Gross Weight"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model,name:deltatech_invoice_weight.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_product_product__l10n_ro_net_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_product_template__l10n_ro_net_weight
+msgid "L10N Ro Net Weight"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_bank_statement_line__weight_net
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_move__weight_net
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_purchase_order__weight_net
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_sale_order__weight_net
+msgid "Net Weight"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_bank_statement_line__weight_package
+#: model:ir.model.fields,field_description:deltatech_invoice_weight.field_account_move__weight_package
+msgid "Package Weight"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model,name:deltatech_invoice_weight.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model,name:deltatech_invoice_weight.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model,name:deltatech_invoice_weight.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_account_bank_statement_line__weight
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_account_move__weight
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_purchase_order__weight_gross
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_sale_order__weight_gross
+msgid "The gross weight in Kg."
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_account_bank_statement_line__weight_net
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_account_move__weight_net
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_purchase_order__weight_net
+#: model:ir.model.fields,help:deltatech_invoice_weight.field_sale_order__weight_net
+msgid "The net weight in Kg."
+msgstr ""
+
+#. module: deltatech_invoice_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_weight.view_purchase_form
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_weight.view_sale_form
+msgid "Weight"
+msgstr ""

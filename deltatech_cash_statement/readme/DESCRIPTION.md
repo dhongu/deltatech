@@ -1,29 +1,20 @@
-Cash Statement Extension
-========================
+This module keeps the balances of cash statements consistent with the
+accounting, and books a counted cash difference as a dated entry instead of
+silently overwriting a balance.
 
-This module provides a utility for easily updating cash balances within Odoo's bank statement records. It's particularly useful for accounting managers who need to make adjustments to starting balances on cash statements to ensure financial records are accurate.
+**✨ Key features:**
 
-Features
-========
-
-1.  **Quick Balance Update**:
-    *   Adds a dedicated wizard to update the starting balance of selected cash statements.
-    *   Allows users to set a specific starting balance in a simple interface.
-
-2.  **Integrated Accounting Workflow**:
-    *   Seamlessly integrates with the standard Odoo bank statement model.
-    *   Accessible directly from the bank statement list view via the **Action** menu.
-
-3.  **Data Integrity**:
-    *   Designed for accounting professionals to help resolve discrepancies in cash registers.
-
-Usage
-=====
-
-1.  Navigate to **Accounting > Dashboards** or **Invoicing > Dashboards**.
-2.  Go to a **Cash** journal and open the list of its statements.
-3.  Select one or more statements you wish to update.
-4.  From the **Action** menu, select **Cash Update Balances**.
-5.  In the wizard that appears:
-    *   Enter the correct **Balance Start**.
-    *   Click the **Apply** button to update the selected statements.
+- A wizard on the bank statement list (**Action → Cash Update Balances**) with
+  two modes:
+  - **Align with the accounting balance**: the starting balance of the first
+    selected statement becomes the balance of the cash account from the posted
+    entries dated before it, and each following statement starts from the real
+    ending balance of the previous one. No journal entry is created.
+  - **Register a cash difference**: when the counted cash differs from the
+    accounting balance, a statement line dated on the inventory date books the
+    difference on the income account (surplus) or the expense account
+    (shortage). On a Romanian company the defaults are 7588 and 6588; elsewhere
+    the cash difference accounts of the journal. The account can be changed,
+    e.g. to 4282 when the shortage is charged to the cashier.
+- The difference is never hidden: a statement balance that does not match the
+  cash account can only be corrected through a dated, documented entry.

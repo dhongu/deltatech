@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_move_line_rates_list" model="ir.ui.view">
+        <field name="name">account.move.line.rates.list</field>
+        <field name="model">account.move.line</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account.view_move_line_tree" />
+        <field name="arch" type="xml">
+            <field name="date_maturity" position="attributes">
+                <attribute name="optional">show</attribute>
+            </field>
+            <field name="balance" position="attributes">
+                <attribute name="optional">show</attribute>
+            </field>
+            <field name="amount_residual" position="attributes">
+                <attribute name="optional">show</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!-- The domain is set by view_rate() on account.move and res.partner -->
+    <record id="action_account_moves_sale" model="ir.actions.act_window">
+        <field name="name">Rates</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_move_line_rates_list" />
+        <field name="search_view_id" ref="account.view_account_move_line_filter" />
+        <field name="context">{'expand': True}</field>
+    </record>
+
+</odoo>

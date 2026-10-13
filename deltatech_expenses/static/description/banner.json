@@ -1,0 +1,11 @@
+{
+  "title": "Expenses Deduction",
+  "summary": "Cash advances on account 542",
+  "icon": "bag",
+  "features": [
+    "Advance booked on employee account 542",
+    "Receipts and per diem as report lines",
+    "Difference returned or paid via cash"
+  ],
+  "lang": "en"
+}

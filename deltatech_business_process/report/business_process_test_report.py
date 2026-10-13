@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.tools import SQL
 
 
 class BusinessProcessTestReport(models.Model):
@@ -12,6 +13,7 @@ class BusinessProcessTestReport(models.Model):
 
     project_id = fields.Many2one(string="Project", comodel_name="business.project", required=True)
     process_id = fields.Many2one("business.process", string="Business process", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
     step_id = fields.Many2one(string="Step", comodel_name="business.process.step", readonly=True)
     process_test_id = fields.Many2one(string="Process Test", comodel_name="business.process.test", readonly=True)
     process_step_test_id = fields.Many2one(
@@ -97,13 +99,21 @@ class BusinessProcessTestReport(models.Model):
 
     @property
     def _table_query(self):
-        return f"{self._select()} {self._from()} {self._where()} {self._order_by()}"
+        return SQL(
+            "%s %s %s %s",
+            SQL(self._select()),
+            SQL(self._from()),
+            SQL(self._where()),
+            SQL(self._order_by()),
+        )
 
     @api.model
     def _select(self):
+        # One row per step test (bpst): the step id repeats across test runs,
+        # so it cannot be the row id.
         return """
             SELECT
-                bps.id AS id,
+                bpst.id AS id,
                 bp.id AS process_id,
                 bp.project_id AS project_id,
                 bps.id AS step_id,
@@ -132,7 +142,8 @@ class BusinessProcessTestReport(models.Model):
                 bpst.data_result AS data_result,
                 bpst.date_start AS date_start,
                 bpst.date_end AS date_end,
-                bpst.count_issues AS count_issues
+                bpst.count_issues AS count_issues,
+                bp.company_id AS company_id
 
 
         """

@@ -4,8 +4,8 @@
 
 {
     "name": "Website Phone Validation",
-    "summary": "Phone Validation",
-    "version": "19.0.1.0.0",
+    "summary": "Validate phone numbers in eCommerce checkout and portal",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "external_dependencies": {"python": ["phonenumbers"]},

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_visibility_criterion_user,deltatech.product.visibility.criterion.user,model_deltatech_product_visibility_criterion,base.group_user,1,0,0,0
+access_visibility_criterion_manager,deltatech.product.visibility.criterion.manager,model_deltatech_product_visibility_criterion,base.group_system,1,1,1,1

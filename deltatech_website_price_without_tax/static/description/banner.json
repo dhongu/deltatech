@@ -1,0 +1,10 @@
+{
+  "title": "Price Without Tax on Website",
+  "summary": "Show tax-excluded prices on your eCommerce product pages",
+  "icon": "globe",
+  "features": [
+    "Display price excl. tax on product page",
+    "Base unit price without tax widget",
+    "Works with all tax configurations"
+  ]
+}

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+order_phase_manager,access.purchase.order.phase.manager,model_purchase_order_phase,purchase.group_purchase_manager,1,1,1,1
+order_phase_user,access.purchase.order.phase.user,model_purchase_order_phase,base.group_user,1,0,0,0

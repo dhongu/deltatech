@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_form_view_secondary_uom" model="ir.ui.view">
+        <field name="name">product.template.form.secondary.uom</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="after">
+                <page name="secondary_uom" string="Alternative Units">
+                    <field name="secondary_uom_ids">
+                        <list editable="bottom">
+                            <field name="uom_qty"/>
+                            <field name="uom_id" options="{'no_create': True}"/>
+                            <field name="base_qty"/>
+                            <field name="base_uom_id"/>
+                            <field name="factor" optional="hide"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -84,6 +84,8 @@ class PurchaseOrder(models.Model):
         all selected Purchase Orders (self). We use the existing transient wizard
         model as an aggregator record to which we attach the combined XLSX and
         individual PO PDFs, then open the composer on that record/template.
+        Nothing is posted and no state changes here: when the email is really sent,
+        the composer calls `_log_sent_email` (see mail_compose_message.py).
         """
         self = self.exists()
         if not self:
@@ -104,14 +106,6 @@ class PurchaseOrder(models.Model):
         else:
             raise UserError(self.env._("You must select exactly one vendor to send the email to."))
         wiz = Wizard.create(wiz_vals)
-
-        # Before composing, mark RFQs as sent by posting a message on each PO
-        for po in pos:
-            po.with_context(mark_rfq_as_sent=True).message_post(
-                body=self.env._("RFQ prepared for sending by email (batch compose)."),
-                message_type="comment",
-                subtype_xmlid="mail.mt_note",
-            )
 
         # Build attachments using purchase.order helper
         attachments = pos._prepare_attachments(attach_combined_xlsx=True, attach_order_pdfs=True)
@@ -139,8 +133,6 @@ class PurchaseOrder(models.Model):
             # Prefer email_to directly to allow free-form addresses
             "default_email_to": wiz.email_to or "",
             "default_partner_ids": [(6, 0, pos.mapped("partner_id").ids)],
-            # Ensure downstream behaviors that look for this flag can still react
-            "mark_rfq_as_sent": True,
         }
         return {
             "type": "ir.actions.act_window",
@@ -150,3 +142,25 @@ class PurchaseOrder(models.Model):
             "target": "new",
             "context": ctx,
         }
+
+    def _log_sent_email(self, message):
+        """Record the batch email on each order (self) and mark the RFQs as sent.
+
+        The composer runs on the aggregator wizard, so the message is not on the
+        orders. Each order gets a note with the same body and its own attachments
+        (the summary and the PDF of the order, not the PDFs of the other orders).
+        """
+        pdf_names = {po.id: "{}.pdf".format((po.name or "").replace("/", "-")) for po in self}
+        for po in self:
+            other_pdfs = {name for po_id, name in pdf_names.items() if po_id != po.id}
+            attachments = message.attachment_ids.filtered(lambda att, other_pdfs=other_pdfs: att.name not in other_pdfs)
+            copies = self.env["ir.attachment"]
+            for att in attachments:
+                copies |= att.copy({"res_model": po._name, "res_id": po.id})
+            po.with_context(mark_rfq_as_sent=True).message_post(
+                body=message.body,
+                subject=message.subject,
+                message_type="comment",
+                subtype_xmlid="mail.mt_note",
+                attachment_ids=copies.ids,
+            )

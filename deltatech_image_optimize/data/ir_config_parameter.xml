@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- JPEG re-encode quality (1..95). 85 = good web quality, strong savings. -->
+    <record id="cp_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- Downscale images whose largest side exceeds this many pixels. -->
+    <record id="cp_max_dim" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.max_dim</field>
+        <field name="value">1920</field>
+    </record>
+
+    <!-- Only consider originals larger than this many bytes (100 KB). -->
+    <record id="cp_min_size" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.min_size</field>
+        <field name="value">102400</field>
+    </record>
+
+    <!-- How many images to process per cron run. Keep this low: a large
+         batch of big/high-res images can exceed the worker's time/CPU limit,
+         which raises an exception mid-loop that looks identical to a normal
+         per-image failure: the remaining images in that batch get silently
+         flagged as processed without actually being optimized. Tune upward
+         cautiously and verify converted images actually shrank before
+         trusting a higher value. -->
+    <record id="cp_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.batch</field>
+        <field name="value">50</field>
+    </record>
+
+    <!-- Flush + drop the ORM cache every N images. Lower it (2-3) for very
+         high-resolution images (e.g. 20 MP) to keep memory flat. -->
+    <record id="cp_flush_every" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.flush_every</field>
+        <field name="value">20</field>
+    </record>
+
+    <!-- Original image fields to optimize (comma separated res_field values). -->
+    <record id="cp_target_fields" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.target_fields</field>
+        <field name="value">image_1920,image_variant_1920</field>
+    </record>
+
+    <!-- Resized variant fields to recompress in place (step 2). -->
+    <record id="cp_variant_fields" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_fields</field>
+        <field name="value">image_1024,image_512,image_256,image_128</field>
+    </record>
+
+    <!-- Quality for re-encoding the variants. -->
+    <record id="cp_variant_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- WebP quality for images with transparency (alpha preserved). -->
+    <record id="cp_webp_quality" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.webp_quality</field>
+        <field name="value">85</field>
+    </record>
+
+    <!-- DESTRUCTIVE. Set to 1 only on a catalog you have VERIFIED has no real
+         transparency. Alpha is then ignored and everything goes to JPEG (max
+         savings, no WebP dependency) - but JPEG has no transparency, so any
+         transparent area is flattened to BLACK, and the original is gone: the
+         image is written through the record, so the old attachment no longer
+         exists. There is no undo.
+         "The originals are stored elsewhere" is not a verification - that
+         covers resolution, not alpha. On a real deployment 32% of a 40-image
+         sample had real transparency on a catalog believed to have none.
+         Probe with _dt_image_recompress (writes nothing) before enabling;
+         see readme/DESCRIPTION.md for the snippet. -->
+    <record id="cp_force_jpeg" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.force_jpeg</field>
+        <field name="value">0</field>
+    </record>
+
+    <!-- Only recompress variants larger than this many bytes (20 KB). -->
+    <record id="cp_variant_min_size" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.variant_min_size</field>
+        <field name="value">20480</field>
+    </record>
+
+    <!-- Background removal method: uniform = the background is the color of the
+         image border (photos on white), no AI model, keeps dark accessories;
+         rembg = AI model below; auto = uniform when the border has a single
+         color, otherwise rembg. -->
+    <record id="cp_bg_method" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_method</field>
+        <field name="value">auto</field>
+    </record>
+
+    <!-- How far (0..255, per channel) a pixel may be from the border color and
+         still count as background. Raise it for noisy JPEGs or soft shadows. -->
+    <record id="cp_bg_tolerance" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_tolerance</field>
+        <field name="value">24</field>
+    </record>
+
+    <!-- Pieces smaller than this percent of the main object are removed
+         (specks left next to the product). 0 = keep everything. -->
+    <record id="cp_bg_min_island" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_min_island</field>
+        <field name="value">1</field>
+    </record>
+
+    <!-- On a uniform background, warn and untick the image when the AI model
+         left out at least this percent of the product. -->
+    <record id="cp_bg_lost_warning" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_lost_warning</field>
+        <field name="value">5</field>
+    </record>
+
+    <!-- Background removal with the AI model (needs the optional Python library rembg).
+         rembg model: isnet-general-use is fast (~1 s/image on CPU, 180 MB);
+         birefnet-general is finer but ~10x slower and 970 MB, and needs
+         more memory than an odoo.sh worker has. -->
+    <record id="cp_bg_model" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_model</field>
+        <field name="value">isnet-general-use</field>
+    </record>
+
+    <!-- 1 = frame the product in a square with bg_margin percent around it;
+         0 = keep the original canvas. -->
+    <record id="cp_bg_crop" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_crop</field>
+        <field name="value">0</field>
+    </record>
+
+    <record id="cp_bg_margin" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_margin</field>
+        <field name="value">5</field>
+    </record>
+
+    <!-- Empty = transparent background (WebP). A color such as #FFFFFF gives
+         a solid background (JPEG). -->
+    <record id="cp_bg_color" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_color</field>
+        <field name="value"></field>
+    </record>
+
+    <!-- Up to this many selected images are processed on the spot; more are
+         queued for the scheduled action. -->
+    <record id="cp_bg_sync_limit" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_sync_limit</field>
+        <field name="value">5</field>
+    </record>
+
+    <record id="cp_bg_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_batch</field>
+        <field name="value">20</field>
+    </record>
+
+    <!-- Watermark removal (needs the optional Python library numpy).
+         Up to wm_sync_limit images get a preview; more are queued. The
+         watermark is learned from at most wm_learn_limit of the selected images. -->
+    <record id="cp_wm_sync_limit" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.wm_sync_limit</field>
+        <field name="value">10</field>
+    </record>
+
+    <record id="cp_wm_learn_limit" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.wm_learn_limit</field>
+        <field name="value">60</field>
+    </record>
+
+    <record id="cp_wm_batch" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.wm_batch</field>
+        <field name="value">20</field>
+    </record>
+
+</odoo>

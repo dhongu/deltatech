@@ -1,0 +1,232 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_invoice_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-21 03:58+0000\n"
+"PO-Revision-Date: 2023-05-21 03:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__amount
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_invoice_report
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_product_without_move_form
+msgid "Cancel"
+msgstr "Anulare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__create_uid
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__create_uid
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__create_date
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__create_date
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__create_date
+msgid "Created on"
+msgstr "Creat pe"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__days_last_sale
+msgid "Days from last sale"
+msgstr "Zile de la ultima vânzare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_account_invoice_report__supplier_id
+msgid "Default Supplier"
+msgstr "Furnizor implicit"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__date_to
+msgid "End Date"
+msgstr "Data finală"
+
+#. module: deltatech_invoice_report
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.product_template_form_view
+msgid "History"
+msgstr "Istoric"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__id
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__id
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_product__invoice_count
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_template__invoice_count
+msgid "Invoice Count"
+msgstr "Număr facturi"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_product__invoice_history
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_template__invoice_history
+msgid "Invoice History"
+msgstr "Istoric facturi"
+
+#. module: deltatech_invoice_report
+#: model:ir.model,name:deltatech_invoice_report.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Statistica Facturi"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__item_ids
+msgid "Item"
+msgstr "Obiect"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_product__last_invoice_history_computed
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_template__last_invoice_history_computed
+msgid "Last Computed Invoice History"
+msgstr "Ultima actualizare istoric facturi"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare pe"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_product__last_sale_date
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_template__last_sale_date
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__last_sale_date
+msgid "Last Sale Date"
+msgstr "Ultima dată vânzare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__write_uid
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__write_uid
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__write_date
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__write_date
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__price
+msgid "Price"
+msgstr "Preț"
+
+#. module: deltatech_invoice_report
+#: model:ir.model,name:deltatech_invoice_report.model_product_product
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__product_id
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_account_invoice_report_search
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_invoice_report
+#: model:ir.model,name:deltatech_invoice_report.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_invoice_report
+#: model:ir.model,name:deltatech_invoice_report.model_product_without_move
+msgid "Product Without Move"
+msgstr "Produs fără mișcare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model,name:deltatech_invoice_report.model_product_without_move_item
+msgid "Product Without Move Item"
+msgstr ""
+
+#. module: deltatech_invoice_report
+#: code:addons/deltatech_invoice_report/wizard/product_without_move.py:0
+#: model:ir.actions.act_window,name:deltatech_invoice_report.action_product_product_without_move
+#: model:ir.actions.act_window,name:deltatech_invoice_report.action_product_template_without_move
+#, python-format
+msgid "Products without move"
+msgstr "Produse fără mișcare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__qty_in
+msgid "Qty In"
+msgstr "Cantitate intrare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__qty_out
+msgid "Qty Out"
+msgstr "Cantitate ieșire"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_invoice_report
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.product_template_form_view
+msgid "Refresh"
+msgstr "Reîmprospătare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_account_invoice_report__state_id
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_account_invoice_report_search
+msgid "Region"
+msgstr "Județ"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move_item__report_id
+msgid "Report"
+msgstr "Raport"
+
+#. module: deltatech_invoice_report
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.product_template_form_view
+msgid "Sale Invoice"
+msgstr "Factură vânzare"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_without_move__date_from
+msgid "Start Date"
+msgstr "Data început"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__template_id
+msgid "Template"
+msgstr "Sablon"
+
+#. module: deltatech_invoice_report
+#: model:ir.model.fields,field_description:deltatech_invoice_report.field_product_invoice_history__year
+msgid "Year"
+msgstr "An"
+
+#. module: deltatech_invoice_report
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_product_without_move_form
+msgid "_Apply"
+msgstr ""
+
+#. module: deltatech_invoice_report
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_report.view_product_without_move_form
+msgid "or"
+msgstr "sau"
+
+#. module: deltatech_invoice_report
+#: model:ir.model,name:deltatech_invoice_report.model_product_invoice_history
+msgid "product.invoice.history"
+msgstr ""

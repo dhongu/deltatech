@@ -4,8 +4,8 @@
 {
     "name": "eCommerce Checkout Confirm Order",
     "category": "Website",
-    "summary": "eCommerce extension",
-    "version": "19.0.1.0.1",
+    "summary": "Add a final order review and confirmation step to eCommerce checkout",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",

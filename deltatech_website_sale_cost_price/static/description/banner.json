@@ -1,0 +1,10 @@
+{
+  "title": "Cost Price Protection",
+  "summary": "Block underpriced sales on your website",
+  "icon": "cart",
+  "features": [
+    "Blocks cart if price is below cost",
+    "Set your own minimum margin %",
+    "Tax-aware, multi-currency compare"
+  ]
+}

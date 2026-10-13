@@ -1,0 +1,9 @@
+{
+  "title": "Payment Report",
+  "summary": "Payments by journal, partner and period",
+  "features": [
+    "Filter by date range and payment journal",
+    "Pivot by journals and partner",
+    "Detailed list of the payment lines"
+  ]
+}

@@ -1,0 +1,98 @@
+## 19.0.1.9.12 (2026-10-12)
+
+- JSON export/import: the process *Description* lost its formatting (lists, bold, paragraphs) on import, because the import stripped every HTML tag. The HTML written by the export is now kept (the Html field still sanitizes it), and a plain-text description (e.g. from a hand-written `process.json`) is converted to HTML so its line breaks are preserved.
+
+## 19.0.1.9.11 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
+## 19.0.1.9.10 (2026-10-09)
+
+- BUSINESS-001: in the *Business process test report*, two test runs of the same step showed up as the same row, because the row id was the step id. Each row now has the id of its step test, so every run keeps its own result, dates and data in the list, the form and the pivot.
+
+## 19.0.1.9.9 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
+## 19.0.1.9.8 (2026-10-06)
+
+- In the many2one dropdowns, projects, processes, steps, developments, issues, migrations and transactions now show the code in a second, muted column (a step also shows the code of its process, because step codes repeat between imported processes). The display name elsewhere (`[code] name`) is unchanged. Typing the code in the dropdown now finds projects, steps, developments, issues, migrations and transactions. A process is now found by its name as well as by its code: its own search looked only at the code, so typing the process name in the dropdown found nothing.
+
+## 19.0.1.9.7 (2026-10-06)
+
+- Creating several business projects in one call (`create` with a list of values) created only the last one, because the values of the last iteration were passed to `super().create` instead of the whole list. All projects are now created, each with its own sequence code.
+
+## 19.0.1.9.6 (2026-10-03)
+
+- BUSINESS-011: creating an *Open Issue* failed with "Record does not exist or has been deleted" (MissingError), because the submission mail used the *Issue Submitted* template, bound to *Business Issue*, with the id of the Open Issue; when a Business Issue with the same id existed, the creation succeeded but the project manager received the mail of that unrelated issue. Open Issues now have their own template (*Open Issue Submitted*), each model uses the template of its own model, and a template bound to another model is never rendered.
+
+## 19.0.1.9.5 (2026-10-03)
+
+- BUSINESS-002 (security): the *Business process report*, the *Business process test report*, *Open Issue* and the data migration records (*Migration*, *Migration test*) had no company record rule, so a user restricted to one company (Business Admin included) saw processes, tests, issues and migrations of the other companies. The two SQL reports now expose the process company (`company_id`) and all five models get a global multi-company rule (the migrations through their project company); records of projects without a company stay visible to everybody.
+
+## 19.0.1.9.4 (2026-10-02)
+
+- BUSINESS-003 (security): *Start User Acceptance Test* (and the *Start Test* smart button, which calls it) created the test as superuser on any process id passed through RPC, including processes hidden by the company or "Allowed users" rules. The caller must now be a Business Process user and be able to read the processes; the test is still created as superuser and is returned in the caller's environment.
+
+## 19.0.1.9.3 (2026-09-24)
+
+- Excel project report: the *Testing duration* and *Data Migration Duration*
+  columns (and their totals) showed each other's values; the column headers are
+  now translatable.
+- Process state buttons (Start Design, Start Test, End Testing, Go live, Reset to
+  Draft) work for the **Process Responsible** group, which has read-only access
+  on processes: the transition is checked against the group and the record rules,
+  then written as superuser. The buttons are hidden from end users.
+- A Process Responsible can create a process in an area that has a responsible:
+  the area responsible is now set before the record is created.
+- *Start Internal Test* on several selected processes creates one test per
+  process, each with its own tester (it used to stop after the first process or
+  fail with "Expected singleton").
+- The **Start Test** smart button opens the existing user acceptance test (or the
+  list, when there are several) and creates one only if the process has none.
+- Marking a test *Done*: only the steps still in draft are set to *passed* (failed
+  steps stay failed), the start date is no longer overwritten, and a process that
+  is already ready, in production or abandoned is not moved back to *Ready*.
+- **End Testing** refuses to close the testing phase while the process still has
+  unfinished tests.
+- A test in the *Waiting* state can be resumed (**Resume**) or finished (**Done**)
+  and the state is shown on the status bar.
+- The open issue counter on test steps drops when an issue is closed.
+- Project form: the status bar shows the *Exploration* and *Closed* states, and
+  long project names are no longer truncated.
+
+## 19.0.1.9.2 (2026-09-24)
+
+- Consultant sheet (`readme/FISA_CONSULTANT.md`, in Romanian) with 16 screenshots generated by
+  `tests/test_screenshots.py` (runs only on request, tag `fise_screenshots`).
+- Romanian translation completed (all 415 terms) and several wrong terms corrected, e.g. the
+  *Deployment* / *Running* project states and the *Get Duration* button.
+
+## 19.0.1.9.1 (2026-09-23)
+
+- Translatable strings in code use `self.env._()` instead of `_()`, the Odoo 19
+  convention (pylint-odoo `prefer-env-translation`). The translated messages are
+  unchanged.
+
+## 19.0.1.9.0
+
+- New **"Visible only to"** (``allowed_user_ids``) field on business processes: when set, the process — together with its steps, tests, step tests, issues and the process/test reports — is visible only to the listed users. Left empty (the default), nothing changes and the process stays visible to everyone. Business admins always see every process and are the only ones who can edit the field (Responsible tab).
+
+## 19.0.1.8.2
+
+- Import: the top-level ``developments`` and ``issues`` collections, and the per-process ``steps``, ``include_tests``, ``tests`` and ``test_steps`` keys, are now optional in the JSON file. A partial export (e.g. a single ``process.json`` from the process library) no longer fails with ``KeyError`` — missing sections are simply skipped.
+
+## 19.0.1.8.1
+
+- Import: the ``transaction`` key on process steps and test steps is now optional in the JSON file. Since the transaction field is no longer required, imports no longer fail with ``KeyError: 'transaction'`` when a step is exported without one — the step is simply imported without a transaction.
+
+## 19.0.1.8.0
+
+- **Reset to Draft** button on the business process form is now shown in every state except ``draft`` (previously hidden in ``production`` and ``draft``), so a process can be reset from any active stage.
+- Passing the **implementor (internal) test** no longer advances the process state to ``ready``. Marking an internal test *Done* still records ``status_internal_test = done`` but leaves the process state unchanged; integration and user-acceptance tests continue to advance the process as before.
+
+## 19.0.1.7.0
+
+- Process Library: support for **private HTTPS git repositories**. A token/password is sent as an HTTP Basic ``Authorization`` header on each git command (never written into the cloned repo's on-disk config), with a configurable username (default ``x-access-token`` for GitHub, ``oauth2`` for GitLab). Git now runs non-interactively, so a missing or wrong credential fails fast instead of blocking until the timeout. SSH (``git@…``) URLs and URLs that already embed credentials are used as-is.
+- Library import now maps the **full process metadata** from ``process.json`` — process group, module type, implementation stage (including legacy stage keys), state — and imports the **configuration / instructing / testing / data-migration durations** that were previously dropped.
+- New **"Include durations"** toggle on the library import dialog: import every selected process with or without its exported effort estimates (all-or-nothing).

@@ -9,6 +9,7 @@ Key Features
 
 - Automated internal reference generation based on predefined sequences.
 - Improved barcode management for product identification.
+- GTIN-13 allocation from the GS1 company prefix: each new product receives the next free code in the range assigned by GS1, with the check digit computed automatically.
 - Consistency checks to prevent duplicate product codes.
 - Supports both products and product variants.
 

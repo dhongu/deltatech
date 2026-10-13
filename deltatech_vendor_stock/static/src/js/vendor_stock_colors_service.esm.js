@@ -1,4 +1,3 @@
-import {jsonrpc} from "@web/core/network/rpc";
 import {registry} from "@web/core/registry";
 
 const DEFAULT_COLORS = {
@@ -10,18 +9,11 @@ const DEFAULT_COLORS = {
 };
 
 registry.category("services").add("vendor_stock_colors", {
-    start() {
+    dependencies: ["orm"],
+    start(env, {orm}) {
         let colorsPromise = null;
 
-        const load = async () => {
-            const colors = await jsonrpc("/web/dataset/call_kw", {
-                model: "sale.order.line",
-                method: "get_stock_colors",
-                args: [],
-                kwargs: {},
-            });
-            return colors;
-        };
+        const load = () => orm.call("sale.order.line", "get_stock_colors", []);
 
         return {
             async getColors() {

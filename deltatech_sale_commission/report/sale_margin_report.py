@@ -49,6 +49,7 @@ class SaleMarginReport(models.Model):
     commission_director_computed = fields.Float("Commission Director Computed", readonly=True)
 
     commission = fields.Float("Real Commission")
+    commission_paid = fields.Boolean("Commission Paid", default=False)
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
 
@@ -125,6 +126,7 @@ class SaleMarginReport(models.Model):
                 sub.director_rate * (sale_val    - stock_val )  as commission_director_computed,
 
                 commission,
+                commission_paid,
                 partner_id, commercial_partner_id,  state_id, user_id, manager_user_id, director_user_id,   sub.company_id,
                 move_type,  state , payment_state, journal_id,
                  sub.currency_id
@@ -145,11 +147,13 @@ class SaleMarginReport(models.Model):
                     t.uom_id as product_uom,
 
 
+                    -- quantity in the product unit: uom factors are absolute (Dozen = 12), so
+                    -- line unit -> product unit is qty * u.factor / u2.factor, as in uom._compute_quantity
                     SUM(CASE
                      WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
                       'in_invoice'::character varying::text])
-                        THEN -(l.quantity / u.factor * u2.factor)
-                        ELSE  (l.quantity / u.factor * u2.factor)
+                        THEN -(l.quantity * u.factor / NULLIF(u2.factor, 0))
+                        ELSE  (l.quantity * u.factor / NULLIF(u2.factor, 0))
                     END) AS product_uom_qty,
 
                     avg(purchase_price) as purchase_price,
@@ -166,6 +170,7 @@ class SaleMarginReport(models.Model):
 
 
                     sum(l.commission) as commission,
+                    bool_and(l.commission_paid) as commission_paid,
                     cu.rate, cu.manager_rate, cu.director_rate, cu.manager_user_id, cu.director_user_id,
 
                     s.partner_id as partner_id,
@@ -198,14 +203,35 @@ class SaleMarginReport(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
 
-        if sale_user_detail == "invoice":
-            from_str += (
-                " left join commission_users cu on (s.invoice_user_id = cu.user_id and cu.journal_id = s.journal_id)"
-            )
-        else:
-            from_str += (
-                " left join commission_users cu on (l.sale_user_id = cu.user_id and cu.journal_id = s.journal_id)"
-            )
+        user_column = "s.invoice_user_id" if sale_user_detail == "invoice" else "l.sale_user_id"
+        # At most one rate row per invoice line, whatever the data: a plain join multiplies the
+        # line by every matching row, so a duplicate rate doubles the sale, cost and profit
+        # (same rates, same report line) or the line itself (different rates, repeated id).
+        # The unique constraint on commission.users is not enough on its own: it can not be
+        # created while old duplicates are still there.
+        #
+        # "order by c.id limit 1" takes the *oldest* of the duplicates, the same row the migration
+        # keeps when it deletes the exact duplicates. For duplicates whose rates differ the choice
+        # is arbitrary and probably wrong either way — the newest row is as likely to be the
+        # current rate as the oldest is — so it is deliberately not a decision taken here: the
+        # migration and the precheck script both report those rows so that someone picks one. This
+        # LIMIT is only there to keep the report honest (one line, one rate) while they are left.
+        #
+        # c.company_id = s.company_id is new in 19.0.1.6.0. The old join matched on salesperson and
+        # journal only, so a row filed under the wrong company still applied. It no longer does,
+        # which is right — but on an existing database it silently takes a commission away, hence
+        # the check in scripts/sale_commission_precheck_1_6_0.py and the ORM constraint on the model.
+        from_str += f"""
+                    left join lateral (
+                        select c.rate, c.manager_rate, c.director_rate, c.manager_user_id, c.director_user_id
+                          from commission_users c
+                         where c.user_id = {user_column}
+                           and c.journal_id = s.journal_id
+                           and c.company_id = s.company_id
+                      order by c.id
+                         limit 1
+                    ) cu on true
+        """
         return from_str
 
     def _where(self):
@@ -252,49 +278,73 @@ class SaleMarginReport(models.Model):
             group_by_str += " , l.sale_user_id"
         return group_by_str
 
+    @staticmethod
+    def _sql_fragment(code):
+        # the fragments are plain strings (also in the inheriting modules); SQL() reads "%" as a
+        # placeholder, so a literal one (LIKE 'a%') has to be escaped
+        return SQL(code.replace("%", "%%"))
+
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
-        # pylint: disable=E8103
         self.env.cr.execute(
-            """CREATE or REPLACE VIEW {} as (
-            WITH currency_rate AS ({})
-            {}
+            SQL(
+                """CREATE or REPLACE VIEW %s as (
+            WITH currency_rate AS (%s)
+            %s
             FROM (
-                {}
-                FROM {}
-                WHERE {}
-                GROUP BY {}
+                %s
+                FROM %s
+                WHERE %s
+                GROUP BY %s
             ) AS sub
-        )""".format(
-                self._table,
-                self.env["res.currency"]._select_companies_rates(),
-                self._select(),
-                self._sub_select(),
-                self._from(),
-                self._where(),
-                self._group_by(),
+        )""",
+                SQL.identifier(self._table),
+                self._sql_fragment(self.env["res.currency"]._select_companies_rates()),
+                self._sql_fragment(self._select()),
+                self._sql_fragment(self._sub_select()),
+                self._sql_fragment(self._from()),
+                self._sql_fragment(self._where()),
+                self._sql_fragment(self._group_by()),
             )
         )
 
-    def write(self, vals):
-        invoice_line = self.env["account.move.line"].sudo().browse(self.id)
-        value = {"commission": vals.get("commission", False)}
-        if invoice_line.purchase_price == 0 and invoice_line.product_id:
-            if invoice_line.product_id.standard_price > 0:
-                value["purchase_price"] = invoice_line.product_id.standard_price
-        if "purchase_price" in vals:
-            value["purchase_price"] = vals.pop("purchase_price")
-        invoice_line.write(value)
+    def write(self, vals):  # pylint: disable=method-required-super
+        # The report is a SQL view: super().write() would try to UPDATE the view, so the values
+        # are routed to the invoice lines behind it. The lines are written with sudo because
+        # the sales roles only read account.move.line; the access check below is what keeps the
+        # write limited to the commission managers (the viewers have read-only access).
+        self.check_access("write")
+        value = {fname: vals[fname] for fname in ("commission", "commission_paid", "purchase_price") if fname in vals}
+        invoice_lines = self.env["account.move.line"].sudo().browse(self.ids)
+        if value:
+            invoice_lines.write(value)
         if "user_id" in vals:
-            invoice = self.env["account.move"].browse(self.invoice_id.id)
-            invoice.write({"invoice_user_id": vals["user_id"]})
-        if 1 == 2:
-            super().write(vals)
+            self.invoice_id.write({"invoice_user_id": vals["user_id"]})
+        invoice_lines.flush_recordset()
+        self.invalidate_recordset()
         return True
+
+    def action_set_commission_paid(self):
+        for record in self:
+            record.write({"commission_paid": True})
 
     @api.model
     def cron_update_purchase_price(self):
-        """Cron job to update purchase prices for lines from yesterday."""
+        """Fill in the cost of the lines of the last week from the documents.
+
+        The cost itself comes from ``_purchase_price_from_document()``, the single rule shared with
+        the update wizard. What the two do with a 0 on a credit note differs, on purpose:
+
+        - the wizard is run by hand by a manager on the lines he picked, so it *resets* the cost,
+          0 included: that is how a credit note wrongly costed in the past gets corrected;
+        - the cron runs unattended over everything invoiced in the last week, so it only *fills in*
+          a cost the documents know, and never writes a 0. A credit note that a manager costed by
+          hand — goods that came back without the return being recorded in stock, say — would
+          otherwise be silently zeroed a day later, with no one watching.
+
+        New credit notes get their 0 from the compute on the line anyway, so the cron would have
+        almost nothing to correct here; it is not worth the risk of undoing manual work.
+        """
         AccountMoveLine = self.env["account.move.line"].sudo()
 
         last_week = (datetime.now() - timedelta(days=7)).date()
@@ -303,17 +353,9 @@ class SaleMarginReport(models.Model):
 
         for line in lines:
             invoice_line = AccountMoveLine.browse(line.id)
-            purchase_price = 0.0
-
-            if invoice_line:
-                # Use price from delivery if available
-                purchase_price = invoice_line.get_purchase_price()
-
-                if not purchase_price:
-                    if invoice_line.product_id:
-                        if invoice_line.product_id.standard_price > 0:
-                            purchase_price = invoice_line.product_id.standard_price
-
+            if not invoice_line:
+                continue
+            purchase_price = invoice_line._purchase_price_from_document()
             if purchase_price:
                 invoice_line.write({"purchase_price": purchase_price})
 

@@ -1,0 +1,8 @@
+{
+  "summary": "Auto sales price from cost & markup",
+  "features": [
+    "Markup % on product template",
+    "Auto-computes list price from cost",
+    "Consistent margins across catalog"
+  ]
+}

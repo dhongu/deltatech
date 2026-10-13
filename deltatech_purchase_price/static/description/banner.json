@@ -1,0 +1,10 @@
+{
+  "title": "Purchase Price",
+  "summary": "Auto-update cost & sale price on receipt",
+  "icon": "truck",
+  "features": [
+    "Update standard cost on reception",
+    "Sync vendor pricelist automatically",
+    "Compute sale price via trade markup"
+  ]
+}

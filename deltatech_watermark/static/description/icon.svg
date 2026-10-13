@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 100 100">
+<g transform="translate(7.38,0.11) scale(1.0057)"><g transform="translate(3,3)" fill="#9CA3AF"><path d="M14,6 h40 l18,18 v62 a4,4 0 0 1 -4,4 h-54 a4,4 0 0 1 -4,-4 v-76 a4,4 0 0 1 4,-4z"/></g><g fill="#D1D5DB"><path d="M14,6 h40 l18,18 v62 a4,4 0 0 1 -4,4 h-54 a4,4 0 0 1 -4,-4 v-76 a4,4 0 0 1 4,-4z"/></g><path d="M54,6 v14 a4,4 0 0 0 4,4 h14z" fill="#9CA3AF"/><text x="41" y="62" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="17" fill="#F9464C" opacity="0.6" text-anchor="middle" transform="rotate(-35 41 54)">DRAFT</text></g>
+</svg>

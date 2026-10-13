@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
+        <record id="module_category_sale_commission" model="ir.module.category">
+            <field name="name">Sale Commission</field>
+        </record>
+
+        <record id="res_groups_privilege_sale_commission" model="res.groups.privilege">
+            <field name="name">Sale Commission</field>
+            <field name="category_id" ref="module_category_sale_commission" />
+        </record>
+
+        <record id="group_commission_viewer" model="res.groups">
+            <field name="name">Commission Viewer</field>
+            <field name="privilege_id" ref="res_groups_privilege_sale_commission" />
+        </record>
+
+        <record id="group_commission_manager" model="res.groups">
+            <field name="name">Commission Manager</field>
+            <field name="privilege_id" ref="res_groups_privilege_sale_commission" />
+            <field name="implied_ids" eval="[(4, ref('group_commission_viewer'))]" />
+        </record>
+
+        <!-- COMMISSION-003 -->
+        <record id="commission_users_comp_rule" model="ir.rule">
+            <field name="name">Commission rates multi-company</field>
+            <field name="model_id" ref="model_commission_users" />
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
         <record id="sale_margin_report_comp_rule" model="ir.rule">
             <field name="name">Sale Margin Report multi-company</field>
             <field name="model_id" ref="model_sale_margin_report" />

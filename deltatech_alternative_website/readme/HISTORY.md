@@ -1,0 +1,29 @@
+## 19.0.1.0.12 (2026-10-11)
+
+- Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
+
+## 19.0.1.0.11 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
+## 19.0.1.0.10 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
+## 19.0.1.0.9 (2026-09-26)
+
+- Roadmap: replaced the manual `CREATE INDEX ... gin_trgm_ops` SQL with the
+  indexes Odoo 19 already maintains (`variants_default_code` and
+  `default_code` in `website_sale`, `product.alternative.name` in
+  `deltatech_alternative`). Documentation only, no code change.
+
+## 19.0.1.0.8 (2026-07-27)
+
+- Fix: the website search (autocomplete and shop) raised
+  `ValueError: list.remove(x): x not in list` when the search bar snippet
+  had the description display turned off. `website_sale` only adds
+  `description` / `description_sale` to `search_fields` when
+  `displayDescription` is set, while this module removed them
+  unconditionally. They are now removed only when present.
+- Added tests for `_search_get_detail` with the description display on and
+  off.

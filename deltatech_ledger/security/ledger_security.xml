@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="module_category_ledger" model="ir.module.category">
+        <field name="name">Ledger</field>
+        <field name="sequence">50</field>
+    </record>
+
+    <record id="res_groups_privilege_ledger" model="res.groups.privilege">
+        <field name="name">Ledger</field>
+        <field name="category_id" ref="module_category_ledger" />
+    </record>
+
+    <!-- Every internal user can keep the register; the manager can also delete and reactivate canceled records. -->
+    <record id="group_ledger_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="privilege_id" ref="res_groups_privilege_ledger" />
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_ledger_manager'))]" />
+    </record>
+
+    <record id="ledger_company_rule" model="ir.rule">
+        <field name="name">Ledger: multi-company</field>
+        <field name="model_id" ref="model_ledger_ledger" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

@@ -1,12 +1,15 @@
 # ©  2023 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
+
+from ..tools.display_name import code_display_name
 
 
 class BusinessTransaction(models.Model):
     _name = "business.transaction"
     _description = "Business transaction"
+    _rec_names_search = ["name", "code"]
 
     name = fields.Char(string="Name", required=True)
     code = fields.Char(string="Code")
@@ -23,8 +26,8 @@ class BusinessTransaction(models.Model):
         default="tr",
     )
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for transaction in self:
-            transaction.display_name = "{}{}".format(
-                transaction.code and f"[{transaction.code}] " or "", transaction.name
-            )
+            transaction.display_name = code_display_name(transaction)

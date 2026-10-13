@@ -1,0 +1,110 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_multiple_website
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"PO-Revision-Date: 2026-07-15 00:00+0300\n"
+"Last-Translator: POPVAL\n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_sale_order_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model,name:deltatech_sale_multiple_website.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model,name:deltatech_sale_multiple_website.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model,name:deltatech_sale_multiple_website.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model,name:deltatech_sale_multiple_website.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă de vânzare"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_product_product__check_min_website
+#: model:ir.model.fields,field_description:deltatech_sale_multiple_website.field_product_template__check_min_website
+msgid "Website Check Quantity"
+msgstr "Verifică cantitatea pe website"
+
+#. module: deltatech_sale_multiple_website
+#: model:ir.model.fields,help:deltatech_sale_multiple_website.field_product_product__check_min_website
+#: model:ir.model.fields,help:deltatech_sale_multiple_website.field_product_template__check_min_website
+msgid "Apply minimum and multiple quantity rules only on the website."
+msgstr "Aplică regulile de cantitate minimă și multiplă numai pe website."
+
+#. module: deltatech_sale_multiple_website
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.cart_line_description_following_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.product_qty_restrictions
+msgid "Min:"
+msgstr "Minim:"
+
+#. module: deltatech_sale_multiple_website
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.product_qty_restrictions
+msgid "Multiple of:"
+msgstr "Multiplu de:"
+
+#. module: deltatech_sale_multiple_website
+#. odoo-javascript
+#: code:addons/deltatech_sale_multiple_website/static/src/js/qty_popover.esm.js:0
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.product_qty_restrictions
+msgid "Minimum quantity"
+msgstr "Cantitate minimă"
+
+#. module: deltatech_sale_multiple_website
+#. odoo-javascript
+#: code:addons/deltatech_sale_multiple_website/static/src/js/qty_popover.esm.js:0
+msgid "The minimum order quantity is %s units."
+msgstr "Cantitatea minimă pentru comandă este de %s unități."
+
+#. module: deltatech_sale_multiple_website
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.product_qty_restrictions
+msgid "The minimum order quantity is {{0}} units."
+msgstr "Cantitatea minimă pentru comandă este de {{0}} unități."
+
+#. module: deltatech_sale_multiple_website
+#. odoo-javascript
+#: code:addons/deltatech_sale_multiple_website/static/src/js/qty_popover.esm.js:0
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.product_qty_restrictions
+msgid "Quantity multiple"
+msgstr "Multiplu de cantitate"
+
+#. module: deltatech_sale_multiple_website
+#. odoo-javascript
+#: code:addons/deltatech_sale_multiple_website/static/src/js/qty_popover.esm.js:0
+msgid "Quantity must be a multiple of %s (e.g. %s, %s, %s...)."
+msgstr "Cantitatea trebuie să fie un multiplu de %s (de exemplu %s, %s, %s...)."
+
+#. module: deltatech_sale_multiple_website
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_multiple_website.product_qty_restrictions
+msgid "Quantity must be a multiple of {{0}} (e.g. {{1}}, {{2}}, {{3}}...)."
+msgstr "Cantitatea trebuie să fie un multiplu de {{0}} (de exemplu {{1}}, {{2}}, {{3}}...)."

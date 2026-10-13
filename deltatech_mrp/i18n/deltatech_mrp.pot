@@ -1,0 +1,286 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_mrp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__nbr
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "# of Orders"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__actually_price
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Actually Price"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__amount
+msgid "Amount"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__categ_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__company_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__cost_categ
+#: model:ir.model.fields,field_description:deltatech_mrp.field_product_category__cost_categ
+msgid "Cost Category"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model,name:deltatech_mrp.model_deltatech_cost_detail
+#: model:ir.model.fields,field_description:deltatech_mrp.field_mrp_production__cost_detail_ids
+msgid "Cost Detail"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.deltatech_mrp_production_form_view
+msgid "Costs"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Current"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__date
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp.field_mrp_production__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp.field_product_category__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__done
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__id
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__id
+#: model:ir.model.fields,field_description:deltatech_mrp.field_mrp_production__id
+#: model:ir.model.fields,field_description:deltatech_mrp.field_product_category__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__in_production
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "In Production"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model,name:deltatech_mrp.model_mrp_production
+msgid "Manufacturing Order"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Order Month"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Ordered date of the production order"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_cost_detail__cost_categ__pak
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__product_category__cost_categ__pak
+msgid "Packing Material"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__picking_except
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Picking Exception"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__standard_price
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Price Standard"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model,name:deltatech_mrp.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_pivot
+msgid "Production Analysis"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.actions.act_window,name:deltatech_mrp.action_deltatech_mrp_report
+#: model:ir.model,name:deltatech_mrp.model_deltatech_mrp_report
+#: model:ir.ui.menu,name:deltatech_mrp.menu_deltatech_mrp_report_list
+msgid "Production Cost Analysis"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_cost_detail__production_id
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__production_id
+msgid "Production Order"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Production order"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_qty_ef
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Qty Efective"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_qty
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Qty Plan"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_cost_detail__cost_categ__raw
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__product_category__cost_categ__raw
+msgid "Raw materials"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__ready
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Ready to Produce"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_cost_detail__cost_categ__semi
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__product_category__cost_categ__semi
+msgid "Semi-products"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__state
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "State"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.actions.act_window,help:deltatech_mrp.action_deltatech_mrp_report
+msgid "This reporting allows you to analysis your manufacturing cost."
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_uom
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.deltatech_mrp_production_form_view
+msgid "Update"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Val Consumed"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_pak_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Val Consumed Packing"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_raw_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Val Consumed Raw"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__consumed_sem_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Val Consumed Semifinish"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_val_ef
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Val Efective"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__product_val
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Val Plan"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,help:deltatech_mrp.field_deltatech_mrp_report__standard_price
+msgid ""
+"Value of the product (automatically computed in AVCO).\n"
+"        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).\n"
+"        Used to compute margins on sale orders."
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields,field_description:deltatech_mrp.field_deltatech_mrp_report__val_prod
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_list
+msgid "Value production"
+msgstr ""
+
+#. module: deltatech_mrp
+#: model:ir.model.fields.selection,name:deltatech_mrp.selection__deltatech_mrp_report__state__confirmed
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp.view_deltatech_mrp_report_filter
+msgid "Waiting Goods"
+msgstr ""

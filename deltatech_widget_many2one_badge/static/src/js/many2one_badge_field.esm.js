@@ -2,8 +2,13 @@
 
 import {ColorList} from "@web/core/colorlist/colorlist";
 import {Component, onWillStart, onWillUpdateProps, useState} from "@odoo/owl";
-import {m2oTupleFromData, many2OneField} from "@web/views/fields/many2one/many2one_field";
+import {
+    buildM2OFieldDescription,
+    extractM2OFieldProps,
+    m2oSupportedOptions,
+} from "@web/views/fields/many2one/many2one_field";
 import {makeContext} from "@web/core/context";
+import {getFieldDomain} from "@web/model/relational_model/utils";
 import {Many2XAutocomplete} from "@web/views/fields/relational_utils";
 import {registry} from "@web/core/registry";
 import {usePopover} from "@web/core/popover/popover_hook";
@@ -70,6 +75,10 @@ export class Many2oneBadgeField extends Component {
         return this.props.record.fields[this.props.name].relation;
     }
 
+    getDomain() {
+        return getFieldDomain(this.props.record, this.props.name, this.props.domain);
+    }
+
     get autocompleteContext() {
         const {context, record} = this.props;
         if (!context) return {};
@@ -104,10 +113,18 @@ export class Many2oneBadgeField extends Component {
         });
     }
 
-    async update(newValue) {
-        if (newValue && newValue.length) {
-            const tuple = m2oTupleFromData(newValue[0]);
-            await this.props.record.update({[this.props.name]: tuple});
+    async update(records) {
+        if (records && records.length) {
+            const rec = records[0];
+            let displayName = false;
+            if ("display_name" in rec) {
+                displayName = rec.display_name;
+            } else if ("name" in rec) {
+                displayName = rec.name && rec.name.id ? rec.name.display_name : rec.name;
+            }
+            await this.props.record.update({
+                [this.props.name]: {id: rec.id, display_name: displayName},
+            });
         } else {
             await this.props.record.update({[this.props.name]: false});
         }
@@ -127,7 +144,7 @@ export class Many2oneBadgeField extends Component {
         const val = this.value;
         if (!val) return "";
         if (Array.isArray(val)) return val[1];
-        return val.displayName || (val.data && val.data.display_name) || "";
+        return val.display_name || val.displayName || (val.data && val.data.display_name) || "";
     }
 
     get colorIndex() {
@@ -136,11 +153,10 @@ export class Many2oneBadgeField extends Component {
 }
 
 export const many2oneBadgeField = {
-    ...many2OneField,
-    component: Many2oneBadgeField,
+    ...buildM2OFieldDescription(Many2oneBadgeField),
     displayName: "Many2one Badge",
     supportedOptions: [
-        ...(many2OneField.supportedOptions || []),
+        ...m2oSupportedOptions,
         {
             label: "Color field",
             name: "color_field",
@@ -148,9 +164,10 @@ export const many2oneBadgeField = {
             availableTypes: ["integer"],
         },
     ],
-    extractProps(fieldInfo, dynamicInfo) {
-        const props = many2OneField.extractProps(fieldInfo, dynamicInfo);
-        props.colorField = (fieldInfo.options && fieldInfo.options.color_field) || null;
+    extractProps(staticInfo, dynamicInfo) {
+        const props = extractM2OFieldProps(staticInfo, dynamicInfo);
+        props.colorField = (staticInfo.options && staticInfo.options.color_field) || null;
+        props.domain = dynamicInfo.domain;
         return props;
     },
 };

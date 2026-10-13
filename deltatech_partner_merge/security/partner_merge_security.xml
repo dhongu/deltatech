@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Pe Odoo 19 `res.groups.category_id` nu mai există (a devenit `privilege_id`,
+         iar standardul îl omite cu totul la grupurile tehnice). -->
+    <record id="group_partner_merge_prepare" model="res.groups">
+        <field name="name">Partner Merge / Prepare and simulate</field>
+        <field name="comment">Can analyze duplicates and run simulations. Cannot apply a merge.</field>
+    </record>
+
+    <record id="group_partner_merge_apply" model="res.groups">
+        <field name="name">Partner Merge / Apply</field>
+        <field name="implied_ids" eval="[(4, ref('group_partner_merge_prepare'))]" />
+        <field name="comment">Can apply a merge batch — deletes or archives partner records.</field>
+    </record>
+
+    <record id="base.group_system" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_partner_merge_apply'))]" />
+    </record>
+</odoo>

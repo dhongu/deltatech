@@ -1,12 +1,13 @@
 import ast
 import logging
 import os
+import re
 import shutil
 import tempfile
 from urllib.parse import quote, urlsplit, urlunsplit
 
-from odoo import fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 try:
     import git  # GitPython
@@ -14,6 +15,9 @@ except Exception:  # pragma: no cover
     git = None
 
 _logger = logging.getLogger(__name__)
+
+# a module name is a single directory name inside the cloned repository
+MODULE_NAME_RE = re.compile(r"^[A-Za-z0-9_]+$")
 
 
 class TransportRepo(models.Model):
@@ -25,10 +29,26 @@ class TransportRepo(models.Model):
     repo_url = fields.Char(required=True, string="Git URL")
     repo_branch = fields.Char(required=True, string="Branch")
     credential_type = fields.Selection([("ssh", "SSH Key"), ("https", "HTTPS")], default="ssh")
-    ssh_key = fields.Binary(string="SSH Private Key")
-    username = fields.Char(string="Git Username")
-    password = fields.Char(string="Git Token / Password")
+    ssh_key = fields.Binary(string="SSH Private Key", groups="base.group_system")
+    username = fields.Char(string="Git Username", groups="base.group_system")
+    password = fields.Char(string="Git Token / Password", groups="base.group_system")
     repo_local_path = fields.Char(string="Local Path")
+
+    @api.constrains("module_name")
+    def _check_module_name(self):
+        for repo in self:
+            if not MODULE_NAME_RE.match(repo.module_name or ""):
+                raise ValidationError(
+                    self.env._(
+                        "The module code may contain only letters, digits and underscores (got: %s).",
+                        repo.module_name,
+                    )
+                )
+
+    def _check_transport_access(self):
+        """Git credentials and repository writes are reserved to Settings administrators."""
+        if not self.env.is_system():
+            raise AccessError(self.env._("Only administrators can run transport repository operations."))
 
     # ========= Repo operations (moved from transport_utils) =========
     def _non_interactive_env(self):
@@ -46,8 +66,9 @@ class TransportRepo(models.Model):
         auth_netloc = f"{safe_user}:{safe_pass}@{netloc}"
         return urlunsplit((split.scheme, auth_netloc, split.path, split.query, split.fragment))
 
-    def clone_to_temp(self):
+    def _clone_to_temp(self):
         self.ensure_one()
+        self._check_transport_access()
         if git is None:
             raise UserError("GitPython (package 'GitPython') is not installed.")
         if self.credential_type != "https" or not self.username or not self.password:
@@ -90,18 +111,32 @@ class TransportRepo(models.Model):
             shutil.rmtree(tmp_dir, ignore_errors=True)
             raise
 
-    def write_csv_and_update_manifest(self, repo_root: str, filename: str, data_content: str):
+    def _write_csv_and_update_manifest(self, repo_root: str, filename: str, data_content: str):
         """Write CSV under cloned repo and ensure manifest references it. Returns
         (csv_abs_path, manifest_abs_path, manifest_changed: bool, rel_manifest_path)
         """
+        self.ensure_one()
+        self._check_transport_access()
         sanitized = filename.strip().lstrip("/").replace("\\", "/")
         parts = [p for p in sanitized.split("/") if p not in ("", ".", "..")]
         if not parts:
-            raise UserError("Invalid export filename.")
+            raise UserError(self.env._("Invalid export filename."))
+        if not MODULE_NAME_RE.match(self.module_name or ""):
+            raise UserError(self.env._("Invalid module code: %s", self.module_name))
         rel_manifest_path = os.path.join("data", *parts)
+        root_real = os.path.realpath(repo_root)
         module_root = os.path.join(repo_root, self.module_name)
-        os.makedirs(os.path.dirname(os.path.join(module_root, rel_manifest_path)), exist_ok=True)
         csv_abs_path = os.path.join(module_root, rel_manifest_path)
+        # resolve symlinks: the module and the target file must stay inside the clone
+        for path in (module_root, csv_abs_path):
+            if os.path.commonpath([root_real, os.path.realpath(path)]) != root_real:
+                raise UserError(self.env._("The export path is outside the repository clone."))
+        # validate the target module before any write on disk
+        if not os.path.isfile(os.path.join(module_root, "__manifest__.py")):
+            raise UserError(self.env._("__manifest__.py was not found in %s.", module_root))
+        os.makedirs(os.path.dirname(csv_abs_path), exist_ok=True)
+        if os.path.commonpath([root_real, os.path.realpath(csv_abs_path)]) != root_real:
+            raise UserError(self.env._("The export path is outside the repository clone."))
         with open(csv_abs_path, "w", encoding="utf-8", newline="") as f:
             f.write(data_content)
         manifest_abs_path, changed = self._ensure_manifest_has_data_at(module_root, rel_manifest_path)
@@ -134,8 +169,9 @@ class TransportRepo(models.Model):
             return manifest_path, True
         return manifest_path, False
 
-    def commit_and_push(self, repo_obj, commit_message: str):
+    def _commit_and_push(self, repo_obj, commit_message: str):
         self.ensure_one()
+        self._check_transport_access()
         with repo_obj.git.custom_environment(**self._non_interactive_env()):
             repo_obj.git.add(A=True)
             if repo_obj.is_dirty(index=True, working_tree=True, untracked_files=True):

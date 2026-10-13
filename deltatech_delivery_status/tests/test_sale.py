@@ -50,3 +50,145 @@ class TestSale(TransactionCase):
 
         self.so.postpone_delivery()
         self.so.release_delivery()
+
+    def _create_confirmed_order(self):
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.product_a.id, "product_uom_qty": 10})],
+            }
+        )
+        order.action_confirm()
+        return order
+
+    def test_postponed_delivery_recompute(self):
+        order = self._create_confirmed_order()
+        self.assertFalse(order.postponed_delivery)
+
+        order.postpone_delivery()
+        self.assertTrue(order.postponed_delivery)
+
+        order.release_delivery()
+        self.assertFalse(order.postponed_delivery)
+
+    def _validate(self, picking):
+        for move in picking.move_ids:
+            move.quantity = move.product_uom_qty
+        picking.button_validate()
+        return picking
+
+    def test_validation_does_not_mark_the_transfer_delivered(self):
+        """A transfer without a carrier is not delivered just because it was validated.
+
+        The carrier is often set after the validation, so an empty `carrier_id`
+        at that moment says nothing about whether the parcel will be shipped.
+        The delivery status cron marks the carrier-less transfers as delivered
+        once a grace period has passed without an AWB.
+        """
+        order = self._create_confirmed_order()
+        picking = order.picking_ids
+
+        self._validate(picking)
+
+        self.assertEqual(picking.state, "done")
+        self.assertEqual(picking.delivery_state, "draft")
+
+    def test_release_delivery_on_payment_done(self):
+        provider = self.env["payment.provider"].create(
+            {
+                "name": "Test Provider",
+                "code": "none",
+                "postponed_delivery": True,
+            }
+        )
+        order = self._create_confirmed_order()
+        order.postpone_delivery()
+        self.assertTrue(order.postponed_delivery)
+
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": provider.id,
+                "payment_method_id": self.env.ref("payment.payment_method_unknown").id,
+                "amount": order.amount_total,
+                "currency_id": order.currency_id.id,
+                "partner_id": self.partner_a.id,
+                "sale_order_ids": [(6, 0, order.ids)],
+            }
+        )
+        tx._set_done()
+        self.assertFalse(order.postponed_delivery)
+
+    def test_search_postponed_delivery(self):
+        """Câmpul calculat trebuie să fie căutabil, altfel comenzile cu livrarea
+        amânată nu pot fi găsite nici prin filtru predefinit, nici din interfață."""
+        order = self._create_confirmed_order()
+        order.picking_ids.action_assign()
+
+        found = self.env["sale.order"].search([("postponed_delivery", "=", True)])
+        self.assertNotIn(order, found, "comanda nu e amânată încă")
+
+        order.postpone_delivery()
+        self.assertTrue(order.postponed_delivery)
+        found = self.env["sale.order"].search([("postponed_delivery", "=", True)])
+        self.assertIn(order, found)
+        # negarea trebuie să fie coerentă cu valoarea calculată
+        self.assertNotIn(order, self.env["sale.order"].search([("postponed_delivery", "=", False)]))
+
+        order.release_delivery()
+        self.assertFalse(order.postponed_delivery)
+        self.assertNotIn(order, self.env["sale.order"].search([("postponed_delivery", "=", True)]))
+        self.assertIn(order, self.env["sale.order"].search([("postponed_delivery", "=", False)]))
+
+    def test_search_postponed_delivery_in_operators(self):
+        """DELIVERYSTATUS-001 (not reproduced): in / not in are retried by the ORM with = / !="""
+        order = self._create_confirmed_order()
+        order.postpone_delivery()
+        SaleOrder = self.env["sale.order"]
+        self.assertIn(order, SaleOrder.search([("postponed_delivery", "in", [True])]))
+        self.assertNotIn(order, SaleOrder.search([("postponed_delivery", "not in", [True])]))
+        self.assertNotIn(order, SaleOrder.search([("postponed_delivery", "in", [False])]))
+        self.assertIn(order, SaleOrder.search([("postponed_delivery", "in", [True, False])]))
+        self.assertNotIn(order, SaleOrder.search([("postponed_delivery", "!=", True)]))
+
+    def _transaction(self, order, provider):
+        return self.env["payment.transaction"].create(
+            {
+                "provider_id": provider.id,
+                "payment_method_id": self.env.ref("payment.payment_method_unknown").id,
+                "amount": order.amount_total,
+                "currency_id": order.currency_id.id,
+                "partner_id": self.partner_a.id,
+                "sale_order_ids": [(6, 0, order.ids)],
+            }
+        )
+
+    def _quotation(self):
+        return self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.product_a.id, "product_uom_qty": 10})],
+            }
+        )
+
+    def _postponing_provider(self):
+        return self.env["payment.provider"].create(
+            {"name": "Postponing Provider", "code": "none", "postponed_delivery": True}
+        )
+
+    def test_paid_quotation_is_not_postponed_on_confirmation(self):
+        """DELIVERYSTATUS-002: payment done before the confirmation leaves nothing to wait for"""
+        order = self._quotation()
+        tx = self._transaction(order, self._postponing_provider())
+        tx._set_done()
+        order.action_confirm()
+        self.assertTrue(order.picking_ids)
+        self.assertFalse(order.postponed_delivery)
+
+    def test_pending_payment_postpones_on_confirmation(self):
+        order = self._quotation()
+        tx = self._transaction(order, self._postponing_provider())
+        tx._set_pending()
+        order.action_confirm()
+        self.assertTrue(order.postponed_delivery)
+        tx._set_done()
+        self.assertFalse(order.postponed_delivery)

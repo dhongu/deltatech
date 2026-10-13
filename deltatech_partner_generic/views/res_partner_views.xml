@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.generic.lock</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet" position="before">
+                <field name="generic_partner_locked" invisible="1" />
+                <div
+                    class="alert alert-info mb-0"
+                    role="alert"
+                    invisible="not generic_partner_locked"
+                >
+                    This is the generic partner used for anonymous customers. It is
+                    protected: changes made here cannot be saved.
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

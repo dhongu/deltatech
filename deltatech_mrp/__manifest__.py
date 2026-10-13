@@ -3,13 +3,13 @@
 
 {
     "name": "MRP Extension",
-    "summary": "MRP Extension",
-    "version": "19.0.1.0.2",
+    "summary": "BoM overhead percentage and UoM-aware rounding when exploding bills of materials",
+    "version": "19.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Production",
-    "depends": ["base", "mrp", "stock", "sale", "product"],
+    "depends": ["base", "mrp", "stock", "stock_account", "sale", "product"],
     "data": [
         "views/mrp_view.xml",
         "report/deltatech_mrp_report.xml",

@@ -11,8 +11,10 @@ class AccountInvoice(models.Model):
     in_rates = fields.Boolean(string="In Rates", compute="_compute_in_rates", store=True)
 
     def view_rate(self):
+        self.ensure_one()
         action = self.env["ir.actions.actions"]._for_xml_id("deltatech_payment_term.action_account_moves_sale")
-        action["domain"] = "['|',('move_id','='," + str(self.id) + " ),('name','ilike','" + str(self.name) + "')]"
+        # the rates are the payment term lines (receivable/payable) of the invoice
+        action["domain"] = [("move_id", "=", self.id), ("display_type", "=", "payment_term")]
         return action
 
     @api.depends("invoice_payment_term_id")

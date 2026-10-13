@@ -1,0 +1,7 @@
+{
+  "title": "Report Packaging",
+  "summary": "Packaging materials computed from invoices",
+  "icon": "box",
+  "features": ["Materials per product or category", "Purchase and sale quantities", "Aggregate report from invoices"],
+  "lang": "en"
+}

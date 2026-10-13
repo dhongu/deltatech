@@ -1,0 +1,10 @@
+{
+  "title": "POS Price Sync",
+  "summary": "Live price updates pushed to open POS sessions",
+  "icon": "cart",
+  "features": [
+    "Instant price refresh, no reload needed",
+    "Detects price changes as they happen",
+    "Fixes stale prices on open sessions"
+  ]
+}

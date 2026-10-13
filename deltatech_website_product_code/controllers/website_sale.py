@@ -22,6 +22,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         sitemap=False,
     )
     def product_by_code(self, code="", **kwargs):
+        # Same gate as /shop/<product>: on a login-only shop, a code must not reveal (404 or not)
+        # whether such a product exists
+        if not request.website.has_ecommerce_access():
+            return request.redirect(f"/web/login?redirect={request.httprequest.path}")
         product = request.env["product.template"].search([("default_code", "=", code)], limit=1)
         if not product:
             raise request.not_found()
@@ -44,6 +48,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         return str(res)
 
     def _search_products_by_code(self, search, vat=""):
+        # The products are searched as superuser: on a shop restricted to logged-in users, a visitor
+        # gets nothing, as from the standard website search (website._search_get_details)
+        if not request.website.has_ecommerce_access():
+            return []
         domain = request.website.sale_product_domain()
         _logger.info("_search_products_by_code: %s", search)
         if search:
@@ -67,7 +75,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         )
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
-        # filtrare dupa furnizor
+        # filtrare dupa furnizor: doar pentru utilizatori interni, altfel un anonim
+        # ar putea deduce furnizorii produselor comparand rezultatele cu/fara vat
+        if vat and not request.env.user._is_internal():
+            vat = ""
         if not vat:
             filtred_products = products
         else:

@@ -1,15 +1,15 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Drop Shipping",
+    "name": "Drop Shipping",
     "summary": "Delivery address in picking",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
     "category": "Warehouse",
-    "depends": ["stock_dropshipping"],
-    "data": ["views/stock_picking_view.xml"],
+    "depends": ["stock_dropshipping", "sale_purchase"],
+    "data": ["views/stock_picking_view.xml", "views/purchase_order_view.xml"],
     "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

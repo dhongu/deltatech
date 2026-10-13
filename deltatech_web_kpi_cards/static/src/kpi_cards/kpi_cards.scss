@@ -1,0 +1,145 @@
+// A card with the accent of its tone on a left border and on the icon tile,
+// the number first. Only Odoo's $o-* variables: web.assets_web_dark compiles
+// this file again with the dark values, so the cards follow the dark mode. A
+// fixed or Bootstrap grey does not: the dark theme inverts the grey scale,
+// and $gray-700 turns light there.
+.o_kpi_cards {
+    display: grid;
+    // auto-fit: the cards share the whole width, with no empty track at the end
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: map-get($spacers, 2);
+}
+
+.o_kpi_card {
+    --o-kpi-accent: #{$o-gray-600};
+
+    display: flex;
+    align-items: center;
+    gap: map-get($spacers, 2);
+    min-width: 0;
+    padding: map-get($spacers, 2) map-get($spacers, 3) map-get($spacers, 2) map-get($spacers, 2);
+    background: $o-view-background-color;
+    border: $border-width solid $border-color;
+    border-left: 4px solid var(--o-kpi-accent);
+    border-radius: $border-radius-lg;
+    transition:
+        box-shadow 0.12s ease,
+        transform 0.12s ease;
+
+    &:hover,
+    &:focus-visible {
+        box-shadow: $box-shadow-sm;
+        transform: translateY(-1px);
+    }
+
+    // the card whose filter is on: the accent all around
+    &.active {
+        border-color: var(--o-kpi-accent);
+        box-shadow: 0 0 0 1px var(--o-kpi-accent);
+    }
+
+    .o_kpi_card_icon {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: $border-radius-lg;
+        background: var(--o-kpi-accent);
+        color: $white;
+        font-size: 1.1rem;
+    }
+
+    .o_kpi_card_body {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .o_kpi_card_value {
+        font-size: 1.4rem;
+        font-weight: $font-weight-bold;
+        line-height: 1.15;
+    }
+
+    .o_kpi_card_label {
+        font-size: $font-size-sm;
+        color: $o-main-color-muted;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    // change against the previous period: green up, red down, muted when flat
+    .o_kpi_card_delta {
+        display: flex;
+        align-items: baseline;
+        gap: map-get($spacers, 1);
+        font-size: $font-size-sm;
+        color: $o-main-color-muted;
+        white-space: nowrap;
+
+        &.o_kpi_card_delta_up {
+            color: $o-success;
+        }
+        &.o_kpi_card_delta_down {
+            color: $o-danger;
+        }
+        .o_kpi_card_label {
+            min-width: 0;
+        }
+    }
+
+    // progress towards a target, in the accent of the card
+    .o_kpi_card_progress {
+        display: block;
+        height: 0.4rem;
+        margin-top: map-get($spacers, 1);
+        overflow: hidden;
+        border-radius: $border-radius-pill;
+        background: $border-color;
+    }
+    .o_kpi_card_progress_bar {
+        display: block;
+        height: 100%;
+        background: var(--o-kpi-accent);
+    }
+
+    // trend line, stretched to the width of the card
+    .o_kpi_card_spark {
+        width: 100%;
+        height: 1.6rem;
+        margin-top: map-get($spacers, 1);
+        color: var(--o-kpi-accent);
+        opacity: 0.7;
+    }
+
+    // nothing to look at: the card keeps its colour, dimmed, and its number
+    // stays readable
+    &.o_kpi_card_zero:not(.active) {
+        .o_kpi_card_icon {
+            opacity: 0.45;
+        }
+        .o_kpi_card_value {
+            color: $o-main-color-muted;
+        }
+    }
+}
+
+$o-kpi-tones: (
+    info: $o-info,
+    success: $o-success,
+    warning: $o-warning,
+    danger: $o-danger,
+    purple: $purple,
+    action: $o-action,
+    slate: $o-gray-600,
+);
+
+@each $tone, $accent in $o-kpi-tones {
+    .o_kpi_card_#{$tone} {
+        --o-kpi-accent: #{$accent};
+    }
+}

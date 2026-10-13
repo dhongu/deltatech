@@ -4,6 +4,7 @@
 
 
 from odoo import fields
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -46,6 +47,14 @@ class TestExpenses(TransactionCase):
                 "account_type": "expense",
             }
         )
+        cls.acc_payable = cls.env["account.account"].create(
+            {
+                "name": "Furnizori",
+                "code": "401TEST",
+                "account_type": "liability_payable",
+                "reconcile": True,
+            }
+        )
         # Journals: cash journal uses cash account; advance/expense journal uses 542
         cls.cash_journal = cash_journal
         cls.adv_journal = cls.env["account.journal"].create(
@@ -75,23 +84,142 @@ class TestExpenses(TransactionCase):
                 "company_id": cls.company.id,
             }
         )
-        # Tax 19% price included
+        # asigurăm țara fiscală RO (postarea moves verifică compatibilitatea taxă ↔ țară companie).
+        # account_fiscal_country_id e setat EXPLICIT: în CI compania nu are plan de conturi RO, deci
+        # nu derivă singură din country_id.
+        cls.ro_country = cls.env.ref("base.ro")
+        cls.company.write({"country_id": cls.ro_country.id, "account_fiscal_country_id": cls.ro_country.id})
+
+        # grup de taxe cu aceeași țară ca taxele (validare account.tax: tax.country_id == group.country_id)
+        cls.tax_group = cls.env["account.tax.group"].create(
+            {"name": "TVA Test", "company_id": cls.company.id, "country_id": cls.ro_country.id}
+        )
+        # Taxa standard a modulului: TVA „pe deasupra" (price-excluded) — voucher-ul adaugă TVA peste net
+        cls.tax_21 = cls.env["account.tax"].create(
+            {
+                "name": "TVA 21",
+                "amount": 21.0,
+                "amount_type": "percent",
+                "price_include_override": "tax_excluded",
+                "type_tax_use": "purchase",
+                "company_id": cls.company.id,
+                "tax_group_id": cls.tax_group.id,
+                "country_id": cls.ro_country.id,
+            }
+        )
+        # Taxă cu TVA inclus (pentru testarea ramurii de import „brut")
         cls.tax_incl_21 = cls.env["account.tax"].create(
             {
                 "name": "TVA 21 incl",
                 "amount": 21.0,
                 "amount_type": "percent",
-                "price_include": True,
+                "price_include_override": "tax_included",
                 "type_tax_use": "purchase",
                 "company_id": cls.company.id,
+                "tax_group_id": cls.tax_group.id,
+                "country_id": cls.ro_country.id,
             }
         )
         # Partners
-        cls.employee = cls.env["res.partner"].create({"name": "Angajat X"})
+        cls.employee_partner = cls.env["res.partner"].create({"name": "Angajat X"})
+        cls.employee = cls.env["hr.employee"].create({"name": "Angajat X", "work_contact_id": cls.employee_partner.id})
         cls.supplier = cls.env["res.partner"].create({"name": "Furnizor Y", "is_company": True})
+        cls.supplier.property_account_payable_id = cls.acc_payable.id
 
     def _lines_for_expenses(self, expenses):
         return self.env["account.move.line"].search([("move_id.expenses_deduction_id", "=", expenses.id)])
+
+    def test_employee_deduction_smart_button(self):
+        """Fișa angajatului numără deconturile și acțiunea le filtrează."""
+        self.assertEqual(self.employee.expenses_deduction_count, 0)
+        self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        self.employee.invalidate_recordset(["expenses_deduction_count"])
+        self.assertEqual(self.employee.expenses_deduction_count, 1)
+        action = self.employee.action_open_expenses_deductions()
+        self.assertEqual(action["res_model"], "deltatech.expenses.deduction")
+        self.assertIn(("employee_id", "=", self.employee.id), action["domain"])
+
+    def test_supplier_payment_reconciles_open_bill(self):
+        """Linia 'supplier_payment' stinge o factură furnizor deschisă din avans (reconciliere)."""
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.supplier.id,
+                "invoice_date": fields.Date.today(),
+                "journal_id": self.purchase_journal.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {"name": "Marfă", "price_unit": 100.0, "account_id": self.acc_exp.id, "tax_ids": [(6, 0, [])]},
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        self.assertEqual(bill.payment_state, "not_paid")
+
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Plată furnizor",
+                "amount": 100.0,
+                "type": "supplier_payment",
+                "partner_id": self.supplier.id,
+                "expense_account_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        # factura furnizor este stinsă din avans, iar contul 542 se închide
+        self.assertIn(bill.payment_state, ("paid", "in_payment", "reversed"))
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id.id == self.acc_542.id)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    def test_advance_without_partner_internal(self):
+        """Angajat fără work_contact_id: notele de avans se generează fără partener (interne)."""
+        employee_no_partner = self.env["hr.employee"].create({"name": "Angajat Intern"})
+        # Odoo atribuie automat un work_contact_id la creare; îl golim ca să testăm cazul intern
+        employee_no_partner.work_contact_id = False
+        expenses = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": employee_no_partner.id,
+                "advance": 500.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        self.assertFalse(expenses.partner_id)
+        # validarea nu trebuie să arunce eroare doar pentru lipsa partenerului
+        expenses.validate_advance()
+        self.assertEqual(expenses.state, "advance")
+        adv_lines = self._lines_for_expenses(expenses).filtered(lambda l: l.move_id.ref == expenses.number)
+        self.assertTrue(adv_lines)
+        self.assertFalse(any(adv_lines.mapped("partner_id")))
 
     def test_full_flow_advance_expense_refund_and_zero_542(self):
         # Create expenses document with advance 1000
@@ -106,6 +234,9 @@ class TestExpenses(TransactionCase):
                 "account_diem_id": self.acc_exp.id,
             }
         )
+        # partner_id (related stored) se rezolvă din work_contact_id al angajatului
+        self.assertEqual(expenses.partner_id, self.employee_partner)
+
         # onchange date sets expense date if not provided
         expenses.onchange_date_advance()
         self.assertEqual(expenses.date_expense, expenses.date_advance)
@@ -129,7 +260,7 @@ class TestExpenses(TransactionCase):
                 "expenses_deduction_id": expenses.id,
                 "name": "Cazare",
                 "amount": 500.0,
-                "tax_ids": [(6, 0, [self.tax_incl_21.id])],
+                "tax_ids": [(6, 0, [self.tax_21.id])],
                 "expense_account_id": self.acc_exp.id,
                 "partner_id": self.supplier.id,
             }
@@ -139,7 +270,7 @@ class TestExpenses(TransactionCase):
                 "expenses_deduction_id": expenses.id,
                 "name": "Transport",
                 "amount": 300.0,
-                "tax_ids": [(6, 0, [self.tax_incl_21.id])],
+                "tax_ids": [(6, 0, [self.tax_21.id])],
                 "expense_account_id": self.acc_exp.id,
                 "partner_id": self.supplier.id,
             }
@@ -155,18 +286,684 @@ class TestExpenses(TransactionCase):
         # Difference is computed against the advance actually given
         self.assertAlmostEqual(expenses.difference, expenses.amount_vouchers - 1000.0, places=2)
 
-        # Validate expenses: creates vouchers (in_receipt), payments, reconciles payables and books difference 200
-        # expenses.validate_expenses()
-        # self.assertEqual(expenses.state, "done")
-        #
-        # # 542 account should net to zero for this expenses document
-        # all_lines = self._lines_for_expenses(expenses)
-        # lines_542 = all_lines.filtered(lambda l: l.account_id.id == self.acc_542.id)
-        # debit_542 = sum(lines_542.mapped("debit"))
-        # credit_542 = sum(lines_542.mapped("credit"))
-        # self.assertAlmostEqual(debit_542, credit_542, places=2)
-        #
-        # # Invalidate should rollback moves/payments and set state back to draft
-        # expenses.invalidate_expenses()
-        # self.assertEqual(expenses.state, "draft")
-        # self.assertFalse(self._lines_for_expenses(expenses))
+        # Validare decont: generează chitanțe (in_receipt), note de decontare Dr 401 = Cr 542,
+        # reconciliază datoriile către furnizor și înregistrează diferența
+        expenses.validate_expenses()
+        self.assertEqual(expenses.state, "done")
+
+        # contul 542 se închide pentru acest decont (debit = credit)
+        all_lines = self._lines_for_expenses(expenses)
+        lines_542 = all_lines.filtered(lambda l: l.account_id.id == self.acc_542.id)
+        debit_542 = sum(lines_542.mapped("debit"))
+        credit_542 = sum(lines_542.mapped("credit"))
+        self.assertAlmostEqual(debit_542, credit_542, places=2)
+        self.assertGreater(debit_542, 0.0)
+
+        # chitanțele furnizor sunt complet decontate din avans (fără sold rămas)
+        vouchers = expenses.voucher_ids
+        self.assertTrue(vouchers)
+        self.assertTrue(all(v.payment_state in ("paid", "in_payment", "reversed") for v in vouchers))
+
+        # Invalidarea readuce decontul în Ciornă și șterge notele generate
+        expenses.invalidate_expenses()
+        self.assertEqual(expenses.state, "draft")
+        self.assertFalse(self._lines_for_expenses(expenses))
+
+    def test_advance_settlement_542_line_uses_employee_partner(self):
+        """Linia de 542 din decontarea avansului rămâne pe partenerul angajatului;
+        doar linia de 401 e pe furnizor (tichet POPVAL-COS, pct. 1)."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Plată furnizor",
+                "amount": 100.0,
+                "type": "supplier_payment",
+                "partner_id": self.supplier.id,
+                "expense_account_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_expenses()
+
+        settlement_lines = self._lines_for_expenses(deduction).filtered(lambda l: l.name == "Decontare avans")
+        lines_401 = settlement_lines.filtered(lambda l: l.account_id.id == self.acc_payable.id)
+        lines_542 = settlement_lines.filtered(lambda l: l.account_id.id == self.acc_542.id)
+        self.assertTrue(lines_401)
+        self.assertTrue(lines_542)
+        self.assertEqual(set(lines_401.mapped("partner_id.id")), {self.supplier.id})
+        self.assertEqual(set(lines_542.mapped("partner_id.id")), {self.employee_partner.id})
+
+    def test_validate_advance_rejects_second_call(self):
+        """Reapelarea validate_advance peste un decont deja în Avans e respinsă (dublă contabilizare)."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        with self.assertRaises(UserError):
+            deduction.validate_advance()
+
+    def test_validate_expenses_rejects_second_call(self):
+        """Reapelarea validate_expenses peste un decont deja Finalizat e respinsă."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        deduction.validate_expenses()
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+
+    def test_invalidate_requires_done_state(self):
+        """invalidate_expenses respinge un decont care nu e Finalizat."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        with self.assertRaises(UserError):
+            deduction.invalidate_expenses()
+
+    def test_reconcile_supplier_payment_scoped_to_company(self):
+        """O factură a aceluiași furnizor dintr-o altă companie NU este reconciliată din avans
+        (tichet POPVAL-COS, pct. 5)."""
+        company2 = self.env["res.company"].create({"name": "Compania 2 Test"})
+        # contul devine utilizabil în compania 2: are nevoie de un cod propriu per companie
+        self.acc_payable.write(
+            {
+                "company_ids": [(4, company2.id)],
+                "code_mapping_ids": [(0, 0, {"company_id": company2.id, "code": "401TEST2"})],
+            }
+        )
+        self.acc_exp.write(
+            {
+                "company_ids": [(4, company2.id)],
+                "code_mapping_ids": [(0, 0, {"company_id": company2.id, "code": "625TEST2"})],
+            }
+        )
+        purchase_journal2 = self.env["account.journal"].create(
+            {
+                "name": "Purch J2",
+                "code": "PUJ2",
+                "type": "purchase",
+                "company_id": company2.id,
+            }
+        )
+        bill_other_company = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.supplier.id,
+                "company_id": company2.id,
+                "invoice_date": fields.Date.today(),
+                "journal_id": purchase_journal2.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Marfă altă companie",
+                            "price_unit": 500.0,
+                            "account_id": self.acc_exp.id,
+                            "tax_ids": [(6, 0, [])],
+                        },
+                    )
+                ],
+            }
+        )
+        bill_other_company.action_post()
+        self.assertEqual(bill_other_company.payment_state, "not_paid")
+
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Plată furnizor",
+                "amount": 100.0,
+                "type": "supplier_payment",
+                "partner_id": self.supplier.id,
+                "expense_account_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+
+        # factura din compania 2 rămâne neatinsă
+        bill_other_company.invalidate_recordset(["payment_state"])
+        self.assertEqual(bill_other_company.payment_state, "not_paid")
+
+    def test_validate_expenses_price_include_tax_document_total(self):
+        """Pentru taxe TVA inclus, chitanța generată la validate_expenses păstrează totalul brut
+        corect — nu doar linia, ci documentul postat în întregime (tichet POPVAL-COS, pct. 2)."""
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        deduction.validate_advance()
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Cazare TVA inclus",
+                "amount": 121.0,
+                "tax_ids": [(6, 0, [self.tax_incl_21.id])],
+                "expense_account_id": self.acc_exp.id,
+                "partner_id": self.supplier.id,
+            }
+        )
+        deduction.validate_expenses()
+
+        voucher = deduction.voucher_ids
+        self.assertEqual(len(voucher), 1)
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+        self.assertAlmostEqual(voucher.amount_untaxed, 100.0, places=2)
+        self.assertAlmostEqual(voucher.amount_tax, 21.0, places=2)
+
+    def test_role_separation_advance_and_validate(self):
+        """Doar Aprobatorul poate valida avansul; doar Contabilul poate finaliza decontul
+        (tichet POPVAL-COS, pct. 6)."""
+        plain_user = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Angajat Test",
+                    "login": "expenses_plain_user_test",
+                    "email": "expenses_plain_user_test@example.com",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_user").id])],
+                }
+            )
+        )
+        approver_user = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Aprobator Test",
+                    "login": "expenses_approver_user_test",
+                    "email": "expenses_approver_user_test@example.com",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_approver").id])],
+                }
+            )
+        )
+        accounting_user = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Contabil Test",
+                    "login": "expenses_accounting_user_test",
+                    "email": "expenses_accounting_user_test@example.com",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_accounting").id])],
+                }
+            )
+        )
+
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 100.0,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+
+        with self.assertRaises(AccessError):
+            deduction.with_user(plain_user).validate_advance()
+
+        deduction.with_user(approver_user).validate_advance()
+        self.assertEqual(deduction.state, "advance")
+        self.assertEqual(deduction.approved_by_id, approver_user)
+
+        self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Cazare",
+                "amount": 100.0,
+                "expense_account_id": self.acc_exp.id,
+                "partner_id": self.supplier.id,
+            }
+        )
+
+        with self.assertRaises(AccessError):
+            deduction.with_user(approver_user).validate_expenses()
+
+        deduction.with_user(accounting_user).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        self.assertEqual(deduction.accounted_by_id, accounting_user)
+
+    def test_default_account_diem_uses_company_ids(self):
+        """_default_account_diem caută pe company_ids (many2many), nu pe company_id — altfel
+        căutarea eșuează silențios și contul de diurnă nu se completează niciodată (tichet
+        POPVAL-COS, runda 2). Companie izolată, ca să nu depindem de ce alte conturi 625% mai
+        există în baza de test."""
+        company_iso = self.env["res.company"].create({"name": "Diem Test Co"})
+        acc_diem_iso = self.env["account.account"].create(
+            {
+                "name": "Cheltuieli deplasari izolat",
+                "code": "625ISO",
+                "account_type": "expense",
+                "company_ids": [(6, 0, [company_iso.id])],
+            }
+        )
+        result = self.env["deltatech.expenses.deduction"].with_company(company_iso)._default_account_diem()
+        self.assertEqual(result, acc_diem_iso)
+
+    def test_expenses_line_own_rule_restricts_access(self):
+        """Un Angajat nu poate citi direct linia unui decont care nu îi aparține — regulă proprie
+        pe modelul de linie, nu doar pe decont (tichet POPVAL-COS, runda 2)."""
+        other_employee = self.env["hr.employee"].create({"name": "Alt Angajat Linie"})
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": other_employee.id,
+                "journal_id": self.cash_journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+        line = self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Cazare",
+                "amount": 100.0,
+                "expense_account_id": self.acc_exp.id,
+                "partner_id": self.supplier.id,
+            }
+        )
+        plain_user = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Angajat Linie Test",
+                    "login": "expenses_line_user_test",
+                    "email": "expenses_line_user_test@example.com",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_user").id])],
+                }
+            )
+        )
+        with self.assertRaises(AccessError):
+            line.with_user(plain_user).read(["name"])
+
+    def _new_deduction(self, advance, **vals):
+        values = {
+            "date_advance": fields.Date.today(),
+            "employee_id": self.employee.id,
+            "advance": advance,
+            "journal_id": self.cash_journal.id,
+            "expense_journal_id": self.adv_journal.id,
+            "journal_diem_id": self.diary_journal.id,
+            "account_diem_id": self.acc_exp.id,
+        }
+        values.update(vals)
+        deduction = self.env["deltatech.expenses.deduction"].create(values)
+        deduction.validate_advance()
+        return deduction
+
+    def _new_line(self, deduction, amount, taxes=None, **vals):
+        values = {
+            "expenses_deduction_id": deduction.id,
+            "name": "Cheltuială",
+            "amount": amount,
+            "tax_ids": [(6, 0, (taxes or self.env["account.tax"]).ids)],
+            "expense_account_id": self.acc_exp.id,
+            "partner_id": self.supplier.id,
+        }
+        values.update(vals)
+        return self.env["deltatech.expenses.deduction.line"].create(values)
+
+    def test_amount_is_gross_with_tax_excluded(self):
+        """Suma liniei e mereu brută (de pe bon), chiar și cu o taxă „pe deasupra": baza și TVA-ul
+        se extrag din ea, iar chitanța generată are totalul egal cu suma de pe bon."""
+        deduction = self._new_deduction(200.0)
+        line = self._new_line(deduction, 121.0, self.tax_21)
+        self.assertAlmostEqual(line.price_subtotal, 100.0, places=2)
+        self.assertAlmostEqual(line.tax_amount, 21.0, places=2)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0, places=2)
+        deduction.validate_expenses()
+        voucher = deduction.voucher_ids
+        self.assertEqual(len(voucher), 1)
+        self.assertAlmostEqual(voucher.amount_untaxed, 100.0, places=2)
+        self.assertAlmostEqual(voucher.amount_tax, 21.0, places=2)
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+
+    def test_gross_amount_rounding_still_closes_542(self):
+        """Un brut care nu se împarte exact (100 lei cu TVA 21% pe deasupra) dă un total al
+        decontului identic cu al chitanței, deci 542 se închide la zero."""
+        deduction = self._new_deduction(100.0)
+        self._new_line(deduction, 100.0, self.tax_21)
+        voucher_total = deduction.amount_vouchers
+        deduction.validate_expenses()
+        self.assertAlmostEqual(deduction.voucher_ids.amount_total, voucher_total, places=2)
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    def test_difference_note_dated_on_settlement(self):
+        """Nota de regularizare a diferenței (casă ↔ 542) poartă data decontului, nu data avansului."""
+        advance_date = fields.Date.subtract(fields.Date.today(), days=5)
+        deduction = self._new_deduction(500.0, date_advance=advance_date, date_expense=fields.Date.today())
+        self._new_line(deduction, 300.0)
+        deduction.validate_expenses()
+        diff_moves = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_cash).move_id
+        advance_move = diff_moves.filtered(lambda m: m.date == advance_date)
+        refund_move = diff_moves - advance_move
+        self.assertEqual(len(refund_move), 1)
+        self.assertEqual(refund_move.date, fields.Date.today())
+        self.assertAlmostEqual(refund_move.line_ids.filtered(lambda l: l.account_id == self.acc_cash).debit, 200.0)
+
+    def test_supplier_payment_without_bill_is_supplier_advance(self):
+        """Plata directă către un furnizor fără datorii deschise e un avans acordat furnizorului:
+        Dr 4092 = Cr 401, reconciliat cu Dr 401 = Cr 542 — pe 401 nu rămâne sold debitor."""
+        acc_4092 = self.env["account.account"].create(
+            {"name": "Furnizori-debitori servicii", "code": "4092TEST", "account_type": "asset_current"}
+        )
+        deduction = self._new_deduction(100.0)
+        self._new_line(deduction, 100.0, type="supplier_payment")
+        deduction.validate_expenses()
+        lines = self._lines_for_expenses(deduction)
+        payable = lines.filtered(lambda l: l.account_id == self.acc_payable)
+        self.assertAlmostEqual(sum(payable.mapped("balance")), 0.0, places=2)
+        self.assertTrue(all(payable.mapped("reconciled")))
+        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_4092).mapped("debit")), 100.0)
+        lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    def _foreign_currency(self, company):
+        """An active currency different from the company currency, with a rate far from 1."""
+        currency = (
+            self.env["res.currency"]
+            .with_context(active_test=False)
+            .search([("id", "!=", company.currency_id.id), ("name", "in", ["EUR", "USD", "CHF"])], limit=1)
+        )
+        currency.active = True
+        self.env["res.currency.rate"].create(
+            {"currency_id": currency.id, "rate": 0.2, "name": fields.Date.today(), "company_id": company.id}
+        )
+        return currency
+
+    def test_line_currency_is_company_currency(self):
+        """EXPENSES-002: a currency sent with the line is ignored, the line is in the company currency
+        of the deduction, so totals and posting add only amounts in the same currency."""
+        foreign = self._foreign_currency(self.company)
+        deduction = self._new_deduction(200.0)
+        line = self._new_line(deduction, 121.0, self.tax_21, currency_id=foreign.id)
+        self.assertEqual(line.currency_id, self.company.currency_id)
+        self.assertEqual(deduction.currency_id, self.company.currency_id)
+        line.write({"currency_id": foreign.id})
+        self.assertEqual(line.currency_id, self.company.currency_id)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0, places=2)
+        deduction.validate_expenses()
+        voucher = deduction.voucher_ids
+        self.assertEqual(voucher.currency_id, self.company.currency_id)
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    def test_line_currency_follows_deduction_company(self):
+        """EXPENSES-002: the line currency comes from the deduction company, not from the main company
+        of the user (who works in another allowed company)."""
+        foreign = self._foreign_currency(self.company)
+        company_b = self.env["res.company"].create({"name": "Expenses company B", "currency_id": foreign.id})
+        self.env.user.company_ids |= company_b
+        self.assertEqual(self.env.user.company_id, self.company)
+        env_b = self.env(context=dict(self.env.context, allowed_company_ids=[company_b.id, self.company.id]))
+        account_b = env_b["account.account"].create(
+            {"name": "Cash B", "code": "5311B", "account_type": "asset_cash", "company_ids": [(6, 0, company_b.ids)]}
+        )
+        journal_b = env_b["account.journal"].create(
+            {
+                "name": "Cash B",
+                "code": "CSHB",
+                "type": "general",
+                "company_id": company_b.id,
+                "default_account_id": account_b.id,
+            }
+        )
+        deduction = env_b["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "company_id": company_b.id,
+                "journal_id": journal_b.id,
+                "account_diem_id": account_b.id,
+            }
+        )
+        line = env_b["deltatech.expenses.deduction.line"].create(
+            {"expenses_deduction_id": deduction.id, "name": "Taxi", "amount": 50.0, "expense_account_id": account_b.id}
+        )
+        self.assertEqual(deduction.currency_id, foreign)
+        self.assertEqual(line.currency_id, foreign)
+        self.assertAlmostEqual(deduction.amount_vouchers, 50.0, places=2)
+
+    # EXPENSES-001 — tranzițiile de stare și decontul finalizat sunt protejate pe server
+
+    def _expenses_user(self, login, group_xmlids):
+        groups = [self.env.ref(xmlid).id for xmlid in group_xmlids]
+        return (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create({"name": login, "login": login, "email": f"{login}@example.com", "group_ids": [(6, 0, groups)]})
+        )
+
+    def _deduction_vals(self, advance=100.0):
+        return {
+            "date_advance": fields.Date.today(),
+            "employee_id": self.employee.id,
+            "advance": advance,
+            "journal_id": self.cash_journal.id,
+            "expense_journal_id": self.adv_journal.id,
+            "journal_diem_id": self.diary_journal.id,
+            "account_diem_id": self.acc_exp.id,
+        }
+
+    def test_user_without_role_cannot_write_state(self):
+        """Un utilizator fără rol de Aprobator/Contabil nu schimbă starea prin write/create."""
+        plain_user = self._expenses_user("expenses_001_plain", ["deltatech_expenses.group_expenses_user"])
+        self.employee.user_id = plain_user
+        # decontul îl introduce contabilul; angajatul îl poate doar citi/edita pe al său
+        deduction = self.env["deltatech.expenses.deduction"].create(self._deduction_vals())
+        self.assertEqual(deduction.state, "draft")
+        for vals in (
+            {"state": "advance"},
+            {"state": "done"},
+            {"state": "cancel"},
+            {"approved_by_id": plain_user.id},
+            {"accounted_by_id": plain_user.id},
+        ):
+            with self.assertRaises(UserError):
+                deduction.with_user(plain_user).write(vals)
+        self.assertEqual(deduction.state, "draft")
+        with self.assertRaises(UserError):
+            self.env["deltatech.expenses.deduction"].with_user(plain_user).create(
+                dict(self._deduction_vals(), state="done")
+            )
+        with self.assertRaises(AccessError):
+            deduction.with_user(plain_user).cancel_expenses()
+        # câmpurile fără efect de flux rămân editabile în ciornă
+        deduction.with_user(plain_user).write({"advance": 150.0, "note": "ok"})
+        self.assertEqual(deduction.advance, 150.0)
+
+    def test_finalized_deduction_is_locked_for_accountant(self):
+        """Decontul finalizat nu își mai schimbă sumele/liniile prin write; contabilul lucrează
+        normal prin flux (avans, linii, validare, invalidare, revalidare)."""
+        account_group = "account.group_account_invoice"
+        approver = self._expenses_user(
+            "expenses_001_approver", ["deltatech_expenses.group_expenses_approver", account_group]
+        )
+        accountant = self._expenses_user(
+            "expenses_001_accountant", ["deltatech_expenses.group_expenses_accounting", account_group]
+        )
+        Deduction = self.env["deltatech.expenses.deduction"].with_user(accountant)
+        Line = self.env["deltatech.expenses.deduction.line"].with_user(accountant)
+
+        deduction = Deduction.create(self._deduction_vals())
+        deduction.write({"travel_order": "OD-1", "advance": 200.0})
+        deduction.with_user(approver).validate_advance()
+        self.assertEqual(deduction.state, "advance")
+        line = Line.create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Cazare",
+                "amount": 150.0,
+                "expense_account_id": self.acc_exp.id,
+                "partner_id": self.supplier.id,
+            }
+        )
+        line.write({"amount": 180.0})
+        deduction.with_user(accountant).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        posted_lines = self._lines_for_expenses(deduction)
+
+        # decont finalizat: sumele, liniile și datele contabile nu se mai modifică prin write
+        with self.assertRaises(UserError):
+            deduction.with_user(accountant).write({"advance": 500.0})
+        with self.assertRaises(UserError):
+            deduction.with_user(accountant).write({"days": 3, "diem": 50.0})
+        with self.assertRaises(UserError):
+            deduction.with_user(accountant).write({"expenses_line_ids": [(1, line.id, {"amount": 1.0})]})
+        with self.assertRaises(UserError):
+            deduction.with_user(accountant).write({"state": "draft"})
+        with self.assertRaises(UserError):
+            line.with_user(accountant).write({"amount": 1.0})
+        with self.assertRaises(UserError):
+            Line.create({"expenses_deduction_id": deduction.id, "name": "Taxi", "amount": 10.0})
+        with self.assertRaises(UserError):
+            line.with_user(accountant).unlink()
+        with self.assertRaises(UserError):
+            deduction.with_user(accountant).cancel_expenses()
+        self.assertEqual(deduction.advance, 200.0)
+        self.assertAlmostEqual(line.amount, 180.0, places=2)
+        self.assertEqual(self._lines_for_expenses(deduction), posted_lines)
+        # câmpurile informative rămân editabile
+        deduction.with_user(accountant).write({"note": "verificat"})
+
+        # corecția trece prin invalidare: în ciornă liniile se pot modifica și decontul se revalidează
+        deduction.with_user(accountant).invalidate_expenses()
+        self.assertEqual(deduction.state, "draft")
+        line.with_user(accountant).write({"amount": 120.0})
+        deduction.with_user(approver).validate_advance()
+        deduction.with_user(accountant).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+
+    def test_superuser_and_cancel_draft_not_blocked(self):
+        """sudo/superuser nu este blocat; contabilul anulează un decont în ciornă."""
+        accountant = self._expenses_user(
+            "expenses_001_cancel", ["deltatech_expenses.group_expenses_accounting", "account.group_account_invoice"]
+        )
+        deduction = self.env["deltatech.expenses.deduction"].create(self._deduction_vals())
+        deduction.with_user(accountant).cancel_expenses()
+        self.assertEqual(deduction.state, "cancel")
+        deduction.sudo().write({"advance": 50.0, "state": "draft"})
+        self.assertEqual(deduction.state, "draft")
+
+    def test_advance_entry_fields_locked_in_advance_state(self):
+        """Cu nota de avans postată, avansul, jurnalele, data avansului, angajatul și compania nu se
+        mai modifică prin write; liniile și diurna rămân editabile, iar corecția avansului trece
+        prin invalidare."""
+        account_group = "account.group_account_invoice"
+        approver = self._expenses_user(
+            "expenses_001_adv_approver", ["deltatech_expenses.group_expenses_approver", account_group]
+        )
+        accountant = self._expenses_user(
+            "expenses_001_adv_accountant", ["deltatech_expenses.group_expenses_accounting", account_group]
+        )
+        other_employee = self.env["hr.employee"].create({"name": "Angajat Z"})
+        other_cash = self.env["account.journal"].create(
+            {"name": "Cash 2", "code": "CSH2", "type": "cash", "company_id": self.company.id}
+        )
+        deduction = self.env["deltatech.expenses.deduction"].with_user(accountant).create(self._deduction_vals(1000.0))
+        deduction.with_user(approver).validate_advance()
+        self.assertEqual(deduction.state, "advance")
+        advance_lines = self._lines_for_expenses(deduction)
+        self.assertAlmostEqual(sum(advance_lines.mapped("debit")), 1000.0, places=2)
+
+        for vals in (
+            {"advance": 1500.0},
+            {"journal_id": other_cash.id},
+            {"expense_journal_id": self.diary_journal.id},
+            {"date_advance": fields.Date.add(fields.Date.today(), days=-1)},
+            {"employee_id": other_employee.id},
+        ):
+            with self.assertRaises(UserError):
+                deduction.with_user(accountant).write(vals)
+        self.assertEqual(deduction.advance, 1000.0)
+        self.assertEqual(deduction.employee_id, self.employee)
+
+        # liniile, diurna și zilele rămân editabile în Avans
+        deduction.with_user(accountant).write({"days": 2, "diem": 50.0})
+        line = (
+            self.env["deltatech.expenses.deduction.line"]
+            .with_user(accountant)
+            .create(
+                {
+                    "expenses_deduction_id": deduction.id,
+                    "name": "Cazare",
+                    "amount": 1100.0,
+                    "expense_account_id": self.acc_exp.id,
+                    "partner_id": self.supplier.id,
+                }
+            )
+        )
+        line.write({"amount": 1200.0})
+        deduction.with_user(accountant).write({"days": 0})
+
+        # fluxul complet: Validează → Invalidează → corectare avans → Avans → Validează
+        deduction.with_user(accountant).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        deduction.with_user(accountant).invalidate_expenses()
+        self.assertEqual(deduction.state, "draft")
+        deduction.with_user(accountant).write({"advance": 1500.0})
+        deduction.with_user(approver).validate_advance()
+        deduction.with_user(accountant).validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)

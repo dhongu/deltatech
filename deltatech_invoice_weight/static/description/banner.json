@@ -1,0 +1,7 @@
+{
+  "title": "Invoice Weight",
+  "summary": "Weights on sales, purchases, invoices",
+  "icon": "box",
+  "features": ["Net and gross weight on documents", "Weight analysis in pivot view", "Weight on printed invoice"],
+  "lang": "en"
+}

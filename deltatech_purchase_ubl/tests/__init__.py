@@ -2,3 +2,10 @@
 
 from . import test_ubl_import
 from . import test_process_attachments
+from . import test_screenshots
+from . import test_ubl_import_uom
+from . import test_ubl_import_lines
+from . import test_ubl_import_parse
+from . import test_ubl_import_resolve
+from . import test_ubl_import_flow
+from . import test_ubl_import_credit_note

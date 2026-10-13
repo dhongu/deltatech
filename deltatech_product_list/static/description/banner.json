@@ -1,0 +1,6 @@
+{
+  "title": "Product Lists",
+  "summary": "Segment your catalog into named product lists",
+  "icon": "bag",
+  "features": ["Named lists with domain filter", "Limit results per list", "Per-company configuration"]
+}

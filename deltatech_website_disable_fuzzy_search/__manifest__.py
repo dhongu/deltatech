@@ -4,8 +4,8 @@
 
 {
     "name": "Website Disable Fuzzy Search",
-    "summary": "Disable Fuzzy Search",
-    "version": "19.0.1.0.1",
+    "summary": "Turn off fuzzy matching in the website search bar",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

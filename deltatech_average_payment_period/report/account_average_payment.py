@@ -4,6 +4,7 @@
 
 
 from odoo import api, fields, models, tools
+from odoo.tools import SQL
 
 
 class AccountAveragePaymentReport(models.Model):
@@ -19,6 +20,7 @@ class AccountAveragePaymentReport(models.Model):
     # period_id = fields.Many2one('account.period', string="Period", readonly=True)
     journal_id = fields.Many2one("account.journal", string="Journal", readonly=True)
     move_id = fields.Many2one("account.move", string="Account Move", readonly=True)
+    company_id = fields.Many2one("res.company", string="Company", readonly=True)
     ref = fields.Char("Reference", readonly=True)
     # invoice_id = fields.Many2one('account.invoice',string="Invoice",readonly=True)
     account_code = fields.Char(string="Account Code", related="account_id.code", readonly=True)
@@ -93,6 +95,7 @@ class AccountAveragePaymentReport(models.Model):
 
             l.journal_id,
             l.move_id,
+            l.company_id,
             l.debit as debit,
             l.credit as credit,
             am.ref as ref,
@@ -121,8 +124,10 @@ class AccountAveragePaymentReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute(
-            f"""CREATE or REPLACE VIEW {self._table} as (
-                {self._select()}
-                {self._from()}
-            )"""
+            SQL(
+                "CREATE or REPLACE VIEW %s as (%s %s)",
+                SQL.identifier(self._table),
+                SQL(self._select()),
+                SQL(self._from()),
+            )
         )

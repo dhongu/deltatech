@@ -1,0 +1,7 @@
+{
+  "title": "Sale Delivery Status",
+  "summary": "See delivery progress on the sales order",
+  "icon": "truck",
+  "features": ["Delivery status badge on sale orders", "Auto: Done or In Progress", "Filter sales orders by status"],
+  "lang": "en"
+}

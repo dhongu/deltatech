@@ -3,12 +3,13 @@
 
 {
     "name": "Sale Pallet",
-    "summary": "Sale pallet",
-    "version": "19.0.1.0.8",
+    "summary": "Add pallets automatically to sale orders based on product quantity",
+    "version": "19.0.1.0.12",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["sale_margin", "account"],
+    # `stock` e folosit de teste (`stock.quant._update_available_quantity`).
+    "depends": ["sale_margin", "account", "stock"],
     "license": "OPL-1",
     "data": ["views/product_view.xml", "views/invoice_view.xml"],
     "images": ["static/description/main_screenshot.png"],

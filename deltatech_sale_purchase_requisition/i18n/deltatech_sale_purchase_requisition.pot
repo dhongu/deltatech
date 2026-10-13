@@ -1,0 +1,82 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_purchase_requisition
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_purchase_requisition.view_order_form_inherit_deltatech_requisition
+msgid "Create RFQ"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#. odoo-python
+#: code:addons/deltatech_sale_purchase_requisition/models/sale_order.py:0
+msgid ""
+"No eligible line for purchase (products without purchase_ok or quantity <= "
+"0)."
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model,name:deltatech_sale_purchase_requisition.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__rfq_ids
+msgid "RFQ"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_sale_order__rfq_count
+msgid "RFQ Count"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_purchase_requisition.view_order_form_inherit_deltatech_requisition
+msgid "RFQs"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,help:deltatech_sale_purchase_requisition.field_purchase_order__quote_id
+msgid "Related quote from which this RFQ/PO was initiated."
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model.fields,field_description:deltatech_sale_purchase_requisition.field_purchase_order__quote_id
+msgid "Sale Quote"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#: model:ir.model,name:deltatech_sale_purchase_requisition.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_sale_purchase_requisition
+#. odoo-python
+#: code:addons/deltatech_sale_purchase_requisition/models/sale_order.py:0
+msgid "There are no lines on this quotation."
+msgstr ""

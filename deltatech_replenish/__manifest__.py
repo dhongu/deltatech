@@ -1,0 +1,19 @@
+# ©  2015-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+{
+    "name": "Replenish Vendor (Compatibility)",
+    "summary": "Compatibility module: vendor choice in replenishment is now standard in Odoo 19",
+    "version": "19.0.1.0.1",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "category": "Purchase",
+    "depends": ["purchase_stock"],
+    "license": "OPL-1",
+    "data": [],
+    "images": ["static/description/main_screenshot.png"],
+    "installable": True,
+    "development_status": "Production/Stable",
+    "maintainers": ["dhongu"],
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Purchase XLS Import / Export",
+  "summary": "Manage purchase order lines via Excel files",
+  "icon": "truck",
+  "features": ["Import PO lines from Excel", "Export PO lines to Excel", "Bulk procurement made easy"]
+}

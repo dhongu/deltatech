@@ -1,0 +1,62 @@
+# Known bugs
+
+Review date: 2026-10-01. Target version: Odoo 19.
+
+## REORDER-001 — P1: Automatic rules use the default user company instead of the active company
+
+- **Status:** Fixed in 19.0.0.1.6 — `create_rule()` works per product with `company = product.company_id or env.company`: warehouses, existing rules and the auto-rule route (`company_id in [company, False]`) are searched in that company and the rules are created with `company_id` set, through `with_company(company)`. Covered by tests in `tests/test_multi_company.py` (shared product created in the active company, product of company B, rule of the default company present).
+- **Location:** `models/product.py:10–41, create_rule()`.
+- **Trigger:** A user whose default company is A switches to company B and creates a product; both companies are allowed and A has an enabled warehouse.
+- **Actual behavior / impact:** Warehouse and existing-rule searches use env.user.company_id. The generated values omit company_id, whose core default is env.company. This mixes an A location with company B and can fail the core company consistency check or skip the intended B rule.
+- **Evidence:** Executed the extracted method with default company 1 and active company 2: it selected location 11 belonging to company 1 and emitted no company_id. Core stock.warehouse.orderpoint defaults company_id to env.company and enables automatic company checks.
+- **Suggested fix:** Use the active/document company consistently for warehouses, routes, existing rules and creation values.
+- **Validation needed:** Create products in B while the user defaults to A; assert all generated rules and locations belong to B.
+
+## REORDER-002 — P2: One existing rule prevents generation for other warehouses
+
+- **Status:** Open.
+- **Location:** `models/product.py:23–41, create_rule()`.
+- **Trigger:** A product already has a rule in warehouse W1; enable automatic rules in W2 and invoke Create rule.
+- **Actual behavior / impact:** The existing-rule search is scoped only by product and company. Any matching rule skips the entire warehouse loop, so W2 never receives its missing rule.
+- **Evidence:** Executed the extracted method with two enabled warehouses and one existing rule: no new rule was emitted. The core uniqueness key is product_id, location_id, company_id.
+- **Suggested fix:** Check existence for each target location and company, preserving existing rules.
+- **Validation needed:** With a rule at W1 only, generate W2 and repeat the action without duplicates.
+
+## REORDER-003 — P2: The string False disables automatic rule creation
+
+- **Status:** Open.
+- **Location:** `models/product.py:53–62, create()`.
+- **Trigger:** Set deltatech_auto_reorder_rule.dont_auto_create_rule to False in System Parameters.
+- **Actual behavior / impact:** get_param returns the stored string. The code checks its Python truthiness, so the non-empty string False disables generation exactly like True.
+- **Evidence:** Confirmed get_param returns stored text; evaluated the same condition with False as text, which is truthy.
+- **Suggested fix:** Parse the setting with tools.str2bool rather than string truthiness.
+- **Validation needed:** Check missing, False, 0 and True values; only enabled values should disable auto creation.
+
+## REORDER-004 — P1: The location wizard creates rules with a removed field
+
+- **Status:** Fixed in 19.0.0.1.5 — `do_create()` no longer sends the obsolete `qty_multiple` key (always 0, absent from `stock.warehouse.orderpoint` in Odoo 19; it only exists when the optional `deltatech_stock_orderpoint_multiple` is installed). Covered by tests in `tests/test_order_rules_wizard.py` (wizard creates the rule with product, location, min/max and trigger).
+- **Location:** `wizard/order_rules_details.py:17–42, do_create()`.
+- **Trigger:** Open Rules Wizard on a product, choose at least one location and create rules.
+- **Actual behavior / impact:** Every generated dictionary contains qty_multiple. The stock.warehouse.orderpoint model supplied by the declared dependencies has no such field in Odoo 19; ORM creation rejects it with Invalid field qty_multiple.
+- **Evidence:** Executed the extracted wizard with one variant and one location: the emitted dictionary contains qty_multiple. Compared the local Odoo 19 model, which uses replenishment_uom_id, and ORM invalid-field validation.
+- **Suggested fix:** Remove the obsolete zero-valued field; use the Odoo 19 replenishment unit API if a multiple is needed.
+- **Validation needed:** Install only the declared dependencies and save the wizard; verify product, location, min/max and trigger.
+
+## REORDER-005 — P2: The location wizard does not set the location company on the rules
+
+- **Status:** Open. Found on 2026-10-03 while fixing REORDER-001.
+- **Location:** wizard/order_rules_details.py, `do_create()`.
+- **Trigger:** In company A, open the Rules Wizard of a product and select a stock location belonging to company B (allowed in the user's companies).
+- **Actual behavior:** The generated values contain product, location, min/max, trigger and route, but no `company_id`; `stock.warehouse.orderpoint` then defaults it to `env.company` (A). With `_check_company_auto` and `check_company=True` on `location_id`/`warehouse_id`, creation fails with a company inconsistency error. The auto-rule route is also searched without a company filter.
+- **Evidence:** source inspection of the wizard and of Odoo 19 `stock.warehouse.orderpoint` (`company_id` default, `_check_company_auto = True`); no reproduction on a database.
+- **Impact:** Rules cannot be created for locations of another company from the active one; a route of another company may be chosen.
+- **Suggested fix:** Set `company_id` from `location.company_id` (create per company with `with_company()`), and pick the route among those of that company or shared ones, as `create_rule()` does since REORDER-001.
+- **Validation needed:** Wizard with locations of the active company, of another company and of both; assert each rule has the location company and a compatible route.
+
+## Review limitations
+
+Source inspection and isolated executions with mocked records; no database-backed module installation or integration tests were run in this pass.
+
+## Integrated reverification — 2026-10-03
+
+Full eligible source and ACL read. REORDER-001–004 remain open in current source. `deltatech_stock_orderpoint_multiple` can provide qty_multiple when additionally installed, but is not declared here: the wizard remains invalid with only its declared dependencies. Native orderpoint storability is a UI domain, not a server constraint, so automatic creation on nonstorable products is not reported as an installation/create exception. Existing-rule suppression, textual parameter truthiness and default/active company mismatch rechecked against native defaults and uniqueness. Route selection lacks per-target filtering but overlaps existing company-consistency findings; no duplicate finding added. No database generation/scheduler tests executed in this round.

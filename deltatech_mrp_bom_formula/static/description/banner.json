@@ -1,0 +1,10 @@
+{
+  "title": "BoM Quantity Formulas",
+  "summary": "Quantities computed from product attributes",
+  "icon": "gear",
+  "features": [
+    "One BoM line instead of one per variant",
+    "Formulas on attribute codes and values",
+    "Validated on save, not in production"
+  ]
+}

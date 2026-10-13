@@ -1,0 +1,7 @@
+{
+  "title": "Picking Split",
+  "summary": "Create backorders manually, on your terms",
+  "icon": "truck",
+  "features": ["Manual backorder generation", "Choose the quantity to keep", "Validated on the server side"],
+  "lang": "en"
+}

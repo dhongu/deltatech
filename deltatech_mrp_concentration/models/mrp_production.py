@@ -33,13 +33,12 @@ class MrpProduction(models.Model):
             product_uom_qty = self.product_qty * self.concentration / self.concentration_primary
             move_line.product_uom_qty = product_uom_qty
 
+            # dilution adds the secondary ingredient, concentration produces a by-product:
+            # the group not used by the current ratio is set to zero
             diff = self.product_qty - product_uom_qty
-            if diff > 0:
-                secondary_bom_line = self.bom_id.bom_line_ids.filtered(lambda x: x.ingredient_type == "secondary")
-                if secondary_bom_line:
-                    move_line = self.move_raw_ids.filtered(lambda x: x.bom_line_id == secondary_bom_line)
-                    move_line.product_uom_qty = diff
-            else:
-                secondary_move_line = self.move_byproduct_ids
-                if secondary_move_line:
-                    secondary_move_line.product_qty = -1 * diff
+            secondary_bom_line = self.bom_id.bom_line_ids.filtered(lambda x: x.ingredient_type == "secondary")
+            if secondary_bom_line:
+                move_line = self.move_raw_ids.filtered(lambda x: x.bom_line_id in secondary_bom_line)
+                move_line.product_uom_qty = max(diff, 0.0)
+            # product_qty is computed on stock moves and cannot be written, the demand is product_uom_qty
+            self.move_byproduct_ids.product_uom_qty = max(-diff, 0.0)

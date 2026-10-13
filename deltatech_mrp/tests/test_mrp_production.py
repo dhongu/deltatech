@@ -44,7 +44,7 @@ class TestMrpProduction(TransactionCase):
         production._compute_cost_detail()
         self.assertEqual(len(production.cost_detail_ids), 0)
 
-        # Notă: Deoarece deltatech.cost.detail este un view SQL care depinde de stock_move și stock_valuation_layer
-        # în starea 'done', un test complet ar necesita simularea fluxului de stoc.
+        # Notă: Deoarece deltatech.cost.detail este un view SQL care depinde de valoarea (stock_move.value)
+        # mișcărilor în starea 'done', un test complet ar necesita simularea fluxului de stoc.
         # Pentru acest test, verificăm măcar dacă metoda de calcul poate fi apelată fără erori.
         production.recompute_cost_detail()

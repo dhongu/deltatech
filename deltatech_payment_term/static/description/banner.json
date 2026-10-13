@@ -1,0 +1,11 @@
+{
+  "title": "Payment Term Rate Wizard",
+  "summary": "Generate installment payment terms in one click",
+  "icon": "clipboard",
+  "features": [
+    "Wizard for advance and installments",
+    "Percentage or fixed amount rates",
+    "Rates indicator on orders, invoices"
+  ],
+  "lang": "en"
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Payment Terms in Working Days",
+  "summary": "Due dates that skip weekends and public holidays",
+  "icon": "calendar",
+  "features": [
+    "Count term days in working days",
+    "Move due dates to the next working day",
+    "Company schedule and public holidays"
+  ],
+  "lang": "en"
+}

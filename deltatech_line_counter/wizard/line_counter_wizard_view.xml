@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_line_counter_wizard_form" model="ir.ui.view">
+        <field name="name">line.counter.wizard.form</field>
+        <field name="model">line.counter.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Line Counter">
+                <group>
+                    <field name="module_ids" widget="many2many_tags" options="{'no_create': True}" />
+                </group>
+                <field name="result" invisible="not result" />
+                <footer>
+                    <button name="action_count_lines" string="Count Lines" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_line_counter_wizard" model="ir.actions.act_window">
+        <field name="name">Line Counter</field>
+        <field name="res_model">line.counter.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="menu_line_counter_wizard"
+        name="Line Counter"
+        action="action_line_counter_wizard"
+        parent="base.menu_administration"
+        sequence="100"
+    />
+</odoo>

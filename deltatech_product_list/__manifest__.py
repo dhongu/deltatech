@@ -5,8 +5,8 @@
 
 {
     "name": "Product List",
-    "summary": "Define products lists",
-    "version": "19.0.1.0.1",
+    "summary": "Define reusable product lists based on a domain filter",
+    "version": "19.0.1.0.2",
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",

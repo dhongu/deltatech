@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "MRP Cost",
-    "summary": "MRP Cost",
-    "version": "19.0.2.0.6",
+    "summary": "Add labour, utilities and overhead costs to the manufacturing order price",
+    "version": "19.0.2.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",

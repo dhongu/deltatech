@@ -57,12 +57,16 @@ class StockQuant(models.Model):
 
         return inventory
 
-    def action_set_inventory_quantity_to_zero(self):
-        self.inventory_id = False
-        self.inventory_line_id = False
-        return super().action_set_inventory_quantity_to_zero()
+    def action_clear_inventory_quantity(self):
+        # Butonul "Clear" renunta la numarare: quant-ul nu mai apartine documentului de inventar,
+        # altfel o aplicare ulterioara ar refolosi documentul si linia vechi. Standardul apeleaza
+        # metoda si la finalul _apply_inventory; acolo legaturile raman, action_apply_inventory
+        # le foloseste ca sa finalizeze documentul si le goleste singur.
+        if not self.env.context.get("apply_inventory"):
+            self.write({"inventory_id": False, "inventory_line_id": False})
+        return super().action_clear_inventory_quantity()
 
-    def action_apply_inventory(self):
+    def action_apply_inventory(self, date=None):
         for quant in self:
             if (
                 not self.env.user.has_group("deltatech_stock_inventory.group_view_inventory_button")
@@ -76,22 +80,31 @@ class StockQuant(models.Model):
         #         quant.product_id.product_tmpl_id.write({"is_inventory_ok": True})
 
         inventory = self.filtered(lambda q: q.inventory_quantity_set).create_inventory_lines()
-        res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory()
+        if inventory and date:
+            # Data de numărare din wizard datează mișcările; documentul trebuie să o urmeze
+            inventory.date = date
+        res = super(StockQuant, self.with_context(apply_inventory=True)).action_apply_inventory(date)
+        if isinstance(res, dict) and res.get("res_model") == "stock.inventory.conflict":
+            # Standardul nu a aplicat stocul, ci cere rezolvarea conflictului. Documentul ramane
+            # in lucru, cu legaturile si nota, ca wizardul sa-l finalizeze pe acesta, nu unul nou.
+            return res
         for quant in self:
+            quant.last_inventory_date = fields.Date.today()
             inventor_line = quant.inventory_line_id
             if inventor_line:
                 inventor_line.write({"is_ok": True})
 
         if inventory:
-            date = inventory.date
-            values = {"date": date, "state": "done"}
+            values = {"date": inventory.date, "state": "done"}
             if inventory.name in ("/", self.env._("New")):
                 sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
                 if sequence:
                     values["name"] = sequence.next_by_id()
 
             inventory.write(values)
-        self.write({"inventory_id": False, "inventory_line_id": False})
+        # Nota a fost preluata in referinta mișcării; o golim ca sa nu fie refolosita tacit
+        # la o ajustare ulterioara a aceluiași quant (standardul nu o curata).
+        self.write({"inventory_id": False, "inventory_line_id": False, "inventory_note": False})
         return res
 
     def write(self, vals):
@@ -115,11 +128,12 @@ class StockQuant(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        for values in vals_list:
-            if "inventory_quantity" in values and not self.env.user.has_group(
-                "deltatech_stock_inventory.group_view_inventory_button"
-            ):
-                raise UserError(self.env._("Your user cannot update product quantities"))
+        if not self.env.context.get("inventory_mode", False):
+            for values in vals_list:
+                if "inventory_quantity" in values and not self.env.user.has_group(
+                    "deltatech_stock_inventory.group_view_inventory_button"
+                ):
+                    raise UserError(self.env._("Your user cannot update product quantities"))
         return super().create(vals_list)
 
     def _get_inventory_move_values(self, qty, location_id, location_dest_id, package_id=False, package_dest_id=False):
@@ -127,7 +141,11 @@ class StockQuant(models.Model):
             qty, location_id, location_dest_id, package_id=package_id, package_dest_id=package_dest_id
         )
         values["inventory_id"] = self.inventory_id.id
-        # values["name"] = self.inventory_note or values.get("name", False)
+        # Nota de pe linie devine referinta mișcării de stoc. In 19.0 standardul nu mai pune
+        # "name" in valori, ci "inventory_name" (din contextul inventory_name), care e sursa
+        # pentru stock.move.reference atunci cand is_inventory.
+        if self.inventory_note:
+            values["inventory_name"] = self.inventory_note
         return values
 
     @api.model
@@ -171,7 +189,7 @@ class StockQuant(models.Model):
         for quant in self:
             quant.product_id.product_tmpl_id.message_post(
                 body=self.env._(
-                    "Quantity %(quant)s %(location) at location was confirmed.",
+                    "Quantity %(quant)s at location %(location)s was confirmed.",
                     quant=quant.quantity,
                     location=quant.location_id.name,
                 )

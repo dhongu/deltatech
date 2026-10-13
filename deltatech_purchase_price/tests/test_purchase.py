@@ -87,6 +87,93 @@ class TestPurchase(TransactionCase):
         # se verifica ultimul pret de achizitie
         self.assertEqual(self.product_a.last_purchase_price, 10.0)
 
+    def test_multi_variant_last_purchase_price(self):
+        # produs cu mai multe variante: pe sablon ultimul pret de achizitie nu
+        # mai trebuie sa fie 0, ci pretul de la furnizor (tichet 8403)
+        attribute = self.env["product.attribute"].create(
+            {
+                "name": "Test Size",
+                "create_variant": "always",
+                "value_ids": [(0, 0, {"name": "S"}), (0, 0, {"name": "L"})],
+            }
+        )
+        template = self.env["product.template"].create(
+            {
+                "name": "Variant template",
+                "is_storable": True,
+                "trade_markup": 10,
+                "attribute_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "attribute_id": attribute.id,
+                            "value_ids": [(6, 0, attribute.value_ids.ids)],
+                        },
+                    )
+                ],
+            }
+        )
+        self.assertEqual(len(template.product_variant_ids), 2)
+        # nativ, sablonul multi-varianta ar avea 0
+        self.assertEqual(template.last_purchase_price, 0.0)
+
+        variant_l = template.product_variant_ids[-1]
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "product_tmpl_id": template.id,
+                "product_id": variant_l.id,
+                "price": 20,
+            }
+        )
+        # furnizorul actualizeaza pretul variantei, iar sablonul il preia
+        self.assertEqual(variant_l.last_purchase_price, 20.0)
+        self.assertEqual(template.last_purchase_price, 20.0)
+
+    def test_last_purchase_price_readable_as_public(self):
+        # tichet 8921: last_purchase_price este afisat indirect pe website
+        # (deltatech_price_categ). Pentru sabloanele multi-varianta compute-ul
+        # citeste seller_ids (product.supplierinfo), la care userul Public nu are
+        # drept. Fara compute_sudo, citirea crapa cu 403 la /shop. Verificam ca
+        # un user public poate citi campul fara AccessError.
+        attribute = self.env["product.attribute"].create(
+            {
+                "name": "Public Size",
+                "create_variant": "always",
+                "value_ids": [(0, 0, {"name": "S"}), (0, 0, {"name": "L"})],
+            }
+        )
+        template = self.env["product.template"].create(
+            {
+                "name": "Public variant template",
+                "is_storable": True,
+                "attribute_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "attribute_id": attribute.id,
+                            "value_ids": [(6, 0, attribute.value_ids.ids)],
+                        },
+                    )
+                ],
+            }
+        )
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "product_tmpl_id": template.id,
+                "product_id": template.product_variant_ids[-1].id,
+                "price": 20,
+            }
+        )
+        public_user = self.env.ref("base.public_user")
+        template.invalidate_recordset(["last_purchase_price"])
+        # nu trebuie sa ridice AccessError pe product.supplierinfo
+        price = template.with_user(public_user).last_purchase_price
+        self.assertEqual(price, 20.0)
+
     def test_wizard_trade_markup(self):
         wizard = Form(self.env["product.markup.wizard"])
         wizard.trade_markup = 10

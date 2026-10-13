@@ -1,0 +1,211 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_picking_activity_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__awb_generated
+msgid "AWB Generated"
+msgstr "AWB generat"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__activity_log
+msgid "Activity Log"
+msgstr "Jurnal de activitate"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_form
+msgid "Activity Record"
+msgstr "Înregistrare activitate"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.ui.menu,name:deltatech_stock_picking_activity_report.menu_stock_picking_activity_record
+msgid "Activity Records"
+msgstr "Înregistrări activitate"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_form
+msgid "Basic Information"
+msgstr "Informații de bază"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields.selection,name:deltatech_stock_picking_activity_report.selection__stock_picking_activity_record__state__cancel
+msgid "Cancelled"
+msgstr "Anulat"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__change_date
+msgid "Change Date"
+msgstr "Data modificării"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__chatter_message
+msgid "Chatter Message"
+msgstr "Mesaj chatter"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__chatter_message_count
+msgid "Chatter Message Count"
+msgstr "Număr mesaje chatter"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields.selection,name:deltatech_stock_picking_activity_report.selection__stock_picking_activity_record__state__done
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields.selection,name:deltatech_stock_picking_activity_report.selection__stock_picking_activity_record__state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__entry_product_number
+msgid "Entry Product Number"
+msgstr "Cantitate produse la intrare"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__exit_product_number
+msgid "Exit Product Number"
+msgstr "Cantitate produse la ieșire"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__has_validated
+msgid "Has Validated"
+msgstr "A fost validat"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__internal_product_number
+msgid "Internal Product Number"
+msgstr "Cantitate produse la transfer intern"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_form
+msgid "Log"
+msgstr "Jurnal"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__picking_id
+msgid "Picking"
+msgstr "Ridicare"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.actions.act_window,name:deltatech_stock_picking_activity_report.action_stock_picking_activity_record
+msgid "Picking Activity Records"
+msgstr "Înregistrări activitate ridicare"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields.selection,name:deltatech_stock_picking_activity_report.selection__stock_picking_activity_record__state__assigned
+msgid "Ready"
+msgstr "Pregătit"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__state
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model,name:deltatech_stock_picking_activity_report.model_stock_picking_activity_record
+msgid "Stock Picking Activity Record"
+msgstr "Înregistrare activitate ridicare stoc"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "This Month"
+msgstr "Luna aceasta"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "This Year"
+msgstr "Anul acesta"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "Today"
+msgstr "Astăzi"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_form
+msgid "Tracked Events"
+msgstr "Evenimente urmărite"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model,name:deltatech_stock_picking_activity_report.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__user_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "User"
+msgstr "Operator"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields,field_description:deltatech_stock_picking_activity_report.field_stock_picking_activity_record__has_validated_count
+msgid "Validated Count"
+msgstr "Număr validări"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields.selection,name:deltatech_stock_picking_activity_report.selection__stock_picking_activity_record__state__confirmed
+msgid "Waiting"
+msgstr "În așteptare"
+
+#. module: deltatech_stock_picking_activity_report
+#: model:ir.model.fields.selection,name:deltatech_stock_picking_activity_report.selection__stock_picking_activity_record__state__waiting
+msgid "Waiting Another Operation"
+msgstr "În așteptarea altei operații"
+
+#. module: deltatech_stock_picking_activity_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_activity_report.view_stock_picking_activity_record_search
+msgid "Yesterday"
+msgstr "Ieri"

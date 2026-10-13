@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Promissory Note",
-    "summary": "Manage Promissory Note",
-    "version": "19.0.1.0.3",
+    "name": "Promissory Note",
+    "summary": "Track issued and received promissory notes with due dates and status",
+    "version": "19.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",

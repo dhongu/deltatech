@@ -1,0 +1,10 @@
+{
+  "title": "Category User Group",
+  "summary": "User group set on the product category",
+  "icon": "people",
+  "features": [
+    "User group field on product category",
+    "Transfer responsible filled automatically",
+    "Works on any stock picking"
+  ]
+}

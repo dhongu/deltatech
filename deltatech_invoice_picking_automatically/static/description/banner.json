@@ -1,0 +1,10 @@
+{
+  "title": "Auto-Invoice from Delivery",
+  "summary": "Generate & post invoices automatically after delivery validation",
+  "icon": "file",
+  "features": [
+    "Auto-create invoice on picking done",
+    "Auto-post invoice (no manual step)",
+    "Cron groups pickings by sale order"
+  ]
+}

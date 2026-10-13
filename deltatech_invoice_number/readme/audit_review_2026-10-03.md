@@ -1,0 +1,5 @@
+# Integrated source review — 2026-10-03
+
+Full eligible source plus auxiliary wizard ACL CSV read. Native journal onchange exists and returns no required action; chronology checks restrict customer draft invoices/refunds in the selected journal. Sequence API/date context, native accounting name/locked-period safeguards, related account.move.line.ref and journal view anchor traced. Wizard CRUD restricted to the renumber group; bound server action also has that group. No new confirmed defect.
+
+Chronology uses normal invoice access and action_post rather than lower-level _post; visibility-limited later invoices and other posting entry points require concrete permission/workflow testing before a bypass finding. action_get_number is a public model method without the wizard group check, but no bound UI call and native move/sequence rights still apply; permission intent not inferred. Manual numbering/date sequence constraints, secure journals and concurrent sequences require database validation. No database numbering/posting/permission tests executed; no source fixes.

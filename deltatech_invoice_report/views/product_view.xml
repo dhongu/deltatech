@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.invoice</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="History">
+
+                    <field name="invoice_history" nolabel="1">
+                        <list>
+                            <field name="year" />
+                            <field name="qty_in" />
+                            <field name="qty_out" />
+                        </list>
+                    </field>
+
+
+                    <div class="o_row">
+                        <button
+                            name="refresh_invoice_history"
+                            string="Refresh"
+                            type="object"
+                            class="btn-link mb-1 px-0"
+                            icon="fa-refresh"
+                        />
+                    </div>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
