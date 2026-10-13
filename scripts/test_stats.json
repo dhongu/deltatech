@@ -13,7 +13,7 @@
     "deltatech_account_analytic": {
       "coverage": 83.0,
       "lines": 147,
-      "tests": 9
+      "tests": 11
     },
     "deltatech_account_edi_ubl_advice": {
       "coverage": 70.8,
@@ -72,8 +72,8 @@
     },
     "deltatech_business_process": {
       "coverage": 92.0,
-      "lines": 1624,
-      "tests": 135
+      "lines": 1625,
+      "tests": 136
     },
     "deltatech_business_process_handover_document": {
       "coverage": 100.0,
@@ -208,6 +208,11 @@
       "lines": 986,
       "tests": 73
     },
+    "deltatech_invoice_delivery": {
+      "coverage": 88.1,
+      "lines": 84,
+      "tests": 8
+    },
     "deltatech_invoice_number": {
       "coverage": 97.4,
       "lines": 77,
@@ -229,7 +234,7 @@
     "deltatech_invoice_receipt": {
       "coverage": 82.9,
       "lines": 111,
-      "tests": 11
+      "tests": 12
     },
     "deltatech_invoice_report": {
       "coverage": 84.4,
@@ -559,9 +564,9 @@
       "tests": 3
     },
     "deltatech_purchase_ubl": {
-      "coverage": 94.1,
-      "lines": 750,
-      "tests": 86
+      "coverage": 94.5,
+      "lines": 776,
+      "tests": 94
     },
     "deltatech_purchase_xls": {
       "coverage": 97.0,
@@ -584,9 +589,9 @@
       "tests": 5
     },
     "deltatech_reception_note": {
-      "coverage": 67.9,
-      "lines": 106,
-      "tests": 7
+      "coverage": 80.2,
+      "lines": 111,
+      "tests": 12
     },
     "deltatech_record_type": {
       "coverage": 74.9,
@@ -824,7 +829,7 @@
       "tests": 1
     },
     "deltatech_stock_inventory": {
-      "coverage": 95.5,
+      "coverage": 95.7,
       "lines": 1028,
       "tests": 97
     },
@@ -1083,7 +1088,7 @@
     }
   },
   "branch": "19.0",
-  "commit": "1687ef437fab1250eb659ad0f06b6879742fe517",
-  "generated": "2026-10-12",
+  "commit": "86d7d4e7b92d8d937edc0920983408d9f4e8b925",
+  "generated": "2026-10-13",
   "source": "codecov:dhongu/deltatech"
 }
