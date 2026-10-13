@@ -9,6 +9,7 @@
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_markdown_field?v=19.0",
     "support": "odoo@terrabit.ro",
     "category": "Tools",
     "depends": [
