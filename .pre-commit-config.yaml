@@ -25,30 +25,15 @@ default_language_version:
   python: python3
   node: "22.9.0"
 repos:
-  # Compatibilitatea licenței cu dependențele, după tabelul Odoo Apps
-  # (AGPL-3/GPL-3/OEEL-1 nu pot depinde de module proprietare). pylint-odoo verifică
-  # doar că licența e permisă, nu și relația cu dependențele.
-  - repo: local
+  # Hook-urile comune Terrabit (licență, pyproject, iconiță)
+  - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
+    rev: v1.0.0
     hooks:
       - id: license-compat
-        name: Licența modulului e compatibilă cu dependențele (Odoo Apps)
-        entry: python3 scripts/check_license_compat.py --addons-dir=.
-        language: system
-        files: '__manifest__\.py$'
-        pass_filenames: false
+      - id: update-pyproject-name
+      - id: check-module-icon
   - repo: local
     hooks:
-      - id: update-pyproject-name
-        name: Update pyproject.toml project name
-        # NU mai folositi 'python' sau 'python3' aici
-        entry: scripts/update_pyproject_name.py
-        # Schimbati la 'python'
-        language: python
-        files: 'pyproject\.toml$'
-        pass_filenames: false
-        # Specificati dependentele aici pentru un mediu izolat
-        additional_dependencies: ["tomli", "tomli-w"]
-
       # These files are most likely copier diff rejection junks; if found,
       # review them manually, fix the problem (if needed) and remove them
       - id: forbidden-files
@@ -61,12 +46,6 @@ repos:
         entry: found a en.po file
         language: fail
         files: '[a-zA-Z0-9_]*/i18n/en\.po$'
-      - id: check-module-icon
-        name: Fiecare modul trebuie sa aiba iconita lui
-        entry: scripts/check_module_icon.py
-        language: python
-        files: '__manifest__\.py$'
-        verbose: true
       - id: check-module-images
         name: Fiecare modul trebuie sa aiba captura (preluata din deltatech)
         entry: scripts/check_module_images.py
@@ -190,28 +169,13 @@ repos:
         args:
           - --rcfile=.pylintrc-mandatory
 
-  # Terrabit skin pentru static/description/index.html (Odoo Apps Store).
-  # Generează index.html (Apps Store, stil Terrabit) DIRECT din readme/*.md +
-  # __manifest__.py — succesorul lui tb_skin_index.py (care post-procesa docutils).
-  # Determinist: aceleași surse -> același HTML; sare index.html scrise manual.
-  # Regenerare completă: `pre-commit run --hook-stage manual --all-files`.
-  - repo: local
+  # Pagina Apps Store, la cerere: `pre-commit run --hook-stage manual --all-files`.
+  # Ordinea contează: tb-test-stats -> tb-gen-index -> tb-fisa-badge, după oca-gen-addon-readme.
+  - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
+    rev: v1.0.0
     hooks:
+      - id: tb-test-stats
+        args: [--branch=20.0]
       - id: tb-gen-index
-        name: Terrabit index.html generator (Apps Store)
-        entry: python3 scripts/tb_gen_index.py --addons-dir=.
-        language: system
-        stages: [manual]
-        pass_filenames: false
-        always_run: true
-  # Rulează DUPĂ oca-gen-addon-readme, tot ca job manual: șablonul README nu vede fișierele
-  # din readme/, deci badge-ul „Fișă consultant” se pune după generare. Idempotent.
-  - repo: local
-    hooks:
       - id: tb-fisa-badge
-        name: Badge „Fișă consultant” în README.rst
-        entry: python3 scripts/tb_fisa_badge.py --addons-dir=. --branch=20.0
-        language: system
-        stages: [manual]
-        pass_filenames: false
-        always_run: true
+        args: [--branch=20.0]
