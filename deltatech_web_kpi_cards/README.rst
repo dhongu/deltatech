@@ -19,8 +19,11 @@ KPI Cards
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_kpi_cards
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_kpi_cards/tests
+    :alt: 1 automated test
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_tests|
 
 A technical module: a band of KPI cards that other modules put above
 their backend views, and the binding that makes a click on a card
