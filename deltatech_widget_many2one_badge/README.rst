@@ -19,8 +19,11 @@ Many2one Badge Widget
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_widget_many2one_badge
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_widget_many2one_badge/tests
+    :alt: 1 automated test
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_tests|
 
 A custom widget that displays Many2one fields as colored badges, similar
 to ``many2many_tags``.

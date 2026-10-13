@@ -19,8 +19,11 @@ Expenses Deduction
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_expenses/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_expenses
+    :alt: 21 automated tests · 88% code coverage
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Cash advances to employees, settled with an expense report, the way
 Romanian accounting books them: the advance goes to account 542, the

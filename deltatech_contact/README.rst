@@ -16,8 +16,11 @@ Contact Personal Data
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_contact
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_contact/tests
+    :alt: 5 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Extends the standard Odoo Contacts module with additional personal data
 fields for individual contacts, including Romanian CNP (Personal Numeric

@@ -16,8 +16,11 @@ Payment Forecast
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_forecast
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_payment_forecast
+    :alt: 7 automated tests · 78% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 This module generates a report which shows what payments should be
 expected until a certain date A cron job can be scheduled to
