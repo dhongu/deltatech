@@ -16,8 +16,11 @@ Deltatech Website Product Placeholder
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_product_placeholder
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_product_placeholder
+    :alt: 4 automated tests · 75% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 This module allows you to configure a custom placeholder image for
 products that do not have an image set. Optimizes website performance by
