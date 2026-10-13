@@ -16,8 +16,11 @@ Business process handover document
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document
+    :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Extends the **deltatech_business_process** module to generate a formal
 **Handover Document** (proces-verbal de predare-primire) in PDF format
