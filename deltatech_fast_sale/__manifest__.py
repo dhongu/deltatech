@@ -7,6 +7,7 @@
     "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_fast_sale?v=19.0",
     "summary": "Confirm, deliver and invoice a sale order in one click",
     "category": "Sales",
     "depends": ["base", "sale_management", "stock", "sale_stock"],
