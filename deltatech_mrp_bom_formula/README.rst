@@ -19,8 +19,11 @@ MRP BoM Formula
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_mrp_bom_formula/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-13%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_mrp_bom_formula
+    :alt: 13 automated tests · 88% code coverage
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 This module lets a bill of material compute the quantity of a component
 from the attribute values of the manufactured variant, instead of

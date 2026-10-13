@@ -16,8 +16,11 @@ Payment Terms in Working Days
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_term_working_days
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_payment_term_working_days
+    :alt: 12 automated tests · 93% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 This module lets a payment term count its days in working days instead
 of calendar days, and move a due date that falls on a weekend or on a

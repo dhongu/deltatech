@@ -16,8 +16,11 @@ RPC Audit Log
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_rpc_audit
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_rpc_audit
+    :alt: 10 automated tests · 78% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 This module logs external RPC calls, so you can audit which integration
 calls which model and method, and from where. It covers both the legacy

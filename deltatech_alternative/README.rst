@@ -16,8 +16,11 @@ Products Alternative
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_alternative
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-26%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_alternative
+    :alt: 26 automated tests · 88% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Manage multiple alternative codes per product and find any item by any
 of its codes. This module is useful when the same product is known under

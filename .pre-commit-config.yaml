@@ -27,7 +27,7 @@ default_language_version:
 repos:
   # Hook-urile comune Terrabit (licență, pyproject, iconiță, traduceri)
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.1.0
+    rev: v1.2.0
     hooks:
       - id: license-compat
       - id: update-pyproject-name
@@ -164,8 +164,9 @@ repos:
   # Pagina Apps Store, la cerere: `pre-commit run --hook-stage manual --all-files`.
   # Ordinea contează: tb-test-stats -> tb-gen-index -> tb-fisa-badge, după oca-gen-addon-readme.
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.1.0
+    rev: v1.2.0
     hooks:
       - id: tb-test-stats
       - id: tb-gen-index
       - id: tb-fisa-badge
+      - id: tb-test-badge
