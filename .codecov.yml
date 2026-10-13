@@ -1,10 +1,23 @@
+ignore:
+  - "**/tests/**"
+  - "**/migrations/**"
+  - "**/__manifest__.py"
+
 coverage:
   status:
     project:
       default:
-        target: 70%
+        # Tests are excluded from the totals (see ignore), so the floor is the
+        # coverage of the addon code alone: 65.65% when the ignore was added.
+        target: 65%
         threshold: 1%
     patch:
       default:
         target: 10%
         threshold: 1%
+
+# One flag per CI shard: a shard that fails or skips the upload keeps its last
+# coverage instead of dropping its addons from the report.
+flag_management:
+  default_rules:
+    carryforward: true
