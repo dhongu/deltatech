@@ -14,7 +14,7 @@ Simple MRP barcode
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_simple_barcode
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_simple_barcode
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -32,6 +32,22 @@ Simple MRP barcode
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.0.0.2 (2026-10-03)
+-----------------------
+
+- Migration to Odoo 20.0: the ``barcodes.barcode_events_mixin`` model
+  and the ``barcode_handler`` widget no longer exist in core, so the
+  scanned-barcode field, its onchange and an Owl 3 field widget are now
+  provided by this module.
+
+19.0.0.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -61,6 +77,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_simple_barcode>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_simple_barcode>`_ project on GitHub.
 
 You are welcome to contribute.

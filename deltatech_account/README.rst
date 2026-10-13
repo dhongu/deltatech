@@ -1,6 +1,6 @@
-=================
-Deltatech Account
-=================
+=====================
+Accounting Extensions
+=====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Account
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_account
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_account
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -24,7 +24,7 @@ enhanced invoice views, additional journal configuration options, and an
 extra setting for Anglo-Saxon accounting cost recognition — useful for
 businesses that need tighter control over their financial workflows.
 
-**Key Features:**
+**✨ Key Features:**
 
 - Adds an **Anglo-Saxon Accounting** toggle to the General Accounting
   settings, allowing companies to record cost of goods sold directly in
@@ -63,6 +63,20 @@ users in the ``base.group_no_one`` technical group):
 This setting is company-dependent; each company in a multi-company setup
 can enable or disable it independently.
 
+Changelog
+=========
+
+19.0.2.0.2 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.2.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -91,6 +105,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_account>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_account>`_ project on GitHub.
 
 You are welcome to contribute.

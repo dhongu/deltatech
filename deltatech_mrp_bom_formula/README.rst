@@ -14,7 +14,7 @@ MRP BoM Formula
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_bom_formula
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_bom_formula
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_mrp_bom_formula/readme/FISA_CONSULTANT.md
@@ -61,6 +61,15 @@ without a formula keeps its quantity unchanged.
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.1 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
+
 Bug Tracker
 ===========
 
@@ -89,6 +98,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_bom_formula>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_bom_formula>`_ project on GitHub.
 
 You are welcome to contribute.

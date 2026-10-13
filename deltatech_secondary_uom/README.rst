@@ -1,6 +1,6 @@
-===============================
-Deltatech Product Secondary UoM
-===============================
+=====================
+Product Secondary UoM
+=====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Product Secondary UoM
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_secondary_uom
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_secondary_uom
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -22,7 +22,7 @@ Deltatech Product Secondary UoM
 This module adds **product specific conversion factors** between units
 of measure, following the SAP material master (MARM) pattern.
 
-In standard Odoo 19 the conversion factor belongs to the unit of measure
+In standard Odoo the conversion factor belongs to the unit of measure
 itself, so "1 box = 12 units" is global. With this module the factor is
 defined **per product**, on the *Alternative Units* tab of the product
 form:
@@ -51,6 +51,24 @@ valuation or any code reading ``uom.factor`` directly in SQL.
 
 Changelog
 =========
+
+20.0.1.2.1 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.2.0 (2026-10-01)
+-----------------------
+
+- Creating, editing or deleting a product unit conversion now recomputes
+  the secondary quantity of the open sale order lines, purchase order
+  lines and stock moves using it. Locked or cancelled orders and done or
+  cancelled moves keep the quantity computed with the previous ratio.
+
+19.0.1.1.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.1.0 (2026-08-06)
 -----------------------
@@ -96,6 +114,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_secondary_uom>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_secondary_uom>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,7 @@ Payment Term Rate Wizard
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_term
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_term
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -26,7 +26,7 @@ line, users fill in a simple wizard and the system generates the
 complete term with the correct advance, number of installments, and due
 dates automatically.
 
-**Key features:**
+**✨ Key features:**
 
 - **Rate generation wizard** — a single form (name, type, advance
   amount/percentage, number of installments, day of the month) generates
@@ -113,6 +113,33 @@ entries linked to installment payment terms for that partner.
 Changelog
 =========
 
+20.0.2.0.6 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+20.0.2.0.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.2.0.4 (2026-10-02)
+-----------------------
+
+- Recreate the ``action_account_moves_sale`` action (missing since 16.0)
+  on top of ``account.move.line``: the "Rates" buttons on invoices and
+  partners raised an error on click. The invoice button lists the
+  payment term lines of that invoice (one per rate, with due date and
+  residual); the partner button lists the open customer rates of posted
+  invoices. The domains are built in Python instead of string
+  concatenation. Tests cover both buttons.
+
+19.0.2.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.2.0.2 (2026-09-23)
 -----------------------
 
@@ -148,6 +175,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_term>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_term>`_ project on GitHub.
 
 You are welcome to contribute.

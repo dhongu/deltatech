@@ -14,7 +14,7 @@ Stock Inventory Product Display
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_inventory_product_display
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_inventory_product_display
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -39,6 +39,19 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.0.0.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -68,6 +81,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_inventory_product_display>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_inventory_product_display>`_ project on GitHub.
 
 You are welcome to contribute.

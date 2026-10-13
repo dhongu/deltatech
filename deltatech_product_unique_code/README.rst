@@ -14,7 +14,7 @@ Product Unique Code
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_unique_code
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_unique_code
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -42,6 +42,25 @@ Features:
 
 Changelog
 =========
+
+20.0.1.0.3 (2026-10-04)
+-----------------------
+
+- Add unit tests covering the uniqueness checks on create/write of
+  products and templates, archived products, the "no new duplicates"
+  cleanup policy and the bypass group.
+
+20.0.1.0.2 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0 (no API changes needed); tests for the
+  uniqueness check (create/write, archived products, cleanup of
+  historical duplicates, bypass group).
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.1 (2026-09-23)
 -----------------------
@@ -97,6 +116,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_unique_code>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_unique_code>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,7 @@ Sale Report Additional Info
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_report
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_report
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -27,6 +27,20 @@ Features: This module will add new fields to the sale order report:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.0.0.1 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20: the partner email is added to the Sales Analysis
+  through the new ``_select_dict`` / ``_groupby_list`` hooks.
+
+19.0.0.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -56,6 +70,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_report>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_report>`_ project on GitHub.
 
 You are welcome to contribute.

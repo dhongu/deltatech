@@ -14,7 +14,7 @@ Invoice Delivery / Reception
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_delivery
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_delivery
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -52,6 +52,23 @@ Usage:
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Declare ``sale_stock`` and ``purchase_stock`` as dependencies: the
+  invoice button reads the stock moves of sale and purchase lines, which
+  these modules provide.
+- Tests run post-install on the standard accounting test setup and also
+  cover sale invoices and invoices without deliveries.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -80,6 +97,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_delivery>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_delivery>`_ project on GitHub.
 
 You are welcome to contribute.

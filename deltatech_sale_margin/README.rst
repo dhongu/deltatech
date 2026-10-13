@@ -14,7 +14,7 @@ Sale Margin
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_margin
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_margin/readme/FISA_CONSULTANT.md
@@ -64,6 +64,34 @@ Changelog
 
 Changelog
 =========
+
+20.0.1.2.2 (2026-10-01)
+-----------------------
+
+- **Fix: delivering and invoicing a confirmed order is no longer
+  blocked.** ``write()`` re-ran the below-cost check on every write on a
+  line, including the bookkeeping of a price already accepted
+  (``qty_delivered``, ``qty_invoiced``, ``invoice_lines``, the quantity
+  of a generated line), so in ``block`` mode a partial delivery or an
+  invoice could be refused because of the price. The check now runs only
+  when a field that can bring the line below cost is written
+  (``_margin_check_fields()``: product, unit, price, discount, taxes,
+  cost).
+
+20.0.1.2.1 (2026-10-01)
+-----------------------
+
+- **Fix (MARGIN-001): the block now follows the same unit policy as the
+  flag.** When the line unit and the product's base unit belong to
+  different families (e.g. a product with ``uom_id`` = Units sold per
+  kg), the native conversion inflates ``purchase_price`` (3.00 per Unit
+  becomes 3000.00 per kg). The flag already stayed silent on such lines,
+  but ``check_sale_price()`` (on ``write`` and on confirmation) and the
+  onchange modal still compared the inflated cost, so in ``block`` mode
+  a line with no "below cost" flag could not be saved. Both now skip the
+  cost and margin comparison when ``_margin_uom_comparable()`` is False.
+  Same-family units (Box 12 kg against kg) are still compared on the
+  converted cost and still blocked. The "no price" check is unchanged.
 
 19.0.1.2.0 (2026-08-20)
 -----------------------
@@ -175,6 +203,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_margin>`_ project on GitHub.
 
 You are welcome to contribute.

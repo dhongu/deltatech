@@ -1,6 +1,6 @@
-=============================
-Deltatech Sale Invoice Status
-=============================
+===================
+Sale Invoice Status
+===================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Sale Invoice Status
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_invoice_status
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_invoice_status
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -32,6 +32,21 @@ Deltatech Sale Invoice Status
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.0.0.2 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0: no functional changes; the
+  ``_can_be_invoiced_alone`` override on ``sale.order.line`` (service
+  lines are not invoiceable alone) is kept as in 19.0.
+
+19.0.0.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -61,6 +76,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_invoice_status>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_invoice_status>`_ project on GitHub.
 
 You are welcome to contribute.

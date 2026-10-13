@@ -1,6 +1,6 @@
-======================
-Deltatech Purchase UBL
-======================
+============
+Purchase UBL
+============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Purchase UBL
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_ubl
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_ubl
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -75,6 +75,59 @@ mappings (C62, KGM, LTR, etc.).
 
 Changelog
 =========
+
+20.0.1.4.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.4.5 (2026-10-08)
+-----------------------
+
+- Fixed UBL-001: a line with an explicit 0% VAT kept the default 21% tax
+  of the order on the vendor bill. The 0% rate is now applied when the
+  line declares a zero-rated (Z), exempt (E), out-of-scope (O, e.g. a
+  supplier not registered for VAT) or export (G) category. For reverse
+  charge (AE), intra-community (K) or lines without a category the taxes
+  of the order are kept, as before; the PDF imports, which report 0 when
+  they cannot read the rate, are not affected.
+- Fixed UBL-002: two lines of the same product with different VAT rates
+  both received the last rate. Each bill line now takes the rate of the
+  source line matched to its purchase order line.
+- Fixed UBL-003: with receipt validation, a product present on several
+  source lines (e.g. 2 + 3 units) was received with the last quantity on
+  every stock move (3 + 3). The quantities are now summed per product
+  and split over the moves, so the received total matches the document
+  (5).
+- A bill line whose taxes already match the source rate is left
+  unchanged, and the tax is searched in the bill company instead of the
+  current company.
+
+20.0.1.4.4 (2026-10-04)
+-----------------------
+
+- Fixed: the import copied the source quantity and unit price into
+  purchase lines, receipts and vendor prices without looking at the
+  source unit (``unitCode``). A kg order line receiving "1000 GRM at
+  0.01" became 1000 kg at 0.01. Quantities and prices are now converted
+  from the source unit to the unit of the existing order line, of the
+  stock move and of the existing vendor pricelist row; new order lines
+  and new vendor prices keep the source unit when it is compatible with
+  the product unit. A source unit that is unknown is treated as before
+  (same unit as the destination); an incompatible unit is left
+  unconverted and reported as a warning in the import log. The
+  ``MLT``/``MMT`` codes now resolve to millilitre/millimetre (they fell
+  back to Units) and ``DZN`` resolves to Dozens (UBL-005). Imported
+  quantities, prices and receipt quantities change for documents whose
+  unit differs from the order/product unit.
+- Port of 19.0.1.4.4 (dhongu/deltatech#3118). Adapted to 20.0: the
+  purchase line, the vendor pricelist row and the stock move use
+  ``uom_id`` (19.0: ``product_uom_id`` / ``product_uom``).
+
+20.0.1.4.3
+==========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========
@@ -395,6 +448,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_ubl>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_ubl>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,7 @@ Products Code
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_code
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_code
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -32,6 +32,9 @@ Key Features
 
 - Automated internal reference generation based on predefined sequences.
 - Improved barcode management for product identification.
+- GTIN-13 allocation from the GS1 company prefix: each new product
+  receives the next free code in the range assigned by GS1, with the
+  check digit computed automatically.
 - Consistency checks to prevent duplicate product codes.
 - Supports both products and product variants.
 
@@ -47,6 +50,61 @@ Usage
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.1.1 (2026-10-09)
+=======================
+
+- Apps Store banner (banner.json).
+
+20.0.1.1.0 (2026-10-07)
+=======================
+
+- Barcodes from the GS1 company prefix: on the product category,
+  "Barcode Source" = "GS1 company prefix" allocates to each new product
+  the next free GTIN-13 in the range of the prefix received from GS1
+  (prefix + item reference + check digit). Product and packaging
+  barcodes, including archived ones, are taken into account; the
+  category shows how many codes are still free, and an error is raised
+  when the range is used up.
+- The default internal barcode prefix of new categories is now 20 (GS1
+  range for internal use) instead of 40, which belongs to GS1 Germany.
+  Existing categories keep their prefix.
+
+20.0.1.0.7 (2026-10-02)
+=======================
+
+- Migration to Odoo 20.0.
+- Fix: "Find Duplicate" on product variants pointed to a non-existent
+  action (``product.product_open_variants``) and queried a
+  ``company_id`` column that ``product_product`` does not have; it now
+  opens the variants list (``product.product_variant_action``) and takes
+  the company from the template. Pending changes are flushed before the
+  duplicate search.
+
+19.0.1.0.7
+==========
+
+- Own module icon, instead of the generic gears it had.
+
+Changelog
+=========
+
+19.0.1.0.6 (2026-09-25)
+-----------------------
+
+- Fix: the category sequence could propose an internal reference that
+  was already used. Its counter does not know about codes created
+  outside the sequence (catalog imports, supplier invoice imports, mass
+  renumbering, manually typed codes), so "New internal code" and
+  automatic coding on product creation failed with "Internal Reference
+  already exists". When the proposed code is taken (including by
+  archived products or other companies), the sequence is now moved past
+  the highest number already used with its prefix/suffix and the next
+  number is taken. Sequences with date ranges are not synchronised.
+  Ported from the Agroamat project.
 
 Bug Tracker
 ===========
@@ -76,6 +134,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_code>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_code>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,6 +1,6 @@
-==================
-Deltatech Sale XLS
-==================
+========
+Sale XLS
+========
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Sale XLS
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_xls
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_xls
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -37,6 +37,18 @@ Features
 
 Changelog
 =========
+
+20.0.1.0.3 (2026-10-04)
+-----------------------
+
+- Add unit tests covering the order lines action and the Excel import
+  preprocessing of sale order lines (update existing lines, add lines to
+  an empty order, order taken from the order_id column).
+
+19.0.1.0.2
+----------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.1
 ----------
@@ -76,6 +88,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_xls>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_xls>`_ project on GitHub.
 
 You are welcome to contribute.

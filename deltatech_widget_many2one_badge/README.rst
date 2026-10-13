@@ -17,7 +17,7 @@ Many2one Badge Widget
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_widget_many2one_badge
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_widget_many2one_badge
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -227,6 +227,32 @@ project repository.
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.0.3
+==========
+
+- Own module icon, instead of the generic gears it had.
+
+Changelog
+=========
+
+20.0.1.0.2 (2026-09-28)
+-----------------------
+
+- Fix: the Hoot unit tests never ran. Hoot only executes modules whose
+  name ends in ``.test``, so ``many2one_badge_field.test.esm.js`` was
+  loaded but silently skipped ("Passed 0 tests"). Renamed it to
+  ``many2one_badge_field.test.js``.
+- Added ``tests/test_js.py``, so the Hoot tests run with the Python test
+  suite (and in CI).
+- The edit mode test now checks removing the value, picking another
+  partner from the autocomplete and saving; a new test checks that
+  clicking the badge opens the color picker and writes the chosen color
+  on the partner. The edit mode test is desktop only: on mobile the
+  autocomplete opens a dialog instead of a dropdown.
+
 Bug Tracker
 ===========
 
@@ -247,6 +273,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_widget_many2one_badge>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_widget_many2one_badge>`_ project on GitHub.
 
 You are welcome to contribute.

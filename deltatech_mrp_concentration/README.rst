@@ -14,7 +14,7 @@ MRP Concentration
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_concentration
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_concentration
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -69,6 +69,26 @@ Usage
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.0.3 (2026-10-08)
+-----------------------
+
+- Fixed CONCENTRATION-001: on a manufacturing order, a concentration
+  higher than the base one raised an error, because the by-product
+  quantity was written on a computed field of the stock move. The
+  by-product demand is now set on the move quantity.
+- Fixed CONCENTRATION-002: switching a BoM or a manufacturing order
+  between dilution and concentration kept the quantity of the group no
+  longer used (secondary ingredient or by-product). That group is now
+  set to zero.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -97,6 +117,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_concentration>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_concentration>`_ project on GitHub.
 
 You are welcome to contribute.

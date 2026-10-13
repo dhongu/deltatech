@@ -14,7 +14,7 @@ Products Category Color
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_category_color
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_category_color
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -27,6 +27,19 @@ Products Category Color
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.1 (2026-10-02)
+-----------------------
+
+- Migration to 20.0.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -56,6 +69,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_category_color>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_category_color>`_ project on GitHub.
 
 You are welcome to contribute.

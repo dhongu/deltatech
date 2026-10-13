@@ -14,7 +14,7 @@ Declaration of Conformity
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_dc
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_dc
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -31,6 +31,11 @@ Declaration of Conformity
 
 Changelog
 =========
+
+19.0.1.0.13
+===========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========
@@ -73,6 +78,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_dc>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_dc>`_ project on GitHub.
 
 You are welcome to contribute.

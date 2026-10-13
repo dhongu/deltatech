@@ -1,6 +1,6 @@
-============================
-Deltatech Products Extension
-============================
+==================
+Products Extension
+==================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Products Extension
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_extension
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_extension
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -72,6 +72,19 @@ Usage
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.0.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -100,6 +113,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_extension>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_extension>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,7 @@ Backup Attachments
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_backup_attachment
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_backup_attachment
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -25,7 +25,7 @@ attachments as a single ZIP archive. By providing a domain filter on the
 — for example, only attachments of a specific MIME type, linked to
 specific records, or stored on a particular field.
 
-**Key features:**
+**✨ Key features:**
 
 - Export attachments filtered by any Odoo domain expression (MIME type,
   related model, field name, etc.).
@@ -36,7 +36,7 @@ specific records, or stored on a particular field.
 - Only files physically present on disk (``store_fname`` set and path
   exists) are included, avoiding broken references.
 
-**Example domains:**
+**📝 Example domains:**
 
 - ``[("mimetype","not in",["image/png","image/jpeg","application/pdf"])]``
   — export all attachments that are not common images or PDFs.
@@ -74,6 +74,20 @@ Export Attachments
 the ZIP. Database-stored attachments (binary stored in the column, not
 the filestore) are silently skipped.
 
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -102,6 +116,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_backup_attachment>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_backup_attachment>`_ project on GitHub.
 
 You are welcome to contribute.

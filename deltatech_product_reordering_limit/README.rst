@@ -14,7 +14,7 @@ Product Reordering Limit
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_reordering_limit
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_reordering_limit
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -72,6 +72,17 @@ Usage
 Changelog
 =========
 
+19.0.1.0.4
+----------
+
+- Add unit tests covering the reordering limit fields, the below-minimum
+  compute and search, and the XLSX reordering report wizard.
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.0.2 (2026-08-14)
 -----------------------
 
@@ -118,6 +129,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_reordering_limit>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_reordering_limit>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,6 +1,6 @@
-=========================
-Deltatech Generic Partner
-=========================
+===============
+Generic Partner
+===============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Generic Partner
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_generic
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_generic
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -94,6 +94,11 @@ elevated rights.
 Changelog
 =========
 
+20.0.2.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.2.0.1 (2026-09-23)
 -----------------------
 
@@ -129,6 +134,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_generic>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_generic>`_ project on GitHub.
 
 You are welcome to contribute.

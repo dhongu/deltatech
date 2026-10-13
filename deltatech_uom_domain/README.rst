@@ -17,7 +17,7 @@ UoM Domain by Reference
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_uom_domain
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_uom_domain
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -42,8 +42,21 @@ intern de Odoo pentru conversie - aceeași rădăcină de arbore
 categorii. Un produs în bucăți oferă „Duzina", „10 buc", „100 buc"; nu
 oferă „kg".
 
+Același criteriu se aplică și unității de pe linia de furnizor (lista de
+prețuri a furnizorului). Aici standardul nu pune niciun domeniu: se
+putea alege orice unitate, inclusiv una dintr-un alt arbore. Exemplu
+real: „ml” (mililitru) ales ca unitate de achiziție pentru un cablu în
+metri - conversia trece fără eroare, iar 22,5 m devin 22.500 ml pe
+cererea de ofertă. Cu modulul, pe linia de furnizor apar doar unitatea
+produsului, ambalajele lui (``uom_ids``) și unitățile din același
+arbore. Pentru metrul liniar se creează o unitate proprie (ex. „mlin.”,
+cu unitatea de referință „m” și raportul 1), care apare automat la toate
+produsele în metri.
+
 Ce calculează standardul se păstrează: unitatea produsului, ``uom_ids``
-și unitatea de pe linia de furnizor rămân în listă. Modulul doar adaugă.
+și unitatea de pe linia de furnizor rămân în listă. Pe comenzi și
+facturi modulul doar adaugă; singura restrângere e pe linia de furnizor,
+unde standardul nu avea niciun domeniu.
 
 De ce contează limita la același arbore
 ---------------------------------------
@@ -91,6 +104,35 @@ comportamentul butonului „Adaugă în coș".
 Changelog
 =========
 
+20.0.1.1.1 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.1.0 (2026-10-07)
+-----------------------
+
+- Vendor pricelist lines (``product.supplierinfo``) now restrict the
+  vendor unit to the units available on the product
+  (``_get_available_uoms()``, with the per-variant ``extra_uom_ids`` on
+  20.0) and the units of the same reference tree. Standard Odoo puts no
+  domain on this field, so a unit of another tree was accepted silently:
+  "ml" (millilitre) on a product in metres turned 22.5 m into 22,500 ml
+  on the generated RFQ.
+
+20.0.1.0.1 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0: no code change needed; the extension still
+  runs after the standard computation, so the 20.0 additions
+  (``extra_uom_ids`` per variant, the multi-UoM feature check) are kept.
+  Test for the vendor unit being preserved.
+
+19.0.1.0.1 (2026-09-30)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.0.0 (2026-09-29)
 -----------------------
 
@@ -126,6 +168,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_uom_domain>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_uom_domain>`_ project on GitHub.
 
 You are welcome to contribute.

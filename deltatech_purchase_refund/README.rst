@@ -17,7 +17,7 @@ Refund Purchase
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_refund
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_refund
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -35,6 +35,14 @@ Refund Purchase
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -64,6 +72,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_refund>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_refund>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,6 +1,6 @@
-========================
-Deltatech reception_note
-========================
+====================
+Batch Reception Note
+====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,7 +17,7 @@ Deltatech reception_note
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_reception_note
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_reception_note
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -73,6 +73,28 @@ Usage
 Changelog
 =========
 
+20.0.0.1.4 (2026-10-04)
+-----------------------
+
+- Fixed: confirming a reception note consumed sent RFQs of every allowed
+  company, so a receipt in one company could reduce (and mark empty) the
+  RFQ of another company. Only the sent RFQs of the reception note
+  company are consumed now, in that company context (RECEPTION-002).
+- Fixed: the "Create reception note" wizard created the RFQ-only
+  counterpart in the active company and its default currency, while
+  copying the prices and taxes of the source order unchanged. The new
+  RFQ now keeps the company, currency and fiscal position of the source
+  order (RECEPTION-004). The amounts of new RFQs created from
+  foreign-currency orders change accordingly (same figures, now in the
+  right currency).
+- Port of 19.0.0.1.4 (dhongu/deltatech#3118); the code applied unchanged
+  on 20.0 (the purchase lines already use ``uom_id``).
+
+19.0.0.1.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.0.1.2 (2026-07-29)
 -----------------------
 
@@ -116,6 +138,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_reception_note>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_reception_note>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,6 +1,6 @@
-======================
-Deltatech Line Counter
-======================
+=================
+Code Line Counter
+=================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Line Counter
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_line_counter
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_line_counter
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -31,6 +31,15 @@ modules by counting lines in ``.py``, ``.xml``, ``.js``, ``.css``, and
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.1 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
 
 Bug Tracker
 ===========
@@ -60,6 +69,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_line_counter>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_line_counter>`_ project on GitHub.
 
 You are welcome to contribute.

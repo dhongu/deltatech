@@ -14,7 +14,7 @@ Sale Return Cause
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_return_cause
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_return_cause
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -54,6 +54,39 @@ Features
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.0.0.11 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+20.0.0.0.10 (2026-10-01)
+------------------------
+
+- Migration to Odoo 20.0, including the RETURNCAUSE-001 fix from
+  19.0.0.0.10.
+- The sales analysis report uses the new ``_select_dict`` /
+  ``_groupby_list`` hooks of ``sale.report``.
+- The automatic return amount setting is read as a boolean config
+  parameter.
+
+19.0.0.0.10 (2026-10-01)
+------------------------
+
+- Setting the return cause on several orders at once no longer fails
+  with "Expected singleton": orders that already have a return cause
+  date keep it, only the others get today's date, and a date given
+  explicitly is kept.
+- Recalculating the return amount on several orders uses the credit
+  notes of each order.
+
+19.0.0.0.9 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -82,6 +115,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_return_cause>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_return_cause>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,7 @@ Sale Qty Available
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_qty_available
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_qty_available
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -28,6 +28,26 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.3 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0: the "Available" column on the order lines is
+  now placed before the quantity column (``sol_qty``), as the quantity
+  field is no longer a direct child of the lines list.
+- Fix: the "Is Ready" search filter returned the orders that are *not*
+  ready (the search method expected ``=`` while the ORM sends ``in``).
+- Tests with assertions for the ready state (quotations and confirmed
+  orders, both picking policies), the search filter and the availability
+  text.
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -57,6 +77,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_qty_available>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_qty_available>`_ project on GitHub.
 
 You are welcome to contribute.

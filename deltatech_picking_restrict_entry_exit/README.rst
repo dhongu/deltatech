@@ -14,7 +14,7 @@ Picking Validation Restrict Entry Exit
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_restrict_entry_exit
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_picking_restrict_entry_exit
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -37,6 +37,46 @@ Features:
 
 Changelog
 =========
+
+20.0.0.0.13 (2026-10-04)
+------------------------
+
+- Fix (RESTRICT-001): the save-time restrictions in ``write()``
+  inspected only ``move_ids_without_package``, a field removed from
+  ``stock.picking`` in Odoo 19, so they never ran. They now read the
+  ``move_ids`` commands sent by the picking form: CREATE commands
+  (virtual id from the web client or ``0``) are checked as new lines,
+  falling back on the picking's type and locations when the line does
+  not carry them, UPDATE commands as existing lines (against the demand
+  sent in the same save, if any). Commands without values (delete,
+  unlink, link, clear, set) are ignored instead of crashing.
+
+20.0.0.0.12 (2026-10-04)
+------------------------
+
+- Fix: when several pickings were validated together, a single return or
+  backorder in the selection exempted all of them from the restriction,
+  so a receipt or delivery with a quantity above the ordered one could
+  be validated. The return/backorder exemption is now checked for each
+  picking.
+
+20.0.0.0.11 (2026-10-04)
+------------------------
+
+- Add unit tests covering validation and save-time restrictions on
+  receipts, deliveries and internal transfers.
+
+20.0.0.0.10 (2026-10-02)
+------------------------
+
+- Migration to Odoo 20. No functional change: the ``stock.picking`` /
+  ``stock.move`` fields and the ``button_validate`` / ``write`` hooks
+  used by the module are unchanged in Odoo 20.
+
+19.0.0.0.10
+===========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========
@@ -82,6 +122,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_restrict_entry_exit>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_picking_restrict_entry_exit>`_ project on GitHub.
 
 You are welcome to contribute.

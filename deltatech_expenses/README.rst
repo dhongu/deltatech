@@ -14,7 +14,7 @@ Expenses Deduction
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_expenses
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_expenses
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_expenses/readme/FISA_CONSULTANT.md
@@ -22,218 +22,138 @@ Expenses Deduction
 
 |badge1| |badge2| |badge_fisa|
 
-Features:
+Cash advances to employees, settled with an expense report, the way
+Romanian accounting books them: the advance goes to account 542, the
+employee brings the receipts, and validating the report books the
+purchase receipts, the per diem and the difference to return or to pay,
+until 542 is back to zero for that employee.
 
-- Introducerea decontului de cheltuieli într-un document distinct care
-  generează automat chitanțe de achiziție
-- Validarea documentului duce la generarea notelor contabile de avans și
-  înregistrarea plăților
+- **Advance on account 542**: The advance is paid from the cash journal
+  and booked on the employee's 542.
+- **Receipts as report lines**: Each line is a receipt, entered with VAT
+  included; validation creates the purchase receipts and settles them
+  from the advance. A line can also be a payment to a supplier made from
+  the advance.
+- **Per diem**: A daily amount (42.5 by default) times the number of
+  days, booked on a travel expense account (625 by default).
+- **Difference settled**: What is left of the advance is returned by the
+  employee, or what was spent above it is paid to the employee, through
+  the cash journal.
+- **Approval roles**: Employee, Approver and Accountant: the approver
+  validates the advance, only the accountant posts or reverses the
+  report.
+- **Employee view**: A smart button on the employee shows their expense
+  reports; each report can be printed.
 
-Configurare:
-
-- În registrul de numerar trebuie completat câmpul "Cash advances" cu
-  542.
-- Angajații sunt înregistrați ca ``hr.employee``. Dacă angajatul are
-  completat câmpul "Work Contact" (partenerul), acesta este folosit pe
-  notele contabile. Dacă nu, notele se generează fără partener
-  (înregistrări interne) — validarea decontului funcționează în ambele
-  cazuri.
-
-Diferența față de modulul standard ``hr_expense``
-=================================================
-
-Acest modul **nu** înlocuiește și **nu** se suprapune cu modulul
-standard ``hr_expense``. Cele două acoperă procese de business distincte
-și pot coexista în aceeași bază de date:
-
-+----------------------+----------------------------------+----------------------+
-| Aspect               | ``deltatech_expenses`` (acest    | ``hr_expense``       |
-|                      | modul)                           | (standard Odoo)      |
-+======================+==================================+======================+
-| **Scop**             | Decont de cheltuieli din **avans | Notă de cheltuială   |
-|                      | de trezorerie** (cont 542),      | angajat →            |
-|                      | specific contabilității din      | **rambursare**       |
-|                      | România                          | sumelor plătite din  |
-|                      |                                  | buzunar              |
-+----------------------+----------------------------------+----------------------+
-| **Model central**    | ``deltatech.expenses.deduction`` | ``hr.expense`` /     |
-|                      | (moștenește doar                 | ``hr.expense.sheet`` |
-|                      | ``mail.thread``)                 |                      |
-+----------------------+----------------------------------+----------------------+
-| **Angajatul**        | ``hr.employee``                  | ``hr.employee``,     |
-|                      | (``employee_id``); partenerul    | flux integrat HR     |
-|                      | contabil derivă din              |                      |
-|                      | ``work_contact_id``              |                      |
-+----------------------+----------------------------------+----------------------+
-| **Avans de           | Da — acordare, decontare și      | Nu                   |
-| trezorerie (542)**   | închiderea contului 542          |                      |
-+----------------------+----------------------------------+----------------------+
-| **Diurnă**           | Da — câmp ``diem`` (implicit     | Nu                   |
-|                      | 42,5) și calcul ``total_diem``   |                      |
-+----------------------+----------------------------------+----------------------+
-| **Documente          | Chitanțe de achiziție            | În funcție de modul  |
-| generate**           | (``in_receipt``), plăți          | de plată (vezi mai   |
-|                      | (``account.payment``) și note    | jos)                 |
-|                      | contabile de diferență/diurnă    |                      |
-+----------------------+----------------------------------+----------------------+
-| **Dependențe**       | ``l10n_ro``, ``account``,        | ``hr``, ``account``  |
-|                      | ``product``, ``hr``,             |                      |
-|                      | ``hr_expense``,                  |                      |
-|                      | ``deltatech_partner_generic``    |                      |
-+----------------------+----------------------------------+----------------------+
-| **Specific RO**      | Da — numerotare proprie, jurnale | Nu (generic,         |
-|                      | casă/diurnă, plan de conturi RO  | multi-țară)          |
-+----------------------+----------------------------------+----------------------+
-
-Notele contabile generate de ``hr_expense``
--------------------------------------------
-
-Și ``hr_expense`` generează note contabile (``account.move``) la
-postare, dar tipul lor depinde de **modul de plată** al cheltuielii:
-
-- **Plătită de angajat** (``payment_mode = own_account``): se creează un
-  ``account.move`` de tip chitanță de achiziție (``in_receipt``) — debit
-  cont de cheltuială (6xx) + TVA deductibil / credit **contul de datorie
-  (payable) al angajatului**. Firma rămâne datoare angajatului, urmând
-  rambursarea efectivă.
-- **Plătită de firmă** (``payment_mode = company_account``): se creează
-  direct note de plată legate de un ``account.payment`` — debit cont de
-  cheltuială + TVA / credit cont **bancă/casă**. Nu mai există datorie
-  de rambursat, fiindcă firma a achitat deja.
-
-În ambele cazuri contrapartida este fie **datoria către angajat**, fie
-**trezoreria firmei** — niciodată un avans de decontat (cont 542), care
-este specific modulului ``deltatech_expenses``.
-
-Pe scurt: folosește **``deltatech_expenses``** pentru fluxul românesc
-*avans de trezorerie → decont → diurnă → închidere cont 542*, și
-**``hr_expense``** pentru fluxul generic *angajatul/firma plătește →
-(eventual) rambursare*.
-
-Integrarea cu ``hr_expense`` (prevenirea dublării cheltuielilor)
-================================================================
-
-Întrucât cele două module pot coexista, există riscul ca aceeași
-cheltuială să fie contabilizată de două ori (o dată prin Decont și o
-dată prin ``hr_expense``). Pentru a preveni acest lucru:
-
-- Pe formularul decontului, butonul **"Preia cheltuieli HR"**
-  (disponibil în stările Draft/Advance) deschide un wizard cu
-  cheltuielile ``hr.expense`` eligibile ale angajatului
-  (aprobate/depuse, fără notă contabilă proprie, nelegate de alt
-  decont). Cheltuielile selectate devin linii de decont și sunt legate
-  prin ``expenses_deduction_id``.
-- Cheltuielile ``hr.expense`` au câmpul ``expenses_deduction_id`` care
-  le leagă de un Decont de cheltuieli. Când acesta este completat,
-  ``action_post`` din modulul standard **sare postarea** acelei
-  cheltuieli — notele contabile se generează exclusiv din Decont, iar
-  butoanele de postare standard sunt ascunse. Cheltuielile **nelegate**
-  se postează normal, ca de obicei.
-- Fiecare linie de decont reține originea (``hr_expense_id``); la
-  ștergerea liniei, cheltuiala ``hr.expense`` este eliberată automat și
-  redevine disponibilă pentru fluxul standard.
-- Fișa angajatului (``hr.employee``) are un buton smart **"Deconturi"**
-  care afișează numărul deconturilor și deschide lista filtrată pentru
-  acel angajat.
-
-Astfel contabilizarea rămâne unică: ori prin Decont (pentru cheltuielile
-preluate), ori prin ``hr_expense`` (pentru restul).
-
-Exemplu de Testare: Decontarea Cheltuielilor din Avans
-======================================================
-
-🎯 Obiectivul Testului
-----------------------
-
-Decontarea corectă a unui avans de **1.000 RON**, cu cheltuieli totale
-de **800 RON**, rezultând în **restituirea diferenței** de **200 RON**
-de către angajat.
-
-⚙️ Pașii de Testare (Scenariu)
-------------------------------
-
-+----------------------+----------------------+-------------------------+
-| Pas                  | Acțiune Utilizator   | Rezultat Așteptat       |
-|                      | (Tester)             | (Verificare)            |
-+======================+======================+=========================+
-| **1. Acordare        | Se înregistrează     | Soldul contului **542** |
-| Avans**              | acordarea unui avans | (Avansuri de decontat)  |
-|                      | de 1.000 RON         | crește cu 1.000 RON.    |
-|                      | angajatului X.       |                         |
-+----------------------+----------------------+-------------------------+
-| **2. Creare Decont** | Angajatul X inițiază | Decontul preia automat  |
-|                      | un nou decont,       | valoarea avansului de   |
-|                      | făcând referire la   | 1.000 RON.              |
-|                      | avansul primit.      |                         |
-+----------------------+----------------------+-------------------------+
-| **3. Introducere     | Se introduc          | Total cheltuieli =      |
-| Cheltuieli**         | cheltuielile: Cazare | **800 RON**. Se         |
-|                      | (500 RON, TVA        | calculează corect       |
-|                      | inclus) și Transport | TVA-ul deductibil.      |
-|                      | (300 RON, TVA        |                         |
-|                      | inclus).             |                         |
-+----------------------+----------------------+-------------------------+
-| **4. Validare        | Se verifică automat  | **Avans (1.000) -       |
-| Calcul**             | calculul diferenței. | Cheltuieli (800) =      |
-|                      |                      | Diferență de restituit  |
-|                      |                      | (200 RON)**.            |
-+----------------------+----------------------+-------------------------+
-| **5. Aprobare        | Decontul este trimis | Statutul decontului se  |
-| Decont**             | și aprobat de toți   | schimbă în              |
-|                      | factorii             | "**Aprobat/Decontat**". |
-|                      | decizionali.         |                         |
-+----------------------+----------------------+-------------------------+
-| **6. Restituire      | Angajatul restituie  | Se generează documentul |
-| Avans**              | diferența de 200 RON | de încasare             |
-|                      | (înregistrare la     | (Chitanță/Dispoziție de |
-|                      | Casierie/Bancă).     | Încasare).              |
-+----------------------+----------------------+-------------------------+
-| **7. Contabilizare   | Sistemul             | Contul **542** al       |
-| Finală**             | contabilizează       | angajatului se închide  |
-|                      | decontul și          | (Sold **0**).           |
-|                      | restituirea.         |                         |
-+----------------------+----------------------+-------------------------+
-
---------------
-
-📝 Note Contabile Aferente
---------------------------
-
-Acestea sunt notele contabile așteptate pentru a testa închiderea
-corectă a avansului (Contul 542 - Avansuri de decontat):
-
-+----------+------------+---------------+---------------+------------+---------------+
-| Nr. Crt. | Operațiune | Cont Debitor  | Cont Creditor | Suma (RON) | Explicație    |
-+==========+============+===============+===============+============+===============+
-| **1**    | Acordare   | **542**       | **5311/5121** | 1.000      | Acordarea     |
-|          | Avans      | (Avans X)     | (Casa/Banca)  |            | avansului.    |
-+----------+------------+---------------+---------------+------------+---------------+
-| **2**    | Decontare  | **6xx**       | **542**       | 672.27     | Valoarea      |
-|          | Cheltuieli | (Cheltuieli)  | (Avans X)     |            | cheltuielilor |
-|          |            |               |               |            | fără TVA (ex: |
-|          |            |               |               |            | 800 -         |
-|          |            |               |               |            | 127.73).      |
-+----------+------------+---------------+---------------+------------+---------------+
-|          |            | **4426** (TVA | **542**       | 127.73     | TVA aferent   |
-|          |            | Deductibil)   | (Avans X)     |            | cheltuielilor |
-|          |            |               |               |            | (ex: 19%).    |
-+----------+------------+---------------+---------------+------------+---------------+
-| **3**    | Restituire | **5311/5121** | **542**       | 200        | Diferența     |
-|          | Sold       | (Casa/Banca)  | (Avans X)     |            | restituită de |
-|          |            |               |               |            | angajat.      |
-+----------+------------+---------------+---------------+------------+---------------+
-
-**Verificare Sold Final Cont 542 (Avans X):**
-
-- **Total Debitor:** 1.000 RON
-- **Total Creditor:** 800 RON (Cheltuieli) + 200 RON (Restituire) =
-  1.000 RON
-- **Sold Final:** 1.000 (D) - 1.000 (C) = **0 RON (Corect)**
+The module does not replace the standard Expenses app (``hr_expense``),
+which reimburses expenses paid by employees and has no cash advance.
+Both can be used in the same database.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+1. Prepare a journal whose default account is **542** (advances to be
+   settled). Choose it as the **Expense Journal** of each report.
+2. The **Cash Journal** (the first cash journal by default), the **Diem
+   Journal** (a general journal) and the **Diem Account** (625 by
+   default) are filled in on the report and can be changed there.
+3. In *Settings > Users*, give each user a role for expense reports:
+   **Angajat** (employee), **Aprobator** (approver) or **Contabil**
+   (accountant).
+4. On each employee, the **Work Contact** is used as partner on the
+   journal entries; without it, the entries are posted without a
+   partner.
+
+Usage
+=====
+
+1. In *Accounting > Vendors > Expenses Deduction*, create a report for
+   the employee, with the advance amount and date, and click
+   **Advance**: the advance is booked on 542 against the cash journal.
+2. When the employee returns, add the receipts as lines (amount with VAT
+   included, supplier, account) and, for a trip, the number of days for
+   the per diem.
+3. The accountant clicks **Validate**: the purchase receipts, their
+   settlement from 542, the per diem and the payment of the difference
+   are posted, and the report is **Done**.
+4. **Invalidate** reverses a validated report, so it can be corrected.
+
+Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON
+to be returned by the employee; after validation, the employee's 542
+balance is zero.
+
+Changelog
+=========
+
+Changelog
+=========
+
+20.0.3.3.4 (2026-10-10)
+-----------------------
+
+- **Fix (EXPENSES-001): the workflow and a done deduction are protected
+  on the server.** The status could be changed by a direct write (for
+  example over RPC) without the role checked by the Advance / Validate /
+  Invalidate buttons, and the amounts and lines of a done deduction
+  could still be changed after the receipts and journal entries were
+  posted. The status is now changed only by the workflow buttons; on a
+  done or cancelled deduction the advance, per diem, days, journals,
+  accounts, dates, employee and lines can no longer be changed, and a
+  correction is made by invalidating and validating again. A deduction
+  is cancelled only by the accountant and only in Draft.
+- In the Advance state, once the advance entry is posted, the advance
+  amount, the cash and advance journals, the advance date, the employee
+  and the company can no longer be changed (the settlement difference
+  was computed against a different advance than the posted one: a
+  fictitious refund and a credit balance on 542). Lines, days and per
+  diem stay editable; to change the advance, invalidate the deduction.
+
+20.0.3.3.3 (2026-10-07)
+-----------------------
+
+- Apps Store page in English (it was in Romanian), written from the 20.0
+  code, with Configuration and Usage sections, and the Romanian
+  translation in its own tab (``readme/*.ro.md``). The test scenario is
+  left out of the page. Summary in English; support address.
+
+20.0.3.3.2 (2026-10-04)
+-----------------------
+
+- **Fix (EXPENSES-002): the expense lines are always in the company
+  currency of the deduction.** A line could get another currency (the
+  journal currency, the currency of the user's main company, or one sent
+  by an integration such as the HR expense import), but its amount was
+  still added to the totals and posted as company currency, so the
+  currency shown on the line was wrong. The line currency is now derived
+  from the deduction company and a currency sent on create/write is
+  ignored; amounts are entered in the company currency. The migration
+  (``migrations/20.0.3.3.2``) aligns the currency of existing lines;
+  amounts, totals and posted entries do not change. Port of 19.0.3.4.1
+  (dhongu/deltatech#3117). The 19.0.3.4.0 changes (gross line amount,
+  settlement date, supplier advance 4092) are not part of this port.
+
+20.0.3.3.1 (2026-10-01)
+-----------------------
+
+- Migration to Odoo 20.0: access rights and record rules moved to
+  ``security/ir.access.csv`` (same roles and restrictions: own
+  deductions for Employee, full access for Approver/Accountant,
+  multi-company on deductions and lines); report uses ``t-out``; journal
+  entries unchanged from 19.0 (covered by a full Dr/Cr scenario test).
+
+19.0.3.3.1 (2026-09-25)
+-----------------------
+
+- Fix: the "Expenses Deductions" smart button on the employee form had
+  no group restriction, so any internal user without an expenses group
+  got an access error on ``deltatech.expenses.deduction`` when opening
+  an employee (e.g. a Time Off officer). The button is now shown only to
+  the expenses groups (Employee, Approver, Accounting).
 
 Bug Tracker
 ===========
@@ -263,6 +183,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_expenses>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_expenses>`_ project on GitHub.
 
 You are welcome to contribute.

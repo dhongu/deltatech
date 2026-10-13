@@ -1,6 +1,6 @@
-=======================
-Deltatech Sale Currency
-=======================
+=============
+Sale Currency
+=============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Sale Currency
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_currency
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_currency
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -68,6 +68,22 @@ Usage
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.0.0.2 (2026-10-10)
+-----------------------
+
+- Fix SALECUR-001: when the invoice date or currency changes, the sale
+  line price is first converted from the sale line unit of measure into
+  the invoice line unit of measure, then into the invoice currency (e.g.
+  10 per Unit becomes 120 per Dozen, not 10 per Dozen).
+
+19.0.0.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -96,6 +112,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_currency>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_currency>`_ project on GitHub.
 
 You are welcome to contribute.

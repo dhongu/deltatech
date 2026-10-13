@@ -14,7 +14,7 @@ MRP Validation Date
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_validation_date
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_validation_date
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -23,7 +23,7 @@ Tracks the exact date when a manufacturing order is validated (marked as
 done), giving production managers a reliable audit trail of order
 completion times.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a **Validation Date** field to the manufacturing order form,
   automatically populated when the operator clicks **Mark as Done**.
@@ -53,6 +53,20 @@ Using the Validation Date
 5. The field is read-only — it reflects the actual date the order was
    validated and cannot be edited manually.
 
+Changelog
+=========
+
+20.0.0.0.3 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -81,6 +95,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_validation_date>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_validation_date>`_ project on GitHub.
 
 You are welcome to contribute.

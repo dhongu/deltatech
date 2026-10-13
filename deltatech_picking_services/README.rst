@@ -1,6 +1,6 @@
-===============================
-Deltatech Picking Service Lines
-===============================
+=====================
+Picking Service Lines
+=====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Picking Service Lines
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_services
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_picking_services
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -27,6 +27,24 @@ Deltatech Picking Service Lines
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.2 (2026-10-08)
+-----------------------
+
+- Fixed PICKSERVICE-001: a stock user could search, read, change or
+  delete the service lines of transfers belonging to companies they do
+  not have access to. Service lines now carry the company of their
+  transfer and follow a multi-company record rule.
+- Service lines are deleted together with their transfer, instead of
+  being left without transfer.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -56,6 +74,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_services>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_picking_services>`_ project on GitHub.
 
 You are welcome to contribute.

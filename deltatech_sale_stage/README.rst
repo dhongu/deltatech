@@ -1,6 +1,6 @@
-==========================
-Deltatech Sale Order Stage
-==========================
+================
+Sale Order Stage
+================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Sale Order Stage
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_stage
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_stage
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -85,6 +85,19 @@ further phase changes:
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.2.8 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.2.7 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -113,6 +126,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_stage>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_stage>`_ project on GitHub.
 
 You are welcome to contribute.

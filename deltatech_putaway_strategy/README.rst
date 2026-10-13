@@ -1,6 +1,6 @@
-==========================
-Deltatech Putaway Strategy
-==========================
+================
+Putaway Strategy
+================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,7 +17,7 @@ Deltatech Putaway Strategy
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_putaway_strategy
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_putaway_strategy
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -56,6 +56,11 @@ Key features
     its maximum capacity.
   - Prefers empty child locations when possible (if search sublocation
     is enabled).
+  - Optionally prefers the shelf where the product is already stocked,
+    anywhere under the incoming location, over the shelf given by the
+    putaway rule (system parameter
+    ``deltatech_putaway_strategy.prefer_existing_stock_location``,
+    disabled by default).
   - Optimized rule lookup with database indexes on ``product_id`` and
     ``sequence`` for ``stock.putaway.rule``.
   - Keeps full compatibility with Odoo’s storage category rules (max
@@ -89,6 +94,13 @@ Usage
    ``Avoid Root Location on Reservation`` on the delivery operation
    type. This requires ``deltatech_stock_removal_priority`` to be
    installed (see Compatibility).
+5. To send new stock to the shelf where the product already sits, set
+   the system parameter
+   ``deltatech_putaway_strategy.prefer_existing_stock_location`` to
+   ``True`` (Settings → Technical → System Parameters). The shelf with
+   the largest quantity is proposed first; if it is full, or if the
+   rule's shelf already holds the product, the putaway rule applies as
+   usual.
 
 Performance notes
 -----------------
@@ -138,8 +150,50 @@ The app store gallery uses the images from ``static/description/``.
 Changelog
 =========
 
+20.0.1.1.1
+==========
+
+- Migration to Odoo 20.0. The system parameters
+  ``deltatech_putaway_strategy.search_sublocation`` and
+  ``deltatech_putaway_strategy.prefer_existing_stock_location`` are now
+  read as booleans (``ir.config_parameter.get_bool``):
+  ``True``/``False`` keep working, and ``true``, ``1``, ``yes`` are
+  accepted too (they used to raise an error).
+- The tests of ``Avoid Putaway Rules`` and of the over-capacity barrier
+  at validation are run again (they were not imported).
+
+19.0.1.1.1
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 Changelog
 =========
+
+19.0.1.1.0 (2026-09-24)
+-----------------------
+
+- New option: prefer the shelf where the product is already stocked.
+  When the system parameter
+  ``deltatech_putaway_strategy.prefer_existing_stock_location`` is
+  ``True``, the putaway looks for the leaf locations under the incoming
+  location (e.g. ``D1/S``) that already hold the product and proposes
+  the one with the largest quantity that still has capacity, even when
+  it is not under the location given by the putaway rule. This covers
+  products moved physically to another shelf without updating their
+  rule: the rule kept sending them to the old shelf, and
+  ``search_sublocation`` could not reach the new one because it only
+  looks below the rule's location. The rule's location still wins when
+  it already holds the product, the incoming location itself is ignored
+  (goods not yet put away) and a full shelf falls back to the usual
+  strategy. Disabled by default, so existing installations keep their
+  behaviour.
+- A shelf is never proposed as the destination of the goods leaving it:
+  only free stock (quantity minus reserved) counts, and the source
+  locations of the move lines are passed to the putaway through the
+  ``putaway_exclude_location_ids`` context key, so a transfer from a
+  shelf is not sent back to that same shelf even when stock remains
+  there.
 
 19.0.1.0.7 (2026-08-04)
 -----------------------
@@ -238,6 +292,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_putaway_strategy>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_putaway_strategy>`_ project on GitHub.
 
 You are welcome to contribute.

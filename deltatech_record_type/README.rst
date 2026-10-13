@@ -1,6 +1,6 @@
-======================
-Terrabit - Record Type
-======================
+===========
+Record Type
+===========
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Terrabit - Record Type
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_record_type
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_record_type
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -84,6 +84,42 @@ Terrabit and is available for Odoo 17.0.
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.1.16 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.1.15 (2026-10-04)
+------------------------
+
+- TYPE-001 (security): the default values of a record type
+  (``record.type.default.values``) had no company rule, so a user of
+  company A could read, change or delete the default values of a
+  company-B record type (applied afterwards on that company's sales,
+  purchases and invoices). The default values now follow the company of
+  their record type (values of shared record types stay visible to
+  everybody), and moving a default value to another record type requires
+  write access on the target type.
+- Port of 19.0.1.1.18 (dhongu/deltatech#3116). In 20 the company rule is
+  a global row (no group, ``crud``) of ``security/ir.access.csv``
+  instead of an ``ir.rule`` in ``security/record_type_security.xml``.
+
+20.0.1.1.14 (2026-10-01)
+------------------------
+
+- Quotations without an order type accepted/signed or paid by the
+  customer in the portal are confirmed again: the order type check
+  applies only to internal users, not to portal/public users or to the
+  confirmation made by an online payment.
+
+20.0.1.1.13 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -112,6 +148,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_record_type>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_record_type>`_ project on GitHub.
 
 You are welcome to contribute.

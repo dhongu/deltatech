@@ -14,7 +14,7 @@ Stock Inventory
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_inventory
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_inventory
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_inventory/readme/FISA_CONSULTANT.md
@@ -160,6 +160,47 @@ Usage
 Changelog
 =========
 
+20.0.2.10.6 (2026-10-12)
+------------------------
+
+- Opening the form of a new product no longer logs *Domains don't
+  support NewId*: the rack / row / shelf / case are searched only for
+  saved products (the warning failed the CI of the modules tested
+  together with this one).
+
+20.0.2.10.4 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+20.0.2.10.3 (2026-10-04)
+------------------------
+
+- INVENTORY-003 (security): the inventory documents
+  (``stock.inventory``) and their lines (``stock.inventory.line``) had
+  no company rule, so a stock user working in company A could search,
+  read, change or delete the inventories, quantities and owners of other
+  companies. Both models are now restricted to the allowed companies
+  (lines without a company stay visible).
+- Port of 19.0.2.10.3 (dhongu/deltatech#3116). In 20 the two company
+  rules are global rows (no group, ``crud``) of
+  ``security/ir.access.csv`` instead of the new ``security/ir_rule.xml``
+  of 19.
+
+20.0.2.10.2 (2026-10-01)
+------------------------
+
+- Applying a count on a quant moved since it was counted no longer
+  closes the inventory before the conflict is resolved. The inventory
+  stays in progress until the *Conflict in Inventory Adjustment* wizard
+  is confirmed, and then the same document is finalized (no second
+  document is created) and the note reaches the inventory move.
+
+20.0.2.10.1 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.2.10.0 (2026-09-24)
 ------------------------
 
@@ -202,21 +243,21 @@ Changelog
 19.0.2.9.0 (2026-09-14)
 -----------------------
 
-- **Grupare** este din nou disponibil în wizard-ul de reaprovizionare
-  produs (*product.replenish*). Câmpul exista în 18.0 ca ``group_id``
-  (``procurement.group``), eliminat la portarea pe 19.0 pentru că
-  modelul ``procurement.group`` nu mai există în core — a fost înlocuit
-  acum cu noul mecanism O19, ``stock.reference`` (``reference_ids`` pe
-  ``stock.move``).
-- Gruparea se completează **automat, o dată pe zi și pe depozit**: toate
-  reaprovizionările lansate în aceeași zi, din același depozit, primesc
-  aceeași referință și ajung astfel pe un singur ``stock.picking``, în
-  loc de câte un document separat per produs. Câmpul rămâne editabil,
-  dacă se dorește altă grupare manuală.
-- Garda anti-duplicare e păstrată, dar acum e per produs+referință (nu
-  per referință, cum era în 18.0 per grup) — altfel gruparea zilnică
-  automată ar bloca reaprovizionarea celui de-al doilea produs din
-  aceeași zi.
+- **Grupare** is available again in the product replenishment wizard
+  (*product.replenish*). The field existed in 18.0 as ``group_id``
+  (``procurement.group``), removed during the 19.0 port because the
+  ``procurement.group`` model no longer exists in core — it has now been
+  replaced with the new O19 mechanism, ``stock.reference``
+  (``reference_ids`` on ``stock.move``).
+- The grouping is filled in **automatically, once per day and per
+  warehouse**: all replenishments launched on the same day, from the
+  same warehouse, receive the same reference and thus end up on a single
+  ``stock.picking``, instead of a separate document per product. The
+  field remains editable, if a different manual grouping is wanted.
+- The anti-duplication guard is kept, but it is now per
+  product+reference (not per reference, as it was in 18.0 per group) —
+  otherwise the automatic daily grouping would block the replenishment
+  of the second product on the same day.
 
 19.0.2.8.0 (2026-09-10)
 -----------------------
@@ -328,6 +369,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_inventory>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_inventory>`_ project on GitHub.
 
 You are welcome to contribute.

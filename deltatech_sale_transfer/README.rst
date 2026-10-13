@@ -17,7 +17,7 @@ Sale Prepare Transfer
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_transfer
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_transfer
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -31,6 +31,30 @@ Sale Prepare Transfer
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.2 (2026-10-04)
+-----------------------
+
+- Fixed: the transfer request created on sale confirmation mixed the
+  sale line unit with the product unit. For 1 Dozen ordered with 6 Units
+  in the sale warehouse it computed 1 - 6, found no shortage and created
+  no transfer; in other cases it could request more than the source
+  warehouse had. Shortage and source availability are now computed in
+  the product unit and the transfer move is created in the product unit
+  (before: in the sale line unit). Repeated lines of the same product no
+  longer count the same destination/source stock twice
+  (SALETRANSFER-001). Transfer quantities change whenever the sale unit
+  differs from the product unit or a product is repeated. Port of
+  19.0.1.0.2 (dhongu/deltatech#3118); on 20.0 the move unit is
+  ``stock.move.uom_id`` (19.0: ``product_uom``).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -60,6 +84,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_transfer>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_transfer>`_ project on GitHub.
 
 You are welcome to contribute.

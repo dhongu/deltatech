@@ -35,7 +35,7 @@ builds on: the connection layer, the job protocol, and the one job type
 that is pure transport rather than a specific device — an HTTP call
 inside the customer's network.
 
-**What it gives you**
+**✨ What it gives you**
 
 - **Station registry** (``deltatech.tc.station``) — one record per
   workstation running Terrabit Connect, each with a unique API key, a
@@ -356,6 +356,42 @@ the feature module is installed.
 
 Changelog
 =========
+
+20.0.1.2.4 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+20.0.1.2.3 (2026-10-04)
+-----------------------
+
+- TC-001 (security): downloading a station config
+  (``/tc/config/<station_id>``) read the station as superuser, so a
+  Terrabit Connect manager limited to company A could download the
+  config, including the API key, of a station of company B by changing
+  the id in the URL. The station is now looked up with the manager's own
+  rights: a station of a company the manager does not have access to
+  answers 404, like a missing one; the API key itself is still read as
+  superuser.
+- Port of 19.0.1.2.3 (dhongu/deltatech#3116). In 20 the 404 answers of
+  the endpoint are raised (``raise request.not_found()``) instead of
+  returned: Odoo 20 logs a warning for an endpoint that returns an
+  HTTPException.
+- Tests: the invalid queue setting test expects the warning
+  ``get_int()`` logs for a non-numeric value (an unexpected warning
+  fails the CI run). No functional change.
+
+20.0.1.2.2 (2026-09-30)
+-----------------------
+
+- New Apps Store banner, with the module icon, and the job retry and
+  queue cleanup feature.
+
+20.0.1.2.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.2.0 (2026-09-29)
 -----------------------

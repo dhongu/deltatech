@@ -14,7 +14,7 @@ Purchase Stock
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_stock
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_stock
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -30,6 +30,11 @@ Features:
 
 Changelog
 =========
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.1 (2026-07-29)
 -----------------------
@@ -81,6 +86,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_stock>`_ project on GitHub.
 
 You are welcome to contribute.

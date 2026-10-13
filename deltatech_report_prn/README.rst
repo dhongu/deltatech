@@ -17,7 +17,7 @@ Raport PRN
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_prn
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_report_prn
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -34,6 +34,11 @@ Features:
 
 Changelog
 =========
+
+19.0.1.1.1
+----------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.1.0
 ----------
@@ -75,6 +80,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_prn>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_report_prn>`_ project on GitHub.
 
 You are welcome to contribute.

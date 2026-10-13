@@ -17,7 +17,7 @@ Sale Qty Multiple
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_multiple
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_multiple
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -41,6 +41,18 @@ Features:
 
 Changelog
 =========
+
+20.0.1.1.3 (2026-10-01)
+-----------------------
+
+- Migration to Odoo 20.0. The quantity rules are edited on the variant
+  form (``product.product_normal_form_view``), the variant easy-edit
+  form no longer exists in Odoo 20.
+
+19.0.1.1.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.1.2 (2026-09-23)
 -----------------------
@@ -77,6 +89,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_multiple>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_multiple>`_ project on GitHub.
 
 You are welcome to contribute.

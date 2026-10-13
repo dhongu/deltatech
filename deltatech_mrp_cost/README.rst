@@ -14,7 +14,7 @@ MRP Cost
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_cost
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_cost
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -27,6 +27,14 @@ MRP Cost
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.2.0.7 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -56,6 +64,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_cost>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_cost>`_ project on GitHub.
 
 You are welcome to contribute.

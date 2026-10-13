@@ -17,7 +17,7 @@ Stock Removal Location by Priority
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_removal_priority
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_removal_priority
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -96,6 +96,24 @@ Configuration
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Removal priority is now recomputed when the product category or the
+  location type changes (PRIORITY-001).
+- Changing the ``stock.removal_priority.default`` parameter recomputes
+  the quants that use the default priority.
+- Archiving or restoring a putaway rule recomputes the priority of the
+  affected quants (PRIORITY-002).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -124,6 +142,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_removal_priority>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_removal_priority>`_ project on GitHub.
 
 You are welcome to contribute.

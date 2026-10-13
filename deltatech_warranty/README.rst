@@ -1,6 +1,6 @@
-==================
-Deltatech Warranty
-==================
+================
+Product Warranty
+================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Warranty
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_warranty
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_warranty
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -28,6 +28,20 @@ Deltatech Warranty
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.1 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0; the warranty page shows the line label
+  (product name + description).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -61,6 +75,6 @@ Current maintainers:
 
 |maintainer-dhongu| |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_warranty>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_warranty>`_ project on GitHub.
 
 You are welcome to contribute.

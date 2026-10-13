@@ -1,6 +1,6 @@
-================================
-Deltatech Average Payment Period
-================================
+======================
+Average Payment Period
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Average Payment Period
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_average_payment_period
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_average_payment_period
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -29,7 +29,7 @@ aggregated pivot/graph report — **Average Payment Period** — is added
 directly to the Accounting Reports menu so managers can slice the data
 by partner, journal, or period at a glance.
 
-**Key features:**
+**✨ Key features:**
 
 - **Payment Date** — automatically derived from the reconciliation
   partner line and stored on each ``account.move.line``.
@@ -93,6 +93,36 @@ fully reconciled:
 No manual action is required; values update automatically on
 reconciliation and de-reconciliation.
 
+Changelog
+=========
+
+20.0.1.0.5 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+20.0.1.0.4 (2026-10-10)
+-----------------------
+
+- Fix AVGPAY-002: the *Average payment period* report (SQL view)
+  selected the journal items of every company and had no company
+  restriction, exposing invoices, payment history and amounts of other
+  companies. The view now exposes ``company_id`` (query built with
+  ``SQL()``) and a global restriction
+  ``[('company_id', 'in', company_ids)]`` is added in
+  ``security/ir.access.csv``.
+
+20.0.1.0.3 (2026-10-01)
+-----------------------
+
+- Migration to Odoo 20.0: access rights in ``security/ir.access.csv``.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -121,6 +151,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_average_payment_period>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_average_payment_period>`_ project on GitHub.
 
 You are welcome to contribute.

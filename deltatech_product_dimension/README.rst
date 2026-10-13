@@ -14,7 +14,7 @@ Products Dimension
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_dimension
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_dimension
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -30,6 +30,18 @@ Products Dimension
 
 Changelog
 =========
+
+20.0.1.0.1 (2026-10-02)
+-----------------------
+
+- Migration to Odoo 20.0: no functional changes; fields
+  ``product_length``, ``product_width``, ``product_height``, the volume
+  onchange and the product form view are kept as in 19.0.
+
+19.0.1.0.1
+==========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========
@@ -73,6 +85,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_dimension>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_dimension>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,7 +14,7 @@ Product Data Sheet Website
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_data_sheet_website
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_data_sheet_website
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -71,6 +71,14 @@ The buttons are only visible when the corresponding document is set on
 the product template. Products without attached documents show no
 buttons.
 
+Changelog
+=========
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -99,6 +107,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_data_sheet_website>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_data_sheet_website>`_ project on GitHub.
 
 You are welcome to contribute.

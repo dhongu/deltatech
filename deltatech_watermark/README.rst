@@ -17,7 +17,7 @@ Watermark
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_watermark
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_watermark
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -83,7 +83,23 @@ Usage
 
 |image1|
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_watermark/static/description/settings.png
+.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_watermark/static/description/settings.png
+
+Changelog
+=========
+
+20.0.3.0.1 (2026-10-01)
+-----------------------
+
+- Migration to Odoo 20.0.
+- The watermark setting is now a standard ``<setting>``
+  (company-specific icon via ``company_dependent``), placed after
+  *Document Layout* in *Settings > Companies*.
+
+19.0.3.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -113,6 +129,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_watermark>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_watermark>`_ project on GitHub.
 
 You are welcome to contribute.

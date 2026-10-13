@@ -17,7 +17,7 @@ Sale Purchase
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_purchase
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_purchase
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -55,6 +55,28 @@ Usage:
 
 Changelog
 =========
+
+20.0.1.0.2 (2026-10-02)
+-----------------------
+
+- Migration to 20.0: the quantity of the cancelled moves is converted
+  with the new ``uom_id`` fields of ``stock.move`` and
+  ``purchase.order.line``.
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Cancelling a sale order no longer deletes a draft purchase line that
+  also supplies another sale order. With a vendor grouping RFQs Daily,
+  Weekly or Always, the needs of several sale orders are merged on one
+  line; now only the cancelled moves are detached from it and their
+  quantity (converted to the purchase unit of measure) is subtracted. A
+  line left without any active sale order is removed as before.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.0 (2026-07-29)
 -----------------------
@@ -108,6 +130,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_purchase>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_purchase>`_ project on GitHub.
 
 You are welcome to contribute.

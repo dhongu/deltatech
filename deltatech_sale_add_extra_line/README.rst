@@ -17,7 +17,7 @@ Sale Add Extra Line
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_add_extra_line
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_add_extra_line/readme/FISA_CONSULTANT.md
@@ -118,6 +118,62 @@ services to customer orders.
 Changelog
 =========
 
+20.0.1.5.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.5.1 (2026-10-01)
+-----------------------
+
+- [FIX] the extra line was never generated in the order form when
+  ``deltatech_sale_pallet`` was installed: both modules defined the
+  ``order_line`` onchange as ``sale.order.onchange_order_line``, so the
+  last one loaded replaced the other. The onchange is now
+  ``_onchange_order_line_extra_product``.
+- [FIX] the price computed for the extra line (percent of the main line)
+  is written with ``ignore_price_check``: it comes from the product
+  configuration, not from the seller, so ``deltatech_sale_margin`` no
+  longer refuses the order (or the cart) when it is under the cost of
+  the extra product. A price typed in on the extra line is still
+  checked.
+
+20.0.1.5.0 (2026-10-01)
+-----------------------
+
+- Migration to Odoo 20.0, including the SALEEXTRA-001 fix from
+  19.0.1.5.0 (the extra line is replaced when the product of the main
+  line changes, and the pair is tracked through ``is_extra_line``).
+- No change to the module code: the ``_verify_cart_after_update`` hook,
+  ``technical_price_unit`` and the views it extends are unchanged in
+  Odoo 20.
+- Cart tests: ``WebsiteSaleCommon`` no longer provides ``empty_cart``
+  and runs as a salesman, so the tests create the empty cart with
+  ``_create_so(order_line=[])`` and work on it as sudo, like the shop.
+
+19.0.1.5.0
+----------
+
+- [FIX] changing the product of the main line replaces the extra line:
+  the extra line of the old product used to stay, with only its quantity
+  updated, so the quotation kept charging and delivering an unrelated
+  extra product. When the new product requires another extra product,
+  the old line is removed and the right one is generated with the
+  computed price; when it requires none, the extra line is removed
+- [FIX] deleting the main line deletes its extra line even when the
+  product no longer has an extra product configured, so no orphan extra
+  line is left behind; deleting a line whose extra product has an extra
+  product of its own no longer ends in an infinite recursion
+- [IMP] the generated line is flagged with the technical field
+  ``is_extra_line``, and the pair is found through it instead of through
+  the current configuration of the product. A migration flags the extra
+  lines of the existing orders
+
+19.0.1.4.1
+----------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.4.0
 ----------
 
@@ -141,10 +197,10 @@ Changelog
 19.0.1.3.0
 ----------
 
-- [IMP] Romanian translation (``i18n/ro.po``): the group reads **Linie
-  suplimentară** and the fields **Produs suplimentar**, **Procent
-  suplimentar**, **Cantitate suplimentară**, instead of staying in
-  English on a Romanian interface
+- [IMP] Romanian translation (``i18n/ro.po``): the group **Extra Line**
+  and the fields **Extra Product**, **Extra Percent**, **Extra Qty** are
+  now translated into Romanian, instead of staying in English on a
+  Romanian interface
 - [IMP] the field tooltips describe the current behaviour: the percent
   tooltip no longer claims that a zero percent uses the price of the
   extra product "directly" (since 19.0.1.1.0 the standard price
@@ -223,6 +279,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_add_extra_line>`_ project on GitHub.
 
 You are welcome to contribute.

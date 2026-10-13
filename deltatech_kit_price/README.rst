@@ -1,6 +1,6 @@
-===================
-Deltatech Kit Price
-===================
+=========
+Kit Price
+=========
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Kit Price
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_kit_price
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_kit_price
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -71,6 +71,11 @@ Usage
 Changelog
 =========
 
+19.0.0.0.3
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 Changelog
 =========
 
@@ -115,6 +120,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_kit_price>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_kit_price>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -17,7 +17,7 @@ Picking Split
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_split
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_picking_split
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -30,6 +30,30 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.3 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+20.0.1.0.2 (2026-10-08)
+-----------------------
+
+- Fixed PICKSPLIT-002: the manual backorder wizard checked the kept
+  quantity only in the form. Through RPC or a stale wizard, a kept
+  quantity above the demand raised the demand of the original move and
+  created a backorder with a negative quantity. The wizard now refuses,
+  before changing anything, a kept quantity below zero or above the
+  current demand of the move, a move that no longer belongs to the
+  transfer, and a transfer already done or cancelled.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -59,6 +83,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_split>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_picking_split>`_ project on GitHub.
 
 You are welcome to contribute.
