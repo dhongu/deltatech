@@ -8,10 +8,6 @@ from odoo import models
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def action_view_stock_valuation_layers(self):
-        self = self.with_context(active_test=False)
-        return super().action_view_stock_valuation_layers()
-
     def _prepare_return_move_default_values(self, move_id):
         # In 20.0 wizard-ul stock.return.picking a fost eliminat: returul se creeaza direct
         # (action_return -> _create_return) cu cantitatile pe 0. Pastram comportamentul din

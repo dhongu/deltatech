@@ -1,3 +1,9 @@
+## 20.0.1.9.12 (2026-10-14)
+
+- Creating several business projects in one call (`create` with a list of values) created only the last one, because the values of the last iteration were passed to `super().create` instead of the whole list. All projects are now created, each with its own sequence code. Port of 19.0.1.9.7.
+- In the many2one dropdowns, projects, processes, steps, developments, issues, migrations and transactions now show the code in a second, muted column (a step also shows the code of its process, because step codes repeat between imported processes). The display name elsewhere (`[code] name`) is unchanged. Typing the code in the dropdown now finds projects, steps, developments, issues, migrations and transactions. A process is now found by its name as well as by its code: its own search looked only at the code, so typing the process name in the dropdown found nothing. Port of 19.0.1.9.8; in 20 `_rec_names_search` is a tuple.
+- JSON export/import: the process *Description* lost its formatting (lists, bold, paragraphs) on import, because the import stripped every HTML tag. The HTML written by the export is now kept (the Html field still sanitizes it), and a plain-text description (e.g. from a hand-written `process.json`) is converted to HTML so its line breaks are preserved. Port of 19.0.1.9.12.
+
 ## 20.0.1.9.7 (2026-10-10)
 
 - BUSINESS-001: in the *Business process test report*, two test runs of the same step showed up as the same row, because the row id was the step id. Each row now has the id of its step test, so every run keeps its own result, dates and data in the list, the form and the pivot.

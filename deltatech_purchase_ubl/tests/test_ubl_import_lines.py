@@ -21,7 +21,14 @@ class TestUblImportLineMapping(TransactionCase):
             {"name": "Lines Vendor SRL", "vat": "RO99887766", "supplier_rank": 1}
         )
         cls.product = cls.env["product.product"].create(
-            {"name": "Lines Product", "default_code": "LINEPROD", "is_storable": True, "purchase_ok": True}
+            {
+                "name": "Lines Product",
+                "default_code": "LINEPROD",
+                "is_storable": True,
+                "purchase_ok": True,
+                # billed on ordered quantities: the bill tests run without a receipt
+                "purchase_method": "purchase",
+            }
         )
         Tax = cls.env["account.tax"]
         tax_vals = {"type_tax_use": "purchase", "amount_type": "percent", "company_id": cls.company.id}
