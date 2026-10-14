@@ -57,7 +57,7 @@
                         invisible="name!='/'"
                     />
                     <button name="print_agreement" type="object" class="oe_highlight" string="Print" />
-                    <field name="state" widget="statusbar" statusbar_visible="draft,quote" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,closed" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -108,6 +108,34 @@
         parent="menu_general_agr"
         sequence="500"
     />
+    <record id="view_general_agreement_type_tree" model="ir.ui.view">
+        <field name="name">general.agreement.type.list</field>
+        <field name="model">general.agreement.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="sequence_id" />
+                <field name="print_template_id" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_general_agreement_type_form" model="ir.ui.view">
+        <field name="name">general.agreement.type.form</field>
+        <field name="model">general.agreement.type</field>
+        <field name="arch" type="xml">
+            <form string="Agreement Type">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="sequence_id" />
+                        <field name="print_template_id" domain="[('model', '=', 'general.agreement')]" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="action_general_agreement_type" model="ir.actions.act_window">
         <field name="name">generals Agreement Types</field>
         <field name="res_model">general.agreement.type</field>

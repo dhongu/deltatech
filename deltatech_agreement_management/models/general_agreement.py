@@ -10,6 +10,7 @@ class GeneralAgreement(models.Model):
     _name = "general.agreement"
     _description = "General Agreement"
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _check_company_auto = True
 
     name = fields.Char(string="Reference", index=True, default="/", copy=False)
 
@@ -23,7 +24,7 @@ class GeneralAgreement(models.Model):
 
     final_date = fields.Date(string="Final Date", copy=False)
 
-    partner_id = fields.Many2one("res.partner", string="Partner", readonly=False)
+    partner_id = fields.Many2one("res.partner", string="Partner", readonly=False, check_company=True)
 
     company_id = fields.Many2one(
         "res.company",
