@@ -473,6 +473,11 @@
       "lines": 93,
       "tests": 7
     },
+    "deltatech_stock_count_zero": {
+      "coverage": 100.0,
+      "lines": 16,
+      "tests": 2
+    },
     "deltatech_stock_delivery": {
       "coverage": 76.7,
       "lines": 30,
