@@ -537,8 +537,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 # Mark only the moves we set as picked; the rest go to a backorder
                 picked_moves.picked = True
                 picking.with_context(force_period_date=order.date_order)._action_done()
-                return True
-        # Fallback: original behavior using button_validate with backorder wizard handling
+                return picking.state == "done"
+        # Fallback (no order context, or a receipt still waiting): validate through button_validate.
         # Odoo 19: iterate move_ids (move_ids_without_package was removed from stock.picking)
         receipt_qtys = self._allocate_receipt_quantities(picking.move_ids, line_map)
         for move in picking.move_ids:
@@ -546,11 +546,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if qty and qty > 0:
                 move._set_quantity_done(qty)
                 move.picked = True
-        action = picking.button_validate()
-        if isinstance(action, dict) and action.get("res_model") == "stock.backorder.confirmation":
-            wiz = self.env[action["res_model"]].browse(action.get("res_id"))
-            wiz.with_context(skip_backorder=True).process()
-        return True
+        # skip_backorder answers the backorder wizard upfront with "Create backorder", as its
+        # process() does: Odoo 19 returns that wizard as an action without a record to process.
+        picking.with_context(skip_backorder=True).button_validate()
+        # Another pre-validation wizard (quality checks, expiry dates, ...) leaves it undone
+        return picking.state == "done"
 
     def _allocate_receipt_quantities(self, moves, line_map):
         """Split the received quantity of each product over its moves, in the move unit.
@@ -851,8 +851,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                         if product:
                             qty = self._convert_source_line(ml, product.uom_id)[0] or 0.0
                             line_map[product.id] = line_map.get(product.id, 0.0) + qty
-                    self._validate_receipt_quantities(picking, line_map, order=order)
-                    pick_log = self.env._("Receipt updated: %s") % picking.name
+                    if self._validate_receipt_quantities(picking, line_map, order=order):
+                        pick_log = self.env._("Receipt updated: %s") % picking.name
+                    else:
+                        pick_log = (
+                            self.env._("Warning: receipt %s could not be validated; check it manually.") % picking.name
+                        )
                 else:
                     pick_log = self.env._("No receipt found to validate.")
             else:
