@@ -1,3 +1,7 @@
+## 19.0.0.0.4 (2026-10-14)
+
+- Translations: .pot regenerated and Romanian translation completed for the new terms.
+
 ## 19.0.0.0.3 (2026-10-14)
 
 - Fix: when a selected quant is outdated (moved since the count), the conflict wizard of the inventory adjustment is opened; before, the result was ignored and the count was not applied, without any message.
