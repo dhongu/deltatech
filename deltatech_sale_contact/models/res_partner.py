@@ -13,8 +13,8 @@ class Partner(models.Model):
     print_green_invoice = fields.Boolean(
         "Green Invoice",
         default=False,
-        help="Informative flag: the partner prefers paperless invoices. "
-        "It does not change the behavior of the Send & Print wizard.",
+        help="The partner prefers paperless invoices: when the invoice is sent, the PDF is not "
+        "downloaded by default (it is e-mailed instead). It can still be downloaded on demand.",
     )
 
     def address_get(self, adr_pref=None):
