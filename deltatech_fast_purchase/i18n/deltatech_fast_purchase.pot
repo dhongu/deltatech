@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_fast_purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:23+0000\n"
+"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_fast_purchase
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+msgid ""
+"Are you sure you want to make the automatic receipt with the quantities and "
+"price from the purchase order?"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+msgid "Confirm, Receipt and Bill"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model:ir.model.fields,field_description:deltatech_fast_purchase.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_fast_purchase.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model:ir.model.fields,field_description:deltatech_fast_purchase.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_fast_purchase.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.view_picking_form
+msgid "Invoice"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model:ir.model.fields,field_description:deltatech_fast_purchase.field_stock_picking__notice
+msgid "Notice"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model:ir.model,name:deltatech_fast_purchase.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+msgid "Receipt Notice"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+msgid "Receipt and Bill"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#. odoo-python
+#: code:addons/deltatech_fast_purchase/models/purchase.py:0
+msgid "The stock transfer cannot be validated!"
+msgstr ""
+
+#. module: deltatech_fast_purchase
+#: model:ir.model,name:deltatech_fast_purchase.model_stock_picking
+msgid "Transfer"
+msgstr ""
