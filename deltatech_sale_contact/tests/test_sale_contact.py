@@ -110,9 +110,20 @@ class TestSaleContact(TransactionCase):
         self.parent_partner.print_green_invoice = True
         self.assertTrue(self.parent_partner.print_green_invoice)
 
-    def test_09_green_invoice_flag_is_informative(self):
-        """The flag is only stored on the partner: no override of the send wizard remains"""
-        self.assertFalse(self.parent_partner.print_green_invoice)
+    def test_09_green_invoice_not_downloaded_by_default(self):
+        """A partner with "Green Invoice" gets e-mail instead of the PDF download"""
+        self.parent_partner.invoice_sending_method = "manual"
+        move = self.env["account.move"].create({"move_type": "out_invoice", "partner_id": self.parent_partner.id})
+        send = self.env["account.move.send"]
+        self.assertEqual(send._get_default_sending_methods(move), ["manual"])
+
         self.parent_partner.print_green_invoice = True
-        self.assertTrue(self.parent_partner.print_green_invoice)
-        self.assertFalse(hasattr(self.env["account.move.send"], "_compute_checkbox_download"))
+        self.assertEqual(send._get_default_sending_methods(move), ["email"])
+
+        # the flag of the commercial partner applies to invoices of its contacts
+        move.partner_id = self.invoice_contact
+        self.assertEqual(send._get_default_sending_methods(move), ["email"])
+
+        # other sending methods are not touched
+        self.parent_partner.invoice_sending_method = "email"
+        self.assertEqual(send._get_default_sending_methods(move), ["email"])
