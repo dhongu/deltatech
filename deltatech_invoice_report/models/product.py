@@ -26,47 +26,46 @@ class ProductTemplate(models.Model):
         self._compute_invoice_history_sql()
 
     def _compute_invoice_history_sql(self):
+        """Rebuild the yearly net quantities invoiced, in the unit of the product.
+
+        Same rules as ``account.invoice.report``: credit notes are subtracted from the
+        quantity of their own side (customer or vendor) and the line quantity is converted
+        to the unit of measure of the product.
+        """
         template_ids = self.ids
-        if not template_ids:
-            self.env.cr.execute(SQL("DELETE FROM product_invoice_history"))
-            self.env.cr.execute(
-                SQL(
-                    """
-                    INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
-                    SELECT
-                        pp.product_tmpl_id as template_id,
-                        EXTRACT(YEAR FROM aml.date) AS year,
-                        SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
-                        SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
-                    FROM account_move_line aml
-                    JOIN account_move am ON aml.move_id = am.id
-                    JOIN product_product pp ON aml.product_id = pp.id
-                    WHERE am.state='posted' or am.payment_state='invoicing_legacy'
-                    GROUP BY pp.product_tmpl_id, year
-                    """
-                )
-            )
-        else:
+        if template_ids:
             self.env.cr.execute(SQL("DELETE FROM product_invoice_history WHERE template_id IN %s", tuple(template_ids)))
-            self.env.cr.execute(
-                SQL(
-                    """
-                    INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
-                    SELECT
-                        pp.product_tmpl_id as template_id,
-                        EXTRACT(YEAR FROM aml.date) AS year,
-                        SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN aml.quantity ELSE 0 END) AS qty_in,
-                        SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN aml.quantity ELSE 0 END) AS qty_out
-                    FROM account_move_line aml
-                    JOIN account_move am ON aml.move_id = am.id
-                    JOIN product_product pp ON aml.product_id = pp.id
-                    WHERE pp.product_tmpl_id IN %s
-                    AND (am.state='posted' or am.payment_state='invoicing_legacy')
-                    GROUP BY pp.product_tmpl_id, year
-                    """,
-                    tuple(template_ids),
-                )
+            template_filter = SQL("pp.product_tmpl_id IN %s AND", tuple(template_ids))
+        else:
+            self.env.cr.execute(SQL("DELETE FROM product_invoice_history"))
+            template_filter = SQL("")
+        self.env.cr.execute(
+            SQL(
+                """
+                INSERT INTO product_invoice_history (template_id, year, qty_in, qty_out)
+                SELECT
+                    pp.product_tmpl_id AS template_id,
+                    EXTRACT(YEAR FROM aml.date) AS year,
+                    SUM(CASE WHEN am.move_type IN ('in_invoice', 'in_refund') THEN
+                        aml.quantity * (CASE WHEN am.move_type = 'in_refund' THEN -1 ELSE 1 END)
+                        * COALESCE(uom_line.factor, 1) / NULLIF(COALESCE(uom_tmpl.factor, 1), 0.0)
+                        ELSE 0 END) AS qty_in,
+                    SUM(CASE WHEN am.move_type IN ('out_invoice', 'out_refund') THEN
+                        aml.quantity * (CASE WHEN am.move_type = 'out_refund' THEN -1 ELSE 1 END)
+                        * COALESCE(uom_line.factor, 1) / NULLIF(COALESCE(uom_tmpl.factor, 1), 0.0)
+                        ELSE 0 END) AS qty_out
+                FROM account_move_line aml
+                JOIN account_move am ON aml.move_id = am.id
+                JOIN product_product pp ON aml.product_id = pp.id
+                JOIN product_template pt ON pt.id = pp.product_tmpl_id
+                LEFT JOIN uom_uom uom_line ON uom_line.id = aml.product_uom_id
+                LEFT JOIN uom_uom uom_tmpl ON uom_tmpl.id = pt.uom_id
+                WHERE %s (am.state = 'posted' OR am.payment_state = 'invoicing_legacy')
+                GROUP BY pp.product_tmpl_id, year
+                """,
+                template_filter,
             )
+        )
 
     def _compute_invoice_history(self):
         for template in self:

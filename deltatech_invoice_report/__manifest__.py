@@ -3,7 +3,7 @@
 {
     "name": "Invoice Report",
     "summary": "Yearly bought/sold quantities on the product, plus region and supplier in invoice analysis",
-    "version": "19.0.1.0.10",
+    "version": "19.0.1.0.11",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

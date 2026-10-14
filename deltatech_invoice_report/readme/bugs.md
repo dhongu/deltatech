@@ -4,7 +4,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## INVOICEHISTORY-001 — P2: Invoice history adds refunds instead of subtracting them
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.11 — the SQL refresh (scheduled and per product) subtracts credit notes from their own side (customer or vendor) and converts the line quantity to the unit of the product, like `account.invoice.report`; both branches share one query. Covered by `TestProductInvoiceHistorySql` in `tests/test_invoice_report.py`, including the equivalence with the ORM computation.
 - **Location:** models/product.py, _compute_invoice_history_sql(), both insertion branches.
 - **Trigger:** A product has a posted invoice and a credit note in the same year; refresh its history or run the scheduled refresh.
 - **Actual behavior:** The qty_in and qty_out CASE expressions group invoices and refunds together and add aml.quantity unchanged for both. Normal credit-note quantities are positive, so refunded quantities increase the totals rather than reducing them. The live refresh and cron use this SQL path, unlike the alternative ORM implementation which uses signed native report quantities.
