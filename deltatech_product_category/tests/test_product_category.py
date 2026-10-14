@@ -62,3 +62,13 @@ class TestProductCategory(TransactionCase):
         self.assertEqual(
             values["company_share_product_category"], False, "The company_share_product_category field should be False"
         )
+
+    def test_set_values_keeps_standard_categories_shared(self):
+        goods = self.env.ref("product.product_category_goods", raise_if_not_found=False)
+        if not goods:
+            self.skipTest("product.product_category_goods not found")
+        goods.company_id = self.company
+        settings = self.env["res.config.settings"].create({"company_share_product_category": False})
+        settings.set_values()
+        self.assertFalse(goods.company_id, "The standard categories must stay without a company")
+        self.assertTrue(self.env.ref("deltatech_product_category.product_category_comp_rule").active)

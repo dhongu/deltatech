@@ -6,11 +6,11 @@
 {
     "name": "Products Category",
     "summary": "Products Category",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "depends": ["product"],
+    "depends": ["product", "base_setup"],
     "license": "OPL-1",
     "data": [
         "views/product_view.xml",

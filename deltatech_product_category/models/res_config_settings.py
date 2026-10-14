@@ -2,6 +2,13 @@
 
 from odoo import api, fields, models
 
+SHARED_CATEGORIES = (
+    "product.product_category_all",
+    "product.product_category_goods",
+    "product.product_category_expenses",
+    "product.product_category_services",
+)
+
 
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
@@ -28,7 +35,10 @@ class ResConfigSettings(models.TransientModel):
         res = super().set_values()
         category_rule = self.env.ref("deltatech_product_category.product_category_comp_rule")
         category_rule.write({"active": not bool(self.company_share_product_category)})
-        product_category_all = self.env.ref("product.product_category_all", raise_if_not_found=False)
-        if product_category_all:
-            product_category_all.write({"company_id": False})
+        # the standard categories stay shared: "All" (databases migrated from 18.0)
+        # and "Goods" / "Expenses" / "Services" (new in 19.0)
+        for xmlid in SHARED_CATEGORIES:
+            category = self.env.ref(xmlid, raise_if_not_found=False)
+            if category and category.company_id:
+                category.write({"company_id": False})
         return res
