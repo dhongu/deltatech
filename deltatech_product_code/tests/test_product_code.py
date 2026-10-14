@@ -201,10 +201,79 @@ class TestProductCode(TransactionCase):
         )
         self.assertEqual(product_template.default_code, "TEST/0002")
 
+    def test_duplicate_code_blocked_template(self):
+        # produsele de test au company_id = False (NULL) -- cazul pe care
+        # vechea constrangere SQL unique(default_code, active, company_id) il rata
+        self.env["product.template"].create(
+            {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP001"}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP001"}
+            )
+
+    def test_duplicate_code_blocked_product(self):
+        self.env["product.product"].create(
+            {"name": "Var A", "categ_id": self.product_category.id, "default_code": "DUP002"}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["product.product"].create(
+                {"name": "Var B", "categ_id": self.product_category.id, "default_code": "DUP002"}
+            )
+
+    def test_duplicate_code_blocked_shared_and_company(self):
+        # un produs partajat (fara companie) si unul al companiei nu pot avea acelasi cod
+        self.env["product.template"].create(
+            {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP004"}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                {
+                    "name": "Prod B",
+                    "categ_id": self.product_category.id,
+                    "default_code": "DUP004",
+                    "company_id": self.env.company.id,
+                }
+            )
+
+    def test_duplicate_code_blocked_in_same_batch(self):
+        # doua coduri identice in acelasi create in lot trebuie blocate
+        with self.assertRaises(ValidationError):
+            self.env["product.template"].create(
+                [
+                    {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP010"},
+                    {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP010"},
+                ]
+            )
+
+    def test_duplicate_code_archived_allowed(self):
+        # un produs arhivat nu trebuie sa blocheze refolosirea codului
+        product_a = self.env["product.template"].create(
+            {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP003"}
+        )
+        product_a.active = False
+        product_b = self.env["product.template"].create(
+            {"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP003"}
+        )
+        self.assertEqual(product_b.default_code, "DUP003")
+
+    def test_duplicate_code_archived_allowed_without_active_test(self):
+        # la importurile din marketplace contextul vine cu active_test=False
+        product_a = self.env["product.template"].create(
+            {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP005"}
+        )
+        product_a.active = False
+        product_b = (
+            self.env["product.template"]
+            .with_context(active_test=False)
+            .create({"name": "Prod B", "categ_id": self.product_category.id, "default_code": "DUP005"})
+        )
+        self.assertEqual(product_b.default_code, "DUP005")
+
     def test_show_not_unique(self):
         tmpl1 = self.env["product.template"].create({"name": "Dup 1", "default_code": "DUP/1"})
         tmpl2 = self.env["product.template"].create({"name": "Dup 2", "default_code": "UNIQ/1"})
-        # constrangerea unique e pe template; duplicatul se creeaza direct in SQL
+        # constrangerea de unicitate blocheaza duplicatele; ele se creeaza direct in SQL
         self.env.flush_all()
         self.env.cr.execute("UPDATE product_template SET default_code = 'DUP/1' WHERE id = %s", (tmpl2.id,))
         self.env.cr.execute("UPDATE product_product SET default_code = 'DUP/1' WHERE product_tmpl_id = %s", (tmpl2.id,))

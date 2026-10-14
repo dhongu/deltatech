@@ -1,3 +1,7 @@
+# 19.0.1.2.0 (2026-10-14)
+
+- Internal reference uniqueness checked in Python on product templates and variants, instead of the SQL constraint `unique(default_code, active, company_id)`, which let duplicates through when the product is shared (no company: in PostgreSQL NULL != NULL) and between a shared product and a company product. Variants are now checked too: the internal reference is written there. One indexed query per batch, so imports stay fast; only active products conflict, also when the context comes with `active_test=False` (marketplace imports). Ported from 18.0.
+
 # 19.0.1.1.1 (2026-10-09)
 
 - Apps Store banner (banner.json).
