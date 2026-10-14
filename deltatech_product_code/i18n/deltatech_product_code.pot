@@ -92,8 +92,9 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_product_code
-#: model:ir.model.constraint,message:deltatech_product_code.constraint_product_template_name_code_unique
-msgid "Internal Reference already exists !"
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid "Internal Reference '%(code)s' already exists on product '%(name)s'!"
 msgstr ""
 
 #. module: deltatech_product_code
