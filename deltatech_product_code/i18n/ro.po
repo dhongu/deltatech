@@ -41,9 +41,10 @@ msgid "Generate Barcode"
 msgstr "Generează cod de bare"
 
 #. module: deltatech_product_code
-#: model:ir.model.constraint,message:deltatech_product_code.constraint_product_template_name_code
-msgid "Internal Reference already exists !"
-msgstr "Referința internă există deja!"
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid "Internal Reference '%(code)s' already exists on product '%(name)s'!"
+msgstr "Referința internă '%(code)s' există deja la produsul '%(name)s'!"
 
 #. module: deltatech_product_code
 #: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_normal_form_view
