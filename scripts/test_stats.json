@@ -5,6 +5,9 @@
       "lines": 6,
       "tests": 0
     },
+    "deltatech_agreement_management": {
+      "tests": 3
+    },
     "deltatech_alternative": {
       "coverage": 87.9,
       "lines": 124,
@@ -469,6 +472,11 @@
       "coverage": 95.7,
       "lines": 93,
       "tests": 7
+    },
+    "deltatech_stock_count_zero": {
+      "coverage": 100.0,
+      "lines": 16,
+      "tests": 2
     },
     "deltatech_stock_delivery": {
       "coverage": 76.7,
