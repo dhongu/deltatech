@@ -4,7 +4,7 @@
 {
     "name": "Agreement Management",
     "summary": "Manage agreements numbers, date, state",
-    "version": "19.0.0.0.6",
+    "version": "20.0.0.0.6",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
@@ -12,7 +12,7 @@
     "license": "OPL-1",
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/agreement.xml",
         "views/res_partner.xml",
     ],

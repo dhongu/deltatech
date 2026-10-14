@@ -14,19 +14,16 @@ Agreement Management
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_agreement_management
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_agreement_management
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_agreement_management/tests
-    :alt: 1 automated test
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Manage commercial and service agreements with partners — track reference
 numbers, dates, statuses, and print agreement documents directly from
 Odoo.
 
-**Key features:**
+**✨ Key features:**
 
 - Create agreements linked to a partner, with agreement date and expiry
   date.
@@ -131,6 +128,26 @@ Only agreements in **Draft** state can be deleted. Attempting to delete
 an agreement that is In Progress or Terminated will raise a validation
 error.
 
+Changelog
+=========
+
+19.0.0.0.6 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.4 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
+
 Bug Tracker
 ===========
 
@@ -159,6 +176,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_agreement_management>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_agreement_management>`_ project on GitHub.
 
 You are welcome to contribute.
