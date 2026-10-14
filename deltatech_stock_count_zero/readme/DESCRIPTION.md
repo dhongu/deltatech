@@ -10,6 +10,9 @@ Key Features
 - Adds the "Set Count to Zero" checkbox in the inventory request wizard.
 - Automatically sets the quantity to 0.0 for the selected inventory lines when the checkbox is enabled.
 - Simplifies the stock adjustment process by reducing manual input for missing items.
+- Only the selected lines are set to zero: for products tracked by lot/serial number, the other lots of the product in the same location are not changed.
+- The option is available to the inventory administrators only (like the standard "Set to 0").
+- If a selected line was moved since it was counted, the standard conflict window opens to decide which quantity is kept.
 
 Usage
 -----
