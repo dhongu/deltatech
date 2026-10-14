@@ -1,3 +1,10 @@
+## 20.0.1.4.7 (2026-10-12)
+
+- Tests: 33 new tests for the automatic import on attachment, XML parsing and
+  detection, wizard defaults and preview, vendor/order resolution, product
+  matching, units of measure, partial receipts and vendor bill taxes. Local
+  coverage of the module goes from 82.5% to 95.8%. No change in behaviour.
+
 ## 20.0.1.4.6 (2026-10-09)
 
 - Apps Store banner (banner.json).
