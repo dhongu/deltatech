@@ -5,6 +5,9 @@
       "lines": 6,
       "tests": 0
     },
+    "deltatech_agreement_management": {
+      "tests": 3
+    },
     "deltatech_alternative": {
       "coverage": 87.9,
       "lines": 124,
