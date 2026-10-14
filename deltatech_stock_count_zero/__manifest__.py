@@ -5,7 +5,7 @@
     "name": "Stock Count Zero",
     "category": "Stock",
     "summary": "Set inventory line to 0 when empty count is requested",
-    "version": "20.0.0.0.3",
+    "version": "20.0.0.0.4",
     "license": "OPL-1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
