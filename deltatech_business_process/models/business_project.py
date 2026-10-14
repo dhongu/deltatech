@@ -7,12 +7,15 @@ import xlsxwriter
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+from ..tools.display_name import code_display_name
+
 # from odoo.tools import date_utils
 
 
 class BusinessProject(models.Model):
     _name = "business.project"
     _description = "Business project"
+    _rec_names_search = ("name", "code")
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     code = fields.Char(string="Code")
@@ -108,11 +111,13 @@ class BusinessProject(models.Model):
         for vals in vals_list:
             if not vals.get("code", False):
                 vals["code"] = self.env["ir.sequence"].next_by_code(self._name)
-        return super().create(vals)
+        return super().create(vals_list)
 
+    @api.depends("code", "name")
+    @api.depends_context("formatted_display_name")
     def _compute_display_name(self):
         for project in self:
-            project.display_name = "{}{}".format(project.code and f"[{project.code}] " or "", project.name)
+            project.display_name = code_display_name(project)
 
     def _compute_count_processes(self):
         for project in self:
