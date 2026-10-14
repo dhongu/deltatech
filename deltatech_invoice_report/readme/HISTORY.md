@@ -1,3 +1,8 @@
+## 19.0.1.0.11 (2026-10-14)
+
+- Fix: the invoice history subtracts credit notes (customer and vendor) instead of adding them, and
+  converts the quantities to the unit of the product (INVOICEHISTORY-001).
+
 ## 19.0.1.0.10 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
