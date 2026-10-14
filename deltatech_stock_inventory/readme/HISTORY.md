@@ -3,6 +3,10 @@
 - The *Clear* button on a counted quant now detaches it from its inventory document and line again.
   The override still used the pre-19.0 method name `action_set_inventory_quantity_to_zero`, which no
   longer exists, so it never ran: after *Clear*, a new count was applied into the old document.
+- Removed dead code: the `stock.picking` override of `action_view_stock_valuation_layers` (the
+  parent method no longer exists, stock valuation layers were removed) and the unused
+  `stock.request.count` extension (`wizard/stock_request_count.py`, never imported). No functional
+  change.
 
 ## 20.0.2.10.6 (2026-10-12)
 
