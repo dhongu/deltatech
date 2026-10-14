@@ -2,6 +2,8 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
+import re
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import SQL
@@ -243,22 +245,25 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             % values
         )
 
+    @api.model
+    def _normalize_vat(self, vat):
+        """Comparable form of a VAT number: upper case, letters and digits only, and a Romanian
+        CUI without its RO prefix, since "12345678", "RO12345678" and "ro 12345678" are the
+        same company. Other countries keep their prefix."""
+        vat = re.sub(r"[^0-9A-Z]", "", (vat or "").upper())
+        if vat.startswith("RO") and vat[2:].isdigit():
+            vat = vat[2:]
+        return vat
+
     def _find_supplier_partner(self, supplier_vat, supplier_name):
         Partner = self.env["res.partner"]
-        supplier_vat = (supplier_vat or "").strip()
         supplier_name = (supplier_name or "").strip()
 
         partner = False
-        if supplier_vat:
-            partner = Partner.search(
-                [("supplier_rank", ">", 0), ("vat", "=ilike", supplier_vat)],
-                limit=1,
-            )
-            if not partner and " " in supplier_vat:
-                partner = Partner.search(
-                    [("supplier_rank", ">", 0), ("vat", "=ilike", supplier_vat.replace(" ", ""))],
-                    limit=1,
-                )
+        vat_key = self._normalize_vat(supplier_vat)
+        if vat_key:
+            candidates = Partner.search([("supplier_rank", ">", 0), ("vat", "ilike", vat_key)], limit=50)
+            partner = candidates.filtered(lambda p: self._normalize_vat(p.vat) == vat_key)[:1]
 
         if not partner and supplier_name:
             partner = Partner.search(
@@ -308,7 +313,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             order = self._find_order_from_xml(invoice_data.get("order_ref"), xml_partner)
 
         partner = order.partner_id if order else xml_partner
-        vat_mismatch_warning = bool(order and supplier_vat and partner.vat and supplier_vat != partner.vat)
+        vat_mismatch_warning = bool(
+            order
+            and supplier_vat
+            and partner.vat
+            and self._normalize_vat(supplier_vat) != self._normalize_vat(partner.vat)
+        )
 
         if not partner:
             raise UserError(

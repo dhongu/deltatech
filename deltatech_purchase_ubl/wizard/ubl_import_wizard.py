@@ -181,6 +181,10 @@ class PurchaseUblImportWizard(models.TransientModel):
         # Supplier
         supplier_vat = root.findtext(
             "cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID", namespaces=NS
+        ) or root.findtext(
+            # a supplier not registered for VAT has no PartyTaxScheme: its CUI is the legal entity id
+            "cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID",
+            namespaces=NS,
         )
         supplier_name = root.findtext(
             "cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName", namespaces=NS
