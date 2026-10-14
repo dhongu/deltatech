@@ -8,6 +8,7 @@
     "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_purchase_refund?v=20.0",
     "category": "Purchases",
     "depends": ["base", "account", "purchase_stock", "stock"],
     "price": 5.00,
