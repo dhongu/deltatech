@@ -1,3 +1,46 @@
+## 20.0.1.4.11 (2026-10-12)
+
+- Fixed: the vendor was not found by its tax id when the invoice and the partner
+  wrote the Romanian CUI differently (with or without the RO prefix, with
+  spaces); only an exact name match was left. The tax ids are now compared
+  without spaces and without the RO prefix (other countries keep theirs), which
+  also removes the false "Supplier VAT ... differs" warning. For a supplier not
+  registered for VAT, the CUI is read from PartyLegalEntity/CompanyID.
+
+## 20.0.1.4.10 (2026-10-12)
+
+- Fixed: a supplier credit note (a CreditNote document, or an Invoice with type
+  code 381) was imported as an invoice. A CreditNote created a vendor bill from
+  the order instead of a refund; an Invoice 381 wrote negative quantities on the
+  order lines and overwrote the vendor prices. Credit notes are now recognised
+  and not imported: the order is left as it is, the log shows a warning and the
+  automatic import schedules the "SPV import needs review" activity. Record the
+  vendor refund manually.
+
+## 20.0.1.4.9 (2026-10-12)
+
+- Fixed: a supplier invoice imported on a purchase order with nothing left to
+  invoice (already fully invoiced, or billed on received quantities with nothing
+  received yet) created a vendor bill with every line at zero quantity. The bill
+  is now skipped with a message in the log, and the automatic import schedules
+  the "SPV import needs review" activity on the order, since it may be a
+  duplicate invoice or an extra charge.
+
+## 20.0.1.4.8 (2026-10-12)
+
+- Fixed: a receipt validated without a purchase order context (or still waiting
+  for another operation) stayed undone when the invoice covered only part of it,
+  while the log said "Receipt updated". The received quantities are now validated
+  and the rest goes to a backorder. When the receipt still cannot be validated,
+  the log shows a warning instead.
+
+## 20.0.1.4.7 (2026-10-12)
+
+- Tests: 33 new tests for the automatic import on attachment, XML parsing and
+  detection, wizard defaults and preview, vendor/order resolution, product
+  matching, units of measure, partial receipts and vendor bill taxes. Local
+  coverage of the module goes from 82.5% to 95.8%. No change in behaviour.
+
 ## 20.0.1.4.6 (2026-10-09)
 
 - Apps Store banner (banner.json).
