@@ -1,3 +1,7 @@
+## 20.0.0.0.8 (2026-10-14)
+
+- Translations: .pot regenerated on 20.0 and Romanian translation completed for the new terms.
+
 ## 20.0.0.0.7 (2026-10-14)
 
 - Fix: the partner search on the number of agreements ("With agreement" filter) ignored the operator and the value and always returned the partners with agreements, even for `= 0`; it now honours the operator and counts the agreements with a grouped query instead of reading all of them.

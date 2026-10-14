@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:23+0000\n"
-"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"POT-Creation-Date: 2026-10-14 15:38+0000\n"
+"PO-Revision-Date: 2026-10-14 15:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,11 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_general_agreement__activity_exception_decoration
 msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: deltatech_agreement_management
+#: model:ir.model.fields,field_description:deltatech_agreement_management.field_general_agreement__activity_plans_ids
+msgid "Activity Plans"
 msgstr ""
 
 #. module: deltatech_agreement_management
@@ -54,6 +59,11 @@ msgid "Agreement Date"
 msgstr ""
 
 #. module: deltatech_agreement_management
+#: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_general_agreement_type_form
+msgid "Agreement Type"
+msgstr ""
+
+#. module: deltatech_agreement_management
 #: model:ir.ui.menu,name:deltatech_agreement_management.menu_general_agreement_config_type
 msgid "Agreement types"
 msgstr ""
@@ -61,6 +71,7 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_res_partner__agreement_count
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_res_users__agreement_count
+#: model:res.groups.privilege,name:deltatech_agreement_management.privilege_agreement
 #: model_terms:ir.ui.view,arch_db:deltatech_agreement_management.view_partner_form_agreement
 msgid "Agreements"
 msgstr ""
@@ -93,11 +104,6 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model,name:deltatech_agreement_management.model_res_partner
 msgid "Contact"
-msgstr ""
-
-#. module: deltatech_agreement_management
-#: model:ir.model,website_form_label:deltatech_agreement_management.model_res_partner
-msgid "Create a Customer"
 msgstr ""
 
 #. module: deltatech_agreement_management
@@ -147,11 +153,6 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_general_agreement__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
-
-#. module: deltatech_agreement_management
-#: model:ir.model.fields,help:deltatech_agreement_management.field_general_agreement__activity_type_icon
-msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: deltatech_agreement_management
@@ -234,6 +235,11 @@ msgid "Manager"
 msgstr ""
 
 #. module: deltatech_agreement_management
+#: model:ir.model.fields,help:deltatech_agreement_management.field_general_agreement__activity_type_icon
+msgid "Material Symbols icon e.g. checklist"
+msgstr ""
+
+#. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_general_agreement__message_has_error
 msgid "Message Delivery error"
 msgstr ""
@@ -261,6 +267,11 @@ msgstr ""
 #. module: deltatech_agreement_management
 #: model:ir.model.fields,field_description:deltatech_agreement_management.field_general_agreement__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: deltatech_agreement_management
+#: model:res.groups.privilege,placeholder:deltatech_agreement_management.privilege_agreement
+msgid "No"
 msgstr ""
 
 #. module: deltatech_agreement_management
