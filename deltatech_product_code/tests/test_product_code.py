@@ -9,6 +9,16 @@ from odoo.tests.common import TransactionCase
 class TestProductCode(TransactionCase):
     def setUp(self):
         super().setUp()
+        # admin/root are in the duplicate-codes bypass group of deltatech_product_unique_code
+        # (when installed): the uniqueness checks must run as a user outside it
+        user = self.env["res.users"].create(
+            {
+                "name": "Product Code Tester",
+                "login": "product_code_tester",
+                "group_ids": [(6, 0, [self.env.ref("base.group_user").id])],
+            }
+        )
+        self.env = self.env(user=user, su=True)
 
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
 
@@ -33,6 +43,11 @@ class TestProductCode(TransactionCase):
                 "generate_barcode": True,
             }
         )
+
+    def _skip_if_unique_code_installed(self):
+        # deltatech_product_unique_code also rejects the codes of archived products
+        if self.env.ref("deltatech_product_unique_code.group_product_duplicate_code", raise_if_not_found=False):
+            self.skipTest("deltatech_product_unique_code rejects the codes of archived products")
 
     def test_new_product_template(self):
         # creare produs nou
@@ -247,6 +262,7 @@ class TestProductCode(TransactionCase):
             )
 
     def test_duplicate_code_archived_allowed(self):
+        self._skip_if_unique_code_installed()
         # un produs arhivat nu trebuie sa blocheze refolosirea codului
         product_a = self.env["product.template"].create(
             {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP003"}
@@ -258,6 +274,7 @@ class TestProductCode(TransactionCase):
         self.assertEqual(product_b.default_code, "DUP003")
 
     def test_duplicate_code_archived_allowed_without_active_test(self):
+        self._skip_if_unique_code_installed()
         # la importurile din marketplace contextul vine cu active_test=False
         product_a = self.env["product.template"].create(
             {"name": "Prod A", "categ_id": self.product_category.id, "default_code": "DUP005"}
