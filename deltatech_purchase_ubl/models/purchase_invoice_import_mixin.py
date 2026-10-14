@@ -730,6 +730,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         shaped like the return value of _parse_source():
         {
             "invoice_id", "issue_date", "due_date", "currency", "order_ref",
+            "document_type" (optional: "invoice" or "credit_note"),
             "supplier_vat", "supplier_name",
             "lines": [{"code", "barcode", "name", "qty", "price", "discount",
                        "line_total", "tax_percent", "unit_code"}, ...],
@@ -747,6 +748,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         supplier_vat = invoice_data.get("supplier_vat")
         order, partner, vat_mismatch_warning = self._resolve_order_and_partner(invoice_data)
+        if invoice_data.get("document_type") == "credit_note":
+            return self._skip_credit_note(invoice_data, order, partner)
 
         mapped_lines = []
         updated = []
@@ -973,15 +976,37 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             (total_check and not total_check["matches"]) or (order and not_found) or nothing_to_invoice
         )
         self.state = "done"
+        return self._done_action()
 
-        action = {
+    def _done_action(self):
+        return {
             "type": "ir.actions.act_window",
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
             "target": "new",
         }
-        return action
+
+    def _skip_credit_note(self, invoice_data, order, partner):
+        """A credit note is never applied to the purchase order: its lines would write negative
+        quantities on the order lines and overwrite the vendor prices, and the vendor bill
+        created from the order would be an invoice, not a refund. It only gets logged and
+        flagged, so the automatic import schedules a review activity on the order."""
+        messages = [
+            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
+            self.env._("Order: %(order)s | XML Reference: %(ref)s")
+            % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
+            self.env._(
+                "Warning: the document %s is a credit note; credit notes are not imported. "
+                "Record the vendor refund manually."
+            )
+            % (invoice_data.get("invoice_id") or "-"),
+        ]
+        self.log = "\n".join(messages)
+        self.log_html = self._build_log_html(messages)
+        self.has_warning = True
+        self.state = "done"
+        return self._done_action()
 
     def action_view_vendor_bill(self):
         self.ensure_one()

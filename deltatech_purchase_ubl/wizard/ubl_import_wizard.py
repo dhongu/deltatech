@@ -161,6 +161,13 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         # Header
         invoice_id = root.findtext("cbc:ID", namespaces=NS)
+        # A credit note comes either as a CreditNote document or as an Invoice with type code 381
+        type_code = (
+            root.findtext("cbc:InvoiceTypeCode", namespaces=NS)
+            or root.findtext("cbc:CreditNoteTypeCode", namespaces=NS)
+            or ""
+        ).strip()
+        is_credit_note = root.tag.rsplit("}", 1)[-1] == "CreditNote" or type_code == "381"
         issue_date = root.findtext("cbc:IssueDate", namespaces=NS)
         due_date = root.findtext("cbc:DueDate", namespaces=NS)
         currency = root.findtext("cbc:DocumentCurrencyCode", namespaces=NS) or "RON"
@@ -249,6 +256,7 @@ class PurchaseUblImportWizard(models.TransientModel):
 
         return {
             "invoice_id": (invoice_id or "").strip(),
+            "document_type": "credit_note" if is_credit_note else "invoice",
             "issue_date": issue_date,
             "due_date": due_date,
             "currency": currency,
@@ -293,6 +301,9 @@ class PurchaseUblImportWizard(models.TransientModel):
             raise UserError(self.env._("Please select an XML file."))
         content = self.data_file.content
         invoice_data = self._parse_xml(content)
+        if invoice_data.get("document_type") == "credit_note":
+            # nothing to map: show the credit note warning instead of a preview
+            return self._process_invoice_data(invoice_data)
         order, partner, _warning = self._resolve_order_and_partner(invoice_data)
 
         line_vals = []
