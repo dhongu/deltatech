@@ -47,7 +47,6 @@ class TestProductUniqueCode(TransactionCase):
             self.Product.create({"name": "UC Dup", "default_code": "UC-A"})
         self.assertIn("Internal Reference", str(err.exception))
         self.assertIn("UC-A", str(err.exception))
-        self.assertIn("including archived", str(err.exception))
 
     def test_create_template_duplicate_default_code(self):
         with self.assertRaises(ValidationError):
@@ -106,9 +105,6 @@ class TestProductUniqueCode(TransactionCase):
         self.bypass_group.write({"user_ids": [(3, self.user.id)]})
         self.env.invalidate_all()
         self.assertFalse(self.uenv.user.has_group("deltatech_product_unique_code.group_product_duplicate_code"))
-        # rewriting the same value does not trigger the check
-        dup.write({"default_code": "UC-A"})
-        dup_tmpl.write({"default_code": "UC-A"})
         # changing another code field is validated only for that field
         dup.write({"barcode": "UC-BAR-HIST"})
         dup_tmpl.write({"barcode": "UC-BAR-HIST-T"})

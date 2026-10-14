@@ -71,6 +71,13 @@ def _check_unique_default_code(records, company_of):
     to_check = records.filtered(lambda p: p.default_code and p.active)
     if not to_check:
         return
+    # grupul din deltatech_product_unique_code permite coduri duplicate; modulul nu
+    # e dependenta, deci grupul se cauta optional
+    bypass_group = records.env.ref(
+        "deltatech_product_unique_code.group_product_duplicate_code", raise_if_not_found=False
+    )
+    if bypass_group and bypass_group in records.env.user.group_ids:
+        return
     codes = list({p.default_code for p in to_check})
     # Uniqueness is over (default_code, active, company_id): an active and an
     # archived product may share a code (see show_not_unique). Force active_test
