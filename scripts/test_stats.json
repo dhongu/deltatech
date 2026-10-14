@@ -63,6 +63,9 @@
       "lines": 353,
       "tests": 21
     },
+    "deltatech_fast_purchase": {
+      "tests": 5
+    },
     "deltatech_fleet": {
       "coverage": 76.9,
       "lines": 577,

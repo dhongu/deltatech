@@ -14,11 +14,11 @@ Fast Purchase
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_purchase
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_fast_purchase
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_purchase/tests
-    :alt: 3 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_fast_purchase/tests
+    :alt: 5 automated tests
 
 |badge1| |badge2| |badge_tests|
 
@@ -33,6 +33,14 @@ Fast Purchase
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -62,6 +70,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_purchase>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_fast_purchase>`_ project on GitHub.
 
 You are welcome to contribute.
