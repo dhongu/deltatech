@@ -1,3 +1,12 @@
+## 20.0.1.4.9 (2026-10-12)
+
+- Fixed: a supplier invoice imported on a purchase order with nothing left to
+  invoice (already fully invoiced, or billed on received quantities with nothing
+  received yet) created a vendor bill with every line at zero quantity. The bill
+  is now skipped with a message in the log, and the automatic import schedules
+  the "SPV import needs review" activity on the order, since it may be a
+  duplicate invoice or an extra charge.
+
 ## 20.0.1.4.8 (2026-10-12)
 
 - Fixed: a receipt validated without a purchase order context (or still waiting

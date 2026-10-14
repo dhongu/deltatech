@@ -698,6 +698,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if tax and tax.ids != line.tax_ids.ids:
                 line.tax_ids = [(6, 0, [tax.id])]
 
+    def _order_has_qty_to_invoice(self, order):
+        """True when at least one order line still has a quantity to invoice (or to refund).
+
+        Since Odoo 19 action_create_invoice() no longer raises when there is nothing to invoice: it
+        creates a vendor bill with every line at zero quantity, a useless ghost document.
+        """
+        return any(not line.uom_id.is_zero(line.qty_to_invoice) for line in order.order_line if not line.display_type)
+
     def _create_vendor_bill(self, invoice_data, order, mapped_lines=None):
         old_invoice = order.invoice_ids
         order.action_create_invoice()
@@ -867,6 +875,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         bill = False
         bill_log = ""
         duplicate_bill = False
+        nothing_to_invoice = False
         # Always create the vendor bill when the source document identifies an invoice number,
         # so the supplier's invoice reference/date are not lost when the user forgets to tick
         # "Create vendor bill". The checkbox stays available to force bill creation even when
@@ -888,6 +897,13 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 duplicate_bill = self._find_duplicate_bill(partner, invoice_ref)
                 if duplicate_bill:
                     self.bill_id = duplicate_bill.id
+                elif not self._order_has_qty_to_invoice(order):
+                    # Already fully invoiced, or billed on received quantities with nothing
+                    # received yet: a second supplier invoice deserves a human look.
+                    nothing_to_invoice = True
+                    bill_log = self.env._(
+                        "Vendor bill creation skipped: nothing left to invoice on purchase order %(order)s."
+                    ) % {"order": order.name}
                 else:
                     try:
                         bill = self._create_vendor_bill(invoice_data, order, mapped_lines=mapped_lines)
@@ -950,9 +966,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         # of an unattended import (bill creation skipped because the order isn't confirmed
         # yet, no receipt to validate) also classify as "warning" via _classify_message's
         # generic keywords, and would otherwise fire on every successful headless import.
-        # Only the two signals discussed on tichet #9287 count here: a total that doesn't
-        # add up, and lines the matcher couldn't place.
-        self.has_warning = bool((total_check and not total_check["matches"]) or (order and not_found))
+        # Only these signals count here: a total that doesn't add up, lines the matcher
+        # couldn't place (tichet #9287), and a supplier invoice for an order with nothing
+        # left to invoice (a duplicate invoice or an extra charge).
+        self.has_warning = bool(
+            (total_check and not total_check["matches"]) or (order and not_found) or nothing_to_invoice
+        )
         self.state = "done"
 
         action = {
