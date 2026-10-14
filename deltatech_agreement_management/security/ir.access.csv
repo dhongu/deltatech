@@ -3,3 +3,4 @@ access_general_agreement_user,access_general_agreement,general.agreement,deltate
 access_general_agreement_manager,access_general_agreement,general.agreement,deltatech_agreement_management.group_agreement_manager,crud,
 access_general_agreement_type_user,access_general_agreement_type,general.agreement.type,deltatech_agreement_management.group_agreement_user,r,
 access_general_agreement_type_manager,access_general_agreement_type,general.agreement.type,deltatech_agreement_management.group_agreement_manager,crud,
+rule_general_agreement_company,General agreement: multi-company,general.agreement,,crud,"[('company_id', 'in', company_ids)]"
