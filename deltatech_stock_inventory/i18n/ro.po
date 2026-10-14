@@ -539,8 +539,6 @@ msgid "Inventory"
 msgstr "Inventar"
 
 #. module: deltatech_stock_inventory
-#. odoo-python
-#: code:addons/deltatech_stock_inventory/wizard/stock_request_count.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_inventory_form
 msgid "Inventory Adjustment"
 msgstr "Ajustări inventar"
