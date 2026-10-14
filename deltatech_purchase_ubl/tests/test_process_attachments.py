@@ -3,7 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 from textwrap import dedent
+from unittest.mock import patch
 
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -226,3 +228,63 @@ class TestProcessAttachmentsForPost(TransactionCase):
             po.activity_ids.filtered(lambda a: a.summary == "SPV import needs review"),
             "A fully matched import must not schedule a review activity",
         )
+
+    def _new_po(self, ref):
+        return self.env["purchase.order"].create(
+            {
+                "partner_id": self.vendor.id,
+                "company_id": self.company.id,
+                "date_order": "2025-01-01 00:00:00",
+                "partner_ref": ref,
+            }
+        )
+
+    def _attachment(self, po, name, content, mimetype="application/xml"):
+        return self.env["ir.attachment"].create(
+            {
+                "name": name,
+                "raw": content or False,
+                "mimetype": mimetype,
+                "res_model": "purchase.order",
+                "res_id": po.id,
+            }
+        )
+
+    def test_auto_import_disabled_by_parameter(self):
+        po = self._new_po("ATT-DISABLED")
+        att = self._attachment(po, "disabled.xml", _xml_invoice(order_ref=po.name))
+        self.env["ir.config_parameter"].sudo().set_bool("deltatech_purchase_ubl.auto_import", False)
+        po._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line, "Nothing is imported when the feature is switched off")
+
+    def test_auto_import_skips_unrelated_attachments(self):
+        """Attachments of another order, non-XML files, empty files and non-UBL XML are ignored."""
+        po = self._new_po("ATT-SKIP")
+        other_po = self._new_po("ATT-SKIP-OTHER")
+        attachments = (
+            self._attachment(other_po, "other_order.xml", _xml_invoice(order_ref=other_po.name))
+            | self._attachment(po, "notes.txt", b"plain text", mimetype="text/plain")
+            | self._attachment(po, "empty.xml", b"")
+            | self._attachment(po, "not_ubl.xml", b"<foo/>")
+        )
+        po._process_attachments_for_post([], attachments.ids, {})
+        self.assertFalse(po.order_line)
+        self.assertFalse(other_po.order_line, "Only attachments of the posting order are processed")
+
+    def test_auto_import_ubl_check_error_is_ignored(self):
+        po = self._new_po("ATT-CHECK-ERR")
+        att = self._attachment(po, "check_error.xml", _xml_invoice(order_ref=po.name))
+        wizard_cls = type(self.env["purchase.ubl.import.wizard"])
+        with patch.object(wizard_cls, "_is_ubl_invoice", side_effect=ValueError("boom")):
+            po._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line)
+
+    def test_auto_import_error_does_not_break_posting(self):
+        """An import error is swallowed: the message is still posted, nothing is imported."""
+        po = self._new_po("ATT-IMPORT-ERR")
+        att = self._attachment(po, "import_error.xml", _xml_invoice(order_ref=po.name))
+        wizard_cls = type(self.env["purchase.ubl.import.wizard"])
+        with patch.object(wizard_cls, "action_import", side_effect=UserError("Import failed")):
+            po._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line)
+        self.assertFalse(po.activity_ids)

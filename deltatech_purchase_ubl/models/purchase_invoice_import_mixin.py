@@ -2,6 +2,8 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
+import re
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import SQL
@@ -243,22 +245,25 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             % values
         )
 
+    @api.model
+    def _normalize_vat(self, vat):
+        """Comparable form of a VAT number: upper case, letters and digits only, and a Romanian
+        CUI without its RO prefix, since "12345678", "RO12345678" and "ro 12345678" are the
+        same company. Other countries keep their prefix."""
+        vat = re.sub(r"[^0-9A-Z]", "", (vat or "").upper())
+        if vat.startswith("RO") and vat[2:].isdigit():
+            vat = vat[2:]
+        return vat
+
     def _find_supplier_partner(self, supplier_vat, supplier_name):
         Partner = self.env["res.partner"]
-        supplier_vat = (supplier_vat or "").strip()
         supplier_name = (supplier_name or "").strip()
 
         partner = False
-        if supplier_vat:
-            partner = Partner.search(
-                [("supplier_rank", ">", 0), ("vat", "=ilike", supplier_vat)],
-                limit=1,
-            )
-            if not partner and " " in supplier_vat:
-                partner = Partner.search(
-                    [("supplier_rank", ">", 0), ("vat", "=ilike", supplier_vat.replace(" ", ""))],
-                    limit=1,
-                )
+        vat_key = self._normalize_vat(supplier_vat)
+        if vat_key:
+            candidates = Partner.search([("supplier_rank", ">", 0), ("vat", "ilike", vat_key)], limit=50)
+            partner = candidates.filtered(lambda p: self._normalize_vat(p.vat) == vat_key)[:1]
 
         if not partner and supplier_name:
             partner = Partner.search(
@@ -308,7 +313,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             order = self._find_order_from_xml(invoice_data.get("order_ref"), xml_partner)
 
         partner = order.partner_id if order else xml_partner
-        vat_mismatch_warning = bool(order and supplier_vat and partner.vat and supplier_vat != partner.vat)
+        vat_mismatch_warning = bool(
+            order
+            and supplier_vat
+            and partner.vat
+            and self._normalize_vat(supplier_vat) != self._normalize_vat(partner.vat)
+        )
 
         if not partner:
             raise UserError(
@@ -537,8 +547,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 # Mark only the moves we set as picked; the rest go to a backorder
                 picked_moves.picked = True
                 picking.with_context(force_period_date=order.date_order)._action_done()
-                return True
-        # Fallback: original behavior using button_validate with backorder wizard handling
+                return picking.state == "done"
+        # Fallback (no order context, or a receipt still waiting): validate through button_validate.
         # Odoo 19: iterate move_ids (move_ids_without_package was removed from stock.picking)
         receipt_qtys = self._allocate_receipt_quantities(picking.move_ids, line_map)
         for move in picking.move_ids:
@@ -546,11 +556,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if qty and qty > 0:
                 move._set_quantity_done(qty)
                 move.picked = True
-        action = picking.button_validate()
-        if isinstance(action, dict) and action.get("res_model") == "stock.backorder.confirmation":
-            wiz = self.env[action["res_model"]].browse(action.get("res_id"))
-            wiz.with_context(skip_backorder=True).process()
-        return True
+        # skip_backorder answers the backorder wizard upfront with "Create backorder", as its
+        # process() does: Odoo 19 returns that wizard as an action without a record to process.
+        picking.with_context(skip_backorder=True).button_validate()
+        # Another pre-validation wizard (quality checks, expiry dates, ...) leaves it undone
+        return picking.state == "done"
 
     def _allocate_receipt_quantities(self, moves, line_map):
         """Split the received quantity of each product over its moves, in the move unit.
@@ -698,6 +708,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             if tax and tax.ids != line.tax_ids.ids:
                 line.tax_ids = [(6, 0, [tax.id])]
 
+    def _order_has_qty_to_invoice(self, order):
+        """True when at least one order line still has a quantity to invoice (or to refund).
+
+        Since Odoo 19 action_create_invoice() no longer raises when there is nothing to invoice: it
+        creates a vendor bill with every line at zero quantity, a useless ghost document.
+        """
+        return any(not line.uom_id.is_zero(line.qty_to_invoice) for line in order.order_line if not line.display_type)
+
     def _create_vendor_bill(self, invoice_data, order, mapped_lines=None):
         old_invoice = order.invoice_ids
         order.action_create_invoice()
@@ -722,6 +740,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         shaped like the return value of _parse_source():
         {
             "invoice_id", "issue_date", "due_date", "currency", "order_ref",
+            "document_type" (optional: "invoice" or "credit_note"),
             "supplier_vat", "supplier_name",
             "lines": [{"code", "barcode", "name", "qty", "price", "discount",
                        "line_total", "tax_percent", "unit_code"}, ...],
@@ -739,6 +758,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         supplier_vat = invoice_data.get("supplier_vat")
         order, partner, vat_mismatch_warning = self._resolve_order_and_partner(invoice_data)
+        if invoice_data.get("document_type") == "credit_note":
+            return self._skip_credit_note(invoice_data, order, partner)
 
         mapped_lines = []
         updated = []
@@ -851,8 +872,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                         if product:
                             qty = self._convert_source_line(ml, product.uom_id)[0] or 0.0
                             line_map[product.id] = line_map.get(product.id, 0.0) + qty
-                    self._validate_receipt_quantities(picking, line_map, order=order)
-                    pick_log = self.env._("Receipt updated: %s") % picking.name
+                    if self._validate_receipt_quantities(picking, line_map, order=order):
+                        pick_log = self.env._("Receipt updated: %s") % picking.name
+                    else:
+                        pick_log = (
+                            self.env._("Warning: receipt %s could not be validated; check it manually.") % picking.name
+                        )
                 else:
                     pick_log = self.env._("No receipt found to validate.")
             else:
@@ -863,6 +888,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         bill = False
         bill_log = ""
         duplicate_bill = False
+        nothing_to_invoice = False
         # Always create the vendor bill when the source document identifies an invoice number,
         # so the supplier's invoice reference/date are not lost when the user forgets to tick
         # "Create vendor bill". The checkbox stays available to force bill creation even when
@@ -884,6 +910,13 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 duplicate_bill = self._find_duplicate_bill(partner, invoice_ref)
                 if duplicate_bill:
                     self.bill_id = duplicate_bill.id
+                elif not self._order_has_qty_to_invoice(order):
+                    # Already fully invoiced, or billed on received quantities with nothing
+                    # received yet: a second supplier invoice deserves a human look.
+                    nothing_to_invoice = True
+                    bill_log = self.env._(
+                        "Vendor bill creation skipped: nothing left to invoice on purchase order %(order)s."
+                    ) % {"order": order.name}
                 else:
                     try:
                         bill = self._create_vendor_bill(invoice_data, order, mapped_lines=mapped_lines)
@@ -946,19 +979,44 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         # of an unattended import (bill creation skipped because the order isn't confirmed
         # yet, no receipt to validate) also classify as "warning" via _classify_message's
         # generic keywords, and would otherwise fire on every successful headless import.
-        # Only the two signals discussed on tichet #9287 count here: a total that doesn't
-        # add up, and lines the matcher couldn't place.
-        self.has_warning = bool((total_check and not total_check["matches"]) or (order and not_found))
+        # Only these signals count here: a total that doesn't add up, lines the matcher
+        # couldn't place (tichet #9287), and a supplier invoice for an order with nothing
+        # left to invoice (a duplicate invoice or an extra charge).
+        self.has_warning = bool(
+            (total_check and not total_check["matches"]) or (order and not_found) or nothing_to_invoice
+        )
         self.state = "done"
+        return self._done_action()
 
-        action = {
+    def _done_action(self):
+        return {
             "type": "ir.actions.act_window",
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
             "target": "new",
         }
-        return action
+
+    def _skip_credit_note(self, invoice_data, order, partner):
+        """A credit note is never applied to the purchase order: its lines would write negative
+        quantities on the order lines and overwrite the vendor prices, and the vendor bill
+        created from the order would be an invoice, not a refund. It only gets logged and
+        flagged, so the automatic import schedules a review activity on the order."""
+        messages = [
+            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
+            self.env._("Order: %(order)s | XML Reference: %(ref)s")
+            % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
+            self.env._(
+                "Warning: the document %s is a credit note; credit notes are not imported. "
+                "Record the vendor refund manually."
+            )
+            % (invoice_data.get("invoice_id") or "-"),
+        ]
+        self.log = "\n".join(messages)
+        self.log_html = self._build_log_html(messages)
+        self.has_warning = True
+        self.state = "done"
+        return self._done_action()
 
     def action_view_vendor_bill(self):
         self.ensure_one()
