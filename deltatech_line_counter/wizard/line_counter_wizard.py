@@ -1,6 +1,10 @@
+import logging
 import os
 
 from odoo import fields, models, modules
+from odoo.tools import html_escape
+
+_logger = logging.getLogger(__name__)
 
 
 class LineCounterWizard(models.TransientModel):
@@ -29,10 +33,12 @@ class LineCounterWizard(models.TransientModel):
                         try:
                             with open(file_path, encoding="utf-8") as f:
                                 module_lines += sum(1 for line in f if line.strip())
-                        except Exception:
-                            continue
+                        except (OSError, UnicodeDecodeError) as err:
+                            # unreadable or non UTF-8 file: not counted
+                            _logger.debug("Line counter: skipping %s (%s)", file_path, err)
 
-            result_html += f"<tr><td>{module.shortdesc} ({module.name})</td><td>{module_lines}</td></tr>"
+            module_label = html_escape(f"{module.shortdesc} ({module.name})")
+            result_html += f"<tr><td>{module_label}</td><td>{module_lines}</td></tr>"
             total_lines += module_lines
 
         result_html += f"</tbody><tfoot><tr><th>Total</th><th>{total_lines}</th></tr></tfoot></table>"

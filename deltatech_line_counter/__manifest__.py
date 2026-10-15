@@ -1,6 +1,6 @@
 {
     "name": "Code Line Counter",
-    "version": "20.0.1.0.1",
+    "version": "20.0.1.0.2",
     "category": "Extra Tools",
     "summary": "Count lines of code in selected modules",
     "author": "Terrabit, Voicu Stefan",
