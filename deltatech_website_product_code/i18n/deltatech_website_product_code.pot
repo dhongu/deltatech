@@ -1,0 +1,132 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_product_code
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:25+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.product_code
+msgid "<span>Code:</span>"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model,name:deltatech_website_product_code.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_exact_phrase
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Match the search term as a single string instead of splitting it on spaces. "
+"Enable it when product codes contain spaces, so that searching '352 030 15 "
+"97' returns the product having that code instead of every product containing"
+" '352', '030', '15' or '97'. When no product matches the whole term, the "
+"regular search is used."
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Number of code-looking terms pasted together before the search starts "
+"looking for any of them instead of requiring a single product to match them "
+"all. Use 0 to disable it."
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_multi_code_min_terms
+msgid ""
+"Number of code-looking terms pasted together before the search starts "
+"looking for any of them, instead of requiring a single product to match them"
+" all. Use 0 to disable."
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_multi_code_min_terms
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Pasted Code Lists"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model,name:deltatech_website_product_code.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Product Search"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_exact_phrase
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Search The Whole Term"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_min_term_length
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid "Shortest Search Term"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,field_description:deltatech_website_product_code.field_res_config_settings__website_search_standalone_code_min_length
+msgid "Shortest Standalone Code"
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Shortest term still treated as a code of its own. Shorter terms are\n"
+"                                taken to be groups of one code, so they are never searched\n"
+"                                separately. Use 0 to accept any length."
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_website_product_code.res_config_settings_view_form
+msgid ""
+"Terms shorter than this are ignored, since they cannot use the database "
+"indexes and only slow the search down. Kept when every term is shorter than "
+"this, so that such a search still returns its results."
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_min_term_length
+msgid ""
+"Terms shorter than this are ignored, since they cannot use the database "
+"indexes and only slow the search down. Kept when every term is shorter than "
+"this, so that such a search still returns its results. Use 0 to keep every "
+"term."
+msgstr ""
+
+#. module: deltatech_website_product_code
+#: model:ir.model.fields,help:deltatech_website_product_code.field_res_config_settings__website_search_standalone_code_min_length
+msgid ""
+"Used only while the whole term is searched, to tell a pasted list of "
+"complete codes from the groups of a single code written with spaces. Terms "
+"shorter than this are taken to be groups of one code, so they are never "
+"searched separately. Use 0 to accept terms of any length as codes."
+msgstr ""
