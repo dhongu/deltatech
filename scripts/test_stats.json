@@ -28,6 +28,9 @@
       "lines": 1598,
       "tests": 128
     },
+    "deltatech_cash_statement": {
+      "tests": 10
+    },
     "deltatech_contact": {
       "coverage": 69.4,
       "lines": 98,
@@ -80,6 +83,9 @@
       "coverage": 100.0,
       "lines": 33,
       "tests": 5
+    },
+    "deltatech_invoice_picking": {
+      "tests": 9
     },
     "deltatech_invoice_product_filter": {
       "tests": 0
