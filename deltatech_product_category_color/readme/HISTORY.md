@@ -1,3 +1,7 @@
+## 20.0.1.0.2 (2026-10-15)
+
+- `stock.picking.categ_ids` is computed from the moves (not cancelled) instead of the move lines: transfers that are not reserved yet have no move lines, so they showed no category. Tests added.
+
 ## 20.0.1.0.1 (2026-10-02)
 
 - Migration to 20.0.
