@@ -11,9 +11,12 @@ class TestExactPhraseSearch(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.website = cls.env["website"].get_current_website()
+        cls.website = cls.env.ref("base.default_website")
+        # website.get_current_website() is gone in 20.0: the current website is env.website,
+        # read from the website_id key of the context
+        cls.env = cls.env(context=dict(cls.env.context, website_id=cls.website.id))
         cls.ProductTemplate = cls.env["product.template"]
-        cls.set_param = cls.env["ir.config_parameter"].sudo().set_param
+        cls.set_bool = cls.env["ir.config_parameter"].sudo().set_bool
 
         # The wanted product: its code contains spaces, as OEM part numbers do.
         cls.exact_product = cls._create_product("Bucsa ZQX", "ZQX 100 200 300")
@@ -44,7 +47,7 @@ class TestExactPhraseSearch(TransactionCase):
             "display_currency": self.website.currency_id,
         }
         search_detail = self.ProductTemplate._search_get_detail(self.website, None, options)
-        results, _count = self.ProductTemplate._search_fetch(search_detail, search, limit, None)
+        results, _count = self.ProductTemplate._search_fetch(search_detail, search, 0, limit, None)
         return results
 
     def test_disabled_by_default_splits_the_term(self):
@@ -53,7 +56,7 @@ class TestExactPhraseSearch(TransactionCase):
         self.assertIn(self.noise_product, results, "without exact phrase search the term is split per word")
 
     def test_exact_phrase_returns_only_the_matching_code(self):
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         results = self._search("ZQX 100 200 300")
         self.assertEqual(results, self.exact_product)
 
@@ -63,13 +66,13 @@ class TestExactPhraseSearch(TransactionCase):
         # spread out, which is not what the shopper means.
         spread = self._create_product("Lant combina agricola ZQCLAAS", "ZQL001")
         literal = self._create_product("Lant ZQCLAAS", "ZQL002")
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         results = self._search("Lant ZQCLAAS")
         self.assertIn(literal, results)
         self.assertIn(spread, results, "words are searched separately when the term has no digit")
 
     def test_exact_phrase_ignores_extra_whitespace(self):
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         results = self._search("  ZQX   100 200  300 ")
         self.assertEqual(results, self.exact_product)
 
@@ -77,11 +80,11 @@ class TestExactPhraseSearch(TransactionCase):
         # Alternative codes are often kept several per line; the searched code
         # is then a substring of the stored value.
         product = self._create_product("Bucsa ZQW", "ZQW 11 22 MERCEDES ZQW 33 44 MERCEDES")
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         self.assertEqual(self._search("ZQW 33 44"), product)
 
     def test_exact_phrase_falls_back_when_the_phrase_has_no_match(self):
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         # No product contains "ZQX 300 100" as a single string, so the search
         # degrades to the per-term behaviour instead of returning nothing.
         results = self._search("ZQX 300 100")
@@ -93,13 +96,13 @@ class TestExactPhraseSearch(TransactionCase):
         # codes. Without the standalone-code test the multi-code fast path would
         # OR the groups and return every product containing any one of them -
         # the very noise exact-phrase search exists to remove.
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         self.assertFalse(self._search("100 200 300 999"))
 
     def test_exact_phrase_treats_four_character_groups_as_one_code(self):
         # Boundary of website_search.standalone_code_min_length (5): groups of
         # four characters still belong to a single code.
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         self.assertFalse(self._search("1000 2000 3000 9999"))
 
     def test_pasted_code_lists_still_work_when_exact_phrase_is_off(self):
@@ -115,7 +118,7 @@ class TestExactPhraseSearch(TransactionCase):
         products = self.ProductTemplate.browse()
         for code in codes[:2]:
             products |= self._create_product(f"Rulment {code}", code)
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         # Each term is long enough to be a code of its own, so the list is
         # resolved by the multi-code fast path even in exact-phrase mode.
         self.assertEqual(self._search(" ".join(codes)), products)
@@ -132,5 +135,5 @@ class TestExactPhraseSearch(TransactionCase):
         self.assertIn(product, self._search("ab cd"))
 
     def test_single_term_search_is_unaffected(self):
-        self.set_param("website_search.exact_phrase", "True")
+        self.set_bool("website_search.exact_phrase", True)
         self.assertEqual(self._search("ZQXNOISE"), self.noise_product)

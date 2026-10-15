@@ -12,7 +12,7 @@ class TestSearchSettings(TransactionCase):
         super().setUp()
         self.Settings = self.env["res.config.settings"]
         self.ProductTemplate = self.env["product.template"]
-        self.get_param = self.env["ir.config_parameter"].sudo().get_param
+        self.ICP = self.env["ir.config_parameter"].sudo()
 
     def test_defaults_match_the_values_read_by_the_search(self):
         # Saving the settings page writes every field, so a default that differs
@@ -29,7 +29,7 @@ class TestSearchSettings(TransactionCase):
         self.assertFalse(self.ProductTemplate._exact_phrase_search_enabled())
         self.assertEqual(self.ProductTemplate._standalone_code_min_length(), 5)
         self.assertEqual(self.ProductTemplate._multi_code_min_terms(), 4)
-        self.assertEqual(int(self.get_param("website_search.min_term_length")), 3)
+        self.assertEqual(self.ICP.get_int("website_search.min_term_length"), 3)
 
     def test_enabling_exact_phrase_from_the_settings(self):
         settings = self.Settings.create({"website_search_exact_phrase": True})
@@ -52,13 +52,13 @@ class TestSearchSettings(TransactionCase):
         # Zero must be written out, not turned into a missing parameter: the
         # settings page would otherwise silently restore the default of 4 and
         # re-enable a fast path the customer had deliberately switched off.
-        self.env["ir.config_parameter"].sudo().set_param("website_search.multi_code_min_terms", "0")
+        self.ICP.set_str("website_search.multi_code_min_terms", "0")
         settings = self.Settings.create({})
         self.assertEqual(settings.website_search_multi_code_min_terms, 0)
         settings.execute()
-        self.assertEqual(self.get_param("website_search.multi_code_min_terms"), "0")
+        self.assertEqual(self.ICP.get_str("website_search.multi_code_min_terms"), "0")
         self.assertEqual(self.ProductTemplate._multi_code_min_terms(), 0)
 
     def test_legacy_false_value_is_read_as_disabled(self):
-        self.env["ir.config_parameter"].sudo().set_param("website_search.multi_code_min_terms", "False")
+        self.ICP.set_str("website_search.multi_code_min_terms", "False")
         self.assertEqual(self.Settings.create({}).website_search_multi_code_min_terms, 0)

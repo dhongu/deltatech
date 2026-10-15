@@ -24,6 +24,12 @@ class TestWebsiteProductCode(HttpCase):
         response = self.url_open("/shop/product-code/WEBTEST001")
         self.assertEqual(response.status_code, 200)
 
+    def test_product_by_code_redirects_to_product_page(self):
+        """In 20.0 the code link ends on the canonical product URL (301 from website_sale)."""
+        response = self.url_open("/shop/product-code/WEBTEST001", allow_redirects=False)
+        self.assertEqual(response.status_code, 301)
+        self.assertTrue(response.headers["Location"].endswith(self.product.website_url))
+
     def test_product_by_code_not_found(self):
         """Ruta /shop/product-code/<code> returnează 404 pentru cod inexistent."""
         response = self.url_open("/shop/product-code/NONEXISTENT_CODE_XYZ")

@@ -1,3 +1,10 @@
+## 20.0.1.3.6 (2026-10-15)
+
+- Migration to Odoo 20.0. The code under the product name on the shop tiles now hooks into `website_sale.product_title_and_details`, where the 20.0 tile keeps its title; the website-specific copies of `product_item_code` follow automatically when they were not edited.
+- `/shop/product-code/<code>` now ends on the product page through a 301 redirect to the canonical product URL, as `website_sale` does in 20.0 for every non-canonical product path.
+- Since 20.0 the shop search tolerates a missing word when more than two words are searched. With *Search The Whole Term* on, the fallback of a spaced code still requires every group, so `352 030 15 97` does not list the products holding three of its four groups.
+- Fix: pasting several product codes into the search box of the `/shop` page (searched without a limit) failed with a `TypeError` in 19.0.
+
 ## 19.0.1.3.6 (2026-10-09)
 
 - Fix: the migration that resets the per-website copies of `product_item_code` still carrying the 18.0 xpath ran as `end-migration`, after the upgrade platform's template check, so that check reported the shop template as broken a few seconds before it was repaired. It now runs as `post-migrate`, when the module is loaded. The result for the database is the same.

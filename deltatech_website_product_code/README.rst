@@ -14,13 +14,10 @@ eCommerce Product Code
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_product_code
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_product_code
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_product_code
-    :alt: 32 automated tests · 87% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 - Features:
 
@@ -70,6 +67,69 @@ eCommerce Product Code
 
 Changelog
 =========
+
+20.0.1.3.6 (2026-10-15)
+-----------------------
+
+- Migration to Odoo 20.0. The code under the product name on the shop
+  tiles now hooks into ``website_sale.product_title_and_details``, where
+  the 20.0 tile keeps its title; the website-specific copies of
+  ``product_item_code`` follow automatically when they were not edited.
+- ``/shop/product-code/<code>`` now ends on the product page through a
+  301 redirect to the canonical product URL, as ``website_sale`` does in
+  20.0 for every non-canonical product path.
+- Since 20.0 the shop search tolerates a missing word when more than two
+  words are searched. With *Search The Whole Term* on, the fallback of a
+  spaced code still requires every group, so ``352 030 15 97`` does not
+  list the products holding three of its four groups.
+- Fix: pasting several product codes into the search box of the
+  ``/shop`` page (searched without a limit) failed with a ``TypeError``
+  in 19.0.
+
+19.0.1.3.6 (2026-10-09)
+-----------------------
+
+- Fix: the migration that resets the per-website copies of
+  ``product_item_code`` still carrying the 18.0 xpath ran as
+  ``end-migration``, after the upgrade platform's template check, so
+  that check reported the shop template as broken a few seconds before
+  it was repaired. It now runs as ``post-migrate``, when the module is
+  loaded. The result for the database is the same.
+
+19.0.1.3.5 (2026-10-02)
+-----------------------
+
+- WEBCODE-001 (security): on a shop restricted to logged-in users,
+  ``/shop/products-json`` and ``/shop/products-search`` still returned
+  product names, codes and prices to anonymous visitors. They now return
+  an empty list, as the standard website search does, and
+  ``/shop/product-code/<code>`` redirects the visitor to the login page.
+  External pages or scripts that call these endpoints anonymously on
+  such a shop now get no results.
+
+19.0.1.3.4 (2026-10-01)
+-----------------------
+
+- Fixed the shop page failing with "Element '' cannot be located in
+  parent view" on databases upgraded from 18.0. The 19.0.1.0.2 migration
+  recreated the generic ``product_item_code`` view but left its
+  website-specific copies with the 18.0 arch. These copies now get the
+  arch of the generic view; whether the option is on or off on each
+  website is kept.
+
+19.0.1.3.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.3.2 (2026-09-25)
+-----------------------
+
+- Security: the ``vat`` parameter of ``/shop/products-json`` and
+  ``/shop/products-search`` is now honoured only for internal users. For
+  public and portal visitors it is ignored, so comparing results with
+  and without ``vat`` no longer reveals which partner supplies a
+  product.
 
 19.0.1.3.1 (2026-07-28)
 -----------------------
@@ -161,6 +221,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_product_code>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_product_code>`_ project on GitHub.
 
 You are welcome to contribute.

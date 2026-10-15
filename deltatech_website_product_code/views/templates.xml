@@ -3,12 +3,12 @@
 
         <template
         id="product_item_code"
-        inherit_id="website_sale.products_item"
+        inherit_id="website_sale.product_title_and_details"
         name="Internal code"
         customize_show="True"
         priority="100"
     >
-            <xpath expr="//h2[hasclass('o_wsale_products_item_title')]" position="after">
+            <xpath expr="//h6[hasclass('o_wsale_products_item_title')]" position="after">
                 <div t-if="product.default_code">
                     <span itemprop="productID" t-field="product.default_code" class="text-muted" />
                 </div>

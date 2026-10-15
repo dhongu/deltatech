@@ -6,6 +6,7 @@
 import logging
 
 from odoo import http
+from odoo.fields import Domain
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
@@ -24,11 +25,13 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
     def product_by_code(self, code="", **kwargs):
         # Same gate as /shop/<product>: on a login-only shop, a code must not reveal (404 or not)
         # whether such a product exists
-        if not request.website.has_ecommerce_access():
+        if not self.env.website.has_ecommerce_access():
             return request.redirect(f"/web/login?redirect={request.httprequest.path}")
-        product = request.env["product.template"].search([("default_code", "=", code)], limit=1)
+        product = self.env["product.template"].search([("default_code", "=", code)], limit=1)
         if not product:
             raise request.not_found()
+        # In 20.0 `product()` redirects (301) to the canonical product URL whenever the requested
+        # path differs from `product.website_url`, so the code link ends on /shop/<slug>.
         return self.product(product, **kwargs)
 
     @http.route(["/shop/products-json"], type="jsonrpc", auth="public", website=True, sitemap=False)
@@ -50,30 +53,30 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
     def _search_products_by_code(self, search, vat=""):
         # The products are searched as superuser: on a shop restricted to logged-in users, a visitor
         # gets nothing, as from the standard website search (website._search_get_details)
-        if not request.website.has_ecommerce_access():
+        website = self.env.website
+        if not website.has_ecommerce_access():
             return []
-        domain = request.website.sale_product_domain()
+        domain = Domain(website.sale_product_domain())
         _logger.info("_search_products_by_code: %s", search)
         if search:
             for srch in search.split(" "):
-                domain += [
-                    "|",
-                    "|",
-                    "|",
-                    ("name", "ilike", srch),
-                    ("description", "ilike", srch),
-                    ("description_sale", "ilike", srch),
-                    ("product_variant_ids.default_code", "ilike", srch),
-                ]
+                domain &= Domain.OR(
+                    [
+                        Domain("name", "ilike", srch),
+                        Domain("description", "ilike", srch),
+                        Domain("description_sale", "ilike", srch),
+                        Domain("product_variant_ids.default_code", "ilike", srch),
+                    ]
+                )
 
-        products = request.env["product.template"].with_context(bin_size=True).sudo().search(domain, limit=10)
+        products = self.env["product.template"].with_context(bin_size=True).sudo().search(domain, limit=10)
         res = []
         alternative_code_mod = (
             request.env["ir.module.module"]
             .sudo()
             .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
         )
-        base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        base_url = request.env["ir.config_parameter"].sudo().get_str("web.base.url")
 
         # filtrare dupa furnizor: doar pentru utilizatori interni, altfel un anonim
         # ar putea deduce furnizorii produselor comparand rezultatele cu/fara vat

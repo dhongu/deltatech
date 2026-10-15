@@ -52,10 +52,10 @@ class ResConfigSettings(models.TransientModel):
 
     def get_values(self):
         res = super().get_values()
-        get_param = self.env["ir.config_parameter"].sudo().get_param
+        get_str = self.env["ir.config_parameter"].sudo().get_str
         for param, (field_name, default) in INT_PARAMS.items():
             try:
-                res[field_name] = int(get_param(param, default))
+                res[field_name] = int(get_str(param, default))
             except (TypeError, ValueError):
                 # A non-numeric value (e.g. the legacy "False") disables it.
                 res[field_name] = 0
@@ -63,7 +63,7 @@ class ResConfigSettings(models.TransientModel):
 
     def set_values(self):
         res = super().set_values()
-        set_param = self.env["ir.config_parameter"].sudo().set_param
+        set_str = self.env["ir.config_parameter"].sudo().set_str
         for param, (field_name, _default) in INT_PARAMS.items():
-            set_param(param, str(self[field_name]))
+            set_str(param, str(self[field_name]))
         return res

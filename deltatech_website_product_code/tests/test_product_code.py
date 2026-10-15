@@ -2,17 +2,17 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from unittest.mock import patch
-
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+
+from odoo.addons.website_sale.tests.common import MockRequest
 
 
 @tagged("post_install", "-at_install")
 class TestProductCode(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.website = self.env.ref("website.default_website")
+        self.website = self.env.ref("base.default_website")
         self.product = self.env["product.template"].create(
             {
                 "name": "Test Product",
@@ -23,15 +23,15 @@ class TestProductCode(TransactionCase):
 
     def _call_search_render_results(self, product):
         fetch_fields = ["name"]
-        mapping = {}
+        # 20.0 renders the price from the mapping of the search detail
+        mapping = {"search_item_metadata": {"display_currency": self.website.currency_id}}
         icon = ""
         limit = 10
-        with patch.object(
-            type(self.env["website"]),
-            "get_current_website",
-            return_value=self.website,
-        ):
-            return product._search_render_results(fetch_fields, mapping, icon, limit)
+        # website.get_current_website() is gone in 20.0: the current website is env.website, and
+        # website_sale reads the pricelist of the combination info from the request
+        env = self.env(context=dict(self.env.context, website_id=self.website.id))
+        with MockRequest(env, website=self.website.with_env(env)):
+            return product.with_env(env)._search_render_results(fetch_fields, mapping, icon, limit)
 
     def test_search_render_results_with_code(self):
         """Produsul cu default_code afișează codul în nume."""
