@@ -5,7 +5,7 @@
 {
     "name": "Refund Purchase",
     "summary": "Vendor credit notes for negative quantities",
-    "version": "20.0.1.0.2",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_purchase_refund?v=20.0",
