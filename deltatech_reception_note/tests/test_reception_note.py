@@ -175,3 +175,78 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         # Create a reception note from the wizard
         wizard = self.ReceptionNoteCreate.create({})
         wizard.with_context(active_ids=purchase_order.ids).do_create_reception_note()
+
+    def _uom_pack(self):
+        return self.env["uom.uom"].create(
+            {
+                "name": "Pack of 12",
+                "relative_factor": 12,
+                "relative_uom_id": self.env.ref("uom.product_uom_unit").id,
+            }
+        )
+
+    def _order(self, reception_type, qty, uom, state="draft"):
+        return self.PurchaseOrder.create(
+            {
+                "partner_id": self.Partner.id,
+                "reception_type": reception_type,
+                "state": state,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "name": self.product.name,
+                            "product_qty": qty,
+                            "uom_id": uom.id,
+                            "price_unit": 100,
+                        },
+                    )
+                ],
+            }
+        )
+
+    def test_reduce_from_rfq_note_in_dozens(self):
+        """RECEPTION-001: o nota de 1 duzina consuma 12 bucati din RFQ, nu una."""
+        rfq_order = self._order("rfq_only", 12, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 1, self.env.ref("uom.product_uom_dozen"))
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.product_qty, 0)
+        self.assertTrue(rfq_order.is_empty)
+
+    def test_reduce_from_rfq_rfq_in_packs(self):
+        """RECEPTION-001: 6 bucati receptionate dintr-un RFQ de 2 baxuri lasa 1,5 baxuri."""
+        pack = self._uom_pack()
+        rfq_order = self._order("rfq_only", 2, pack, state="sent")
+        reception_order = self._order("note", 6, self.product.uom_id)
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.uom_id, pack)
+        self.assertAlmostEqual(rfq_order.order_line.product_qty, 1.5)
+        self.assertFalse(rfq_order.is_empty)
+
+    def test_reduce_from_rfq_missing_quantity_in_note_unit(self):
+        """RECEPTION-001: cantitatea lipsa e raportata in unitatea notei."""
+        self._order("rfq_only", 6, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 1, self.env.ref("uom.product_uom_dozen"))
+        with self.assertRaisesRegex(UserError, "quantity 0.5 of"):
+            reception_order.button_confirm()
+
+    def test_reconfirm_does_not_consume_rfq_again(self):
+        """RECEPTION-003: o nota confirmata a doua oara nu mai scade din RFQ."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 5, self.product.uom_id)
+        reception_order.button_confirm()
+        self.assertEqual(reception_order.state, "purchase")
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.product_qty, 5)
+
+    def test_confirm_with_an_already_confirmed_note(self):
+        """RECEPTION-003: intr-o selectie mixta scade doar nota care se confirma acum."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        confirmed = self._order("note", 3, self.product.uom_id)
+        confirmed.button_confirm()
+        new_note = self._order("note", 2, self.product.uom_id)
+        (confirmed | new_note).button_confirm()
+        self.assertEqual(new_note.state, "purchase")
+        self.assertEqual(rfq_order.order_line.product_qty, 5)
