@@ -5,7 +5,7 @@
 {
     "name": "Cash Statement Extension",
     "summary": "Align cash statement balances with accounting and book cash differences as entries",
-    "version": "19.0.3.1.4",
+    "version": "20.0.3.1.4",
     "author": "Terrabit,Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -13,7 +13,7 @@
     "depends": ["account"],
     "data": [
         "wizard/account_cash_update_balances_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

@@ -37,7 +37,7 @@ JS_SELECT_AND_ACTIONS = """
     }
     await sleep(800);
     [...document.querySelectorAll('.o_cp_action_menus button')]
-        .find((b) => b.querySelector('.fa-cog')).click();
+        .find((b) => b.querySelector('[data-icon="settings"]')).click();
     await sleep(900);
 """
 
@@ -134,8 +134,8 @@ class TestCashStatementScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         )
         cls.account_4282 = account("4282")
         partner = env["res.partner"]
-        client = partner.create({"name": "Alfa Distribuție SRL", "is_company": True})
-        supplier = partner.create({"name": "Beta Papetărie SRL", "is_company": True})
+        client = partner.create({"name": "Alfa Distribuție SRL"})
+        supplier = partner.create({"name": "Beta Papetărie SRL"})
         cls.cashier = partner.create({"name": "Elena Dumitrescu"})
         receivable = client.property_account_receivable_id
         payable = supplier.property_account_payable_id
@@ -206,7 +206,7 @@ class TestCashStatementScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         names_inventory = [self.reg3.name]
         self.capture_screenshots(
             [
-                # 1. Tabloul de bord: meniul jurnalului de casă → „Registre de casă"
+                # 1. Tabloul de bord: meniul jurnalului de casă → „Extrase" (în 19: „Registre de casă")
                 {
                     "url": f"action={self.act_dashboard}",
                     "name": "01_tablou_registre_casa.png",
@@ -224,7 +224,7 @@ class TestCashStatementScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
                         JOURNAL=self.journal.name,
                     ),
                     "eval_wait": 1200,
-                    "highlight": [".o-dropdown--menu a:has-text('Registre de casă')"],
+                    "highlight": [".o-dropdown--menu #action_card_statements a"],
                     "settle": 1500,
                 },
                 # 2. Lista registrelor de casă: selecția și meniul Acțiuni
