@@ -1,3 +1,14 @@
+## 19.0.1.0.4
+
+- [FIX] POSEXTRA-001: no extra line is added when the main product is not
+  added (configurator, lot or weight popup cancelled, refund constraint).
+- [FIX] POSEXTRA-002: removing a main line updates its extra line, and removes
+  it when no other line asks for that extra product.
+- [FIX] POSEXTRA-003: the first extra line takes its quantity from the lines
+  the order actually holds (weighed, negative in a return preset, merged with
+  an existing line), not from the requested quantity.
+- Tests: POS tours for the three cases.
+
 ## 19.0.1.0.3
 
 - Tests: a POS tour checks that the extra line is added with the configured
