@@ -17,7 +17,7 @@ Notification Sound
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_notification_sound
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_notification_sound
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -35,21 +35,24 @@ Features:
   - Info → bell.wav
 
 - Seamless integration with the backend (no extra UI); patches the
-  ``notification`` service.
+  notifications plugin (``NotificationPlugin``).
 - Assets are loaded via ``web.assets_backend`` (JS + sounds).
 - Per-user toggle in Preferences: each user can enable/disable
   notification sounds from their profile.
 
 How it works (technical):
 
-- Frontend logic patches the ``notification`` service
-  (``@web/core/notifications/notification_service``) and wraps its
+- Frontend logic patches ``NotificationPlugin``
+  (``@web/core/notifications/notification_plugin``) and wraps its
   ``add()`` method, so a sound is played whenever a backend notification
-  is shown. This decouples the feature from the lifecycle of the
-  ``Notification`` OWL component.
-- The user preference is read from the session info (``@web/session``),
-  under ``session.user_context.notification_sound_enabled``. No extra
-  RPC is performed.
+  is shown — both for notifications raised through the ``notification``
+  service and for those added directly by other plugins (e.g. the bus
+  ``simple_notification`` sent from the server). This decouples the
+  feature from the lifecycle of the ``Notification`` OWL component.
+- The user preference is read from the user context
+  (``@web/core/user``), under
+  ``user.context.notification_sound_enabled``. No extra RPC is
+  performed.
 - Backend exposes the preference through:
 
   - new field ``res.users.notification_sound_enabled`` (default True)
@@ -70,7 +73,7 @@ Installation & Usage:
 
 Compatibility:
 
-- Odoo 19 (web backend).
+- Odoo 20 (web backend).
 - Modern desktop browsers. Note: Browser auto-play policies may require
   at least one prior user interaction with the page before sounds can
   play.
@@ -136,6 +139,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_notification_sound>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_notification_sound>`_ project on GitHub.
 
 You are welcome to contribute.

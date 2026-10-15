@@ -8,17 +8,19 @@ Features:
   - Warning → exclamation.wav
   - Error (danger) → error.wav
   - Info → bell.wav
-- Seamless integration with the backend (no extra UI); patches the `notification` service.
+- Seamless integration with the backend (no extra UI); patches the notifications plugin (`NotificationPlugin`).
 - Assets are loaded via `web.assets_backend` (JS + sounds).
 - Per-user toggle in Preferences: each user can enable/disable notification sounds from their profile.
 
 How it works (technical):
 
-- Frontend logic patches the `notification` service (`@web/core/notifications/notification_service`) and
-  wraps its `add()` method, so a sound is played whenever a backend notification is shown. This decouples the
-  feature from the lifecycle of the `Notification` OWL component.
-- The user preference is read from the session info (`@web/session`), under
-  `session.user_context.notification_sound_enabled`. No extra RPC is performed.
+- Frontend logic patches `NotificationPlugin` (`@web/core/notifications/notification_plugin`) and wraps its
+  `add()` method, so a sound is played whenever a backend notification is shown — both for notifications
+  raised through the `notification` service and for those added directly by other plugins (e.g. the bus
+  `simple_notification` sent from the server). This decouples the feature from the lifecycle of the
+  `Notification` OWL component.
+- The user preference is read from the user context (`@web/core/user`), under
+  `user.context.notification_sound_enabled`. No extra RPC is performed.
 - Backend exposes the preference through:
   - new field `res.users.notification_sound_enabled` (default True)
   - `ir.http.session_info()` enriched to include the flag in `user_context`.
@@ -31,7 +33,7 @@ Installation & Usage:
 
 Compatibility:
 
-- Odoo 19 (web backend).
+- Odoo 20 (web backend).
 - Modern desktop browsers. Note: Browser auto-play policies may require at least one prior user interaction with the page before sounds can play.
 
 Troubleshooting / Notes:
