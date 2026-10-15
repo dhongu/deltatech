@@ -77,3 +77,12 @@ class TestDeliveryPaymentControllers(DeliveryPaymentCommon):
     def test_without_preferred_provider(self):
         values = self._shop_payment_values(self.order)
         self.assertNotIn("preferred_payment_method_id", values)
+
+    def test_delivery_method_logo(self):
+        self.carrier_a.logo = self._create_image("red")
+        with self.mock_request(sale_order_id=self.order.id):
+            html_a = str(self.env["ir.qweb"]._render("website_sale.delivery_method", {"dm": self.carrier_a}))
+            html_b = str(self.env["ir.qweb"]._render("website_sale.delivery_method", {"dm": self.carrier_b}))
+        self.assertIn("o_delivery_method_logo", html_a)
+        self.assertIn('src="data:image/', html_a)
+        self.assertNotIn("o_delivery_method_logo", html_b)

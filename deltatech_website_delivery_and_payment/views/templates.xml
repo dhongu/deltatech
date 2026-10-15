@@ -10,4 +10,16 @@
             />
         </xpath>
     </template>
+
+    <!-- Logo of the delivery method, before its name, on /shop/checkout -->
+    <template id="delivery_method_logo" inherit_id="website_sale.delivery_method">
+        <xpath expr="//span[@name='o_delivery_method_name']" position="before">
+            <img
+                t-if="dm.logo"
+                t-att-src="image_data_uri(dm.logo)"
+                t-att-alt="dm.name"
+                class="o_delivery_method_logo img o_image_64_max rounded me-2"
+            />
+        </xpath>
+    </template>
 </odoo>
