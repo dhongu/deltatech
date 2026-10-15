@@ -5,3 +5,4 @@
 from . import test_purchase
 from . import test_force_price
 from . import test_multi_company
+from . import test_seller_default_price
