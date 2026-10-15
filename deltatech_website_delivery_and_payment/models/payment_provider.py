@@ -26,7 +26,7 @@ class PaymentAcquirer(models.Model):
         A provider is excluded when:
 
         - the order total exceeds its `value_limit`;
-        - the partner of the order has one of its restricted labels;
+        - the commercial partner of the order has one of its restricted labels;
         - the delivery method of the order allows only some providers (`acquirer_allowed_ids`)
           and it is not one of them.
 
@@ -48,7 +48,7 @@ class PaymentAcquirer(models.Model):
             reason=self.env._("Order amount exceeds the value limit"),
         )
 
-        partner = order.partner_id
+        partner = order.partner_id.commercial_partner_id
         unfiltered_providers = providers
         providers = providers.filtered(lambda p: not p.is_restricted(partner))
         payment_utils.add_to_report(

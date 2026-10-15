@@ -1,6 +1,7 @@
 # © 2008-2025 Deltatech / Terrabit
 # See README.rst file on addons root folder for license details
 
+from odoo.fields import Command
 from odoo.tests import tagged
 
 from .common import DeliveryPaymentCommon
@@ -94,3 +95,24 @@ class TestWebsiteDeliveryAndPayment(DeliveryPaymentCommon):
         self.assertNotIn(self.carrier_a, methods)
         self.assertNotIn(self.carrier_b, methods)
         self.assertIn(self.carrier_any, methods)
+
+    def test_contact_of_tagged_company_is_restricted(self):
+        """The labels are read on the commercial partner, for the payments and for the delivery."""
+        company = self.env["res.partner"].create(
+            {"name": "Restricted Company", "category_id": [Command.set(self.restricted_tag.ids)]}
+        )
+        contact = self.env["res.partner"].create({"name": "Restricted Contact", "parent_id": company.id})
+        self.assertFalse(contact.category_id)
+        order = self._create_so(
+            partner_id=contact.id,
+            order_line=[Command.create({"product_id": self.product.id, "product_uom_qty": 1})],
+        )
+        self.provider_b.restrict_label_ids = self.restricted_tag
+        self.carrier_b.restrict_label_ids = self.restricted_tag
+
+        providers = self._available_providers(order)
+        self.assertNotIn(self.provider_b, providers)
+        self.assertIn(self.provider_a, providers)
+        methods = order._get_delivery_methods()
+        self.assertNotIn(self.carrier_b, methods)
+        self.assertIn(self.carrier_a, methods)

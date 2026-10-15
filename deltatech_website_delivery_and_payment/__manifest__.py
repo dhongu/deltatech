@@ -12,7 +12,6 @@
     "depends": ["website_sale_stock"],
     "data": [
         "views/delivery_view.xml",
-        "views/templates.xml",
         "views/payment_view.xml",
         "views/res_partner_view.xml",
     ],
