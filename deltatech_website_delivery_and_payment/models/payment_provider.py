@@ -20,53 +20,67 @@ class PaymentAcquirer(models.Model):
                 return True
         return False
 
+    def _filter_allowed_for_order(self, order, report=None):
+        """Return the providers of `self` that are allowed to pay the sales order.
+
+        A provider is excluded when:
+
+        - the order total exceeds its `value_limit`;
+        - the partner of the order has one of its restricted labels;
+        - the delivery method of the order allows only some providers (`acquirer_allowed_ids`)
+          and it is not one of them.
+
+        Used both to filter the providers offered at checkout and to check the provider of a
+        transaction before paying the order.
+
+        :param sale.order order: The sales order to pay.
+        :param dict report: The availability report into which the excluded providers are logged.
+        :return: The allowed providers.
+        :rtype: payment.provider
+        """
+        providers = self
+        unfiltered_providers = providers
+        providers = providers.filtered(lambda p: not p.value_limit or order.amount_total <= p.value_limit)
+        payment_utils.add_to_report(
+            report,
+            unfiltered_providers - providers,
+            available=False,
+            reason=self.env._("Order amount exceeds the value limit"),
+        )
+
+        partner = order.partner_id
+        unfiltered_providers = providers
+        providers = providers.filtered(lambda p: not p.is_restricted(partner))
+        payment_utils.add_to_report(
+            report,
+            unfiltered_providers - providers,
+            available=False,
+            reason=self.env._("Restricted for the partner labels"),
+        )
+
+        # If the order has a selected delivery method with allowed providers, intersect
+        carrier = order.carrier_id.sudo()
+        if carrier.acquirer_allowed_ids:
+            unfiltered_providers = providers
+            providers = providers & carrier.acquirer_allowed_ids
+            payment_utils.add_to_report(
+                report,
+                unfiltered_providers - providers,
+                available=False,
+                reason=self.env._("Not allowed by the selected delivery method"),
+            )
+        return providers
+
     @api.model
     def _find_available_providers(
         self, company_id, partner_id, amount, *args, sale_order_id=None, report=None, **kwargs
     ):
-        """Exclude the providers that are not allowed for the sales order.
-
-        - the order total exceeds the provider's `value_limit`;
-        - the order partner has one of the provider's restricted labels;
-        - the delivery method of the order allows only some providers (`acquirer_allowed_ids`).
-        """
+        """Exclude the providers that are not allowed for the sales order
+        (see `_filter_allowed_for_order`)."""
         available_providers = super()._find_available_providers(
             company_id, partner_id, amount, *args, sale_order_id=sale_order_id, report=report, **kwargs
         )
         order = sale_order_id and self.env["sale.order"].browse(sale_order_id).exists()
         if not order:
             return available_providers
-
-        unfiltered_providers = available_providers
-        available_providers = available_providers.filtered(
-            lambda p: not p.value_limit or order.amount_total <= p.value_limit
-        )
-        payment_utils.add_to_report(
-            report,
-            unfiltered_providers - available_providers,
-            available=False,
-            reason=self.env._("Order amount exceeds the value limit"),
-        )
-
-        partner_labels = order.partner_id.category_id
-        unfiltered_providers = available_providers
-        available_providers = available_providers.filtered(lambda p: not (p.restrict_label_ids & partner_labels))
-        payment_utils.add_to_report(
-            report,
-            unfiltered_providers - available_providers,
-            available=False,
-            reason=self.env._("Restricted for the partner labels"),
-        )
-
-        # If the order has a selected delivery carrier with allowed providers, intersect
-        carrier = order.carrier_id
-        if carrier and carrier.acquirer_allowed_ids:
-            unfiltered_providers = available_providers
-            available_providers = available_providers & carrier.acquirer_allowed_ids
-            payment_utils.add_to_report(
-                report,
-                unfiltered_providers - available_providers,
-                available=False,
-                reason=self.env._("Not allowed by the selected delivery method"),
-            )
-        return available_providers
+        return available_providers._filter_allowed_for_order(order, report=report)
