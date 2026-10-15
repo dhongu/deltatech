@@ -6,7 +6,7 @@
 {
     "name": "Products Category User Group",
     "summary": "Assign transfer responsibles automatically from the product category user group",
-    "version": "20.0.1.0.5",
+    "version": "20.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
