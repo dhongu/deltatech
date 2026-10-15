@@ -52,7 +52,7 @@ In the processes list, select one or more processes and open the **Actions** (ge
 
 Each test is created with all the steps of the process. For several selected processes, one test is created for each. The same menu also offers **Import from library** (see Step 9) and the resets of the acceptance / internal test status on the process (existing tests are kept).
 
-The **Start Test** smart button on the process form opens its acceptance test, creating it only if none exists yet. If there are several acceptance tests, it opens their list.
+The **Start Test** smart button on the process form always creates a new acceptance test (with all the steps of the process) and opens it; the counter shows how many acceptance tests the process has. To see the existing ones, use the **Tests** smart button.
 
 **Step 5 — Run the acceptance test**
 

@@ -143,7 +143,7 @@ class TestBusinessProcess(TransactionCase):
         self.assertTrue(all(r[0] != self.process.id for r in res2))
 
     def test_action_view_acceptance_tests_behaviour(self):
-        # Initially, no acceptance tests; calling action should auto-create one and return correct action
+        # calling the action creates a new acceptance test and opens it
         self.process.count_acceptance_tests = 0  # ensure branch
         action = self.process.action_view_acceptance_tests()
         self.assertIsInstance(action, dict)

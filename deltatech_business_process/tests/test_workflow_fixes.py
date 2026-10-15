@@ -125,24 +125,19 @@ class TestWorkflowFixes(TransactionCase):
             self.assertEqual(test.tester_id, test.process_id.responsible_id)
             self.assertEqual(len(test.test_step_ids), 2)
 
-    # 4. butonul inteligent „Start Test" nu mai creează un test la fiecare click
-    def test_action_view_acceptance_tests_reuses_existing(self):
-        action = self.process.action_view_acceptance_tests()
-        uat = self.process.test_ids.filtered(lambda t: t.scope == "user_acceptance")
-        self.assertEqual(len(uat), 1)
-        self.assertEqual(action["res_id"], uat.id)
-
-        action = self.process.action_view_acceptance_tests()
-        self.assertEqual(len(self.process.test_ids.filtered(lambda t: t.scope == "user_acceptance")), 1)
-        self.assertEqual(action["res_id"], uat.id)
-
-    def test_action_view_acceptance_tests_several_opens_list(self):
-        self.process._start_test("user_acceptance")
-        self.process._start_test("user_acceptance")
-        action = self.process.action_view_acceptance_tests()
-        self.assertEqual(len(self.process.test_ids.filtered(lambda t: t.scope == "user_acceptance")), 2)
-        self.assertFalse(action.get("res_id"))
-        self.assertIn(("scope", "=", "user_acceptance"), action["domain"])
+    # 4. butonul inteligent „Start Test" creează mereu un test nou și îl deschide
+    def test_action_view_acceptance_tests_always_creates_new(self):
+        uat = self.env["business.process.test"]
+        seen = uat
+        for expected in (1, 2, 3):
+            action = self.process.action_view_acceptance_tests()
+            tests = self.process.test_ids.filtered(lambda t: t.scope == "user_acceptance")
+            self.assertEqual(len(tests), expected)
+            new = tests - seen
+            self.assertEqual(len(new), 1)
+            self.assertEqual(action["res_id"], new.id)
+            self.assertEqual(action["view_mode"], "form")
+            seen |= new
 
     # 5. finalizarea testului
     def test_action_done_keeps_failed_steps(self):
