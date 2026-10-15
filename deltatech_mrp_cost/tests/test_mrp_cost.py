@@ -173,3 +173,51 @@ class TestMrpOrder(TestMrpCommon):
             )[0]
         self.assertIn(b"Finished Products", html)
         self.assertIn(b"Effective Quantity", html)
+
+    def test_report_with_move_values(self):
+        """The production order report reads the move values of a done order."""
+        avco_category = (
+            self.env["product.category"]
+            .sudo()
+            .create(  # setup master-data
+                {"name": "AVCO", "property_cost_method": "average", "property_valuation": "real_time"}
+            )
+        )
+        (self.product_1 | self.product_2 | self.product_4).sudo().categ_id = avco_category
+        self.product_1.sudo().write({"is_storable": True, "standard_price": 10.0})
+        self.product_2.sudo().write({"is_storable": True, "standard_price": 20.0})
+        for product in self.product_1 | self.product_2:
+            self.env["stock.quant"].create(
+                {"location_id": self.stock_location.id, "product_id": product.id, "inventory_quantity": 500}
+            ).action_apply_inventory()
+        self.product_4.sudo().is_storable = True
+
+        man_order = self.env["mrp.production"].create(
+            {
+                "product_id": self.product_4.id,
+                "bom_id": self.bom_1.id,
+                "uom_id": self.product_4.uom_id.id,
+                "product_qty": 2.0,
+                "location_src_id": self.stock_location.id,
+                "location_dest_id": self.output_location.id,
+            }
+        )
+        man_order.action_confirm()
+        man_order.qty_producing = 2.0
+        man_order.move_raw_ids.picked = True
+        man_order.button_mark_done()
+        self.assertEqual(man_order.state, "done")
+
+        # on 20.0 the consumed (raw) moves carry a negative value
+        raw_value = sum(abs(move.value) for move in man_order.move_raw_ids)
+        finished_value = sum(man_order.move_finished_ids.mapped("value"))
+        self.assertGreater(raw_value, 0.0)
+        self.assertGreater(finished_value, 0.0)
+
+        # the barcode image does not matter here (and needs a reportlab renderPM backend)
+        with patch.object(self.registry["ir.actions.report"], "barcode", lambda *args, **kwargs: b""):
+            html = self.env["ir.actions.report"]._render_qweb_html("mrp.report_mrporder", man_order.ids)[0].decode()
+        self.assertIn("Finished Products", html)
+        self.assertIn(f"{finished_value:.2f}", html)
+        for move in man_order.move_raw_ids:
+            self.assertIn(f"{abs(move.value):.2f}", html)
