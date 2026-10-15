@@ -1,0 +1,11 @@
+{
+  "title": "Delivery and Payment",
+  "summary": "Delivery and payment constraints for eCommerce",
+  "icon": "cart",
+  "lang": "en",
+  "features": [
+    "Payment options by delivery method",
+    "Payment providers by partner label",
+    "Delivery methods by partner label"
+  ]
+}
