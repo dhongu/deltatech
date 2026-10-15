@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 from odoo.tests import tagged
 
 from odoo.addons.deltatech_website_delivery_and_payment.controllers.delivery import DeliveryRestrictedPayment
+from odoo.addons.deltatech_website_delivery_and_payment.controllers.main import WebsiteSaleDeliveryPayment
 from odoo.addons.deltatech_website_delivery_and_payment.controllers.payment import DeliveryPaymentPortal
 
 from .common import DeliveryPaymentCommon
@@ -42,3 +43,37 @@ class TestDeliveryPaymentControllers(DeliveryPaymentCommon):
         self.assertNotIn(self.carrier_a, methods)
         self.assertIn(self.carrier_b, methods)
         self.assertIn(self.carrier_any, methods)
+
+    def _shop_payment_values(self, order):
+        with self.mock_request(sale_order_id=order.id):
+            return WebsiteSaleDeliveryPayment()._get_shop_payment_values(order.sudo())
+
+    def test_preferred_payment_method(self):
+        self.partner.provider_id = self.provider_b
+        values = self._shop_payment_values(self.order)
+        preferred = self.env["payment.method"].browse(values["preferred_payment_method_id"])
+        self.assertTrue(preferred)
+        self.assertEqual(preferred.provider_id, self.provider_b)
+        self.assertIn(preferred, values["payment_methods_sudo"])
+
+        html = str(self.env["ir.qweb"]._render("payment.form", values))
+        self.assertRegex(html, rf'<input[^>]*\bchecked=[^>]*data-payment-option-id="{preferred.id}"')
+
+    def test_preferred_payment_method_of_the_company(self):
+        company = self.env["res.partner"].create({"name": "Company", "provider_id": self.provider_b.id})
+        self.partner.parent_id = company
+        values = self._shop_payment_values(self.order)
+        preferred = self.env["payment.method"].browse(values["preferred_payment_method_id"])
+        self.assertEqual(preferred.provider_id, self.provider_b)
+
+    def test_preferred_payment_method_not_allowed(self):
+        """The preferred provider is not allowed by the delivery method: nothing is preselected."""
+        self.partner.provider_id = self.provider_b
+        self.order.set_delivery_line(self.carrier_a, 5.0)
+        values = self._shop_payment_values(self.order)
+        self.assertFalse(values.get("preferred_payment_method_id"))
+        self.assertFalse(values["payment_methods_sudo"].filtered(lambda pm: pm.provider_id == self.provider_b))
+
+    def test_without_preferred_provider(self):
+        values = self._shop_payment_values(self.order)
+        self.assertNotIn("preferred_payment_method_id", values)

@@ -13,6 +13,8 @@ class DeliveryPaymentCommon(PaymentCommon, WebsiteSaleCommon):
         super().setUpClass()
         cls.provider_a = cls.dummy_provider
         cls.provider_b = cls.dummy_provider.copy({"name": "Dummy Provider B", "is_published": True})
+        # A distinct code, otherwise the payment methods of both providers are deduplicated
+        cls.provider_b.payment_method_ids.code = "dummy_b"
 
         cls.restricted_tag = cls.env["res.partner.category"].create({"name": "Restricted"})
         cls.partner_restricted = cls.env["res.partner"].create(

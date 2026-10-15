@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Preselect the payment method of the partner's preferred provider when no token is selected.
+         `preferred_payment_method_id` comes from the rendering values of `/shop/payment`. -->
+    <template id="payment_form_preferred_method" inherit_id="payment.form">
+        <xpath expr="//t[@t-set='selected_method_id']" position="after">
+            <t
+                t-set="selected_method_id"
+                t-value="selected_method_id or (not selected_token_id and preferred_payment_method_id)"
+            />
+        </xpath>
+    </template>
+</odoo>
