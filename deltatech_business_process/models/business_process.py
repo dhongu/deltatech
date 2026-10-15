@@ -254,24 +254,15 @@ class BusinessProcess(models.Model):
         return action
 
     def action_view_acceptance_tests(self):
-        # deschide testul de acceptanta existent; il creeaza doar daca procesul nu are niciunul
+        # butonul inteligent „Start Test": creeaza mereu un test de acceptanta nou si il deschide
         self.ensure_one()
-        domain = [("process_id", "=", self.id), ("scope", "=", "user_acceptance")]
         context = {
             "default_process_id": self.id,
             "default_scope": "user_acceptance",
         }
-        tests = self.env["business.process.test"].search(domain)
-        if not tests:
-            tests = self.start_user_acceptance_test().with_env(self.env)
-        if len(tests) == 1:
-            action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
-            action.update({"res_id": tests.id, "view_mode": "form", "context": context})
-        else:
-            action = self.env["ir.actions.actions"]._for_xml_id(
-                "deltatech_business_process.action_business_process_test"
-            )
-            action.update({"domain": domain, "context": context})
+        test = self.start_user_acceptance_test().with_env(self.env)
+        action = self.env.ref("deltatech_business_process.business_process_test_action_form").sudo().read()[0]
+        action.update({"res_id": test.id, "view_mode": "form", "context": context})
         return action
 
     def action_view_developments(self):
