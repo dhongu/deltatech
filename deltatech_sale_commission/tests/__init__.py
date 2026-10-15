@@ -6,3 +6,5 @@ from . import test_sale
 from . import test_margin_report_uom
 from . import test_invoice_below_cost
 from . import test_company_rules
+from . import test_commission_audit
+from . import test_screenshots

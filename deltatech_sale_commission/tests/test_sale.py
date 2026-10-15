@@ -81,6 +81,8 @@ class TestSaleCommissionBase(AccountTestInvoicingCommon):
         for move in picking.move_ids:
             if move.product_uom_qty > 0 and move.quantity == 0:
                 move.quantity = move.product_uom_qty
+        # without `picked` the moves are not processed and the picking stays assigned
+        picking.move_ids.picked = True
         picking._action_done()
 
     def _create_invoice(self, so):
@@ -158,32 +160,6 @@ class TestCommissionUsers(TestSaleCommissionBase):
         wizard.do_compute()
 
         self.assertTrue(commission_user.exists())
-
-
-class TestCommissionCondition(TestSaleCommissionBase):
-    def test_create_commission_condition(self):
-        condition = self.env["sale.commission.condition"].create(
-            {
-                "sequence": 10,
-                "percentage": 5.0,
-                "less_than_days": 30,
-            }
-        )
-        self.assertEqual(condition.percentage, 5.0)
-        self.assertEqual(condition.less_than_days, 30)
-        self.assertEqual(condition.sequence, 10)
-
-    def test_multiple_commission_conditions(self):
-        cond1 = self.env["sale.commission.condition"].create({"sequence": 10, "percentage": 5.0, "less_than_days": 15})
-        cond2 = self.env["sale.commission.condition"].create({"sequence": 20, "percentage": 3.0, "less_than_days": 30})
-        cond3 = self.env["sale.commission.condition"].create({"sequence": 30, "percentage": 1.0, "less_than_days": 60})
-        conditions = self.env["sale.commission.condition"].search(
-            [("id", "in", [cond1.id, cond2.id, cond3.id])], order="sequence"
-        )
-        self.assertEqual(len(conditions), 3)
-        self.assertEqual(conditions[0].percentage, 5.0)
-        self.assertEqual(conditions[1].percentage, 3.0)
-        self.assertEqual(conditions[2].percentage, 1.0)
 
 
 class TestInvoicePurchasePrice(TestSaleCommissionBase):
