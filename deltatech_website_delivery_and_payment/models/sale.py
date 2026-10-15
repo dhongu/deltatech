@@ -16,8 +16,3 @@ class SaleOrder(models.Model):
         partner = self.partner_id.commercial_partner_id
         carriers = carriers.filtered(lambda c: not c.restrict_label_ids or not c.is_restricted(partner))
         return carriers
-
-    def _check_carrier_quotation(self, force_carrier_id=None, keep_carrier=False):
-        if force_carrier_id and force_carrier_id == self.carrier_id.id == int(force_carrier_id):
-            return True
-        return super()._check_carrier_quotation(force_carrier_id=force_carrier_id, keep_carrier=keep_carrier)

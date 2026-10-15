@@ -577,6 +577,9 @@
       "lines": 92,
       "tests": 17
     },
+    "deltatech_website_delivery_and_payment": {
+      "tests": 11
+    },
     "deltatech_website_short_description": {
       "coverage": 100.0,
       "lines": 11,

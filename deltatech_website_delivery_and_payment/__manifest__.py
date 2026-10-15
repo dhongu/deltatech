@@ -5,7 +5,7 @@
     "name": "Delivery and Payment",
     "category": "Website",
     "summary": "eCommerce Delivery and Payment constrains",
-    "version": "19.0.2.1.6",
+    "version": "20.0.2.1.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -20,7 +20,4 @@
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],
-    "assets": {
-        "web.assets_frontend": ["deltatech_website_delivery_and_payment/static/src/js/payment_form.esm.js"],
-    },
 }
