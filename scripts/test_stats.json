@@ -363,6 +363,9 @@
       "lines": 74,
       "tests": 22
     },
+    "deltatech_sale_add_extra_line_pos": {
+      "tests": 2
+    },
     "deltatech_sale_commission": {
       "coverage": 75.9,
       "lines": 394,

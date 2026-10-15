@@ -14,7 +14,7 @@ POS Add Extra Line
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line_pos
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_add_extra_line_pos
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -183,6 +183,18 @@ overlap:
 Changelog
 =========
 
+19.0.1.0.3
+----------
+
+- Tests: a POS tour checks that the extra line is added with the
+  configured quantity multiplier and follows the main line quantity; the
+  previous test class had no test method, so nothing ran.
+
+19.0.1.0.2
+----------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.0.1
 ----------
 
@@ -222,6 +234,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line_pos>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_add_extra_line_pos>`_ project on GitHub.
 
 You are welcome to contribute.
