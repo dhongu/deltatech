@@ -97,6 +97,53 @@ class TestWarehouseStock(TransactionCase):
         count_queries(small)  # warm up the ormcaches (decimal precision, config parameters)
         self.assertEqual(count_queries(large), count_queries(small))
 
+    def _popover_stock(self, **kwargs):
+        return self.env["sale.order.line"].get_warehouse_stock(self.product.id, **kwargs)
+
+    def test_popover_order_warehouse_first(self):
+        stock = self._popover_stock(company_id=self.company.id, warehouse_id=self.warehouse_2.id)
+        self.assertEqual(stock[0]["warehouse_id"], self.warehouse_2.id)
+        self.assertTrue(stock[0]["is_order_warehouse"])
+        self.assertEqual(stock[0]["qty"], 24)
+        other = next(row for row in stock if row["warehouse_id"] == self.warehouse.id)
+        self.assertFalse(other["is_order_warehouse"])
+        self.assertEqual(other["qty"], 5)
+        self.assertEqual(other["code"], self.warehouse.code)
+        self.assertEqual(other["name"], self.warehouse.name)
+
+    def test_popover_order_warehouse_listed_without_stock(self):
+        empty_warehouse = self.env["stock.warehouse"].create(
+            {"name": "Vendor Stock Empty", "code": "VSE", "company_id": self.company.id}
+        )
+        stock = self._popover_stock(company_id=self.company.id, warehouse_id=empty_warehouse.id)
+        self.assertEqual(stock[0]["warehouse_id"], empty_warehouse.id)
+        self.assertEqual(stock[0]["qty"], 0)
+        # without the order, the empty warehouse is left out
+        stock = self._popover_stock(company_id=self.company.id, warehouse_id=self.warehouse.id)
+        self.assertNotIn(empty_warehouse.id, [row["warehouse_id"] for row in stock])
+
+    def test_popover_quantities_in_line_uom(self):
+        stock = self._popover_stock(
+            uom_id=self.uom_dozen.id, company_id=self.company.id, warehouse_id=self.warehouse.id
+        )
+        quantities = {row["warehouse_id"]: row["qty"] for row in stock}
+        self.assertEqual(quantities[self.warehouse_2.id], 2)
+
+    def test_popover_ignores_other_companies(self):
+        other_company = self.env["res.company"].create({"name": "Vendor Stock Popover Company"})
+        other_warehouse = self.env["stock.warehouse"].search([("company_id", "=", other_company.id)], limit=1)
+        self._set_stock(self.product, other_warehouse, 99)
+        stock = self._popover_stock(company_id=self.company.id, warehouse_id=other_warehouse.id)
+        warehouse_ids = [row["warehouse_id"] for row in stock]
+        self.assertNotIn(other_warehouse.id, warehouse_ids)
+        self.assertIn(self.warehouse_2.id, warehouse_ids)
+        self.assertFalse(any(row["is_order_warehouse"] for row in stock))
+
+    def test_popover_service_and_single_warehouse(self):
+        self.assertEqual(self.env["sale.order.line"].get_warehouse_stock(self.service.id), [])
+        other_company = self.env["res.company"].create({"name": "Vendor Stock Popover Single"})
+        self.assertEqual(self._popover_stock(company_id=other_company.id), [])
+
     def test_vendor_qty_in_line_uom(self):
         self.product.seller_ids = [(0, 0, {"partner_id": self.partner.id, "qty_available": 24})]
         line = self._order(self.product, product_uom_id=self.uom_dozen.id).order_line
