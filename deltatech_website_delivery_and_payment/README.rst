@@ -16,9 +16,9 @@ Delivery and Payment
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_delivery_and_payment
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_delivery_and_payment/tests
-    :alt: 11 automated tests
+    :alt: 19 automated tests
 
 |badge1| |badge2| |badge_tests|
 
@@ -28,9 +28,16 @@ Features:
   the selected delivery method (the payment step shows only the
   providers allowed on the delivery method)
 - hide a payment provider when the order total exceeds its value limit
-- restrict payment providers for partners with certain labels
+- restrict payment providers for partners with certain labels (labels of
+  the commercial partner, so the contacts of a labelled company are
+  restricted too)
+- check the payment provider again when the transaction is created,
+  including the express checkout: a provider that is not allowed for the
+  order is refused
 - restrict delivery methods for partners with certain labels
 - minimum and maximum order weight on delivery methods
+- preselect the partner's preferred payment provider on the payment step
+- show the logo of the delivery method in the shop checkout
 
 **Table of contents**
 
@@ -39,6 +46,23 @@ Features:
 
 Changelog
 =========
+
+20.0.2.2.0 (2026-10-15)
+-----------------------
+
+- The payment provider of a transaction is checked against the order
+  when the transaction is created (value limit, partner labels,
+  providers allowed by the delivery method), also for the express
+  checkout; the express checkout no longer offers the delivery methods
+  that allow only providers without express checkout.
+- The partner labels that restrict the payment providers are read on the
+  commercial partner, like for the delivery methods.
+- ``/shop/payment`` preselects the payment method of the partner's
+  preferred payment provider (``Payment Provider`` on the partner, read
+  on the commercial partner).
+- The logo of the delivery method is shown in the shop checkout.
+- Removed the unused ``data-acquirer-allowed-ids`` attribute and the
+  commented-out templates.
 
 20.0.2.1.6
 ----------

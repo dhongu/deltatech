@@ -35,6 +35,12 @@ standard, ca să nu se piardă din nou la migrările următoare.
   există), cu motivul fiecărei excluderi în raportul de disponibilitate; scriptul
   comentat și override-ul mort `_check_carrier_quotation` au fost șterse; câmpurile de
   greutate apar pentru toate tipurile de livrare.
+- **20.0.2.2.0** — recuperate punctele 1–4 din propuneri: garda la crearea tranzacției
+  (`_validate_transaction_for_order`, aceeași logică ca filtrul, în
+  `payment.provider._filter_allowed_for_order`) și livrările fără furnizor express scoase
+  din checkout-ul express; etichetele plății citite pe `commercial_partner_id`;
+  plata preselectată din `res.partner.provider_id`; logoul livrării pe `/shop/checkout`;
+  `data-acquirer-allowed-ids` și blocurile comentate scoase.
 
 ## Funcționalitate × versiune
 
@@ -46,11 +52,12 @@ Legendă: ✅ funcționează · ⚠️ parțial · ❌ pierdută · 🔄 acoperi
 | Plăți permise după metoda de livrare, pe server | ⚠️ | ❌ | ✅ | ✅ | ✅ |
 | Aceeași filtrare live, în browser | ✅ | ✅ | ❌ | ❌ | ❌ (nu mai e necesară) |
 | Limita de valoare a plății (`value_limit`) | ✅ | ✅ | ✅ | ✅ | ✅ (dublează `maximum_amount`) |
-| Plăți restricționate după eticheta partenerului | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Plăți restricționate după eticheta partenerului | ✅ | ✅ | ✅ | ✅ | ✅ (pe partenerul comercial, recuperat în 20.0.2.2.0) |
 | Livrări restricționate după eticheta partenerului | ✅ | ❌ | ❌ | ✅ | ✅ |
 | Greutate min/max pe livrare | ✅ | ✅ | ✅ | ✅ | ✅ (max-ul dublează `max_weight`) |
-| Plata preselectată din `res.partner.provider_id` | ✅ | ❌ | ❌ | ❌ | ❌ (câmp nefolosit) |
-| Logoul metodei de livrare în magazin | ✅ | ✅ | ❌ | ❌ | ❌ (doar în backend) |
+| Plata preselectată din `res.partner.provider_id` | ✅ | ❌ | ❌ | ❌ | ✅ recuperat în 20.0.2.2.0 |
+| Logoul metodei de livrare în magazin | ✅ | ✅ | ❌ | ❌ | ✅ recuperat în 20.0.2.2.0 |
+| Furnizorul reverificat la crearea tranzacției (inclusiv checkout express) | ⚠️ | ❌ | ❌ | ❌ | ✅ recuperat în 20.0.2.2.0 |
 | Taxa de ramburs recalculată la alegerea plății | ✅ | ❌ | ❌ | ❌ | ❌ |
 | `sale.order.provider_id` la confirmare | ✅ | ❌ | ➖ | ➖ | 🔄 `transaction_ids` |
 
@@ -60,7 +67,8 @@ Pe 20 livrarea se alege pe `/shop/checkout`, iar plata pe `/shop/payment`, gener
 fiecare vizită cu filtrul de pe server (`_get_shop_payment_values` trimite
 `sale_order_id`). Pe `/shop/payment` livrarea nu se mai poate schimba.
 
-Rămân două goluri, ambele pe server:
+Rămâneau două goluri, ambele pe server (acoperite în 20.0.2.2.0 de garda la crearea
+tranzacției):
 
 - **Checkout-ul express** (Google/Apple Pay din coș): furnizorul se alege înainte de
   livrare, iar clientul poate alege apoi orice livrare din portofel.
@@ -83,8 +91,10 @@ eticheta partenerului, logo pe livrare.
 
 ## De recuperat pe 20 (propuneri)
 
+Punctele 1–4 sunt implementate în 20.0.2.2.0; 5 și 6 rămân deschise.
+
 1. **Gardă la crearea tranzacției** — override pe
-   `WebsiteSale._validate_transaction_for_order(tx, order)`
+   `PaymentPortal._validate_transaction_for_order(tx, order)`
    (`website_sale/controllers/payment.py`, hook gol în standard): `ValidationError` dacă
    `order.carrier_id.acquirer_allowed_ids` nu conține `tx.provider_id` (plus limita de
    valoare și etichetele). Opțional, în `_get_delivery_methods_express_checkout` se scot

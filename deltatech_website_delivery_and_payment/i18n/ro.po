@@ -6,48 +6,93 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-17 13:10+0000\n"
+"POT-Creation-Date: 2026-10-15 10:51+0000\n"
 "PO-Revision-Date: 2023-02-17 13:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_sale_order__aprovider_id
-msgid "Acquirer"
-msgstr "Mod plată"
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,website_form_label:deltatech_website_delivery_and_payment.model_res_partner
+msgid "Create a Customer"
+msgstr "Creează un client"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_delivery_carrier
+msgid "Delivery Method"
+msgstr "Metodă de livrare"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__display_name
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__display_name
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_partner__display_name
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__id
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__id
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_partner__id
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_sale_order__id
+msgid "ID"
+msgstr "ID"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__logo
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 #. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_acquirer
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
+msgid "Not allowed by the selected delivery method"
+msgstr "Nu este permis de metoda de livrare aleasă"
+
+#. module: deltatech_website_delivery_and_payment
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
+msgid "Order amount exceeds the value limit"
+msgstr "Valoarea comenzii depășește limita"
+
+#. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
 msgid "Payment Acquirer"
 msgstr "Colector plată"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__acquirer_allowed_ids
-msgid "Payments Acquirer Allowed"
-msgstr "Metode de plată permise"
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_provider
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_partner__provider_id
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_res_users__provider_id
+msgid "Payment Provider"
+msgstr "Furnizor de plată"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__restrict_label_ids
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__acquirer_allowed_ids
+msgid "Payments Provider Allowed"
+msgstr "Furnizori de plată permiși"
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__restrict_label_ids
 msgid "Restrict Label"
 msgstr "Restricționează pentru partenerii cu label"
 
@@ -57,7 +102,13 @@ msgid "Restrict for partners with label"
 msgstr "Restricționează pentru partenerii cu label"
 
 #. module: deltatech_website_delivery_and_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.acquirer_form_on_delivery
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
+msgid "Restricted for the partner labels"
+msgstr "Restricționat pentru etichetele partenerului"
+
+#. module: deltatech_website_delivery_and_payment
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
 msgid "Restrictions"
 msgstr "Restrictii"
 
@@ -67,22 +118,18 @@ msgid "Sales Order"
 msgstr "Comandă de vânzare"
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model,name:deltatech_website_delivery_and_payment.model_delivery_carrier
-msgid "Shipping Methods"
-msgstr "Metode de expediere"
-
-#. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__submit_txt
-msgid "Submit text"
-msgstr "Text buton"
-
-#. module: deltatech_website_delivery_and_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.acquirer_form_on_delivery
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
 msgid "Tags..."
-msgstr ""
+msgstr "Etichete..."
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_acquirer__value_limit
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/controllers/payment.py:0
+msgid "The payment method %(provider)s is not allowed for this order (delivery method %(carrier)s). Please choose another payment method or another delivery method."
+msgstr "Metoda de plată %(provider)s nu este permisă pentru această comandă (metoda de livrare %(carrier)s). Alegeți altă metodă de plată sau altă metodă de livrare."
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__value_limit
 msgid "Value Limit"
 msgstr "Limită valoare"
 
