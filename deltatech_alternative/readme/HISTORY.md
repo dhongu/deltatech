@@ -1,3 +1,13 @@
+## 19.0.2.2.0 (2026-10-15)
+
+**Added**
+
+- *Code Before Name* option: the product selection list shows the classic `[code] name`
+  again, instead of the Odoo 19 layout with the internal reference muted after the name.
+- *Show Stock in Dropdown* option: the muted part of the product selection list shows the
+  quantity on hand of storable products, with the unit of measure. Product names elsewhere
+  (documents, reports, lists) are not affected.
+
 ## 19.0.2.1.7 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
