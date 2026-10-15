@@ -29,3 +29,24 @@ class TestPosExtraLine(TestPointOfSaleHttpCommon):
 
     def test_extra_line_follows_main_line(self):
         self.start_pos_tour("DeltatechExtraLinePosTour")
+
+    def test_cancelled_main_line_adds_no_extra(self):
+        """POSEXTRA-001: no extra line when the main product addition is cancelled."""
+        chair = self.env["product.template"].search(
+            [("name", "=", "Configurable Chair"), ("available_in_pos", "=", True)], limit=1
+        )
+        self.assertTrue(chair)
+        chair.write({"extra_product_id": self.deposit.id, "extra_qty": 1.0})
+        self.start_pos_tour("DeltatechExtraLinePosCancelTour")
+
+    def test_return_preset_extra_line_is_negative(self):
+        """POSEXTRA-003: the first extra line follows the quantity of the main line."""
+        preset = self.env["pos.preset"].create({"name": "Return", "is_return": True})
+        self.main_pos_config.write(
+            {
+                "use_presets": True,
+                "default_preset_id": preset.id,
+                "available_preset_ids": [(6, 0, preset.ids)],
+            }
+        )
+        self.start_pos_tour("DeltatechExtraLinePosReturnTour")
