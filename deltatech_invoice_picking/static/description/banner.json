@@ -1,0 +1,6 @@
+{
+  "title": "Invoice Pickings",
+  "summary": "Create invoices directly from stock pickings or batch transfers",
+  "icon": "clipboard",
+  "features": ["Invoice from picking or batch", "Filter by 'to invoice' status", "Link invoice to picking"]
+}
