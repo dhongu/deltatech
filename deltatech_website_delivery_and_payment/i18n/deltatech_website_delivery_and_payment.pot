@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:25+0000\n"
-"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"POT-Creation-Date: 2026-10-15 10:51+0000\n"
+"PO-Revision-Date: 2026-10-15 10:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,11 @@ msgstr ""
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,website_form_label:deltatech_website_delivery_and_payment.model_res_partner
 msgid "Create a Customer"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
+#: model:ir.model,name:deltatech_website_delivery_and_payment.model_delivery_carrier
+msgid "Delivery Method"
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
@@ -57,6 +62,18 @@ msgid "Min"
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
+msgid "Not allowed by the selected delivery method"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
+msgid "Order amount exceeds the value limit"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
 msgid "Payment Acquirer"
 msgstr ""
@@ -84,6 +101,12 @@ msgid "Restrict for partners with label"
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
+msgid "Restricted for the partner labels"
+msgstr ""
+
+#. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
 msgid "Restrictions"
 msgstr ""
@@ -94,13 +117,17 @@ msgid "Sales Order"
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
-#: model:ir.model,name:deltatech_website_delivery_and_payment.model_delivery_carrier
-msgid "Shipping Methods"
+#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
+msgid "Tags..."
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
-msgid "Tags..."
+#. odoo-python
+#: code:addons/deltatech_website_delivery_and_payment/controllers/payment.py:0
+msgid ""
+"The payment method %(provider)s is not allowed for this order (delivery "
+"method %(carrier)s). Please choose another payment method or another "
+"delivery method."
 msgstr ""
 
 #. module: deltatech_website_delivery_and_payment

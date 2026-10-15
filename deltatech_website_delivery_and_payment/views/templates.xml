@@ -1,44 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-<!--    <template id="payment_delivery_methods" inherit_id="website_sale.payment_delivery_methods">
-        <xpath expr="//input[@name='delivery_type']" position="before">
-            <span t-if="delivery.logo">
-              <img
-                    t-att-src="image_data_uri(delivery.logo)"
-                    class="img o_image_64_max rounded"
-                    t-att-alt="delivery.name"
-                />
-            </span>
-        </xpath>
-    </template>-->
-
-    <template id="checkout_delivery" inherit_id="website_sale.delivery_method">
-        <xpath expr="//input[@name='o_delivery_radio']" position="attributes">
-            <attribute name="t-att-data-acquirer-allowed-ids">dm.acquirer_allowed_ids.ids</attribute>
+    <!-- Preselect the payment method of the partner's preferred provider when no token is selected.
+         `preferred_payment_method_id` comes from the rendering values of `/shop/payment`. -->
+    <template id="payment_form_preferred_method" inherit_id="payment.form">
+        <xpath expr="//t[@t-set='selected_method_id']" position="after">
+            <t
+                t-set="selected_method_id"
+                t-value="selected_method_id or (not selected_token_id and preferred_payment_method_id)"
+            />
         </xpath>
     </template>
 
-<!--    <template id="payment_checkout_hide" inherit_id="payment.checkout_layout" priority="200">-->
-<!--        <xpath expr="//div[@name='o_payment_option_card']" position="before">-->
-<!--            <t t-set="is_restricted" t-value="provider.is_restricted(user_id.partner_id)" />-->
-<!--        </xpath>-->
-<!--        <xpath expr="//div[@name='o_payment_option_card']" position="attributes">-->
-<!--            <attribute name="t-if">not is_restricted</attribute>-->
-<!--        </xpath>-->
-<!--    </template>-->
-
-<!--    <template id="delivery_hide" inherit_id="website_sale.payment_delivery" priority="200">-->
-<!--        <xpath expr="//li" position="before">-->
-<!--            <t t-set="delivery_is_restricted" t-value="delivery.is_restricted(user_id.partner_id)" />-->
-<!--        </xpath>-->
-<!--        <xpath expr="//li" position="attributes">-->
-<!--            <attribute name="t-if">not delivery_is_restricted</attribute>-->
-<!--        </xpath>-->
-<!--    </template>-->
-
-<!--    <template id="checkout" inherit_id="payment.checkout_layout" name="Payment Checkout">-->
-<!--        <xpath expr="//t[@t-set='default_payment_option_id']" position="after">-->
-<!--            <t t-set="default_payment_option_id" t-value="default_payment_option_id or provider_id" />-->
-<!--        </xpath>-->
-<!--    </template>-->
+    <!-- Logo of the delivery method, before its name, on /shop/checkout -->
+    <template id="delivery_method_logo" inherit_id="website_sale.delivery_method">
+        <xpath expr="//span[@name='o_delivery_method_name']" position="before">
+            <img
+                t-if="dm.logo"
+                t-att-src="image_data_uri(dm.logo)"
+                t-att-alt="dm.name"
+                class="o_delivery_method_logo img o_image_64_max rounded me-2"
+            />
+        </xpath>
+    </template>
 </odoo>
