@@ -1,0 +1,10 @@
+{
+  "title": "POS Auto Extra Lines",
+  "summary": "Add fees & linked products automatically",
+  "icon": "bag",
+  "features": [
+    "Auto-add linked products on sale",
+    "Real-time quantity recalculation",
+    "Consolidates lines automatically"
+  ]
+}
