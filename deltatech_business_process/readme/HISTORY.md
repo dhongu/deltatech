@@ -1,3 +1,7 @@
+## 20.0.1.9.13 (2026-10-15)
+
+- Module icon redrawn in the Terrabit house style (clean vector, 100x100 viewBox) and Apps Store main image regenerated with it.
+
 ## 20.0.1.9.12 (2026-10-14)
 
 - Creating several business projects in one call (`create` with a list of values) created only the last one, because the values of the last iteration were passed to `super().create` instead of the whole list. All projects are now created, each with its own sequence code. Port of 19.0.1.9.7.
