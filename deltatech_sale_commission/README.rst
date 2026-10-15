@@ -16,11 +16,14 @@ Sale Commission
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_commission
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-35%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_commission/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-59%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_commission
-    :alt: 35 automated tests · 75% code coverage
+    :alt: 59 automated tests · 75% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 - Features:
 
@@ -48,11 +51,265 @@ Sale Commission
 .. contents::
    :local:
 
+Configuration
+=============
+
+- **Access rights.** The commission groups are not assigned to anyone on
+  installation, not even the administrator. In **Settings → Users**,
+  give **Commission Manager** to those who compute commissions and
+  **Commission Viewer** to those who only consult them. Until then, the
+  *Commission* and *Profit Analysis* menus are hidden. The viewer group
+  shows cost and margin, so grant it only to people allowed to see
+  costs. To see the cost on invoices, also add the cost group from
+  \`deltatech_sale_margin\`.
+- **Who earns the commission.** In **Settings → Sales → Invoicing**, set
+  **Salesperson commission compute** to *Invoice* or *Sales Order*. Do
+  not enable the standard *Commissions* option below it: it is a
+  different mechanism.
+- **Rates.** In **Sales → Configuration → Users Commission**, add one
+  row per agent and sales journal, with the agent, manager and director
+  rates as fractions of the profit (0.100 = 10%).
+- **Payment on time (optional).** In **Settings → Technical → System
+  Parameters** (developer mode), create
+  \`deltatech_sale_commission.days_for_commission\` with the maximum
+  number of days between due date and last payment, as an integer (0 =
+  paid by the due date). Without it, commission is granted whether or
+  not the invoice is paid.
+
+Usage
+=====
+
+Before you start, see *Configuration* for access groups, agent rates and
+the optional payment-delay limit.
+
+**Step 1 — Choose who earns the commission**
+
+Go to **Settings → Sales**, section **Invoicing**, option **Salesperson
+commission compute**. Choose **Invoice** (the agent set on the invoice)
+or **Sales Order** (the agent of the order the line was invoiced from),
+then click **Save**. Decide this at implementation time: changing it
+later reassigns all existing lines, including commissions already paid.
+
+|Setting that decides which agent earns the commission|
+
+**Step 2 — Set the rates per agent**
+
+Go to **Sales → Configuration → Users Commission**. The list is editable
+in place. For each agent enter the agent rate, the sales manager and
+director with their own rates, and the sales journal. Rates are
+fractions of the profit: 0.100 means 10%. The journal is mandatory, and
+an agent can have only one row per journal.
+
+|Commission rates per agent, manager and director|
+
+**Step 3 — Check the cost on the customer invoice**
+
+On the customer invoice, the **Cost Price** column shows the unit cost
+of the goods next to the **Price**. It is computed automatically:
+
+- from the **delivery** of the invoiced order (value of the stock move
+  to the customer divided by quantity);
+- for kit products, from the delivered components;
+- for invoices without an order or delivery, from the product cost;
+- for credit notes, from the **goods return**. Without a return, a
+  reversal of the invoice takes the cost of the invoice line (invoice
+  and reversal net to zero profit), while a price or discount reduction
+  has cost 0.
+
+The column is visible only to users in the cost group from
+``deltatech_sale_margin``. If your company uses the **Block sale**
+policy, a draft invoice with a price below cost cannot be saved.
+
+|Customer invoice with the cost price on each line|
+
+**Step 4 — Analyse the profit**
+
+Go to **Sales → Reporting → Profit Analysis**. The pivot opens on last
+month, grouped by product. Each row shows the sale value, cost value,
+profit value, **Markup** (profit / cost) and **Margin** (profit / sale).
+Regroup by agent, category, customer, invoice, journal or month. Totals
+recalculate markup and margin from the sums. Use **Insert in
+Spreadsheet** or the export to take the table to Excel. Credit notes
+reduce both sale and cost.
+
+|Profit analysis report|
+
+**Step 5 — Review the commissions to compute**
+
+Go to **Sales → Orders → Commission → Commission**. The list opens on
+last month and only on **paid** invoices (including *In payment*);
+remove the *Paid* filter to see unpaid ones as well. Each line shows the
+invoice, product, agent, customer, sale, cost, profit, **Computed
+commission** (agent rate × profit), **Real commission** (initially 0)
+and **Commission paid**. Manager and director commissions are optional
+columns and are informative only.
+
+|Commission list before the calculation|
+
+**Step 6 — Compute the commissions**
+
+Select the lines and choose **Actions → Compute Commission**. The wizard
+lists the selected lines. Click **Apply**. **Real commission** becomes:
+
+- the computed commission, if the
+  ``deltatech_sale_commission.days_for_commission`` parameter is not
+  set;
+- with the parameter: 0 if the invoice is not fully paid or was paid
+  later than that number of days after the due date, otherwise the
+  computed commission;
+- for credit notes: always the computed commission, which is negative
+  and reduces the agent's total.
+
+Only the agent's commission is written; manager and director amounts
+stay informative.
+
+|Compute Commission wizard|
+
+**Step 7 — Review the result**
+
+After **Apply**, the list opens on the computed lines. Compare
+**Computed commission** with **Real commission**: every line with real
+commission 0 is an unpaid invoice or one paid after the limit, and the
+difference between the totals is the amount lost to late payment. If
+needed, correct **Real commission** manually before payment: open the
+row and edit the field in the form.
+
+|Commissions after the calculation|
+
+**Step 8 — Mark commissions as paid**
+
+After the agent has been paid (outside this module), select the lines
+and click **Set Paid** in the list header. The filters **Commission not
+paid** and **Commission paid** then separate what is settled from what
+is still due.
+
+|Commission marked as paid|
+
+**Step 9 — Recompute the cost when needed**
+
+If a line cost is wrong (for example the delivery was validated after
+invoicing), select the lines and choose **Actions → Update Purchase
+Price**:
+
+- **Price from delivery** (default) recomputes the cost from the
+  delivery, falling back to the product cost;
+- unchecked, it takes the current product cost;
+- **For all lines** applies to every line in the report, not only the
+  selected ones.
+
+Profit and computed commission update immediately; **Real commission**
+stays as set until you compute again (Step 6). A scheduled action also
+refreshes the cost of lines invoiced in the last 7 days every day.
+
+|Update Purchase Price wizard|
+
+.. |Setting that decides which agent earns the commission| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_settings_agent.png
+.. |Commission rates per agent, manager and director| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_agent_rates.png
+.. |Customer invoice with the cost price on each line| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_invoice_cost_price.png
+.. |Profit analysis report| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_profit_report.png
+.. |Commission list before the calculation| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_list_before.png
+.. |Compute Commission wizard| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_compute_wizard.png
+.. |Commissions after the calculation| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_list_after.png
+.. |Commission marked as paid| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_marked_paid.png
+.. |Update Purchase Price wizard| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_update_cost_wizard.png
+
 Changelog
 =========
 
 Changelog
 =========
+
+20.0.1.6.3 (2026-10-15)
+-----------------------
+
+Port of the 19.0 1.6.x series (19.0.1.6.0 and 19.0.1.6.3; 19.0.1.6.1 and
+19.0.1.6.2 were already ported as 20.0.1.5.3 and 20.0.1.5.5).
+Differences from 19.0:
+
+- Rights are rows of ``security/ir.access.csv``: the two wizards are
+  granted to *Commission Manager* instead of *Internal User*, and the
+  rows of ``sale.commission.condition`` are gone.
+- The pre-migration runs as ``migrations/20.0.1.6.0``, so a database at
+  20.0.1.5.x gets it on upgrade; it is idempotent, a database that
+  already ran it on 19.0 is left unchanged.
+- The precheck script ``scripts/sale_commission_precheck_1_6_0.py``
+  reads the parameters with ``get_str``.
+- Usage guide (``USAGE.md``) rebuilt from the consultant sheet, with
+  numbered steps and screenshots; new ``CONFIGURE.md``.
+
+Fixes from the consultant sheet audit (port of 19.0.1.6.0):
+
+- Rights: the commission and cost wizards (``commission.compute``,
+  ``commission.update.purchase.price``) and their *Actions* entries are
+  limited to *Commission Manager*. **Apply** now works for a Commission
+  Manager without an invoicing right: the wizard checks the group and
+  writes the commission with sudo. Writes on ``sale.margin.report`` go
+  through the access check, so a *Commission Viewer* can no longer mark
+  a commission paid or change it; the *Set Paid* button is shown to
+  managers only.
+- A write on the margin report no longer puts the product cost on a line
+  whose cost is 0 (it did so even on *Set Paid*).
+- Cost of a credit note line without a return of goods: a reversal of
+  the invoice (same product, unit and price, for all or part of the
+  quantity) keeps the unit cost of the invoice line, so the pair nets to
+  a zero profit, as before. A line whose price or discount was changed
+  (a price reduction), or a credit note that reverses no invoice, has
+  cost 0. It used to get the product cost, or keep the copied invoice
+  cost after the price was edited, and could produce a positive profit
+  and commission. The cost is recomputed when the price or the discount
+  changes; because ``Cost Price`` is a computed field, a cost typed in
+  by hand on a **draft** line is lost when the price is changed
+  afterwards, as it already was when the product was changed. The update
+  wizard and the daily cron read the same rule
+  (``account.move.line._purchase_price_from_document``) but do not write
+  the same way, on purpose: the wizard is run by hand and *resets* the
+  cost, 0 included, which is how a credit note wrongly costed in the
+  past gets corrected; the cron runs unattended over a whole week of
+  invoicing and only *fills in* a missing cost, so that it can never
+  silently undo a cost set by hand.
+- Careful with **Update purchase price → for all** after the upgrade:
+  the rule for the cost of a credit note changed, so running it over the
+  whole history rewrites the cost of the old credit notes, and with it
+  the profit already reported for those months. It is the correction the
+  audit asked for, but it changes figures the client has already seen —
+  agree on it first.
+- Changing *Salesperson commission compute* rebuilds the report after
+  the setting is saved; the onchange rebuilt it with the old value.
+- ``commission.users``: the journal is required (sales journals only;
+  the domain used the ``sale_refund`` type, gone since Odoo 19) and
+  (salesperson, journal, company) is unique, so the report lines are no
+  longer duplicated. The migration fills the journal where the company
+  has a single sales journal, one row per salesperson and only if the
+  salesperson has no row on that journal yet (so it creates no
+  duplicates), and logs the rows left without journal and the duplicates
+  with different rates, to be cleaned up by hand; exact duplicates are
+  deleted. The margin report takes at most one rate row per invoice line
+  (the oldest), so a duplicate left in the data can no longer double the
+  sale, cost, profit and commission, and the ORM refuses a new duplicate
+  even where the unique index could not be created yet. Before upgrading
+  a production database, run
+  ``scripts/sale_commission_precheck_1_6_0.py`` (read-only) to see what
+  changes for the client.
+- The margin report also matches the rate on the **company**, which it
+  did not do before: a ``commission.users`` row filed under a company
+  other than the one of its journal used to apply and would now be
+  ignored, taking a salesperson's commission away with nothing on screen
+  to say why. The migration moves such a row onto the company of its
+  journal, so nothing changes for it, and reports the ones it can not
+  move (the salesperson already has a row there). A new row can no
+  longer be created with the wrong company, by the form or by an import.
+- Invoices *In Payment* count as paid for the commission, and the
+  wizards opened without a selection list the paid lines without
+  commission (the default filter used a non-existent invoice state); the
+  *Paid* filter includes them too. ``days_for_commission = 0`` now means
+  "paid at the latest on the due date"; only a missing or empty
+  parameter disables the condition. A non-numeric or negative value is
+  refused. Because that default selection now really returns something —
+  it used to be empty on every database — *Compute commission* writes
+  the lines grouped by the value it sets, one write per distinct
+  commission instead of one per line.
+- Removed the unused ``sale.commission.condition`` model.
+- The *Commission* list no longer shows *Due Date* twice.
 
 20.0.1.5.5 (2026-10-04)
 -----------------------

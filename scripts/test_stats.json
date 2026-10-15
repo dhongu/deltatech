@@ -375,7 +375,7 @@
     "deltatech_sale_commission": {
       "coverage": 75.9,
       "lines": 394,
-      "tests": 35
+      "tests": 59
     },
     "deltatech_sale_contact": {
       "coverage": 97.5,

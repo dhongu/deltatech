@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 35 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 59 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:75%;background-color:#57B952;"></div>
       </div>
@@ -36,6 +36,16 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -64,9 +74,140 @@ and if the difference between the date of the last payment and the due date is l
 </li>
 </ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ul>
+<li><strong>Access rights.</strong> The commission groups are not assigned to anyone on installation, not even the administrator. In <strong>Settings &#8594; Users</strong>, give <strong>Commission Manager</strong> to those who compute commissions and <strong>Commission Viewer</strong> to those who only consult them. Until then, the <em>Commission</em> and <em>Profit Analysis</em> menus are hidden. The viewer group shows cost and margin, so grant it only to people allowed to see costs. To see the cost on invoices, also add the cost group from `deltatech_sale_margin`.</li>
+<li><strong>Who earns the commission.</strong> In <strong>Settings &#8594; Sales &#8594; Invoicing</strong>, set <strong>Salesperson commission compute</strong> to <em>Invoice</em> or <em>Sales Order</em>. Do not enable the standard <em>Commissions</em> option below it: it is a different mechanism.</li>
+<li><strong>Rates.</strong> In <strong>Sales &#8594; Configuration &#8594; Users Commission</strong>, add one row per agent and sales journal, with the agent, manager and director rates as fractions of the profit (0.100 = 10%).</li>
+<li><strong>Payment on time (optional).</strong> In <strong>Settings &#8594; Technical &#8594; System Parameters</strong> (developer mode), create `deltatech_sale_commission.days_for_commission` with the maximum number of days between due date and last payment, as an integer (0 = paid by the due date). Without it, commission is granted whether or not the invoice is paid.</li>
+</ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Before you start, see <em>Configuration</em> for access groups, agent rates and the optional payment-delay limit.</p>
+<p><strong>Step 1 &#8212; Choose who earns the commission</strong></p>
+<p>Go to <strong>Settings &#8594; Sales</strong>, section <strong>Invoicing</strong>, option <strong>Salesperson commission compute</strong>. Choose <strong>Invoice</strong> (the agent set on the invoice) or <strong>Sales Order</strong> (the agent of the order the line was invoiced from), then click <strong>Save</strong>. Decide this at implementation time: changing it later reassigns all existing lines, including commissions already paid.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Setting that decides which agent earns the commission" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_settings_agent.png" /></p>
+<p><strong>Step 2 &#8212; Set the rates per agent</strong></p>
+<p>Go to <strong>Sales &#8594; Configuration &#8594; Users Commission</strong>. The list is editable in place. For each agent enter the agent rate, the sales manager and director with their own rates, and the sales journal. Rates are fractions of the profit: 0.100 means 10%. The journal is mandatory, and an agent can have only one row per journal.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission rates per agent, manager and director" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_agent_rates.png" /></p>
+<p><strong>Step 3 &#8212; Check the cost on the customer invoice</strong></p>
+<p>On the customer invoice, the <strong>Cost Price</strong> column shows the unit cost of the goods next to the <strong>Price</strong>. It is computed automatically:
+- from the <strong>delivery</strong> of the invoiced order (value of the stock move to the customer divided by quantity);
+- for kit products, from the delivered components;
+- for invoices without an order or delivery, from the product cost;
+- for credit notes, from the <strong>goods return</strong>. Without a return, a reversal of the invoice takes the cost of the invoice line (invoice and reversal net to zero profit), while a price or discount reduction has cost 0.</p>
+<p>The column is visible only to users in the cost group from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin</code>. If your company uses the <strong>Block sale</strong> policy, a draft invoice with a price below cost cannot be saved.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Customer invoice with the cost price on each line" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_invoice_cost_price.png" /></p>
+<p><strong>Step 4 &#8212; Analyse the profit</strong></p>
+<p>Go to <strong>Sales &#8594; Reporting &#8594; Profit Analysis</strong>. The pivot opens on last month, grouped by product. Each row shows the sale value, cost value, profit value, <strong>Markup</strong> (profit / cost) and <strong>Margin</strong> (profit / sale). Regroup by agent, category, customer, invoice, journal or month. Totals recalculate markup and margin from the sums. Use <strong>Insert in Spreadsheet</strong> or the export to take the table to Excel. Credit notes reduce both sale and cost.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Profit analysis report" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_profit_report.png" /></p>
+<p><strong>Step 5 &#8212; Review the commissions to compute</strong></p>
+<p>Go to <strong>Sales &#8594; Orders &#8594; Commission &#8594; Commission</strong>. The list opens on last month and only on <strong>paid</strong> invoices (including <em>In payment</em>); remove the <em>Paid</em> filter to see unpaid ones as well. Each line shows the invoice, product, agent, customer, sale, cost, profit, <strong>Computed commission</strong> (agent rate &#215; profit), <strong>Real commission</strong> (initially 0) and <strong>Commission paid</strong>. Manager and director commissions are optional columns and are informative only.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission list before the calculation" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_list_before.png" /></p>
+<p><strong>Step 6 &#8212; Compute the commissions</strong></p>
+<p>Select the lines and choose <strong>Actions &#8594; Compute Commission</strong>. The wizard lists the selected lines. Click <strong>Apply</strong>. <strong>Real commission</strong> becomes:
+- the computed commission, if the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_commission.days_for_commission</code> parameter is not set;
+- with the parameter: 0 if the invoice is not fully paid or was paid later than that number of days after the due date, otherwise the computed commission;
+- for credit notes: always the computed commission, which is negative and reduces the agent's total.</p>
+<p>Only the agent's commission is written; manager and director amounts stay informative.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Compute Commission wizard" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_compute_wizard.png" /></p>
+<p><strong>Step 7 &#8212; Review the result</strong></p>
+<p>After <strong>Apply</strong>, the list opens on the computed lines. Compare <strong>Computed commission</strong> with <strong>Real commission</strong>: every line with real commission 0 is an unpaid invoice or one paid after the limit, and the difference between the totals is the amount lost to late payment. If needed, correct <strong>Real commission</strong> manually before payment: open the row and edit the field in the form.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commissions after the calculation" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_list_after.png" /></p>
+<p><strong>Step 8 &#8212; Mark commissions as paid</strong></p>
+<p>After the agent has been paid (outside this module), select the lines and click <strong>Set Paid</strong> in the list header. The filters <strong>Commission not paid</strong> and <strong>Commission paid</strong> then separate what is settled from what is still due.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Commission marked as paid" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_marked_paid.png" /></p>
+<p><strong>Step 9 &#8212; Recompute the cost when needed</strong></p>
+<p>If a line cost is wrong (for example the delivery was validated after invoicing), select the lines and choose <strong>Actions &#8594; Update Purchase Price</strong>:
+- <strong>Price from delivery</strong> (default) recomputes the cost from the delivery, falling back to the product cost;
+- unchecked, it takes the current product cost;
+- <strong>For all lines</strong> applies to every line in the report, not only the selected ones.</p>
+<p>Profit and computed commission update immediately; <strong>Real commission</strong> stays as set until you compute again (Step 6). A scheduled action also refreshes the cost of lines invoiced in the last 7 days every day.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Update Purchase Price wizard" src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_update_cost_wizard.png" /></p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.6.3 (2026-10-15)</h2>
+<p>Port of the 19.0 1.6.x series (19.0.1.6.0 and 19.0.1.6.3; 19.0.1.6.1 and 19.0.1.6.2 were
+already ported as 20.0.1.5.3 and 20.0.1.5.5). Differences from 19.0:</p>
+<ul>
+<li>Rights are rows of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/ir.access.csv</code>: the two wizards are granted to <em>Commission
+  Manager</em> instead of <em>Internal User</em>, and the rows of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.commission.condition</code> are gone.</li>
+<li>The pre-migration runs as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">migrations/20.0.1.6.0</code>, so a database at 20.0.1.5.x gets it on
+  upgrade; it is idempotent, a database that already ran it on 19.0 is left unchanged.</li>
+<li>The precheck script <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scripts/sale_commission_precheck_1_6_0.py</code> reads the parameters with
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">get_str</code>.</li>
+<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and
+  screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
+</ul>
+<p>Fixes from the consultant sheet audit (port of 19.0.1.6.0):</p>
+<ul>
+<li>Rights: the commission and cost wizards (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.compute</code>,
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.update.purchase.price</code>) and their <em>Actions</em> entries are limited to
+  <em>Commission Manager</em>. <strong>Apply</strong> now works for a Commission Manager without an
+  invoicing right: the wizard checks the group and writes the commission with
+  sudo. Writes on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin.report</code> go through the access check, so a
+  <em>Commission Viewer</em> can no longer mark a commission paid or change it; the
+  <em>Set Paid</em> button is shown to managers only.</li>
+<li>A write on the margin report no longer puts the product cost on a line whose
+  cost is 0 (it did so even on <em>Set Paid</em>).</li>
+<li>Cost of a credit note line without a return of goods: a reversal of the invoice
+  (same product, unit and price, for all or part of the quantity) keeps the unit
+  cost of the invoice line, so the pair nets to a zero profit, as before. A line
+  whose price or discount was changed (a price reduction), or a credit note that
+  reverses no invoice, has cost 0. It used to get the product cost, or keep the
+  copied invoice cost after the price was edited, and could produce a positive
+  profit and commission. The cost is recomputed when the price or the discount
+  changes; because <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Cost Price</code> is a computed field, a cost typed in by hand on a
+  <strong>draft</strong> line is lost when the price is changed afterwards, as it already was
+  when the product was changed. The update wizard and the daily cron read the
+  same rule (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line._purchase_price_from_document</code>) but do not write
+  the same way, on purpose: the wizard is run by hand and <em>resets</em> the cost, 0
+  included, which is how a credit note wrongly costed in the past gets corrected;
+  the cron runs unattended over a whole week of invoicing and only <em>fills in</em> a
+  missing cost, so that it can never silently undo a cost set by hand.</li>
+<li>Careful with <strong>Update purchase price &#8594; for all</strong> after the upgrade: the rule
+  for the cost of a credit note changed, so running it over the whole history
+  rewrites the cost of the old credit notes, and with it the profit already
+  reported for those months. It is the correction the audit asked for, but it
+  changes figures the client has already seen &#8212; agree on it first.</li>
+<li>Changing <em>Salesperson commission compute</em> rebuilds the report after the setting
+  is saved; the onchange rebuilt it with the old value.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.users</code>: the journal is required (sales journals only; the domain
+  used the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_refund</code> type, gone since Odoo 19) and (salesperson, journal,
+  company) is unique, so the report lines are no longer duplicated. The
+  migration fills the journal where the company has a single sales journal, one
+  row per salesperson and only if the salesperson has no row on that journal yet
+  (so it creates no duplicates), and logs the rows left without journal and the
+  duplicates with different rates, to be cleaned up by hand; exact duplicates are
+  deleted. The margin report takes at most one rate row per invoice line (the
+  oldest), so a duplicate left in the data can no longer double the sale, cost,
+  profit and commission, and the ORM refuses a new duplicate even where the
+  unique index could not be created yet. Before upgrading a production
+  database, run <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scripts/sale_commission_precheck_1_6_0.py</code> (read-only) to see
+  what changes for the client.</li>
+<li>The margin report also matches the rate on the <strong>company</strong>, which it did not do
+  before: a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.users</code> row filed under a company other than the one of
+  its journal used to apply and would now be ignored, taking a salesperson's
+  commission away with nothing on screen to say why. The migration moves such a
+  row onto the company of its journal, so nothing changes for it, and reports the
+  ones it can not move (the salesperson already has a row there). A new row can
+  no longer be created with the wrong company, by the form or by an import.</li>
+<li>Invoices <em>In Payment</em> count as paid for the commission, and the wizards opened
+  without a selection list the paid lines without commission (the default filter
+  used a non-existent invoice state); the <em>Paid</em> filter includes them too.
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">days_for_commission = 0</code> now means "paid at
+  the latest on the due date"; only a missing or empty parameter disables the
+  condition. A non-numeric or negative value is refused. Because that default
+  selection now really returns something &#8212; it used to be empty on every database
+  &#8212; <em>Compute commission</em> writes the lines grouped by the value it sets, one write
+  per distinct commission instead of one per line.</li>
+<li>Removed the unused <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.commission.condition</code> model.</li>
+<li>The <em>Commission</em> list no longer shows <em>Due Date</em> twice.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.5.5 (2026-10-04)</h2>
 <ul>
 <li>COMMISSION-003 (security): the commission rates (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">commission.users</code>) had no company rule, so a Commission Manager allowed only in company A could read, change, delete or create the rates of company B (salesperson, manager and director rates). A multi-company restriction now limits the rates to the allowed companies, and moving a rate to another company requires access to that company.</li>
@@ -154,6 +295,26 @@ and if the difference between the date of the last payment and the due date is l
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_invoice_picking" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_invoice_picking/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create invoices directly from stock pickings or batch transfers</p>
         </div>
       </a>
     </div>
@@ -274,26 +435,6 @@ and if the difference between the date of the last payment and the due date is l
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manufacturer Part Number (MPN) on products, searchable</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_purchase_add_extra_line" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_purchase_add_extra_line/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Add Extra Line</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add extra lines (fees, packaging) to purchase orders automatically, per product</p>
         </div>
       </a>
     </div>
