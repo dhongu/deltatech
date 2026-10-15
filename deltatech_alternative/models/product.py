@@ -7,6 +7,7 @@ import re
 
 from odoo import api, fields, models
 from odoo.fields import Domain
+from odoo.tools import formatLang
 
 _logger = logging.getLogger(__name__)
 
@@ -80,6 +81,34 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     # def _name_search nu mai exista in 18.0
+
+    @api.depends_context("formatted_display_name")
+    def _compute_display_name(self):
+        """Selection dropdown (``formatted_display_name``): optional classic name and stock.
+
+        Odoo shows ``name`` with the internal reference muted on the right. With
+        *Code before name* the dropdown keeps the classic ``[code] name``; with *Show
+        stock* the muted part shows the quantity on hand. Elsewhere the name is unchanged.
+        """
+        super()._compute_display_name()
+        if not self.env.context.get("formatted_display_name"):
+            return
+        icp = self.env["ir.config_parameter"].sudo()
+        code_first = icp.get_bool("alternative.dropdown_code_first")
+        show_qty = icp.get_bool("alternative.dropdown_show_qty")
+        if not code_first and not show_qty:
+            return
+        for product in self:
+            # standard formatted name: "name\t--code--" (no muted part without a code)
+            name, __, muted = (product.display_name or "").partition("\t--")
+            muted = muted.removesuffix("--")
+            if code_first and muted:
+                name, muted = f"[{muted}] {name}", ""
+            if show_qty and product.is_storable:
+                qty = formatLang(self.env, product.qty_available, dp="Product Unit")
+                stock = self.env._("Stock: %(qty)s %(uom)s", qty=qty, uom=product.uom_id.name)
+                muted = f"{muted} · {stock}" if muted else stock
+            product.display_name = f"{name}\t--{muted}--" if muted else name
 
     @api.model
     def name_search(self, name="", domain=None, operator="ilike", limit=100):

@@ -9,7 +9,10 @@ section) to configure the alternative-code search behaviour:
 | **Alternative Limit** | `alternative.limit` | 10 | Maximum number of extra results returned from the alternative-code search. |
 | **Minimum Length** | `alternative.length_min` | 3 | Minimum number of characters the user must type before the alternative search is triggered. |
 
-These three values are stored as `ir.config_parameter` system parameters and can also be
+| **Code Before Name** | `alternative.dropdown_code_first` | disabled | The product selection list shows `[code] name` instead of the name with the code muted on the right. |
+| **Show Stock in Dropdown** | `alternative.dropdown_show_qty` | disabled | The product selection list shows, muted on the right, the quantity on hand of storable products. |
+
+These values are stored as `ir.config_parameter` system parameters and can also be
 set directly via **Settings > Technical > Parameters > System Parameters** if needed.
 
 ## Large Databases (Index on Alternative Codes)
