@@ -1,0 +1,125 @@
+# ©  2015-2020 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+import logging
+
+from odoo import http
+from odoo.fields import Domain
+from odoo.http import request
+
+from odoo.addons.website_sale.controllers.main import WebsiteSale
+
+_logger = logging.getLogger(__name__)
+
+
+class WebsiteSaleAlternativeLink(WebsiteSale):
+    @http.route(
+        ["/shop/product-code/<code>"],
+        type="http",
+        auth="public",
+        website=True,
+        sitemap=False,
+    )
+    def product_by_code(self, code="", **kwargs):
+        # Same gate as /shop/<product>: on a login-only shop, a code must not reveal (404 or not)
+        # whether such a product exists
+        if not self.env.website.has_ecommerce_access():
+            return request.redirect(f"/web/login?redirect={request.httprequest.path}")
+        product = self.env["product.template"].search([("default_code", "=", code)], limit=1)
+        if not product:
+            raise request.not_found()
+        # In 20.0 `product()` redirects (301) to the canonical product URL whenever the requested
+        # path differs from `product.website_url`, so the code link ends on /shop/<slug>.
+        return self.product(product, **kwargs)
+
+    @http.route(["/shop/products-json"], type="jsonrpc", auth="public", website=True, sitemap=False)
+    def products_json_by_code(self, search="", vat="", **kwargs):
+        res = self._search_products_by_code(search, vat)
+        return res
+
+    @http.route(
+        ["/shop/products-search"],
+        type="http",
+        auth="public",
+        website=True,
+        sitemap=False,
+    )
+    def products_search_by_code(self, search="", vat="", **kwargs):
+        res = self._search_products_by_code(search, vat)
+        return str(res)
+
+    def _search_products_by_code(self, search, vat=""):
+        # The products are searched as superuser: on a shop restricted to logged-in users, a visitor
+        # gets nothing, as from the standard website search (website._search_get_details)
+        website = self.env.website
+        if not website.has_ecommerce_access():
+            return []
+        domain = Domain(website.sale_product_domain())
+        _logger.info("_search_products_by_code: %s", search)
+        if search:
+            for srch in search.split(" "):
+                domain &= Domain.OR(
+                    [
+                        Domain("name", "ilike", srch),
+                        Domain("description", "ilike", srch),
+                        Domain("description_sale", "ilike", srch),
+                        Domain("product_variant_ids.default_code", "ilike", srch),
+                    ]
+                )
+
+        products = self.env["product.template"].with_context(bin_size=True).sudo().search(domain, limit=10)
+        res = []
+        alternative_code_mod = (
+            request.env["ir.module.module"]
+            .sudo()
+            .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
+        )
+        base_url = request.env["ir.config_parameter"].sudo().get_str("web.base.url")
+
+        # filtrare dupa furnizor: doar pentru utilizatori interni, altfel un anonim
+        # ar putea deduce furnizorii produselor comparand rezultatele cu/fara vat
+        if vat and not request.env.user._is_internal():
+            vat = ""
+        if not vat:
+            filtred_products = products
+        else:
+            filtred_products = request.env["product.template"]
+
+            for product in products:
+                ok = True
+                for supplier in product.seller_ids:
+                    if supplier.partner_id.vat == vat:
+                        ok = False
+                if ok:
+                    filtred_products |= product
+
+        for product in filtred_products:
+            if product.is_published:
+                combination_info = product.with_context(display_default_code=False)._get_combination_info(
+                    only_template=True
+                )
+                values = {
+                    "name": combination_info["display_name"],
+                    "default_code": product.default_code or f"ID_{product.id}",
+                    "categories": [],
+                    "price": combination_info["price"],
+                    "list_price": combination_info["list_price"],
+                    "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image_1024/",
+                }
+                for categ in product.public_categ_ids:
+                    values["categories"] += [categ.display_name]
+                if alternative_code_mod:
+                    alternative_code = []
+                    for alternative in product.alternative_ids:
+                        alternative_code += [{"name": alternative.name, "hide": alternative.hide}]
+                    values["alternative_code"] = alternative_code
+
+                values["images"] = []
+                for media in product.product_template_image_ids:
+                    values["images"] += [base_url + "/web/image/product.image/" + str(media.id) + "/image_1024/"]
+
+                res += [values]
+
+        return res

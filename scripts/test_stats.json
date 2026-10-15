@@ -577,6 +577,9 @@
       "lines": 92,
       "tests": 17
     },
+    "deltatech_website_product_code": {
+      "tests": 33
+    },
     "deltatech_website_short_description": {
       "coverage": 100.0,
       "lines": 11,
