@@ -1,3 +1,11 @@
+## 19.0.1.1.12 (2026-10-15)
+
+- The availability popover shows the vendor stock and the stock per warehouse again: the widget
+  now loads these fields itself instead of relying on columns declared in the order line view.
+- The unit of measure is shown again next to the quantities in the popover (many2one values are
+  objects in 19.0, so `product_uom_id[1]` was empty).
+- Each warehouse is listed on its own line in the popover.
+
 ## 19.0.1.1.11 (2026-10-09)
 
 - Apps Store banner (banner.json).
