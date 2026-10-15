@@ -25,15 +25,15 @@ class PurchaseOrderLine(models.Model):
                 # move quantities are in the move unit; the bill line keeps the order line unit
                 qty = 0.0
                 for move in moves:
-                    move_qty = move.product_uom._compute_quantity(
-                        move.quantity, self.product_uom_id, rounding_method="HALF-UP"
-                    )
+                    move_qty = move.uom_id._compute_quantity(move.quantity, self.uom_id, rounding_method="HALF-UP")
                     if move.picking_id.picking_type_code == "incoming":
                         qty += move_qty
                     elif move.picking_id.picking_type_code == "outgoing":
                         qty -= move_qty
                     else:
-                        raise UserError(self.env._("You cannot invoice this type of transfer: %s") % move.picking_id)
+                        raise UserError(
+                            self.env._("You cannot invoice this type of transfer: %s", move.picking_id.name)
+                        )
                 # never bill more than is still to bill on the order line (receipt already billed)
                 precision = self.env["decimal.precision"].precision_get("Product Unit")
                 if float_is_zero(remaining_qty, precision_digits=precision) or qty * remaining_qty < 0:

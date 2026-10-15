@@ -25,7 +25,7 @@ class SaleOrderLine(models.Model):
                 # move quantities are in the move unit; the invoice line keeps the sale line unit
                 qty = 0.0
                 for move in moves:
-                    move_qty = move.product_uom._compute_quantity(
+                    move_qty = move.uom_id._compute_quantity(
                         move.quantity, self.product_uom_id, rounding_method="HALF-UP"
                     )
                     if move.picking_id.picking_type_code == "outgoing":
@@ -33,7 +33,9 @@ class SaleOrderLine(models.Model):
                     elif move.picking_id.picking_type_code == "incoming":
                         qty -= move_qty
                     else:
-                        raise UserError(self.env._("You cannot invoice this type of transfer: %s") % move.picking_id)
+                        raise UserError(
+                            self.env._("You cannot invoice this type of transfer: %s", move.picking_id.name)
+                        )
                 if abs(qty) > abs(invoice_original_qty):  # probabil set. De verificat
                     qty = invoice_original_qty
                 invoice_line.update({"quantity": qty})
@@ -53,12 +55,12 @@ class SaleOrder(models.Model):
 
     force_invoice_order = fields.Boolean()
 
-    def _create_invoices(self, grouped=False, final=False, date=None):
+    def _create_invoices(self, *args, **kwargs):
         for order in self:
             if order.force_invoice_order:
                 order._force_lines_to_invoice_policy_order()
 
-        moves = super()._create_invoices(grouped, final, date)
+        moves = super()._create_invoices(*args, **kwargs)
         # delete qty=0 lines
         if "picking_ids" in self.env.context:
             for line in moves.line_ids.filtered(lambda ml: ml.display_type == "product"):

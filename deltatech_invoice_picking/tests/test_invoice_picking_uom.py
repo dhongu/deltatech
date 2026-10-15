@@ -37,7 +37,7 @@ class TestInvoicePickingUom(TransactionCase):
                         {
                             "product_id": self.product.id,
                             "product_qty": 1.0,
-                            "product_uom_id": self.uom_dozen.id,
+                            "uom_id": self.uom_dozen.id,
                             "price_unit": 120.0,
                             "tax_ids": [(5, 0, 0)],
                             "date_planned": fields.Datetime.now(),
@@ -49,7 +49,7 @@ class TestInvoicePickingUom(TransactionCase):
         order.button_confirm()
         picking = order.picking_ids
         # the receipt move is in the product unit: 12 units for 1 dozen
-        self.assertEqual(picking.move_ids.product_uom, self.uom_unit)
+        self.assertEqual(picking.move_ids.uom_id, self.uom_unit)
         self.assertEqual(picking.move_ids.product_uom_qty, 12.0)
         picking.move_ids.quantity = 12.0
         picking.move_ids.picked = True
@@ -85,7 +85,7 @@ class TestInvoicePickingUom(TransactionCase):
         )
         order.action_confirm()
         picking = order.picking_ids
-        self.assertEqual(picking.move_ids.product_uom, self.uom_unit)
+        self.assertEqual(picking.move_ids.uom_id, self.uom_unit)
         # partial delivery: 12 units = 1 dozen out of 2
         picking.move_ids.quantity = 12.0
         picking.move_ids.picked = True

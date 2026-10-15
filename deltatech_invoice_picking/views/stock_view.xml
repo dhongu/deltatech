@@ -71,7 +71,7 @@
     <record id="view_batch_form_invoice" model="ir.ui.view">
         <field name="name">stock.batch.form.invoice</field>
         <field name="model">stock.picking.batch</field>
-        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form" />
+        <field name="inherit_id" ref="stock.stock_picking_batch_form" />
         <field name="arch" type="xml">
             <button name="action_print" position="after">
                 <field name="invoiced" invisible="1" />
