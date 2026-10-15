@@ -1,5 +1,12 @@
 # Changelog
 
+## 20.0.3.3.5 (2026-10-15)
+
+- The number of per diem days now accepts one decimal (for example 2.5). For
+  trips abroad the per diem is also paid for a part of a day (half up to 12
+  hours), which a whole number could not hold. Existing values are kept; the
+  column is converted on update.
+
 ## 20.0.3.3.4 (2026-10-10)
 
 - **Fix (EXPENSES-001): the workflow and a done deduction are protected on the
