@@ -17,6 +17,18 @@
                     <field name="alternative_limit" placeholder="Search limit" />
                     <field name="alternative_length_min" placeholder="Search minim length code" />
                 </setting>
+                <setting
+                    id="alternative_dropdown_code_first"
+                    help="In the product selection list, show the classic [code] name instead of the code muted after the name."
+                >
+                    <field name="alternative_dropdown_code_first" />
+                </setting>
+                <setting
+                    id="alternative_dropdown_show_qty"
+                    help="In the product selection list, show the quantity on hand of storable products."
+                >
+                    <field name="alternative_dropdown_show_qty" />
+                </setting>
 <!--
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane">
