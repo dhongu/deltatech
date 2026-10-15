@@ -1,3 +1,11 @@
+## 19.0.1.9.14 (2026-10-15)
+
+- Apps Store main image regenerated with the redrawn module icon.
+
+## 19.0.1.9.13 (2026-10-15)
+
+- Module icon redrawn in the Terrabit house style: clean vector, 100x100 viewBox, no embedded image.
+
 ## 19.0.1.9.12 (2026-10-12)
 
 - JSON export/import: the process *Description* lost its formatting (lists, bold, paragraphs) on import, because the import stripped every HTML tag. The HTML written by the export is now kept (the Html field still sanitizes it), and a plain-text description (e.g. from a hand-written `process.json`) is converted to HTML so its line breaks are preserved.
