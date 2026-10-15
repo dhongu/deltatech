@@ -31,6 +31,16 @@
 
 
     <t t-name="QtyDetailPopOver" t-inherit="sale_stock.QtyAtDatePopover" t-inherit-mode="extension" owl="1">
+        <!-- many2one values are {id, display_name} objects, not [id, name] pairs -->
+        <xpath expr="//t[@t-out='props.record.data.product_uom_id[1]']" position="attributes">
+            <attribute name="t-out">props.record.data.product_uom_id?.display_name</attribute>
+        </xpath>
+        <xpath expr="//t[@t-out='props.record.data.product_uom_id[1]']" position="attributes">
+            <attribute name="t-out">props.record.data.product_uom_id?.display_name</attribute>
+        </xpath>
+        <xpath expr="//t[@t-out='props.record.data.product_uom_id[1]']" position="attributes">
+            <attribute name="t-out">props.record.data.product_uom_id?.display_name</attribute>
+        </xpath>
         <xpath expr="//tbody" position="inside">
             <tr>
                 <td>
@@ -38,7 +48,7 @@
                 </td>
                 <td>
                     <b t-out='props.record.data.vendor_qty_available' />
-                    <t t-if="props.record.data.product_uom_id" t-out='props.record.data.product_uom_id[1]' />
+                    <t t-if="props.record.data.product_uom_id" t-out="' ' + props.record.data.product_uom_id.display_name" />
                 </td>
             </tr>
             <tr t-if="props.record.data.other_qty_available">
@@ -47,7 +57,7 @@
                 </td>
                 <td class="text-end">
                     <b t-out='props.record.data.other_qty_available' />
-                    <t t-if="props.record.data.product_uom_id" t-out='props.record.data.product_uom_id[1]' />
+                    <t t-if="props.record.data.product_uom_id" t-out="' ' + props.record.data.product_uom_id.display_name" />
                 </td>
             </tr>
             <tr t-if="props.record.data.warehouse_stock">
@@ -55,7 +65,7 @@
                     <strong>Warehouse Stock</strong>
                 </td>
                 <td class="text-end">
-                    <b class="text-nowrap" style="white-space: pre-line;" t-out='props.record.data.warehouse_stock' />
+                    <b style="white-space: pre;" t-out='props.record.data.warehouse_stock' />
                 </td>
             </tr>
         </xpath>
