@@ -343,11 +343,16 @@ def run():
     if table_exists("sale_commission_condition"):
         count = q("SELECT COUNT(*) FROM sale_commission_condition")[0][0]
         if count:
+            # Odoo nu șterge tabela unui model eliminat din cod: datele rămân în baza de date,
+            # dar nu mai sunt vizibile din interfață.
             verdict(
-                "DE FĂCUT", f"{count} rânduri se pierd la actualizare (tabela e ștearsă); exportați-le dacă contează"
+                "ATENȚIE",
+                f"{count} rânduri rămân în tabela sale_commission_condition după actualizare, "
+                "dar nu mai sunt accesibile din Odoo (modelul e eliminat, tabela nu se șterge); "
+                "exportați-le acum dacă mai contează",
             )
         else:
-            verdict("OK", "tabela e goală")
+            verdict("OK", "tabela e goală (rămâne în baza de date, nefolosită)")
     else:
         verdict("OK", "tabela nu există")
 
