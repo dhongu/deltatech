@@ -1,3 +1,7 @@
+## 20.0.1.9.14 (2026-10-15)
+
+- The **Start Test** smart button on the process form now always creates a new user acceptance test and opens it. Before, it opened the existing acceptance test (or the list of them), creating one only when the process had none.
+
 ## 20.0.1.9.13 (2026-10-15)
 
 - Module icon redrawn in the Terrabit house style (clean vector, 100x100 viewBox) and Apps Store main image regenerated with it.

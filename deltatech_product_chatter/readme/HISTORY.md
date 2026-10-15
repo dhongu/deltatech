@@ -1,3 +1,7 @@
+## 20.0.1.0.2 (2026-10-15)
+
+- Block direct deletion of product chatter messages (`mail.message.unlink()` through ORM/RPC/scripts) for users outside the security group, as the description promised: only the edit/"Delete" action of the chatter was guarded before. Sudo is not blocked, so deleting a product still removes its messages. Tests added (the "other models" test gives its user read access on journal entries when `account` is installed).
+
 ## 20.0.1.0.1
 
 - Migration to Odoo 20.0. No functional changes: the `_check_can_update_message_content`
