@@ -31,31 +31,58 @@
 
 
     <t t-name="QtyDetailPopOver" t-inherit="sale_stock.QtyAtDatePopover" t-inherit-mode="extension" owl="1">
+        <!-- many2one values are {id, display_name} objects, not [id, name] pairs -->
+        <xpath expr="//t[@t-out='this.props.record.data.product_uom_id[1]']" position="attributes">
+            <attribute name="t-out">this.props.record.data.product_uom_id?.display_name</attribute>
+        </xpath>
+        <xpath expr="//t[@t-out='this.props.record.data.product_uom_id[1]']" position="attributes">
+            <attribute name="t-out">this.props.record.data.product_uom_id?.display_name</attribute>
+        </xpath>
+        <xpath expr="//t[@t-out='this.props.record.data.product_uom_id[1]']" position="attributes">
+            <attribute name="t-out">this.props.record.data.product_uom_id?.display_name</attribute>
+        </xpath>
         <xpath expr="//tbody" position="inside">
-            <tr>
+            <t t-if="this.props.calcData.warehouse_stock?.length">
+                <tr>
+                    <td colspan="2" class="border-top pt-2">
+                        <strong>Free Stock per Warehouse</strong>
+                    </td>
+                </tr>
+                <tr t-foreach="this.props.calcData.warehouse_stock" t-as="row" t-key="row.warehouse_id">
+                    <td>
+                        <a
+                            href="#"
+                            role="button"
+                            title="View the forecast for this warehouse"
+                            t-on-click.prevent="() => this.openWarehouseForecast(row)"
+                        >
+                            <strong t-out="row.code" />
+                            <small t-if="row.name !== row.code" class="text-muted ms-1" t-out="row.name" />
+                        </a>
+                        <span t-if="row.is_order_warehouse" class="badge rounded-pill text-bg-primary ms-1">Order</span>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        <b t-att-class="this.warehouseStockClass(row)" t-out="row.qty" />
+                        <t t-out="' ' + (this.props.record.data.product_uom_id?.display_name or '')" />
+                    </td>
+                </tr>
+            </t>
+            <tr t-if="this.props.record.data.vendor_qty_available">
                 <td>
                     <strong>Vendor Stock</strong>
                 </td>
-                <td>
+                <td class="text-end text-nowrap">
                     <b t-out='this.props.record.data.vendor_qty_available' />
-                    <t t-if="this.props.record.data.product_uom_id" t-out='this.props.record.data.product_uom_id[1]' />
+                    <t t-out="' ' + (this.props.record.data.product_uom_id?.display_name or '')" />
                 </td>
             </tr>
             <tr t-if="this.props.record.data.other_qty_available">
                 <td>
                     <strong>Other Stock</strong>
                 </td>
-                <td class="text-end">
+                <td class="text-end text-nowrap">
                     <b t-out='this.props.record.data.other_qty_available' />
-                    <t t-if="this.props.record.data.product_uom_id" t-out='this.props.record.data.product_uom_id[1]' />
-                </td>
-            </tr>
-            <tr t-if="this.props.record.data.warehouse_stock">
-                <td>
-                    <strong>Warehouse Stock</strong>
-                </td>
-                <td class="text-end">
-                    <b class="text-nowrap" style="white-space: pre-line;" t-out='this.props.record.data.warehouse_stock' />
+                    <t t-out="' ' + (this.props.record.data.product_uom_id?.display_name or '')" />
                 </td>
             </tr>
         </xpath>

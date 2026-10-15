@@ -65,15 +65,54 @@ class SaleOrderLine(models.Model):
                 result[(product_id, warehouse.id)] = values["free_qty"]
         return result
 
+    @api.model
+    def _vendor_stock_warehouses(self, company):
+        return (
+            self.env["stock.warehouse"]
+            .search([("company_id", "=", company.id)])
+            .filtered(lambda warehouse: warehouse.lot_stock_id.usage == "internal")
+        )
+
+    @api.model
+    def get_warehouse_stock(self, product_id, uom_id=False, company_id=False, warehouse_id=False):
+        """Free stock of a product in each warehouse of the company, for the availability popover.
+
+        The warehouse of the order comes first and is listed even without stock; the other
+        warehouses only when they have stock. Quantities are in the unit of measure of the line.
+        """
+        product = self.env["product.product"].browse(product_id).exists()
+        if not product.is_storable:
+            return []
+        company = self.env["res.company"].browse(company_id) if company_id else self.env.company
+        warehouses = self._vendor_stock_warehouses(company)
+        if len(warehouses) <= 1:
+            return []
+        order_warehouse = warehouses.browse(warehouse_id) & warehouses
+        line_uom = self.env["uom.uom"].browse(uom_id) if uom_id else product.uom_id
+        free_qty = self._vendor_stock_free_qty_by_warehouse(product, warehouses)
+        result = []
+        for warehouse in order_warehouse | (warehouses - order_warehouse):
+            quantity = free_qty.get((product.id, warehouse.id), 0.0)
+            is_order_warehouse = warehouse == order_warehouse
+            if product.uom_id.is_zero(quantity) and not is_order_warehouse:
+                continue
+            quantity = product.uom_id._compute_quantity(quantity, line_uom)
+            result.append(
+                {
+                    "warehouse_id": warehouse.id,
+                    "code": warehouse.code,
+                    "name": warehouse.name,
+                    "qty": line_uom.round(quantity),
+                    "is_order_warehouse": is_order_warehouse,
+                }
+            )
+        return result
+
     def _compute_warehouse_stocks(self):
         self.warehouse_stock = False
         lines = self.filtered(lambda line: line.product_id.is_storable and line.display_qty_widget)
         for company, company_lines in lines.grouped(lambda line: line.order_id.company_id or self.env.company).items():
-            warehouses = (
-                self.env["stock.warehouse"]
-                .search([("company_id", "=", company.id)])
-                .filtered(lambda warehouse: warehouse.lot_stock_id.usage == "internal")
-            )
+            warehouses = self._vendor_stock_warehouses(company)
             if len(warehouses) <= 1:
                 continue
             free_qty = self._vendor_stock_free_qty_by_warehouse(company_lines.product_id, warehouses)

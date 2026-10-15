@@ -192,3 +192,33 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_alternative.field_product_alternative__sequence
 msgid "sequence"
 msgstr ""
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_res_config_settings__alternative_dropdown_code_first
+msgid "Code Before Name"
+msgstr ""
+
+#. module: deltatech_alternative
+#: model:ir.model.fields,field_description:deltatech_alternative.field_res_config_settings__alternative_dropdown_show_qty
+msgid "Show Stock in Dropdown"
+msgstr ""
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.res_config_settings_view_form
+msgid ""
+"In the product selection list, show the classic [code] name instead of the "
+"code muted after the name."
+msgstr ""
+
+#. module: deltatech_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_alternative.res_config_settings_view_form
+msgid ""
+"In the product selection list, show the quantity on hand of storable "
+"products."
+msgstr ""
+
+#. module: deltatech_alternative
+#. odoo-python
+#: code:addons/deltatech_alternative/models/product.py:0
+msgid "Stock: %(qty)s %(uom)s"
+msgstr ""
