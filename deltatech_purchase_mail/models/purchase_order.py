@@ -39,9 +39,10 @@ class PurchaseOrder(models.Model):
         row = 1
         for po in self:
             for line in po.order_line:
-                sheet.write(row, 0, po.name or "")
-                sheet.write(row, 1, line.product_id.default_code or "")
-                sheet.write(row, 2, line.name or (line.product_id.display_name or ""))
+                # text columns: write_string, so a value starting with "=" is not stored as a formula
+                sheet.write_string(row, 0, po.name or "")
+                sheet.write_string(row, 1, line.product_id.default_code or "")
+                sheet.write_string(row, 2, line.name or (line.product_id.display_name or ""))
                 sheet.write_number(row, 3, line.product_qty or 0.0, qty_fmt)
                 # Unit price: taxes excluded price_unit
                 sheet.write_number(row, 4, line.price_unit or 0.0, num)
