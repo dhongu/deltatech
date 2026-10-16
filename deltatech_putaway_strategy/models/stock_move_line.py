@@ -18,8 +18,8 @@ class StockMove(models.Model):
         `avoid_root_location_on_reservation`, locația sursă (rădăcina depozitului,
         ex. `D1/S`) este exclusă din rezervare: marfa care nu a fost încă pusă la raft
         nu trebuie alocată automat pe vânzări. Excluderea se transmite prin cheia de
-        context `exclude_location_ids`, consumată de `deltatech_stock_removal_priority`
-        în `_get_gather_domain`. Filtrul este `not in` (potrivire exactă), deci
+        context `exclude_location_ids`, consumată de `stock.quant._get_gather_domain` din acest
+        modul. Filtrul este `not in` (potrivire exactă), deci
         sublocațiile (rafturile) rămân eligibile pentru rezervare.
         """
         start_time = time.time()
@@ -66,8 +66,9 @@ class StockMove(models.Model):
         Aceasta este o ultimă barieră de siguranță împotriva depășirii limitelor.
         """
         res = super()._action_done(cancel_backorder=cancel_backorder)
-        for move in res:
-            location_dest = move.location_dest_id
+        # Destinațiile reale sunt pe linii: mișcarea poate avea ca destinație rădăcina (ex. `D1/S`),
+        # iar liniile ajung pe rafturile alese de putaway. Le verificăm pe toate.
+        for location_dest in res.location_dest_id | res.move_line_ids.location_dest_id:
             if location_dest.usage == "internal" and location_dest.max_products_leaf:
                 # `current_products` / `max_products` sunt compute *nestocate*. Apelarea directă a
                 # metodei de compute se face în afara mașinăriei ORM, deci atribuirile din ea nu
@@ -124,10 +125,18 @@ class StockMoveLine(models.Model):
                 location_dest.invalidate_recordset(["current_products", "planned_products"])
                 occupied = location_dest.current_products + location_dest.planned_products
 
+                # Spațiul liber e în unitatea de bază a produsului (ca quant-urile); îl convertim
+                # în unitatea liniei înainte de a-l compara cu `line.quantity`.
                 qty_available = line.location_dest_id.max_products_leaf - occupied
+                product_uom = line.product_id.uom_id
+                if product_uom.compare(qty_available, 0) > 0 and line.product_uom_id != product_uom:
+                    qty_available = product_uom._compute_quantity(
+                        qty_available, line.product_uom_id, rounding_method="DOWN"
+                    )
+                line_uom = line.product_uom_id or product_uom
 
-                if qty_available < 0:
-                    # locatia aleasa nu mai este disponibila
+                if line_uom.compare(qty_available, 0) <= 0:
+                    # locatia aleasa nu mai este disponibila (plina sau depasita)
                     _logger.warning("Location %s is not available anymore", line.location_dest_id.display_name)
                     exclude_location += line.location_dest_id
                     is_split = True
@@ -142,7 +151,7 @@ class StockMoveLine(models.Model):
                     )
                     continue
 
-                if qty_available and qty_available < line.quantity:
+                if line_uom.compare(qty_available, line.quantity) < 0:
                     # Excludem locația curentă din următoarea căutare de locație
                     exclude_location += line.location_dest_id
 
@@ -160,5 +169,8 @@ class StockMoveLine(models.Model):
 
         if new_lines:
             new_lines.with_context(exclude_location=exclude_location)._apply_putaway_strategy()
-            to_reprocess |= new_lines
+            # O linie pentru care strategia nu a găsit altă locație revine pe una deja exclusă
+            # (plină); n-o mai reprocesăm, altfel bucla din `_action_assign` nu s-ar mai opri.
+            # Rămâne acolo, iar verificarea de la validare blochează depășirea.
+            to_reprocess |= new_lines.filtered(lambda ml: ml.location_dest_id not in exclude_location)
         return is_split, to_reprocess

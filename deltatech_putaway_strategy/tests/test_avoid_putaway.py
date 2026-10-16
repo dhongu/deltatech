@@ -61,7 +61,6 @@ class TestAvoidPutaway(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "Test Move",
                 "product_id": self.product.id,
                 "product_uom_qty": 1,
                 "product_uom": self.product.uom_id.id,
@@ -92,7 +91,6 @@ class TestAvoidPutaway(TransactionCase):
         )
         move = self.env["stock.move"].create(
             {
-                "name": "Test Move Avoid",
                 "product_id": self.product.id,
                 "product_uom_qty": 1,
                 "product_uom": self.product.uom_id.id,
