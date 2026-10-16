@@ -14,13 +14,10 @@ Credentials
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_credentials
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_credentials
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_credentials
-    :alt: 2 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 **Deltatech Credentials** provides a centralised store for external
 service credentials within Odoo. Instead of scattering API keys, tokens,
@@ -28,7 +25,7 @@ and login pairs across system parameters or configuration files,
 administrators can manage all access data in one secure location —
 available directly under **Settings > Users & Companies > Credentials**.
 
-**Key features:**
+**✨ Key features:**
 
 - Store credentials for any external service with a descriptive name and
   optional code.
@@ -75,6 +72,31 @@ access the Credentials menu.
 To edit or revoke a credential, open the record from the list view and
 update or delete it as needed.
 
+Changelog
+=========
+
+20.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Migration to 20.0: access rights declared in ``ir.access``; no other
+  code change was needed.
+
+19.0.1.0.4 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.3 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -103,6 +125,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_credentials>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_credentials>`_ project on GitHub.
 
 You are welcome to contribute.

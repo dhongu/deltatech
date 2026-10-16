@@ -4,14 +4,14 @@
 {
     "name": "Credentials",
     "summary": "Manage credentials for external services",
-    "version": "19.0.1.0.4",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
     "depends": ["base"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/access_credentials_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
