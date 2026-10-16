@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_category_type_manager,access_category_type_manager,category.group.type,deltatech_category_group.category_group_manager,crud,
+access_category_type_user,access_category_type_user,category.group.type,stock.group_stock_user,r,
+access_category_class_manager,access_category_class_manager,category.group.class,deltatech_category_group.category_group_manager,crud,
+access_category_class_user,access_category_class_user,category.group.class,stock.group_stock_user,r,

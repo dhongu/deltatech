@@ -1,0 +1,11 @@
+{
+  "title": "Category Groups",
+  "summary": "Segment product categories by type and class",
+  "icon": "grid",
+  "features": [
+    "Category type and Category class fields",
+    "Sale Margin report group-by filters",
+    "Filters on stock quants and invoices"
+  ],
+  "lang": "en"
+}
