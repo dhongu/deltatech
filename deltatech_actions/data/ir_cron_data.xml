@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<odoo noupdate="1">
+    <record id="ir_cron_delete_xml_attachments" model="ir.cron">
+        <field name="name">Delete duplicate xml attachments</field>
+        <field name="model_id" ref="model_account_move" />
+        <field name="state">code</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Duplicate XML attachments
+model.cron_clean_xml_attachments_from_settings()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ir_cron_create_missing_reordering_rules" model="ir.cron">
+        <field name="name">Create missing reordering rules (0/0)</field>
+        <field name="model_id" ref="model_product_product" />
+        <field name="state">code</field>
+        <field name="code">
+# deltatech_auto_reorder_rule module must be installed
+model.create_missing_orderpoint()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ir_cron_delete_pdf_attachments_invoice" model="ir.cron">
+        <field name="name">Delete pdf invoice attachments</field>
+        <field name="model_id" ref="model_account_move" />
+        <field name="state">code</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Invoice PDF cleanup
+model.cron_clean_generated_pdfs_from_settings()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ir_cron_delete_pdf_attachments_sale_order" model="ir.cron">
+        <field name="name">Delete pdf sale order attachments</field>
+        <field name="model_id" ref="sale.model_sale_order" />
+        <field name="state">code</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Sale order PDF cleanup
+model.cron_clean_generated_pdfs_from_settings()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ir_cron_delete_pdf_attachments_stock_picking" model="ir.cron">
+        <field name="name">Delete pdf pickings attachments</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="state">code</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > AWB label cleanup
+model.cron_clean_generated_pdfs_from_settings()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ir_cron_delete_mail_messages" model="ir.cron">
+        <field name="name">Delete mail messages</field>
+        <field name="model_id" ref="mail.model_mail_message" />
+        <field name="state">code</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Old messages cleanup
+model.cron_clean_old_messages_from_settings()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="active" eval="False" />
+    </record>
+
+    <record id="ir_cron_merge_contacts" model="ir.cron">
+      <field name="name">Merge duplicate contacts by email</field>
+      <field name="model_id" ref="base.model_res_partner" />
+      <field name="state">code</field>
+      <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Duplicate contacts merge
+model._cron_merge_duplicate_contacts_from_settings()
+      </field>
+      <field name="interval_number">1</field>
+      <field name="interval_type">days</field>
+      <field name="active">False</field>
+    </record>
+
+
+    <record id="ir_cron_merge_companies" model="ir.cron">
+        <field name="name">Merge duplicate companies by VAT</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">
+# parameters: Settings > General Settings > Database Cleanup > Duplicate companies merge
+model._cron_merge_duplicate_companies_from_settings()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">False</field>
+    </record>
+
+    <record id="cron_normalize_company_names" model="ir.cron">
+        <field name="name">Normalize company names</field>
+        <field name="model_id" ref="base.model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">model.cron_normalize_company_names()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">False</field>
+    </record>
+
+</odoo>
