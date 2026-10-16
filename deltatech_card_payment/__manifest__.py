@@ -4,7 +4,7 @@
 
 {
     "name": "Card Payment Method",
-    "version": "19.0.1.0.4",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Add a Card Payment method to tell card receipts apart from other payments",
