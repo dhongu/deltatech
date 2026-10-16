@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="journal_restrict_date_form" model="ir.ui.view">
+        <field name="name">journal.restrict.date.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='bank_account']/group" position="after">
+                <group name="invoice_number_settings" string="Invoice numbering" invisible="type != 'sale'">
+                    <field name="journal_sequence_id" />
+                    <field name="restrict_date" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
