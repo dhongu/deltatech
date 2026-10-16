@@ -192,7 +192,7 @@ class TestFollowup(AccountTestInvoicingCommon):
         self.assertIn("60.00", mails.body_html)
 
     def test_run_followup_override_partner(self):
-        self.env["ir.config_parameter"].sudo().set_param("followup.override_partner_id", str(self.override_partner.id))
+        self.env["ir.config_parameter"].sudo().set_str("followup.override_partner_id", str(self.override_partner.id))
         self._create_followup()
         self.wizard.run_followup()
         mails = self._mails()
@@ -200,7 +200,7 @@ class TestFollowup(AccountTestInvoicingCommon):
         self.assertIn(self.override_partner, mails.recipient_ids)
 
     def test_run_followup_override_partner_invalid(self):
-        self.env["ir.config_parameter"].sudo().set_param("followup.override_partner_id", "'not-an-id'")
+        self.env["ir.config_parameter"].sudo().set_str("followup.override_partner_id", "'not-an-id'")
         self._create_followup()
         self.wizard.run_followup()
         mails = self._mails()

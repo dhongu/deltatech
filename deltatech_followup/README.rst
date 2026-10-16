@@ -14,13 +14,10 @@ Invoice Followup
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_followup
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_followup
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-15%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_followup
-    :alt: 15 automated tests · 97% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 - Features:
 
@@ -73,6 +70,22 @@ Invoice Followup
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.0.1.3 (2026-10-04)
+-----------------------
+
+- Add unit tests covering followup date matching, residual amount
+  computation and the followup mail sending wizard (codes filter, margin
+  skip, refunds, customer currency, override partner).
+
+19.0.0.1.2 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
+
 Bug Tracker
 ===========
 
@@ -101,6 +114,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_followup>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_followup>`_ project on GitHub.
 
 You are welcome to contribute.

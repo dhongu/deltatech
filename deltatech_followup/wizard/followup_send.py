@@ -99,8 +99,8 @@ class FollowupSendWizard(models.TransientModel):
                             partner_debit += invoice.amount_residual
                         # email_values = {}
                         override_partner_id = None
-                        get_param = self.env["ir.config_parameter"].sudo().get_param
-                        override_value = safe_eval(get_param("followup.override_partner_id", "False"))
+                        get_str = self.env["ir.config_parameter"].sudo().get_str
+                        override_value = safe_eval(get_str("followup.override_partner_id", "False"))
                         if override_value:
                             try:
                                 override_partner_id = int(override_value)
