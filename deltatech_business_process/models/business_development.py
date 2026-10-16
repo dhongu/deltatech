@@ -105,16 +105,14 @@ class BusinessDevelopment(models.Model):
 
     def write(self, vals):
         result = super().write(vals)
-        if (
-            "approved" in vals
-            and vals["approved"] == "approved"
-            and self.project_id
-            and self.project_id.project_manager_id
-        ):
-            today = date.today().strftime("%Y-%m-%d")
-            self.sudo().message_post(body=self.env._("Date of approval: {today}", today=today))
-            template = self.env.ref("deltatech_business_process.email_template_development_approved")
-            self.env["mail.template"].browse(template.id).send_mail(self.id, force_send=True)
+        if vals.get("approved") == "approved":
+            approved = self.filtered(lambda d: d.project_id.project_manager_id)
+            if approved:
+                today = date.today().strftime("%Y-%m-%d")
+                template = self.env.ref("deltatech_business_process.email_template_development_approved")
+                for development in approved:
+                    development.sudo().message_post(body=self.env._("Date of approval: {today}", today=today))
+                    template.send_mail(development.id, force_send=True)
 
         return result
 

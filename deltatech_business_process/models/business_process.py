@@ -223,6 +223,7 @@ class BusinessProcess(models.Model):
         for process in self:
             process.count_acceptance_tests = len(process.test_ids.filtered(lambda x: x.scope == "user_acceptance"))
 
+    @api.depends("configuration_duration", "instructing_duration", "data_migration_duration", "testing_duration")
     def _compute_duration_for_completion(self):
         for process in self:
             process.duration_for_completion = (
@@ -413,6 +414,17 @@ class BusinessProcess(models.Model):
         self._check_state_access().write({"state": "draft"})
 
     def button_abandon(self):
+        # same restrictions as the form button, enforced for RPC calls as well
+        if not self.env.su and not self.env.user.has_group("base.group_system"):
+            raise AccessError(self.env._("Only administrators can abandon a business process."))
+        blocked = self.filtered(lambda p: p.state in ("abandoned", "production"))
+        if blocked:
+            raise UserError(
+                self.env._(
+                    "Processes in production or already abandoned cannot be abandoned: %(processes)s",
+                    processes=", ".join(blocked.mapped("display_name")),
+                )
+            )
         self.write({"state": "abandoned"})
 
     def start_internal_test(self):

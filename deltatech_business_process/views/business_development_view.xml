@@ -136,7 +136,7 @@
                 <filter string="Development" name="development" domain="[('state','=','development')]" />
 
                 <filter string="Approved" name="is_approved" domain="[('approved','=','approved')]" />
-                <filter string="Rejected" name="is_rejected" domain="[('state','=','rejected')]" />
+                <filter string="Rejected" name="is_rejected" domain="[('approved','=','rejected')]" />
 
                 <field name="code" />
                 <field name="name" />

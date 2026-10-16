@@ -1,3 +1,21 @@
+## 19.0.1.9.18 (2026-10-16)
+
+- Approving several developments at once no longer fails; each approved development of a project
+  with a project manager gets its own approval note and notification mail.
+- Git sources of the process library with the same repository name (other owner or host) keep
+  separate checkouts and both appear in the library. Existing checkouts are cloned again once,
+  in a folder named after the full URL.
+- Re-importing a process exported with durations updates the durations of the existing process;
+  the total duration is recomputed when its components change.
+- The "Discover processes from all modules" setting is saved and read back correctly, both
+  enabled and disabled.
+- The "Rejected" filter on developments shows the developments whose approval is rejected.
+- Open Issues get their own code (prefix OI); existing Open Issues without a code receive one on update.
+- "Abandon" is refused for non-administrators and for processes in production or already
+  abandoned, also when called directly.
+- The Open Issue submission mail is translated into Romanian.
+- All test classes run post-install.
+
 ## 19.0.1.9.17 (2026-10-16)
 
 - The "Start Internal Test" and "Start Integration Test" actions run with the user's own access

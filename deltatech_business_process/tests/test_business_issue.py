@@ -4,9 +4,11 @@
 from unittest.mock import patch
 
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestBusinessIssue(TransactionCase):
     def setUp(self):
         super().setUp()

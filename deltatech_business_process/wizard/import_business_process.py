@@ -185,6 +185,15 @@ class BusinessProcessImport(models.TransientModel):
                         "module_type": process_data["module_type"],
                     }
                 )
+                if process_data.get("include_durations"):
+                    process.write(
+                        {
+                            "configuration_duration": configuration_duration,
+                            "instructing_duration": instructing_duration,
+                            "data_migration_duration": data_migration_duration,
+                            "testing_duration": testing_duration,
+                        }
+                    )
             self.import_modules(process_data, process)
             self.import_steps(process_data, process)
             self.import_test(process_data, process)
