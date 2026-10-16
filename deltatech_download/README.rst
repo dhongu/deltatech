@@ -14,23 +14,64 @@ Download File
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_download
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_download
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_download
-    :alt: 1 automated test · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
-- Features:
+By default, Odoo downloads every PDF report as a file, and the user has
+to open it from the downloads folder to look at it or print it. With
+this module, PDF reports open directly in a new browser tab, ready to
+read or print, and nothing piles up in the downloads folder.
 
-  - Downloading files
-  - A direct download option can be set in the report
+- **PDF reports in a new tab**: Invoices, quotations, delivery slips and
+  any other PDF report open in the browser's PDF viewer instead of being
+  downloaded.
+- **Direct download per report**: Reports that should still be saved as
+  a file can be marked for direct download, one by one.
+- **Mobile and IoT left as they are**: On phones and tablets, and for
+  reports printed through an IoT box, the standard Odoo behaviour is
+  kept.
+- **Pop-up blocker safe**: If the browser blocks the new tab, the user
+  is not stopped by an error.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+No configuration is needed: after installation, PDF reports open in a
+new tab.
+
+To keep the standard download for a report, activate the developer mode,
+go to *Settings > Technical > Actions > Reports*, open the report and
+check **Direct Download**.
+
+Changelog
+=========
+
+19.0.0.1.5 (2026-10-06)
+-----------------------
+
+- Apps Store description: what the module does and why, with a
+  Configuration section for the per-report direct download. Summary in
+  English, the same as the banner; support address.
+
+19.0.0.1.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.0.1.3 (2026-09-23)
+-----------------------
+
+- Ported from 18.0 (3dc33e10f): on mobile the PDF handler steps aside
+  and the standard download runs, and a window blocked by the popup
+  blocker no longer throws on ``pdfWindow.document.title``, which
+  stopped the download.
 
 Bug Tracker
 ===========
@@ -60,6 +101,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_download>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_download>`_ project on GitHub.
 
 You are welcome to contribute.

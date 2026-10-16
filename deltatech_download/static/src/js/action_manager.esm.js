@@ -53,17 +53,7 @@ async function pdfReportHandler(action, options, env) {
         } finally {
             env.services.ui.unblock();
         }
-        const onClose = options.onClose;
-        if (action.close_on_report_download) {
-            env.services.action.doAction({type: "ir.actions.act_window_close"}, {onClose});
-            return true;
-        } else if (onClose) {
-            onClose();
-        }
-        // DIFF: need to inform success to the original method. Otherwise it
-        // will think our hook function did nothing and run the original
-        // method.
-        // return Promise.resolve(true);
+        // The action service closes the dialog / calls onClose when a handler returns true
         return true;
     }
 }

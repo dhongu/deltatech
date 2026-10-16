@@ -4,7 +4,7 @@
 
 {
     "name": "Download File",
-    "version": "19.0.0.1.5",
+    "version": "20.0.0.1.5",
     "author": "Terrabit,Dorin Hongu",
     "summary": "Open PDF reports directly in a new browser tab",
     "website": "https://www.terrabit.ro",
@@ -14,7 +14,7 @@
     "license": "OPL-1",
     "data": [
         "views/ir_action_report_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
