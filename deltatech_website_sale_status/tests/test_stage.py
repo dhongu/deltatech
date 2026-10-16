@@ -28,9 +28,8 @@ class TestSaleStage(TransactionCase):
 
     @classmethod
     def _set_detailed_stage(cls, value):
-        cls.env["ir.config_parameter"].sudo().set_param(
-            "deltatech_website_sale_status.detailed_stage", "True" if value else False
-        )
+        # as the settings checkbox does: off is stored as "False", not deleted
+        cls.env["ir.config_parameter"].sudo().set_bool("deltatech_website_sale_status.detailed_stage", bool(value))
 
     def _create_order(self, product, qty=1.0, **vals):
         values = {

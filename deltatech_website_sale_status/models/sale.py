@@ -119,7 +119,7 @@ class SaleOrder(models.Model):
         the website quotation sent to the customer is `placed` and the stage
         follows the carrier status of the transfers.
         """
-        return bool(self.env["ir.config_parameter"].sudo().get_param(DETAILED_STAGE_PARAM))
+        return self.env["ir.config_parameter"].sudo().get_bool(DETAILED_STAGE_PARAM)
 
     def _get_stage_from_delivery_state(self):
         """Stage given by the carrier status (`delivery_state`) of the transfers.

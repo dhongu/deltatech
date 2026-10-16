@@ -27,12 +27,6 @@ class SaleReport(models.Model):
         index=True,
     )
 
-    def _select_additional_fields(self):
-        additional_fields_info = super()._select_additional_fields()
-        additional_fields_info["stage"] = " stage "
-        return additional_fields_info
-
-    def _group_by_sale(self):
-        res = super()._group_by_sale()
-        res += " ,stage "
-        return res
+    def _select_dict(self, table):
+        # the order columns are grouped by the order id (`_groupby_list`)
+        return super()._select_dict(table) | {"stage": table.order_id.stage}
