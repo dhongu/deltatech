@@ -1,6 +1,6 @@
-=========================
-Deltatech Discount Policy
-=========================
+===============
+Discount Policy
+===============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech Discount Policy
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_discount_policy
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_discount_policy
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2076%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_discount_policy
-    :alt: 4 automated tests · 76% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Deltatech Discount Policy
 =========================
@@ -64,6 +61,21 @@ sales documents.
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Combo item lines keep the discount of their combo line again.
+- A manual discount is no longer rewritten when the discount feature is
+  disabled.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -92,6 +104,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_discount_policy>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_discount_policy>`_ project on GitHub.
 
 You are welcome to contribute.

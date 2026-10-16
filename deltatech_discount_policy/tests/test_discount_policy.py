@@ -8,19 +8,27 @@ from odoo.addons.sale.tests.common import SaleCommon
 
 @tagged("post_install", "-at_install")
 class TestDiscountPolicy(SaleCommon):
+    # pricelist rules and combos are managed by the sales administrator / product manager
+    _test_user_groups = ("sales_team.group_sale_manager", "product.group_product_manager")
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls._enable_discounts()
+        # Odoo 20: SaleCommon no longer creates a pricelist nor an empty order
+        cls.pricelist = cls._enable_pricelists()
         cls.pricelist.discount_policy = "without_discount"
+        cls.empty_order = cls.env["sale.order"].create(
+            {"partner_id": cls.partner.id, "pricelist_id": cls.pricelist.id, "require_signature": False}
+        )
         cls.discount = 20
 
     def _create_discount_rule(self, **values):
         return self.env["product.pricelist.item"].create(
             {
                 "pricelist_id": self.pricelist.id,
-                "compute_price": "percentage",
-                "percent_price": self.discount,
+                "compute_price": "discount",
+                "price_discount": self.discount,
                 **values,
             }
         )
@@ -65,7 +73,8 @@ class TestDiscountPolicy(SaleCommon):
         )
         self.assertEqual(combo_line.discount, self.discount)
         self.assertEqual(item_lines.mapped("discount"), [self.discount, self.discount])
-        self.assertAlmostEqual(order.amount_untaxed, order.amount_undiscounted * (100 - self.discount) / 100)
+        undiscounted = sum(line.price_unit * line.product_uom_qty for line in order.order_line)
+        self.assertAlmostEqual(order.amount_untaxed, undiscounted * (100 - self.discount) / 100)
 
     def test_manual_discount_kept_when_feature_disabled(self):
         """DISCOUNTPOLICY-001: with the discount feature off, a manual discount is not rewritten."""
