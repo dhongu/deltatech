@@ -1,12 +1,24 @@
 {
   "addons": {
+    "deltatech": {
+      "tests": 3
+    },
     "deltatech_account": {
       "coverage": 100.0,
       "lines": 6,
       "tests": 0
     },
+    "deltatech_account_analytic": {
+      "tests": 11
+    },
     "deltatech_account_edi_ubl_advice": {
       "tests": 2
+    },
+    "deltatech_account_edit_currency_rate": {
+      "tests": 11
+    },
+    "deltatech_actions": {
+      "tests": 42
     },
     "deltatech_agreement_management": {
       "tests": 3
@@ -18,6 +30,12 @@
     },
     "deltatech_alternative_website": {
       "tests": 8
+    },
+    "deltatech_analytic_distribution": {
+      "tests": 8
+    },
+    "deltatech_auto_reorder_rule": {
+      "tests": 6
     },
     "deltatech_average_payment_period": {
       "coverage": 75.4,

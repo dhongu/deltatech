@@ -7,19 +7,13 @@
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Maintenance Actions</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Scheduled database cleanup jobs</p>
       <div>
-        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Other</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
-    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 40 automated tests</div>
-      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:83%;background-color:#57B952;"></div>
-      </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">83% code coverage</div>
-    </div>
+    
   </div>
 </div>
 
@@ -152,6 +146,16 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.9.9 (2026-10-16)</h2>
+<ul>
+<li>Company-name normalization can be started only by administrators and the scheduled action;
+  the normalized names (and the contacts' full names) are refreshed immediately.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.9.8 (2026-10-16)</h2>
+<ul>
+<li>Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.9.7 (2026-10-11)</h2>
 <ul>
 <li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
@@ -210,43 +214,6 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
   a staging database where it had silently stopped the sale order cleanup dead -- the
   cron reported success, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> stayed 0, and not one attachment was removed.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.8.0</h2>
-<ul>
-<li>Fixes a risk introduced in 19.0.0.7.0: the auto-vacuum hooks could get Odoo's
-  own auto-vacuum job deactivated. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_run_vacuum_cleaner</code> reports progress as
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_commit_progress()</code> with no arguments, so the cron's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> counter stays at
-  zero however much the vacuum methods deleted; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.cron._process_job</code> then
-  treats a job as failed when it timed out <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONSECUTIVE_TIMEOUT_FOR_FAILURE</code>
-  times <em>and</em> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> is zero, and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_update_failure_count</code> deactivates a cron
-  that failed 5 times over 7 days. A cleanup with a large backlog is exactly
-  what pushes the job over its time limit run after run -- and switching off
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.autovacuum_job</code> would take <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_gc_file_store</code> and every other core vacuum
-  with it. The hooks now report the real batch size, which keeps <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code>
-  non-zero and makes that verdict impossible.</li>
-<li>The hooks also stop asking to be requeued when the run has less time left than
-  one and a half times the batch just done, so a batch is never cut off partway.
-  Observed on a staging build: three consecutive auto-vacuum runs at 15:13,
-  15:17 and 15:33 with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">timed_out_counter</code> climbing 1, 2 -- one short of the
-  failure threshold.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.7.0</h2>
-<ul>
-<li>The invoice, sale order and AWB label cleanups can now also run from Odoo's daily
-  auto-vacuum job, controlled by a new switch in Settings &gt; General Settings &gt;
-  Database Cleanup ("Run cleanups from the auto-vacuum job"), off by default.
-  This exists for restored copies: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base/data/neutralize.sql</code> switches <em>every</em>
-  cron off except <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base.autovacuum_job</code>, so a neutralized staging database cannot
-  tidy itself up through the crons. Another module's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">neutralize.sql</code> cannot switch
-  a cron back on either -- <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">neutralize_database()</code> iterates the installed modules in
-  the arbitrary order Postgres returns them, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base</code>'s blanket disable may run
-  last and undo it. Hanging the cleanup off the auto-vacuum job is the only
-  order-independent way.</li>
-<li>Each hook returns <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">(done, remaining)</code>, the shape <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_run_vacuum_cleaner</code> uses to
-  requeue a method within the same run, so a large backlog is cleared in one pass
-  instead of one batch per day -- inside the cron's own time budget. A dry run never
-  reports work remaining: it selects the same rows every call, and would otherwise
-  spin until the cron ran out of time, starving the other vacuum methods.</li>
-</ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
 </div>
@@ -289,34 +256,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_category_group" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_category_group/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Internal Category Groups</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Other</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Groups for internal categories</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -329,14 +276,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -349,14 +296,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_analytic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -369,14 +316,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -389,14 +336,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -409,14 +356,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_agreement_management" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_agreement_management" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -429,14 +376,14 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_alternative" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_alternative/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -445,6 +392,26 @@ state directly to <code class="border rounded px-2" style="font-family:ui-monosp
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative_website" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative_website/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website alternative code</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Show alternative code in website</p>
         </div>
       </a>
     </div>
