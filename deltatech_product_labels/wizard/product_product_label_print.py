@@ -161,7 +161,7 @@ class ProductProductLabel(models.TransientModel):
                         {
                             "product_id": line.product_id.id,
                             "quantity": line.quantity,
-                            "lot": line.lot_id.name if line.lot_id else "",
+                            "lot": line.lot_id.name or line.lot_name or "",
                         },
                     ]
                 )
@@ -285,36 +285,30 @@ class ProductProductLabelLine(models.TransientModel):
 
     def _compute_barcode_image(self):
         for line in self:
-            if line.product_id.barcode or line.product_id.default_code:
-                if line.product_id.barcode:
-                    barcode_image = createBarcodeDrawing(
-                        "EAN13",
-                        value=line.product_id.barcode,
-                        width=200,
-                        height=100,
-                        format="svg",
-                        humanReadable=True,
-                    )
-
-                    code = line.product_id.barcode
-                else:
-                    barcode_image = createBarcodeDrawing(
-                        "Code128",
-                        value=line.product_id.default_code or "no_barcode",
-                        width=600,
-                        height=100,
-                        format="svg",
-                        humanReadable=False,
-                    )
-                    code = line.product_id.default_code
-
-                barcode_image.save(["svg"], fnRoot=code, outDir="/tmp")
-                filename = f"/tmp/{code}.svg"
-                with open(filename) as f:
-                    barcode_image = f.read()
-
-                barcode_image = base64.b64encode(barcode_image.encode())
-                line.barcode_image = f"data:image/svg+xml;base64,{barcode_image.decode()}"
+            line.barcode_image = False
+            if line.product_id.barcode:
+                barcode_image = createBarcodeDrawing(
+                    "EAN13",
+                    value=line.product_id.barcode,
+                    width=200,
+                    height=100,
+                    humanReadable=True,
+                )
+            elif line.product_id.default_code:
+                barcode_image = createBarcodeDrawing(
+                    "Code128",
+                    value=line.product_id.default_code,
+                    width=600,
+                    height=100,
+                    humanReadable=False,
+                )
+            else:
+                continue
+            # base64 of the SVG only; the report builds the data URI with image_data_uri
+            svg = barcode_image.asString("svg")
+            if isinstance(svg, str):
+                svg = svg.encode()
+            line.barcode_image = base64.b64encode(svg)
 
     def get_label_data(self):
         return {

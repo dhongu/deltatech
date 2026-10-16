@@ -44,8 +44,8 @@
     </template>
     <template id="set_barcode">
         <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
-        <t t-if="code">
-            <t t-set="image_barcode" t-value="'data:image/png;base64,%s' % line.barcode_image" />
+        <t t-if="code and line.barcode_image">
+            <t t-set="image_barcode" t-value="image_data_uri(line.barcode_image)" />
             <style>
                 .barcode
                 <t t-esc="line.product_id.id" />
