@@ -673,6 +673,9 @@
     "deltatech_website_delivery_and_payment": {
       "tests": 19
     },
+    "deltatech_website_disable_fuzzy_search": {
+      "tests": 2
+    },
     "deltatech_website_product_code": {
       "tests": 33
     },
