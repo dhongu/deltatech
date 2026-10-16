@@ -42,15 +42,20 @@ class StockPickingReport(models.Model):
     product_weight = fields.Float(string="Weight", digits="Product UoM", readonly=True)
 
     def _select(self):
-        select_str = """
+        # processed quantity of the move, converted into the product unit
+        qty = "(CASE WHEN sm.product_uom = pt.uom_id THEN sm.quantity ELSE sm.quantity * mu.factor / pu.factor END)"
+        # incoming (into an internal location) is positive, everything else negative
+        sign = "(CASE WHEN sl.usage='internal' THEN 1 ELSE -1 END)"
+        amount = f"COALESCE(SUM(sm.value), SUM({qty} * sm.price_unit), 0)"
+        select_str = f"""
             SELECT min(sm.id) as id, sp.id as picking_id,
             sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date_done as date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
-            sm.location_id,sm.location_dest_id,sl.usage as dest_usage, sum(pt.weight*sm.product_qty) as product_weight,
-            CASE WHEN sl.usage='internal' THEN sum(sm.product_qty) ELSE -1*sum(sm.product_qty) END as product_qty,
+            sm.location_id,sm.location_dest_id,sl.usage as dest_usage, sum(pt.weight*{qty}) as product_weight,
+            {sign} * sum({qty}) as product_qty,
 
-            COALESCE(abs(SUM(sm.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
-            COALESCE((SUM(sm.value)),sum(sm.product_qty*sm.price_unit)) as amount
+            COALESCE(abs(SUM(sm.value) / NULLIF(sum({qty}), 0)), avg(sm.price_unit)) as price,
+            {sign} * {amount} as amount
         """
         return select_str
 
@@ -63,6 +68,8 @@ class StockPickingReport(models.Model):
             LEFT JOIN product_product as pp ON  sm.product_id = pp.id
             LEFT JOIN product_template as pt ON  pp.product_tmpl_id = pt.id
             LEFT JOIN stock_location sl on sm.location_dest_id = sl.id
+            LEFT JOIN uom_uom mu ON mu.id = sm.product_uom
+            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
         """
         return from_str
 
