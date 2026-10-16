@@ -641,6 +641,9 @@
       "lines": 92,
       "tests": 9
     },
+    "deltatech_warehouse_map": {
+      "tests": 8
+    },
     "deltatech_warranty": {
       "coverage": 100.0,
       "lines": 6,

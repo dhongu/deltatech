@@ -16,8 +16,11 @@ Warehouse Map
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_warehouse_map
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_warehouse_map/tests
+    :alt: 8 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 - Features:
 
@@ -37,7 +40,8 @@ Warehouse Map
       High‑contrast labels with the name and ``(current/max)`` values.
     - Clear cell borders to visually separate segments.
 
-  - Capacity and occupancy tracking on ``stock.location``:
+  - Capacity and occupancy tracking on ``stock.location`` (fields
+    provided by ``deltatech_putaway_strategy``):
 
     - ``max_products_leaf`` (manual, for leaf locations).
     - Computed ``max_products`` (sum of children for non‑leaf
@@ -51,20 +55,21 @@ Warehouse Map
   - Navigation and UI integration:
 
     - List view button “Map” on Locations; form smart button “Open Map”.
-    - Menu: Inventory → Warehouse Map opens the Stock root in the
-      generic view.
+    - The occupancy and quantity labels of a segment open the current
+      stock (quants) of that location and its sublocations, grouped by
+      product.
+    - ``/deltatech/warehouse_map`` opens the Stock root in the generic
+      view.
 
   - Technical details:
 
-    - Routes: ``/deltatech/warehouse_map`` and
-      ``/deltatech/warehouse_map/location/<id>``.
+    - Routes: ``/deltatech/warehouse_map``,
+      ``/deltatech/warehouse_map/location/<id>`` and
+      ``/deltatech/warehouse_map/location_open_quants/<id>``.
+    - Only Inventory users (``stock.group_stock_user``) can open the
+      map; locations of other companies return 404.
     - Layout independent of Bootstrap utilities; responsive flex layout
       to keep the name and bar on a single line.
-
-  - Optional demo data generation:
-
-    - A post‑init hook can create a sample hierarchical structure under
-      the Stock location for quick testing.
 
 - Configuration:
 
@@ -75,8 +80,8 @@ Warehouse Map
 
   - Open Inventory → Configuration → Locations and click “Map” on any
     record, or use the smart button on the Location form.
-  - From the Warehouse Map menu, start at the Stock root and drill down
-    by clicking segments.
+  - Start at the Stock root (``/deltatech/warehouse_map``) or at any
+    location and drill down by clicking segments.
 
 - Notes & limitations:
 
