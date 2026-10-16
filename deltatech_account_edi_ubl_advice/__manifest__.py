@@ -3,7 +3,7 @@
 {
     "name": "UBL Despatch Advice",
     "summary": "Deltatech Account UBL despatch advice",
-    "version": "19.0.1.0.3",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

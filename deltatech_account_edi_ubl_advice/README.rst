@@ -1,6 +1,6 @@
-=============================
-Deltatech UBL despatch advice
-=============================
+===================
+UBL Despatch Advice
+===================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech UBL despatch advice
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_edi_ubl_advice
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_account_edi_ubl_advice
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2070%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_account_edi_ubl_advice
-    :alt: 2 automated tests · 70% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Deltatech UBL Despatch Advice
 =============================
@@ -103,6 +100,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_edi_ubl_advice>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_account_edi_ubl_advice>`_ project on GitHub.
 
 You are welcome to contribute.
