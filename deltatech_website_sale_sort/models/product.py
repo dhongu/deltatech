@@ -7,7 +7,6 @@ import logging
 from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models
-from odoo.tools.float_utils import float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -111,10 +110,7 @@ class ProductProduct(models.Model):
 
         for product in self:
             visit_count = visit_mapping.get(product.id, 0)
-            sales_count2 = float_round(
-                sale_mapping.get(product.id, 0),
-                precision_rounding=product.uom_id.rounding,
-            )
+            sales_count2 = product.uom_id.round(sale_mapping.get(product.id, 0))
             product.write({"visit_count": visit_count, "sales_count2": sales_count2})
 
     @api.model

@@ -13,7 +13,8 @@ class Website(models.Model):
     _inherit = "website"
 
     def _get_product_sort_mapping(self):
-        sort_mapping = super()._get_product_sort_mapping()
+        # in 20.0 the standard mapping is the (tuple) selection of shop_default_sort
+        sort_mapping = list(super()._get_product_sort_mapping())
 
         sort_mapping += [
             ("sales_count2 desc", self.env._("Best sellers")),
@@ -23,4 +24,4 @@ class Website(models.Model):
             ("in_stock desc", self.env._("Availability")),
         ]
 
-        return sort_mapping
+        return tuple(sort_mapping)
