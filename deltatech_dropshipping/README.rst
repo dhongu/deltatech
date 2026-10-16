@@ -1,6 +1,6 @@
-=======================
-Deltatech Drop Shipping
-=======================
+=============
+Drop Shipping
+=============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,17 +10,14 @@ Deltatech Drop Shipping
    !! source digest: sha256:b3539b79504f6d4845ed1eabb414119cc2710c9a32be0476c9f4aff029b89467
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_dropshipping
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_dropshipping
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_dropshipping
-    :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 This module enhances the dropshipping workflow by providing better
 visibility and price control.
@@ -38,6 +35,20 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.1.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.1.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -67,6 +78,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_dropshipping>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_dropshipping>`_ project on GitHub.
 
 You are welcome to contribute.
