@@ -170,3 +170,36 @@ class TestHandoverDocument(TransactionCase):
         # Smoke test: ask for the action dict; do not render the PDF to keep the test light
         action_dict = action.report_action(self.project)
         self.assertIsInstance(action_dict, dict)
+
+    def test_report_render_html(self):
+        """The handover document renders: attendees, the Annex 1 process table and
+        the custom developments table, with values printed through t-out."""
+        self.project.write(
+            {
+                "provider_company": "Provider SRL",
+                "recipient_company": "Recipient SRL",
+                "provider_testers": [(6, 0, self.partner.ids)],
+            }
+        )
+        self.env["business.process"].create(
+            {"name": "Proc Rendered", "project_id": self.project.id, "area_id": self.area.id}
+        )
+        dev_type = self.env["business.development.type"].create({"name": "Backend"})
+        dev = self.env["business.development"].create(
+            {
+                "name": "Dev Rendered",
+                "type_id": dev_type.id,
+                "area_id": self.area.id,
+                "project_id": self.project.id,
+            }
+        )
+        dev.state = "production"
+        self.project._compute_development_ids()
+        html, _report_type = self.env["ir.actions.report"]._render_qweb_html(
+            "deltatech_business_process_handover_document.action_report_verbal_process", self.project.ids
+        )
+        html = html.decode() if isinstance(html, bytes) else str(html)
+        self.assertIn("Provider SRL", html)
+        self.assertIn("Recipient SRL", html)
+        self.assertIn("Proc Rendered", html)
+        self.assertIn("Dev Rendered", html)

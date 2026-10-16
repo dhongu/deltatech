@@ -10,23 +10,20 @@ Business process handover document
    !! source digest: sha256:c1c7b221faee247db986ca3e865dffd76af1e92184919010de240e5a6da95f27
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_business_process_handover_document
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document
-    :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Extends the **deltatech_business_process** module to generate a formal
 **Handover Document** (proces-verbal de predare-primire) in PDF format
 directly from a Business Project.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds provider and recipient company details (name, representative,
   testers) to the Business Project form.
@@ -77,6 +74,38 @@ On each **Business Area** form, tick the **Handover Checked** checkbox
 to indicate that the area has been reviewed and accepted during
 handover.
 
+Changelog
+=========
+
+20.0.0.0.7 (2026-10-16)
+-----------------------
+
+Migration to 20.0:
+
+- The report template prints its values with ``t-out`` (server-side
+  ``t-esc`` is ignored in 20).
+- The computed ``development_ids`` field is labelled "Project
+  Developments": it had the same label as ``count_developments`` of
+  ``deltatech_business_process`` (registry warning).
+- The paper format file had a stray character after the record; removed.
+- New test that renders the handover document.
+
+19.0.0.0.7 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.0.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.5 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -105,6 +134,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_business_process_handover_document>`_ project on GitHub.
 
 You are welcome to contribute.

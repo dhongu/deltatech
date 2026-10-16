@@ -135,7 +135,7 @@ msgstr ""
 
 #. module: deltatech_business_process_handover_document
 #: model:ir.model.fields,field_description:deltatech_business_process_handover_document.field_business_project__development_ids
-msgid "Developments"
+msgid "Project Developments"
 msgstr ""
 
 #. module: deltatech_business_process_handover_document

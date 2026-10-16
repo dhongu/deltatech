@@ -11,7 +11,7 @@
                     <br />
                     <br />
                     <span>Date:
-                        <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
+                        <t t-out="datetime.date.today().strftime('%d-%m-%Y')" />
                     </span>
                     <br />
                     <span>Attendees:</span>
@@ -19,29 +19,29 @@
                     <br />
                     <ul>
                         <li>
-                            <t t-esc="o.provider_company" />
+                            <t t-out="o.provider_company" />
                             represented by
-                            <t t-esc="o.provider_representative.name" />
+                            <t t-out="o.provider_representative.name" />
                             and testing representative
                             <t t-set="total_testers" t-value="len(o.provider_testers)" />
                             <t t-set="counter" t-value="0" />
                             <t t-foreach="o.provider_testers" t-as="tester">
                                 <t t-set="counter" t-value="counter + 1" />
-                                <t t-esc="tester.name" />
+                                <t t-out="tester.name" />
                                 <t t-if="counter &lt; total_testers">,</t>
                                 <t t-if="counter == total_testers">.</t>
                             </t>
                         </li>
                         <li>
-                            <t t-esc="o.recipient_company" />
+                            <t t-out="o.recipient_company" />
                             represented by
-                            <t t-esc="o.recipient_representative.name" />
+                            <t t-out="o.recipient_representative.name" />
                             and testing representative
                             <t t-set="total_testers" t-value="len(o.recipient_testers)" />
                             <t t-set="counter" t-value="0" />
                             <t t-foreach="o.recipient_testers" t-as="tester">
                                 <t t-set="counter" t-value="counter + 1" />
-                                <t t-esc="tester.name" />
+                                <t t-out="tester.name" />
                                 <t t-if="counter &lt; total_testers">,</t>
                                 <t t-if="counter == total_testers">.</t>
                             </t>
@@ -53,7 +53,7 @@
                     <br />
                     <br />
                     <span>According to the previously agreed terms between the parties, today,
-                        <t t-esc="datetime.date.today().strftime('%d-%m-%Y')" />
+                        <t t-out="datetime.date.today().strftime('%d-%m-%Y')" />
                         , the Odoo system handover process took place. The details of the process are as follows:
                     </span>
                     <br />
@@ -156,7 +156,7 @@
                 <t t-foreach="o.handover_process_ids.mapped('area_id').sorted(key=lambda r: r.name)" t-as="area">
                     <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
                         <td>
-                            <t t-esc="area.name" />
+                            <t t-out="area.name" />
                         </td>
                         <t t-set="total_internal_steps" t-value="0" />
                         <t t-foreach="o.handover_process_ids" t-as="process">
@@ -175,7 +175,7 @@
                             </t>
                         </t>
                         <td t-if="total_internal_steps > 0">
-                            <span t-esc="total_internal_steps" />
+                            <span t-out="total_internal_steps" />
                         </td>
                         <td t-if="total_internal_steps == 0">
                             <span>0</span> <!-- Invisible character if no steps -->
@@ -197,7 +197,7 @@
                             </t>
                         </t>
                         <td t-if="total_user_steps > 0 and not area.handover_checked">
-                            <span t-esc="total_user_steps" />
+                            <span t-out="total_user_steps" />
                         </td>
                         <td t-if="total_user_steps == 0 and not area.handover_checked">
                             <span>0</span>  <!-- Invisible character if no steps -->
@@ -211,7 +211,7 @@
                     <t t-foreach="o.handover_process_ids.filtered(lambda p: p.area_id == area)" t-as="process">
                         <tr>
                             <td>
-                                <span t-esc="process.name" />
+                                <span t-out="process.name" />
                             </td>
 
                             <!-- Internal Steps -->
@@ -220,7 +220,7 @@
                                 t-value="sum(len(test.test_step_ids or []) for test in (process.test_ids or []) if test.scope == 'internal' and test.state == 'done')"
                             />
                             <td t-if="internal_steps > 0" style="text-align: center;">
-                                <span t-esc="internal_steps" />
+                                <span t-out="internal_steps" />
                             </td>
                             <td t-if="internal_steps == 0" style="text-align: center;">
                                 <span>0</span><!-- Invisible character if no steps -->
@@ -235,7 +235,7 @@
                                 t-if="user_acceptance_steps > 0 and not area.handover_checked"
                                 style="text-align: center;"
                             >
-                                <span t-esc="user_acceptance_steps" />
+                                <span t-out="user_acceptance_steps" />
                             </td>
                             <td
                                 t-if="user_acceptance_steps == 0 and not area.handover_checked"
@@ -288,7 +288,7 @@
 
                         <tr style="background-color:#f8f3dd; font-weight:bold; text-align: center;">
                             <td colspan="4">
-                                <t t-esc="area.name" />
+                                <t t-out="area.name" />
                             </td>
                         </tr>
                         <t
@@ -297,16 +297,16 @@
                         >
                             <tr>
                                 <td style="text-align: center;">
-                                    <span t-esc="development.code" />
+                                    <span t-out="development.code" />
                                 </td>
                                 <td>
-                                    <span t-esc="development.name" />
+                                    <span t-out="development.name" />
                                 </td>
                                 <td style="text-align: center;">
-                                    <span t-esc="development.area_id.name" />
+                                    <span t-out="development.area_id.name" />
                                 </td>
                                 <td style="text-align: center;">
-                                    <span t-esc="development.development_duration" />
+                                    <span t-out="development.development_duration" />
                                 </td>
                             </tr>
 
@@ -314,16 +314,16 @@
                     </t>
                     <!--                            <tr>-->
                     <!--                                <td>-->
-                    <!--                                    <span t-esc="development.code"/>-->
+                    <!--                                    <span t-out="development.code"/>-->
                     <!--                                </td>-->
                     <!--                                <td>-->
-                    <!--                                    <span t-esc="development.name"/>-->
+                    <!--                                    <span t-out="development.name"/>-->
                     <!--                                </td>-->
                     <!--                                <td>-->
-                    <!--                                    <span t-esc="development.area_id.name"/>-->
+                    <!--                                    <span t-out="development.area_id.name"/>-->
                     <!--                                </td>-->
                     <!--                                <td>-->
-                    <!--                                    <span t-esc="development.development_duration"/>-->
+                    <!--                                    <span t-out="development.development_duration"/>-->
                     <!--                                </td>-->
                     <!--                            </tr>-->
                     <!--                        </t>-->

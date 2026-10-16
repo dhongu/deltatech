@@ -72,7 +72,7 @@ class BusinessProject(models.Model):
     development_ids = fields.One2many(
         "business.development",
         "project_id",
-        string="Developments",
+        string="Project Developments",
         compute="_compute_development_ids",
         store=True,
     )

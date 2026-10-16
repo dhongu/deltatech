@@ -4,7 +4,6 @@
             <field name="model">business.project</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_business_process_handover_document.report_bp_document</field>
-            <field name="report_file">deltatech_business_process_handover_document.report_bp_document</field>
             <field name="print_report_name">'Handover Document'</field>
             <field name="binding_model_id" ref="model_business_project" />
             <field name="binding_type">report</field>
