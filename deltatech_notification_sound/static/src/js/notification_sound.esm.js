@@ -1,6 +1,6 @@
 import {notificationService} from "@web/core/notifications/notification_service";
 import {patch} from "@web/core/utils/patch";
-import {session} from "@web/session";
+import {user} from "@web/core/user";
 
 const SOUND_MAP = {
     success: "/deltatech_notification_sound/static/src/sounds/notify.wav",
@@ -15,7 +15,9 @@ const DEFAULT_TYPE = "warning";
 
 function playSound(type) {
     // Fail open: only stay silent when the user explicitly disabled the sounds.
-    if (session.user_context?.notification_sound_enabled === false) {
+    // `session.user_context` is consumed (and deleted) by `@web/core/user`,
+    // so the preference is read from `user.context`.
+    if (user.context.notification_sound_enabled === false) {
         return;
     }
     const url = SOUND_MAP[type || DEFAULT_TYPE];

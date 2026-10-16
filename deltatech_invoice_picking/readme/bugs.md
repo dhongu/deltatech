@@ -46,6 +46,22 @@ Review date: 2026-10-02. Target version: Odoo 19.
 - **Suggested fix:** Enforce remaining receipt-specific signed billable quantity server-side, reject already fully billed receipts, and maintain allocations across bills/refunds instead of a single replaceable link.
 - **Validation needed:** Repeated list action, mixed billed/unbilled receipts, partial bills, cancellations and returns; total billed physical quantity must never exceed remaining eligible receipts.
 
+## PICKINV-005 — P2: Batch invoicing stops at the first selected batch
+
+- **Status:** Fixed in 19.0.1.0.15 — `stock.picking.batch.action_create_invoice()` collects the not yet invoiced transfers of all the selected batches and invoices them in one call; delivery and receipt batches together are refused. Covered by tests in tests/test_invoice_picking_batch.py.
+- **Location:** models/stock_picking_batch.py, action_create_invoice().
+- **Actual behavior:** The loop returned the invoicing action of the first batch, so the other selected batches were ignored.
+
+## PICKINV-006 — P3: A batch without transfers is reported as invoiced
+
+- **Status:** Fixed in 19.0.1.0.15 — `_compute_invoiced()` returns False for a batch without transfers, and `_search_invoiced()` gives the same result. Covered by tests in tests/test_invoice_picking_batch.py.
+- **Location:** models/stock_picking_batch.py, _compute_invoiced()/_search_invoiced().
+
+## PICKINV-007 — P3: Invoice button visible on unfinished or invoiced batches
+
+- **Status:** Fixed in 19.0.1.0.15 — the button condition is `state!='done' or invoiced` (it was `and`). Covered by tests in tests/test_invoice_picking_batch.py.
+- **Location:** views/stock_view.xml, view_batch_form_invoice.
+
 ## Review limitations
 
 All eligible Python/XML source was read. Isolated AST-extracted method reproductions use mock objects and do not establish Odoo integration coverage. No database billing, posting, migrations or runtime tests were executed.

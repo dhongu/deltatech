@@ -159,6 +159,12 @@ msgstr ""
 #. module: deltatech_invoice_picking
 #. odoo-python
 #: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
+msgid "You cannot invoice delivery and receipt batches together."
+msgstr ""
+
+#. module: deltatech_invoice_picking
+#. odoo-python
+#: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
 msgid "You cannot invoice this type of batches: (%s)"
 msgstr ""
 
