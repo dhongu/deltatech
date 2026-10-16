@@ -20,3 +20,4 @@ from . import test_coverage_wizards
 from . import test_coverage_inventory_product
 from . import test_quant_clear
 from . import test_audit_p2_issues
+from . import test_reserved_pickings
