@@ -1,5 +1,8 @@
+from psycopg2.errors import CheckViolation
+
 from odoo import Command, fields
 from odoo.tests import tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -212,9 +215,8 @@ class TestPackagingMaterialCategory(AccountTestInvoicingCommon):
             }
         )
 
+    @mute_logger("odoo.sql_db")
     def test_a_material_belongs_to_a_product_or_to_a_category(self):
-        from psycopg2.errors import CheckViolation
-
         for vals in (
             {"material_type": "paper", "qty_sale": 1.0},
             {

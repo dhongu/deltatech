@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_packaging_product_material,access.packaging.product.material,packaging.product.material,base.group_user,crud,
+access_packaging_invoice_material,access.packaging.invoice.material,packaging.invoice.material,base.group_user,crud,
+packaging_invoice_material_comp_rule,Invoice packaging material multi-company,packaging.invoice.material,,crud,"[('invoice_id.company_id', 'in', company_ids)]"
+access_packaging_report_material,access.packaging.report.material,packaging.report.material,base.group_user,crud,
+access_packaging_report_material_line,access.packaging.report.material.line,packaging.report.material.line,base.group_user,crud,
