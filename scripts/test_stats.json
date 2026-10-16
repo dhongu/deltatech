@@ -16,6 +16,9 @@
       "lines": 124,
       "tests": 26
     },
+    "deltatech_alternative_website": {
+      "tests": 8
+    },
     "deltatech_average_payment_period": {
       "coverage": 75.4,
       "lines": 114,
@@ -592,10 +595,22 @@
     "deltatech_website_product_code": {
       "tests": 33
     },
+    "deltatech_website_product_placeholder": {
+      "tests": 6
+    },
+    "deltatech_website_sale_sort": {
+      "tests": 3
+    },
+    "deltatech_website_sale_status": {
+      "tests": 44
+    },
     "deltatech_website_short_description": {
       "coverage": 100.0,
       "lines": 11,
       "tests": 1
+    },
+    "deltatech_website_stock_availability": {
+      "tests": 8
     },
     "deltatech_widget_fontawesome": {
       "tests": 0

@@ -16,8 +16,11 @@ eCommerce Stock Availability
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability/tests
+    :alt: 8 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 The module allows the display of stock on the website below a certain
 threshold, with the possibility of ordering even if the stock is not
