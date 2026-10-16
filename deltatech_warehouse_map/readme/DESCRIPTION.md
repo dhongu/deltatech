@@ -7,26 +7,26 @@
     - Each segment contains an internal progress bar representing the occupancy percentage of that sub‑location.
     - Color thresholds: green (<60%), yellow (60–90%), red (≥90%). High‑contrast labels with the name and `(current/max)` values.
     - Clear cell borders to visually separate segments.
-  - Capacity and occupancy tracking on `stock.location`:
+  - Capacity and occupancy tracking on `stock.location` (fields provided by `deltatech_putaway_strategy`):
     - `max_products_leaf` (manual, for leaf locations).
     - Computed `max_products` (sum of children for non‑leaf locations).
     - Computed `current_products` (for leaves: sum of `quantity` from `stock.quant` with quantity > 0; for non‑leaves: sum of children).
     - Computed `occupancy_ratio` = `current/max` (protected against division by zero).
   - Navigation and UI integration:
     - List view button “Map” on Locations; form smart button “Open Map”.
-    - Menu: Inventory → Warehouse Map opens the Stock root in the generic view.
+    - The occupancy and quantity labels of a segment open the current stock (quants) of that location and its sublocations, grouped by product.
+    - `/deltatech/warehouse_map` opens the Stock root in the generic view.
   - Technical details:
-    - Routes: `/deltatech/warehouse_map` and `/deltatech/warehouse_map/location/<id>`.
+    - Routes: `/deltatech/warehouse_map`, `/deltatech/warehouse_map/location/<id>` and `/deltatech/warehouse_map/location_open_quants/<id>`.
+    - Only Inventory users (`stock.group_stock_user`) can open the map; locations of other companies return 404.
     - Layout independent of Bootstrap utilities; responsive flex layout to keep the name and bar on a single line.
-  - Optional demo data generation:
-    - A post‑init hook can create a sample hierarchical structure under the Stock location for quick testing.
 
 - Configuration:
   - Set `Max products (leaf)` on leaf locations in the Location form (Capacity section). Non‑leaf values are computed from children.
 
 - Usage:
   - Open Inventory → Configuration → Locations and click “Map” on any record, or use the smart button on the Location form.
-  - From the Warehouse Map menu, start at the Stock root and drill down by clicking segments.
+  - Start at the Stock root (`/deltatech/warehouse_map`) or at any location and drill down by clicking segments.
 
 - Notes & limitations:
   - Occupancy is based on total on‑hand quantity (`sum(quantity)`) in leaf locations; can be adapted to available quantity or other metrics if needed.

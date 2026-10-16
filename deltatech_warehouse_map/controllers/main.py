@@ -14,7 +14,7 @@ class WarehouseMapController(http.Controller):
     @http.route("/deltatech/warehouse_map", type="http", auth="user")
     def map_home(self, **kwargs):
         if not self._has_stock_access():
-            return request.not_found()
+            raise request.not_found()
         # Pagină de pornire minimă: listăm rădăcina Stock și oferim link către hartă generică
         stock = request.env.ref("stock.stock_location_stock", raise_if_not_found=False)
         if stock and not stock.has_access("read"):
@@ -32,10 +32,10 @@ class WarehouseMapController(http.Controller):
         # Afișare generică: pentru o locație selectată, afișează copiii pe linii,
         # iar pentru fiecare copil afișează copiii lui pe o a doua linie (defalcare).
         if not self._has_stock_access():
-            return request.not_found()
+            raise request.not_found()
         location = self._get_location(loc_id)
         if not location:
-            return request.not_found()
+            raise request.not_found()
 
         # Pre-fetch children
         children = request.env["stock.location"].search([("location_id", "=", location.id)])
@@ -58,17 +58,11 @@ class WarehouseMapController(http.Controller):
 
     @http.route("/deltatech/warehouse_map/location_open_quants/<int:loc_id>", type="http", auth="user")
     def location_open_quants(self, loc_id, **kwargs):
-        # Afișare generică: pentru o locație selectată, afișează copiii pe linii,
-        # iar pentru fiecare copil afișează copiii lui pe o a doua linie (defalcare).
         if not self._has_stock_access():
-            return request.not_found()
+            raise request.not_found()
         location = self._get_location(loc_id)
         if not location:
-            return request.not_found()
+            raise request.not_found()
 
-        action = request.env["ir.actions.actions"]._for_xml_id("stock.location_open_quants")
-        action["domain"] = [("location_id", "child_of", [location.id])]
-        action["context"] = {"search_default_productgroup": 1}
-        action["name"] = f"Current Stock in {location.display_name}"
-
-        return action
+        # Lista de stocuri (quant-uri) din locație și sublocațiile ei, grupată pe produs
+        return request.redirect(f"/odoo/{location.id}/action-deltatech_warehouse_map.action_location_open_quants")

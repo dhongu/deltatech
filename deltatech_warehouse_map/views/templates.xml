@@ -18,20 +18,20 @@
 
                 <div class="dw-box-content">
                     <span class="dw-node-stats">
-                        <a t-attf-href="/web#action=stock.location_open_quants&amp;active_id={{ node.id }}">
-                            <t t-esc="'%.0f' % ratio" />%
+                        <a t-attf-href="/deltatech/warehouse_map/location_open_quants/{{ node.id }}">
+                            <t t-out="'%.0f' % ratio" />%
                         </a>
                     </span>
 
                     <span class="dw-node-name">
                         <a t-att-href="'/deltatech/warehouse_map/location/%d' % node.id">
-                            <t t-esc="node.name" />
+                            <t t-out="node.name" />
                         </a>
                     </span>
 
                     <span class="dw-node-qty">
-                        <a t-attf-href="/web#action=stock.location_open_quants&amp;active_id={{ node.id }}">
-                            <t t-esc="node.current_products" />
+                        <a t-attf-href="/deltatech/warehouse_map/location_open_quants/{{ node.id }}">
+                            <t t-out="node.current_products" />
                         </a>
                     </span>
                 </div>
@@ -40,10 +40,7 @@
             <t t-if="node.child_ids">
                 <div class="dw-box-children-row">
                     <t t-foreach="node.child_ids" t-as="child">
-                        <t t-call="deltatech_warehouse_map.location_recursive_node">
-                            <t t-set="node" t-value="child" />
-                            <t t-set="depth" t-value="depth + 1" />
-                        </t>
+                        <t t-call="deltatech_warehouse_map.location_recursive_node" node="child" depth="depth + 1"/>
                     </t>
                 </div>
             </t>
@@ -51,8 +48,8 @@
     </template>
 
     <template id="view_location_generic" name="Warehouse Map - Final Tri-Info">
-        <t t-call="web.layout">
-            <t t-set="title">Hartă Depozit - <t t-esc="location.name" /></t>
+        <t t-set="title">Hartă Depozit - <t t-out="location.name" /></t>
+        <t t-call="web.layout" title="title">
 
             <style>
                 /* Layout General al Paginii */
@@ -183,7 +180,7 @@
             <div class="o_map_page">
                 <div class="map-main-header d-flex justify-content-between align-items-center">
                     <div>
-                        <h4 class="m-0 fw-bold"><t t-esc="location.display_name" /></h4>
+                        <h4 class="m-0 fw-bold"><t t-out="location.display_name" /></h4>
                         <small class="text-muted">Vizualizare ierarhică depozit</small>
                     </div>
                     <t t-if="location.location_id">
@@ -197,10 +194,7 @@
                 <div class="d-flex flex-column gap-3">
                     <t t-if="location.child_ids">
                         <t t-foreach="location.child_ids" t-as="first_child">
-                            <t t-call="deltatech_warehouse_map.location_recursive_node">
-                                <t t-set="node" t-value="first_child" />
-                                <t t-set="depth" t-value="0" />
-                            </t>
+                            <t t-call="deltatech_warehouse_map.location_recursive_node" node="first_child" depth="0"/>
                         </t>
                     </t>
                 </div>
@@ -219,8 +213,8 @@
                                 <tbody>
                                     <t t-foreach="quants" t-as="q">
                                         <tr>
-                                            <td class="ps-3"><t t-esc="q.product_id.display_name" /></td>
-                                            <td class="text-end pe-3 fw-bold text-primary"><t t-esc="q.quantity" /></td>
+                                            <td class="ps-3"><t t-out="q.product_id.display_name" /></td>
+                                            <td class="text-end pe-3 fw-bold text-primary"><t t-out="q.quantity" /></td>
                                         </tr>
                                     </t>
                                 </tbody>

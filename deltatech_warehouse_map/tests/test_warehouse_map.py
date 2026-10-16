@@ -16,6 +16,31 @@ class TestWarehouseMap(HttpCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(location.name, response.text)
 
+    def test_03_open_quants(self):
+        # the stock links on the map open the quants of the location and of its sublocations
+        self.authenticate("admin", "admin")
+        location = self.env.ref("stock.stock_location_stock")
+        response = self.url_open(
+            f"/deltatech/warehouse_map/location_open_quants/{location.id}",
+            allow_redirects=False,
+        )
+        self.assertIn(response.status_code, (301, 302, 303))
+        self.assertTrue(
+            response.headers["Location"].endswith(
+                f"/odoo/{location.id}/action-deltatech_warehouse_map.action_location_open_quants"
+            )
+        )
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_warehouse_map.action_location_open_quants")
+        self.assertEqual(action["res_model"], "stock.quant")
+        shelf = self.env["stock.location"].create({"name": "WMAP Quants Shelf", "location_id": location.id})
+        page = self.url_open(f"/deltatech/warehouse_map/location/{location.id}")
+        self.assertIn(f"/deltatech/warehouse_map/location_open_quants/{shelf.id}", page.text)
+
+    def test_04_open_quants_missing_location(self):
+        self.authenticate("admin", "admin")
+        response = self.url_open("/deltatech/warehouse_map/location_open_quants/999999999")
+        self.assertEqual(response.status_code, 404)
+
 
 @tagged("post_install", "-at_install")
 class TestWarehouseMapAccess(HttpCase):

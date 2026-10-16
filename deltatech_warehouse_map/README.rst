@@ -1,6 +1,6 @@
-=======================
-Deltatech Warehouse Map
-=======================
+=============
+Warehouse Map
+=============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech Warehouse Map
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_warehouse_map
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_warehouse_map
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2072%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_warehouse_map
-    :alt: 6 automated tests · 72% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 - Features:
 
@@ -94,6 +91,22 @@ Deltatech Warehouse Map
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.0.3 (2026-09-25)
+-----------------------
+
+- Security: the warehouse map routes are restricted to users of the
+  ``Inventory / User`` group (others get 404), and locations and quants
+  are read without ``sudo()``, so access rights and multi-company rules
+  apply.
+
 Bug Tracker
 ===========
 
@@ -114,6 +127,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_warehouse_map>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_warehouse_map>`_ project on GitHub.
 
 You are welcome to contribute.
