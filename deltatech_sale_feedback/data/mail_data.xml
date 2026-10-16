@@ -4,19 +4,19 @@
     <record id="mail_template_sale_feedback" model="mail.template">
         <field name="name">Invoice: request feedback</field>
         <field name="model_id" ref="sale.model_account_move" />
-        <field name="subject">${object.company_id.name} (Ref ${object.name or 'n/a' })</field>
-        <field name="email_from">${(object.user_id.email_formatted or user.email_formatted) | safe}</field>
-        <field name="partner_to">${object.partner_id.id}</field>
+        <field name="subject">{{ object.company_id.name }} (Ref {{ object.name or 'n/a' }})</field>
+        <field name="email_from">{{ object.user_id.email_formatted or user.email_formatted }}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
         <field name="body_html" type="html">
             <div style="margin: 0px; padding: 0px;">
                 <p style="margin: 0px; padding: 0px; font-size: 12px;">
                     Dear
                     <t t-if="object.partner_id.parent_id">
-                        <t t-esc="object.partner_id.parent_id.name" />
-                        <t t-esc="' (' + object.partner_id.name + ')'" />
+                        <t t-out="object.partner_id.parent_id.name" />
+                        <t t-out="' (' + object.partner_id.name + ')'" />
                     </t>
                     <t t-else="">
-                        <t t-esc="object.partner_id.name" />
+                        <t t-out="object.partner_id.name" />
                     </t>
                     ,
                 </p>
@@ -59,11 +59,11 @@
                                     </td>
                                     <td align="left">
                                         <a t-att-href="line.product_id.website_url">
-                                            <t t-esc="line.product_id.name" />
+                                            <t t-out="line.product_id.name" />
                                         </a>
                                     </td>
                                     <td width="15%" align="center">
-                                        <t t-esc="line.quantity" />
+                                        <t t-out="line.quantity" />
                                     </td>
                                     <td style="font-size: 10px;">
                                         <table style="width:100%;text-align:center;">
@@ -110,7 +110,7 @@
         </field>
 
 
-        <field name="lang">${object.partner_id.lang}</field>
+        <field name="lang">{{ object.partner_id.lang }}</field>
         <field name="auto_delete" eval="True" />
     </record>
 

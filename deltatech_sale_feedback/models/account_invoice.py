@@ -7,7 +7,6 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools.safe_eval import safe_eval
 
 
 class AccountInvoice(models.Model):
@@ -15,31 +14,44 @@ class AccountInvoice(models.Model):
 
     @api.model
     def cron_request_feedback(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        days_request_feedback = safe_eval(get_param("sale.days_request_feedback", "3"))
+        days_request_feedback = self.env["ir.config_parameter"].sudo().get_int("sale.days_request_feedback", 3)
         invoice_date = date.today() + relativedelta(days=-days_request_feedback)
-        domain = [("move_type", "=", "out_invoice"), ("invoice_date", "=", invoice_date)]
+        domain = [
+            ("move_type", "=", "out_invoice"),
+            ("state", "=", "posted"),
+            ("invoice_date", "=", invoice_date),
+            ("company_id.sale_feedback", "=", True),
+        ]
         invoices = self.env["account.move"].search(domain)
         invoices.request_feedback()
 
     def request_feedback(self):
-        res_id = "deltatech_sale_feedback.mail_template_sale_feedback"
-        template_id = self.env["ir.model.data"].xmlid_to_res_id(res_id, raise_if_not_found=True)
+        default_template = self.env.ref("deltatech_sale_feedback.mail_template_sale_feedback")
         for invoice in self.filtered(lambda i: i.move_type == "out_invoice"):
-            web_base_url = invoice.company_id.website
-            message_post = invoice.with_context(force_send=True, web_base_url=web_base_url).message_post_with_template
+            template = invoice.company_id.sale_feedback_template_id or default_template
+            invoice.with_context(web_base_url=invoice.company_id.website).message_post_with_source(
+                template,
+                message_type="comment",
+                subtype_xmlid="mail.mt_comment",
+                email_layout_xmlid="mail.mail_notification_light",
+                force_send=True,
+            )
 
-            message_post(template_id, composition_mode="comment", email_layout_xmlid="mail.mail_notification_light")
+    def get_base_url(self):
+        # linkurile de rating din e-mail duc pe website-ul companiei, dacă e setat
+        web_base_url = self.env.context.get("web_base_url")
+        if web_base_url:
+            return web_base_url.rstrip("/")
+        return super().get_base_url()
 
 
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
     def rating_get_access_token(self):
-        model_product_template = self.env["ir.model"].search([("model", "=", "product.template")], limit=1)
         rating = self.env["rating.rating"].create(
             {
-                "res_model_id": model_product_template.id,
+                "res_model_id": self.env["ir.model"]._get_id("product.template"),
                 "res_id": self.product_id.product_tmpl_id.id,
                 "partner_id": self.move_id.partner_id.id,
                 "is_internal": False,
