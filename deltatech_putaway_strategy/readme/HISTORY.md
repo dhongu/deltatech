@@ -1,3 +1,15 @@
+# 19.0.1.1.3 (2026-10-16)
+
+- A shelf filled exactly to its capacity no longer keeps a reserved line: the line is sent to
+  another free shelf, as for an over-full one. When no other shelf is free, the reservation no
+  longer loops; validation blocks the overflow.
+- Validation now checks the capacity of the shelves on the move lines, not only of the move
+  destination (e.g. `WH/Stock` with lines on its shelves).
+- Capacity is counted in the product unit: planned quantities and splits convert lines in
+  another unit (e.g. a dozen counts as 12 units).
+- "Avoid Root Location on Reservation" now works with this module alone; it no longer needs
+  `deltatech_stock_removal_priority` to exclude the root location from reservation.
+
 # 19.0.1.1.2 (2026-10-09)
 
 - Apps Store banner (banner.json).

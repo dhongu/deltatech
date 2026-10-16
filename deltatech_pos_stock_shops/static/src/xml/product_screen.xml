@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="deltatech_pos_stock_shops.ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
+        <!-- Outside the category bar: core hides that one when the list is empty, and an empty
+             list is exactly when the filter has to stay reachable. -->
+        <xpath expr="//CategorySelector" position="before">
+            <div
+                t-if="pos.config.display_stock and pos.config.stock_shop_list and pos.config.stock_shop_list.length and !pos.scanning"
+                class="o_pos_shop_stock_filter d-flex gap-1 px-2 pt-2"
+                role="group"
+            >
+                <button
+                    t-foreach="pos.shopStockFilterOptions"
+                    t-as="option"
+                    t-key="option.value"
+                    type="button"
+                    t-attf-class="btn btn-sm {{ pos.shopStockFilter === option.value ? 'btn-primary' : 'btn-secondary' }}"
+                    t-att-data-filter="option.value"
+                    t-on-click="() => pos.setShopStockFilter(option.value)"
+                    t-esc="option.label"
+                />
+            </div>
+        </xpath>
+    </t>
+</templates>

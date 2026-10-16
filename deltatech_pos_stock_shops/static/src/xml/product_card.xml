@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="deltatech_pos_stock_shops.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
+        <!-- Under the quantity of deltatech_pos_stock: what the other shops have, together. -->
+        <xpath expr="//div[hasclass('product-stock-tag')]" position="inside">
+            <div
+                t-if="pos.config.display_stock and props.product.is_storable and shopStockTotal > 0"
+                class="product-shop-qty"
+            >
+                <t t-esc="'+' + shopStockTotal" />
+            </div>
+        </xpath>
+    </t>
+</templates>

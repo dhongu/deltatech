@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="deltatech_pos_stock_shops.ShopStockPopup">
+        <Dialog title="props.productTemplate.display_name" contentClass="'o_pos_shop_stock_popup'">
+            <p class="text-muted small">Offline: the figures are the ones loaded with the session.</p>
+            <table class="table table-sm mb-0">
+                <tbody>
+                    <tr t-foreach="rows" t-as="row" t-key="row.id" t-att-class="row.isCurrent ? 'fw-bold' : ''">
+                        <td t-esc="row.name" />
+                        <td class="text-end">
+                            <span t-att-class="row.quantity &lt;= 0 ? 'text-danger' : ''" t-esc="row.quantity" />
+                            <t t-esc="' ' + uomName" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="props.close">Close</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

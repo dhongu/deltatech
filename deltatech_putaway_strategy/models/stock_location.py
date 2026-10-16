@@ -77,7 +77,9 @@ class StockLocation(models.Model):
             ml_sums = MoveLine._read_group(
                 domain,
                 ["location_dest_id"],
-                ["quantity:sum"],
+                # Capacitatea se măsoară în unitatea de bază a produsului, ca stocul din quant-uri;
+                # `quantity` e în unitatea liniei (ex. duzină), `quantity_product_uom` e convertită.
+                ["quantity_product_uom:sum"],
             )
             for rec in ml_sums:
                 loc_id = rec[0].id
