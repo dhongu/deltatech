@@ -1,7 +1,8 @@
 # ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.fields import Domain
 
 
 class PurchaseOrder(models.Model):
@@ -20,6 +21,7 @@ class PurchaseOrder(models.Model):
         search="_search_picking_status",
     )
 
+    @api.depends("state", "picking_ids", "picking_ids.state")
     def _compute_picking_status(self):
         for order in self:
             if not order.picking_ids:
@@ -45,8 +47,20 @@ class PurchaseOrder(models.Model):
             values = {value}
         else:
             raise NotImplementedError(self.env._("Operator %s not supported", operator))
-        orders = self.search([("state", "!=", "cancel")])
-        f_orders = orders.filtered(lambda x: x.picking_status in values)
+        # Domeniul reproduce exact regula din _compute_picking_status, fără
+        # filtru pe starea comenzii (și comenzile anulate au un status afișat).
+        in_progress = Domain.OR(
+            [
+                Domain("picking_ids", "=", False) & Domain("state", "not in", ["purchase", "done"]),
+                Domain("picking_ids", "any", [("state", "not in", ["done", "cancel"])]),
+            ]
+        )
+        domains = []
+        if "in_progress" in values:
+            domains.append(in_progress)
+        if "done" in values:
+            domains.append(~in_progress)
+        domain = Domain.OR(domains) if domains else Domain.FALSE
         if operator in ("not in", "!="):
-            f_orders = orders - f_orders
-        return [("id", "in", f_orders.ids)]
+            domain = ~domain
+        return domain
