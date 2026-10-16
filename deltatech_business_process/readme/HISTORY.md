@@ -1,3 +1,8 @@
+## 19.0.1.9.17 (2026-10-16)
+
+- The "Start Internal Test" and "Start Integration Test" actions run with the user's own access
+  rights, like the acceptance test; regression test for the test-start access paths.
+
 ## 19.0.1.9.16 (2026-10-16)
 
 - Module icon restored from 18.0 (flat checklist in the Odoo palette, transparent background); Apps Store main image regenerated with it.
