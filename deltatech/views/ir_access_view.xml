@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Odoo 20: ir.rule a fost înlocuit de ir.access; domeniul se editează cu widget-ul de domeniu -->
+    <record id="base_ir_access_form_view_inherit" model="ir.ui.view">
+        <field name="name">ir.access.form.inherit</field>
+        <field name="model">ir.access</field>
+        <field name="inherit_id" ref="base.ir_access_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='model_id']" position="after">
+                <field name="model_name" />
+            </xpath>
+            <xpath expr="//field[@name='domain']" position="attributes">
+                <attribute name="widget">domain</attribute>
+                <attribute name="options">{'model': 'model_name', 'in_dialog': true}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
