@@ -1,0 +1,11 @@
+{
+  "title": "Expenses HR Bridge",
+  "summary": "HR expenses in advance reports",
+  "icon": "bag",
+  "features": [
+    "Import HR expenses into the report",
+    "Send selected expenses to a report",
+    "No double booking, released on cancel"
+  ],
+  "lang": "en"
+}
