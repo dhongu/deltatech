@@ -5,7 +5,7 @@
 from odoo import fields, models
 
 
-class IrRule(models.Model):
-    _inherit = "ir.rule"
+class IrAccess(models.Model):
+    _inherit = "ir.access"
 
     model_name = fields.Char(string="Model Name", related="model_id.model", readonly=True)

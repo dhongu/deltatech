@@ -4,10 +4,11 @@ all other Deltatech modules rely on for consistent behaviour.
 
 **✨ Key features:**
 
-- Adds a `model_name` convenience field on `ir.rule` records, making record rule configuration
-  easier by displaying the technical model name directly on the form alongside the domain widget.
-- Enhances the record rule domain editor to use the interactive domain widget, reducing
-  configuration errors when writing access rules.
+- Adds a `model_name` convenience field on access records (`ir.access`, which replaces record
+  rules in Odoo 20), displaying the technical model name directly on the form alongside the
+  domain widget.
+- Enhances the access domain editor to use the interactive domain widget, reducing
+  configuration errors when writing access restrictions and permissions.
 - Removes the external link from the module form view to keep the Apps interface clean in
   private Odoo instances.
 - Acts as a single installation point — installing any other Deltatech module automatically

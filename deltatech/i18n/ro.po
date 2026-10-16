@@ -17,21 +17,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech
-#: model:ir.model.fields,field_description:deltatech.field_ir_rule__display_name
-msgid "Display Name"
-msgstr "Nume afișat"
-
-#. module: deltatech
-#: model:ir.model.fields,field_description:deltatech.field_ir_rule__id
-msgid "ID"
-msgstr "ID"
-
-#. module: deltatech
-#: model:ir.model.fields,field_description:deltatech.field_ir_rule__model_name
+#: model:ir.model.fields,field_description:deltatech.field_ir_access__model_name
 msgid "Model Name"
 msgstr "Nume model"
-
-#. module: deltatech
-#: model:ir.model,name:deltatech.model_ir_rule
-msgid "Record Rule"
-msgstr "Înregistrare regulă"

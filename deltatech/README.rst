@@ -14,7 +14,7 @@ Deltatech
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -24,7 +24,7 @@ the entire Deltatech suite of Odoo addons. It provides shared base
 extensions and minor infrastructure improvements that all other
 Deltatech modules rely on for consistent behaviour.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a ``model_name`` convenience field on ``ir.rule`` records, making
   record rule configuration easier by displaying the technical model
@@ -44,6 +44,20 @@ administrators maintaining the Deltatech addon suite.
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -73,6 +87,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech>`_ project on GitHub.
 
 You are welcome to contribute.
