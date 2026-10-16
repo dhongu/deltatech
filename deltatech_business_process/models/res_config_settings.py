@@ -2,15 +2,19 @@
 # See README.rst file on addons root folder for license details
 """Settings for the process library source discovery."""
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.tools import str2bool
+
+AUTODISCOVER_PARAM = "deltatech_business_process.process_library_autodiscover"
 
 
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    # Stored by hand as "1"/"0": with ``config_parameter`` a disabled Boolean deletes the
+    # parameter, which then reads back as the enabled default.
     process_library_autodiscover = fields.Boolean(
         string="Discover processes from all modules",
-        config_parameter="deltatech_business_process.process_library_autodiscover",
         default=True,
         help="Scan every installed module that ships a `processes/` folder. Disabled = only the modules listed below.",
     )
@@ -42,6 +46,20 @@ class ResConfigSettings(models.TransientModel):
         "is never written into the cloned repo's on-disk config. SSH (git@…) URLs "
         "and URLs that already embed credentials ignore this and use their own auth.",
     )
+
+    @api.model
+    def get_values(self):
+        res = super().get_values()
+        value = self.env["ir.config_parameter"].sudo().get_param(AUTODISCOVER_PARAM, "1")
+        res["process_library_autodiscover"] = str2bool(value, True)
+        return res
+
+    def set_values(self):
+        res = super().set_values()
+        self.env["ir.config_parameter"].sudo().set_param(
+            AUTODISCOVER_PARAM, "1" if self.process_library_autodiscover else "0"
+        )
+        return res
 
     def action_sync_git_repos(self):
         synced = self.env["business.process.library"].sync_git_repos()

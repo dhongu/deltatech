@@ -7,10 +7,11 @@ from unittest.mock import MagicMock, patch
 
 from odoo import fields
 from odoo.exceptions import AccessError, UserError
-from odoo.tests import new_test_user
+from odoo.tests import new_test_user, tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestWorkflowFixes(TransactionCase):
     @classmethod
     def setUpClass(cls):

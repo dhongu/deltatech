@@ -42,4 +42,13 @@
             <field name="number_increment">1</field>
         </record>
 
+        <record id="sequence_open_issue" model="ir.sequence">
+            <field name="name">Business open issue</field>
+            <field name="code">business.open.issue</field>
+            <field name="prefix">OI</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
 </odoo>

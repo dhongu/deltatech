@@ -4,6 +4,7 @@
 import subprocess
 from unittest.mock import MagicMock, patch
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.deltatech_business_process.tools import html_to_pdf as h2p
@@ -11,6 +12,7 @@ from odoo.addons.deltatech_business_process.tools import html_to_pdf as h2p
 HTML = "<!DOCTYPE html><html><body><h1>Sheet</h1></body></html>"
 
 
+@tagged("post_install", "-at_install")
 class TestHtmlToPdf(TransactionCase):
     def test_empty_html_returns_none(self):
         self.assertIsNone(h2p.html_to_pdf(None))

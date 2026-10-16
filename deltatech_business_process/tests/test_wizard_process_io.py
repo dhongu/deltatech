@@ -5,11 +5,13 @@ import base64
 import json
 
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.deltatech_business_process.wizard.import_business_process import _normalize_description
 
 
+@tagged("post_install", "-at_install")
 class TestBusinessProcessImportExport(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -403,6 +405,7 @@ class TestBusinessProcessImportExport(TransactionCase):
         self.assertIn("<li>two</li>", proc.description)
 
 
+@tagged("post_install", "-at_install")
 class TestLibraryImportLine(TransactionCase):
     def setUp(self):
         super().setUp()

@@ -69,6 +69,41 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_business_process
+#: model:mail.template,body_html:deltatech_business_process.email_template_open_issue_submitted
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p>\n"
+"                    Dear&nbsp;<t t-out=\"object.project_id.project_manager_id.name\"/>,\n"
+"                    <br/>\n"
+"                    The open issue\n"
+"                    <t t-out=\"object.name\"/>\n"
+"                    of\n"
+"                    <t t-out=\"object.project_id.name\"/>\n"
+"                    has submitted by\n"
+"                    <t t-out=\"object.create_uid.name\"/>\n"
+"                    on\n"
+"                    <t t-esc=\"datetime.date.today().strftime('%d-%m-%Y')\"/>.\n"
+"                    <br/>\n"
+"                    Please check and inform colleagues of the current open issue.\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    Description:\n"
+"                    <br/>\n"
+"                    </p><div style=\"border: 1px solid #000; padding: 10px;\">\n"
+"                        <t t-out=\"object.description\"/>\n"
+"                    </div>\n"
+"                \n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: deltatech_business_process
+#: model:mail.template,name:deltatech_business_process.email_template_open_issue_submitted
+#: model:mail.template,subject:deltatech_business_process.email_template_open_issue_submitted
+msgid "Open Issue Submitted"
+msgstr ""
+
+#. module: deltatech_business_process
 #: model_terms:ir.ui.view,arch_db:deltatech_business_process.view_business_project_kanban
 msgid "<span class=\"fa fa-clock-o mr-2\" title=\"Dates\"/>"
 msgstr ""

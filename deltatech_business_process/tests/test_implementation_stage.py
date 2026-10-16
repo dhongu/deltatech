@@ -1,9 +1,11 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestImplementationStage(TransactionCase):
     def setUp(self):
         super().setUp()

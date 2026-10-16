@@ -16,6 +16,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 PARAM_REPOS = "deltatech_business_process.process_library_git_repos"
@@ -51,6 +52,7 @@ PROCESS_JSON = {
 }
 
 
+@tagged("post_install", "-at_install")
 class TestLibraryGitSync(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -132,6 +134,34 @@ class TestLibraryGitSync(TransactionCase):
         # al doilea apel intră pe ramura de pull
         synced2 = self.library.sync_git_repos()
         self.assertEqual(synced2, synced)
+
+    def test_same_basename_repos_are_distinct(self):
+        # BUSINESS-005: two repos with the same final name (other owner) keep their own checkout
+        other_dir = os.path.join(self.tmp, "other-owner", "procese-fixture")
+        folder = os.path.join(other_dir, "OTHER001_proces")
+        os.makedirs(folder)
+        with open(os.path.join(folder, "process.json"), "w", encoding="utf-8") as fh:
+            json.dump(dict(PROCESS_JSON, code="GIT-OTHER-001", tests=[]), fh)
+        env = dict(os.environ, GIT_CONFIG_GLOBAL="/dev/null", GIT_CONFIG_SYSTEM="/dev/null")
+        for cmd in (
+            ["git", "init", "--quiet", "."],
+            ["git", "-c", "user.email=t@t", "-c", "user.name=t", "add", "."],
+            ["git", "-c", "user.email=t@t", "-c", "user.name=t", "commit", "--quiet", "-m", "init"],
+        ):
+            subprocess.run(cmd, cwd=other_dir, check=True, env=env, capture_output=True)
+        self.addCleanup(shutil.rmtree, os.path.join(self.tmp, "other-owner"), True)
+        self.icp.set_param(PARAM_REPOS, f"{self.repo_url},file://{other_dir}")
+        self.icp.set_param(PARAM_AUTODISCOVER, "0")
+
+        synced = self.library.sync_git_repos()
+        self.assertEqual(len(synced), 2)
+        self.assertEqual(len({label for label, _path in synced}), 2)
+        self.assertEqual(len({path for _label, path in synced}), 2)
+        # second sync (pull branch) keeps each source on its own checkout
+        self.assertEqual(self.library.sync_git_repos(), synced)
+        codes = {p["code"] for p in self.library.available_processes()}
+        self.assertIn("GIT-E2E-001", codes)
+        self.assertIn("GIT-OTHER-001", codes)
 
     def test_sync_no_repos_configured(self):
         self.icp.set_param(PARAM_REPOS, "")
@@ -255,6 +285,7 @@ class TestLibraryGitSync(TransactionCase):
         self.assertIn("No git repositories", action["params"]["message"])
 
 
+@tagged("post_install", "-at_install")
 class TestLibraryHelpers(TransactionCase):
     """Ramuri mărunte din engine, fără repo git."""
 
@@ -418,7 +449,7 @@ class TestLibraryHelpers(TransactionCase):
     def test_sync_git_repo_pull_failure_keeps_local(self):
         # un pull eșuat păstrează clona locală existentă
         with tempfile.TemporaryDirectory() as cache:
-            local = os.path.join(cache, "r")
+            local = os.path.join(cache, self.library._repo_cache_name("https://example.com/r.git"))
             os.makedirs(os.path.join(local, ".git"))
 
             def fake_run(cmd, **kwargs):

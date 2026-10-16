@@ -35,6 +35,7 @@ Private HTTPS repos are supported via two optional parameters:
 """
 
 import base64
+import hashlib
 import json
 import logging
 import os
@@ -42,6 +43,7 @@ import subprocess
 
 from odoo import api, models, tools
 from odoo.modules.module import get_module_path
+from odoo.tools import str2bool
 
 _logger = logging.getLogger(__name__)
 
@@ -71,6 +73,13 @@ class BusinessProcessLibrary(models.AbstractModel):
         if name.endswith(".git"):
             name = name[:-4]
         return name
+
+    @api.model
+    def _repo_cache_name(self, url):
+        """Checkout folder of a git URL: the repo name plus a hash of the full URL, so two
+        repositories with the same name (other owner or host) never share a checkout."""
+        digest = hashlib.sha1(self._safe_url(url).rstrip("/").encode()).hexdigest()[:10]
+        return f"{self._repo_local_name(url)}-{digest}"
 
     @api.model
     def _safe_url(self, url):
@@ -119,8 +128,7 @@ class BusinessProcessLibrary(models.AbstractModel):
     @api.model
     def _sync_git_repo(self, url, cache_dir):
         """Clone or pull a single git repo; return local path or None on error."""
-        local_name = self._repo_local_name(url)
-        local_path = os.path.join(cache_dir, local_name)
+        local_path = os.path.join(cache_dir, self._repo_cache_name(url))
         env = self._git_env()
         auth = self._git_auth_args(url)
         safe_url = self._safe_url(url)
@@ -166,10 +174,15 @@ class BusinessProcessLibrary(models.AbstractModel):
         ]
         cache_dir = self._git_repos_cache_dir()
         synced = []
+        labels = set()
         for url in urls:
             local_path = self._sync_git_repo(url, cache_dir)
             if local_path:
                 label = self._repo_local_name(url)
+                if label in labels:
+                    # same repo name as an earlier source: label it by its checkout folder
+                    label = os.path.basename(local_path)
+                labels.add(label)
                 synced.append((label, local_path))
                 _logger.info("Process library: synced git repo %s → %s", self._safe_url(url), local_path)
         return synced
@@ -188,7 +201,7 @@ class BusinessProcessLibrary(models.AbstractModel):
             for m in (icp.get_param("deltatech_business_process.process_library_whitelist") or "").split(",")
             if m.strip()
         ]
-        autodiscover = icp.get_param("deltatech_business_process.process_library_autodiscover", "1") == "1"
+        autodiscover = str2bool(icp.get_param("deltatech_business_process.process_library_autodiscover", "1"), True)
 
         sources = []
         seen = set()

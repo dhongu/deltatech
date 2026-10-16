@@ -5,6 +5,7 @@ import base64
 import os
 import tempfile
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.deltatech_business_process.tools.md_to_html import _embed_images, fisa_md_to_html
@@ -15,6 +16,7 @@ PNG_BYTES = base64.b64decode(
 )
 
 
+@tagged("post_install", "-at_install")
 class TestMdToHtml(TransactionCase):
     def test_fisa_md_to_html_missing_path(self):
         self.assertIsNone(fisa_md_to_html(False))

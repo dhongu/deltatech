@@ -2,9 +2,11 @@
 # See README.rst file on addons root folder for license details
 
 from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestBusinessProcess(TransactionCase):
     def setUp(self):
         super().setUp()

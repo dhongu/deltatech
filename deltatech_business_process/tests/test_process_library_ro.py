@@ -13,6 +13,7 @@ import os
 import tempfile
 from unittest.mock import MagicMock, patch
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 PROCESE_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "..", "procese"))
@@ -25,6 +26,7 @@ def _iter_process_sources_from_repo(self):
     return [("procese_repo", PROCESE_DIR)]
 
 
+@tagged("post_install", "-at_install")
 class TestProcessLibraryRo(TransactionCase):
     """Validarea proceselor din repo-ul standalone procese/."""
 
@@ -193,6 +195,7 @@ class TestProcessLibraryRo(TransactionCase):
         self.assertEqual(len(created), 3, "Trebuie importate exact 3 procese selectate")
 
 
+@tagged("post_install", "-at_install")
 class TestProcessLibraryGit(TransactionCase):
     """Testează integrarea cu repo-uri git (fără rețea — subprocess mock)."""
 
@@ -215,14 +218,14 @@ class TestProcessLibraryGit(TransactionCase):
         library = self.env["business.process.library"]
         with tempfile.TemporaryDirectory() as tmp_cache:
             fake_url = "https://github.com/terrabit-ro/procese"
-            local_path = os.path.join(tmp_cache, "procese")
+            local_path = os.path.join(tmp_cache, library._repo_cache_name(fake_url))
             os.makedirs(os.path.join(local_path, ".git"))  # simulează clone reușit
 
             def fake_run(cmd, **kwargs):
                 result = MagicMock()
                 result.returncode = 0
                 result.stderr = ""
-                os.makedirs(os.path.join(tmp_cache, "procese", ".git"), exist_ok=True)
+                os.makedirs(os.path.join(local_path, ".git"), exist_ok=True)
                 return result
 
             with patch("subprocess.run", side_effect=fake_run):
@@ -235,7 +238,7 @@ class TestProcessLibraryGit(TransactionCase):
         library = self.env["business.process.library"]
         with tempfile.TemporaryDirectory() as tmp_cache:
             fake_url = "https://github.com/terrabit-ro/procese"
-            local_path = os.path.join(tmp_cache, "procese")
+            local_path = os.path.join(tmp_cache, library._repo_cache_name(fake_url))
             os.makedirs(os.path.join(local_path, ".git"))  # simulează repo existent
 
             calls = []

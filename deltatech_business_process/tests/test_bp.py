@@ -3,10 +3,11 @@
 
 
 from odoo import fields
-from odoo.tests import Form
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestBusinessProcess(TransactionCase):
     def setUp(self):
         super().setUp()
