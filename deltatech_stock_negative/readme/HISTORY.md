@@ -1,3 +1,23 @@
+## 19.0.2.1.0
+
+- A Point of Sale receipt no longer leaves its goods on the stock. Point of Sale
+  validates its own delivery in the background and swallows any `UserError` that
+  validation raises, so the refusal issued here when a location would go below zero
+  never reached the cashier: the receipt was closed, the customer walked out with the
+  goods, and the transfer stayed unvalidated with the stock never decreased - silently,
+  with nothing to act on but a stray open transfer nobody was looking for. Refusing the
+  move does not keep the goods on the shelf; it only stops the system from recording
+  what already happened at the register.
+- New company setting *Allow negative stock from Point of Sale*
+  (`no_negative_stock_pos_bypass`, on by default, shown only when *No negative stock*
+  is enabled): a Point of Sale delivery is validated even when it takes the location
+  below zero. Every bypass is logged as a warning naming the transfer, the quantity,
+  the product and the location, and the deviation stays visible as negative stock to be
+  corrected by an inventory adjustment. Turn the setting off to apply the rule to Point
+  of Sale as well, accepting that such receipts will not decrease the stock.
+- The check also honours a `skip_negative_stock_check` context key, for callers that
+  have to force a validation knowingly.
+
 ## 19.0.2.0.12 (2026-10-01)
 
 - Screenshots on the Apps Store page load again: the description pointed to
