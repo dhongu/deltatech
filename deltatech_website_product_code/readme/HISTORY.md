@@ -1,3 +1,9 @@
+## 19.0.1.3.7 (2026-10-16)
+
+- `/shop/product-code/<code>` now also finds the codes of the variants of a product with several variants (until now only single-variant products were found, the others gave 404). The product page opens with that variant selected; unpublished products are still not shown.
+- Search for a pasted list of codes: when one search field matched more than 500 products, some products were left out of the results and the count, and could be missing from the first page although they should rank first. All matching products are now counted, ordered and paginated.
+- A legacy non-numeric value of the "Shortest Search Term" parameter (e.g. `False`) no longer makes the shop search fail; as on the settings page, it is read as 0 (every term kept).
+
 ## 19.0.1.3.6 (2026-10-09)
 
 - Fix: the migration that resets the per-website copies of `product_item_code` still carrying the 18.0 xpath ran as `end-migration`, after the upgrade platform's template check, so that check reported the shop template as broken a few seconds before it was repaired. It now runs as `post-migrate`, when the module is loaded. The result for the database is the same.

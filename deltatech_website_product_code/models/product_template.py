@@ -27,7 +27,7 @@ class ProductTemplate(models.Model):
         # almost no selectivity. If every term is short, the search is kept
         # intact to preserve correctness over speed.
         if search:
-            min_len = int(self.env["ir.config_parameter"].sudo().get_param("website_search.min_term_length", 3))
+            min_len = self._min_term_length()
             terms = search.split()
             long_terms = [term for term in terms if len(term) >= min_len]
             if long_terms and len(long_terms) != len(terms):
@@ -119,6 +119,15 @@ class ProductTemplate(models.Model):
         except (ValueError, TypeError):
             return 0
 
+    def _min_term_length(self):
+        # Same policy as the settings page: a non-numeric value (e.g. the
+        # legacy "False") disables the filter instead of breaking the search.
+        param = self.env["ir.config_parameter"].sudo().get_param("website_search.min_term_length", "3")
+        try:
+            return int(param)
+        except (ValueError, TypeError):
+            return 0
+
     def _multi_code_min_terms(self):
         # False/0/empty/anything non-numeric disables the fast path, falling
         # back to the legacy behavior - int("False") would otherwise raise.
@@ -131,17 +140,17 @@ class ProductTemplate(models.Model):
     def _search_fetch_multi_code(self, search_detail, terms, limit, order):
         base_domain = Domain.AND(search_detail["base_domain"])
         model = self.sudo() if search_detail.get("requires_sudo") else self
-        branch_limit = max(limit * 20, 500)
 
-        all_ids = set()
+        # Each field is searched in its own subquery, so that every branch keeps
+        # its own index, and the branches are combined in the database. No
+        # branch is capped: the website order, the page limit and the count all
+        # apply to the complete set of matching products.
+        branches = []
         for field_name in search_detail["search_fields"]:
             term_domain = Domain.OR([Domain(field_name, "ilike", escape_psql(term)) for term in terms])
-            all_ids.update(model.search(base_domain & term_domain, limit=branch_limit, order="id").ids)
+            branches.append(Domain("id", "in", model._search(base_domain & term_domain)))
 
-        if not all_ids:
-            return model.browse(), 0
-
-        final_domain = Domain("id", "in", list(all_ids))
+        final_domain = Domain.OR(branches)
         results = model.search(final_domain, limit=limit, order=search_detail.get("order", order))
         count = model.search_count(final_domain) if limit and limit == len(results) else len(results)
         return results, count

@@ -26,7 +26,17 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         # whether such a product exists
         if not request.website.has_ecommerce_access():
             return request.redirect(f"/web/login?redirect={request.httprequest.path}")
-        product = request.env["product.template"].search([("default_code", "=", code)], limit=1)
+        ProductTemplate = request.env["product.template"]
+        product = ProductTemplate.search([("default_code", "=", code)], limit=1)
+        if not product:
+            # On a template with several variants, the code is only set on the
+            # variants (template default_code is False): open the template with
+            # the variant carrying that code selected.
+            product = ProductTemplate.search([("product_variant_ids.default_code", "=", code)], limit=1)
+            variant = product.product_variant_ids.filtered(lambda v: v.default_code == code)[:1]
+            attribute_values = variant.product_template_attribute_value_ids.product_attribute_value_id
+            if attribute_values and not kwargs.get("attribute_values"):
+                kwargs["attribute_values"] = ",".join(str(pav_id) for pav_id in attribute_values.ids)
         if not product:
             raise request.not_found()
         return self.product(product, **kwargs)
