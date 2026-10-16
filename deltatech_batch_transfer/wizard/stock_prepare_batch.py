@@ -4,7 +4,6 @@
 
 from odoo import fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_compare
 
 
 class StockPrepareBatch(models.TransientModel):
@@ -90,7 +89,7 @@ class StockPrepareBatch(models.TransientModel):
 
         self.prepare_lines(batch)
 
-        action = self.env["ir.actions.actions"]._for_xml_id("stock_picking_batch.stock_picking_batch_action")
+        action = self.env["ir.actions.actions"]._for_xml_id("stock.stock_picking_batch_action")
         action["context"] = {}
         action["domain"] = [("id", "=", batch.id)]
         return action
@@ -104,7 +103,7 @@ class StockPrepareBatch(models.TransientModel):
     def _allocate_line_quantities(self, batch_id):
         """Distribute the wizard quantities over the batch move lines.
 
-        In Odoo 19 a move line has a single ``quantity`` field (reserved / picked quantity, in the
+        In Odoo 20 a move line has a single ``quantity`` field (reserved / picked quantity, in the
         move line unit) and no ``product_uom_qty``. The capacity of every move line is its current
         quantity, read before any change, so it is never replaced with the demand of the parent
         move. Wizard quantities are expressed in the product unit and are converted to the unit
@@ -128,19 +127,19 @@ class StockPrepareBatch(models.TransientModel):
                 )
             quantity = line.quantity
             for move_line in product_move_lines:
-                if float_compare(quantity, 0.0, precision_rounding=product.uom_id.rounding) <= 0:
+                if product.uom_id.compare(quantity, 0.0) <= 0:
                     break
                 free = capacity[move_line] - allocation[move_line]
-                free_product_uom = move_line.product_uom_id._compute_quantity(free, product.uom_id)
-                if float_compare(free_product_uom, 0.0, precision_rounding=product.uom_id.rounding) <= 0:
+                free_product_uom = move_line.uom_id._compute_quantity(free, product.uom_id)
+                if product.uom_id.compare(free_product_uom, 0.0) <= 0:
                     continue
-                if float_compare(quantity, free_product_uom, precision_rounding=product.uom_id.rounding) >= 0:
+                if product.uom_id.compare(quantity, free_product_uom) >= 0:
                     allocation[move_line] += free
                     quantity -= free_product_uom
                 else:
-                    allocation[move_line] += product.uom_id._compute_quantity(quantity, move_line.product_uom_id)
+                    allocation[move_line] += product.uom_id._compute_quantity(quantity, move_line.uom_id)
                     quantity = 0.0
-            if float_compare(quantity, 0.0, precision_rounding=product.uom_id.rounding) > 0:
+            if product.uom_id.compare(quantity, 0.0) > 0:
                 line.write({"additional_quantity": quantity})
         return allocation
 
@@ -148,7 +147,7 @@ class StockPrepareBatch(models.TransientModel):
         if self.line_ids:
             allocation = self._allocate_line_quantities(batch_id)
             for move_line, quantity in allocation.items():
-                picked = float_compare(quantity, 0.0, precision_rounding=move_line.product_uom_id.rounding) > 0
+                picked = move_line.uom_id.compare(quantity, 0.0) > 0
                 move_line.write({"quantity": quantity, "picked": picked})
         else:
             # the reserved quantity becomes the done quantity

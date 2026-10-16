@@ -23,13 +23,13 @@
     <record id="batch_form_view_selected_lines" model="ir.ui.view">
         <field name="name">batch.form.view.selected.lines</field>
         <field name="model">stock.picking.batch</field>
-        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form" />
+        <field name="inherit_id" ref="stock.stock_picking_batch_form" />
         <field name="arch" type="xml">
             <xpath expr="//notebook/page" position="before">
                 <page string="Received" invisible="state=='draft' or direction=='outgoing'">
                     <field
                         name="received_move_line_ids"
-                        context="{'list_view_ref': 'stock_picking_batch.view_move_line_tree'}"
+                        context="{'list_view_ref': 'stock.stock_move_line_view_list_from_batch'}"
                     />
                 </page>
             </xpath>
@@ -46,7 +46,7 @@
     <record id="batch_view_move_line_tree" model="ir.ui.view">
         <field name="name">batch.view.move.line.list</field>
         <field name="model">stock.move.line</field>
-        <field name="inherit_id" ref="stock_picking_batch.view_move_line_tree" />
+        <field name="inherit_id" ref="stock.stock_move_line_view_list_from_batch" />
         <field name="arch" type="xml">
             <xpath expr="//list" position="attributes">
                 <attribute name="decoration-bf">quantity &gt; 0.0</attribute>
@@ -60,8 +60,7 @@
         <field name="model">stock.picking.batch</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_batch_transfer.delivery_batch_report</field>
-        <field name="report_file">deltatech_batch_transfer.delivery_batch_report</field>
-        <field name="binding_model_id" ref="stock_picking_batch.model_stock_picking_batch" />
+        <field name="binding_model_id" ref="stock.model_stock_picking_batch" />
         <field name="binding_type">report</field>
     </record>
 

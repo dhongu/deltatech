@@ -1,3 +1,15 @@
+## 20.0.0.0.7 (2026-10-16)
+
+Migration to 20.0:
+
+- `stock_picking_batch` is merged into `stock`: the dependency is dropped and the views,
+  actions and the report binding point to `stock`.
+- The "Received" page and its move line list decoration use the batch move line list
+  (`stock.stock_move_line_view_list_from_batch`), so the generic move line list is not changed.
+- The `deltatech_batch_keep_pickings` system parameter is read with `get_bool`.
+- The batch preparation wizard uses the move line `uom_id` and the unit `compare()` API.
+- Access rights are declared in `ir.access`.
+
 ## 19.0.0.0.7 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.

@@ -9,7 +9,7 @@ from odoo.tests.common import TransactionCase
 
 @tagged("post_install", "-at_install")
 class TestPrepareBatch(TransactionCase):
-    """BATCHTRANSFER-001: quantity preparation must use the Odoo 19 move line API."""
+    """BATCHTRANSFER-001: quantity preparation must use the Odoo 20 move line API."""
 
     @classmethod
     def setUpClass(cls):
@@ -44,7 +44,7 @@ class TestPrepareBatch(TransactionCase):
                         {
                             "product_id": product.id,
                             "product_uom_qty": qty,
-                            "product_uom": (uom or product.uom_id).id,
+                            "uom_id": (uom or product.uom_id).id,
                             "location_id": self.stock_location.id,
                             "location_dest_id": self.customer_location.id,
                         },
@@ -117,7 +117,7 @@ class TestPrepareBatch(TransactionCase):
         picking = self._create_picking([(self.product, 2, self.uom_dozen)])
         batch = self._create_batch(picking)
         move_line = self._move_lines(picking)
-        self.assertEqual(move_line.product_uom_id, self.uom_dozen)
+        self.assertEqual(move_line.uom_id, self.uom_dozen)
         self.assertEqual(move_line.quantity, 2.0)
         wizard = self._wizard(True, [(self.product, 30)])
         wizard.prepare_lines(batch)

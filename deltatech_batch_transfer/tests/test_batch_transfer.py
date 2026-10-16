@@ -29,7 +29,7 @@ class TestBatchTransfer(TransactionCase):
             {
                 "product_id": self.product.id,
                 "product_uom_qty": 10.0,
-                "product_uom": self.product.uom_id.id,
+                "uom_id": self.product.uom_id.id,
                 "picking_id": picking_1.id,
                 "location_id": picking_1.location_id.id,
                 "location_dest_id": picking_1.location_dest_id.id,
@@ -53,6 +53,6 @@ class TestBatchTransfer(TransactionCase):
         # If no quantity is set, it should remove the picking from the batch
         batch.action_done()
         self.assertFalse(picking_1.batch_id)
-        # In Odoo 19, if all pickings are removed, the batch might be cancelled or stay in progress/done
+        # In Odoo 20, if all pickings are removed, the batch might be cancelled or stay in progress/done
         # Based on my observation, it becomes 'cancel'
         self.assertEqual(batch.state, "cancel")

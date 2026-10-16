@@ -26,7 +26,7 @@ class StockPicking(models.Model):
     def add_to_batch(self):
         self.ensure_one()
         if not self.batch_id:
-            xml_id = "stock_picking_batch.stock_picking_to_batch_action_stock_picking"
+            xml_id = "stock.stock_picking_to_batch_action_stock_picking"
             action = self.env["ir.actions.actions"]._for_xml_id(xml_id)
 
             # batch = self.env["stock.picking.batch"].create(
@@ -40,7 +40,7 @@ class StockPicking(models.Model):
             # lots = self.move_line_ids.mapped("lot_id")
             # if not lots:
             #     batch.action_confirm()
-            # action = self.env["ir.actions.actions"]._for_xml_id("stock_picking_batch.stock_picking_batch_action")
+            # action = self.env["ir.actions.actions"]._for_xml_id("stock.stock_picking_batch_action")
             # action["context"] = {}
             # action["domain"] = [("id", "=", batch.id)]
             return action

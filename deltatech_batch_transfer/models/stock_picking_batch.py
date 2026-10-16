@@ -3,7 +3,6 @@
 
 
 from odoo import fields, models
-from odoo.tools.safe_eval import safe_eval
 
 
 class StockPickingBatch(models.Model):
@@ -33,8 +32,7 @@ class StockPickingBatch(models.Model):
         return res
 
     def action_done(self):
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        batch_keep_pickings = safe_eval(get_param("deltatech_batch_keep_pickings", "False"))
+        batch_keep_pickings = self.env["ir.config_parameter"].sudo().get_bool("deltatech_batch_keep_pickings")
         if batch_keep_pickings:
             return super(StockPickingBatch, self.with_context(from_batch=True)).action_done()
         else:

@@ -1,6 +1,6 @@
-========================
-Deltatech Batch Transfer
-========================
+==============
+Batch Transfer
+==============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech Batch Transfer
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_batch_transfer
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_batch_transfer
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2071%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_batch_transfer
-    :alt: 8 automated tests · 71% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Extends Odoo's batch transfer (batch picking) functionality to give
 warehouse operators better control over batches that contain
@@ -29,7 +26,7 @@ behaviour of validating zero-quantity pickings and adds a "Prepare
 Batch" wizard for quickly grouping receipts or deliveries from
 sales/purchase orders into a single batch.
 
-**Key features:**
+**✨ Key features:**
 
 - **Empty-picking management on validate** — when the Validate button is
   pressed on a batch, pickings that have all done quantities equal to
@@ -183,6 +180,53 @@ The batch form shows three extra fields added by this module:
 Changelog
 =========
 
+20.0.0.0.7 (2026-10-16)
+-----------------------
+
+Migration to 20.0:
+
+- ``stock_picking_batch`` is merged into ``stock``: the dependency is
+  dropped and the views, actions and the report binding point to
+  ``stock``.
+- The "Received" page and its move line list decoration use the batch
+  move line list (``stock.stock_move_line_view_list_from_batch``), so
+  the generic move line list is not changed.
+- The ``deltatech_batch_keep_pickings`` system parameter is read with
+  ``get_bool``.
+- The batch preparation wizard uses the move line ``uom_id`` and the
+  unit ``compare()`` API.
+- Access rights are declared in ``ir.access``.
+
+19.0.0.0.7 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.5 (2026-10-02)
+-----------------------
+
+- **Fix (BATCHTRANSFER-001): batch preparation with quantities no longer
+  crashes.** The wizard read and wrote ``product_uom_qty`` on
+  ``stock.move.line``, a field removed in Odoo 19, so confirming a
+  preparation with *Set Done Qty* or with product quantities raised an
+  error and rolled back. The allocation now uses the Odoo 19 API: each
+  move line can receive up to its reserved ``quantity`` (converted
+  between the product unit and the move line unit), the rest is shown as
+  additional quantity. With *Set Done Qty* the lines are set to the
+  allocated quantity and marked as picked; without it only the requested
+  quantities stay reserved and nothing is marked as picked.
+
+19.0.0.0.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.0.0.3 (2026-09-23)
 -----------------------
 
@@ -218,6 +262,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_batch_transfer>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_batch_transfer>`_ project on GitHub.
 
 You are welcome to contribute.
