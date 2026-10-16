@@ -13,7 +13,7 @@ class TestNormalizeAccess(TransactionCase):
             cls.env, login="dt_normalize_internal", groups="base.group_user,base.group_partner_manager"
         )
         cls.admin = new_test_user(cls.env, login="dt_normalize_admin", groups="base.group_user,base.group_system")
-        cls.company = cls.env["res.partner"].create({"name": "Norm Delta srl", "is_company": True})
+        cls.company = cls.env["res.partner"].create({"name": "Norm Delta srl", "vat": "RO14399840"})
         cls.contact = cls.env["res.partner"].create({"name": "Ion", "parent_id": cls.company.id})
 
     def test_internal_user_cannot_normalize(self):

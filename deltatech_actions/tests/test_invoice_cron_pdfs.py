@@ -1,7 +1,6 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 from datetime import datetime, timedelta
 
 from odoo.tests.common import TransactionCase, tagged
@@ -29,7 +28,7 @@ class TestInvoiceCronGeneratedPDFs(TransactionCase):
                 "res_model": "account.move",
                 "res_id": self.move.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"test pdf content"),
+                "raw": b"test pdf content",
                 "mimetype": mimetype,
             }
         )
@@ -87,7 +86,7 @@ class TestInvoiceCronGeneratedPDFs(TransactionCase):
                 "res_model": "mail.message",
                 "res_id": message.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"test pdf content"),
+                "raw": b"test pdf content",
                 "mimetype": "application/pdf",
             }
         )

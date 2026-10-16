@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import SQL, str2bool
+from odoo.tools import SQL
 
 from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
 
@@ -26,11 +26,11 @@ class AccountMove(models.Model):
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
         return self.cron_clean_xml_attachments(
-            limit=int(icp.get_param("deltatech_actions.xml_limit", 10)),
-            duplicates=int(icp.get_param("deltatech_actions.xml_duplicates", 10)),
-            max_attachments_to_delete=int(icp.get_param("deltatech_actions.xml_max_delete", 50)),
-            dry_run=str2bool(icp.get_param("deltatech_actions.xml_dry_run", "True")),
-            max_date_days=int(icp.get_param("deltatech_actions.xml_max_date_days", 30)),
+            limit=icp.get_int("deltatech_actions.xml_limit", 10),
+            duplicates=icp.get_int("deltatech_actions.xml_duplicates", 10),
+            max_attachments_to_delete=icp.get_int("deltatech_actions.xml_max_delete", 50),
+            dry_run=icp.get_bool("deltatech_actions.xml_dry_run", True),
+            max_date_days=icp.get_int("deltatech_actions.xml_max_date_days", 30),
         )
 
     @api.autovacuum
@@ -43,11 +43,11 @@ class AccountMove(models.Model):
         """Entry point used by the cron: reads its parameters from Settings
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
-        dry_run = str2bool(icp.get_param("deltatech_actions.invoice_pdf_dry_run", "True"))
+        dry_run = icp.get_bool("deltatech_actions.invoice_pdf_dry_run", True)
         rows = self.cron_clean_generated_pdfs(
-            limit=int(icp.get_param("deltatech_actions.invoice_pdf_limit", 5000)),
-            pattern=icp.get_param("deltatech_actions.invoice_pdf_pattern", "") or "",
-            max_date_days=int(icp.get_param("deltatech_actions.invoice_pdf_max_date_days", 90)),
+            limit=icp.get_int("deltatech_actions.invoice_pdf_limit", 5000),
+            pattern=icp.get_str("deltatech_actions.invoice_pdf_pattern", "") or "",
+            max_date_days=icp.get_int("deltatech_actions.invoice_pdf_max_date_days", 90),
             dry_run=dry_run,
         )
         return rows_summary(rows, dry_run)

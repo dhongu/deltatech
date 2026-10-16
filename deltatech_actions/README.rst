@@ -1,6 +1,6 @@
-=================
-Deltatech Actions
-=================
+===============
+Cleanup Actions
+===============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,24 +10,21 @@ Deltatech Actions
    !! source digest: sha256:36b7264ea09d401344d4db7b6c0c946b2ec7ce5be00b7947633aec6b8787a6c4
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_actions
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_actions
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-40%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_actions
-    :alt: 40 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Provides a set of scheduled maintenance actions (cron jobs) to keep an
 Odoo database clean and performant. All jobs are **disabled by default**
 and run in **dry mode** (no data is changed until explicitly enabled by
 an administrator).
 
-**Key features:**
+**✨ Key features:**
 
 - Delete duplicate XML (EDI/ANAF) attachments on invoices — cron:
   *Delete duplicate xml attachments*
@@ -218,6 +215,64 @@ To activate it, create a **Server Action** manually:
 Changelog
 =========
 
+19.0.0.9.9 (2026-10-16)
+-----------------------
+
+- Company-name normalization can be started only by administrators and
+  the scheduled action; the normalized names (and the contacts' full
+  names) are refreshed immediately.
+
+19.0.0.9.8 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.9.7 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.9.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.9.5 (2026-10-08)
+-----------------------
+
+- Fixed ACTIONS-001: the duplicate contact merge detached every contact
+  of a duplicate group from its company, although only the first two
+  were merged. Only the merged pair is detached now; the other contacts
+  keep their company until a later run merges them.
+- Fixed ACTIONS-003: the XML attachment cleanup grouped attachments by
+  name across all invoices, then selected every attachment with that
+  name, on any invoice or document, protecting the EDI files of a single
+  invoice. Duplicates are now counted per invoice (same invoice, same
+  name, XML); the most recent copy is kept, and the EDI documents and
+  the attachments the invoice points to (e.g. its UBL XML or main
+  attachment) are never deleted. The *Duplicates* setting now applies
+  per invoice.
+
+19.0.0.9.4 (2026-10-02)
+-----------------------
+
+- Security: the public cleanup methods (``cron_clean_generated_pdfs`` on
+  invoices, sale orders and pickings, ``cron_clean_xml_attachments``,
+  ``cron_clean_old_messages`` and their ``*_from_settings`` entry
+  points) could be called over RPC by any internal user and then
+  selected records across companies with SQL and deleted them with
+  ``sudo()``. They now require Settings administrator rights (or the
+  cron/superuser) before any selection, as does the "Run now" button.
+  **Behavior change:** a cron configured to run these cleanups as a
+  non-administrator user now fails with an access error.
+
+19.0.0.9.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.0.9.2 (2026-09-23)
 -----------------------
 
@@ -336,6 +391,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_actions>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_actions>`_ project on GitHub.
 
 You are welcome to contribute.

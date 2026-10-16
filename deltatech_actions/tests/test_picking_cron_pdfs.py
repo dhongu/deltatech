@@ -1,7 +1,6 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 from datetime import datetime, timedelta
 
 from odoo.tests.common import TransactionCase, tagged
@@ -28,7 +27,7 @@ class TestPickingCronGeneratedPDFs(TransactionCase):
                 "res_model": "stock.picking",
                 "res_id": self.picking.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"test pdf content"),
+                "raw": b"test pdf content",
                 "mimetype": mimetype,
             }
         )
@@ -92,7 +91,7 @@ class TestPickingCronGeneratedPDFs(TransactionCase):
                 "res_model": "stock.picking",
                 "res_id": other_picking.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"test pdf content"),
+                "raw": b"test pdf content",
                 "mimetype": "application/pdf",
             }
         )

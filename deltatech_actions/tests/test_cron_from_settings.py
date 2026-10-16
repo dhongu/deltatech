@@ -1,7 +1,6 @@
 # © 2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 from datetime import datetime, timedelta
 
 from odoo.tests.common import TransactionCase, tagged
@@ -29,7 +28,7 @@ class TestCronFromSettings(TransactionCase):
                 "res_model": res_model,
                 "res_id": res_id,
                 "type": "binary",
-                "datas": base64.b64encode(b"test pdf content"),
+                "raw": b"test pdf content",
                 "mimetype": "application/pdf",
             }
         )
@@ -45,14 +44,14 @@ class TestCronFromSettings(TransactionCase):
         self.assertTrue(att.exists())
 
         # Flip it off through the same config parameter the settings screen writes.
-        self.icp.set_param("deltatech_actions.invoice_pdf_dry_run", "False")
+        self.icp.set_bool("deltatech_actions.invoice_pdf_dry_run", False)
         self.env["account.move"].cron_clean_generated_pdfs_from_settings()
         self.assertFalse(att.exists())
 
     def test_invoice_pdf_from_settings_respects_max_date_days(self):
         att = self._create_pdf_attachment("INV_RECENT.pdf", "account.move", self.move.id, days_ago=5)
-        self.icp.set_param("deltatech_actions.invoice_pdf_dry_run", "False")
-        self.icp.set_param("deltatech_actions.invoice_pdf_max_date_days", "90")
+        self.icp.set_bool("deltatech_actions.invoice_pdf_dry_run", False)
+        self.icp.set_int("deltatech_actions.invoice_pdf_max_date_days", 90)
 
         # 5 days old, cutoff is 90 days: must survive.
         self.env["account.move"].cron_clean_generated_pdfs_from_settings()
@@ -69,9 +68,9 @@ class TestCronFromSettings(TransactionCase):
         self.env.cr.execute("UPDATE stock_picking SET state = 'draft' WHERE id = %s", (picking.id,))
         att = self._create_pdf_attachment("LabelGLS-999.pdf", "stock.picking", picking.id, days_ago=200)
 
-        self.icp.set_param("deltatech_actions.picking_pdf_dry_run", "False")
-        self.icp.set_param("deltatech_actions.picking_pdf_only_done", "True")
-        self.icp.set_param("deltatech_actions.picking_pdf_only_cancel", "True")
+        self.icp.set_bool("deltatech_actions.picking_pdf_dry_run", False)
+        self.icp.set_bool("deltatech_actions.picking_pdf_only_done", True)
+        self.icp.set_bool("deltatech_actions.picking_pdf_only_cancel", True)
 
         # Picking still in draft: the done/cancel-only filter must protect it.
         self.env["stock.picking"].cron_clean_generated_pdfs_from_settings()
@@ -105,8 +104,8 @@ class TestCronFromSettings(TransactionCase):
         past_dt = datetime.utcnow() - timedelta(days=100)
         self.env.cr.execute("UPDATE mail_message SET create_date = %s WHERE id = %s", (past_dt, message.id))
 
-        self.icp.set_param("deltatech_actions.messages_dry_run", "False")
-        self.icp.set_param("deltatech_actions.messages_exclude_models", "res.partner,project.%")
+        self.icp.set_bool("deltatech_actions.messages_dry_run", False)
+        self.icp.set_str("deltatech_actions.messages_exclude_models", "res.partner,project.%")
 
         self.env["mail.message"].cron_clean_old_messages_from_settings()
         self.assertTrue(message.exists())

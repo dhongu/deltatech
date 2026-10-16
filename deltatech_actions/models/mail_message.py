@@ -8,7 +8,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import str2bool
 
 from .cleanup_summary import check_cleanup_access, log_prefix
 
@@ -23,13 +22,13 @@ class MailMessage(models.Model):
         """Entry point used by the cron: reads its parameters from Settings
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
-        exclude_models_param = icp.get_param("deltatech_actions.messages_exclude_models", "")
+        exclude_models_param = icp.get_str("deltatech_actions.messages_exclude_models", "")
         exclude_models = [m.strip() for m in exclude_models_param.split(",") if m.strip()] or False
         return self.cron_clean_old_messages(
-            limit=int(icp.get_param("deltatech_actions.messages_limit", 5000)),
-            pattern=icp.get_param("deltatech_actions.messages_pattern", "") or "",
-            max_date_days=int(icp.get_param("deltatech_actions.messages_max_date_days", 90)),
-            dry_run=str2bool(icp.get_param("deltatech_actions.messages_dry_run", "True")),
+            limit=icp.get_int("deltatech_actions.messages_limit", 5000),
+            pattern=icp.get_str("deltatech_actions.messages_pattern", "") or "",
+            max_date_days=icp.get_int("deltatech_actions.messages_max_date_days", 90),
+            dry_run=icp.get_bool("deltatech_actions.messages_dry_run", True),
             exclude_models=exclude_models,
         )
 

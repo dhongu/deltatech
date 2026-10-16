@@ -15,7 +15,9 @@ class ResPartnerMergeCron(models.Model):
     _inherit = "res.partner"
 
     def _compute_vies_valid(self):
-        if self.env.context.get("skip_vies_check"):
+        # Odoo 20: vies_valid comes from l10n_eu_account_vies, which is not a dependency
+        # (and may load after this module, see _cron_merge_duplicate_companies)
+        if self.env.context.get("skip_vies_check") or not hasattr(super(), "_compute_vies_valid"):
             return
         return super()._compute_vies_valid()
 
@@ -24,22 +26,20 @@ class ResPartnerMergeCron(models.Model):
         """Entry point used by the cron: reads its parameters from Settings
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
-        return self._cron_merge_duplicate_contacts(
-            limit=int(icp.get_param("deltatech_actions.merge_contacts_limit", 10))
-        )
+        return self._cron_merge_duplicate_contacts(limit=icp.get_int("deltatech_actions.merge_contacts_limit", 10))
 
     @api.model
     def _cron_merge_duplicate_companies_from_settings(self):
         """Entry point used by the cron: reads its parameters from Settings
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
-        return self._cron_merge_duplicate_companies(
-            limit=int(icp.get_param("deltatech_actions.merge_companies_limit", 10))
-        )
+        return self._cron_merge_duplicate_companies(limit=icp.get_int("deltatech_actions.merge_companies_limit", 10))
 
     def _cron_merge_duplicate_contacts(self, limit=10):
         MergeWizard = self.env["base.partner.merge.automatic.wizard"]
         need_retrigger = False
+        # Odoo 20: is_company/vat are computed stored fields -- flush them before the raw SQL
+        self.env["res.partner"].flush_model(["name", "email", "vat", "is_company", "parent_id", "active"])
         # Găsește grupuri de persoane duplicate după email
         self.env.cr.execute(
             """
@@ -82,6 +82,8 @@ class ResPartnerMergeCron(models.Model):
     def _cron_merge_duplicate_companies(self, limit=10):
         MergeWizard = self.env["base.partner.merge.automatic.wizard"].with_context(skip_vies_check=True)
         need_retrigger = False
+        # Odoo 20: is_company/vat are computed stored fields -- flush them before the raw SQL
+        self.env["res.partner"].flush_model(["name", "email", "vat", "is_company", "parent_id", "active"])
         # Găsește grupuri de companii duplicate după CUI
         self.env.cr.execute(
             """
@@ -117,7 +119,11 @@ class ResPartnerMergeCron(models.Model):
                     "partner_ids": [(6, 0, [main.id, secundar.id])],
                 }
             )
-            wizard.action_merge()
+            # no VIES request while merging: when l10n_eu_account_vies loads after this module
+            # its _compute_vies_valid runs first and ignores skip_vies_check
+            vies_field = partners._fields.get("vies_valid")
+            with self.env.protecting([vies_field] if vies_field else [], partners):
+                wizard.action_merge()
 
         if need_retrigger:
             self.env.ref("deltatech_actions.ir_cron_merge_companies")._trigger()
@@ -127,6 +133,8 @@ class ResPartnerMergeCron(models.Model):
         """Normalizează numele companiilor în loturi pentru performanță"""
         # SQL direct peste toate companiile: doar administratorii și cronul
         check_cleanup_access(self.env)
+        # Odoo 20: is_company/vat are computed stored fields -- flush them before the raw SQL
+        self.env["res.partner"].flush_model(["name", "email", "vat", "is_company", "parent_id", "active"])
 
         # Găsește toate companiile care au nevoie de normalizare
         query_count = r"""

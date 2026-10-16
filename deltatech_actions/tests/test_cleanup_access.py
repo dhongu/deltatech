@@ -1,6 +1,5 @@
 # © 2026 Deltatech / Terrabit
 # Regression tests for ACTIONS-004 (public cleanup bypasses caller authorization)
-import base64
 from datetime import datetime, timedelta
 
 from odoo.exceptions import AccessError
@@ -29,7 +28,7 @@ class TestCleanupAccess(TransactionCase):
                 "res_model": "sale.order",
                 "res_id": self.so.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"pdf"),
+                "raw": b"pdf",
                 "mimetype": "application/pdf",
             }
         )

@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import SQL, str2bool
+from odoo.tools import SQL
 
 from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
 
@@ -31,15 +31,15 @@ class StockPicking(models.Model):
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
         states = []
-        if str2bool(icp.get_param("deltatech_actions.picking_pdf_only_done", "True")):
+        if icp.get_bool("deltatech_actions.picking_pdf_only_done", True):
             states.append("done")
-        if str2bool(icp.get_param("deltatech_actions.picking_pdf_only_cancel", "True")):
+        if icp.get_bool("deltatech_actions.picking_pdf_only_cancel", True):
             states.append("cancel")
-        dry_run = str2bool(icp.get_param("deltatech_actions.picking_pdf_dry_run", "True"))
+        dry_run = icp.get_bool("deltatech_actions.picking_pdf_dry_run", True)
         rows = self.cron_clean_generated_pdfs(
-            limit=int(icp.get_param("deltatech_actions.picking_pdf_limit", 5000)),
-            pattern=icp.get_param("deltatech_actions.picking_pdf_pattern", "") or "",
-            max_date_days=int(icp.get_param("deltatech_actions.picking_pdf_max_date_days", 180)),
+            limit=icp.get_int("deltatech_actions.picking_pdf_limit", 5000),
+            pattern=icp.get_str("deltatech_actions.picking_pdf_pattern", "") or "",
+            max_date_days=icp.get_int("deltatech_actions.picking_pdf_max_date_days", 180),
             dry_run=dry_run,
             states=states or None,
         )

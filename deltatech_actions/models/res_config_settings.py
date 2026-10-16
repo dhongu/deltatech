@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.tools import str2bool
 
 from .cleanup_summary import check_cleanup_access
 
@@ -33,10 +32,10 @@ CRON_NEXTCALL_FIELDS = {
 }
 
 
-# Boolean parameters cannot use `config_parameter=`: res.config.settings.set_values()
-# calls set_param(key, False) for an unticked box, and set_param DELETES the parameter
-# on a falsy value -- so the next get_param(key, "True") read brings the default back
-# and unticking never took effect. They are read and written explicitly instead.
+# Boolean parameters are read and written explicitly (get_bool/set_bool) instead of
+# through `config_parameter=`: up to 19.0 set_param(key, False) DELETED the parameter
+# for an unticked box, so a default of True came back on the next read. Odoo 20 stores
+# "False" with set_bool, but the explicit form keeps the defaults below in one place.
 BOOL_PARAM_FIELDS = {
     "dt_actions_autovacuum": "deltatech_actions.autovacuum_enabled",
     "dt_actions_xml_dry_run": "deltatech_actions.xml_dry_run",
@@ -53,7 +52,7 @@ BOOL_PARAM_FIELDS = {
 # not delete anything). The autovacuum switch is the opposite: it makes cleanups run
 # outside their own crons, so it stays off until someone asks for it.
 BOOL_PARAM_DEFAULTS = {
-    "deltatech_actions.autovacuum_enabled": "False",
+    "deltatech_actions.autovacuum_enabled": False,
 }
 
 
@@ -112,7 +111,7 @@ class ResConfigSettings(models.TransientModel):
             res[field_name] = cron.sudo().nextcall if cron else False
         icp = self.env["ir.config_parameter"].sudo()
         for field_name, key in BOOL_PARAM_FIELDS.items():
-            res[field_name] = str2bool(icp.get_param(key, BOOL_PARAM_DEFAULTS.get(key, "True")))
+            res[field_name] = icp.get_bool(key, BOOL_PARAM_DEFAULTS.get(key, True))
         return res
 
     def set_values(self):
@@ -128,7 +127,7 @@ class ResConfigSettings(models.TransientModel):
                 cron.sudo().nextcall = nextcall
         icp = self.env["ir.config_parameter"].sudo()
         for field_name, key in BOOL_PARAM_FIELDS.items():
-            icp.set_param(key, "True" if self[field_name] else "False")
+            icp.set_bool(key, self[field_name])
         return res
 
     # -- Duplicate XML attachments (account_move.cron_clean_xml_attachments) --

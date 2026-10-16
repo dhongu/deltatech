@@ -44,7 +44,7 @@ class TestCronCleanOldMessages(TransactionCase):
                 "res_model": "mail.message",
                 "res_id": cls.msg1.id,
                 "type": "binary",
-                "datas": __import__("base64").b64encode(b"pdf"),
+                "raw": b"pdf",
                 "mimetype": "application/pdf",
             }
         )
@@ -54,7 +54,7 @@ class TestCronCleanOldMessages(TransactionCase):
                 "res_model": "mail.message",
                 "res_id": cls.msg1.id,
                 "type": "binary",
-                "datas": __import__("base64").b64encode(b"<xml/>"),
+                "raw": b"<xml/>",
                 "mimetype": "application/xml",
             }
         )

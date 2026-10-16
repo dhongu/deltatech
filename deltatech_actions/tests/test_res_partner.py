@@ -13,13 +13,14 @@ class TestResPartnerActions(TransactionCase):
         cls.company1 = cls.env["res.partner"].create(
             {
                 "name": "ACME srl",
-                "is_company": True,
+                # Odoo 20: is_company is computed (own commercial entity with a VAT)
+                "vat": "RO14399840",
             }
         )
         cls.company2 = cls.env["res.partner"].create(
             {
                 "name": "Beta s.a",
-                "is_company": True,
+                "vat": "RO18547290",
             }
         )
 
@@ -27,21 +28,18 @@ class TestResPartnerActions(TransactionCase):
             {
                 "name": "John Doe",
                 "email": "john@example.com",
-                "is_company": False,
             }
         )
         cls.contact_a2 = cls.env["res.partner"].create(
             {
                 "name": "John X",
                 "email": "john@example.com",
-                "is_company": False,
             }
         )
 
         cls.comp_dup1 = cls.env["res.partner"].create(
             {
                 "name": "Umbrella SRL",
-                "is_company": True,
                 "vat": "RO123456789",
                 "active": True,
             }
@@ -49,7 +47,6 @@ class TestResPartnerActions(TransactionCase):
         cls.comp_dup2 = cls.env["res.partner"].create(
             {
                 "name": "Umbrella SRL 2",
-                "is_company": True,
                 "vat": "RO123456789",
                 "active": True,
             }
@@ -74,7 +71,7 @@ class TestResPartnerActions(TransactionCase):
         company3 = self.env["res.partner"].create(
             {
                 "name": "Gamma pfa",
-                "is_company": True,
+                "vat": "RO12345674",
             }
         )
         # Should not raise; it logs and may post messages to admins
@@ -88,7 +85,6 @@ class TestResPartnerActions(TransactionCase):
             {
                 "name": "VIES Test",
                 "vat": "RO20603502",
-                "is_company": True,
             }
         )
         # Call with skip flag; just ensure no exception
@@ -125,7 +121,7 @@ class TestResPartnerActions(TransactionCase):
 
         companies = self.env["res.partner"].search(
             [
-                ("vat", "=", "RO12345678"),
+                ("vat", "=", "RO123456789"),
                 ("is_company", "=", True),
                 ("parent_id", "=", False),
                 ("active", "=", True),
@@ -135,13 +131,16 @@ class TestResPartnerActions(TransactionCase):
 
     def test_merge_contacts_keeps_parent_of_unmerged_contacts(self):
         """ACTIONS-001: only the merged pair is detached from its company"""
+        # parents without a VAT: contacts inherit the VAT of their company, and only
+        # contacts without a VAT are merged
+        parent1, parent2 = self.env["res.partner"].create([{"name": "Parent One"}, {"name": "Parent Two"}])
         contacts = self.env["res.partner"].create(
             [
                 {"name": f"Jane {index}", "email": "jane.merge@example.com", "parent_id": parent.id}
-                for index, parent in enumerate([self.company1, self.company1, self.company2])
+                for index, parent in enumerate([parent1, parent1, parent2])
             ]
         )
         self.env["res.partner"]._cron_merge_duplicate_contacts(limit=100)
         third = contacts[2]
         self.assertTrue(third.exists())
-        self.assertEqual(third.parent_id, self.company2)
+        self.assertEqual(third.parent_id, parent2)

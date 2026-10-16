@@ -8,7 +8,6 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import str2bool
 
 from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
 
@@ -30,11 +29,11 @@ class SaleOrder(models.Model):
         """Entry point used by the cron: reads its parameters from Settings
         (General Settings > Database Cleanup) instead of hardcoded values."""
         icp = self.env["ir.config_parameter"].sudo()
-        dry_run = str2bool(icp.get_param("deltatech_actions.sale_pdf_dry_run", "True"))
+        dry_run = icp.get_bool("deltatech_actions.sale_pdf_dry_run", True)
         rows = self.cron_clean_generated_pdfs(
-            limit=int(icp.get_param("deltatech_actions.sale_pdf_limit", 5000)),
-            pattern=icp.get_param("deltatech_actions.sale_pdf_pattern", "") or "",
-            max_date_days=int(icp.get_param("deltatech_actions.sale_pdf_max_date_days", 90)),
+            limit=icp.get_int("deltatech_actions.sale_pdf_limit", 5000),
+            pattern=icp.get_str("deltatech_actions.sale_pdf_pattern", "") or "",
+            max_date_days=icp.get_int("deltatech_actions.sale_pdf_max_date_days", 90),
             dry_run=dry_run,
         )
         return rows_summary(rows, dry_run)
@@ -53,7 +52,7 @@ class SaleOrder(models.Model):
             if order.state == "sale" and order.picking_ids:
                 for picking in order.picking_ids:
                     stock_moves_to_cancel |= picking.move_ids
-                    account_moves_to_cancel |= picking.move_ids.account_move_ids
+                    account_moves_to_cancel |= picking.move_ids.account_move_id
                     stock_move_lines_to_cancel |= picking.move_ids.move_line_ids
                     pickings_to_cancel |= picking
 

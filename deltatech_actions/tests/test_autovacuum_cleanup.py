@@ -8,7 +8,6 @@ base's blanket disable may run last. Hanging the cleanups off the autovacuum job
 therefore the only order-independent way a restored copy can tidy itself up.
 """
 
-import base64
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
@@ -31,7 +30,7 @@ class TestAutovacuumCleanup(TransactionCase):
                 "res_model": "sale.order",
                 "res_id": self.order.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"pdf"),
+                "raw": b"pdf",
                 "mimetype": "application/pdf",
             }
         )
@@ -49,11 +48,11 @@ class TestAutovacuumCleanup(TransactionCase):
         self.assertTrue(att.exists(), "autovacuum deleted an attachment while switched off")
 
     def test_enabled_deletes_and_reports_progress(self):
-        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
-        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
-        self.icp.set_param("deltatech_actions.sale_pdf_limit", "2")
-        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
-        self.icp.set_param("deltatech_actions.sale_pdf_pattern", "")
+        self.icp.set_bool("deltatech_actions.autovacuum_enabled", True)
+        self.icp.set_bool("deltatech_actions.sale_pdf_dry_run", False)
+        self.icp.set_int("deltatech_actions.sale_pdf_limit", 2)
+        self.icp.set_int("deltatech_actions.sale_pdf_max_date_days", 90)
+        self.icp.set_str("deltatech_actions.sale_pdf_pattern", "")
         kept = self._old_pdf("Recent offer.pdf", days_ago=1)
         self._old_pdf("Oferta - S0002.pdf")
         self._old_pdf("Oferta - S0003.pdf")
@@ -67,10 +66,10 @@ class TestAutovacuumCleanup(TransactionCase):
         """A dry run selects the same rows on every call. If it reported work
         remaining, _run_vacuum_cleaner would spin on it until the cron ran out of
         time, starving every other vacuum method."""
-        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
-        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "True")
-        self.icp.set_param("deltatech_actions.sale_pdf_limit", "1")
-        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        self.icp.set_bool("deltatech_actions.autovacuum_enabled", True)
+        self.icp.set_bool("deltatech_actions.sale_pdf_dry_run", True)
+        self.icp.set_int("deltatech_actions.sale_pdf_limit", 1)
+        self.icp.set_int("deltatech_actions.sale_pdf_max_date_days", 90)
         att = self._old_pdf("Oferta - S0004.pdf")
 
         done, remaining = self.env["sale.order"]._gc_generated_pdfs()
@@ -87,10 +86,10 @@ class TestAutovacuumCleanup(TransactionCase):
         over 7 days -- which would switch Odoo's own autovacuum off, taking
         _gc_file_store with it. Reporting the real count makes that impossible.
         """
-        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
-        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
-        self.icp.set_param("deltatech_actions.sale_pdf_limit", "5")
-        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        self.icp.set_bool("deltatech_actions.autovacuum_enabled", True)
+        self.icp.set_bool("deltatech_actions.sale_pdf_dry_run", False)
+        self.icp.set_int("deltatech_actions.sale_pdf_limit", 5)
+        self.icp.set_int("deltatech_actions.sale_pdf_max_date_days", 90)
         self._old_pdf("Oferta - S0005.pdf")
         reported = []
 
@@ -112,10 +111,10 @@ class TestAutovacuumCleanup(TransactionCase):
     def test_no_requeue_when_the_run_is_nearly_out_of_time(self):
         """Asking for a requeue with seconds left only gets the next batch killed
         partway, and pushes the job over its time limit."""
-        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
-        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
-        self.icp.set_param("deltatech_actions.sale_pdf_limit", "1")
-        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        self.icp.set_bool("deltatech_actions.autovacuum_enabled", True)
+        self.icp.set_bool("deltatech_actions.sale_pdf_dry_run", False)
+        self.icp.set_int("deltatech_actions.sale_pdf_limit", 1)
+        self.icp.set_int("deltatech_actions.sale_pdf_max_date_days", 90)
         self._old_pdf("Oferta - S0006.pdf")
         self._old_pdf("Oferta - S0007.pdf")
 
@@ -160,7 +159,7 @@ class TestNullFileSize(TransactionCase):
                 "res_model": "sale.order",
                 "res_id": self.order.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"pdf"),
+                "raw": b"pdf",
                 "mimetype": "application/pdf",
             }
         )
@@ -171,10 +170,10 @@ class TestNullFileSize(TransactionCase):
         )
         self.env["ir.attachment"].invalidate_model(["create_date", "file_size"])
 
-        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
-        self.icp.set_param("deltatech_actions.sale_pdf_limit", "10")
-        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
-        self.icp.set_param("deltatech_actions.sale_pdf_pattern", "")
+        self.icp.set_bool("deltatech_actions.sale_pdf_dry_run", False)
+        self.icp.set_int("deltatech_actions.sale_pdf_limit", 10)
+        self.icp.set_int("deltatech_actions.sale_pdf_max_date_days", 90)
+        self.icp.set_str("deltatech_actions.sale_pdf_pattern", "")
 
         summary = self.env["sale.order"].cron_clean_generated_pdfs_from_settings()
 

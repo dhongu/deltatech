@@ -1,7 +1,6 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 from datetime import datetime, timedelta
 
 from odoo.tests.common import TransactionCase, tagged
@@ -30,7 +29,7 @@ class TestCronCleanXMLAttachments(TransactionCase):
                 "res_model": record._name,
                 "res_id": record.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"<xml>test</xml>"),
+                "raw": b"<xml>test</xml>",
                 "mimetype": "application/xml",
             }
         )

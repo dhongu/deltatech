@@ -71,12 +71,10 @@ def autovacuum_run(model, from_settings, limit_param):
     """
     import time  # noqa: PLC0415 -- keep this module importable without Odoo
 
-    from odoo.tools import str2bool  # noqa: PLC0415 -- avoids an import cycle at module load
-
     icp = model.env["ir.config_parameter"].sudo()
-    if not str2bool(icp.get_param("deltatech_actions.autovacuum_enabled", "False")):
+    if not icp.get_bool("deltatech_actions.autovacuum_enabled", False):
         return None
-    limit = int(icp.get_param(limit_param, 5000))
+    limit = icp.get_int(limit_param, 5000)
 
     start = time.monotonic()
     summary = getattr(model, from_settings)() or {}

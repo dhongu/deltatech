@@ -1,7 +1,6 @@
 # © 2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 from datetime import datetime, timedelta
 
 from odoo.tests.common import TransactionCase, tagged
@@ -29,7 +28,7 @@ class TestRunNowButton(TransactionCase):
                 "res_model": "account.move",
                 "res_id": self.move.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"pdf"),
+                "raw": b"pdf",
                 "mimetype": "application/pdf",
             }
         )
@@ -72,7 +71,7 @@ class TestRunNowButton(TransactionCase):
                     "res_model": "account.move",
                     "res_id": self.move.id,
                     "type": "binary",
-                    "datas": base64.b64encode(b"<xml/>"),
+                    "raw": b"<xml/>",
                     "mimetype": "application/xml",
                 }
             )

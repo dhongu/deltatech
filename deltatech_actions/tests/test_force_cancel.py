@@ -1,7 +1,6 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
-import base64
 
 from odoo.tests.common import TransactionCase, tagged
 
@@ -44,7 +43,7 @@ class TestForceCancelOrderAndMoves(TransactionCase):
         cls.move = cls.env["stock.move"].create(
             {
                 "product_id": cls.product.id,
-                "product_uom": cls.product.uom_id.id,
+                "uom_id": cls.product.uom_id.id,
                 "product_uom_qty": 1.0,
                 "location_id": cls.picking.location_id.id,
                 "location_dest_id": cls.picking.location_dest_id.id,
@@ -55,7 +54,7 @@ class TestForceCancelOrderAndMoves(TransactionCase):
         sml_vals = {
             "move_id": cls.move.id,
             "product_id": cls.product.id,
-            "product_uom_id": cls.product.uom_id.id,
+            "uom_id": cls.product.uom_id.id,
             "quantity": 0.0,
             "location_id": cls.picking.location_id.id,
             "location_dest_id": cls.picking.location_dest_id.id,
@@ -71,7 +70,7 @@ class TestForceCancelOrderAndMoves(TransactionCase):
                 "res_model": "stock.picking",
                 "res_id": cls.picking.id,
                 "type": "binary",
-                "datas": base64.b64encode(b"content"),
+                "raw": b"content",
                 "mimetype": "application/pdf",
             }
         )
