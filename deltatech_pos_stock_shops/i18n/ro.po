@@ -1,0 +1,137 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_stock_shops
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-16 07:01+0000\n"
+"PO-Revision-Date: 2026-10-16 07:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_pos_stock_shops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_shops/static/src/js/pos_store.esm.js:0
+msgid "All products"
+msgstr "Toate produsele"
+
+#. module: deltatech_pos_stock_shops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_shops/static/src/xml/shop_stock_popup.xml:0
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model,name:deltatech_pos_stock_shops.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_pos_config__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_pos_config__display_shop_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_res_config_settings__pos_display_shop_stock
+msgid "Display Stock in Other Shops"
+msgstr "Afișează stocul din alte magazine"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_pos_config__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pos_stock_shops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_shops/static/src/js/pos_store.esm.js:0
+msgid "In other shops"
+msgstr "În alte magazine"
+
+#. module: deltatech_pos_stock_shops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_shops/static/src/js/pos_store.esm.js:0
+msgid "In stock here"
+msgstr "În stoc aici"
+
+#. module: deltatech_pos_stock_shops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_shops/static/src/xml/shop_stock_popup.xml:0
+msgid "Offline: the figures are the ones loaded with the session."
+msgstr "Fără conexiune: cifrele sunt cele încărcate la deschiderea sesiunii."
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_pos_config__stock_shop_warehouse_ids
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_res_config_settings__pos_stock_shop_warehouse_ids
+msgid "Other Shops"
+msgstr "Alte magazine"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model,name:deltatech_pos_stock_shops.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configurare punct de vânzare"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model,name:deltatech_pos_stock_shops.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_pos_stock_shops
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock_shops.res_config_settings_view_form
+msgid "Shops"
+msgstr "Magazine"
+
+#. module: deltatech_pos_stock_shops
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock_shops.res_config_settings_view_form
+msgid "Show the stock of the other shops"
+msgstr "Arată stocul celorlalte magazine"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,help:deltatech_pos_stock_shops.field_pos_config__display_shop_stock
+#: model:ir.model.fields,help:deltatech_pos_stock_shops.field_res_config_settings__pos_display_shop_stock
+msgid ""
+"Show, next to the stock of this shop, how much the other shops have. The "
+"figures are loaded with the session, so the register still shows them when "
+"the network is down."
+msgstr ""
+"Arată, lângă stocul acestui magazin, cât au celelalte magazine. Cifrele se "
+"încarcă odată cu sesiunea, așa că apar pe casă și când pică rețeaua."
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_pos_config__stock_shop_list
+msgid "Stock Shop List"
+msgstr "Lista magazinelor"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_product_product__pos_shop_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock_shops.field_product_template__pos_shop_stock
+msgid "Stock in Other Shops"
+msgstr "Stoc în alte magazine"
+
+#. module: deltatech_pos_stock_shops
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock_shops.res_config_settings_view_form
+msgid "The other points of sale"
+msgstr "Celelalte puncte de vânzare"
+
+#. module: deltatech_pos_stock_shops
+#: model:ir.model.fields,help:deltatech_pos_stock_shops.field_pos_config__stock_shop_warehouse_ids
+#: model:ir.model.fields,help:deltatech_pos_stock_shops.field_res_config_settings__pos_stock_shop_warehouse_ids
+msgid ""
+"Warehouses shown as other shops. Left empty, the warehouses of the other "
+"points of sale of the company are used, so the central warehouse or a "
+"transit location only shows up when chosen here."
+msgstr ""
+"Depozitele afișate ca alte magazine. Dacă rămâne gol, se folosesc depozitele"
+" celorlalte puncte de vânzare ale companiei, deci depozitul central sau o "
+"locație de tranzit apare doar dacă e aleasă aici."

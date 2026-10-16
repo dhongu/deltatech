@@ -1,0 +1,9 @@
+/* Light blue on the dark badge of deltatech_pos_stock: reads as "elsewhere", not as this shop. */
+.product-shop-qty {
+    width: 100%;
+    text-align: center;
+    color: #81d4fa;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin-top: 2px;
+    padding-top: 2px;
+}

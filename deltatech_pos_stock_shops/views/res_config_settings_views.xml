@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech_pos_stock_shops</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="deltatech_pos_stock.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pos_stock_badge_quantity']/.." position="after">
+                <div class="mt-2" invisible="not pos_display_stock">
+                    <field name="pos_display_shop_stock" />
+                    <label for="pos_display_shop_stock" string="Show the stock of the other shops" class="fw-normal me-1" />
+                </div>
+                <div class="mt-2" invisible="not pos_display_stock or not pos_display_shop_stock">
+                    <label for="pos_stock_shop_warehouse_ids" string="Shops" class="fw-normal me-1" />
+                    <field
+                        name="pos_stock_shop_warehouse_ids"
+                        widget="many2many_tags"
+                        placeholder="The other points of sale"
+                        options="{'no_create': True}"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
