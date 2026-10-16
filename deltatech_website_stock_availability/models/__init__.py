@@ -5,3 +5,4 @@
 from . import product
 from . import ir_http
 from . import product_supplierinfo
+from . import sale_order_line

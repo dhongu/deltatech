@@ -97,12 +97,13 @@
         name="Delivery Lead Time"
     >
         <xpath expr="//div" position="after">
-            <t t-if="line.product_id.free_qty  &gt;= line.product_uom_qty">
+            <t t-set="line_free_qty" t-value="line._get_website_free_qty()" />
+            <t t-if="line_free_qty &gt;= line.product_uom_qty">
                 <span class="badge bg-success">Immediate delivery</span>
             </t>
             <t t-else="">
-                <t t-if="line.product_id.free_qty">
-                    <span class="badge bg-success" t-esc="line.product_id.free_qty" />
+                <t t-if="line_free_qty &gt; 0">
+                    <span class="badge bg-success" t-out="round(line_free_qty, 3)" />
                     <span class="badge bg-success">Immediate delivery</span>
                 </t>
                 <span class="badge bg-warning">Subsequent delivery</span>

@@ -15,6 +15,23 @@ class ProductTemplate(models.Model):
         "even when it has no own or vendor availability.",
     )
 
+    def _get_website_availability_seller(self, product):
+        """Supplier used for the vendor stock and lead time shown on the website.
+
+        Only suppliers of the website company, of an active vendor, for this variant
+        (or the whole template) and not expired are considered. A currently valid
+        offer is preferred; otherwise the earliest future offer is used.
+        """
+        website = self.env["website"].get_current_website()
+        company = website.company_id or self.env.company
+        today = fields.Date.context_today(self)
+        sellers = product.with_company(company)._prepare_sellers()
+        sellers = sellers.filtered(lambda s: not s.date_end or s.date_end >= today)
+        current = sellers.filtered(lambda s: not s.date_start or s.date_start <= today)
+        if current:
+            return current[:1]
+        return sellers.sorted(lambda s: s.date_start)[:1]
+
     def _get_combination_info(
         self,
         combination=False,
@@ -42,9 +59,11 @@ class ProductTemplate(models.Model):
         combination_info["lead_time"] = 0
         if combination_info["product_id"]:
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
+            seller = self._get_website_availability_seller(product)
+            today = fields.Date.context_today(self)
             company_lead_time = 0
-            supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
-            availability_vendor = product.seller_ids and product.seller_ids[0].qty_available or 0
+            supplier_lead_time = seller.delay or 0
+            availability_vendor = seller.qty_available or 0
 
             combination_info["sale_delay"] = product.sale_delay
             combination_info["sale_delay_safety"] = product.sale_delay_safety
@@ -52,12 +71,8 @@ class ProductTemplate(models.Model):
             combination_info["availability_vendor"] = availability_vendor
             combination_info["product_template"] = self.id
             combination_info["hide_out_of_stock_message"] = self.hide_out_of_stock_message
-            if (
-                product.seller_ids
-                and product.seller_ids[0].date_start
-                and product.seller_ids[0].date_start > fields.Date.today()
-            ):
-                days = (product.seller_ids[0].date_start - fields.Date.today()).days
+            if seller.date_start and seller.date_start > today:
+                days = (seller.date_start - today).days
                 combination_info["purchase_lead_time"] += days
             # de pus un paramentru in configurare
             # if not availability_vendor:
