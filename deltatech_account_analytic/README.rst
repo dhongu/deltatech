@@ -1,6 +1,6 @@
-==========================
-Deltatech Account Analytic
-==========================
+================
+Account Analytic
+================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech Account Analytic
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_analytic
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_account_analytic
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_account_analytic
-    :alt: 11 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Overview
 ========
@@ -147,6 +144,42 @@ Use Cases
 Changelog
 =========
 
+19.0.0.0.9
+==========
+
+- Fixed: with this module installed, Timesheets (``hr_timesheet``, and
+  so ``sale_timesheet`` or ``helpdesk_timesheet``) could not be
+  installed: the *Sale team* and *Product category* groupings were added
+  to the base analytic search view, which the timesheet analysis report
+  inherits without having these fields. They are now added to the
+  accounting search view of analytic items (*Analytic Items*, *Analytic
+  Reporting*).
+
+19.0.0.0.8
+==========
+
+- Fixed ANALYTICSPLIT-001: confirming a *Line* split before *Compute*,
+  or after removing its lines, deleted the analytic line to split
+  without creating any replacement. Confirmation now requires split
+  lines whose total equals the amount to split (the source line for a
+  *Line* split), checked before anything is created or deleted.
+- Fixed ANALYTICSPLIT-002: confirming an already confirmed split again
+  (RPC or a retried request) created a second set of analytic entries
+  and lost the link to the first one. A split can now be confirmed only
+  once.
+- Fixed ANALYTICSPLIT-003: posting an invoice with an analytic
+  distribution failed with ``AttributeError: stock_move_ids`` on
+  databases without ``stock_account``. The sales team lookup through the
+  stock transfer is now done only when the stock modules are installed.
+- Fixed ANALYTICSPLIT-004: posting a vendor bill whose analytic
+  distribution used only an additional analytic plan failed with
+  ``KeyError: 'account_id'``.
+
+19.0.0.0.7
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 Changelog
 =========
 
@@ -202,6 +235,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_analytic>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_account_analytic>`_ project on GitHub.
 
 You are welcome to contribute.

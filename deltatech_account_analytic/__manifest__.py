@@ -3,7 +3,7 @@
 {
     "name": "Account Analytic",
     "summary": "Analytic lines enhancements",
-    "version": "19.0.0.0.9",
+    "version": "20.0.0.0.9",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -12,7 +12,7 @@
     "data": [
         "views/res_config_settings.xml",
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/account_analytic_default.xml",
         "views/account_analytic_line.xml",
         "views/account_analytic_split_template.xml",

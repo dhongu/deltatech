@@ -8,14 +8,15 @@
         <field name="model">account.analytic.line</field>
         <field name="inherit_id" ref="account.view_account_analytic_line_filter_inherit_account" />
         <field name="arch" type="xml">
-            <group name="groupby" position="inside">
+            <!-- Odoo 20: the group-by section of the search view has no name any more -->
+            <xpath expr="//group" position="inside">
                 <filter string="Sale team" name="group_team" context="{'group_by': 'team_id'}" />
                 <filter
                     string="Product category"
                     name="group_prod_categ"
                     context="{'group_by': 'product_category_id'}"
                 />
-            </group>
+            </xpath>
         </field>
     </record>
 </odoo>
