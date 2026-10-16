@@ -1,6 +1,6 @@
-===========================
-Deltatech Auto Reorder Rule
-===========================
+=================
+Auto Reorder Rule
+=================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,23 +10,20 @@ Deltatech Auto Reorder Rule
    !! source digest: sha256:053fac855351ca97d777db1c7b70048122f7d1efab2dec489cd0b8a8b94ce40e
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_auto_reorder_rule
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_auto_reorder_rule
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2086%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_auto_reorder_rule
-    :alt: 6 automated tests · 86% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Automatically creates reorder rules (replenishment rules) for products
 in Odoo, reducing the manual overhead of setting up stock replenishment
 in warehouses that manage many SKUs.
 
-**Key features:**
+**✨ Key features:**
 
 - Automatically creates a ``stock.warehouse.orderpoint`` entry for every
   new storable product, using the warehouse and route marked for
@@ -132,6 +129,54 @@ Reviewing created rules
 Go to **Inventory > Operations > Replenishment** to view and manage all
 reorder rules, including the ones created automatically by this module.
 
+Changelog
+=========
+
+19.0.0.1.9 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.1.8 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.1.7 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.1.6 (2026-10-03)
+-----------------------
+
+- **Fix (REORDER-001): automatic reordering rules are created in the
+  active company.** Warehouses and existing rules were searched in the
+  default company of the user, so a product created while working in
+  another company got a rule on a location of the default company
+  (rejected with a company inconsistency error) or no rule at all. The
+  rules now use the company of the product or, for shared products, the
+  active company: its warehouses, its existing rules and an auto-rule
+  route of that company (or without company); the generated rules carry
+  that company.
+
+19.0.0.1.5 (2026-10-02)
+-----------------------
+
+- **Fix (REORDER-004): the Rules Wizard no longer crashes on save.**
+  Creating reorder rules from the product wizard failed with
+  ``Invalid field 'qty_multiple'``, because the field no longer exists
+  on ``stock.warehouse.orderpoint`` in Odoo 19. The wizard no longer
+  sends it (the value was always 0); product, location, min/max quantity
+  and trigger are set as before.
+
+19.0.0.1.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -152,6 +197,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_auto_reorder_rule>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_auto_reorder_rule>`_ project on GitHub.
 
 You are welcome to contribute.
