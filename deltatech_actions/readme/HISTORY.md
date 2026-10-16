@@ -1,3 +1,8 @@
+## 19.0.0.9.9 (2026-10-16)
+
+- Company-name normalization can be started only by administrators and the scheduled action;
+  the normalized names (and the contacts' full names) are refreshed immediately.
+
 ## 19.0.0.9.8 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

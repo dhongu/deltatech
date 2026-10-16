@@ -6,6 +6,8 @@ import logging
 
 from odoo import api, models
 
+from .cleanup_summary import check_cleanup_access
+
 _logger = logging.getLogger(__name__)
 
 
@@ -120,8 +122,11 @@ class ResPartnerMergeCron(models.Model):
         if need_retrigger:
             self.env.ref("deltatech_actions.ir_cron_merge_companies")._trigger()
 
+    @api.private
     def batch_normalize_company_names(self, batch_size=1000):
         """Normalizează numele companiilor în loturi pentru performanță"""
+        # SQL direct peste toate companiile: doar administratorii și cronul
+        check_cleanup_access(self.env)
 
         # Găsește toate companiile care au nevoie de normalizare
         query_count = r"""
@@ -174,11 +179,16 @@ class ResPartnerMergeCron(models.Model):
                         ORDER BY id
                LIMIT %s
            OFFSET %s )
+           RETURNING id
                        """
 
         try:
             self.env.cr.execute(query_update, [batch_size, offset])
-            batch_updated = self.env.cr.rowcount
+            partners = self.browse(row[0] for row in self.env.cr.fetchall())
+            batch_updated = len(partners)
+            # UPDATE-ul ocolește ORM-ul: golește cache-ul și recalculează dependențele (complete_name)
+            partners.invalidate_recordset(["name"])
+            partners.modified(["name"])
             total_updated += batch_updated
 
             _logger.info(
@@ -193,6 +203,7 @@ class ResPartnerMergeCron(models.Model):
     @api.model
     def cron_normalize_company_names(self):
         """Cron job pentru normalizarea periodică a numelor de companii"""
+        check_cleanup_access(self.env)
         _logger.info("Începe normalizarea automată a numelor de companii")
 
         try:
