@@ -16,8 +16,11 @@ Invoice Followup
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_followup
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-15%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_followup/tests
+    :alt: 15 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 - Features:
 

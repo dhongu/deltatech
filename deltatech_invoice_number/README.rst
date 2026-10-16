@@ -16,8 +16,11 @@ Invoice Number
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_number
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_number/tests
+    :alt: 9 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 - Functions:
 

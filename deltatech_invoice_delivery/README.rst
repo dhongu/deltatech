@@ -16,8 +16,11 @@ Invoice Delivery
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_delivery
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_delivery/tests
+    :alt: 8 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Deliver the goods straight from the customer invoice: when an invoice is
 posted, the storable products are added to a sale order, the order is

@@ -111,6 +111,9 @@
     "deltatech_fast_purchase": {
       "tests": 5
     },
+    "deltatech_fast_sale": {
+      "tests": 2
+    },
     "deltatech_fleet": {
       "coverage": 76.9,
       "lines": 577,
@@ -121,10 +124,22 @@
       "lines": 23,
       "tests": 0
     },
+    "deltatech_followup": {
+      "tests": 15
+    },
     "deltatech_gln": {
       "coverage": 100.0,
       "lines": 33,
       "tests": 5
+    },
+    "deltatech_image_optimize": {
+      "tests": 74
+    },
+    "deltatech_invoice_delivery": {
+      "tests": 8
+    },
+    "deltatech_invoice_number": {
+      "tests": 9
     },
     "deltatech_invoice_picking": {
       "tests": 9
