@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_template_property_form" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.website.sale.stock</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="sale.product_template_form_view_sale" />
+        <field name="arch" type="xml">
+            <!-- 20.0: sale_delay moved from stock's "Operations" group to sale's
+                 "group_lots_and_weight"; keep the safety lead time right below it -->
+            <xpath expr="//div[field[@name='sale_delay']]" position="after">
+                <label for="sale_delay_safety" invisible="not sale_ok" />
+                <div invisible="not sale_ok">
+                    <field name="sale_delay_safety" class="oe_inline" style="vertical-align:baseline" />
+                    days
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_form_view_hide_out_of_stock_message" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.website.sale.stock.hide.message</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="website_sale.product_template_form_view" />
+        <field name="arch" type="xml">
+            <field name="allow_out_of_stock_order" position="after">
+                <field name="hide_out_of_stock_message" class="oe_inline" invisible="not is_storable" />
+                <span invisible="not is_storable">Hide "Out of stock" message</span>
+            </field>
+        </field>
+    </record>
+</odoo>

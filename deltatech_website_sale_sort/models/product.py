@@ -1,0 +1,130 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+import gc
+import logging
+from datetime import datetime, time, timedelta
+
+from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
+
+BATCH_SIZE = 2000
+
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+
+    # the standard field sales_count is not store
+    # urmatoarele campuri sunt caclulata prin cron
+
+    sales_count2 = fields.Float(string="Sold2", store=True)
+    visit_count = fields.Integer(string="Visits", store=True)
+    comment_count = fields.Integer(string="Comments")
+
+    rating_count2 = fields.Integer("Rating count2")
+    rating_avg2 = fields.Float("Rating Average2")
+    in_stock = fields.Boolean()
+
+    def _update_statistics(self):
+        domain = [
+            ("res_model", "=", self._name),
+            ("res_id", "in", self.ids),
+            ("consumed", "=", True),
+        ]
+        read_group_res = self.env["rating.rating"]._read_group(
+            domain, ["res_id"], ["__count", "rating:avg"]
+        )  # force average on rating column
+        mapping = {
+            res_id: {
+                "rating_count": count,
+                "rating_avg": rating,
+            }
+            for res_id, count, rating in read_group_res
+        }
+
+        for record in self:
+            sales_count2 = sum(p.sales_count2 for p in record.with_context(active_test=False).product_variant_ids)
+            visit_count = sum(p.visit_count for p in record.with_context(active_test=False).product_variant_ids)
+            rating_count2 = mapping.get(record.id, {}).get("rating_count", 0)
+            rating_avg2 = mapping.get(record.id, {}).get("rating_avg", 0)
+            record.write(
+                {
+                    "sales_count2": sales_count2,
+                    "visit_count": visit_count,
+                    "rating_count2": rating_count2,
+                    "rating_avg2": rating_avg2,
+                    "in_stock": record.qty_available > 0,
+                }
+            )
+
+    @api.model
+    def _cron_update_statistics(self):
+        self.env["product.product"]._cron_update_statistics()
+        product_ids = self.search([]).ids
+        # With ~476k templates, processing everything in one call accumulated
+        # ORM cache across batches (MemoryError) and risked the calling
+        # transaction's cursor being torn down before completion. If queue_job
+        # is installed, delay each batch as its own job (own short-lived
+        # cursor); otherwise fall back to the original in-process loop, just
+        # clearing the cache between batches.
+        can_delay = hasattr(self, "with_delay")
+        for index in range(0, len(product_ids), BATCH_SIZE):
+            batch = self.browse(product_ids[index : index + BATCH_SIZE])
+            if can_delay:
+                batch.with_delay()._update_statistics()
+            else:
+                batch._update_statistics()
+                self.env.invalidate_all()
+                gc.collect()
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    sales_count2 = fields.Float(string="Sold2", store=True)
+    visit_count = fields.Integer(string="Visits", store=True)
+
+    def _update_statistics(self):
+        date_from = fields.Datetime.to_string(datetime.combine(datetime.now() - timedelta(days=365), time.min))
+
+        done_states = self.env["sale.report"]._get_done_states()
+
+        domain = [
+            ("state", "in", done_states),
+            ("product_id", "in", self.ids),
+            ("date", ">=", date_from),
+        ]
+
+        results = self.env["sale.report"]._read_group(domain, ["product_id"], ["product_uom_qty:sum"])
+
+        sale_mapping = {product.id: sales_count for product, sales_count in results}
+
+        results = self.env["website.track"]._read_group(
+            domain=[("product_id", "in", self.ids)],
+            groupby=["product_id"],
+            aggregates=["__count"],
+        )
+        visit_mapping = {product.id: visit_count for product, visit_count in results}
+
+        for product in self:
+            visit_count = visit_mapping.get(product.id, 0)
+            sales_count2 = product.uom_id.round(sale_mapping.get(product.id, 0))
+            product.write({"visit_count": visit_count, "sales_count2": sales_count2})
+
+    @api.model
+    def _cron_update_statistics(self):
+        product_ids = self.search([]).ids
+        # See ProductTemplate._cron_update_statistics: delay each batch as its
+        # own queue.job when available, otherwise fall back to the in-process
+        # loop with a cache clear between batches.
+        can_delay = hasattr(self, "with_delay")
+        for index in range(0, len(product_ids), BATCH_SIZE):
+            batch = self.browse(product_ids[index : index + BATCH_SIZE])
+            if can_delay:
+                batch.with_delay()._update_statistics()
+            else:
+                batch._update_statistics()
+                self.env.invalidate_all()
+                gc.collect()

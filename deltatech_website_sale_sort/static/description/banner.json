@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Product Sort",
+  "summary": "Smart sorting criteria for your online shop",
+  "icon": "trend",
+  "features": [
+    "Sort by Best Sellers & Most Visited",
+    "Sort by Rating & Availability",
+    "Stats updated automatically via cron"
+  ]
+}

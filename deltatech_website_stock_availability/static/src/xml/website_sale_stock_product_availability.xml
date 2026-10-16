@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+
+    <t t-name="deltatech_website_stock_availability.lead_time">
+        <div t-attf-class="lead_time_#{this.product_template} ">
+
+
+            <div
+                t-if="this.free_qty &gt; 0"
+                style="font-size: medium;"
+                t-attf-class="availability_message_#{this.product_template} text-success mt16 fw-bold"
+            >
+
+                In stock
+            </div>
+
+            <div
+                id="in_of_stock_message"
+                t-if="this.free_qty lte 0 and this.availability_vendor == 0 and !this.hide_out_of_stock_message"
+                t-attf-class="availability_message_#{this.product_template}  text-danger fw-bold"
+            >
+                <i class="oi me-1" data-icon="close" />
+                Out of stock
+            </div>
+
+            <div
+                id="in_of_stock_message"
+                t-if="this.free_qty lte 0 and this.availability_vendor gt 0"
+                style="font-size: medium;"
+                t-attf-class="availability_message_#{this.product_template} text-warning fw-bold"
+            >
+                In stock at vendor
+            </div>
+
+
+            <i class="oi oi-filled" data-icon="calendar_today" />
+            <t t-set="po" t-value="0" />
+            <t t-if="this.free_qty lte 0">
+                <t t-if="this.availability_vendor and purchase_lead_time">
+                    <t t-set="days" t-value="this.sale_delay+purchase_lead_time" />
+                    <span t-if="days gt 7">
+                        Delivery in
+                        <t t-out="Math.round(days/7)" />
+                        weeks
+                    </span>
+                    <span t-else="">
+                        <t t-if="purchase_lead_time lt 1 and purchase_lead_time gt 0">
+                            <t t-set="purchase_lead_time" t-value="0" />
+                            <span>Immediate delivery</span>
+                        </t>
+                        <t t-else="">
+                            Delivery in
+                            <t t-out="this.sale_delay+purchase_lead_time" />
+                            -
+                            <t t-out="this.sale_delay+this.sale_delay_safety+purchase_lead_time" />
+                            days
+                        </t>
+                    </span>
+                </t>
+                <t t-else="">
+                    <span>Delivery time unknown</span>
+                </t>
+            </t>
+            <t t-else="">
+                <span t-if="this.sale_delay gt 7">
+                    Delivery in
+                        <t t-out="Math.round(this.sale_delay/7)" />
+                    weeks
+                </span>
+                <span t-else="">
+                    <t t-if="this.sale_delay gt 1">
+                        Delivery in
+                        <span t-if="this.sale_delay gt 0">
+                            <t t-out="this.sale_delay" />
+                            -
+                        </span>
+                            <t t-out="this.sale_delay+this.sale_delay_safety" />
+                            days
+                    </t>
+                    <t t-if="this.sale_delay == 1">
+                        <span>Delivery tomorrow</span>
+                    </t>
+                    <t t-if="this.sale_delay == 0">
+                        <span>Immediate delivery</span>
+                    </t>
+                </span>
+            </t>
+            <!--            <i class="oi oi-filled" data-icon="info"/>-->
+        </div>
+    </t>
+
+    <!-- Availability-only -->
+    <t t-name="deltatech_website_stock_availability.lead_time_availability">
+        <div t-attf-class="lead_time_availability_#{this.product_template}">
+            <div
+                t-if="this.free_qty &gt; 0"
+                style="font-size: medium;"
+                t-attf-class="deltatech_availability_message_#{this.product_template} text-success mt-3 fw-bold d-block"
+            >
+                In stock
+            </div>
+            <!-- keep out of stock block commented as in main template -->
+
+            <div
+                t-if="this.free_qty &lt;= 0 and this.availability_vendor == 0 and !this.hide_out_of_stock_message"
+                t-attf-class="availability_message_#{this.product_template}  text-danger fw-bold"
+            >
+                <i class="oi me-1" data-icon="close" />
+                Out of stock
+            </div>
+
+            <div
+                id="in_of_stock_message"
+                t-if="this.free_qty lte 0 and this.availability_vendor gt 0"
+                style="font-size: medium;"
+                t-attf-class="availability_message_#{this.product_template} text-warning fw-bold"
+            >
+                In stock at vendor
+            </div>
+        </div>
+    </t>
+
+    <!-- Interval-only -->
+    <t t-name="deltatech_website_stock_availability.lead_time_interval">
+        <div t-attf-class="lead_time_interval_#{this.product_template}">
+            <i class="oi oi-filled" data-icon="calendar_today" />
+            <t t-set="po" t-value="0" />
+            <t t-if="this.free_qty lte 0">
+                <t t-if="this.availability_vendor and purchase_lead_time">
+                    <t t-set="days" t-value="this.sale_delay+purchase_lead_time" />
+                    <span t-if="days gt 7">
+                        Delivery in
+                        <t t-out="Math.round(days/7)" />
+                        weeks
+                    </span>
+                    <span t-else="">
+                        <t t-if="purchase_lead_time lt 1 and purchase_lead_time gt 0">
+                            <t t-set="purchase_lead_time" t-value="0" />
+                            <span>Immediate delivery</span>
+                        </t>
+                        <t t-else="">
+                            Delivery in
+                            <t t-out="this.sale_delay+purchase_lead_time" />
+                            -
+                            <t t-out="this.sale_delay+this.sale_delay_safety+purchase_lead_time" />
+                            days
+                        </t>
+                    </span>
+                </t>
+                <t t-else="">
+                    <span>Delivery time unknown</span>
+                </t>
+            </t>
+            <t t-else="">
+                <span t-if="this.sale_delay gt 7">
+                    Delivery in
+                        <t t-out="Math.round(this.sale_delay/7)" />
+                    weeks
+                </span>
+                <span t-else="">
+                    <t t-if="this.sale_delay gt 1">
+                        Delivery in
+                        <span t-if="this.sale_delay gt 0">
+                            <t t-out="this.sale_delay" />
+                            -
+                        </span>
+                            <t t-out="this.sale_delay+this.sale_delay_safety" />
+                            days
+                    </t>
+                    <t t-if="this.sale_delay == 1">
+                        <span>Delivery tomorrow</span>
+                    </t>
+                    <t t-if="this.sale_delay == 0">
+                        <span>Immediate delivery</span>
+                    </t>
+                </span>
+            </t>
+        </div>
+    </t>
+</templates>
