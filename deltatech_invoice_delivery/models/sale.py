@@ -27,17 +27,17 @@ class SaleOrder(models.Model):
         """Raise an explicit error for the products that cannot be delivered"""
         errors = []
         for move in picking.move_ids.filtered(lambda m: m.product_uom_qty > 0):
-            if move.product_uom.compare(move.quantity, move.product_uom_qty) < 0:
+            if move.uom_id.compare(move.quantity, move.product_uom_qty) < 0:
                 errors.append(
                     self.env._(
                         "%(product)s: available %(available)s %(uom)s, requested %(requested)s %(uom)s",
                         product=move.product_id.display_name,
                         available=move.quantity,
                         requested=move.product_uom_qty,
-                        uom=move.product_uom.name,
+                        uom=move.uom_id.name,
                     )
                 )
-            elif move.has_tracking != "none" and any(not ml.lot_id for ml in move.move_line_ids):
+            elif move.has_tracking and any(not ml.lot_id for ml in move.move_line_ids):
                 errors.append(
                     self.env._(
                         "%(product)s: the lot or serial number could not be reserved",
@@ -56,7 +56,7 @@ class SaleOrder(models.Model):
                 if picking.picking_type_id.code == "outgoing":
                     order._check_invoice_delivery_availability(picking)
                 for move in picking.move_ids.filtered(lambda m: m.product_uom_qty > 0):
-                    if move.product_uom.compare(move.quantity, move.product_uom_qty) != 0:
+                    if move.uom_id.compare(move.quantity, move.product_uom_qty) != 0:
                         move.quantity = move.product_uom_qty
                     move.picked = True
                 if "to_invoice" in picking._fields:
