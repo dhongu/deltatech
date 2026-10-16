@@ -4,7 +4,7 @@
 {
     "name": "List View Select Text",
     "summary": "Select text in list views without opening the record",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
@@ -16,5 +16,5 @@
         "web.assets_backend": ["deltatech_list_view/static/src/js/list_renderer.esm.js"],
         "web.assets_web_dark": ["deltatech_list_view/static/src/scss/style_dark.scss"],
     },
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
 }

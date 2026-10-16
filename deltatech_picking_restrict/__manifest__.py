@@ -3,7 +3,7 @@
 {
     "name": "Picking Validation Restrict",
     "summary": "Restrict picking validation to a certain security group",
-    "version": "20.0.1.0.1",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -13,6 +13,6 @@
         "views/stock_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["danila12"],
 }

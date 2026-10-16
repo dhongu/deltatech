@@ -3,7 +3,7 @@
 {
     "name": "Batch Reception Note",
     "summary": "Create reception notes for several receipts at once",
-    "version": "20.0.0.1.5",
+    "version": "20.0.0.1.6",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
@@ -16,7 +16,7 @@
         "security/ir.access.csv",
     ],
     "license": "LGPL-3",
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
 }

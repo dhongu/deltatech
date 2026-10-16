@@ -4,7 +4,7 @@
 {
     "name": "Sale Qty Multiple",
     "summary": "Minimum and multiple sale quantities per product, applied automatically",
-    "version": "20.0.1.1.3",
+    "version": "20.0.1.1.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
@@ -12,6 +12,6 @@
     "license": "LGPL-3",
     "data": ["views/product_view.xml"],
     "images": ["images/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

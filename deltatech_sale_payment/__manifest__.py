@@ -4,7 +4,7 @@
 {
     "name": "Sale Payment",
     "summary": "Payment button in sale order",
-    "version": "20.0.1.3.3",
+    "version": "20.0.1.3.4",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -16,6 +16,6 @@
         "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

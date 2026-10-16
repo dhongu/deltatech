@@ -4,7 +4,7 @@
 {
     "name": "Sale Order Search by Partner Fields",
     "summary": "Search sale order by partner e-mail, phone",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",
@@ -13,6 +13,6 @@
     "data": ["views/sale_order.xml"],
     "images": ["static/description/main_screenshot.png"],
     "application": False,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["danila12"],
 }

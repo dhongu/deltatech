@@ -6,14 +6,14 @@
 {
     "name": "Sale Phone",
     "summary": "Show partner phone in sale order",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["sale", "account"],
     "license": "OPL-1",
     "data": ["views/sale_order_view.xml", "views/account_move_view.xml"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
 }

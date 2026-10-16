@@ -1,3 +1,8 @@
+## 20.0.0.1.6 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 20.0.0.1.5 (2026-10-15)
 
 - Fixed: a reception note consumed the sent RFQs without unit conversion, so a note of 1 dozen

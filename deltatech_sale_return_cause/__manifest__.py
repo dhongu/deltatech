@@ -4,7 +4,7 @@
 {
     "name": "Sale Return Cause",
     "summary": "Record and analyze the reasons for sale returns",
-    "version": "20.0.0.0.11",
+    "version": "20.0.0.0.12",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
@@ -21,6 +21,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["VoicuStefan2001"],
 }

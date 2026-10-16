@@ -6,7 +6,7 @@
 {
     "name": "Sale Contact",
     "summary": "Limit contacts insale order",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.1.1",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -16,7 +16,7 @@
         "views/res_partner_view.xml",
         # "views/sale_order_view.xml",
     ],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
 }

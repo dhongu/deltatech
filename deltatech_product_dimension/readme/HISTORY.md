@@ -1,3 +1,8 @@
+## 20.0.1.0.2 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 20.0.1.0.1 (2026-10-02)
 
 - Migration to Odoo 20.0: no functional changes; fields `product_length`,

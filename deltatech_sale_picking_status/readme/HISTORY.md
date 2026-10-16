@@ -1,3 +1,8 @@
+## 20.0.2.0.1 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 20.0.2.0.0 (2026-10-03)
 
 - The module becomes an extension of the standard `delivery_status`: the own

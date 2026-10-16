@@ -1,3 +1,8 @@
+## 20.0.1.0.3 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 19.0.1.0.2 (2026-10-01)
 
 - Removal priority is now recomputed when the product category or the location type changes (PRIORITY-001).
