@@ -1,3 +1,5 @@
+from datetime import date
+
 from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
@@ -38,10 +40,45 @@ class TestPaymentTerm(TransactionCase):
         self.assertEqual(payment_term.name, "Updated Payment Term")
         # 1 advance line + 3 rates (the last one being the balance line)
         self.assertEqual(len(payment_term.line_ids), 4)
-        self.assertEqual(payment_term.line_ids.mapped("nb_days"), [0, 30, 60, 90])
+        self.assertEqual(payment_term.line_ids.mapped("nb_months"), [0, 0, 1, 2])
         self.assertTrue(all(line.value == "percent" for line in payment_term.line_ids))
         self.assertAlmostEqual(sum(payment_term.line_ids.mapped("value_amount")), 100.0, places=4)
         self.assertAlmostEqual(payment_term.line_ids[0].value_amount, 25.0)
+
+    def _due_dates(self, term, date_ref):
+        return [line._get_due_date(date_ref) for line in term.line_ids]
+
+    def test_wizard_day_of_the_month(self):
+        """The rates fall on the selected day of the months following the invoice (#3407)"""
+        payment_term = self.env["account.payment.term"].create({"name": "Day 15"})
+        self._wizard(payment_term, day_of_the_month=15).do_create_rate()
+        self.assertEqual(
+            self._due_dates(payment_term, date(2026, 1, 31)),
+            [date(2026, 1, 31), date(2026, 2, 15), date(2026, 3, 15), date(2026, 4, 15)],
+        )
+        self._wizard(payment_term, day_of_the_month=25).do_create_rate()
+        self.assertEqual(
+            self._due_dates(payment_term, date(2026, 1, 31)),
+            [date(2026, 1, 31), date(2026, 2, 25), date(2026, 3, 25), date(2026, 4, 25)],
+        )
+        # day 31: month ends, leap year included
+        self._wizard(payment_term, day_of_the_month=31, value="fixed", rate_value=100.0).do_create_rate()
+        self.assertEqual(
+            self._due_dates(payment_term, date(2027, 12, 10)),
+            [date(2027, 12, 10), date(2028, 1, 31), date(2028, 2, 29), date(2028, 3, 31)],
+        )
+        # the invoice preview and the invoice due dates use the same schedule
+        terms = payment_term._compute_terms(
+            date(2026, 1, 31),
+            self.env.company.currency_id,
+            self.env.company,
+            0.0,
+            0.0,
+            1.0,
+            400.0,
+            400.0,
+        )
+        self.assertEqual([t["date"] for t in terms["line_ids"]][-1], date(2026, 4, 30))
 
     def test_wizard_single_rate(self):
         payment_term = self.env["account.payment.term"].create({"name": "One Rate"})

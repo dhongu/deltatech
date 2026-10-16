@@ -4,7 +4,7 @@
 {
     "name": "Payment Term Rate Wizard",
     "summary": "Generate installment payment terms from a wizard: advance, rates and due dates",
-    "version": "19.0.2.0.7",
+    "version": "19.0.2.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Base",

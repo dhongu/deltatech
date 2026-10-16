@@ -1,3 +1,7 @@
+## 19.0.2.0.8 (2026-10-16)
+
+- Fix the rates wizard: the selected "Day of the Month" was ignored and every rate fell 30, 60, 90... days after the invoice date. The rates now use the "Days end of month on the" due type with a new "Extra Months" offset on the payment term lines, so rate N is due on the selected day of the N-th month after the invoice (clamped to the month end, e.g. day 31 gives February 28/29). The advance stays due on the invoice date.
+
 ## 19.0.2.0.7 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
