@@ -1,3 +1,22 @@
+## 19.0.1.2.0 (2026-10-15)
+
+- The availability popover lists the free stock per warehouse as a table, read when the popover
+  opens instead of for every order line: the warehouse of the order comes first, is marked and is
+  shown even without stock; each warehouse shows its code and name.
+- Quantities that cover the quantity to deliver are green; the order warehouse is red when it does
+  not cover it.
+- A click on a warehouse opens the forecast of the product in that warehouse.
+- The vendor stock is shown under the warehouses, and only when it is not zero.
+- Romanian translations for the popover labels; "Other Stock" is now "Alt stoc".
+
+## 19.0.1.1.12 (2026-10-15)
+
+- The availability popover shows the vendor stock and the stock per warehouse again: the widget
+  now loads these fields itself instead of relying on columns declared in the order line view.
+- The unit of measure is shown again next to the quantities in the popover (many2one values are
+  objects in 19.0, so `product_uom_id[1]` was empty).
+- Each warehouse is listed on its own line in the popover.
+
 ## 19.0.1.1.11 (2026-10-09)
 
 - Apps Store banner (banner.json).
