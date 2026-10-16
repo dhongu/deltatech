@@ -1,6 +1,6 @@
-============================
-Deltatech Edit Currency Rate
-============================
+==================
+Edit Currency Rate
+==================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech Edit Currency Rate
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_edit_currency_rate
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_account_edit_currency_rate
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_edit_currency_rate/tests
-    :alt: 11 automated tests
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Features
 ========
@@ -55,6 +52,29 @@ Usage
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.2 (2026-10-09)
+-----------------------
+
+- Fix CUSTOMRATE-001: the custom currency rate is applied server side.
+  On invoices it now drives the native invoice currency rate, so a
+  create/write through RPC, import or ORM recomputes the line rates, the
+  company-currency balances and the taxes, exactly as the form does.
+  Clearing it restores the official rate. It can no longer be changed on
+  a posted entry (read-only in the form, blocked on write).
+- The custom rate is no longer copied when an invoice is duplicated; a
+  reversal (credit note) keeps the rate of the original document, so it
+  is regularized with the same amounts in company currency.
+- Help text on the field: only a rate allowed by Art. 290 of the Fiscal
+  Code.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -83,6 +103,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_edit_currency_rate>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_account_edit_currency_rate>`_ project on GitHub.
 
 You are welcome to contribute.
