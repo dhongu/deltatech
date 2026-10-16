@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<odoo>noupdate="0">
+<odoo>
     <!--Grup for managing category types-->
     <record id="category_group_manager" model="res.groups">
         <field name="name">Manage category groups</field>

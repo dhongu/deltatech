@@ -5,7 +5,7 @@
 {
     "name": "Internal Category Groups",
     "summary": "Groups for internal categories",
-    "version": "19.0.0.0.7",
+    "version": "20.0.0.0.7",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Other",
@@ -20,7 +20,7 @@
         "views/stock_quant.xml",
         "report/sale_margin_report.xml",
         "report/account_invoice_report.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

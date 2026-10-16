@@ -1,5 +1,5 @@
 ========================
-Deltatech Category Group
+Internal Category Groups
 ========================
 
 ..
@@ -14,13 +14,10 @@ Deltatech Category Group
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_category_group
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_category_group
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_category_group
-    :alt: 3 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 This module extends Odoo's internal product categories with two
 additional grouping dimensions — **Category type** and **Category
@@ -28,7 +25,7 @@ class** — enabling businesses to segment and analyse inventory, sales
 margins, and invoices at a finer level than the built-in category
 hierarchy.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds **Category type** and **Category class** fields to every product
   category (many2one relations to dedicated configuration lists).
@@ -87,6 +84,47 @@ Once categories are tagged, the group-by filters become meaningful in:
 - Sale Margin report (requires ``deltatech_sale_commission``)
 - *Accounting > Reporting > Invoice Analysis*
 
+Changelog
+=========
+
+20.0.0.0.7 (2026-10-16)
+-----------------------
+
+Migration to 20.0:
+
+- The invoice analysis (``account.invoice.report``) is built from
+  ``_select_list()`` in 20; the category type and class columns are
+  added there (the ``_select`` / ``_from`` hooks are gone).
+- ``security.xml`` had a stray ``noupdate="0">`` text node after
+  ``<odoo>``; removed.
+- Access rights are declared in ``ir.access``.
+- Test adapted: in 20 every regular group implies
+  ``base.group_user_regular``.
+
+19.0.0.0.7 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.6 (2026-10-09)
+-----------------------
+
+- Fix CATEGORYGROUP-001: the "Manage category groups" group implied the
+  IDs of the root and admin users as if they were groups (e.g. "Access
+  Rights"); these users are now members of the group, and the upgrade
+  removes the wrong implied groups.
+
+19.0.0.0.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -115,6 +153,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_category_group>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_category_group>`_ project on GitHub.
 
 You are welcome to contribute.

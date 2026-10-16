@@ -18,8 +18,9 @@ class TestCategoryGroupManager(TransactionCase):
         cls.user_admin = cls.env.ref("base.user_admin")
 
     def test_group_implies_no_groups(self):
-        # modulul nu declară nicio implicare; vechiul XML punea aici id-urile utilizatorilor
-        self.assertFalse(self.group.implied_ids)
+        # modulul nu declară nicio implicare; vechiul XML punea aici id-urile utilizatorilor.
+        # În 20 orice grup regular implică automat base.group_user_regular.
+        self.assertFalse(self.group.implied_ids - self.env.ref("base.group_user_regular"))
 
     def test_admin_users_are_members(self):
         self.assertIn(self.user_root, self.group.with_context(active_test=False).user_ids)
