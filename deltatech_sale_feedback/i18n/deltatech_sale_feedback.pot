@@ -1,0 +1,195 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_feedback
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_feedback
+#: model:mail.template,subject:deltatech_sale_feedback.mail_template_sale_feedback
+msgid "${object.company_id.name} (Ref ${object.name or 'n/a' })"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:mail.template,body_html:deltatech_sale_feedback.mail_template_sale_feedback
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                <p style=\"margin: 0px; padding: 0px; font-size: 12px;\">\n"
+"                    Dear\n"
+"                    <t t-if=\"object.partner_id.parent_id\">\n"
+"                        <t t-esc=\"object.partner_id.parent_id.name\"/>\n"
+"                        <t t-esc=\"' (' + object.partner_id.name + ')'\"/>\n"
+"                    </t>\n"
+"                    <t t-else=\"\">\n"
+"                        <t t-esc=\"object.partner_id.name\"/>\n"
+"                    </t>\n"
+"                    ,\n"
+"                </p>\n"
+"                <p>\n"
+"                    Please take a moment to rate our products related to the invoice \"<strong t-out=\"object.name\"/>\"\n"
+"                </p>\n"
+"                <br/>\n"
+"                <div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <t t-foreach=\"object.invoice_line_ids\" t-as=\"line\">\n"
+"\n"
+"                        <t t-if=\"line.display_type in ['line_section', 'line_note']\">\n"
+"                            <table width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse;\">\n"
+"                                <tr>\n"
+"                                    <td colspan=\"4\">\n"
+"                                        <t t-if=\"line.display_type == 'line_section'\">\n"
+"                                            <strong t-out=\"line.name\"/>\n"
+"                                        </t>\n"
+"                                        <t t-elif=\"line.display_type == 'line_note'\">\n"
+"                                            <i t-out=\"line.name\"/>\n"
+"                                        </t>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"                        </t>\n"
+"                        <t t-else=\"\">\n"
+"                            <t t-set=\"access_token\" t-value=\"line.rating_get_access_token()\"/>\n"
+"\n"
+"\n"
+"                            <table t-attf-width=\"100%\" style=\"color: #454748; font-size: 12px; border-collapse: collapse;\">\n"
+"                                <tr>\n"
+"                                    <td style=\"width: 100px;\">\n"
+"                                        <img t-att-src=\"'/web/image/product.product/' + str(line.product_id.id) + '/image_128'\" style=\"width: 64px; height: 64px; object-fit: contain;\" alt=\"Product image\"/>\n"
+"                                    </td>\n"
+"                                    <td align=\"left\">\n"
+"                                        <a t-att-href=\"line.product_id.website_url\">\n"
+"                                            <t t-esc=\"line.product_id.name\"/>\n"
+"                                        </a>\n"
+"                                    </td>\n"
+"                                    <td width=\"15%\" align=\"center\">\n"
+"                                        <t t-esc=\"line.quantity\"/>\n"
+"                                    </td>\n"
+"                                    <td style=\"font-size: 10px;\">\n"
+"                                        <table style=\"width:100%;text-align:center;\">\n"
+"                                            <tr>\n"
+"                                                <td>\n"
+"                                                    <a t-att-href=\"'/rate/' + access_token + '/5'\">\n"
+"                                                        <img alt=\"Satisfied\" src=\"/rating/static/src/img/rating_5.png\" title=\"Satisfied\"/>\n"
+"                                                    </a>\n"
+"                                                </td>\n"
+"                                                <td>\n"
+"                                                    <a t-att-href=\"'/rate/' + access_token + '/3'\">\n"
+"                                                        <img alt=\"Not satisfied\" src=\"/rating/static/src/img/rating_3.png\" title=\"Not satisfied\"/>\n"
+"                                                    </a>\n"
+"                                                </td>\n"
+"                                                <td>\n"
+"                                                    <a t-att-href=\"'/rate/' + access_token + '/1'\">\n"
+"                                                        <img alt=\"Highly Dissatisfied\" src=\"/rating/static/src/img/rating_1.png\" title=\"Highly Dissatisfied\"/>\n"
+"                                                    </a>\n"
+"                                                </td>\n"
+"                                            </tr>\n"
+"                                        </table>\n"
+"                                    </td>\n"
+"                                </tr>\n"
+"                            </table>\n"
+"\n"
+"                        </t>\n"
+"                    </t>\n"
+"                </div>\n"
+"\n"
+"\n"
+"            </div>\n"
+"        "
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model,name:deltatech_sale_feedback.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model,name:deltatech_sale_feedback.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_config_settings__days_request_feedback
+msgid "Days Request Feedback"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_ir_config_parameter__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_mail_template__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_company__sale_feedback_template_id
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_config_settings__sale_feedback_template_id
+msgid "Email Template Request Feedback"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model,name:deltatech_sale_feedback.model_mail_template
+msgid "Email Templates"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_company__sale_feedback
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_config_settings__sale_feedback
+msgid "Email feedback after sale"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model.fields,help:deltatech_sale_feedback.field_res_company__sale_feedback_template_id
+#: model:ir.model.fields,help:deltatech_sale_feedback.field_res_config_settings__sale_feedback_template_id
+msgid "Email sent to the customer after invoice for feedback."
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_account_move_line__id
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_ir_config_parameter__id
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_mail_template__id
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:mail.template,name:deltatech_sale_feedback.mail_template_sale_feedback
+msgid "Invoice: request feedback"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model,name:deltatech_sale_feedback.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model,name:deltatech_sale_feedback.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.actions.server,name:deltatech_sale_feedback.ir_cron_feedback_ir_actions_server
+msgid "Request Feedback"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.actions.server,name:deltatech_sale_feedback.action_request_feedback
+msgid "Request feedback"
+msgstr ""
+
+#. module: deltatech_sale_feedback
+#: model:ir.model,name:deltatech_sale_feedback.model_ir_config_parameter
+msgid "System Parameter"
+msgstr ""

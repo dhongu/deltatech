@@ -1,0 +1,11 @@
+{
+  "title": "Sale Feedback",
+  "summary": "Ask customers for feedback after invoicing",
+  "icon": "user",
+  "features": [
+    "Rating e-mail a few days after invoice",
+    "Customers rate each invoiced product",
+    "Configurable delay (default 3 days)"
+  ],
+  "lang": "en"
+}
