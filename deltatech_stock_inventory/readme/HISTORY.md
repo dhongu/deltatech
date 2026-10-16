@@ -1,3 +1,15 @@
+## 19.0.2.10.8 (2026-10-16)
+
+- Searching inventory lines by *Difference* now compares with the requested value (`=`, `!=`,
+  `in`, `not in`, `<`, `<=`, `>`, `>=`). Before, `= 0` returned every line of the inventory and
+  `!= x` always returned the lines with a nonzero difference, whatever the value.
+- Creating a product from *Warehouse Products* or from the product fields of an inventory no longer
+  sends the removed product type `product`: the new product is storable goods. The *On Hand* button
+  of the *Warehouse Products* form is shown again for storable products (it was hidden for all).
+- The *Show manual location fields* setting now controls the Rack/Row/Shelf/Case fields on the
+  product forms. On upgrade the setting is turned on, so the fields stay visible until it is
+  disabled.
+
 ## 19.0.2.10.7 (2026-10-12)
 
 - Removed dead code: the `stock.picking` override of `action_view_stock_valuation_layers` (the
