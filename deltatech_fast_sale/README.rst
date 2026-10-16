@@ -14,13 +14,10 @@ Fast Sale
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_sale
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_fast_sale
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2076%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_fast_sale
-    :alt: 2 automated tests · 76% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Streamline your sales workflow by collapsing confirmation, delivery, and
 invoicing into a single button click directly on the sale order.
@@ -28,7 +25,7 @@ Designed for businesses that need to process straightforward orders
 quickly — no separate picking validation or invoice wizard steps
 required.
 
-**Key features:**
+**✨ Key features:**
 
 - **Confirm, Deliver and Invoice** — one-click button on draft/sent sale
   orders that confirms the order, validates the delivery (using order
@@ -96,6 +93,20 @@ Invoice from the picking
    proceeding. If any product is not fully available in the warehouse,
    the action is blocked and an error message is displayed.
 
+Changelog
+=========
+
+19.0.1.0.4 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -124,6 +135,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_sale>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_fast_sale>`_ project on GitHub.
 
 You are welcome to contribute.
