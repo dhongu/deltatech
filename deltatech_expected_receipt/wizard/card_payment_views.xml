@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_card_payment_form" model="ir.ui.view">
+        <field name="name">deltatech.card.payment.form</field>
+        <field name="model">deltatech.card.payment</field>
+        <field name="arch" type="xml">
+            <form string="Card Payment">
+                <div class="alert alert-warning" role="alert" invisible="not warning">
+                    <field name="warning" />
+                </div>
+                <group>
+                    <group>
+                        <field name="partner_id" readonly="sale_order_id or invoice_id" />
+                        <field name="sale_order_id" invisible="not sale_order_id" />
+                        <field name="invoice_mode" widget="radio" invisible="not sale_order_id" />
+                        <field name="invoice_id" invisible="invoice_mode != 'invoice'" required="invoice_mode == 'invoice'" />
+                        <field name="company_id" invisible="1" />
+                        <field name="currency_id" invisible="1" />
+                    </group>
+                    <group>
+                        <field name="amount_due" invisible="not amount_due" />
+                        <field name="amount" />
+                        <field name="amount_left" invisible="not amount_due" />
+                        <field name="date" />
+                        <field name="terminal_id" />
+                        <field name="note" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Register" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

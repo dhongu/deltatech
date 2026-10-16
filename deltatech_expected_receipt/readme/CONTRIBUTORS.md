@@ -1,0 +1,4 @@
+- [Terrabit](https://www.terrabit.ro):
+  - Dorin Hongu \<<dhongu@gmail.com>\>
+- MD Trade Concept SRL:
+  - Alexandru Grecu (original card payment register and exact-combination settlement)
