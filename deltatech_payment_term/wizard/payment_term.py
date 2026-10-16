@@ -49,6 +49,15 @@ class AccountPaymentTermRateWizard(models.TransientModel):
             if wizard.value == "percent" and (wizard.advance < 0.0 or wizard.advance > 100.0):
                 raise ValidationError(self.env._("Percentages for Advance must be between 0 and 100."))
 
+    def _rate_due(self, index):
+        """Rate ``index`` (1-based) is due on the selected day of the ``index``-th month after the invoice"""
+        return {
+            "nb_days": 0,
+            "nb_months": index - 1,
+            "days_next_month": str(self.day_of_the_month),
+            "delay_type": "days_end_of_month_on_the",
+        }
+
     def do_create_rate(self):
         self.ensure_one()
         line_ids = []
@@ -69,9 +78,7 @@ class AccountPaymentTermRateWizard(models.TransientModel):
                 norm_rate = {
                     "value": "percent",
                     "value_amount": float_round(rest, 6, rounding_method="DOWN"),
-                    "nb_days": 30 * x,
-                    "days_next_month": self.day_of_the_month,
-                    "delay_type": "days_after",
+                    **self._rate_due(x),
                 }
                 line_ids.append((0, 0, norm_rate))
         else:
@@ -88,9 +95,7 @@ class AccountPaymentTermRateWizard(models.TransientModel):
                 norm_rate = {
                     "value": "fixed",
                     "value_amount": self.rate_value,
-                    "nb_days": 30 * x,
-                    "days_next_month": self.day_of_the_month,
-                    "delay_type": "days_after",
+                    **self._rate_due(x),
                 }
                 line_ids.append((0, 0, norm_rate))
 
@@ -99,9 +104,7 @@ class AccountPaymentTermRateWizard(models.TransientModel):
             0,
             {
                 "value": "percent",
-                "nb_days": 30 * (self.rate),
-                "days_next_month": self.day_of_the_month,
-                "delay_type": "days_after",
+                **self._rate_due(self.rate),
             },
         )
 

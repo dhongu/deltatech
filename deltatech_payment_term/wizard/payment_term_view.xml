@@ -66,6 +66,9 @@
                     />
                     </header>
                 </xpath>
+                <field name="days_next_month" position="after">
+                    <field name="nb_months" optional="show" />
+                </field>
             </field>
         </record>
 
