@@ -1,3 +1,7 @@
+## 19.0.1.1.4 (2026-10-16)
+
+- Fix the XLSX summary: an order reference, product code or line description starting with "=" was stored as an Excel formula in the file sent to the vendor. These columns are now always written as text.
+
 ## 19.0.1.1.3 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
