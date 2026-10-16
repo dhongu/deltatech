@@ -1,6 +1,6 @@
 ### Deltatech Project Pricelist
 
-Project-level pricelist used when creating Sales Orders from a project or a task. Built for Odoo 19.
+Project-level pricelist used when creating Sales Orders from a project or a task. Built for Odoo 20.
 
 #### Purpose
 Allow project managers to define a default pricelist on each project so that any Sales Order created from that project (or from one of its tasks) automatically uses the correct pricelist. This avoids manual selection mistakes and keeps pricing consistent.
@@ -15,12 +15,12 @@ Allow project managers to define a default pricelist on each project so that any
 
 #### UI/Views
 
-- Project form (simplified): displays the `Pricelist` field in the settings section.
+- Project form (simplified, used when creating a project): displays the `Pricelist` field after the planned dates.
 - Project edit view inherited from `sale_project`: shows the `Pricelist` on the Settings page (visible when the project is billable and not a template).
 
 #### Compatibility
 
-- Odoo 19.
+- Odoo 20.
 
 #### Dependencies
 
@@ -30,7 +30,7 @@ Allow project managers to define a default pricelist on each project so that any
 1) Ensure your `addons_path` includes this module’s directory.
 2) Install the module:
 ```
-./odoo/odoo-bin -c odoo18.conf -d o19_playground -i deltatech_project_price_list --stop-after-init
+./odoo/odoo-bin -c odoo.conf -d o20_playground -i deltatech_project_price_list --stop-after-init
 ```
 
 #### Usage
@@ -44,11 +44,12 @@ Automated tests cover:
 - Action context injection (`default_pricelist_id`) from the project.
 - `sale.order.create` applying the project pricelist (project/task flows).
 - `default_get` proposing the project pricelist when opening the SO form from project/task.
-- Respect of an explicit pricelist provided by the user/context.
+- Respect of an explicit pricelist provided by the user/context (also on direct `create` with `default_pricelist_id`).
+- The `Pricelist` field present on the simplified and full project forms.
 
 Run tests (on a disposable DB):
 ```
-./odoo/odoo-bin -c odoo18.conf -d o19_test -i deltatech_project_price_list --test-tags=deltatech_project_price_list --stop-after-init
+./odoo/odoo-bin -c odoo.conf -d o20_test -i deltatech_project_price_list --test-tags=deltatech_project_price_list --stop-after-init
 ```
 
 #### License

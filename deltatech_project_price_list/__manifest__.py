@@ -5,11 +5,12 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Project Pricelist",
     "summary": "Project-level pricelist used when creating Sales Orders from a project",
-    "version": "19.0.1.0.2",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales/Project",
     "license": "LGPL-3",
+    "development_status": "Beta",
     "depends": [
         "sale_project",  # brings project + sale integration
     ],

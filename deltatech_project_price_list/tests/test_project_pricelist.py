@@ -154,7 +154,7 @@ class TestProjectPricelist(TransactionCase):
             "default_project_id": self.project.id,
             "default_partner_id": self.partner.id,
         }
-        with Form(self.SaleOrder.with_context(ctx)) as so_form:
+        with Form(self.SaleOrder.with_context(**ctx)) as so_form:
             # Pricelist should be proposed from the project's pricelist
             self.assertEqual(so_form.pricelist_id, self.project.pricelist_id)
 
@@ -166,5 +166,21 @@ class TestProjectPricelist(TransactionCase):
             "default_partner_id": self.partner.id,
             "default_pricelist_id": self.pricelist_b.id,
         }
-        with Form(self.SaleOrder.with_context(ctx)) as so_form:
+        with Form(self.SaleOrder.with_context(**ctx)) as so_form:
             self.assertEqual(so_form.pricelist_id, self.pricelist_b)
+
+    def test_so_create_respects_default_pricelist_in_context(self):
+        so = self.SaleOrder.with_context(
+            create_for_project_id=self.project.id,
+            default_pricelist_id=self.pricelist_b.id,
+        ).create({"partner_id": self.partner.id})
+        self.assertEqual(
+            so.pricelist_id,
+            self.pricelist_b,
+            "A default_pricelist_id given in context should win over the project's pricelist.",
+        )
+
+    def test_project_forms_show_pricelist(self):
+        for xmlid in ("project.project_project_view_form_simplified_footer", "project.edit_project"):
+            arch = self.Project.get_view(self.env.ref(xmlid).id, "form")["arch"]
+            self.assertIn('name="pricelist_id"', arch, f"Pricelist field missing from {xmlid}")

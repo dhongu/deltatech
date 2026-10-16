@@ -1,6 +1,6 @@
-===========================
-Deltatech Project Pricelist
-===========================
+=================
+Project Pricelist
+=================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,19 +17,16 @@ Deltatech Project Pricelist
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_project_price_list
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_project_price_list
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_project_price_list
-    :alt: 9 automated tests · 78% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 Deltatech Project Pricelist
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Project-level pricelist used when creating Sales Orders from a project
-or a task. Built for Odoo 19.
+or a task. Built for Odoo 20.
 
 Purpose
 ^^^^^^^
@@ -58,8 +55,8 @@ Key Features
 UI/Views
 ^^^^^^^^
 
-- Project form (simplified): displays the ``Pricelist`` field in the
-  settings section.
+- Project form (simplified, used when creating a project): displays the
+  ``Pricelist`` field after the planned dates.
 - Project edit view inherited from ``sale_project``: shows the
   ``Pricelist`` on the Settings page (visible when the project is
   billable and not a template).
@@ -67,7 +64,7 @@ UI/Views
 Compatibility
 ^^^^^^^^^^^^^
 
-- Odoo 19.
+- Odoo 20.
 
 Dependencies
 ^^^^^^^^^^^^
@@ -82,7 +79,7 @@ Installation
 
 ::
 
-   ./odoo/odoo-bin -c odoo18.conf -d o19_playground -i deltatech_project_price_list --stop-after-init
+   ./odoo/odoo-bin -c odoo.conf -d o20_playground -i deltatech_project_price_list --stop-after-init
 
 Usage
 ^^^^^
@@ -103,13 +100,16 @@ Automated tests cover:
   flows).
 - ``default_get`` proposing the project pricelist when opening the SO
   form from project/task.
-- Respect of an explicit pricelist provided by the user/context.
+- Respect of an explicit pricelist provided by the user/context (also on
+  direct ``create`` with ``default_pricelist_id``).
+- The ``Pricelist`` field present on the simplified and full project
+  forms.
 
 Run tests (on a disposable DB):
 
 ::
 
-   ./odoo/odoo-bin -c odoo18.conf -d o19_test -i deltatech_project_price_list --test-tags=deltatech_project_price_list --stop-after-init
+   ./odoo/odoo-bin -c odoo.conf -d o20_test -i deltatech_project_price_list --test-tags=deltatech_project_price_list --stop-after-init
 
 License
 ^^^^^^^
@@ -120,6 +120,19 @@ LGPL-3.
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -141,6 +154,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_project_price_list>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_project_price_list>`_ project on GitHub.
 
 You are welcome to contribute.

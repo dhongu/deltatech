@@ -9,8 +9,8 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     @api.model
-    def default_get(self, fields_list):
-        defaults = super().default_get(fields_list)
+    def default_get(self, fields):
+        defaults = super().default_get(fields)
         ctx = self.env.context
 
         # If a default pricelist is already provided via context or already set, respect it
@@ -42,7 +42,8 @@ class SaleOrder(models.Model):
         # Ensure the project's pricelist is used when creating a SO from a project/task
         ctx = self.env.context
         for vals in vals_list:
-            if vals.get("pricelist_id"):
+            # Respect an explicit pricelist, given in vals or as a context default
+            if vals.get("pricelist_id") or ctx.get("default_pricelist_id"):
                 continue
             # Try to resolve a related project
             project_id = ctx.get("create_for_project_id") or ctx.get("default_project_id") or vals.get("project_id")
