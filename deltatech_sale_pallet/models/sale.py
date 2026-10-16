@@ -3,30 +3,47 @@
 
 import math
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # Nume propriu (nu `onchange_order_line`): alte module (ex.
+    # deltatech_sale_add_extra_line) definesc `onchange_order_line` fără super(),
+    # iar Odoo înregistrează un singur onchange per nume de metodă.
     @api.onchange("order_line")
-    def onchange_order_line(self):
+    def _onchange_order_line_pallet(self):
         pallets = self.recompute_pallet_lines(delete_if_under=True)
-        if pallets:
-            for line in self.order_line:
-                pallet = pallets.pop(line.product_id.id, False)
-                if pallet:
-                    # line.product_uom_qty = max(pallet["product_uom_qty"], line.product_uom_qty)
-                    line.product_uom_qty = pallet["product_uom_qty"]
+        for line in self.order_line:
+            pallet = pallets.pop(line.product_id.id, False)
+            if pallet:
+                # line.product_uom_qty = max(pallet["product_uom_qty"], line.product_uom_qty)
+                line.product_uom_qty = pallet["product_uom_qty"]
+            elif line.is_pallet_line and line.product_id.id not in pallets:
+                # linie de palet generată, al cărei produs principal nu mai e pe comandă
+                self._drop_obsolete_pallet_line(line)
 
         for product_id in pallets:
             if pallets and pallets[product_id]["product_uom_qty"]:
-                order_line = self.order_line.new(pallets[product_id])
+                order_line = self.order_line.new(dict(pallets[product_id], is_pallet_line=True))
                 # `_onchange_product_id_warning` nu există în O19 nativ; e adus
                 # doar de deltatech_sale_margin. Apelăm doar dacă e disponibil.
                 if hasattr(order_line, "_onchange_product_id_warning"):
                     order_line._onchange_product_id_warning()
                 # order_line.product_uom_change()
+
+    def _drop_obsolete_pallet_line(self, line):
+        """Elimină o linie de palet generată care nu mai are produs principal.
+
+        Liniile salvate ale unei comenzi confirmate nu pot fi șterse: li se pune
+        cantitatea 0. Liniile de palet adăugate manual (fără `is_pallet_line`) nu
+        sunt atinse.
+        """
+        if self.state == "sale" and line._origin.id:
+            line.product_uom_qty = 0.0
+        else:
+            self.order_line -= line
 
     def recompute_pallet_lines(self, delete_if_under=False):
         pallets = {}
@@ -54,6 +71,12 @@ class SaleOrder(models.Model):
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
+
+    is_pallet_line = fields.Boolean(
+        string="Generated Pallet Line",
+        copy=True,
+        help="Line added automatically for the pallets required by the other lines.",
+    )
 
     def compute_pallet_number(self, delete_if_under=False):
         self.ensure_one()

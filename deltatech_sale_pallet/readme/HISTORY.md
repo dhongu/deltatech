@@ -1,3 +1,14 @@
+# 19.0.1.0.13
+
+- Fix: pallets are now added to the quotation also when
+  `deltatech_sale_add_extra_line` is installed (the two order-line onchanges
+  no longer override each other).
+- Fix: removing the last product that needs pallets now also removes the
+  pallet line added automatically for it (on a confirmed order its quantity
+  is set to 0). Pallet lines added by hand are kept.
+- Fix: the product "Pallet Price" is refreshed when the product price, the
+  pallet product, its price or the minimum quantity per pallet changes.
+
 # 19.0.1.0.12
 
 - Apps Store banner (banner.json).
