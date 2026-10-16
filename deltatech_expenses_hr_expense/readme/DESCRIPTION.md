@@ -6,8 +6,8 @@ avoid booking the same expense twice.
   report adds the employee's submitted or approved expenses as report lines.
 - **Send from the expense list**: The **Adaugă în decont de cheltuieli** action sends several
   selected expenses to a chosen report in one step.
-- **No double booking**: An expense linked to a report is posted only through the report; its
-  own posting buttons are hidden.
+- **No double booking**: An expense linked to a report is posted only through the report; approving
+  it does not create the standard journal entry.
 - **Released on cancel**: When a report is cancelled, its imported lines are removed and the
   expenses become available again.
 - **Installed automatically**: The module installs itself when both `deltatech_expenses` and

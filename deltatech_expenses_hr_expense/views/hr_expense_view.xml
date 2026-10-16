@@ -10,16 +10,9 @@
                 <div class="alert alert-info" role="alert" invisible="not expenses_deduction_id">
                     Această cheltuială este preluată într-un
                     <field name="expenses_deduction_id" readonly="1" nolabel="1" class="oe_inline" />
-                    și se contabilizează acolo; postarea standard este dezactivată.
+                    și se contabilizează acolo; la aprobare nu se generează nota contabilă standard.
                 </div>
             </div>
-            <!-- Ascundem butoanele de postare standard când cheltuiala e legată de decont -->
-            <xpath expr="//button[@name='action_post'][hasclass('o_expense_post_highlight')]" position="attributes">
-                <attribute name="invisible">nb_attachment == 0 or state != 'approved' or expenses_deduction_id</attribute>
-            </xpath>
-            <xpath expr="//button[@name='action_post'][hasclass('o_expense_post')]" position="attributes">
-                <attribute name="invisible">nb_attachment &gt;= 1 or state != 'approved' or expenses_deduction_id</attribute>
-            </xpath>
         </field>
     </record>
 </odoo>

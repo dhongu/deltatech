@@ -87,7 +87,7 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         # angajat cu partener (work_contact_id) — seeding ca contabil => sudo pentru hr.employee
         cls.partner = env["res.partner"].create({"name": "Ionescu Andrei", "country_id": env.ref("base.ro").id})
         cls.employee = env["hr.employee"].sudo().create({"name": "Ionescu Andrei", "work_contact_id": cls.partner.id})
-        cls.supplier = env["res.partner"].create({"name": "Hotel Carpați SRL", "is_company": True})
+        cls.supplier = env["res.partner"].create({"name": "Hotel Carpați SRL"})
 
         # ---- Scenariul A: decont în starea „Avans", în care se preiau cheltuielile ------------
         cls.decont = cls._make_deduction(advance=1000.0, diem=42.5, days=2)

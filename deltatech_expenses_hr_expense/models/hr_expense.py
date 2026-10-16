@@ -22,17 +22,18 @@ class HrExpense(models.Model):
         "pentru a evita dublarea cheltuielilor.",
     )
 
-    def action_post(self):
+    def _create_move(self):
         """Nu generăm note contabile din modulul standard pentru cheltuielile preluate
-        într-un Decont de cheltuieli — acolo se face contabilizarea. Restul se postează normal."""
+        într-un Decont de cheltuieli — acolo se face contabilizarea. În Odoo 20 nota se creează
+        la aprobare (`_do_approve`), nu mai există butonul separat de postare."""
         linked = self.filtered("expenses_deduction_id")
         if linked:
             _logger.info(
                 "deltatech_expenses: %s cheltuieli sunt decontate prin Decont; "
-                "postarea standard este sărită pentru a evita dublarea.",
+                "nota contabilă standard este sărită pentru a evita dublarea.",
                 len(linked),
             )
-        to_post = self - linked
-        if to_post:
-            return super(HrExpense, to_post).action_post()
+        to_move = self - linked
+        if to_move:
+            return super(HrExpense, to_move)._create_move()
         return False
