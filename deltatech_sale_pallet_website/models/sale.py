@@ -13,21 +13,26 @@ class SaleOrder(models.Model):
         # nu mai există. Hook-ul `_verify_cart_after_update` este apelat după
         # `_cart_add` și `_cart_update_line_quantity`, deci e locul potrivit
         # pentru recalcul liniilor de palet.
-        res = super()._verify_cart_after_update()
+        # Liniile de palet se reconciliază înaintea super(), ca prețul livrării și
+        # `website_sale_cart_quantity` din sesiune, calculate acolo, să le includă.
+        self._update_cart_pallet_lines()
+        return super()._verify_cart_after_update()
+
+    def _update_cart_pallet_lines(self):
         pallets = self.recompute_pallet_lines(delete_if_under=True)
 
-        if pallets:
-            for line in self.order_line:
-                pallet = pallets.pop(line.product_id.id, False)
-                if pallet:
-                    product_uom_qty = pallet["product_uom_qty"]
-                    if product_uom_qty:
-                        line.write({"product_uom_qty": product_uom_qty})
-                    else:
-                        line.unlink()
+        for line in self.order_line:
+            pallet = pallets.pop(line.product_id.id, False)
+            if pallet:
+                product_uom_qty = pallet["product_uom_qty"]
+                if product_uom_qty:
+                    line.write({"product_uom_qty": product_uom_qty})
+                else:
+                    line.unlink()
+            elif line.is_pallet_line:
+                # linie de palet generată, al cărei produs principal nu mai e în coș
+                line.unlink()
 
         for product_id in pallets:
             if pallets[product_id]["product_uom_qty"]:
-                self.env["sale.order.line"].create(pallets[product_id])
-
-        return res
+                self.env["sale.order.line"].create(dict(pallets[product_id], is_pallet_line=True))
