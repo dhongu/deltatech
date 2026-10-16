@@ -66,6 +66,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             cur = self.env.company.currency_id
         return cur
 
+    _SET_UNIT_CODES = ("SET",)
+    _SET_UNIT_NAMES = ("Set", "Sets", "Seturi")
+
     def _uom_from_code(self, unit_code, fallback=True):
         """Resolve a uom.uom record from a unit code/text found in the source document.
         Covers both UBL unitCode enum values (C62, KGM, ...) and common Romanian
@@ -81,7 +84,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "PCE": "uom.product_uom_unit",
             "EA": "uom.product_uom_unit",
             "BUC": "uom.product_uom_unit",
-            "SET": "uom.product_uom_set",
             "DZN": "uom.product_uom_dozen",
             # weight
             "KGM": "uom.product_uom_kgm",
@@ -109,6 +111,13 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             rec = self.env.ref(xid, raise_if_not_found=False)
             if rec:
                 return rec
+        if code in self._SET_UNIT_CODES:
+            # Odoo has no standard "set" unit: use one defined in the database, if any
+            Uom = self.env["uom.uom"]
+            for name in self._SET_UNIT_NAMES:
+                rec = Uom.search([("name", "=ilike", name)], limit=1)
+                if rec:
+                    return rec
 
         if not fallback:
             return self.env["uom.uom"]
@@ -133,6 +142,17 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         qty = src_ln.get("qty")
         price = src_ln.get("price")
         src_uom = self._source_uom(src_ln)
+        unit_code = (src_ln.get("unit_code") or "").strip()
+        if not src_uom and unit_code and target_uom and uom_warnings is not None:
+            uom_warnings.append(
+                self.env._(
+                    "Warning: unit %(code)s of source line %(line)s is not known; "
+                    "quantity and price were taken as %(target)s.",
+                    code=unit_code,
+                    line=src_ln.get("code") or src_ln.get("name") or "/",
+                    target=target_uom.name,
+                )
+            )
         if not src_uom or not target_uom or src_uom == target_uom:
             return qty, price
         if not self._source_uom_compatible(src_uom, target_uom):
@@ -456,15 +476,27 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     return line.product_id, "name"
         return Product.browse(), False
 
-    def _update_supplier_price(self, supplier, product, code, price, currency, uom=False):
+    def _update_supplier_price(self, supplier, product, code, price, currency, uom=False, company=None):
         """uom: unit of the source price. The price is converted to the unit of the
-        existing vendor pricelist row; a new row is created in the source unit."""
+        existing vendor pricelist row; a new row is created in the source unit.
+
+        Only a row of this variant (or, for a single-variant product, a row of the
+        template) in this company or shared between companies is updated: a row of
+        another variant or of another company is never repurposed."""
         SupplierInfo = self.env["product.supplierinfo"]
+        company = company or self.env.company
+        if product.product_tmpl_id.product_variant_count > 1:
+            variant_domain = [("product_id", "=", product.id)]
+        else:
+            variant_domain = [("product_id", "in", [product.id, False])]
         sinfo = SupplierInfo.search(
             [
                 ("partner_id", "=", supplier.id),
                 ("product_tmpl_id", "=", product.product_tmpl_id.id),
+                ("company_id", "in", [company.id, False]),
+                *variant_domain,
             ],
+            order="product_id, company_id, sequence, min_qty, id",
             limit=1,
         )
         uom_vals = {}
@@ -488,6 +520,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         if sinfo:
             sinfo.write(values)
         else:
+            values["company_id"] = company.id
             SupplierInfo.create(values)
 
     def _mark_line_received_if_manual(self, line):
@@ -624,13 +657,16 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         parts.append("</div>")
         return "".join(parts)
 
-    def _find_duplicate_bill(self, partner, invoice_ref):
-        """Return an existing non-cancelled vendor bill with the same ref for this partner."""
+    def _find_duplicate_bill(self, partner, invoice_ref, company=None):
+        """Return an existing non-cancelled vendor bill with the same ref for this partner
+        in the given company (the current company by default)."""
         if not invoice_ref or not partner:
             return False
+        company = company or self.env.company
         return self.env["account.move"].search(
             [
                 ("move_type", "=", "in_invoice"),
+                ("company_id", "=", company.id),
                 ("partner_id", "=", partner.id),
                 ("ref", "=", invoice_ref),
                 ("state", "!=", "cancel"),
@@ -791,6 +827,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     ln.get("price", 0.0),
                     invoice_data.get("currency"),
                     uom=self._source_uom(ln),
+                    company=order.company_id if order else None,
                 )
                 updated.append(f"{product.display_name}: {ln.get('price')} {invoice_data.get('currency')}")
 
@@ -906,7 +943,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 ) % {"order": order.name}
             elif order:
                 invoice_ref = invoice_data.get("invoice_id")
-                duplicate_bill = self._find_duplicate_bill(partner, invoice_ref)
+                duplicate_bill = self._find_duplicate_bill(partner, invoice_ref, company=order.company_id)
                 if duplicate_bill:
                     self.bill_id = duplicate_bill.id
                 elif not self._order_has_qty_to_invoice(order):
