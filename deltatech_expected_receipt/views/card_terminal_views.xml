@@ -24,7 +24,7 @@
             <form>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_open_receipts" type="object" class="oe_stat_button" icon="fa-credit-card">
+                        <button name="action_open_receipts" type="object" class="oe_stat_button" icon="credit_card">
                             <field name="receipt_count" widget="statinfo" string="Receipts" />
                         </button>
                     </div>

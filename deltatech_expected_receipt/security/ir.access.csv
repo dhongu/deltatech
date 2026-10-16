@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+rule_expected_receipt_cashier,Expected receipt: cashier sees own receipts,deltatech.expected.receipt,deltatech_expected_receipt.group_cashier,r,"[('user_id', '=', user.id)]"
+rule_expected_receipt_manager,Expected receipt: manager sees all,deltatech.expected.receipt,account.group_account_readonly,r,
+rule_expected_receipt_manager_1,Expected receipt: manager sees all,deltatech.expected.receipt,deltatech_expected_receipt.group_manager,ru,
+rule_expected_receipt_company,Expected receipt: multi-company,deltatech.expected.receipt,,crud,"[('company_id', 'in', company_ids)]"
+access_card_terminal_user,card terminal user,deltatech.card.terminal,base.group_user,r,
+access_card_terminal_manager,card terminal manager,deltatech.card.terminal,deltatech_expected_receipt.group_manager,crud,
+rule_card_terminal_company,Card terminal: multi-company,deltatech.card.terminal,,crud,"[('company_id', 'in', company_ids)]"
+access_card_payment_cashier,card payment cashier,deltatech.card.payment,deltatech_expected_receipt.group_cashier,cru,
+access_card_settlement_manager,card settlement manager,deltatech.card.settlement,deltatech_expected_receipt.group_manager,cru,
+access_card_settlement_line_manager,card settlement line manager,deltatech.card.settlement.line,deltatech_expected_receipt.group_manager,crud,

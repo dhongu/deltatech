@@ -132,10 +132,8 @@ class ExpectedReceiptCommon(AccountTestInvoicingCommon):
 
     def _golden_receipts(self):
         return self.env["deltatech.expected.receipt"].concat(
-            *[
-                self._pay(partner, amount, self.day - timedelta(days=offset))
-                for partner, amount, offset in zip(self.partners, GOLDEN, (1, 2, 3), strict=True)
-            ]
+            self._pay(partner, amount, self.day - timedelta(days=offset))
+            for partner, amount, offset in zip(self.partners, GOLDEN, (1, 2, 3), strict=True)
         )
 
     def _reconcile_elsewhere(self, receipt, statement_line):

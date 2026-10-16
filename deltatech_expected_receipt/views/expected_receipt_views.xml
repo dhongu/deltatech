@@ -44,10 +44,10 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_open_document" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not has_document">
+                        <button name="action_open_document" type="object" class="oe_stat_button" icon="article" invisible="not has_document">
                             <field name="document_name" widget="statinfo" string="Document" />
                         </button>
-                        <button name="action_open_payment" type="object" class="oe_stat_button" icon="fa-money" string="Payment" invisible="not payment_id" />
+                        <button name="action_open_payment" type="object" class="oe_stat_button" icon="payments" string="Payment" invisible="not payment_id" />
                     </div>
                     <widget name="web_ribbon" title="Late" bg_color="text-bg-danger" invisible="not is_late" />
                     <div class="oe_title">

@@ -89,11 +89,11 @@ class TestExpectedReceiptScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
         ro = env.ref("base.ro").id
         cls.alfa, cls.beta, cls.gamma, cls.delta, cls.epsilon = env["res.partner"].create(
             [
-                {"name": "Alfa Construct SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
-                {"name": "Beta Design SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
-                {"name": "Gamma Retail SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
-                {"name": "Delta Office SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
-                {"name": "Epsilon Interior SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
+                {"name": "Alfa Construct SRL", "country_id": ro, "lang": "ro_RO"},
+                {"name": "Beta Design SRL", "country_id": ro, "lang": "ro_RO"},
+                {"name": "Gamma Retail SRL", "country_id": ro, "lang": "ro_RO"},
+                {"name": "Delta Office SRL", "country_id": ro, "lang": "ro_RO"},
+                {"name": "Epsilon Interior SRL", "country_id": ro, "lang": "ro_RO"},
             ]
         )
         tax_21 = env["account.tax"].search(

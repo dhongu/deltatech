@@ -19,7 +19,7 @@
                     name="action_view_card_receipts"
                     type="object"
                     class="oe_stat_button"
-                    icon="fa-credit-card"
+                    icon="credit_card"
                     string="Card Payments"
                     groups="deltatech_expected_receipt.group_cashier"
                 />
