@@ -12,12 +12,14 @@ class TestInvoiceDelivery(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # the cost stays under every tested net price, so that margin checks of other modules
+        # (deltatech_sale_margin, deltatech_sale_commission) installed in the same database pass
         cls.partner = cls.env["res.partner"].create({"name": "Test Customer"})
         cls.product_a = cls.env["product.product"].create(
-            {"name": "Test A", "is_storable": True, "standard_price": 100, "list_price": 150}
+            {"name": "Test A", "is_storable": True, "standard_price": 50, "list_price": 150}
         )
         cls.product_b = cls.env["product.product"].create(
-            {"name": "Test B", "is_storable": True, "standard_price": 100, "list_price": 150}
+            {"name": "Test B", "is_storable": True, "standard_price": 50, "list_price": 150}
         )
         cls.service = cls.env["product.product"].create({"name": "Test Service", "type": "service"})
         cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.env.company.id)], limit=1)
