@@ -1,0 +1,12 @@
+<odoo>
+    <record id="stock_location_route_view_form_inherit_sale_stock" model="ir.ui.view">
+        <field name="name">stock.location.route.view.form.inherit.sale.stock</field>
+        <field name="model">stock.route</field>
+        <field name="inherit_id" ref="sale_stock.stock_location_route_view_form_inherit_sale_stock" />
+        <field name="arch" type="xml">
+            <field name="sale_selectable" position="after">
+                <field name="use_this_for_auto_rules" />
+            </field>
+        </field>
+    </record>
+</odoo>
