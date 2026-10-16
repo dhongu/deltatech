@@ -1,3 +1,16 @@
+## 20.0.1.4.12 (2026-10-16)
+
+- Fixed: the check for an existing vendor bill with the same supplier invoice
+  number looked at every company the user had access to. It now looks only in
+  the company of the purchase order.
+- Fixed: updating the vendor price of a product variant could overwrite the
+  vendor price row of another variant of the same product, or a row of another
+  company. Only the row of the imported variant in the order's company (or a
+  row shared between companies) is updated now; a new row is created otherwise.
+- Fixed: the unit code SET was mapped to a unit that does not exist in Odoo 19
+  and was handled as Units. A unit named "Set" is used when one is defined. A
+  unit code that is not recognised is now reported in the import log.
+
 ## 20.0.1.4.11 (2026-10-12)
 
 - Fixed: the vendor was not found by its tax id when the invoice and the partner
