@@ -8,3 +8,4 @@ from . import test_website_product_code
 from . import test_settings
 from . import test_vat_filter
 from . import test_ecommerce_access
+from . import test_issue_fixes
