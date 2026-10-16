@@ -9,7 +9,7 @@
         name="Alternative code"
     >
 
-            <xpath expr="//div[@id='product_detail_main']//form" position="inside">
+            <xpath expr="//div[@id='o_wsale_product_details_content']/article" position="inside">
                 <t t-foreach="product.alternative_ids" t-as="alternative">
                     <t t-if="not alternative.hide">
                         <span itemprop="alternateName" style="display:none;" t-field="alternative.name" />
@@ -34,7 +34,7 @@
         name="Used For"
         priority="100"
     >
-            <xpath expr="//div[@id='product_detail_main']//form" position="inside">
+            <xpath expr="//div[@id='o_wsale_product_details_content']/article" position="inside">
                 <t t-if="product.used_for">
                     <div>
                         <span>User for:</span>

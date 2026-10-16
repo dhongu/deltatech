@@ -14,13 +14,10 @@ Website alternative code
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_alternative_website
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_alternative_website
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_alternative_website
-    :alt: 4 automated tests · 95% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 This module extends the Odoo website shop to expose **alternative
 product codes** directly on the product page and in the website search
@@ -29,7 +26,7 @@ industrial suppliers) where customers search by OEM codes,
 cross-reference numbers, or manufacturer codes rather than internal
 SKUs.
 
-**Key features:**
+**✨ Key features:**
 
 - Displays the alternative code(s) stored on the product
   (``alternative_ids``) as hidden ``<span>`` elements with
@@ -110,6 +107,30 @@ edit them:
 Changelog
 =========
 
+19.0.1.0.12 (2026-10-11)
+------------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.11 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.10 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.0.9 (2026-09-26)
+-----------------------
+
+- Roadmap: replaced the manual ``CREATE INDEX ... gin_trgm_ops`` SQL
+  with the indexes Odoo 19 already maintains (``variants_default_code``
+  and ``default_code`` in ``website_sale``, ``product.alternative.name``
+  in ``deltatech_alternative``). Documentation only, no code change.
+
 19.0.1.0.8 (2026-07-27)
 -----------------------
 
@@ -150,6 +171,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_alternative_website>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_alternative_website>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -11,7 +11,11 @@ class TestSearchGetDetail(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.website = cls.env["website"].get_current_website()
+        # website.get_current_website() is gone in 20.0; outside a request
+        # env.website is empty, so take the company website like website_sale.
+        cls.website = cls.env.company.website_id
+        if not cls.website:
+            cls.website = cls.env["website"].create({"name": "Test Website", "company_id": cls.env.company.id})
         cls.ProductTemplate = cls.env["product.template"]
 
     def _search_detail(self, display_description):
