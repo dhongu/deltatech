@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.llms.txt</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="website_settings" position="inside">
+                <setting
+                    id="llms_txt_setting"
+                    string="llms.txt"
+                    help="Summary of the site read by ChatGPT, Claude and other AI assistants, at /llms.txt"
+                >
+                    <field name="llms_txt_enabled" />
+                    <div class="content-group" invisible="not llms_txt_enabled">
+                        <div class="row mt16">
+                            <label class="col-lg-3 o_light_label" for="llms_txt_summary" string="Summary" />
+                            <field name="llms_txt_summary" placeholder="Who you are and what you sell" />
+                        </div>
+                        <div class="row mt16">
+                            <label class="col-lg-3 o_light_label" for="llms_txt_details" string="Details" />
+                            <field name="llms_txt_details" placeholder="Delivery, payment, returns (Markdown)" />
+                        </div>
+                        <div class="row mt16">
+                            <label class="col-lg-3 o_light_label" for="llms_txt_custom" string="Custom file" />
+                            <field name="llms_txt_custom" placeholder="Replaces the generated file" />
+                        </div>
+                        <div class="mt8">
+                            <a href="/llms.txt" target="_blank" class="btn-link">
+                                <i class="oi oi-arrow-right" /> View llms.txt
+                            </a>
+                        </div>
+                    </div>
+                </setting>
+            </block>
+        </field>
+    </record>
+</odoo>
