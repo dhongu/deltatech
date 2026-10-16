@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech_website_product_placeholder</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="inside">
+                <setting string="Product Placeholder" help="Default image used for products without an image">
+                    <field name="product_placeholder_image" widget="image" class="w-25" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
