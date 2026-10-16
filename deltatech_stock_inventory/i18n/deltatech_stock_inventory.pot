@@ -966,6 +966,13 @@ msgid "Remove Not Ok"
 msgstr ""
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__reserved_picking_count
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__reserved_picking_count
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.product_template_form_reserved_pickings
+msgid "Reserved Transfers"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__activity_user_id
 msgid "Responsible User"
 msgstr ""
