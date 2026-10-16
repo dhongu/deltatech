@@ -1,0 +1,68 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_invoice_number
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+
+#. module: deltatech_invoice_number
+msgid "Account Invoice Change Number"
+msgstr "Modificare număr factură"
+
+#. module: deltatech_invoice_number
+msgid "Allow to change invoice number"
+msgstr "Permite modificarea numărului de factură"
+
+#. module: deltatech_invoice_number
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_invoice_number
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_invoice_number
+msgid "Change invoice number"
+msgstr "Modifică numărul facturii"
+
+#. module: deltatech_invoice_number
+msgid "Date error"
+msgstr "Eroare de dată"
+
+#. module: deltatech_invoice_number
+msgid "Invoice Number"
+msgstr "Număr factură"
+
+#. module: deltatech_invoice_number
+msgid "Invoice numbering"
+msgstr "Numerotare facturi"
+
+#. module: deltatech_invoice_number
+msgid "Journal Sequence"
+msgstr "Secvență jurnal"
+
+#. module: deltatech_invoice_number
+msgid "Please define a sequence on the journal."
+msgstr "Definiți o secvență în jurnal."
+
+#. module: deltatech_invoice_number
+msgid "Post the invoice with a date on or after %s"
+msgstr "Înregistrați factura cu o dată egală sau ulterioară datei %s"
+
+#. module: deltatech_invoice_number
+msgid "Restrict invoice date"
+msgstr "Restricționează data facturii"
+
+#. module: deltatech_invoice_number
+msgid "The invoice has no date."
+msgstr "Factura nu are dată."
+
+#. module: deltatech_invoice_number
+msgid "Warning"
+msgstr "Atenție"

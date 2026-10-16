@@ -1,0 +1,628 @@
+import gc
+import io
+import logging
+
+from odoo import api, fields, models
+from odoo.tools import SQL, BinaryBytes
+
+from . import bg_mask
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from PIL import Image
+except ImportError:  # pragma: no cover
+    Image = None
+
+DEFAULT_TARGET_FIELDS = "image_1920,image_variant_1920"
+DEFAULT_VARIANT_FIELDS = "image_1024,image_512,image_256,image_128"
+
+# Resolved on first use by _webp_available(), never at import time: see below.
+_WEBP_OK = None
+
+
+def _ensure_pillow_webp():
+    """Register Pillow's WebP plugin, which Odoo leaves out.
+
+    ``odoo/tools/image.py`` runs ``Image.preinit()`` and then sets
+    ``Image._initialized = 2``. preinit registers only BMP/GIF/JPEG/PPM/PNG, and
+    the flag tells Pillow that ``init()`` already ran, so ``save()`` never loads
+    the remaining plugins: ``save(format="WEBP")`` raises ``KeyError: 'WEBP'``
+    even on a Pillow built with libwebp (``features.check("webp")`` is True).
+
+    Importing the plugin registers the format directly, which is what actually
+    fixes it -- ``Image.init()`` alone returns early on ``_initialized >= 2``.
+    Same approach as ``deltatech_website_watermark``.
+    """
+    if Image is None:  # pragma: no cover
+        return
+    try:
+        from PIL import WebPImagePlugin as _webp_plugin  # noqa: F401
+    except Exception as exc:  # noqa: BLE001
+        _logger.warning("Pillow WebP plugin import failed (WEBP unavailable): %s", exc)
+    try:
+        Image.preinit()
+        Image.init()
+    except Exception as exc:  # noqa: BLE001 - init is best effort
+        _logger.debug("Pillow Image.init() raised: %s", exc)
+
+
+def _webp_available():
+    """Whether this process can encode WebP, resolved lazily and cached.
+
+    Deliberately not a module-level constant. The answer depends on whether the
+    WebP plugin is registered, which in turn depends on module import order --
+    so a constant computed at import time made the module behave differently
+    from one database to another (WebP where a module registering the plugin
+    happened to be imported first, PNG everywhere else), silently.
+
+    ``features.check("webp")`` is not enough on its own: it can report True
+    while ``save()`` still fails, so probe with a real encode.
+    """
+    global _WEBP_OK
+    if _WEBP_OK is None:
+        _ensure_pillow_webp()
+        try:
+            probe = io.BytesIO()
+            Image.new("RGBA", (1, 1)).save(probe, format="WEBP")
+            _WEBP_OK = True
+        except Exception as exc:  # noqa: BLE001
+            _WEBP_OK = False
+            _logger.info(
+                "WebP encoding unavailable (%s); transparent images keep optimized PNG.",
+                exc,
+            )
+    return _WEBP_OK
+
+
+# metodele de decupare; vezi IrAttachment._dt_image_cutout
+BG_METHODS = ("auto", "uniform", "rembg")
+
+# o sesiune rembg încarcă modelul ONNX (~180 MB pentru isnet); o păstrăm per proces.
+# Una singură: un model încercat din wizard nu rămâne în memoria workerului
+# lângă cel obișnuit (BiRefNet ocupă singur peste 1 GB).
+_REMBG_SESSIONS = {}
+
+
+def _rembg_available():
+    try:
+        import rembg  # noqa: F401
+    except ImportError:
+        return False
+    return True
+
+
+def _rembg_cutout(img, model_name):
+    """Decupează produsul din ``img`` și întoarce o imagine RGBA.
+
+    rembg e o dependență opțională, importată doar aici: e grea (onnxruntime,
+    modelul se descarcă la prima folosire), iar modulul nu trebuie să ceară
+    instalarea ei la clienții care folosesc doar recomprimarea.
+    """
+    import onnxruntime
+    from rembg import new_session, remove
+
+    session = _REMBG_SESSIONS.get(model_name)
+    if session is None:
+        _REMBG_SESSIONS.clear()
+        gc.collect()
+        # fără arenă și fără tipar de memorie: vârful de memorie scade, viteza aproape deloc;
+        # workerul Odoo are o limită de memorie, iar arena ONNX nu dă înapoi ce a rezervat
+        options = onnxruntime.SessionOptions()
+        options.enable_cpu_mem_arena = False
+        options.enable_mem_pattern = False
+        session = _REMBG_SESSIONS[model_name] = new_session(model_name, sess_opts=options)
+    try:
+        return remove(img, session=session, post_process_mask=True)
+    except Exception:
+        # după un eșec (de obicei lipsă de memorie) sesiunea nu se mai refolosește
+        _REMBG_SESSIONS.clear()
+        gc.collect()
+        raise
+
+
+class IrAttachment(models.Model):
+    _inherit = "ir.attachment"
+
+    deltatech_image_optimized = fields.Datetime(
+        string="Image Optimized On",
+        copy=False,
+        index=True,
+        help="Set once the image optimizer has recompressed this image "
+        "attachment. Prevents reprocessing on the next run. Updated images "
+        "get a fresh attachment (empty flag) and are picked up automatically.",
+    )
+
+    # ------------------------------------------------------------------
+    # Configuration
+    # ------------------------------------------------------------------
+    @api.model
+    def _dt_image_optimize_params(self):
+        """Read the optimizer configuration from ir.config_parameter."""
+        get = self.env["ir.config_parameter"].sudo().get_str
+        return {
+            "quality": max(1, min(95, int(get("deltatech_image_optimize.quality", 85)))),
+            "max_dim": int(get("deltatech_image_optimize.max_dim", 1920)),
+            "min_size": int(get("deltatech_image_optimize.min_size", 102400)),
+            "batch": int(get("deltatech_image_optimize.batch", 50)),
+            "flush_every": max(1, int(get("deltatech_image_optimize.flush_every", 20))),
+            "webp_quality": max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85)))),
+            "force_jpeg": get("deltatech_image_optimize.force_jpeg", "0") in ("1", "True", "true"),
+            "fields": [
+                name.strip()
+                for name in get("deltatech_image_optimize.target_fields", DEFAULT_TARGET_FIELDS).split(",")
+                if name.strip()
+            ],
+        }
+
+    # ------------------------------------------------------------------
+    # Core recompression
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _dt_image_recompress(raw, quality, max_dim, webp_quality=85, force_jpeg=False):
+        """Recompress raw image bytes.
+
+        The transparency is decided by the *actual* alpha content, not just the
+        mode (many product images are RGBA/palette but fully opaque):
+
+        - effectively opaque (or no alpha) -> JPEG (quality tuned, progressive)
+        - genuinely transparent            -> WebP (alpha preserved, ~70%
+          smaller than PNG). Odoo cannot resize WebP, so a WebP result must be
+          written directly on its attachment, never through the record field.
+          If WebP encoding is unavailable, keep an optimized PNG (never flatten
+          real transparency to a solid background).
+        - animated images (GIF, APNG, WebP) -> skipped (never flattened to
+          their first frame)
+
+        :return: tuple ``(data, output_format)`` where output_format is
+            ``"JPEG"``, ``"WEBP"`` or ``"PNG"``; or ``(None, None)`` when the
+            image cannot be optimized or the result would not be smaller.
+        """
+        if not raw or Image is None:
+            return None, None
+        try:
+            img = Image.open(io.BytesIO(raw))
+            img.load()
+        except Exception:  # noqa: BLE001 - any unreadable image is skipped
+            return None, None
+        # Any multi-frame image (animated GIF, APNG, animated WebP) is left
+        # untouched: re-encoding keeps only the first frame.
+        if getattr(img, "is_animated", False) or getattr(img, "n_frames", 1) > 1:
+            return None, None
+        # Normalize palette (incl. palette transparency) to a real RGBA/RGB
+        # image so alpha can be inspected reliably.
+        if img.mode == "P":
+            img = img.convert("RGBA" if "transparency" in img.info else "RGB")
+        resample = getattr(Image, "Resampling", Image).LANCZOS
+        if max_dim and max(img.size) > max_dim:
+            img.thumbnail((max_dim, max_dim), resample)
+        # Detect *real* transparency: an alpha channel that is actually used.
+        # With force_jpeg, alpha is ignored entirely (images that are not truly
+        # transparent, e.g. a solid colored background) -> always JPEG.
+        real_alpha = False
+        if not force_jpeg and img.mode in ("RGBA", "LA"):
+            try:
+                real_alpha = img.getchannel("A").getextrema()[0] < 250
+            except (ValueError, IndexError):  # pragma: no cover
+                real_alpha = True
+        data = None
+        out_format = None
+        if real_alpha:
+            # Preserve transparency: WebP if available, otherwise optimized PNG
+            # (never JPEG, which would fill transparent areas).
+            if _webp_available():
+                try:
+                    buf = io.BytesIO()
+                    img.convert("RGBA").save(buf, format="WEBP", quality=webp_quality, method=6)
+                    data, out_format = buf.getvalue(), "WEBP"
+                except Exception:  # noqa: BLE001 - WebP encoder unavailable at runtime
+                    data = None
+            if data is None:
+                buf = io.BytesIO()
+                img.convert("RGBA").save(buf, format="PNG", optimize=True)
+                data, out_format = buf.getvalue(), "PNG"
+        else:
+            buf = io.BytesIO()
+            img.convert("RGB").save(buf, format="JPEG", quality=quality, optimize=True, progressive=True)
+            data, out_format = buf.getvalue(), "JPEG"
+        if len(data) < len(raw):
+            return data, out_format
+        return None, None
+
+    # ------------------------------------------------------------------
+    # Batch runner
+    # ------------------------------------------------------------------
+    def _dt_image_shared_file(self):
+        """Whether this attachment's filestore file is shared with others.
+
+        Odoo keeps a single file per checksum, so several attachments with the
+        same content point at the same ``store_fname``. Recompressing one of
+        them frees nothing on disk while the others still reference the old
+        file -- which is why the per-attachment byte difference overstates the
+        real saving, badly, on catalogs that reuse the same picture (measured
+        on a real deployment: 29 GB counted, ~4 GB actually reclaimed, because
+        815k image attachments lived in 508k files).
+
+        ``store_fname`` is indexed (``checksum`` is not), and it is derived from
+        the checksum, so it answers the same question and is cheap to ask.
+
+        Queried in SQL on purpose: ``search`` on ``ir.attachment`` silently adds
+        ``res_field = False`` when the domain does not mention that field, which
+        hides exactly the image attachments this module works on -- the count
+        then comes back as 0 and every file looks unshared.
+        """
+        self.ensure_one()
+        if not self.store_fname:  # stored in DB, not in the filestore
+            return False
+        self.env.cr.execute(SQL("SELECT count(*) FROM ir_attachment WHERE store_fname = %s", self.store_fname))
+        return self.env.cr.fetchone()[0] > 1
+
+    @api.model
+    def _dt_image_optimize_run(self, limit=None):
+        """Optimize a batch of original image attachments.
+
+        The smaller image is written back through the owning record
+        (``record.write({res_field: ...})``) so Odoo regenerates the resized
+        variants (image_1024/512/256/128) from the new, smaller original.
+
+        :return: dict with ``scanned``, ``optimized``, ``freed`` and
+            ``freed_disk`` (bytes). ``freed`` sums the per-attachment size
+            difference; ``freed_disk`` counts only attachments whose filestore
+            file was not shared with another attachment, so it is the figure
+            that matches what the disk actually gives back.
+        """
+        if Image is None:
+            _logger.warning("Pillow (PIL) is not available; image optimizer skipped.")
+            return {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
+
+        params = self._dt_image_optimize_params()
+        limit = limit or params["batch"]
+        domain = [
+            ("res_field", "in", params["fields"]),
+            ("deltatech_image_optimized", "=", False),
+        ]
+        if params["min_size"]:
+            domain.append(("file_size", ">", params["min_size"]))
+
+        # sudo() bypasses the record rule that hides field-stored attachments.
+        attachments = self.sudo().search(domain, order="file_size desc", limit=limit)
+
+        now = fields.Datetime.now()
+        optimized = 0
+        freed = 0
+        freed_disk = 0
+        # Decoded images and their raw bytes are heavy; flush and drop the ORM
+        # cache regularly so memory stays flat over large batches (otherwise a
+        # single batch can exhaust the worker/shell memory and get killed).
+        # For high-resolution images (e.g. 20 MP) lower flush_every to 2-3.
+        flush_every = params["flush_every"]
+        for index, att in enumerate(attachments, start=1):
+            raw = att.raw.content
+            # Ask before writing: the write replaces store_fname, so afterwards
+            # there is no way to tell whether the old file was shared.
+            shared = att._dt_image_shared_file()
+            data, out_format = self._dt_image_recompress(
+                raw, params["quality"], params["max_dim"], params["webp_quality"], params["force_jpeg"]
+            )
+            if not data:
+                att.deltatech_image_optimized = now
+            elif out_format == "WEBP":
+                # Alpha image -> WebP. Odoo cannot resize WebP, so we must NOT
+                # write through the record (that would regenerate full-size
+                # variants). Write the attachment in place; the variants are
+                # handled separately by _dt_image_optimize_variants_run.
+                try:
+                    att.write({"raw": data, "mimetype": "image/webp", "deltatech_image_optimized": now})
+                except Exception as exc:  # noqa: BLE001
+                    _logger.warning("Image optimize (webp) failed for att %s: %s", att.id, exc)
+                    att.deltatech_image_optimized = now
+                else:
+                    freed += len(raw) - len(data)
+                    if not shared:
+                        freed_disk += len(raw) - len(data)
+                    optimized += 1
+            else:
+                record = self.env[att.res_model].sudo().browse(att.res_id)
+                if not record.exists() or att.res_field not in record._fields:
+                    att.deltatech_image_optimized = now
+                else:
+                    try:
+                        record.write({att.res_field: BinaryBytes(data)})
+                    except Exception as exc:  # noqa: BLE001
+                        _logger.warning(
+                            "Image optimize failed for %s(%s).%s: %s",
+                            att.res_model,
+                            att.res_id,
+                            att.res_field,
+                            exc,
+                        )
+                        att.deltatech_image_optimized = now
+                    else:
+                        # Writing the image field recreates the attachment:
+                        # flag the new one so it is not reprocessed next run.
+                        new_att = self.sudo().search(
+                            [
+                                ("res_model", "=", att.res_model),
+                                ("res_id", "=", att.res_id),
+                                ("res_field", "=", att.res_field),
+                            ],
+                            limit=1,
+                        )
+                        if new_att:
+                            new_att.deltatech_image_optimized = now
+                            if new_att.store_fname:
+                                # Odoo 20 copies the image between the template and its first
+                                # gallery image: the copy holds the same, already optimized
+                                # content and must not be recompressed again
+                                self.sudo().search(
+                                    [
+                                        ("store_fname", "=", new_att.store_fname),
+                                        ("res_field", "in", params["fields"]),
+                                        ("deltatech_image_optimized", "=", False),
+                                    ]
+                                ).deltatech_image_optimized = now
+                        freed += len(raw) - len(data)
+                        if not shared:
+                            freed_disk += len(raw) - len(data)
+                        optimized += 1
+            if index % flush_every == 0:
+                self.env.flush_all()
+                self.env.invalidate_all()
+                gc.collect()
+
+        _logger.info(
+            "Image optimizer: scanned=%s optimized=%s freed=%.1f MB (on disk: %.1f MB)",
+            len(attachments),
+            optimized,
+            freed / 1048576.0,
+            freed_disk / 1048576.0,
+        )
+        return {
+            "scanned": len(attachments),
+            "optimized": optimized,
+            "freed": freed,
+            "freed_disk": freed_disk,
+        }
+
+    @api.model
+    def _dt_image_optimize_variants_run(self, limit=None):
+        """Recompress the stored resized variants (image_1024/512/256/128).
+
+        Variants are ``related='image_1920'`` fields, so they must NOT be
+        written through the record (that would propagate back and downscale the
+        original). Instead we recompress the variant's own attachment in place
+        (``att.write({'raw': ...})``): no resize (already sized), just a lower
+        quality re-encode. No propagation, original untouched.
+
+        :return: dict with ``scanned``, ``optimized``, ``freed`` and
+            ``freed_disk`` (bytes). ``freed`` sums the per-attachment size
+            difference; ``freed_disk`` counts only attachments whose filestore
+            file was not shared with another attachment, so it is the figure
+            that matches what the disk actually gives back.
+        """
+        if Image is None:
+            return {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
+        get = self.env["ir.config_parameter"].sudo().get_str
+        quality = max(1, min(95, int(get("deltatech_image_optimize.variant_quality", 85))))
+        webp_quality = max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85))))
+        force_jpeg = get("deltatech_image_optimize.force_jpeg", "0") in ("1", "True", "true")
+        min_size = int(get("deltatech_image_optimize.variant_min_size", 20480))
+        vfields = [
+            name.strip()
+            for name in get("deltatech_image_optimize.variant_fields", DEFAULT_VARIANT_FIELDS).split(",")
+            if name.strip()
+        ]
+        limit = limit or int(get("deltatech_image_optimize.batch", 50))
+        flush_every = max(1, int(get("deltatech_image_optimize.flush_every", 20)))
+        domain = [
+            ("res_field", "in", vfields),
+            ("deltatech_image_optimized", "=", False),
+        ]
+        if min_size:
+            domain.append(("file_size", ">", min_size))
+        attachments = self.sudo().search(domain, order="file_size desc", limit=limit)
+
+        now = fields.Datetime.now()
+        optimized = 0
+        freed = 0
+        freed_disk = 0
+        for index, att in enumerate(attachments, start=1):
+            raw = att.raw.content
+            # Ask before writing: the write replaces store_fname.
+            shared = att._dt_image_shared_file()
+            # max_dim=0 -> no resize, only a lower quality re-encode.
+            data, out_format = self._dt_image_recompress(raw, quality, 0, webp_quality, force_jpeg)
+            vals = {"deltatech_image_optimized": now}
+            if data:
+                vals["raw"] = data
+                if out_format == "WEBP":
+                    vals["mimetype"] = "image/webp"
+            try:
+                att.write(vals)
+            except Exception as exc:  # noqa: BLE001
+                _logger.warning("Variant optimize failed for att %s: %s", att.id, exc)
+                continue
+            if data:
+                freed += len(raw) - len(data)
+                if not shared:
+                    freed_disk += len(raw) - len(data)
+                optimized += 1
+            if index % flush_every == 0:
+                self.env.flush_all()
+                self.env.invalidate_all()
+                gc.collect()
+
+        _logger.info(
+            "Image optimizer (variants): scanned=%s optimized=%s freed=%.1f MB (on disk: %.1f MB)",
+            len(attachments),
+            optimized,
+            freed / 1048576.0,
+            freed_disk / 1048576.0,
+        )
+        return {
+            "scanned": len(attachments),
+            "optimized": optimized,
+            "freed": freed,
+            "freed_disk": freed_disk,
+        }
+
+    @api.model
+    def _dt_image_optimize_cron(self):
+        """Entry point for the scheduled action: originals then variants,
+        followed by a filestore GC so the freed space is actually reclaimed
+        (the cron is the single writer here, so it can grab the GC lock)."""
+        self._dt_image_optimize_run()
+        self._dt_image_optimize_variants_run()
+        # the GC needs the optimized attachments committed before it can
+        # safely unlink the old filestore entries
+        self.env.cr.commit()  # pylint: disable=invalid-commit
+        self._gc_file_store()
+
+    # ------------------------------------------------------------------
+    # Background removal
+    # ------------------------------------------------------------------
+    @api.model
+    def _dt_bg_params(self):
+        get = self.env["ir.config_parameter"].sudo().get_str
+        method = get("deltatech_image_optimize.bg_method", "auto")
+        return {
+            "method": method if method in BG_METHODS else "auto",
+            "model": get("deltatech_image_optimize.bg_model", "isnet-general-use"),
+            "tolerance": max(1, min(80, int(get("deltatech_image_optimize.bg_tolerance", 24)))),
+            "min_island": max(0.0, float(get("deltatech_image_optimize.bg_min_island", 1))),
+            "lost_warning": max(0.0, float(get("deltatech_image_optimize.bg_lost_warning", 5))),
+            "crop": get("deltatech_image_optimize.bg_crop", "0") in ("1", "True", "true"),
+            "margin": max(0, min(40, int(get("deltatech_image_optimize.bg_margin", 5)))),
+            "color": (get("deltatech_image_optimize.bg_color", "") or "").strip(),
+            "sync_limit": int(get("deltatech_image_optimize.bg_sync_limit", 5)),
+            "batch": max(1, int(get("deltatech_image_optimize.bg_batch", 20))),
+        }
+
+    @api.model
+    def _dt_image_cutout(self, raw, params):
+        """Elimină fundalul din octeții unei imagini, fără să scrie nimic.
+
+        Metoda (``params["method"]``):
+
+        - ``uniform``: fundalul e culoarea marginilor (fotografie pe alb), fără
+          model ML; păstrează accesoriile închise la culoare, pe care modelul le
+          pierde des;
+        - ``rembg``: modelul ML ``params["model"]``, pentru fundaluri reale;
+        - ``auto``: ``uniform`` când marginile au o singură culoare, altfel ``rembg``.
+
+        După decupare, bucățile mai mici de ``min_island`` procente din produs se
+        elimină. Când modelul ML lucrează pe un fundal uniform și lasă deoparte o
+        parte din ce nu e fundal, rezultatul vine cu un avertisment.
+
+        - ``crop``: încadrează produsul într-un pătrat, cu ``margin`` procente
+          margine de jur împrejur; altfel păstrează pânza originală.
+        - ``color``: fundal plin (de ex. ``#FFFFFF``) în locul transparenței.
+
+        :return: ``(png, avertisment)``; ``png`` este ``None`` când nu s-a găsit
+            niciun obiect, iar avertismentul spune atunci de ce.
+        """
+        if not raw or Image is None:
+            return None, ""
+        # imaginile de produs sunt deseori WebP, iar Odoo nu înregistrează pluginul
+        _webp_available()
+        img = Image.open(io.BytesIO(raw))
+        img.load()
+        from PIL import ImageOps
+
+        img = ImageOps.exif_transpose(img).convert("RGB")
+        method, tolerance, min_island = params["method"], params["tolerance"], params["min_island"]
+        bg_color = bg_mask.border_color(img, tolerance)
+        reference = bg_color and bg_mask.uniform_alpha(img, bg_color, tolerance, min_island)
+        warning = ""
+        if method == "uniform" or (method == "auto" and reference):
+            if not bg_color:
+                return None, self.env._("The background is not a single color; use the AI model.")
+            alpha = reference
+        else:
+            if not _rembg_available():
+                if bg_color:
+                    return None, self.env._("The AI model (rembg) is not installed; use the uniform background method.")
+                return None, self.env._(
+                    "The background is not a single color and the AI model (rembg) is not installed."
+                )
+            try:
+                alpha = _rembg_cutout(img, params["model"]).convert("RGBA").getchannel("A")
+            except Exception as exc:
+                if "allocate memory" not in str(exc):
+                    raise
+                return None, self.env._(
+                    "Not enough memory on the server for the AI model %(model)s; use ISNet or the uniform "
+                    "background method.",
+                    model=params["model"],
+                )
+            alpha = bg_mask.drop_islands(alpha, min_island)[0]
+            lost = reference and bg_mask.lost_share(reference, alpha)
+            if lost and lost * 100 >= params["lost_warning"]:
+                warning = self.env._(
+                    "The AI model left out about %(share)s%% of the product (accessories, thin parts). "
+                    "Check the result, or use the uniform background method.",
+                    share=round(lost * 100),
+                )
+        bbox = alpha.getbbox() if alpha else None
+        if not bbox:
+            return None, self.env._("No product was found in the image.")
+        out = img.convert("RGBA")
+        out.putalpha(alpha)
+        if params["crop"]:
+            margin = params["margin"]
+            out = out.crop(bbox)
+            side = int(max(out.size) * (1 + 2 * margin / 100.0))
+            canvas = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+            canvas.paste(out, ((side - out.width) // 2, (side - out.height) // 2), out)
+            out = canvas
+        if params["color"]:
+            flat = Image.new("RGBA", out.size, params["color"])
+            flat.alpha_composite(out)
+            out = flat.convert("RGB")
+        buf = io.BytesIO()
+        out.save(buf, format="PNG")
+        return buf.getvalue(), warning
+
+    @api.model
+    def _dt_bg_remove_cron(self):
+        """Procesează imaginile puse în coadă de acțiunea „Elimină fundalul”."""
+        params = self._dt_bg_params()
+        remaining = 0
+        for model_name in ("product.template", "product.image"):
+            model = self.env[model_name].sudo()
+            records = model.search([("bg_removal_state", "=", "pending")], limit=params["batch"])
+            for record in records:
+                record._dt_bg_remove(params)
+                # un lot întrerupt de limita de timp a workerului nu reia ce s-a făcut deja
+                self.env.cr.commit()  # pylint: disable=invalid-commit
+            remaining += model.search_count([("bg_removal_state", "=", "pending")])
+        if remaining:
+            self.env.ref("deltatech_image_optimize.ir_cron_dt_image_remove_background")._trigger()
+
+    # ------------------------------------------------------------------
+    # Watermark removal
+    # ------------------------------------------------------------------
+    @api.model
+    def _dt_wm_params(self):
+        get = self.env["ir.config_parameter"].sudo().get_str
+        return {
+            "sync_limit": int(get("deltatech_image_optimize.wm_sync_limit", 10)),
+            "learn_limit": max(1, int(get("deltatech_image_optimize.wm_learn_limit", 60))),
+            "batch": max(1, int(get("deltatech_image_optimize.wm_batch", 20))),
+        }
+
+    @api.model
+    def _dt_wm_remove_cron(self):
+        """Procesează imaginile puse în coadă de acțiunea „Remove Watermark”."""
+        params = self._dt_wm_params()
+        remaining = 0
+        for model_name in ("product.template", "product.image"):
+            model = self.env[model_name].sudo()
+            records = model.search([("wm_removal_state", "=", "pending")], limit=params["batch"])
+            for record in records:
+                record._dt_wm_remove()
+                # un lot întrerupt de limita de timp a workerului nu reia ce s-a făcut deja
+                self.env.cr.commit()  # pylint: disable=invalid-commit
+            remaining += model.search_count([("wm_removal_state", "=", "pending")])
+        if remaining:
+            self.env.ref("deltatech_image_optimize.ir_cron_dt_image_remove_watermark")._trigger()

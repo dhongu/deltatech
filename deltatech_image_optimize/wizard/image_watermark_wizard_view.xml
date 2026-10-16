@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_image_watermark_wizard_form" model="ir.ui.view">
+        <field name="name">deltatech.image.watermark.wizard.form</field>
+        <field name="model">deltatech.image.watermark.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Remove Watermark">
+                <field name="mode" invisible="1" />
+                <div class="alert alert-info" role="alert">
+                    <strong>Only remove a watermark you have the right to remove.</strong>
+                    Use this on your own watermark, or with the written consent of the rights holder.
+                    A supplier's or manufacturer's watermark shows who holds the rights to the photo:
+                    removing it to publish the image is not allowed without their consent
+                    (EU Directive 2001/29/EC, art. 7, on rights-management information; in Romania,
+                    Law 8/1996 on copyright and related rights). For supplier photos, ask the
+                    supplier for the images without watermark.
+                </div>
+                <group>
+                    <group>
+                        <field name="preview" widget="image" options="{'size': [320, 320]}" />
+                    </group>
+                    <group>
+                        <field name="learned_count" />
+                        <field name="image_count" />
+                    </group>
+                </group>
+                <div invisible="mode != 'preview'">
+                    <p>
+                        Check the result before applying it. The original image is
+                        <strong>not kept</strong>. Untick the images where the watermark was not
+                        removed well.
+                    </p>
+                    <div invisible="failed_count == 0" class="alert alert-warning" role="alert">
+                        <field name="failed_count" class="d-inline" /> image(s) have no trace of this
+                        watermark; they stay unchanged.
+                    </div>
+                    <field name="line_ids" nolabel="1">
+                        <list editable="bottom" create="false" delete="false">
+                            <field name="to_apply" readonly="not image_after" width="70px" />
+                            <field name="name" readonly="1" class="o_dt_bg_wrap" />
+                            <field
+                                name="image_before"
+                                widget="image"
+                                options="{'size': [220, 220]}"
+                                readonly="1"
+                                width="230px"
+                            />
+                            <field
+                                name="image_after"
+                                widget="image"
+                                options="{'size': [220, 220]}"
+                                readonly="1"
+                                width="230px"
+                            />
+                            <field name="warning" decoration-warning="warning" width="220px" class="o_dt_bg_wrap" />
+                        </list>
+                    </field>
+                </div>
+                <div invisible="mode != 'queue'">
+                    <div class="alert alert-warning" role="alert">
+                        <field name="image_count" class="d-inline" /> images selected — too many to preview.
+                        The watermark shown above is removed from them by a scheduled action, in
+                        batches, and the original images are <strong>not kept</strong>. Try a few
+                        images first to check the result.
+                    </div>
+                </div>
+                <footer>
+                    <button
+                        name="action_apply"
+                        string="Apply"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="mode != 'preview'"
+                    />
+                    <button
+                        name="action_apply"
+                        string="Queue"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="mode != 'queue'"
+                        confirm="The original images will not be kept. Continue?"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
