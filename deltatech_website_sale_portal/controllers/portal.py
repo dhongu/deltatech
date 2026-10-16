@@ -2,6 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from urllib.parse import urlencode
+
 from odoo import http
 from odoo.fields import Domain
 from odoo.http import request
@@ -45,6 +47,21 @@ class CustomerPortal(portal.CustomerPortal):
                         [domain, ["|", ("name", "ilike", search), ("client_order_ref", "ilike", search)]]
                     )
         return domain
+
+    def _prepare_sale_portal_rendering_values(self, *args, **kwargs):
+        values = super()._prepare_sale_portal_rendering_values(*args, **kwargs)
+        search = request.params.get("search")
+        if search:
+            values["search"] = search
+            # the native pager only carries date and sort arguments: keep the search on the other pages
+            query = urlencode({"search": search, "search_in": request.params.get("search_in", "all")})
+            pager = values.get("pager") or {}
+            links = [pager.get(key) for key in ("page", "page_first", "page_previous", "page_next", "page_last")]
+            links += pager.get("pages", [])
+            for link in links:
+                if link and link.get("url"):
+                    link["url"] = "{}{}{}".format(link["url"], "&" if "?" in link["url"] else "?", query)
+        return values
 
     @http.route()
     def portal_my_quotes(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):

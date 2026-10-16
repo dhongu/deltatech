@@ -224,3 +224,23 @@ class TestWebsiteDeliveryAndPayment(TransactionCase):
             result = self.env["payment.provider"]._get_compatible_providers(sale_order_id=order.id)
 
         self.assertNotIn(self.provider_with_limit, result)
+
+    def test_carrier_allowed_providers_without_patch(self):
+        # Full chain, base method included: the payment page only receives the carrier's providers
+        carrier = self.env["delivery.carrier"].create(
+            {
+                "name": "Carrier allows one provider (no patch)",
+                "acquirer_allowed_ids": [(6, 0, [self.provider_with_limit.id])],
+                "product_id": self.carrier_product.id,
+            }
+        )
+        order = self.order_low
+        compatible_args = (order.company_id.id, order.partner_id.id, order.amount_total)
+
+        result = self.env["payment.provider"]._get_compatible_providers(*compatible_args, sale_order_id=order.id)
+        self.assertIn(self.provider_with_limit, result)
+        self.assertIn(self.provider_with_tag_restriction, result)
+
+        order.carrier_id = carrier
+        result = self.env["payment.provider"]._get_compatible_providers(*compatible_args, sale_order_id=order.id)
+        self.assertEqual(result, self.provider_with_limit)

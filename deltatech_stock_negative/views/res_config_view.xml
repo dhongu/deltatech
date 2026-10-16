@@ -10,6 +10,13 @@
                 <setting company_dependent="1" help="No negative stocks are allowed">
                     <field name="no_negative_stock" />
                 </setting>
+                <setting
+                    company_dependent="1"
+                    help="The goods leave the shop as the receipt is paid, so a Point of Sale delivery is validated even when it takes the location below zero. The bypass is logged and the deviation stays visible as negative stock."
+                    invisible="not no_negative_stock"
+                >
+                    <field name="no_negative_stock_pos_bypass" />
+                </setting>
             </xpath>
         </field>
     </record>

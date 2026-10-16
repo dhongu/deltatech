@@ -1,3 +1,13 @@
+# 19.0.1.0.11
+
+- The vendor stock and lead time on the product page now come from the supplier
+  that really applies to the selected variant: suppliers of another variant, of
+  another company, of an archived vendor or with an expired offer are skipped,
+  and a current offer wins over a future one.
+- The cart delivery badges now use the stock of the website warehouse, expressed
+  in the unit of the cart line (a line of one dozen with six units in stock is no
+  longer shown as "Immediate delivery").
+
 # 19.0.1.0.10
 
 - Own module icon, instead of the generic gears it had.

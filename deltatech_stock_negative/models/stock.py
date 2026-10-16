@@ -2,10 +2,13 @@
 # See README.rst file on addons root folder for license details
 
 
+import logging
 from collections import defaultdict
 
 from odoo import models
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class StockQuant(models.Model):
@@ -43,6 +46,21 @@ class StockMoveLine(models.Model):
         self._check_no_negative_stock()
         return super()._action_done()
 
+    def _is_pos_delivery(self):
+        """Whether this line belongs to the delivery of a Point of Sale receipt.
+
+        Point of Sale validates that delivery itself, in the background, and
+        swallows any `UserError` it raises - so a refusal here never reaches
+        the cashier and simply leaves the stock undeducted. The module keeps
+        `point_of_sale` out of its dependencies, hence the field lookup rather
+        than a plain `picking_id.pos_order_id`.
+        """
+        self.ensure_one()
+        picking = self.picking_id
+        if not picking or "pos_order_id" not in picking._fields:
+            return False
+        return bool(picking.pos_order_id)
+
     def _check_no_negative_stock(self):
         """Block only the actual validation of a move, not the browsing of
         stock or the correction of an existing deviation via an inventory
@@ -61,6 +79,8 @@ class StockMoveLine(models.Model):
         `consumed` therefore carries what the earlier lines of this same batch
         already took from each quant.
         """
+        if self.env.context.get("skip_negative_stock_check"):
+            return
         Quant = self.env["stock.quant"]
         consumed = defaultdict(float)
         for ml in self:
@@ -69,6 +89,17 @@ class StockMoveLine(models.Model):
                 continue
             company = ml.company_id or self.env.company
             if not company.no_negative_stock:
+                continue
+            if company.no_negative_stock_pos_bypass and ml._is_pos_delivery():
+                _logger.warning(
+                    "No-negative-stock bypassed for Point of Sale delivery %s: "
+                    "%s x %s leaving %s. The goods were handed over at the register, "
+                    "so the location may go below zero and needs an inventory correction.",
+                    ml.picking_id.display_name or ml.move_id.display_name,
+                    ml.quantity,
+                    ml.product_id.display_name,
+                    location.display_name,
+                )
                 continue
             quantity = ml.product_uom_id._compute_quantity(ml.quantity, ml.product_id.uom_id, rounding_method="HALF-UP")
             if ml.product_id.uom_id.compare(quantity, 0) <= 0:

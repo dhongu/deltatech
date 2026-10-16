@@ -1,6 +1,8 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+import io
+import zipfile
 from unittest.mock import patch
 
 from odoo import fields
@@ -118,3 +120,15 @@ class TestDeltatechPurchaseMail(TransactionCase):
             self.assertIn(po.name.replace("/", "-") + ".pdf", names)
             self.assertNotIn(other.name.replace("/", "-") + ".pdf", names)
             self.assertTrue(any(name.endswith(".xlsx") for name in names))
+
+    def test_xlsx_text_cells_are_not_formulas(self):
+        """Codes and descriptions starting with "=" are written as text, not as formulas."""
+        self.product_1.default_code = "=2+2"
+        self.po1.order_line.name = '=HYPERLINK("http://example.com","x")'
+        xlsx_data = self.po1._build_xlsx()
+        with zipfile.ZipFile(io.BytesIO(xlsx_data)) as archive:
+            sheet_xml = archive.read("xl/worksheets/sheet1.xml").decode()
+            shared_strings = archive.read("xl/sharedStrings.xml").decode()
+        self.assertNotIn("<f>", sheet_xml)
+        self.assertIn("=2+2", shared_strings)
+        self.assertIn("=HYPERLINK(", shared_strings)

@@ -1,6 +1,8 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 
+import base64
+
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -249,3 +251,87 @@ class TestProductLabels(TransactionCase):
         # compute barcode image works with default_code fallback
         line._compute_barcode_image()
         self.assertTrue(line.barcode_image)
+
+    def _render_labels(self, product, report_xmlid):
+        report = self.env.ref(report_xmlid)
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="product.product", active_ids=[product.id])
+            .create({"layout_id": report.id})
+        )
+        html, _ = report._render_qweb_html(report.report_name, wiz.ids)
+        return wiz, html.decode() if isinstance(html, bytes) else html
+
+    def test_barcode_image_is_single_svg_data_uri(self):
+        # LABEL-001: the report must embed one valid SVG data URI, not a nested one
+        ean_product = self.env["product.product"].create({"name": "EAN Product", "barcode": "5901234123457"})
+        for product in (self.product, ean_product):
+            for report_xmlid in (
+                "deltatech_product_labels.report_product_product_label",
+                "deltatech_product_labels.report_product_product_label_100x50",
+            ):
+                wiz, html = self._render_labels(product, report_xmlid)
+                line = wiz.label_lines[0]
+                value = line.barcode_image
+                value = value.decode() if isinstance(value, bytes) else value
+                self.assertFalse(value.startswith("data:"), "barcode_image must hold base64 data only")
+                self.assertTrue(base64.b64decode(value).lstrip().startswith(b"<"), "barcode_image must be SVG")
+                self.assertIn(f"data:image/svg+xml;base64,{value}", html)
+                self.assertNotIn("data:image/png;base64,", html)
+
+    def test_barcode_image_product_without_code(self):
+        # LABEL-001: a product without barcode/internal reference has no image and still renders
+        product = self.env["product.product"].create({"name": "No Code Product"})
+        wiz, html = self._render_labels(product, "deltatech_product_labels.report_product_product_label")
+        self.assertFalse(wiz.label_lines[0].barcode_image)
+        self.assertIn("No Code Product", html)
+
+    def test_generate_lots_label_lines_use_lot_name(self):
+        # LABEL-002: generated lot names (no lot_id yet) must reach the label lines
+        picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": self.picking_type_in.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                "location_dest_id": self.loc_stock.id,
+            }
+        )
+        move = self.env["stock.move"].create(
+            {
+                "product_id": self.stock_product.id,
+                "product_uom": self.stock_product.uom_id.id,
+                "product_uom_qty": 2.0,
+                "picking_id": picking.id,
+                "location_id": picking.location_id.id,
+                "location_dest_id": self.loc_stock.id,
+            }
+        )
+        existing_lot = self.env["stock.lot"].create({"name": "LOT-EXIST", "product_id": self.stock_product.id})
+        for lot in (False, existing_lot):
+            self.env["stock.move.line"].create(
+                {
+                    "move_id": move.id,
+                    "product_id": self.stock_product.id,
+                    "product_uom_id": self.stock_product.uom_id.id,
+                    "picking_id": picking.id,
+                    "location_id": picking.location_id.id,
+                    "location_dest_id": self.loc_stock.id,
+                    "quantity": 1.0,
+                    "lot_id": lot and lot.id,
+                }
+            )
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="stock.picking", active_ids=[picking.id])
+            .create({"layout_id": self.env.ref("deltatech_product_labels.report_product_product_label").id})
+        )
+        wiz.generate_lots()
+        new_ml = picking.move_line_ids.filtered(lambda ml: not ml.lot_id)
+        self.assertTrue(new_ml.lot_name)
+        self.assertEqual(
+            sorted(wiz.label_lines.mapped("lot")),
+            sorted([new_ml.lot_name, "LOT-EXIST"]),
+        )
+        self.assertEqual(
+            sorted(line.get_label_data()["lot"] for line in wiz.label_lines),
+            sorted([new_ml.lot_name, "LOT-EXIST"]),
+        )
