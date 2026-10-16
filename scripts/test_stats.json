@@ -351,6 +351,9 @@
       "lines": 76,
       "tests": 22
     },
+    "deltatech_project_price_list": {
+      "tests": 11
+    },
     "deltatech_purchase_add_extra_line": {
       "coverage": 95.0,
       "lines": 101,
