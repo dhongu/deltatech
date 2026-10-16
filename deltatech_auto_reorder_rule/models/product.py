@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+from odoo.tools import str2bool
 
 
 class ProductProduct(models.Model):
@@ -25,24 +26,27 @@ class ProductProduct(models.Model):
             if routes:
                 route = routes[0].id
             orderpoint_model = record.env["stock.warehouse.orderpoint"].with_company(company)
-            rules = orderpoint_model.search([("product_id", "=", record.id), ("company_id", "=", company.id)])
-            if not rules:
-                values = []
-                for warehouse in warehouses:
-                    if warehouse.lot_stock_id.usage == "internal":
-                        values.append(
-                            {
-                                "product_id": record.id,
-                                "product_min_qty": 0,
-                                "product_max_qty": 0,
-                                "trigger": "manual",
-                                "route_id": route,
-                                "location_id": warehouse.lot_stock_id.id,
-                                "company_id": company.id,
-                            }
-                        )
-                if values:
-                    orderpoint_model.create(values)
+            # an existing rule only covers its own location: the other warehouses still get theirs
+            rules = orderpoint_model.with_context(active_test=False).search(
+                [("product_id", "=", record.id), ("company_id", "=", company.id)]
+            )
+            values = []
+            for warehouse in warehouses:
+                location = warehouse.lot_stock_id
+                if location.usage == "internal" and location not in rules.location_id:
+                    values.append(
+                        {
+                            "product_id": record.id,
+                            "product_min_qty": 0,
+                            "product_max_qty": 0,
+                            "trigger": "manual",
+                            "route_id": route,
+                            "location_id": location.id,
+                            "company_id": company.id,
+                        }
+                    )
+            if values:
+                orderpoint_model.create(values)
 
             # if not rules and record.type == "product":
             #     record.env["stock.warehouse.orderpoint"].create(
@@ -60,8 +64,8 @@ class ProductProduct(models.Model):
         dont_auto_create_rule = (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("deltatech_auto_reorder_rule.dont_auto_create_rule", default=False)
+            .get_param("deltatech_auto_reorder_rule.dont_auto_create_rule", default="False")
         )
-        if not dont_auto_create_rule:
+        if not str2bool(dont_auto_create_rule or "False", default=False):
             products.create_rule()
         return products

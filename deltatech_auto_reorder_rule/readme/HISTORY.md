@@ -1,3 +1,19 @@
+## 19.0.0.1.10 (2026-10-16)
+
+- **Fix (#3364): a rule in one warehouse no longer blocks the others.** Create
+  rule skipped the product entirely when it already had a rule in any
+  warehouse of the company, so a warehouse enabled later never got its rule.
+  Each warehouse is now checked separately: missing rules are created, the
+  existing ones are kept and no duplicates are added.
+- **Fix (#3365): the system parameter `dont_auto_create_rule` set to `False`
+  no longer disables the automatic rules.** The value is now read as a
+  boolean: only `True`/`1`/`yes` disable the creation of rules for new
+  products.
+- **Fix (#3366): the Rules Wizard creates the rules in the company of each
+  location.** Selecting a location of another allowed company failed with a
+  company inconsistency error; the rule now gets the company of its location
+  and an auto-rule route of that company (or without company).
+
 ## 19.0.0.1.9 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
