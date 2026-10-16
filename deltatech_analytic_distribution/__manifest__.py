@@ -6,7 +6,7 @@
     "name": "Analytic Distribution Enforcer",
     "category": "Accounting",
     "summary": "Block posting vendor bills until every line is 100% analytically distributed",
-    "version": "19.0.0.0.7",
+    "version": "20.0.0.0.7",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

@@ -1,6 +1,6 @@
-========================================
-Deltatech Analytic distribution enforcer
-========================================
+==============================
+Analytic Distribution Enforcer
+==============================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,19 +14,16 @@ Deltatech Analytic distribution enforcer
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_analytic_distribution
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_analytic_distribution
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_analytic_distribution
-    :alt: 8 automated tests · 89% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 This module enforces strict analytic distribution rules on vendor bills,
 ensuring every invoice line is fully allocated across the company's
 analytic dimensions before posting.
 
-**Key features:**
+**✨ Key features:**
 
 - Blocks posting of vendor bills (invoices, refunds, receipts) when any
   line is missing an analytic distribution.
@@ -63,6 +60,48 @@ that:
 This setting is **company-specific** — each company in a multi-company
 setup can have it enabled or disabled independently.
 
+Changelog
+=========
+
+19.0.0.0.7 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.5 (2026-10-03)
+-----------------------
+
+- **Fix (ANALYTICENFORCE-002): the validation follows the company of the
+  bill.** The *Enable Analytic Distribution Validation* switch was read
+  from the current company of the user, so a bill of a company with the
+  validation enabled could be posted without analytic distribution while
+  another company was selected, and the reverse. Each vendor bill,
+  refund or receipt is now checked against the switch of its own
+  company, also in a mixed-company batch. Users working in several
+  companies may now be blocked on bills that were accepted before (or
+  the other way round), according to each company's setting.
+
+19.0.0.0.4 (2026-10-02)
+-----------------------
+
+- **Fix (ANALYTICENFORCE-001): posting several invoices at once no
+  longer fails.** With the validation enabled, posting two or more
+  journal entries together (e.g. from the list view) raised *Expected
+  singleton*, because the document type was read on the whole selection.
+  Each vendor bill, refund or receipt is now validated separately; other
+  document types in the same selection are posted without the check.
+
+19.0.0.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -83,6 +122,6 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_analytic_distribution>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_analytic_distribution>`_ project on GitHub.
 
 You are welcome to contribute.
