@@ -5,7 +5,7 @@
     "name": "Website Searchbar Optimization",
     "category": "Website",
     "summary": "Reduce autocomplete requests by increasing debounce and adding minimum term length",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -17,6 +17,6 @@
     },
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
