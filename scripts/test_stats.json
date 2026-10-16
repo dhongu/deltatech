@@ -427,6 +427,9 @@
     "deltatech_replenish": {
       "tests": 3
     },
+    "deltatech_report_packaging": {
+      "tests": 27
+    },
     "deltatech_report_prn": {
       "coverage": 47.5,
       "lines": 59,
