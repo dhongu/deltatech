@@ -29,8 +29,9 @@ class TestProductPlaceholder(TransactionCase):
     def test_02_placeholder_filename_custom(self):
         """Test if the custom placeholder is returned when set on website"""
         # Set a custom image on the website (minimal valid 1x1 PNG)
+        # 20.0: binary fields accept base64 as str, not bytes
         image_content = (
-            b"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
         )
         self.website.product_placeholder_image = image_content
 
@@ -53,8 +54,9 @@ class TestProductPlaceholder(TransactionCase):
         self.assertEqual(url, "/deltatech_website_product_placeholder/static/img/placeholder.png")
 
         # Case 2: Custom placeholder
+        # 20.0: binary fields accept base64 as str, not bytes
         image_content = (
-            b"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
         )
         self.website.product_placeholder_image = image_content
 
@@ -64,8 +66,9 @@ class TestProductPlaceholder(TransactionCase):
 
     def test_04_product_with_image(self):
         """Test that products with real images still use the standard Odoo URLs"""
+        # 20.0: binary fields accept base64 as str, not bytes
         image_content = (
-            b"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
         )
         self.product_tmpl.image_1920 = image_content
 
