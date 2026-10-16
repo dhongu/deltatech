@@ -1,3 +1,8 @@
+## 19.0.1.0.4 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 19.0.1.0.3 (2026-10-08)
 
 - Fixed PARTNERDISC-001: users outside *Can modify partner discount* could
