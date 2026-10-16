@@ -1,3 +1,12 @@
+## 19.0.1.0.15 (2026-10-16)
+
+- Fixed: invoicing several selected batch transfers stopped after the first batch; the not yet
+  invoiced transfers of all the selected batches are now invoiced together (delivery and receipt
+  batches cannot be mixed).
+- Fixed: a batch without transfers was reported as invoiced.
+- Fixed: the Invoice button on the batch form was shown on batches that were not done or were already
+  invoiced (`and` instead of `or` in its visibility condition).
+
 ## 19.0.1.0.14 (2026-10-07)
 
 - Fixed: the Create Purchase Invoices action could bill an already billed receipt again, with the full
