@@ -1,0 +1,61 @@
+/* @odoo-module */
+
+import {isMobileOS} from "@web/core/browser/feature_detection";
+import {registry} from "@web/core/registry";
+
+async function pdfReportHandler(action, options, env) {
+    if (isMobileOS()) {
+        // On mobile the standard download is the only thing that works
+        return;
+    }
+    if (action.device_id) {
+        // Raportul se va tipari prin IoT
+        return;
+    }
+    if (action.direct_download) {
+        // Raportul PDF trebuie descarcat standard
+        return;
+    }
+
+    if (action.report_type === "qweb-pdf") {
+        // && !action.direct_download) {
+
+        const type = "pdf";
+        // COPY actionManager._getReportUrl
+        let url_ = `/report/${type}/${action.report_name}`;
+        const actionContext = action.context || {};
+        if (action.data && JSON.stringify(action.data) !== "{}") {
+            // Build a query string with `action.data` (it's the place where reports
+            // using a wizard to customize the output traditionally put their options)
+            const options_ = encodeURIComponent(JSON.stringify(action.data));
+            const context_ = encodeURIComponent(JSON.stringify(actionContext));
+            url_ += `?options=${options_}&context=${context_}`;
+        } else {
+            if (actionContext.active_ids) {
+                url_ += `/${actionContext.active_ids.join(",")}`;
+            }
+            if (type === "pdf") {
+                const context = encodeURIComponent(JSON.stringify(action.context));
+                url_ += `?context=${context}`;
+            }
+        }
+        // COPY actionManager._triggerDownload
+        env.services.ui.block();
+        try {
+            var pdfWindow = window.open(url_, "_blank");
+            if (pdfWindow) {
+                try {
+                    pdfWindow.document.title = "Download";
+                } catch {
+                    // Cross-origin or popup blocker
+                }
+            }
+        } finally {
+            env.services.ui.unblock();
+        }
+        // The action service closes the dialog / calls onClose when a handler returns true
+        return true;
+    }
+}
+
+registry.category("ir.actions.report handlers").add("pdf_handler", pdfReportHandler);

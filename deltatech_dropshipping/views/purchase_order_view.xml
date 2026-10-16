@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <field name="purchase_price_warning" invisible="1" />
+                <div class="alert alert-warning mb-0" role="alert" invisible="not purchase_price_warning">
+                    <p class="mb-0">The following products have a purchase price higher than the sale price:</p>
+                    <field name="purchase_price_warning" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

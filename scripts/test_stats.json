@@ -78,6 +78,9 @@
     "deltatech_credentials": {
       "tests": 2
     },
+    "deltatech_cron_monitor_webhook": {
+      "tests": 8
+    },
     "deltatech_data_sheet": {
       "coverage": 100.0,
       "lines": 7,
@@ -98,15 +101,30 @@
       "lines": 114,
       "tests": 8
     },
+    "deltatech_discount_policy": {
+      "tests": 4
+    },
+    "deltatech_download": {
+      "tests": 3
+    },
+    "deltatech_dropshipping": {
+      "tests": 5
+    },
     "deltatech_ecr_fiscal": {
       "coverage": 94.3,
       "lines": 35,
       "tests": 4
     },
+    "deltatech_expected_receipt": {
+      "tests": 61
+    },
     "deltatech_expenses": {
       "coverage": 88.7,
       "lines": 353,
       "tests": 21
+    },
+    "deltatech_expenses_hr_expense": {
+      "tests": 8
     },
     "deltatech_fast_purchase": {
       "tests": 5

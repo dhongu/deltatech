@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_deltatech_expenses_deduction_form_inherit_hr_expense" model="ir.ui.view">
+        <field name="name">deltatech.expenses.deduction.form.inherit.hr.expense</field>
+        <field name="model">deltatech.expenses.deduction</field>
+        <field name="inherit_id" ref="deltatech_expenses.view_deltatech_expenses_deduction_form" />
+        <field name="arch" type="xml">
+            <button name="validate_expenses" position="after">
+                <button
+                    name="action_open_import_hr_expenses"
+                    string="Preia cheltuieli HR"
+                    invisible="state not in ('draft', 'advance')"
+                    type="object"
+                />
+            </button>
+        </field>
+    </record>
+</odoo>

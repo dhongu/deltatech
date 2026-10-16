@@ -1,0 +1,10 @@
+{
+  "title": "Expected Card Receipts",
+  "summary": "Card payments registered on receipt, settled against the bank transfer",
+  "icon": "file",
+  "features": [
+    "Card Payment button on orders and invoices",
+    "Exact settlement of grouped bank transfers",
+    "Expected Receipts register with Late filter"
+  ]
+}

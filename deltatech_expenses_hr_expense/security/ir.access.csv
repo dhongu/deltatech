@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_deltatech_expenses_import_hr,access_deltatech_expenses_import_hr,deltatech.expenses.import.hr,deltatech_expenses.group_expenses_user,crud,
