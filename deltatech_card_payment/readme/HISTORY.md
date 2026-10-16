@@ -1,0 +1,17 @@
+## 20.0.1.0.4 (2026-10-16)
+
+- Migration to 20.0: `_default_inbound_payment_methods` and
+  `_get_payment_method_information` are unchanged in the `account` core, no code change.
+- Tests for the card payment line added to new bank journals.
+
+## 19.0.1.0.4 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
+## 19.0.1.0.3 (2026-09-24)
+
+- Port to Odoo 19: `_default_inbound_payment_methods` and
+  `_get_payment_method_information` are unchanged in the `account` core
+  on O19, so the code is ported verbatim (no API adaptation at all).
+  Needed for the migration of a customer (18.0→19.0): the
+  "Card Payment" payment method is in active production use there.

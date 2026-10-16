@@ -129,6 +129,8 @@ class TestPaymentTermRatesAction(AccountTestInvoicingCommon):
                 ],
             }
         )
+        # keep the sale above cost: deltatech_sale_commission refuses selling below the purchase price
+        cls.product_a.standard_price = 10.0
         cls.invoice = cls._create_invoice(
             "out_invoice",
             partner_id=cls.partner_a,

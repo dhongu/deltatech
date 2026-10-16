@@ -1,0 +1,160 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_category_group
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-01 08:37+0000\n"
+"PO-Revision-Date: 2023-08-01 08:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_account_invoice_report__category_class
+msgid "Category Class"
+msgstr "Clasa categorie"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_account_invoice_report__category_type
+msgid "Category Type"
+msgstr "Tip categorie"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_marketplace_product_category__category_group_class
+#: model:ir.model.fields,field_description:deltatech_category_group.field_product_category__category_group_class
+#: model:ir.model.fields,field_description:deltatech_category_group.field_sale_margin_report__category_class
+#: model:ir.model.fields,field_description:deltatech_category_group.field_stock_quant__category_group_class
+#: model_terms:ir.ui.view,arch_db:deltatech_category_group.view_category_class_form
+msgid "Category class"
+msgstr "Clasa categorie"
+
+#. module: deltatech_category_group
+#: model:ir.actions.act_window,name:deltatech_category_group.action_category_class
+#: model:ir.ui.menu,name:deltatech_category_group.menu_category_class
+#: model_terms:ir.ui.view,arch_db:deltatech_category_group.view_category_class_tree
+msgid "Category classes"
+msgstr "Clase categorie"
+
+#. module: deltatech_category_group
+#: model:ir.model,name:deltatech_category_group.model_category_group_class
+msgid "Category group class"
+msgstr "Clasa categorie"
+
+#. module: deltatech_category_group
+#: model:ir.model,name:deltatech_category_group.model_category_group_type
+msgid "Category group type"
+msgstr "Tip categorie"
+
+#. module: deltatech_category_group
+#: model:ir.ui.menu,name:deltatech_category_group.menu_category_type_options
+msgid "Category options"
+msgstr "Grupare categorii"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_marketplace_product_category__category_group_type
+#: model:ir.model.fields,field_description:deltatech_category_group.field_product_category__category_group_type
+#: model:ir.model.fields,field_description:deltatech_category_group.field_sale_margin_report__category_type
+#: model:ir.model.fields,field_description:deltatech_category_group.field_stock_quant__category_group_type
+#: model_terms:ir.ui.view,arch_db:deltatech_category_group.view_category_type_form
+msgid "Category type"
+msgstr "Tip categorie"
+
+#. module: deltatech_category_group
+#: model:ir.actions.act_window,name:deltatech_category_group.action_category_type
+#: model:ir.ui.menu,name:deltatech_category_group.menu_category_type
+#: model_terms:ir.ui.view,arch_db:deltatech_category_group.view_category_type_tree
+msgid "Category types"
+msgstr "Tipuri categorie"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__create_uid
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__create_date
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__display_name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__display_name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_product_category__display_name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_sale_margin_report__display_name
+#: model:ir.model.fields,field_description:deltatech_category_group.field_stock_quant__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_account_invoice_report__id
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__id
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__id
+#: model:ir.model.fields,field_description:deltatech_category_group.field_product_category__id
+#: model:ir.model.fields,field_description:deltatech_category_group.field_sale_margin_report__id
+#: model:ir.model.fields,field_description:deltatech_category_group.field_stock_quant__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_category_group
+#: model:ir.model,name:deltatech_category_group.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Statistica Facturi"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_account_invoice_report____last_update
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class____last_update
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type____last_update
+#: model:ir.model.fields,field_description:deltatech_category_group.field_product_category____last_update
+#: model:ir.model.fields,field_description:deltatech_category_group.field_sale_margin_report____last_update
+#: model:ir.model.fields,field_description:deltatech_category_group.field_stock_quant____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__write_uid
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__write_date
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_category_group
+#: model:res.groups,name:deltatech_category_group.category_group_manager
+msgid "Manage category groups"
+msgstr "Manager grupuri categorie"
+
+#. module: deltatech_category_group
+#: model:ir.model,name:deltatech_category_group.model_product_category
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_category_group
+#: model:ir.model,name:deltatech_category_group.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
+
+#. module: deltatech_category_group
+#: model:ir.model,name:deltatech_category_group.model_sale_margin_report
+msgid "Sale Margin Report"
+msgstr ""
+
+#. module: deltatech_category_group
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_class__sequence
+#: model:ir.model.fields,field_description:deltatech_category_group.field_category_group_type__sequence
+msgid "Sequence"
+msgstr "Secvența"

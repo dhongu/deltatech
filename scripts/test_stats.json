@@ -47,18 +47,36 @@
       "lines": 34,
       "tests": 0
     },
+    "deltatech_batch_transfer": {
+      "tests": 8
+    },
     "deltatech_business_process": {
       "coverage": 91.2,
       "lines": 1598,
       "tests": 128
     },
+    "deltatech_business_process_handover_document": {
+      "tests": 6
+    },
+    "deltatech_card_payment": {
+      "tests": 4
+    },
     "deltatech_cash_statement": {
       "tests": 10
+    },
+    "deltatech_category_group": {
+      "tests": 3
+    },
+    "deltatech_competitors_price": {
+      "tests": 13
     },
     "deltatech_contact": {
       "coverage": 69.4,
       "lines": 98,
       "tests": 5
+    },
+    "deltatech_credentials": {
+      "tests": 2
     },
     "deltatech_data_sheet": {
       "coverage": 100.0,
