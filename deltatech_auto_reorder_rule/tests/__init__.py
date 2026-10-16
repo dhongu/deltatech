@@ -6,3 +6,4 @@
 from . import test_product
 from . import test_order_rules_wizard
 from . import test_multi_company
+from . import test_issues
