@@ -1,0 +1,32 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+from odoo import fields, models
+
+
+class SaleReport(models.Model):
+    _inherit = "sale.report"
+
+    stage = fields.Selection(
+        [
+            ("placed", "Placed"),  # comanda plasta pe website
+            ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
+            ("rfq", "Request for Quotation"),  # oferta trimisa furnizorului
+            ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
+            ("postponed", "Postponed"),  # livrarea a fost amanata
+            ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
+            ("pre_advice", "Pre advice"),  # awb generat
+            ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
+            ("delivered", "Delivered"),  # comanda a fost livrata la client
+            ("canceled", "Canceled"),
+            ("returned", "Returned"),
+        ],
+        string="Stage",
+        index=True,
+    )
+
+    def _select_dict(self, table):
+        # the order columns are grouped by the order id (`_groupby_list`)
+        return super()._select_dict(table) | {"stage": table.order_id.stage}
