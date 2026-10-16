@@ -1,3 +1,8 @@
+## 20.0.1.0.2 (2026-10-16)
+
+- Migration to 20.0: access rights declared in `ir.access`; no other code change was needed.
+- The SSRF tests mute the warnings logged for the rejected URLs (expected by design).
+
 ## 19.0.1.0.2 (2026-10-02)
 
 - Security: "Fetch" sent the HTTP request to any product URL, so a user could make the

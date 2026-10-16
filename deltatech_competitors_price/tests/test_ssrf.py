@@ -3,6 +3,7 @@
 from unittest.mock import patch
 
 from odoo.tests.common import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 MODULE = "odoo.addons.deltatech_competitors_price.models.competitor_price"
 
@@ -60,7 +61,8 @@ class TestCompetitorPriceSsrf(TransactionCase):
             calls.append(u)
             return (responses or {}).get(u) or _Resp(HTML)
 
-        with patch(f"{MODULE}.requests.get", side_effect=_get):
+        # rejected URLs are logged as warnings by design; keep the test log clean
+        with patch(f"{MODULE}.requests.get", side_effect=_get), mute_logger(MODULE):
             ok = line.action_fetch_price()
         return line, ok, calls
 

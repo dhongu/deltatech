@@ -1,6 +1,6 @@
-===========================
-Deltatech Competitors Price
-===========================
+=================
+Competitors Price
+=================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,13 +14,10 @@ Deltatech Competitors Price
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_competitors_price
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_competitors_price
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-13%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_competitors_price/tests
-    :alt: 13 automated tests
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Deltatech Competitors Price
 ===========================
@@ -148,6 +145,33 @@ OPL-1
 .. contents::
    :local:
 
+Changelog
+=========
+
+20.0.1.0.2 (2026-10-16)
+-----------------------
+
+- Migration to 20.0: access rights declared in ``ir.access``; no other
+  code change was needed.
+- The SSRF tests mute the warnings logged for the rejected URLs
+  (expected by design).
+
+19.0.1.0.2 (2026-10-02)
+-----------------------
+
+- Security: "Fetch" sent the HTTP request to any product URL, so a user
+  could make the server call internal services (127.0.0.1, private
+  networks, cloud metadata). Only http(s) URLs whose host resolves
+  exclusively to public addresses are fetched now; redirects are
+  followed manually (at most 5) and every hop is checked the same way. A
+  rejected URL is reported in the fetch status. **Behavior change:**
+  competitor URLs on an intranet/private address are no longer fetched.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -176,6 +200,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_competitors_price>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_competitors_price>`_ project on GitHub.
 
 You are welcome to contribute.
