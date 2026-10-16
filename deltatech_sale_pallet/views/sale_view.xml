@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- `is_pallet_line` trebuie să fie în vedere ca să ajungă la salvare
+         valoarea pusă de onchange pe liniile de palet generate. -->
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.pallet</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="before">
+                <field name="is_pallet_line" column_invisible="1" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form/field[@name='display_type']" position="after">
+                <field name="is_pallet_line" invisible="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

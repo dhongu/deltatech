@@ -13,7 +13,7 @@ class ProductTemplate(models.Model):
     pallet_qty_min = fields.Float(digits="Product Unit of Measure")  # cantitatea minima pe palet
     pallet_price = fields.Float("Pallet Price", default=1.0, digits="Product Price", compute="_compute_pallet_price")
 
-    @api.onchange("pallet_product_id", "pallet_qty_min")
+    @api.depends("list_price", "pallet_qty_min", "pallet_product_id", "pallet_product_id.list_price")
     def _compute_pallet_price(self):
         for template in self:
             price = 0
