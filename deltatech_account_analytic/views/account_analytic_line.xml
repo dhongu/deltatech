@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Pe căutarea din account (Analytic Items, Analytic Reporting), nu pe cea din analytic:
+         aceea e moștenită primary de raportul de pontaje din hr_timesheet, care n-are team_id
+         și product_category_id, iar hr_timesheet nu s-ar mai putea instala. -->
+    <record id="view_account_analytic_line_filter" model="ir.ui.view">
+        <field name="name">account.analytic.line.select</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="account.view_account_analytic_line_filter_inherit_account" />
+        <field name="arch" type="xml">
+            <!-- Odoo 20: the group-by section of the search view has no name any more -->
+            <xpath expr="//group" position="inside">
+                <filter string="Sale team" name="group_team" context="{'group_by': 'team_id'}" />
+                <filter
+                    string="Product category"
+                    name="group_prod_categ"
+                    context="{'group_by': 'product_category_id'}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

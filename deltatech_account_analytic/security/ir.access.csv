@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_split_template,access_split_template,account.analytic.split.template,deltatech_account_analytic.group_analytic_split,crud,
+access_split_template_line,access_split_template_line,account.analytic.split.template.line,deltatech_account_analytic.group_analytic_split,crud,
+access_split,access_split,account.analytic.split,deltatech_account_analytic.group_analytic_split,crud,
+access_split_line,access_split_line,account.analytic.split.line,deltatech_account_analytic.group_analytic_split,crud,
