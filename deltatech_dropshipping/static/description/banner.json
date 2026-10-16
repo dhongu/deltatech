@@ -1,0 +1,6 @@
+{
+  "title": "Drop Shipping Enhanced",
+  "summary": "Better visibility and price control for dropshipping flows",
+  "icon": "truck",
+  "features": ["Delivery address on stock picking", "Purchase vs sale price warning", "Auto price comparison excl. VAT"]
+}
