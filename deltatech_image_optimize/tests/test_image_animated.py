@@ -89,27 +89,27 @@ class TestImageAnimated(TransactionCase):
     def test_runners_keep_animated_png(self):
         """Both batch runners leave an APNG attachment byte-for-byte unchanged."""
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
-        ICP.set_param("deltatech_image_optimize.variant_min_size", "1")
-        ICP.set_param("deltatech_image_optimize.variant_fields", "image_1024")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.variant_min_size", 1)
+        ICP.set_str("deltatech_image_optimize.variant_fields", "image_1024")
         raw = self._animated("PNG")
-        partner = self.env["res.partner"].create({"name": "APNG Test", "image_1920": base64.b64encode(raw)})
+        partner = self.env["res.partner"].create({"name": "APNG Test", "image_1920": base64.b64encode(raw).decode()})
         _ = partner.image_1024  # materialize the variant attachment
         self.env.flush_all()
         att = self._image_att(partner, "image_1920")
         var = self._image_att(partner, "image_1024")
-        self.assertEqual(self._n_frames(att.raw), 4)
-        var_raw = var.raw
+        self.assertEqual(self._n_frames(att.raw.content), 4)
+        var_raw = var.raw.content
 
         self.Attachment._dt_image_optimize_run(limit=50)
         self.Attachment._dt_image_optimize_variants_run(limit=50)
 
         att = self._image_att(partner, "image_1920")
         att.invalidate_recordset()
-        self.assertEqual(att.raw, raw)
-        self.assertEqual(self._n_frames(att.raw), 4)
+        self.assertEqual(att.raw.content, raw)
+        self.assertEqual(self._n_frames(att.raw.content), 4)
         self.assertTrue(att.deltatech_image_optimized)
         if var:
             var.invalidate_recordset()
-            self.assertEqual(var.raw, var_raw)
+            self.assertEqual(var.raw.content, var_raw)

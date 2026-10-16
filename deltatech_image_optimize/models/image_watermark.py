@@ -2,13 +2,13 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import io
 import json
 import logging
 
 from odoo import fields, models
 from odoo.exceptions import UserError
+from odoo.tools import BinaryBytes
 
 from . import watermark
 from .image_background import IMAGE_FIELD
@@ -68,7 +68,7 @@ class ImageWatermarkProfile(models.Model):
         limit = self.env["ir.attachment"]._dt_wm_params()["learn_limit"]
         images = []
         for record in records:
-            img = watermark.load_rgba(base64.b64decode(record[IMAGE_FIELD]))
+            img = watermark.load_rgba(record[IMAGE_FIELD].content)
             if watermark.has_alpha_trace(img):
                 images.append(img)
                 if len(images) >= limit:
@@ -95,7 +95,7 @@ class ImageWatermarkProfile(models.Model):
                 "name": self.env._("Watermark of %(date)s", date=fields.Date.to_string(fields.Date.today())),
                 "model_data": json.dumps(model),
                 "image_count": len(images),
-                "preview": base64.b64encode(buf.getvalue()),
+                "preview": BinaryBytes(buf.getvalue()),
             }
         )
 
@@ -133,7 +133,7 @@ class ImageBackgroundMixin(models.AbstractModel):
         """Imaginea fără watermark, ca PNG; ``(None, motiv)`` la eșec."""
         self.ensure_one()
         try:
-            return profile._dt_clean(base64.b64decode(self[IMAGE_FIELD]))
+            return profile._dt_clean(self[IMAGE_FIELD].content)
         except Exception as exc:  # noqa: BLE001 - o imagine stricată nu oprește lotul
             _logger.warning("Watermark removal failed for %s(%s): %s", self._name, self.id, exc)
             return None, str(exc)
@@ -141,7 +141,7 @@ class ImageBackgroundMixin(models.AbstractModel):
     def _dt_wm_apply(self, data):
         """Scrie imaginea fără watermark, cu variante cu tot."""
         self.ensure_one()
-        self.write({IMAGE_FIELD: base64.b64encode(data), "wm_removal_state": "done"})
+        self.write({IMAGE_FIELD: BinaryBytes(data), "wm_removal_state": "done"})
         self._dt_bg_compress_attachments()
 
     def _dt_wm_remove(self):

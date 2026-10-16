@@ -45,7 +45,7 @@ CHECKER_JS = (
 def _jpeg(img):
     buf = io.BytesIO()
     img.save(buf, format="JPEG", quality=88)
-    return base64.b64encode(buf.getvalue())
+    return base64.b64encode(buf.getvalue()).decode()
 
 
 def _bottle(draw, color, label):
@@ -163,7 +163,7 @@ class TestImageOptimizeScreenshots(ScreenshotCase or object):
 
     @classmethod
     def _set_param(cls, key, value):
-        cls.env["ir.config_parameter"].sudo().set_param(f"deltatech_image_optimize.{key}", value)
+        cls.env["ir.config_parameter"].sudo().set_str(f"deltatech_image_optimize.{key}", value)
 
     def _patch_rembg(self):
         """rembg „instalat", cu modelul simulat."""

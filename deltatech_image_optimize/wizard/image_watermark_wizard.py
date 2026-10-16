@@ -2,9 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
-
 from odoo import api, fields, models
+from odoo.tools import BinaryBytes
 
 
 class ImageWatermarkWizard(models.TransientModel):
@@ -47,7 +46,7 @@ class ImageWatermarkWizard(models.TransientModel):
                 data, warning = record._dt_wm_clean(profile)
                 vals.update(
                     image_before=record.image_1024,
-                    image_after=data and base64.b64encode(data),
+                    image_after=data and BinaryBytes(data),
                     warning=warning,
                     to_apply=bool(data),
                 )
@@ -69,7 +68,7 @@ class ImageWatermarkWizard(models.TransientModel):
             for line in lines:
                 record = line._dt_record()
                 record.wm_profile_id = self.profile_id
-                record._dt_wm_apply(base64.b64decode(line.image_after))
+                record._dt_wm_apply(line.image_after.content)
             message = self.env._("Watermark removed on %(count)s images.", count=len(lines))
         return {
             "type": "ir.actions.client",

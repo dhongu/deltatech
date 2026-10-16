@@ -2,9 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
-
 from odoo import api, fields, models
+from odoo.tools import BinaryBytes
 
 # modelele rembg oferite în wizard; cel din parametrul de sistem se adaugă dacă lipsește.
 # Fără BiRefNet: pe un worker Odoo obișnuit (odoo.sh) nu încape în limita de memorie.
@@ -90,7 +89,7 @@ class ImageBackgroundWizard(models.TransientModel):
     def _dt_preview_vals(self, record, params):
         data, warning = record._dt_bg_cutout(params)
         return {
-            "image_after": data and base64.b64encode(data),
+            "image_after": data and BinaryBytes(data),
             "warning": warning,
             # un rezultat suspect nu se aplică decât dacă utilizatorul îl bifează
             "to_apply": bool(data) and not warning,
@@ -127,7 +126,7 @@ class ImageBackgroundWizard(models.TransientModel):
         else:
             lines = self.line_ids.filtered(lambda line: line.to_apply and line.image_after)
             for line in lines:
-                line._dt_record()._dt_bg_apply(base64.b64decode(line.image_after))
+                line._dt_record()._dt_bg_apply(line.image_after.content)
             message = self.env._("Background removed on %(count)s images.", count=len(lines))
         return {
             "type": "ir.actions.client",

@@ -51,7 +51,7 @@ class ProductImageDedup(models.TransientModel):
     def _images_to_remove(self, checksums):
         """Imaginile redundante: copiile repetate în cadrul aceluiași produs.
 
-        În fiecare grup (conținut, produs, variantă) rămâne prima imagine după
+        În fiecare grup (conținut, produs, valori de atribut) rămâne prima imagine după
         ``sequence, id`` — cea pe care website-ul o folosește oricum întâi.
         Aceeași imagine folosită pe produse *diferite* nu e redundantă: fiecare
         produs are nevoie de exemplarul lui.
@@ -65,7 +65,7 @@ class ProductImageDedup(models.TransientModel):
             if image.video_url:
                 # ștergerea ar pierde și videoul, care nu e duplicat
                 continue
-            key = (image.image_checksum, image.product_tmpl_id.id, image.product_variant_id.id)
+            key = image._dedup_key()
             if key in seen:
                 redundant_ids.append(image.id)
             else:
@@ -77,14 +77,16 @@ class ProductImageDedup(models.TransientModel):
         if not checksums:
             return 0
         images = self.env["product.image"].search([("image_checksum", "in", list(checksums))])
-        keys = {(image.image_checksum, image.product_tmpl_id.id, image.product_variant_id.id) for image in images}
+        keys = {image._dedup_key() for image in images}
         return len(keys)
 
     @api.model
     def _build_preview(self, images, limit=50):
         lines = []
         for image in images[:limit]:
-            product = image.product_variant_id.display_name or image.product_tmpl_id.display_name
+            product = image.product_tmpl_id.display_name
+            if image.attribute_value_ids:
+                product = f"{product} ({', '.join(image.attribute_value_ids.mapped('name'))})"
             lines.append(f"{product or '-'} — {image.display_name} (#{image.id})")
         if len(images) > limit:
             lines.append(self.env._("... and %s more", len(images) - limit))

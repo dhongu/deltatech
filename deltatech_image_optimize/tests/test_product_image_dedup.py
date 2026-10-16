@@ -14,7 +14,7 @@ def make_image(color):
     """Un PNG minimal de culoare dată — două culori diferite = două checksum-uri."""
     buffer = io.BytesIO()
     Image.new("RGB", (16, 16), color).save(buffer, format="PNG")
-    return base64.b64encode(buffer.getvalue())
+    return base64.b64encode(buffer.getvalue()).decode()
 
 
 @tagged("post_install", "-at_install")
@@ -160,7 +160,7 @@ class TestProductImageDedup(TransactionCase):
         self.assertTrue(images[0]._dedup_checksum_from_binary())
 
         self.assertFalse(
-            self.env.cache.contains(images[1], field),
+            images[1].id in field._get_cache(self.env),
             "citirea imaginii unui record a prefetch-uit si fratii",
         )
 
@@ -244,3 +244,38 @@ class TestProductImageDedup(TransactionCase):
         self.assertEqual(len(preview), 2)
         self.assertIn(f"(#{first.id})", preview[0])
         self.assertIn("1 more", preview[1])
+
+    def test_same_image_on_different_attribute_values_is_kept(self):
+        """Odoo 20: imaginile unei variante sunt pe șablon, legate prin valorile de atribut."""
+        attribute = self.env["product.attribute"].create(
+            {
+                "name": "Dedup Color",
+                "value_ids": [(0, 0, {"name": "Red"}), (0, 0, {"name": "Blue"})],
+            }
+        )
+        template = self.env["product.template"].create(
+            {
+                "name": "Dedup Variants",
+                "attribute_line_ids": [
+                    (0, 0, {"attribute_id": attribute.id, "value_ids": [(6, 0, attribute.value_ids.ids)]})
+                ],
+            }
+        )
+        ptav_red, ptav_blue = template.attribute_line_ids.product_template_value_ids
+        on_red = self.create_image("red", template, self.red, sequence=1)
+        on_red.attribute_value_ids = ptav_red
+        on_blue = self.create_image("red", template, self.red, sequence=2)
+        on_blue.attribute_value_ids = ptav_blue
+        copy_red = self.create_image("red copy", template, self.red, sequence=3)
+        copy_red.attribute_value_ids = ptav_red
+
+        Dedup = self.env["deltatech.product.image.dedup"]
+        self.assertEqual(Dedup._images_to_remove([on_red.image_checksum]), copy_red)
+        self.assertEqual(Dedup._kept_count([on_red.image_checksum]), 2)
+        self.assertIn("(Red)", Dedup._build_preview(copy_red))
+
+        self.env.flush_all()
+        group = self.env["deltatech.product.image.duplicate"].search([("image_checksum", "=", on_red.image_checksum)])
+        self.assertEqual(group.image_count, 3)
+        self.assertEqual(group.product_count, 2)
+        self.assertEqual(group.removable_count, 1)

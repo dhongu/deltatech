@@ -24,7 +24,7 @@ class ProductImageDuplicate(models.Model):
         string="Products",
         readonly=True,
         aggregator="sum",
-        help="How many distinct products (or variants) use this image.",
+        help="How many distinct products (or attribute-value sets of a product) use this image.",
     )
     removable_count = fields.Integer(
         string="Removable",
@@ -57,21 +57,31 @@ class ProductImageDuplicate(models.Model):
             SQL(
                 """
                 CREATE VIEW %s AS (
-                    SELECT min(pi.id)                       AS id,
-                           max(pi.write_date)               AS write_date,
-                           pi.image_checksum                AS image_checksum,
-                           count(*)                         AS image_count,
-                           count(DISTINCT (
-                               COALESCE(pi.product_tmpl_id, 0),
-                               COALESCE(pi.product_variant_id, 0)
-                           ))                               AS product_count,
-                           count(*) - count(DISTINCT (
-                               COALESCE(pi.product_tmpl_id, 0),
-                               COALESCE(pi.product_variant_id, 0)
-                           ))                               AS removable_count
-                      FROM product_image pi
-                     WHERE pi.image_checksum IS NOT NULL
-                     GROUP BY pi.image_checksum
+                    WITH img AS (
+                        SELECT pi.id,
+                               pi.write_date,
+                               pi.image_checksum,
+                               COALESCE(pi.product_tmpl_id, 0) AS tmpl_id,
+                               -- în 20 imaginea e pe șablon, legată de variante prin valorile de atribut
+                               COALESCE((
+                                   SELECT string_agg(
+                                              rel.product_template_attribute_value_id::text, ','
+                                              ORDER BY rel.product_template_attribute_value_id
+                                          )
+                                     FROM product_image_attribute_value_rel rel
+                                    WHERE rel.product_image_id = pi.id
+                               ), '')                            AS attr_key
+                          FROM product_image pi
+                         WHERE pi.image_checksum IS NOT NULL
+                    )
+                    SELECT min(img.id)                                      AS id,
+                           max(img.write_date)                              AS write_date,
+                           img.image_checksum                               AS image_checksum,
+                           count(*)                                         AS image_count,
+                           count(DISTINCT (img.tmpl_id, img.attr_key))      AS product_count,
+                           count(*) - count(DISTINCT (img.tmpl_id, img.attr_key)) AS removable_count
+                      FROM img
+                     GROUP BY img.image_checksum
                     HAVING count(*) > 1
                 )
                 """,

@@ -4,6 +4,7 @@ import os
 from unittest.mock import patch
 
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 try:
     from PIL import Image
@@ -29,7 +30,7 @@ class TestImageOptimize(TransactionCase):
         img = Image.frombytes("RGB", (size, size), raw)
         buf = io.BytesIO()
         img.save(buf, format="JPEG", quality=95)
-        return base64.b64encode(buf.getvalue())
+        return base64.b64encode(buf.getvalue()).decode()
 
     def _make_big_transparent_png(self, size=2000):
         """Build a large RGBA (transparent) PNG."""
@@ -37,14 +38,14 @@ class TestImageOptimize(TransactionCase):
         img = Image.frombytes("RGBA", (size, size), raw)
         buf = io.BytesIO()
         img.save(buf, format="PNG")
-        return base64.b64encode(buf.getvalue())
+        return base64.b64encode(buf.getvalue()).decode()
 
     def _make_opaque_rgba_png(self, size=2000):
         """Build a large RGBA PNG whose alpha is fully opaque (255)."""
         img = Image.frombytes("RGB", (size, size), os.urandom(size * size * 3)).convert("RGBA")
         buf = io.BytesIO()
         img.save(buf, format="PNG")
-        return base64.b64encode(buf.getvalue())
+        return base64.b64encode(buf.getvalue()).decode()
 
     def _image_attachment(self, partner):
         return (
@@ -65,9 +66,9 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow not available")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.quality", "70")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_int("deltatech_image_optimize.quality", 70)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
 
         partner = self.env["res.partner"].create({"name": "Image Optimize Test", "image_1920": self._make_big_jpeg()})
         att = self._image_attachment(partner)
@@ -84,7 +85,7 @@ class TestImageOptimize(TransactionCase):
         self.assertTrue(new_att.deltatech_image_optimized)
 
         # The stored image must still be a valid image no larger than 1920 px.
-        img = Image.open(io.BytesIO(new_att.raw))
+        img = Image.open(io.BytesIO(new_att.raw.content))
         self.assertLessEqual(max(img.size), 1920)
 
     def test_second_run_is_idempotent(self):
@@ -92,9 +93,9 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow not available")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.quality", "70")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_int("deltatech_image_optimize.quality", 70)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
 
         # Drain any pre-existing backlog (demo images from other installed
         # modules) so the run below only sees the attachment created here.
@@ -115,9 +116,9 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow build lacks WebP support")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.webp_quality", "80")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_int("deltatech_image_optimize.webp_quality", 80)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
 
         partner = self.env["res.partner"].create(
             {"name": "Transparent Test", "image_1920": self._make_big_transparent_png()}
@@ -134,7 +135,7 @@ class TestImageOptimize(TransactionCase):
         self.assertEqual(new_att.mimetype, "image/webp")
         self.assertTrue(new_att.deltatech_image_optimized)
         # The stored image must still be a valid WebP that preserves alpha.
-        img = Image.open(io.BytesIO(new_att.raw))
+        img = Image.open(io.BytesIO(new_att.raw.content))
         self.assertEqual((img.format or "").upper(), "WEBP")
         self.assertIn(img.mode, ("RGBA", "LA"))  # transparency preserved
 
@@ -143,9 +144,9 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow not available")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.quality", "70")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_int("deltatech_image_optimize.quality", 70)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
 
         partner = self.env["res.partner"].create(
             {"name": "Opaque RGBA Test", "image_1920": self._make_opaque_rgba_png()}
@@ -166,10 +167,10 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow not available")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.quality", "70")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
-        ICP.set_param("deltatech_image_optimize.force_jpeg", "1")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_int("deltatech_image_optimize.quality", 70)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.force_jpeg", 1)
 
         # A transparent PNG that would normally go to WebP:
         partner = self.env["res.partner"].create(
@@ -191,12 +192,12 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow not available")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.variant_min_size", "1")
-        ICP.set_param("deltatech_image_optimize.variant_quality", "60")
+        ICP.set_int("deltatech_image_optimize.variant_min_size", 1)
+        ICP.set_int("deltatech_image_optimize.variant_quality", 60)
 
         partner = self.env["res.partner"].create({"name": "Variant Test", "image_1920": self._make_big_jpeg()})
         orig_att = self._image_attachment(partner)
-        orig_1920 = orig_att.raw  # keep the master bytes to prove they don't change
+        orig_1920 = orig_att.raw.content  # keep the master bytes to prove they don't change
 
         # Variants are stored lazily: read image_1024 to materialize its attachment.
         _ = partner.image_1024
@@ -221,7 +222,7 @@ class TestImageOptimize(TransactionCase):
         self.assertTrue(var.deltatech_image_optimized)
         # the master image_1920 must be byte-for-byte unchanged (no propagation)
         self._image_attachment(partner).invalidate_recordset()
-        self.assertEqual(self._image_attachment(partner).raw, orig_1920)
+        self.assertEqual(self._image_attachment(partner).raw.content, orig_1920)
 
     def test_freed_disk_excludes_shared_files(self):
         """A picture used by two records frees disk only once, not twice."""
@@ -229,9 +230,9 @@ class TestImageOptimize(TransactionCase):
             self.skipTest("Pillow not available")
 
         ICP = self.env["ir.config_parameter"].sudo()
-        ICP.set_param("deltatech_image_optimize.min_size", "1")
-        ICP.set_param("deltatech_image_optimize.quality", "70")
-        ICP.set_param("deltatech_image_optimize.target_fields", "image_1920")
+        ICP.set_int("deltatech_image_optimize.min_size", 1)
+        ICP.set_int("deltatech_image_optimize.quality", 70)
+        ICP.set_str("deltatech_image_optimize.target_fields", "image_1920")
 
         Attachment = self.env["ir.attachment"]
         while Attachment._dt_image_optimize_run(limit=200)["scanned"]:
@@ -273,6 +274,7 @@ class TestImageOptimize(TransactionCase):
         self.assertEqual(recompress(b"", 85, 0), (None, None))
         self.assertEqual(recompress(b"this is not an image", 85, 0), (None, None))
 
+    @mute_logger("odoo.addons.deltatech_image_optimize.models.ir_attachment")
     def test_without_pillow_nothing_runs(self):
         Attachment = self.env["ir.attachment"]
         empty = {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
@@ -326,7 +328,7 @@ class TestImageOptimize(TransactionCase):
     def _set_params(self, **params):
         ICP = self.env["ir.config_parameter"].sudo()
         for key, value in params.items():
-            ICP.set_param(f"deltatech_image_optimize.{key}", value)
+            ICP.set_str(f"deltatech_image_optimize.{key}", value)
 
     def test_result_not_smaller_is_flagged_and_kept(self):
         if Image is None:
@@ -334,14 +336,16 @@ class TestImageOptimize(TransactionCase):
         self._set_params(min_size="0", target_fields="image_1920")
         buf = io.BytesIO()
         Image.new("RGB", (16, 16), (200, 30, 30)).save(buf, format="PNG")
-        partner = self.env["res.partner"].create({"name": "Tiny Image", "image_1920": base64.b64encode(buf.getvalue())})
+        partner = self.env["res.partner"].create(
+            {"name": "Tiny Image", "image_1920": base64.b64encode(buf.getvalue()).decode()}
+        )
         att = self._image_attachment(partner)
-        raw = att.raw
+        raw = att.raw.content
 
         self.env["ir.attachment"]._dt_image_optimize_run(limit=1000)
 
         self.assertTrue(att.deltatech_image_optimized)
-        self.assertEqual(att.raw, raw)
+        self.assertEqual(att.raw.content, raw)
 
     def test_orphan_attachment_is_flagged(self):
         if Image is None:
@@ -360,20 +364,21 @@ class TestImageOptimize(TransactionCase):
                 }
             )
         )
-        raw = orphan.raw
+        raw = orphan.raw.content
 
         self.env["ir.attachment"]._dt_image_optimize_run(limit=1000)
 
         self.assertTrue(orphan.deltatech_image_optimized)
-        self.assertEqual(orphan.raw, raw, "nothing is written for a deleted record")
+        self.assertEqual(orphan.raw.content, raw, "nothing is written for a deleted record")
 
+    @mute_logger("odoo.addons.deltatech_image_optimize.models.ir_attachment")
     def test_failed_record_write_is_flagged(self):
         if Image is None:
             self.skipTest("Pillow not available")
         self._set_params(min_size="1", target_fields="image_1920")
         partner = self.env["res.partner"].create({"name": "Write Fails", "image_1920": self._make_big_jpeg(size=600)})
         att = self._image_attachment(partner)
-        raw = att.raw
+        raw = att.raw.content
         Partner = type(self.env["res.partner"])
         original_write = Partner.write
 
@@ -386,8 +391,9 @@ class TestImageOptimize(TransactionCase):
             self.env["ir.attachment"]._dt_image_optimize_run(limit=1000)
 
         self.assertTrue(att.deltatech_image_optimized)
-        self.assertEqual(att.raw, raw)
+        self.assertEqual(att.raw.content, raw)
 
+    @mute_logger("odoo.addons.deltatech_image_optimize.models.ir_attachment")
     def test_failed_variant_write_does_not_stop_the_batch(self):
         if Image is None:
             self.skipTest("Pillow not available")

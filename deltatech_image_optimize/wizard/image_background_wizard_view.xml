@@ -24,7 +24,7 @@
                                 string="Refresh Preview"
                                 type="object"
                                 class="btn-secondary"
-                                icon="fa-refresh"
+                                icon="refresh"
                             />
                         </group>
                     </group>

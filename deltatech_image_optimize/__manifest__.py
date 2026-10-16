@@ -5,14 +5,14 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Image Optimizer",
-    "version": "19.0.1.12.5",
+    "version": "20.0.1.12.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Recompress oversized image attachments, remove duplicated product images, product image backgrounds and watermarks",
     "category": "Administration",
     "depends": ["base", "website_sale"],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/ir_config_parameter.xml",
         "data/ir_cron.xml",
         "data/ir_actions_server.xml",

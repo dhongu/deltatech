@@ -8,6 +8,7 @@ from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageStat
 
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.deltatech_image_optimize.models import watermark
 from odoo.addons.deltatech_image_optimize.models.ir_attachment import _webp_available
@@ -50,7 +51,7 @@ def _watermarked(original):
 def _png(img):
     buf = io.BytesIO()
     img.save(buf, format="PNG")
-    return base64.b64encode(buf.getvalue())
+    return base64.b64encode(buf.getvalue()).decode()
 
 
 @tagged("post_install", "-at_install")
@@ -66,7 +67,7 @@ class TestImageWatermark(TransactionCase):
         cls.plain = cls.env["product.template"].create({"name": "WM Plain", "image_1920": _png(cls.original)})
 
     def _set_param(self, key, value):
-        self.env["ir.config_parameter"].sudo().set_param(f"deltatech_image_optimize.{key}", value)
+        self.env["ir.config_parameter"].sudo().set_str(f"deltatech_image_optimize.{key}", value)
 
     def _wizard(self, records):
         action = records.action_dt_remove_watermark()
@@ -104,16 +105,16 @@ class TestImageWatermark(TransactionCase):
 
         self.assertEqual(wizard.mode, "preview")
         self.assertTrue(wizard.preview, "the detected watermark is shown")
-        self.assertEqual(self.product.image_1920, self.image, "the preview writes nothing")
+        self.assertEqual(self.product.image_1920.to_base64(), self.image, "the preview writes nothing")
         line = wizard.line_ids
         self.assertTrue(line.to_apply)
-        for channel in self._difference(base64.b64decode(line.image_after)):
+        for channel in self._difference(line.image_after.content):
             self.assertLess(channel, 1.0)
 
         wizard.action_apply()
         self.assertEqual(self.product.wm_removal_state, "done")
         self.assertEqual(self.product.wm_profile_id, wizard.profile_id)
-        stored = base64.b64decode(self.product.image_1920)
+        stored = self.product.image_1920.content
         self.assertFalse(watermark.has_alpha_trace(Image.open(io.BytesIO(stored)).convert("RGBA")))
         # după aplicare imaginea opacă e recodată (JPEG): diferența rămâne mică
         for channel in self._difference(stored):
@@ -184,6 +185,7 @@ class TestImageWatermark(TransactionCase):
 
     # === coada ===#
 
+    @mute_logger("odoo.addons.deltatech_image_optimize.models.image_watermark")
     def test_broken_image_in_queue_is_marked_failed(self):
         profile = self._wizard(self.product).profile_id
         self.product.write({"wm_removal_state": "pending", "wm_profile_id": profile.id})
@@ -194,7 +196,7 @@ class TestImageWatermark(TransactionCase):
             self.env["ir.attachment"]._dt_wm_remove_cron()
 
         self.assertEqual(self.product.wm_removal_state, "error")
-        self.assertEqual(self.product.image_1920, self.image)
+        self.assertEqual(self.product.image_1920.to_base64(), self.image)
 
     def test_queue_larger_than_batch_triggers_again(self):
         self._set_param("wm_batch", "1")

@@ -1,3 +1,11 @@
+## 20.0.1.12.5 (2026-10-16)
+
+- Migration to Odoo 20. Product images now all live on the template and reach the
+  variants through attribute values: duplicates are counted per template and attribute
+  values (instead of template and variant). The main image of a template is also its first
+  gallery image in Odoo 20; background and watermark removal process it once and recode
+  both copies, and the optimizer does not recompress the synchronized copy again.
+
 ## 19.0.1.12.5 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

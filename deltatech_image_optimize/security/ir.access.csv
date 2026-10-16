@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_product_image_duplicate_user,deltatech.product.image.duplicate.user,deltatech.product.image.duplicate,base.group_user,r,
+access_product_image_dedup_manager,deltatech.product.image.dedup.manager,deltatech.product.image.dedup,base.group_system,crud,
+access_image_background_wizard,deltatech.image.background.wizard,deltatech.image.background.wizard,product.group_product_manager,cru,
+access_image_background_wizard_line,deltatech.image.background.wizard.line,deltatech.image.background.wizard.line,product.group_product_manager,cru,
+access_image_watermark_profile_manager,deltatech.image.watermark.profile.manager,deltatech.image.watermark.profile,product.group_product_manager,cru,
+access_image_watermark_profile_system,deltatech.image.watermark.profile.system,deltatech.image.watermark.profile,base.group_system,crud,
+access_image_watermark_wizard,deltatech.image.watermark.wizard,deltatech.image.watermark.wizard,product.group_product_manager,cru,
+access_image_watermark_wizard_line,deltatech.image.watermark.wizard.line,deltatech.image.watermark.wizard.line,product.group_product_manager,cru,

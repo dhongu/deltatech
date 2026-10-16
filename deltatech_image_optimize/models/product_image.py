@@ -2,7 +2,6 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import hashlib
 
 from odoo import api, fields, models
@@ -53,7 +52,7 @@ class ProductImage(models.Model):
         if not data:
             return False
         # același algoritm ca ir.attachment._compute_checksum, ca valorile să fie comparabile
-        return hashlib.sha1(base64.b64decode(data)).hexdigest()
+        return hashlib.sha1(data.content).hexdigest()
 
     def _compute_duplicate_count(self):
         checksums = [checksum for checksum in set(self.mapped("image_checksum")) if checksum]
@@ -67,6 +66,16 @@ class ProductImage(models.Model):
             image.duplicate_count = counts.get(image.image_checksum, 0)
 
     # === HELPERS ===#
+
+    def _dedup_key(self):
+        """Ce face ca două copii ale aceleiași imagini să fie redundante.
+
+        În Odoo 20 toate imaginile sunt pe șablon; o imagine aparține unor
+        variante prin valorile de atribut. Aceeași imagine pe valori diferite nu
+        e redundantă: fiecare set de variante are nevoie de exemplarul lui.
+        """
+        self.ensure_one()
+        return (self.image_checksum, self.product_tmpl_id.id, tuple(sorted(self.attribute_value_ids.ids)))
 
     def _dedup_attachment_checksums(self):
         """Checksum-ul fiecărei imagini, citit din ir.attachment.

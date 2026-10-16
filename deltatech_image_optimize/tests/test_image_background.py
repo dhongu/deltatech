@@ -6,6 +6,7 @@ from PIL import ImageChops
 
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.deltatech_image_optimize.models import image_background, ir_attachment
 from odoo.addons.deltatech_image_optimize.models.ir_attachment import Image, _webp_available
@@ -32,7 +33,7 @@ class TestImageBackground(TransactionCase):
         # PNG, nu JPEG: cutout-ul fals compară culorile exact
         buf = io.BytesIO()
         img.save(buf, format="PNG")
-        cls.image = base64.b64encode(buf.getvalue())
+        cls.image = base64.b64encode(buf.getvalue()).decode()
         cls.product = cls.env["product.template"].create({"name": "BG Test", "image_1920": cls.image})
 
     def setUp(self):
@@ -42,7 +43,7 @@ class TestImageBackground(TransactionCase):
         self.startPatcher(patch.object(ir_attachment, "_rembg_available", lambda: True))
 
     def _set_param(self, key, value):
-        self.env["ir.config_parameter"].sudo().set_param(f"deltatech_image_optimize.{key}", value)
+        self.env["ir.config_parameter"].sudo().set_str(f"deltatech_image_optimize.{key}", value)
 
     def _attachment(self, record, field):
         return (
@@ -53,7 +54,7 @@ class TestImageBackground(TransactionCase):
 
     def _decoded(self, record, field="image_1920"):
         _webp_available()
-        return Image.open(io.BytesIO(base64.b64decode(record[field])))
+        return Image.open(io.BytesIO(record[field].content))
 
     def _run(self, records, untick=None):
         """Rulează acțiunea și aplică wizard-ul, ca utilizatorul."""
@@ -69,7 +70,7 @@ class TestImageBackground(TransactionCase):
         wizard = self.env[action["res_model"]].browse(action["res_id"])
 
         self.assertEqual(wizard.mode, "preview")
-        self.assertEqual(self.product.image_1920, self.image, "the preview writes nothing")
+        self.assertEqual(self.product.image_1920.to_base64(), self.image, "the preview writes nothing")
         self.assertTrue(wizard.line_ids.image_after)
         wizard.action_apply()
 
@@ -83,12 +84,12 @@ class TestImageBackground(TransactionCase):
             variant = self._attachment(self.product, "image_128")
             self.assertEqual(variant.mimetype, "image/webp")
             # Odoo nu redimensionează WebP: variantele trebuie generate înainte de conversie
-            self.assertLessEqual(max(Image.open(io.BytesIO(variant.raw)).size), 128)
+            self.assertLessEqual(max(Image.open(io.BytesIO(variant.raw.content)).size), 128)
 
     def test_unticked_line_is_not_applied(self):
         self._run(self.product, untick=self.product)
 
-        self.assertEqual(self.product.image_1920, self.image)
+        self.assertEqual(self.product.image_1920.to_base64(), self.image)
         self.assertFalse(self.product.bg_removal_state)
 
     def test_crop_square_with_margin(self):
@@ -112,9 +113,21 @@ class TestImageBackground(TransactionCase):
         )
         wizard = self._run(self.product)
 
+        # Odoo 20: prima imagine din galerie e imaginea principală, nu are linie proprie
+        mirror = self.product.product_template_image_ids.sorted("sequence")[:1]
+        self.assertNotEqual(mirror, extra)
         self.assertEqual(len(wizard.line_ids), 2)
+        self.assertNotIn(
+            mirror.id, wizard.line_ids.filtered(lambda line: line.res_model == "product.image").mapped("res_id")
+        )
         self.assertEqual(extra.bg_removal_state, "done")
         self.assertEqual(extra.image_checksum, self._attachment(extra, "image_1920").checksum)
+        # ... dar primește aceeași imagine fără fundal, recodată la fel
+        self.assertEqual(self._decoded(mirror).convert("RGBA").getpixel((5, 5))[3], 0)
+        self.assertEqual(
+            self._attachment(mirror, "image_1920").checksum, self._attachment(self.product, "image_1920").checksum
+        )
+        self.assertEqual(mirror.image_checksum, self._attachment(mirror, "image_1920").checksum)
 
     def test_large_selection_is_queued_for_cron(self):
         self._set_param("bg_sync_limit", "0")
@@ -134,7 +147,7 @@ class TestImageBackground(TransactionCase):
 
         self.assertEqual(wizard.failed_count, 1)
         self.assertFalse(wizard.line_ids.to_apply)
-        self.assertEqual(self.product.image_1920, self.image)
+        self.assertEqual(self.product.image_1920.to_base64(), self.image)
 
     def test_out_of_memory_says_so(self):
         def out_of_memory(img, model_name):
@@ -162,7 +175,9 @@ class TestImageBackground(TransactionCase):
         draw(img)
         buf = io.BytesIO()
         img.save(buf, format="PNG")
-        return self.env["product.template"].create({"name": "BG Extra", "image_1920": base64.b64encode(buf.getvalue())})
+        return self.env["product.template"].create(
+            {"name": "BG Extra", "image_1920": base64.b64encode(buf.getvalue()).decode()}
+        )
 
     @staticmethod
     def _accessory(img):
@@ -241,7 +256,7 @@ class TestImageBackground(TransactionCase):
 
         names = wizard.line_ids.mapped("name")
         self.assertIn("main image", names[0])
-        self.assertIn("gallery image 1", names[1])
+        self.assertIn("gallery image 2", names[1])
 
     # === ramuri de eroare ===#
 
@@ -267,6 +282,7 @@ class TestImageBackground(TransactionCase):
         self.assertIsNone(data)
         self.assertIn("uniform background method", warning)
 
+    @mute_logger("odoo.addons.deltatech_image_optimize.models.image_background")
     def test_ai_model_error_fails_only_that_image(self):
         def broken(img, model_name):
             raise RuntimeError("model file is corrupt")
@@ -280,6 +296,7 @@ class TestImageBackground(TransactionCase):
         self.assertFalse(line.to_apply)
         self.assertIn("model file is corrupt", line.warning)
 
+    @mute_logger("odoo.addons.deltatech_image_optimize.models.image_background")
     def test_failed_queue_item_and_retrigger(self):
         other = self._product_with(self._accessory)
         self._set_param("bg_sync_limit", "0")

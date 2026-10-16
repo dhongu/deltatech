@@ -10,20 +10,17 @@ Image Optimizer
    !! source digest: sha256:52431cbd7b6fd0fc59d3bda1dabac2b5135bb31f428e09674eea8f8fe8b3af2c
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_image_optimize
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_image_optimize
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_image_optimize/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_image_optimize/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-73%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_image_optimize
-    :alt: 73 automated tests · 94% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Image Optimizer
 ===============
@@ -611,6 +608,23 @@ transparency becomes black permanently.
 Changelog
 =========
 
+19.0.1.12.5 (2026-10-16)
+------------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.12.4 (2026-10-12)
+------------------------
+
+- Tests: the watermark tests now run in CI. They were skipped because
+  the CI image has no numpy; the repository gets a
+  ``test-requirements.txt`` with numpy (numpy stays an optional
+  dependency of the module). New tests cover the error and queue paths
+  of watermark and background removal, recompression edge cases
+  (unreadable input, palette images, PNG fallback without WebP, orphan
+  attachments, failed writes) and the duplicate image report and wizard.
+
 19.0.1.12.3 (2026-10-12)
 ------------------------
 
@@ -938,6 +952,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_image_optimize>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_image_optimize>`_ project on GitHub.
 
 You are welcome to contribute.

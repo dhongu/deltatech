@@ -1,10 +1,9 @@
-import base64
 import gc
 import io
 import logging
 
 from odoo import api, fields, models
-from odoo.tools import SQL
+from odoo.tools import SQL, BinaryBytes
 
 from . import bg_mask
 
@@ -140,7 +139,7 @@ class IrAttachment(models.Model):
     @api.model
     def _dt_image_optimize_params(self):
         """Read the optimizer configuration from ir.config_parameter."""
-        get = self.env["ir.config_parameter"].sudo().get_param
+        get = self.env["ir.config_parameter"].sudo().get_str
         return {
             "quality": max(1, min(95, int(get("deltatech_image_optimize.quality", 85)))),
             "max_dim": int(get("deltatech_image_optimize.max_dim", 1920)),
@@ -298,7 +297,7 @@ class IrAttachment(models.Model):
         # For high-resolution images (e.g. 20 MP) lower flush_every to 2-3.
         flush_every = params["flush_every"]
         for index, att in enumerate(attachments, start=1):
-            raw = att.raw
+            raw = att.raw.content
             # Ask before writing: the write replaces store_fname, so afterwards
             # there is no way to tell whether the old file was shared.
             shared = att._dt_image_shared_file()
@@ -328,7 +327,7 @@ class IrAttachment(models.Model):
                     att.deltatech_image_optimized = now
                 else:
                     try:
-                        record.write({att.res_field: base64.b64encode(data)})
+                        record.write({att.res_field: BinaryBytes(data)})
                     except Exception as exc:  # noqa: BLE001
                         _logger.warning(
                             "Image optimize failed for %s(%s).%s: %s",
@@ -351,6 +350,17 @@ class IrAttachment(models.Model):
                         )
                         if new_att:
                             new_att.deltatech_image_optimized = now
+                            if new_att.store_fname:
+                                # Odoo 20 copies the image between the template and its first
+                                # gallery image: the copy holds the same, already optimized
+                                # content and must not be recompressed again
+                                self.sudo().search(
+                                    [
+                                        ("store_fname", "=", new_att.store_fname),
+                                        ("res_field", "in", params["fields"]),
+                                        ("deltatech_image_optimized", "=", False),
+                                    ]
+                                ).deltatech_image_optimized = now
                         freed += len(raw) - len(data)
                         if not shared:
                             freed_disk += len(raw) - len(data)
@@ -392,7 +402,7 @@ class IrAttachment(models.Model):
         """
         if Image is None:
             return {"scanned": 0, "optimized": 0, "freed": 0, "freed_disk": 0}
-        get = self.env["ir.config_parameter"].sudo().get_param
+        get = self.env["ir.config_parameter"].sudo().get_str
         quality = max(1, min(95, int(get("deltatech_image_optimize.variant_quality", 85))))
         webp_quality = max(1, min(100, int(get("deltatech_image_optimize.webp_quality", 85))))
         force_jpeg = get("deltatech_image_optimize.force_jpeg", "0") in ("1", "True", "true")
@@ -417,7 +427,7 @@ class IrAttachment(models.Model):
         freed = 0
         freed_disk = 0
         for index, att in enumerate(attachments, start=1):
-            raw = att.raw
+            raw = att.raw.content
             # Ask before writing: the write replaces store_fname.
             shared = att._dt_image_shared_file()
             # max_dim=0 -> no resize, only a lower quality re-encode.
@@ -473,7 +483,7 @@ class IrAttachment(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _dt_bg_params(self):
-        get = self.env["ir.config_parameter"].sudo().get_param
+        get = self.env["ir.config_parameter"].sudo().get_str
         method = get("deltatech_image_optimize.bg_method", "auto")
         return {
             "method": method if method in BG_METHODS else "auto",
@@ -594,7 +604,7 @@ class IrAttachment(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _dt_wm_params(self):
-        get = self.env["ir.config_parameter"].sudo().get_param
+        get = self.env["ir.config_parameter"].sudo().get_str
         return {
             "sync_limit": int(get("deltatech_image_optimize.wm_sync_limit", 10)),
             "learn_limit": max(1, int(get("deltatech_image_optimize.wm_learn_limit", 60))),
