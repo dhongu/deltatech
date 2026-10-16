@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "20.0.1.0.14",
+    "version": "20.0.1.0.15",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking?v=20.0",

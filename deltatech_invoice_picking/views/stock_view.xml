@@ -79,7 +79,7 @@
                     name="action_create_invoice"
                     string="Invoice"
                     type="object"
-                    invisible="state!='done' and invoiced==True"
+                    invisible="state!='done' or invoiced"
                 />
             </button>
         </field>

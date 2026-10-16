@@ -175,6 +175,12 @@ msgstr ""
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
 #, python-format
+msgid "You cannot invoice delivery and receipt batches together."
+msgstr "Nu puteți factura împreună loturi de livrare și de recepție."
+
+#. module: deltatech_invoice_picking
+#: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
+#, python-format
 msgid "You cannot invoice this type of batches: (%s)"
 msgstr "Nu puteți factura acest tip de loturi: (%s)"
 
