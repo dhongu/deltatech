@@ -19,7 +19,7 @@
                 <field name="outdated" column_invisible="1" />
                 <field
                     name="product_id"
-                    context="{'default_type': 'product'}"
+                    context="{'default_type': 'consu', 'default_is_storable': True}"
                     readonly="context.get('default_product_id', False) or not is_editable or state != 'confirm'"
                 />
                 <field
@@ -324,7 +324,7 @@
                             />
                             <field
                                 name="product_ids"
-                                context="{'default_type': 'product'}"
+                                context="{'default_type': 'consu', 'default_is_storable': True}"
                                 widget="many2many_tags"
                                 readonly="state!='draft'"
                             />

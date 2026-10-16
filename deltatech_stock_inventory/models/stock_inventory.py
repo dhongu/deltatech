@@ -841,8 +841,11 @@ class InventoryLine(models.Model):
         impacted_lines.write({"product_qty": 0})
 
     def _search_difference_qty(self, operator, value):
-        # This helper is used in tests mainly to exercise the search hook.
-        # For '=' we simply return all lines of the active inventory context.
+        """Compare the difference of the lines of the active inventory with the requested value.
+
+        The difference is not stored, so it is compared in Python, with the rounding of the
+        product unit (``value`` False/None means zero).
+        """
         if not self.env.context.get("default_inventory_id"):
             raise NotImplementedError(
                 self.env._(
@@ -850,18 +853,30 @@ class InventoryLine(models.Model):
                     "difference_qty",
                 )
             )
-        inventory_id = self.env.context.get("default_inventory_id")
-        if operator == "=":
-            return [("inventory_id", "=", inventory_id)]
-        elif operator == "!=":
-            # Return only lines where the difference is not zero
-            lines = self.search([("inventory_id", "=", inventory_id)])
-            line_ids = lines.filtered(
-                lambda line: not float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding)
-            ).ids
-            return [("id", "in", line_ids)]
-        else:
+        if operator in ("=", "!="):
+            operator, value = ("in" if operator == "=" else "not in"), [value]
+        checks = {
+            "in": lambda cmps: any(c == 0 for c in cmps),
+            "not in": lambda cmps: all(c != 0 for c in cmps),
+            "<": lambda cmps: cmps[0] < 0,
+            "<=": lambda cmps: cmps[0] <= 0,
+            ">": lambda cmps: cmps[0] > 0,
+            ">=": lambda cmps: cmps[0] >= 0,
+        }
+        if operator not in checks:
             raise NotImplementedError()
+        values = [float(v or 0.0) for v in (value if operator in ("in", "not in") else [value])]
+        inventory_id = self.env.context.get("default_inventory_id")
+        lines = self.search([("inventory_id", "=", inventory_id)])
+        line_ids = lines.filtered(
+            lambda line: checks[operator](
+                [
+                    float_compare(line.difference_qty, v, precision_rounding=line.product_id.uom_id.rounding)
+                    for v in values
+                ]
+            )
+        ).ids
+        return [("id", "in", line_ids)]
 
     def _search_outdated(self, operator, value):
         if operator != "=":

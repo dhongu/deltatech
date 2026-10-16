@@ -233,7 +233,7 @@ class TestCoverageInventory(TransactionCase):
         with self.assertRaises(NotImplementedError):
             self.Line._search_difference_qty("=", 0)
         with self.assertRaises(NotImplementedError):
-            self.Line.with_context(default_inventory_id=1)._search_difference_qty(">", 0)
+            self.Line.with_context(default_inventory_id=1)._search_difference_qty("like", 0)
         with self.assertRaises(NotImplementedError):
             self.Line._search_outdated("=", True)
         with self.assertRaises(NotImplementedError):
