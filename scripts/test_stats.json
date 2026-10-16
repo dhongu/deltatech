@@ -5,6 +5,9 @@
       "lines": 6,
       "tests": 0
     },
+    "deltatech_account_edi_ubl_advice": {
+      "tests": 2
+    },
     "deltatech_agreement_management": {
       "tests": 3
     },
