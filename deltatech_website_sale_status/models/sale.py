@@ -100,12 +100,10 @@ class SaleOrder(models.Model):
                     if len(order.picking_ids.mapped("state")) == 1 and order.picking_ids.mapped("state")[0] == "done":
                         order.stage = "delivered"
 
-                    # if all pickings are delivered or canceled, sale order must be delivered
-                    all_delivered = True
-                    for picking in order.picking_ids:
-                        if picking.state not in ["done", "cancel"]:
-                            all_delivered = False
-                    if all_delivered:
+                    # if all pickings are delivered or canceled, sale order must be delivered;
+                    # at least one must be done: all canceled means nothing was shipped
+                    picking_states = set(order.picking_ids.mapped("state"))
+                    if "done" in picking_states and picking_states <= {"done", "cancel"}:
                         order.stage = "delivered"
 
                 if detailed and order.stage in ["to_be_delivery", "delivered"]:

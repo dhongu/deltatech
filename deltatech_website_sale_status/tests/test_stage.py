@@ -123,6 +123,18 @@ class TestSaleStage(TransactionCase):
         self.assertTrue(all(p.state in ("done", "cancel") for p in order.picking_ids))
         self.assertEqual(order.stage, "delivered")
 
+    def test_stage_all_pickings_canceled_not_delivered(self):
+        """All transfers canceled, nothing shipped: the order is not delivered (#3500)."""
+        self._put_in_stock(self.storable, 10)
+        for detailed in (True, False):
+            self._set_detailed_stage(detailed)
+            order = self._create_order(self.storable, qty=5)
+            order.action_confirm()
+            order.picking_ids.action_cancel()
+            self.assertEqual(set(order.picking_ids.mapped("state")), {"cancel"})
+            self.assertEqual(order.order_line.qty_to_deliver, 5)
+            self.assertEqual(order.stage, "to_be_delivery", detailed)
+
     def test_stage_service_only_delivered(self):
         order = self._create_order(self.service, qty=1)
         order.action_confirm()

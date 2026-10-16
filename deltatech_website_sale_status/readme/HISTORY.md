@@ -1,3 +1,9 @@
+## 19.0.2.0.13 (2026-10-16)
+
+- Fix: an order whose transfers were all canceled, with nothing shipped, was
+  shown as `delivered`. It now stays `to_be_delivery`; an order is
+  `delivered` by its transfers only when at least one of them was validated.
+
 ## 19.0.2.0.12 (2026-10-07)
 
 - The detailed stage introduced in 19.0.2.0.11 is now an option, off by
