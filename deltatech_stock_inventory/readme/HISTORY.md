@@ -3,7 +3,7 @@
 - The product form has again the *Reserved Transfers* smart button: it counts the transfers that
   currently hold a reservation on the product (on the template, all its variants) and opens their
   list. It was added on 18.0 after the module had been migrated and was missing in 19.0. The
-  button is shown for goods only and to inventory users.
+  button is shown for products that track inventory (*Track Inventory*) and to inventory users.
 
 ## 19.0.2.10.8 (2026-10-16)
 
