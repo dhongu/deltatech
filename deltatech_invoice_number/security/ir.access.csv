@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_invoice_change_number,access_account_invoice_change_number,account.invoice.change.number,deltatech_invoice_number.group_change_invoice_number,crud,
