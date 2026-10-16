@@ -467,6 +467,9 @@
       "lines": 56,
       "tests": 4
     },
+    "deltatech_sale_feedback": {
+      "tests": 2
+    },
     "deltatech_sale_invoice_status": {
       "coverage": 100.0,
       "lines": 7,

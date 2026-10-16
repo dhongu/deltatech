@@ -2,6 +2,10 @@
   "title": "Sale Feedback",
   "summary": "Ask customers for feedback after invoicing",
   "icon": "user",
-  "features": ["Automatic e-mail after invoice", "Configurable delay (default 3 days)", "Scheduled by cron job"],
+  "features": [
+    "Rating e-mail a few days after invoice",
+    "Customers rate each invoiced product",
+    "Configurable delay (default 3 days)"
+  ],
   "lang": "en"
 }
