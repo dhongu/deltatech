@@ -1,3 +1,7 @@
+## 19.0.1.9.16 (2026-10-16)
+
+- Module icon restored from 18.0 (flat checklist in the Odoo palette, transparent background); Apps Store main image regenerated with it.
+
 ## 19.0.1.9.15 (2026-10-15)
 
 - The **Start Test** smart button on the process form now always creates a new user acceptance test and opens it. Before, it opened the existing acceptance test (or the list of them), creating one only when the process had none.
