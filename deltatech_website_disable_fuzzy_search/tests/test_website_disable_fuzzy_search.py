@@ -41,6 +41,7 @@ class TestWebsiteDisableFuzzySearch(TransactionCase):
 
             # Check the last argument (options) of the call to super().autocomplete
             args, kwargs = mock_autocomplete.call_args
-            # autocomplete(self, search_type, term, order, limit, max_nb_chars, options)
-            options = args[5] if len(args) > 5 else kwargs.get("options")
+            # autocomplete(self, search_type, term, order, offset, limit, max_nb_chars, options)
+            self.assertEqual(args[:6], (None, "test", None, 0, 5, 999), "The other arguments are passed unchanged")
+            options = args[6] if len(args) > 6 else kwargs.get("options")
             self.assertFalse(options.get("allowFuzzy"), "Fuzzy search should be disabled in autocomplete options")

@@ -14,13 +14,14 @@ class Website(website.Website):
         search_type=None,
         term=None,
         order=None,
+        offset=0,
         limit=5,
         max_nb_chars=999,
         options=None,
     ):
         options = options or {}
         options["allowFuzzy"] = False
-        return super().autocomplete(search_type, term, order, limit, max_nb_chars, options)
+        return super().autocomplete(search_type, term, order, offset, limit, max_nb_chars, options)
 
 
 class WebsiteSale(main.WebsiteSale):
