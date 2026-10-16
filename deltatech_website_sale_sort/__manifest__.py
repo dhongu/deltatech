@@ -5,7 +5,7 @@
     "name": "eCommerce Product sort",
     "category": "Website",
     "summary": "Additional sorting criteria ",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -16,6 +16,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

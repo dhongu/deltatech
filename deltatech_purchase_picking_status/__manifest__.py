@@ -4,14 +4,14 @@
 {
     "name": "Purchase picking status",
     "summary": "Get purchase status from pickings",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Purchase",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "depends": ["purchase_stock"],
     "license": "LGPL-3",
     "data": ["views/purchase_view.xml"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],
 }

@@ -6,7 +6,7 @@
 {
     "name": "Invoice to Draft",
     "summary": "Restricted access to reset account move to draft",
-    "version": "19.0.2.0.3",
+    "version": "19.0.2.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -14,6 +14,6 @@
     "depends": ["account"],
     "data": ["security/security.xml", "views/account_move_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

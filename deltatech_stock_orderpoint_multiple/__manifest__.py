@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Stock Orderpoint Qty Multiple",
     "summary": "Restore the 'Multiple Quantity' rounding on reordering rules removed in Odoo 19",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "author": "Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
@@ -14,6 +14,6 @@
     "data": [
         "views/stock_warehouse_orderpoint_views.xml",
     ],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["VoicuStefan2001"],
 }

@@ -6,7 +6,7 @@
 {
     "name": "Products Dimension",
     "summary": "Length, width and height fields on products",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -14,6 +14,6 @@
     "depends": ["product"],
     "data": ["views/product_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

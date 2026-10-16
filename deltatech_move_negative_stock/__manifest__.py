@@ -4,7 +4,7 @@
 {
     "name": "Replenish Negative Stock",
     "summary": "Refill negative stock from another location in one click",
-    "version": "19.0.1.1.4",
+    "version": "19.0.1.1.5",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
@@ -19,6 +19,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["danila12"],
 }

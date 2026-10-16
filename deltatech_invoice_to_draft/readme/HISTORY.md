@@ -1,3 +1,8 @@
+## 19.0.2.0.4 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 19.0.2.0.3 (2026-10-07)
 
 - Fix (DRAFTACCESS-001): the *Can reset account move to draft* group was enforced only by hiding the

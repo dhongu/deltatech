@@ -4,14 +4,14 @@
 {
     "name": "Sale order picking status",
     "summary": "Get sale order status from pickings",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "depends": ["sale_stock"],
     "license": "LGPL-3",
     "data": ["views/sale_view.xml"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["danila12"],
 }

@@ -4,7 +4,7 @@
 {
     "name": "MRP Extension",
     "summary": "BoM overhead percentage and UoM-aware rounding when exploding bills of materials",
-    "version": "19.0.1.0.7",
+    "version": "19.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
@@ -19,6 +19,6 @@
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

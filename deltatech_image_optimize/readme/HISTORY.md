@@ -1,3 +1,8 @@
+## 19.0.1.12.5 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 19.0.1.12.4 (2026-10-12)
 
 - Tests: the watermark tests now run in CI. They were skipped because the CI image has

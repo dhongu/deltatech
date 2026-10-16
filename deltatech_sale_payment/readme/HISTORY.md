@@ -1,3 +1,8 @@
+## 19.0.1.3.6 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 19.0.1.3.5 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.

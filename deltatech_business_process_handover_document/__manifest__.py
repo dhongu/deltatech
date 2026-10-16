@@ -5,7 +5,7 @@
 {
     "name": "Business process handover document",
     "summary": "Print a PDF handover document for a business project and its developments",
-    "version": "19.0.0.0.6",
+    "version": "19.0.0.0.7",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -18,7 +18,7 @@
         "report/verbal_process_report.xml",
         "report/verbal_process_template.xml",
     ],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["VoicuStefan2001"],
     "application": True,

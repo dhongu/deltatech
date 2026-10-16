@@ -1,3 +1,8 @@
+## 19.0.0.9.8 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
 ## 19.0.0.9.7 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.

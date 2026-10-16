@@ -5,7 +5,7 @@
 {
     "name": "Stock Account Extension",
     "summary": "Stock valuation shown on the transfer form",
-    "version": "19.0.1.0.8",
+    "version": "19.0.1.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
@@ -13,6 +13,6 @@
     "license": "OPL-1",
     "data": ["security/service_security.xml", "views/product_category_view.xml", "views/stock_picking_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
