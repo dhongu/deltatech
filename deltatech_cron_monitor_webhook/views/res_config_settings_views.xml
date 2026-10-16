@@ -19,7 +19,7 @@
                                         type="object"
                                         string="Generate Token"
                                         class="btn-link"
-                                        icon="fa-refresh"
+                                        icon="refresh"
                                     />
                                 </div>
 

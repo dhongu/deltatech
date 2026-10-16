@@ -1,6 +1,6 @@
-==============================
-Deltatech Cron Monitor Webhook
-==============================
+====================
+Cron Monitor Webhook
+====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -17,13 +17,10 @@ Deltatech Cron Monitor Webhook
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_cron_monitor_webhook
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_cron_monitor_webhook
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_cron_monitor_webhook/tests
-    :alt: 3 automated tests
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 This module provides a simple and secure solution to trigger Odoo cron
 jobs via webhooks using a global access token.
@@ -138,6 +135,14 @@ along with the error details in JSON format.
 If you receive an error, check the ``message`` field in the JSON
 response or the Odoo logs for more details.
 
+Changelog
+=========
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -166,6 +171,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_cron_monitor_webhook>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_cron_monitor_webhook>`_ project on GitHub.
 
 You are welcome to contribute.

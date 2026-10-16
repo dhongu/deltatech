@@ -15,7 +15,14 @@ class CronWebhookController(http.Controller):
             json.dumps(data, default=str), headers=[("Content-Type", "application/json")], status=status
         )
 
-    @http.route("/cron/webhook/<string:webhook_code>", type="http", auth="none", methods=["POST", "GET"], csrf=False)
+    @http.route(
+        "/cron/webhook/<string:webhook_code>",
+        type="http",
+        auth="none",
+        methods=["POST", "GET"],
+        csrf=False,
+        readonly=False,
+    )
     def trigger_cron(self, webhook_code, **kw):
         # We need to use sudo() and a proper environment since auth is none
         cron = (
@@ -42,9 +49,7 @@ class CronWebhookController(http.Controller):
             except (ValueError, TypeError):
                 _logger.debug("Failed to parse JSON body for token extraction")
 
-        global_token = (
-            request.env["ir.config_parameter"].sudo().get_param("deltatech_cron_monitor_webhook.global_token")
-        )
+        global_token = request.env["ir.config_parameter"].sudo().get_str("deltatech_cron_monitor_webhook.global_token")
         if not global_token or not token or not hmac.compare_digest(global_token, token):
             return self._make_json_response({"status": "error", "message": "Invalid token"}, status=401)
 

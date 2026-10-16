@@ -21,8 +21,8 @@ class TestCronMonitoring(TransactionCase):
 
     def test_webhook_url(self):
         """Test că URL-ul webhook este calculat corect folosind token-ul global"""
-        self.env["ir.config_parameter"].sudo().set_param("deltatech_cron_monitor_webhook.global_token", "global_secret")
-        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        self.env["ir.config_parameter"].sudo().set_str("deltatech_cron_monitor_webhook.global_token", "global_secret")
+        base_url = self.env["ir.config_parameter"].sudo().get_str("web.base.url")
         self.assertEqual(self.cron_job.webhook_url, f"{base_url}/cron/webhook/test_webhook_123?token=global_secret")
 
     def test_auto_generation(self):

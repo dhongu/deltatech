@@ -25,8 +25,8 @@ class IrCron(models.Model):
     @api.depends("webhook_code")
     def _compute_webhook_url(self):
         ConfigParam = self.env["ir.config_parameter"].sudo()
-        base_url = ConfigParam.get_param("web.base.url")
-        global_token = ConfigParam.get_param("deltatech_cron_monitor_webhook.global_token")
+        base_url = ConfigParam.get_str("web.base.url")
+        global_token = ConfigParam.get_str("deltatech_cron_monitor_webhook.global_token")
         for cron in self:
             if cron.webhook_code:
                 url = f"{base_url}/cron/webhook/{cron.webhook_code}"
