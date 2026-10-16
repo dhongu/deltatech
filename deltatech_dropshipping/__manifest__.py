@@ -3,7 +3,7 @@
 {
     "name": "Drop Shipping",
     "summary": "Delivery address in picking",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
@@ -12,6 +12,6 @@
     "data": ["views/stock_picking_view.xml", "views/purchase_order_view.xml"],
     "license": "OPL-1",
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
