@@ -1,3 +1,19 @@
+## 20.0.1.0.10 (2026-10-16)
+
+Migration to 20.0:
+
+- The product page script patches the `ProductPage` interaction (`website_sale.product_page`)
+  and waits for the asynchronous core `_onChangeCombination`; the selected variant is read
+  from the add to cart button, as the `.product_id` input no longer exists.
+- The lead time data is added when the `website_sale_product_page` context is set (replaces
+  `website_sale_stock_get_quantity`).
+- "Customer Safety Lead Time" is shown below "Customer Lead Time" in the Sales section of the
+  product form; "Hide Out-of-Stock Message" stays in the eCommerce inventory group.
+- The optional "Delivery Lead Time" checkout summary view targets the product name cell (the
+  previous xpath matched nothing and the view could not be activated).
+- "Delivery in N weeks" for a customer lead time over 7 days showed `NaN`; it now uses the
+  customer lead time.
+
 # 19.0.1.0.10
 
 - Own module icon, instead of the generic gears it had.

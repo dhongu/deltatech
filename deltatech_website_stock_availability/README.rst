@@ -14,13 +14,10 @@ eCommerce Stock Availability
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_stock_availability
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_stock_availability
-    :alt: 6 automated tests · 97% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 The module allows the display of stock on the website below a certain
 threshold, with the possibility of ordering even if the stock is not
@@ -42,6 +39,31 @@ de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
 
 Changelog
 =========
+
+20.0.1.0.10 (2026-10-16)
+------------------------
+
+Migration to 20.0:
+
+- The product page script patches the ``ProductPage`` interaction
+  (``website_sale.product_page``) and waits for the asynchronous core
+  ``_onChangeCombination``; the selected variant is read from the add to
+  cart button, as the ``.product_id`` input no longer exists.
+- The lead time data is added when the ``website_sale_product_page``
+  context is set (replaces ``website_sale_stock_get_quantity``).
+- "Customer Safety Lead Time" is shown below "Customer Lead Time" in the
+  Sales section of the product form; "Hide Out-of-Stock Message" stays
+  in the eCommerce inventory group.
+- The optional "Delivery Lead Time" checkout summary view targets the
+  product name cell (the previous xpath matched nothing and the view
+  could not be activated).
+- "Delivery in N weeks" for a customer lead time over 7 days showed
+  ``NaN``; it now uses the customer lead time.
+
+19.0.1.0.10
+===========
+
+- Own module icon, instead of the generic gears it had.
 
 History
 =======
@@ -86,6 +108,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_stock_availability>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability>`_ project on GitHub.
 
 You are welcome to contribute.

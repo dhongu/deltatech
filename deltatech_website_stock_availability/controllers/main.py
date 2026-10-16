@@ -19,6 +19,9 @@ class WebsiteSale(main.WebsiteSale):
         # (``odoo/http.py``), so accepting ``**kwargs`` and forwarding it is
         # both correct and immune to any further signature change.
         response = super().shop(**kwargs)
+        if not hasattr(response, "qcontext"):
+            # e.g. redirect to /web/login when the website has no eCommerce access
+            return response
         availability_all = request.httprequest.args.get("availability_all", True)
         availability_in_stock = request.httprequest.args.get("availability_in_stock", False)
         availability_vendor = request.httprequest.args.get("availability_vendor", False)

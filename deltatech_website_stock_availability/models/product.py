@@ -22,6 +22,8 @@ class ProductTemplate(models.Model):
         add_qty=1.0,
         uom_id=False,
         only_template=False,
+        pricelist=None,
+        fiscal_position=None,
     ):
         combination_info = super()._get_combination_info(
             combination=combination,
@@ -29,15 +31,19 @@ class ProductTemplate(models.Model):
             add_qty=add_qty,
             uom_id=uom_id,
             only_template=only_template,
+            pricelist=pricelist,
+            fiscal_position=fiscal_position,
         )
 
-        if not self.env.context.get("website_sale_stock_get_quantity"):
+        # In 20.0 the stock information of the product page is computed only when the
+        # request comes from the product page / variant RPC (`website_sale_product_page`),
+        # this replaces the 19.0 `website_sale_stock_get_quantity` context key.
+        if not self.env.context.get("website_sale_product_page"):
             return combination_info
 
         if "free_qty" not in combination_info and combination_info.get("product_id"):
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
-            website = self.env["website"].get_current_website()
-            combination_info["free_qty"] = website._get_product_available_qty(product)
+            combination_info["free_qty"] = self.env.website._get_product_available_qty(product)
 
         combination_info["lead_time"] = 0
         if combination_info["product_id"]:

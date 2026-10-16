@@ -73,19 +73,17 @@
         active="False"
         customize_show="True"
     >
-        <xpath expr="//td[hasclass('td-product_name')]/div/strong" position="after">
-            <xpath expr="//div" position="after">
-                <t t-if="line.product_id.qty_available  &gt;=   line.product_uom_qty">
-                    <div class="o_immediate_delivery">
-                        <span class="badge bg-success">Immediate delivery</span>
-                    </div>
-                </t>
-                <t t-else="">
-                    <div class="o_subsequent_delivery">
-                        <span class="badge bg-warning">Subsequent delivery</span>
-                    </div>
-                </t>
-            </xpath>
+        <xpath expr="//td[hasclass('td-product_name')]" position="inside">
+            <t t-if="line.product_id.qty_available  &gt;=   line.product_uom_qty">
+                <div class="o_immediate_delivery">
+                    <span class="badge bg-success">Immediate delivery</span>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="o_subsequent_delivery">
+                    <span class="badge bg-warning">Subsequent delivery</span>
+                </div>
+            </t>
         </xpath>
     </template>
 
@@ -102,7 +100,7 @@
             </t>
             <t t-else="">
                 <t t-if="line.product_id.free_qty">
-                    <span class="badge bg-success" t-esc="line.product_id.free_qty" />
+                    <span class="badge bg-success" t-out="line.product_id.free_qty" />
                     <span class="badge bg-success">Immediate delivery</span>
                 </t>
                 <span class="badge bg-warning">Subsequent delivery</span>
