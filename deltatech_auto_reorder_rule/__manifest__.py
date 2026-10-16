@@ -5,7 +5,7 @@
     "name": "Auto Reorder Rule",
     "category": "Stock",
     "summary": "Automatically create reordering rules for new storable products",
-    "version": "19.0.0.1.8",
+    "version": "19.0.0.1.9",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -18,6 +18,6 @@
         "wizard/order_rules_details_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "installable": True,
 }
