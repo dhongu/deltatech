@@ -1,0 +1,23 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+{
+    "name": "Auto Reorder Rule",
+    "category": "Stock",
+    "summary": "Automatically create reordering rules for new storable products",
+    "version": "20.0.0.1.9",
+    "author": "Terrabit, Dan Stoica",
+    "website": "https://www.terrabit.ro",
+    "license": "OPL-1",
+    "depends": ["stock", "purchase_stock", "sale_stock"],
+    "data": [
+        "security/ir.access.csv",
+        "data/ir_server_action.xml",
+        "views/stock_warehouse_view.xml",
+        "views/stock_route_view.xml",
+        "wizard/order_rules_details_view.xml",
+    ],
+    "images": ["static/description/main_screenshot.png"],
+    "development_status": "Production/Stable",
+    "installable": True,
+}

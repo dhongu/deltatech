@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_rules_details_wizard_form" model="ir.ui.view">
+        <field name="name">order.rules.details.wizard.form</field>
+        <field name="model">order.rules.details.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Order Rules Details">
+                <group>
+                    <field name="min_quantity" />
+                    <field name="max_quantity" />
+                    <field name="trigger" />
+                    <field name="stock_location_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button string="Create Rules" type="object" name="do_create" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_order_rules_details_wizard" model="ir.actions.act_window">
+        <field name="name">Order Rules Details</field>
+        <field name="res_model">order.rules.details.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

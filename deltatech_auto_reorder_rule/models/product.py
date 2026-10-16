@@ -1,0 +1,65 @@
+# ©  2020 Terrabit
+# See README.rst file on addons root folder for license details
+
+from odoo import api, models
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    def create_rule(self):
+        # The rules are generated for the company of the product or, for products shared between companies,
+        # for the active company (env.company), not for the default company of the user.
+        for record in self:
+            company = record.company_id or self.env.company
+            warehouses = self.env["stock.warehouse"].search(
+                [("generate_reorder_rules", "=", True), ("company_id", "=", company.id)]
+            )
+            routes = self.env["stock.route"].search(
+                [
+                    ("use_this_for_auto_rules", "=", True),
+                    ("company_id", "in", [company.id, False]),
+                ]
+            )
+            route = False
+            if routes:
+                route = routes[0].id
+            orderpoint_model = record.env["stock.warehouse.orderpoint"].with_company(company)
+            rules = orderpoint_model.search([("product_id", "=", record.id), ("company_id", "=", company.id)])
+            if not rules:
+                values = []
+                for warehouse in warehouses:
+                    if warehouse.lot_stock_id.usage == "internal":
+                        values.append(
+                            {
+                                "product_id": record.id,
+                                "product_min_qty": 0,
+                                "product_max_qty": 0,
+                                "trigger": "manual",
+                                "route_id": route,
+                                "location_id": warehouse.lot_stock_id.id,
+                                "company_id": company.id,
+                            }
+                        )
+                if values:
+                    orderpoint_model.create(values)
+
+            # if not rules and record.type == "product":
+            #     record.env["stock.warehouse.orderpoint"].create(
+            #         {
+            #             "product_id": record.id,
+            #             "product_min_qty": 0,
+            #             "product_max_qty": 0,
+            #             "qty_multiple": 0,
+            #         }
+            #     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        products = super().create(vals_list)
+        dont_auto_create_rule = (
+            self.env["ir.config_parameter"].sudo().get_bool("deltatech_auto_reorder_rule.dont_auto_create_rule")
+        )
+        if not dont_auto_create_rule:
+            products.create_rule()
+        return products

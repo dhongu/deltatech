@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_res_config_settings_analytic_distribution" model="ir.ui.view">
+        <field name="name">res.config.settings.analytic.distribution</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='account_vendor_bills']" position="inside">
+                <setting
+                    id="analytic_distribution_enforcer"
+                    help="Activating this will enforce that the bills have 100% analytic distribution. This field is company specific!"
+                >
+                    <field name="analytic_distribution_validation_enabled" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

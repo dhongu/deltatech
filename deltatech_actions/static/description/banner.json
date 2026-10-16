@@ -1,0 +1,11 @@
+{
+  "title": "Maintenance Actions",
+  "summary": "Scheduled database cleanup jobs",
+  "icon": "gear",
+  "features": [
+    "Purge duplicate and old attachments",
+    "Merge duplicate contacts and companies",
+    "Safe dry mode, disabled by default"
+  ],
+  "lang": "en"
+}
