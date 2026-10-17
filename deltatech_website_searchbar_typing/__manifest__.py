@@ -6,7 +6,7 @@
     "name": "Website Searchbar Typing Examples",
     "category": "Website",
     "summary": "The search box placeholder types example searches, one after another",
-    "version": "20.0.1.0.0",
+    "version": "20.0.1.1.0",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "support": "odoo@terrabit.ro",
@@ -19,8 +19,11 @@
         "web.assets_unit_tests_setup": [
             "deltatech_website_searchbar_typing/static/src/interactions/searchbar_typing.esm.js",
         ],
+        "website.website_builder_assets": [
+            "deltatech_website_searchbar_typing/static/src/website_builder/*",
+        ],
         "web.assets_unit_tests": [
-            "deltatech_website_searchbar_typing/static/tests/searchbar_typing.test.js",
+            "deltatech_website_searchbar_typing/static/tests/**/*.test.js",
         ],
     },
     "installable": True,

@@ -5,13 +5,16 @@ Use list items (`li`), not `span`: Odoo translates each list item as a term of i
 while a group of inline elements is translated as one block of HTML.
 
 In a QWeb template that calls `website.website_search_box_input`, the body of the call is
-placed inside the form:
+placed inside the form. The parameters of the search box are given as attributes of the
+call: a `t-set` in the body no longer reaches the called template.
 
 ```xml
-<t t-call="website.website_search_box_input">
-    <t t-set="search_type" t-valuef="all"/>
-    <t t-set="action" t-valuef="/website/search"/>
-    <t t-set="placeholder">Search the user guides</t>
+<t
+    t-call="website.website_search_box_input"
+    search_type.f="all"
+    action.f="/website/search"
+    placeholder.translate="Search the user guides"
+>
     <ul class="o_searchbar_typing d-none" aria-hidden="true">
         <li class="o_searchbar_typing_prefix">e.g.</li>
         <li>e-Invoice</li>
@@ -21,8 +24,10 @@ placed inside the form:
 </t>
 ```
 
-The same list can be added to a search snippet placed with the Website Builder, from the
-HTML editor of the page.
+On a search box placed with the Website Builder, select the search input and turn on
+**Typing examples** in the panel. Edit the **Prefix** (leave it empty for none) and the
+**Examples**: add, remove or drag them to change the order. The option writes the same hidden
+list in the form.
 
 The speed can be changed with data attributes on the `o_searchbar_typing` element, in
 milliseconds: `data-start-delay` (1500, before the first letter), `data-type-delay` (70, per
