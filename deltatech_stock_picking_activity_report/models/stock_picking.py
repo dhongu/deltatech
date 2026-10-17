@@ -247,21 +247,22 @@ class StockPicking(models.Model):
         return res
 
     def button_validate(self):
+        not_done = self.filtered(lambda p: p.state != "done")
         res = super().button_validate()
-        for picking in self:
-            counted_product_number = 0
-            log_context = {"has_validated": True}
-            for line in picking.move_ids:
-                counted_product_number += line.quantity
-            if picking.picking_type_id.code == "outgoing":
-                log_context["exit_product_number"] = counted_product_number
-                self.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
-            if picking.picking_type_id.code == "incoming":
-                log_context["entry_product_number"] = counted_product_number
-                self.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
-            if picking.picking_type_id.code == "internal":
-                log_context["internal_product_number"] = counted_product_number
-                self.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
+        # Se jurnalizează doar transferurile finalizate efectiv în acest apel: o
+        # validare oprită la un wizard (backorder) nu e încă o validare; când
+        # wizardul se confirmă, acesta reapelează button_validate.
+        counters = {
+            "outgoing": "exit_product_number",
+            "incoming": "entry_product_number",
+            "internal": "internal_product_number",
+        }
+        for picking in not_done.filtered(lambda p: p.state == "done"):
+            counter = counters.get(picking.picking_type_id.code)
+            if not counter:
+                continue
+            log_context = {"has_validated": True, counter: sum(picking.move_ids.mapped("quantity"))}
+            picking.with_context(**log_context)._log_picking_activity_report("Button Clicked: Validate")
         return res
 
     def action_cancel(self):

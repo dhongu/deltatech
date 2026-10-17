@@ -6,7 +6,7 @@ from datetime import date
 
 from PIL import Image
 
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 
 from odoo.addons.deltatech_stock_picking_activity_report.models.stock_picking import (
     MAX_LOG_LENGTH,
@@ -348,3 +348,50 @@ class TestStockPickingActivityReport(TransactionCase):
         rec.write({"has_validated": False, "chatter_message": False})
         self.assertEqual(rec.has_validated_count, 0)
         self.assertEqual(rec.chatter_message_count, 0)
+
+    def _ready_picking(self, qty, picked_qty=None):
+        """Outgoing picking, confirmed and reserved, with ``picked_qty`` picked."""
+        self.env["stock.quant"]._update_available_quantity(self.product, self.stock_location, qty)
+        picking = self._new_picking(qty=qty)
+        picking.action_confirm()
+        picking.action_assign()
+        for move in picking.move_ids:
+            move.quantity = qty if picked_qty is None else picked_qty
+            move.picked = True
+        return picking
+
+    def test_batch_validate_records_each_picking_quantity(self):
+        """Validating several pickings together records each picking's own
+        quantity, not the last one of the batch on all of them (#3481)."""
+        picking_a = self._ready_picking(3.0)
+        picking_b = self._ready_picking(7.0)
+        pickings = (picking_a | picking_b).with_user(self.stock_user)
+
+        self.assertIs(pickings.button_validate(), True)
+        self.assertEqual(set(pickings.mapped("state")), {"done"})
+
+        self.assertEqual(self._records(picking_a).exit_product_number, 3.0)
+        self.assertEqual(self._records(picking_b).exit_product_number, 7.0)
+        self.assertEqual(self._records(picking_a).has_validated_count, 1)
+        self.assertEqual(self._records(picking_b).has_validated_count, 1)
+
+    def test_validate_pending_backorder_wizard_not_recorded(self):
+        """A validation stopped at the backorder wizard is not recorded as done;
+        it is recorded once the wizard completes the transfer (#3482)."""
+        picking = self._ready_picking(5.0, picked_qty=2.0).with_user(self.stock_user)
+
+        action = picking.button_validate()
+        self.assertIsInstance(action, dict, "A partial validation should open the backorder wizard.")
+        self.assertEqual(action.get("res_model"), "stock.backorder.confirmation")
+        self.assertNotEqual(picking.state, "done")
+        records = self._records(picking)
+        self.assertFalse(records.filtered("has_validated"), "An abandoned wizard must not count as a validation.")
+        self.assertFalse(records.exit_product_number)
+
+        wizard = Form.from_action(self.env(user=self.stock_user), action).save()
+        wizard.process()
+        self.assertEqual(picking.state, "done")
+        records = self._records(picking)
+        self.assertTrue(records.has_validated)
+        self.assertEqual(records.has_validated_count, 1)
+        self.assertEqual(records.exit_product_number, 2.0)
