@@ -4,7 +4,7 @@
 
 {
     "name": "Payment Report",
-    "version": "19.0.1.0.4",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Payment analysis report by journal and period, with a filter wizard",
@@ -13,7 +13,7 @@
     "license": "OPL-1",
     "data": [
         "wizard/payment_report_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",

@@ -1,6 +1,6 @@
-========================
-Deltatech Payment Report
-========================
+==============
+Payment Report
+==============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,17 +10,14 @@ Deltatech Payment Report
    !! source digest: sha256:fe3e36e1ad0345f814a657b1135d7f0d9f9bcc7dddb6cb5840e8e61073906521
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_report
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_report
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_payment_report
-    :alt: 1 automated test · 91% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Deltatech Payment Report
 ========================
@@ -76,6 +73,12 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 19.0.1.0.3 (2026-10-02)
 -----------------------
@@ -134,6 +137,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_report>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_report>`_ project on GitHub.
 
 You are welcome to contribute.

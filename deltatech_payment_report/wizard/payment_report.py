@@ -30,8 +30,8 @@ class PaymentReport(models.TransientModel):
                 ("date", "<=", self.date_to),
                 ("payment_type", "=", "inbound"),
                 ("partner_type", "=", "customer"),
-                # Odoo 19 payment states: draft, in_process, paid, canceled, rejected
-                ("state", "in", ["in_process", "paid"]),
+                # Odoo 20 payment states: draft, paid, reconciled, canceled, rejected
+                ("state", "in", ["paid", "reconciled"]),
                 ("journal_id", "in", self.journal_payment_ids.ids),
             ]
         )
