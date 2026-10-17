@@ -99,11 +99,9 @@ class StockPicking(models.Model):
         # on, so a crashing cleanup looks exactly like one with nothing to delete.
         sum_sizes = sum((item[1] or 0) for item in res)
         if not dry_run:
-            attachments = self.env["ir.attachment"].browse(attachment_ids)
-            try:
-                attachments.sudo().unlink()
-            except Exception as e:
-                _logger.info(e)
+            # ACTIONS-005: a refused deletion is raised, so the selected rows are never
+            # reported (by the settings button or the autovacuum job) as deleted
+            self.env["ir.attachment"].browse(attachment_ids).sudo().unlink()
         _logger.info(
             f"{log_prefix(dry_run)} {len(attachment_ids)} attachments, "
             f"total size: {round(sum_sizes / (1024 * 1024), 3)} MB"

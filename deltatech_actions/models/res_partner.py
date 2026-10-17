@@ -43,7 +43,7 @@ class ResPartnerMergeCron(models.Model):
         # Găsește grupuri de persoane duplicate după email
         self.env.cr.execute(
             """
-            SELECT email, array_agg(id) AS partner_ids
+            SELECT email, array_agg(id ORDER BY id) AS partner_ids
             FROM res_partner
             WHERE email IS NOT NULL AND email != ''
               AND is_company = FALSE
@@ -85,7 +85,7 @@ class ResPartnerMergeCron(models.Model):
         # Găsește grupuri de companii duplicate după CUI
         self.env.cr.execute(
             """
-            SELECT vat, array_agg(id) AS partner_ids
+            SELECT vat, array_agg(id ORDER BY id) AS partner_ids
             FROM res_partner
             WHERE vat IS NOT NULL
               AND vat not in  ('','0','-')

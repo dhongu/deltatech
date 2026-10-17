@@ -11,3 +11,4 @@ from . import test_cron_code_parameterless
 from . import test_autovacuum_cleanup
 from . import test_cleanup_access
 from . import test_normalize_access
+from . import test_cleanup_failures

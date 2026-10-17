@@ -96,3 +96,26 @@ class TestCronCleanOldMessages(TransactionCase):
 
         # Attachments: PDF should be deleted, XML should be preserved
         self.assertFalse(self.att_pdf.exists())
+
+    def test_cron_clean_old_messages_without_exclusions(self):
+        """ACTIONS-002 (#3361): with no excluded models the query used to bind False to
+        ``model LIKE ANY(...)``, which PostgreSQL rejects: the cleanup never ran."""
+        result = self.env["mail.message"].cron_clean_old_messages(
+            limit=100, pattern="LOG_%", max_date_days=1, dry_run=False
+        )
+        self.assertEqual(result["count"], 2)
+        self.assertFalse(self.msg1.exists())
+        self.assertFalse(self.msg3.exists())
+        self.assertTrue(self.msg2.exists())
+
+    def test_cron_clean_old_messages_from_settings_empty_exclusions(self):
+        """ACTIONS-002 (#3361): an empty 'Excluded models' setting must not break the cron."""
+        icp = self.env["ir.config_parameter"].sudo()
+        icp.set_param("deltatech_actions.messages_exclude_models", " , ")
+        icp.set_param("deltatech_actions.messages_pattern", "LOG_%")
+        icp.set_param("deltatech_actions.messages_max_date_days", "1")
+        icp.set_param("deltatech_actions.messages_dry_run", "True")
+        result = self.env["mail.message"].cron_clean_old_messages_from_settings()
+        self.assertTrue(result["dry_run"])
+        self.assertEqual(result["count"], 2)
+        self.assertTrue(self.msg1.exists())

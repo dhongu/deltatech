@@ -255,16 +255,31 @@ class ResConfigSettings(models.TransientModel):
         check_cleanup_access(self.env)
         self.set_values()
         model_name, method_name = CRON_RUN_METHODS[key]
-        result = getattr(self.env[model_name].sudo(), method_name)() or {}
+        # ACTIONS-005: a refused deletion is reported as such; the savepoint undoes the
+        # cleanup only, the settings saved above are kept
+        try:
+            with self.env.cr.savepoint():
+                result = getattr(self.env[model_name].sudo(), method_name)() or {}
+        except Exception as e:
+            return self._dt_actions_notification(
+                "danger",
+                self.env._("Cleanup failed"),
+                self.env._("Nothing was deleted: %(error)s", error=e),
+                sticky=True,
+            )
+        if result.get("dry_run"):
+            kind, title = "info", self.env._("Dry run")
+        elif result.get("failed"):
+            kind, title = "warning", self.env._("Cleanup partly done")
+        else:
+            kind, title = "success", self.env._("Cleanup done")
+        return self._dt_actions_notification(kind, title, self._dt_actions_run_message(result))
+
+    def _dt_actions_notification(self, kind, title, message, sticky=False):
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
-            "params": {
-                "type": "info" if result.get("dry_run") else "success",
-                "title": self.env._("Dry run") if result.get("dry_run") else self.env._("Cleanup done"),
-                "message": self._dt_actions_run_message(result),
-                "sticky": False,
-            },
+            "params": {"type": kind, "title": title, "message": message, "sticky": sticky},
         }
 
     def _dt_actions_run_message(self, result):
@@ -279,7 +294,12 @@ class ResConfigSettings(models.TransientModel):
                 count=count,
                 size=size_text,
             )
-        return self.env._("%(count)s records%(size)s deleted.", count=count, size=size_text)
+        message = self.env._("%(count)s records%(size)s deleted.", count=count, size=size_text)
+        if result.get("failed"):
+            message += " " + self.env._(
+                "%(failed)s records could not be deleted (see the server log).", failed=result["failed"]
+            )
+        return message
 
     def action_dt_actions_run_xml(self):
         return self._dt_actions_run_now("xml")
