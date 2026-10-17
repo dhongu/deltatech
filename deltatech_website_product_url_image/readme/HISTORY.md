@@ -1,3 +1,8 @@
+## 19.0.1.0.5 (2026-10-17)
+
+- Fix: saving or renaming a product image, or setting the image file name on a product, no longer fails with
+  `AttributeError` on servers with Werkzeug 3 (Python 3.12+); URLs are now detected with the standard library.
+
 ## 19.0.1.0.4 (2026-10-07)
 
 - Security: loading a product image from a URL no longer lets the server reach internal addresses (SSRF).
