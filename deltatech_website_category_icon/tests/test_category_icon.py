@@ -90,5 +90,12 @@ class TestCategoryIconShop(HttpCase):
         response = self.url_open("/shop")
         self.assertEqual(response.status_code, 200)
         self.assertIn('class="o_category_icon o_category_icon_sm"', response.text)
+        # Icon and name share an inner flex span, so the layout does not depend on
+        # how the theme styles the link.
+        self.assertRegex(
+            response.text,
+            r'<span class="o_category_link d-inline-flex align-items-center gap-2">\s*'
+            r'<span class="o_category_icon o_category_icon_sm">',
+        )
         self.assertIn('d="M9 35a4 4 0 0 1 4-4h20v13H9z"', response.text)
         self.assertIn("TB Icon Category", response.text)

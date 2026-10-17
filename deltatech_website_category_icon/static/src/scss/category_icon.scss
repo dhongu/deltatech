@@ -9,6 +9,11 @@
     }
 }
 
+// A long name wraps next to the icon, not under it.
+.o_category_link_name {
+    min-width: 0;
+}
+
 .o_category_icon_sm {
     flex: 0 0 auto;
     width: 1.5rem;
