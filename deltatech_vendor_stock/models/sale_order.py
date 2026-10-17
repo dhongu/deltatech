@@ -139,7 +139,8 @@ class SaleOrderLine(models.Model):
         res = super()._compute_qty_at_date()
         self.other_qty_available = 0
         for line in self:
-            product = line.product_id
+            company = line.order_id.company_id or self.env.company
+            product = line.product_id.with_company(company)
             quantity = product.vendor_qty_available
             if quantity and line.product_uom_id and line.product_uom_id != product.uom_id:
                 quantity = product.uom_id._compute_quantity(quantity, line.product_uom_id)
