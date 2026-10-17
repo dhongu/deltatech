@@ -1,3 +1,11 @@
+## 19.0.1.2.2 (2026-10-17)
+
+- **Fix: shared products update the badge in every company.** When a stock change
+  touched, in the same batch, a product shared between companies and a product of one
+  company, only the registers of that company were notified; the registers of the other
+  companies kept showing the old stock of the shared product (POSSTOCK-001). Each open
+  register now receives the shared products and the products of its own company.
+
 ## 19.0.1.2.1 (2026-10-09)
 
 - Apps Store banner (banner.json).
