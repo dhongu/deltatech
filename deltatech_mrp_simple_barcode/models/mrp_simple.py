@@ -9,10 +9,11 @@ class MRPSimple(models.Model):
         existing_line = self.product_out_ids.filtered(lambda r: r.product_id.id == product.id)
         if existing_line:
             existing_line.quantity += qty
-            message = self.env._("The %(product_name)s product quantity was set to %(product_qty)s") % {
-                "product_name": product.name,
-                "product_qty": existing_line.quantity,
-            }
+            message = self.env._(
+                "The %(product_name)s product quantity was set to %(product_qty)s",
+                product_name=product.name,
+                product_qty=existing_line.quantity,
+            )
             res = {"warning": {"title": self.env._("Info"), "type": "notification", "message": message}}
         else:
             vals = {
@@ -23,7 +24,7 @@ class MRPSimple(models.Model):
             self.product_out_ids.new(vals)
             existing_line = self.product_out_ids.filtered(lambda r: r.product_id.id == product.id)
             existing_line.onchange_product_id()
-            message = self.env._("The %s product was added") % (product.name)
+            message = self.env._("The %s product was added", product.name)
             res = {"warning": {"title": self.env._("Info"), "type": "notification", "message": message}}
         return res
 
@@ -37,10 +38,17 @@ class MRPSimple(models.Model):
         product = self.env["product.product"].search([("barcode", "=", barcode)])
         if not product:
             product = self.env["product.product"].search([("default_code", "=", barcode)])
-        if product:
+        if len(product) > 1:
+            message = self.env._(
+                "The code %(code)s matches several products: %(products)s. Add the product manually.",
+                code=barcode,
+                products=", ".join(product.mapped("display_name")),
+            )
+            res = {"warning": {"title": self.env._("Error"), "type": "danger", "message": message}}
+        elif product:
             res = self._add_product(product)
         else:
-            message = self.env._("There is no product with barcode or internal reference %s") % barcode
+            message = self.env._("There is no product with barcode or internal reference %s", barcode)
             res = {"warning": {"title": self.env._("Error"), "type": "danger", "message": message}}
 
         return res

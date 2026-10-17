@@ -3,7 +3,7 @@
 {
     "name": "Simple MRP barcode",
     "summary": "Scan barcodes to add components in simple production",
-    "version": "19.0.0.0.2",
+    "version": "19.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
