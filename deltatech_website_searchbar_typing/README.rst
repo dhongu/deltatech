@@ -70,14 +70,17 @@ inline elements is translated as one block of HTML.
 
 In a QWeb template that calls ``website.website_search_box_input``, the
 body of the call is placed inside the form. The parameters of the search
-box are given as attributes of the call: a ``t-set`` in the body of a
-``t-call`` does not reach the called template.
+box are given as attributes of the call: a ``t-set`` in the body no
+longer reaches the called template.
 
 .. code:: xml
 
-   <t t-call="website.website_search_box_input"
-      search_type.f="all" action.f="/website/search"
-      placeholder.f="Search the user guides">
+   <t
+       t-call="website.website_search_box_input"
+       search_type.f="all"
+       action.f="/website/search"
+       placeholder.translate="Search the user guides"
+   >
        <ul class="o_searchbar_typing d-none" aria-hidden="true">
            <li class="o_searchbar_typing_prefix">e.g.</li>
            <li>e-Invoice</li>
@@ -86,8 +89,10 @@ box are given as attributes of the call: a ``t-set`` in the body of a
        </ul>
    </t>
 
-The same list can be added to a search snippet placed with the Website
-Builder, from the HTML editor of the page.
+On a search box placed with the Website Builder, select the search input
+and turn on **Typing examples** in the panel. Edit the **Prefix** (leave
+it empty for none) and the **Examples**: add, remove or drag them to
+change the order. The option writes the same hidden list in the form.
 
 The speed can be changed with data attributes on the
 ``o_searchbar_typing`` element, in milliseconds: ``data-start-delay``
@@ -101,6 +106,13 @@ find something.
 
 Changelog
 =========
+
+20.0.1.1.0 (2026-10-17)
+-----------------------
+
+- Website Builder option on the search box: "Typing examples" turns the
+  animation on or off, and the prefix and the examples are edited in the
+  panel, without the HTML editor.
 
 20.0.1.0.0 (2026-10-17)
 -----------------------

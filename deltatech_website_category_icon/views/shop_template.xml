@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Categories shown on top of the shop (filmstrip): a category with an icon
+        shows the icon instead of its image. The icon is set on purpose, the image
+        is often just the first product's photo.
+    -->
+    <template id="filmstrip_categories" inherit_id="website_sale.filmstrip_categories">
+        <xpath expr="//div[@name='o_wsale_filmstrip_image']" position="before">
+            <div
+                t-if="c.icon_svg"
+                name="o_wsale_filmstrip_icon"
+                class="o_wsale_filmstrip_image o_category_icon rounded"
+                role="img"
+                t-att-aria-label="c.name"
+                t-out="c.icon_html"
+            />
+        </xpath>
+        <xpath expr="//div[@name='o_wsale_filmstrip_image']" position="attributes">
+            <attribute name="t-elif">c.image_128</attribute>
+            <attribute name="t-if" />
+        </xpath>
+    </template>
+
+    <!-- Small icon before the name in the left category list (only categories with an icon). -->
+    <template
+        id="categorie_link_icon"
+        inherit_id="website_sale.categorie_link"
+        name="Category Icons in List"
+    >
+        <xpath expr="//a" position="attributes">
+            <attribute name="t-field" />
+            <attribute name="t-attf-class" add="d-inline-flex align-items-center gap-2" separator=" " />
+        </xpath>
+        <xpath expr="//a" position="inside">
+            <span t-if="c.icon_svg" class="o_category_icon o_category_icon_sm" t-out="c.icon_html" />
+            <span t-field="c.name" />
+        </xpath>
+    </template>
+
+</odoo>

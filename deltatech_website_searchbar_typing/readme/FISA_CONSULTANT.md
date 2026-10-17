@@ -27,7 +27,8 @@ care se schimbă.
 
 - **Administrator** — adaugă lista de exemple din vizualizarea paginii (Setări → Tehnic, cere
   drepturi de administrare).
-- **Designer website** — adaugă lista din editorul HTML al Website Builder, în modul de dezvoltare.
+- **Designer website** — pornește exemplele din Website Builder, cu opțiunea **Typing examples** a
+  casetei de căutare (fără cod).
 - **Ambii** aleg exemplele.
 - **Vizitatorul site-ului** (public sau autentificat) — vede exemplele scrise în casetă.
 
@@ -95,8 +96,13 @@ Salvați vizualizarea.
 în site. Pe un șablon standard (de ex. pagina de căutare a produselor), Odoo afișează avertismentul
 că modificările se pierd la următoarea actualizare a modulului. Acolo lista se pune printr-o
 vizualizare moștenită (xpath în corpul `t-call`-ului sau în formularul `o_searchbar_form`), de
-obicei într-un modul al clientului. Designerul website poate pune lista și într-un snippet de
-căutare, din editorul HTML al Website Builder.
+obicei într-un modul al clientului.
+
+**Varianta fără cod (Website Builder):** pe o casetă de căutare pusă în pagină cu Website Builder,
+apăsați **Editare**, selectați caseta și bifați în panoul din dreapta **Typing examples**. Apar
+câmpurile **Prefix** (gol = fără prefix) și **Examples**, unde adăugați, ștergeți sau trageți
+exemplele ca să le schimbați ordinea. Opțiunea scrie în formular aceeași listă ascunsă. Nu apare pe
+caseta din antetul site-ului. Etichetele panoului sunt deocamdată în engleză.
 
 ![Lista de exemple în arhitectura paginii](../static/description/01_lista_exemple.png)
 
