@@ -2,9 +2,11 @@
 # Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestProductTemplate(TransactionCase):
     def setUp(self):
         super().setUp()
@@ -32,3 +34,24 @@ class TestProductTemplate(TransactionCase):
         self.assertAlmostEqual(
             self.product_template.volume, expected_volume, places=6, msg="Volume should be computed correctly"
         )
+
+    def test_onchange_dimension_zero_resets_volume(self):
+        # #3421: a zero dimension must not keep the previous volume
+        self.product_template.product_length = 100.0
+        self.product_template.product_width = 100.0
+        self.product_template.product_height = 100.0
+        self.product_template._onchange_dimension()
+        self.assertAlmostEqual(self.product_template.volume, 1.0, places=6)
+
+        self.product_template.product_width = 0.0
+        self.product_template._onchange_dimension()
+        self.assertEqual(self.product_template.volume, 0.0, "Volume should be reset when a dimension is zero")
+
+    def test_onchange_dimension_cubic_feet(self):
+        # #3422: volume must be expressed in the configured volume unit (cubic feet)
+        self.env["ir.config_parameter"].sudo().set_param("product.volume_in_cubic_feet", "1")
+        self.product_template.product_length = 100.0
+        self.product_template.product_width = 100.0
+        self.product_template.product_height = 100.0
+        self.product_template._onchange_dimension()
+        self.assertAlmostEqual(self.product_template.volume, 35.31, places=2)
