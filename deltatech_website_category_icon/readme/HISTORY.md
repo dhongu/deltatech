@@ -1,3 +1,11 @@
+## 19.0.1.1.0 (2026-10-17)
+
+- New website option **Inherit Category Icons**: in the category list, a
+  subcategory without its own icon shows the icon of its closest parent that
+  has one (new computed field `icon_inherited_html`).
+- `currentColor` icons are documented and tested: they take the color of the
+  category link.
+
 ## 19.0.1.0.1 (2026-10-17)
 
 - The icon and the name in the category list now sit in an inner flex span,

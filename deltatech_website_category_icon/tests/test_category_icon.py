@@ -38,6 +38,22 @@ class TestCategoryIconSanitize(TransactionCase):
         self.assertIn("<circle", self.category.icon_svg)
         self.assertNotIn('xmlns=""', self.category.icon_svg)
 
+    def test_current_color_is_kept(self):
+        # Outline icons drawn with currentColor take the color of the link text.
+        self.category.icon_svg = '<svg viewBox="0 0 64 64"><path d="M8 8h48" stroke="currentColor" fill="none"/></svg>'
+        self.assertIn('stroke="currentColor"', self.category.icon_svg)
+
+    def test_inherited_icon(self):
+        Category = self.env["product.public.category"]
+        self.category.icon_svg = TRACTOR
+        child = Category.create({"name": "TB Child", "parent_id": self.category.id})
+        grandchild = Category.create({"name": "TB Grandchild", "parent_id": child.id})
+        self.assertEqual(str(grandchild.icon_inherited_html), self.category.icon_svg)
+        self.assertFalse(self.category.icon_inherited_html)
+        # The closest parent with an icon wins.
+        child.icon_svg = '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="9"/></svg>'
+        self.assertEqual(str(grandchild.icon_inherited_html), child.icon_svg)
+
     def test_create_sanitizes(self):
         category = self.env["product.public.category"].create({"name": "TB Combine", "icon_svg": TRACTOR})
         self.assertIn('aria-hidden="true"', category.icon_svg)
@@ -76,15 +92,18 @@ class TestCategoryIconShop(HttpCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.ref("website_sale.products_categories").active = True
-        cls.category = cls.env["product.public.category"].create({"name": "TB Icon Category", "icon_svg": TRACTOR})
+        Category = cls.env["product.public.category"]
+        cls.category = Category.create({"name": "TB Icon Category", "icon_svg": TRACTOR})
+        cls.child = Category.create({"name": "TB Icon Child", "parent_id": cls.category.id})
         cls.env["product.template"].create(
             {
                 "name": "TB Icon Product",
                 "is_published": True,
                 "sale_ok": True,
-                "public_categ_ids": [(6, 0, cls.category.ids)],
+                "public_categ_ids": [(6, 0, (cls.category | cls.child).ids)],
             }
         )
+        cls.website = cls.env["website"].get_current_website()
 
     def test_icon_in_category_list(self):
         response = self.url_open("/shop")
@@ -99,3 +118,14 @@ class TestCategoryIconShop(HttpCase):
         )
         self.assertIn('d="M9 35a4 4 0 0 1 4-4h20v13H9z"', response.text)
         self.assertIn("TB Icon Category", response.text)
+
+    def test_inherited_icon_in_category_list(self):
+        icon = 'class="o_category_icon o_category_icon_sm"'
+        # The shop renders the category list more than once (sidebar and mobile
+        # off-canvas), so compare counts rather than expect a fixed number.
+        self.website.category_icon_inherit = False
+        own = self.url_open("/shop").text.count(icon)
+        self.assertGreater(own, 0)
+        # With the option, the child without its own icon shows the parent's.
+        self.website.category_icon_inherit = True
+        self.assertEqual(self.url_open("/shop").text.count(icon), 2 * own)

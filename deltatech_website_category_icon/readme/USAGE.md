@@ -3,3 +3,5 @@
 3. The left category list of the shop shows the icon before the category name.
 4. To show the icons on top of the shop, open the shop in the website editor and
    turn on the categories filmstrip at the top of the page.
+5. To show the parent's icon on subcategories that have none, enable **Inherit
+   Category Icons** in Website > Configuration > Settings.

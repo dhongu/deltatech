@@ -16,11 +16,8 @@ eCommerce Category Icons
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_category_icon
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_category_icon/tests
-    :alt: 6 automated tests
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Gives every eCommerce category its own **SVG icon** and shows it in the
 shop.
@@ -32,6 +29,12 @@ shop.
 - The left category list shows a small icon before the name of each
   category that has one (view **Category Icons in List**, can be
   archived).
+- Option **Inherit Category Icons** (Website > Configuration > Settings,
+  Shop - Products): in the category list, a subcategory without its own
+  icon shows the icon of its closest parent that has one, so a large
+  tree needs icons only on its main branches.
+- Icons drawn with ``currentColor`` take the color of the category link,
+  so they follow the theme, the hover color and the active category.
 - The icon is checked when saved, so it is safe to show on public pages:
   only flat shapes are accepted (``path``, ``rect``, ``circle``,
   ``ellipse``, ``line``, ``polyline``, ``polygon``, ``g``), with colors,
@@ -63,9 +66,28 @@ Usage
    name.
 4. To show the icons on top of the shop, open the shop in the website
    editor and turn on the categories filmstrip at the top of the page.
+5. To show the parent's icon on subcategories that have none, enable
+   **Inherit Category Icons** in Website > Configuration > Settings.
 
 Changelog
 =========
+
+19.0.1.1.0 (2026-10-17)
+-----------------------
+
+- New website option **Inherit Category Icons**: in the category list, a
+  subcategory without its own icon shows the icon of its closest parent
+  that has one (new computed field ``icon_inherited_html``).
+- ``currentColor`` icons are documented and tested: they take the color
+  of the category link.
+
+19.0.1.0.1 (2026-10-17)
+-----------------------
+
+- The icon and the name in the category list now sit in an inner flex
+  span, instead of making the link itself a flex box. Themes that
+  restyle the link (Agroamat forces ``display: block !important`` on it)
+  no longer push a long name's second line under the icon.
 
 19.0.1.0.0 (2026-10-17)
 -----------------------

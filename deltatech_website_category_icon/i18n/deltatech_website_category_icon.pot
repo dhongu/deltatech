@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-17 07:31+0000\n"
-"PO-Revision-Date: 2026-10-17 07:31+0000\n"
+"POT-Creation-Date: 2026-10-17 14:51+0000\n"
+"PO-Revision-Date: 2026-10-17 14:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,21 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_website_category_icon
+#: model:ir.model,name:deltatech_website_category_icon.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__display_name
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__id
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__id
 msgid "ID"
 msgstr ""
 
@@ -41,10 +50,43 @@ msgid "Icon Preview"
 msgstr ""
 
 #. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
+msgid ""
+"Icon of the closest parent category that has one, for the website option "
+"Inherit Category Icons."
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_res_config_settings__category_icon_inherit
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_inherit
+msgid ""
+"In the category list, a subcategory without its own icon shows the icon of "
+"its closest parent that has one."
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_inherit
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_inherit
+msgid "Inherit Category Icons"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
+msgid "Inherited Icon"
+msgstr ""
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_svg
 msgid ""
 "SVG markup of the category icon, square viewBox. Only flat shapes are kept: "
 "path, rect, circle, ellipse, line, polyline, polygon and g."
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid ""
+"Subcategories without their own icon show the icon of their parent in the "
+"category list"
 msgstr ""
 
 #. module: deltatech_website_category_icon
@@ -93,6 +135,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_website_category_icon/models/product_public_category.py:0
 msgid "The icon needs a viewBox, so it can scale to any size."
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model,name:deltatech_website_category_icon.model_website
+msgid "Website"
 msgstr ""
 
 #. module: deltatech_website_category_icon
