@@ -567,6 +567,9 @@
       "lines": 58,
       "tests": 12
     },
+    "deltatech_saleorder_pickup_list": {
+      "tests": 3
+    },
     "deltatech_saleorder_search": {
       "tests": 2
     },
