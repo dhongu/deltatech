@@ -135,3 +135,22 @@ class TestProductUniqueCode(TransactionCase):
         with self.assertRaises(ValidationError) as err:
             self.Template.create({"name": "UC Tmpl New", "default_code": "UC-TA"})
         self.assertIn("UC Tmpl Arch", str(err.exception))
+
+    def test_write_same_code_on_batch_rejected(self):
+        products = self.Product.create(
+            [
+                {"name": "UC Batch 1", "default_code": "UC-BATCH-1"},
+                {"name": "UC Batch 2", "default_code": "UC-BATCH-2"},
+            ]
+        )
+        with self.assertRaises(ValidationError):
+            products.write({"default_code": "UC-BATCH-NEW"})
+
+    def test_create_same_code_in_batch_rejected(self):
+        with self.assertRaises(ValidationError):
+            self.Product.create(
+                [
+                    {"name": "UC Batch 3", "default_code": "UC-BATCH-SAME"},
+                    {"name": "UC Batch 4", "default_code": "UC-BATCH-SAME"},
+                ]
+            )
