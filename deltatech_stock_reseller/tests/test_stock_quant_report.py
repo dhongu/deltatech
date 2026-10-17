@@ -190,3 +190,12 @@ class TestStockQuantReport(TransactionCase):
         self.assertTrue(report_b.exists())
         self.assertTrue(report_thr.exists())
         self.assertFalse(report_a.exists())
+
+    def test_05_empty_pricelist_keeps_currency(self):
+        """RESELLER-002: without a pricelist the reseller price keeps the company currency"""
+        report = self.env["stock.quant.report"].create({"location_id": self.stock_location.id})
+        self.assertFalse(report.pricelist_id)
+        report.compute_data_for_report()
+        line = report.lines_ids.filtered(lambda l: l.product_id == self.product)
+        self.assertEqual(line.price_reseller, 100.0)
+        self.assertEqual(line.reseller_currency_id, self.env.company.currency_id)
