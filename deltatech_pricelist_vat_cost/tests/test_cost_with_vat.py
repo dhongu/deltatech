@@ -104,3 +104,4 @@ class TestCostWithVat(TransactionCase):
         )
         self.assertAlmostEqual(pricelist._get_product_price(product, 1.0), 131)
         self.assertAlmostEqual(pricelist._get_product_price(product.product_tmpl_id, 1.0), 131)
+        self.assertIn("product cost with VAT", pricelist.item_ids.price)
