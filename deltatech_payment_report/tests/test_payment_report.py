@@ -61,3 +61,14 @@ class TestPaymentReport(TransactionCase):
         lines = self.env["account.payment.report.line"].search(action["domain"])
         self.assertEqual(sorted(lines.mapped("amount")), [100.0, 200.0])
         self.assertEqual(lines.partner_id, self.partner)
+
+    def test_card_payment_method_only_on_bank_journals(self):
+        info = self.env["account.payment.method"]._get_payment_method_information()
+        self.assertEqual(info["card"], {"mode": "unique", "type": ("bank",)})
+        cash = self.env["account.journal"].create(
+            {"name": "Payment report cash", "code": "PRCSH", "type": "cash", "company_id": self.company.id}
+        )
+        domain = self.env["account.payment.method"]._get_payment_method_domain("card")
+        journals = self.env["account.journal"].search(domain)
+        self.assertIn(self.journal, journals)
+        self.assertNotIn(cash, journals)
