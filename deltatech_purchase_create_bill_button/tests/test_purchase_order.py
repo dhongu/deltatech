@@ -95,3 +95,30 @@ class TestPurchaseOrderCreateBill(TransactionCase):
         self.assertEqual(len(storno), 1)
         self.assertEqual(storno.move_type, "in_refund")
         self.assertEqual(storno.amount_untaxed, 500.0)
+
+    def test_create_bills_from_several_orders_keeps_all_vendor_references(self):
+        """A bill grouping several orders keeps every vendor reference."""
+        self.product.purchase_method = "purchase"
+        order_a = self._make_order()
+        order_a.partner_ref = "REF-A"
+        order_b = self._make_order()
+        order_b.partner_ref = "REF-B"
+        order_c = self._make_order()
+        order_c.partner_ref = "REF-A"
+        orders = order_a | order_b | order_c
+        orders.action_create_invoice()
+        bill = orders.invoice_ids
+        self.assertEqual(len(bill), 1)
+        self.assertEqual(bill.ref, "REF-A, REF-B")
+        # several distinct references: no single payment reference can be right
+        self.assertFalse(bill.payment_reference)
+
+    def test_create_bills_from_several_orders_same_reference(self):
+        self.product.purchase_method = "purchase"
+        orders = self._make_order() | self._make_order()
+        orders.partner_ref = "REF-SAME"
+        orders.action_create_invoice()
+        bill = orders.invoice_ids
+        self.assertEqual(len(bill), 1)
+        self.assertEqual(bill.ref, "REF-SAME")
+        self.assertEqual(bill.payment_reference, "REF-SAME")
