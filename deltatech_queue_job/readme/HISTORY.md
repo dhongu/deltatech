@@ -1,3 +1,9 @@
+## 19.0.1.4.5 (2026-10-17)
+
+- QUEUE-003: removed the legacy `/run_jobs` route. It called a runner method that does
+  not exist and always answered with a server error; external callers use
+  `/api/v1/queue/process`.
+
 ## 19.0.1.4.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
