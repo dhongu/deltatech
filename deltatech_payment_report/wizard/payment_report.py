@@ -64,14 +64,9 @@ class PaymentReport(models.TransientModel):
         action["domain"] = [("report_id", "=", self.id)]
         action["context"] = {
             "active_id": self.id,
-            # "general_buttons": self.env["account.payment.report.line"].get_general_buttons(),
         }
         action["target"] = "main"
         return action
-
-    def print_pdf(self):
-        action_report = self.env.ref("deltatech_payment_report.action_account_payment_report_line")
-        return action_report.report_action(self, config=False)
 
 
 class PaymentReportLine(models.TransientModel):
@@ -87,12 +82,3 @@ class PaymentReportLine(models.TransientModel):
     payment_journal_type = fields.Selection(related="payment_journal_id.type", store=True)
     invoice_journal_id = fields.Many2one("account.journal")
     payment_method_id = fields.Many2one("account.payment.method", string="Payment Method")
-
-    def get_general_buttons(self):
-        return [
-            {
-                "action": "print_pdf",
-                "name": self.env._("Print Preview"),
-                "model": "account.payment.report",
-            }
-        ]
