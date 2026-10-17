@@ -8,4 +8,4 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    category_icon_inherit = fields.Boolean(related="website_id.category_icon_inherit", readonly=False)
+    category_icon_levels = fields.Selection(related="website_id.category_icon_levels", readonly=False)

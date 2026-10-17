@@ -4,12 +4,17 @@ Gives every eCommerce category its own **SVG icon** and shows it in the shop.
   category form.
 - The categories shown on top of the shop (filmstrip) display the icon instead
   of the category image.
-- The left category list shows a small icon before the name of each category
-  that has one (view **Category Icons in List**, can be archived).
-- Option **Inherit Category Icons** (Website > Configuration > Settings, Shop -
-  Products): in the category list, a subcategory without its own icon shows the
-  icon of its closest parent that has one, so a large tree needs icons only on
-  its main branches.
+- The left category list shows a small icon before the category name.
+- Option **Category Icons in List** (Website > Configuration > Settings, Shop -
+  Products) decides which categories of the category list show an icon:
+  - **Main categories only** (default): an opened branch lists its
+    subcategories as plain text, which keeps the list light and easy to read;
+  - **All categories**: every category with its own icon shows it;
+  - **All categories, inherit from parent**: a subcategory without its own icon
+    shows the icon of its closest parent that has one.
+- In the categories on top of the shop, usually the subcategories of the opened
+  category, a category without its own icon or image shows its closest parent's
+  icon instead of the empty placeholder.
 - Icons drawn with `currentColor` take the color of the category link, so they
   follow the theme, the hover color and the active category.
 - The icon is checked when saved, so it is safe to show on public pages: only

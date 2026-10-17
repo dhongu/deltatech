@@ -119,13 +119,36 @@ class TestCategoryIconShop(HttpCase):
         self.assertIn('d="M9 35a4 4 0 0 1 4-4h20v13H9z"', response.text)
         self.assertIn("TB Icon Category", response.text)
 
-    def test_inherited_icon_in_category_list(self):
-        icon = 'class="o_category_icon o_category_icon_sm"'
+    def test_icon_levels_in_category_list(self):
         # The shop renders the category list more than once (sidebar and mobile
         # off-canvas), so compare counts rather than expect a fixed number.
-        self.website.category_icon_inherit = False
-        own = self.url_open("/shop").text.count(icon)
-        self.assertGreater(own, 0)
-        # With the option, the child without its own icon shows the parent's.
-        self.website.category_icon_inherit = True
-        self.assertEqual(self.url_open("/shop").text.count(icon), 2 * own)
+        icon = 'class="o_category_icon o_category_icon_sm"'
+        circle = '<circle cx="32" cy="32" r="9"/>'
+        self.assertEqual(self.website.category_icon_levels, "root")
+        roots = self.url_open("/shop").text.count(icon)
+        self.assertGreater(roots, 0)
+
+        # A subcategory's own icon stays out of the list by default.
+        self.child.icon_svg = f'<svg viewBox="0 0 64 64">{circle}</svg>'
+        page = self.url_open("/shop").text
+        self.assertEqual(page.count(icon), roots)
+        self.assertNotIn(circle, page)
+
+        self.website.category_icon_levels = "all"
+        self.assertEqual(self.url_open("/shop").text.count(icon), 2 * roots)
+
+        # Inherit: the subcategory without an icon shows its parent's.
+        self.child.icon_svg = False
+        self.website.category_icon_levels = "all"
+        self.assertEqual(self.url_open("/shop").text.count(icon), roots)
+        self.website.category_icon_levels = "inherit"
+        self.assertEqual(self.url_open("/shop").text.count(icon), 2 * roots)
+
+    def test_inherited_icon_in_filmstrip(self):
+        # The filmstrip of an opened category lists its subcategories; one without
+        # an icon or an image shows the parent's icon instead of the placeholder.
+        self.env.ref("website_sale.products_categories_top").active = True
+        slug = self.env["ir.http"]._slug(self.category)
+        page = self.url_open(f"/shop/category/{slug}").text
+        self.assertIn('name="o_wsale_filmstrip_icon"', page)
+        self.assertNotIn('name="o_wsale_filmstrip_placeholder"', page)

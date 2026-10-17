@@ -6,14 +6,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-17 14:51+0000\n"
-"PO-Revision-Date: 2026-10-17 14:51+0000\n"
+"POT-Creation-Date: 2026-10-17 15:02+0000\n"
+"PO-Revision-Date: 2026-10-17 15:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__all
+msgid "All categories"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__inherit
+msgid "All categories, inherit from parent"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_levels
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_levels
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "Category Icons in List"
+msgstr ""
 
 #. module: deltatech_website_category_icon
 #: model:ir.model,name:deltatech_website_category_icon.model_res_config_settings
@@ -53,21 +70,7 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
 msgid ""
 "Icon of the closest parent category that has one, for the website option "
-"Inherit Category Icons."
-msgstr ""
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields,help:deltatech_website_category_icon.field_res_config_settings__category_icon_inherit
-#: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_inherit
-msgid ""
-"In the category list, a subcategory without its own icon shows the icon of "
-"its closest parent that has one."
-msgstr ""
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_inherit
-#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_inherit
-msgid "Inherit Category Icons"
+"Category Icons in List."
 msgstr ""
 
 #. module: deltatech_website_category_icon
@@ -76,17 +79,15 @@ msgid "Inherited Icon"
 msgstr ""
 
 #. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__root
+msgid "Main categories only"
+msgstr ""
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_svg
 msgid ""
 "SVG markup of the category icon, square viewBox. Only flat shapes are kept: "
 "path, rect, circle, ellipse, line, polyline, polygon and g."
-msgstr ""
-
-#. module: deltatech_website_category_icon
-#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
-msgid ""
-"Subcategories without their own icon show the icon of their parent in the "
-"category list"
 msgstr ""
 
 #. module: deltatech_website_category_icon
@@ -145,4 +146,19 @@ msgstr ""
 #. module: deltatech_website_category_icon
 #: model:ir.model,name:deltatech_website_category_icon.model_product_public_category
 msgid "Website Product Category"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "Which categories of the shop's category list show an icon"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_res_config_settings__category_icon_levels
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_levels
+msgid ""
+"Which categories of the shop's category list show an icon.\n"
+"Main categories only: the opened branch shows its subcategories as text, which keeps the list light and easy to read.\n"
+"All categories: every category with its own icon shows it.\n"
+"All categories, inherit from parent: a subcategory without its own icon shows the icon of its closest parent that has one."
 msgstr ""
