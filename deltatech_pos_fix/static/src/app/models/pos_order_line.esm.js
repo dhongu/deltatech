@@ -14,7 +14,9 @@ patch(PosOrderline.prototype, {
         // Dacă există o poziție fiscală, trebuie să adaptăm prețul unitar
         // dacă taxele originale sunt incluse în preț și taxele noi nu sunt (sau invers).
         // Nucleul mapează deja taxele în `values.tax_ids`, dar lasă prețul unitar neschimbat.
-        if (order?.fiscal_position_id) {
+        // Linia de discount global (pos_discount) are deja taxele mapate ale liniilor
+        // reduse: ca în nucleu, nu o mapăm a doua oară.
+        if (order?.fiscal_position_id && product !== this.config.discount_product_id) {
             const original_taxes = this.tax_ids || product.taxes_id;
             const taxes_after_fp = order.fiscal_position_id.getTaxesAfterFiscalPosition(original_taxes);
 

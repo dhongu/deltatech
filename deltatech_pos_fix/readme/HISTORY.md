@@ -1,3 +1,10 @@
+## 19.0.1.0.3 (2026-10-17)
+
+- The global discount line (`pos_discount`) is no longer passed through the fiscal position a second
+  time: like in core, it keeps the already mapped taxes of the lines it discounts, so with chained
+  mappings (A to B, B to C) the discount is no longer taxed with C and its price is not adapted again
+  (#3414).
+
 ## 19.0.1.0.2 (2026-10-09)
 
 - Apps Store banner (banner.json).
