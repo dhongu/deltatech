@@ -1,3 +1,8 @@
+## 20.0.1.1.0 (2026-10-17)
+
+- Website Builder option on the search box: "Typing examples" turns the animation on or off,
+  and the prefix and the examples are edited in the panel, without the HTML editor.
+
 ## 20.0.1.0.0 (2026-10-17)
 
 - Ported to 20.0: the same behaviour as 19.0.1.0.0, on the 20.0 public `Interaction` API.
