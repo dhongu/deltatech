@@ -8,10 +8,11 @@
         <field name="arch" type="xml">
             <setting id="product_attributes_setting" position="after">
                 <setting
-                    id="category_icon_inherit_setting"
-                    help="Subcategories without their own icon show the icon of their parent in the category list"
+                    id="category_icon_levels_setting"
+                    string="Category Icons in List"
+                    help="Which categories of the shop's category list show an icon"
                 >
-                    <field name="category_icon_inherit" />
+                    <field name="category_icon_levels" widget="radio" />
                 </setting>
             </setting>
         </field>

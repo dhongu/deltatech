@@ -2,19 +2,21 @@
 <odoo>
 
     <!--
-        Categories shown on top of the shop (filmstrip): a category with an icon
-        shows the icon instead of its image. The icon is set on purpose, the image
-        is often just the first product's photo.
+        Categories shown on top of the shop (filmstrip), usually the subcategories of the
+        opened category. Order: the category's own icon (set on purpose, while the image is
+        often just the first product's photo), then its own image, then the icon of its
+        closest parent instead of the empty placeholder, as agrotrac.ro does it.
     -->
     <template id="filmstrip_categories" inherit_id="website_sale.filmstrip_categories">
         <xpath expr="//div[@name='o_wsale_filmstrip_image']" position="before">
+            <t t-set="strip_icon" t-value="c.icon_html or (not c.image_128 and c.icon_inherited_html)" />
             <div
-                t-if="c.icon_svg"
+                t-if="strip_icon"
                 name="o_wsale_filmstrip_icon"
                 class="o_wsale_filmstrip_image o_category_icon rounded"
                 role="img"
                 t-att-aria-label="c.name"
-                t-out="c.icon_html"
+                t-out="strip_icon"
             />
         </xpath>
         <xpath expr="//div[@name='o_wsale_filmstrip_image']" position="attributes">
@@ -24,8 +26,10 @@
     </template>
 
     <!--
-        Small icon before the name in the left category list: the category's own icon or,
-        with the website option Inherit Category Icons, its closest parent's.
+        Small icon before the name in the left category list. The website option Category
+        Icons in List decides which categories show one: main categories only (the default,
+        so an opened branch stays plain text and the page light), every category with its
+        own icon, or every category with the closest parent's icon as fallback.
 
         The flex layout sits on an inner span, not on the link: themes restyle the
         link itself (Agroamat forces `display: block !important` on it), which would
@@ -40,7 +44,9 @@
             <attribute name="t-field" />
         </xpath>
         <xpath expr="//a" position="inside">
-            <t t-set="cat_icon" t-value="c.icon_html or (website.category_icon_inherit and c.icon_inherited_html)" />
+            <t t-set="icon_levels" t-value="website.category_icon_levels" />
+            <t t-set="cat_icon" t-value="(icon_levels != 'root' or not c.parent_id) and c.icon_html" />
+            <t t-set="cat_icon" t-value="cat_icon or (icon_levels == 'inherit' and c.icon_inherited_html)" />
             <span class="o_category_link d-inline-flex align-items-center gap-2">
                 <span t-if="cat_icon" class="o_category_icon o_category_icon_sm" t-out="cat_icon" />
                 <span class="o_category_link_name" t-field="c.name" />

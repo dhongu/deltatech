@@ -74,7 +74,7 @@ class ProductPublicCategory(models.Model):
         compute="_compute_icon_inherited_html",
         recursive=True,
         sanitize=False,
-        help="Icon of the closest parent category that has one, for the website option Inherit Category Icons.",
+        help="Icon of the closest parent category that has one, for the website option Category Icons in List.",
     )
 
     @api.depends("icon_svg")
