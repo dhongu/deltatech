@@ -1,3 +1,10 @@
+## 19.0.1.0.5
+
+- Fix: the "Below Minimum" filter counted stock from all companies, warehouses
+  and locations, so a product could show as below minimum on its form but be
+  missing from the filter. The filter now uses the same stock quantity as the
+  product (allowed companies and the selected warehouse/location).
+
 ## 19.0.1.0.4
 
 - Add unit tests covering the reordering limit fields, the below-minimum compute and

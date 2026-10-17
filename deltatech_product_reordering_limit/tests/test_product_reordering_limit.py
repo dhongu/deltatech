@@ -150,6 +150,42 @@ class TestProductReorderingLimit(TransactionCase):
         self.assertEqual(domain[0][1], "not in")
         self.assertIn(self.tmpl_below.id, domain[0][2])
 
+    def test_search_respects_company_scope(self):
+        """Stock of another company must not hide a product below minimum."""
+        company_b = self.env["res.company"].create({"name": "TEST Reorder Company B"})
+        warehouse_b = self.env["stock.warehouse"].search([("company_id", "=", company_b.id)], limit=1)
+        template = self.env["product.template"].create(
+            {
+                "name": "TEST Reorder Shared",
+                "type": "consu",
+                "is_storable": True,
+                "company_id": False,
+                "total_minimum": 5.0,
+            }
+        )
+        self.env["stock.quant"]._update_available_quantity(template.product_variant_id, warehouse_b.lot_stock_id, 100.0)
+        Template = self.env["product.template"].with_context(allowed_company_ids=[self.env.company.id])
+        template = template.with_env(Template.env)
+        self.assertEqual(template.qty_available, 0.0)
+        self.assertTrue(template.is_below_min)
+        self.assertIn(template, Template.search([("is_below_min", "=", True)]))
+        self.assertNotIn(template, Template.search([("is_below_min", "=", False)]))
+
+    def test_search_respects_warehouse_scope(self):
+        """Stock in another warehouse must not hide a product below minimum."""
+        warehouse_2 = self.env["stock.warehouse"].create(
+            {"name": "TEST Reorder WH2", "code": "TRW2", "company_id": self.env.company.id}
+        )
+        template = self.env["product.template"].create(
+            {"name": "TEST Reorder WH", "type": "consu", "is_storable": True, "total_minimum": 5.0}
+        )
+        self.env["stock.quant"]._update_available_quantity(template.product_variant_id, warehouse_2.lot_stock_id, 100.0)
+        Template = self.env["product.template"].with_context(warehouse_id=self.warehouse.id)
+        template = template.with_env(Template.env)
+        self.assertEqual(template.qty_available, 0.0)
+        self.assertTrue(template.is_below_min)
+        self.assertIn(template, Template.search([("is_below_min", "=", True)]))
+
     # ------------------------------------------------------------------
     # wizard
     # ------------------------------------------------------------------

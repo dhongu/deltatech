@@ -1,5 +1,4 @@
 from odoo import api, fields, models
-from odoo.tools import SQL
 
 
 class ProductTemplate(models.Model):
@@ -15,37 +14,11 @@ class ProductTemplate(models.Model):
         if operator not in ("in", "not in") or set(value) != {True}:
             raise NotImplementedError("Unsupported operator or value for _search_is_below_min")
 
-        # We need to find templates where qty_available < total_minimum.
-        # Since we can't do this easily in a domain with a computed field vs another field,
-        # and a raw SQL might miss Odoo's complex stock logic (locations, etc.),
-        # but for a general "Below Minimum" filter, we can use a reasonable SQL approximation
-        # that aggregates variant quantities to the template level.
-
-        # We use a subquery to sum quantities from stock_quant grouped by product,
-        # then join with product_product to group by template.
-        # We only count internal locations as per requirement.
-        rows = self.env.execute_query(
-            SQL(
-                """
-            SELECT pt.id
-            FROM product_template pt
-            JOIN (
-                SELECT pp.product_tmpl_id, SUM(sq.qty) as total_qty_available
-                FROM product_product pp
-                LEFT JOIN (
-                    SELECT sq.product_id, SUM(sq.quantity) as qty
-                    FROM stock_quant sq
-                    JOIN stock_location sl ON sl.id = sq.location_id
-                    WHERE sl.usage = 'internal'
-                    GROUP BY sq.product_id
-                ) sq ON sq.product_id = pp.id
-                GROUP BY pp.product_tmpl_id
-            ) t_qty ON t_qty.product_tmpl_id = pt.id
-            WHERE pt.total_minimum > 0 AND COALESCE(t_qty.total_qty_available, 0.0) < pt.total_minimum
-        """
-            )
-        )
-        ids = [r[0] for r in rows]
+        # The comparison uses the native qty_available, so the search applies the same
+        # scope as the computed field: allowed companies and the warehouse/location
+        # from the context. Only templates with a minimum set are candidates.
+        templates = self.with_context(active_test=False).search([("total_minimum", ">", 0)])
+        ids = templates.filtered(lambda t: t.qty_available < t.total_minimum).ids
 
         return [("id", operator, ids)]
 
