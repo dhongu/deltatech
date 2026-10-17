@@ -1,6 +1,6 @@
 {
     "name": "POS Tax-Included Total Fix",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Point of Sale",
     "summary": "Fix POS total calculation when using tax-included fiscal position mapping",
     "license": "LGPL-3",
@@ -12,6 +12,7 @@
     "data": [],
     "assets": {
         "point_of_sale._assets_pos": ["deltatech_pos_fix/static/src/app/models/pos_order_line.esm.js"],
+        "web.assets_unit_tests": ["deltatech_pos_fix/static/tests/unit/**/*"],
     },
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
