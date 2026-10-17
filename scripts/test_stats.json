@@ -241,6 +241,9 @@
     "deltatech_no_quick_create": {
       "tests": 0
     },
+    "deltatech_partner_discount": {
+      "tests": 7
+    },
     "deltatech_partner_generic": {
       "coverage": 92.0,
       "lines": 113,
