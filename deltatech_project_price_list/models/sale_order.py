@@ -41,6 +41,9 @@ class SaleOrder(models.Model):
     def create(self, vals_list):
         # Ensure the project's pricelist is used when creating a SO from a project/task
         ctx = self.env.context
+        if ctx.get("default_pricelist_id"):
+            # An explicit default pricelist in context wins, as in default_get
+            return super().create(vals_list)
         for vals in vals_list:
             if vals.get("pricelist_id"):
                 continue

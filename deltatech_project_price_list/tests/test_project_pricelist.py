@@ -154,7 +154,7 @@ class TestProjectPricelist(TransactionCase):
             "default_project_id": self.project.id,
             "default_partner_id": self.partner.id,
         }
-        with Form(self.SaleOrder.with_context(ctx)) as so_form:
+        with Form(self.SaleOrder.with_context(**ctx)) as so_form:
             # Pricelist should be proposed from the project's pricelist
             self.assertEqual(so_form.pricelist_id, self.project.pricelist_id)
 
@@ -166,5 +166,21 @@ class TestProjectPricelist(TransactionCase):
             "default_partner_id": self.partner.id,
             "default_pricelist_id": self.pricelist_b.id,
         }
-        with Form(self.SaleOrder.with_context(ctx)) as so_form:
+        with Form(self.SaleOrder.with_context(**ctx)) as so_form:
             self.assertEqual(so_form.pricelist_id, self.pricelist_b)
+
+    def test_create_respects_explicit_default_pricelist_in_context(self):
+        # Direct create must agree with default_get: context default wins over project
+        so = self.SaleOrder.with_context(
+            create_for_project_id=self.project.id,
+            default_pricelist_id=self.pricelist_b.id,
+        ).create(
+            {
+                "partner_id": self.partner.id,
+            }
+        )
+        self.assertEqual(
+            so.pricelist_id,
+            self.pricelist_b,
+            "SO created with default_pricelist_id in context should keep it.",
+        )
