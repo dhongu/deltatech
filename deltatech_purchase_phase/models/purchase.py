@@ -21,7 +21,9 @@ class PurchaseOrder(models.Model):
         domain = [("code", "=", phase_step)]
         phase = self.env["purchase.order.phase"].search(domain, limit=1)
         if not phase:
-            phase = self.env["purchase.order.phase"].create({"code": phase_step, "name": phase_step})
+            # phases are configuration: ordinary users may only read them, but a
+            # missing phase must not block the document operation that triggers it
+            phase = self.env["purchase.order.phase"].sudo().create({"code": phase_step, "name": phase_step})
         self.write({"phase_id": phase.id})
 
     def write(self, vals):
