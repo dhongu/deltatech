@@ -11,7 +11,9 @@ Key Features
     *   Automatically identifies and applies the default purchase tax for the product to its standard cost.
 
 2.  **Dynamic Pricelist Foundation**:
-    *   Allows pricelist items to reference the VAT-inclusive cost as a base for markups or discounts.
+    *   Adds **Cost with VAT** as a base for pricelist rules of type **Surcharge** (markup).
+    *   Rules of type **Discount** have no base selector (only the pricelist the discount is taken from), so switching a rule to Discount resets the base to the sales price.
+    *   The rule label shows "product cost with VAT" as its base.
     *   Ensures that selling prices consistently reflect the desired profit margin over the total tax-included cost.
 
 3.  **Cross-Module Integration**:
@@ -22,7 +24,7 @@ Usage
 
 1.  Navigate to **Sales > Products > Products**.
 2.  Ensure that each product has a **Cost** and a **Purchase Tax** assigned.
-3.  Go to **Sales > Configuration > Pricelists**.
+3.  Go to **Sales > Products > Pricelists** (requires the Pricelists setting).
 4.  Create or open a pricelist and add a rule.
-5.  Set the **Base** for the calculation to **Cost with VAT** (if available) or use the calculated field in your pricing rules.
+5.  Set the price type to **Surcharge** and choose **Cost with VAT** in the "% on" base field.
 6.  Selling prices will now be dynamically computed based on the tax-included acquisition cost.

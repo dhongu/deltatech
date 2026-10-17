@@ -94,7 +94,7 @@ class TestCostWithVat(TransactionCase):
                         0,
                         {
                             "applied_on": "3_global",
-                            "compute_price": "formula",
+                            "compute_price": "markup",
                             "base": "standard_price_with_vat",
                             "price_surcharge": 10,
                         },
@@ -104,3 +104,36 @@ class TestCostWithVat(TransactionCase):
         )
         self.assertAlmostEqual(pricelist._get_product_price(product, 1.0), 131)
         self.assertAlmostEqual(pricelist._get_product_price(product.product_tmpl_id, 1.0), 131)
+        self.assertIn("product cost with VAT", pricelist.item_ids.price)
+
+    def test_pricelist_markup_on_cost_with_vat(self):
+        product = self._create_product(self.purchase_tax, self.env["account.tax"])
+        pricelist = self.env["product.pricelist"].create(
+            {
+                "name": "Test markup on cost with VAT",
+                "currency_id": product.currency_id.id,
+                "item_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "applied_on": "0_product_variant",
+                            "product_id": product.id,
+                            "compute_price": "markup",
+                            "base": "standard_price_with_vat",
+                            "price_markup": 10,
+                        },
+                    )
+                ],
+            }
+        )
+        self.assertAlmostEqual(pricelist._get_product_price(product, 1.0), 133.1)
+
+    def test_onchange_discount_resets_cost_with_vat_base(self):
+        pricelist = self.env["product.pricelist"].create({"name": "Test onchange"})
+        item = self.env["product.pricelist.item"].new(
+            {"pricelist_id": pricelist.id, "compute_price": "markup", "base": "standard_price_with_vat"}
+        )
+        item.compute_price = "discount"
+        item._onchange_compute_price()
+        self.assertEqual(item.base, "list_price")

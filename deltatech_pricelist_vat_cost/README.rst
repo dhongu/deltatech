@@ -14,13 +14,10 @@ Base pricelist on cost with vat
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_vat_cost
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_vat_cost
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pricelist_vat_cost
-    :alt: 8 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Base Pricelist on Cost with VAT
 ===============================
@@ -43,8 +40,12 @@ Key Features
 
 2. **Dynamic Pricelist Foundation**:
 
-   - Allows pricelist items to reference the VAT-inclusive cost as a
-     base for markups or discounts.
+   - Adds **Cost with VAT** as a base for pricelist rules of type
+     **Surcharge** (markup).
+   - Rules of type **Discount** have no base selector (only the
+     pricelist the discount is taken from), so switching a rule to
+     Discount resets the base to the sales price.
+   - The rule label shows "product cost with VAT" as its base.
    - Ensures that selling prices consistently reflect the desired profit
      margin over the total tax-included cost.
 
@@ -59,10 +60,11 @@ Usage
 1. Navigate to **Sales > Products > Products**.
 2. Ensure that each product has a **Cost** and a **Purchase Tax**
    assigned.
-3. Go to **Sales > Configuration > Pricelists**.
+3. Go to **Sales > Products > Pricelists** (requires the Pricelists
+   setting).
 4. Create or open a pricelist and add a rule.
-5. Set the **Base** for the calculation to **Cost with VAT** (if
-   available) or use the calculated field in your pricing rules.
+5. Set the price type to **Surcharge** and choose **Cost with VAT** in
+   the "% on" base field.
 6. Selling prices will now be dynamically computed based on the
    tax-included acquisition cost.
 
@@ -78,6 +80,11 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
 
 19.0.1.0.3
 ----------
@@ -110,10 +117,9 @@ Changelog
 - Ported from 18.0. No code changes: the ``product.pricelist.item.base``
   selection value and the ``standard_price_with_vat`` compute fields on
   ``product.template``/``product.product`` use APIs unchanged in Odoo
-  19. In use in production at Ridacon (helpdesk ticket #9538); the
-  migration script was about to uninstall it, which would have silently
-  reset any pricelist rule based on "Cost with VAT" to the field's
-  default base.
+  19. In use in production at a customer; the migration script was about
+  to uninstall it, which would have silently reset any pricelist rule
+  based on "Cost with VAT" to the field's default base.
 
 Bug Tracker
 ===========
@@ -143,6 +149,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_vat_cost>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_vat_cost>`_ project on GitHub.
 
 You are welcome to contribute.
