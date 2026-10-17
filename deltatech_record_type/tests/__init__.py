@@ -6,3 +6,4 @@ from . import test_saleorder_type
 from . import test_screenshots
 from . import test_portal_confirm
 from . import test_company_rules
+from . import test_access_rights
