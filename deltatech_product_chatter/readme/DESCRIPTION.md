@@ -6,6 +6,7 @@ Restrict deletion (and emptying) of chatter messages on Product Template and Pro
 
 - Blocks deleting product-related chatter messages from the UI (the chatter "Delete" action).
 - Blocks direct record deletions of `mail.message` linked to products (e.g., via ORM/RPC, scripts, or third‑party modules) when the user lacks the group.
+- Blocks direct edits of the body or attachments of `mail.message` linked to products (ORM/RPC) when the user lacks the group.
 
 ## How it works
 

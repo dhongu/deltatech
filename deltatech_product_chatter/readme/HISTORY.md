@@ -1,3 +1,9 @@
+## 19.0.1.0.5
+
+- Direct edits of the content (body, attachments) of product chatter messages
+  through the ORM/RPC are now restricted to the security group, like deletion
+  and the chatter "Edit"/"Delete" actions. Sudo is not restricted. Tests added.
+
 ## 19.0.1.0.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
