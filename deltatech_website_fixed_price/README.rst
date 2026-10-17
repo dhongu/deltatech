@@ -14,7 +14,7 @@ eCommerce Display Fixed Price As Discount
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_fixed_price
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_fixed_price
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -30,6 +30,14 @@ eCommerce Display Fixed Price As Discount
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.0.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
@@ -59,6 +67,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_fixed_price>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_fixed_price>`_ project on GitHub.
 
 You are welcome to contribute.
