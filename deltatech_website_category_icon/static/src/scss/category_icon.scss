@@ -1,0 +1,22 @@
+// The drawing has no size of its own: it fills the box the shop gives it.
+.o_category_icon {
+    display: inline-flex;
+
+    > svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.o_category_icon_sm {
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+// The large images layout darkens the image for the name written over it;
+// an icon is not a photo, so it keeps its own colors.
+.o_wsale_filmstrip_image.o_category_icon::before {
+    content: none;
+}

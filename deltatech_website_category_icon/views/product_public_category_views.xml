@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="product_public_category_form_view" model="ir.ui.view">
+        <field name="name">product.public.category.form.icon</field>
+        <field name="model">product.public.category</field>
+        <field name="inherit_id" ref="website_sale.product_public_category_form_view" />
+        <field name="arch" type="xml">
+            <field name="cover_image" position="after">
+                <field name="icon_preview" invisible="not icon_svg" />
+                <field name="icon_svg" widget="code" options="{'mode': 'xml'}" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
