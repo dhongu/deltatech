@@ -10,7 +10,9 @@ the storage sheet can be run on the stock moves that are still open only.
 - **Report unchanged otherwise**: With the option off, the storage sheet is exactly the one of the
   Romanian localization; the stock moves themselves are never hidden elsewhere in Odoo.
 
-The **Valuation Active** flag is not shown on the stock move form in this version: it is set by import
-or by a script.
+- **Close Stock Moves**: The *Inventory > Operations > Adjustments > Close Stock Moves* wizard closes
+  every done stock move of the company dated on or before a chosen day. No accounting entry is changed.
+- **Flag on the stock move list**: The **Valuation Active** column (hidden by default) and the
+  **Closed** filter of the stock move list let a stock manager check or reopen a single move.
 
 **Data sent outside Odoo:** none.
