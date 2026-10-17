@@ -83,7 +83,8 @@ class ImportPurchaseLine(models.TransientModel):
                 raise UserError(self.env._("Invalid file format")) from e
 
             product_code = values.get("product_code", False)
-            if not product_code:
+            default_code = values.get("default_code", False)
+            if not product_code and not default_code:
                 continue
 
             product_name = values.get("product_name", False)
@@ -125,7 +126,9 @@ class ImportPurchaseLine(models.TransientModel):
                         )
                     )
 
-            product_id = self.search_product(product_code)
+            product_id = product_code and self.search_product(product_code)
+            if not product_id and default_code:
+                product_id = self.search_product_by_default_code(default_code)
             if product_id:
                 # check UOM
                 product_uom = product_id.uom_id
@@ -143,10 +146,12 @@ class ImportPurchaseLine(models.TransientModel):
                         product_uom = uom
             else:
                 if self.new_product:
-                    product_id = self.create_product(product_code, product_name, quantity, price, uom_name)
+                    product_id = self.create_product(
+                        product_code, product_name, quantity, price, uom_name, default_code=default_code
+                    )
                     product_uom = product_id.uom_id
                 else:
-                    raise UserError(self.env._("Product %s not found", product_code))
+                    raise UserError(self.env._("Product %s not found", product_code or default_code))
 
             lines += [
                 {
@@ -182,14 +187,8 @@ class ImportPurchaseLine(models.TransientModel):
         supplier_infos = self.env["product.supplierinfo"].sudo().search(domain)
         if not supplier_infos:
             if self.search_by_default_code:
-                domain = [("default_code", "=", code), ("company_id", "in", [company.id, False])]
-                product = self.env["product.product"].sudo().search(domain, limit=1)
-                if product:
-                    return product
-                else:
-                    return False
-            else:
-                return False
+                return self.search_product_by_default_code(code)
+            return False
         products = self.env["product.product"]
         for supplier_info in supplier_infos:
             products |= supplier_info.product_id or supplier_info.product_tmpl_id.product_variant_ids
@@ -205,13 +204,24 @@ class ImportPurchaseLine(models.TransientModel):
             )
         return products
 
-    def create_product(self, product_code, product_name, quantity, price, uom_name=False):
+    def search_product_by_default_code(self, code):
+        """Search a product by its internal code in the order company.
+
+        :param code: internal code (default_code) to search
+        :return: product record or False if not found
+        """
+        company = self.purchase_id.company_id or self.env.company
+        domain = [("default_code", "=", code), ("company_id", "in", [company.id, False])]
+        return self.env["product.product"].sudo().search(domain, limit=1) or False
+
+    def create_product(self, product_code, product_name, quantity, price, uom_name=False, default_code=False):
         """
         :param product_code: code
         :param product_name: name
         :param quantity: qty to order
         :param price: price
         :param uom_name: optional, the Units UoM is set if not present
+        :param default_code: optional internal code of the new product
         :return: product record
         """
         seller_values = {
@@ -229,6 +239,8 @@ class ImportPurchaseLine(models.TransientModel):
             "seller_ids": [(0, 0, seller_values)],
             "uom_id": uom_id,
         }
+        if default_code:
+            values["default_code"] = default_code
         product_tmpl_id = self.env["product.template"].create(values)
         product_id = product_tmpl_id.product_variant_id
         return product_id
