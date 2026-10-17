@@ -23,9 +23,16 @@ class ProductTemplate(models.Model):
             uom_id=uom_id,
             only_template=only_template,
         )
-        taxes = combination_info.get("taxes", self.taxes_id)
-        res = taxes.compute_all(combination_info["list_price"], product=self)
-        excluded = res["total_excluded"]
-        combination_info["list_price_without_tax"] = excluded
+        list_price = combination_info["list_price"]
+        website = self.env["website"].get_current_website()
+        if website.show_line_subtotals_tax_selection != "tax_excluded":
+            # list_price is the displayed gross price, whatever the tax price_include setting:
+            # remove the taxes as if they were all included in the price.
+            taxes = combination_info.get("taxes", self.taxes_id)
+            res = taxes.with_context(force_price_include=True).compute_all(
+                list_price, currency=combination_info.get("currency"), product=self
+            )
+            list_price = res["total_excluded"]
+        combination_info["list_price_without_tax"] = list_price
 
         return combination_info
