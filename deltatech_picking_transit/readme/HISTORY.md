@@ -1,3 +1,10 @@
+## 19.0.0.0.15 (2026-10-17)
+
+- Fix TRANSIT-003 (#3413): opening or reloading a transit delivery no longer locks or unlocks it. The
+  "Transit Transfer" indicator used to toggle the lock each time it was computed, so the lock state of
+  the transfer depended on how often it was displayed; the lock is now changed only with the native
+  Lock / Unlock button.
+
 ## 19.0.0.0.14 (2026-10-09)
 
 - Fix partial deliveries with a backorder (TRANSIT-004): the receiving leg checks its products against the source transfer and all its backorders, so the products left for a source backorder can still be received. A source backorder created by the native `_create_backorder` keeps "Second Transfer Created" (its products are already in the receiving leg, no duplicate reception) and its chatter names the receiving transfer.

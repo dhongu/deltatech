@@ -108,9 +108,8 @@ class StockPicking(models.Model):
                 record.is_transit_transfer = False
                 continue
             if record.picking_type_id.code == "internal" and record.picking_type_id.two_step_transfer_use == "delivery":
+                # a display indicator: it must not change the lock of the transfer
                 record.is_transit_transfer = True
-                record.action_toggle_is_locked()
-            # record.immediate_transfer = False
             else:
                 record.is_transit_transfer = False
 
