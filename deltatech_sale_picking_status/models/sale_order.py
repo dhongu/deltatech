@@ -1,7 +1,7 @@
 # ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
@@ -12,13 +12,14 @@ class SaleOrder(models.Model):
             ("done", "Done"),  # order done
             ("in_progress", "In Progress"),  # order in progress
         ],
-        default="in_progress",
         string="Picking Status",
         copy=False,
         tracking=True,
         store=True,
+        compute="_compute_picking_status",
     )
 
+    @api.depends("state", "picking_ids", "picking_ids.state")
     def _compute_picking_status(self):
         for order in self:
             if order.state == "cancel":
