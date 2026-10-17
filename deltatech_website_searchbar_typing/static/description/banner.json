@@ -1,0 +1,6 @@
+{
+  "title": "Website Searchbar Typing Examples",
+  "summary": "The search box placeholder types example searches",
+  "icon": "globe",
+  "features": ["Examples typed one after another", "Stops on focus or typing", "Respects reduced motion"]
+}
