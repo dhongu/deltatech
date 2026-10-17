@@ -6,10 +6,9 @@ import base64
 import ipaddress
 import logging
 import socket
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urljoin, urlparse, urlsplit
 
 import requests
-import werkzeug
 
 from odoo import api, fields, models
 from odoo.tools import image
@@ -106,7 +105,7 @@ class ProductTemplate(models.Model):
     @api.onchange("image_file_name")
     def onchange_image_file_name(self):
         if self.image_file_name:
-            parsed_url = werkzeug.urls.url_parse(self.image_file_name)
+            parsed_url = urlparse(self.image_file_name)
             if parsed_url.scheme:
                 data = self._load_image_from_url(self.image_file_name)
                 if data:
@@ -116,7 +115,7 @@ class ProductTemplate(models.Model):
     def write(self, vals):
         if "image_file_name" in vals:
             image_file_name = vals["image_file_name"]
-            parsed_url = werkzeug.urls.url_parse(image_file_name)
+            parsed_url = urlparse(image_file_name or "")
             if parsed_url.scheme:
                 data = self._load_image_from_url(image_file_name)
                 if data:
