@@ -87,7 +87,7 @@ class ProductTemplate(models.Model):
     )
     def _compute_website_visibility(self):
         criteria = self.env["deltatech.product.visibility.criterion"].search([])
-        weights = {c.code: c.weight for c in criteria}
+        weights = {c.code: max(c.weight, 0) for c in criteria}
         total_weight = sum(weights.values())
         for product in self:
             checks = product._get_visibility_checks()

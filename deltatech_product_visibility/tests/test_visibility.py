@@ -2,8 +2,11 @@
 #              Voicu Stefan <stefan(@)terrabit(.)ro
 # See README.rst file on addons root folder for license details
 
+from psycopg2 import IntegrityError
+
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 # 1x1 px PNG valid (imagine pentru image_1920)
 IMG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGM4wcAAAAJcAMlDyBJGAAAAAElFTkSuQmCC"
@@ -72,3 +75,13 @@ class TestProductVisibility(TransactionCase):
     def test_recompute_action(self):
         criterion = self.env.ref("deltatech_product_visibility.criterion_seo")
         criterion.action_recompute_scores()
+
+    def test_negative_weight_rejected(self):
+        criterion = self.env.ref("deltatech_product_visibility.criterion_seo")
+        with mute_logger("odoo.sql_db"), self.assertRaises(IntegrityError), self.cr.savepoint():
+            criterion.write({"weight": -90})
+            criterion.flush_recordset()
+        with mute_logger("odoo.sql_db"), self.assertRaises(IntegrityError), self.cr.savepoint():
+            self.env["deltatech.product.visibility.criterion"].create(
+                {"name": "Negativ", "code": "default_code", "weight": -5}
+            ).flush_recordset()

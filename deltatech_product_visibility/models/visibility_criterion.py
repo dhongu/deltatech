@@ -33,6 +33,10 @@ class ProductVisibilityCriterion(models.Model):
         "unique(code)",
         "Există deja un criteriu pentru acest tip de verificare.",
     )
+    _weight_positive = models.Constraint(
+        "CHECK(weight >= 0)",
+        "Ponderea criteriului nu poate fi negativă.",
+    )
 
     def action_recompute_scores(self):
         """Reevaluează scorul pentru toate produsele (util după modificarea ponderilor)."""
