@@ -254,6 +254,11 @@
       "lines": 84,
       "tests": 7
     },
+    "deltatech_payment_report": {
+      "coverage": 91.7,
+      "lines": 56,
+      "tests": 3
+    },
     "deltatech_payment_term": {
       "coverage": 99.0,
       "lines": 98,
