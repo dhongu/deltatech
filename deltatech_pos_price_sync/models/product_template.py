@@ -22,11 +22,16 @@ class ProductTemplate(models.Model):
         if not self:
             return
         domain = [("state", "=", "opened")]
-        company_ids = self.mapped("company_id").ids
-        if company_ids:
-            domain.append(("company_id", "in", company_ids))
+        # Shared templates (no company) go to every open session; company-specific
+        # ones only to the sessions of their company. Filter per config, so a mixed
+        # batch does not drop the shared templates for the other companies.
+        if all(tmpl.company_id for tmpl in self):
+            domain.append(("company_id", "in", self.company_id.ids))
         sessions = self.env["pos.session"].sudo().search(domain)
         for config in sessions.config_id:
-            data = self._load_pos_data_read(self, config)
+            templates = self.filtered(lambda t, c=config: not t.company_id or t.company_id == c.company_id)
+            if not templates:
+                continue
+            data = self._load_pos_data_read(templates, config)
             if data:
                 config._notify("PRICE_SYNCHRONISATION", {"product.template": data})
