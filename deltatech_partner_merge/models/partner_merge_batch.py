@@ -7,7 +7,7 @@ import time
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import SQL
+from odoo.tools import SQL, float_compare
 
 from . import sql_queries as Q
 
@@ -175,11 +175,13 @@ class PartnerMergeBatch(models.Model):
         self.line_ids.unlink()
         cr.execute(
             """SELECT m.master_id, m.vat_n, g.categorie, count(*),
-                      array_agg(m.old_id ORDER BY m.old_id), s.denumiri_absorbite
+                      array_agg(m.old_id ORDER BY m.old_id), s.denumiri_absorbite,
+                      s.facturi_asteptate, s.comenzi_v_asteptate, s.sold_asteptat
                  FROM pm_map m
                  JOIN pm_group g ON g.vat_n = m.vat_n AND g.company_key = m.company_key
                  LEFT JOIN pm_snapshot s ON s.master_id = m.master_id
-                GROUP BY m.master_id, m.vat_n, g.categorie, s.denumiri_absorbite
+                GROUP BY m.master_id, m.vat_n, g.categorie, s.denumiri_absorbite,
+                         s.facturi_asteptate, s.comenzi_v_asteptate, s.sold_asteptat
                 ORDER BY m.vat_n, m.master_id"""
         )
         Line = self.env["partner.merge.batch.line"]
@@ -192,8 +194,12 @@ class PartnerMergeBatch(models.Model):
                 "absorbed_count": n,
                 "absorbed_ids": ", ".join(str(i) for i in ids),
                 "absorbed_names": names or "",
+                "snapshot_taken": invoices is not None,
+                "expected_invoices": invoices or 0,
+                "expected_sale_orders": orders or 0,
+                "expected_balance": float(balance or 0),
             }
-            for master_id, vat_n, cat, n, ids, names in cr.fetchall()
+            for master_id, vat_n, cat, n, ids, names, invoices, orders, balance in cr.fetchall()
         ]
         Line.create(vals)
 
@@ -361,11 +367,21 @@ class PartnerMergeBatch(models.Model):
         return True
 
     def action_verify(self):
-        """Compares the masters' real totals with the snapshot taken before the merge."""
+        """Compares the masters' real totals with the snapshot this batch took before the merge.
+
+        The snapshot is read from the batch lines, not from the shared working tables
+        (pm_snapshot, pm_map), which the analysis of any later batch rebuilds."""
         self.ensure_one()
         cr = self.env.cr
-        if not self._table_exists(cr, "pm_snapshot"):
-            raise UserError(self.env._("No snapshot found — analyze a batch first."))
+        lines = self.line_ids
+        if not lines or not all(lines.mapped("snapshot_taken")):
+            raise UserError(
+                self.env._(
+                    "This batch has no snapshot of its own (it was analyzed by an older version of the "
+                    "module), so it cannot be verified. The working tables belong to the latest analyzed "
+                    "batch and would not show this batch's figures."
+                )
+            )
         parts = {
             "facturi_m": "(SELECT count(*) FROM account_move mv WHERE mv.partner_id = s.master_id "
             "AND mv.move_type <> 'entry')"
@@ -381,15 +397,22 @@ class PartnerMergeBatch(models.Model):
             if self._table_exists(cr, "account_move_line")
             else "0",
         }
-        cr.execute(SQL(Q.VERIFY_TOTALS.format(**parts)))
-        checked, ab_inv, ab_ord, ab_bal = cr.fetchone()
-        cr.execute("SELECT count(*) FROM pm_map m JOIN res_partner p ON p.id = m.old_id")
+        cr.execute(SQL(Q.VERIFY_REAL.format(**parts), lines.master_id.ids))
+        real = {master_id: (invoices, orders, balance) for master_id, invoices, orders, balance in cr.fetchall()}
+        ab_inv = ab_ord = ab_bal = 0
+        for line in lines:
+            invoices, orders, balance = real.get(line.master_id.id, (0, 0, 0))
+            ab_inv += invoices != line.expected_invoices
+            ab_ord += orders != line.expected_sale_orders
+            ab_bal += float_compare(float(balance), line.expected_balance, precision_digits=2) != 0
+        absorbed = [int(i) for i in ",".join(lines.mapped("absorbed_ids")).split(",") if i.strip()]
+        cr.execute(SQL("SELECT count(*) FROM res_partner WHERE id = ANY(%s)", absorbed))
         still = cr.fetchone()[0]
         ok = not (ab_inv or ab_ord or ab_bal) and (still == 0 or self.archive_instead_of_delete)
         self.report = "\n".join(
             [
                 self.env._("=== VERIFICATION ==="),
-                self.env._("masters checked            : %s", checked),
+                self.env._("masters checked            : %s", len(lines)),
                 self.env._("invoice count mismatches   : %s", ab_inv),
                 self.env._("order count mismatches     : %s", ab_ord),
                 self.env._("balance mismatches         : %s", ab_bal),

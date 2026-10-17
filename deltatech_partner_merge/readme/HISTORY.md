@@ -1,3 +1,7 @@
+## 19.0.1.0.5 (2026-10-17)
+
+- MERGE-002: *Verify* on an applied batch checked the working tables of the latest analyzed batch, so after another batch was analyzed it reported the masters, totals and remaining records of that other batch. The snapshot taken at the analysis (expected invoices, sales orders and unreconciled balance per kept record) is now stored on the batch lines, and *Verify* compares against it and against the batch's own absorbed records. Batches analyzed before this version have no stored snapshot and *Verify* refuses them with a message instead of showing another batch's figures.
+
 ## 19.0.1.0.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
