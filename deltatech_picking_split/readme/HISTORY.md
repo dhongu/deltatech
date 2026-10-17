@@ -1,3 +1,12 @@
+## 19.0.1.0.4 (2026-10-17)
+
+- Fixed PICKSPLIT-001: the manual backorder wizard proposed as kept quantity the
+  forecast of the product in its stock unit, without converting it to the unit
+  of the move. A move in dozens with 6 units available proposed 6 dozen kept,
+  and a move with stock missing proposed a negative quantity. The proposed kept
+  quantity is now converted to the move unit, at least the reserved quantity,
+  and limited between 0 and the demand.
+
 ## 19.0.1.0.3 (2026-10-09)
 
 - Apps Store banner (banner.json).

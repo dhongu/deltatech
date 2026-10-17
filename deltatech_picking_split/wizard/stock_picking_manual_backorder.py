@@ -21,11 +21,17 @@ class ManualBackOrder(models.TransientModel):
 
         line_ids = []
         for move in picking.move_ids:
+            # forecast_availability is in the product unit and is negative when stock is missing;
+            # the kept quantity is in the move unit, between 0 and the demand
+            forecast = move.product_id.uom_id._compute_quantity(
+                move.forecast_availability, move.product_uom, rounding_method="HALF-UP"
+            )
+            kept_qty = min(max(forecast, move.quantity, 0.0), move.product_uom_qty)
             values = {
                 "product_id": move.product_id.id,
                 "move_id": move.id,
                 "product_uom_qty": move.product_uom_qty,
-                "kept_qty": move.forecast_availability,
+                "kept_qty": kept_qty,
             }
             line_ids += [(0, 0, values)]
         defaults["line_ids"] = line_ids

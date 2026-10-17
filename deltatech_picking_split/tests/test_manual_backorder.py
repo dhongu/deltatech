@@ -67,3 +67,42 @@ class TestManualBackorder(TransactionCase):
             wizard.do_create_backorder()
         self.assertEqual(self.move.product_uom_qty, 3.0)
         self.assertFalse(self._backorders())
+
+    def test_default_kept_converted_to_move_unit(self):
+        """PICKSPLIT-001: the forecast (in the product unit) is converted to the move unit"""
+        warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], limit=1)
+        customers = self.env.ref("stock.stock_location_customers")
+        product = self.env["product.product"].create({"name": "Split Dozen Product", "is_storable": True})
+        self.env["stock.quant"]._update_available_quantity(product, warehouse.lot_stock_id, 6.0)
+        dozen = self.env.ref("uom.product_uom_dozen")
+        picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": warehouse.out_type_id.id,
+                "location_id": warehouse.lot_stock_id.id,
+                "location_dest_id": customers.id,
+                "move_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "product_uom": dozen.id,
+                            "product_uom_qty": 1.0,
+                            "location_id": warehouse.lot_stock_id.id,
+                            "location_dest_id": customers.id,
+                        },
+                    )
+                ],
+            }
+        )
+        picking.action_confirm()
+        picking.action_assign()
+        move = picking.move_ids
+        wizard = self.env["stock.picking.manual.backorder"].with_context(active_id=picking.id).create({})
+        self.assertAlmostEqual(wizard.line_ids.product_uom_qty, 1.0)
+        self.assertAlmostEqual(wizard.line_ids.kept_qty, 0.5)
+        wizard.do_create_backorder()
+        backorder = self.env["stock.picking"].search([("backorder_id", "=", picking.id)])
+        self.assertAlmostEqual(move.product_uom_qty, 0.5)
+        self.assertAlmostEqual(backorder.move_ids.product_uom_qty, 0.5)
+        self.assertEqual(backorder.move_ids.product_uom, dozen)
