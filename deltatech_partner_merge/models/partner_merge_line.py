@@ -35,6 +35,14 @@ class PartnerMergeBatchLine(models.Model):
         help="Captured before the merge: afterwards these records no longer exist. Useful when the "
         "kept record carries the degraded name and the correct one was on an absorbed record.",
     )
+    # snapshot taken at the analysis, kept on the line so the batch can be verified later,
+    # whatever batch was analyzed since (the working tables are shared and rebuilt)
+    snapshot_taken = fields.Boolean(readonly=True)
+    expected_invoices = fields.Integer(readonly=True, help="Invoices of the whole group before the merge.")
+    expected_sale_orders = fields.Integer(readonly=True, help="Sales orders of the whole group before the merge.")
+    expected_balance = fields.Float(
+        digits=(16, 2), readonly=True, help="Unreconciled balance of the whole group before the merge."
+    )
     master_name = fields.Char(related="master_id.name", string="Kept name", store=False)
     name_suspect = fields.Boolean(
         compute="_compute_name_suspect",

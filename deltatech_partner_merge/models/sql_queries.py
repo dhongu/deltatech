@@ -273,15 +273,9 @@ DELETE_ABSORBED = "DELETE FROM res_partner p USING pm_map m WHERE p.id = m.old_i
 ARCHIVE_ABSORBED = "UPDATE res_partner p SET active = false FROM pm_map m WHERE p.id = m.old_id"
 
 # --- verificări -------------------------------------------------------------
-VERIFY_TOTALS = """
-    WITH real AS (
-      SELECT s.master_id,
-        {facturi_m} AS facturi, {comenzi_v_m} AS comenzi_v, {sold_m} AS sold
-      FROM pm_snapshot s
-    )
-    SELECT count(*) AS verificati,
-           count(*) FILTER (WHERE r.facturi   <> s.facturi_asteptate)   AS ab_facturi,
-           count(*) FILTER (WHERE r.comenzi_v <> s.comenzi_v_asteptate) AS ab_comenzi,
-           count(*) FILTER (WHERE r.sold      <> s.sold_asteptat)       AS ab_sold
-    FROM pm_snapshot s JOIN real r ON r.master_id = s.master_id
+# totalurile reale ale masterilor unui lot; valorile așteptate sunt pe liniile lotului,
+# nu în pm_snapshot, pe care analiza oricărui lot ulterior îl reconstruiește
+VERIFY_REAL = """
+    SELECT s.master_id, {facturi_m} AS facturi, {comenzi_v_m} AS comenzi_v, {sold_m} AS sold
+    FROM unnest(%s::int[]) AS s(master_id)
 """
