@@ -75,3 +75,23 @@ class TestPartnerPhone(AccountTestInvoicingCommon):
             self.sale_order_with_no_contact.partner_phone,
             "The phone should be False for a partner with no contact details.",
         )
+
+    def test_account_move_phone_follows_partner_phone(self):
+        move = self.account_move_with_phone
+        self.assertEqual(move.partner_phone, "123-456-7890")
+        self.partner_with_phone.phone = "999-000-1111"
+        self.assertEqual(
+            move.partner_phone,
+            "999-000-1111",
+            "Changing the partner's phone must refresh the invoice phone.",
+        )
+
+    def test_sale_order_phone_follows_partner_phone(self):
+        order = self.sale_order_with_phone
+        self.assertEqual(order.partner_phone, "123-456-7890")
+        self.partner_with_phone.phone = "999-000-1111"
+        self.assertEqual(
+            order.partner_phone,
+            "999-000-1111",
+            "Changing the partner's phone must refresh the order phone.",
+        )

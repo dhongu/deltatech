@@ -11,7 +11,7 @@ class SaleOrder(models.Model):
 
     partner_phone = fields.Char(string="Phone", compute="_compute_phone")
 
-    @api.depends("partner_id")
+    @api.depends("partner_id", "partner_id.phone")
     def _compute_phone(self):
         for order in self:
             order.partner_phone = order.partner_id.phone or False
