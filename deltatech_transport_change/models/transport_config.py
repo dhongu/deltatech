@@ -7,10 +7,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 
-from .transport_utils import (
-    _bump_manifest_version_inplace,
-    map_xmlid,
-)
+from .transport_utils import _bump_manifest_version_inplace
 
 _logger = logging.getLogger(__name__)
 
@@ -60,6 +57,8 @@ class TransportConfig(models.Model):
         repos = self.mapped("repo_id")
 
         total_exports = 0
+        exported = self.browse()
+        failed_groups = 0
         for repo in repos:
             # Enforce HTTPS + token
             cfgs = self.filtered(lambda c: c.repo_id == repo)
@@ -72,6 +71,7 @@ class TransportConfig(models.Model):
             except Exception as e:
                 for c in cfgs:
                     c.message_post(body=f"[Git] Repository clone failed: {e}")
+                failed_groups += 1
                 continue
 
             # Prepare tracking for written files in this group
@@ -89,7 +89,6 @@ class TransportConfig(models.Model):
                     )
                     manifest_path = manifest_abs
                     written_files.append(rel)
-                    total_exports += 1
 
                 # Bump manifest version once
                 if manifest_path:
@@ -102,9 +101,12 @@ class TransportConfig(models.Model):
                     # Post summary message
                     for cfg in cfgs:
                         cfg.message_post(body=f"[Git] Commit & push succeeded on {branch}: {', '.join(written_files)}")
+                    exported |= cfgs
+                    total_exports += len(cfgs)
                 except Exception as e:
                     for cfg in cfgs:
                         cfg.message_post(body=f"[Git] Push failed on {branch}: {e}")
+                    failed_groups += 1
             finally:
                 # Cleanup temp clone
                 with contextlib.suppress(Exception):
@@ -112,17 +114,20 @@ class TransportConfig(models.Model):
 
                     shutil.rmtree(tmp_root, ignore_errors=True)
 
-        for cfg in self:
-            cfg.write({"last_export": fields.Datetime.now()})
+        # only the configurations whose push was confirmed are marked as exported
+        exported.write({"last_export": fields.Datetime.now()})
 
+        message = f"Exported {total_exports} dataset(s)."
+        if failed_groups:
+            message += f" {failed_groups} repository export(s) failed; see the chatter of the configurations."
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": "Exports completed",
-                "message": f"Exported {total_exports} dataset(s).",
-                "type": "success",
-                "sticky": False,
+                "title": "Exports completed" if not failed_groups else "Exports failed",
+                "message": message,
+                "type": "success" if not failed_groups else "warning",
+                "sticky": bool(failed_groups),
             },
         }
 
@@ -136,18 +141,14 @@ class TransportConfig(models.Model):
         field_names = [n for n in self.field_ids.mapped("name") if n != "id"]
         if not field_names:
             raise UserError("You have not specified fields to export.")
+        # relational values are written as external IDs, so the importer needs the
+        # `field/id` header; records without an external ID get a stable `__export__` one
+        header = ["id"] + [f"{name}/id" if model._fields[name].relational else name for name in field_names]
+        rows = records.with_context(import_compat=True)._export_rows([path.split("/") for path in header])
         buf = io.StringIO()
         writer = csv.writer(buf)
-        header = ["id"] + field_names
         writer.writerow(header)
-        ext_map = records.get_external_id()
-        for rec in records:
-            ext_id = ext_map.get(rec.id) or f"{rec._name},{rec.id}"
-            row = [ext_id]
-            for f in field_names:
-                val = getattr(rec, f, "")
-                row.append(map_xmlid(val))
-            writer.writerow(row)
+        writer.writerows(rows)
         csv_data = buf.getvalue()
         filename = f"{self.model_id.model}.csv"
         return csv_data, filename
