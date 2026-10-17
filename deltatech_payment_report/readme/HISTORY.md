@@ -1,3 +1,11 @@
+## 19.0.1.0.6 (2026-10-17)
+
+- **Fix (PAYREPORT-002): removed the unusable *Print Preview* helper.** The
+  method behind it called `report_action` on the window action of the report
+  lines, which has no such method, and the module defines no PDF report, so a
+  call ended in an error. The method and the `general_buttons` context that
+  advertised it are removed; *Show* works as before.
+
 ## 19.0.1.0.5 (2026-10-17)
 
 - **Fix: the *Card* payment method is again limited to bank journals.** Its

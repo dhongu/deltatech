@@ -72,3 +72,12 @@ class TestPaymentReport(TransactionCase):
         journals = self.env["account.journal"].search(domain)
         self.assertIn(self.journal, journals)
         self.assertNotIn(cash, journals)
+
+    def test_no_print_preview_on_window_action(self):
+        """PAYREPORT-002: no Print Preview helper calling report_action on a window action"""
+        action = self.env.ref("deltatech_payment_report.action_account_payment_report_line")
+        self.assertEqual(action._name, "ir.actions.act_window")
+        self.assertNotIn("general_buttons", action.context or "")
+        report = self.env["account.payment.report"].create({"company_id": self.company.id})
+        self.assertFalse(hasattr(report, "print_pdf"))
+        self.assertFalse(hasattr(self.env["account.payment.report.line"], "get_general_buttons"))

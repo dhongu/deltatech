@@ -4,7 +4,7 @@
 
 {
     "name": "Payment Report",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Payment analysis report by journal and period, with a filter wizard",
