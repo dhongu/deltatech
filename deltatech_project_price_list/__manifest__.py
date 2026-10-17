@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Project Pricelist",
     "summary": "Project-level pricelist used when creating Sales Orders from a project",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales/Project",
