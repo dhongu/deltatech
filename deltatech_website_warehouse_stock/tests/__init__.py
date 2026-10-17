@@ -1,0 +1,2 @@
+from . import test_warehouse_company
+from . import test_product_page
