@@ -34,7 +34,8 @@ class TestDefaultValuesCompanyRule(TransactionCase):
         cls.user_a = new_test_user(
             cls.env,
             login="type001_user_a",
-            groups="base.group_user",
+            # TYPE-002: only the managers may change record types and their values
+            groups="sales_team.group_sale_manager",
             company_id=cls.company_a.id,
             company_ids=[Command.set(cls.company_a.ids)],
         )
