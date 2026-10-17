@@ -17,16 +17,16 @@
                             <br />
                             <div>
                                 <span>We,</span>
-                                <strong t-field="res_company.partner_id.name" />
+                                <strong t-field="o.company_id.partner_id.name" />
                                 <span>, with dates the tax identification</span>
-                                <span t-field="res_company.partner_id.vat" />
+                                <span t-field="o.company_id.partner_id.vat" />
                                 ,
-                                <span t-field="res_company.partner_id.nrc" />
+                                <span t-if="'nrc' in o.company_id.partner_id._fields" t-field="o.company_id.partner_id.nrc" />
                                 <span>, with its headquarters in</span>
-                                <span t-field="res_company.partner_id.city" />
+                                <span t-field="o.company_id.partner_id.city" />
                                 <span>street</span>
-                                <span t-field="res_company.partner_id.street" />
-                                <span t-field="res_company.partner_id.street2" />
+                                <span t-field="o.company_id.partner_id.street" />
+                                <span t-field="o.company_id.partner_id.street2" />
                                 <span>, declare that the product:</span>
 
                                 <strong t-field="o.product_id.name" />
