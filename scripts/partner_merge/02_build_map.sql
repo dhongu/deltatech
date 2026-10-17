@@ -7,7 +7,9 @@
 --   pm_snapshot   — totalurile pe grup ÎNAINTE de unificare (pentru verificarea din 04)
 --
 -- Reguli de grupare: companii active, cu CUI normalizat (fără spații/punctuație),
--- grupuri cu cel puțin 2 membri.
+-- grupuri cu cel puțin 2 membri. Grupul este (CUI, companie): fișele cu același CUI
+-- din companii diferite nu se unifică între ele; fișele comune (fără companie) formează
+-- grupuri separate (company_key = 0). La fel ca modulul deltatech_partner_merge.
 --
 -- Master = fața cu cele mai multe facturi, apoi cele mai multe comenzi,
 --          apoi cea mai veche, apoi cel mai mic id (determinist).
@@ -36,14 +38,14 @@ BEGIN;
 DROP TABLE IF EXISTS pm_face CASCADE;
 CREATE TABLE pm_face AS
 WITH norm AS (
-  SELECT id, name, create_date, company_registry,
+  SELECT id, name, create_date, company_registry, COALESCE(company_id, 0) AS company_key,
          upper(regexp_replace(vat, '[^0-9A-Za-z]', '', 'g')) AS vat_n
   FROM res_partner
   WHERE active AND is_company AND vat IS NOT NULL AND vat <> ''
 ), grp AS (
-  SELECT vat_n FROM norm GROUP BY vat_n HAVING count(*) > 1
+  SELECT vat_n, company_key FROM norm GROUP BY vat_n, company_key HAVING count(*) > 1
 )
-SELECT n.vat_n, n.id, n.name, n.create_date, n.company_registry,
+SELECT n.vat_n, n.company_key, n.id, n.name, n.create_date, n.company_registry,
   (SELECT count(*) FROM account_move m  WHERE m.partner_id = n.id AND m.move_type <> 'entry')          AS facturi,
   (SELECT count(*) FROM sale_order s    WHERE s.partner_id = n.id)                                      AS comenzi_v,
   (SELECT count(*) FROM purchase_order o WHERE o.partner_id = n.id)                                     AS comenzi_a,
@@ -57,8 +59,8 @@ SELECT n.vat_n, n.id, n.name, n.create_date, n.company_registry,
             JOIN account_account a ON a.id = l.account_id
             JOIN account_move mv   ON mv.id = l.move_id
            WHERE l.partner_id = n.id AND mv.state = 'posted' AND a.reconcile AND NOT l.reconciled), 0) AS sold
-FROM norm n JOIN grp g ON g.vat_n = n.vat_n;
-CREATE INDEX ON pm_face(vat_n);
+FROM norm n JOIN grp g ON g.vat_n = n.vat_n AND g.company_key = n.company_key;
+CREATE INDEX ON pm_face(vat_n, company_key);
 CREATE UNIQUE INDEX ON pm_face(id);
 ANALYZE pm_face;
 
@@ -66,7 +68,7 @@ ANALYZE pm_face;
 DROP TABLE IF EXISTS pm_group CASCADE;
 CREATE TABLE pm_group AS
 WITH g AS (
-  SELECT vat_n,
+  SELECT vat_n, company_key,
          count(*) AS membri,
          count(*) FILTER (WHERE facturi > 0)                                                    AS cu_facturi,
          count(*) FILTER (WHERE facturi + comenzi_v + comenzi_a + livrari
@@ -76,9 +78,9 @@ WITH g AS (
          sum(e_companie_proprie)                                                                AS companii_proprii,
          -- denumiri divergente: prefixele numelor sunt toate distincte
          count(DISTINCT lower(left(regexp_replace(name, '[^[:alnum:] ]', '', 'g'), 6))) AS prefixe_nume
-  FROM pm_face GROUP BY vat_n
+  FROM pm_face GROUP BY vat_n, company_key
 )
-SELECT vat_n, membri, cu_facturi, goi, cu_sold, cu_useri, companii_proprii, prefixe_nume,
+SELECT vat_n, company_key, membri, cu_facturi, goi, cu_sold, cu_useri, companii_proprii, prefixe_nume,
   CASE
     WHEN goi = membri - 1 AND cu_facturi <= 1 THEN 'A'
     WHEN cu_facturi <= 1                      THEN 'B'
@@ -92,24 +94,24 @@ SELECT vat_n, membri, cu_facturi, goi, cu_sold, cu_useri, companii_proprii, pref
     WHEN prefixe_nume = membri THEN 'denumiri divergente - revizuire manuala'
   END AS blocaj
 FROM g;
-CREATE UNIQUE INDEX ON pm_group(vat_n);
+CREATE UNIQUE INDEX ON pm_group(vat_n, company_key);
 ANALYZE pm_group;
 
 -- 3) Maparea lotului curent
 DROP TABLE IF EXISTS pm_map CASCADE;
 CREATE TABLE pm_map AS
 WITH eligibil AS (
-  SELECT vat_n FROM pm_group
+  SELECT vat_n, company_key FROM pm_group
   WHERE categorie IN (:categorii) AND blocaj IS NULL
-  ORDER BY vat_n
+  ORDER BY vat_n, company_key
   LIMIT CASE WHEN :limita_grupuri > 0 THEN :limita_grupuri ELSE NULL END
 ), master AS (
-  SELECT DISTINCT ON (f.vat_n) f.vat_n, f.id AS master_id
-  FROM pm_face f JOIN eligibil e ON e.vat_n = f.vat_n
-  ORDER BY f.vat_n, f.facturi DESC, f.comenzi_v DESC, f.create_date ASC, f.id ASC
+  SELECT DISTINCT ON (f.vat_n, f.company_key) f.vat_n, f.company_key, f.id AS master_id
+  FROM pm_face f JOIN eligibil e ON e.vat_n = f.vat_n AND e.company_key = f.company_key
+  ORDER BY f.vat_n, f.company_key, f.facturi DESC, f.comenzi_v DESC, f.create_date ASC, f.id ASC
 )
-SELECT f.vat_n, f.id AS old_id, m.master_id
-FROM pm_face f JOIN master m ON m.vat_n = f.vat_n
+SELECT f.vat_n, f.company_key, f.id AS old_id, m.master_id
+FROM pm_face f JOIN master m ON m.vat_n = f.vat_n AND m.company_key = f.company_key
 WHERE f.id <> m.master_id;
 CREATE UNIQUE INDEX ON pm_map(old_id);
 CREATE INDEX ON pm_map(master_id);

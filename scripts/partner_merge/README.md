@@ -3,6 +3,9 @@
 Set de scripturi pentru unificarea în masă a fișelor de parteneri care împart același CUI, fără a dezactiva cheile
 străine și fără drepturi de superuser (merge și pe odoo.sh).
 
+Un grup este (CUI, companie): fișele cu același CUI din companii diferite nu se unifică între ele, iar fișele comune
+(fără companie) formează grupuri separate, la fel ca în modulul `deltatech_partner_merge`.
+
 ## De ce nu wizardul standard și nu `session_replication_role`
 
 Wizardul Odoo (`base.partner.merge.automatic.wizard`) rulează `_update_foreign_keys` **per grup**: la ~4.800 de grupuri

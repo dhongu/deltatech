@@ -1,3 +1,8 @@
+## 19.0.1.0.5 (2026-10-17)
+
+- MERGE-002: *Verify* on an applied batch checked the working tables of the latest analyzed batch, so after another batch was analyzed it reported the masters, totals and remaining records of that other batch. The snapshot taken at the analysis (expected invoices, sales orders and unreconciled balance per kept record) is now stored on the batch lines, and *Verify* compares against it and against the batch's own absorbed records. Batches analyzed before this version have no stored snapshot and *Verify* refuses them with a message instead of showing another batch's figures.
+- MERGE-003: the stand-alone SQL scripts in `deltatech/scripts/partner_merge/` grouped partners by VAT alone, so a manual run on a multi-company database merged partners of different companies into one master. `02_build_map.sql` now groups and chooses the master per (VAT, company), with shared partners (no company) in groups of their own, as the module does; the progress count in `04_verify.sql` uses the same grouping.
+
 ## 19.0.1.0.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
