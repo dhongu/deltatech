@@ -4,7 +4,7 @@
 {
     "name": "MRP Cost",
     "summary": "Add labour, utilities and overhead costs to the manufacturing order price",
-    "version": "19.0.2.0.8",
+    "version": "19.0.2.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
