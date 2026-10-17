@@ -3,7 +3,7 @@
   "summary": "Payments by journal, partner and period",
   "features": [
     "Filter by date range and payment journal",
-    "Pivot by journals and partner",
+    "Pivot by payment and invoice journal",
     "Detailed list of the payment lines"
   ]
 }
