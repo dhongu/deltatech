@@ -29,10 +29,8 @@ def _check_api_key(api_key):
 
 
 class QueueJobProcessorController(http.Controller):
-    @http.route("/run_jobs", type="http", auth="user", methods=["POST"], csrf=False)
-    def run_jobs(self, **kwargs):
-        request.env["queue.job"]._run_pending_jobs()
-        return "Jobs executed"
+    # QUEUE-003: the legacy /run_jobs route called an undefined runner and always
+    # failed; it is removed, external callers use /api/v1/queue/process.
 
     @http.route("/api/v1/queue/process", type="jsonrpc", auth="public", methods=["POST"], csrf=False)
     def process_queue_jobs(self, api_key=None, batch_size=None, max_seconds=None, **kw):
