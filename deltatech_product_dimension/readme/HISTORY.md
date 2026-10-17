@@ -1,3 +1,10 @@
+# 19.0.1.0.3 (2026-10-17)
+
+- Setting a dimension to zero now resets the volume to zero, instead of keeping the
+  previous value.
+- The volume computed from the dimensions is now expressed in the configured volume
+  unit: with volumes in cubic feet, 100 x 100 x 100 cm gives about 35.31 ft³, not 1.
+
 # 19.0.1.0.2 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

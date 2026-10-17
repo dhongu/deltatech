@@ -15,5 +15,8 @@ class ProductTemplate(models.Model):
 
     @api.onchange("product_length", "product_width", "product_height")
     def _onchange_dimension(self):
-        if self.product_length and self.product_width and self.product_height:
-            self.volume = self.product_length * self.product_width * self.product_height / 1000000
+        # dimensions are in cm; the product is in m3, converted to the configured volume unit
+        volume_m3 = self.product_length * self.product_width * self.product_height / 1000000
+        cubic_meter = self.env.ref("uom.product_uom_cubic_meter")
+        volume_uom = self._get_volume_uom_id_from_ir_config_parameter()
+        self.volume = cubic_meter._compute_quantity(volume_m3, volume_uom, round=False)
