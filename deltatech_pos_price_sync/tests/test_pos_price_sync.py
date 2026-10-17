@@ -51,3 +51,24 @@ class TestPosPriceSync(TransactionCase):
         with patch.object(type(self.pos_config), "_notify") as notify_mock:
             self.product.product_tmpl_id.write({"list_price": 30.0})
         notify_mock.assert_not_called()
+
+    def test_mixed_shared_and_other_company_batch_notifies_each_company(self):
+        """A batch with a shared product and a product of another company must still
+        push the shared product to the sessions of the current company (#3415)."""
+        company_b = self.env["res.company"].create({"name": "Price Sync Company B"})
+        other_company_tmpl = self.env["product.template"].create(
+            {
+                "name": "Company B Product",
+                "available_in_pos": True,
+                "list_price": 7.0,
+                "company_id": company_b.id,
+            }
+        )
+        shared_tmpl = self.product.product_tmpl_id
+        self.assertFalse(shared_tmpl.company_id)
+        with patch.object(type(self.pos_config), "_notify") as notify_mock:
+            (shared_tmpl | other_company_tmpl).sudo().write({"list_price": 40.0})
+        notify_mock.assert_called_once()
+        data = notify_mock.call_args.args[1]["product.template"]
+        self.assertEqual([rec["id"] for rec in data], [shared_tmpl.id])
+        self.assertEqual(data[0]["list_price"], 40.0)

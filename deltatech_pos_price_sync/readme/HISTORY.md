@@ -1,3 +1,9 @@
+## 19.0.1.0.2 (2026-10-17)
+
+- Saving a new price on a shared product together with a product of another company now still
+  pushes the shared product to the open POS sessions of every company; before, only the sessions of
+  the other company received the update (#3415).
+
 ## 19.0.1.0.1 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.
