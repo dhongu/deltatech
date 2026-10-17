@@ -3,8 +3,12 @@
 
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
+from odoo.tools import float_compare
 from odoo.tools.safe_eval import safe_eval
+
+# Line values that only the users allowed to change the price may set
+PRICE_FIELDS = ("price_unit", "discount")
 
 
 class SaleOrder(models.Model):
@@ -44,6 +48,11 @@ class SaleOrder(models.Model):
                 warning_message += " " + self.env._("The order can still be confirmed.")
             if warning_message:
                 order.price_warning_message = warning_message
+
+    def _recompute_prices(self):
+        # "Update prices" re-applies the pricelist: an automatic repricing, which
+        # the users of `group_sale_no_change_price` may run
+        return super(SaleOrder, self.with_context(dt_allow_price_change=True))._recompute_prices()
 
     # la validare se verifica pretul de vanzare
     def action_confirm(self):
@@ -238,7 +247,67 @@ class SaleOrderLine(models.Model):
         res = self.change_price_or_product(res)
         return res
 
+    def _price_change_restricted(self):
+        """Is the current user barred from setting the price or the discount?
+
+        `group_sale_no_change_price` used to make the fields readonly in the form
+        only, so the same user could still change them through RPC, an import or
+        another client. Automatic repricing (computes, "Update prices") and
+        superuser code stay allowed.
+        """
+        if self.env.su or self.env.context.get("dt_allow_price_change"):
+            return False
+        if self.env.context.get("sale_write_from_compute"):
+            return False
+        return self.env.user.has_group("deltatech_sale_margin.group_sale_no_change_price")
+
+    @api.model
+    def _price_change_exempt_vals(self, vals):
+        # lines whose price does not come from the pricelist: notes/sections,
+        # down payments, delivery and loyalty reward lines are priced by the
+        # flows that create them
+        return any(vals.get(key) for key in ("display_type", "is_downpayment", "is_delivery", "reward_id"))
+
+    def _price_change_exempt(self):
+        self.ensure_one()
+        return (
+            self.display_type
+            or self.is_downpayment
+            or self.is_delivery
+            or ("reward_id" in self._fields and self.reward_id)
+        )
+
+    def _price_changed(self, field_name, value, line):
+        if field_name == "price_unit":
+            currency = line.currency_id or line.order_id.currency_id or self.env.company.currency_id
+            return bool(currency.compare_amounts(value or 0.0, line.price_unit))
+        digits = self.env["decimal.precision"].precision_get("Discount")
+        return bool(float_compare(value or 0.0, line.discount, precision_digits=digits))
+
+    def _raise_price_change_denied(self):
+        raise AccessError(self.env._("You are not allowed to change the price or the discount on sale order lines."))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if self._price_change_restricted():
+            for vals in vals_list:
+                if not any(f in vals for f in PRICE_FIELDS) or self._price_change_exempt_vals(vals):
+                    continue
+                # the price and discount the pricelist gives the line on its own
+                expected = self.new(
+                    {k: v for k, v in vals.items() if k not in PRICE_FIELDS + ("technical_price_unit",)}
+                )
+                if any(self._price_changed(f, vals[f], expected) for f in PRICE_FIELDS if f in vals):
+                    self._raise_price_change_denied()
+        return super().create(vals_list)
+
     def write(self, vals):
+        if any(f in vals for f in PRICE_FIELDS) and self._price_change_restricted():
+            for line in self:
+                if line._price_change_exempt():
+                    continue
+                if any(self._price_changed(f, vals[f], line) for f in PRICE_FIELDS if f in vals):
+                    self._raise_price_change_denied()
         res = super().write(vals)
         get_param = self.env["ir.config_parameter"].sudo().get_param
         check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))

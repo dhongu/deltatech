@@ -5,3 +5,4 @@
 from . import test_sale
 from . import test_margin_check_mode
 from . import test_screenshots
+from . import test_no_change_price
