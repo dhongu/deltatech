@@ -260,3 +260,68 @@ class TestSecondaryUom(TransactionCase):
         # the kg conversion is moved to another unit: kg lines lose it
         self._kg_conversion().uom_id = self.env.ref("uom.product_uom_litre")
         self.assertEqual(line.secondary_uom_qty, 0.0)
+
+    # SECONDARY-002 (#3471): when the line is expressed in a coarser unit than
+    # the base one, the secondary quantity must be realigned from the final
+    # line quantity, rounded up so that the line covers the requested quantity.
+
+    def _assert_secondary_matches_line(self, line, qty, uom, expected_line_qty, expected_secondary_qty):
+        conv = self._kg_conversion()
+        self.assertAlmostEqual(qty, expected_line_qty, places=6)
+        self.assertAlmostEqual(line.secondary_uom_qty, expected_secondary_qty, places=6)
+        qty_base = uom._compute_quantity(qty, self.uom_unit, round=False)
+        self.assertAlmostEqual(line.secondary_uom_qty, conv._from_base_qty(qty_base), places=6)
+        # the line covers the requested 13 pieces
+        self.assertGreaterEqual(qty_base, 13.0)
+        # still consistent after flush and reload from the database
+        self.env.flush_all()
+        line.invalidate_recordset()
+        self.assertAlmostEqual(line.secondary_uom_qty, expected_secondary_qty, places=6)
+
+    def test_inverse_realigns_from_line_unit_sale(self):
+        uom_dozen = self.env.ref("uom.product_uom_dozen")
+        order = self._create_sale_order(qty=1.0)
+        line = order.order_line
+        line.product_uom_id = uom_dozen
+        line.secondary_uom_qty = 6.5  # 6.5 kg -> 13 pieces -> 1.0833 dozen -> 1.09 dozen
+        self._assert_secondary_matches_line(line, line.product_uom_qty, uom_dozen, 1.09, 6.54)
+
+    def test_inverse_realigns_from_line_unit_purchase(self):
+        uom_dozen = self.env.ref("uom.product_uom_dozen")
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_qty": 1.0,
+                            "product_uom_id": uom_dozen.id,
+                            "secondary_uom_id": self.uom_kg.id,
+                        },
+                    )
+                ],
+            }
+        )
+        line = order.order_line
+        line.secondary_uom_qty = 6.5
+        self._assert_secondary_matches_line(line, line.product_qty, uom_dozen, 1.09, 6.54)
+
+    def test_inverse_realigns_from_line_unit_stock_move(self):
+        uom_dozen = self.env.ref("uom.product_uom_dozen")
+        picking_type = self.env.ref("stock.picking_type_in")
+        move = self.env["stock.move"].create(
+            {
+                "product_id": self.product.id,
+                "product_uom": uom_dozen.id,
+                "product_uom_qty": 1.0,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                "location_dest_id": picking_type.default_location_dest_id.id,
+                "picking_type_id": picking_type.id,
+                "secondary_uom_id": self.uom_kg.id,
+            }
+        )
+        move.secondary_uom_qty = 6.5
+        self._assert_secondary_matches_line(move, move.product_uom_qty, uom_dozen, 1.09, 6.54)
