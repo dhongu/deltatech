@@ -12,6 +12,29 @@ from odoo.tools.safe_eval import safe_eval
 class MrpBom(models.Model):
     _inherit = "mrp.bom"
 
+    def _has_formula_in_kits(self, picking_type=False):
+        """Tell whether a line of this bill, or of a kit bill it explodes into, has a formula.
+
+        The native explosion flattens nested kit bills itself, so it must not be used as soon
+        as any level of the hierarchy carries a formula, not only the first one.
+        """
+        self.ensure_one()
+        boms = self
+        seen = self.env["mrp.bom"]
+        while boms:
+            lines = boms.bom_line_ids
+            if lines.filtered("qty_formula"):
+                return True
+            seen |= boms
+            kits = self._bom_find(
+                lines.product_id,
+                picking_type=picking_type or self.picking_type_id,
+                company_id=self.company_id.id,
+                bom_type="phantom",
+            )
+            boms = self.env["mrp.bom"].union(*kits.values()) - seen
+        return False
+
     def explode(self, product, quantity, picking_type=False, never_attribute_values=False):
         """Override of mrp to compute component quantities from a formula.
 
@@ -20,7 +43,7 @@ class MrpBom(models.Model):
         product_qty. The formula context is built from the attribute values of the exploded
         product and refined with the ones of the intermediate product on nested bills.
         """
-        if not self.bom_line_ids.filtered("qty_formula"):
+        if not self._has_formula_in_kits(picking_type):
             return super().explode(
                 product, quantity, picking_type=picking_type, never_attribute_values=never_attribute_values
             )

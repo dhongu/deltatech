@@ -1,3 +1,9 @@
+## 19.0.1.0.3 (2026-10-17)
+
+- Fixed BOMFORMULA-001: a quantity formula on a nested kit bill of material
+  was ignored when no line of the root bill had a formula. Component
+  quantities now follow the formulas at every kit level.
+
 ## 19.0.1.0.2 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.

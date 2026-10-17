@@ -192,3 +192,32 @@ class TestBomFormula(TransactionCase):
         quantities = self._exploded_quantities(self._get_variant("Galvanized", "1250 mm"))
         # The kit line carries no formula, the nested line reads the width of the root variant.
         self.assertAlmostEqual(quantities[self.zinc], 2.5)
+
+    def test_formula_only_on_nested_kit_is_applied(self):
+        # Issue #3399: no line of the root bill carries a formula, only the nested kit does.
+        kit = self.env["product.product"].create({"name": "Kit", "is_storable": True})
+        sub_kit = self.env["product.product"].create({"name": "Sub Kit", "is_storable": True})
+        self.env["stock.warehouse.orderpoint"].search([("product_id", "in", (kit | sub_kit).ids)]).unlink()
+        self.env["mrp.bom"].create(
+            {
+                "product_tmpl_id": sub_kit.product_tmpl_id.id,
+                "product_qty": 1.0,
+                "type": "phantom",
+                "bom_line_ids": [
+                    Command.create({"product_id": self.zinc.id, "product_qty": 1.0, "qty_formula": "qty * 2"})
+                ],
+            }
+        )
+        self.env["mrp.bom"].create(
+            {
+                "product_tmpl_id": kit.product_tmpl_id.id,
+                "product_qty": 1.0,
+                "type": "phantom",
+                "bom_line_ids": [Command.create({"product_id": sub_kit.id, "product_qty": 1.0})],
+            }
+        )
+        self.bom.bom_line_ids.unlink()
+        self.env["mrp.bom.line"].create({"bom_id": self.bom.id, "product_id": kit.id, "product_qty": 1.0})
+        quantities = self._exploded_quantities(self._get_variant("Galvanized", "1250 mm"), quantity=3.0)
+        # Two kit levels without formula, then qty * 2 on the component: 3 * 1 * 1 * 2.
+        self.assertAlmostEqual(quantities[self.zinc], 6.0)
