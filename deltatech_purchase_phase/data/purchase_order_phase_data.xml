@@ -36,4 +36,11 @@
         <field name="color" eval="5" />
     </record>
 
+    <record id="purchase_order_phase_refused" model="purchase.order.phase">
+        <field name="name">Refused</field>
+        <field name="sequence" eval="6" />
+        <field name="code">refused</field>
+        <field name="color" eval="6" />
+    </record>
+
 </odoo>

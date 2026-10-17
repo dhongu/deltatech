@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
+from odoo.tests import new_test_user, tagged
 from odoo.tests.common import TransactionCase
 
 
@@ -58,3 +59,35 @@ class TestPurchasePhase(TransactionCase):
         self.assertTrue(created, "set_phase must auto-create missing phase by code")
         self.assertEqual(created.name, code, "Auto-created phase name should default to the provided code")
         self.assertEqual(self.po.phase_id, created, "Purchase order's phase_id must be set to the created phase")
+
+
+@tagged("post_install", "-at_install")
+class TestPurchasePhaseRights(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.purchase_user = new_test_user(
+            cls.env,
+            login="purchase_phase_user",
+            groups="base.group_user,purchase.group_purchase_user,stock.group_stock_user",
+        )
+        cls.vendor = cls.env["res.partner"].create({"name": "Vendor Rights", "supplier_rank": 1})
+        cls.po = cls.env["purchase.order"].create({"partner_id": cls.vendor.id})
+
+    def test_refused_phase_is_provided(self):
+        self.assertTrue(
+            self.env["purchase.order.phase"].search([("code", "=", "refused")]),
+            "A 'refused' phase must be provided by the module data",
+        )
+
+    def test_missing_phase_created_by_non_manager(self):
+        code = "phase_missing_for_user"
+        po = self.po.with_user(self.purchase_user)
+        po.set_phase(code)
+        self.assertEqual(po.phase_id.code, code)
+
+    def test_rfq_phase_recreated_by_non_manager(self):
+        self.env["purchase.order.phase"].search([("code", "=", "rfq")]).unlink()
+        po = self.po.with_user(self.purchase_user)
+        po.write({"state": "sent"})
+        self.assertEqual(po.phase_id.code, "rfq")
