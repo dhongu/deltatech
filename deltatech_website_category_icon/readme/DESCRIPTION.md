@@ -6,6 +6,12 @@ Gives every eCommerce category its own **SVG icon** and shows it in the shop.
   of the category image.
 - The left category list shows a small icon before the name of each category
   that has one (view **Category Icons in List**, can be archived).
+- Option **Inherit Category Icons** (Website > Configuration > Settings, Shop -
+  Products): in the category list, a subcategory without its own icon shows the
+  icon of its closest parent that has one, so a large tree needs icons only on
+  its main branches.
+- Icons drawn with `currentColor` take the color of the category link, so they
+  follow the theme, the hover color and the active category.
 - The icon is checked when saved, so it is safe to show on public pages: only
   flat shapes are accepted (`path`, `rect`, `circle`, `ellipse`, `line`,
   `polyline`, `polygon`, `g`), with colors, numbers and `transform`. Scripts,

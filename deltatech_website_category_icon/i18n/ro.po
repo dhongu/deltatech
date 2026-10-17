@@ -18,11 +18,15 @@ msgstr ""
 
 #. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__display_name
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__id
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__id
 msgid "ID"
 msgstr "ID"
 
@@ -103,3 +107,52 @@ msgstr ""
 #: model:ir.model,name:deltatech_website_category_icon.model_product_public_category
 msgid "Website Product Category"
 msgstr "Categorie produs website"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model,name:deltatech_website_category_icon.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
+msgid ""
+"Icon of the closest parent category that has one, for the website option "
+"Inherit Category Icons."
+msgstr ""
+"Iconița celui mai apropiat părinte care are una, pentru opțiunea website-"
+"ului „Moștenește iconițele categoriilor”."
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_res_config_settings__category_icon_inherit
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_inherit
+msgid ""
+"In the category list, a subcategory without its own icon shows the icon of "
+"its closest parent that has one."
+msgstr ""
+"În lista de categorii, o subcategorie fără iconiță proprie o arată pe a "
+"celui mai apropiat părinte care are una."
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_inherit
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_inherit
+msgid "Inherit Category Icons"
+msgstr "Moștenește iconițele categoriilor"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
+msgid "Inherited Icon"
+msgstr "Iconiță moștenită"
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid ""
+"Subcategories without their own icon show the icon of their parent in the "
+"category list"
+msgstr ""
+"Subcategoriile fără iconiță proprie o arată pe a părintelui în lista de "
+"categorii"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model,name:deltatech_website_category_icon.model_website
+msgid "Website"
+msgstr "Website"

@@ -69,6 +69,13 @@ class ProductPublicCategory(models.Model):
     # icon_svg went through _sanitize_icon_svg on the way in, so it is safe to inline.
     icon_html = fields.Html("Icon", compute="_compute_icon_html", sanitize=False)
     icon_preview = fields.Html("Icon Preview", compute="_compute_icon_html", sanitize=False)
+    icon_inherited_html = fields.Html(
+        "Inherited Icon",
+        compute="_compute_icon_inherited_html",
+        recursive=True,
+        sanitize=False,
+        help="Icon of the closest parent category that has one, for the website option Inherit Category Icons.",
+    )
 
     @api.depends("icon_svg")
     def _compute_icon_html(self):
@@ -76,6 +83,12 @@ class ProductPublicCategory(models.Model):
             icon = Markup(category.icon_svg) if category.icon_svg else False
             category.icon_html = icon
             category.icon_preview = icon and Markup('<div style="width:96px;height:96px">%s</div>') % icon
+
+    @api.depends("parent_id.icon_svg", "parent_id.icon_inherited_html")
+    def _compute_icon_inherited_html(self):
+        for category in self:
+            parent = category.parent_id
+            category.icon_inherited_html = Markup(parent.icon_svg) if parent.icon_svg else parent.icon_inherited_html
 
     @api.model_create_multi
     def create(self, vals_list):

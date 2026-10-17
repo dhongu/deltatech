@@ -23,7 +23,14 @@
         </xpath>
     </template>
 
-    <!-- Small icon before the name in the left category list (only categories with an icon). -->
+    <!--
+        Small icon before the name in the left category list: the category's own icon or,
+        with the website option Inherit Category Icons, its closest parent's.
+
+        The flex layout sits on an inner span, not on the link: themes restyle the
+        link itself (Agroamat forces `display: block !important` on it), which would
+        drop a long name's second line under the icon.
+    -->
     <template
         id="categorie_link_icon"
         inherit_id="website_sale.categorie_link"
@@ -31,11 +38,13 @@
     >
         <xpath expr="//a" position="attributes">
             <attribute name="t-field" />
-            <attribute name="t-attf-class" add="d-inline-flex align-items-center gap-2" separator=" " />
         </xpath>
         <xpath expr="//a" position="inside">
-            <span t-if="c.icon_svg" class="o_category_icon o_category_icon_sm" t-out="c.icon_html" />
-            <span t-field="c.name" />
+            <t t-set="cat_icon" t-value="c.icon_html or (website.category_icon_inherit and c.icon_inherited_html)" />
+            <span class="o_category_link d-inline-flex align-items-center gap-2">
+                <span t-if="cat_icon" class="o_category_icon o_category_icon_sm" t-out="cat_icon" />
+                <span class="o_category_link_name" t-field="c.name" />
+            </span>
         </xpath>
     </template>
 
