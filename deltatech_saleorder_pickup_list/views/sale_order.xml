@@ -103,7 +103,7 @@
                                     <td>
                                         <t t-if="line.product_id.image_256">
                                             <img
-                                                t-attf-src="data:image/*;base64,{{line.product_id.image_256}}"
+                                                t-att-src="image_data_uri(line.product_id.image_256)"
                                                 style="max-width:60px;"
                                             />
                                         </t>
@@ -113,16 +113,16 @@
                                     </td>
                                     <td class="text-right">
                                         <span t-field="line.product_uom_qty" />
-                                        <span t-field="line.product_uom" groups="uom.group_uom" />
+                                        <span t-field="line.product_uom_id" groups="uom.group_uom" />
                                     </td>
                                     <td class="text-center">
-                                        <span t-field="line.product_id.loc_rack" />
+                                        <span t-out="line.product_id.with_context(warehouse=doc.warehouse_id.id).loc_rack" />
                                     </td>
                                     <td class="text-center">
-                                        <span t-field="line.product_id.loc_row" />
+                                        <span t-out="line.product_id.with_context(warehouse=doc.warehouse_id.id).loc_row" />
                                     </td>
                                     <td class="text-center">
-                                        <span t-field="line.product_id.loc_case" />
+                                        <span t-out="line.product_id.with_context(warehouse=doc.warehouse_id.id).loc_case" />
                                     </td>
                                 </t>
                                 <t t-if="line.display_type == 'line_section'">
@@ -146,7 +146,7 @@
                                         <strong class="mr16">Subtotal</strong>
                                         <span
                                             t-esc="current_subtotal"
-                                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"
+                                            t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"
                                         />
                                     </td>
                                 </tr>
@@ -175,7 +175,7 @@
             <field name="model">sale.order</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_saleorder_pickup_list.report_saleorder_pickup_list</field>
-            <field name="report_file">deltatech_saleorder_pickup_list.report_saleorder_pickup_list</field>
+            <field name="binding_model_id" ref="sale.model_sale_order" />
             <field name="binding_type">report</field>
 
         </record>
