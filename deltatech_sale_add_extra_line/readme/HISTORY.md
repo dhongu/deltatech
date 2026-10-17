@@ -1,3 +1,10 @@
+## 19.0.1.5.3 (2026-10-17)
+
+- [FIX] the order-line onchange of the module has its own name. It was named
+  `onchange_order_line`, like the onchange of the standard Delivery module, and replaced
+  it: with the module installed, changing the lines of a quotation that already has a
+  shipping line no longer flagged the shipping cost for update. Both now run.
+
 ## 19.0.1.5.2 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
