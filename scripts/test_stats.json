@@ -690,6 +690,9 @@
     "deltatech_website_disable_fuzzy_search": {
       "tests": 2
     },
+    "deltatech_website_fixed_price": {
+      "tests": 3
+    },
     "deltatech_website_product_code": {
       "tests": 33
     },
