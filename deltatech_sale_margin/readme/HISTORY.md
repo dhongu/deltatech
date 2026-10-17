@@ -1,5 +1,18 @@
 # Changelog
 
+## 19.0.1.2.3 (2026-10-17)
+
+- **Fix (MARGIN-002): the "No change price on sale order" group is enforced on
+  the server.** It only made the price and the discount readonly in the order
+  form, so the same user could still change them through RPC, another client or
+  the discount wizard. Changing `price_unit` or `discount` on an existing line,
+  directly or through the order lines, now raises an access error for members
+  of the group, unless the new value is the one the pricelist computes.
+  Automatic repricing ("Update prices", price recomputed on a product or
+  quantity change), marketplace imports, the website cart and delivery, down
+  payment and reward lines are still allowed. Creating a line with its own price
+  (RMA, EDI and Excel imports) is not restricted.
+
 ## 19.0.1.2.2 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
