@@ -141,6 +141,16 @@ class TestStockPickingTransit(TransactionCase):
         self.assertEqual(pickings.mapped("is_transit_transfer"), [True, True])
         self.assertEqual(pickings.mapped("sub_location_existent"), [False, False])
 
+    def test_reading_transit_indicator_keeps_lock(self):
+        """Reading `is_transit_transfer` must not toggle the transfer lock (#3413)."""
+        picking = self._create_first_picking()
+        for locked in (True, False, True):
+            picking.is_locked = locked
+            for _i in range(2):
+                picking.invalidate_recordset(["is_transit_transfer"])
+                self.assertTrue(picking.is_transit_transfer)
+                self.assertEqual(picking.is_locked, locked)
+
     def test_second_transfer_without_rights_on_destination(self):
         # ticket 8970: the operator validating the first leg may not see the
         # operation types of the receiving warehouse
