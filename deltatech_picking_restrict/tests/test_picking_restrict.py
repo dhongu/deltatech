@@ -12,6 +12,7 @@ class TestStockPickingValidation(TransactionCase):
             {
                 "name": "User A",
                 "login": "user_a",
+                "group_ids": [(4, self.env.ref("stock.group_stock_manager").id)],
             }
         )
         # Create a test group for validation
@@ -22,7 +23,6 @@ class TestStockPickingValidation(TransactionCase):
             }
         )
 
-        # Ensure that the user is correctly added to the validation group
         # Define the company
         self.company = self.env.ref("base.main_company")
 
@@ -75,43 +75,35 @@ class TestStockPickingValidation(TransactionCase):
             }
         )
 
-        # Create a test move line
-        self.move_line = self.env["stock.move.line"].create(
-            {
-                "move_id": self.move.id,
-                "product_id": self.product.id,
-                "product_uom_id": self.env.ref("uom.product_uom_unit").id,
-                "location_id": self.stock_picking.location_id.id,
-                "location_dest_id": self.stock_picking.location_dest_id.id,
-                "quantity": 10,
-                "company_id": self.company.id,  # Ensure move line is assigned to the same company
-            }
-        )
+        # Setting the move quantity already creates its move line
+        self.move_line = self.move.move_line_ids
+        self.assertEqual(self.move.quantity, 10)
 
     def test_validate_with_incorrect_user(self):
-        # Remove the current user from the validation group
-        self.validation_group.user_ids = [(3, self.env.user.id)]
-        with self.assertRaises(UserError):
-            self.stock_picking.button_validate()
+        # Remove the validating user from the validation group
+        self.validation_group.user_ids = [(3, self.user_a.id)]
+        with self.assertRaisesRegex(UserError, "cannot validate this type of transfer"):
+            self.stock_picking.with_user(self.user_a).button_validate()
 
     def test_validate_with_incorrect_quantities(self):
         # Set done quantity different from reserved quantity
         self.move_line.quantity = 5
-        with self.assertRaises(UserError):
-            self.stock_picking.button_validate()
+        with self.assertRaisesRegex(UserError, "Done quantities not equal to reserved"):
+            self.stock_picking.with_user(self.user_a).button_validate()
 
     def test_validate_with_new_product(self):
-        # Create a new move line with done quantity but no reserved quantity
+        # A line for another product, added directly on the transfer, has no ordered quantity
+        new_product = self.env["product.product"].create({"name": "New Product", "type": "consu"})
         self.env["stock.move.line"].create(
             {
-                "move_id": self.move.id,
-                "product_id": self.product.id,
+                "picking_id": self.stock_picking.id,
+                "product_id": new_product.id,
                 "product_uom_id": self.env.ref("uom.product_uom_unit").id,
                 "location_id": self.stock_picking.location_id.id,
                 "location_dest_id": self.stock_picking.location_dest_id.id,
                 "quantity": 5,
-                "company_id": self.company.id,  # Ensure new move line is assigned to the same company
+                "company_id": self.company.id,
             }
         )
-        with self.assertRaises(UserError):
-            self.stock_picking.button_validate()
+        with self.assertRaisesRegex(UserError, "Unrecognized product"):
+            self.stock_picking.with_user(self.user_a).button_validate()
