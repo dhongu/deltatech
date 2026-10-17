@@ -174,3 +174,21 @@ class TestStockMoveAnalytics(TransactionCase):
         (self.move + move2).write({"state": "done"})
         self.assertEqual(len(self._analytic_lines()), 4)
         self.assertEqual(sorted(self._analytic_lines().mapped("unit_amount")), [5, 5, 10, 10])
+
+    def test_amount_converted_to_product_uom(self):
+        """STOCKANALYTIC-001: valoarea se calculează pe cantitatea în UM produsului."""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        self.move.write({"product_uom_qty": 1, "product_uom": dozen.id})
+        self._validate_picking(self.picking)
+        self.assertEqual(self.move.state, "done")
+        lines = self._analytic_lines()
+        self.assertEqual(len(lines), 2)
+        source_line = lines.filtered(lambda line: line.account_id == self.analytic_account_source)
+        dest_line = lines.filtered(lambda line: line.account_id == self.analytic_account_dest)
+        price_unit = self.move.price_unit or self.move._get_price_unit() or self.product.standard_price
+        self.assertTrue(price_unit)
+        self.assertAlmostEqual(source_line.amount, 12 * price_unit)
+        self.assertAlmostEqual(dest_line.amount, -12 * price_unit)
+        # unit_amount rămâne în UM mișcării, coerent cu product_uom_id
+        self.assertEqual(source_line.unit_amount, 1)
+        self.assertEqual(source_line.product_uom_id, dozen)

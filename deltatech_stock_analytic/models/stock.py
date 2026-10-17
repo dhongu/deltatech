@@ -41,6 +41,9 @@ class StockMove(models.Model):
                 # În Odoo 19 valorizarea stă direct pe mișcare (câmpul `value`),
                 # iar `_get_price_unit` întoarce direct prețul unitar.
                 price_unit = move._get_price_unit() or move.product_id.standard_price
+            # price_unit este pe UM produsului, cantitatea mișcării e în UM mișcării
+            product_qty = move.product_uom._compute_quantity(move.quantity, move.product_id.uom_id)
+            amount = product_qty * price_unit
             note = html2plaintext(move.picking_id.note or "").strip()
             if note:
                 ref = f"{note}({move.picking_id.name})"
@@ -52,7 +55,7 @@ class StockMove(models.Model):
                 "account_id": move.location_id.analytic_id.id,
                 "ref": ref,
                 "date": date,
-                "amount": move.quantity * price_unit,
+                "amount": amount,
                 "unit_amount": move.quantity,
                 "product_id": move.product_id.id,
                 "product_uom_id": move.product_uom.id,
@@ -62,7 +65,7 @@ class StockMove(models.Model):
                 "account_id": move.location_dest_id.analytic_id.id,
                 "ref": ref,
                 "date": date,
-                "amount": -1 * move.quantity * price_unit,
+                "amount": -amount,
                 "unit_amount": move.quantity,
                 "product_id": move.product_id.id,
                 "product_uom_id": move.product_uom.id,

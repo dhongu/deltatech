@@ -1,3 +1,10 @@
+## 19.0.1.0.4 (2026-10-17)
+
+- Fix: the amount of the location analytic lines is now computed on the quantity
+  converted to the product unit of measure; a transfer done in another unit (e.g.
+  dozens) was valued with the unit price per product unit times the quantity in the
+  move unit (STOCKANALYTIC-001).
+
 ## 19.0.1.0.3 (2026-10-09)
 
 - Fix: writing state="done" again on a completed move no longer duplicates the
