@@ -6,7 +6,7 @@
     "name": "eCommerce Category Icons",
     "category": "Website",
     "summary": "SVG icons for eCommerce categories, shown in the shop",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
