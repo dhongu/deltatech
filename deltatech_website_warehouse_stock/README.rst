@@ -16,8 +16,11 @@ eCommerce Warehouse Stock
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_warehouse_stock
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_warehouse_stock/tests
+    :alt: 4 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 This module enhances the eCommerce experience by providing real-time
 stock availability for each warehouse directly on the product page.

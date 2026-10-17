@@ -696,6 +696,9 @@
     "deltatech_website_stock_availability": {
       "tests": 8
     },
+    "deltatech_website_warehouse_stock": {
+      "tests": 4
+    },
     "deltatech_widget_fontawesome": {
       "tests": 0
     },
