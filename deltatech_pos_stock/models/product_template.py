@@ -58,11 +58,15 @@ class ProductTemplate(models.Model):
         domain = [("state", "=", "opened"), ("config_id.display_stock", "=", True)]
         if only_available_badges:
             domain.append(("config_id.stock_badge_quantity", "=", "available"))
-        company_ids = self.mapped("company_id").ids
-        if company_ids:
-            domain.append(("company_id", "in", company_ids))
+        # A shared product (no company) is sold by the registers of every company, so the
+        # sessions are restricted by company only when every product in the batch has one.
+        if all(template.company_id for template in self):
+            domain.append(("company_id", "in", self.company_id.ids))
         sessions = self.env["pos.session"].sudo().search(domain)
         for config in sessions.config_id:
-            data = self._load_pos_data_read(self, config)
+            templates = self.filtered(lambda t, c=config.company_id: not t.company_id or t.company_id == c)
+            if not templates:
+                continue
+            data = self._load_pos_data_read(templates, config)
             if data:
                 config._notify("STOCK_SYNCHRONISATION", {"product.template": data})
