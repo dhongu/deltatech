@@ -1,7 +1,9 @@
 from odoo import fields
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
+@tagged("post_install", "-at_install")
 class TestMrpValidationDate(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -50,3 +52,15 @@ class TestMrpValidationDate(TransactionCase):
         production = self._create_production()
         self.assertFalse(production.validation_date)
         self.assertNotEqual(production.state, "done")
+
+    def test_validation_date_empty_when_wizard_returned(self):
+        """MRPDATE-001: a pre-completion wizard leaves the order unfinished, without a validation date"""
+        production = self._create_production()
+        production.product_qty = 2.0
+        production.qty_producing = 1.0
+        action = production.with_context(skip_consumption=True).button_mark_done()
+
+        self.assertIsInstance(action, dict)
+        self.assertEqual(action.get("res_model"), "mrp.production.backorder")
+        self.assertNotEqual(production.state, "done")
+        self.assertFalse(production.validation_date)
