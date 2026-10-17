@@ -1,3 +1,8 @@
+## 19.0.1.0.3 (2026-10-17)
+
+- The Delivery button now shows on customer invoices and credit notes, and the
+  Reception button on vendor bills and refunds; before, both were always hidden.
+
 ## 19.0.1.0.2 (2026-10-01)
 
 - Declare `sale_stock` and `purchase_stock` as dependencies: the invoice button reads
