@@ -1,3 +1,8 @@
+## 19.0.1.3.5 (2026-10-17)
+
+- PACKMAT-001: the packaging quantities of an invoice line are now computed in the unit of measure of the product. A line invoiced in another unit (for example one dozen of a product configured per unit) reported the material of a single unit instead of twelve.
+- PACKMAT-002: generating the Packaging materials report no longer recomputes an invoice whose packaging lines were all deleted by hand. The invoice stays empty and under manual update; only invoices still under automatic update are computed when they have no lines yet.
+
 ## 19.0.1.3.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
