@@ -14,8 +14,10 @@ class StockPickingBatch(models.Model):
 
     def _compute_invoiced(self):
         for batch in self:
-            # a batch without transfers has nothing invoiced
-            batch.invoiced = bool(batch.picking_ids) and all(p.account_move_id for p in batch.picking_ids)
+            # a batch without transfers has nothing invoiced; a partially invoiced transfer is still to invoice
+            batch.invoiced = bool(batch.picking_ids) and all(
+                p.account_move_id and not p.to_invoice for p in batch.picking_ids
+            )
 
     def _search_invoiced(self, operator, value):
         # Odoo 19 normalizeaza conditiile pe boolean la `in [True]` / `not in [True]`
@@ -28,8 +30,12 @@ class StockPickingBatch(models.Model):
             searched_value = bool(value) == (operator == "=")
         else:
             return NotImplemented
-        # lot facturat = are livrari si nu are nicio livrare fara factura
-        not_invoiced = Domain("picking_ids.account_move_id", "=", False) | Domain("picking_ids", "=", False)
+        # lot facturat = are livrari si nu are nicio livrare fara factura sau facturata partial
+        not_invoiced = (
+            Domain("picking_ids.account_move_id", "=", False)
+            | Domain("picking_ids.to_invoice", "=", True)
+            | Domain("picking_ids", "=", False)
+        )
         return ~not_invoiced if searched_value else not_invoiced
 
     def action_create_invoice(self):
@@ -41,8 +47,8 @@ class StockPickingBatch(models.Model):
             code = batch.picking_type_id.code
             if code not in ("outgoing", "incoming"):
                 raise UserError(self.env._("You cannot invoice this type of batches: (%s)", code))
-            # skip the transfers that are already invoiced
-            pickings = batch.picking_ids.filtered(lambda p: not p.account_move_id)
+            # skip the transfers that are already fully invoiced; keep the partially invoiced ones
+            pickings = batch.picking_ids.filtered(lambda p: not p.account_move_id or p.to_invoice)
             pickings_by_code[code] = pickings_by_code.get(code, self.env["stock.picking"]) | pickings
         if len(pickings_by_code) > 1:
             raise UserError(self.env._("You cannot invoice delivery and receipt batches together."))
