@@ -1,3 +1,9 @@
+## 19.0.1.0.5 (2026-10-17)
+
+- **Fix: the *Card* payment method is again limited to bank journals.** Its
+  restriction used the old `domain` key, which Odoo 19 ignores, so *Card* was
+  offered on cash and credit card journals too. It now uses the `type` key.
+
 ## 19.0.1.0.4 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
