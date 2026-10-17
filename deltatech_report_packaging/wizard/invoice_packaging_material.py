@@ -25,7 +25,8 @@ class InvoicePackaging(models.TransientModel):
         quantities_by_material = defaultdict(float)
         invoices = self.env["account.move"].browse(self.env.context.get("active_ids", [])).exists()
         for invoice in invoices.filtered(lambda move: move.move_type != "entry"):
-            if not invoice.packaging_material_ids:
+            # an invoice emptied by hand stays empty (PACKMAT-002)
+            if not invoice.packaging_material_ids and invoice.packaging_material_auto:
                 invoice.refresh_packaging_material()
             for material in invoice.packaging_material_ids:
                 quantities_by_material[material.material_type] += material.qty

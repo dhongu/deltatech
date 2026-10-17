@@ -176,6 +176,43 @@ class TestPackagingMaterial(AccountTestInvoicingCommon):
         quantities = {line.material_type: line.qty for line in refund.packaging_material_ids}
         self.assertEqual(quantities, {"plastic": 6.0, "glass": 0.5, "paper": 4.0})
 
+    def test_quantities_are_converted_to_the_unit_of_the_product(self):
+        """PACKMAT-001: one dozen is packed like twelve units."""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        dozen.active = True
+        invoice = self._create_invoice(quantity=12.0)
+        invoice.invoice_line_ids = [
+            Command.create(
+                {
+                    "product_id": self.product_a.id,
+                    "quantity": 1.0,
+                    "product_uom_id": dozen.id,
+                    "price_unit": 100.0,
+                    "tax_ids": [Command.clear()],
+                }
+            )
+        ]
+        self.assertEqual(invoice.invoice_line_ids[1].product_uom_id, dozen)
+
+        invoice.refresh_packaging_material()
+
+        quantities = {line.material_type: line.qty for line in invoice.packaging_material_ids}
+        self.assertEqual(quantities, {"plastic": 24.0, "wood": 12.0, "glass": 6.0})
+
+    def test_report_keeps_an_invoice_emptied_by_hand(self):
+        """PACKMAT-002: generating the report does not restore the deleted quantities."""
+        invoice = self._create_invoice()
+        invoice.refresh_packaging_material()
+        invoice.packaging_material_ids.unlink()
+        self.assertFalse(invoice.packaging_material_auto)
+        report = self.env["packaging.report.material"].with_context(active_ids=invoice.ids).create({})
+
+        report.do_report()
+
+        self.assertFalse(report.line_ids)
+        self.assertFalse(invoice.packaging_material_ids)
+        self.assertFalse(invoice.packaging_material_auto)
+
 
 @tagged("post_install", "-at_install")
 class TestPackagingMaterialCategory(AccountTestInvoicingCommon):

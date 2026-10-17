@@ -33,7 +33,11 @@ class AccountMove(models.Model):
             direction = invoice._packaging_material_direction()
             quantities_by_product = defaultdict(float)
             for line in invoice.invoice_line_ids.filtered("product_id"):
-                quantities_by_product[line.product_id] += line.quantity
+                # the materials are configured per unit of the product (PACKMAT-001)
+                quantity = line.quantity
+                if line.product_uom_id and line.product_uom_id != line.product_id.uom_id:
+                    quantity = line.product_uom_id._compute_quantity(quantity, line.product_id.uom_id, round=False)
+                quantities_by_product[line.product_id] += quantity
 
             quantities_by_material = defaultdict(float)
             for product, quantity in quantities_by_product.items():
