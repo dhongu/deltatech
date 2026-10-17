@@ -3,6 +3,8 @@
 - The picking status now follows every change of the order state: an order cancelled
   and reset to quotation is shown again as "In Progress", and a cancelled quotation as
   "Done", in lists and filters (#3470).
+- The module update recomputes the picking status of existing orders, so statuses
+  left wrong by the previous version are corrected right away (#3470).
 
 ## 19.0.1.0.2 (2026-10-16)
 
