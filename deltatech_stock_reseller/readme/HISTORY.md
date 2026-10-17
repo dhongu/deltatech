@@ -1,3 +1,7 @@
+## 19.0.1.0.6 (2026-10-17)
+
+- Fix: a report generated without a reseller pricelist shows the reseller price in the company currency, instead of leaving it without currency (RESELLER-002).
+
 ## 19.0.1.0.5 (2026-10-09)
 
 - Apps Store banner (banner.json).
