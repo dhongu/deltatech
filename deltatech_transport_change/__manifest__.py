@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Transport Change",
-    "version": "19.0.0.1.7",
+    "version": "19.0.0.1.8",
     "license": "LGPL-3",
     "category": "Technical",
     "summary": "Export configuration changes to CSV and manage transport through Git",

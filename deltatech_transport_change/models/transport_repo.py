@@ -192,8 +192,24 @@ class TransportRepo(models.Model):
                     if tracking is None:
                         repo_obj.git.push("--set-upstream", "origin", self.repo_branch)
                     else:
-                        origin.push(refspec=f"HEAD:{self.repo_branch}")
+                        push_infos = origin.push(refspec=f"HEAD:{self.repo_branch}")
+                        self._check_push_result(push_infos)
                 finally:
                     origin.set_url(self.repo_url)
             else:
                 _logger.info("[Transport] No changes to commit in temp repo %s", repo_obj.working_tree_dir)
+
+    def _check_push_result(self, push_infos):
+        """GitPython does not raise on a rejected push: it reports it in the result flags."""
+        failed = git.PushInfo.ERROR | git.PushInfo.REJECTED | git.PushInfo.REMOTE_REJECTED | git.PushInfo.REMOTE_FAILURE
+        details = "; ".join(info.summary.strip() for info in push_infos if info.flags & failed)
+        if not details and push_infos.error:
+            details = str(push_infos.error)
+        if details or not push_infos:
+            raise UserError(
+                self.env._(
+                    "Push to branch %(branch)s was rejected: %(details)s",
+                    branch=self.repo_branch,
+                    details=details,
+                )
+            )

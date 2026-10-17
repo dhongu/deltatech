@@ -1,3 +1,16 @@
+## 19.0.0.1.8 (2026-10-17)
+
+- Many2one and Many2many fields were exported with a plain `field` header while the
+  values were external IDs, so the target database looked them up by name and failed
+  or picked the wrong record. Relational columns now use the `field/id` header, and
+  related records without an external ID get a stable `__export__` one instead of a
+  database-specific `model,id` value.
+- A push rejected by the remote (for example because the branch had advanced) was
+  reported as a success and the export date was updated. The push result is now
+  checked: the chatter shows the failure, the notification warns about the failed
+  repositories, and the export date is set only for the configurations that reached
+  the repository.
+
 ## 19.0.0.1.7 (2026-10-02)
 
 - Security: every internal user could read and change the Git repositories, including
