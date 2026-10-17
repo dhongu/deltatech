@@ -69,5 +69,8 @@ class TestPurchasePriceHistory(TransactionCase):
         self.invoice_b.action_post()
 
     def test_product_purchase_prices(self):
-        # cannot check further, operations not commited
-        self.product_a.product_tmpl_id.compute_purchase_history()
+        template = self.product_a.product_tmpl_id
+        template.compute_purchase_history()
+        self.assertEqual(template.min_purchase_price, 10.0)
+        self.assertEqual(template.max_purchase_price, 20.0)
+        self.assertEqual(template.avg_purchase_price, 15.0)

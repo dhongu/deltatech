@@ -4,6 +4,7 @@
 
 
 from odoo import fields, models
+from odoo.tools import SQL
 
 
 class ProductTemplate(models.Model):
@@ -14,7 +15,8 @@ class ProductTemplate(models.Model):
     avg_purchase_price = fields.Float(string="Average purchase price")
 
     def compute_purchase_history(self):
-        sql = """
+        query = SQL(
+            """
         WITH price_stats AS (
             SELECT
                 pp.product_tmpl_id,
@@ -44,5 +46,7 @@ class ProductTemplate(models.Model):
             price_stats ps
         WHERE
             pt.id = ps.product_tmpl_id;
-        """
-        self.env.cr.execute(sql)
+            """
+        )
+        self.env.cr.execute(query)
+        self.invalidate_model(["min_purchase_price", "max_purchase_price", "avg_purchase_price"])
