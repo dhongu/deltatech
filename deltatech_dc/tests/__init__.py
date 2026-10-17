@@ -4,3 +4,4 @@
 
 
 from . import test_dc
+from . import test_dc_report_issues
