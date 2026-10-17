@@ -1,3 +1,16 @@
+## 19.0.0.9.10 (2026-10-17)
+
+- Fixed ACTIONS-002: the old messages cleanup failed when no excluded models were
+  set (empty *Excluded models* setting, or a direct call without exclusions).
+- Fixed ACTIONS-005: when a deletion was refused (for example by another module's
+  protection), the cleanups logged the error and still reported the records as
+  deleted, and *Run now* showed *Cleanup done*. The error is now raised: *Run now*
+  shows *Cleanup failed* and deletes nothing, and the scheduled action and the
+  auto-vacuum job report the failure instead of progress. The XML cleanup skips
+  the invoices it cannot clean, counts only what it deleted and reports the rest.
+- The duplicate contact and company merges now take the members of a group in
+  creation order, so the pair merged first is always the two oldest records.
+
 ## 19.0.0.9.9 (2026-10-16)
 
 - Company-name normalization can be started only by administrators and the scheduled action;

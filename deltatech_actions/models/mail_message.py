@@ -8,7 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
-from odoo.tools import str2bool
+from odoo.tools import SQL, str2bool
 
 from .cleanup_summary import check_cleanup_access, log_prefix
 
@@ -57,24 +57,25 @@ class MailMessage(models.Model):
             max_date = datetime.now() - relativedelta(days=1)
         else:
             max_date = datetime.now() - relativedelta(days=max_date_days)
-        if not pattern:
-            query = """SELECT id FROM mail_message
-                                        WHERE NOT (model like any(%(exclude_models)s))
-                                        AND create_date <= %(create_date)s
-                                        ORDER BY id
-                                        limit %(limit)s;
-                                        """
-            params = {"limit": limit, "create_date": max_date, "exclude_models": exclude_models}
-        else:
-            query = """SELECT id FROM mail_message
-                                WHERE NOT (model like any(%(exclude_models)s))
-                                AND create_date <= %(create_date)s AND subject like %(pattern)s
-                                ORDER BY id
-                                limit %(limit)s;
-                                """
-            params = {"limit": limit, "create_date": max_date, "pattern": pattern, "exclude_models": exclude_models}
-
-        self.env.cr.execute(query, params=params)
+        # ACTIONS-002: without exclusions there is no array to bind to LIKE ANY(...),
+        # so the predicate is left out instead of comparing against False. Messages
+        # without a model stay out either way, as they always did with exclusions.
+        exclude_clause = SQL("AND NOT (model LIKE ANY(%s))", list(exclude_models)) if exclude_models else SQL()
+        pattern_clause = SQL("AND subject LIKE %s", pattern) if pattern else SQL()
+        query = SQL(
+            """SELECT id FROM mail_message
+            WHERE model IS NOT NULL AND create_date <= %s
+            %s
+            %s
+            ORDER BY id
+            LIMIT %s;
+            """,
+            max_date,
+            exclude_clause,
+            pattern_clause,
+            limit,
+        )
+        self.env.cr.execute(query)
         res = self.env.cr.fetchall()
         message_ids = [item[0] for item in res]
         messages_to_delete = self.browse(message_ids)
@@ -89,11 +90,9 @@ class MailMessage(models.Model):
         attachment_count = len(attachments_to_delete)
         attachment_size = sum(attachments_to_delete.mapped("file_size"))
         if not dry_run:
-            try:
-                attachments_to_delete.sudo().unlink()
-                messages_to_delete.sudo().unlink()
-            except Exception as e:
-                _logger.info(e)
+            # ACTIONS-005: a refused deletion is raised, not logged and reported as done
+            attachments_to_delete.sudo().unlink()
+            messages_to_delete.sudo().unlink()
         _logger.info(f"{log_prefix(dry_run)} {message_count} messages and {attachment_count} linked attachments.")
         return {
             "count": message_count,

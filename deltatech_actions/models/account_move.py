@@ -92,6 +92,7 @@ class AccountMove(models.Model):
         counter = 1
         att_count = len(res)
         total_attachments = 0
+        failed_attachments = 0
         for invoice_res_id, attachment_name, _count in res:
             domain = [
                 ("res_model", "=", "account.move"),
@@ -110,19 +111,24 @@ class AccountMove(models.Model):
                 if attachments:
                     if len(attachments) > max_attachments_to_delete:
                         attachments = attachments[:max_attachments_to_delete]
-                    total_attachments += len(attachments)
                     _logger.info(
                         f"{log_prefix(dry_run)} attachments: {attachment_name} on invoice {invoice_res_id} "
                         f"({counter}/{att_count} - {len(attachments)} attachments)"
                     )
                     if not dry_run:
+                        # ACTIONS-005: one invoice whose attachments cannot be deleted must
+                        # neither stop the others nor be counted as deleted
                         try:
-                            attachments.sudo().unlink()
+                            with self.env.cr.savepoint():
+                                attachments.sudo().unlink()
                         except Exception as e:
-                            _logger.info(f"Cannot delete attachments: {e}")
+                            _logger.warning(f"Cannot delete attachments: {e}")
+                            failed_attachments += len(attachments)
+                            continue
+                    total_attachments += len(attachments)
 
         _logger.info(f"{log_prefix(dry_run)} {total_attachments} attachments.")
-        return {"count": total_attachments, "size": None, "dry_run": dry_run}
+        return {"count": total_attachments, "size": None, "dry_run": dry_run, "failed": failed_attachments}
 
     def _get_xml_attachments_in_use(self, invoice):
         """Attachments an invoice still points to: its EDI documents and any attachment field
@@ -179,11 +185,9 @@ class AccountMove(models.Model):
         # on, so a crashing cleanup looks exactly like one with nothing to delete.
         sum_sizes = sum((item[1] or 0) for item in res)
         if not dry_run:
-            attachments = self.env["ir.attachment"].browse(attachment_ids)
-            try:
-                attachments.sudo().unlink()
-            except Exception as e:
-                _logger.info(e)
+            # ACTIONS-005: a refused deletion is raised, so the selected rows are never
+            # reported (by the settings button or the autovacuum job) as deleted
+            self.env["ir.attachment"].browse(attachment_ids).sudo().unlink()
         _logger.info(
             f"{log_prefix(dry_run)} {len(attachment_ids)} attachments, "
             f"total size: {round(sum_sizes / (1024 * 1024), 3)} MB"
