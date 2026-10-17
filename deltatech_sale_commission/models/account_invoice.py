@@ -118,10 +118,15 @@ class AccountInvoiceLine(models.Model):
 
         else:
             # preluare pret in svl
+            # the moves can be in different units: add the quantities in the product unit,
+            # then express the unit cost in the unit of the invoice line
+            product_uom = self.product_id.uom_id
             move_value = sum(moves.mapped("value"))
-            move_quantity = sum(moves.mapped("quantity"))
+            move_quantity = sum(move.product_uom._compute_quantity(move.quantity, product_uom) for move in moves)
             if move_quantity:
                 purchase_price = move_value / move_quantity
+                if self.product_uom_id and self.product_uom_id != product_uom:
+                    purchase_price = product_uom._compute_price(purchase_price, self.product_uom_id)
             # svls = moves.mapped("stock_valuation_layer_ids")
             # price_unit_list = svls.mapped("unit_cost")
             # if not price_unit_list:
