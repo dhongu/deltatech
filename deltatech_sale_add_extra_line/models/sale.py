@@ -10,12 +10,11 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    # Own name, not `onchange_order_line`: Odoo registers a single onchange per method
+    # name, and `delivery` (and other modules) define `onchange_order_line` too.
     @api.onchange("order_line")
-    def onchange_order_line(self):
-        """
-        Update extra product in backend
-        :return: super
-        """
+    def _onchange_order_line_extra(self):
+        """Update the extra lines in the backend form."""
         self.order_line.with_context(backend=True).check_extra_product()
 
     def _verify_cart_after_update(self):
