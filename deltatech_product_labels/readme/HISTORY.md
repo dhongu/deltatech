@@ -1,3 +1,7 @@
+## 19.0.1.1.8 (2026-10-17)
+
+- Replaced the deprecated `t-raw="0"` directive with `t-out="0"` in the label layout, removing the deprecation warning logged at every print.
+
 ## 19.0.1.1.7 (2026-10-17)
 
 - Replaces the obsolete `terrabit_product_labels`: on upgrade, a database that still has it installed marks it uninstalled, so Odoo no longer reports it as a module with an inconsistent state. Labels keep working from this module.

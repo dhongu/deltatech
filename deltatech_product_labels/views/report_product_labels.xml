@@ -37,7 +37,7 @@
                     }
                 </style>
                 <div class="article">
-                    <t t-raw="0" />
+                    <t t-out="0" />
                 </div>
             </div>
         </t>
