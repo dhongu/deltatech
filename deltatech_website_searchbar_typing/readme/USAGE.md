@@ -21,8 +21,10 @@ placed inside the form:
 </t>
 ```
 
-The same list can be added to a search snippet placed with the Website Builder, from the
-HTML editor of the page.
+On a search box placed with the Website Builder, select the search input and turn on
+**Typing examples** in the panel. Edit the **Prefix** (leave it empty for none) and the
+**Examples**: add, remove or drag them to change the order. The option writes the same hidden
+list in the form.
 
 The speed can be changed with data attributes on the `o_searchbar_typing` element, in
 milliseconds: `data-start-delay` (1500, before the first letter), `data-type-delay` (70, per

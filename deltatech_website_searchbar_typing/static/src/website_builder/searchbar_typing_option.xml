@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-name="deltatech_website_searchbar_typing.SearchbarTypingOption">
+    <BuilderRow
+            label.translate="Typing examples"
+            tooltip.translate="The placeholder types these example searches, one after another"
+        >
+        <BuilderCheckbox id="'searchbar_typing_opt'" action="'toggleSearchbarTyping'" />
+    </BuilderRow>
+    <t t-if="isActiveItem('searchbar_typing_opt')">
+        <BuilderRow label.translate="Prefix" level="1">
+            <BuilderTextInput action="'setSearchbarTypingPrefix'" />
+        </BuilderRow>
+        <BuilderRow level="1">
+            <div class="d-flex flex-column w-100">
+                <p class="hb-row-label mb-0 flex-grow-0 flex-shrink-0 flex-basis-auto">Examples</p>
+                <t t-set="defaultExample">Example</t>
+                <BuilderList
+                        action="'setSearchbarTypingExamples'"
+                        addItemTitle.translate="Add an example"
+                        itemShape="{ value: 'text' }"
+                        default="{ value: defaultExample }"
+                        forbidLastItemRemoval="true"
+                    />
+            </div>
+        </BuilderRow>
+    </t>
+</t>
+
+</templates>
