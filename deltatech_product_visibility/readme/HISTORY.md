@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-10-17)
+
+- Visibility criteria no longer accept negative weights, so the product score stays between 0 and 100.
+
 ## 19.0.1.0.3 (2026-10-09)
 
 - Apps Store banner (banner.json).
