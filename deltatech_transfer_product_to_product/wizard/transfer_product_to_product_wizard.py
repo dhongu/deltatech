@@ -97,6 +97,9 @@ class InvoiceWizard(models.TransientModel):
         # Confirm the pickings to reserve the products
         picking_id.action_confirm()
         picking_id2.action_confirm()
+        # confirmation reserves only for "at confirm" operation types; reserve explicitly for
+        # manual / by date reservation, otherwise the source leg is validated with zero quantity
+        picking_id.action_assign()
 
         # Validate the source leg first; the replacement leg is validated in stock.picking._action_done
         # for the quantity actually removed, so a pending backorder confirmation is returned to the user

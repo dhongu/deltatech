@@ -109,3 +109,23 @@ class TestTransferProductToProduct(TransactionCase):
         self.assertEqual(self._done_qty(source, self.from_product), 3)
         self.assertEqual(self._done_qty(target, self.to_product), 3)
         self.assertFalse(source.backorder_ids | target.backorder_ids)
+
+    def test_manual_reservation_fully_available(self):
+        # PRODUCTTRANSFER-002: confirmation does not reserve under manual reservation
+        self.operation_type.reservation_method = "manual"
+        self.env["stock.quant"]._update_available_quantity(self.from_product, self.stock_location, 5)
+        self._run_wizard(5)
+        source, target = self._legs()
+        self.assertEqual((source.state, target.state), ("done", "done"))
+        self.assertEqual(self._qty(self.from_product), 0)
+        self.assertEqual(self._qty(self.to_product), 5)
+
+    def test_manual_reservation_partial(self):
+        self.operation_type.reservation_method = "manual"
+        action = self._partial_backorder_action()
+        Form(
+            self.env["stock.backorder.confirmation"].with_context(**action["context"])
+        ).save().process_cancel_backorder()
+        source, target = self._legs()
+        self.assertEqual((source.state, target.state), ("done", "done"))
+        self.assertEqual(self._qty(self.to_product), 3)
