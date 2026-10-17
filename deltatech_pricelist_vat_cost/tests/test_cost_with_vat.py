@@ -105,3 +105,46 @@ class TestCostWithVat(TransactionCase):
         self.assertAlmostEqual(pricelist._get_product_price(product, 1.0), 131)
         self.assertAlmostEqual(pricelist._get_product_price(product.product_tmpl_id, 1.0), 131)
         self.assertIn("product cost with VAT", pricelist.item_ids.price)
+
+    def test_pricelist_uses_cost_currency_of_current_company(self):
+        # VATCOST-003: cost with VAT is expressed in the cost currency of the
+        # current company, not in the currency of the main company
+        main_currency = self.env.company.currency_id
+        currency_b = self.env.ref("base.EUR") if main_currency != self.env.ref("base.EUR") else self.env.ref("base.USD")
+        currency_b.active = True
+        company_b = self.env["res.company"].create({"name": "Test company B", "currency_id": currency_b.id})
+        self.env["res.currency.rate"].create(
+            [
+                {"currency_id": main_currency.id, "rate": 1.0, "company_id": company_b.id},
+                {"currency_id": currency_b.id, "rate": 2.0, "company_id": company_b.id},
+            ]
+        )
+        # shared product, without taxes: cost with VAT equals the cost
+        product = self._create_product(self.env["account.tax"], self.env["account.tax"])
+        product_b = product.with_company(company_b)
+        product_b.standard_price = 50
+        self.assertEqual(product_b.cost_currency_id, currency_b)
+        pricelist = (
+            self.env["product.pricelist"]
+            .with_company(company_b)
+            .create(
+                {
+                    "name": "Test cost with VAT B",
+                    "currency_id": currency_b.id,
+                    "company_id": company_b.id,
+                    "item_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "applied_on": "3_global",
+                                "compute_price": "formula",
+                                "base": "standard_price_with_vat",
+                            },
+                        )
+                    ],
+                }
+            )
+        )
+        self.assertAlmostEqual(pricelist._get_product_price(product_b, 1.0), 50)
+        self.assertAlmostEqual(pricelist._get_product_price(product_b.product_tmpl_id, 1.0), 50)

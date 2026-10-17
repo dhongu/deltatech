@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
 
     @api.depends(
         "standard_price",
-        "currency_id",
+        "cost_currency_id",
         "supplier_taxes_id",
         "supplier_taxes_id.amount",
         "supplier_taxes_id.amount_type",
@@ -22,7 +22,7 @@ class ProductTemplate(models.Model):
             taxes = product.supplier_taxes_id._filter_taxes_by_company(company)
             if taxes and product.standard_price:
                 taxes = taxes.compute_all(
-                    product.standard_price, product.currency_id, 1, product=product, handle_price_include=False
+                    product.standard_price, product.cost_currency_id, 1, product=product, handle_price_include=False
                 )
                 product.standard_price_with_vat = taxes["total_included"]
             else:
@@ -38,7 +38,7 @@ class ProductProduct(models.Model):
 
     @api.depends(
         "standard_price",
-        "currency_id",
+        "cost_currency_id",
         "supplier_taxes_id",
         "supplier_taxes_id.amount",
         "supplier_taxes_id.amount_type",
@@ -50,7 +50,7 @@ class ProductProduct(models.Model):
             taxes = variant.supplier_taxes_id._filter_taxes_by_company(company)
             if taxes and variant.standard_price:
                 taxes = taxes.compute_all(
-                    variant.standard_price, variant.currency_id, 1, product=variant, handle_price_include=False
+                    variant.standard_price, variant.cost_currency_id, 1, product=variant, handle_price_include=False
                 )
                 variant.standard_price_with_vat = taxes["total_included"]
             else:

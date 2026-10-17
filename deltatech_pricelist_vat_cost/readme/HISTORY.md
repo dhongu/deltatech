@@ -1,3 +1,12 @@
+## 19.0.1.0.6 (2026-10-17)
+
+- **Fix: cost with VAT in the right currency.** In multi-company with
+  different currencies, a pricelist rule based on *Cost with VAT* treated the
+  cost of the current company as if it were in the currency of the main
+  company, and converted it again: a cost of 50 EUR became a price of 100 EUR
+  (VATCOST-003). The cost with VAT is now in the cost currency of the current
+  company, as for the native *Cost* base.
+
 ## 19.0.1.0.5 (2026-10-17)
 
 - **Fix: the rule label shows the right base.** A rule based on *Cost with VAT*
