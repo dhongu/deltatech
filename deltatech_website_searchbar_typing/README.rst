@@ -19,8 +19,11 @@ Website Searchbar Typing Examples
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_searchbar_typing
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_searchbar_typing/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 The placeholder of a website search box types example searches, one
 after another: each example is typed letter by letter, held for a
@@ -66,14 +69,18 @@ Odoo translates each list item as a term of its own, while a group of
 inline elements is translated as one block of HTML.
 
 In a QWeb template that calls ``website.website_search_box_input``, the
-body of the call is placed inside the form:
+body of the call is placed inside the form. The parameters of the search
+box are given as attributes of the call: a ``t-set`` in the body no
+longer reaches the called template.
 
 .. code:: xml
 
-   <t t-call="website.website_search_box_input">
-       <t t-set="search_type" t-valuef="all"/>
-       <t t-set="action" t-valuef="/website/search"/>
-       <t t-set="placeholder">Search the user guides</t>
+   <t
+       t-call="website.website_search_box_input"
+       search_type.f="all"
+       action.f="/website/search"
+       placeholder.translate="Search the user guides"
+   >
        <ul class="o_searchbar_typing d-none" aria-hidden="true">
            <li class="o_searchbar_typing_prefix">e.g.</li>
            <li>e-Invoice</li>
@@ -82,8 +89,10 @@ body of the call is placed inside the form:
        </ul>
    </t>
 
-The same list can be added to a search snippet placed with the Website
-Builder, from the HTML editor of the page.
+On a search box placed with the Website Builder, select the search input
+and turn on **Typing examples** in the panel. Edit the **Prefix** (leave
+it empty for none) and the **Examples**: add, remove or drag them to
+change the order. The option writes the same hidden list in the form.
 
 The speed can be changed with data attributes on the
 ``o_searchbar_typing`` element, in milliseconds: ``data-start-delay``
@@ -97,6 +106,13 @@ find something.
 
 Changelog
 =========
+
+20.0.1.1.0 (2026-10-17)
+-----------------------
+
+- Website Builder option on the search box: "Typing examples" turns the
+  animation on or off, and the prefix and the examples are edited in the
+  panel, without the HTML editor.
 
 20.0.1.0.0 (2026-10-17)
 -----------------------
