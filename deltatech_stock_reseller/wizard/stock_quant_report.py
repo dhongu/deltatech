@@ -40,6 +40,8 @@ class StockQuantReport(models.TransientModel):
         products = self.env["product.product"].with_context(location=self.location_id.id).search(domain)
 
         lines_values = []
+        # an empty pricelist computes prices in the company currency
+        reseller_currency = self.pricelist_id.currency_id or self.env.company.currency_id
 
         for product in products:
             price_reseller = self.pricelist_id._get_product_price(product, product.free_qty)
@@ -68,7 +70,7 @@ class StockQuantReport(models.TransientModel):
                     "list_price": product.list_price,
                     "list_currency_id": product.currency_id.id,
                     "price_reseller": price_reseller,
-                    "reseller_currency_id": self.pricelist_id.currency_id.id,
+                    "reseller_currency_id": reseller_currency.id,
                 }
             ]
 

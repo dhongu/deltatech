@@ -5,7 +5,7 @@
 {
     "name": "Stock Report Reseller",
     "summary": "Stock report for resellers, with pricelist prices and stock level labels",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
