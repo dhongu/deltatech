@@ -3,8 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 
+from lxml import etree
+
 from odoo.exceptions import UserError
 from odoo.tests import Form, tagged
+from odoo.tools.safe_eval import safe_eval
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -91,3 +94,25 @@ class TestInvoice(AccountTestInvoicingCommon):
         invoice = self.init_invoice("out_invoice", partner=self.partner_a, products=self.product_a, post=True)
         with self.assertRaises(UserError):
             invoice.invoice_print_delivery()
+
+    def test_button_visibility(self):
+        """The Delivery button shows on customer documents, Reception on vendor ones."""
+        arch = self.env["account.move"].get_view(view_type="form")["arch"]
+        buttons = etree.fromstring(arch).xpath("//button[@name='invoice_print_delivery']")
+        expressions = {}
+        for button in buttons:
+            label = "".join(button.itertext()).strip()
+            expressions[label] = button.get("invisible")
+        self.assertEqual(set(expressions), {"Delivery", "Reception"})
+        expected_visible = {
+            "Delivery": {"out_invoice", "out_refund"},
+            "Reception": {"in_invoice", "in_refund"},
+        }
+        for label, expression in expressions.items():
+            for move_type in ("out_invoice", "out_refund", "in_invoice", "in_refund", "entry"):
+                visible = not safe_eval(expression, {"move_type": move_type})
+                self.assertEqual(
+                    visible,
+                    move_type in expected_visible[label],
+                    f"{label} button visibility for {move_type}",
+                )
