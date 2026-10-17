@@ -10,11 +10,9 @@ class ProductionLot(models.Model):
 
     location_id = fields.Many2one("stock.location", compute="_compute_location", store=True)
 
-    @api.depends("quant_ids")
+    @api.depends("quant_ids", "quant_ids.quantity", "quant_ids.location_id")
     def _compute_location(self):
         for lot in self:
-            quants = lot.quant_ids.filtered(lambda x: x.quantity > 0)
-            if len(quants) > 1:  # multiple quants, can be in different locations
-                lot.location_id = False
-            else:
-                lot.location_id = quants.location_id
+            locations = lot.quant_ids.filtered(lambda x: x.quantity > 0).location_id
+            # several quants (owner, package) can share one location
+            lot.location_id = locations if len(locations) == 1 else False
