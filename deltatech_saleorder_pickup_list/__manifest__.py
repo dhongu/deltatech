@@ -6,7 +6,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Sale Order Pickup List",
     "summary": "Pickup list report from sale order",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
