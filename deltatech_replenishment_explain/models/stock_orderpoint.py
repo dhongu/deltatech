@@ -1,6 +1,7 @@
 from datetime import datetime, time
 
 from odoo import fields, models
+from odoo.fields import Domain
 from odoo.tools import float_compare, float_is_zero, format_date
 
 # Move states that still represent an open (not yet done/cancelled) flow, the
@@ -36,22 +37,19 @@ class StockWarehouseOrderpoint(models.Model):
         horizon, plus any demand scheduled *after* it (invisible to the forecast)."""
         self.ensure_one()
         Move = self.env["stock.move"].with_context(active_test=False)
-        loc = self.location_id
-        common = [
-            ("product_id", "=", self.product_id.id),
-            ("state", "in", OPEN_MOVE_STATES),
-        ]
-        incoming = sum(
-            Move.search(common + [("location_dest_id", "child_of", loc.id), ("date", "<=", horizon_dt)]).mapped(
-                "product_qty"
-            )
+        # Same location domains as the native forecast: a move that stays inside
+        # the location subtree is neither supply nor demand, and open moves are
+        # matched on their final destination (multi-step routes).
+        _quant_domain, move_in_domain, move_out_domain = self.product_id._get_domain_locations_new(self.location_id.ids)
+        common = Domain(
+            [
+                ("product_id", "=", self.product_id.id),
+                ("state", "in", OPEN_MOVE_STATES),
+            ]
         )
-        outgoing = sum(
-            Move.search(common + [("location_id", "child_of", loc.id), ("date", "<=", horizon_dt)]).mapped(
-                "product_qty"
-            )
-        )
-        beyond = Move.search(common + [("location_id", "child_of", loc.id), ("date", ">", horizon_dt)], order="date")
+        incoming = sum(Move.search(common & move_in_domain & Domain("date", "<=", horizon_dt)).mapped("product_qty"))
+        outgoing = sum(Move.search(common & move_out_domain & Domain("date", "<=", horizon_dt)).mapped("product_qty"))
+        beyond = Move.search(common & move_out_domain & Domain("date", ">", horizon_dt), order="date")
         beyond_qty = sum(beyond.mapped("product_qty"))
         beyond_date = beyond[:1].date
         return incoming, outgoing, beyond_qty, beyond_date

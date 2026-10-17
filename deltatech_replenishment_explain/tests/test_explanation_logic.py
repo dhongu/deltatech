@@ -201,6 +201,38 @@ class TestReplenishmentExplanationLogic(TransactionCase):
         self.assertEqual(beyond_qty, 0.0)
         self.assertFalse(beyond_date)
 
+    def test_scheduled_moves_ignore_internal_transfers(self):
+        """A transfer that stays inside the orderpoint location subtree is
+        neither supply nor demand (native forecast excludes it), before or
+        after the lead horizon; a move whose final destination is inside the
+        location counts as supply (multi-step routes)."""
+        orderpoint = self._orderpoint()
+        shelf_a = self.env["stock.location"].create({"name": "RX Shelf A", "location_id": self.stock_location.id})
+        shelf_b = self.env["stock.location"].create({"name": "RX Shelf B", "location_id": self.stock_location.id})
+        now = fields.Datetime.now()
+        self._move(self.stock_location, shelf_a, 4.0, now)
+        self._move(shelf_a, shelf_b, 6.0, now + timedelta(days=30))
+        self._move(self.supplier_location, self.stock_location, 5.0, now)
+        self._move(self.stock_location, self.customer_location, 1.0, now)
+        input_move = self.env["stock.move"].create(
+            {
+                "product_id": self.product.id,
+                "product_uom": self.uom_unit.id,
+                "product_uom_qty": 8.0,
+                "location_id": self.supplier_location.id,
+                "location_dest_id": self.warehouse.wh_input_stock_loc_id.id,
+                "location_final_id": shelf_b.id,
+                "date": now,
+            }
+        )
+        input_move._action_confirm()
+
+        incoming, outgoing, beyond_qty, beyond_date = orderpoint._explain_scheduled_moves(now + timedelta(days=1))
+        self.assertEqual(incoming, 13.0)
+        self.assertEqual(outgoing, 1.0)
+        self.assertEqual(beyond_qty, 0.0)
+        self.assertFalse(beyond_date)
+
     def test_explanation_potential_stockout_despite_no_order(self):
         # On hand 0 < Min 5 -> deadline today; a receipt inside the horizon lifts the
         # forecast above Min, so nothing is ordered although a stockout is flagged.

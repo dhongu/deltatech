@@ -1,3 +1,10 @@
+## 19.0.1.1.6 (2026-10-17)
+
+- The explanation no longer counts transfers that stay inside the reordering rule
+  location (for example stock to a shelf) as receipts or demand, and no longer warns
+  about a stockout for such transfers after the lead horizon. Receipts are matched on
+  their final destination, as in the native forecast (multi-step routes).
+
 ## 19.0.1.1.5 (2026-10-09)
 
 - Apps Store banner (banner.json).
