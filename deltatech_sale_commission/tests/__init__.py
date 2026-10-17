@@ -7,3 +7,4 @@ from . import test_commission_audit
 from . import test_screenshots
 from . import test_margin_report_uom
 from . import test_company_rules
+from . import test_purchase_price_uom

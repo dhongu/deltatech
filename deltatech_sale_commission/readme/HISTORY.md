@@ -1,5 +1,13 @@
 # Changelog
 
+## 19.0.1.6.4 (2026-10-17)
+
+- Cost price from deliveries: when an invoice line is delivered in moves of different units
+  (e.g. 12 pieces + 1 dozen), the quantities are converted to the product unit before the
+  value is divided, and the unit cost is expressed in the unit of the invoice line. Before,
+  the raw quantities were added (12 + 1 = 13), which gave a wrong cost price, margin and
+  commission, and could block the invoice with "You can not sell below the purchase price".
+
 ## 19.0.1.6.3 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
