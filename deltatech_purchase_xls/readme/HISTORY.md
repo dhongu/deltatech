@@ -1,3 +1,13 @@
+## 19.0.1.0.5 (2026-10-17)
+
+- **Fix (PURCHASEXLS-003): rows without a supplier code are imported by their
+  internal code.** A file exported from an order lists products without a
+  vendor code with an empty first column; on reimport these rows were dropped
+  without a message. The Internal Code column is now used when the supplier
+  code is empty or not found for the order vendor, so an exported order can be
+  imported back with the default columns. A product created by the import
+  from such a row gets the internal code of the row.
+
 ## 19.0.1.0.4 (2026-10-04)
 
 - **Fix (PURCHASEXLS-002): importing order lines without an order in the

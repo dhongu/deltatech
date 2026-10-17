@@ -439,3 +439,45 @@ class TestPurchaseXls(TransactionCase):
         # seller of another vendor is ignored
         self.assertIn(by_internal["PXB"][0], ("", None))
         self.assertEqual(by_internal["PXB"][2], "PXLS Product B")
+
+    def test_export_import_round_trip(self):
+        """PURCHASEXLS-003: a row exported with an internal code only is imported back with the default columns."""
+        for search_by_default_code in (False, True):
+            source = self._create_order([self.product_a, self.product_b])
+            export = (
+                self.env["export.purchase.line"]
+                .with_context(active_ids=source.ids, active_model="purchase.order")
+                .create({})
+            )
+            export.do_export()
+            order = self._create_order()
+            wizard = (
+                self.env["import.purchase.line"]
+                .with_context(active_id=order.id, active_model="purchase.order")
+                .create(
+                    {
+                        "data_file": export.data_file,
+                        "has_header": True,
+                        "search_by_default_code": search_by_default_code,
+                    }
+                )
+            )
+            wizard.do_import()
+            self.assertEqual(order.order_line.product_id, self.product_a | self.product_b)
+
+    def test_import_internal_code_column_when_supplier_code_unknown(self):
+        """The internal code column is used when the supplier code is not found for the vendor."""
+        order = self._create_order()
+        rows = [["OTHER-B", "PXB", "B", 1, 2, ""]]
+        self._wizard(
+            order, rows, fields_list="product_code,default_code,product_name,quantity,price,uom_name"
+        ).do_import()
+        self.assertEqual(order.order_line.product_id, self.product_b)
+
+    def test_import_new_product_with_internal_code(self):
+        """A new product created from a row without a supplier code keeps the internal code of the row."""
+        order = self._create_order()
+        rows = [["", "PXNEW", "PXLS New internal", 1, 2, ""]]
+        fields_list = "product_code,default_code,product_name,quantity,price,uom_name"
+        self._wizard(order, rows, fields_list=fields_list, new_product=True).do_import()
+        self.assertEqual(order.order_line.product_id.default_code, "PXNEW")
