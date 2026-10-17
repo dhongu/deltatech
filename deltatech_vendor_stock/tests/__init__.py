@@ -4,3 +4,4 @@
 
 from . import test_sale
 from . import test_warehouse_stock
+from . import test_vendor_company

@@ -1,3 +1,9 @@
+## 19.0.1.2.1 (2026-10-17)
+
+- The vendor stock counts only the vendor rows of the current company, of its parent companies and
+  the rows without a company; vendor stock recorded for another company is no longer added.
+- On a sale order line the vendor stock is computed for the company of the order.
+
 ## 19.0.1.2.0 (2026-10-15)
 
 - The availability popover lists the free stock per warehouse as a table, read when the popover
