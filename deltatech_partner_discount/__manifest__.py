@@ -5,7 +5,7 @@
 {
     "name": "Partner Discount",
     "summary": "Creates a discount field on partner and alerts the user on invoice",
-    "version": "19.0.1.0.4",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",
