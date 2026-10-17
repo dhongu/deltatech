@@ -89,12 +89,13 @@ class ProductProduct(models.Model):
 
             error_msgs = []
             for val, records in duplicates.items():
-                # Filter out the records being currently validated
+                # Exclude only one validated product (and its template) per value, so
+                # duplicates inside the validated batch are reported as well
+                current = products.filtered(lambda p, v=val, f=field_name: p[f] == v)[:1]
                 if model_name == "product.product":
-                    other_records = records - products
+                    other_records = records - current
                 else:
-                    # For template, we need to check if the templates belong to the products being validated
-                    other_records = records - products.product_tmpl_id
+                    other_records = records - current.product_tmpl_id
 
                 if other_records:
                     error_msgs.append(

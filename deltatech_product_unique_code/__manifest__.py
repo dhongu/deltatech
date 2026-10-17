@@ -1,6 +1,6 @@
 {
     "name": "Product Unique Code",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "category": "Product",
     "summary": "Restrict duplicate default_code and barcode including archived products",
     "author": "Terrabit, Voicu Stefan",

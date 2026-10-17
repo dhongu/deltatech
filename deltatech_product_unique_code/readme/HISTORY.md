@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-10-17)
+
+- Writing or creating the same Internal Reference or Barcode on several products in one operation is now rejected as a duplicate.
+
 ## 19.0.1.0.3 (2026-10-04)
 
 - Add unit tests covering the uniqueness checks on create/write of products and templates, archived products, the "no new duplicates" cleanup policy and the bypass group.
