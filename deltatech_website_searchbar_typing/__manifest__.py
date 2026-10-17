@@ -6,7 +6,7 @@
     "name": "Website Searchbar Typing Examples",
     "category": "Website",
     "summary": "The search box placeholder types example searches, one after another",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "support": "odoo@terrabit.ro",

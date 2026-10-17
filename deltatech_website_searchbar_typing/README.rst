@@ -17,13 +17,10 @@ Website Searchbar Typing Examples
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_searchbar_typing
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_searchbar_typing
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_searchbar_typing/tests
-    :alt: 1 automated test
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 The placeholder of a website search box types example searches, one
 after another: each example is typed letter by letter, held for a
@@ -101,6 +98,12 @@ find something.
 Changelog
 =========
 
+20.0.1.0.0 (2026-10-17)
+-----------------------
+
+- Ported to 20.0: the same behaviour as 19.0.1.0.0, on the 20.0 public
+  ``Interaction`` API.
+
 19.0.1.0.0 (2026-10-17)
 -----------------------
 
@@ -137,6 +140,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_searchbar_typing>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_searchbar_typing>`_ project on GitHub.
 
 You are welcome to contribute.

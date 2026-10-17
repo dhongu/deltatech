@@ -1,3 +1,7 @@
+## 20.0.1.0.0 (2026-10-17)
+
+- Ported to 20.0: the same behaviour as 19.0.1.0.0, on the 20.0 public `Interaction` API.
+
 ## 19.0.1.0.0 (2026-10-17)
 
 - First version: the placeholder of a website search box types the example searches given
