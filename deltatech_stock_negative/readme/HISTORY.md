@@ -1,3 +1,10 @@
+## 19.0.2.1.1
+
+- Deliveries containing consumable products without stock tracking (*Track Inventory*
+  off) can be validated again when *No negative stock* is enabled. Odoo keeps no stock
+  for such products, so the check compared them against zero and refused the whole
+  transfer; it now applies only to products whose stock is tracked.
+
 ## 19.0.2.1.0
 
 - A Point of Sale receipt no longer leaves its goods on the stock. Point of Sale
