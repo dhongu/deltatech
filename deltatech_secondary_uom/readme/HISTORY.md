@@ -1,3 +1,12 @@
+## 19.0.1.2.2 (2026-10-17)
+
+- A secondary quantity entered on a line expressed in a coarser unit (e.g.
+  Dozens for a product in Units) is now rounded **up** in the line unit, so the
+  line covers the requested quantity, and the secondary quantity is recomputed
+  from the final line quantity. Before, the line was rounded half-up and could
+  represent less than the secondary quantity shown on sale order lines,
+  purchase order lines and stock moves.
+
 ## 19.0.1.2.1 (2026-10-09)
 
 - Apps Store banner (banner.json).

@@ -88,8 +88,11 @@ class SecondaryUomMixin(models.AbstractModel):
             qty_line = qty_base
             qty, uom = line._get_line_qty_and_uom()
             if uom:
-                qty_line = product.uom_id._compute_quantity(qty_base, uom, rounding_method="HALF-UP")
+                # round up in the line unit too, so that the line covers the
+                # requested quantity
+                qty_line = product.uom_id._compute_quantity(qty_base, uom, rounding_method="UP")
+                qty_base = uom._compute_quantity(qty_line, product.uom_id, round=False)
             line._set_line_qty(qty_line)
-            # realign the secondary quantity with the rounded piece count
+            # realign the secondary quantity with the final line quantity
             # (the compute is protected against retriggering during the inverse)
             line.secondary_uom_qty = conv._from_base_qty(qty_base)
