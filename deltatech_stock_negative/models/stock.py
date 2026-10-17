@@ -84,6 +84,11 @@ class StockMoveLine(models.Model):
         Quant = self.env["stock.quant"]
         consumed = defaultdict(float)
         for ml in self:
+            # Native stock keeps no quants for products without stock tracking
+            # (it bypasses their reservation and quant update), so there is no
+            # physical stock to protect: comparing against zero would refuse them.
+            if not ml.product_id.is_storable:
+                continue
             location = ml.location_id
             if not location or location.usage != "internal" or location.allow_negative_stock:
                 continue
