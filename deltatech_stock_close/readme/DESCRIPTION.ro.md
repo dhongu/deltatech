@@ -10,7 +10,11 @@ rula doar pe mișcările de stoc încă deschise.
 - **Raportul rămâne altfel neschimbat**: Cu opțiunea nebifată, fișa de magazie e exact cea din
   localizarea românească; mișcările de stoc nu sunt ascunse nicăieri altundeva în Odoo.
 
-Indicatorul **Valuation Active** nu apare pe formularul mișcării de stoc în această versiune: se setează
-prin import sau printr-un script.
+- **Închiderea mișcărilor de stoc**: Asistentul *Inventar > Operații > Ajustări > Close Stock Moves*
+  închide toate mișcările de stoc efectuate ale companiei, cu data până la ziua aleasă inclusiv. Nicio
+  notă contabilă nu se modifică.
+- **Indicatorul pe lista mișcărilor de stoc**: Coloana **Valuation Active** (ascunsă implicit) și
+  filtrul **Closed** din lista mișcărilor de stoc permit unui manager de stoc să verifice sau să
+  redeschidă o singură mișcare.
 
 **Date trimise în afara Odoo:** niciuna.

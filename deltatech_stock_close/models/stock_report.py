@@ -24,6 +24,8 @@ class StorageSheet(models.TransientModel):
         report behaviour is preserved unchanged.
         """
         if self.only_active:
+            # the report reads stock_move with raw SQL: write pending flags first
+            self.env["stock.move"].flush_model(["l10n_ro_valuation_active"])
             return " AND sm.l10n_ro_valuation_active = true "
         return ""
 

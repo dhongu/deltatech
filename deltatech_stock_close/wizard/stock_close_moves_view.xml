@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_stock_close_moves_form" model="ir.ui.view">
+        <field name="name">stock.close.moves.form</field>
+        <field name="model">stock.close.moves</field>
+        <field name="arch" type="xml">
+            <form string="Close Stock Moves">
+                <p>
+                    The done stock moves dated on or before the selected day are closed and left
+                    out of the storage sheet when its Only active option is ticked.
+                    No accounting entry is changed.
+                </p>
+                <group>
+                    <field name="date" />
+                    <field name="company_id" groups="base.group_multi_company" />
+                </group>
+                <footer>
+                    <button name="action_close" string="Close" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_stock_close_moves" model="ir.actions.act_window">
+        <field name="name">Close Stock Moves</field>
+        <field name="res_model">stock.close.moves</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem
+        id="menu_stock_close_moves"
+        action="action_stock_close_moves"
+        parent="stock.menu_stock_adjustments"
+        groups="stock.group_stock_manager"
+        sequence="90"
+    />
+</odoo>
