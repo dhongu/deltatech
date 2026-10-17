@@ -61,3 +61,27 @@ class TestProductChatter(TransactionCase):
             self.template.with_user(self.user)._check_can_update_message_content(message.sudo())
         self.user.group_ids = [(4, self.group.id)]
         self.template.with_user(self.user)._check_can_update_message_content(message.sudo())
+
+    def test_write_content_blocked_without_group(self):
+        for record in (self.template, self.variant):
+            message = self._post(record)
+            with self.assertRaises(AccessError):
+                message.with_user(self.user).write({"body": ""})
+            with self.assertRaises(AccessError):
+                message.with_user(self.user).write({"attachment_ids": [(5, 0, 0)]})
+            self.assertIn("Hello", str(message.body))
+
+    def test_write_content_allowed_with_group_or_sudo(self):
+        message = self._post(self.template)
+        message.sudo().write({"body": "Sudo"})
+        self.assertIn("Sudo", str(message.body))
+        self.user.group_ids = [(4, self.group.id)]
+        message.with_user(self.user).write({"body": "Edited"})
+        self.assertIn("Edited", str(message.body))
+
+    def test_write_content_other_models_not_restricted(self):
+        self.user.group_ids = [(4, self.env.ref("base.group_partner_manager").id)]
+        partner = self.env["res.partner"].create({"name": "Chatter Partner"})
+        message = partner.with_user(self.user).message_post(body="Hello", message_type="comment")
+        message.with_user(self.user).write({"body": "Edited"})
+        self.assertIn("Edited", str(message.body))
