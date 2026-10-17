@@ -3,6 +3,7 @@
 from datetime import timedelta
 
 from odoo import fields
+from odoo.tests import Form, tagged
 
 from odoo.addons.mrp.tests.common import TestMrpCommon
 
@@ -143,3 +144,24 @@ class TestMrpOrder(TestMrpCommon):
         self.assertIn(f"{finished_value:.2f}", html)
         for move in man_order.move_raw_ids:
             self.assertIn(f"{move.value:.2f}", html)
+
+
+@tagged("post_install", "-at_install")
+class TestMrpCostForm(TestMrpCommon):
+    def test_cost_tab_edits_duration_cost(self):
+        """Issue #3400: the Costs tab must expose the duration used by the cost
+        formulas (duration_cost, hours), not the native real duration."""
+        self.bom_1.write({"duration": 2.0, "net_salary_rate": 20.0})
+        mo_form = Form(self.env["mrp.production"])
+        mo_form.product_id = self.product_4
+        mo_form.bom_id = self.bom_1
+        mo_form.product_qty = 4.0
+        mo = mo_form.save()
+        self.assertEqual(mo.duration_cost, 2.0)
+
+        with Form(mo) as mo_form:
+            mo_form.duration_cost = 3.0
+        self.assertEqual(mo.duration_cost, 3.0)
+
+        arch = self.env["mrp.production"].get_view(self.env.ref("mrp.mrp_production_form_view").id)["arch"]
+        self.assertIn('name="duration_cost"', arch)

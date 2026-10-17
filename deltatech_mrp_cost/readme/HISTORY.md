@@ -1,3 +1,10 @@
+## 19.0.2.0.9 (2026-10-17)
+
+- Fixed MRPCOST-002: the *Costs* tab of the manufacturing order showed the
+  native real duration (computed, in minutes) instead of the duration used by
+  the labour and utilities cost formulas. It now shows the editable cost
+  duration, in hours.
+
 ## 19.0.2.0.8 (2026-10-08)
 
 - Fixed MRPCOST-001: printing the production order of a done manufacturing
