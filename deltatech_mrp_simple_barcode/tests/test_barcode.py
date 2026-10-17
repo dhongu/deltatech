@@ -74,3 +74,15 @@ class TestMrpSimpleBarcode(TransactionCase):
         res = mrp.on_barcode_scanned("BC-A-001")
         self.assertEqual(res["warning"]["type"], "danger")
         self.assertFalse(mrp.product_out_ids, "starea ≠ draft trebuie să blocheze scanarea")
+
+    def test_scan_ambiguous_internal_reference_returns_warning(self):
+        # Issue #3401: referința internă nu e unică; o scanare care găsește
+        # mai multe produse nu trebuie să ajungă la acces singleton.
+        Product = self.env["product.product"]
+        Product.create({"name": "Dup 1", "type": "consu", "default_code": "REF-DUP"})
+        Product.create({"name": "Dup 2", "type": "consu", "default_code": "REF-DUP"})
+        mrp = self._new_mrp()
+        res = mrp.on_barcode_scanned("REF-DUP")
+        self.assertEqual(res["warning"]["type"], "danger")
+        self.assertIn("Dup 1", res["warning"]["message"])
+        self.assertFalse(mrp.product_out_ids, "nu trebuie să adauge nicio linie")
