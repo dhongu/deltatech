@@ -1,3 +1,11 @@
+## 19.0.2.3.5 (2026-10-17)
+
+- Fixed the *Split* button on transfers, which failed with `TypeError:
+  _create_backorder() got an unexpected keyword argument 'backorder_moves'`:
+  the override now accepts the `backorder_moves` argument passed by
+  `action_split_transfer()` in Odoo 19. The split-off transfer is still marked
+  postponed when the `backorders.postponed` parameter is set.
+
 ## 19.0.2.3.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
