@@ -1,4 +1,7 @@
+from lxml import etree
+
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.safe_eval import safe_eval
 
 
 @tagged("post_install", "-at_install")
@@ -55,3 +58,48 @@ class TestMrpReport(TransactionCase):
         self.assertAlmostEqual(line.consumed_pak_val, 10.0)
         self.assertAlmostEqual(line.consumed_val, 70.0)
         self.assertAlmostEqual(line.product_val_ef, sum(production.move_finished_ids.mapped("value")))
+
+    def _report_line(self, production):
+        self.env.flush_all()
+        line = self.env["deltatech.mrp.report"].search([("production_id", "=", production.id)])
+        self.assertEqual(len(line), 1)
+        return line
+
+    def _filter_domain(self, filter_name):
+        view = self.env.ref("deltatech_mrp.view_deltatech_mrp_report_filter")
+        node = etree.fromstring(view.arch).xpath(f"//filter[@name='{filter_name}']")
+        self.assertTrue(node, f"filter {filter_name} is missing")
+        return safe_eval(node[0].get("domain"))
+
+    def test_report_planned_qty_in_product_uom(self):
+        """MRP-002: planned quantity is converted from the order unit to the product unit"""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        production = self.env["mrp.production"].create(
+            {"product_id": self.finished.id, "bom_id": self.bom.id, "product_qty": 2.0, "product_uom_id": dozen.id}
+        )
+        line = self._report_line(production)
+        self.assertEqual(line.product_uom, self.finished.uom_id)
+        self.assertAlmostEqual(line.product_qty, 24.0)
+
+    def test_report_state_filters(self):
+        """MRP-004: report states and filters use the Odoo 19 manufacturing states"""
+        report_states = dict(self.env["deltatech.mrp.report"]._fields["state"].selection)
+        production_states = dict(self.env["mrp.production"]._fields["state"].selection)
+        self.assertEqual(set(report_states), set(production_states))
+
+        production = self.env["mrp.production"].create(
+            {"product_id": self.finished.id, "bom_id": self.bom.id, "product_qty": 2.0}
+        )
+        production.action_confirm()
+        production.action_assign()
+        self.assertEqual(production.reservation_state, "assigned")
+        self.env.flush_all()
+        Report = self.env["deltatech.mrp.report"]
+        domain = [("production_id", "=", production.id)]
+        self.assertTrue(Report.search(domain + self._filter_domain("ready")))
+
+        production.qty_producing = 1.0
+        self.assertEqual(production.state, "progress")
+        self.env.flush_all()
+        self.assertTrue(Report.search(domain + self._filter_domain("in_production")))
+        self.assertTrue(Report.search(domain + self._filter_domain("current")))

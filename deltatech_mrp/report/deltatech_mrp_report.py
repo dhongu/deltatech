@@ -59,14 +59,22 @@ class DeltatechMrpReport(models.Model):
     state = fields.Selection(
         [
             ("draft", "Draft"),
-            ("picking_except", "Picking Exception"),
-            ("confirmed", "Waiting Goods"),
-            ("ready", "Ready to Produce"),
-            ("in_production", "In Production"),
-            ("cancel", "Cancelled"),
+            ("confirmed", "Confirmed"),
+            ("progress", "In Progress"),
+            ("to_close", "To Close"),
             ("done", "Done"),
+            ("cancel", "Cancelled"),
         ],
         "State",
+        readonly=True,
+    )
+    reservation_state = fields.Selection(
+        [
+            ("confirmed", "Waiting"),
+            ("assigned", "Ready"),
+            ("waiting", "Waiting Another Operation"),
+        ],
+        "MO Readiness",
         readonly=True,
     )
 
@@ -87,7 +95,7 @@ SELECT s.id, s.id as production_id,
 
     s.product_id,
     pt.uom_id AS product_uom,
-    sum((s.product_qty / u.factor)) AS product_qty,
+    sum(s.product_uom_qty) AS product_qty,
     sum(sub_prod_ef.product_qty_ef) AS product_qty_ef,
     sum(sub_prod_ef.product_val_ef) AS product_val_ef,
     sum(COALESCE(sub_consumed.consumed_val, (0)::double precision)) AS consumed_val,
@@ -101,12 +109,13 @@ SELECT s.id, s.id as production_id,
                         (sum(sub_prod_ef.product_qty_ef))::double precision) AS actually_price,
     s.company_id,
     ( SELECT 1) AS nbr,
-    s.state
+    s.state,
+    s.reservation_state
    FROM ((((((mrp_production s
 
      JOIN product_product  pr ON s.product_id = pr.id
          JOIN product_template pt ON pr.product_tmpl_id = pt.id )
-     LEFT JOIN uom_uom u ON ((u.id = s.product_uom_id)))
+     )
      LEFT JOIN ( SELECT sm.production_id,
             sum(sm.product_qty) AS product_qty_ef,
             sum(sm.value) AS product_val_ef
@@ -146,7 +155,7 @@ SELECT
 
   to_date(to_char(s.date_start, 'MM-dd-YYYY'::text), 'MM-dd-YYYY'::text),
  s.product_id,
- pt.categ_id, pt.uom_id,  s.id, s.state, s.company_id
+ pt.categ_id, pt.uom_id,  s.id, s.state, s.reservation_state, s.company_id
 
             )"""
         )

@@ -1,3 +1,18 @@
+## 19.0.1.0.9 (2026-10-17)
+
+- Fixed MRP-002: in *Production Cost Analysis*, the planned quantity of a
+  manufacturing order whose unit differs from the product unit (for example
+  2 dozen of a product measured in units) was divided by the order unit factor
+  instead of being converted, so the report showed 0.17 units instead of 24.
+  The planned quantity and the planned value now use the quantity converted to
+  the product unit.
+- Fixed MRP-004: the *Production Cost Analysis* states and filters still used
+  values from older versions (*In Production*, *Ready to Produce*, *Picking
+  Exception*), so ongoing orders could not be filtered. The report now uses the
+  Odoo 19 states (Draft, Confirmed, In Progress, To Close, Done, Cancelled) and
+  adds the *MO Readiness* column; *Ready to Produce* and *Waiting Goods* filter
+  on component readiness, *In Production* on orders in progress.
+
 ## 19.0.1.0.8 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
