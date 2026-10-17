@@ -19,8 +19,11 @@ Website Searchbar Typing Examples
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_searchbar_typing
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_searchbar_typing/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 The placeholder of a website search box types example searches, one
 after another: each example is typed letter by letter, held for a
@@ -66,14 +69,15 @@ Odoo translates each list item as a term of its own, while a group of
 inline elements is translated as one block of HTML.
 
 In a QWeb template that calls ``website.website_search_box_input``, the
-body of the call is placed inside the form:
+body of the call is placed inside the form. The parameters of the search
+box are given as attributes of the call: a ``t-set`` in the body of a
+``t-call`` does not reach the called template.
 
 .. code:: xml
 
-   <t t-call="website.website_search_box_input">
-       <t t-set="search_type" t-valuef="all"/>
-       <t t-set="action" t-valuef="/website/search"/>
-       <t t-set="placeholder">Search the user guides</t>
+   <t t-call="website.website_search_box_input"
+      search_type.f="all" action.f="/website/search"
+      placeholder.f="Search the user guides">
        <ul class="o_searchbar_typing d-none" aria-hidden="true">
            <li class="o_searchbar_typing_prefix">e.g.</li>
            <li>e-Invoice</li>

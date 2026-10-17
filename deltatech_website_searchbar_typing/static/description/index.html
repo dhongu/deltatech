@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Website Searchbar Typing Examples" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Website Searchbar Typing Examples</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">The search box placeholder types example searches, one after another</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">The search box placeholder types example searches</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Website</span>
@@ -66,11 +66,11 @@ from the user guides.</p>
 Use list items (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">li</code>), not <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">span</code>: Odoo translates each list item as a term of its own,
 while a group of inline elements is translated as one block of HTML.</p>
 <p>In a QWeb template that calls <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website.website_search_box_input</code>, the body of the call is
-placed inside the form:</p>
-<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-xml">&lt;t t-call=&quot;website.website_search_box_input&quot;&gt;
-    &lt;t t-set=&quot;search_type&quot; t-valuef=&quot;all&quot;/&gt;
-    &lt;t t-set=&quot;action&quot; t-valuef=&quot;/website/search&quot;/&gt;
-    &lt;t t-set=&quot;placeholder&quot;&gt;Search the user guides&lt;/t&gt;
+placed inside the form. The parameters of the search box are given as attributes of the call:
+a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">t-set</code> in the body of a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">t-call</code> does not reach the called template.</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-xml">&lt;t t-call=&quot;website.website_search_box_input&quot;
+   search_type.f=&quot;all&quot; action.f=&quot;/website/search&quot;
+   placeholder.f=&quot;Search the user guides&quot;&gt;
     &lt;ul class=&quot;o_searchbar_typing d-none&quot; aria-hidden=&quot;true&quot;&gt;
         &lt;li class=&quot;o_searchbar_typing_prefix&quot;&gt;e.g.&lt;/li&gt;
         &lt;li&gt;e-Invoice&lt;/li&gt;
