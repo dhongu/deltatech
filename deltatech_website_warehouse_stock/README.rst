@@ -14,13 +14,10 @@ eCommerce Warehouse Stock
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_warehouse_stock
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock
-    :alt: 2 automated tests · 90% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 This module enhances the eCommerce experience by providing real-time
 stock availability for each warehouse directly on the product page.
@@ -95,6 +92,26 @@ standards and best practices:
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.0.0.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.3 (2026-10-07)
+-----------------------
+
+- The public product page lists only the warehouses (and their stock) of
+  the current website's company; warehouses of other companies are no
+  longer shown (WEBWAREHOUSE-001).
+
+19.0.0.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 
@@ -123,6 +140,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_warehouse_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_warehouse_stock>`_ project on GitHub.
 
 You are welcome to contribute.

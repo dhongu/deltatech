@@ -12,13 +12,12 @@ class ProductTemplate(models.Model):
     def get_warehouse_stock_distribution(self):
         # Called with sudo() from the public product page: company rules do not apply,
         # so the warehouses are restricted explicitly to the current website's company.
-        company = self.env["website"].get_current_website().company_id
+        # env.website is empty outside a website request: fall back to the current company.
+        company = self.env.website.company_id or self.env.company
         warehouses = self.env["stock.warehouse"].search(
             [("website_stock_display", "=", True), ("company_id", "=", company.id)]
         )
-        threshold = int(
-            self.env["ir.config_parameter"].sudo().get_param("deltatech_website_warehouse_stock.threshold", "10")
-        )
+        threshold = self.env["ir.config_parameter"].sudo().get_int("deltatech_website_warehouse_stock.threshold", 10)
         warehouse_stock_lines = []
         for warehouse in warehouses:
             if warehouse.lot_stock_id.usage == "internal":
