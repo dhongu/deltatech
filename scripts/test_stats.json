@@ -299,6 +299,9 @@
       "lines": 50,
       "tests": 10
     },
+    "deltatech_pricelist_vat_cost": {
+      "tests": 10
+    },
     "deltatech_product_category_color": {
       "coverage": 100.0,
       "lines": 17,
