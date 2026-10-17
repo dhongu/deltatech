@@ -1,3 +1,9 @@
+## 19.0.1.0.5 (2026-10-17)
+
+- **Fix: the rule label shows the right base.** A rule based on *Cost with VAT*
+  was labelled "... on sales price", although the price was computed from the
+  cost with VAT. The label now reads "... on product cost with VAT".
+
 ## 19.0.1.0.4 (2026-10-09)
 
 - Apps Store banner (banner.json).
