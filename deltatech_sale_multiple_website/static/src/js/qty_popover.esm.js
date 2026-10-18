@@ -66,8 +66,9 @@ export class QuantityInfoPopover extends Interaction {
 
     setup() {
         this.el.querySelectorAll(".qty-info-popover").forEach((element) => {
-            const popover = window.Popover.getOrCreateInstance(element);
-            this.registerCleanup(() => popover.dispose());
+            window.Popover.getOrCreateInstance(element);
+            // _onChangeCombination replaces the instance, so dispose the current one
+            this.registerCleanup(() => window.Popover.getInstance(element)?.dispose());
         });
     }
 }
