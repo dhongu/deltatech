@@ -11,6 +11,8 @@ This fix is applied both in the POS interface (JavaScript) and when generating i
 - Corrects unit price recalculation in POS when taxes change through the fiscal position.
 - Ensures consistency between the Sales module and POS regarding the treatment of included taxes.
 - Adapts the unit price on invoice lines generated from POS orders to reflect the correct tax mapping.
+- Reconciles the invoice of a POS order paid in cash with change, when the POS receivable account is the
+  customer's receivable account (4111 in the Romanian chart of accounts); without the fix the invoice stays unpaid.
 
 ## Installation
 
