@@ -1,6 +1,6 @@
 {
     "name": "POS Tax-Included Total Fix",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "category": "Point of Sale",
     "summary": "Fix POS total calculation when using tax-included fiscal position mapping",
     "license": "LGPL-3",

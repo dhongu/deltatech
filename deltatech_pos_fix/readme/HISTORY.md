@@ -1,3 +1,12 @@
+## 19.0.1.0.4 (2026-10-18)
+
+- An invoiced POS order paid in cash with change now reconciles the payment entry with the invoice.
+  The change is merged into the cash payment entry, but its negative amount also selected the
+  entry's debit line; when the POS receivable account is the customer's receivable account (4111 in
+  the Romanian chart), the debit and the credit of the payment entry were reconciled with each other
+  and the invoice stayed unpaid. The merged change no longer selects lines for the invoice
+  reconciliation.
+
 ## 19.0.1.0.3 (2026-10-17)
 
 - The global discount line (`pos_discount`) is no longer passed through the fiscal position a second
