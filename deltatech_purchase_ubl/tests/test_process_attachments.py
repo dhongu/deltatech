@@ -288,3 +288,39 @@ class TestProcessAttachmentsForPost(TransactionCase):
             po._process_attachments_for_post([], [att.id], {})
         self.assertFalse(po.order_line)
         self.assertFalse(po.activity_ids)
+
+    def test_unmatched_line_defers_vendor_bill(self):
+        """An unattended import must not create a vendor bill that misses the unmatched lines."""
+        po = self._new_po("ATT-DEFER-BILL")
+        product = self.env["product.product"].create({"name": "Defer Matched Product", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": "VEND-DEFER-OK",
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {"order_id": po.id, "product_id": product.id, "product_qty": 2, "price_unit": 10.0}
+        )
+        po.button_confirm()
+        lines = [
+            {"code": "VEND-DEFER-OK", "name": "Matched", "qty": "2", "price": "10.00", "line_total": "20.00"},
+            {
+                "code": "VEND-DEFER-NONE",
+                "name": "Nowhere To Be Found",
+                "qty": "1",
+                "price": "5.00",
+                "line_total": "5.00",
+            },
+        ]
+        att = self._attachment(
+            po, "defer_bill.xml", _xml_invoice(order_ref=po.name, invoice_id="INV-DEFER", lines=lines)
+        )
+        wizard_cls = type(self.env["purchase.ubl.import.wizard"])
+        with patch.object(wizard_cls, "_on_unmatched_lines", autospec=True) as hook:
+            po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.invoice_ids, "No vendor bill while a line of the invoice is unmatched")
+        self.assertIn("unmatched", po.message_ids[0].body)
+        self.assertEqual(hook.call_args.args[4], [1], "The hook receives the index of the unmatched line")

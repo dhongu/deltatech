@@ -1,3 +1,15 @@
+## 20.0.1.4.13 (2026-10-19)
+
+- Changed: the automatic import of an XML attached to a purchase order no longer
+  creates the vendor bill when a line of the invoice could not be matched to a
+  product. That bill missed the unmatched lines, and resolving them later on the
+  order did not update it. The import log says why the bill was skipped; create
+  it once every line is resolved.
+- Fixed: an invoice line without a vendor code erased the code already saved on
+  the vendor price row of the product.
+- New extension point for the lines the automatic import could not match, used by
+  *Purchase UBL AI Product Matching*.
+
 ## 20.0.1.4.12 (2026-10-16)
 
 - Fixed: the check for an existing vendor bill with the same supplier invoice

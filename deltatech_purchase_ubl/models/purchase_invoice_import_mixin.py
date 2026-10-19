@@ -511,17 +511,26 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "partner_id": supplier.id,
             "product_tmpl_id": product.product_tmpl_id.id,
             "product_id": product.id,
-            "product_code": code,
             "price": price,
             "currency_id": self._resolve_currency(currency).id,
             "delay": 1,
             **uom_vals,
         }
+        # a source line without a supplier code must not erase the code already on the row
+        if code:
+            values["product_code"] = code
         if sinfo:
             sinfo.write(values)
         else:
             values["company_id"] = company.id
             SupplierInfo.create(values)
+
+    def _on_unmatched_lines(self, order, partner, invoice_data, unmatched_indexes):
+        """Hook for the source lines left without a product by an import nobody reviewed.
+
+        :param unmatched_indexes: indexes in invoice_data["lines"]
+        """
+        return
 
     def _mark_line_received_if_manual(self, line):
         """Mark a purchase order line as received when its quantity is tracked manually.
@@ -800,6 +809,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         mapped_lines = []
         updated = []
         not_found = []
+        unmatched_indexes = []
         created = []
         uom_warnings = []
         for index, ln in enumerate(invoice_data["lines"]):
@@ -818,6 +828,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 created.append(product.display_name)
             elif not product:
                 not_found.append(ln.get("code") or ln.get("name") or "/")
+                unmatched_indexes.append(index)
             ln_map = {**ln, "product": product}
             mapped_lines.append(ln_map)
             if self.update_prices and product:
@@ -831,6 +842,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     company=order.company_id if order else None,
                 )
                 updated.append(f"{product.display_name}: {ln.get('price')} {invoice_data.get('currency')}")
+
+        # Nobody reviewed the mapping (no preview): let an extension record what to do with the
+        # lines the matcher could not place, e.g. product suggestions for a human to validate.
+        if unmatched_indexes and product_map is None:
+            self._on_unmatched_lines(order, partner, invoice_data, unmatched_indexes)
 
         # Update existing order lines from the source document, then add any remaining
         # source lines (products not already on the order) as new order lines, instead of
@@ -931,7 +947,16 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         # "Create vendor bill". The checkbox stays available to force bill creation even when
         # the source has no invoice number.
         if self.create_bill or invoice_data.get("invoice_id"):
-            if order and order.state not in ("purchase", "done"):
+            if order and not_found and self.env.context.get("purchase_ubl_defer_bill_on_unmatched"):
+                # Unattended import: a bill created now would silently miss the unmatched
+                # lines, and resolving them later on the order does not update that bill.
+                bill_log = self.env._(
+                    "Vendor bill creation skipped: %(count)s line(s) of the source document are "
+                    "unmatched. Resolve them on purchase order %(order)s, then create the bill.",
+                    count=len(not_found),
+                    order=order.name,
+                )
+            elif order and order.state not in ("purchase", "done"):
                 # A draft/unconfirmed order has qty_to_invoice = 0 on every line
                 # (purchase_order_line._compute_qty_invoiced), regardless of product_qty.
                 # action_create_invoice() would still "succeed", producing a vendor bill
