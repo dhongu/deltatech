@@ -1,0 +1,10 @@
+{
+  "title": "Transfer Numbering on Demand",
+  "summary": "Official transfer numbers, allocated only when you decide",
+  "icon": "truck",
+  "features": [
+    "Second sequence per operation type",
+    "Allocate number with one click",
+    "Numbered transfers can't be deleted"
+  ]
+}
