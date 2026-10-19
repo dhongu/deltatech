@@ -1,0 +1,5 @@
+{
+  "title": "Invoice Delivery",
+  "summary": "Deliver the goods when the invoice is posted",
+  "features": ["Sale order and delivery in one step", "Enabled per sales journal", "Stock check before posting"]
+}
