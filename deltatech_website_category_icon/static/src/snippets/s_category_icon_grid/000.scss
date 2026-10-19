@@ -1,0 +1,59 @@
+// 6 columns on desktop, 3 on tablets and 2 on phones; the items wrap, never scroll.
+.s_category_icon_grid {
+    --category-icon-grid-icon-size: 4.5rem;
+
+    &.s_category_icon_grid_icon_sm {
+        --category-icon-grid-icon-size: 3rem;
+    }
+
+    &.s_category_icon_grid_icon_lg {
+        --category-icon-grid-icon-size: 6.5rem;
+    }
+
+    .s_category_icon_grid_row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        @include media-breakpoint-up(lg) {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+    }
+
+    .s_category_icon_grid_item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 0;
+        padding: 0.75rem 0.5rem;
+        border-radius: $border-radius-lg;
+        color: inherit;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.15s ease-in-out;
+
+        &:hover,
+        &:focus-visible {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+    }
+
+    .s_category_icon_grid_icon {
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        width: var(--category-icon-grid-icon-size);
+        height: var(--category-icon-grid-icon-size);
+    }
+
+    .s_category_icon_grid_name {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+        font-weight: 500;
+    }
+}

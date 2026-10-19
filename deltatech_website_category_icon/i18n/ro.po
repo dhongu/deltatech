@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-17 07:31+0000\n"
+"POT-Creation-Date: 2026-10-19 19:28+0000\n"
 "PO-Revision-Date: 2026-10-17 07:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,6 +15,61 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.s_category_icon_grid
+msgid "<span class=\"s_category_icon_grid_name\">Category</span>"
+msgstr "<span class=\"s_category_icon_grid_name\">Categorie</span>"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__all
+msgid "All categories"
+msgstr "Toate categoriile"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__inherit
+msgid "All categories, inherit from parent"
+msgstr "Toate categoriile, cu moștenire de la părinte"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Categories"
+msgstr "Categorii"
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.snippets
+msgid "Category Icon Grid"
+msgstr "Grilă categorii cu iconițe"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_levels
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_levels
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "Category Icons in List"
+msgstr "Iconițe în lista de categorii"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Choose"
+msgstr "Alege"
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.s_category_icon_grid
+msgid "Choose the categories to show in the options of the block."
+msgstr "Alege categoriile de afișat din opțiunile blocului."
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Chosen categories"
+msgstr "Categorii alese"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model,name:deltatech_website_category_icon.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
 
 #. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__display_name
@@ -46,13 +101,73 @@ msgid "Icon Preview"
 msgstr "Previzualizare iconiță"
 
 #. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Icon Size"
+msgstr "Mărimea iconiței"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
+msgid ""
+"Icon of the closest parent category that has one, for the website option "
+"Category Icons in List."
+msgstr ""
+"Iconița celui mai apropiat părinte care are una, pentru opțiunea website-"
+"ului „Iconițe în lista de categorii”."
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
+msgid "Inherited Icon"
+msgstr "Iconiță moștenită"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Large"
+msgstr "Mare"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Main categories"
+msgstr "Categorii principale"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__root
+msgid "Main categories only"
+msgstr "Doar categoriile principale"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Max. Number"
+msgstr "Număr maxim"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Medium"
+msgstr "Medie"
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_svg
 msgid ""
 "SVG markup of the category icon, square viewBox. Only flat shapes are kept: "
 "path, rect, circle, ellipse, line, polyline, polygon and g."
 msgstr ""
-"Codul SVG al iconiței categoriei, cu viewBox pătrat. Se păstrează doar forme"
-" simple: path, rect, circle, ellipse, line, polyline, polygon și g."
+"Codul SVG al iconiței categoriei, cu viewBox pătrat. Se păstrează doar forme "
+"simple: path, rect, circle, ellipse, line, polyline, polygon și g."
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.s_category_icon_grid
+msgid "Shop by category"
+msgstr "Cumpără pe categorii"
+
+#. module: deltatech_website_category_icon
+#. odoo-javascript
+#: code:addons/deltatech_website_category_icon/static/src/website_builder/category_icon_grid_option.xml:0
+msgid "Small"
+msgstr "Mică"
 
 #. module: deltatech_website_category_icon
 #. odoo-python
@@ -104,55 +219,14 @@ msgstr ""
 "Iconița are nevoie de un viewBox, ca să se poată scala la orice dimensiune."
 
 #. module: deltatech_website_category_icon
-#: model:ir.model,name:deltatech_website_category_icon.model_product_public_category
-msgid "Website Product Category"
-msgstr "Categorie produs website"
-
-#. module: deltatech_website_category_icon
-#: model:ir.model,name:deltatech_website_category_icon.model_res_config_settings
-msgid "Config Settings"
-msgstr "Setări de configurare"
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
-msgid "Inherited Icon"
-msgstr "Iconiță moștenită"
-
-#. module: deltatech_website_category_icon
 #: model:ir.model,name:deltatech_website_category_icon.model_website
 msgid "Website"
 msgstr "Website"
 
 #. module: deltatech_website_category_icon
-#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__all
-msgid "All categories"
-msgstr "Toate categoriile"
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__inherit
-msgid "All categories, inherit from parent"
-msgstr "Toate categoriile, cu moștenire de la părinte"
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_levels
-#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_levels
-#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
-msgid "Category Icons in List"
-msgstr "Iconițe în lista de categorii"
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields,help:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
-msgid ""
-"Icon of the closest parent category that has one, for the website option "
-"Category Icons in List."
-msgstr ""
-"Iconița celui mai apropiat părinte care are una, pentru opțiunea website-"
-"ului „Iconițe în lista de categorii”."
-
-#. module: deltatech_website_category_icon
-#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_levels__root
-msgid "Main categories only"
-msgstr "Doar categoriile principale"
+#: model:ir.model,name:deltatech_website_category_icon.model_product_public_category
+msgid "Website Product Category"
+msgstr "Categorie produs website"
 
 #. module: deltatech_website_category_icon
 #: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
@@ -164,11 +238,20 @@ msgstr "Ce categorii din lista magazinului au iconiță"
 #: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_levels
 msgid ""
 "Which categories of the shop's category list show an icon.\n"
-"Main categories only: the opened branch shows its subcategories as text, which keeps the list light and easy to read.\n"
+"Main categories only: the opened branch shows its subcategories as text, "
+"which keeps the list light and easy to read.\n"
 "All categories: every category with its own icon shows it.\n"
-"All categories, inherit from parent: a subcategory without its own icon shows the icon of its closest parent that has one."
+"All categories, inherit from parent: a subcategory without its own icon "
+"shows the icon of its closest parent that has one."
 msgstr ""
 "Ce categorii din lista magazinului au iconiță.\n"
-"Doar categoriile principale: ramura deschisă își arată subcategoriile ca text, iar lista rămâne ușoară și ușor de citit.\n"
+"Doar categoriile principale: ramura deschisă își arată subcategoriile ca "
+"text, iar lista rămâne ușoară și ușor de citit.\n"
 "Toate categoriile: fiecare categorie cu iconiță proprie o arată.\n"
-"Toate categoriile, cu moștenire de la părinte: o subcategorie fără iconiță proprie o arată pe a celui mai apropiat părinte care are una."
+"Toate categoriile, cu moștenire de la părinte: o subcategorie fără iconiță "
+"proprie o arată pe a celui mai apropiat părinte care are una."
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.snippets
+msgid "shop, categories, ecommerce, e-commerce, icons, grid, catalog"
+msgstr "magazin, categorii, ecommerce, e-commerce, iconițe, grilă, catalog, shop, categories, icons, grid"

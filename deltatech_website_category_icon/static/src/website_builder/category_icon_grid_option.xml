@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="deltatech_website_category_icon.CategoryIconGridOption">
+        <BuilderRow label.translate="Categories">
+            <BuilderSelect dataAttributeAction="'mode'">
+                <BuilderSelectItem dataAttributeActionValue="'root'">Main categories</BuilderSelectItem>
+                <BuilderSelectItem id="'category_icon_grid_manual_opt'" dataAttributeActionValue="'manual'">
+                    Chosen categories
+                </BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+        <BuilderRow
+            t-if="isActiveItem('category_icon_grid_manual_opt')"
+            label.translate="Choose"
+            level="1"
+            preview="false"
+        >
+            <BuilderMany2Many
+                model="'product.public.category'"
+                domain="categoryDomain"
+                dataAttributeAction="'categoryIds'"
+            />
+        </BuilderRow>
+        <BuilderRow label.translate="Max. Number">
+            <BuilderNumberInput dataAttributeAction="'limit'" min="1" max="48" step="1" />
+        </BuilderRow>
+        <BuilderRow label.translate="Icon Size">
+            <BuilderSelect>
+                <BuilderSelectItem classAction="'s_category_icon_grid_icon_sm'">Small</BuilderSelectItem>
+                <BuilderSelectItem classAction="''">Medium</BuilderSelectItem>
+                <BuilderSelectItem classAction="'s_category_icon_grid_icon_lg'">Large</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+    </t>
+
+</templates>
