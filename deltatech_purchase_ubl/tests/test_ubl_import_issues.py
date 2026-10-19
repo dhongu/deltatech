@@ -92,6 +92,19 @@ class TestUblImportIssues(TransactionCase):
         self.assertRecordValues(shared, [{"product_id": False, "product_code": "SHARED", "price": 10.0}])
         self.assertEqual(template.seller_ids.filtered("product_id").product_id, variant_b)
 
+    def test_supplier_price_without_code_keeps_existing_code(self):
+        product = self.env["product.product"].create({"name": "UBL Code Kept Product"})
+        row = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_code": "KEEP-1",
+                "price": 10.0,
+            }
+        )
+        self.Wizard._update_supplier_price(self.vendor, product, "", 12.0, "RON")
+        self.assertRecordValues(row, [{"product_code": "KEEP-1", "price": 12.0}])
+
     def test_supplier_price_keeps_other_company_row(self):
         product = self.env["product.product"].create({"name": "UBL Company Product"})
         other = self.env["product.supplierinfo"].create(

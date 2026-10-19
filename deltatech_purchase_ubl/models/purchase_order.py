@@ -65,7 +65,12 @@ class PurchaseOrder(models.Model):
                             "create_missing_products": create_missing_products,
                         }
                     )
-                    wiz = wiz.with_context(active_model="purchase.order", active_id=order.id)
+                    # nobody reviews this run: no vendor bill that would miss the unmatched lines
+                    wiz = wiz.with_context(
+                        active_model="purchase.order",
+                        active_id=order.id,
+                        purchase_ubl_defer_bill_on_unmatched=True,
+                    )
                     wiz.action_import()
                     # Post the color-coded log (matched/updated lines in green, mismatches
                     # and unmatched lines in red/orange) so the warning stands out in the
