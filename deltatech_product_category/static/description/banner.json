@@ -1,0 +1,10 @@
+{
+  "title": "Product Category per Company",
+  "summary": "Keep each company's product categories apart",
+  "icon": "grid",
+  "features": [
+    "Company field on the product category",
+    "Share or separate categories in Settings",
+    "Standard categories stay shared"
+  ]
+}
