@@ -7,3 +7,8 @@
 5. To choose which categories of the list show an icon (main categories only,
    all, or all with the parent's icon as fallback), set **Category Icons in
    List** in Website > Configuration > Settings.
+6. To show the categories with their icons on any page (the home page, a
+   landing page), open the page in the website editor and drag the block
+   **Category Icon Grid** from the Catalog group. In its options, choose the
+   main categories or pick categories by hand, the maximum number and the
+   icon size.

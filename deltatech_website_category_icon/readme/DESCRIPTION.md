@@ -15,6 +15,11 @@ Gives every eCommerce category its own **SVG icon** and shows it in the shop.
 - In the categories on top of the shop, usually the subcategories of the opened
   category, a category without its own icon or image shows its closest parent's
   icon instead of the empty placeholder.
+- Website block **Category Icon Grid**, to drag on any page (home page, landing
+  pages): the main categories or categories chosen by hand, with their icon and
+  name, each linking to its shop page. The categories are rendered on each
+  visit, so the page always shows the current icons; the maximum number and the
+  icon size are options of the block. 6 columns on desktop, 2 on phones.
 - Icons drawn with `currentColor` take the color of the category link, so they
   follow the theme, the hover color and the active category.
 - The icon is checked when saved, so it is safe to show on public pages: only

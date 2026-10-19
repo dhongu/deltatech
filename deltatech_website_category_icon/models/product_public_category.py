@@ -9,6 +9,7 @@ from markupsafe import Markup
 
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.fields import Domain
 
 SVG_NS = "http://www.w3.org/2000/svg"
 
@@ -57,6 +58,9 @@ TRANSFORM_VALUE = re.compile(r"^(\s*(translate|rotate|scale|matrix|skewX|skewY)\
 
 MAX_ICON_SIZE = 20000
 
+# Most categories the snippet Category Icon Grid shows, whatever the editor asks.
+MAX_GRID_CATEGORIES = 48
+
 
 class ProductPublicCategory(models.Model):
     _inherit = "product.public.category"
@@ -89,6 +93,23 @@ class ProductPublicCategory(models.Model):
         for category in self:
             parent = category.parent_id
             category.icon_inherited_html = Markup(parent.icon_svg) if parent.icon_svg else parent.icon_inherited_html
+
+    @api.model
+    def _get_icon_grid_categories(self, website, category_ids=None, limit=12):
+        """Categories shown by the snippet Category Icon Grid on the given website.
+
+        Without ``category_ids`` these are the main categories, in their shop order;
+        with them, the chosen categories in the order they were chosen. Categories of
+        another website, and for visitors categories without published products, are
+        left out, as in the shop.
+        """
+        limit = max(1, min(int(limit or 12), MAX_GRID_CATEGORIES))
+        domain = self._get_available_category_domain(website.id)
+        if not category_ids:
+            return self.search(domain & Domain("parent_id", "=", False), limit=limit)
+        category_ids = [int(category_id) for category_id in category_ids]
+        categories = self.search(domain & Domain("id", "in", category_ids))
+        return categories.sorted(lambda category: category_ids.index(category.id))[:limit]
 
     @api.model_create_multi
     def create(self, vals_list):

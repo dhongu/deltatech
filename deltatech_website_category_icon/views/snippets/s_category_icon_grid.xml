@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Grid of eCommerce categories with their icon, to drop on any page. The page only
+        keeps the options (data-mode, data-category-ids, data-limit and the icon size
+        class): the items are rendered by the server on each visit, so the page follows
+        the icons and categories of the database. The sample items are what the snippet
+        dialog shows; they are replaced as soon as the snippet starts.
+    -->
+    <template id="s_category_icon_grid" name="Category Icon Grid">
+        <section
+            class="s_category_icon_grid pt48 pb48"
+            data-snippet="s_category_icon_grid"
+            data-mode="root"
+            data-limit="12"
+        >
+            <div class="container">
+                <h2 class="h3 text-center mb-4">Shop by category</h2>
+                <div class="css_non_editable_mode_hidden">
+                    <div class="s_category_icon_grid_empty alert alert-info d-none">
+                        Choose the categories to show in the options of the block.
+                    </div>
+                </div>
+                <div class="s_category_icon_grid_items o_not_editable">
+                    <div class="s_category_icon_grid_row">
+                        <t t-foreach="['fa-leaf', 'fa-truck', 'fa-cogs', 'fa-tint', 'fa-wrench', 'fa-sun-o']" t-as="sample_icon">
+                            <div class="s_category_icon_grid_item">
+                                <span class="s_category_icon_grid_icon o_category_icon">
+                                    <i t-attf-class="fa #{sample_icon} fa-3x text-primary" />
+                                </span>
+                                <span class="s_category_icon_grid_name">Category</span>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Rendered by /website/snippet/category_icon_grid. -->
+    <template id="s_category_icon_grid_items" name="Category Icon Grid Items">
+        <div class="s_category_icon_grid_row">
+            <a
+                t-foreach="categories"
+                t-as="category"
+                class="s_category_icon_grid_item"
+                t-att-href="category_url(category)"
+                t-att-data-category-id="category.id"
+            >
+                <span t-if="category.icon_html" class="s_category_icon_grid_icon o_category_icon" t-out="category.icon_html" />
+                <span class="s_category_icon_grid_name" t-out="category.name" />
+            </a>
+        </div>
+    </template>
+
+    <template id="snippets" inherit_id="website.snippets" name="Category Icon Grid Snippet">
+        <xpath expr="//t[@t-snippet='website.s_ecomm_categories_showcase']" position="after">
+            <t t-snippet="deltatech_website_category_icon.s_category_icon_grid" string="Category Icon Grid" group="catalog">
+                <keywords>shop, categories, ecommerce, e-commerce, icons, grid, catalog</keywords>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

@@ -1,3 +1,14 @@
+## 19.0.1.3.0 (2026-10-19)
+
+- New website block **Category Icon Grid** (Catalog group of the editor): a grid
+  of eCommerce categories with their icon and name, each linking to its shop
+  page. Options: main categories or categories chosen by hand (kept in the
+  chosen order), maximum number (1 to 48) and icon size. The page keeps only
+  the options; the categories are rendered by the server on each visit, for
+  the current website, so the block follows the icons of the database.
+  Categories without an icon show only their name. 6 columns on desktop, 3 on
+  tablets and 2 on phones.
+
 ## 19.0.1.2.0 (2026-10-17)
 
 - The Boolean **Inherit Category Icons** becomes the choice **Category Icons in
