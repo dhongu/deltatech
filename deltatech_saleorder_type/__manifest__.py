@@ -6,7 +6,7 @@
 {
     "name": "Terrabit - Sale Order Type - Obsolete",
     "summary": "Manage multiple sale order types",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
@@ -16,4 +16,5 @@
     "development_status": "Beta",
     "maintainers": ["danila12"],
     "images": ["static/description/main_screenshot.png"],
+    "hidden": True,
 }
