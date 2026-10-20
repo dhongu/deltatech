@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template
+        id="product_price_without_tax"
+        inherit_id="website_sale.product_price"
+        name="Product Price without tax"
+        customize_show="True"
+        priority="100"
+    >
+        <xpath expr="//div[@name='product_price_container']" position="inside">
+            <t t-if="combination_info.get('list_price_without_tax')">
+                <span class="text-muted oe_price_without_tax mb-0 h6" style="white-space: nowrap;">
+                    <span>Preț fără TVA:</span>
+                    <span
+                        t-out="combination_info['list_price_without_tax']"
+                        t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"
+                    />
+                </span>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
