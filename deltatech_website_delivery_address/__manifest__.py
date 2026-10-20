@@ -5,7 +5,7 @@
     "name": "eCommerce Delivery Address",
     "category": "Website",
     "summary": "Default delivery address per website user, preselected at checkout",
-    "version": "19.0.1.0.2",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
