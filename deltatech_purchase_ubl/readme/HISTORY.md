@@ -1,3 +1,20 @@
+## 19.0.1.4.18 (2026-10-20)
+
+- The order is compared with the document on the value without VAT and, when the
+  document states it, on the total with VAT, and the log shows both. Before, only the
+  total with VAT was checked when the document had one, or else only the value without
+  VAT. An intra-community invoice at 0% imported on an order whose lines took the
+  domestic 21% matched without VAT and passed unnoticed. Any difference also keeps the
+  import from going straight through and opens the preview.
+- A line whose VAT differs from the rate on the document is reported in the log
+  (only reported: the order's VAT comes from the products and the vendor's fiscal
+  position, which is where it is corrected). A reverse charge or intra-community tax
+  counts as 0% against an intra-community (K) or reverse charge (AE) document, but is
+  reported against an exempt, zero-rated, out-of-scope or export document (E, Z, O, G),
+  where the buyer does not self-assess the VAT. A 0% rate counts only with one of these
+  categories, or when the reader of the document vouches for its rates
+  (`tax_percent_read`).
+
 ## 19.0.1.4.17 (2026-10-20)
 
 - The description column of the import preview is now labelled "Vendor Description"

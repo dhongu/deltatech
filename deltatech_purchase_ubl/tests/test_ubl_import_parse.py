@@ -153,11 +153,18 @@ class TestUblImportParse(TransactionCase):
         invalid = self.Wizard.create({"data_file": b64encode(b"<broken"), "order_id": order.id})
         self.assertFalse(invalid.total_check_warning)
 
-        matching = self.Wizard.create({"data_file": b64encode(_xml_invoice(payable_amount="20")), "order_id": order.id})
+        matching = self.Wizard.create(
+            {"data_file": b64encode(_xml_invoice(tax_exclusive_amount="20", payable_amount="20")), "order_id": order.id}
+        )
         self.assertFalse(matching.total_check_warning)
 
         differing = self.Wizard.create(
-            {"data_file": b64encode(_xml_invoice(payable_amount="25")), "order_id": order.id}
+            {
+                "data_file": b64encode(
+                    _xml_invoice(tax_exclusive_amount="20", tax_inclusive_amount="25", payable_amount="25")
+                ),
+                "order_id": order.id,
+            }
         )
         self.assertIn("differs", differing.total_check_warning)
 

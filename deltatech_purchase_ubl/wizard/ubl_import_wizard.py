@@ -47,9 +47,12 @@ class PurchaseUblImportWizard(models.TransientModel):
                 invoice_xml = wizard._parse_source(base64.b64decode(wizard.data_file))
             except Exception:
                 continue
-            total_check = wizard._get_order_total_check(wizard.order_id, invoice_xml)
-            if total_check and not total_check["matches"]:
-                wizard.total_check_warning = wizard._format_total_check_message(total_check)
+            differences = [
+                wizard._format_total_check_message(check)
+                for check in wizard._get_order_total_checks(wizard.order_id, invoice_xml)
+                if not check["matches"]
+            ]
+            wizard.total_check_warning = "\n".join(differences) or False
 
     def _uom_from_ubl(self, unit_code):
         return self._uom_from_code(unit_code)

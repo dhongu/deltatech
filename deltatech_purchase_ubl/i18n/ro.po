@@ -647,3 +647,28 @@ msgstr ""
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Vendor set on the order from the document: %s."
 msgstr "Furnizorul comenzii a fost luat din document: %s."
+
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s,"
+" the order %(order)s. The order's VAT comes from the products and the "
+"vendor's fiscal position. Check the fiscal position before creating the "
+"vendor bill: an intra-community acquisition takes the intra-community "
+"position (reverse charge), an import the extra-community one (VAT paid at "
+"customs)."
+msgstr ""
+"Cota TVA diferă pe %(count)s linie(i) (%(lines)s): documentul are %(doc)s, "
+"comanda %(order)s. TVA-ul comenzii vine din produse și din poziția fiscală a"
+" furnizorului. Verificați poziția fiscală înainte de a crea factura "
+"furnizorului: pentru o achiziție intracomunitară se aplică poziția "
+"intracomunitară (taxare inversă), pentru import poziția extracomunitară (TVA"
+" plătit în vamă)."
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "%s%% reverse charge"
+msgstr "%s%% taxare inversă"
