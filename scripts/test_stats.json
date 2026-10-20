@@ -705,6 +705,9 @@
     "deltatech_website_sale_status": {
       "tests": 44
     },
+    "deltatech_website_searchbar": {
+      "tests": 4
+    },
     "deltatech_website_short_description": {
       "coverage": 100.0,
       "lines": 11,
