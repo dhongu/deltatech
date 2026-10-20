@@ -1,0 +1,16 @@
+## 19.0.1.0.3 (2026-10-16)
+
+- Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.
+
+## 19.0.1.0.2 (2026-10-09)
+
+- Apps Store banner (banner.json).
+
+## 19.0.1.0.1 (2026-09-29)
+
+- Own module icon, instead of the generic gears it had.
+
+## 19.0.1.0.0 (2026-08-14)
+
+- Migration to 19.0: the website search bar is no longer a `publicWidget` (`@website/snippets/s_searchbar/000`), it is the `SearchBar` public interaction (`@website/snippets/s_searchbar/search_bar`). The override was rewritten as a `patch()` on that interaction -- the debounce delay is now set on the `t-on-input` entry of `dynamicContent` in `setup()`, and the minimum term length is checked in `onInput()` against `this.inputEl.value` instead of the removed `this.$input`. Behaviour is unchanged: 800 ms debounce and no request under 4 characters.

@@ -1,0 +1,7 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from . import test_website_sale
+from . import test_website_tax_display
+from . import test_website_vat_validation_http

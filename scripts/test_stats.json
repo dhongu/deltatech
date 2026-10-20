@@ -684,6 +684,9 @@
       "lines": 92,
       "tests": 17
     },
+    "deltatech_website_country": {
+      "tests": 2
+    },
     "deltatech_website_delivery_address": {
       "tests": 3
     },
@@ -695,6 +698,9 @@
     },
     "deltatech_website_fixed_price": {
       "tests": 3
+    },
+    "deltatech_website_price_without_tax": {
+      "tests": 7
     },
     "deltatech_website_product_code": {
       "tests": 33
@@ -708,6 +714,9 @@
     "deltatech_website_sale_status": {
       "tests": 44
     },
+    "deltatech_website_searchbar": {
+      "tests": 4
+    },
     "deltatech_website_short_description": {
       "coverage": 100.0,
       "lines": 11,
@@ -715,6 +724,9 @@
     },
     "deltatech_website_stock_availability": {
       "tests": 8
+    },
+    "deltatech_website_vat_validation": {
+      "tests": 11
     },
     "deltatech_website_warehouse_stock": {
       "tests": 4

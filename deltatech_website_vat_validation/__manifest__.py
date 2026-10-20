@@ -1,0 +1,17 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+{
+    "name": "Website VAT Validation",
+    "summary": "Validate VAT numbers at checkout and in the portal, and block duplicates",
+    "version": "20.0.0.2.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "license": "OPL-1",
+    "category": "Generic Modules",
+    "depends": ["website_sale"],
+    "images": ["static/description/main_screenshot.png"],
+    "development_status": "Mature",
+    "maintainers": ["dhongu"],
+}
