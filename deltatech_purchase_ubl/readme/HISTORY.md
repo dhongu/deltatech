@@ -8,6 +8,11 @@
 - The preview also shows the *Update vendor prices*, *Create vendor bill* and
   *Validate receipt* options, and the result step has an *Open Purchase Order*
   button.
+- New *preview or import* entry point (`action_preview_or_import`): when every
+  line is matched by vendor code or barcode and, after the import, the order
+  total equals the invoice total, the invoice is imported straight away and the
+  user only gets a notification (the import log is posted on the order).
+  Otherwise the import is rolled back and the preview opens.
 - New context key `purchase_ubl_skip_auto_import`: a caller that opens the
   import wizard itself attaches the XML to the order without the automatic
   import.

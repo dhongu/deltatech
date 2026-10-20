@@ -376,3 +376,53 @@ class TestProcessAttachmentsForPost(TransactionCase):
         self.assertEqual(po.order_line.product_qty, 2)
         action = wizard.action_open_order()
         self.assertEqual((action["res_model"], action["res_id"]), ("purchase.order", po.id))
+
+    def _known_product(self, code):
+        product = self.env["product.product"].create({"name": f"Clean {code}", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": code,
+            }
+        )
+        return product
+
+    def _wizard(self, po, lines):
+        xml = _xml_invoice(order_ref=po.name, invoice_id=f"INV-{po.name}", lines=lines)
+        return (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create({"data_file": b64encode(xml), "filename": "clean.xml", "order_id": po.id, "create_bill": False})
+        )
+
+    def test_clean_invoice_imports_without_preview(self):
+        po = self._new_po("ATT-CLEAN")
+        product = self._known_product("CLEAN-1")
+        lines = [{"code": "CLEAN-1", "name": "x", "qty": "2", "price": "10", "line_total": "20", "tax": "0"}]
+        action = self._wizard(po, lines).action_preview_or_import()
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(action["params"]["next"]["res_id"], po.id)
+        self.assertRecordValues(po.order_line, [{"product_id": product.id, "product_qty": 2, "price_unit": 10}])
+
+    def test_total_mismatch_rolls_back_and_opens_preview(self):
+        po = self._new_po("ATT-CLEAN-TOTAL")
+        self._known_product("CLEAN-2")
+        lines = [{"code": "CLEAN-2", "name": "x", "qty": "2", "price": "10", "line_total": "25", "tax": "0"}]
+        wizard = self._wizard(po, lines)
+        action = wizard.action_preview_or_import()
+        self.assertEqual(action["res_model"], "purchase.ubl.import.wizard")
+        self.assertEqual(wizard.state, "preview")
+        self.assertFalse(po.order_line, "the import is rolled back for review")
+
+    def test_unmatched_line_opens_preview(self):
+        po = self._new_po("ATT-CLEAN-UNMATCHED")
+        self._known_product("CLEAN-3")
+        lines = [
+            {"code": "CLEAN-3", "name": "x", "qty": "1", "price": "10", "line_total": "10", "tax": "0"},
+            {"code": "CLEAN-NONE", "name": "Nowhere", "qty": "1", "price": "5", "line_total": "5", "tax": "0"},
+        ]
+        wizard = self._wizard(po, lines)
+        self.assertEqual(wizard.action_preview_or_import()["res_model"], "purchase.ubl.import.wizard")
+        self.assertFalse(po.order_line)

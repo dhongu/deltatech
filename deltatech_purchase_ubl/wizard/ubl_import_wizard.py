@@ -325,6 +325,48 @@ class PurchaseUblImportWizard(models.TransientModel):
         create_indexes = {line.sequence for line in self.line_ids if line.line_action == "create"}
         return self._process_invoice_data(invoice_data, product_map=product_map, create_indexes=create_indexes)
 
+    def action_preview_or_import(self):
+        """Import straight away when there is nothing for a person to decide: every line
+        matched by vendor code or barcode, and the order total equals the invoice total
+        after the import. Otherwise (or when the totals differ) the import is rolled back
+        and the preview opens, where the user reviews each line."""
+        self.ensure_one()
+        action = self.action_preview()
+        if self.state != "preview" or not self.order_id:
+            return action
+        if not self.line_ids or any(line.match_type not in ("code", "barcode") for line in self.line_ids):
+            return action
+        invoice_data = self._parse_xml(base64.b64decode(self.data_file))
+        product_map = {line.sequence: line.product_id for line in self.line_ids}
+        try:
+            with self.env.cr.savepoint():
+                self._process_invoice_data(invoice_data, product_map=product_map, create_indexes=set())
+                self.env.flush_all()
+                total_check = self._get_order_total_check(self.order_id, invoice_data)
+                if not (total_check and total_check["matches"]):
+                    raise _NeedsReview()
+        except _NeedsReview:
+            self.env.invalidate_all()
+            return action
+        order = self.order_id
+        if self.log_html:
+            order.message_post(body=self.log_html)
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": self.env._("Invoice imported"),
+                "message": self.env._(
+                    "All lines of invoice %(invoice)s were matched and the total matches purchase order %(order)s.",
+                    invoice=invoice_data.get("invoice_id") or "-",
+                    order=order.name,
+                ),
+                "type": "success",
+                "sticky": False,
+                "next": self.action_open_order(),
+            },
+        }
+
     def action_open_order(self):
         self.ensure_one()
         return {
@@ -343,6 +385,10 @@ class PurchaseUblImportWizard(models.TransientModel):
             "view_mode": "form",
             "target": "new",
         }
+
+
+class _NeedsReview(Exception):
+    """Rolls back an import that a person has to review in the preview."""
 
 
 class PurchaseUblImportWizardLine(models.TransientModel):
