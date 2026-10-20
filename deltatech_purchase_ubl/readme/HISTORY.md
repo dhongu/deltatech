@@ -1,3 +1,22 @@
+## 19.0.1.4.14 (2026-10-20)
+
+- Changed: in the import preview, each line now has an action: *Use product*,
+  *Create new product* or *Ignore*. A line without a product is ignored by
+  default; a new product is created only when the user chooses *Create new
+  product* on that line. The global "Create missing products" option is no
+  longer shown in the wizard (it still applies to the automatic import).
+- The preview also shows the *Update vendor prices*, *Create vendor bill* and
+  *Validate receipt* options, and the result step has an *Open Purchase Order*
+  button.
+- New *preview or import* entry point (`action_preview_or_import`): when every
+  line is matched by vendor code or barcode and, after the import, the order
+  total equals the invoice total, the invoice is imported straight away and the
+  user only gets a notification (the import log is posted on the order).
+  Otherwise the import is rolled back and the preview opens.
+- New context key `purchase_ubl_skip_auto_import`: a caller that opens the
+  import wizard itself attaches the XML to the order without the automatic
+  import.
+
 ## 19.0.1.4.13 (2026-10-19)
 
 - Changed: the automatic import of an XML attached to a purchase order no longer

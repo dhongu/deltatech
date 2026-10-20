@@ -318,8 +318,64 @@ class PurchaseUblImportWizard(models.TransientModel):
             raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
         invoice_data = self._parse_xml(content)
+        product_map = {
+            line.sequence: line.product_id if line.line_action == "product" else line.product_id.browse()
+            for line in self.line_ids
+        }
+        create_indexes = {line.sequence for line in self.line_ids if line.line_action == "create"}
+        return self._process_invoice_data(invoice_data, product_map=product_map, create_indexes=create_indexes)
+
+    def action_preview_or_import(self):
+        """Import straight away when there is nothing for a person to decide: every line
+        matched by vendor code or barcode, and the order total equals the invoice total
+        after the import. Otherwise (or when the totals differ) the import is rolled back
+        and the preview opens, where the user reviews each line."""
+        self.ensure_one()
+        action = self.action_preview()
+        if self.state != "preview" or not self.order_id:
+            return action
+        if not self.line_ids or any(line.match_type not in ("code", "barcode") for line in self.line_ids):
+            return action
+        invoice_data = self._parse_xml(base64.b64decode(self.data_file))
         product_map = {line.sequence: line.product_id for line in self.line_ids}
-        return self._process_invoice_data(invoice_data, product_map=product_map)
+        try:
+            with self.env.cr.savepoint():
+                self._process_invoice_data(invoice_data, product_map=product_map, create_indexes=set())
+                self.env.flush_all()
+                total_check = self._get_order_total_check(self.order_id, invoice_data)
+                if not (total_check and total_check["matches"]):
+                    raise _NeedsReview()
+        except _NeedsReview:
+            self.env.invalidate_all()
+            return action
+        order = self.order_id
+        if self.log_html:
+            order.message_post(body=self.log_html)
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": self.env._("Invoice imported"),
+                "message": self.env._(
+                    "All lines of invoice %(invoice)s were matched and the total matches purchase order %(order)s.",
+                    invoice=invoice_data.get("invoice_id") or "-",
+                    order=order.name,
+                ),
+                "type": "success",
+                "sticky": False,
+                "next": self.action_open_order(),
+            },
+        }
+
+    def action_open_order(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "purchase.order",
+            "res_id": self.order_id.id,
+            "view_mode": "form",
+            "target": "current",
+        }
 
     def _reopen(self):
         return {
@@ -329,6 +385,10 @@ class PurchaseUblImportWizard(models.TransientModel):
             "view_mode": "form",
             "target": "new",
         }
+
+
+class _NeedsReview(Exception):
+    """Rolls back an import that a person has to review in the preview."""
 
 
 class PurchaseUblImportWizardLine(models.TransientModel):
@@ -357,6 +417,28 @@ class PurchaseUblImportWizardLine(models.TransientModel):
         ],
         readonly=True,
     )
+
+    # What the import does with the line. A line without a product is ignored unless the
+    # user explicitly asks for a new product: creating one by mistake duplicates the catalog.
+    line_action = fields.Selection(
+        [
+            ("product", "Use product"),
+            ("create", "Create new product"),
+            ("skip", "Ignore"),
+        ],
+        string="Action",
+        compute="_compute_line_action",
+        store=True,
+        readonly=False,
+    )
+
+    @api.depends("product_id")
+    def _compute_line_action(self):
+        for line in self:
+            if line.product_id:
+                line.line_action = "product"
+            elif line.line_action != "create":
+                line.line_action = "skip"
 
     @api.onchange("product_id")
     def _onchange_product_id(self):
