@@ -8,6 +8,7 @@ from unittest.mock import patch
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools.binary import BinaryBytes
 
 UBL_NS = {
     "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
@@ -288,3 +289,139 @@ class TestProcessAttachmentsForPost(TransactionCase):
             po._process_attachments_for_post([], [att.id], {})
         self.assertFalse(po.order_line)
         self.assertFalse(po.activity_ids)
+
+    def test_unmatched_line_defers_vendor_bill(self):
+        """An unattended import must not create a vendor bill that misses the unmatched lines."""
+        po = self._new_po("ATT-DEFER-BILL")
+        product = self.env["product.product"].create({"name": "Defer Matched Product", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": "VEND-DEFER-OK",
+            }
+        )
+        self.env["purchase.order.line"].create(
+            {"order_id": po.id, "product_id": product.id, "product_qty": 2, "price_unit": 10.0}
+        )
+        po.button_confirm()
+        lines = [
+            {"code": "VEND-DEFER-OK", "name": "Matched", "qty": "2", "price": "10.00", "line_total": "20.00"},
+            {
+                "code": "VEND-DEFER-NONE",
+                "name": "Nowhere To Be Found",
+                "qty": "1",
+                "price": "5.00",
+                "line_total": "5.00",
+            },
+        ]
+        att = self._attachment(
+            po, "defer_bill.xml", _xml_invoice(order_ref=po.name, invoice_id="INV-DEFER", lines=lines)
+        )
+        wizard_cls = type(self.env["purchase.ubl.import.wizard"])
+        with patch.object(wizard_cls, "_on_unmatched_lines", autospec=True) as hook:
+            po.with_context(purchase_ubl_no_new_products=True)._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.invoice_ids, "No vendor bill while a line of the invoice is unmatched")
+        self.assertIn("unmatched", po.message_ids[0].body)
+        self.assertEqual(hook.call_args.args[4], [1], "The hook receives the index of the unmatched line")
+
+    def test_skip_auto_import_context(self):
+        """A caller that opens the import wizard itself attaches the XML without importing."""
+        po = self._new_po("ATT-SKIP-AUTO")
+        att = self._attachment(po, "skip_auto.xml", _xml_invoice(order_ref=po.name))
+        po.with_context(purchase_ubl_skip_auto_import=True)._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line)
+
+    def _preview(self, po, lines):
+        xml = _xml_invoice(order_ref=po.name, invoice_id=f"INV-{po.name}", lines=lines)
+        wizard = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create({"data_file": BinaryBytes(xml), "filename": "preview.xml", "order_id": po.id})
+        )
+        wizard.action_preview()
+        return wizard
+
+    def test_preview_unmatched_line_is_ignored_by_default(self):
+        po = self._new_po("ATT-PREVIEW-IGNORE")
+        known = self.env["product.product"].create({"name": "Preview Known", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": known.product_tmpl_id.id,
+                "product_id": known.id,
+                "product_code": "PRV-KNOWN",
+            }
+        )
+        lines = [
+            {"code": "PRV-KNOWN", "name": "Preview Known", "qty": "1", "price": "4", "line_total": "4"},
+            {"code": "PRV-NEW", "name": "Preview Nowhere", "qty": "2", "price": "5", "line_total": "10"},
+        ]
+        wizard = self._preview(po, lines)
+        self.assertEqual(wizard.line_ids.mapped("line_action"), ["product", "skip"])
+        products_before = self.env["product.product"].search_count([])
+        wizard.action_confirm_import()
+        self.assertEqual(po.order_line.product_id, known)
+        self.assertEqual(self.env["product.product"].search_count([]), products_before)
+
+    def test_preview_create_product_on_request(self):
+        po = self._new_po("ATT-PREVIEW-CREATE")
+        lines = [{"code": "PRV-CREATE", "name": "Preview Created", "qty": "2", "price": "5", "line_total": "10"}]
+        wizard = self._preview(po, lines)
+        wizard.line_ids.line_action = "create"
+        wizard.action_confirm_import()
+        self.assertEqual(po.order_line.product_id.name, "Preview Created")
+        self.assertEqual(po.order_line.product_qty, 2)
+        action = wizard.action_open_order()
+        self.assertEqual((action["res_model"], action["res_id"]), ("purchase.order", po.id))
+
+    def _known_product(self, code):
+        product = self.env["product.product"].create({"name": f"Clean {code}", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": code,
+            }
+        )
+        return product
+
+    def _wizard(self, po, lines):
+        xml = _xml_invoice(order_ref=po.name, invoice_id=f"INV-{po.name}", lines=lines)
+        return (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create({"data_file": BinaryBytes(xml), "filename": "clean.xml", "order_id": po.id, "create_bill": False})
+        )
+
+    def test_clean_invoice_imports_without_preview(self):
+        po = self._new_po("ATT-CLEAN")
+        product = self._known_product("CLEAN-1")
+        lines = [{"code": "CLEAN-1", "name": "x", "qty": "2", "price": "10", "line_total": "20", "tax": "0"}]
+        action = self._wizard(po, lines).action_preview_or_import()
+        self.assertEqual(action["tag"], "display_notification")
+        self.assertEqual(action["params"]["next"]["res_id"], po.id)
+        self.assertRecordValues(po.order_line, [{"product_id": product.id, "product_qty": 2, "price_unit": 10}])
+
+    def test_total_mismatch_rolls_back_and_opens_preview(self):
+        po = self._new_po("ATT-CLEAN-TOTAL")
+        self._known_product("CLEAN-2")
+        lines = [{"code": "CLEAN-2", "name": "x", "qty": "2", "price": "10", "line_total": "25", "tax": "0"}]
+        wizard = self._wizard(po, lines)
+        action = wizard.action_preview_or_import()
+        self.assertEqual(action["res_model"], "purchase.ubl.import.wizard")
+        self.assertEqual(wizard.state, "preview")
+        self.assertFalse(po.order_line, "the import is rolled back for review")
+
+    def test_unmatched_line_opens_preview(self):
+        po = self._new_po("ATT-CLEAN-UNMATCHED")
+        self._known_product("CLEAN-3")
+        lines = [
+            {"code": "CLEAN-3", "name": "x", "qty": "1", "price": "10", "line_total": "10", "tax": "0"},
+            {"code": "CLEAN-NONE", "name": "Nowhere", "qty": "1", "price": "5", "line_total": "5", "tax": "0"},
+        ]
+        wizard = self._wizard(po, lines)
+        self.assertEqual(wizard.action_preview_or_import()["res_model"], "purchase.ubl.import.wizard")
+        self.assertFalse(po.order_line)

@@ -17,6 +17,9 @@ class PurchaseOrder(models.Model):
         enabled = ICP.get_str("deltatech_purchase_ubl.auto_import", default="True")
         if str(enabled).lower() not in ("true", "1", "yes", "y"):
             return res
+        # the caller opens the import wizard itself, so a person reviews the mapping
+        if self.env.context.get("purchase_ubl_skip_auto_import"):
+            return res
 
         # Process only for this recordset
         for order in self:
@@ -61,7 +64,12 @@ class PurchaseOrder(models.Model):
                             "create_missing_products": create_missing_products,
                         }
                     )
-                    wiz = wiz.with_context(active_model="purchase.order", active_id=order.id)
+                    # nobody reviews this run: no vendor bill that would miss the unmatched lines
+                    wiz = wiz.with_context(
+                        active_model="purchase.order",
+                        active_id=order.id,
+                        purchase_ubl_defer_bill_on_unmatched=True,
+                    )
                     wiz.action_import()
                     # Post the color-coded log (matched/updated lines in green, mismatches
                     # and unmatched lines in red/orange) so the warning stands out in the

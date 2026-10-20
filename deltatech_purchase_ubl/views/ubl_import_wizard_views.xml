@@ -41,10 +41,6 @@
                     </group>
                     <group string="Options">
                         <field
-                            name="create_missing_products"
-                            help="Automatically create storable products for XML lines that cannot be matched to existing products"
-                        />
-                        <field
                             name="update_prices"
                             help="Write the unit price from each XML line into the vendor pricelist (product.supplierinfo)"
                         />
@@ -62,7 +58,7 @@
                 <!-- Preview: product mapping review -->
                 <div class="alert alert-info mb-2" role="alert" invisible="state != 'preview'">
                     <i class="oi oi-filled me-1" data-icon="info" title="Info" />
-                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>
+                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match. For each red line pick a product, choose "Create new product", or leave it on "Ignore" (the line is not imported). You can pick a different product on any line before importing.</span>
                 </div>
                 <field name="line_ids" nolabel="1" invisible="state != 'preview'">
                     <list
@@ -71,7 +67,7 @@
                         delete="false"
                         decoration-success="match_type in ('code', 'barcode')"
                         decoration-warning="match_type == 'name'"
-                        decoration-danger="match_type == 'none'"
+                        decoration-danger="match_type == 'none' and not product_id"
                     >
                         <field name="sequence" column_invisible="1" />
                         <field name="matched_product_id" column_invisible="1" />
@@ -80,10 +76,21 @@
                         <field name="name" />
                         <field name="qty" />
                         <field name="price" />
-                        <field name="product_id" />
+                        <field name="product_id" readonly="line_action == 'create'" />
+                        <field name="line_action" />
                         <field name="match_type" />
                     </list>
                 </field>
+
+                <group invisible="state != 'preview'">
+                    <group>
+                        <field name="update_prices" />
+                        <field name="create_bill" />
+                    </group>
+                    <group>
+                        <field name="validate_receipt" />
+                    </group>
+                </group>
 
                 <!-- Done: result -->
                 <separator string="Result" invisible="state != 'done'" />
@@ -106,6 +113,13 @@
                         string="Import"
                         class="btn-primary"
                         invisible="state != 'preview'"
+                    />
+                    <button
+                        name="action_open_order"
+                        type="object"
+                        string="Open Purchase Order"
+                        class="btn-primary"
+                        invisible="state != 'done' or not order_id"
                     />
                     <button
                         name="action_view_vendor_bill"

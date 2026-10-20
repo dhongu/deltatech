@@ -1,3 +1,51 @@
+## 20.0.1.4.14 (2026-10-20)
+
+- Changed: in the import preview, each line now has an action: *Use product*,
+  *Create new product* or *Ignore*. A line without a product is ignored by
+  default; a new product is created only when the user chooses *Create new
+  product* on that line. The global "Create missing products" option is no
+  longer shown in the wizard (it still applies to the automatic import).
+- The preview also shows the *Update vendor prices*, *Create vendor bill* and
+  *Validate receipt* options, and the result step has an *Open Purchase Order*
+  button.
+- New *preview or import* entry point (`action_preview_or_import`): when every
+  line is matched by vendor code or barcode and, after the import, the order
+  total equals the invoice total, the invoice is imported straight away and the
+  user only gets a notification (the import log is posted on the order).
+  Otherwise the import is rolled back and the preview opens.
+- New context key `purchase_ubl_skip_auto_import`: a caller that opens the
+  import wizard itself attaches the XML to the order without the automatic
+  import.
+- Port of 19.0.1.4.14 (dhongu/deltatech#3700). Adapted to 20.0: the XML is read
+  from `data_file.content` (raw bytes) instead of being base64-decoded.
+
+## 20.0.1.4.13 (2026-10-19)
+
+- Changed: the automatic import of an XML attached to a purchase order no longer
+  creates the vendor bill when a line of the invoice could not be matched to a
+  product. That bill missed the unmatched lines, and resolving them later on the
+  order did not update it. The import log says why the bill was skipped; create
+  it once every line is resolved.
+- Fixed: an invoice line without a vendor code erased the code already saved on
+  the vendor price row of the product.
+- New extension point for the lines the automatic import could not match, used by
+  *Purchase UBL AI Product Matching*.
+- Port of 19.0.1.4.13 (dhongu/deltatech#3688).
+
+## 20.0.1.4.12 (2026-10-16)
+
+- Fixed: the check for an existing vendor bill with the same supplier invoice
+  number looked at every company the user had access to. It now looks only in
+  the company of the purchase order.
+- Fixed: updating the vendor price of a product variant could overwrite the
+  vendor price row of another variant of the same product, or a row of another
+  company. Only the row of the imported variant in the order's company (or a
+  row shared between companies) is updated now; a new row is created otherwise.
+- Fixed: the unit code SET was mapped to a unit that does not exist in Odoo and
+  was handled as Units. A unit named "Set" is used when one is defined. A
+  unit code that is not recognised is now reported in the import log.
+- Port of 19.0.1.4.12 (dhongu/deltatech#3561).
+
 ## 20.0.1.4.11 (2026-10-12)
 
 - Fixed: the vendor was not found by its tax id when the invoice and the partner
