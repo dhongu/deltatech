@@ -347,8 +347,22 @@ class PurchaseUblImportWizard(models.TransientModel):
             raise UserError(self.env._("Please select an XML file."))
         content = self.data_file.content
         invoice_data = self._parse_xml(content)
-        product_map = {line.sequence: line.product_id for line in self.line_ids}
-        return self._process_invoice_data(invoice_data, product_map=product_map)
+        product_map = {
+            line.sequence: line.product_id if line.line_action == "product" else line.product_id.browse()
+            for line in self.line_ids
+        }
+        create_indexes = {line.sequence for line in self.line_ids if line.line_action == "create"}
+        return self._process_invoice_data(invoice_data, product_map=product_map, create_indexes=create_indexes)
+
+    def action_open_order(self):
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "res_model": "purchase.order",
+            "res_id": self.order_id.id,
+            "view_mode": "form",
+            "target": "current",
+        }
 
     def _reopen(self):
         return {
@@ -386,6 +400,28 @@ class PurchaseUblImportWizardLine(models.TransientModel):
         ],
         readonly=True,
     )
+
+    # What the import does with the line. A line without a product is ignored unless the
+    # user explicitly asks for a new product: creating one by mistake duplicates the catalog.
+    line_action = fields.Selection(
+        [
+            ("product", "Use product"),
+            ("create", "Create new product"),
+            ("skip", "Ignore"),
+        ],
+        string="Action",
+        compute="_compute_line_action",
+        store=True,
+        readonly=False,
+    )
+
+    @api.depends("product_id")
+    def _compute_line_action(self):
+        for line in self:
+            if line.product_id:
+                line.line_action = "product"
+            elif line.line_action != "create":
+                line.line_action = "skip"
 
     @api.onchange("product_id")
     def _onchange_product_id(self):

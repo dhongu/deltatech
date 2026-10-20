@@ -779,7 +779,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         return new_invoice
 
-    def _process_invoice_data(self, invoice_data, product_map=None):
+    def _process_invoice_data(self, invoice_data, product_map=None, create_indexes=None):
         """Generic processing shared by all invoice import wizards, regardless of the
         source document format (UBL XML, Marso PDF, ...). Expects invoice_data as a dict
         shaped like the return value of _parse_source():
@@ -798,6 +798,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         the map REPLACES automatic matching for that line — the user saw the preview and
         either confirmed the match or picked another product; an empty product means
         "leave unmatched" (still subject to create_missing_products).
+
+        create_indexes, when given, is the set of source line indexes the user chose to
+        create a new product for; it then replaces create_missing_products for every line.
         """
         self.ensure_one()
 
@@ -823,7 +826,11 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             else:
                 product = self._match_product(partner, ln.get("code"), ln.get("name"), ln.get("barcode"))
             # Optionally create missing product
-            if not product and self.create_missing_products:
+            if create_indexes is not None:
+                create_product = index in create_indexes
+            else:
+                create_product = self.create_missing_products
+            if not product and create_product:
                 product = self._create_product_from_xml_line(partner, ln, invoice_data.get("currency"))
                 created.append(product.display_name)
             elif not product:

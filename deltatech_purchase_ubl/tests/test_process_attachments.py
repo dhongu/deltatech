@@ -8,6 +8,7 @@ from unittest.mock import patch
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools.binary import BinaryBytes
 
 UBL_NS = {
     "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
@@ -324,3 +325,53 @@ class TestProcessAttachmentsForPost(TransactionCase):
         self.assertFalse(po.invoice_ids, "No vendor bill while a line of the invoice is unmatched")
         self.assertIn("unmatched", po.message_ids[0].body)
         self.assertEqual(hook.call_args.args[4], [1], "The hook receives the index of the unmatched line")
+
+    def test_skip_auto_import_context(self):
+        """A caller that opens the import wizard itself attaches the XML without importing."""
+        po = self._new_po("ATT-SKIP-AUTO")
+        att = self._attachment(po, "skip_auto.xml", _xml_invoice(order_ref=po.name))
+        po.with_context(purchase_ubl_skip_auto_import=True)._process_attachments_for_post([], [att.id], {})
+        self.assertFalse(po.order_line)
+
+    def _preview(self, po, lines):
+        xml = _xml_invoice(order_ref=po.name, invoice_id=f"INV-{po.name}", lines=lines)
+        wizard = (
+            self.env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=po.id)
+            .create({"data_file": BinaryBytes(xml), "filename": "preview.xml", "order_id": po.id})
+        )
+        wizard.action_preview()
+        return wizard
+
+    def test_preview_unmatched_line_is_ignored_by_default(self):
+        po = self._new_po("ATT-PREVIEW-IGNORE")
+        known = self.env["product.product"].create({"name": "Preview Known", "type": "consu"})
+        self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": known.product_tmpl_id.id,
+                "product_id": known.id,
+                "product_code": "PRV-KNOWN",
+            }
+        )
+        lines = [
+            {"code": "PRV-KNOWN", "name": "Preview Known", "qty": "1", "price": "4", "line_total": "4"},
+            {"code": "PRV-NEW", "name": "Preview Nowhere", "qty": "2", "price": "5", "line_total": "10"},
+        ]
+        wizard = self._preview(po, lines)
+        self.assertEqual(wizard.line_ids.mapped("line_action"), ["product", "skip"])
+        products_before = self.env["product.product"].search_count([])
+        wizard.action_confirm_import()
+        self.assertEqual(po.order_line.product_id, known)
+        self.assertEqual(self.env["product.product"].search_count([]), products_before)
+
+    def test_preview_create_product_on_request(self):
+        po = self._new_po("ATT-PREVIEW-CREATE")
+        lines = [{"code": "PRV-CREATE", "name": "Preview Created", "qty": "2", "price": "5", "line_total": "10"}]
+        wizard = self._preview(po, lines)
+        wizard.line_ids.line_action = "create"
+        wizard.action_confirm_import()
+        self.assertEqual(po.order_line.product_id.name, "Preview Created")
+        self.assertEqual(po.order_line.product_qty, 2)
+        action = wizard.action_open_order()
+        self.assertEqual((action["res_model"], action["res_id"]), ("purchase.order", po.id))

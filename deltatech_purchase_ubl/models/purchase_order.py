@@ -17,6 +17,9 @@ class PurchaseOrder(models.Model):
         enabled = ICP.get_str("deltatech_purchase_ubl.auto_import", default="True")
         if str(enabled).lower() not in ("true", "1", "yes", "y"):
             return res
+        # the caller opens the import wizard itself, so a person reviews the mapping
+        if self.env.context.get("purchase_ubl_skip_auto_import"):
+            return res
 
         # Process only for this recordset
         for order in self:
