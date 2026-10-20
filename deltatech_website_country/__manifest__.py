@@ -5,7 +5,7 @@
     "name": "eCommerce Country",
     "category": "Website",
     "summary": "Preselect the website company's country in the checkout address form",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",

@@ -17,7 +17,7 @@ eCommerce Country
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_country
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_country
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3|
@@ -73,6 +73,11 @@ Usage
 Changelog
 =========
 
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 18.0.1.0.2 (2026-06-10)
 -----------------------
 
@@ -109,6 +114,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_country>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_country>`_ project on GitHub.
 
 You are welcome to contribute.
