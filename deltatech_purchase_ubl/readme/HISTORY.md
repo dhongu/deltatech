@@ -16,6 +16,8 @@
 - New context key `purchase_ubl_skip_auto_import`: a caller that opens the
   import wizard itself attaches the XML to the order without the automatic
   import.
+- Port of 19.0.1.4.14 (dhongu/deltatech#3700). Adapted to 20.0: the XML is read
+  from `data_file.content` (raw bytes) instead of being base64-decoded.
 
 ## 20.0.1.4.13 (2026-10-19)
 
@@ -28,6 +30,7 @@
   the vendor price row of the product.
 - New extension point for the lines the automatic import could not match, used by
   *Purchase UBL AI Product Matching*.
+- Port of 19.0.1.4.13 (dhongu/deltatech#3688).
 
 ## 20.0.1.4.12 (2026-10-16)
 
@@ -38,9 +41,10 @@
   vendor price row of another variant of the same product, or a row of another
   company. Only the row of the imported variant in the order's company (or a
   row shared between companies) is updated now; a new row is created otherwise.
-- Fixed: the unit code SET was mapped to a unit that does not exist in Odoo 19
-  and was handled as Units. A unit named "Set" is used when one is defined. A
+- Fixed: the unit code SET was mapped to a unit that does not exist in Odoo and
+  was handled as Units. A unit named "Set" is used when one is defined. A
   unit code that is not recognised is now reported in the import log.
+- Port of 19.0.1.4.12 (dhongu/deltatech#3561).
 
 ## 20.0.1.4.11 (2026-10-12)
 
