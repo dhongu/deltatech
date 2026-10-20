@@ -11,7 +11,13 @@ class ProductSupplierinfo(models.Model):
     allowed_uom_ids = fields.Many2many("uom.uom", compute="_compute_allowed_uom_ids")
     product_uom_id = fields.Many2one(domain="[('id', 'in', allowed_uom_ids)]")
 
-    @api.depends("product_id.uom_id", "product_id.uom_ids", "product_tmpl_id.uom_id", "product_tmpl_id.uom_ids")
+    @api.depends(
+        "product_id.uom_id",
+        "product_id.uom_ids",
+        "product_tmpl_id.uom_id",
+        "product_tmpl_id.uom_ids",
+        "product_tmpl_id.purchase_uom_id",
+    )
     def _compute_allowed_uom_ids(self):
         """Pe linia de furnizor standardul nu pune niciun domeniu pe UM.
 
@@ -23,7 +29,22 @@ class ProductSupplierinfo(models.Model):
         for record in self:
             product = record.product_id or record.product_tmpl_id
             record.allowed_uom_ids = product.uom_id | product.uom_ids
-        self._extend_allowed_uom_ids()
+        with_purchase_uom = self.filtered(lambda r: r.product_tmpl_id.purchase_uom_id)
+        (self - with_purchase_uom)._extend_allowed_uom_ids()
+        for record in with_purchase_uom:
+            # UM de achizitie fixata pe produs: doar ea e permisa
+            record.allowed_uom_ids = record.product_tmpl_id.purchase_uom_id
+
+    def _compute_product_uom_id(self):
+        """EXTENDS 'product' - linia noua ia UM implicita de achizitie a produsului.
+
+        Standardul pune UM produsului: la un articol nou (creat si prin duplicare), linia
+        de furnizor iese in bucati, iar comanda trateaza cantitatea in mc ca bucati.
+        """
+        for record in self:
+            if not record.product_uom_id and record.product_tmpl_id.purchase_uom_id:
+                record.product_uom_id = record.product_tmpl_id.purchase_uom_id
+        return super()._compute_product_uom_id()
 
     def _uom_domain_product_uom(self):
         """Linia de furnizor poate fi pe sablon, fara varianta."""
