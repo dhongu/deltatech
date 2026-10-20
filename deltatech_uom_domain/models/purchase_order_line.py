@@ -1,34 +1,39 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo import api, models
+from odoo import fields, models
 
 
 class PurchaseOrderLine(models.Model):
     _name = "purchase.order.line"
     _inherit = ["purchase.order.line", "deltatech.uom.domain.mixin"]
 
-    @api.depends("product_id.purchase_uom_id")
     def _compute_allowed_uom_ids(self):
-        """EXTENDS 'purchase' - ofera toate unitatile convertibile, nu doar cele legate de produs.
-
-        Cand produsul are UM implicita de achizitie, doar ea e permisa.
-        """
+        """EXTENDS 'purchase' - ofera toate unitatile convertibile, nu doar cele legate de produs."""
         res = super()._compute_allowed_uom_ids()
-        with_purchase_uom = self.filtered(lambda line: line.product_id.purchase_uom_id)
-        (self - with_purchase_uom)._extend_allowed_uom_ids()
-        for line in with_purchase_uom:
-            line.allowed_uom_ids = line.product_id.purchase_uom_id
+        self._extend_allowed_uom_ids()
         return res
 
     def _suggest_quantity(self):
-        """EXTENDS 'purchase' - UM implicita de achizitie a produsului.
+        """EXTENDS 'purchase' - UM implicita de achizitie a produsului, cand furnizorul n-are linie valabila.
 
         In 19.0 UM de pe comanda vine doar de pe linia de furnizor valabila la data comenzii;
         `uom_po_id` de pe produs a disparut. Fara linie valabila (lipsa, expirata, alt furnizor),
         comanda pune tacut UM produsului: 4,894 mc de cherestea intra in stoc ca 4,894 buc.
         """
         res = super()._suggest_quantity()
-        if self.product_id.purchase_uom_id:
-            self.product_uom_id = self.product_id.purchase_uom_id
+        purchase_uom = self.product_id.purchase_uom_id
+        if purchase_uom and not self._get_valid_sellers_for_suggest():
+            self.product_uom_id = purchase_uom
         return res
+
+    def _get_valid_sellers_for_suggest(self):
+        """Acelasi filtru ca in `_suggest_quantity` din 'purchase'."""
+        self.ensure_one()
+        date = self.order_id.date_order and self.order_id.date_order.date() or fields.Date.context_today(self)
+        return self.product_id.seller_ids.filtered(
+            lambda r: r.partner_id == self.order_id.partner_id
+            and (not r.product_id or r.product_id == self.product_id)
+            and (not r.date_start or r.date_start <= date)
+            and (not r.date_end or r.date_end >= date)
+        )

@@ -11,13 +11,7 @@ class ProductSupplierinfo(models.Model):
     allowed_uom_ids = fields.Many2many("uom.uom", compute="_compute_allowed_uom_ids")
     product_uom_id = fields.Many2one(domain="[('id', 'in', allowed_uom_ids)]")
 
-    @api.depends(
-        "product_id.uom_id",
-        "product_id.uom_ids",
-        "product_tmpl_id.uom_id",
-        "product_tmpl_id.uom_ids",
-        "product_tmpl_id.purchase_uom_id",
-    )
+    @api.depends("product_id.uom_id", "product_id.uom_ids", "product_tmpl_id.uom_id", "product_tmpl_id.uom_ids")
     def _compute_allowed_uom_ids(self):
         """Pe linia de furnizor standardul nu pune niciun domeniu pe UM.
 
@@ -29,11 +23,7 @@ class ProductSupplierinfo(models.Model):
         for record in self:
             product = record.product_id or record.product_tmpl_id
             record.allowed_uom_ids = product.uom_id | product.uom_ids
-        with_purchase_uom = self.filtered(lambda r: r.product_tmpl_id.purchase_uom_id)
-        (self - with_purchase_uom)._extend_allowed_uom_ids()
-        for record in with_purchase_uom:
-            # UM de achizitie fixata pe produs: doar ea e permisa
-            record.allowed_uom_ids = record.product_tmpl_id.purchase_uom_id
+        self._extend_allowed_uom_ids()
 
     def _compute_product_uom_id(self):
         """EXTENDS 'product' - linia noua ia UM implicita de achizitie a produsului.

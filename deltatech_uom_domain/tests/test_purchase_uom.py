@@ -56,18 +56,22 @@ class TestPurchaseUom(BaseCommon):
         self.product.purchase_uom_id = self.uom_mc
         self.assertEqual(self._po_line_uom(), self.uom_mc)
 
-    def test_purchase_uom_wins_over_old_seller(self):
-        """O linie de furnizor veche, ramasa in bucati, nu mai impune UM pe comanda."""
+    def test_valid_seller_has_priority(self):
+        """Linia de furnizor valabila castiga, chiar daca e in alta unitate decat cea implicita."""
         self._add_seller(product_uom_id=self.uom_buc.id)
         self.product.purchase_uom_id = self.uom_mc
-        self.assertEqual(self._po_line_uom(), self.uom_mc)
+        self.assertEqual(self._po_line_uom(), self.uom_buc)
 
-    def test_po_line_domain_restricted_to_purchase_uom(self):
+    def test_po_line_domain_keeps_tree(self):
+        """UM implicita nu restrange lista: raman unitatile convertibile, nu si cele din alt arbore."""
         self.product.purchase_uom_id = self.uom_mc
         order = self.env["purchase.order"].create(
             {"partner_id": self.partner.id, "order_line": [Command.create({"product_id": self.product.id})]}
         )
-        self.assertEqual(order.order_line.allowed_uom_ids, self.uom_mc)
+        allowed = order.order_line.allowed_uom_ids
+        self.assertIn(self.uom_mc, allowed)
+        self.assertIn(self.uom_buc, allowed)
+        self.assertNotIn(self.env.ref("uom.product_uom_kgm"), allowed)
 
     def test_seller_takes_purchase_uom(self):
         """Cazul t1754: linia de furnizor noua iesea in UM produsului (bucati)."""
@@ -76,12 +80,8 @@ class TestPurchaseUom(BaseCommon):
             {"partner_id": self.partner.id, "product_tmpl_id": self.product.product_tmpl_id.id, "price": 1300}
         )
         self.assertEqual(seller.product_uom_id, self.uom_mc)
-        self.assertEqual(seller.allowed_uom_ids, self.uom_mc)
-
-    def test_seller_without_purchase_uom_keeps_tree_domain(self):
-        seller = self._add_seller()
-        self.assertIn(self.uom_mc, seller.allowed_uom_ids)
         self.assertIn(self.uom_buc, seller.allowed_uom_ids)
+        self.assertNotIn(self.env.ref("uom.product_uom_kgm"), seller.allowed_uom_ids)
 
     def test_seller_form_takes_purchase_uom(self):
         """Din formularul produsului, linia de furnizor noua ia UM de achizitie."""

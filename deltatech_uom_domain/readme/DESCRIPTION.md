@@ -69,12 +69,15 @@ Exemplu real: cherestea cumpărată la mc și vândută la bucată - 4,894 mc au
 stoc ca 4,894 buc, la prețul unui metru cub pe bucată.
 
 Modulul adaugă pe produs, în tab-ul Achiziție, câmpul „Unitate implicită de achiziție",
-cu unitățile din arborele unității produsului. Când e completat:
+cu unitățile din arborele unității produsului - echivalentul lui `uom_po_id` din 18.0.
+Când e completat:
 
-- linia de furnizor nouă o preia automat, iar pe linia de furnizor nu se mai poate
-  alege altă unitate;
-- pe comanda de achiziție, linia o preia la alegerea produsului și nu se mai poate
-  alege altă unitate, chiar dacă linia de furnizor lipsește sau a expirat.
+- linia de furnizor nouă o preia automat;
+- pe comanda de achiziție, linia o preia când furnizorul nu are o linie valabilă
+  (lipsă, expirată sau pentru alt furnizor); linia de furnizor valabilă are prioritate.
+
+Pe ambele linii se pot alege în continuare toate unitățile din același arbore, dar nu
+și unități din alt arbore (metri liniari în ml, bucăți în m²).
 
 Liniile de furnizor existente nu se modifică: dacă au altă unitate, se corectează
 manual, odată cu prețul, care e exprimat în unitatea liniei.
