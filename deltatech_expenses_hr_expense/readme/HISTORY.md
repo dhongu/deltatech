@@ -1,3 +1,9 @@
+## 20.0.1.1.3 (2026-10-20)
+
+- The import test with a VAT-on-top tax runs again: `deltatech_expenses`
+  20.0.3.4.0 brings the gross line amount from 19.0, so imported expenses keep
+  their total with VAT included.
+
 ## 19.0.1.1.2 (2026-10-09)
 
 - Apps Store banner (banner.json).
