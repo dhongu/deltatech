@@ -32,6 +32,17 @@ class ProductSupplierinfo(models.Model):
             record.allowed_uom_ids = product._get_available_uoms()
         self._extend_allowed_uom_ids()
 
+    def _compute_uom_id(self):
+        """EXTENDS 'product' - linia noua ia UM implicita de achizitie a produsului.
+
+        Standardul pune UM produsului: la un articol nou (creat si prin duplicare), linia
+        de furnizor iese in bucati, iar comanda trateaza cantitatea in mc ca bucati.
+        """
+        for record in self:
+            if not record.uom_id and record.product_tmpl_id.purchase_uom_id:
+                record.uom_id = record.product_tmpl_id.purchase_uom_id
+        return super()._compute_uom_id()
+
     def _uom_domain_product_uom(self):
         """Linia de furnizor poate fi pe sablon, fara varianta."""
         self.ensure_one()
