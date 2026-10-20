@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 10:19+0000\n"
-"PO-Revision-Date: 2026-08-31 10:19+0000\n"
+"POT-Creation-Date: 2026-10-20 07:18+0000\n"
+"PO-Revision-Date: 2026-10-20 07:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid ""
 "<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
-"                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match and a NEW product will be created for them (if the option is enabled). You can pick a different product on any line before importing.</span>"
+"                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match. For each red line pick a product, choose \"Create new product\", or leave it on \"Ignore\" (the line is not imported). You can pick a different product on any line before importing.</span>"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__line_action
+msgid "Action"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -34,10 +39,11 @@ msgid "Added %s lines to the purchase order from source document."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 msgid ""
-"Automatically create storable products for XML lines that cannot be matched "
-"to existing products"
+"All lines of invoice %(invoice)s were matched and the total matches purchase"
+" order %(order)s."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -85,6 +91,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__create_missing_products
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__create_missing_products
 msgid "Create missing products"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__create
+msgid "Create new product"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -167,11 +178,19 @@ msgid "Identified products and updated prices for %s line(s)."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__skip
+msgid "Ignore"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid "Import"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 #: model:ir.actions.act_window,name:deltatech_purchase_ubl.action_purchase_ubl_import_wizard
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.purchase_order_form_view_inherit_ubl_button
 msgid "Import UBL"
@@ -191,6 +210,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 msgid "Invalid XML: %s"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
+msgid "Invoice imported"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -244,6 +269,11 @@ msgstr ""
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__none
 msgid "Not found"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Open Purchase Order"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -311,24 +341,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Receipt updated: %s"
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Warning: the document %s is a credit note; credit notes are not imported. Record the vendor refund manually."
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Vendor bill creation skipped: nothing left to invoice on purchase order %(order)s."
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Warning: receipt %s could not be validated; check it manually."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -431,6 +443,11 @@ msgid "Updated %s purchase order lines from source document."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__product
+msgid "Use product"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__validate_receipt
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__validate_receipt
 msgid "Validate receipt from XML"
@@ -460,8 +477,24 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid ""
+"Vendor bill creation skipped: %(count)s line(s) of the source document are "
+"unmatched. Resolve them on purchase order %(order)s, then create the bill."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
 "Vendor bill creation skipped: no purchase order was resolved from the "
 "context or source document."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Vendor bill creation skipped: nothing left to invoice on purchase order "
+"%(order)s."
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -504,6 +537,36 @@ msgid ""
 "Warning: purchase order %(label)s %(order_amount)s %(currency)s differs from"
 " XML %(label)s %(xml_amount)s %(currency)s (difference %(difference)s "
 "%(currency)s)."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Warning: receipt %s could not be validated; check it manually."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Warning: the document %s is a credit note; credit notes are not imported. "
+"Record the vendor refund manually."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Warning: unit %(code)s of source line %(line)s is not known; quantity and "
+"price were taken as %(target)s."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Warning: unit %(src)s of source line %(line)s is not compatible with "
+"%(target)s; quantity and price were kept unconverted."
 msgstr ""
 
 #. module: deltatech_purchase_ubl

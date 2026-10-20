@@ -4,17 +4,20 @@
 #
 # Capturi de ecran pentru fișa consultant a modulului — generate în timpul testelor, în RO.
 #
-# Acoperă cele două ecrane care lipseau din fișă:
+# Acoperă ecranele care lipseau din fișă:
 #   - previzualizarea cu o linie GALBENĂ (produs găsit doar după nume) — cazul pentru care
 #     nu exista exemplu pe staging; seedăm aici toate trei culorile în același tabel, ca
 #     fișa să poată arăta legenda completă într-o singură captură;
 #   - activitatea „Import SPV necesită verificare" + nota colorată din chatter (19.0.1.4.0),
-#     comportament care nu există în nicio bază locală, deci nu putea fi pozat manual.
+#     comportament care nu există în nicio bază locală, deci nu putea fi pozat manual;
+#   - previzualizarea ca dialog, cu coloana „Acțiune" și opțiunile importului, și pasul de
+#     rezultat cu butonul „Deschide comanda de achiziție" (19.0.1.4.14).
 #
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
 #       -i deltatech_purchase_ubl,l10n_ro_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
+import json
 import unittest
 from base64 import b64encode
 
@@ -27,6 +30,28 @@ try:
     from odoo.addons.l10n_ro_doc_screenshots.tests.screenshot_case import ScreenshotCase
 except ImportError:
     ScreenshotCase = None
+
+
+def _open_wizard(wizard_id):
+    """JS: deschide wizard-ul ca dialog peste ecranul curent, ca să i se vadă subsolul.
+
+    Deschis direct prin URL, wizard-ul se randează ca pagină, fără butoanele din <footer>
+    și fără opțiunile de sub tabel."""
+    action = {
+        "type": "ir.actions.act_window",
+        "name": "Importă UBL",
+        "res_model": "purchase.ubl.import.wizard",
+        "res_id": wizard_id,
+        "views": [[False, "form"]],
+        "target": "new",
+    }
+    return (
+        "(async () => {"
+        f"await odoo.__WOWL_DEBUG__.root.env.services.action.doAction({json.dumps(action)});"
+        "await new Promise((r) => setTimeout(r, 1500));"
+        "document.activeElement && document.activeElement.blur();"
+        "})()"
+    )
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")
@@ -148,6 +173,28 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         )
         cls.wizard.action_preview()
 
+        # --- Rezultatul importului (19.0.1.4.14) -----------------------------------------
+        # Același XML pe o comandă nouă, importat cu acțiunile implicite: linia roșie rămâne
+        # pe „Ignoră". Wizard-ul ajunge în starea „done", cu jurnalul și butonul care
+        # deschide comanda.
+        cls.po_done = env["purchase.order"].create(
+            {"partner_id": cls.vendor.id, "company_id": company.id, "partner_ref": "PO-DEMO-UBL-2"}
+        )
+        cls.wizard_done = (
+            env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=cls.po_done.id)
+            .create(
+                {
+                    "data_file": b64encode(cls.xml_preview),
+                    "filename": "FMS-2026-00418.xml",
+                    "order_id": cls.po_done.id,
+                    "create_bill": False,
+                }
+            )
+        )
+        cls.wizard_done.action_preview()
+        cls.wizard_done.action_confirm_import()
+
         # --- Scenariul activității (19.0.1.4.0) -------------------------------------
         # Comandă creată „din mesajul SPV": XML cu o linie pe care matcherul nu o poate
         # plasa, importată headless cu `purchase_ubl_no_new_products` — exact fluxul
@@ -207,6 +254,12 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
             "Seed-ul trebuie să producă activitatea de verificare pe comandă",
         )
         self.assertEqual(self.po_activity.currency_id.name, "RON", "Capturile trebuie să iasă în RON, nu în USD")
+        self.assertEqual(
+            self.wizard.line_ids.mapped("line_action"),
+            ["product", "product", "skip"],
+            'Linia roșie trebuie să fie pe „Ignoră" implicit, celelalte pe „Folosește produsul"',
+        )
+        self.assertEqual(self.wizard_done.state, "done")
 
         self.capture_screenshots(
             [
@@ -218,6 +271,30 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
                     "highlight": ["tr.o_data_row:has-text('Teu PVC 110 x 50 mm')"],
                     "settle": 2500,
                     "full": True,
+                },
+                # Previzualizarea ca dialog: coloana „Acțiune" (① linia roșie, pe „Ignoră")
+                # și opțiunile importului de sub tabel (②).
+                {
+                    "url": f"id={self.po_preview.id}&model=purchase.order&view_type=form",
+                    "name": "08_preview_actiune_linie.png",
+                    "wait": ".o_form_view",
+                    "eval": _open_wizard(self.wizard.id),
+                    "eval_wait": 2500,
+                    "highlight": [
+                        ".modal tr.o_data_row:has-text('Reductie PVC') td[name='line_action']",
+                        ".modal div[name='create_bill']",
+                    ],
+                    "settle": 2000,
+                },
+                # Rezultatul importului: jurnalul și butonul care deschide comanda (①).
+                {
+                    "url": f"id={self.po_done.id}&model=purchase.order&view_type=form",
+                    "name": "09_rezultat_deschide_comanda.png",
+                    "wait": ".o_form_view",
+                    "eval": _open_wizard(self.wizard_done.id),
+                    "eval_wait": 2500,
+                    "highlight": [".modal button[name='action_open_order']"],
+                    "settle": 2000,
                 },
                 # Comanda din fluxul automat: nota colorată + activitatea de verificare.
                 {
