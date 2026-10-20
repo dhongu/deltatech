@@ -404,6 +404,8 @@ class TestProcessAttachmentsForPost(TransactionCase):
         action = self._wizard(po, lines).action_preview_or_import()
         self.assertEqual(action["tag"], "display_notification")
         self.assertEqual(action["params"]["next"]["res_id"], po.id)
+        # the web client needs `views` on the next action: it is not cleaned up by the server
+        self.assertEqual(action["params"]["next"]["views"], [[False, "form"]])
         self.assertRecordValues(po.order_line, [{"product_id": product.id, "product_qty": 2, "price_unit": 10}])
 
     def test_total_mismatch_rolls_back_and_opens_preview(self):

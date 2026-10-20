@@ -369,11 +369,14 @@ class PurchaseUblImportWizard(models.TransientModel):
 
     def action_open_order(self):
         self.ensure_one()
+        # `views` is required: as the `next` action of the notification, this dict reaches the
+        # web client as it is, without the server-side clean-up a button's result goes through
         return {
             "type": "ir.actions.act_window",
             "res_model": "purchase.order",
             "res_id": self.order_id.id,
             "view_mode": "form",
+            "views": [[False, "form"]],
             "target": "current",
         }
 

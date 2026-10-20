@@ -1,9 +1,15 @@
 ## 19.0.1.4.15 (2026-10-20)
 
+- Fixed: after a clean invoice was imported directly from an SPV message, the
+  web client showed an error dialog instead of opening the purchase order. The
+  action opened after the "Invoice imported" notification had no `views`.
 - Romanian translation of the texts added in 19.0.1.4.13 and 19.0.1.4.14: the
   line actions of the import preview, the preview banner, the "Open Purchase
   Order" button, the "Invoice imported" notification, the deferred vendor bill
   message and the unit of measure warnings. The `.pot` template is regenerated.
+- Screenshots for the consultant sheet: the import preview with the action
+  column and the import options, and the result step with the "Open Purchase
+  Order" button.
 
 ## 19.0.1.4.14 (2026-10-20)
 
