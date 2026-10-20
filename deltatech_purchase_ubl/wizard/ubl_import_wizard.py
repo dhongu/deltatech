@@ -44,7 +44,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             if not wizard.order_id or not wizard.data_file:
                 continue
             try:
-                invoice_xml = wizard._parse_xml(base64.b64decode(wizard.data_file))
+                invoice_xml = wizard._parse_source(base64.b64decode(wizard.data_file))
             except Exception:
                 continue
             total_check = wizard._get_order_total_check(wizard.order_id, invoice_xml)
@@ -124,6 +124,12 @@ class PurchaseUblImportWizard(models.TransientModel):
                         res["filename"] = att.name
                     break
         return res
+
+    def _parse_source(self, content):
+        """Invoice data of the uploaded file, shaped as `_process_invoice_data` expects.
+
+        UBL XML here; an extension reads other formats (e.g. a PDF) by overriding it."""
+        return self._parse_xml(content)
 
     def _parse_xml(self, content):
         def _to_float(val):
@@ -270,7 +276,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
-        invoice_xml = self._parse_xml(content)
+        invoice_xml = self._parse_source(content)
         return self._process_invoice_data(invoice_xml)
 
     def action_preview(self):
@@ -282,7 +288,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
-        invoice_data = self._parse_xml(content)
+        invoice_data = self._parse_source(content)
         if invoice_data.get("document_type") == "credit_note":
             # nothing to map: show the credit note warning instead of a preview
             return self._process_invoice_data(invoice_data)
@@ -324,7 +330,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
         content = base64.b64decode(self.data_file)
-        invoice_data = self._parse_xml(content)
+        invoice_data = self._parse_source(content)
         product_map = {
             line.sequence: line.product_id if line.line_action == "product" else line.product_id.browse()
             for line in self.line_ids
@@ -343,7 +349,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             return action
         if not self.line_ids or any(line.match_type not in ("code", "barcode") for line in self.line_ids):
             return action
-        invoice_data = self._parse_xml(base64.b64decode(self.data_file))
+        invoice_data = self._parse_source(base64.b64decode(self.data_file))
         product_map = {line.sequence: line.product_id for line in self.line_ids}
         try:
             with self.env.cr.savepoint():
