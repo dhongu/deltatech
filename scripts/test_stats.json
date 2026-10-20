@@ -684,6 +684,9 @@
       "lines": 92,
       "tests": 17
     },
+    "deltatech_website_delivery_address": {
+      "tests": 3
+    },
     "deltatech_website_delivery_and_payment": {
       "tests": 19
     },
