@@ -39,6 +39,7 @@ def _open_wizard(wizard_id):
     și fără opțiunile de sub tabel."""
     action = {
         "type": "ir.actions.act_window",
+        "name": "Importă UBL",
         "res_model": "purchase.ubl.import.wizard",
         "res_id": wizard_id,
         "views": [[False, "form"]],

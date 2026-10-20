@@ -1,5 +1,13 @@
 ## 19.0.1.4.15 (2026-10-20)
 
+- Fixed: in Romanian (and any language other than English), every message of the
+  import log was shown in blue as information. The level was guessed from English
+  words in the text, which the translation removes; it is now set where each
+  message is created. Each message also starts with a colored emoji (✅ ⚠️ ❌ ℹ️),
+  also in the plain-text log and in the note of the review activity.
+- Fixed: the import window was titled "purchase.ubl.import.wizard,1" when opened
+  as a page and "Odoo" when opened as a dialog. It is now titled "Import UBL",
+  with the file name.
 - Fixed: after a clean invoice was imported directly from an SPV message, the
   web client showed an error dialog instead of opening the purchase order. The
   action opened after the "Invoice imported" notification had no `views`.

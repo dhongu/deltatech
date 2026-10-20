@@ -111,6 +111,9 @@ msgid "Import"
 msgstr "Importă"
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
 #: model:ir.actions.act_window,name:deltatech_purchase_ubl.action_purchase_ubl_import_wizard
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.purchase_order_form_view_inherit_ubl_button
 msgid "Import UBL"

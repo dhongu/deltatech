@@ -27,6 +27,13 @@ class PurchaseUblImportWizard(models.TransientModel):
     total_check_warning = fields.Text(compute="_compute_total_check_warning")
     line_ids = fields.One2many("purchase.ubl.import.wizard.line", "wizard_id", string="Preview Lines")
 
+    @api.depends("filename")
+    def _compute_display_name(self):
+        # without it the title of the window is the technical "purchase.ubl.import.wizard,<id>"
+        for wizard in self:
+            title = self.env._("Import UBL")
+            wizard.display_name = f"{title}: {wizard.filename}" if wizard.filename else title
+
     # ------------------------------------------------------------
     # Helpers specific to the UBL XML format
     # ------------------------------------------------------------
@@ -383,6 +390,7 @@ class PurchaseUblImportWizard(models.TransientModel):
     def _reopen(self):
         return {
             "type": "ir.actions.act_window",
+            "name": self.env._("Import UBL"),
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",

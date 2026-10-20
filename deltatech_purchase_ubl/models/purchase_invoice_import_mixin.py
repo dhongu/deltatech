@@ -36,7 +36,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     log = fields.Text(readonly=True)
     log_html = fields.Html(readonly=True, sanitize=True)
     # Set alongside log/log_html when at least one result message is a mismatch or an
-    # unmatched line (see _classify_message) - lets a headless caller (the SPV auto-import)
+    # unmatched line - lets a headless caller (the SPV auto-import)
     # decide whether the run needs a human's attention, without re-parsing the log text.
     has_warning = fields.Boolean(readonly=True)
 
@@ -632,7 +632,15 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             qty = move.product_id.uom_id._compute_quantity(qty, move.product_uom, rounding_method="HALF-UP")
         return qty
 
+    # Colored emoji keep the level visible wherever the log ends up: the chatter, the note of the
+    # review activity, the plain-text log.
+    _LOG_ICONS = {"success": "✅", "warning": "⚠️", "danger": "❌", "info": "ℹ️"}
+
     def _classify_message(self, msg):
+        """Level of a message given as plain text, guessed from its English wording.
+
+        Only a fallback for callers that still pass plain strings: once translated, the text
+        no longer holds these words, so the log builders here pass (level, text) pairs."""
         m = msg.lower()
         if any(k in m for k in ("not created", "unmatched")):
             return "danger"
@@ -642,23 +650,23 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             return "success"
         return "info"
 
+    def _log_entries(self, messages):
+        """(level, text) pairs from messages given as pairs or as plain strings."""
+        return [msg if isinstance(msg, tuple) else (self._classify_message(msg), msg) for msg in messages]
+
+    def _build_log_text(self, messages):
+        return "\n".join(f"{self._LOG_ICONS[level]} {text}" for level, text in self._log_entries(messages))
+
     def _build_log_html(self, messages):
         def _esc(s):
             return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-        icons = {
-            "success": "fa-check-circle",
-            "warning": "fa-exclamation-triangle",
-            "danger": "fa-times-circle",
-            "info": "fa-info-circle",
-        }
         parts = ["<div>"]
-        for msg in messages:
-            level = self._classify_message(msg)
-            icon = icons[level]
+        for level, msg in self._log_entries(messages):
             lines = msg.split("\n")
             parts.append(
-                f'<p class="mb-1 text-{level}"><i class="fa {icon} me-1"></i><strong>{_esc(lines[0])}</strong></p>'
+                f'<p class="mb-1 text-{level}"><span class="me-1">{self._LOG_ICONS[level]}</span>'
+                f"<strong>{_esc(lines[0])}</strong></p>"
             )
             for sub in lines[1:]:
                 if sub.strip():
@@ -919,6 +927,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         # Validate receipt
         pick_log = ""
+        pick_level = "warning"
         if self.validate_receipt:
             if order:
                 picking = self._find_receipt(order)
@@ -933,6 +942,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                             line_map[product.id] = line_map.get(product.id, 0.0) + qty
                     if self._validate_receipt_quantities(picking, line_map, order=order):
                         pick_log = self.env._("Receipt updated: %s") % picking.name
+                        pick_level = "success"
                     else:
                         pick_log = (
                             self.env._("Warning: receipt %s could not be validated; check it manually.") % picking.name
@@ -946,6 +956,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         bill = False
         bill_log = ""
+        bill_level = "warning"
         duplicate_bill = False
         nothing_to_invoice = False
         # Always create the vendor bill when the source document identifies an invoice number,
@@ -991,62 +1002,84 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                         self.bill_id = bill and bill.id or False
                     except UserError as e:
                         bill_log = self.env._("Vendor bill not created: %s") % str(e)
+                        bill_level = "danger"
             else:
                 bill_log = self.env._(
                     "Vendor bill creation skipped: no purchase order was resolved from the context or source document."
                 )
 
-        # Build messages
+        # Build messages: (level, text), the level decided here and not guessed from the
+        # translated text (see _build_log_html)
         messages = []
 
         messages.append(
-            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"}
+            (
+                "info",
+                self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
+            )
         )
         messages.append(
-            self.env._("Order: %(order)s | XML Reference: %(ref)s")
-            % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")}
+            (
+                "info",
+                self.env._("Order: %(order)s | XML Reference: %(ref)s")
+                % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
+            )
         )
         total_check = self._get_order_total_check(order, invoice_data)
         if total_check:
-            messages.append(self._format_total_check_message(total_check))
+            messages.append(
+                ("success" if total_check["matches"] else "warning", self._format_total_check_message(total_check))
+            )
         if vat_mismatch_warning:
             messages.append(
-                self.env._(
-                    "Warning: Supplier VAT in source document (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
+                (
+                    "warning",
+                    self.env._(
+                        "Warning: Supplier VAT in source document (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
+                    )
+                    % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"},
                 )
-                % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
             )
         if updated:
-            messages.append(self.env._("Identified products and updated prices for %s line(s).") % len(updated))
+            messages.append(
+                ("success", self.env._("Identified products and updated prices for %s line(s).") % len(updated))
+            )
         if created:
-            messages.append(self.env._("Created products (%s):\n") % len(created) + "\n".join(created))
+            messages.append(("success", self.env._("Created products (%s):\n") % len(created) + "\n".join(created)))
         if order and updated_lines_count:
-            messages.append(self.env._("Updated %s purchase order lines from source document.") % updated_lines_count)
+            messages.append(
+                ("success", self.env._("Updated %s purchase order lines from source document.") % updated_lines_count)
+            )
         if order and added_count:
-            messages.append(self.env._("Added %s lines to the purchase order from source document.") % added_count)
-        messages.extend(dict.fromkeys(uom_warnings))
+            messages.append(
+                ("success", self.env._("Added %s lines to the purchase order from source document.") % added_count)
+            )
+        messages.extend(("warning", warning) for warning in dict.fromkeys(uom_warnings))
         if order and not_found:
-            messages.append(self.env._("Unmatched lines in the order: %s") % ", ".join(not_found))
+            messages.append(("danger", self.env._("Unmatched lines in the order: %s") % ", ".join(not_found)))
         elif not_found:
-            messages.append(self.env._("Unmatched products: %s") % ", ".join(not_found))
+            messages.append(("danger", self.env._("Unmatched products: %s") % ", ".join(not_found)))
         if pick_log:
-            messages.append(pick_log)
+            messages.append((pick_level, pick_log))
         if duplicate_bill:
             messages.append(
-                self.env._("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
-                % (duplicate_bill.ref or duplicate_bill.name)
+                (
+                    "warning",
+                    self.env._("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
+                    % (duplicate_bill.ref or duplicate_bill.name),
+                )
             )
         elif bill:
-            messages.append(self.env._("Vendor bill created: %s") % (bill.ref or ""))
+            messages.append(("success", self.env._("Vendor bill created: %s") % (bill.ref or "")))
         elif bill_log:
-            messages.append(bill_log)
+            messages.append((bill_level, bill_log))
 
-        self.log = "\n".join(messages)
+        self.log = self._build_log_text(messages)
         self.log_html = self._build_log_html(messages)
         # Deliberately narrower than "any warning/danger-classified message": routine steps
         # of an unattended import (bill creation skipped because the order isn't confirmed
-        # yet, no receipt to validate) also classify as "warning" via _classify_message's
-        # generic keywords, and would otherwise fire on every successful headless import.
+        # yet, no receipt to validate) are also logged as "warning", and would otherwise fire
+        # on every successful headless import.
         # Only these signals count here: a total that doesn't add up, lines the matcher
         # couldn't place (tichet #9287), and a supplier invoice for an order with nothing
         # left to invoice (a duplicate invoice or an extra charge).
@@ -1059,6 +1092,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     def _done_action(self):
         return {
             "type": "ir.actions.act_window",
+            "name": self.env._("Import UBL"),
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
@@ -1071,16 +1105,25 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         created from the order would be an invoice, not a refund. It only gets logged and
         flagged, so the automatic import schedules a review activity on the order."""
         messages = [
-            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
-            self.env._("Order: %(order)s | XML Reference: %(ref)s")
-            % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
-            self.env._(
-                "Warning: the document %s is a credit note; credit notes are not imported. "
-                "Record the vendor refund manually."
-            )
-            % (invoice_data.get("invoice_id") or "-"),
+            (
+                "info",
+                self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
+            ),
+            (
+                "info",
+                self.env._("Order: %(order)s | XML Reference: %(ref)s")
+                % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
+            ),
+            (
+                "warning",
+                self.env._(
+                    "Warning: the document %s is a credit note; credit notes are not imported. "
+                    "Record the vendor refund manually."
+                )
+                % (invoice_data.get("invoice_id") or "-"),
+            ),
         ]
-        self.log = "\n".join(messages)
+        self.log = self._build_log_text(messages)
         self.log_html = self._build_log_html(messages)
         self.has_warning = True
         self.state = "done"

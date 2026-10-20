@@ -190,6 +190,22 @@ class TestUblImportParse(TransactionCase):
         line._onchange_product_id()
         self.assertEqual(line.match_type, "manual")
 
+    def test_log_level_comes_from_the_caller_not_the_text(self):
+        """A translated message no longer holds the English keywords: the level is passed."""
+        html = self.Wizard._build_log_html([("danger", "Linii neasociate în comandă: X"), ("success", "Recepție")])
+        self.assertIn("text-danger", html)
+        self.assertIn("❌", html)
+        self.assertIn("text-success", html)
+        self.assertEqual(
+            self.Wizard._build_log_text([("warning", "Avertisment"), "Vendor bill created: X"]),
+            "⚠️ Avertisment\n✅ Vendor bill created: X",
+        )
+
+    def test_wizard_title(self):
+        wizard = self.Wizard.new({"filename": "FMS-1.xml"})
+        self.assertEqual(wizard.display_name, "Import UBL: FMS-1.xml")
+        self.assertEqual(wizard._reopen()["name"], "Import UBL")
+
     def test_build_log_html_skips_blank_sub_lines(self):
         html = self.Wizard._build_log_html(["Created products (1):\n\nFirst <b>"])
         self.assertIn("First &lt;b&gt;", html)
