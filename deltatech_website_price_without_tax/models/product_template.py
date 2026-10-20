@@ -15,6 +15,8 @@ class ProductTemplate(models.Model):
         add_qty=1.0,
         uom_id=False,
         only_template=False,
+        pricelist=None,
+        fiscal_position=None,
     ):
         combination_info = super()._get_combination_info(
             combination=combination,
@@ -22,10 +24,12 @@ class ProductTemplate(models.Model):
             add_qty=add_qty,
             uom_id=uom_id,
             only_template=only_template,
+            pricelist=pricelist,
+            fiscal_position=fiscal_position,
         )
         list_price = combination_info["list_price"]
-        website = self.env["website"].get_current_website()
-        if website.show_line_subtotals_tax_selection != "tax_excluded":
+        # tax_display: the website setting, overridden by the pricelist's one in Odoo 20
+        if self.env.website.tax_display != "tax_excluded":
             # list_price is the displayed gross price, whatever the tax price_include setting:
             # remove the taxes as if they were all included in the price.
             taxes = combination_info.get("taxes", self.taxes_id)
