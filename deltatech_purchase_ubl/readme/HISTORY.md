@@ -1,3 +1,10 @@
+## 19.0.1.4.15 (2026-10-20)
+
+- Romanian translation of the texts added in 19.0.1.4.13 and 19.0.1.4.14: the
+  line actions of the import preview, the preview banner, the "Open Purchase
+  Order" button, the "Invoice imported" notification, the deferred vendor bill
+  message and the unit of measure warnings. The `.pot` template is regenerated.
+
 ## 19.0.1.4.14 (2026-10-20)
 
 - Changed: in the import preview, each line now has an action: *Use product*,
