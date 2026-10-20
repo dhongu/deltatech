@@ -1,3 +1,10 @@
+## 19.0.1.4.16 (2026-10-20)
+
+- New extension point `_parse_source`: every step of the import wizard reads the
+  uploaded file through it (UBL XML here), so an extension can import other
+  formats with the same preview, matching and vendor bill creation. Used by
+  *Purchase PDF AI Import*.
+
 ## 19.0.1.4.15 (2026-10-20)
 
 - Fixed: in Romanian (and any language other than English), every message of the
