@@ -693,6 +693,9 @@
     "deltatech_website_fixed_price": {
       "tests": 3
     },
+    "deltatech_website_price_without_tax": {
+      "tests": 7
+    },
     "deltatech_website_product_code": {
       "tests": 33
     },

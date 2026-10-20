@@ -4,7 +4,7 @@
   "icon": "globe",
   "features": [
     "Display price excl. tax on product page",
-    "Base unit price without tax widget",
+    "Follows website/pricelist tax display",
     "Works with all tax configurations"
   ]
 }
