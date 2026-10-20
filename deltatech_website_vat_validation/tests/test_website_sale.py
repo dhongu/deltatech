@@ -20,7 +20,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         self.existing_partner = self.env["res.partner"].create(
             {
                 "name": "Existing Partner",
-                "vat": "RO8001011234567",
+                "vat": "RO12345607",
                 "email": "existing@example.com",
                 "phone": "+40711111111",
                 "country_id": self.country_ro.id,
@@ -30,7 +30,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
     def test_01_vat_uniqueness(self):
         address_values = {
             "name": "New Partner",
-            "vat": " RO8001011234567 ",  # Cu spații pentru a testa și striping
+            "vat": " RO12345607 ",  # Cu spații pentru a testa și striping
             "country_id": self.country_ro.id,
         }
         with MockRequest(self.env):
@@ -87,7 +87,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         for field, value in [
             ("email", "existing@example.com"),
             ("phone", "+40711111111"),
-            ("vat", "RO8001011234567"),
+            ("vat", "RO12345607"),
         ]:
             address_values = {"name": "Guest", field: value, "country_id": self.country_ro.id}
             with MockRequest(self.env(user=public_user)):
@@ -114,7 +114,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
 
     def test_11_vat_duplicate_with_or_without_prefix(self):
         self.env["res.partner"].create(
-            {"name": "Firma Existenta SRL", "is_company": True, "vat": "RO1234567897", "country_id": self.country_ro.id}
+            {"name": "Firma Existenta SRL", "vat": "RO1234567897", "country_id": self.country_ro.id}
         )
         invalid_fields, _missing, error_messages = self._validate_vat_as("1234567897")
         self.assertIn("vat", invalid_fields)
@@ -126,7 +126,7 @@ class TestWebsiteSaleVATValidation(TransactionCase):
     def test_12_own_company_vat_is_not_a_duplicate(self):
         """A contact of a company who types the tax code of their own company is not blocked."""
         company = self.env["res.partner"].create(
-            {"name": "Firma Mea SRL", "is_company": True, "vat": "RO1234567897", "country_id": self.country_ro.id}
+            {"name": "Firma Mea SRL", "vat": "RO1234567897", "country_id": self.country_ro.id}
         )
         contact = self.env["res.partner"].create({"name": "Coleg", "parent_id": company.id, "type": "invoice"})
         invalid_fields, _missing, error_messages = self._validate_vat_as("RO1234567897", partner_sudo=contact.sudo())

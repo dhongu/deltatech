@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+from odoo.tools import SQL
 
 
 class Website(models.Model):
@@ -31,8 +32,10 @@ class Website(models.Model):
             # doar in cache-ul ORM pana la un flush) - fortam flush-ul intai.
             self.env.flush_all()
             self.env.cr.execute(
-                "SELECT id, show_line_subtotals_tax_selection FROM website WHERE id IN %s",
-                (tuple(real_ids),),
+                SQL(
+                    "SELECT id, show_line_subtotals_tax_selection FROM website WHERE id IN %s",
+                    tuple(real_ids),
+                )
             )
             previous_values = dict(self.env.cr.fetchall())
 
