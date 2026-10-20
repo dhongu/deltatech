@@ -213,33 +213,51 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         )
         return product
 
-    def _get_order_total_check(self, order, invoice_data):
+    def _get_order_total_checks(self, order, invoice_data):
+        """Compare the order with the document on the value without VAT and, when the document
+        states it, on the total with VAT. Both are needed: an order whose lines took another
+        VAT than the invoice (e.g. an intra-community vendor without its fiscal position) has
+        the right value without VAT and a wrong total."""
         if not order:
+            return []
+        currency = order.currency_id.name or invoice_data.get("currency") or ""
+        untaxed = invoice_data.get("tax_exclusive_amount") or invoice_data.get("line_extension_amount")
+        if not untaxed:
+            untaxed = sum(line.get("line_total", 0.0) for line in invoice_data.get("lines", []))
+        total = invoice_data.get("tax_inclusive_amount") or invoice_data.get("payable_amount")
+        checks = []
+        for label, order_amount, xml_amount in (
+            (self.env._("untaxed total"), order.amount_untaxed, untaxed),
+            (self.env._("total"), order.amount_total, total),
+        ):
+            if not xml_amount:
+                continue
+            difference = order_amount - xml_amount
+            checks.append(
+                {
+                    "label": label,
+                    "currency": currency,
+                    "order_amount": order_amount,
+                    "xml_amount": xml_amount,
+                    "difference": difference,
+                    "matches": order.currency_id.is_zero(difference),
+                }
+            )
+        return checks
+
+    def _get_order_total_check(self, order, invoice_data):
+        """The check that decides: the first one that does not match, or else the total with
+        VAT (the untaxed total when the document has no total)."""
+        checks = self._get_order_total_checks(order, invoice_data)
+        if not checks:
             return False
+        return next((check for check in checks if not check["matches"]), checks[-1])
 
-        xml_total = invoice_data.get("payable_amount") or invoice_data.get("tax_inclusive_amount")
-        order_amount = order.amount_total
-        label = self.env._("total")
-
-        if not xml_total:
-            xml_total = invoice_data.get("tax_exclusive_amount") or invoice_data.get("line_extension_amount")
-            if not xml_total:
-                xml_total = sum(line.get("line_total", 0.0) for line in invoice_data.get("lines", []))
-            order_amount = order.amount_untaxed
-            label = self.env._("untaxed total")
-
-        if xml_total is None:
-            return False
-
-        difference = order_amount - xml_total
-        return {
-            "label": label,
-            "currency": order.currency_id.name or invoice_data.get("currency") or "",
-            "order_amount": order_amount,
-            "xml_amount": xml_total,
-            "difference": difference,
-            "matches": order.currency_id.is_zero(difference),
-        }
+    def _total_check_messages(self, order, invoice_data):
+        return [
+            ("success" if check["matches"] else "warning", self._format_total_check_message(check))
+            for check in self._get_order_total_checks(order, invoice_data)
+        ]
 
     def _format_total_check_message(self, total_check):
         values = {
@@ -737,6 +755,87 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             return 0.0
         return None
 
+    def _source_tax_percent_to_check(self, invoice_data, source_line):
+        """Tax rate of a source line to compare with the order line, or None when unknown.
+
+        A 0 rate counts with a zero-rated, reverse charge or intra-community category, or when
+        the reader of the document vouches for the rates it read (``tax_percent_read``): the
+        vendor-specific PDF parsers report 0 when they could not read the rate."""
+        tax_pct = source_line.get("tax_percent")
+        if tax_pct is None:
+            return None
+        tax_pct = float(tax_pct)
+        category = (source_line.get("tax_category") or "").upper()
+        if tax_pct or invoice_data.get("tax_percent_read") or category in self._ZERO_RATE_TAX_CATEGORIES + ("K", "AE"):
+            return tax_pct
+        return None
+
+    @api.model
+    def _order_line_tax_percent(self, line):
+        """VAT rate the order line actually charges: 0 for a reverse charge or
+        intra-community tax, where the buyer collects and deducts the same amount."""
+        if line.currency_id.is_zero(line.price_subtotal):
+            return None
+        return (line.price_total - line.price_subtotal) / line.price_subtotal * 100
+
+    # Document categories under which a reverse charge tax on the order is right: an
+    # intra-community supply (K) or a reverse charge (AE). Under a zero rate, an exemption,
+    # an operation outside the scope of VAT or an export (Z, E, O, G) the buyer does not
+    # self-assess the VAT, so a reverse charge tax on the order is reported.
+    _REVERSE_CHARGE_TAX_CATEGORIES = ("K", "AE")
+
+    @api.model
+    def _order_line_is_reverse_charge(self, line, order_pct):
+        """The line's tax collects and deducts the same amount (reverse charge, intra-community
+        acquisition): it has a rate, but the order line charges nothing."""
+        return abs(order_pct) < 0.5 and any(tax.amount for tax in line.tax_ids)
+
+    def _tax_check_messages(self, invoice_data, mapped_lines):
+        """Warn when the VAT of an order line differs from the rate on the document. Only a
+        warning: the order's VAT comes from the product and the vendor's fiscal position,
+        which is where it is corrected."""
+        differences = {}
+        for source_line in mapped_lines:
+            line = source_line.get("purchase_line")
+            doc_pct = self._source_tax_percent_to_check(invoice_data, source_line)
+            if not line or doc_pct is None:
+                continue
+            order_pct = self._order_line_tax_percent(line)
+            if order_pct is None:
+                continue
+            category = (source_line.get("tax_category") or "").upper()
+            reverse_charge = self._order_line_is_reverse_charge(line, order_pct)
+            if abs(order_pct - doc_pct) < 0.5 and not (
+                reverse_charge and category and category not in self._REVERSE_CHARGE_TAX_CATEGORIES
+            ):
+                continue
+            if reverse_charge:
+                order_label = self.env._("%s%% reverse charge") % f"{sum(line.tax_ids.mapped('amount')):g}"
+            else:
+                order_label = f"{order_pct:g}%"
+            key = (f"{doc_pct:g}%", order_label)
+            differences.setdefault(key, []).append(source_line.get("code") or source_line.get("name") or "-")
+        messages = []
+        for (doc_label, order_label), codes in differences.items():
+            shown = ", ".join(codes[:3]) + (", ..." if len(codes) > 3 else "")
+            messages.append(
+                (
+                    "warning",
+                    self.env._(
+                        "VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s, the order "
+                        "%(order)s. The order's VAT comes from the products and the vendor's fiscal position. "
+                        "Check the fiscal position before creating the vendor bill: an intra-community "
+                        "acquisition takes the intra-community position (reverse charge), an import the "
+                        "extra-community one (VAT paid at customs).",
+                        count=len(codes),
+                        lines=shown,
+                        doc=doc_label,
+                        order=order_label,
+                    ),
+                )
+            )
+        return messages
+
     def _apply_xml_taxes_to_bill(self, bill, mapped_lines):
         """Override bill line taxes with the tax percentage declared in the source document.
 
@@ -1053,10 +1152,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         if vendor_message:
             messages.append(("success", vendor_message))
         total_check = self._get_order_total_check(order, invoice_data)
-        if total_check:
-            messages.append(
-                ("success" if total_check["matches"] else "warning", self._format_total_check_message(total_check))
-            )
+        messages.extend(self._total_check_messages(order, invoice_data))
+        messages.extend(self._tax_check_messages(invoice_data, mapped_lines))
         if vat_mismatch_warning:
             messages.append(
                 (

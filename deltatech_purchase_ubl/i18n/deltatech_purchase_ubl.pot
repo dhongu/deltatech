@@ -603,3 +603,22 @@ msgstr ""
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Vendor set on the order from the document: %s."
 msgstr ""
+
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s,"
+" the order %(order)s. The order's VAT comes from the products and the "
+"vendor's fiscal position. Check the fiscal position before creating the "
+"vendor bill: an intra-community acquisition takes the intra-community "
+"position (reverse charge), an import the extra-community one (VAT paid at "
+"customs)."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "%s%% reverse charge"
+msgstr ""
