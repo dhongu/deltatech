@@ -124,7 +124,7 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
-msgid "Description (XML)"
+msgid "Vendor Description"
 msgstr ""
 
 #. module: deltatech_purchase_ubl

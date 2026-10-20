@@ -1,3 +1,8 @@
+## 19.0.1.4.17 (2026-10-20)
+
+- The description column of the import preview is now labelled "Vendor Description"
+  instead of "Description (XML)": the lines can also come from a PDF invoice.
+
 ## 19.0.1.4.16 (2026-10-20)
 
 - New extension point `_parse_source`: every step of the import wizard reads the
