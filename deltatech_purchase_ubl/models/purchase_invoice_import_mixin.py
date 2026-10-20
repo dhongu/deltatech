@@ -333,6 +333,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             order = self._find_order_from_xml(invoice_data.get("order_ref"), xml_partner)
 
         partner = order.partner_id if order else xml_partner
+        if order and self._is_upload_placeholder_order(order):
+            # The order's vendor is only Odoo's placeholder, the vendor is the one on the document
+            partner = xml_partner
         vat_mismatch_warning = bool(
             order
             and supplier_vat
@@ -350,6 +353,27 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             )
 
         return order, partner, vat_mismatch_warning
+
+    def _is_upload_placeholder_order(self, order):
+        """An order created by the Upload button of the purchase list, still waiting for
+        its document: a draft without lines whose vendor is the current user or the company
+        itself, which Odoo puts there when it cannot read the uploaded file. Its real vendor
+        is the one on the document."""
+        return (
+            order.state == "draft"
+            and not order.order_line
+            and order.partner_id in (self.env.user.partner_id | order.company_id.partner_id)
+        )
+
+    def _set_order_vendor_from_document(self, order, partner):
+        """Put the document's vendor on an order created by the Upload button, together with
+        what the vendor brings on a new order (fiscal position, payment terms, currency).
+        Returns the message for the import log, or False when the order keeps its vendor."""
+        if not order or partner == order.partner_id:
+            return False
+        order.partner_id = partner
+        order.onchange_partner_id()
+        return self.env._("Vendor set on the order from the document: %s.") % partner.display_name
 
     def _match_product(self, supplier, code, name, barcode=None):
         return self._match_product_detailed(supplier, code, name, barcode=barcode)[0]
@@ -815,6 +839,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         order, partner, vat_mismatch_warning = self._resolve_order_and_partner(invoice_data)
         if invoice_data.get("document_type") == "credit_note":
             return self._skip_credit_note(invoice_data, order, partner)
+        vendor_message = self._set_order_vendor_from_document(order, partner)
 
         mapped_lines = []
         updated = []
@@ -1025,6 +1050,8 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
             )
         )
+        if vendor_message:
+            messages.append(("success", vendor_message))
         total_check = self._get_order_total_check(order, invoice_data)
         if total_check:
             messages.append(

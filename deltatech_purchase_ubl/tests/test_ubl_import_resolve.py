@@ -137,6 +137,43 @@ class TestUblImportResolve(TransactionCase):
         self.assertEqual(partner, self.vendor)
         self.assertFalse(vat_mismatch)
 
+    def test_upload_order_takes_the_vendor_from_the_document(self):
+        """The Upload button of the purchase list creates an empty draft whose vendor is the
+        current user; the import puts the document's vendor on it instead of importing the
+        lines (and saving vendor prices) under the user."""
+        order = self._order(partner_id=self.env.user.partner_id.id)
+        xml = _xml_invoice(order_ref="", supplier_vat=self.vendor.vat, supplier_name=self.vendor.name)
+        wizard = self.Wizard.with_context(active_model="purchase.order", active_id=order.id).create(
+            {"data_file": b64encode(xml), "create_missing_products": True}
+        )
+        _order, partner, vat_mismatch = wizard._resolve_order_and_partner(wizard._parse_xml(xml))
+        self.assertEqual(partner, self.vendor)
+        self.assertFalse(vat_mismatch)
+
+        wizard.action_import()
+        self.assertEqual(order.partner_id, self.vendor)
+        self.assertTrue(order.order_line)
+        self.assertIn("Vendor set on the order from the document", wizard.log)
+        self.assertNotIn("differs from order supplier", wizard.log)
+
+    def test_upload_order_with_unknown_vendor_raises(self):
+        order = self._order(partner_id=self.company.partner_id.id)
+        xml = _xml_invoice(order_ref="", supplier_vat="RO30000003", supplier_name="Unknown Vendor SRL")
+        wizard = self.Wizard.with_context(active_model="purchase.order", active_id=order.id).create(
+            {"data_file": b64encode(xml)}
+        )
+        with self.assertRaises(UserError):
+            wizard.action_import()
+        self.assertEqual(order.partner_id, self.company.partner_id)
+
+    def test_order_with_lines_keeps_its_vendor(self):
+        """Only an empty draft is an Upload placeholder: an order the user already filled in
+        keeps its vendor, and a different VAT on the document is only a warning."""
+        order = self._order(products=[self._product("Resolve Keep Vendor")], partner_id=self.env.user.partner_id.id)
+        wizard = self.Wizard.create({"data_file": b64encode(_xml_invoice()), "order_id": order.id})
+        _order, partner, _mismatch = wizard._resolve_order_and_partner({"supplier_vat": self.vendor.vat})
+        self.assertEqual(partner, self.env.user.partner_id)
+
     # ------------------------------------------------------------------
     # Product matching
     # ------------------------------------------------------------------

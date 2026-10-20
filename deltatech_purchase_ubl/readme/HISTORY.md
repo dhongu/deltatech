@@ -2,6 +2,11 @@
 
 - The description column of the import preview is now labelled "Vendor Description"
   instead of "Description (XML)": the lines can also come from a PDF invoice.
+- An order created by the Upload button of the purchase list (an empty draft whose
+  vendor is the current user or the company) takes its vendor from the document
+  when it is imported. Before, the lines were imported, and vendor prices saved,
+  under the user, with only a warning that the VAT number differs. An unknown
+  vendor stops the import with the usual message.
 
 ## 19.0.1.4.16 (2026-10-20)
 

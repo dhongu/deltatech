@@ -641,3 +641,9 @@ msgid ""
 msgstr ""
 "Avertisment: unitatea %(src)s de pe linia sursă %(line)s nu este compatibilă"
 " cu %(target)s; cantitatea și prețul au rămas neconvertite."
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Vendor set on the order from the document: %s."
+msgstr "Furnizorul comenzii a fost luat din document: %s."
