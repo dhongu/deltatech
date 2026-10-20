@@ -124,7 +124,7 @@ msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
-msgid "Description (XML)"
+msgid "Vendor Description"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -596,4 +596,10 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "untaxed total"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Vendor set on the order from the document: %s."
 msgstr ""

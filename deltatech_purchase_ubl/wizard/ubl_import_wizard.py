@@ -417,7 +417,7 @@ class PurchaseUblImportWizardLine(models.TransientModel):
     sequence = fields.Integer()
     code = fields.Char(string="Supplier Code", readonly=True)
     barcode = fields.Char(string="Barcode", readonly=True)
-    name = fields.Char(string="Description (XML)", readonly=True)
+    name = fields.Char(string="Vendor Description", readonly=True)
     qty = fields.Float(string="Quantity", readonly=True)
     price = fields.Float(string="Unit Price", readonly=True)
     product_id = fields.Many2one("product.product", string="Product")

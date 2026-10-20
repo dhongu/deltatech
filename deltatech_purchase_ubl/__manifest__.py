@@ -4,7 +4,7 @@
 {
     "name": "Purchase UBL",
     "summary": "Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills",
-    "version": "19.0.1.4.16",
+    "version": "19.0.1.4.17",
     "category": "Purchases",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
