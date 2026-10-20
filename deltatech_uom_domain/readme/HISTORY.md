@@ -1,3 +1,12 @@
+## 19.0.1.2.0 (2026-10-20)
+
+- Default purchase unit on the product (`purchase_uom_id`, Purchase tab), restricted
+  to the units of the product unit's reference tree. When it is set, it is the only
+  unit offered on vendor pricelist lines and purchase order lines, and both take it
+  by default. Odoo 19 removed `uom_po_id`: a new vendor line came out in the product
+  unit, and without a valid vendor line the order fell back to the product unit, so
+  4.894 m³ of timber were received as 4.894 pieces.
+
 ## 19.0.1.1.2 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

@@ -58,3 +58,23 @@ implicit, mișcarea de stoc generată de o achiziție se convertește oricum în
 produsului (`_adjust_uom_quantities`, cât timp parametrul `stock.propagate_uom` nu e
 activat), iar pe eCommerce numărul de unități disponibile schimbă comportamentul
 butonului „Adaugă în coș".
+
+## Unitatea implicită de achiziție
+
+Până în 18.0 produsul avea o unitate de achiziție proprie (`uom_po_id`). În 19.0 câmpul
+a dispărut: unitatea de pe comandă vine doar de pe linia de furnizor valabilă la data
+comenzii. Dacă linia lipsește (produs nou, creat prin duplicare), a expirat (dată de
+sfârșit depășită) sau e pentru alt furnizor, comanda pune tăcut unitatea produsului.
+Exemplu real: cherestea cumpărată la mc și vândută la bucată - 4,894 mc au intrat în
+stoc ca 4,894 buc, la prețul unui metru cub pe bucată.
+
+Modulul adaugă pe produs, în tab-ul Achiziție, câmpul „Unitate implicită de achiziție",
+cu unitățile din arborele unității produsului. Când e completat:
+
+- linia de furnizor nouă o preia automat, iar pe linia de furnizor nu se mai poate
+  alege altă unitate;
+- pe comanda de achiziție, linia o preia la alegerea produsului și nu se mai poate
+  alege altă unitate, chiar dacă linia de furnizor lipsește sau a expirat.
+
+Liniile de furnizor existente nu se modifică: dacă au altă unitate, se corectează
+manual, odată cu prețul, care e exprimat în unitatea liniei.

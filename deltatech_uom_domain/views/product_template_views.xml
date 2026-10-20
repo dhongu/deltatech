@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form.purchase.uom</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="purchase.view_product_supplier_inherit" />
+        <field name="arch" type="xml">
+            <group name="bill" position="before">
+                <group name="purchase_uom">
+                    <field name="purchase_allowed_uom_ids" invisible="1" />
+                    <field name="purchase_uom_id" groups="uom.group_uom" options="{'no_create': True}" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
