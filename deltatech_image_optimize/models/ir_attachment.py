@@ -82,12 +82,27 @@ BG_METHODS = ("auto", "uniform", "rembg")
 # Una singură: un model încercat din wizard nu rămâne în memoria workerului
 # lângă cel obișnuit (BiRefNet ocupă singur peste 1 GB).
 _REMBG_SESSIONS = {}
+# eroarea de import a lui rembg stricat: scrisă o singură dată în log, importul nu se mai reîncearcă
+_REMBG_BROKEN = {}
 
 
 def _rembg_available():
+    """rembg poate fi folosit în procesul curent.
+
+    Un rembg instalat dar stricat (o dependență a lui care nu se potrivește cu
+    restul mediului, de ex. numba 0.61+ cu un ``coverage`` vechi pe odoo.sh) se
+    tratează ca rembg lipsă: importul ridică atunci alte erori decât ImportError,
+    care ar bloca previzualizarea și coada pentru toate imaginile.
+    """
+    if _REMBG_BROKEN:
+        return False
     try:
         import rembg  # noqa: F401
     except ImportError:
+        return False
+    except Exception as exc:  # noqa: BLE001 - orice eroare la import înseamnă rembg indisponibil
+        _REMBG_BROKEN["error"] = exc
+        _logger.warning("rembg is installed but cannot be imported, the AI model is not available: %r", exc)
         return False
     return True
 

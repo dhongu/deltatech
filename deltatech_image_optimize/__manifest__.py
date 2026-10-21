@@ -5,7 +5,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Image Optimizer",
-    "version": "20.0.1.13.0",
+    "version": "20.0.1.13.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Recompress oversized image attachments, remove duplicated product images, product image backgrounds and watermarks",
