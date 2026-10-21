@@ -210,8 +210,8 @@ class TestUblImportParse(TransactionCase):
 
     def test_wizard_title(self):
         wizard = self.Wizard.new({"filename": "FMS-1.xml"})
-        self.assertEqual(wizard.display_name, "Import UBL: FMS-1.xml")
-        self.assertEqual(wizard._reopen()["name"], "Import UBL")
+        self.assertEqual(wizard.display_name, "Import Invoice: FMS-1.xml")
+        self.assertEqual(wizard._reopen()["name"], "Import Invoice")
 
     def test_build_log_html_skips_blank_sub_lines(self):
         html = self.Wizard._build_log_html(["Created products (1):\n\nFirst <b>"])
