@@ -28,6 +28,11 @@ class ImageBackgroundMixin(models.AbstractModel):
         index=True,
     )
 
+    # câmpul original al imaginii și variantele redimensionate din el; produsul
+    # (varianta) își ține imaginea proprie în câmpurile image_variant_*
+    _dt_bg_image_field = IMAGE_FIELD
+    _dt_bg_variant_fields = IMAGE_VARIANT_FIELDS
+
     # === ACTIONS ===#
 
     def action_dt_remove_background(self):
@@ -45,7 +50,7 @@ class ImageBackgroundMixin(models.AbstractModel):
                     'Add "rembg[cpu]" to the requirements.txt of the deployment and rebuild.'
                 )
             )
-        targets = [records.filtered(IMAGE_FIELD) for records in self._dt_bg_targets()]
+        targets = [records.filtered(records._dt_bg_image_field) for records in self._dt_bg_targets()]
         wizard = self.env["deltatech.image.background.wizard"]._dt_create_for(targets)
         return {
             "type": "ir.actions.act_window",
@@ -75,7 +80,7 @@ class ImageBackgroundMixin(models.AbstractModel):
         """
         self.ensure_one()
         try:
-            return self.env["ir.attachment"]._dt_image_cutout(self[IMAGE_FIELD].content, params)
+            return self.env["ir.attachment"]._dt_image_cutout(self[self._dt_bg_image_field].content, params)
         except Exception as exc:  # noqa: BLE001 - o imagine stricată nu oprește lotul
             _logger.warning("Background removal failed for %s(%s): %s", self._name, self.id, exc)
             return None, str(exc)
@@ -84,7 +89,9 @@ class ImageBackgroundMixin(models.AbstractModel):
         """Scrie imaginea fără fundal și o trece pe WebP, cu variante cu tot."""
         self.ensure_one()
         # scrierea prin record regenerează variantele redimensionate din PNG
-        self.write({IMAGE_FIELD: BinaryBytes(data), "bg_removal_state": "done"})
+        self.write({self._dt_bg_image_field: BinaryBytes(data), "bg_removal_state": "done"})
+        # imaginea sincronizată are acum același decupaj (editorul arată prima imagine din galerie)
+        self._dt_bg_mirror().bg_removal_state = "done"
         self._dt_bg_compress_attachments()
 
     def _dt_bg_remove(self, params):
@@ -126,7 +133,7 @@ class ImageBackgroundMixin(models.AbstractModel):
             [
                 ("res_model", "=", self._name),
                 ("res_id", "=", self.id),
-                ("res_field", "in", [IMAGE_FIELD, *IMAGE_VARIANT_FIELDS]),
+                ("res_field", "in", [self._dt_bg_image_field, *self._dt_bg_variant_fields]),
             ]
         )
         now = fields.Datetime.now()
@@ -159,6 +166,15 @@ class ProductTemplate(models.Model):
     def _dt_bg_line_name(self):
         self.ensure_one()
         return self.env._("%(product)s — main image", product=self.display_name)
+
+
+class ProductProduct(models.Model):
+    _name = "product.product"
+    _inherit = ["product.product", "deltatech.image.background.mixin"]
+
+    # doar imaginea proprie a variantei; fără ea, varianta arată imaginea șablonului
+    _dt_bg_image_field = "image_variant_1920"
+    _dt_bg_variant_fields = ["image_variant_1024", "image_variant_512", "image_variant_256", "image_variant_128"]
 
 
 class ProductImage(models.Model):
