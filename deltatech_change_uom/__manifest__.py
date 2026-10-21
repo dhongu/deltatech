@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
-    "depends": ["product", "account", "stock", "sale", "purchase"],
+    "depends": ["product", "account", "stock", "sale", "purchase", "deltatech_uom_domain"],
     "license": "OPL-1",
     "data": [
         "security/sale_security.xml",
