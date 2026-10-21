@@ -4,7 +4,7 @@
         <field name="name">purchase.ubl.import.wizard.form</field>
         <field name="model">purchase.ubl.import.wizard</field>
         <field name="arch" type="xml">
-            <form string="Import UBL XML">
+            <form string="Import Invoice">
                 <!-- sentinel invisible fields used in conditional expressions -->
                 <field name="state" invisible="1" />
                 <field name="order_lines_warning" invisible="1" />
@@ -135,7 +135,7 @@
     </record>
 
     <record id="action_purchase_ubl_import_wizard" model="ir.actions.act_window">
-        <field name="name">Import UBL</field>
+        <field name="name">Import Invoice</field>
         <field name="res_model">purchase.ubl.import.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
@@ -153,7 +153,7 @@
                 <button
                     name="%(action_purchase_ubl_import_wizard)d"
                     type="action"
-                    string="Import UBL"
+                    string="Import Invoice"
                     class="btn-secondary"
                 />
             </xpath>

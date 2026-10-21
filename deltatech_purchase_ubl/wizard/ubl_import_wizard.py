@@ -31,7 +31,7 @@ class PurchaseUblImportWizard(models.TransientModel):
     def _compute_display_name(self):
         # without it the title of the window is the technical "purchase.ubl.import.wizard,<id>"
         for wizard in self:
-            title = self.env._("Import UBL")
+            title = self.env._("Import Invoice")
             wizard.display_name = f"{title}: {wizard.filename}" if wizard.filename else title
 
     # ------------------------------------------------------------
@@ -399,7 +399,7 @@ class PurchaseUblImportWizard(models.TransientModel):
     def _reopen(self):
         return {
             "type": "ir.actions.act_window",
-            "name": self.env._("Import UBL"),
+            "name": self.env._("Import Invoice"),
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",

@@ -1216,7 +1216,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     def _done_action(self):
         return {
             "type": "ir.actions.act_window",
-            "name": self.env._("Import UBL"),
+            "name": self.env._("Import Invoice"),
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",

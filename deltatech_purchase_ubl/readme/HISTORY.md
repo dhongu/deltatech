@@ -1,3 +1,9 @@
+## 19.0.1.4.19 (2026-10-21)
+
+- The button of the purchase order and the title of the wizard are now *Import Invoice*
+  (*Import factură* in Romanian) instead of *Import UBL*: the wizard also takes the
+  vendor invoice PDF (with *Purchase PDF AI Import*), not only the UBL XML.
+
 ## 19.0.1.4.18 (2026-10-20)
 
 - The order is compared with the document on the value without VAT and, when the
