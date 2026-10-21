@@ -21,19 +21,24 @@
         <t t-if="not category.parent_id" />
     </template>
 
+    <!--
+        Breadcrumb of the product page: Products, the categories down to the category of
+        the product (one shown in the category menu when there is one), then the product
+        name, unless switched off in the website settings (the page title shows it).
+    -->
     <template id="breadcrumb">
         <ol class="breadcrumb">
-            <t t-if="len(product.public_categ_ids) > 0">
-                <t t-set="category" t-value="product.public_categ_ids[0]" />
-                <li class="breadcrumb-item">
-                    <a t-att-href="keep('/shop',category=0)">Products</a>
-                </li>
+            <t t-set="category" t-value="product._breadcrumb_category()" />
+            <li class="breadcrumb-item">
+                <a t-att-href="keep('/shop',category=0)">Products</a>
+            </li>
+            <t t-if="category">
                 <t t-call="deltatech_website_breadcrumb.breadcrumb_recursive" />
                 <li class="breadcrumb-item">
                     <a t-att-href="keep('/shop/category/' + slug(category), category=0)" t-field="category.name" />
                 </li>
             </t>
-            <li class="breadcrumb-item active">
+            <li t-if="website.breadcrumb_show_product_name" class="breadcrumb-item active">
                 <span t-esc="product.name" />
             </li>
         </ol>

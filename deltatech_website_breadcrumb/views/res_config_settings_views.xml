@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.website.breadcrumb</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <setting id="website_tax_inclusion_setting" position="before">
+                <setting
+                    id="breadcrumb_show_product_name_setting"
+                    help="Show the product name at the end of the breadcrumb of the product page"
+                >
+                    <field name="breadcrumb_show_product_name" />
+                </setting>
+            </setting>
+        </field>
+    </record>
+
+</odoo>
