@@ -8,6 +8,8 @@
             <form>
                 <group>
                     <field name="uom_id" />
+                    <field name="purchase_allowed_uom_ids" invisible="1" />
+                    <field name="purchase_uom_id" />
                 </group>
                 <footer>
                     <button name="do_change" string="Apply" type="object" class="oe_highlight" />

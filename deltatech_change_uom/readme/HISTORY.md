@@ -1,8 +1,11 @@
 ## 19.0.1.0.0 (2026-10-21)
 
-- Migration to 19.0: the purchase unit of measure (`uom_po_id`) no longer exists
-  on the product, so the wizard changes only the product unit and also updates
-  the vendor pricelist lines (`product.supplierinfo`) that used the old unit;
-  `product_uom_id` on sale and purchase order lines, `SQL()` builder for the
+- Migration to 19.0. The purchase unit of measure (`uom_po_id`) is gone from the
+  product in 19.0; the wizard now changes the *Default Purchase Unit*
+  (`purchase_uom_id`) added by `deltatech_uom_domain`, a new dependency. Purchase
+  order lines and vendor pricelist lines in the old purchase unit move to the new
+  one; a purchase unit that cannot be converted to the new product unit is
+  cleared on the form and refused on apply.
+- `product_uom_id` on sale and purchase order lines, `SQL()` builder for the
   updates, cache invalidated after them; the *Allow to change unit of measure*
   group no longer sets `category_id`.
