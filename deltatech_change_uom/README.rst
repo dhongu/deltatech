@@ -14,7 +14,7 @@ Change Unit of measure
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_change_uom
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_change_uom
     :alt: dhongu/deltatech
 
 |badge1| |badge2|
@@ -30,6 +30,31 @@ Change Unit of measure
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+20.0.1.0.0 (2026-10-21)
+-----------------------
+
+- Migration to 20.0. The unit of measure is now ``uom_id`` on purchase
+  order lines, stock moves, stock move lines and vendor pricelist lines
+  (sale order lines and invoice lines keep ``product_uom_id``); access
+  rights moved to ``ir.access``.
+
+19.0.1.0.0 (2026-10-21)
+-----------------------
+
+- Migration to 19.0. The purchase unit of measure (``uom_po_id``) is
+  gone from the product in 19.0; the wizard now changes the *Default
+  Purchase Unit* (``purchase_uom_id``) added by
+  ``deltatech_uom_domain``, a new dependency. Purchase order lines and
+  vendor pricelist lines in the old purchase unit move to the new one; a
+  purchase unit that cannot be converted to the new product unit is
+  cleared on the form and refused on apply.
+- ``product_uom_id`` on sale and purchase order lines, ``SQL()`` builder
+  for the updates, cache invalidated after them; the *Allow to change
+  unit of measure* group no longer sets ``category_id``.
 
 Bug Tracker
 ===========
@@ -59,6 +84,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_change_uom>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_change_uom>`_ project on GitHub.
 
 You are welcome to contribute.

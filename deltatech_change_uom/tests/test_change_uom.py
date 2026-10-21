@@ -55,16 +55,16 @@ class TestChangeUoM(TransactionCase):
         self.assertEqual(self.product.uom_id, self.uom_dozen)
         self.assertEqual(self.variant.uom_id, self.uom_dozen)
         self.assertFalse(self.product.purchase_uom_id)
-        self.assertEqual(self.product.seller_ids.product_uom_id, self.uom_dozen)
+        self.assertEqual(self.product.seller_ids.uom_id, self.uom_dozen)
         self.assertEqual(sale_order.order_line.product_uom_id, self.uom_dozen)
-        self.assertEqual(purchase_order.order_line.product_uom_id, self.uom_dozen)
+        self.assertEqual(purchase_order.order_line.uom_id, self.uom_dozen)
 
     def test_wizard_purchase_uom(self):
         """UM de achizitie din 18.0 (`uom_po_id`) e acum `purchase_uom_id` din deltatech_uom_domain."""
         self.product.purchase_uom_id = self.uom_dozen
-        self.product.seller_ids.product_uom_id = self.uom_dozen
+        self.product.seller_ids.uom_id = self.uom_dozen
         sale_order, purchase_order = self._create_orders()
-        self.assertEqual(purchase_order.order_line.product_uom_id, self.uom_dozen)
+        self.assertEqual(purchase_order.order_line.uom_id, self.uom_dozen)
 
         wizard = Form(self.env["product.change.uom"].with_context(active_id=self.product.id))
         self.assertEqual(wizard.purchase_uom_id, self.uom_dozen)
@@ -72,9 +72,9 @@ class TestChangeUoM(TransactionCase):
 
         self.assertEqual(self.product.uom_id, self.uom_kgm)
         self.assertEqual(self.product.purchase_uom_id, self.uom_ton)
-        self.assertEqual(self.product.seller_ids.product_uom_id, self.uom_ton)
+        self.assertEqual(self.product.seller_ids.uom_id, self.uom_ton)
         self.assertEqual(sale_order.order_line.product_uom_id, self.uom_kgm)
-        self.assertEqual(purchase_order.order_line.product_uom_id, self.uom_ton)
+        self.assertEqual(purchase_order.order_line.uom_id, self.uom_ton)
 
     def test_wizard_purchase_uom_cleared(self):
         """UM de achizitie din alt arbore decat noua UM a produsului se goleste."""

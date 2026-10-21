@@ -5,7 +5,7 @@
 {
     "name": "Change Unit of measure",
     "summary": "Change unit of measure in product",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
@@ -14,7 +14,7 @@
     "data": [
         "security/sale_security.xml",
         "wizard/product_change_uom_view.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

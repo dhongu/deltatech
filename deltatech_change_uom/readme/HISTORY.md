@@ -1,3 +1,9 @@
+## 20.0.1.0.0 (2026-10-21)
+
+- Migration to 20.0. The unit of measure is now `uom_id` on purchase order lines,
+  stock moves, stock move lines and vendor pricelist lines (sale order lines and
+  invoice lines keep `product_uom_id`); access rights moved to `ir.access`.
+
 ## 19.0.1.0.0 (2026-10-21)
 
 - Migration to 19.0. The purchase unit of measure (`uom_po_id`) is gone from the
