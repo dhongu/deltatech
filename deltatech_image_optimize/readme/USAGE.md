@@ -73,6 +73,22 @@ Tip: try a few images with the preview first, to see the result on your own cata
 
 ![Queue for a large selection](https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png)
 
+**From the website editor — one picture**
+
+On the product page of the website, click **Edit**, then click the product picture. Under
+*Background*, click **Remove Background** (not the red *Remove* of *Media*, which deletes the
+picture). A dialog shows the picture before and
+after, on a checkerboard, with the warning of the method when there is one; the method can be
+changed there and the preview is refreshed. **Apply** writes the picture on the product, then the
+editor saves the page and reloads it, as for the standard *Re-order* and *Remove* buttons of product
+pictures. **Cancel** writes nothing.
+
+The button appears only on product pictures (product, variant, gallery image), not on the pictures
+of the page (banners, blocks), and the change needs the right to modify the product. A variant
+without its own picture shows the picture of its product: the background is then removed on the
+product. In Odoo 20 the main picture of a product is also its first gallery picture: removing the
+background of one updates both.
+
 ## Remove a watermark
 
 **Step 6 — Remove the watermark of your catalog images**

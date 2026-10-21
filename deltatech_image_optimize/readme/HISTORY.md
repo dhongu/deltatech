@@ -1,3 +1,15 @@
+## 20.0.1.13.0 (2026-10-21)
+
+- Website editor: a product picture (product, variant or gallery image) gets *Background →
+  Remove Background*. A dialog previews the picture before and after, with the method and its warning; *Apply*
+  writes the picture on the product, then the editor saves and reloads the page. Pictures of the
+  page itself (banners, blocks) do not get the button, and the change needs the right to modify the
+  product. Port of 19.0.1.13.0.
+- Background removal also works on the own picture of a variant (`image_variant_1920`); a variant
+  without its own picture is handled on its product.
+- The picture synchronized with the cut-out one (main picture of the product and first gallery
+  picture) is also marked *Removed*, so the queue does not process it again.
+
 ## 20.0.1.12.5 (2026-10-16)
 
 - Migration to Odoo 20. Product images now all live on the template and reach the
