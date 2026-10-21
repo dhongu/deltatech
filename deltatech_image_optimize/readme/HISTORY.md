@@ -1,3 +1,11 @@
+## 19.0.1.13.2 (2026-10-21)
+
+- Configuration: for rembg on odoo.sh, add `coverage>=7.6.1` next to `rembg[cpu]` in the
+  requirements, not `numba<0.61` as advised in 19.0.1.13.1. numba needs
+  `coverage.types.Tracer`, added in coverage 7.6.1 (odoo.sh ships 7.4.4), while the pin on
+  numba conflicts with the numpy required by the current rembg and makes the build fail
+  while installing the requirements.
+
 ## 19.0.1.13.1 (2026-10-21)
 
 - rembg installed but failing to import (on odoo.sh, numba 0.61+ with an older `coverage`
@@ -5,7 +13,7 @@
   background removal dialog of the website editor, the wizard and the queue. It is now
   handled as rembg not installed: the error is logged once, the AI model is shown as not
   available and pictures on a plain background are still cut out by color. To use rembg on
-  such a server, add `numba<0.61` next to `rembg[cpu]` in the requirements.
+  such a server, see 19.0.1.13.2.
 
 ## 19.0.1.13.0 (2026-10-21)
 
