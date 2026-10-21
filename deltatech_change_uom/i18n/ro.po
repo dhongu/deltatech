@@ -57,6 +57,12 @@ msgid "The purchase unit %(purchase_uom)s cannot be converted to the unit %(uom)
 msgstr "Unitatea de achiziție %(purchase_uom)s nu se poate converti în unitatea %(uom)s."
 
 #. module: deltatech_change_uom
+#. odoo-python
+#: code:addons/deltatech_change_uom/wizard/product_change_uom.py:0
+msgid "Only users allowed to change the unit of measure can apply this change."
+msgstr "Doar utilizatorii care au voie să schimbe unitatea de măsură pot aplica această modificare."
+
+#. module: deltatech_change_uom
 #: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__display_name
 msgid "Display Name"
 msgstr "Nume afișat"

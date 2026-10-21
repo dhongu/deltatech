@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -82,6 +82,25 @@ class TestChangeUoM(TransactionCase):
         wizard = Form(self.env["product.change.uom"].with_context(active_id=self.product.id))
         wizard.uom_id = self.uom_kgm
         self.assertFalse(wizard.purchase_uom_id)
+
+    def test_wizard_requires_group(self):
+        """Doar utilizatorii din grupul *Allow to change unit of measure* pot schimba UM."""
+        user = self.env["res.users"].create(
+            {
+                "name": "Test User",
+                "login": "test_change_uom_user",
+                "group_ids": [(6, 0, [self.env.ref("base.group_user").id])],
+            }
+        )
+        with self.assertRaises(AccessError):
+            self.env["product.change.uom"].with_user(user).create({"uom_id": self.uom_dozen.id})
+        wizard = self.env["product.change.uom"].create({"uom_id": self.uom_dozen.id})
+        with self.assertRaises(AccessError):
+            wizard.with_user(user).with_context(active_id=self.product.id).do_change()
+        self.assertEqual(self.product.uom_id, self.uom_unit)
+
+    def test_admin_has_group(self):
+        self.assertTrue(self.env.ref("base.user_admin").has_group("deltatech_change_uom.group_change_uom"))
 
     def test_wizard_incompatible_purchase_uom(self):
         wizard = self.env["product.change.uom"].create(
