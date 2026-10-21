@@ -16,9 +16,9 @@ eCommerce Stock Availability
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability/tests
-    :alt: 8 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_website_stock_availability
+    :alt: 6 automated tests · 97% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -29,11 +29,23 @@ taking into account the delivery time from the product, the number of
 safety days, and the number of delivery days from the supplier for
 products that are not in stock.
 
+On the shop product card, the stock status (immediate or subsequent
+delivery) is configured from the website builder, in the "Products
+Design" panel: text, LED or LED with text, placed above the price, on
+the image (bottom left or top left) or next to the price, with orange,
+gray or red for products not in stock.
+
 Modulul permite afișarea stocului pe website sub un anumit prag cu
 posibilitatea de a comanda chiar dacă stocul nu este suficient. Modulul
 calculează și numărul de zile de în care se va face livrare ținând cont
 de timpul de livrare din produs, numărul de zile de siguranță și numărul
 de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
+
+Pe cardul de produs din magazin, statusul stocului (livrare imediată sau
+ulterioară) se configurează din editorul website-ului, în panoul
+„Products Design”: text, LED sau LED cu text, deasupra prețului, pe
+imagine (stânga jos sau stânga sus) sau lângă preț, cu portocaliu, gri
+sau roșu pentru produsele care nu sunt pe stoc.
 
 **Table of contents**
 
@@ -42,6 +54,18 @@ de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
 
 Changelog
 =========
+
+20.0.1.0.11 (2026-10-21)
+------------------------
+
+- The stock status on the shop product card is configured from the
+  website builder, in the "Products Design" panel: shown as text, LED or
+  LED with text, placed above the price, on the image (bottom left or
+  top left) or next to the price, with orange, gray or red for products
+  not in stock. On the top left of the image, the status moves clear of
+  a left ribbon and of the "Unpublished" badge. Websites that had the
+  "Product Available" card badge active keep it, as text above the
+  price.
 
 20.0.1.0.10 (2026-10-16)
 ------------------------

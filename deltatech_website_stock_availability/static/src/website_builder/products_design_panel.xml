@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t
+        t-name="deltatech_website_stock_availability.ProductsDesignPanel"
+        t-inherit="website_sale.ProductsDesignPanel"
+        t-inherit-mode="extension"
+    >
+    <BuilderRow label.translate="Ratings" position="after">
+        <t t-if="this.props.recordName === 'shop_opt_products_design_classes'">
+            <BuilderRow label.translate="Stock Status">
+                <BuilderSelect>
+                    <BuilderSelectItem classAction="''">Hidden</BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'wsale_stock_opt_text'"
+                            classAction="'o_wsale_products_opt_stock_text'"
+                        >Text</BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'wsale_stock_opt_led'"
+                            classAction="'o_wsale_products_opt_stock_led'"
+                        >LED</BuilderSelectItem>
+                    <BuilderSelectItem
+                            id="'wsale_stock_opt_led_text'"
+                            classAction="'o_wsale_products_opt_stock_led_text'"
+                        >LED with text</BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+            <BuilderRow
+                    t-if="this.isActiveItem('wsale_stock_opt_text') || this.isActiveItem('wsale_stock_opt_led') || this.isActiveItem('wsale_stock_opt_led_text')"
+                    label.translate="Position"
+                    level="1"
+                >
+                <BuilderSelect>
+                    <BuilderSelectItem classAction="''">Above Price</BuilderSelectItem>
+                    <BuilderSelectItem
+                            classAction="'o_wsale_products_opt_stock_pos_image'"
+                        >On Image</BuilderSelectItem>
+                    <BuilderSelectItem
+                            classAction="'o_wsale_products_opt_stock_pos_image_top'"
+                        >Image Top Left</BuilderSelectItem>
+                    <BuilderSelectItem
+                            classAction="'o_wsale_products_opt_stock_pos_price'"
+                        >Next to Price</BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+            <BuilderRow
+                    t-if="this.isActiveItem('wsale_stock_opt_text') || this.isActiveItem('wsale_stock_opt_led') || this.isActiveItem('wsale_stock_opt_led_text')"
+                    label.translate="Out of Stock Color"
+                    level="1"
+                >
+                <BuilderSelect>
+                    <BuilderSelectItem classAction="''">Orange</BuilderSelectItem>
+                    <BuilderSelectItem
+                            classAction="'o_wsale_products_opt_stock_out_gray'"
+                        >Gray</BuilderSelectItem>
+                    <BuilderSelectItem
+                            classAction="'o_wsale_products_opt_stock_out_red'"
+                        >Red</BuilderSelectItem>
+                </BuilderSelect>
+            </BuilderRow>
+        </t>
+    </BuilderRow>
+</t>
+
+</templates>
