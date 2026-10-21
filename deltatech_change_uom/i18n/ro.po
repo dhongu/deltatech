@@ -18,7 +18,7 @@ msgstr ""
 #. module: deltatech_change_uom
 #: model:res.groups,name:deltatech_change_uom.group_change_uom
 msgid "Allow to change unit of measure"
-msgstr "Permite schimbarea unitate măsură"
+msgstr "Permite schimbarea unității de măsură"
 
 #. module: deltatech_change_uom
 #: model_terms:ir.ui.view,arch_db:deltatech_change_uom.view_product_change_uom_form
@@ -95,9 +95,4 @@ msgstr "Schimbare UM produs"
 #. module: deltatech_change_uom
 #: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__uom_id
 msgid "Unit of Measure"
-msgstr "Unitate măsură"
-
-#. module: deltatech_change_uom
-#: model_terms:ir.ui.view,arch_db:deltatech_change_uom.view_product_change_uom_form
-msgid "or"
-msgstr "sau"
+msgstr "Unitate de măsură"

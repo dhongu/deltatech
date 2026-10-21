@@ -5,7 +5,7 @@
 {
     "name": "Change Unit of measure",
     "summary": "Change unit of measure in product",
-    "version": "20.0.1.0.0",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",

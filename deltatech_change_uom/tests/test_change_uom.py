@@ -76,6 +76,22 @@ class TestChangeUoM(TransactionCase):
         self.assertEqual(sale_order.order_line.product_uom_id, self.uom_kgm)
         self.assertEqual(purchase_order.order_line.uom_id, self.uom_ton)
 
+    def test_wizard_purchase_uom_on_bill(self):
+        """Factura de furnizor a unei comenzi in unitatea de achizitie urmeaza comanda."""
+        self.product.purchase_uom_id = self.uom_dozen
+        self.product.seller_ids.uom_id = self.uom_dozen
+        self.product.purchase_method = "purchase"
+        _sale_order, purchase_order = self._create_orders()
+        purchase_order.button_confirm()
+        purchase_order.action_create_invoice()
+        bill_line = purchase_order.invoice_ids.invoice_line_ids
+        self.assertEqual(bill_line.product_uom_id, self.uom_dozen)
+
+        self._run_wizard(self.uom_kgm, self.uom_ton)
+
+        self.assertEqual(purchase_order.order_line.uom_id, self.uom_ton)
+        self.assertEqual(bill_line.product_uom_id, self.uom_ton)
+
     def test_wizard_purchase_uom_cleared(self):
         """UM de achizitie din alt arbore decat noua UM a produsului se goleste."""
         self.product.purchase_uom_id = self.uom_dozen

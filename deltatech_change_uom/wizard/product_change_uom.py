@@ -98,19 +98,22 @@ class ProductChangeUoM(models.TransientModel):
                     )
                 )
 
-            # pe achizitii (comenzi si linii de furnizor) UM de achizitie trece in noua UM de achizitie
-            purchase_map = {old_uom: self.uom_id, old_purchase_uom: new_purchase_uom}
-            product_map = {old_uom: self.uom_id}
+            # aceeasi mapare pe toate documentele: comanda, receptia si factura de furnizor
+            # raman in aceeasi unitate (din 19.0 conversia intre unitati incompatibile nu mai da eroare)
+            uom_map = {}
+            if old_purchase_uom != old_uom:
+                uom_map[old_purchase_uom] = new_purchase_uom
+            uom_map[old_uom] = self.uom_id
 
             # inlocuire in comenzi de achizitie, comenzi de vanzare, facturi si miscari de stoc
-            self._replace_uom_in_lines("purchase.order.line", "uom_id", variants, purchase_map)
-            self._replace_uom_in_lines("sale.order.line", "product_uom_id", variants, product_map)
-            self._replace_uom_in_lines("account.move.line", "product_uom_id", variants, product_map)
-            self._replace_uom_in_lines("stock.move", "uom_id", variants, product_map)
-            self._replace_uom_in_lines("stock.move.line", "uom_id", variants, product_map)
+            self._replace_uom_in_lines("purchase.order.line", "uom_id", variants, uom_map)
+            self._replace_uom_in_lines("sale.order.line", "product_uom_id", variants, uom_map)
+            self._replace_uom_in_lines("account.move.line", "product_uom_id", variants, uom_map)
+            self._replace_uom_in_lines("stock.move", "uom_id", variants, uom_map)
+            self._replace_uom_in_lines("stock.move.line", "uom_id", variants, uom_map)
 
             # inlocuire in lista de furnizori
-            self._replace_uom("product.supplierinfo", "uom_id", product.seller_ids, purchase_map)
+            self._replace_uom("product.supplierinfo", "uom_id", product.seller_ids, uom_map)
 
             self.env.cr.execute(
                 SQL(
