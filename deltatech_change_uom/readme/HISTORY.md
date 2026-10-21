@@ -15,3 +15,7 @@
 - `product_uom_id` on sale and purchase order lines, `SQL()` builder for the
   updates, cache invalidated after them; the *Allow to change unit of measure*
   group no longer sets `category_id`.
+- Changing the unit of measure is restricted to the *Allow to change unit of
+  measure* group: the *Change Uom* action is shown only to its members, the
+  wizard is accessible only to them and the change is refused for anyone else.
+  Settings administrators get the group by default.

@@ -4,7 +4,7 @@
 
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tools import SQL
 
 
@@ -80,6 +80,8 @@ class ProductChangeUoM(models.TransientModel):
         self._replace_uom(model, field, lines, uom_map)
 
     def do_change(self):
+        if not self.env.user.has_group("deltatech_change_uom.group_change_uom"):
+            raise AccessError(self.env._("Only users allowed to change the unit of measure can apply this change."))
         active_id = self.env.context.get("active_id", False)
         if active_id:
             product = self.env["product.template"].browse(active_id)
