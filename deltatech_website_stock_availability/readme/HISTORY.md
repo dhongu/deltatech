@@ -1,3 +1,13 @@
+## 20.0.1.0.11 (2026-10-21)
+
+- The stock status on the shop product card is configured from the website
+  builder, in the "Products Design" panel: shown as text, LED or LED with text,
+  placed above the price, on the image (bottom left or top left) or next to
+  the price, with orange, gray or red for products not in stock. On the top left
+  of the image, the status moves clear of a left ribbon and of the "Unpublished"
+  badge. Websites that had the "Product Available" card badge active keep it, as
+  text above the price.
+
 ## 20.0.1.0.10 (2026-10-16)
 
 Migration to 20.0:
