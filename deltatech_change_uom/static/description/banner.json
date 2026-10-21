@@ -1,0 +1,9 @@
+{
+  "title": "Change Unit of Measure",
+  "summary": "Change a product's unit of measure even after it has been used in documents",
+  "features": [
+    "Updates orders, invoices and stock moves",
+    "Changes the default purchase unit too",
+    "Restricted to authorized users"
+  ]
+}
