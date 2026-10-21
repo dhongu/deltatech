@@ -76,11 +76,6 @@ msgid "Product Change Uom"
 msgstr "Schimbare UM produs"
 
 #. module: deltatech_change_uom
-#: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__uom_po_id
-msgid "Purchase Unit of Measure"
-msgstr "Unitate măsură achiziție"
-
-#. module: deltatech_change_uom
 #: model:ir.model.fields,field_description:deltatech_change_uom.field_product_change_uom__uom_id
 msgid "Unit of Measure"
 msgstr "Unitate măsură"
