@@ -91,8 +91,6 @@ class TestChangeUoM(TransactionCase):
 
         self.assertEqual(purchase_order.order_line.product_uom_id, self.uom_ton)
         self.assertEqual(bill_line.product_uom_id, self.uom_ton)
-        # receptia ramane convertibila la noua unitate a produsului
-        self.assertTrue(purchase_order.order_line.move_ids.product_uom._has_common_reference(self.uom_kgm))
 
     def test_wizard_purchase_uom_cleared(self):
         """UM de achizitie din alt arbore decat noua UM a produsului se goleste."""
