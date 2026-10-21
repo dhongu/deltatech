@@ -6,28 +6,40 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-24 15:23+0000\n"
+"POT-Creation-Date: 2026-10-21 06:22+0000\n"
 "PO-Revision-Date: 2024-05-24 15:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
 #. module: deltatech_website_stock_availability
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
 msgid "<span class=\"badge bg-success\">Immediate delivery</span>"
 msgstr "<span class=\"badge bg-success\">Livrare imediată</span>"
 
 #. module: deltatech_website_stock_availability
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
 msgid "<span class=\"badge bg-warning\">Subsequent delivery</span>"
 msgstr "<span class=\"badge bg-warning\">Livrare ulterioară</span>"
+
+#. module: deltatech_website_stock_availability
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_template_form_view_hide_out_of_stock_message
+msgid ""
+"<span invisible=\"not is_storable\">Hide \"Out of stock\" message</span>"
+msgstr ""
+"<span invisible=\"not is_storable\">Ascunde mesajul „Nu este în stoc”</span>"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Above Price"
+msgstr "Deasupra prețului"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_product__sale_delay_safety
@@ -43,26 +55,44 @@ msgstr "Întârziere"
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "Delivery in"
 msgstr "Livrare în"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "Delivery time unknown"
 msgstr "Timp de livrare necunoscut"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "Delivery tomorrow"
 msgstr "Livrare mâine"
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_ir_http__display_name
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_supplierinfo__display_name
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model.fields,help:deltatech_website_stock_availability.field_product_product__hide_out_of_stock_message
+#: model:ir.model.fields,help:deltatech_website_stock_availability.field_product_template__hide_out_of_stock_message
+msgid ""
+"Do not show the 'Out of stock' website message for this product, even when "
+"it has no own or vendor availability."
+msgstr ""
+"Nu afișa pe website mesajul „Nu este în stoc” pentru acest produs, chiar dacă "
+"nu are stoc propriu sau la furnizor."
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Gray"
+msgstr "Gri"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_ir_http
@@ -71,37 +101,123 @@ msgstr "Rutare HTTP"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Hidden"
+msgstr "Ascuns"
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_product__hide_out_of_stock_message
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__hide_out_of_stock_message
+msgid "Hide Out-of-Stock Message"
+msgstr "Ascunde mesajul „Nu este în stoc”"
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_ir_http__id
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_supplierinfo__id
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_tile_stock_status
 msgid "Immediate delivery"
 msgstr "Livrare imediată"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "In stock"
 msgstr "În stoc"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "In stock at vendor"
 msgstr "În stoc la furnizor"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "LED"
+msgstr "LED"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "LED with text"
+msgstr "LED cu text"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Next to Price"
+msgstr "Lângă preț"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "On Image"
+msgstr "Pe imagine"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Orange"
+msgstr "Portocaliu"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Out of Stock Color"
+msgstr "Culoare fără stoc"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "Out of stock"
 msgstr "Nu este în stoc"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Position"
+msgstr "Poziție"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_template
 msgid "Product"
 msgstr "Produs"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Ratings"
+msgstr "Evaluări"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Red"
+msgstr "Roșu"
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model,name:deltatech_website_stock_availability.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Stock Status"
+msgstr "Status stoc"
+
+#. module: deltatech_website_stock_availability
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_tile_stock_status
+msgid "Subsequent delivery"
+msgstr "Livrare ulterioară"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_supplierinfo
@@ -110,17 +226,19 @@ msgstr "Lista de preturi Furnizor"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Text"
+msgstr "Text"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.view_template_property_form
-#, python-format
 msgid "days"
 msgstr "zile"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#, python-format
 msgid "weeks"
 msgstr "săptămâni"

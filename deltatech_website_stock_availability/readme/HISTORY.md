@@ -1,3 +1,11 @@
+# 19.0.1.0.12
+
+- The stock status on the shop product card is configured from the website
+  builder, in the "Products Design" panel: shown as text, LED or LED with text,
+  placed above the price, on the image or next to the price, with orange, gray
+  or red for products not in stock. Websites that had the "Product Available"
+  card badge active keep it, as text above the price.
+
 # 19.0.1.0.11
 
 - The vendor stock and lead time on the product page now come from the supplier

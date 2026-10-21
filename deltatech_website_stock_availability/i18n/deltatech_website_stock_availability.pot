@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:25+0000\n"
-"PO-Revision-Date: 2026-07-31 10:25+0000\n"
+"POT-Creation-Date: 2026-10-21 06:22+0000\n"
+"PO-Revision-Date: 2026-10-21 06:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,20 +18,24 @@ msgstr ""
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
 msgid "<span class=\"badge bg-success\">Immediate delivery</span>"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_line_description_following_lines
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.cart_summary_website_sale_stock_product_lead_time
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.products_qty_available
 msgid "<span class=\"badge bg-warning\">Subsequent delivery</span>"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
 #: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_template_form_view_hide_out_of_stock_message
 msgid "<span invisible=\"not is_storable\">Hide \"Out of stock\" message</span>"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Above Price"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
@@ -67,6 +71,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_ir_http__display_name
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_supplierinfo__display_name
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_sale_order_line__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -79,8 +84,20 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Gray"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_ir_http
 msgid "HTTP Routing"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Hidden"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
@@ -93,12 +110,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_ir_http__id
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_supplierinfo__id
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_sale_order_line__id
 msgid "ID"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_tile_stock_status
 msgid "Immediate delivery"
 msgstr ""
 
@@ -116,8 +135,50 @@ msgstr ""
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "LED"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "LED with text"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Next to Price"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "On Image"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Orange"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Out of Stock Color"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 msgid "Out of stock"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Position"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
@@ -126,8 +187,42 @@ msgid "Product"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Ratings"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Red"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#: model:ir.model,name:deltatech_website_stock_availability.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Stock Status"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_tile_stock_status
+msgid "Subsequent delivery"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_supplierinfo
 msgid "Supplier Pricelist"
+msgstr ""
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
+msgid "Text"
 msgstr ""
 
 #. module: deltatech_website_stock_availability
