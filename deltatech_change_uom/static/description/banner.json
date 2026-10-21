@@ -1,7 +1,9 @@
 {
   "title": "Change Unit of Measure",
   "summary": "Change a product's unit of measure even after it has been used in documents",
-  "icon": "wrench",
-  "module_icon": false,
-  "features": ["Updates purchase and sales orders", "Updates existing invoice lines", "Action on the product form"]
+  "features": [
+    "Updates orders, invoices and stock moves",
+    "Changes the default purchase unit too",
+    "Restricted to authorized users"
+  ]
 }

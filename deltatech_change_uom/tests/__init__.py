@@ -4,3 +4,4 @@
 
 
 from . import test_change_uom
+from . import test_screenshots
