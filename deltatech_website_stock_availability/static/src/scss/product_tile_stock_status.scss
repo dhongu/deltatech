@@ -1,0 +1,129 @@
+// Stock status on the shop product card.
+// The markup is rendered for every possible position; the classes of the products
+// grid (set from the website builder) decide which one is shown and how.
+
+.o_wsale_stock_status {
+    --o-wsale-stock-color: var(--bs-success, #198754);
+    --o-wsale-stock-contrast: #fff;
+
+    display: none;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+
+    &.o_wsale_stock_out {
+        --o-wsale-stock-color: var(--bs-warning, #ffc107);
+        --o-wsale-stock-contrast: #212529;
+    }
+
+    .o_wsale_stock_led {
+        display: none;
+        flex-shrink: 0;
+        width: 0.85em;
+        height: 0.85em;
+        border-radius: 50%;
+        background-color: var(--o-wsale-stock-color);
+        box-shadow: 0 0 0 0.3em color-mix(in srgb, var(--o-wsale-stock-color) 20%, transparent);
+    }
+}
+
+.o_wsale_products_opt_stock_out_gray .o_wsale_stock_out {
+    --o-wsale-stock-color: var(--bs-gray-500, #adb5bd);
+    --o-wsale-stock-contrast: #fff;
+}
+.o_wsale_products_opt_stock_out_red .o_wsale_stock_out {
+    --o-wsale-stock-color: var(--bs-danger, #dc3545);
+    --o-wsale-stock-contrast: #fff;
+}
+
+// ==== Position
+.o_wsale_products_opt_stock_text,
+.o_wsale_products_opt_stock_led,
+.o_wsale_products_opt_stock_led_text {
+    .o_wsale_stock_status_info {
+        display: flex;
+        margin-block: 0.4em;
+    }
+
+    &.o_wsale_products_opt_stock_pos_image {
+        .o_wsale_stock_status_info {
+            display: none;
+        }
+        .o_wsale_stock_status_image {
+            display: flex;
+        }
+    }
+
+    &.o_wsale_products_opt_stock_pos_price {
+        .o_wsale_stock_status_info {
+            display: none;
+        }
+        .o_wsale_stock_status_price {
+            display: flex;
+        }
+        // keep the status on the price row, whatever direction the design gives to it;
+        // a full width button wraps on its own row
+        .o_wsale_product_sub {
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+
+            .product_price {
+                flex: 1 1 0;
+                min-width: 0;
+            }
+        }
+    }
+}
+
+.o_wsale_stock_status_image {
+    position: absolute;
+    inset-block-end: 0.75rem;
+    inset-inline-start: 0.75rem;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.o_wsale_stock_status_price {
+    order: 7;
+    align-self: center;
+    margin-inline-start: auto;
+    padding-inline: 0.5em;
+}
+
+// ==== Style
+.o_wsale_products_opt_stock_text .o_wsale_stock_status .o_wsale_stock_label {
+    padding: 0.35em 0.8em;
+    border-radius: 50rem;
+    font-size: 0.875em;
+    color: var(--o-wsale-stock-contrast);
+    background-color: var(--o-wsale-stock-color);
+}
+
+.o_wsale_products_opt_stock_led .o_wsale_stock_status {
+    .o_wsale_stock_led {
+        display: inline-block;
+    }
+    .o_wsale_stock_label {
+        display: none;
+    }
+}
+
+.o_wsale_products_opt_stock_led_text .o_wsale_stock_status {
+    font-size: 0.875em;
+    color: var(--o-wsale-stock-color);
+
+    &.o_wsale_stock_out {
+        color: color-mix(in srgb, var(--o-wsale-stock-color) 80%, #000);
+    }
+    .o_wsale_stock_led {
+        display: inline-block;
+    }
+    &.o_wsale_stock_status_image {
+        padding: 0.3em 0.7em 0.3em 0.5em;
+        border-radius: 50rem;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+}

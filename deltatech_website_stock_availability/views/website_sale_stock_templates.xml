@@ -40,27 +40,56 @@
         </xpath>
     </template>-->
 
+    <!-- Stock status on the shop product card: style, position and out of stock
+         color are set from the website builder ("Products Design" panel) through
+         o_wsale_products_opt_stock_* classes, saved in shop_opt_products_design_classes. -->
+    <template id="product_tile_stock_status" name="Product tile stock status">
+        <t t-set="stock_design" t-value="design_field or ''" />
+        <t
+            t-set="stock_enabled"
+            t-value="'o_wsale_products_opt_stock_text' in stock_design or 'o_wsale_products_opt_stock_led' in stock_design"
+        />
+        <t
+            t-set="stock_position"
+            t-value="'image' if 'o_wsale_products_opt_stock_pos_image' in stock_design else 'price' if 'o_wsale_products_opt_stock_pos_price' in stock_design else 'info'"
+        />
+        <t
+            t-if="request.env.user.has_group('website.group_website_designer') or (stock_enabled and stock_position == position)"
+        >
+            <t t-set="stock_in" t-value="product.sudo().qty_available &gt; 0" />
+            <t t-if="stock_in" t-set="stock_label">Immediate delivery</t>
+            <t t-else="" t-set="stock_label">Subsequent delivery</t>
+            <div
+                t-attf-class="o_wsale_stock_status o_wsale_stock_status_#{position} #{'o_wsale_stock_in' if stock_in else 'o_wsale_stock_out'} o_not_editable"
+                t-att-title="stock_label"
+                contenteditable="false"
+            >
+                <span class="o_wsale_stock_led" role="img" t-att-aria-label="stock_label" />
+                <span class="o_wsale_stock_label" t-out="stock_label" />
+            </div>
+        </t>
+    </template>
+
     <template
-        id="products_qty_available"
+        id="products_item_stock_status"
         inherit_id="website_sale.products_item"
-        active="False"
-        customize_show="True"
-        name="Product Available"
+        name="Product card stock status"
         priority="500"
     >
+        <xpath expr="//div[contains(@t-attf-class, 'oe_product_image ')]" position="inside">
+            <t t-call="deltatech_website_stock_availability.product_tile_stock_status">
+                <t t-set="position" t-value="'image'" />
+            </t>
+        </xpath>
         <xpath expr="//div[hasclass('o_wsale_product_sub')]" position="before">
-            <div class="flex-grow-1">
-                <t t-if="product.sudo().qty_available  &gt;   0">
-                    <div class="o_immediate_delivery">
-                        <span class="badge bg-success">Immediate delivery</span>
-                    </div>
-                </t>
-                <t t-else="">
-                     <div class="o_subsequent_delivery">
-                        <span class="badge bg-warning">Subsequent delivery</span>
-                     </div>
-                </t>
-            </div>
+            <t t-call="deltatech_website_stock_availability.product_tile_stock_status">
+                <t t-set="position" t-value="'info'" />
+            </t>
+        </xpath>
+        <xpath expr="//div[hasclass('o_wsale_product_btn')]" position="before">
+            <t t-call="deltatech_website_stock_availability.product_tile_stock_status">
+                <t t-set="position" t-value="'price'" />
+            </t>
         </xpath>
     </template>
 
