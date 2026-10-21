@@ -10,7 +10,7 @@ după primul document, dar operația e rară și rezervată unui număr mic de u
 
 ## 1. Scop business
 
-În Odoo 19, unitatea de măsură se poate schimba direct pe fișa produsului cât timp produsul n-a fost
+În Odoo 20, unitatea de măsură se poate schimba direct pe fișa produsului cât timp produsul n-a fost
 facturat: comenzile, mișcările de stoc și listele de materiale trec singure în unitatea nouă.
 Standardul refuză schimbarea în două cazuri:
 
@@ -83,7 +83,7 @@ Date minime pentru demo (folosite și în capturi):
    produs câmpul **Unitate implicită de achiziție** și listele de unități din același arbore pe
    achiziții.
 2. În **Inventar → Configurare → Setări** (sau **Vânzări → Configurare → Setări**) activați **Unități
-   de măsură**, ca unitățile să fie vizibile pe produse și pe comenzi.
+   de măsură și ambalaje**, ca unitățile să fie vizibile pe produse și pe comenzi.
 3. Verificați că unitatea nouă există: **Inventar → Configurare → Unități și ambalaje** (ex. **m³**).
 4. Dați grupul **Permite schimbarea unității de măsură** utilizatorilor care trebuie să facă
    schimbarea, dacă nu sunt administratori (secțiunea 3).
@@ -95,7 +95,7 @@ Date minime pentru demo (folosite și în capturi):
 ### Pasul 1 — Acțiunea „Schimbă UM" pe produs
 
 Deschideți produsul din **Inventar → Produse → Produse** (sau din **Vânzări → Produse → Produse**).
-În formularul produsului, apăsați rotița de lângă numele produsului (meniul **Acțiune**) și alegeți
+În formularul produsului, apăsați butonul **⋮** de lângă numele produsului (meniul **Acțiune**) și alegeți
 **Schimbă UM**.
 
 Acțiunea apare doar membrilor grupului **Permite schimbarea unității de măsură** și doar pe fișa
@@ -280,7 +280,7 @@ produsului, nu acest asistent.
 - **Fără conversie:** cantitățile, prețurile și valorile rămân aceleași, inclusiv stocul din locații.
 - **A treia unitate:** se înlocuiesc doar vechea unitate a produsului și vechea unitate implicită de
   achiziție. O linie într-o altă unitate rămâne neschimbată și poate deveni neconvertibilă la noua
-  unitate a produsului; în 19.0, Odoo nu mai semnalează conversia între unități incompatibile, deci
+  unitate a produsului; din 19.0, Odoo nu mai semnalează conversia între unități incompatibile, deci
   verificați comenzile deschise înainte de schimbare.
 - **Liste de materiale:** spre deosebire de schimbarea standard de pe fișa produsului, asistentul nu
   modifică listele de materiale în care apare produsul.

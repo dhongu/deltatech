@@ -27,17 +27,15 @@ try:
 except ImportError:
     ScreenshotCase = None
 
-# Deschide meniul „Acțiune" (rotița) din formularul produsului.
+# Deschide meniul „Acțiune" (butonul ⋮ de lângă titlu) din formularul produsului.
 OPEN_ACTION_MENU = """
-    [...document.querySelectorAll('.o_cp_action_menus button')]
-        .find((b) => b.querySelector('.fa-cog')).click();
+    document.querySelector('.o_cp_action_menus button[data-hotkey="u"]').click();
 """
 
 # Deschide meniul „Acțiune" și alege „Schimbă UM", ca să apară asistentul.
 OPEN_WIZARD = """
     new Promise((resolve) => {
-        [...document.querySelectorAll('.o_cp_action_menus button')]
-            .find((b) => b.querySelector('.fa-cog')).click();
+        document.querySelector('.o_cp_action_menus button[data-hotkey="u"]').click();
         setTimeout(() => {
             [...document.querySelectorAll('.o-dropdown--menu .dropdown-item')]
                 .find((i) => i.textContent.includes('Schimbă UM')).click();
@@ -48,7 +46,7 @@ OPEN_WIZARD = """
 
 # Tab-ul „Achiziție" din formularul produsului, unde stă unitatea implicită de achiziție.
 OPEN_PURCHASE_TAB = """
-    [...document.querySelectorAll('.o_notebook a.nav-link')]
+    [...document.querySelectorAll('.o_notebook .nav-link')]
         .find((a) => a.textContent.includes('Achizi')).click();
 """
 
@@ -60,7 +58,7 @@ SHOW_INVOICE_UOM = """
             const input = [...document.querySelectorAll('.o-dropdown--menu input[type=checkbox]')]
                 .find((i) => i.closest('.dropdown-item, label, span').textContent.includes('Unitate'));
             if (input && !input.checked) input.click();
-            document.body.click();
+            document.querySelector('.o_field_one2many .o_optional_columns_dropdown_toggle').click();
             setTimeout(resolve, 800);
         }, 800);
     })
