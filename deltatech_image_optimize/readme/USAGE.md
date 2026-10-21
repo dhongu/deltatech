@@ -33,6 +33,15 @@ spot, writes nothing yet, and shows **Before** and **After** for each one. The l
   that white areas inside the product (the label) stayed opaque.
 - Untick the rows whose result is not good and press **Apply**. Only ticked rows are written.
 
+The wizard also sets how the result is framed: **Frame in a Square** with a **Margin (%)**, and a
+**Background Color** (empty = transparent, `#FFFFFF` = solid white). They start from the system
+parameters and apply after **Refresh Preview**.
+
+To make photos square **without removing the background**, choose the method **Frame only (keep
+background)**: the product is centered in a square filled with the background color, and pieces
+smaller than **Ignore Pieces Under (%)** of the product (a logo in a corner) are left out of the
+square. It needs a photo on a plain background.
+
 With the *Automatic* method, the wizard cuts by color when the image border has a single color and
 uses the AI model otherwise.
 

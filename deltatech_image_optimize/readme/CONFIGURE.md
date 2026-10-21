@@ -29,13 +29,14 @@ loaded at a time.
 
 | Key | Default | Meaning |
 | --- | --- | --- |
-| ``bg_method`` | auto | ``auto``, ``uniform`` (by color, no AI model) or ``rembg`` (always the AI model) |
+| ``bg_method`` | auto | ``auto``, ``uniform`` (by color, no AI model), ``rembg`` (always the AI model) or ``frame`` (keep the background, frame in a square) |
 | ``bg_model`` | isnet-general-use | rembg model. ``birefnet-general`` is finer but about 10× slower, 970 MB, and does not fit in the memory of an odoo.sh worker |
 | ``bg_tolerance`` | 24 | how far (0..255 per channel) a pixel may be from the border color and still be background; raise it for noisy JPEGs or soft shadows |
 | ``bg_min_island`` | 1 | pieces smaller than this percent of the main object are removed; 0 = keep all |
 | ``bg_lost_warning`` | 5 | flag and untick an image when the AI model left out this percent of a product on a plain background |
 | ``bg_crop`` | 0 | 1 = frame the product in a square, 0 = keep the original canvas |
 | ``bg_margin`` | 5 | margin around the product, in percent, when cropping |
+| ``bg_frame_min_island`` | 10 | method *Frame only*: pieces smaller than this percent of the product (a logo in a corner) do not widen the square |
 | ``bg_color`` | (empty) | empty = transparent (WebP); a color such as ``#FFFFFF`` = solid background (JPEG) |
 | ``bg_sync_limit`` | 5 | up to this many images (main and gallery) get a preview; more are queued |
 | ``bg_batch`` | 20 | images per run of the scheduled action |

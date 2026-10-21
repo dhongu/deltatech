@@ -11,12 +11,16 @@
                     <p>
                         Check the result before applying it. The original image is
                         <strong>not kept</strong>: once applied, the background cannot be
-                        put back. Untick the images where the product was not cut out well.
+                        put back. Untick the images where the product was not cut out or framed well.
                     </p>
                     <group>
                         <group>
                             <field name="method" />
-                            <field name="bg_model" invisible="method == 'uniform'" />
+                            <field name="bg_model" invisible="method in ('uniform', 'frame')" />
+                            <field name="crop" invisible="method == 'frame'" />
+                            <field name="margin" invisible="not crop and method != 'frame'" />
+                            <field name="frame_min_island" invisible="method != 'frame'" />
+                            <field name="color" placeholder="#FFFFFF" />
                         </group>
                         <group>
                             <button

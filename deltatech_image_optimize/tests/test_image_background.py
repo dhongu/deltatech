@@ -328,3 +328,62 @@ class TestImageBackground(TransactionCase):
         wizard.method = "uniform"
         self.assertEqual(wizard.action_refresh()["res_id"], wizard.id)
         self.assertTrue(wizard.line_ids.image_after)
+
+    # === doar încadrare ===#
+
+    def _wizard(self, records, **vals):
+        """Wizard-ul pentru ``records``, cu ``vals`` alese și previzualizarea refăcută."""
+        action = records.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+        wizard.write(vals)
+        wizard.action_refresh()
+        return wizard
+
+    def test_wizard_crop_and_color_override_params(self):
+        wizard = self._wizard(self.product, method="uniform", crop=True, margin=10, color="#FFFFFF")
+        after = Image.open(io.BytesIO(base64.b64decode(wizard.line_ids.image_after)))
+
+        self.assertEqual(after.size, (240, 240))
+        self.assertEqual(after.convert("RGB").getpixel((5, 5)), (255, 255, 255))
+
+    def test_frame_keeps_background_and_squares(self):
+        wizard = self._wizard(self.product, method="frame", margin=10)
+        line = wizard.line_ids
+        after = Image.open(io.BytesIO(base64.b64decode(line.image_after)))
+
+        self.assertTrue(line.to_apply)
+        self.assertEqual(after.size, (240, 240), "the longest side of the product plus 10% on each side")
+        self.assertEqual(after.mode, "RGB", "the background is kept, nothing is transparent")
+        self.assertEqual(after.getpixel((5, 5)), BG_COLOR, "the square is filled with the border color")
+        self.assertEqual(after.getpixel((120, 120)), PRODUCT_COLOR)
+
+        wizard.action_apply()
+        self.assertEqual(self._decoded(self.product).size, (240, 240))
+        self.assertEqual(self.product.bg_removal_state, "done")
+
+    def test_frame_with_solid_color(self):
+        wizard = self._wizard(self.product, method="frame", margin=10, color="#FFFFFF")
+        after = Image.open(io.BytesIO(base64.b64decode(wizard.line_ids.image_after)))
+
+        self.assertEqual(after.getpixel((5, 5)), (255, 255, 255))
+        # în jurul produsului rămâne fundalul original, decupat cu produsul
+        self.assertEqual(after.getpixel((120, 120)), PRODUCT_COLOR)
+
+    def test_frame_ignores_small_logo(self):
+        # o siglă în colț, de 6% din produs, ca sigla magazinului peste o fotografie de furnizor
+        product = self._product_with(lambda img: img.paste(Image.new("RGB", (25, 25), (200, 60, 60)), (360, 260)))
+
+        wizard = self._wizard(product, method="frame", margin=0)
+        after = Image.open(io.BytesIO(base64.b64decode(wizard.line_ids.image_after)))
+        self.assertEqual(after.size, (200, 200), "the logo does not widen the square")
+
+        wizard = self._wizard(product, method="frame", margin=0, frame_min_island=1)
+        after = Image.open(io.BytesIO(base64.b64decode(wizard.line_ids.image_after)))
+        self.assertEqual(after.size, (335, 335), "with a lower threshold the logo is framed too")
+
+    def test_frame_needs_plain_background(self):
+        product = self._product_with(self._gradient)
+        line = self._wizard(product, method="frame").line_ids
+
+        self.assertFalse(line.image_after)
+        self.assertIn("plain background", line.warning)
