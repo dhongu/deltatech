@@ -1,0 +1,132 @@
+// Stock per warehouse on the product page. The boxes take the colors of the page
+// (color combination 1), so they read on light and dark themes alike.
+$o-wh-stock-border: unquote("color-mix(in srgb, var(--o-cc1-text) 14%, transparent)");
+
+@mixin o-wh-stock-tint($color) {
+    background-color: rgba($color, 0.16);
+    color: unquote("color-mix(in srgb, #{$color} 55%, var(--o-cc1-text))");
+}
+
+.o_wh_stock {
+    .o_wh_stock_pill {
+        display: inline-block;
+        padding: 0.2rem 0.65rem;
+        border: 1px solid $o-wh-stock-border;
+        border-radius: 999px;
+        font-size: 0.85em;
+        font-weight: $font-weight-bold;
+        line-height: 1.3;
+    }
+
+    .o_wh_stock_pill_success {
+        @include o-wh-stock-tint($success);
+    }
+
+    .o_wh_stock_pill_warning {
+        @include o-wh-stock-tint($warning);
+    }
+
+    .o_wh_stock_pill_danger {
+        @include o-wh-stock-tint($danger);
+    }
+
+    .o_wh_stock_pill_neutral {
+        background-color: unquote("color-mix(in srgb, var(--o-cc1-text) 8%, transparent)");
+        color: var(--o-cc1-text);
+    }
+
+    .o_wh_stock_note {
+        margin-left: 0.35rem;
+    }
+
+    .o_wh_stock_state_in_stock .o_wh_stock_icon {
+        color: $success;
+    }
+
+    .o_wh_stock_state_on_order .o_wh_stock_icon {
+        color: $warning;
+    }
+
+    .o_wh_stock_state_out .o_wh_stock_icon {
+        color: $danger;
+    }
+}
+
+.o_wh_stock_list {
+    .o_wh_stock_row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem;
+        padding: 0.2rem 0;
+    }
+
+    .o_wh_stock_value {
+        margin-left: auto;
+        font-weight: $font-weight-bold;
+    }
+}
+
+.o_wh_stock_card {
+    padding: 1.25rem;
+    border: 1px solid $o-wh-stock-border;
+    border-radius: 1rem;
+    background-color: var(--o-cc1-bg);
+    color: var(--o-cc1-text);
+
+    .o_wh_stock_card_title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .o_wh_stock_card_icon {
+        display: flex;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.75rem;
+        background-color: rgba($primary, 0.15);
+        color: $primary;
+        font-size: 1.15rem;
+    }
+
+    .o_wh_stock_row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding: 0.6rem 0;
+        border-top: 1px dashed $o-wh-stock-border;
+    }
+
+    .o_wh_stock_status {
+        text-align: right;
+    }
+}
+
+.o_wh_stock_selector {
+    .o_wh_stock_select {
+        min-width: 10rem;
+        background-color: var(--o-cc1-bg);
+        color: var(--o-cc1-text);
+        border-color: $o-wh-stock-border;
+    }
+
+    .o_wh_stock_result {
+        padding: 0.75rem 1rem;
+        border: 1px solid $o-wh-stock-border;
+        border-radius: 0.75rem;
+        background-color: var(--o-cc1-bg);
+        color: var(--o-cc1-text);
+    }
+
+    .o_wh_stock_note:not(:empty) {
+        display: block;
+        margin: 0.25rem 0 0;
+    }
+}
