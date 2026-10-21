@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+        <record id="group_change_uom" model="res.groups">
+            <field name="name">Allow to change unit of measure</field>
+        </record>
+
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_change_uom'))]" />
+        </record>
+
+</odoo>
