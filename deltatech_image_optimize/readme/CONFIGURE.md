@@ -11,7 +11,13 @@ repository) and rebuild:
 
 ```
 rembg[cpu]
+numba<0.61
 ```
+
+``numba`` (a dependency of rembg) 0.61 and later fails to import next to an older ``coverage``
+package, as installed on odoo.sh (``module 'coverage.types' has no attribute 'Tracer'``); the pin
+avoids it. Without it the module still works, but treats rembg as not installed and logs the error
+once.
 
 The model is downloaded on first use (ISNet: 180 MB, under ``~/.rembg/models`` or ``$U2NET_HOME``)
 and kept loaded per worker process; on CPU an image takes about one second. Only one model is kept
