@@ -85,6 +85,7 @@ pentru test:
 | `bg_min_island` | 1 | bucățile mai mici de atâtea procente din produs se elimină |
 | `bg_lost_warning` | 5 | avertisment când modelul AI pierde atâtea procente din produs |
 | `bg_crop` / `bg_margin` | 0 / 5 | 1 = produsul încadrat într-un pătrat, cu margine în procente |
+| `bg_frame_min_island` | 10 | metoda *Frame only*: bucățile sub acest procent din produs (o siglă în colț) nu lărgesc pătratul |
 | `bg_color` | (gol) | gol = transparent; `#FFFFFF` = fundal alb plin (JPEG) |
 | `bg_sync_limit` | 5 | până la atâtea **imagini** (principale + din galerie) au previzualizare; peste, merg în coadă |
 | `bg_batch` | 20 | imagini procesate la o rulare a acțiunii planificate |
@@ -308,6 +309,9 @@ Regenerare:
 - Explicați diferența dintre *Automatic* (fundal uniform → după culoare) și *AI model*: pe fotografiile
   pe alb, metoda după culoare e mai rapidă și păstrează accesoriile.
 - Pentru catalogul trimis pe marketplace-uri, menționați parametrul `bg_color` (fundal alb plin).
+- Pentru fotografiile care nu sunt pătrate și apar mici în lista de produse: metoda *Frame only (keep
+  background)* din asistent păstrează fundalul și doar încadrează produsul într-un pătrat; *Margin (%)*,
+  *Background Color* și *Ignore Pieces Under (%)* se aleg în asistent.
 - Imaginile duplicate: ce se șterge (copii în același produs) și ce nu (poza comună mai multor
   produse).
 - Recomprimarea se activează pe producție doar după o rulare pe staging.

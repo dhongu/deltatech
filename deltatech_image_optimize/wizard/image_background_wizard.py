@@ -29,15 +29,29 @@ class ImageBackgroundWizard(models.TransientModel):
             ("auto", "Automatic"),
             ("uniform", "Uniform background"),
             ("rembg", "AI model"),
+            ("frame", "Frame only (keep background)"),
         ],
         required=True,
         default="auto",
         help="Uniform background: the background is the color of the image border (a photo on white), "
         "no AI model; dark accessories next to the product are kept.\n"
         "AI model: for photos on a real background.\n"
-        "Automatic: uniform background when the border has a single color, otherwise the AI model.",
+        "Automatic: uniform background when the border has a single color, otherwise the AI model.\n"
+        "Frame only: the background is kept; the product is framed in a square filled with the "
+        "background color, for photos on a plain background that are not square.",
     )
     bg_model = fields.Selection(selection="_selection_bg_model", string="AI Model")
+    crop = fields.Boolean(string="Frame in a Square", help="Crop to the product and pad it to a square.")
+    margin = fields.Integer(string="Margin (%)", help="Space left around the product, on each side.")
+    color = fields.Char(
+        string="Background Color",
+        help="Empty: transparent background (Frame only: the color of the image border). "
+        "A color gives a solid background.",
+    )
+    frame_min_island = fields.Float(
+        string="Ignore Pieces Under (%)",
+        help="Pieces smaller than this share of the product (a logo in a corner, a text) do not widen the square.",
+    )
     line_ids = fields.One2many("deltatech.image.background.wizard.line", "wizard_id", string="Images")
     image_count = fields.Integer(compute="_compute_counts", string="Selected Images")
     failed_count = fields.Integer(compute="_compute_counts", string="Not Cut Out")
@@ -81,6 +95,10 @@ class ImageBackgroundWizard(models.TransientModel):
                 "mode": "preview" if preview else "queue",
                 "method": params["method"],
                 "bg_model": params["model"],
+                "crop": params["crop"],
+                "margin": params["margin"],
+                "color": params["color"],
+                "frame_min_island": params["frame_min_island"],
                 "line_ids": lines,
             }
         )
@@ -95,12 +113,25 @@ class ImageBackgroundWizard(models.TransientModel):
             "to_apply": bool(data) and not warning,
         }
 
+    def _dt_params(self):
+        """Parametrii de sistem, cu ce s-a ales în wizard."""
+        self.ensure_one()
+        params = dict(
+            self.env["ir.attachment"]._dt_bg_params(),
+            method=self.method,
+            crop=self.crop,
+            margin=max(0, min(40, self.margin)),
+            color=(self.color or "").strip(),
+            frame_min_island=max(0.0, min(100.0, self.frame_min_island)),
+        )
+        if self.bg_model:
+            params["model"] = self.bg_model
+        return params
+
     def action_refresh(self):
         """Refă previzualizarea cu metoda și modelul alese în wizard."""
         self.ensure_one()
-        params = dict(self.env["ir.attachment"]._dt_bg_params(), method=self.method)
-        if self.bg_model:
-            params["model"] = self.bg_model
+        params = self._dt_params()
         for line in self.line_ids:
             line.write(self._dt_preview_vals(line._dt_record(), params))
         return {
