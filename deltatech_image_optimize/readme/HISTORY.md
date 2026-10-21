@@ -1,3 +1,12 @@
+## 19.0.1.13.1 (2026-10-21)
+
+- rembg installed but failing to import (on odoo.sh, numba 0.61+ with an older `coverage`
+  raised `AttributeError: module 'coverage.types' has no attribute 'Tracer'`) blocked the
+  background removal dialog of the website editor, the wizard and the queue. It is now
+  handled as rembg not installed: the error is logged once, the AI model is shown as not
+  available and pictures on a plain background are still cut out by color. To use rembg on
+  such a server, add `numba<0.61` next to `rembg[cpu]` in the requirements.
+
 ## 19.0.1.13.0 (2026-10-21)
 
 - Website editor: a product picture (product, variant or gallery image) gets *Background →

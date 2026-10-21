@@ -1,10 +1,13 @@
 import base64
+import builtins
 import io
 import logging
 import re
+from unittest.mock import patch
 
 from odoo.tests import HttpCase, JsonRpcException, new_test_user, tagged
 
+from odoo.addons.deltatech_image_optimize.models import ir_attachment
 from odoo.addons.deltatech_image_optimize.models.ir_attachment import Image, _webp_available
 from odoo.addons.web.tests.test_js import unit_test_error_checker
 
@@ -97,6 +100,29 @@ class TestImageBackgroundEditor(HttpCase):
         )
         self.assertTrue(attachments)
         self.assertTrue(all(att.deltatech_image_optimized for att in attachments), "the resized variants are recoded")
+
+    def test_broken_rembg_install(self):
+        # rembg instalat, dar o dependență a lui crapă la import (numba 0.61+ cu un coverage vechi
+        # pe odoo.sh): AttributeError, nu ImportError. Previzualizarea merge mai departe fără AI.
+        real_import = builtins.__import__
+
+        def broken_import(name, *args, **kwargs):
+            if name == "rembg":
+                raise AttributeError("module 'coverage.types' has no attribute 'Tracer'")
+            return real_import(name, *args, **kwargs)
+
+        self.authenticate("admin", "admin")
+        with (
+            patch.dict(ir_attachment._REMBG_BROKEN, clear=True),
+            patch("builtins.__import__", broken_import),
+            self.assertLogs("odoo.addons.deltatech_image_optimize.models.ir_attachment", level="WARNING") as logs,
+        ):
+            self.assertFalse(ir_attachment._rembg_available())
+            result = self._call("preview", "product.template", self.template.id)
+            self.assertFalse(ir_attachment._rembg_available())
+        self.assertFalse(result["rembg"])
+        self.assertTrue(result["after"], "the picture on a plain background is still cut out by color")
+        self.assertEqual(len(logs.records), 1, "the broken install is logged once")
 
     def test_refused_on_other_models(self):
         self.authenticate("admin", "admin")
