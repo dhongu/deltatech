@@ -4,3 +4,4 @@ from . import test_image_background
 from . import test_screenshots
 from . import test_image_watermark
 from . import test_image_animated
+from . import test_image_bg_editor

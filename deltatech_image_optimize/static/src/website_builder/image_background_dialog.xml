@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="deltatech_image_optimize.ImageBackgroundDialog">
+        <Dialog title.translate="Remove Background" size="'lg'">
+            <div class="o_dt_bg_dialog">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <label for="o_dt_bg_method" class="mb-0">Method</label>
+                    <select
+                        id="o_dt_bg_method"
+                        class="form-select w-auto"
+                        t-att-disabled="state.loading"
+                        t-on-change="onMethodChange"
+                    >
+                        <option value="auto" t-att-selected="state.method === 'auto'">Automatic</option>
+                        <option value="uniform" t-att-selected="state.method === 'uniform'">Uniform background</option>
+                        <option value="rembg" t-att-selected="state.method === 'rembg'" t-att-disabled="!state.rembg">AI model</option>
+                    </select>
+                    <i t-if="state.loading" class="fa fa-spinner fa-spin" role="img" title="Loading" />
+                </div>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="text-muted small mb-1">Before</div>
+                        <div class="o_dt_bg_checker text-center">
+                            <img t-if="state.before" class="img-fluid o_dt_bg_before" t-att-src="'data:image/png;base64,' + state.before" alt="Before" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-muted small mb-1">After</div>
+                        <div class="o_dt_bg_checker text-center">
+                            <img t-if="state.after" class="img-fluid o_dt_bg_after" t-att-src="'data:image/png;base64,' + state.after" alt="After" />
+                        </div>
+                    </div>
+                </div>
+                <div t-if="state.warning" class="alert alert-warning mt-3 mb-0 o_dt_bg_warning" role="alert" t-esc="state.warning" />
+                <p class="text-muted small mt-3 mb-0">
+                    The original picture is not kept. The page is saved and reloaded after the change.
+                </p>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary o_dt_bg_apply" t-att-disabled="state.loading or !state.after" t-on-click="apply">Apply</button>
+                <button class="btn btn-secondary" t-on-click="() => this.props.close()">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+
+</templates>

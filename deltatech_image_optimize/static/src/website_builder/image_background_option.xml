@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="deltatech_image_optimize.ImageBackgroundOption">
+        <BuilderRow label.translate="Background">
+            <BuilderButton
+                action="'dtRemoveImageBackground'"
+                title.translate="Cut out the product: the background of the picture becomes transparent"
+                className="'flex-grow-1'"
+                preview="false"
+                label.translate="Remove Background"
+            />
+        </BuilderRow>
+    </t>
+
+</templates>

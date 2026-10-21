@@ -19,6 +19,8 @@ Everything runs on the Odoo server: no image is sent to an external service.
 Product photos taken on a printed mat, on a table or on a supplier's white background end up
 looking the same in the shop once the background is gone. Select products in a list and use
 **Actions → Remove Image Background**; on a product the action also covers its eCommerce gallery.
+One picture can also be cleaned from the **website editor**: click the product picture, then
+*Background → Remove Background*.
 
 **The original image is not kept** — keeping a copy of every image would double the images in the
 database. The check therefore happens *before* anything is written, in a wizard:
