@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="report_shelf_label" model="ir.actions.report">
+        <field name="name">Shelf label with price</field>
+        <field name="model">product.product.label</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_price_change_label.shelf_label</field>
+    </record>
+
+    <template id="shelf_label">
+        <t t-call="deltatech_product_labels.label_layout">
+            <t t-foreach="docs" t-as="label">
+                <t t-foreach="label.label_lines" t-as="line">
+                    <t t-foreach="range(int(line.quantity))" t-as="range_line">
+                        <div class="product_label" style="width: 7cm; height: 3.5cm; padding: 2mm; display: inline-block">
+                            <div style="font-size: 12pt; height: 1.2cm">
+                                <strong t-out="line.product_id.name" />
+                            </div>
+                            <div style="font-size: 26pt; text-align: right">
+                                <strong t-out="line.price_incl" t-options="{'widget': 'float', 'precision': 2}" />
+                                <span style="font-size: 12pt" t-out="line.product_id.currency_id.symbol" />
+                            </div>
+                            <div style="font-size: 8pt">
+                                <span t-out="line.product_id.default_code or line.product_id.barcode or ''" />
+                                <span style="float: right">
+                                    <t t-out="line.product_id.uom_id.name" />
+                                    · VAT incl.
+                                </span>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

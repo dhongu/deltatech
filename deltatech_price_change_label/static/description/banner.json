@@ -1,0 +1,10 @@
+{
+  "title": "Price Change Labels",
+  "summary": "Shelf labels from price changes",
+  "icon": "clipboard",
+  "features": [
+    "Print Labels button on the document",
+    "Shelf label with price incl. taxes",
+    "Document warehouse proposed in wizard"
+  ]
+}
