@@ -1,3 +1,13 @@
+## 19.0.0.0.6 (2026-10-22)
+
+- Position of the block per website: in the product details (default, as before) or right
+  after the price. After the price falls back to the details when the price is not above
+  the Add to Cart button (boxed call to action, product that cannot be added to the cart).
+- The design options are also in the website editor: click the block on the product page
+  and change Position, Style, At zero stock, Quantity and Theme colors. They are the
+  settings of the website, the same as in Website > Configuration > Settings.
+- The block is its own template (Warehouse Stock Block), called from the product page.
+
 ## 19.0.0.0.5 (2026-10-21)
 
 - Design options per website (Website > Configuration > Settings, Warehouse Stock Design):

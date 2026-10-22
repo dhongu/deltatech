@@ -1,4 +1,4 @@
-from odoo.tests import HttpCase, tagged
+from odoo.tests import HttpCase, JsonRpcException, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -69,6 +69,7 @@ class TestWarehouseStockDesign(HttpCase):
         settings = self.env["res.config.settings"].create(
             {
                 "website_id": self.website.id,
+                "warehouse_stock_position": "after_price",
                 "warehouse_stock_style": "card",
                 "warehouse_stock_zero_message": "on_order",
                 "warehouse_stock_zero_note": "Delivery in 3-5 days",
@@ -81,6 +82,7 @@ class TestWarehouseStockDesign(HttpCase):
             self.website,
             [
                 {
+                    "warehouse_stock_position": "after_price",
                     "warehouse_stock_style": "card",
                     "warehouse_stock_zero_message": "on_order",
                     "warehouse_stock_zero_note": "Delivery in 3-5 days",
@@ -132,3 +134,62 @@ class TestWarehouseStockDesign(HttpCase):
         self.assertIn("o_wh_stock_check", html)
         self.assertIn('data-message="In stock at TEST WH Low: 3 pcs. Ready for delivery."', html)
         self.assertIn('data-state="on_order"', html)
+
+    def test_position_default_in_details(self):
+        self.assertEqual(self.website.warehouse_stock_position, "details")
+        html = self._page()
+        self.assertIn('data-wh-position="details"', html)
+        # after the call to action, at the end of the details
+        self.assertGreater(html.index("o_wh_stock"), html.index("o_wsale_product_details_content_section_cta"))
+
+    def test_position_after_price(self):
+        self.website.warehouse_stock_position = "after_price"
+        html = self._page()
+        self.assertEqual(html.count('data-wh-position="after_price"'), 1)
+        block = html.index("o_wh_stock ")
+        self.assertGreater(block, html.index("o_wsale_product_details_content_section_price"))
+        self.assertLess(block, html.index("o_wsale_product_details_content_section_cta"))
+
+    def test_editor_write(self):
+        self.website._warehouse_stock_editor_write("warehouse_stock_position", "after_price")
+        self.website._warehouse_stock_editor_write("warehouse_stock_style", "card")
+        self.website._warehouse_stock_editor_write("warehouse_stock_theme_colors", "1")
+        self.assertRecordValues(
+            self.website,
+            [
+                {
+                    "warehouse_stock_position": "after_price",
+                    "warehouse_stock_style": "card",
+                    "warehouse_stock_theme_colors": True,
+                }
+            ],
+        )
+        self.website._warehouse_stock_editor_write("warehouse_stock_theme_colors", "0")
+        self.assertFalse(self.website.warehouse_stock_theme_colors)
+        with self.assertRaises(ValueError):
+            self.website._warehouse_stock_editor_write("warehouse_stock_style", "bogus")
+        with self.assertRaises(ValueError):
+            self.website._warehouse_stock_editor_write("name", "Hacked")
+
+    def test_editor_route(self):
+        self.authenticate("admin", "admin")
+        self.make_jsonrpc_request(
+            "/website/warehouse_stock/config", {"field": "warehouse_stock_style", "value": "list"}
+        )
+        self.assertEqual(self.website.warehouse_stock_style, "list")
+
+    def test_editor_route_refused_to_portal(self):
+        self.env["res.users"].create(
+            {
+                "name": "TEST portal stock",
+                "login": "test_portal_stock",
+                "password": "test_portal_stock",
+                "group_ids": [(6, 0, [self.env.ref("base.group_portal").id])],
+            }
+        )
+        self.authenticate("test_portal_stock", "test_portal_stock")
+        with self.assertRaisesRegex(JsonRpcException, "AccessError"):
+            self.make_jsonrpc_request(
+                "/website/warehouse_stock/config", {"field": "warehouse_stock_style", "value": "list"}
+            )
+        self.assertEqual(self.website.warehouse_stock_style, "badges")
