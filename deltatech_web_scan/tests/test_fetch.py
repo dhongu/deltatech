@@ -133,12 +133,41 @@ class TestFetch(BaseCase):
     def test_antibot_page_is_blocked(self):
         pages = {
             "https://shop.example/limit": FakeResponse("slow down", status=429),
-            "https://shop.example/challenge": '<html><script src="/cdn-cgi/challenge-platform/h/b"></script></html>',
-            "https://shop.example/captcha": '<html><div class="g-recaptcha" data-sitekey="x"></div></html>',
+            "https://shop.example/forbidden": FakeResponse("<html><body>Access denied</body></html>", status=403),
+            "https://shop.example/challenge": (
+                "<html><head><title>Just a moment...</title></head><body>"
+                "<script>window._cf_chl_opt = {cvId: '3'};</script>"
+                '<script src="/cdn-cgi/challenge-platform/h/b/orchestrate/chl_page/v1?ray=x"></script></body></html>'
+            ),
+            "https://shop.example/datadome": '<html><script src="https://geo.captcha-delivery.com/captcha/"></script></html>',
         }
         with fake_web(pages):
             for url in pages:
                 self.assertEqual(web_fetch.fetch(url, respect_robots=False).state, "blocked", url)
+
+    def test_normal_page_with_protection_script_is_read(self):
+        """Cloudflare adds its detection script to every page, and a page may have a CAPTCHA in a form:
+        the page is still the one asked for (a site such as granit-parts.ro was reported as blocked)"""
+        pages = {
+            "https://shop.example/p/1": (
+                "<html><head><title>Rulment 6204</title></head><body><h1>Rulment 6204</h1>"
+                "<script>(function(){var a=document.createElement('script');"
+                "a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';"
+                "document.head.appendChild(a);})();</script></body></html>"
+            ),
+            "https://shop.example/p/2": (
+                '<html><body><h1>Product</h1><form action="/login"><input name="password"/>'
+                '<div class="g-recaptcha" data-sitekey="x"></div>'
+                '<script src="https://www.google.com/recaptcha/api.js"></script></form></body></html>'
+            ),
+            "https://shop.example/p/3": (
+                '<html><body><form><div class="cf-turnstile" data-sitekey="x"></div></form>'
+                '<script src="https://challenges.cloudflare.com/turnstile/v0/api.js"></script></body></html>'
+            ),
+        }
+        with fake_web(pages):
+            for url in pages:
+                self.assertEqual(web_fetch.fetch(url, respect_robots=False).state, "ok", url)
 
     def test_pause_between_requests_to_same_domain(self):
         pages = {"https://shop.example/a": PAGE, "https://shop.example/b": PAGE, "https://other.example/c": PAGE}
