@@ -1,18 +1,27 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 
+from unittest import SkipTest
+
+from odoo.modules.registry import Registry
 from odoo.tests import tagged
+from odoo.tests.common import get_db_name
 
 from odoo.addons.point_of_sale.tests.common import TestPoSCommon
 
 
 @tagged("post_install", "-at_install")
 class TestSaleMarginReportManufacturerPos(TestPoSCommon):
+    @classmethod
+    def setUpClass(cls):
+        # the orders of the point of sale are in the report only with deltatech_sale_margin_pos;
+        # checked before the setup of the point of sale, which needs point_of_sale
+        if "pos_order_id" not in Registry(get_db_name())["sale.margin.report"]._fields:
+            raise SkipTest("deltatech_sale_margin_pos is not installed")
+        super().setUpClass()
+
     def setUp(self):
         super().setUp()
-        # the orders of the point of sale are in the report only with deltatech_sale_margin_pos
-        if "pos_order_id" not in self.env["sale.margin.report"]._fields:
-            self.skipTest("deltatech_sale_margin_pos is not installed")
         self.config = self.basic_config
         self.env.user.group_ids |= self.env.ref("sales_team.group_sale_manager")
         self.manufacturer = self.env["res.partner"].create({"name": "Manufacturer TEST", "is_manufacturer": True})
