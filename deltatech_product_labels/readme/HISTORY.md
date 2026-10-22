@@ -1,3 +1,11 @@
+## 19.0.1.3.0 (2026-10-22)
+
+- The default layouts (A4 3x8, 100x50, 40x25) print the price including taxes (VAT), with its currency
+  and unit of measure, next to the product name, internal reference, lot and barcode: they can be used
+  as shelf labels in the shop, in the warehouse or on the product. Without a price, no price is printed.
+- The price including taxes (`price_incl`) moves here from `deltatech_price_change_label`; the price
+  uses the currency of the price list chosen in the wizard.
+
 ## 19.0.1.2.0 (2026-10-22)
 
 - New default layouts with their own paper format: A4 sheet of 3x8 labels (70x37 mm), and thermal labels

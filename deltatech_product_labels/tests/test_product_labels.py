@@ -436,3 +436,24 @@ class TestProductLabels(TransactionCase):
         wiz.layout_id = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
         with self.assertRaises(UserError):
             wiz.action_preview_zpl()
+
+    def test_fixed_layouts_print_price_incl_taxes(self):
+        # the default layouts show the price with VAT, its currency and unit of measure
+        tax = self.env["account.tax"].create(
+            {"name": "VAT 21% labels", "amount": 21, "amount_type": "percent", "type_tax_use": "sale"}
+        )
+        product = self.env["product.product"].create(
+            {"name": "Priced Product", "default_code": "PP-1", "list_price": 100.0, "taxes_id": [(6, 0, tax.ids)]}
+        )
+        for xmlid in ("a4_3x8", "100x50", "40x25"):
+            wiz, html = self._render_labels(product, f"deltatech_product_labels.report_product_product_label_{xmlid}")
+            line = wiz.label_lines[0]
+            self.assertAlmostEqual(line.price_incl, 121.0)
+            self.assertEqual(line.currency_id, self.env.company.currency_id)
+            self.assertIn("121.00", html)
+            self.assertIn("PP-1", html)
+            self.assertIn('class="dt_label_price"', html)
+        # without a price, no price block is printed
+        free = self.env["product.product"].create({"name": "Free Product", "list_price": 0.0, "taxes_id": False})
+        _wiz, html = self._render_labels(free, "deltatech_product_labels.report_product_product_label_a4_3x8")
+        self.assertNotIn('class="dt_label_price"', html)
