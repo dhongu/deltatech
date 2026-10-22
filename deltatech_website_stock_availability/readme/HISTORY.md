@@ -1,3 +1,12 @@
+# 19.0.1.0.13
+
+- The stock badge on the product page ("4 Units in stock", shown under the
+  availability threshold) gets a style picked from the website builder, in the
+  "Product Page" options, "Stock Badge": the standard pill, text with a dot,
+  theme colors, outline, a level bar filled up to the threshold, or the status
+  only ("Limited stock", without the quantity). The new styles take their
+  colors from the website theme, so they stay readable on dark themes.
+
 # 19.0.1.0.12
 
 - The stock status on the shop product card is configured from the website

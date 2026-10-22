@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t
+        t-name="deltatech_website_stock_availability.ProductPageOption"
+        t-inherit="website_sale.ProductPageOption"
+        t-inherit-mode="extension"
+    >
+    <xpath expr="//BuilderRow[@id=&quot;'o_wsale_cart_opt'&quot;]" position="before">
+        <BuilderRow label.translate="Stock Badge">
+            <BuilderSelect action="'websiteConfig'" id="'o_wsale_stock_badge_style'">
+                <BuilderSelectItem actionParam="{ views: [] }">Pill</BuilderSelectItem>
+                <BuilderSelectItem
+                        actionParam="{ views: ['deltatech_website_stock_availability.product_stock_badge_dot'] }"
+                    >Text with Dot</BuilderSelectItem>
+                <BuilderSelectItem
+                        actionParam="{ views: ['deltatech_website_stock_availability.product_stock_badge_theme'] }"
+                    >Theme Colors</BuilderSelectItem>
+                <BuilderSelectItem
+                        actionParam="{ views: ['deltatech_website_stock_availability.product_stock_badge_outline'] }"
+                    >Outline</BuilderSelectItem>
+                <BuilderSelectItem
+                        actionParam="{ views: ['deltatech_website_stock_availability.product_stock_badge_bar'] }"
+                    >Level Bar</BuilderSelectItem>
+                <BuilderSelectItem
+                        actionParam="{ views: ['deltatech_website_stock_availability.product_stock_badge_status'] }"
+                    >Status Only</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+    </xpath>
+</t>
+
+</templates>

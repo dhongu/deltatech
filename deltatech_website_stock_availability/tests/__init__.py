@@ -5,3 +5,4 @@
 from . import test_product
 from . import test_tour_stock_availability
 from . import test_availability_issues
+from . import test_stock_badge_style

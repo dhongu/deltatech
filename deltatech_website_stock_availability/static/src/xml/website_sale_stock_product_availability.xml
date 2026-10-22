@@ -177,4 +177,17 @@
             </t>
         </div>
     </t>
+
+    <!-- Stock badge styles (see product_stock_badge.scss): the status text and the
+         level bar are hidden unless the "Status Only" or "Level Bar" style is set. -->
+    <t t-inherit="website_sale_stock.product_availability" t-inherit-mode="extension">
+        <xpath expr="//div[@id='threshold_message']/i" position="after">
+            <span class="o_wsale_stock_badge_status_text">Limited stock</span>
+        </xpath>
+        <xpath expr="//div[@id='threshold_message']" position="inside">
+            <span t-if="available_threshold gt 0" class="o_wsale_stock_badge_level" role="presentation">
+                <span t-attf-style="width: {{Math.min(100, Math.round(free_qty * 100 / available_threshold))}}%;" />
+            </span>
+        </xpath>
+    </t>
 </templates>
