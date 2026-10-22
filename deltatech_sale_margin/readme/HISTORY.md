@@ -13,6 +13,7 @@
 - *Update Purchase Price* and changing the cost in the report are allowed to whoever may change the
   report: the sales managers, and the commission managers with `deltatech_sale_commission`.
 - Own module icon (`icon.svg` + `icon.png`), replacing the generic Deltatech one.
+- Profit report action: no default grouping by salesperson in the context (it could not be removed from the search bar); it opens grouped by product.
 - Margin report list: the product and the invoice are shown, so the lines can be told apart; the cost group gets its Romanian name.
 - Consultant sheet, usage guide and screenshots: steps for the cost on the invoice, the profit report and the cost recalculation.
 

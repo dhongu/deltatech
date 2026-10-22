@@ -16,14 +16,8 @@ Sale Commission
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_commission
     :alt: dhongu/deltatech
-.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_commission/readme/FISA_CONSULTANT.md
-    :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-50%20automated%20tests%20%C2%B7%2082%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_commission
-    :alt: 50 automated tests · 82% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2|
 
 - Features:
 
@@ -184,11 +178,19 @@ Changelog
   before it loads its data).
 - The rows of the report that are not invoice lines (the POS orders of
   ``deltatech_sale_margin_pos``) get the rates of their salesperson on
-  their journal, so the computed commission is there for them too; the
-  real commission stays on the invoice lines: *Set Paid* and the
-  commission wizard leave them out.
+  the invoice journal of the point of sale, so the computed commission
+  is there for them too; the real commission stays on the invoice lines:
+  *Set Paid* and the commission wizard leave them out.
 - Own module icon (``icon.svg`` + ``icon.png``), replacing the generic
   Deltatech one.
+- Only *Commission Manager* can change the real commission and
+  *Commission Paid* in the report: the sales managers, who may now
+  change the cost there, can not.
+- *Commission* list: *Due Date* and *Payment Term* are optional
+  (hidden), so the commission columns fit.
+- Consultant sheet, usage guide and screenshots updated: the cost, the
+  profit report and the cost recalculation moved to
+  ``deltatech_sale_margin``.
 
 19.0.1.6.4 (2026-10-17)
 -----------------------

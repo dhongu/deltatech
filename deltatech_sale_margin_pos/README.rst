@@ -16,14 +16,8 @@ Sale Margin - POS
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin_pos
     :alt: dhongu/deltatech
-.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_margin_pos/readme/FISA_CONSULTANT.md
-    :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin_pos/tests
-    :alt: 7 automated tests
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2|
 
 Adds the Point of Sale orders that were not invoiced to the sale margin
 report (*Raport analiză profit*) of ``deltatech_sale_margin``. The
@@ -113,7 +107,14 @@ Changelog
 - Point of Sale orders without an invoice in the sale margin report,
   with the cost computed at the closing of the session and, with the
   commissions, the rates of the point of sale journal.
+
 - Module icon (``icon.svg`` + ``icon.png``).
+
+- The commission rates of the POS orders are taken from the invoice
+  journal of the point of sale: the rates accept only sales journals,
+  and the journal of the POS orders is a miscellaneous one.
+
+- Consultant sheet, usage guide and screenshots.
 
 Bug Tracker
 ===========

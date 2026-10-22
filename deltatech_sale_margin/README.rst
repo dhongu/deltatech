@@ -16,14 +16,8 @@ Sale Margin
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin
     :alt: dhongu/deltatech
-.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_margin/readme/FISA_CONSULTANT.md
-    :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-41%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_margin
-    :alt: 41 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2|
 
 - Features:
 
@@ -268,6 +262,13 @@ Changelog
   commission managers with ``deltatech_sale_commission``.
 - Own module icon (``icon.svg`` + ``icon.png``), replacing the generic
   Deltatech one.
+- Profit report action: no default grouping by salesperson in the
+  context (it could not be removed from the search bar); it opens
+  grouped by product.
+- Margin report list: the product and the invoice are shown, so the
+  lines can be told apart; the cost group gets its Romanian name.
+- Consultant sheet, usage guide and screenshots: steps for the cost on
+  the invoice, the profit report and the cost recalculation.
 
 19.0.1.2.3 (2026-10-17)
 -----------------------

@@ -139,7 +139,7 @@ modifica doar liniile de factură.”).
 
 Modulul **nu generează note contabile** și nu schimbă nota de închidere a sesiunii POS. Vânzarea și
 costul bonurilor sunt înregistrate de Odoo în **nota de închidere a sesiunii**:
-- vânzarea: `Dr 5311` (numerar) / `5125` sau `4111` (card), prin contul de creanță POS, `= Cr 707`
+- vânzarea: `Dr 5311` (numerar) sau `5125` (card), prin creanța POS 4111, `= Cr 707`
   (sau 701 la produsele finite, după contul de venit al categoriei) `+ Cr 4427` (TVA 21 %);
 - costul, la produsele stocabile cu inventar permanent: `Dr 607 = Cr 371`, calculat din livrările
   sesiunii și înregistrat în aceeași notă.

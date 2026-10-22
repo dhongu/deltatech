@@ -9,7 +9,7 @@
   the records keep their ids and the report the same columns. Update both modules together
   (`deltatech_sale_margin` moves the external ids before it loads its data).
 - The rows of the report that are not invoice lines (the POS orders of `deltatech_sale_margin_pos`)
-  get the rates of their salesperson on their journal, so the computed commission is there for them
+  get the rates of their salesperson on the invoice journal of the point of sale, so the computed commission is there for them
   too; the real commission stays on the invoice lines: *Set Paid* and the commission wizard leave
   them out.
 - Own module icon (`icon.svg` + `icon.png`), replacing the generic Deltatech one.

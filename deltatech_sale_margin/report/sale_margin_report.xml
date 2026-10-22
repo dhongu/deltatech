@@ -127,9 +127,9 @@
         <field name="view_id" ref="view_sale_margin_report_list" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
-        <field name="context">{"search_default_filter_date":1,
-            'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}
-        </field>
+        <!-- grouped by product through the search: a group_by in the context would be a grouping
+             the user can not remove from the search bar -->
+        <field name="context">{"search_default_filter_date":1, 'search_default_product':1}</field>
     </record>
 
     <record id="inherit_sale_view_order_product_search" model="ir.ui.view">

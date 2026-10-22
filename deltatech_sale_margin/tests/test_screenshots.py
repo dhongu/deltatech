@@ -31,10 +31,19 @@ try:
 except ImportError:
     ScreenshotCase = None
 
-# Selectează toate rândurile listei, deschide „Acțiuni" (⚙) și alege intrarea potrivită.
+# Scoate gruparea „Produs" din bara de căutare (× pe fațetă), ca rândurile să apară una câte una.
+JS_REMOVE_PRODUCT_GROUPING = """
+    const facet = [...document.querySelectorAll('.o_searchview_facet')]
+        .find((f) => /Produs|Product/.test(f.textContent));
+    facet.querySelector('.o_facet_remove').click();
+    await sleep(2000);
+"""
+
+# Selectează toate rândurile listei (după pașii de pregătire din „before"), deschide „Acțiuni" (⚙) și alege intrarea potrivită.
 JS_SELECT_ALL_ACTION = """
 async () => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    %(before)s
     document.querySelector('thead .o_list_record_selector input').click();
     await sleep(1000);
     const toggle = [...document.querySelectorAll('.o_control_panel button')]
@@ -222,15 +231,6 @@ class TestSaleMarginScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
         env.flush_all()
         cls.act_invoices = env.ref("account.action_move_out_invoice_type")
         cls.act_margin = env.ref("deltatech_sale_margin.action_sale_margin_report")
-        # lista raportului fără gruparea implicită pe produs, ca rândurile să se poată selecta
-        # (copie a acțiunii, cu numele în română; date de test, anulate la final)
-        cls.act_margin_list = cls.act_margin.copy(
-            {
-                "name": cls.act_margin.with_context(lang="ro_RO").name,
-                "view_mode": "list",
-                "context": "{'search_default_filter_date': 1}",
-            }
-        )
 
     def test_capture_fise(self):
         self.capture_screenshots(
@@ -270,11 +270,16 @@ class TestSaleMarginScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
                 },
                 # 5. Recalcularea costului, din lista raportului
                 {
-                    "url": f"action={self.act_margin_list.id}&view_type=list",
+                    "url": f"action={self.act_margin.id}&view_type=list",
                     "name": "05_actualizare_pret_achizitie.png",
                     "wait": ".o_list_view",
                     "settle": 2500,
-                    "eval": JS_SELECT_ALL_ACTION % {"match": "/Actualizare preț achiziție|Update Purchase Price/"},
+                    # ca în fișă: întâi se scoate gruparea „Produs" din căutare, apoi se selectează liniile
+                    "eval": JS_SELECT_ALL_ACTION
+                    % {
+                        "before": JS_REMOVE_PRODUCT_GROUPING,
+                        "match": "/Actualizare preț achiziție|Update Purchase Price/",
+                    },
                     "eval_wait": 1500,
                 },
             ]

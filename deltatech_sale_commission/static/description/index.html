@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 50 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 47 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:82%;background-color:#57B952;"></div>
       </div>
@@ -119,10 +119,13 @@ and if the difference between the date of the last payment and the due date is l
   the records keep their ids and the report the same columns. Update both modules together
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin</code> moves the external ids before it loads its data).</li>
 <li>The rows of the report that are not invoice lines (the POS orders of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin_pos</code>)
-  get the rates of their salesperson on their journal, so the computed commission is there for them
+  get the rates of their salesperson on the invoice journal of the point of sale, so the computed commission is there for them
   too; the real commission stays on the invoice lines: <em>Set Paid</em> and the commission wizard leave
   them out.</li>
 <li>Own module icon (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">icon.svg</code> + <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">icon.png</code>), replacing the generic Deltatech one.</li>
+<li>Only <em>Commission Manager</em> can change the real commission and <em>Commission Paid</em> in the report: the sales managers, who may now change the cost there, can not.</li>
+<li><em>Commission</em> list: <em>Due Date</em> and <em>Payment Term</em> are optional (hidden), so the commission columns fit.</li>
+<li>Consultant sheet, usage guide and screenshots updated: the cost, the profit report and the cost recalculation moved to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin</code>.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.6.4 (2026-10-17)</h2>
 <ul>
