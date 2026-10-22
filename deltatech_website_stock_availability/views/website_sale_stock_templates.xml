@@ -95,6 +95,65 @@
 
 
 
+    <!-- Stock badge on the product page (#threshold_message of website_sale_stock).
+         The style is picked in the website builder (Product Page > Stock Badge):
+         each style is an inactive view that adds its class on #product_detail;
+         none active keeps the standard pill. -->
+    <template
+        id="product_stock_badge_dot"
+        inherit_id="website_sale.product"
+        active="False"
+        name="Stock Badge: Text with Dot"
+    >
+        <xpath expr="//section[@id='product_detail']" position="attributes">
+            <attribute name="t-attf-class" add="o_wsale_stock_badge_dot" separator=" " />
+        </xpath>
+    </template>
+
+    <template
+        id="product_stock_badge_theme"
+        inherit_id="website_sale.product"
+        active="False"
+        name="Stock Badge: Theme Colors"
+    >
+        <xpath expr="//section[@id='product_detail']" position="attributes">
+            <attribute name="t-attf-class" add="o_wsale_stock_badge_theme" separator=" " />
+        </xpath>
+    </template>
+
+    <template
+        id="product_stock_badge_outline"
+        inherit_id="website_sale.product"
+        active="False"
+        name="Stock Badge: Outline"
+    >
+        <xpath expr="//section[@id='product_detail']" position="attributes">
+            <attribute name="t-attf-class" add="o_wsale_stock_badge_outline" separator=" " />
+        </xpath>
+    </template>
+
+    <template
+        id="product_stock_badge_bar"
+        inherit_id="website_sale.product"
+        active="False"
+        name="Stock Badge: Level Bar"
+    >
+        <xpath expr="//section[@id='product_detail']" position="attributes">
+            <attribute name="t-attf-class" add="o_wsale_stock_badge_bar" separator=" " />
+        </xpath>
+    </template>
+
+    <template
+        id="product_stock_badge_status"
+        inherit_id="website_sale.product"
+        active="False"
+        name="Stock Badge: Status Only"
+    >
+        <xpath expr="//section[@id='product_detail']" position="attributes">
+            <attribute name="t-attf-class" add="o_wsale_stock_badge_status" separator=" " />
+        </xpath>
+    </template>
+
     <template
         id="cart_summary_website_sale_stock_product_lead_time"
         inherit_id="website_sale.checkout_layout"

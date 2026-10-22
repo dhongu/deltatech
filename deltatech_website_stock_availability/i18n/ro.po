@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-21 06:22+0000\n"
+"POT-Creation-Date: 2026-10-22 01:58+0000\n"
 "PO-Revision-Date: 2024-05-24 15:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -85,8 +85,8 @@ msgid ""
 "Do not show the 'Out of stock' website message for this product, even when "
 "it has no own or vendor availability."
 msgstr ""
-"Nu afișa pe website mesajul „Nu este în stoc” pentru acest produs, chiar dacă "
-"nu are stoc propriu sau la furnizor."
+"Nu afișa pe website mesajul „Nu este în stoc” pentru acest produs, chiar "
+"dacă nu are stoc propriu sau la furnizor."
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
@@ -152,6 +152,18 @@ msgstr "LED cu text"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Level Bar"
+msgstr "Bară de nivel"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+msgid "Limited stock"
+msgstr "Stoc limitat"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
 msgid "Next to Price"
 msgstr "Lângă preț"
@@ -179,6 +191,18 @@ msgstr "Culoare fără stoc"
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 msgid "Out of stock"
 msgstr "Nu este în stoc"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Outline"
+msgstr "Contur"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Pill"
+msgstr "Pastilă"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
@@ -210,6 +234,18 @@ msgstr ""
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Status Only"
+msgstr "Doar starea"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Stock Badge"
+msgstr "Insignă stoc"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
 #: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
 msgid "Stock Status"
 msgstr "Status stoc"
@@ -229,6 +265,18 @@ msgstr "Lista de preturi Furnizor"
 #: code:addons/deltatech_website_stock_availability/static/src/website_builder/products_design_panel.xml:0
 msgid "Text"
 msgstr "Text"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Text with Dot"
+msgstr "Text cu punct"
+
+#. module: deltatech_website_stock_availability
+#. odoo-javascript
+#: code:addons/deltatech_website_stock_availability/static/src/website_builder/product_page_option.xml:0
+msgid "Theme Colors"
+msgstr "Culorile temei"
 
 #. module: deltatech_website_stock_availability
 #. odoo-javascript
