@@ -9,13 +9,13 @@ from odoo.tools import SQL
 class AccountInvoiceReport(models.Model):
     _inherit = "account.invoice.report"
 
-    manufacturer = fields.Many2one("res.partner", string="Manufacturer", readonly=True)
+    manufacturer_id = fields.Many2one("res.partner", string="Manufacturer", readonly=True)
 
     @api.model
     def _select(self) -> SQL:
-        select_str = super()._select().code + ", template.manufacturer"
+        select_str = super()._select().code + ", template.manufacturer_id"
         return SQL(select_str)
 
     # def _group_by(self):
-    #     group_by_str = super()._group_by() + ", template.manufacturer"
+    #     group_by_str = super()._group_by() + ", template.manufacturer_id"
     #     return group_by_str

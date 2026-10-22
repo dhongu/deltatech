@@ -57,9 +57,9 @@ msgid "Is manufacturer"
 msgstr ""
 
 #. module: deltatech_product_extension
-#: model:ir.model.fields,field_description:deltatech_product_extension.field_account_invoice_report__manufacturer
-#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__manufacturer
-#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__manufacturer
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_account_invoice_report__manufacturer_id
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__manufacturer_id
+#: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__manufacturer_id
 msgid "Manufacturer"
 msgstr ""
 
