@@ -8,8 +8,8 @@
             <list create="0" edit="0">
                 <field name="date" />
                 <field name="product_tmpl_id" />
-                <field name="old_price" />
-                <field name="new_price" />
+                <field name="old_price" string="Old Price" />
+                <field name="new_price" string="New Price" />
                 <field name="user_id" optional="show" />
                 <field name="price_change_id" />
                 <field name="company_id" groups="base.group_multi_company" optional="hide" />

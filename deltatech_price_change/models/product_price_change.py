@@ -76,6 +76,7 @@ class ProductPriceChange(models.Model):
     old_amount = fields.Monetary(compute="_compute_amount_all", string="Old Amount")
     new_amount = fields.Monetary(compute="_compute_amount_all", string="New Amount")
     diff_amount = fields.Monetary(compute="_compute_amount_all", string="Difference Amount")
+    diff_amount_incl = fields.Monetary(compute="_compute_amount_all", string="Difference incl. Taxes")
 
     currency_id = fields.Many2one("res.currency", related="company_id.currency_id")
 
@@ -92,6 +93,9 @@ class ProductPriceChange(models.Model):
             change.old_amount = old_amount
             change.new_amount = new_amount
             change.diff_amount = new_amount - old_amount
+            change.diff_amount_incl = sum(
+                line.quantity * (line.new_price_incl - line.old_price_incl) for line in change.line_ids
+            )
 
     @api.onchange("type")
     def _onchange_type(self):

@@ -1,3 +1,13 @@
+## 19.0.1.2.1 (2026-10-22)
+
+- Romanian translation of the new log, document type, buttons and report columns; typo fixed in
+  "Valoare diferență".
+- The report is titled "Price Change Minutes no." and shows the total difference including taxes
+  (the debit of 371 for the stores kept at sale price); the price columns say "excl. Taxes".
+- Short column titles in the document lines and in the log list, which were cut off; the form title
+  shows only the document number.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`) with screenshots.
+
 ## 19.0.1.2.0 (2026-10-22)
 
 - Migration to 19.0.

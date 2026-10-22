@@ -45,12 +45,24 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Adds a <strong>Print Labels</strong> button to the price change document. It opens the product labels wizard of
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_product_labels</code> with one line for each product of the document, so the shelf labels of
-all the products with a new price can be printed at once, with any of the label layouts.</p>
+all the products with a new price can be printed at once.</p>
+<p>The module adds the <strong>Shelf label with price</strong> layout (product name, price including taxes, code
+and unit of measure), proposed by default from the document; any other label layout can be chosen.</p>
 <p>The module installs by itself when both <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_price_change</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_product_labels</code>
 are installed.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-10-22)</h2>
+<ul>
+<li>New label layout <strong>Shelf label with price</strong>: product name, price including taxes, code and unit
+  of measure. The labels layouts of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_product_labels</code> print no price, so the labels of a
+  price change could not show the new price. It is proposed by default when the wizard is opened
+  from a price change document.</li>
+<li>The wizard proposes the warehouse of the document; before, it proposed the main warehouse of the
+  first company.</li>
+<li>Romanian translation.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-22)</h2>
 <ul>
 <li>Initial version: <strong>Print Labels</strong> button on the price change document, which opens the product

@@ -16,11 +16,14 @@ Price Change
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_price_change/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change/tests
-    :alt: 6 automated tests
+    :alt: 7 automated tests
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Controls the changes of the products' sale price, with a dated and
 numbered price change document and its report (the price change
@@ -69,6 +72,18 @@ only the lines related to that pricelist will be printed.
 
 Changelog
 =========
+
+19.0.1.2.1 (2026-10-22)
+-----------------------
+
+- Romanian translation of the new log, document type, buttons and report
+  columns; typo fixed in "Valoare diferență".
+- The report is titled "Price Change Minutes no." and shows the total
+  difference including taxes (the debit of 371 for the stores kept at
+  sale price); the price columns say "excl. Taxes".
+- Short column titles in the document lines and in the log list, which
+  were cut off; the form title shows only the document number.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) with screenshots.
 
 19.0.1.2.0 (2026-10-22)
 -----------------------
