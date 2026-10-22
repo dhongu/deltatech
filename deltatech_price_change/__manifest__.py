@@ -5,8 +5,8 @@
 
 {
     "name": "Price Change",
-    "summary": "Price Change",
-    "version": "18.0.1.1.2",
+    "summary": "Track list price changes, price change report and document",
+    "version": "19.0.1.2.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
@@ -15,7 +15,7 @@
     "data": [
         "views/product_view.xml",
         "views/product_price_change_view.xml",
-        # "views/purchase_report.xml",
+        "views/product_price_change_log_view.xml",
         "views/price_change_report.xml",
         "views/report_pricechange.xml",
         "security/ir.model.access.csv",

@@ -2,96 +2,127 @@
 <odoo>
 
         <template id="report_pricechange">
-            <t t-name="deltatech_price_change.report_pricechange">
-                    <t t-call="web.html_container">
-                        <t t-foreach="docs" t-as="o">
-                            <t t-call="web.external_layout">
-                                <div class="page">
-                                    <newline />
-                                    <h2>
-                                        Price change:
-                                        <span t-field="o.name" />
-                                    </h2>
-                                    <h3>
-                                        from date:
-                                        <span t-field="o.date" />
-                                    </h3>
-                                    <div>
-                                        <div t-if="o.location_id">
-                                            Location:
-                                            <span t-field="o.location_id" />
-                                        </div>
-                                    </div>
-                                    <table class="table table-condensed">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <strong>Description</strong>
-                                                </th>
-                                                <th t-if="o.type == 'product'">
-                                                    <strong>Quantity</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>Old Price</strong>
-                                                </th>
-                                                <th t-if="o.type == 'product'">
-                                                    <strong>Old Amount</strong>
-                                                </th>
-                                                <th>
-                                                    <strong>New Price</strong>
-                                                </th>
-                                                <th t-if="o.type == 'product'">
-                                                    <strong>New Amount</strong>
-                                                </th>
-                                                <th t-if="o.type == 'product'">
-                                                    <strong>Difference Amount</strong>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <t t-if="o.default_pricelist_id">
-                                                <t
-                                            t-set="line_ids"
-                                            t-value="o.line_ids.filtered(lambda l: l.pricelist_id == o.default_pricelist_id)"
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <t t-set="with_stock" t-value="o.type in ('product', 'log')" />
+                    <div class="page">
+                        <h2>
+                            Price change:
+                            <span t-field="o.name" />
+                        </h2>
+                        <h3>
+                            from date:
+                            <span t-field="o.date" />
+                        </h3>
+                        <div t-if="o.warehouse_id">
+                            Warehouse:
+                            <span t-field="o.warehouse_id" />
+                        </div>
+                        <div t-if="o.location_id">
+                            Location:
+                            <span t-field="o.location_id" />
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th t-if="o.type == 'log'">Change Date</th>
+                                    <th>Description</th>
+                                    <th t-if="with_stock" class="text-end">Quantity</th>
+                                    <th class="text-end">Old Price</th>
+                                    <th t-if="with_stock" class="text-end">Old Price incl. Taxes</th>
+                                    <th t-if="with_stock" class="text-end">Old Amount</th>
+                                    <th class="text-end">New Price</th>
+                                    <th t-if="with_stock" class="text-end">New Price incl. Taxes</th>
+                                    <th t-if="with_stock" class="text-end">New Amount</th>
+                                    <th t-if="with_stock" class="text-end">Difference Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="o.default_pricelist_id">
+                                    <t
+                                        t-set="line_ids"
+                                        t-value="o.line_ids.filtered(lambda l: l.pricelist_id == o.default_pricelist_id)"
+                                    />
+                                </t>
+                                <t t-else="">
+                                    <t t-set="line_ids" t-value="o.line_ids" />
+                                </t>
+                                <tr t-foreach="line_ids" t-as="line">
+                                    <td t-if="o.type == 'log'">
+                                        <span t-field="line.change_date" />
+                                    </td>
+                                    <td>
+                                        <span
+                                            t-out="(line.product_id or line.product_template_id).display_name"
                                         />
-                                            </t>
-                                            <t t-else="">
-                                                <t t-set="line_ids" t-value="o.line_ids" />
-                                            </t>
-                                            <tr t-foreach="line_ids" t-as="line">
-                                                <td>
-                                                    <span
-                                                t-field="line.product_id.name or line.product_template_id.name"
-                                            />
-                                                </td>
-                                                <td t-if="o.type == 'product'">
-                                                    <span t-field="line.quantity" />
-                                                </td>
-                                                <td>
-                                                    <span t-field="line.old_price" />
-                                                </td>
-                                                <td t-if="o.type == 'product'">
-                                                    <span t-field="line.old_amount" />
-                                                </td>
-                                                <td>
-                                                    <span t-field="line.new_price" />
-                                                </td>
-                                                <td t-if="o.type == 'product'">
-                                                    <span t-field="line.new_amount" />
-                                                </td>
-                                                <td t-if="o.type == 'product'">
-                                                    <span t-field="line.diff_amount" />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </t>
-                        </t>
-                    </t>
+                                    </td>
+                                    <td t-if="with_stock" class="text-end">
+                                        <span t-field="line.quantity" />
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="line.old_price" />
+                                    </td>
+                                    <td t-if="with_stock" class="text-end">
+                                        <span t-field="line.old_price_incl" />
+                                    </td>
+                                    <td t-if="with_stock" class="text-end">
+                                        <span t-field="line.old_amount" />
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="line.new_price" />
+                                    </td>
+                                    <td t-if="with_stock" class="text-end">
+                                        <span t-field="line.new_price_incl" />
+                                    </td>
+                                    <td t-if="with_stock" class="text-end">
+                                        <span t-field="line.new_amount" />
+                                    </td>
+                                    <td t-if="with_stock" class="text-end">
+                                        <span t-field="line.diff_amount" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div t-if="with_stock" class="row justify-content-end">
+                            <div class="col-5">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Old Amount</td>
+                                        <td class="text-end">
+                                            <span t-field="o.old_amount" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>New Amount</td>
+                                        <td class="text-end">
+                                            <span t-field="o.new_amount" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Difference Amount</strong>
+                                        </td>
+                                        <td class="text-end">
+                                            <strong t-field="o.diff_amount" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <strong>Committee</strong>
+                            </div>
+                            <div class="col-6">
+                                <strong>Store manager</strong>
+                            </div>
+                        </div>
+                    </div>
                 </t>
-        </template>
+            </t>
+        </t>
+    </template>
 
     <template id="report_pricechange_product">
         <t t-call="web.html_container">

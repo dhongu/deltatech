@@ -24,6 +24,12 @@
                         type="object"
                         class="oe_highlight"
                     />
+                    <button
+                        name="action_load_price_changes"
+                        invisible="state != 'draft' or type != 'log'"
+                        string="Load Price Changes"
+                        type="object"
+                    />
                         <field name="state" widget="statusbar" statusbar_visible="draft,done" readonly="1" />
                     </header>
                     <sheet>
@@ -51,18 +57,21 @@
                         <page string="Lines">
                             <field name="line_ids" readonly="state == 'done'">
                                 <list editable="bottom">
+                                    <field name="change_date" column_invisible="parent.type != 'log'" />
                                     <field name="product_id" column_invisible="parent.use_product_template" />
                                     <field
                                         name="product_template_id"
                                         column_invisible="not parent.use_product_template"
+                                        readonly="log_id"
                                     />
+                                    <field name="log_id" column_invisible="1" />
                                         <field
                                         name="pricelist_id"
                                         column_invisible="parent.type != 'pricelist'"
                                         required="parent.type == 'pricelist'"
                                     />
                                     <field name="old_price" readonly="1" force_save="1" />
-                                    <field name="new_price" />
+                                    <field name="new_price" readonly="log_id" />
                                      <field name="pricelist_date_start" column_invisible="parent.type != 'pricelist'" />
                                         <field
                                         name="pricelist_date_end"

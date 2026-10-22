@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
+from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 
 # in progress: de facut legatura cu listele de preturi
@@ -20,7 +20,6 @@ class ProductPriceChange(models.Model):
         size=64,
         index=True,
         readonly=True,
-        # default=lambda self: self.env["ir.sequence"].next_by_code("price.change"),
         default="/",
     )
 
@@ -49,16 +48,17 @@ class ProductPriceChange(models.Model):
         "Company",
         required=True,
         index=True,
-        default=lambda self: self.env["res.company"]._company_default_get("product.price.change"),
+        default=lambda self: self.env.company,
     )
-    type = fields.Selection([("product", "In product"), ("pricelist", "In pricelist")])
+    type = fields.Selection(
+        [
+            ("product", "In product"),
+            ("pricelist", "In pricelist"),
+            ("log", "From price changes"),
+        ]
+    )
     default_pricelist_id = fields.Many2one("product.pricelist")
     use_product_template = fields.Boolean()
-
-    # lot_stock_id = fields.related('warehouse_id', 'lot_stock_id',
-    # type="many2one", relation="stock.location", readonly=True ),
-    # address_id = fields.related('lot_stock_id', 'partner_id',
-    # type="many2one", relation="res.partner", string="Address",readonly=True )
 
     parent_id = fields.Many2one(
         "product.price.change",
@@ -93,48 +93,84 @@ class ProductPriceChange(models.Model):
             change.new_amount = new_amount
             change.diff_amount = new_amount - old_amount
 
+    @api.onchange("type")
+    def _onchange_type(self):
+        if self.type == "log":
+            self.use_product_template = True
+
+    def action_load_price_changes(self):
+        """Bring in the list price changes logged up to the document date and not taken by another document"""
+        Log = self.env["product.price.change.log"]
+        for change in self:
+            if change.state != "draft" or change.type != "log":
+                continue
+            domain = [
+                ("price_change_id", "=", False),
+                ("date", "<=", change.date),
+                ("company_id", "in", [change.company_id.id, False]),
+            ]
+            logs = Log.search(domain, order="date, id")
+            if not logs:
+                continue
+            change.write(
+                {
+                    "use_product_template": True,
+                    "line_ids": [
+                        Command.create(
+                            {
+                                "log_id": log.id,
+                                "product_template_id": log.product_tmpl_id.id,
+                                "old_price": log.old_price,
+                                "new_price": log.new_price,
+                            }
+                        )
+                        for log in logs
+                    ],
+                }
+            )
+        return True
+
     def action_confirm(self):
+        for change in self:
+            if change.name == "/":
+                change.name = self.env["ir.sequence"].next_by_code("price.change") or "/"
         self.write({"state": "done"})
         # aici se actualizeaza si preturile din produse
 
         for change in self:
-            if not change.location_id and change.type == "product":
+            if not change.location_id and change.type in ("product", "log"):
                 locations = self.env["stock.location"].search([("usage", "=", "internal")])
 
                 for location in locations:
                     new_lines = []
                     warehouse = location.warehouse_id
                     for line in change.line_ids:
-                        available = 0
-                        quant_ids = self.env["stock.quant"].search(
-                            [
-                                ("product_id", "=", line.product_id.id),
-                                ("location_id", "=", location.id),
-                            ]
-                        )
-
-                        for quant in quant_ids:
-                            available += quant.quantity
-                        # available = line.product_id.qty_available
+                        if line.product_id:
+                            domain = [("product_id", "=", line.product_id.id)]
+                        else:
+                            domain = [("product_id.product_tmpl_id", "=", line.product_template_id.id)]
+                        quants = self.env["stock.quant"].search(domain + [("location_id", "=", location.id)])
+                        available = sum(quants.mapped("quantity"))
 
                         if available != 0:
                             new_lines.append(
-                                [
-                                    0,
-                                    0,
+                                Command.create(
                                     {
                                         "product_id": line.product_id.id,
+                                        "product_template_id": line.product_template_id.id,
                                         "old_price": line.old_price,
                                         "new_price": line.new_price,
-                                        "quantity": available,
-                                    },
-                                ]
+                                    }
+                                )
                             )
 
-                    if len(new_lines) > 0:
+                    if new_lines:
                         self.create(
                             {
                                 "name": change.name,
+                                "date": change.date,
+                                "type": change.type,
+                                "use_product_template": change.use_product_template,
                                 "parent_id": change.id,
                                 "warehouse_id": warehouse.id,
                                 "location_id": location.id,
@@ -143,19 +179,24 @@ class ProductPriceChange(models.Model):
                             }
                         )
                         if warehouse.partner_id:
-                            self.message_subscribe([warehouse.partner_id.id])
-                        self.message_post(
-                            body=_("New Price Change"),
-                            type="comment",
-                            subtype="mail.mt_comment",
+                            change.message_subscribe([warehouse.partner_id.id])
+                        change.message_post(
+                            body=self.env._("New Price Change"),
+                            message_type="comment",
+                            subtype_xmlid="mail.mt_comment",
                         )
 
+        # the prices written by the document are not logged: the document is their record
         for change in self.filtered(lambda ch: ch.type == "product"):
             for line in change.line_ids:
                 if line.product_id and not line.price_change_id.use_product_template:
-                    line.product_id.with_context(ref=change.name).write({"list_price": line.new_price})
+                    line.product_id.with_context(ref=change.name, skip_price_change_log=True).write(
+                        {"list_price": line.new_price}
+                    )
                 if line.product_template_id and line.price_change_id.use_product_template:
-                    line.product_template_id.with_context(ref=change.name).write({"list_price": line.new_price})
+                    line.product_template_id.with_context(ref=change.name, skip_price_change_log=True).write(
+                        {"list_price": line.new_price}
+                    )
         for change in self.filtered(lambda ch: ch.type == "pricelist"):
             pricelist_lines = []
             for line in change.line_ids:
@@ -202,21 +243,14 @@ class ProductPriceChange(models.Model):
                     }
                     pricelist_lines.append(price_list_vals)
             self.env["product.pricelist.item"].create(pricelist_lines)
-            if self.name == "/":
-                self.write({"name": self.env["ir.sequence"].next_by_code("price.change")})
         return True
 
     def unlink(self):
         if not self.env.context.get("force_delete", False):
             for change in self:
                 if change.state not in ["draft"]:
-                    raise UserError(_("Change Price document with status 'Done' cant't by deleted"))
+                    raise UserError(self.env._("Change Price document with status 'Done' cant't by deleted"))
         return super().unlink()
-
-    @api.onchange("warehouse_id")
-    def onchange_warehouse_id(self):
-        if self.warehouse_id:
-            self.partner_id = self.warehouse_id.partner_id.id
 
 
 class ProductPriceChangeLine(models.Model):
@@ -224,15 +258,19 @@ class ProductPriceChangeLine(models.Model):
     _description = "ProductPriceChangeLine"
     _rec_name = "product_id"
 
-    price_change_id = fields.Many2one("product.price.change", "Product Price Change", readonly=True)
+    price_change_id = fields.Many2one(
+        "product.price.change", "Product Price Change", readonly=True, index=True, ondelete="cascade"
+    )
     sequence = fields.Integer(
         "Sequence",
         help="Gives the sequence order when displaying a list of product with price changed.",
     )
     product_id = fields.Many2one("product.product", "Product")
     product_template_id = fields.Many2one("product.template")
+    log_id = fields.Many2one("product.price.change.log", "Price Change Log", index=True, ondelete="cascade")
+    change_date = fields.Date(related="log_id.date", string="Change Date")
 
-    old_price = fields.Float("Old Sale Price", digits="Sale Price")
+    old_price = fields.Float("Old Sale Price", digits="Product Price")
     old_amount = fields.Monetary(
         compute="_compute_old_amount",
         string="Old Amount",
@@ -240,7 +278,7 @@ class ProductPriceChangeLine(models.Model):
         store=True,
     )
 
-    new_price = fields.Float("New Sale Price", required=True, digits="Sale Price")
+    new_price = fields.Float("New Sale Price", required=True, digits="Product Price")
     new_amount = fields.Monetary(
         compute="_compute_new_amount",
         string="New Amount",
@@ -255,9 +293,12 @@ class ProductPriceChangeLine(models.Model):
         store=True,
     )
 
+    old_price_incl = fields.Float("Old Price incl. Taxes", compute="_compute_price_incl", digits="Product Price")
+    new_price_incl = fields.Float("New Price incl. Taxes", compute="_compute_price_incl", digits="Product Price")
+
     quantity = fields.Float(
         "Quantity",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         readonly=True,
         compute="_compute_quantity",
         store=True,
@@ -283,28 +324,29 @@ class ProductPriceChangeLine(models.Model):
         for line in self:
             line.diff_amount = line.new_price * line.quantity - line.old_price * line.quantity
 
+    @api.depends("old_price", "new_price", "product_id", "product_template_id")
+    def _compute_price_incl(self):
+        for line in self:
+            product = line.product_id or line.product_template_id
+            company = line.price_change_id.company_id or self.env.company
+            taxes = product.taxes_id.filtered(lambda t, c=company: t.company_id in c.parent_ids)
+            currency = company.currency_id
+            line.old_price_incl = taxes.compute_all(line.old_price, currency, product=product)["total_included"]
+            line.new_price_incl = taxes.compute_all(line.new_price, currency, product=product)["total_included"]
+
     @api.depends("product_id", "product_template_id")
     def _compute_quantity(self):
         for line in self:
-            if line.product_id:
-                line.quantity = line.product_id.with_context(
-                    warehouse=line.price_change_id.warehouse_id.id,
-                    location=line.price_change_id.location_id.id,
-                ).qty_available
-            if line.product_template_id:
-                line.quantity = line.product_template_id.with_context(
-                    warehouse=line.price_change_id.warehouse_id.id,
-                    location=line.price_change_id.location_id.id,
-                ).qty_available
+            product = line.product_id or line.product_template_id
+            line.quantity = product.with_context(
+                warehouse_id=line.price_change_id.warehouse_id.id,
+                location=line.price_change_id.location_id.id,
+            ).qty_available
 
     @api.onchange("product_id", "pricelist_id", "product_template_id")
     def onchange_product_id(self):
-        def get_child(location_ids, location):
-            for child in location.child_ids:
-                location_ids.append(child.id)
-                get_child(location_ids, child)
-            return location_ids
-
+        if self.log_id:
+            return
         if (
             self.price_change_id.default_pricelist_id
             and not self.pricelist_id

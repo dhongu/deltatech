@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_price_change_log_list" model="ir.ui.view">
+        <field name="name">product.price.change.log.list</field>
+        <field name="model">product.price.change.log</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0">
+                <field name="date" />
+                <field name="product_tmpl_id" />
+                <field name="old_price" />
+                <field name="new_price" />
+                <field name="user_id" optional="show" />
+                <field name="price_change_id" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_price_change_log_search" model="ir.ui.view">
+        <field name="name">product.price.change.log.search</field>
+        <field name="model">product.price.change.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_tmpl_id" />
+                <field name="user_id" />
+                <field name="price_change_id" />
+                <filter name="not_in_document" string="Not in a document" domain="[('price_change_id', '=', False)]" />
+                <separator />
+                <filter name="date" string="Date" date="date" />
+                <group>
+                    <filter name="group_date" string="Date" context="{'group_by': 'date:day'}" />
+                    <filter name="group_product" string="Product" context="{'group_by': 'product_tmpl_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_price_change_log" model="ir.actions.act_window">
+        <field name="name">List Price Changes</field>
+        <field name="res_model">product.price.change.log</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem
+        name="List Price Changes"
+        id="menu_price_change_log"
+        action="action_price_change_log"
+        parent="sale.product_menu_catalog"
+    />
+
+</odoo>

@@ -14,27 +14,87 @@ Price Change
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_price_change
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change/tests
+    :alt: 6 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
-Features: Scopul modulului este de a controla modificarile de pret la
-produse. La fiecare modificare de pret intocmeste un document care este
-datat si numerotat.
+Controls the changes of the products' sale price, with a dated and
+numbered price change document and its report (the price change
+minutes).
 
-This modules purpose is to control the modifications of price for
-products. At each modification of price draw a new document which is
-dated and numbered.
+**Log of list price changes**
+
+- Every change of the list price of a product (by hand, by import or by
+  another module) is logged in *Sales > Products > List Price Changes*
+  and on the product form (**Price History** button).
+- One log line is kept for each product and day: the old price is the
+  price before the first change of the day, the new price is the current
+  one. If the price comes back to the price of the previous day, the log
+  line is removed.
+- A log line already taken in a confirmed document is not changed any
+  more; a new change on the same day starts a new log line.
+
+**Price change document**
+
+- Type *From price changes*: the **Load Price Changes** button brings in
+  the logged changes up to the document date that are not in another
+  document, one line for each product and day, with the stock quantity
+  and the old, new and difference amounts. The confirmation does not
+  write any price, the prices are already changed.
+- Type *In product*: the new prices are written in the products at
+  confirmation.
+- Type *In pricelist*: the new prices are written as fixed prices in the
+  pricelists at confirmation.
+- At confirmation, a document without a location is split into one
+  document for each internal location with stock of its products.
+- The report shows the prices with and without taxes, the amounts and
+  the signatures.
+
+The labels of the changed products can be printed from the document with
+``deltatech_price_change_label``, which installs by itself together with
+``deltatech_product_labels``.
 
 Can print price changes from product template. If a system parameter is
 set - price_change.public_pricelist_id - with the id of a pricelist,
-only the lines related to that pricelist will be printed
+only the lines related to that pricelist will be printed.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.2.0 (2026-10-22)
+-----------------------
+
+- Migration to 19.0.
+- New log of the list price changes (``product.price.change.log``): one
+  line for each product and day, from the price of the previous day to
+  the current price; a change back to the previous price removes the
+  line. Shown in *Sales > Products > List Price Changes* and on the
+  product form.
+- New document type *From price changes*, with the **Load Price
+  Changes** button: brings in the logged changes not yet taken by
+  another document, so the price change minutes can be printed after the
+  prices were changed directly on the products.
+- The prices written by a confirmed *In product* document are not logged
+  again.
+- The report shows the prices including taxes, the totals and the
+  signatures, and the change date for the documents made from the log.
+- The document gets its number at confirmation for all types; before,
+  only the *In pricelist* documents were numbered and the others stayed
+  ``/``.
+- The price change report of a variant listed the lines of the template
+  with the same id as the variant; it now lists the lines of the
+  variant.
+- Salespersons can read the price change documents; before, only the
+  sales managers had access.
 
 Bug Tracker
 ===========
@@ -64,6 +124,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_price_change>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -5,15 +5,18 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Price Change" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Price Change</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Price Change</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Track list price changes, price change report and document</p>
       <div>
-        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 18.0</span>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Generic Modules</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      
+    </div>
   </div>
 </div>
 
@@ -25,14 +28,63 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features: Scopul modulului este de a controla modificarile de pret la produse. La fiecare modificare de pret intocmeste
-un document care este datat si numerotat.</p>
-<p>This modules purpose is to control the modifications of price for products. At each modification of price draw a new
-document which is dated and numbered.</p>
-<p>Can print price changes from product template. If a system parameter is set - price_change.public_pricelist_id - with
-the id of a pricelist, only the lines related to that pricelist will be printed</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Controls the changes of the products' sale price, with a dated and numbered price change document
+and its report (the price change minutes).</p>
+<p><strong>Log of list price changes</strong></p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Every change of the list price of a product (by hand, by import or by another module) is logged
+  in <em>Sales &gt; Products &gt; List Price Changes</em> and on the product form (<strong>Price History</strong> button).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>One log line is kept for each product and day: the old price is the price before the first
+  change of the day, the new price is the current one. If the price comes back to the price of the
+  previous day, the log line is removed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A log line already taken in a confirmed document is not changed any more; a new change on the
+  same day starts a new log line.</div></div></li></ul>
+<p><strong>Price change document</strong></p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Type <em>From price changes</em>: the <strong>Load Price Changes</strong> button brings in the logged changes up to
+  the document date that are not in another document, one line for each product and day, with the
+  stock quantity and the old, new and difference amounts. The confirmation does not write any
+  price, the prices are already changed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Type <em>In product</em>: the new prices are written in the products at confirmation.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Type <em>In pricelist</em>: the new prices are written as fixed prices in the pricelists at
+  confirmation.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>At confirmation, a document without a location is split into one document for each internal
+  location with stock of its products.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The report shows the prices with and without taxes, the amounts and the signatures.</div></div></li></ul>
+<p>The labels of the changed products can be printed from the document with
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_price_change_label</code>, which installs by itself together with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_product_labels</code>.</p>
+<p>Can print price changes from product template. If a system parameter is set -
+price_change.public_pricelist_id - with the id of a pricelist, only the lines related to that
+pricelist will be printed.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-22)</h2>
+<ul>
+<li>Migration to 19.0.</li>
+<li>New log of the list price changes (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.price.change.log</code>): one line for each product and
+  day, from the price of the previous day to the current price; a change back to the previous price
+  removes the line. Shown in <em>Sales &gt; Products &gt; List Price Changes</em> and on the product form.</li>
+<li>New document type <em>From price changes</em>, with the <strong>Load Price Changes</strong> button: brings in the
+  logged changes not yet taken by another document, so the price change minutes can be printed
+  after the prices were changed directly on the products.</li>
+<li>The prices written by a confirmed <em>In product</em> document are not logged again.</li>
+<li>The report shows the prices including taxes, the totals and the signatures, and the change date
+  for the documents made from the log.</li>
+<li>The document gets its number at confirmation for all types; before, only the <em>In pricelist</em>
+  documents were numbered and the others stayed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/</code>.</li>
+<li>The price change report of a variant listed the lines of the template with the same id as the
+  variant; it now lists the lines of the variant.</li>
+<li>Salespersons can read the price change documents; before, only the sales managers had access.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -73,34 +125,54 @@ the id of a pricelist, only the lines related to that pricelist will be printed<
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_card_payment" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_card_payment" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_card_payment/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_card_payment/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Payment Method Card</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Card Payment Method</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Payment Method Card</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add a Card Payment method to tell card receipts apart from other payments</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_list_view" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_generic_partner_restriction" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_generic_partner_restriction/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Generic Partner Restriction</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Transition module: merged into Deltatech Generic Partner</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_list_view" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">LV</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_list_view/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_list_view/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -108,19 +180,19 @@ the id of a pricelist, only the lines related to that pricelist will be printed<
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">List View Select Text</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Select text in list views without opening the record</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_logistic_docs" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_logistic_docs" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">LD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_logistic_docs/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_logistic_docs/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -128,19 +200,19 @@ the id of a pricelist, only the lines related to that pricelist will be printed<
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Logistic Documents</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep CMRs, certificates and other shipping documents in one place</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_lot" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_lot" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GS</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_lot/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_lot/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -148,59 +220,59 @@ the id of a pricelist, only the lines related to that pricelist will be printed<
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generate/Select lot</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generate lot numbers on supplier receipts and track the lot location</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_partner_generic" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_partner_generic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_partner_generic/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_partner_generic/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Generic Partner</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Generic Partner</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Gneric partner</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic partner for anonymous customers, with accounting restrictions</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_payment_report" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_payment_report" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PR</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_payment_report/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_payment_report/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Payment Report</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Payment Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Payment Report</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Payment analysis report by journal and period, with a filter wizard</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_pricelist_vat_cost" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist_vat_cost" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_pricelist_vat_cost/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist_vat_cost/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -208,27 +280,7 @@ the id of a pricelist, only the lines related to that pricelist will be printed<
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Base pricelist on cost with vat</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_stock_account" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_stock_account/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Account Extension</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Stock Account Extension</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Pricelist rules based on product cost including VAT</p>
         </div>
       </a>
     </div>
