@@ -1,0 +1,543 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_price_change
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 03:34+0000\n"
+"PO-Revision-Date: 2026-10-22 03:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_product
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_variant
+msgid "<span>-</span>"
+msgstr "<span>-</span>"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "<strong>Committee</strong>"
+msgstr "<strong>Comisia</strong>"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "<strong>Difference Amount</strong>"
+msgstr "<strong>Valoare diferență</strong>"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "<strong>Store manager</strong>"
+msgstr "<strong>Gestionar</strong>"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_needaction
+msgid "Action Needed"
+msgstr "Intervenție necesară"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr atașamente"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__change_date
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Change Date"
+msgstr "Data modificării"
+
+#. module: deltatech_price_change
+#. odoo-python
+#: code:addons/deltatech_price_change/models/product_price_change.py:0
+msgid "Change Price document with status 'Done' cant't by deleted"
+msgstr "Documentul de modificare preț în starea „Efectuat” nu poate fi șters"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+msgid "Change Product Price"
+msgstr "Modificare preț produs"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__user_id
+msgid "Changed by"
+msgstr "Modificat de"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__child_ids
+msgid "Child Product Price Change"
+msgstr "Modificare preț subordonată"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__company_id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+msgid "Confirm"
+msgstr "Confirmă"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__create_uid
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__create_date
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__create_date
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__currency_id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__date
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__date
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_product
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_variant
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_price_change_log_search
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__default_pricelist_id
+msgid "Default Pricelist"
+msgstr "Listă de prețuri implicită"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Description"
+msgstr "Descriere"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+msgid "Difference"
+msgstr "Diferență"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__diff_amount
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__diff_amount
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Difference Amount"
+msgstr "Valoare diferență"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__diff_amount_incl
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Difference incl. Taxes"
+msgstr "Diferență cu TVA"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__display_name
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__display_name
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__display_name
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_template__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields.selection,name:deltatech_price_change.selection__product_price_change__state__done
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields.selection,name:deltatech_price_change.selection__product_price_change__state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__pricelist_date_end
+msgid "End Date"
+msgstr "Dată sfârșit"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_follower_ids
+msgid "Followers"
+msgstr "Persoane interesate"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Urmăritori (Parteneri)"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields.selection,name:deltatech_price_change.selection__product_price_change__type__log
+msgid "From price changes"
+msgstr "Din modificările de preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change_line__sequence
+msgid ""
+"Gives the sequence order when displaying a list of product with price "
+"changed."
+msgstr ""
+"Reprezintă ordinea secvențială când se afișează o listă de produse cu preț "
+"modificat."
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__has_message
+msgid "Has Message"
+msgstr "Are mesaj"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_template__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change__message_has_error
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă este bifată, unele mesaje au o eroare de livrare."
+
+#. module: deltatech_price_change
+#: model:ir.model.fields.selection,name:deltatech_price_change.selection__product_price_change__type__pricelist
+msgid "In pricelist"
+msgstr "În lista de prețuri"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields.selection,name:deltatech_price_change.selection__product_price_change__type__product
+msgid "In product"
+msgstr "În produs"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__write_uid
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__write_date
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__write_date
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__line_ids
+msgid "Line"
+msgstr "Linie"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_price_change
+#: model:ir.actions.act_window,name:deltatech_price_change.action_price_change_log
+#: model:ir.ui.menu,name:deltatech_price_change.menu_price_change_log
+msgid "List Price Changes"
+msgstr "Modificări preț de listă"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+msgid "Load Price Changes"
+msgstr "Aduce modificările de preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__location_id
+msgid "Location"
+msgstr "Locație"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Location:"
+msgstr "Locație:"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_has_error
+msgid "Message Delivery error"
+msgstr "Eroare livrare mesaj"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__new_amount
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__new_amount
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "New Amount"
+msgstr "Valoare nouă"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_price_change_log_list
+msgid "New Price"
+msgstr "Preț nou"
+
+#. module: deltatech_price_change
+#. odoo-python
+#: code:addons/deltatech_price_change/models/product_price_change.py:0
+msgid "New Price Change"
+msgstr "Modificare de preț nouă"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "New Price excl. Taxes"
+msgstr "Preț nou fără TVA"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__new_price_incl
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "New Price incl. Taxes"
+msgstr "Preț nou cu TVA"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__new_price
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__new_price
+msgid "New Sale Price"
+msgstr "Preț nou de vânzare"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_product
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_variant
+msgid "New price"
+msgstr "Preț nou"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_price_change_log_search
+msgid "Not in a document"
+msgstr "Neincluse într-un document"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__name
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Număr de acțiuni"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_has_error_counter
+msgid "Number of errors"
+msgstr "Număr de erori"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Număr de mesaje ce necesită intervenție"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numărul de mesaje cu eroare de livrare"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__old_amount
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__old_amount
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Old Amount"
+msgstr "Valoare veche"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_price_change_log_list
+msgid "Old Price"
+msgstr "Preț vechi"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Old Price excl. Taxes"
+msgstr "Preț vechi fără TVA"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__old_price_incl
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Old Price incl. Taxes"
+msgstr "Preț vechi cu TVA"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__old_price
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__old_price
+msgid "Old Sale Price"
+msgstr "Preț vânzare vechi"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_product
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange_variant
+msgid "Old price"
+msgstr "Preț vechi"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__partner_id
+msgid "Owner Address"
+msgstr "Adresă proprietar"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__parent_id
+msgid "Parent Product Price Change"
+msgstr "Modificare preț părinte"
+
+#. module: deltatech_price_change
+#: model:ir.actions.report,name:deltatech_price_change.action_report_product_price_change
+#: model:ir.actions.report,name:deltatech_price_change.action_report_product_price_change_product
+#: model:ir.actions.report,name:deltatech_price_change.action_report_product_price_change_variant
+msgid "Price Change"
+msgstr "Modificare preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__price_change_id
+msgid "Price Change Document"
+msgstr "Document modificare preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__log_id
+msgid "Price Change Log"
+msgstr "Jurnal modificare preț"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Price Change Minutes no."
+msgstr "Proces-verbal de modificare a prețurilor nr."
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.product_template_form_view
+msgid "Price History"
+msgstr "Istoric preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__line_ids
+msgid "Price History Lines"
+msgstr "Linii istoric preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__pricelist_id
+msgid "Pricelist"
+msgstr "Listă de prețuri"
+
+#. module: deltatech_price_change
+#: model:ir.model,name:deltatech_price_change.model_product_template
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__product_id
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_log__product_tmpl_id
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_price_change_log_search
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_price_change
+#: model:ir.model,name:deltatech_price_change.model_product_price_change_log
+msgid "Product List Price Change Log"
+msgstr "Jurnalul modificărilor de preț de listă"
+
+#. module: deltatech_price_change
+#: model:ir.actions.act_window,name:deltatech_price_change.action_deltatech_price_change
+#: model:ir.model,name:deltatech_price_change.model_product_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__price_change_id
+#: model:ir.ui.menu,name:deltatech_price_change.menu_deltatech_price_change
+msgid "Product Price Change"
+msgstr "Modificare preț produs"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__product_template_id
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_price_change
+#: model:ir.model,name:deltatech_price_change.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_price_change
+#: model:ir.model,name:deltatech_price_change.model_product_price_change_line
+msgid "ProductPriceChangeLine"
+msgstr "Linie modificare preț"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__quantity
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Eroare livrare SMS"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change_line__pricelist_date_start
+msgid "Start Date"
+msgstr "Dată început"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__state
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__type
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__use_product_template
+msgid "Use Product Template"
+msgstr "Folosește șablonul de produs"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__warehouse_id
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "Warehouse:"
+msgstr "Depozit:"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.view_change_price_form
+msgid "Warehouses"
+msgstr "Depozite"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,field_description:deltatech_price_change.field_product_price_change__website_message_ids
+msgid "Website Messages"
+msgstr "Mesaje Website"
+
+#. module: deltatech_price_change
+#: model:ir.model.fields,help:deltatech_price_change.field_product_price_change__website_message_ids
+msgid "Website communication history"
+msgstr "Istoric comunicare website"
+
+#. module: deltatech_price_change
+#: model_terms:ir.ui.view,arch_db:deltatech_price_change.report_pricechange
+msgid "from date:"
+msgstr "din data"

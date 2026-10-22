@@ -1,0 +1,11 @@
+{
+  "title": "Price Change",
+  "summary": "List price change log and minutes",
+  "icon": "trend",
+  "features": [
+    "Daily log of list price changes",
+    "Load Price Changes into a document",
+    "Minutes with prices with and without VAT"
+  ],
+  "lang": "en"
+}

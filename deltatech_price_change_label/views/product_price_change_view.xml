@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_change_price_form" model="ir.ui.view">
+        <field name="name">product.price.change.form.label</field>
+        <field name="model">product.price.change</field>
+        <field name="inherit_id" ref="deltatech_price_change.view_change_price_form" />
+        <field name="arch" type="xml">
+            <button name="action_confirm" position="after">
+                <button name="action_print_labels" string="Print Labels" type="object" invisible="not line_ids" />
+            </button>
+        </field>
+    </record>
+
+</odoo>
