@@ -1,0 +1,190 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_web_scan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 06:05+0000\n"
+"PO-Revision-Date: 2026-10-22 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__ai
+msgid "AI"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__blocked
+msgid "Blocked"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__display_name
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__error
+msgid "Error"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_error_count
+msgid "Failed Scans"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,help:deltatech_web_scan.field_web_scan_source_mixin__scan_error_count
+msgid ""
+"Failed readings in a row; from the limit on, the scheduled action no longer "
+"reads the page."
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__date_start
+msgid "From"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__heuristic
+msgid "HTML Patterns"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__id
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_last_fetch
+msgid "Last Scan"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__date_end
+msgid "Last Seen"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__new
+msgid "New"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "No price found on the page (%(detail)s)."
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__not_found
+msgid "Not Found"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__ok
+msgid "OK"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__mismatch
+msgid "Other Product"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_url
+msgid "Page URL"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "Price confirmed by %s."
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "Price to confirm: %(detail)s"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_source
+msgid "Read From"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "Read from %(origin)s."
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_message
+msgid "Scan Message"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_state
+msgid "Scan State"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__selector
+msgid "Selectors"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__structured
+msgid "Structured Data"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__suspect
+msgid "Suspect"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "The page could not be read: %(detail)s"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "The page shows another product: %(detail)s"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid ""
+"The site refuses automatic reading (%(detail)s). Ask for a feed or an API "
+"instead."
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model,name:deltatech_web_scan.model_web_scan_history_mixin
+msgid "Web Scan History"
+msgstr ""
+
+#. module: deltatech_web_scan
+#: model:ir.model,name:deltatech_web_scan.model_web_scan_source_mixin
+msgid "Web Scan Source"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "no page URL"
+msgstr ""
