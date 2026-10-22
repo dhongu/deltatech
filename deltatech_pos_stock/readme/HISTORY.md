@@ -1,3 +1,7 @@
+## 19.0.1.2.3 (2026-10-22)
+
+- Listed on Odoo Apps as *POS Stock Display* (was *POS Stock*). The technical name `deltatech_pos_stock` does not change.
+
 ## 19.0.1.2.2 (2026-10-17)
 
 - **Fix: shared products update the badge in every company.** When a stock change
