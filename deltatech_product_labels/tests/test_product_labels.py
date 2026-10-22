@@ -2,7 +2,11 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+from unittest.mock import patch
 
+import requests
+
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -253,3 +257,185 @@ class TestProductLabels(TransactionCase):
         self.assertTrue(line.barcode_image.startswith("data:image/svg+xml;base64,"))
         svg = base64.b64decode(line.barcode_image.split(",", 1)[1])
         self.assertIn(b"<svg", svg)
+
+    def _render_labels(self, product, report_xmlid):
+        report = self.env.ref(report_xmlid)
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="product.product", active_ids=[product.id])
+            .create({"layout_id": report.id})
+        )
+        html, _ = report._render_qweb_html(report.report_name, wiz.ids)
+        return wiz, html.decode() if isinstance(html, bytes) else html
+
+    def test_barcode_image_is_single_svg_data_uri(self):
+        # LABEL-001: the report must embed one valid SVG data URI, not a nested one
+        ean_product = self.env["product.product"].create({"name": "EAN Product", "barcode": "5901234123457"})
+        for product in (self.product, ean_product):
+            for report_xmlid in (
+                "deltatech_product_labels.report_product_product_label",
+                "deltatech_product_labels.report_product_product_label_100x50",
+                "deltatech_product_labels.report_product_product_label_a4_3x8",
+                "deltatech_product_labels.report_product_product_label_40x25",
+            ):
+                wiz, html = self._render_labels(product, report_xmlid)
+                line = wiz.label_lines[0]
+                value = line.barcode_image
+                prefix = "data:image/svg+xml;base64,"
+                self.assertTrue(value.startswith(prefix), "barcode_image must be one SVG data URI")
+                self.assertNotIn("data:", value[len(prefix) :], "barcode_image must not nest data URIs")
+                self.assertTrue(base64.b64decode(value[len(prefix) :]).lstrip().startswith(b"<"))
+                self.assertIn(value, html)
+                self.assertNotIn("data:image/png;base64,", html)
+
+    def test_barcode_image_product_without_code(self):
+        # LABEL-001: a product without barcode/internal reference has no image and still renders
+        product = self.env["product.product"].create({"name": "No Code Product"})
+        wiz, html = self._render_labels(product, "deltatech_product_labels.report_product_product_label")
+        self.assertFalse(wiz.label_lines[0].barcode_image)
+        self.assertIn("No Code Product", html)
+
+    def test_generate_lots_label_lines_use_lot_name(self):
+        # LABEL-002: generated lot names (no lot_id yet) must reach the label lines
+        picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": self.picking_type_in.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                "location_dest_id": self.loc_stock.id,
+            }
+        )
+        move = self.env["stock.move"].create(
+            {
+                "product_id": self.stock_product.id,
+                "uom_id": self.stock_product.uom_id.id,
+                "product_uom_qty": 2.0,
+                "picking_id": picking.id,
+                "location_id": picking.location_id.id,
+                "location_dest_id": self.loc_stock.id,
+            }
+        )
+        existing_lot = self.env["stock.lot"].create({"name": "LOT-EXIST", "product_id": self.stock_product.id})
+        for lot in (False, existing_lot):
+            self.env["stock.move.line"].create(
+                {
+                    "move_id": move.id,
+                    "product_id": self.stock_product.id,
+                    "uom_id": self.stock_product.uom_id.id,
+                    "picking_id": picking.id,
+                    "location_id": picking.location_id.id,
+                    "location_dest_id": self.loc_stock.id,
+                    "quantity": 1.0,
+                    "lot_id": lot and lot.id,
+                }
+            )
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="stock.picking", active_ids=[picking.id])
+            .create({"layout_id": self.env.ref("deltatech_product_labels.report_product_product_label").id})
+        )
+        wiz.generate_lots()
+        new_ml = picking.move_line_ids.filtered(lambda ml: not ml.lot_id)
+        self.assertTrue(new_ml.lot_name)
+        self.assertEqual(
+            sorted(wiz.label_lines.mapped("lot")),
+            sorted([new_ml.lot_name, "LOT-EXIST"]),
+        )
+        self.assertEqual(
+            sorted(line.get_label_data()["lot"] for line in wiz.label_lines),
+            sorted([new_ml.lot_name, "LOT-EXIST"]),
+        )
+
+    def test_default_layout_is_a4_then_last_printed(self):
+        # the first wizard proposes the A4 sheet, the next ones the layout printed last by the user
+        a4 = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
+        thermal = self.env.ref("deltatech_product_labels.report_product_product_label_40x25")
+        wiz_model = self.env["product.product.label"].with_context(
+            active_model="product.product", active_ids=[self.product.id]
+        )
+        wiz = wiz_model.create({})
+        self.assertEqual(wiz.layout_id, a4)
+        wiz.layout_id = thermal
+        wiz.print_labels()
+        self.assertEqual(wiz_model.create({}).layout_id, thermal)
+        # the choice is per user
+        other_user = self.env["res.users"].create(
+            {"name": "Label User", "login": "label_user", "group_ids": [(4, self.env.ref("base.group_user").id)]}
+        )
+        self.assertEqual(wiz_model.with_user(other_user).create({}).layout_id, a4)
+
+    def test_fixed_layouts_repeat_lines_by_quantity(self):
+        # a label for each unit of quantity, a page break after each sheet of 24 labels
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="product.product", active_ids=[self.product.id])
+            .create({})
+        )
+        wiz.label_lines.quantity = 25
+        self.assertEqual(len(wiz._get_print_lines()), 25)
+        report = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
+        html, _ = report._render_qweb_html(report.report_name, wiz.ids)
+        html = html.decode()
+        self.assertEqual(html.count('class="dt_label"'), 25)
+        self.assertEqual(html.count('class="dt_page_break"'), 1)
+        self.assertEqual(report.paperformat_id.format, "A4")
+        report = self.env.ref("deltatech_product_labels.report_product_product_label_40x25")
+        html, _ = report._render_qweb_html(report.report_name, wiz.ids)
+        self.assertEqual(html.decode().count('class="dt_page_break"'), 24)
+        self.assertEqual((report.paperformat_id.page_width, report.paperformat_id.page_height), (40, 25))
+
+    def _create_zpl_layout(self, name, **vals):
+        view = self.env["ir.ui.view"].create(
+            {
+                "name": "test_zpl_label",
+                "type": "qweb",
+                "key": "deltatech_product_labels.test_zpl_label",
+                "arch": """<t t-name="deltatech_product_labels.test_zpl_label">
+                    <t t-foreach="docs._get_print_lines()" t-as="line">^XA^FO20,20^FD<t t-out="line.product_id.name"/>^FS^XZ</t>
+                </t>""",
+            }
+        )
+        return self.env["ir.actions.report"].create(
+            dict(
+                name=name,
+                model="product.product.label",
+                report_type="qweb-text",
+                report_name=view.key,
+                **vals,
+            )
+        )
+
+    def test_zpl_label_size(self):
+        self.assertEqual(self._create_zpl_layout("Labels 40x30 ZPL")._get_zpl_label_size(), (40, 30, "8"))
+        self.assertEqual(self._create_zpl_layout("Labels 58 x 43 ZPL (300 DPI)")._get_zpl_label_size(), (58, 43, "12"))
+        self.assertEqual(self._create_zpl_layout("Labels ZPL")._get_zpl_label_size(), (101.6, 152.4, "8"))
+        layout = self._create_zpl_layout("Labels 40x30", zpl_label_width=70, zpl_label_height=30, zpl_dpmm="12")
+        self.assertEqual(layout._get_zpl_label_size(), (70, 30, "12"))
+
+    def test_preview_zpl(self):
+        layout = self._create_zpl_layout("Labels 40x30 ZPL")
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="product.product", active_ids=[self.product.id])
+            .create({"layout_id": layout.id})
+        )
+        self.assertEqual(wiz.layout_type, "qweb-text")
+        response = requests.Response()
+        response.status_code = 200
+        response._content = b"%PDF-1.4 preview"
+        with patch("requests.post", return_value=response) as post:
+            action = wiz.action_preview_zpl()
+        url = post.call_args.args[0]
+        self.assertTrue(url.endswith("/8dpmm/labels/1.57x1.18/"), url)
+        self.assertIn(b"Test Product Template", post.call_args.kwargs["files"]["file"])
+        self.assertEqual(action["type"], "ir.actions.act_url")
+        self.assertIn(f"id={wiz.id}&field=preview_pdf", action["url"])
+        self.assertEqual(wiz.preview_pdf.content, b"%PDF-1.4 preview")
+        # an error of the service is shown to the user
+        response.status_code = 400
+        response._content = b"ERROR: invalid ZPL"
+        with patch("requests.post", return_value=response), self.assertRaises(UserError):
+            wiz.action_preview_zpl()
+        # the PDF layouts are printed directly, without preview
+        wiz.layout_id = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
+        with self.assertRaises(UserError):
+            wiz.action_preview_zpl()

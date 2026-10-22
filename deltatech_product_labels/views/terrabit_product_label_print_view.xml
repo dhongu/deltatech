@@ -15,6 +15,7 @@
                             domain="[('model', '=', 'product.product.label')]"
                             context="{'default_model':'product.product.label'}"
                         />
+                        <field name="layout_type" invisible="1" />
                         <field name="print_only_lots" />
                         <field name="can_generate_lots" invisible="1" />
                         <field name="auto_generate_lots" invisible="not can_generate_lots" />
@@ -34,9 +35,29 @@
                 </field>
                 <footer>
                     <button string="Print" name="print_labels" type="object" default_focus="1" class="btn-primary" />
+                    <button
+                        string="Preview"
+                        name="action_preview_zpl"
+                        type="object"
+                        class="btn-secondary"
+                        invisible="layout_type != 'qweb-text'"
+                    />
                     <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
+        </field>
+    </record>
+
+    <record id="act_report_xml_view_zpl_label" model="ir.ui.view">
+        <field name="name">ir.actions.report.form.zpl.label</field>
+        <field name="model">ir.actions.report</field>
+        <field name="inherit_id" ref="base.act_report_xml_view" />
+        <field name="arch" type="xml">
+            <field name="paperformat_id" position="after">
+                <field name="zpl_label_width" invisible="report_type != 'qweb-text'" />
+                <field name="zpl_label_height" invisible="report_type != 'qweb-text'" />
+                <field name="zpl_dpmm" invisible="report_type != 'qweb-text'" />
+            </field>
         </field>
     </record>
 

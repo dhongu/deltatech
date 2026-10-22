@@ -335,7 +335,7 @@
     "deltatech_product_labels": {
       "coverage": 79.2,
       "lines": 245,
-      "tests": 8
+      "tests": 16
     },
     "deltatech_product_list": {
       "coverage": 100.0,

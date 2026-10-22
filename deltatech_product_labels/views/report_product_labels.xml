@@ -1,7 +1,81 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- paper formats with the exact size of the labels, so the labels do not move from page to page -->
+    <record id="paperformat_label_a4_3x8" model="report.paperformat">
+        <field name="name">Labels A4 3x8 (70x37 mm)</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_spacing">0</field>
+        <field name="disable_shrinking" eval="True" />
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="paperformat_label_100x50" model="report.paperformat">
+        <field name="name">Label 100x50 mm</field>
+        <field name="format">custom</field>
+        <field name="page_width">100</field>
+        <field name="page_height">50</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_spacing">0</field>
+        <field name="disable_shrinking" eval="True" />
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="paperformat_label_40x25" model="report.paperformat">
+        <field name="name">Label 40x25 mm</field>
+        <field name="format">custom</field>
+        <field name="page_width">40</field>
+        <field name="page_height">25</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">0</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_spacing">0</field>
+        <field name="disable_shrinking" eval="True" />
+        <field name="dpi">96</field>
+    </record>
+
+    <record id="report_product_product_label_a4_3x8" model="ir.actions.report">
+        <field name="name">Product labels A4 3x8 (70x37 mm)</field>
+        <field name="model">product.product.label</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_product_labels.product_product_label_a4_3x8</field>
+        <field name="paperformat_id" ref="paperformat_label_a4_3x8" />
+        <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_product_product_label_100x50" model="ir.actions.report">
+        <field name="name">Product labels 100x50 mm (thermal printer)</field>
+        <field name="model">product.product.label</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_product_labels.product_product_label_100x50</field>
+        <field name="paperformat_id" ref="paperformat_label_100x50" />
+        <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_product_product_label_40x25" model="ir.actions.report">
+        <field name="name">Product labels 40x25 mm (thermal printer)</field>
+        <field name="model">product.product.label</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_product_labels.product_product_label_40x25</field>
+        <field name="paperformat_id" ref="paperformat_label_40x25" />
+        <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
+        <field name="binding_type">report</field>
+    </record>
+
     <record id="report_product_product_label" model="ir.actions.report">
-        <field name="name">Product Label - etichete PDF</field>
+        <field name="name">Product labels (continuous)</field>
         <field name="model">product.product.label</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">deltatech_product_labels.product_product_label</field>
@@ -9,14 +83,6 @@
         <field name="binding_type">report</field>
     </record>
 
-    <record id="report_product_product_label_100x50" model="ir.actions.report">
-        <field name="name">Product Label - etichete 100x50 PDF</field>
-        <field name="model">product.product.label</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">deltatech_product_labels.product_product_label_100x50</field>
-        <field name="binding_model_id" ref="deltatech_product_labels.model_product_product_label" />
-        <field name="binding_type">report</field>
-    </record>
     <template id="label_layout">
         <t t-call="web.html_container">
             <div class="page">
@@ -35,6 +101,47 @@
                     }
                 </style>
                 <div class="article">
+                    <t t-out="0" />
+                </div>
+            </div>
+        </t>
+    </template>
+    <!-- layout for labels of a fixed size: no borders, no margins, the size is set by each report -->
+    <template id="label_layout_fixed">
+        <t t-call="web.html_container">
+            <div class="page">
+                <div class="article">
+                    <style>
+                        body.o_body_pdf, .page, .article {
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        max-width: none !important;
+                        }
+                        .dt_label {
+                        box-sizing: border-box;
+                        overflow: hidden;
+                        line-height: 1.15;
+                        }
+                        .dt_label_name {
+                        overflow: hidden;
+                        font-weight: bold;
+                        }
+                        .dt_label_barcode {
+                        display: block;
+                        margin: 0 auto;
+                        }
+                        .dt_label_footer {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        }
+                        .dt_sheet .dt_label {
+                        float: left;
+                        }
+                        .dt_page_break {
+                        clear: both;
+                        page-break-after: always;
+                        }
+                    </style>
                     <t t-out="0" />
                 </div>
             </div>
@@ -63,22 +170,86 @@
             </t>
         </t>
     </template>
-    <template id="product_product_label_100x50">
-        <t t-call="deltatech_product_labels.label_layout">
-            <t t-foreach="docs" t-as="label">
-                <t t-foreach="label.label_lines" t-as="line">
-                    <t t-call="deltatech_product_labels.set_barcode" />
-                    <t t-foreach="range(int(line.quantity))" t-as="range_line">
-                        <div class='product_label' style=" width:10cm;height:5cm ">
-                            <strong t-field="line.product_id.display_name" />
-                            <t t-set="code" t-value="line.product_id.barcode or line.product_id.default_code" />
-                            <span t-if="code">
-                                <img t-att-src="line.barcode_image" class="barcode" style="width:8cm; height:2cm" />
-                                <span t-out="code" />
+    <!-- 24 labels on an A4 sheet, 3 columns x 8 rows -->
+    <template id="product_product_label_a4_3x8">
+        <t t-call="deltatech_product_labels.label_layout_fixed">
+            <t t-set="lines" t-value="docs._get_print_lines()" />
+            <div class="dt_sheet">
+                <t t-foreach="lines" t-as="line">
+                    <div class="dt_label" style="width: 33.33%; height: 37mm; padding: 2mm 3mm">
+                        <div class="dt_label_name" style="font-size: 9pt; height: 8.5mm">
+                            <t t-out="line.product_id.with_context(display_default_code=False).display_name" />
+                        </div>
+                        <img
+                            t-if="line.barcode_image"
+                            class="dt_label_barcode"
+                            t-att-src="line.barcode_image"
+                            style="width: 60mm; height: 16mm"
+                        />
+                        <div class="dt_label_footer" style="font-size: 7pt; margin-top: 1mm">
+                            <span t-out="line.product_id.default_code or ''" />
+                            <span t-if="line.lot" style="float: right">
+                                Lot:
+                                <t t-out="line.lot" />
                             </span>
                         </div>
-                    </t>
+                    </div>
+                    <div t-if="line_index % 24 == 23 and not line_last" class="dt_page_break" />
                 </t>
+            </div>
+        </t>
+    </template>
+    <!-- one label per page, for thermal printers loaded with 100x50 mm labels -->
+    <template id="product_product_label_100x50">
+        <t t-call="deltatech_product_labels.label_layout_fixed">
+            <t t-set="lines" t-value="docs._get_print_lines()" />
+            <t t-foreach="lines" t-as="line">
+                <div class="dt_label" style="width: 100mm; height: 49mm; padding: 2.5mm 4mm">
+                    <div class="dt_label_name" style="font-size: 14pt; height: 16mm">
+                        <t t-out="line.product_id.with_context(display_default_code=False).display_name" />
+                    </div>
+                    <img
+                        t-if="line.barcode_image"
+                        class="dt_label_barcode"
+                        t-att-src="line.barcode_image"
+                        style="width: 80mm; height: 20mm"
+                    />
+                    <div class="dt_label_footer" style="font-size: 10pt; margin-top: 1.5mm">
+                        <span t-out="line.product_id.default_code or ''" />
+                        <span t-if="line.lot" style="float: right">
+                            Lot:
+                            <t t-out="line.lot" />
+                        </span>
+                    </div>
+                </div>
+                <div t-if="not line_last" class="dt_page_break" />
+            </t>
+        </t>
+    </template>
+    <!-- one label per page, for thermal printers loaded with 40x25 mm labels -->
+    <template id="product_product_label_40x25">
+        <t t-call="deltatech_product_labels.label_layout_fixed">
+            <t t-set="lines" t-value="docs._get_print_lines()" />
+            <t t-foreach="lines" t-as="line">
+                <div class="dt_label" style="width: 40mm; height: 24mm; padding: 1mm 1.5mm">
+                    <div class="dt_label_name" style="font-size: 7pt; height: 6.5mm">
+                        <t t-out="line.product_id.with_context(display_default_code=False).display_name" />
+                    </div>
+                    <img
+                        t-if="line.barcode_image"
+                        class="dt_label_barcode"
+                        t-att-src="line.barcode_image"
+                        style="width: 36mm; height: 11mm"
+                    />
+                    <div class="dt_label_footer" style="font-size: 6pt; margin-top: 0.5mm">
+                        <span t-out="line.product_id.default_code or ''" />
+                        <span t-if="line.lot" style="float: right">
+                            Lot:
+                            <t t-out="line.lot" />
+                        </span>
+                    </div>
+                </div>
+                <div t-if="not line_last" class="dt_page_break" />
             </t>
         </t>
     </template>

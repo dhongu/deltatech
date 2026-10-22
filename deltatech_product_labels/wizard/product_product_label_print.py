@@ -2,18 +2,33 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import logging
 
+import requests
 from reportlab.graphics.barcode import createBarcodeDrawing
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 from odoo.fields import Domain
+from odoo.tools import BinaryBytes
+
+_logger = logging.getLogger(__name__)
+
+LABELARY_URL = "https://api.labelary.com/v1/printers/{dpmm}dpmm/labels/{width}x{height}/"
 
 
 class ProductProductLabel(models.TransientModel):
     _name = "product.product.label"
     _description = "product.product.label"
 
-    layout_id = fields.Many2one("ir.actions.report", string="Layout", required=True)
+    layout_id = fields.Many2one(
+        "ir.actions.report",
+        string="Layout",
+        required=True,
+        default=lambda self: self._default_layout_id(),
+    )
+    layout_type = fields.Selection(related="layout_id.report_type")
+    preview_pdf = fields.Binary(attachment=False)
     label_lines = fields.One2many("product.product.label.line", "label_id", string="Labels")
     customer_id = fields.Many2one("res.partner", string="Customer")
     warehouse_id = fields.Many2one("stock.warehouse")
@@ -59,6 +74,11 @@ class ProductProductLabel(models.TransientModel):
 
         res["label_lines"] = label_list
         return res
+
+    @api.model
+    def _default_layout_id(self):
+        # the last layout printed by the user comes from ir.default, set in print_labels
+        return self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8", raise_if_not_found=False)
 
     @api.depends("label_lines")
     def _compute_can_generate_lots(self):
@@ -161,7 +181,7 @@ class ProductProductLabel(models.TransientModel):
                         {
                             "product_id": line.product_id.id,
                             "quantity": line.quantity,
-                            "lot": line.lot_id.name if line.lot_id else "",
+                            "lot": line.lot_id.name or line.lot_name or "",
                         },
                     ]
                 )
@@ -219,11 +239,43 @@ class ProductProductLabel(models.TransientModel):
             label[2]["label_id"] = self.id
             self.label_lines.create(label[2])
 
+    def _get_print_lines(self):
+        """The label lines repeated by their quantity, one item for each label to print"""
+        return [line for label in self for line in label.label_lines for _i in range(int(line.quantity))]
+
     def print_labels(self):
         if self.auto_generate_lots:
             self.generate_lots()
+        # the next wizard of this user proposes the same layout
+        self.env["ir.default"].sudo().set(self._name, "layout_id", self.layout_id.id, user_id=self.env.uid)
         report = self.layout_id.report_action(self)
         return report
+
+    def action_preview_zpl(self):
+        """Converts the ZPL labels to PDF with the Labelary service, as the AWB preview does"""
+        self.ensure_one()
+        report = self.layout_id
+        if report.report_type != "qweb-text":
+            raise UserError(self.env._("The preview is available only for the ZPL (text) layouts."))
+        if self.auto_generate_lots:
+            self.generate_lots()
+        zpl, _format = report._render_qweb_text(report.report_name, self.ids)
+        width, height, dpmm = report._get_zpl_label_size()
+        url = LABELARY_URL.format(dpmm=dpmm, width=round(width / 25.4, 2), height=round(height / 25.4, 2))
+        try:
+            response = requests.post(url, headers={"Accept": "application/pdf"}, files={"file": zpl}, timeout=20)
+        except requests.RequestException as e:
+            _logger.warning("Labelary request failed: %s", e)
+            raise UserError(self.env._("The label preview service is not available: %s", e)) from e
+        if response.status_code != 200:
+            raise UserError(self.env._("The label preview failed: %s", response.text))
+        self.preview_pdf = BinaryBytes(response.content)
+        return {
+            "type": "ir.actions.act_url",
+            "url": f"/web/content?model={self._name}&id={self.id}&field=preview_pdf"
+            "&filename=labels_preview.pdf&download=false",
+            "target": "new",
+        }
 
     @api.onchange("print_only_lots")
     def onchange_lots_option(self):
@@ -278,7 +330,6 @@ class ProductProductLabelLine(models.TransientModel):
     product_id = fields.Many2one(comodel_name="product.product", string="Product")
     quantity = fields.Integer(string="Label Qty", default=1)
 
-    # Odoo 20: Binary fields hold raw bytes; the report needs a ready-to-use data URI
     barcode_image = fields.Char(string="Barcode Image", compute="_compute_barcode_image")
 
     lot = fields.Char()
