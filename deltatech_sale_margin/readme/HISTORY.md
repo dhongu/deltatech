@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.0.1.3.3 (2026-10-22)
+
+- The *selling below cost* check on customer invoices runs only when the sale price is set or changed, not when the cost is recomputed. Installing the module on a database with draft invoices below cost (the check mode defaults to *Block the sale*) stopped with "You can not sell below the purchase price."; it now installs, and a new line or a changed price below cost is still blocked.
+
 ## 19.0.1.3.2 (2026-10-22)
 
 - Listed on Odoo Apps as *Sale Margin & Profit* (was *Sale Margin*). The technical name `deltatech_sale_margin` does not change.

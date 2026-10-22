@@ -378,3 +378,30 @@ class TestMarginCheckMode(TransactionCase):
         )
         self.assertGreater(new_line.purchase_price, 50.0)
         self.assertNotIn("warning", new_line.price_unit_change() or {})
+
+    def _draft_invoice(self, price):
+        """Draft invoice written by admin (in the bypass group), like existing data."""
+        return self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.partner.id,
+                "invoice_line_ids": [
+                    (0, 0, {"product_id": self.product.id, "quantity": 1.0, "price_unit": price, "tax_ids": False})
+                ],
+            }
+        )
+
+    def test_cost_recompute_does_not_block_existing_draft_invoice(self):
+        """Recomputing the cost (e.g. on module install) does not block a draft below cost."""
+        self.company.sale_margin_check_mode = "block"
+        line = self._draft_invoice(1.0).invoice_line_ids
+        self.assertLess(line.price_unit, line.purchase_price)
+        # a cost write, like the recompute on install: not a new sale below cost
+        line.with_user(self.operator).write({"purchase_price": 5.0})
+        self.assertEqual(line.purchase_price, 5.0)
+
+    def test_price_change_below_cost_still_blocks_on_invoice(self):
+        self.company.sale_margin_check_mode = "block"
+        line = self._draft_invoice(10.0).invoice_line_ids
+        with self.assertRaises(UserError):
+            line.with_user(self.operator).write({"price_unit": 1.0})

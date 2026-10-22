@@ -248,7 +248,10 @@ class AccountInvoiceLine(models.Model):
             #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
 
-    @api.constrains("price_unit", "purchase_price")
+    # Only on the sale price: `purchase_price` is computed, and recomputing it (also when
+    # the module is installed on existing draft invoices) is not a new sale below cost, so
+    # it must not block. A new line or a changed price still sets `price_unit` and is checked.
+    @api.constrains("price_unit")
     def _check_sale_price(self):
         for invoice_line in self:
             if not invoice_line.product_id:
