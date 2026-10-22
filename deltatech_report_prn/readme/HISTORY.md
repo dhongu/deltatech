@@ -1,3 +1,7 @@
+## 18.0.1.1.1 (2026-10-22)
+
+- Listed on Odoo Apps as *PRN Report* (was *Raport PRN*). The technical name `deltatech_report_prn` does not change.
+
 ## 18.0.1.1.0
 
 - Refactor the `qweb-prn` report handler and export `buildPrnUrl` so a

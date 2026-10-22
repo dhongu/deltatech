@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Edit Currency Rate",
-    "version": "18.0.1.0.8",
+    "name": "Custom Invoice Exchange Rate",
+    "version": "18.0.1.0.9",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

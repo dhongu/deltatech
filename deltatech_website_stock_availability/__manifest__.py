@@ -2,10 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "eCommerce Stock Availability",
+    "name": "Website Stock Availability",
     "category": "Website",
     "summary": "eCommerce Stock Availability and lead time",
-    "version": "18.0.1.0.9",
+    "version": "18.0.1.0.10",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock", "purchase", "deltatech_vendor_stock"],

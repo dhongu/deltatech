@@ -3,10 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Purchase XLS",
+    "name": "Purchase XLS Import / Export",
     "summary": "Import/export purchase line from/to Excel",
     "author": "Terrabit, Dorin Hongu",
-    "version": "18.0.1.0.9",
+    "version": "18.0.1.0.10",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",

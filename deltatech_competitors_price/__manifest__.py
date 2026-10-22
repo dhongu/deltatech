@@ -1,9 +1,9 @@
 # © 2025 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Competitors Price",
+    "name": "Competitors Price Tracker",
     "summary": "Track competitors' product prices and fetch on demand",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "category": "Product",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

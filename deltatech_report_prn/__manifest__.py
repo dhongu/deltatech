@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Raport PRN",
+    "name": "PRN Report",
     "summary": "Raport PRN",
-    "version": "18.0.1.1.0",
+    "version": "18.0.1.1.1",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

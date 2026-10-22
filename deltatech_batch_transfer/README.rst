@@ -1,5 +1,5 @@
 ========================
-Deltatech Batch Transfer
+Batch Transfer Extension
 ========================
 
 ..

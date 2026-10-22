@@ -1,5 +1,5 @@
 ==================
-Products Dimension
+Product Dimensions
 ==================
 
 ..

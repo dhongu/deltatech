@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale order picking status",
+    "name": "Sale Delivery Status",
     "summary": "Get sale order status from pickings",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Generate/Select lot",
+    "name": "Lot Generation & Selection",
     "summary": "Generate/Select lot",
-    "version": "18.0.1.0.3",
+    "version": "18.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

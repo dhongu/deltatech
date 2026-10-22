@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Invoice Number",
+    "name": "Invoice Numbering Control",
     "summary": "Renumbering invoice",
-    "version": "18.0.1.0.2",
+    "version": "18.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",

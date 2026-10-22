@@ -1,5 +1,9 @@
 # History
 
+## 18.0.1.0.10 (2026-10-22)
+
+- Listed on Odoo Apps as *Website Stock Availability* (was *eCommerce Stock Availability*). The technical name `deltatech_website_stock_availability` does not change.
+
 ## 18.0.1.0.9 (2026-07-30)
 
 - Fixed `?ppg=` silently filtering the shop by price. The `shop()` override

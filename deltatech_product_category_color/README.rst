@@ -1,5 +1,5 @@
 =======================
-Products Category Color
+Product Category Colors
 =======================
 
 ..

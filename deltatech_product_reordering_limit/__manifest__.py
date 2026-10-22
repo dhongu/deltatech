@@ -1,7 +1,7 @@
 {
-    "name": "Product Reordering Limit",
+    "name": "Product Reordering Limits",
     "summary": "Custom reordering limits for products",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Inventory",
