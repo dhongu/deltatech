@@ -76,7 +76,7 @@ def _webp_available():
 
 
 # metodele de decupare; vezi IrAttachment._dt_image_cutout
-BG_METHODS = ("auto", "uniform", "rembg")
+BG_METHODS = ("auto", "uniform", "rembg", "frame")
 
 # o sesiune rembg încarcă modelul ONNX (~180 MB pentru isnet); o păstrăm per proces.
 # Una singură: un model încercat din wizard nu rămâne în memoria workerului
@@ -505,6 +505,7 @@ class IrAttachment(models.Model):
             "model": get("deltatech_image_optimize.bg_model", "isnet-general-use"),
             "tolerance": max(1, min(80, int(get("deltatech_image_optimize.bg_tolerance", 24)))),
             "min_island": max(0.0, float(get("deltatech_image_optimize.bg_min_island", 1))),
+            "frame_min_island": max(0.0, min(100.0, float(get("deltatech_image_optimize.bg_frame_min_island", 10)))),
             "lost_warning": max(0.0, float(get("deltatech_image_optimize.bg_lost_warning", 5))),
             "crop": get("deltatech_image_optimize.bg_crop", "0") in ("1", "True", "true"),
             "margin": max(0, min(40, int(get("deltatech_image_optimize.bg_margin", 5)))),
@@ -523,7 +524,11 @@ class IrAttachment(models.Model):
           model ML; păstrează accesoriile închise la culoare, pe care modelul le
           pierde des;
         - ``rembg``: modelul ML ``params["model"]``, pentru fundaluri reale;
-        - ``auto``: ``uniform`` când marginile au o singură culoare, altfel ``rembg``.
+        - ``auto``: ``uniform`` când marginile au o singură culoare, altfel ``rembg``;
+        - ``frame``: fundalul rămâne; produsul găsit ca la ``uniform`` e doar
+          încadrat într-un pătrat completat cu culoarea fundalului (sau ``color``).
+          Bucățile sub ``frame_min_island`` procente din produs (o siglă în colț,
+          un text) nu lărgesc pătratul.
 
         După decupare, bucățile mai mici de ``min_island`` procente din produs se
         elimină. Când modelul ML lucrează pe un fundal uniform și lasă deoparte o
@@ -547,6 +552,8 @@ class IrAttachment(models.Model):
         img = ImageOps.exif_transpose(img).convert("RGB")
         method, tolerance, min_island = params["method"], params["tolerance"], params["min_island"]
         bg_color = bg_mask.border_color(img, tolerance)
+        if method == "frame":
+            return self._dt_image_frame(img, bg_color, params)
         reference = bg_color and bg_mask.uniform_alpha(img, bg_color, tolerance, min_island)
         warning = ""
         if method == "uniform" or (method == "auto" and reference):
@@ -597,6 +604,28 @@ class IrAttachment(models.Model):
         buf = io.BytesIO()
         out.save(buf, format="PNG")
         return buf.getvalue(), warning
+
+    @api.model
+    def _dt_image_frame(self, img, bg_color, params):
+        """Încadrează produsul într-un pătrat, fără să-i elimine fundalul.
+
+        :param img: imaginea RGB
+        :param bg_color: culoarea marginilor, ``None`` când nu e uniformă
+        :return: ``(png, avertisment)``, ca ``_dt_image_cutout``
+        """
+        if not bg_color:
+            return None, self.env._("The background is not a single color; framing needs a plain background.")
+        alpha = bg_mask.uniform_alpha(img, bg_color, params["tolerance"], params["frame_min_island"])
+        bbox = alpha.getbbox() if alpha else None
+        if not bbox:
+            return None, self.env._("No product was found in the image.")
+        out = img.crop(bbox)
+        side = int(max(out.size) * (1 + 2 * params["margin"] / 100.0))
+        canvas = Image.new("RGB", (side, side), params["color"] or bg_color)
+        canvas.paste(out, ((side - out.width) // 2, (side - out.height) // 2))
+        buf = io.BytesIO()
+        canvas.save(buf, format="PNG")
+        return buf.getvalue(), ""
 
     @api.model
     def _dt_bg_remove_cron(self):
