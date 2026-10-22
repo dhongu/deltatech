@@ -41,8 +41,9 @@ msgstr "Este producator"
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_account_invoice_report__manufacturer_id
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__manufacturer_id
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__manufacturer_id
+#: model_terms:ir.ui.view,arch_db:deltatech_product_extension.view_account_invoice_report_search
 msgid "Manufacturer"
-msgstr "Producator"
+msgstr "Producător"
 
 #. module: deltatech_product_extension
 #: model:ir.model,name:deltatech_product_extension.model_product_template

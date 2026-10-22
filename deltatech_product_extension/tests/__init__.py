@@ -2,3 +2,4 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 from . import test_product_extension
+from . import test_account_invoice_report
