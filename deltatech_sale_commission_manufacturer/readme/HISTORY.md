@@ -1,3 +1,9 @@
+## 19.0.1.0.2 (2026-10-22)
+
+- Fix: the unbilled point of sale orders (with deltatech_sale_margin_pos) had no manufacturer in the
+  sale margin report and fell under "None" when grouped by manufacturer; they now get the
+  manufacturer of their product.
+
 ## 19.0.1.0.1 (2026-10-22)
 
 - Consultant sheet (readme/FISA_CONSULTANT.md): the sale margin report searched and grouped by
