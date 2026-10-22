@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Price Change Labels",
     "summary": "Print product labels for the products of a price change document",
-    "version": "20.0.1.0.1",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

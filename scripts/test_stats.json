@@ -299,6 +299,9 @@
       "lines": 50,
       "tests": 10
     },
+    "deltatech_price_change_label": {
+      "tests": 1
+    },
     "deltatech_pricelist_vat_cost": {
       "tests": 10
     },
@@ -335,7 +338,7 @@
     "deltatech_product_labels": {
       "coverage": 79.2,
       "lines": 245,
-      "tests": 8
+      "tests": 17
     },
     "deltatech_product_list": {
       "coverage": 100.0,
