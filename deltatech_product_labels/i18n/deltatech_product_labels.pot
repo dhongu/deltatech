@@ -4,16 +4,36 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:24+0000\n"
-"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"POT-Creation-Date: 2026-10-22 05:14+0000\n"
+"PO-Revision-Date: 2026-10-22 05:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields.selection,name:deltatech_product_labels.selection__ir_actions_report__zpl_dpmm__6
+msgid "152 dpi"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields.selection,name:deltatech_product_labels.selection__ir_actions_report__zpl_dpmm__8
+msgid "203 dpi"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields.selection,name:deltatech_product_labels.selection__ir_actions_report__zpl_dpmm__12
+msgid "300 dpi"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields.selection,name:deltatech_product_labels.selection__ir_actions_report__zpl_dpmm__24
+msgid "600 dpi"
+msgstr ""
 
 #. module: deltatech_product_labels
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label__auto_generate_lots
@@ -53,6 +73,7 @@ msgid "Customer"
 msgstr ""
 
 #. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product__display_name
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label__display_name
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__display_name
@@ -61,6 +82,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product__id
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label__id
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__id
@@ -76,6 +98,16 @@ msgstr ""
 #. module: deltatech_product_labels
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__quantity
 msgid "Label Qty"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_ir_actions_report__zpl_label_height
+msgid "Label height (mm)"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_ir_actions_report__zpl_label_width
+msgid "Label width (mm)"
 msgstr ""
 
 #. module: deltatech_product_labels
@@ -111,6 +143,23 @@ msgid "Lot"
 msgstr ""
 
 #. module: deltatech_product_labels
+#: model_terms:ir.ui.view,arch_db:deltatech_product_labels.product_product_label_100x50
+#: model_terms:ir.ui.view,arch_db:deltatech_product_labels.product_product_label_40x25
+#: model_terms:ir.ui.view,arch_db:deltatech_product_labels.product_product_label_a4_3x8
+msgid "Lot:"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model_terms:ir.ui.view,arch_db:deltatech_product_labels.product_product_label_view_form
+msgid "Preview"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label__preview_pdf
+msgid "Preview Pdf"
+msgstr ""
+
+#. module: deltatech_product_labels
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__price
 msgid "Price"
 msgstr ""
@@ -131,6 +180,11 @@ msgid "Print lots only"
 msgstr ""
 
 #. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_ir_actions_report__zpl_dpmm
+msgid "Printer resolution"
+msgstr ""
+
+#. module: deltatech_product_labels
 #: model:ir.model,name:deltatech_product_labels.model_product_template
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__product_id
 msgid "Product"
@@ -139,16 +193,6 @@ msgstr ""
 #. module: deltatech_product_labels
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__label_id
 msgid "Product Label"
-msgstr ""
-
-#. module: deltatech_product_labels
-#: model:ir.actions.report,name:deltatech_product_labels.report_product_product_label_100x50
-msgid "Product Label - etichete 100x50 PDF"
-msgstr ""
-
-#. module: deltatech_product_labels
-#: model:ir.actions.report,name:deltatech_product_labels.report_product_product_label
-msgid "Product Label - etichete PDF"
 msgstr ""
 
 #. module: deltatech_product_labels
@@ -165,6 +209,74 @@ msgstr ""
 #. module: deltatech_product_labels
 #: model:ir.model,name:deltatech_product_labels.model_product_product
 msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.actions.report,name:deltatech_product_labels.report_product_product_label
+msgid "Product labels (continuous)"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.actions.report,name:deltatech_product_labels.report_product_product_label_100x50
+msgid "Product labels 100x50 mm (thermal printer)"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.actions.report,name:deltatech_product_labels.report_product_product_label_40x25
+msgid "Product labels 40x25 mm (thermal printer)"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.actions.report,name:deltatech_product_labels.report_product_product_label_a4_3x8
+msgid "Product labels A4 3x8 (70x37 mm)"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model,name:deltatech_product_labels.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label__layout_type
+msgid "Report Type"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,help:deltatech_product_labels.field_ir_actions_report__zpl_dpmm
+msgid "Resolution of the ZPL printer, used by the label preview"
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,help:deltatech_product_labels.field_ir_actions_report__zpl_label_height
+#: model:ir.model.fields,help:deltatech_product_labels.field_ir_actions_report__zpl_label_width
+msgid "Size of a ZPL label, used by the label preview"
+msgstr ""
+
+#. module: deltatech_product_labels
+#. odoo-python
+#: code:addons/deltatech_product_labels/wizard/product_product_label_print.py:0
+msgid "The label preview failed: %s"
+msgstr ""
+
+#. module: deltatech_product_labels
+#. odoo-python
+#: code:addons/deltatech_product_labels/wizard/product_product_label_print.py:0
+msgid "The label preview service is not available: %s"
+msgstr ""
+
+#. module: deltatech_product_labels
+#. odoo-python
+#: code:addons/deltatech_product_labels/wizard/product_product_label_print.py:0
+msgid "The preview is available only for the ZPL (text) layouts."
+msgstr ""
+
+#. module: deltatech_product_labels
+#: model:ir.model.fields,help:deltatech_product_labels.field_product_product_label__layout_type
+msgid ""
+"The type of the report that will be rendered, each one having its own "
+"rendering method. HTML means the report will be opened directly in your "
+"browser PDF means the report will be rendered using Wkhtmltopdf and "
+"downloaded by the user."
 msgstr ""
 
 #. module: deltatech_product_labels

@@ -3,7 +3,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Product Labels",
-    "version": "19.0.1.1.9",
+    "version": "19.0.1.2.0",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

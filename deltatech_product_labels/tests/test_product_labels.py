@@ -2,7 +2,11 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+from unittest.mock import patch
 
+import requests
+
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -269,6 +273,8 @@ class TestProductLabels(TransactionCase):
             for report_xmlid in (
                 "deltatech_product_labels.report_product_product_label",
                 "deltatech_product_labels.report_product_product_label_100x50",
+                "deltatech_product_labels.report_product_product_label_a4_3x8",
+                "deltatech_product_labels.report_product_product_label_40x25",
             ):
                 wiz, html = self._render_labels(product, report_xmlid)
                 line = wiz.label_lines[0]
@@ -335,3 +341,98 @@ class TestProductLabels(TransactionCase):
             sorted(line.get_label_data()["lot"] for line in wiz.label_lines),
             sorted([new_ml.lot_name, "LOT-EXIST"]),
         )
+
+    def test_default_layout_is_a4_then_last_printed(self):
+        # the first wizard proposes the A4 sheet, the next ones the layout printed last by the user
+        a4 = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
+        thermal = self.env.ref("deltatech_product_labels.report_product_product_label_40x25")
+        wiz_model = self.env["product.product.label"].with_context(
+            active_model="product.product", active_ids=[self.product.id]
+        )
+        wiz = wiz_model.create({})
+        self.assertEqual(wiz.layout_id, a4)
+        wiz.layout_id = thermal
+        wiz.print_labels()
+        self.assertEqual(wiz_model.create({}).layout_id, thermal)
+        # the choice is per user
+        other_user = self.env["res.users"].create(
+            {"name": "Label User", "login": "label_user", "group_ids": [(4, self.env.ref("base.group_user").id)]}
+        )
+        self.assertEqual(wiz_model.with_user(other_user).create({}).layout_id, a4)
+
+    def test_fixed_layouts_repeat_lines_by_quantity(self):
+        # a label for each unit of quantity, a page break after each sheet of 24 labels
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="product.product", active_ids=[self.product.id])
+            .create({})
+        )
+        wiz.label_lines.quantity = 25
+        self.assertEqual(len(wiz._get_print_lines()), 25)
+        report = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
+        html, _ = report._render_qweb_html(report.report_name, wiz.ids)
+        html = html.decode()
+        self.assertEqual(html.count('class="dt_label"'), 25)
+        self.assertEqual(html.count('class="dt_page_break"'), 1)
+        self.assertEqual(report.paperformat_id.format, "A4")
+        report = self.env.ref("deltatech_product_labels.report_product_product_label_40x25")
+        html, _ = report._render_qweb_html(report.report_name, wiz.ids)
+        self.assertEqual(html.decode().count('class="dt_page_break"'), 24)
+        self.assertEqual((report.paperformat_id.page_width, report.paperformat_id.page_height), (40, 25))
+
+    def _create_zpl_layout(self, name, **vals):
+        view = self.env["ir.ui.view"].create(
+            {
+                "name": "test_zpl_label",
+                "type": "qweb",
+                "key": "deltatech_product_labels.test_zpl_label",
+                "arch": """<t t-name="deltatech_product_labels.test_zpl_label">
+                    <t t-foreach="docs._get_print_lines()" t-as="line">^XA^FO20,20^FD<t t-out="line.product_id.name"/>^FS^XZ</t>
+                </t>""",
+            }
+        )
+        return self.env["ir.actions.report"].create(
+            dict(
+                name=name,
+                model="product.product.label",
+                report_type="qweb-text",
+                report_name=view.key,
+                **vals,
+            )
+        )
+
+    def test_zpl_label_size(self):
+        self.assertEqual(self._create_zpl_layout("Labels 40x30 ZPL")._get_zpl_label_size(), (40, 30, "8"))
+        self.assertEqual(self._create_zpl_layout("Labels 58 x 43 ZPL (300 DPI)")._get_zpl_label_size(), (58, 43, "12"))
+        self.assertEqual(self._create_zpl_layout("Labels ZPL")._get_zpl_label_size(), (101.6, 152.4, "8"))
+        layout = self._create_zpl_layout("Labels 40x30", zpl_label_width=70, zpl_label_height=30, zpl_dpmm="12")
+        self.assertEqual(layout._get_zpl_label_size(), (70, 30, "12"))
+
+    def test_preview_zpl(self):
+        layout = self._create_zpl_layout("Labels 40x30 ZPL")
+        wiz = (
+            self.env["product.product.label"]
+            .with_context(active_model="product.product", active_ids=[self.product.id])
+            .create({"layout_id": layout.id})
+        )
+        self.assertEqual(wiz.layout_type, "qweb-text")
+        response = requests.Response()
+        response.status_code = 200
+        response._content = b"%PDF-1.4 preview"
+        with patch("requests.post", return_value=response) as post:
+            action = wiz.action_preview_zpl()
+        url = post.call_args.args[0]
+        self.assertTrue(url.endswith("/8dpmm/labels/1.57x1.18/"), url)
+        self.assertIn(b"Test Product Template", post.call_args.kwargs["files"]["file"])
+        self.assertEqual(action["type"], "ir.actions.act_url")
+        self.assertIn(f"id={wiz.id}&field=preview_pdf", action["url"])
+        self.assertEqual(wiz.preview_pdf, b"%PDF-1.4 preview")
+        # an error of the service is shown to the user
+        response.status_code = 400
+        response._content = b"ERROR: invalid ZPL"
+        with patch("requests.post", return_value=response), self.assertRaises(UserError):
+            wiz.action_preview_zpl()
+        # the PDF layouts are printed directly, without preview
+        wiz.layout_id = self.env.ref("deltatech_product_labels.report_product_product_label_a4_3x8")
+        with self.assertRaises(UserError):
+            wiz.action_preview_zpl()
