@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.0.1.3.1 (2026-10-22)
+
+- Consultant sheet: points to *Sale Margin Report by Manufacturer* for the profit per
+  manufacturer. Screenshots unchanged.
+
 ## 19.0.1.3.0 (2026-10-22)
 
 - **Cost price on the customer invoices and the profit report (*Raport analiză profit*), moved

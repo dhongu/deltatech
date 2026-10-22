@@ -209,6 +209,10 @@ grupat pe produs. Liniile se pot regrupa pe agent, categorie, client, factură, 
 Raportul cuprinde facturile client, notele de credit și chitanțele postate, pe liniile de produs și de
 discount. Notele de credit scad din vânzare și din cost. Agentul unei linii este cel de pe factură.
 
+Cu *Sale Commission* și *Products Extension* instalate, modulul punte *Sale Margin Report by
+Manufacturer* (`deltatech_sale_commission_manufacturer`) adaugă în raport căutarea după producător și
+**Grupează după > Producător**, pentru profitul pe producător (fișa acelui modul).
+
 ![Raportul de analiză a profitului](screenshots/04_raport_profit.png)
 
 ### Pasul 5 — Recalcularea costului
@@ -255,6 +259,7 @@ note. Raportul este o analiză de gestiune: profitul lui nu se înregistrează �
 | `stock_account`, `account`, `delivery` | valorizare, facturare, linii de transport (excluse din verificare) | dependență (manifest) |
 | `deltatech_sale_commission` | comisioanele agenților, calculate din profitul raportului; adaugă coloanele de comision | consumator (aval) |
 | `deltatech_sale_margin_pos` | bonurile POS nefacturate în raportul de profit | consumator (aval) |
+| `deltatech_sale_commission_manufacturer` | producătorul produsului în raportul de profit (căutare, grupare) | consumator (aval), prin `deltatech_sale_commission` |
 | `mrp` (dacă e instalat) | costul produselor kit, din componentele livrate | opțional |
 | `website_sale` | comenzile din website sunt **excluse** din verificare (parametrul `sale.check_price_website`), ca promoțiile să fie posibile | interacțiune tratată explicit |
 

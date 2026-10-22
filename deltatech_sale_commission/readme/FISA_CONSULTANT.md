@@ -228,6 +228,7 @@ relației cu agentul:
 | `deltatech_sale_margin_pos` | bonurile POS nefacturate în *Raport analiză profit*, cu *Comision calculat* din rata responsabilului bonului pe jurnalul de facturi al casei (informativ; bonurile nu apar în lista *Comision*) | opțional |
 | `sale`, `stock`, `account` | comenzi, livrări (costul real), facturi, plăți | prin `deltatech_sale_margin` |
 | `mrp` (dacă e instalat) | costul produselor kit, din componentele livrate | opțional |
+| `deltatech_sale_commission_manufacturer` | producătorul produsului în **Raport analiză profit** (căutare, grupare) | modul punte, se instalează singur odată cu al doilea dintre *Sale Commission* și *Products Extension*; altfel, din **Aplicații** |
 | Salarizare / facturi furnizor | plata efectivă a comisionului | proces |
 
 **Ce e automat:**
