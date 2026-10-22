@@ -1,7 +1,7 @@
 {
-    "name": "Website Sale Cost Price",
+    "name": "Website Cost Price Protection",
     "summary": "Prevent adding to cart if price is lower than cost price",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Website/Website",

@@ -5,7 +5,7 @@
 {
     "name": "Free Disassembly - Bill of Materials",
     "summary": "Fill a disassembly report from a bill of materials",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",

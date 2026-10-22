@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Competitors Price Tracker* (was *Competitors Price*). The technical name `deltatech_competitors_price` does not change.
+
 ## 19.0.1.0.2 (2026-10-02)
 
 - Security: "Fetch" sent the HTTP request to any product URL, so a user could make the

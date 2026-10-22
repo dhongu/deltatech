@@ -1,5 +1,5 @@
 {
-  "title": "Maintenance Actions",
+  "title": "Database Cleanup Actions",
   "summary": "Scheduled database cleanup jobs",
   "icon": "gear",
   "features": [

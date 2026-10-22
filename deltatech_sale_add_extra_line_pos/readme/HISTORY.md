@@ -1,3 +1,7 @@
+## 19.0.1.0.5 (2026-10-22)
+
+- Listed on Odoo Apps as *POS Auto Extra Lines* (was *POS Add Extra Line*). The technical name `deltatech_sale_add_extra_line_pos` does not change.
+
 ## 19.0.1.0.4
 
 - [FIX] POSEXTRA-001: no extra line is added when the main product is not

@@ -1,3 +1,7 @@
+## 19.0.1.0.8 (2026-10-22)
+
+- Listed on Odoo Apps as *Stock Picking Report* (was *Stock Reports*). The technical name `deltatech_stock_report` does not change.
+
 ## 19.0.1.0.7 (2026-10-16)
 
 - Picking Analysis report uses the processed quantity (converted into the

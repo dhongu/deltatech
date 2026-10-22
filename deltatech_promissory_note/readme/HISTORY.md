@@ -1,3 +1,7 @@
+## 19.0.1.0.9 (2026-10-22)
+
+- Listed on Odoo Apps as *Promissory Notes* (was *Promissory Note*). The technical name `deltatech_promissory_note` does not change.
+
 ## 19.0.1.0.8 (2026-10-13)
 
 - The tests run again: they had been switched off since the migration to 19.0,

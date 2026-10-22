@@ -2,9 +2,9 @@
 # See README.rst file on the addons root folder for license details
 
 {
-    "name": "Kit Price",
+    "name": "Kit Price on Sale Orders",
     "summary": "Compute product cost price in sale order line based on kit",
-    "version": "19.0.0.0.3",
+    "version": "19.0.0.0.4",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing/Manufacturing",

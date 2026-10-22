@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Pallet Sales on Website* (was *Sale Pallet Website*). The technical name `deltatech_sale_pallet_website` does not change.
+
 ## 19.0.1.0.2 (2026-10-16)
 
 - The pallet lines of the shop cart are now updated before the delivery price and the cart quantity are recalculated, so both include them.

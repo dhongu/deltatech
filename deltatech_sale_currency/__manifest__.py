@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Currency",
-    "version": "19.0.0.0.3",
+    "name": "Sale Invoice Currency",
+    "version": "19.0.0.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

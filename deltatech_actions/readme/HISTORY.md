@@ -1,3 +1,8 @@
+## 19.0.0.9.11 (2026-10-22)
+
+- Listed on Odoo Apps as *Database Cleanup Actions* (was *Cleanup Actions*), with the same title on the Apps banner.
+  The technical name `deltatech_actions` does not change.
+
 ## 19.0.0.9.10 (2026-10-17)
 
 - Fixed ACTIONS-002: the old messages cleanup failed when no excluded models were

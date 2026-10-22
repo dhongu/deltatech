@@ -30,6 +30,10 @@
 
 # Changelog
 
+## 19.0.0.0.10 (2026-10-22)
+
+- Listed on Odoo Apps as *Account Analytic Split* (was *Account Analytic*). The technical name `deltatech_account_analytic` does not change.
+
 ## 19.0.0.0.6 (2026-07-31)
 
 - Fix: analytic lines generated from `out_receipt` (Sales Receipt) invoices

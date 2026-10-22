@@ -1,3 +1,7 @@
+## 19.0.1.4.20 (2026-10-22)
+
+- Listed on Odoo Apps as *Purchase UBL Import* (was *Purchase UBL*). The technical name `deltatech_purchase_ubl` does not change.
+
 ## 19.0.1.4.19 (2026-10-21)
 
 - The button of the purchase order and the title of the wizard are now *Import Invoice*

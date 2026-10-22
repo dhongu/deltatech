@@ -1,3 +1,7 @@
+## 19.0.1.0.6 (2026-10-22)
+
+- Listed on Odoo Apps as *Product Chatter Protection* (was *Product Chatter*). The technical name `deltatech_product_chatter` does not change.
+
 ## 19.0.1.0.5
 
 - Direct edits of the content (body, attachments) of product chatter messages

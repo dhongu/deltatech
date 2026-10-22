@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Sales Team Logo* (was *Team Logo*). The technical name `deltatech_team_logo` does not change.
+
 ## 19.0.1.0.2 (2026-10-07)
 
 - Apps Store page in English (it was in Romanian), written from the code, with Configuration

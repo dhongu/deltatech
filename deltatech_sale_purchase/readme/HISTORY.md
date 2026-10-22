@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale-Purchase Sync* (was *Sale Purchase*). The technical name `deltatech_sale_purchase` does not change.
+
 ## 19.0.1.0.2 (2026-10-01)
 
 - Cancelling a sale order no longer deletes a draft purchase line that also supplies another sale

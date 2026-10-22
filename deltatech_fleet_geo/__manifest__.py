@@ -2,9 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Fleet Routes Geolocation",
+    "name": "Fleet Geo Coordinates",
     "summary": "Fleet Geographical Information",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",

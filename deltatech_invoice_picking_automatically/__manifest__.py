@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Invoice Pickings Automatically",
-    "version": "19.0.0.0.6",
+    "name": "Auto-Invoice from Delivery",
+    "version": "19.0.0.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking_automatically?v=19.0",

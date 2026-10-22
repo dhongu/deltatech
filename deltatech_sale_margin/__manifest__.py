@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Margin",
+    "name": "Sale Margin & Profit",
     "summary": "Check price in sale order, cost price on invoices and profit report",
-    "version": "19.0.1.3.1",
+    "version": "19.0.1.3.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

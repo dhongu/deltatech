@@ -1,3 +1,8 @@
+## 19.0.1.1.5 (2026-10-22)
+
+- Listed on Odoo Apps as *Purchase Orders Bulk Email with XLSX* (was *Purchase: Send Multi Orders by Email with XLSX*), with the same title on the Apps banner.
+  The technical name `deltatech_purchase_mail` does not change.
+
 ## 19.0.1.1.4 (2026-10-16)
 
 - Fix the XLSX summary: an order reference, product code or line description starting with "=" was stored as an Excel formula in the file sent to the vendor. These columns are now always written as text.

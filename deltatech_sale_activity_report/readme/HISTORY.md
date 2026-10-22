@@ -1,3 +1,7 @@
+## 19.0.1.2.1 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale Activity Log* (was *Sale Order Last Modified*). The technical name `deltatech_sale_activity_report` does not change.
+
 ## 19.0.1.2.0 (2026-10-09)
 
 **Fix** — scheduling an activity on a sale order no longer fails when

@@ -1,9 +1,9 @@
 # © 2025 Deltatech
 # See README.rst file on the addons root folder for license details
 {
-    "name": "Deltatech restrict incomplete set deliveries",
+    "name": "Block Incomplete Kit Deliveries",
     "summary": "Block the validation of deliveries that contain incomplete kits",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",

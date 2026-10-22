@@ -3,9 +3,9 @@
 
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Purchase: Send Multi Orders by Email with XLSX",
+    "name": "Purchase Orders Bulk Email with XLSX",
     "summary": "Select multiple purchase orders and send an email with XLSX summary and attached PDFs",
-    "version": "19.0.1.1.4",
+    "version": "19.0.1.1.5",
     "author": "Deltatech, Terrabit",
     "license": "LGPL-3",
     "category": "Purchases",

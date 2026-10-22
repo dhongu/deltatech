@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Purchase",
+    "name": "Sale-Purchase Sync",
     "summary": "Remove lines from purchase orders when the linked sale order is cancelled",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
