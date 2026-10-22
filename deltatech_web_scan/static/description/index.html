@@ -454,6 +454,18 @@ the same functions without the database.</li>
 </div>
 </div>
 <div class="section" id="section-1">
+<h1>19.0.1.0.1 (2026-10-22)</h1>
+<ul class="simple">
+<li>A normal page was reported as blocked by a protection against robots
+when it only loaded the detection script that Cloudflare adds to every
+page (<tt class="docutils literal"><span class="pre">/cdn-cgi/challenge-platform/scripts/jsd/</span></tt>, seen on
+granit-parts.ro), or when it had a CAPTCHA in a login or contact form.
+Only the challenge pages (Cloudflare “Just a moment…”, DataDome,
+PerimeterX) and the answers 403, 429 and 503 count now. <strong>Behavior
+change:</strong> such pages are read instead of being marked <em>Blocked</em>.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
 <h1>19.0.1.0.0 (2026-10-22)</h1>
 <ul class="simple">
 <li>First version: safe and polite reading of product pages (public
