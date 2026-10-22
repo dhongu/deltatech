@@ -4,3 +4,8 @@
 
 - Point of Sale orders without an invoice in the sale margin report, with the cost computed
   at the closing of the session and, with the commissions, the rates of the point of sale journal.
+- Module icon (`icon.svg` + `icon.png`).
+
+- The commission rates of the POS orders are taken from the invoice journal of the point of sale:
+  the rates accept only sales journals, and the journal of the POS orders is a miscellaneous one.
+- Consultant sheet, usage guide and screenshots.

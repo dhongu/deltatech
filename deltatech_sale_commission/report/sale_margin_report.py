@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import fields, models
+from odoo.exceptions import AccessError
 
 # the columns of the commission rates, from the lateral join "cu"
 RATE_COLUMNS = ("rate", "manager_rate", "director_rate", "manager_user_id", "director_user_id")
@@ -99,6 +100,15 @@ class SaleMarginReport(models.Model):
 
     def _invoice_line_fields(self):
         return super()._invoice_line_fields() + ["commission", "commission_paid"]
+
+    def write(self, vals):
+        # The sales managers may write the report (the cost, from deltatech_sale_margin), but the
+        # commission itself stays with the commission managers, as before the split.
+        if {"commission", "commission_paid"} & set(vals) and not self.env.user.has_group(
+            "deltatech_sale_commission.group_commission_manager"
+        ):
+            raise AccessError(self.env._("Only a Commission Manager can change the commission."))
+        return super().write(vals)
 
     def action_set_commission_paid(self):
         # the rows of the other sources have no commission to mark, they are left out

@@ -30,3 +30,34 @@ Click **Confirm**. On the **Warn only** policy, the order chatter receives one n
 The same policy applies on the customer invoice line, so an invoice for an order sold below cost is created without error on **Warn only**.
 
 Delivery lines, services, loyalty rewards and website orders are not checked.
+
+**Step 5 — Check the cost on the customer invoice**
+
+On the customer invoice, the **Cost Price** column shows the unit cost of the goods next to the **Price**. It is computed automatically:
+- from the **delivery** of the invoiced order (value of the stock move to the customer divided by quantity, in the unit of the line);
+- for kit products, from the delivered components;
+- for invoices without an order or delivery, from the product cost;
+- for credit notes, from the **goods return**. Without a return, a reversal of the invoice takes the cost of the invoice line (invoice and reversal net to zero profit), while a price or discount reduction has cost 0.
+
+The column is visible only to users in the cost group. On the **Block the sale** policy, a draft invoice with a price below cost cannot be saved.
+
+![Customer invoice with the cost price on each line](https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_invoice_cost_price.png)
+
+**Step 6 — Analyse the profit**
+
+Go to **Sales → Reporting → Profit Analysis**. The pivot opens on last month, grouped by product. Each row shows the sale value (without VAT), cost value, profit value, **Markup** (profit / cost) and **Margin** (profit / sale). Regroup by salesperson, category, customer, invoice, journal or month. Totals recalculate markup and margin from the sums. Export the table to Excel with the download button. Credit notes reduce both sale and cost.
+
+The report is shown to the cost group and to the Sales administrators.
+
+![Profit analysis report](https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_profit_report.png)
+
+**Step 7 — Recompute the cost when needed**
+
+If a line cost is wrong (for example the delivery was validated after invoicing), switch the report to the **list** view, remove the *Product* grouping from the search, select the lines and choose **Actions → Update Purchase Price**:
+- **Price from delivery** (default) recomputes the cost from the delivery, falling back to the product cost;
+- unchecked, it takes the current product cost, without unit conversion: keep the default;
+- **For all lines** applies to every line in the report, from all periods: it rewrites the profit of periods already reported.
+
+A scheduled action also refreshes, every day, the cost of the lines invoiced in the last 7 days. Only the Sales administrators (and, with `deltatech_sale_commission`, the Commission Managers) can run the wizard.
+
+![Update Purchase Price wizard](https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_update_cost_wizard.png)

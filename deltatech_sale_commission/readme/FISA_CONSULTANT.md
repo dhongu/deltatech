@@ -1,8 +1,7 @@
-# Fișă Modul: Comisioane de vânzare calculate din profit, cu analiza profitabilității
+# Fișă Modul: Comisioane de vânzare calculate din profit
 
 **Modul:** `deltatech_sale_commission`
-**Utilizator principal:** Manager de vânzări, responsabil salarizare / resurse umane, contabil
-(analiza profitului)
+**Utilizator principal:** Manager de vânzări, responsabil salarizare / resurse umane
 **Prioritate:** 🟡 Medie (nu generează note contabile, dar stabilește suma plătită agenților)
 
 ---
@@ -19,12 +18,9 @@ Comisionul se acordă agentului. Pentru managerul și directorul lui se **calcul
 cu propriul procent. Poate fi condiționat de **încasarea la
 timp** a facturii: dacă clientul plătește cu întârziere peste o limită, comisionul liniei devine 0.
 
-În plus, modulul aduce:
-- **raportul de analiză a profitului** pe produs, categorie, agent, client și perioadă, cu adaos și
-  marjă;
-- **costul pe linia facturii client**, luat din livrare;
-- blocarea facturării sub cost, pentru companiile care au ales această politică în
-  `deltatech_sale_margin`.
+Profitul vine din `deltatech_sale_margin`, care aduce **costul pe linia facturii client** (din
+livrare), **raportul de analiză a profitului** și recalcularea costului (vezi fișa acelui modul).
+Modulul de comisioane adaugă peste raport coloanele, filtrele și meniul de comision.
 
 ## 2. Bază legală și context
 
@@ -40,17 +36,17 @@ Modulul nu are o bază legală proprie și nu generează note contabile. Context
 |---|---|---|
 | Manager de vânzări / responsabil comisioane | configurează procentele, calculează comisioanele, recalculează costul, le marchează plătite | grupul **Administrator comisioane** (nu e nevoie de un drept de facturare) |
 | Utilizator care consultă | vede raportul de profit și lista comisioanelor, fără să le poată modifica | grupul **Vizualizare comisioane** |
-| Contabil | citește raportul de analiză a profitului | **Vizualizare comisioane** |
 | Agent de vânzări | vinde; nu are acces la comisioane | fără grupurile de comision |
 
 Cele două grupuri nu le primește nimeni la instalare, **nici administratorul**. Până nu sunt
-atribuite, meniurile *Comision* și *Raport analiză profit* nu apar nimănui.
+atribuite, meniul *Comision* nu apare nimănui. *Raport analiză profit* îl văd, pe lângă grupurile de
+comision, grupul de cost și managerii de vânzări (din `deltatech_sale_margin`).
 
 **Atenție la „Vizualizare comisioane”:** raportul de profit arată costul și marja, deci ocolește
 ascunderea costului din `deltatech_sale_margin`. Dați grupul doar celor care au voie să vadă costul.
-Grupul doar citește: **Marchează plătit**, corectarea *Comision real* sau *Preț cost* și asistenții
-**Calcul comisioane** și **Actualizare preț achiziție** sunt rezervate grupului **Administrator
-comisioane**.
+Grupul doar citește: **Marchează plătit**, corectarea *Comision real* și asistentul **Calcul
+comisioane** sunt rezervate grupului **Administrator comisioane**. Corectarea *Preț cost* și
+**Actualizare preț achiziție** le pot face **Administrator comisioane** și managerii de vânzări.
 
 Costul de pe factură e vizibil doar grupului **Show purchase price on sale order lines and customer
 invoice** din `deltatech_sale_margin` (vezi fișa acelui modul).
@@ -68,7 +64,7 @@ Modulul nu atinge conturi. Datele pe care se bazează:
 |---|---|---|
 | Comisioane agenți | *Vânzări → Configurare → Comisioane agenți* | procentul agentului, al managerului și al directorului, pe jurnal de vânzări (obligatoriu, un singur rând pe agent și jurnal) |
 | Agentul de vânzări | factura (*Agent de vânzări*) sau comanda de vânzare, după setare | cui îi revine comisionul |
-| Costul liniei (*Preț cost*) | linia facturii client | calculat din livrare; baza profitului |
+| Costul liniei (*Preț cost*) | linia facturii client | calculat din livrare de `deltatech_sale_margin`; baza profitului |
 | Plata facturii și scadența | factura | condiția de încasare la timp |
 | Parametrul `deltatech_sale_commission.days_for_commission` | *Setări → Tehnic → Parametri sistem* | numărul maxim de zile de întârziere a încasării (0 = cel târziu la scadență) |
 
@@ -89,8 +85,8 @@ Date minime pentru demo (folosite și în capturi):
 
 ## 5. Configurare inițială
 
-1. Instalați `deltatech_sale_commission` (dependență: `deltatech_sale_margin`, care aduce `sale`,
-   `stock` și `account`).
+1. Instalați `deltatech_sale_commission` (dependență: `deltatech_sale_margin`, care aduce costul pe
+   factură, raportul de profit, `sale`, `stock` și `account`).
 2. **Drepturi** — în *Setări → Utilizatori*, dați grupul **Administrator comisioane** celor care
    calculează comisioanele și **Vizualizare comisioane** celor care doar le consultă. Pentru costul
    pe factură, adăugați și grupul de cost din `deltatech_sale_margin`.
@@ -136,53 +132,10 @@ Un agent care facturează pe mai multe jurnale are câte un rând pentru fiecare
 
 ![Procentele de comision pe agent, manager și director](screenshots/02_comisioane_agenti.png)
 
-### Pasul 3 — Costul pe factura client
+Costul de pe factură și raportul de profit pe care se sprijină comisionul sunt descrise în fișa
+`deltatech_sale_margin` (pașii 3–5: costul pe factură, analiza profitului, recalcularea costului).
 
-Pe factura clientului, coloana **Preț cost** arată costul unitar al mărfii, lângă **Preț**. Costul
-se calculează automat:
-- din **livrarea** comenzii facturate: valoarea mișcării de stoc spre client, împărțită la cantitate
-  (costul real FIFO sau mediu al mărfii ieșite);
-- la produsele de tip kit, din componentele livrate;
-- la facturile fără comandă sau fără livrare, din **costul produsului**;
-- la notele de credit, din **returul de marfă**. Fără retur:
-  - **stornarea facturii** (același produs la același preț, pe toată cantitatea sau pe o parte) preia
-    costul unitar al liniei din factură, deci factura și stornarea dau împreună profit 0;
-  - o notă cu **prețul sau discountul modificat** (reducere de preț) sau o notă care nu stornează o
-    factură are cost **0**, pentru că marfa a fost deja costată pe factura inițială. Costul se
-    recalculează la modificarea prețului sau a discountului.
-
-Pe demo: 10 × Laptop 14" la 3.500,00, cu Preț cost 2.800,00. Coloana e vizibilă doar grupului de cost
-din `deltatech_sale_margin`. Pe facturile în valută, **Preț** e în moneda facturii, iar **Preț cost**
-în lei, moneda companiei.
-
-Pe o companie care are în `deltatech_sale_margin` politica **Blochează vânzarea**, o factură client
-în ciornă cu preț sub cost nu se poate salva („Nu puteți vinde sub prețul de achiziție.”). Se
-compară prețul unitar **înainte de discount**, deci o linie adusă sub cost prin discount nu e blocată.
-Excepție fac utilizatorii din grupul **Vânzare sub prețul de achiziție**.
-
-![Factura client, cu prețul de cost pe linie](screenshots/03_factura_pret_cost.png)
-
-### Pasul 4 — Analiza profitului
-
-Accesați **Vânzări → Raportare → Raport analiză profit**. Se deschide ca tabel pivot, pe luna trecută,
-grupat pe produs. Liniile se pot regrupa pe agent, categorie, client, factură, jurnal sau lună.
-
-1. **Găsiți pe ecran** — pe fiecare rând, **Valoare vânzare**, **Valoare cost**, **Valoare profit**,
-   **Adaos (%)** și **Marjă profit (%)**.
-2. **Verificați**:
-   - profitul = vânzare − cost; pe demo, total 43.800,00 − 34.000,00 = 9.800,00;
-   - **Adaos** = profit / cost (pe demo, Laptop 25 %);
-   - **Marjă** = profit / vânzare (pe demo, Laptop 20 %);
-   - pe total și pe grupări, adaosul și marja se recalculează din sume, nu sunt media rândurilor.
-3. **Treceți mai departe** — **Introduceți în foaia de calcul** sau exportul (⬇) scot tabelul în
-   Excel.
-
-Raportul cuprinde facturile client, notele de credit și chitanțele postate, pe liniile de produs și
-de discount. Notele de credit scad din vânzare și din cost.
-
-![Raportul de analiză a profitului](screenshots/04_raport_profit.png)
-
-### Pasul 5 — Comisioanele de calculat
+### Pasul 3 — Comisioanele de calculat
 
 Accesați **Vânzări → Comenzi → Comision → Comision**. Lista se deschide pe luna trecută și doar pe
 facturile **plătite** (inclusiv cele *În plată*). Scoateți filtrul *Plătit* ca să vedeți și facturile
@@ -192,16 +145,16 @@ Pe fiecare linie:
 - factura, produsul, agentul și clientul;
 - vânzarea, costul și profitul;
 - **Comision calculat** = rata agentului × profit;
-- **Comision real** — cel stabilit la calcul (pasul 6), inițial 0;
+- **Comision real** — cel stabilit la calcul (pasul 4), inițial 0;
 - **Comision plătit**.
 
 Pe demo: Laptop, profit 7.000,00, comision calculat 700,00; Monitor, profit 2.000,00, comision calculat
 200,00. Comisioanele managerului și directorului (140 și 70 pe Laptop) sunt în coloanele opționale
 (⇄) *Comision manager calculat* și *Comision director calculat*.
 
-![Lista comisioanelor, înainte de calcul](screenshots/05_comisioane_de_calculat.png)
+![Lista comisioanelor, înainte de calcul](screenshots/03_comisioane_de_calculat.png)
 
-### Pasul 6 — Calculul comisioanelor
+### Pasul 4 — Calculul comisioanelor
 
 Selectați liniile de calculat și alegeți **⚙ Acțiuni → Calcul comisioane**. Asistentul listează
 liniile selectate. Apăsați **Aplică**.
@@ -227,11 +180,12 @@ Deschis fără selecție, listează liniile facturilor plătite care nu au înc�
 Asistentul scrie doar comisionul **agentului**. Comisioanele managerului și directorului rămân
 informative, în coloanele *calculat*.
 
-![Asistentul de calcul al comisioanelor](screenshots/06_calcul_comisioane.png)
+![Asistentul de calcul al comisioanelor](screenshots/04_calcul_comisioane.png)
 
-### Pasul 7 — Rezultatul calculului
+### Pasul 5 — Rezultatul calculului
 
-După **Aplică**, lista se deschide pe liniile calculate. Pe demo:
+După **Aplică**, lista se deschide pe liniile calculate, fără filtre (captura arată aceleași linii în
+lista din meniu, cu filtrele ei). Pe demo:
 - Laptop: încasat la 3 zile după scadență, sub limita de 10 → **Comision real 700,00**;
 - Monitor: încasat la 20 de zile după scadență, peste limită → **Comision real 0,00**.
 
@@ -242,9 +196,9 @@ După **Aplică**, lista se deschide pe liniile calculate. Pe demo:
 3. **Treceți mai departe** — **Comision real** se poate corecta manual, înainte de plată: deschideți
    rândul și modificați câmpul în formular (lista nu e editabilă).
 
-![Comisioanele după calcul](screenshots/07_comisioane_calculate.png)
+![Comisioanele după calcul](screenshots/05_comisioane_calculate.png)
 
-### Pasul 8 — Marcarea comisionului plătit
+### Pasul 6 — Marcarea comisionului plătit
 
 După ce comisionul a fost plătit agentului (pe stat de plată sau pe factura agentului), selectați
 liniile și apăsați **Marchează plătit** din antetul listei. Filtrele **Comision neplătit** și
@@ -252,28 +206,7 @@ liniile și apăsați **Marchează plătit** din antetul listei. Filtrele **Comi
 
 Pe demo, linia Laptop apare cu **Comision plătit** bifat.
 
-![Comisionul marcat plătit](screenshots/08_comisioane_platite.png)
-
-### Pasul 9 — Recalcularea costului
-
-Dacă costul unei linii e greșit (de exemplu livrarea s-a validat după facturare, sau costul
-produsului s-a corectat), selectați liniile și alegeți **⚙ Acțiuni → Actualizare preț achiziție**:
-- **Preț din livrare** (implicit) — recalculează costul din livrare, iar dacă nu există, ia costul
-  produsului;
-- fără bifă — ia direct costul actual al produsului;
-- **Pentru toate liniile** — aplică recalcularea pe **toate** liniile din raport, din toate
-  perioadele, nu doar pe cele selectate.
-
-Asistentul e rezervat grupului **Administrator comisioane**. Pe notele de credit fără retur,
-recalcularea din livrare păstrează costul 0.
-
-În plus, acțiunea programată **Actualizare zilnică preț achiziție** recalculează zilnic, din livrare,
-costul liniilor facturate în ultimele 7 zile.
-
-Profitul și comisionul calculat se actualizează imediat. **Comisionul real** rămâne cel stabilit la
-calcul, până la un nou calcul (pasul 6).
-
-![Asistentul de recalculare a costului](screenshots/09_actualizare_pret_achizitie.png)
+![Comisionul marcat plătit](screenshots/06_comisioane_platite.png)
 
 ### Note de monografie și raportare
 
@@ -291,15 +224,14 @@ relației cu agentul:
 
 | Modul / proces | Rol în flux | Tip legătură |
 |---|---|---|
-| `deltatech_sale_margin` | grupul de cost, politica de vânzare sub cost (blocarea pe factură) | dependență (manifest) |
+| `deltatech_sale_margin` | costul pe factură, raportul de profit, recalcularea costului, grupul de cost | dependență (manifest) |
+| `deltatech_sale_margin_pos` | bonurile POS nefacturate în *Raport analiză profit*, cu *Comision calculat* din rata responsabilului bonului pe jurnalul de facturi al casei (informativ; bonurile nu apar în lista *Comision*) | opțional |
 | `sale`, `stock`, `account` | comenzi, livrări (costul real), facturi, plăți | prin `deltatech_sale_margin` |
 | `mrp` (dacă e instalat) | costul produselor kit, din componentele livrate | opțional |
 | Salarizare / facturi furnizor | plata efectivă a comisionului | proces |
 
 **Ce e automat:**
-- costul pe linia facturii, luat din livrare;
-- recalcularea zilnică a costului pe ultimele 7 zile;
-- profitul, adaosul, marja și comisioanele calculate;
+- comisioanele calculate (agent, manager, director) din profitul raportului;
 - aplicarea condiției de încasare la calcul.
 
 **Ce rămâne manual:**
@@ -311,15 +243,14 @@ relației cu agentul:
 
 ## 8. Verificări pentru consultant
 
-- [ ] Meniurile *Comision* și *Raport analiză profit* apar doar utilizatorilor cu grupurile de
-      comision, inclusiv pentru administrator, după atribuirea grupului.
+- [ ] Meniul *Comision* apare doar utilizatorilor cu grupurile de comision, inclusiv pentru
+      administrator, după atribuirea grupului; *Raport analiză profit* îl văd și ei.
 - [ ] Un utilizator cu *Administrator comisioane*, fără drept de facturare, rulează **Aplică** fără
       eroare; unul cu *Vizualizare comisioane* nu vede asistenții în *Acțiuni* și nici butonul
       **Marchează plătit**.
 - [ ] Fiecare agent are rândul lui în *Comisioane agenți*, cu jurnal; un al doilea rând pe același
       agent și jurnal e refuzat.
 - [ ] Pe demo, Laptop: Comision calculat 700,00 (10 % × 7.000,00), manager 140,00, director 70,00.
-- [ ] Preț cost pe factură = costul real al mărfii livrate (2.800,00 pe demo), nu prețul de listă.
 - [ ] Cu `days_for_commission` = 10: factura încasată la 3 zile după scadență primește comisionul,
       cea încasată la 20 de zile primește 0, iar cea neîncasată primește 0.
 - [ ] Fără parametru, toate liniile selectate primesc comisionul calculat.
@@ -332,8 +263,12 @@ relației cu agentul:
       linia.
 - [ ] După schimbarea setării „Comision agent de vânzări” și **Salvează**, raportul ia agentul după
       noua setare (vezi limitările: schimbarea e retroactivă).
-- [ ] Pe politica **Blochează vânzarea**, o factură în ciornă cu preț sub cost e respinsă pentru un
-      utilizator fără grupul de excepție.
+- [ ] Cu `deltatech_sale_margin_pos`, în *Raport analiză profit* (pivot, măsura *Comision calculat*,
+      filtrul *Vânzări POS*), bonurile au comisionul calculat din rata responsabilului bonului pe
+      jurnalul de facturi al casei; în lista *Comision* bonurile nu apar.
+- [ ] Un manager de vânzări fără grupurile de comision poate corecta costul în raport, dar nu
+      *Comision real* sau *Comision plătit* („Doar un administrator de comisioane poate modifica
+      comisionul.”).
 
 ## 9. Mesaje de eroare frecvente
 
@@ -346,8 +281,7 @@ relației cu agentul:
 | Eroare de acces la **Marchează plătit**, la salvarea rândului sau la asistenți; asistenții lipsesc din *Acțiuni* | Utilizatorul are doar *Vizualizare comisioane* | Dați grupul *Administrator comisioane* celor care lucrează cu comisioanele |
 | „Parametrul de sistem deltatech_sale_commission.days_for_commission trebuie să fie un număr întreg de zile…” sau „…nu poate fi negativ.” | Valoarea parametrului nu e un număr întreg ≥ 0 | Corectați parametrul (ștergeți valoarea pentru a renunța la condiție) |
 | Linii cu comision real 0 pe facturi neîncasate | Parametrul `days_for_commission` e setat, iar factura nu e plătită integral | Recalculați după încasare |
-| Profit greșit, cost 0 sau costul de listă | Livrarea nu era validată la facturare, sau produsul nu are cost | **Actualizare preț achiziție**, după validarea livrării sau corectarea costului |
-| „Nu puteți vinde sub prețul de achiziție.” la salvarea facturii | Politica **Blochează vânzarea** din `deltatech_sale_margin` și un preț sub cost | Corectați prețul sau folosiți un utilizator din grupul **Vânzare sub prețul de achiziție** |
+| Profit greșit, cost 0 sau costul de listă | Livrarea nu era validată la facturare, sau produsul nu are cost | **Actualizare preț achiziție** (fișa `deltatech_sale_margin`), după validarea livrării sau corectarea costului |
 | Asistentul *Calcul comisioane*, deschis fără selecție, arată mai multe linii decât vă așteptați | Fără selecție, listează toate liniile plătite fără comision, din toate perioadele | Selectați liniile în lista *Comision*, apoi **Acțiuni → Calcul comisioane** |
 
 ## 10. Capturi de ecran
@@ -361,13 +295,13 @@ sunt datate în luna trecută, perioada pe care se deschid implicit rapoartele.
 |---|---|---|
 | 1 | `01_setari_agent_comision.png` | Setarea **Comision agent de vânzări** (Factura / Comanda de vânzare) |
 | 2 | `02_comisioane_agenti.png` | Procentele agentei, managerului și directorului, pe jurnal |
-| 3 | `03_factura_pret_cost.png` | Factura client, cu **Preț cost** pe linie |
-| 4 | `04_raport_profit.png` | Raportul de analiză a profitului (pivot) |
-| 5 | `05_comisioane_de_calculat.png` | Lista **Comision**, înainte de calcul |
-| 6 | `06_calcul_comisioane.png` | Asistentul **Calcul comisioane** |
-| 7 | `07_comisioane_calculate.png` | Lista după calcul: comision real 700 / 0 |
-| 8 | `08_comisioane_platite.png` | Comisionul marcat plătit |
-| 9 | `09_actualizare_pret_achizitie.png` | Asistentul **Actualizare preț achiziție** |
+| 3 | `03_comisioane_de_calculat.png` | Lista **Comision**, înainte de calcul |
+| 4 | `04_calcul_comisioane.png` | Asistentul **Calcul comisioane** |
+| 5 | `05_comisioane_calculate.png` | Lista după calcul: comision real 700 / 0 |
+| 6 | `06_comisioane_platite.png` | Comisionul marcat plătit |
+
+Capturile costului pe factură, ale raportului de profit și ale recalculării costului sunt în fișa
+`deltatech_sale_margin`.
 
 Regenerare (doar clasa acestui modul, altfel se regenerează și capturile din `deltatech_sale_margin`):
 
@@ -384,7 +318,8 @@ Păstrați ordinea de lucru:
 2. alegerea agentului care primește comisionul (factură sau comandă);
 3. procentele pe agent **și jurnal**;
 4. limita de încasare, dacă e politica firmei;
-5. la sfârșitul perioadei: verificarea costurilor (recalculare dacă e nevoie);
+5. la sfârșitul perioadei: verificarea costurilor în raportul de profit (recalculare dacă e nevoie,
+   vezi fișa `deltatech_sale_margin`);
 6. calculul;
 7. corecturile;
 8. plata în afara modulului și marcarea *Comision plătit*.
@@ -395,10 +330,8 @@ Subliniați că baza comisionului e **profitul**, nu vânzarea, și că ratele s
 ### Limitări cunoscute
 
 - **Grupurile de comision nu sunt atribuite nimănui la instalare**, nici administratorului.
-- **Notele de credit fără retur legat de comandă** au costul facturii doar dacă sunt stornarea ei (același
-  preț și discount); altfel au cost 0. O notă de credit creată manual (fără factură stornată) pentru
-  marfă returnată fizic, fără retur legat de comandă, are deci cost 0, până la validarea returului și
-  **Actualizare preț achiziție**, sau până la corectarea manuală a *Preț cost*.
+- **Notele de credit fără retur legat de comandă** au cost 0 dacă nu sunt stornarea facturii (vezi
+  fișa `deltatech_sale_margin`), deci toată valoarea lor scade din profit și din comision.
 - **Vânzarea sub cost** produce comision calculat negativ, care se scrie ca real (la încasare la timp
   sau fără parametru).
 - **O factură fără comision** (întârziată sau neîncasată), urmată de o notă de credit, lasă agentului
@@ -409,14 +342,14 @@ Subliniați că baza comisionului e **profitul**, nu vânzarea, și că ratele s
   deja plătite. Alegeți varianta la implementare.
 - **Doar comisionul agentului** se stabilește la calcul. Comisioanele managerului și directorului sunt
   doar calculate (informative).
+- **Actualizare preț achiziție deschisă fără selecție** ia, cu acest modul instalat, doar liniile
+  plătite care nu au încă comision.
 - **Recalcularea costului nu recalculează comisionul real**: după **Actualizare preț achiziție** sau
   după rularea zilnică, *Comision real* rămâne cel vechi până la un nou calcul.
-- **Recalcularea zilnică suprascrie** costurile corectate manual pe liniile din ultimele 7 zile (cu
-  excepția costului 0, pe care nu îl scrie niciodată).
 - **Agentul modificat în raport** se scrie pe **toată** factura postată (*Agent de vânzări*). Pe
   varianta *Comanda de vânzare*, raportul ia agentul din comandă, deci modificarea nu schimbă nimic în
   raport.
-- **Asistenții de calcul și de actualizare a costului** permit și „Adaugă o linie”.
+- **Asistentul de calcul** permite și „Adaugă o linie”.
 - **La actualizarea modulului** de la o versiune anterioară, rândurile *Comisioane agenți* fără jurnal
   primesc jurnalul de vânzări al companiei, dacă e unul singur și dacă agentul nu are deja un rând pe
   el (câte un rând pe agent). Acești agenți primesc de atunci comision calculat și pe facturile din

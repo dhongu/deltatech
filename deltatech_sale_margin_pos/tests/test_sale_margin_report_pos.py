@@ -83,7 +83,7 @@ class TestSaleMarginReportPos(TestPoSCommon):
             self.skipTest("deltatech_sale_commission is not installed")
         self.env.user.group_ids |= self.env.ref("deltatech_sale_commission.group_commission_manager")
         self.env["commission.users"].create(
-            {"user_id": self.env.user.id, "journal_id": self.config.journal_id.id, "rate": 0.1}
+            {"user_id": self.env.user.id, "journal_id": self.config.invoice_journal_id.id, "rate": 0.1}
         )
         order = self._order(2)
         row = self._rows(pos_order_id=order.id)

@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="deltatech_sale_margin.view_sale_margin_report_list" />
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
-                <field name="pos_order_id" optional="hide" />
+                <field name="pos_order_id" optional="show" />
             </field>
         </field>
     </record>
