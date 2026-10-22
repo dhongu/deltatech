@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 7 automated tests</div>
       
     </div>
   </div>
@@ -28,19 +28,6 @@
   </div>
 </div>
 
-<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
-  <li class="nav-item mx-1 mb-2">
-    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
-       style="padding:10px 22px;">Overview</a>
-  </li>
-  <li class="nav-item mx-1 mb-2">
-    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
-       style="padding:10px 22px;">Versions</a>
-  </li>
-</ul>
-<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Controls the changes of the products' sale price, with a dated and numbered price change document
@@ -63,28 +50,6 @@ and its report (the price change minutes).</p>
 <p>Can print price changes from product template. If a system parameter is set -
 price_change.public_pricelist_id - with the id of a pricelist, only the lines related to that
 pricelist will be printed.</p>
-</div>
-<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-22)</h2>
-<ul>
-<li>Migration to 19.0.</li>
-<li>New log of the list price changes (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.price.change.log</code>): one line for each product and
-  day, from the price of the previous day to the current price; a change back to the previous price
-  removes the line. Shown in <em>Sales &gt; Products &gt; List Price Changes</em> and on the product form.</li>
-<li>New document type <em>From price changes</em>, with the <strong>Load Price Changes</strong> button: brings in the
-  logged changes not yet taken by another document, so the price change minutes can be printed
-  after the prices were changed directly on the products.</li>
-<li>The prices written by a confirmed <em>In product</em> document are not logged again.</li>
-<li>The report shows the prices including taxes, the totals and the signatures, and the change date
-  for the documents made from the log.</li>
-<li>The document gets its number at confirmation for all types; before, only the <em>In pricelist</em>
-  documents were numbered and the others stayed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/</code>.</li>
-<li>The price change report of a variant listed the lines of the template with the same id as the
-  variant; it now lists the lines of the variant.</li>
-<li>Salespersons can read the price change documents; before, only the sales managers had access.</li>
-</ul>
-</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">

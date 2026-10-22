@@ -8,7 +8,7 @@
                     <t t-set="with_stock" t-value="o.type in ('product', 'log')" />
                     <div class="page">
                         <h2>
-                            Price change:
+                            Price Change Minutes no.
                             <span t-field="o.name" />
                         </h2>
                         <h3>
@@ -29,10 +29,10 @@
                                     <th t-if="o.type == 'log'">Change Date</th>
                                     <th>Description</th>
                                     <th t-if="with_stock" class="text-end">Quantity</th>
-                                    <th class="text-end">Old Price</th>
+                                    <th class="text-end">Old Price excl. Taxes</th>
                                     <th t-if="with_stock" class="text-end">Old Price incl. Taxes</th>
                                     <th t-if="with_stock" class="text-end">Old Amount</th>
-                                    <th class="text-end">New Price</th>
+                                    <th class="text-end">New Price excl. Taxes</th>
                                     <th t-if="with_stock" class="text-end">New Price incl. Taxes</th>
                                     <th t-if="with_stock" class="text-end">New Amount</th>
                                     <th t-if="with_stock" class="text-end">Difference Amount</th>
@@ -105,6 +105,12 @@
                                         </td>
                                         <td class="text-end">
                                             <strong t-field="o.diff_amount" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Difference incl. Taxes</td>
+                                        <td class="text-end">
+                                            <span t-field="o.diff_amount_incl" />
                                         </td>
                                     </tr>
                                 </table>

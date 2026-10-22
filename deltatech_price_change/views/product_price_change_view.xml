@@ -35,7 +35,6 @@
                     <sheet>
                         <div class="oe_title">
                             <h1>
-                                <label for="name" string="Change Product Price" />
                                 <field name="name" class="oe_inline" readonly="1" />
                             </h1>
                         </div>
@@ -57,7 +56,7 @@
                         <page string="Lines">
                             <field name="line_ids" readonly="state == 'done'">
                                 <list editable="bottom">
-                                    <field name="change_date" column_invisible="parent.type != 'log'" />
+                                    <field name="change_date" string="Date" column_invisible="parent.type != 'log'" />
                                     <field name="product_id" column_invisible="parent.use_product_template" />
                                     <field
                                         name="product_template_id"
@@ -70,8 +69,8 @@
                                         column_invisible="parent.type != 'pricelist'"
                                         required="parent.type == 'pricelist'"
                                     />
-                                    <field name="old_price" readonly="1" force_save="1" />
-                                    <field name="new_price" readonly="log_id" />
+                                    <field name="old_price" string="Old Price" readonly="1" force_save="1" />
+                                    <field name="new_price" string="New Price" readonly="log_id" />
                                      <field name="pricelist_date_start" column_invisible="parent.type != 'pricelist'" />
                                         <field
                                         name="pricelist_date_end"
@@ -80,7 +79,7 @@
                                     <field name="quantity" column_invisible="parent.type == 'pricelist'" />
                                     <field name="old_amount" column_invisible="parent.type == 'pricelist'" />
                                     <field name="new_amount" column_invisible="parent.type == 'pricelist'" />
-                                    <field name="diff_amount" column_invisible="parent.type == 'pricelist'" />
+                                    <field name="diff_amount" string="Difference" column_invisible="parent.type == 'pricelist'" />
                                 </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
