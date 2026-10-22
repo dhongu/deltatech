@@ -1,5 +1,14 @@
 # Changelog
 
+## 19.0.1.7.0 (2026-10-22)
+
+- Margin report: other sources of sales can be added to the report (`_extra_sources()`), used by
+  the new `deltatech_sale_commission_pos` for the Point of Sale orders without an invoice. Their
+  columns are matched by name with those of the invoices, so the extensions that add a column
+  keep working. Without such a module the report is unchanged.
+- The rows that are not invoice lines are read-only: changing them is refused, *Set Paid* and the
+  commission and cost wizards leave them out.
+
 ## 19.0.1.6.4 (2026-10-17)
 
 - Cost price from deliveries: when an invoice line is delivered in moves of different units

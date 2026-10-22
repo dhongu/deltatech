@@ -4,7 +4,7 @@
 {
     "name": "Sale Commission",
     "summary": "Salesperson commissions, margin control and a warning when selling below cost",
-    "version": "19.0.1.6.4",
+    "version": "19.0.1.7.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

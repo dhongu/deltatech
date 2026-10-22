@@ -4,6 +4,7 @@
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models, tools
+from odoo.exceptions import UserError
 from odoo.tools import SQL, Query
 
 
@@ -221,18 +222,23 @@ class SaleMarginReport(models.Model):
         # journal only, so a row filed under the wrong company still applied. It no longer does,
         # which is right — but on an existing database it silently takes a commission away, hence
         # the check in scripts/sale_commission_precheck_1_6_0.py and the ORM constraint on the model.
-        from_str += f"""
+        from_str += self._commission_rate_join(user_column, "s.journal_id", "s.company_id")
+        return from_str
+
+    @staticmethod
+    def _commission_rate_join(user_column, journal_column, company_column):
+        """The rates of the salesperson on the journal, as the lateral join ``cu`` (one row at most)."""
+        return f"""
                     left join lateral (
                         select c.rate, c.manager_rate, c.director_rate, c.manager_user_id, c.director_user_id
                           from commission_users c
                          where c.user_id = {user_column}
-                           and c.journal_id = s.journal_id
-                           and c.company_id = s.company_id
+                           and c.journal_id = {journal_column}
+                           and c.company_id = {company_column}
                       order by c.id
                          limit 1
                     ) cu on true
         """
-        return from_str
 
     def _where(self):
         where_str = """
@@ -284,8 +290,64 @@ class SaleMarginReport(models.Model):
         # placeholder, so a literal one (LIKE 'a%') has to be escaped
         return SQL(code.replace("%", "%%"))
 
+    def _extra_sources(self):
+        """Sales recorded elsewhere than on the invoices, added to the report with UNION ALL.
+
+        Each source is a dict with ``from`` (the FROM, WHERE and GROUP BY of the source, a plain
+        string like the other fragments) and ``columns`` ({column of the sub-select: SQL expression}).
+        The columns are put in the order of the invoice sub-select, by name, and a column the source
+        does not give is NULL: the extensions that add a column to the invoices keep working, the
+        column is only empty on the rows of the source. The ids of a source must be negative, the
+        positive ones are the invoice lines, and its rows are read-only (see ``_invoice_rows``).
+        """
+        return []
+
+    def _invoice_query(self):
+        return SQL(
+            "%s FROM %s WHERE %s GROUP BY %s",
+            self._sql_fragment(self._sub_select()),
+            self._sql_fragment(self._from()),
+            self._sql_fragment(self._where()),
+            self._sql_fragment(self._group_by()),
+        )
+
+    def _sub_select_columns(self, currency_rate, invoice_query):
+        """The (name, type) of the columns of the invoice sub-select, in their order."""
+        cr = self.env.cr
+        cr.execute(SQL("WITH currency_rate AS (%s) SELECT * FROM (%s) AS sub LIMIT 0", currency_rate, invoice_query))
+        columns = [(column.name, column.type_code) for column in cr.description]
+        cr.execute(
+            SQL("SELECT oid, format_type(oid, NULL) FROM pg_type WHERE oid IN %s", tuple({oid for _, oid in columns}))
+        )
+        type_names = dict(cr.fetchall())
+        return [(name, type_names[oid]) for name, oid in columns]
+
+    def _extra_source_query(self, source, columns):
+        return SQL(
+            "SELECT %s FROM %s",
+            SQL(", ").join(
+                SQL(
+                    "(%s)::%s AS %s",
+                    self._sql_fragment(source["columns"].get(name, "NULL")),
+                    SQL(type_name),
+                    SQL.identifier(name),
+                )
+                for name, type_name in columns
+            ),
+            self._sql_fragment(source["from"]),
+        )
+
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
+        currency_rate = self._sql_fragment(self.env["res.currency"]._select_companies_rates())
+        sub_query = self._invoice_query()
+        sources = self._extra_sources()
+        if sources:
+            columns = self._sub_select_columns(currency_rate, sub_query)
+            sub_query = SQL(" UNION ALL ").join(
+                SQL("(%s)", query)
+                for query in [sub_query, *(self._extra_source_query(source, columns) for source in sources)]
+            )
         self.env.cr.execute(
             SQL(
                 """CREATE or REPLACE VIEW %s as (
@@ -293,20 +355,18 @@ class SaleMarginReport(models.Model):
             %s
             FROM (
                 %s
-                FROM %s
-                WHERE %s
-                GROUP BY %s
             ) AS sub
         )""",
                 SQL.identifier(self._table),
-                self._sql_fragment(self.env["res.currency"]._select_companies_rates()),
+                currency_rate,
                 self._sql_fragment(self._select()),
-                self._sql_fragment(self._sub_select()),
-                self._sql_fragment(self._from()),
-                self._sql_fragment(self._where()),
-                self._sql_fragment(self._group_by()),
+                sub_query,
             )
         )
+
+    def _invoice_rows(self):
+        """The rows that are invoice lines; the rows of the other sources (negative ids) are read-only."""
+        return self.filtered(lambda row: row.id > 0)
 
     def write(self, vals):  # pylint: disable=method-required-super
         # The report is a SQL view: super().write() would try to UPDATE the view, so the values
@@ -314,6 +374,8 @@ class SaleMarginReport(models.Model):
         # the sales roles only read account.move.line; the access check below is what keeps the
         # write limited to the commission managers (the viewers have read-only access).
         self.check_access("write")
+        if self != self._invoice_rows():
+            raise UserError(self.env._("Only the lines of an invoice can be changed in the margin report."))
         value = {fname: vals[fname] for fname in ("commission", "commission_paid", "purchase_price") if fname in vals}
         invoice_lines = self.env["account.move.line"].sudo().browse(self.ids)
         if value:
@@ -325,7 +387,8 @@ class SaleMarginReport(models.Model):
         return True
 
     def action_set_commission_paid(self):
-        for record in self:
+        # the rows of the other sources have no commission to mark, they are left out
+        for record in self._invoice_rows():
             record.write({"commission_paid": True})
 
     @api.model
@@ -349,7 +412,7 @@ class SaleMarginReport(models.Model):
 
         last_week = (datetime.now() - timedelta(days=7)).date()
 
-        lines = self.env["sale.margin.report"].search([("date", ">=", last_week)])
+        lines = self.env["sale.margin.report"].search([("date", ">=", last_week)])._invoice_rows()
 
         for line in lines:
             invoice_line = AccountMoveLine.browse(line.id)

@@ -33,7 +33,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
             domain = [("id", "in", active_ids)]
         else:
             domain = [("payment_state", "in", PAID_STATES), ("commission", "=", 0.0)]
-        res = self.env["sale.margin.report"].search(domain)
+        res = self.env["sale.margin.report"].search(domain)._invoice_rows()
         defaults["invoice_line_ids"] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
@@ -54,6 +54,8 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
             lines = self.env["sale.margin.report"].search([])
         else:
             lines = self.invoice_line_ids
+        # the cost is kept on the invoice lines; the rows of the other sources are left out
+        lines = lines._invoice_rows()
 
         for line in lines:
             invoice_line = self.env["account.move.line"].sudo().browse(line.id)

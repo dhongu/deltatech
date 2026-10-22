@@ -34,7 +34,8 @@ class CommissionCompute(models.TransientModel):
             domain = [("id", "in", active_ids)]
         else:
             domain = [("payment_state", "in", PAID_STATES), ("commission", "=", 0.0)]
-        res = self.env["sale.margin.report"].search(domain)
+        # only the invoice lines hold a commission, the rows of the other sources are left out
+        res = self.env["sale.margin.report"].search(domain)._invoice_rows()
         defaults["invoice_line_ids"] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
@@ -90,7 +91,7 @@ class CommissionCompute(models.TransientModel):
         # every unpaid-commission line of the database — over 10.000 of them on some clients — and
         # most of them get either the computed value or a plain 0.
         by_commission = defaultdict(list)
-        for line in self.invoice_line_ids:
+        for line in self.invoice_line_ids._invoice_rows():
             by_commission[self._get_line_commission(line, days_limit)].append(line.id)
             res.append(line.id)
         AccountMoveLine = self.env["account.move.line"].sudo()
