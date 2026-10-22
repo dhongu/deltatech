@@ -1,3 +1,8 @@
+## 19.0.1.1.9 (2026-10-22)
+
+- License changed from AGPL-3 to OPL-1, so the Terrabit modules under OPL-1 or LGPL-3 can depend on
+  it (Odoo Apps does not allow them to depend on an AGPL-3 module). The module stays free.
+
 ## 19.0.1.1.8 (2026-10-17)
 
 - Replaced the deprecated `t-raw="0"` directive with `t-out="0"` in the label layout, removing the deprecation warning logged at every print.
