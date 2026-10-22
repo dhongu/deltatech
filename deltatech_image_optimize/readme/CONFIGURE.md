@@ -11,13 +11,15 @@ repository) and rebuild:
 
 ```
 rembg[cpu]
-numba<0.61
+coverage>=7.6.1
 ```
 
-``numba`` (a dependency of rembg) 0.61 and later fails to import next to an older ``coverage``
-package, as installed on odoo.sh (``module 'coverage.types' has no attribute 'Tracer'``); the pin
-avoids it. Without it the module still works, but treats rembg as not installed and logs the error
-once.
+``numba`` (a dependency of rembg) 0.61 and later needs ``coverage.types.Tracer``, which exists only
+from ``coverage`` 7.6.1; odoo.sh ships an older ``coverage`` (7.4.4), and importing rembg then fails
+with ``module 'coverage.types' has no attribute 'Tracer'``. The ``coverage`` line installs a newer
+one for the server. Do not pin ``numba<0.61`` instead: the current rembg needs ``numpy>=2.3``, which
+that numba does not accept, and pip then fails to install the requirements. Without the line the
+module still works, but treats rembg as not installed and logs the error once.
 
 The model is downloaded on first use (ISNet: 180 MB, under ``~/.rembg/models`` or ``$U2NET_HOME``)
 and kept loaded per worker process; on CPU an image takes about one second. Only one model is kept
