@@ -55,7 +55,7 @@ class TestProductTemplate(TransactionCase):
                 "dimensions": "10x5x3",
                 "shelf_life": 2.5,
                 "uom_shelf_life": self.env.ref("uom.product_uom_unit").id,  # Example unit of measure
-                "manufacturer": partner_b.id,  # Example manufacturer
+                "manufacturer_id": partner_b.id,  # Example manufacturer
             }
         )
 
@@ -66,7 +66,7 @@ class TestProductTemplate(TransactionCase):
             hasattr(product_template, "uom_shelf_life"), "UoM Shelf Life field is not added to product.template"
         )
         self.assertTrue(
-            hasattr(product_template, "manufacturer"), "Manufacturer field is not added to product.template"
+            hasattr(product_template, "manufacturer_id"), "Manufacturer field is not added to product.template"
         )
 
 

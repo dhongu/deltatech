@@ -18,4 +18,4 @@ class ProductTemplate(models.Model):
         aggregator="avg",
     )
 
-    manufacturer = fields.Many2one("res.partner", string="Manufacturer", domain=[("is_manufacturer", "=", True)])
+    manufacturer_id = fields.Many2one("res.partner", string="Manufacturer", domain=[("is_manufacturer", "=", True)])

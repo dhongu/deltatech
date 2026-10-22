@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_account_invoice_report_search" model="ir.ui.view">
+        <field name="name">account.invoice.report.search.manufacturer</field>
+        <field name="model">account.invoice.report</field>
+        <field name="inherit_id" ref="account.view_account_invoice_report_search" />
+        <field name="arch" type="xml">
+            <field name="product_categ_id" position="after">
+                <field name="manufacturer_id" />
+            </field>
+            <filter name="category_product" position="after">
+                <filter name="group_manufacturer" string="Manufacturer" context="{'group_by': 'manufacturer_id'}" />
+            </filter>
+        </field>
+    </record>
+</odoo>
