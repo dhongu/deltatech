@@ -118,6 +118,10 @@ perioadă închisă, păstrați exportul raportului înainte de a corecta produc
 
 Notele de credit client scad din vânzarea și din costul producătorului, ca în restul raportului.
 
+Cu *Sale Margin POS* (`deltatech_sale_margin_pos`), bonurile POS nefacturate intră în raport cu
+producătorul produsului, deci și în rândul producătorului; un bon facturat apare o singură dată,
+prin factura lui.
+
 ## 7. Legături cu alte module / declarații
 
 | Modul / proces | Rol în flux | Tip legătură |
@@ -125,11 +129,12 @@ Notele de credit client scad din vânzarea și din costul producătorului, ca î
 | `deltatech_sale_commission` | **Raport analiză profit** și căutarea lui, extinse cu producătorul | dependență (manifest) |
 | `deltatech_sale_margin` | raportul de bază (vânzare, cost, profit) | prin `deltatech_sale_commission` |
 | `deltatech_product_extension` | câmpul **Producător** de pe produs și marcarea producătorilor | dependență (manifest) |
-| `deltatech_sale_margin_pos` | bonurile POS în raport, deocamdată fără producător (secțiunea 11) | opțional |
+| `deltatech_sale_margin_pos` | bonurile POS nefacturate în raport, cu producătorul produsului | opțional |
 
 **Ce e automat:**
 - instalarea modulului odată cu al doilea modul de bază;
-- producătorul pe fiecare linie de factură din raport, luat din produs (bonurile POS nu îl au încă).
+- producătorul pe fiecare linie de factură din raport, luat din produs; la fel pe bonurile POS
+  nefacturate, cu *Sale Margin POS*.
 
 **Ce rămâne manual:**
 - instalarea pe o bază pe care ambele module de bază erau deja instalate;
@@ -160,7 +165,6 @@ Notele de credit client scad din vânzarea și din costul producătorului, ca î
 | Modulul nu apare la căutarea în **Aplicații** | Lista de module nu e actualizată sau e activ filtrul **Aplicații** | **Actualizare listă aplicații**, apoi scoateți filtrul **Aplicații** (secțiunea 5) |
 | Meniul **Raport analiză profit** nu apare | Utilizatorul nu are drepturile din secțiunea 3 | Dați-i unul dintre drepturile din secțiunea 3 (ex. **Vânzări / Administrator** sau **Vizualizare comisioane**) |
 | Toate vânzările sunt pe rândul **Fără** | Producătorul nu e completat pe produse | Completați-l (fișa *Products Extension*) |
-| Vânzări din **Punctul de vânzare** pe rândul **Fără** | Bonurile POS (cu *Sale Margin POS*) nu au încă producătorul în raport | Limitare cunoscută (secțiunea 11); citiți POS-ul separat |
 | Totalul unui producător pe o lună trecută s-a schimbat | Producătorul unui produs a fost modificat după facturare | Raportul folosește producătorul actual; păstrați exportul perioadei închise |
 
 ## 10. Capturi de ecran
@@ -194,9 +198,6 @@ raport, cu un criteriu de grupare în plus. Ordinea de lucru:
 ### Limitări cunoscute
 
 - **Producător actual, nu istoric:** schimbarea producătorului pe produs mută și vânzările trecute.
-- **Vânzări POS fără producător:** cu *Sale Margin POS* (`deltatech_sale_margin_pos`), bonurile POS
-  nefacturate intră în raport, dar fără producător, deci apar pe rândul **Fără**, iar profitul pe
-  producător nu le cuprinde.
 - **Transport și discounturi globale:** sunt pe rândul **Fără**; vânzarea pe producător e înainte de
   ele.
 - **Fără producător pe comision:** comisioanele se calculează la fel ca înainte; modulul nu
