@@ -1,7 +1,7 @@
 {
-    "name": "Website Product Placeholder",
+    "name": "Product Image Placeholder",
     "summary": "Serve placeholder image for products without images",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Website",
     "author": "Terrabit, Deltatech",
     "website": "https://www.terrabit.ro",

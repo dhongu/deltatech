@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Fleet Map Sheets & Fuel* (was *Fleet Routes and Map Sheets*). The technical name `deltatech_fleet` does not change.
+
 ## 19.0.1.0.3 (2026-10-12)
 
 - The normal consumption of a route log is recomputed when its distance or

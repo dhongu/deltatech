@@ -1,5 +1,5 @@
 {
-  "title": "POS Fiscal Position Fix",
+  "title": "POS Tax-Included Total Fix",
   "summary": "Correct POS totals for tax-included fiscal mappings",
   "icon": "bag",
   "features": ["Correct unit price in POS", "Consistent with Sales behavior", "Correct invoice lines from POS"],

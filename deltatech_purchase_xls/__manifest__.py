@@ -3,10 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Purchase XLS",
+    "name": "Purchase XLS Import / Export",
     "summary": "Import/export purchase line from/to Excel",
     "author": "Terrabit, Dorin Hongu",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.6",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",

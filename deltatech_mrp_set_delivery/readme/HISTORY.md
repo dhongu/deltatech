@@ -1,3 +1,8 @@
+## 19.0.1.0.1 (2026-10-22)
+
+- Listed on Odoo Apps as *Block Incomplete Kit Deliveries* (was *Deltatech restrict incomplete set deliveries*), with the same title on the Apps banner.
+  The technical name `deltatech_mrp_set_delivery` does not change.
+
 ## 19.0.1.0.0 (2026-10-17)
 
 - Migration to 19.0.

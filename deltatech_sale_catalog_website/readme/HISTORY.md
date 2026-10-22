@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Sales Catalog by Website Category* (was *Sale Catalog Website Categories & Image Zoom*). The technical name `deltatech_sale_catalog_website` does not change.
+
 ## 19.0.1.0.3 (2026-10-04)
 
 - Add unit tests covering the Sales catalog action views and the website-category search panel range.

@@ -4,6 +4,10 @@
 
 # Changelog
 
+## 19.0.0.0.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Kit Price on Sale Orders* (was *Kit Price*). The technical name `deltatech_kit_price` does not change.
+
 ## 19.0.0.0.2 (2026-08-15)
 
 - Fix: added the missing `mrp_account` dependency. `_compute_purchase_price()`

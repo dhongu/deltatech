@@ -1,3 +1,7 @@
+## 19.0.1.0.6 (2026-10-22)
+
+- Listed on Odoo Apps as *Purchase XLS Import / Export* (was *Purchase XLS*). The technical name `deltatech_purchase_xls` does not change.
+
 ## 19.0.1.0.5 (2026-10-17)
 
 - **Fix (PURCHASEXLS-003): rows without a supplier code are imported by their

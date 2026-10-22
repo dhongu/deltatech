@@ -1,3 +1,7 @@
+## 19.0.1.0.5 (2026-10-22)
+
+- Listed on Odoo Apps as *Portal Order Search* (was *eCommerce Portal*). The technical name `deltatech_website_sale_portal` does not change.
+
 ## 19.0.1.0.4 (2026-10-16)
 
 - Fix: in the portal quotations and orders lists, the pager links keep the active

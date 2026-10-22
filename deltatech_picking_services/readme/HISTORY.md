@@ -1,3 +1,7 @@
+## 19.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Picking Services* (was *Picking Service Lines*). The technical name `deltatech_picking_services` does not change.
+
 ## 19.0.1.0.2 (2026-10-08)
 
 - Fixed PICKSERVICE-001: a stock user could search, read, change or delete the

@@ -16,6 +16,10 @@
 
 # Changelog
 
+## 19.0.1.0.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Product Dimensions* (was *Products Dimension*). The technical name `deltatech_product_dimension` does not change.
+
 ## [19.0.1.0.0] - 2026-06-15
 
 ### Changed

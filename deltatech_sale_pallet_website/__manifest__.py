@@ -2,9 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Sale Pallet Website",
+    "name": "Pallet Sales on Website",
     "summary": "Pallet quantities and information on eCommerce product pages",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

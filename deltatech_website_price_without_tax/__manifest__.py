@@ -2,10 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "eCommerce Product Price Without Tax",
+    "name": "Price Without Tax on Website",
     "summary": "Display Product Price Without Tax",
     "category": "Website",
-    "version": "19.0.1.0.6",
+    "version": "19.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

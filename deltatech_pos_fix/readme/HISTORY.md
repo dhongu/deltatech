@@ -1,3 +1,7 @@
+## 19.0.1.0.5 (2026-10-22)
+
+- Odoo Apps banner title: *POS Tax-Included Total Fix* (was *POS Fiscal Position Fix*), the same as the module name.
+
 ## 19.0.1.0.4 (2026-10-18)
 
 - An invoiced POS order paid in cash with change now reconciles the payment entry with the invoice.

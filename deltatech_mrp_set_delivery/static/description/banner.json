@@ -1,5 +1,5 @@
 {
-  "title": "Complete Kit Deliveries",
+  "title": "Block Incomplete Kit Deliveries",
   "summary": "Block deliveries that would ship an incomplete kit",
   "features": ["Enabled per Kit Bill of Materials", "Every component in the transfer", "Quantities in BoM proportion"]
 }

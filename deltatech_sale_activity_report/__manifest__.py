@@ -1,6 +1,6 @@
 {
-    "name": "Sale Order Last Modified",
-    "version": "19.0.1.2.0",
+    "name": "Sale Activity Log",
+    "version": "19.0.1.2.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

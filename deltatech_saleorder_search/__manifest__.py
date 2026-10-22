@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Order Search by Partner Fields",
+    "name": "Sale Order Search by Contact",
     "summary": "Search sale order by partner e-mail, phone",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",

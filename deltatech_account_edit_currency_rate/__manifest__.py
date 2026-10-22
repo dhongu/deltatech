@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Edit Currency Rate",
-    "version": "19.0.1.0.2",
+    "name": "Custom Invoice Exchange Rate",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

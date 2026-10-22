@@ -1,3 +1,7 @@
+## 19.0.1.9.19 (2026-10-22)
+
+- Listed on Odoo Apps as *Business Process Management* (was *Business process*). The technical name `deltatech_business_process` does not change.
+
 ## 19.0.1.9.18 (2026-10-16)
 
 - Approving several developments at once no longer fails; each approved development of a project

@@ -1,3 +1,7 @@
+## 19.0.1.1.22 (2026-10-22)
+
+- Listed on Odoo Apps as *Record Types* (was *Record Type*). The technical name `deltatech_record_type` does not change.
+
 ## 19.0.1.1.21 (2026-10-17)
 
 - TYPE-002 (security): every internal user could create, change or delete record types and their default values, which are applied on the sales orders, purchase orders and invoices of other users. Internal users now only read them; the Sales, Purchase and Accounting administrators maintain them.

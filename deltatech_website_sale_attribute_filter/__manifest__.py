@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Website Sale Attribute Filter",
-    "version": "19.0.0.1.1",
+    "name": "Shop Attribute Filters",
+    "version": "19.0.0.1.2",
     "category": "Website",
     "summary": "Filter attribute values based on displayed products",
     "author": "Terrabit, Voicu Stefan",
