@@ -1,3 +1,9 @@
+## 19.0.2.2.1 (2026-10-22)
+
+- The module is listed on Odoo Apps as *Alternative Product Codes* (was *Products Alternative*),
+  the same title as its thumbnail and page header. The technical name `deltatech_alternative`
+  does not change, so existing installations and dependencies are not affected.
+
 ## 19.0.2.2.0 (2026-10-15)
 
 **Added**
