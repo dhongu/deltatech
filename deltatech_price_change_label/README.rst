@@ -25,8 +25,11 @@ Price Change Labels
 Adds a **Print Labels** button to the price change document. It opens
 the product labels wizard of ``deltatech_product_labels`` with one line
 for each product of the document, so the shelf labels of all the
-products with a new price can be printed at once, with any of the label
-layouts.
+products with a new price can be printed at once.
+
+The module adds the **Shelf label with price** layout (product name,
+price including taxes, code and unit of measure), proposed by default
+from the document; any other label layout can be chosen.
 
 The module installs by itself when both ``deltatech_price_change`` and
 ``deltatech_product_labels`` are installed.
@@ -38,6 +41,18 @@ The module installs by itself when both ``deltatech_price_change`` and
 
 Changelog
 =========
+
+19.0.1.0.1 (2026-10-22)
+-----------------------
+
+- New label layout **Shelf label with price**: product name, price
+  including taxes, code and unit of measure. The labels layouts of
+  ``deltatech_product_labels`` print no price, so the labels of a price
+  change could not show the new price. It is proposed by default when
+  the wizard is opened from a price change document.
+- The wizard proposes the warehouse of the document; before, it proposed
+  the main warehouse of the first company.
+- Romanian translation.
 
 19.0.1.0.0 (2026-10-22)
 -----------------------
