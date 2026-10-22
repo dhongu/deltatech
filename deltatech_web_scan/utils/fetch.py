@@ -36,15 +36,16 @@ ROBOTS_ERROR_TTL = 3600
 DEFAULT_USER_AGENT = "Mozilla/5.0 (compatible; OdooWebScan/1.0)"
 
 ANTIBOT_STATUS = (403, 429, 503)
+# what only the challenge pages show, instead of the page asked for; the scripts that the protections add to
+# every page (Cloudflare /cdn-cgi/challenge-platform/scripts/jsd/) and a CAPTCHA in a login or contact form
+# are on normal pages too, so they are not counted
 ANTIBOT_MARKERS = (
-    "cf-chl-",
-    "challenges.cloudflare.com",
-    "/cdn-cgi/challenge-platform/",
+    "_cf_chl_opt",
+    "cf-chl-widget",
+    "/orchestrate/chl_page/",
+    "/orchestrate/managed/",
+    "<title>just a moment...</title>",
     "attention required! | cloudflare",
-    "g-recaptcha",
-    "www.google.com/recaptcha/",
-    "h-captcha",
-    "hcaptcha.com/1/api.js",
     "geo.captcha-delivery.com",
     "px-captcha",
 )
@@ -270,7 +271,8 @@ def clear_caches():
 
 
 def is_antibot(status, text=""):
-    """:return: True when the answer is a refusal or a test against robots, not the page asked for"""
+    """:return: True when the answer is a refusal or a challenge page against robots, not the page asked for;
+    a normal page that only loads the script of a protection, or shows a CAPTCHA in a form, is not one"""
     if status in ANTIBOT_STATUS:
         return True
     head = (text or "")[:200000].lower()
