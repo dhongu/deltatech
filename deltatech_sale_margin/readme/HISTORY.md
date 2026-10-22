@@ -1,5 +1,18 @@
 # Changelog
 
+## 19.0.1.3.0 (2026-10-22)
+
+- **Cost price on the customer invoices and the profit report (*Raport analiză profit*), moved
+  here from `deltatech_sale_commission`**, which keeps only the commissions. A database with both
+  modules keeps its records, ids and figures. A database with only this module gets the report
+  (menu for *Show purchase price* and the sales managers) and the cost on the invoice lines; the
+  cost of the old invoices is not computed at the update, run *Update Purchase Price* on them.
+- The report accepts other sources of sales (`_extra_sources()`), added with UNION ALL and matched
+  by column name with the invoices, so the extensions that add a column keep working. Their rows
+  are read-only. Used by `deltatech_sale_margin_pos` for the POS orders without an invoice.
+- *Update Purchase Price* and changing the cost in the report are allowed to whoever may change the
+  report: the sales managers, and the commission managers with `deltatech_sale_commission`.
+
 ## 19.0.1.2.3 (2026-10-17)
 
 - **Fix (MARGIN-002): the "No change price on sale order" group is enforced on

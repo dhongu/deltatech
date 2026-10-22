@@ -3,8 +3,8 @@
 
 {
     "name": "Sale Commission",
-    "summary": "Salesperson commissions, margin control and a warning when selling below cost",
-    "version": "19.0.1.6.4",
+    "summary": "Salesperson commissions on the profit report of the invoices",
+    "version": "19.0.2.0.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -13,13 +13,10 @@
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",
-        "views/account_invoice_view.xml",
         "report/sale_margin_report.xml",
         "views/commission_users_view.xml",
         "wizard/commission_compute_view.xml",
-        "wizard/update_purchase_price_view.xml",
         "views/res_config_settings_views.xml",
-        "data/cron_jobs.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

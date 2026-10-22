@@ -1,5 +1,18 @@
 # Changelog
 
+## 19.0.2.0.0 (2026-10-22)
+
+- **The cost price and the margin report move to `deltatech_sale_margin`.** This module keeps only
+  the commissions: the rates per salesperson and journal, the salesperson of the sale order on the
+  invoice line, the real commission and *Commission Paid*, the commission wizard and the commission
+  columns, filters and menu of the report. Nothing changes for a database that has both modules:
+  the records keep their ids and the report the same columns. Update both modules together
+  (`deltatech_sale_margin` moves the external ids before it loads its data).
+- The rows of the report that are not invoice lines (the POS orders of `deltatech_sale_margin_pos`)
+  get the rates of their salesperson on their journal, so the computed commission is there for them
+  too; the real commission stays on the invoice lines: *Set Paid* and the commission wizard leave
+  them out.
+
 ## 19.0.1.6.4 (2026-10-17)
 
 - Cost price from deliveries: when an invoice line is delivered in moves of different units

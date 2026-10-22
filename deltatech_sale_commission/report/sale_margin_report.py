@@ -1,209 +1,55 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from datetime import datetime, timedelta
+from odoo import fields, models
 
-from odoo import api, fields, models, tools
-from odoo.tools import SQL, Query
+# the columns of the commission rates, from the lateral join "cu"
+RATE_COLUMNS = ("rate", "manager_rate", "director_rate", "manager_user_id", "director_user_id")
 
 
 class SaleMarginReport(models.Model):
-    _name = "sale.margin.report"
-    _description = "Sale Margin Report"
-    _auto = False
-    _order = "date desc"
+    _inherit = "sale.margin.report"
 
-    date = fields.Date("Date", readonly=True)
-    due_date = fields.Date("Due Date", readonly=True)
-    invoice_id = fields.Many2one("account.move", "Invoice", readonly=True)
-    payment_term_id = fields.Many2one("account.payment.term", "Payment Term", readonly=True)
-    categ_id = fields.Many2one("product.category", "Category", readonly=True)
-    product_id = fields.Many2one("product.product", "Product", readonly=True)
-    product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
-    product_uom_qty = fields.Float("Quantity", readonly=True)
-    purchase_price = fields.Float("Purchase price", readonly=False)
-    sale_val = fields.Monetary(
-        "Sale Amount",
-        readonly=True,
-        help="Sale Amount in company currency",
-        currency_field="company_currency_id",
-        aggregator="sum",
-    )
-
-    stock_val = fields.Monetary(
-        "Stock Amount",
-        readonly=True,
-        help="Stock Amount in company currency",
-        currency_field="company_currency_id",
-        aggregator="sum",
-    )
-    profit_val = fields.Monetary(
-        "Profit Amount",
-        readonly=True,
-        help="Profit obtained at invoicing in company currency",
-        currency_field="company_currency_id",
-        aggregator="sum",
-    )
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission_director_computed = fields.Float("Commission Director Computed", readonly=True)
 
     commission = fields.Float("Real Commission")
     commission_paid = fields.Boolean("Commission Paid", default=False)
-    partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
-    commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
 
-    user_id = fields.Many2one("res.users", "Salesperson")
     manager_user_id = fields.Many2one("res.users", "Sales Manager", readonly=True)
     director_user_id = fields.Many2one("res.users", "Sales Director", readonly=True)
 
-    state_id = fields.Many2one("res.country.state", "Region", readonly=True)
-    account_id = fields.Many2one("account.account", "Account", readonly=True)
-    company_id = fields.Many2one("res.company", "Company", readonly=True)
-    # period_id = fields.Many2one('account.period', 'Period', readonly=True)
-
-    markup = fields.Float("Markup", readonly=True, digits=(12, 2), aggregator="avg")
-    profit_margin = fields.Float("Profit Margin", readonly=True, digits=(12, 2), aggregator="avg")
-
-    journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
-    company_currency_id = fields.Many2one(
-        "res.currency", "Company Currency", readonly=True, related="company_id.currency_id"
-    )
-    currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
-
-    move_type = fields.Selection(
-        [
-            ("out_invoice", "Customer Invoice"),
-            ("in_invoice", "Vendor Bill"),
-            ("out_refund", "Customer Refund"),
-            ("in_refund", "Vendor Refund"),
-            ("out_receipt", "Sales Receipt"),
-        ],
-        readonly=True,
-    )
-    state = fields.Selection(
-        [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")],
-        string="Invoice Status",
-        readonly=True,
-    )
-    payment_state = fields.Selection(
-        selection=[
-            ("not_paid", "Not Paid"),
-            ("in_payment", "In Payment"),
-            ("paid", "Paid"),
-            ("partial", "Partially Paid"),
-            ("reversed", "Reversed"),
-            ("invoicing_legacy", "Invoicing App Legacy"),
-        ],
-        string="Payment Status",
-        readonly=True,
-    )
-
     def _select(self):
-        select_str = """
-            SELECT
-                id, date,due_date, invoice_id,payment_term_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
-                purchase_price,
-                sale_val ,
-                stock_val  as stock_val,
-                (sale_val  - stock_val ) as profit_val,
-
-                CASE
-                     WHEN (stock_val ) = 0
-                      THEN 0
-                      ELSE  100 * (sale_val    - stock_val ) / stock_val
-                END  AS markup,
-
-                CASE
-                     WHEN (sale_val  ) = 0
-                      THEN 0
-                      ELSE  100 * (sale_val   - stock_val ) / (sale_val  )
-                END  AS profit_margin,
-
-
-                sub.rate * (sale_val  - stock_val ) as commission_computed,
+        return (
+            super()._select()
+            + """
+                , sub.rate * (sale_val  - stock_val ) as commission_computed,
                 sub.manager_rate * (sale_val    - stock_val )  as commission_manager_computed,
                 sub.director_rate * (sale_val    - stock_val )  as commission_director_computed,
-
                 commission,
                 commission_paid,
-                partner_id, commercial_partner_id,  state_id, user_id, manager_user_id, director_user_id,   sub.company_id,
-                move_type,  state , payment_state, journal_id,
-                 sub.currency_id
+                manager_user_id, director_user_id
         """
-        return select_str
+        )
 
     def _sub_select(self):
-        select_str = """
-                SELECT
-                    l.id as id,
-                    s.invoice_date as date,
-                    s.invoice_date_due as due_date,
-                    s.invoice_payment_term_id as payment_term_id,
-                    l.move_id as invoice_id,
-                    t.categ_id as categ_id,
-                    l.product_id as product_id,
-                    l.account_id as account_id,
-                    t.uom_id as product_uom,
-
-
-                    -- quantity in the product unit: uom factors are absolute (Dozen = 12), so
-                    -- line unit -> product unit is qty * u.factor / u2.factor, as in uom._compute_quantity
-                    SUM(CASE
-                     WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
-                      'in_invoice'::character varying::text])
-                        THEN -(l.quantity * u.factor / NULLIF(u2.factor, 0))
-                        ELSE  (l.quantity * u.factor / NULLIF(u2.factor, 0))
-                    END) AS product_uom_qty,
-
-                    avg(purchase_price) as purchase_price,
-
-                    SUM(-l.balance) AS sale_val,
-
-
-                    SUM(CASE
-                     WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
-                     'in_invoice'::character varying::text])
-                        THEN -(l.quantity * COALESCE( l.purchase_price, 0 ) )
-                        ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
-                    END) AS stock_val,
-
-
-                    sum(l.commission) as commission,
+        return (
+            super()._sub_select()
+            + """
+                    , sum(l.commission) as commission,
                     bool_and(l.commission_paid) as commission_paid,
-                    cu.rate, cu.manager_rate, cu.director_rate, cu.manager_user_id, cu.director_user_id,
-
-                    s.partner_id as partner_id,
-                    s.commercial_partner_id as commercial_partner_id, res_partner.state_id,
-
-                    s.company_id as company_id,
-                    s.move_type, s.state , s.payment_state , s.journal_id, s.currency_id
+                    cu.rate, cu.manager_rate, cu.director_rate, cu.manager_user_id, cu.director_user_id
         """
+        )
+
+    def _user_column(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
-
-        if sale_user_detail == "invoice":
-            select_str += ", s.invoice_user_id as user_id"
-        else:
-            select_str += ", l.sale_user_id as user_id"
-
-        return select_str
+        if get_param("sale_commission.sale_user_detail", "invoice") == "invoice":
+            return super()._user_column()
+        return "l.sale_user_id"
 
     def _from(self):
-        from_str = """
-                    account_move s
-                    left join account_move_line l on (s.id=l.move_id)
-                        left join product_product p on (l.product_id=p.id)
-                            left join product_template t on (p.product_tmpl_id=t.id)
-                    left join res_partner on (res_partner.id=s.partner_id)
-                    left join uom_uom u on (u.id=l.product_uom_id)
-                    left join uom_uom u2 on (u2.id=t.uom_id)
-
-        """
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
-
-        user_column = "s.invoice_user_id" if sale_user_detail == "invoice" else "l.sale_user_id"
         # At most one rate row per invoice line, whatever the data: a plain join multiplies the
         # line by every matching row, so a duplicate rate doubles the sale, cost and profit
         # (same rates, same report line) or the line itself (different rates, repeated id).
@@ -221,172 +67,40 @@ class SaleMarginReport(models.Model):
         # journal only, so a row filed under the wrong company still applied. It no longer does,
         # which is right — but on an existing database it silently takes a commission away, hence
         # the check in scripts/sale_commission_precheck_1_6_0.py and the ORM constraint on the model.
-        from_str += f"""
+        return super()._from() + self._commission_rate_join(self._user_column(), "s.journal_id", "s.company_id")
+
+    def _group_by(self):
+        return super()._group_by() + ", " + ", ".join(f"cu.{column}" for column in RATE_COLUMNS)
+
+    @staticmethod
+    def _commission_rate_join(user_column, journal_column, company_column):
+        """The rates of the salesperson on the journal, as the lateral join ``cu`` (one row at most)."""
+        return f"""
                     left join lateral (
                         select c.rate, c.manager_rate, c.director_rate, c.manager_user_id, c.director_user_id
                           from commission_users c
                          where c.user_id = {user_column}
-                           and c.journal_id = s.journal_id
-                           and c.company_id = s.company_id
+                           and c.journal_id = {journal_column}
+                           and c.company_id = {company_column}
                       order by c.id
                          limit 1
                     ) cu on true
         """
-        return from_str
 
-    def _where(self):
-        where_str = """
-              s.move_type in ( 'out_invoice', 'out_refund', 'out_receipt') and s.state='posted'
-              and l.display_type in ('product','discount')
-        """
-        return where_str
-
-    def _group_by(self):
-        group_by_str = """
-                    l.id,
-                    l.product_id,
-                    l.account_id,
-                    l.move_id,
-                    t.uom_id,
-                    t.categ_id,
-                    s.invoice_date,
-                    s.invoice_date_due,
-                    s.invoice_payment_term_id,
-                    s.partner_id,
-                    res_partner.state_id,
-                    s.commercial_partner_id,
-                    cu.rate,
-                    cu.manager_rate,
-                    cu.director_rate,
-                    cu.manager_user_id,
-                    cu.director_user_id,
-                    s.company_id,
-
-                    s.move_type,
-                    s.state,
-                    s.payment_state,
-                    s.journal_id,
-                    s.currency_id
-
-        """
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
-
-        if sale_user_detail == "invoice":
-            group_by_str += "  , s.invoice_user_id"
-        else:
-            group_by_str += " , l.sale_user_id"
-        return group_by_str
-
-    @staticmethod
-    def _sql_fragment(code):
-        # the fragments are plain strings (also in the inheriting modules); SQL() reads "%" as a
-        # placeholder, so a literal one (LIKE 'a%') has to be escaped
-        return SQL(code.replace("%", "%%"))
-
-    def init(self):
-        tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute(
-            SQL(
-                """CREATE or REPLACE VIEW %s as (
-            WITH currency_rate AS (%s)
-            %s
-            FROM (
-                %s
-                FROM %s
-                WHERE %s
-                GROUP BY %s
-            ) AS sub
-        )""",
-                SQL.identifier(self._table),
-                self._sql_fragment(self.env["res.currency"]._select_companies_rates()),
-                self._sql_fragment(self._select()),
-                self._sql_fragment(self._sub_select()),
-                self._sql_fragment(self._from()),
-                self._sql_fragment(self._where()),
-                self._sql_fragment(self._group_by()),
-            )
+    def _prepare_extra_source(self, source):
+        # the other sources get the rates of their salesperson on their journal, so the computed
+        # commission is there for them too; the real commission stays on the invoice lines
+        source = super()._prepare_extra_source(source)
+        rate_join = self._commission_rate_join(
+            source["user_column"], source["journal_column"], source["company_column"]
         )
+        rate_columns = {column: f"cu.{column}" for column in RATE_COLUMNS}
+        return dict(source, **{"from": source["from"] + rate_join, "columns": dict(source["columns"], **rate_columns)})
 
-    def write(self, vals):  # pylint: disable=method-required-super
-        # The report is a SQL view: super().write() would try to UPDATE the view, so the values
-        # are routed to the invoice lines behind it. The lines are written with sudo because
-        # the sales roles only read account.move.line; the access check below is what keeps the
-        # write limited to the commission managers (the viewers have read-only access).
-        self.check_access("write")
-        value = {fname: vals[fname] for fname in ("commission", "commission_paid", "purchase_price") if fname in vals}
-        invoice_lines = self.env["account.move.line"].sudo().browse(self.ids)
-        if value:
-            invoice_lines.write(value)
-        if "user_id" in vals:
-            self.invoice_id.write({"invoice_user_id": vals["user_id"]})
-        invoice_lines.flush_recordset()
-        self.invalidate_recordset()
-        return True
+    def _invoice_line_fields(self):
+        return super()._invoice_line_fields() + ["commission", "commission_paid"]
 
     def action_set_commission_paid(self):
-        for record in self:
+        # the rows of the other sources have no commission to mark, they are left out
+        for record in self._invoice_rows():
             record.write({"commission_paid": True})
-
-    @api.model
-    def cron_update_purchase_price(self):
-        """Fill in the cost of the lines of the last week from the documents.
-
-        The cost itself comes from ``_purchase_price_from_document()``, the single rule shared with
-        the update wizard. What the two do with a 0 on a credit note differs, on purpose:
-
-        - the wizard is run by hand by a manager on the lines he picked, so it *resets* the cost,
-          0 included: that is how a credit note wrongly costed in the past gets corrected;
-        - the cron runs unattended over everything invoiced in the last week, so it only *fills in*
-          a cost the documents know, and never writes a 0. A credit note that a manager costed by
-          hand — goods that came back without the return being recorded in stock, say — would
-          otherwise be silently zeroed a day later, with no one watching.
-
-        New credit notes get their 0 from the compute on the line anyway, so the cron would have
-        almost nothing to correct here; it is not worth the risk of undoing manual work.
-        """
-        AccountMoveLine = self.env["account.move.line"].sudo()
-
-        last_week = (datetime.now() - timedelta(days=7)).date()
-
-        lines = self.env["sale.margin.report"].search([("date", ">=", last_week)])
-
-        for line in lines:
-            invoice_line = AccountMoveLine.browse(line.id)
-            if not invoice_line:
-                continue
-            purchase_price = invoice_line._purchase_price_from_document()
-            if purchase_price:
-                invoice_line.write({"purchase_price": purchase_price})
-
-        return True
-
-    # Adăugați metoda _read_group_select pentru a personaliza calculul la grupare
-    def _read_group_select(self, aggregate_spec: str, query: Query) -> SQL:
-        if aggregate_spec == "markup:avg":
-            # Calculează indicatorul de supliment din valorile agregate de vânzări și stoc
-            sale_val_sql = self._read_group_select("sale_val:sum", query)
-            stock_val_sql = self._read_group_select("stock_val:sum", query)
-            sql_expr = SQL(
-                "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
-                stock_val_sql,
-                sale_val_sql,
-                stock_val_sql,
-                stock_val_sql,
-            )
-            return sql_expr
-
-        elif aggregate_spec == "profit_margin:avg":
-            # Calculează indicatorul de profit din valorile agregate de vânzări și stoc
-            sale_val_sql = self._read_group_select("sale_val:sum", query)
-            stock_val_sql = self._read_group_select("stock_val:sum", query)
-            sql_expr = SQL(
-                "CASE WHEN %s = 0 THEN 0 ELSE 100 * (%s - %s) / %s END",
-                sale_val_sql,
-                sale_val_sql,
-                stock_val_sql,
-                sale_val_sql,
-            )
-            return sql_expr
-
-        return super()._read_group_select(aggregate_spec, query)
