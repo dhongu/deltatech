@@ -16,7 +16,9 @@ probleme pe aceleași imagini:
 
 - **Eliminarea fundalului** — produsul este decupat și salvat pe fundal transparent (sau pe o
   culoare aleasă), ca toate fotografiile din magazin să arate la fel. Rezultatul se vede **înainte**
-  de a fi scris, pentru că originalul nu se păstrează.
+  de a fi scris, pentru că originalul nu se păstrează. Fotografiile pe fundal simplu care nu sunt
+  pătrate pot fi doar **încadrate** într-un pătrat, cu fundalul păstrat, iar o singură poză se poate
+  curăța direct din **editorul de website**, de pe pagina produsului.
 - **Imaginile duplicate** — aceeași poză pusă de mai multe ori în galeria unui produs se găsește și se
   șterge; poza folosită pe mai multe produse se raportează, dar nu se șterge.
 - **Recomprimarea** — originalele prea mari se micșorează și se recodează (JPEG, sau WebP când au
@@ -39,6 +41,7 @@ Context operațional de reținut:
 | Rol | Ce face | Drepturi Odoo (*Setări → Utilizatori & Companii → Utilizatori*) |
 |---|---|---|
 | Responsabil catalog / eCommerce | elimină fundalul imaginilor de produs | **Produse: Creează** — fără el acțiunea *Remove Image Background* nu apare; **Vânzări: Utilizator** (orice nivel) — pentru meniul *eCommerce*; **Vânzări: Administrator** sau **Pagină web: Editor restricționat** — pentru imaginile din galerie, pe care Odoo le lasă modificate doar acestor grupuri |
+| Responsabil site | elimină fundalul unei poze direct din editorul de website (Pasul 7) | **Pagină web: Editor restricționat** (sau **Editor și designer**) — pentru editor; plus dreptul de a modifica produsul (**Produse: Creează**) |
 | Administrator Odoo | găsește și șterge imaginile duplicate, configurează parametrii, pornește recomprimarea | **Setări** (administrare); are implicit și **Produse: Creează** |
 
 Fără drept de scriere pe galerie, **Apply** se oprește cu o eroare de acces pe rândurile *gallery
@@ -54,6 +57,7 @@ Modulul **nu folosește conturi contabile**. Lucrează pe:
 | Date | Rol |
 |---|---|
 | Imaginea principală a produsului (`image_1920`) și imaginile din galeria eCommerce (`product.image`) | imaginile procesate |
+| Imaginea proprie a variantei (`image_variant_1920`) | procesată din editorul de website; o variantă fără imagine proprie afișează poza produsului, care se procesează în locul ei |
 | Variantele redimensionate (`image_1024`, `image_512`, `image_256`, `image_128`) | regenerate de Odoo din imaginea nouă, apoi recodate |
 | Starea *Background Removal* pe produs și pe imagine | *Pending* (în coadă), *Removed*, *Failed*; nu apare în formular — se caută cu un filtru personalizat (Pasul 5) |
 | Parametrii de sistem `deltatech_image_optimize.*` | configurarea (secțiunea 5) |
@@ -66,6 +70,7 @@ pentru test:
 | Aditiv curățare injectoare diesel 300ml | flacon cu pâlnie neagră alături, pe fundal alb | accesoriul rămâne întreg la decuparea după culoare |
 | Tratament ulei motor 300ml | flacon pe fundal alb; aceeași poză apare de două ori în galerie | fundal eliminat; imagine duplicată |
 | Aditiv motorină 1L | flacon pe un fundal neuniform | decupat cu modelul AI |
+| Aditiv benzină 250ml | flacon pe gri deschis, într-o poză lată, cu o siglă mică în colț | încadrat în pătrat cu *Frame only* (Pasul 6) |
 
 ## 5. Configurare inițială
 
@@ -79,21 +84,26 @@ pentru test:
 
 | Cheie | Implicit | Când se schimbă |
 |---|---|---|
-| `bg_method` | `auto` | `uniform` = doar după culoare; `rembg` = mereu modelul AI |
+| `bg_method` | `auto` | `uniform` = doar după culoare; `rembg` = mereu modelul AI; `frame` = doar încadrare, fundalul rămâne |
 | `bg_model` | `isnet-general-use` | alt model AI; BiRefNet nu încape în memoria unui worker odoo.sh |
 | `bg_tolerance` | 24 | se mărește pentru JPEG-uri cu zgomot sau umbre fine |
 | `bg_min_island` | 1 | bucățile mai mici de atâtea procente din produs se elimină |
 | `bg_lost_warning` | 5 | avertisment când modelul AI pierde atâtea procente din produs |
-| `bg_crop` / `bg_margin` | 0 / 5 | 1 = produsul încadrat într-un pătrat, cu margine în procente |
-| `bg_frame_min_island` | 10 | metoda *Frame only*: bucățile sub acest procent din produs (o siglă în colț) nu lărgesc pătratul |
-| `bg_color` | (gol) | gol = transparent; `#FFFFFF` = fundal alb plin (JPEG) |
+| `bg_crop` / `bg_margin` | 0 / 5 | 1 = produsul încadrat într-un pătrat, cu margine în procente; în asistent pot fi schimbate la fiecare rulare (*Frame in a Square*, *Margin (%)*) |
+| `bg_frame_min_island` | 10 | metoda *Frame only*: bucățile sub acest procent din produs (o siglă în colț) nu lărgesc pătratul; în asistent: *Ignore Pieces Under (%)* |
+| `bg_color` | (gol) | gol = transparent (la *Frame only*: culoarea marginii pozei); `#FFFFFF` = fundal alb plin (JPEG); în asistent: *Background Color* |
 | `bg_sync_limit` | 5 | până la atâtea **imagini** (principale + din galerie) au previzualizare; peste, merg în coadă |
 | `bg_batch` | 20 | imagini procesate la o rulare a acțiunii planificate |
 
 ![Parametrii de sistem pentru eliminarea fundalului](screenshots/06_parametri_sistem.png)
 
+Parametrii dau valorile cu care se deschide asistentul; *Method*, *AI Model*, *Frame in a Square*,
+*Margin (%)*, *Ignore Pieces Under (%)* și *Background Color* se pot schimba acolo pentru o singură
+rulare, fără să atingă parametrii. Coada (Pasul 5) și editorul de website (Pasul 7) folosesc
+parametrii de sistem.
+
 3. **Recomprimarea** e oprită la instalare și se pornește din acțiunea planificată, după o probă pe
-   staging (Pasul 8). Parametrii ei, tot în *Parametri sistem*, cu prefixul `deltatech_image_optimize.`:
+   staging (Pasul 10). Parametrii ei, tot în *Parametri sistem*, cu prefixul `deltatech_image_optimize.`:
 
 | Cheie | Implicit | Ce face |
 |---|---|---|
@@ -134,6 +144,11 @@ arată **înainte** și **după**. În captură, două produse cu câte o imagin
 marginea imaginii are o singură culoare, cu modelul AI altfel. Fotografia cu pâlnie (fundal alb) se
 decupează după culoare, deci pâlnia rămâne întreagă; flaconul pe fundal neuniform trece prin modelul
 AI.
+
+Sub *Method*, asistentul arată și cum se salvează rezultatul, cu valorile din parametrii de sistem:
+*Frame in a Square* (produsul decupat, încadrat într-un pătrat), *Margin (%)* (spațiul lăsat în jurul
+produsului, pe fiecare latură; apare doar cu *Frame in a Square*) și *Background Color* (gol =
+transparent; de ex. `#FFFFFF` = fundal alb plin). După o schimbare, apăsați **Refresh Preview**.
 
 ![Previzualizarea, metoda automată](screenshots/02_previzualizare_automat.png)
 
@@ -176,7 +191,51 @@ personalizat*, pe câmpul *Background Removal* (*Pending* sau *Failed*).
 
 ![Coada pentru o selecție mare](screenshots/05_coada.png)
 
-### Pasul 6 — Imaginile duplicate
+### Pasul 6 — Doar încadrare, cu fundalul păstrat (*Frame only*)
+
+Pentru fotografiile pe fundal simplu (alb, gri) care nu sunt pătrate: în lista de produse ele apar
+mici, pentru că Odoo le încape întregi într-o casetă pătrată. Fundalul nu trebuie eliminat, doar
+produsul adus în centru.
+
+Porniți asistentul ca la Pasul 1 și alegeți *Method* = **Frame only (keep background)** ①, apoi
+**Refresh Preview**. Fundalul rămâne; produsul e decupat și centrat într-un pătrat completat cu
+culoarea fundalului. Asistentul arată atunci:
+
+- *Margin (%)* ② — spațiul lăsat în jurul produsului, pe fiecare latură (implicit `bg_margin`, 5);
+- *Ignore Pieces Under (%)* ③ — bucățile mai mici de atâtea procente din produs (o siglă sau un text
+  într-un colț) nu lărgesc pătratul; rămân pe poză doar dacă încap în el (implicit
+  `bg_frame_min_island`, 10);
+- *Background Color* ④ — gol = culoarea marginii pozei; o culoare (de ex. `#FFFFFF`) umple pătratul cu
+  ea.
+
+Verificați în coloana *After* că produsul e întreg și centrat, apoi **Apply**. Imaginea se salvează
+ca JPEG, fără transparență. O fotografie pe fundal real (nu o singură culoare) nu se poate încadra:
+rândul primește avertisment și rămâne neschimbat.
+
+Pentru tot catalogul, puneți `bg_method` = `frame` în parametri: asistentul se deschide cu această
+metodă, iar coada o folosește la fel.
+
+![Previzualizarea încadrării, fundalul păstrat](screenshots/10_previzualizare_incadrare.png)
+
+### Pasul 7 — O poză din editorul de website
+
+Pe site, deschideți pagina produsului și intrați în **Editează**. Selectați poza produsului (poza
+principală, a variantei sau din galerie); în panoul din dreapta, la secțiunea *Imagine*, rândul
+*Fundal* are butonul **Remove Background** ①. Butonul lipsește pe pozele paginii (bannere, blocuri) și
+pentru utilizatorii care nu pot modifica produsul.
+
+Butonul deschide o fereastră cu poza **Înainte** și **După**, metoda (*Method* ②: *Automat*,
+*Uniform background* sau *AI model*, ultima indisponibilă fără `rembg`) și eventualul avertisment.
+Schimbarea metodei reface previzualizarea. Încadrarea, marginea și culoarea fundalului vin din
+parametrii de sistem. **Aplică** ③ scrie poza pe produs; editorul salvează și reîncarcă pagina, iar
+poza nouă apare și în backend. Originalul nu se păstrează nici aici.
+
+Pe o variantă cu poză proprie se modifică poza variantei; pe o variantă fără poză proprie, pagina
+arată poza produsului, deci se modifică aceea (și se vede la toate variantele care o folosesc).
+
+![Dialogul Remove Background din editorul de website](screenshots/11_editor_eliminare_fundal.png)
+
+### Pasul 8 — Imaginile duplicate
 
 *Pagină web → eCommerce → Produse → Duplicated Images* (doar administratorul). Lista se deschide
 filtrată pe grupurile care se pot curăța (*Removable*); în captură filtrul e scos, ca să se vadă și
@@ -189,11 +248,11 @@ poza comună mai multor produse.
    Filtrul *Shared Across Products* arată poza folosită pe mai multe produse — de regulă o problemă de
    feed, care **nu** se șterge.
 3. **Treceți mai departe** — butonul *Images* deschide imaginile grupului. Ștergerea se face din
-   *Pagină web → eCommerce → Produse → Remove Duplicated Images* (Pasul 7).
+   *Pagină web → eCommerce → Produse → Remove Duplicated Images* (Pasul 9).
 
 ![Lista imaginilor duplicate](screenshots/07_imagini_duplicate.png)
 
-### Pasul 7 — Ștergerea duplicatelor
+### Pasul 9 — Ștergerea duplicatelor
 
 *Pagină web → eCommerce → Produse → Remove Duplicated Images*. Asistentul arată câte conținuturi au
 copii de șters, câte imagini se șterg și câte se păstrează, și lista exactă a ce se șterge. Din fiecare grup
@@ -202,7 +261,7 @@ rămân mereu. **Remove Duplicates** ① cere confirmare și șterge definitiv.
 
 ![Asistentul de ștergere a duplicatelor](screenshots/08_eliminare_duplicate.png)
 
-### Pasul 8 — Recomprimarea imaginilor mari
+### Pasul 10 — Recomprimarea imaginilor mari
 
 *Setări → Tehnic → Automatizare → Acțiuni planificate → Image Optimizer: recompress oversized
 images*. Acțiunea e **inactivă** la instalare ②. Rulați-o întâi pe staging cu **Rulează manual** ①:
@@ -252,6 +311,15 @@ greșite, decizia de a șterge duplicatele, activarea recomprimării pe producț
       imaginile ajung *Removed* după rularea acțiunii planificate.
 - [ ] Un rând debifat manual redevine bifat după **Refresh Preview** (de aceea debifarea se face
       după Refresh, chiar înainte de **Apply**).
+- [ ] *Frame only* pe o poză lată pe fundal deschis dă un pătrat cu produsul centrat și același
+      fundal; sigla mică din colț nu lărgește pătratul, iar după **Apply** imaginea e JPEG.
+- [ ] *Frame only* pe o poză cu fundal real lasă rândul cu avertisment, neschimbat.
+- [ ] *Margin (%)* și *Background Color* schimbate în asistent se văd după **Refresh Preview**, fără
+      să modifice parametrii de sistem.
+- [ ] În editorul de website, poza produsului are **Remove Background**; un banner sau o poză a paginii
+      nu îl are.
+- [ ] **Aplică** din editor schimbă poza pe produs și pagina se reîncarcă cu poza nouă.
+- [ ] Pe o variantă cu poză proprie, **Remove Background** schimbă poza variantei, nu pe a produsului.
 - [ ] În *Duplicated Images*, o poză pusă de două ori pe același produs are *Removable* = 1; o poză
       folosită pe două produse are *Removable* = 0.
 - [ ] După **Remove Duplicates**, fiecare produs are o singură copie a pozei.
@@ -271,8 +339,11 @@ e marcată *Failed* și mesajul ajunge doar în jurnalul serverului.
 | *Not enough memory on the server for the AI model …* | rândul din asistent | modelul AI ales nu încape în memoria workerului | alegeți ISNet sau metoda *Uniform background* |
 | *The AI model left out about N% of the product …* | rândul din asistent (debifat) | modelul AI a pierdut accesorii sau părți subțiri | verificați imaginea; de regulă *Automatic* o decupează corect |
 | *No product was found in the image.* | rândul din asistent | imaginea nu are un obiect distinct de fundal | imaginea rămâne neschimbată; verificați fotografia |
+| *The background is not a single color; framing needs a plain background.* | rândul din asistent | *Frame only* pe o fotografie cu fundal real | folosiți *Automatic* sau *AI model*; încadrarea cere fundal de o singură culoare |
+| *This product has no picture.* | fereastră, în editorul de website | produsul (sau varianta) nu are poză | adăugați poza pe produs |
+| *The product of this picture no longer exists.* | fereastră, în editorul de website | produsul a fost șters între timp | reîncărcați pagina |
 | *Background removal with the AI model needs the Python library rembg.* | fereastră, la pornirea acțiunii | `bg_method` = `rembg` în parametri, fără bibliotecă | instalați `rembg[cpu]` sau puneți `bg_method` = `auto` |
-| Eroare de acces la **Apply** pe *product.image* | fereastră, la **Apply** | utilizatorul nu are drept de scriere pe galerie | **Vânzări: Administrator** sau **Pagină web: Editor restricționat** (secțiunea 3) |
+| Eroare de acces la **Apply** pe *product.image* | fereastră, la **Apply** (asistent sau editor) | utilizatorul nu are drept de scriere pe galerie | **Vânzări: Administrator** sau **Pagină web: Editor restricționat** (secțiunea 3) |
 
 ## 10. Capturi de ecran
 
@@ -281,7 +352,9 @@ Capturile sunt **generate automat** de `tests/test_screenshots.py` (mixinul `Scr
 modulului (*Remove Image Background*, *Method*, *Apply*…) apar în engleză, pentru că modulul nu are
 încă traducere în română. Fotografiile de produs sunt desenate de test, iar modelul AI este simulat,
 ca rezultatul să fie același la fiecare regenerare. Parametrii au valorile implicite, cu o singură
-excepție: captura 03 e făcută cu `bg_method` = `rembg`.
+excepții: captura 03 e făcută cu `bg_method` = `rembg`, iar captura 10 cu `bg_method` = `frame`.
+Capturile 10 și 11 vin din `test_capture_fise_noutati`, pe o fotografie separată, ca să nu schimbe
+celelalte capturi; de aceea numerotarea lor nu urmează ordinea pașilor.
 
 | Fișier | Ce arată |
 |---|---|
@@ -294,6 +367,8 @@ excepție: captura 03 e făcută cu `bg_method` = `rembg`.
 | `07_imagini_duplicate.png` | lista imaginilor duplicate |
 | `08_eliminare_duplicate.png` | asistentul de ștergere a duplicatelor |
 | `09_recomprimare_cron.png` | acțiunea planificată de recomprimare |
+| `10_previzualizare_incadrare.png` | asistentul cu metoda *Frame only*: fundalul păstrat, produsul încadrat |
+| `11_editor_eliminare_fundal.png` | dialogul *Remove Background* din editorul de website |
 
 Regenerare:
 
@@ -312,6 +387,8 @@ Regenerare:
 - Pentru fotografiile care nu sunt pătrate și apar mici în lista de produse: metoda *Frame only (keep
   background)* din asistent păstrează fundalul și doar încadrează produsul într-un pătrat; *Margin (%)*,
   *Background Color* și *Ignore Pieces Under (%)* se aleg în asistent.
+- Pentru o singură poză văzută pe site, butonul **Remove Background** din editorul de website e mai
+  rapid decât asistentul; pentru mai multe produse, asistentul din backend.
 - Imaginile duplicate: ce se șterge (copii în același produs) și ce nu (poza comună mai multor
   produse).
 - Recomprimarea se activează pe producție doar după o rulare pe staging.
