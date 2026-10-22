@@ -141,9 +141,10 @@
     </template>
 
     <!--
-        After the price, or at the end of the product details (default). After the price
-        needs the price section of the form: with the boxed call to action, or when the
-        product cannot be added to the cart, the block stays in the details.
+        After the price, or at the end of the product details (default). After the price is
+        right under the price section, or with the boxed call to action right under the box
+        that holds the price (cta_wrapper_warehouse_stock); when the product cannot be added
+        to the cart the block stays in the details.
     -->
     <template
         id="product_warehouse_distribution"
@@ -153,14 +154,25 @@
         name="Warehouse Stock"
     >
         <xpath expr="//div[hasclass('o_wsale_product_details_content_section_price')]" position="after">
+            <!-- The price section is not rendered with the boxed call to action. -->
             <t
-                t-if="website.warehouse_stock_position == 'after_price'"
+                t-if="website.warehouse_stock_position == 'after_price' and not is_view_active('website_sale.cta_wrapper_boxed')"
                 t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
             />
         </xpath>
         <xpath expr="//div[@id='o_wsale_product_details_content']" position="inside">
             <t
-                t-if="website.warehouse_stock_position != 'after_price' or not is_add_to_cart_possible or is_view_active('website_sale.cta_wrapper_boxed')"
+                t-if="website.warehouse_stock_position != 'after_price' or not is_add_to_cart_possible"
+                t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
+            />
+        </xpath>
+    </template>
+
+    <!-- After the price with the boxed call to action: right under the box with the price. -->
+    <template id="cta_wrapper_warehouse_stock" inherit_id="website_sale.cta_wrapper" name="Warehouse Stock after the Box">
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+            <t
+                t-if="website.warehouse_stock_position == 'after_price' and is_add_to_cart_possible and is_view_active('website_sale.cta_wrapper_boxed') and is_view_active('deltatech_website_warehouse_stock.product_warehouse_distribution')"
                 t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
             />
         </xpath>
