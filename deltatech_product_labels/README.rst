@@ -13,17 +13,14 @@ Product Labels
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-    :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_labels
     :alt: dhongu/deltatech
 .. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_product_labels
     :alt: 8 automated tests · 79% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge_tests|
 
 Features:
 
@@ -43,6 +40,13 @@ Features:
 
 Changelog
 =========
+
+20.0.1.1.6 (2026-10-22)
+-----------------------
+
+- License changed from AGPL-3 to OPL-1, so the Terrabit modules under
+  OPL-1 or LGPL-3 can depend on it (Odoo Apps does not allow them to
+  depend on an AGPL-3 module). The module stays free.
 
 20.0.1.1.5 (2026-10-09)
 -----------------------
