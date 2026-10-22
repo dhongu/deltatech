@@ -1,0 +1,7 @@
+id,name,model_id,group_id/id,operation,domain
+access_product_price_change_user,prices.change sale user,product.price.change,sales_team.group_sale_salesman,r,
+access_product_price_change_manager,prices.change sale manager,product.price.change,sales_team.group_sale_manager,crud,
+access_product_price_change_line_user,prices.change line sale user,product.price.change.line,sales_team.group_sale_salesman,r,
+access_product_price_change__line_manager,prices.change line sale manager,product.price.change.line,sales_team.group_sale_manager,crud,
+access_product_price_change_log_user,prices.change.log sale user,product.price.change.log,sales_team.group_sale_salesman,r,
+access_product_price_change_log_manager,prices.change.log sale manager,product.price.change.log,sales_team.group_sale_manager,crud,
