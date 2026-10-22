@@ -1,3 +1,7 @@
+## 20.0.1.0.13 (2026-10-22)
+
+- Listed on Odoo Apps as *Website Alternative Codes* (was *Website alternative code*). The technical name `deltatech_alternative_website` does not change.
+
 ## 19.0.1.0.12 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.

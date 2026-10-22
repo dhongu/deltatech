@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "POS Add Extra Line",
+    "name": "POS Auto Extra Lines",
     "summary": "Add extra lines to POS orders automatically, per product",
-    "version": "20.0.1.0.4",
+    "version": "20.0.1.0.5",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -1,3 +1,7 @@
+## 20.0.1.0.2 (2026-10-22)
+
+- Listed on Odoo Apps as *Fleet Map Sheets & Fuel* (was *Fleet Routes and Map Sheets*). The technical name `deltatech_fleet` does not change.
+
 ## 20.0.1.0.1 (2026-10-09)
 
 - New module icon (yellow car, flat Terrabit style).

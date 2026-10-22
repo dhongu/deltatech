@@ -1,3 +1,8 @@
+## 20.0.1.1.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Purchase Orders Bulk Email with XLSX* (was *Purchase: Send Multi Orders by Email with XLSX*), with the same title on the Apps banner.
+  The technical name `deltatech_purchase_mail` does not change.
+
 ## 20.0.1.1.3 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

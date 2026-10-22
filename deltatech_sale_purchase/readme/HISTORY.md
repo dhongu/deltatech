@@ -1,3 +1,7 @@
+## 20.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale-Purchase Sync* (was *Sale Purchase*). The technical name `deltatech_sale_purchase` does not change.
+
 ## 20.0.1.0.2 (2026-10-02)
 
 - Migration to 20.0: the quantity of the cancelled moves is converted with the new `uom_id`

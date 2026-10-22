@@ -1,3 +1,7 @@
+## 20.0.1.0.12 (2026-10-22)
+
+- Listed on Odoo Apps as *Website Stock Availability* (was *eCommerce Stock Availability*). The technical name `deltatech_website_stock_availability` does not change.
+
 ## 20.0.1.0.11 (2026-10-21)
 
 - The stock status on the shop product card is configured from the website

@@ -1,3 +1,7 @@
+## 20.0.1.0.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale Team Access Control* (was *Sale Team Access*). The technical name `deltatech_sale_team` does not change.
+
 ## 20.0.1.0.3 (2026-10-02)
 
 - Migration to 20.0: the record rules are now `ir.access` records in `security/ir.access.csv`.

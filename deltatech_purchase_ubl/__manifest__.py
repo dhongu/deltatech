@@ -2,9 +2,9 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 {
-    "name": "Purchase UBL",
+    "name": "Purchase UBL Import",
     "summary": "Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills",
-    "version": "20.0.1.4.14",
+    "version": "20.0.1.4.15",
     "category": "Purchases",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

@@ -14,6 +14,10 @@
 
 # History
 
+## 20.0.1.0.7 (2026-10-22)
+
+- Listed on Odoo Apps as *Price Without Tax on Website* (was *eCommerce Product Price Without Tax*). The technical name `deltatech_website_price_without_tax` does not change.
+
 ## 19.0.1.0.4 (2026-09-26)
 
 - Fix: upgrade from 18.0 failed with "Element `<xpath expr="//div[@itemprop='offers']">`
