@@ -84,8 +84,8 @@
                     />
                 </header>
                 <field name="date" column_invisible="1" />
-                <field name="due_date" />
-                <field name="payment_term_id" />
+                <field name="due_date" optional="hide" />
+                <field name="payment_term_id" optional="hide" />
                 <field name="categ_id" column_invisible="1" />
                 <field name="product_id" />
                 <field name="user_id" />

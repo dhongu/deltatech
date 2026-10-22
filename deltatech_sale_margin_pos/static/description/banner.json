@@ -1,0 +1,10 @@
+{
+  "title": "Sale Margin - POS",
+  "summary": "POS sales in the profit report",
+  "icon": "trend",
+  "features": [
+    "Uninvoiced POS orders, no duplicates",
+    "Cost from the closed POS session",
+    "Commissions on POS sales (optional)"
+  ]
+}

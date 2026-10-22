@@ -12,6 +12,10 @@
   get the rates of their salesperson on their journal, so the computed commission is there for them
   too; the real commission stays on the invoice lines: *Set Paid* and the commission wizard leave
   them out.
+- Own module icon (`icon.svg` + `icon.png`), replacing the generic Deltatech one.
+- Only *Commission Manager* can change the real commission and *Commission Paid* in the report: the sales managers, who may now change the cost there, can not.
+- *Commission* list: *Due Date* and *Payment Term* are optional (hidden), so the commission columns fit.
+- Consultant sheet, usage guide and screenshots updated: the cost, the profit report and the cost recalculation moved to `deltatech_sale_margin`.
 
 ## 19.0.1.6.4 (2026-10-17)
 

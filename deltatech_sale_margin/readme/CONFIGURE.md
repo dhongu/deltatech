@@ -24,7 +24,7 @@ The policy is stored per company. A newly created company starts on **Block the 
 
 **Step 5 — Check user groups**
 
-- *Hide purchase price in sale order and customer invoice*: users without it do not see cost and margin. Keep regular salespeople out of this group.
+- *Show purchase price on sale order lines and customer invoice*: users without it do not see cost and margin, nor the **Profit Analysis** report. Keep regular salespeople out of this group. The Sales administrators also see the report and can recompute the cost.
 - *Sell below the purchase price* and *Sell below margin limit*: members can go past the block (a note remains in the chatter).
 - *No change price on sale order*: price and discount become read-only.
 

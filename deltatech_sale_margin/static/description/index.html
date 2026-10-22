@@ -2,10 +2,10 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Sale Margin Control" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Sale Margin &amp; Profit" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Sale Margin Control</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Protect margins and control pricing on sales</p>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Sale Margin &amp; Profit</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Protect margins and analyse invoice profit</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Sales</span>
@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 27 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 41 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:80%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:83%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">80% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">83% code coverage</div>
     </div>
   </div>
 </div>
@@ -47,11 +47,6 @@
        data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
        style="padding:10px 22px;">Usage</a>
   </li>
-  <li class="nav-item mx-1 mb-2">
-    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
-       style="padding:10px 22px;">Versions</a>
-  </li>
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -72,6 +67,11 @@ part of the trade (perishable goods, stock clearance, commercial gestures).</li>
 stays silent when the line unit and the product base unit belong to different
 unit families - Odoo 19 converts any pair of units by their absolute factors,
 so a wrong <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code> would otherwise report every line as below cost.</li>
+<li>Cost price on the customer invoice lines, from the delivery (or the product cost), and a
+warning/error on the invoice when the price is below it</li>
+<li>Profit report on the posted customer invoices (Sales &gt; Reporting), with the cost, the profit,
+the markup and the margin; other sources can be added (POS orders, with
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_margin_pos</code>)</li>
 </ul>
 </li>
 </ul>
@@ -102,7 +102,7 @@ no rights to sell below margin/purchase price can still create draft sale orders
 <p>The policy is stored per company. A newly created company starts on <strong>Block the sale</strong>.</p>
 <p><strong>Step 5 &#8212; Check user groups</strong></p>
 <ul>
-<li><em>Hide purchase price in sale order and customer invoice</em>: users without it do not see cost and margin. Keep regular salespeople out of this group.</li>
+<li><em>Show purchase price on sale order lines and customer invoice</em>: users without it do not see cost and margin, nor the <strong>Profit Analysis</strong> report. Keep regular salespeople out of this group. The Sales administrators also see the report and can recompute the cost.</li>
 <li><em>Sell below the purchase price</em> and <em>Sell below margin limit</em>: members can go past the block (a note remains in the chatter).</li>
 <li><em>No change price on sale order</em>: price and discount become read-only.</li>
 </ul>
@@ -150,110 +150,25 @@ no rights to sell below margin/purchase price can still create draft sale orders
 <p><strong>Step 4 &#8212; Invoice</strong></p>
 <p>The same policy applies on the customer invoice line, so an invoice for an order sold below cost is created without error on <strong>Warn only</strong>.</p>
 <p>Delivery lines, services, loyalty rewards and website orders are not checked.</p>
-</div>
-<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.2 (2026-10-10)</h2>
-<ul>
-<li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-10-01)</h2>
-<ul>
-<li><strong>Fix (MARGIN-001): the block now follows the same unit policy as the flag.</strong>
-  When the line unit and the product's base unit belong to different families
-  (e.g. a product with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code> = Units sold per kg), the native conversion
-  inflates <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_price</code> (3.00 per Unit becomes 3000.00 per kg). The flag
-  already stayed silent on such lines, but <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">check_sale_price()</code> (on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write</code> and
-  on confirmation) and the onchange modal still compared the inflated cost, so
-  in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> mode a line with no "below cost" flag could not be saved. Both now
-  skip the cost and margin comparison when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_margin_uom_comparable()</code> is False.
-  Same-family units (Box 12 kg against kg) are still compared on the converted
-  cost and still blocked. The "no price" check is unchanged.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-08-20)</h2>
-<ul>
-<li>
-<p><strong>New: the reaction to a below-cost sale is configurable per company</strong> &#8212;
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.company.sale_margin_check_mode</code>, in Settings &gt; Sales &gt; Pricing:</p>
-<ul>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> (default, unchanged behaviour): the price cannot be saved and the
-order cannot be confirmed, unless the user belongs to the bypass groups;</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code>: nothing is ever blocked. The line is flagged, the order shows a
-banner saying it can still be confirmed, and confirming it leaves a single
-note in the chatter;</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">off</code>: no flag, no banner, no block.</li>
-</ul>
-</li>
-</ul>
-<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code> exists for businesses where selling below cost is a routine part of the
-  trade &#8212; perishable goods, stock clearance, commercial gestures. Blocking there
-  stops the daily work, while the actual need is to make it visible and let the
-  seller decide. Existing databases keep the historical behaviour: the default is
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> and no migration changes it.</p>
-<ul>
-<li>
-<p><strong>New: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.line.margin_below_limit</code></strong> &#8212; the line is flagged (orange row
-  in the order lines) as soon as the seller leaves the price field, which is where
-  the decision is made. The flag is readable by anyone: it says THAT the margin is
-  under the limit, not what the cost is, so it does not leak the cost to sellers
-  who are not allowed to see it. The figure stays on the native, group-restricted
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">margin_percent</code>.</p>
-</li>
-<li>
-<p><strong>New: unit guard on the comparison.</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_price</code> is brought into the line
-  unit by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_margin</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock_margin</code> through
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_id.uom_id._compute_price(...)</code>. Odoo 19 removed the unit category, so
-  that multiplies by the absolute factors without checking the family &#8212; the root
-  of the kilogram hierarchy is the gram, so a cost of 3.00 per Unit becomes
-  3000.00 per kg (measured, not assumed). A product whose <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code> is wrong would
-  therefore report EVERY line as below cost and the warning would be dismissed as
-  noise from day one. The comparison now stays silent when the line unit and the
-  product's base unit belong to different families. New helper
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._dt_root_uom()</code>.</p>
-</li>
-<li>
-<p><strong>New: the margin settings are reachable from the interface.</strong>
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit_check_validate</code> existed but were only
-  reachable through System Parameters, so in practice nobody configured them. They
-  are now exposed in Settings &gt; Sales, next to the reaction mode. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit</code>
-  doubles as the warning threshold: 0 reports only negative margins, a negative
-  value tolerates a loss of up to that percentage, a positive value also reports
-  thin but positive margins.</p>
-</li>
-<li>
-<p>The onchange modal ("Do not sell below the purchase price") now only appears in
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> mode. Where selling below cost is routine, a modal on every line ends up
-  being dismissed reflexively without being read; the flagged row carries the same
-  signal without interrupting.</p>
-</li>
-<li>
-<p>In <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warn</code> mode <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">check_sale_price</code> stays silent on purpose. It runs on every
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write</code> of a line, so the native <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">message_post</code> branch produced one chatter entry
-  per keystroke on the price. The decision is now logged exactly once, on
-  confirmation.</p>
-</li>
-<li>
-<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock_margin</code> is now a declared dependency. It was already pulled in by
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_install</code>, but the cost used by the check comes from it (the real valuation
-  of the delivery), so the behaviour should not depend on install order.</p>
-</li>
-<li>
-<p><strong>19 tests.</strong> They run as an operator who is OUTSIDE the bypass groups, with a
-  dedicated test asserting that: running them as root or admin proves nothing,
-  since both belong to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">group_sale_below_purchase_price</code> and the native check would
-  not have blocked them either. Each mechanism was validated by sabotage &#8212; forcing
-  the mode back to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> breaks 4 tests, removing the chatter note or the banner
-  wording breaks 2 more, disabling the unit guard breaks 1.</p>
-</li>
-<li>
-<p>Two pre-existing behaviours are now pinned down by tests, because they are easy
-  to misread: in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">block</code> mode the block fires from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.order.line.write</code>, so an
-  order created through the API with inline lines and confirmed without touching a
-  line is NOT blocked; blocking on confirmation requires
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.margin_limit_check_validate</code>.</p>
-</li>
-</ul>
+<p><strong>Step 5 &#8212; Check the cost on the customer invoice</strong></p>
+<p>On the customer invoice, the <strong>Cost Price</strong> column shows the unit cost of the goods next to the <strong>Price</strong>. It is computed automatically:
+- from the <strong>delivery</strong> of the invoiced order (value of the stock move to the customer divided by quantity, in the unit of the line);
+- for kit products, from the delivered components;
+- for invoices without an order or delivery, from the product cost;
+- for credit notes, from the <strong>goods return</strong>. Without a return, a reversal of the invoice takes the cost of the invoice line (invoice and reversal net to zero profit), while a price or discount reduction has cost 0.</p>
+<p>The column is visible only to users in the cost group. On the <strong>Block the sale</strong> policy, a draft invoice with a price below cost cannot be saved.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Customer invoice with the cost price on each line" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_invoice_cost_price.png" /></p>
+<p><strong>Step 6 &#8212; Analyse the profit</strong></p>
+<p>Go to <strong>Sales &#8594; Reporting &#8594; Profit Analysis</strong>. The pivot opens on last month, grouped by product. Each row shows the sale value (without VAT), cost value, profit value, <strong>Markup</strong> (profit / cost) and <strong>Margin</strong> (profit / sale). Regroup by salesperson, category, customer, invoice, journal or month. Totals recalculate markup and margin from the sums. Export the table to Excel with the download button. Credit notes reduce both sale and cost.</p>
+<p>The report is shown to the cost group and to the Sales administrators.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Profit analysis report" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_profit_report.png" /></p>
+<p><strong>Step 7 &#8212; Recompute the cost when needed</strong></p>
+<p>If a line cost is wrong (for example the delivery was validated after invoicing), switch the report to the <strong>list</strong> view, remove the <em>Product</em> grouping from the search, select the lines and choose <strong>Actions &#8594; Update Purchase Price</strong>:
+- <strong>Price from delivery</strong> (default) recomputes the cost from the delivery, falling back to the product cost;
+- unchecked, it takes the current product cost, without unit conversion: keep the default;
+- <strong>For all lines</strong> applies to every line in the report, from all periods: it rewrites the profit of periods already reported.</p>
+<p>A scheduled action also refreshes, every day, the cost of the lines invoiced in the last 7 days. Only the Sales administrators (and, with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_commission</code>, the Commission Managers) can run the wizard.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Update Purchase Price wizard" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_update_cost_wizard.png" /></p>
 </div>
 </div>
 

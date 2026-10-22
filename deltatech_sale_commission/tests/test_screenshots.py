@@ -16,7 +16,7 @@
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
 #       -i deltatech_sale_commission,l10n_ro,l10n_ro_doc_screenshots \
-#       --test-tags=fise_screenshots --stop-after-init
+#       --test-tags=/deltatech_sale_commission:TestSaleCommissionScreenshots --stop-after-init
 import logging
 import unittest
 
@@ -237,8 +237,6 @@ class TestSaleCommissionScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
 
         cls.act_settings = env.ref("sale.action_sale_config_settings")
         cls.act_users = env.ref("deltatech_sale_commission.action_commission_users")
-        cls.act_invoices = env.ref("account.action_move_out_invoice_type")
-        cls.act_margin = env.ref("deltatech_sale_margin.action_sale_margin_report")
         cls.act_commission = env.ref("deltatech_sale_commission.action_sale_margin_commission_report")
 
     def _capture(self, shots):
@@ -275,22 +273,9 @@ class TestSaleCommissionScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
                     "wait": ".o_list_view",
                     "settle": 2000,
                 },
-                {
-                    "url": f"action={self.act_invoices.id}&id={self.inv_on_time.id}&model=account.move&view_type=form",
-                    "name": "03_factura_pret_cost.png",
-                    "wait": ".o_form_view",
-                    "settle": 2500,
-                    "highlight": ["td[name='purchase_price']"],
-                },
-                {
-                    "url": f"action={self.act_margin.id}&view_type=pivot",
-                    "name": "04_raport_profit.png",
-                    "wait": ".o_pivot",
-                    "settle": 3000,
-                },
-                self._commission_list("05_comisioane_de_calculat.png"),
+                self._commission_list("03_comisioane_de_calculat.png"),
                 self._commission_list(
-                    "06_calcul_comisioane.png",
+                    "04_calcul_comisioane.png",
                     eval=JS_SELECT_ALL_ACTION % {"match": "/Calcul comisioane|Compute Commission/"},
                     eval_wait=1500,
                 ),
@@ -300,17 +285,12 @@ class TestSaleCommissionScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
         # aplicarea calculului pe liniile facturilor plătite (filtrul implicit al listei)
         lines = self.env["sale.margin.report"].search([("payment_state", "=", "paid")])
         self.env["commission.compute"].with_context(active_ids=lines.ids).create({}).do_compute()
-        self._capture([self._commission_list("07_comisioane_calculate.png")])
+        self._capture([self._commission_list("05_comisioane_calculate.png")])
 
         # comisionul plătit agentei: linia facturii la timp se marchează plătită
         self.env["sale.margin.report"].search([("invoice_id", "=", self.inv_on_time.id)]).action_set_commission_paid()
         self._capture(
             [
-                self._commission_list("08_comisioane_platite.png"),
-                self._commission_list(
-                    "09_actualizare_pret_achizitie.png",
-                    eval=JS_SELECT_ALL_ACTION % {"match": "/Actualizare preț achiziție|Update Purchase Price/"},
-                    eval_wait=1500,
-                ),
+                self._commission_list("06_comisioane_platite.png"),
             ]
         )

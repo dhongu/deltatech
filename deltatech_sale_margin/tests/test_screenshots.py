@@ -8,13 +8,20 @@
 # (cost 3 lei/kg → 36 lei/Cutie 12 kg, vândut la 30 lei/cutie), ca să arate atât
 # semnalul, cât și faptul că vânzarea NU e blocată.
 #
+# Pentru costul pe factură și raportul de profit: două facturi din luna trecută (filtrul
+# implicit al raportului), fiecare dintr-o comandă livrată, deci cu costul luat din livrare:
+#   - 10 × Laptop 14" la 3.500 lei, cost 2.800 → profit 7.000;
+#   - 5 × Monitor 27" la 1.400 lei, cost 1.000 → profit 2.000.
+#
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
 #       -i deltatech_sale_margin,l10n_ro,l10n_ro_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
 import unittest
 
-from odoo import Command
+from dateutil.relativedelta import relativedelta
+
+from odoo import Command, fields
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -23,6 +30,22 @@ try:
     from odoo.addons.l10n_ro_doc_screenshots.tests.screenshot_case import ScreenshotCase
 except ImportError:
     ScreenshotCase = None
+
+# Selectează toate rândurile listei, deschide „Acțiuni" (⚙) și alege intrarea potrivită.
+JS_SELECT_ALL_ACTION = """
+async () => {
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    document.querySelector('thead .o_list_record_selector input').click();
+    await sleep(1000);
+    const toggle = [...document.querySelectorAll('.o_control_panel button')]
+        .find((b) => /Acțiuni|Actions/.test(b.textContent));
+    toggle.click();
+    await sleep(1000);
+    const items = [...document.querySelectorAll('.o-dropdown-item, .dropdown-item')];
+    items.find((e) => %(match)s.test(e.textContent)).click();
+    await sleep(2500);
+}
+"""
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")
@@ -103,6 +126,111 @@ class TestSaleMarginScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
         cls.order_confirmed = cls.order.copy()
         cls.order_confirmed.action_confirm()
         cls.settings_action = env.ref("sale.action_sale_config_settings")
+        cls._seed_invoices()
+
+    @classmethod
+    def _seed_invoices(cls):
+        """Două facturi din comenzi livrate, pentru costul pe factură și raportul de profit."""
+        env = cls.env
+        company = env.company
+        admin = env.ref("base.user_admin")
+        for xmlid in ("stock.group_stock_manager", "deltatech_sale_margin.group_sale_margin"):
+            group = env.ref(xmlid)
+            admin.group_ids = [Command.link(group.id)]
+            env.user.group_ids = [Command.link(group.id)]
+        (admin | env.user).tz = "Europe/Bucharest"
+        env.flush_all()
+
+        categ = env["product.category"].create({"name": "IT & periferice"})
+        categ.with_company(company).property_cost_method = "fifo"
+        wh = env["stock.warehouse"].search([("company_id", "=", company.id)], limit=1)
+        suppliers = env.ref("stock.stock_location_suppliers")
+
+        def product(name, cost, price, qty):
+            prod = env["product.product"].create(
+                {
+                    "name": name,
+                    "type": "consu",
+                    "is_storable": True,
+                    "categ_id": categ.id,
+                    "standard_price": cost,
+                    "list_price": price,
+                    "company_id": company.id,
+                }
+            )
+            # recepție cu preț, ca livrarea să ia costul real (FIFO) al mărfii
+            move = env["stock.move"].create(
+                {
+                    "product_id": prod.id,
+                    "product_uom": prod.uom_id.id,
+                    "product_uom_qty": qty,
+                    "price_unit": cost,
+                    "location_id": suppliers.id,
+                    "location_dest_id": wh.lot_stock_id.id,
+                    "company_id": company.id,
+                }
+            )
+            move._action_confirm()
+            move.quantity = qty
+            move.picked = True
+            move._action_done()
+            return prod
+
+        ro = env.ref("base.ro")
+        state_b = env["res.country.state"].search([("country_id", "=", ro.id), ("code", "=", "B")], limit=1)
+        customer = env["res.partner"].create(
+            {
+                "name": "Birotica Plus SRL",
+                "is_company": True,
+                "vat": "RO18547290",
+                "country_id": ro.id,
+                "state_id": state_b.id,
+                "city": "București",
+                "street": "Bd. Unirii nr. 20",
+            }
+        )
+        # facturile sunt datate în luna trecută: raportul se deschide cu filtrul pe luna trecută
+        today = fields.Date.context_today(env["res.partner"])
+        invoice_date = (today - relativedelta(months=1)).replace(day=1)
+
+        def sell(prod, qty, price):
+            order = env["sale.order"].create(
+                {
+                    "partner_id": customer.id,
+                    "payment_term_id": env.ref("account.account_payment_term_immediate").id,
+                    "order_line": [
+                        Command.create({"product_id": prod.id, "product_uom_qty": qty, "price_unit": price})
+                    ],
+                }
+            )
+            order.action_confirm()
+            picking = order.picking_ids
+            for move in picking.move_ids:
+                move.quantity = move.product_uom_qty
+            picking.move_ids.picked = True
+            picking._action_done()
+            delivered = fields.Datetime.to_datetime(invoice_date) - relativedelta(hours=12)
+            picking.write({"date_done": delivered})
+            picking.move_ids.write({"date": delivered})
+            invoice = order._create_invoices()
+            invoice.write({"invoice_date": invoice_date})
+            invoice.action_post()
+            return invoice
+
+        cls.invoice = sell(product('Laptop 14"', 2800.0, 3500.0, 50), 10, 3500.0)
+        sell(product('Monitor 27"', 1000.0, 1400.0, 50), 5, 1400.0)
+        env.flush_all()
+        cls.act_invoices = env.ref("account.action_move_out_invoice_type")
+        cls.act_margin = env.ref("deltatech_sale_margin.action_sale_margin_report")
+        # lista raportului fără gruparea implicită pe produs, ca rândurile să se poată selecta
+        # (copie a acțiunii, cu numele în română; date de test, anulate la final)
+        cls.act_margin_list = cls.act_margin.copy(
+            {
+                "name": cls.act_margin.with_context(lang="ro_RO").name,
+                "view_mode": "list",
+                "context": "{'search_default_filter_date': 1}",
+            }
+        )
 
     def test_capture_fise(self):
         self.capture_screenshots(
@@ -124,6 +252,30 @@ class TestSaleMarginScreenshots(AccountTestInvoicingCommon, ScreenshotCase or ob
                     "settle": 2500,
                     "full": True,
                     "highlight": [".alert-warning", "div[name='order_line']"],
+                },
+                # 3. Costul pe factura client, luat din livrare
+                {
+                    "url": f"action={self.act_invoices.id}&id={self.invoice.id}&model=account.move&view_type=form",
+                    "name": "03_factura_pret_cost.png",
+                    "wait": ".o_form_view",
+                    "settle": 2500,
+                    "highlight": ["td[name='purchase_price']"],
+                },
+                # 4. Raportul de analiză a profitului (pivot)
+                {
+                    "url": f"action={self.act_margin.id}&view_type=pivot",
+                    "name": "04_raport_profit.png",
+                    "wait": ".o_pivot",
+                    "settle": 3000,
+                },
+                # 5. Recalcularea costului, din lista raportului
+                {
+                    "url": f"action={self.act_margin_list.id}&view_type=list",
+                    "name": "05_actualizare_pret_achizitie.png",
+                    "wait": ".o_list_view",
+                    "settle": 2500,
+                    "eval": JS_SELECT_ALL_ACTION % {"match": "/Actualizare preț achiziție|Update Purchase Price/"},
+                    "eval_wait": 1500,
                 },
             ]
         )

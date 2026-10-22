@@ -4,3 +4,5 @@
 
 - Point of Sale orders without an invoice in the sale margin report, with the cost computed
   at the closing of the session and, with the commissions, the rates of the point of sale journal.
+- Module icon (`icon.svg` + `icon.png`).
+
