@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.0.2.0.1 (2026-10-22)
+
+- Consultant sheet: points to *Sale Margin Report by Manufacturer* for the profit per
+  manufacturer. Screenshots unchanged.
+
 ## 19.0.2.0.0 (2026-10-22)
 
 - **The cost price and the margin report move to `deltatech_sale_margin`.** This module keeps only

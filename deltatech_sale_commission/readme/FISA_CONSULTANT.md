@@ -180,6 +180,10 @@ grupat pe produs. Liniile se pot regrupa pe agent, categorie, client, factură, 
 Raportul cuprinde facturile client, notele de credit și chitanțele postate, pe liniile de produs și
 de discount. Notele de credit scad din vânzare și din cost.
 
+Cu *Products Extension* instalat, modulul punte *Sale Margin Report by Manufacturer*
+(`deltatech_sale_commission_manufacturer`) adaugă în raport căutarea după producător și **Grupează
+după > Producător**, pentru profitul pe producător (fișa acelui modul).
+
 ![Raportul de analiză a profitului](screenshots/04_raport_profit.png)
 
 ### Pasul 5 — Comisioanele de calculat
@@ -294,6 +298,7 @@ relației cu agentul:
 | `deltatech_sale_margin` | grupul de cost, politica de vânzare sub cost (blocarea pe factură) | dependență (manifest) |
 | `sale`, `stock`, `account` | comenzi, livrări (costul real), facturi, plăți | prin `deltatech_sale_margin` |
 | `mrp` (dacă e instalat) | costul produselor kit, din componentele livrate | opțional |
+| `deltatech_sale_commission_manufacturer` | producătorul produsului în **Raport analiză profit** (căutare, grupare) | modul punte, se instalează singur odată cu al doilea dintre *Sale Commission* și *Products Extension*; altfel, din **Aplicații** |
 | Salarizare / facturi furnizor | plata efectivă a comisionului | proces |
 
 **Ce e automat:**

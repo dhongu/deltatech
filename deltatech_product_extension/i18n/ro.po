@@ -29,13 +29,13 @@ msgstr "Dimensiuni"
 #. module: deltatech_product_extension
 #: model:ir.model,name:deltatech_product_extension.model_account_invoice_report
 msgid "Invoices Statistics"
-msgstr "Statistica Facturi"
+msgstr "Statistici facturi"
 
 #. module: deltatech_product_extension
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_res_partner__is_manufacturer
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_res_users__is_manufacturer
 msgid "Is manufacturer"
-msgstr "Este producator"
+msgstr "Este producător"
 
 #. module: deltatech_product_extension
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_account_invoice_report__manufacturer_id
@@ -60,10 +60,10 @@ msgstr "Valabilitate"
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_product_product__uom_shelf_life
 #: model:ir.model.fields,field_description:deltatech_product_extension.field_product_template__uom_shelf_life
 msgid "Unit of Measure Shelf Life"
-msgstr "Unitate de masura valabilitate"
+msgstr "Unitate de măsură valabilitate"
 
 #. module: deltatech_product_extension
 #: model:ir.model.fields,help:deltatech_product_extension.field_product_product__uom_shelf_life
 #: model:ir.model.fields,help:deltatech_product_extension.field_product_template__uom_shelf_life
 msgid "Unit of Measure for Shelf Life"
-msgstr "Unitate de masura pentru valabilitate"
+msgstr "Unitate de măsură pentru valabilitate"

@@ -1,3 +1,10 @@
+## 19.0.1.1.1 (2026-10-22)
+
+- Consultant sheet (readme/FISA_CONSULTANT.md): the manufacturer, dimensions and shelf life on the
+  product, and Invoice Analysis searched and grouped by manufacturer. Five screenshots, generated
+  by the new screenshot test.
+- Romanian translation: diacritics in "Este producător" and the shelf life unit of measure labels.
+
 ## 19.0.1.1.0 (2026-10-22)
 
 - The product manufacturer field is renamed from `manufacturer` to `manufacturer_id`, also in Invoice Analysis. The migration keeps the values and the exports; saved filters and custom views are updated too where `odoo.upgrade.util` is available (as on odoo.sh). Server actions and external integrations that use the old name must be updated by hand.
