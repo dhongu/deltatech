@@ -16,30 +16,39 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid ""
 "<span class=\"o_wh_stock_card_icon\">\n"
-"                                <i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Warehouses\"/>\n"
-"                            </span>\n"
-"                            <span class=\"fw-bold\">In stock availability</span>"
+"                            <i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Warehouses\"/>\n"
+"                        </span>\n"
+"                        <span class=\"fw-bold\">In stock availability</span>"
 msgstr ""
 "<span class=\"o_wh_stock_card_icon\">\n"
-"                                <i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Depozite\"/>\n"
-"                            </span>\n"
-"                            <span class=\"fw-bold\">Disponibilitate în stoc</span>"
+"                            <i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Depozite\"/>\n"
+"                        </span>\n"
+"                        <span class=\"fw-bold\">Disponibilitate în stoc</span>"
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid ""
 "<span id=\"warehouse_stock_title\" class=\"fw-bold\">\n"
-"                        In stock availability\n"
-"                    </span>"
+"                    In stock availability\n"
+"                </span>"
 msgstr ""
 "<span id=\"warehouse_stock_title\" class=\"fw-bold\">\n"
-"                        Disponibilitate în stoc\n"
-"                    </span>"
+"                    Disponibilitate în stoc\n"
+"                </span>"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
+#: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_position__after_price
+msgid "After the price"
+msgstr "După preț"
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "At zero stock"
 msgstr "La stoc zero"
@@ -51,6 +60,8 @@ msgid "Available"
 msgstr "Disponibil"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__badges
 msgid "Badges"
 msgstr "Etichete"
@@ -66,17 +77,19 @@ msgstr ""
 " etichetelor verde, gri și roșu pline."
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__card
 msgid "Card"
 msgstr "Card"
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid "Check stock"
 msgstr "Verifică stocul"
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid "Check stock in a warehouse"
 msgstr "Verifică stocul într-un depozit"
 
@@ -105,6 +118,8 @@ msgid "Display on Website"
 msgstr "Afișare pe site"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_qty_display__exact
 msgid "Exact quantity below the threshold"
 msgstr "Cantitatea exactă sub prag"
@@ -147,11 +162,26 @@ msgid "In stock at %(warehouse)s: %(qty)s pcs. Ready for delivery."
 msgstr "În stoc la %(warehouse)s: %(qty)s buc. Gata de livrare."
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid "In stock availability"
 msgstr "Disponibilitate în stoc"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
+#: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_position__details
+msgid "In the product details"
+msgstr "În detaliile produsului"
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-python
+#: code:addons/deltatech_website_warehouse_stock/models/website.py:0
+msgid "Invalid value %(value)s for %(field)s"
+msgstr "Valoare invalidă %(value)s pentru %(field)s"
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__list
 msgid "List with icons"
 msgstr "Listă cu pictograme"
@@ -174,15 +204,25 @@ msgid "Note at Zero Stock"
 msgstr "Notă la stoc zero"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
 #. odoo-python
 #: code:addons/deltatech_website_warehouse_stock/models/product.py:0
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_zero_message__on_order
 msgid "On order"
 msgstr "La comandă"
 
 #. module: deltatech_website_warehouse_stock
 #. odoo-python
+#: code:addons/deltatech_website_warehouse_stock/controllers/main.py:0
+msgid "Only website designers can change the stock display."
+msgstr "Doar designerii site-ului pot schimba afișarea stocului."
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#. odoo-python
 #: code:addons/deltatech_website_warehouse_stock/models/product.py:0
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_zero_message__out_of_stock
 msgid "Out of stock"
 msgstr "Stoc epuizat"
@@ -194,11 +234,20 @@ msgid "Out of stock at %(warehouse)s."
 msgstr "Stoc epuizat la %(warehouse)s."
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
+msgid "Position"
+msgstr "Poziție"
+
+#. module: deltatech_website_warehouse_stock
 #: model:ir.model,name:deltatech_website_warehouse_stock.model_product_template
 msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "Quantity"
 msgstr "Cantitate"
@@ -216,6 +265,8 @@ msgid "Short text shown after 'On order', for example the delivery time."
 msgstr "Text scurt afișat după „La comandă”, de exemplu termenul de livrare."
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_qty_display__status_only
 msgid "Status only"
 msgstr "Doar starea"
@@ -229,6 +280,8 @@ msgstr ""
 "„Doar starea” afișează „În stoc” în locul cantității, oricare ar fi stocul."
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "Style"
 msgstr "Stil"
@@ -250,14 +303,28 @@ msgid "Theme Colors for Stock"
 msgstr "Culorile temei pentru stoc"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "Theme colors"
 msgstr "Culorile temei"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-python
+#: code:addons/deltatech_website_warehouse_stock/models/website.py:0
+msgid "Unknown warehouse stock option: %s"
+msgstr "Opțiune necunoscută pentru stocul pe depozite: %s"
+
+#. module: deltatech_website_warehouse_stock
 #: model:ir.model,name:deltatech_website_warehouse_stock.model_stock_warehouse
 msgid "Warehouse"
 msgstr "Depozit"
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option_plugin.esm.js:0
+msgid "Warehouse Stock"
+msgstr "Stoc pe depozite"
 
 #. module: deltatech_website_warehouse_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
@@ -276,12 +343,20 @@ msgstr ""
 "controlează afișarea disponibilității fiecărui depozit pe pagina produsului."
 
 #. module: deltatech_website_warehouse_stock
+#: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__warehouse_stock_position
+#: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_website__warehouse_stock_position
+msgid "Warehouse Stock Position"
+msgstr "Poziția stocului pe depozite"
+
+#. module: deltatech_website_warehouse_stock
 #: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__warehouse_stock_style
 #: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_website__warehouse_stock_style
 msgid "Warehouse Stock Style"
 msgstr "Stilul stocului pe depozite"
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__selector
 msgid "Warehouse selector"
 msgstr "Selector de depozit"
@@ -295,6 +370,18 @@ msgstr "Website"
 #: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__website_warehouse_stock_threshold
 msgid "Website Warehouse Stock Threshold"
 msgstr "Prag stoc în depozit pentru site"
+
+#. module: deltatech_website_warehouse_stock
+#: model:ir.model.fields,help:deltatech_website_warehouse_stock.field_res_config_settings__warehouse_stock_position
+#: model:ir.model.fields,help:deltatech_website_warehouse_stock.field_website__warehouse_stock_position
+msgid ""
+"Where the stock per warehouse is shown on the product page. After the price "
+"needs the price above the Add to Cart button: with the boxed call to action "
+"the block stays in the product details."
+msgstr ""
+"Unde se afișează stocul pe depozite pe pagina produsului. „După preț” are "
+"nevoie de prețul deasupra butonului Adaugă în coș: cu butonul de acțiune în "
+"casetă, blocul rămâne în detaliile produsului."
 
 #. module: deltatech_website_warehouse_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form

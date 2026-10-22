@@ -16,6 +16,10 @@
                     help="How the stock per warehouse looks on the product page of this website"
                 >
                     <div class="row mt-2">
+                        <label for="warehouse_stock_position" string="Position" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_position" class="col-lg-7" />
+                    </div>
+                    <div class="row">
                         <label for="warehouse_stock_style" string="Style" class="col-lg-5 o_light_label" />
                         <field name="warehouse_stock_style" class="col-lg-7" />
                     </div>

@@ -16,8 +16,10 @@ Features:
 - The name for the warehouse displayed in warehouse is the same of the name in the warehouse form.
 - There is a check in the warehouse to choose if the stock is displayed in the product template page.
 
-Design options (per website, in Website > Configuration > Settings, Warehouse Stock Design):
+Design options (per website, in Website > Configuration > Settings, Warehouse Stock Design, or
+in the website editor: click the block on the product page):
 
+- **Position**: in the product details (default) or right after the price.
 - **Style**:
   - *Badges* (default): a colored badge per warehouse.
   - *List with icons*: one line per warehouse, with a check for in stock, a clock for on order

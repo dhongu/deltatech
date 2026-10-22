@@ -5,7 +5,7 @@
     "name": "eCommerce Warehouse Stock",
     "category": "Website",
     "summary": "Stock availability per warehouse on the eCommerce product page",
-    "version": "19.0.0.0.5",
+    "version": "19.0.0.0.6",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock"],
@@ -17,6 +17,9 @@
         "web.assets_frontend": [
             "deltatech_website_warehouse_stock/static/src/scss/warehouse_stock.scss",
             "deltatech_website_warehouse_stock/static/src/interactions/warehouse_stock_selector.esm.js",
+        ],
+        "website.website_builder_assets": [
+            "deltatech_website_warehouse_stock/static/src/website_builder/**/*",
         ],
     },
     "images": ["static/description/main_screenshot.png"],

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-21 16:09+0000\n"
-"PO-Revision-Date: 2026-10-21 16:09+0000\n"
+"POT-Creation-Date: 2026-10-22 01:51+0000\n"
+"PO-Revision-Date: 2026-10-22 01:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,23 +16,32 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid ""
 "<span class=\"o_wh_stock_card_icon\">\n"
-"                                <i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Warehouses\"/>\n"
-"                            </span>\n"
-"                            <span class=\"fw-bold\">In stock availability</span>"
+"                            <i class=\"fa fa-map-marker\" role=\"img\" aria-label=\"Warehouses\"/>\n"
+"                        </span>\n"
+"                        <span class=\"fw-bold\">In stock availability</span>"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid ""
 "<span id=\"warehouse_stock_title\" class=\"fw-bold\">\n"
-"                        In stock availability\n"
-"                    </span>"
+"                    In stock availability\n"
+"                </span>"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
+#: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_position__after_price
+msgid "After the price"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "At zero stock"
 msgstr ""
@@ -44,6 +53,8 @@ msgid "Available"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__badges
 msgid "Badges"
 msgstr ""
@@ -57,17 +68,19 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__card
 msgid "Card"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid "Check stock"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid "Check stock in a warehouse"
 msgstr ""
 
@@ -96,6 +109,8 @@ msgid "Display on Website"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_qty_display__exact
 msgid "Exact quantity below the threshold"
 msgstr ""
@@ -138,11 +153,26 @@ msgid "In stock at %(warehouse)s: %(qty)s pcs. Ready for delivery."
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
-#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.product_warehouse_distribution
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.warehouse_stock_block
 msgid "In stock availability"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
+#: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_position__details
+msgid "In the product details"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-python
+#: code:addons/deltatech_website_warehouse_stock/models/website.py:0
+msgid "Invalid value %(value)s for %(field)s"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__list
 msgid "List with icons"
 msgstr ""
@@ -165,15 +195,25 @@ msgid "Note at Zero Stock"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
 #. odoo-python
 #: code:addons/deltatech_website_warehouse_stock/models/product.py:0
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_zero_message__on_order
 msgid "On order"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
 #. odoo-python
+#: code:addons/deltatech_website_warehouse_stock/controllers/main.py:0
+msgid "Only website designers can change the stock display."
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#. odoo-python
 #: code:addons/deltatech_website_warehouse_stock/models/product.py:0
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_zero_message__out_of_stock
 msgid "Out of stock"
 msgstr ""
@@ -185,11 +225,20 @@ msgid "Out of stock at %(warehouse)s."
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
+#: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
+msgid "Position"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
 #: model:ir.model,name:deltatech_website_warehouse_stock.model_product_template
 msgid "Product"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "Quantity"
 msgstr ""
@@ -207,6 +256,8 @@ msgid "Short text shown after 'On order', for example the delivery time."
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_qty_display__status_only
 msgid "Status only"
 msgstr ""
@@ -219,6 +270,8 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "Style"
 msgstr ""
@@ -238,13 +291,27 @@ msgid "Theme Colors for Stock"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model_terms:ir.ui.view,arch_db:deltatech_website_warehouse_stock.res_config_settings_view_form
 msgid "Theme colors"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-python
+#: code:addons/deltatech_website_warehouse_stock/models/website.py:0
+msgid "Unknown warehouse stock option: %s"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
 #: model:ir.model,name:deltatech_website_warehouse_stock.model_stock_warehouse
 msgid "Warehouse"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option_plugin.esm.js:0
+msgid "Warehouse Stock"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
@@ -261,12 +328,20 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__warehouse_stock_position
+#: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_website__warehouse_stock_position
+msgid "Warehouse Stock Position"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
 #: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__warehouse_stock_style
 #: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_website__warehouse_stock_style
 msgid "Warehouse Stock Style"
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
+#. odoo-javascript
+#: code:addons/deltatech_website_warehouse_stock/static/src/website_builder/warehouse_stock_option.xml:0
 #: model:ir.model.fields.selection,name:deltatech_website_warehouse_stock.selection__website__warehouse_stock_style__selector
 msgid "Warehouse selector"
 msgstr ""
@@ -279,6 +354,15 @@ msgstr ""
 #. module: deltatech_website_warehouse_stock
 #: model:ir.model.fields,field_description:deltatech_website_warehouse_stock.field_res_config_settings__website_warehouse_stock_threshold
 msgid "Website Warehouse Stock Threshold"
+msgstr ""
+
+#. module: deltatech_website_warehouse_stock
+#: model:ir.model.fields,help:deltatech_website_warehouse_stock.field_res_config_settings__warehouse_stock_position
+#: model:ir.model.fields,help:deltatech_website_warehouse_stock.field_website__warehouse_stock_position
+msgid ""
+"Where the stock per warehouse is shown on the product page. After the price "
+"needs the price above the Add to Cart button: with the boxed call to action "
+"the block stays in the product details."
 msgstr ""
 
 #. module: deltatech_website_warehouse_stock
