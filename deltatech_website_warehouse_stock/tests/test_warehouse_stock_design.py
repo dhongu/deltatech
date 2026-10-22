@@ -150,6 +150,22 @@ class TestWarehouseStockDesign(HttpCase):
         self.assertGreater(block, html.index("o_wsale_product_details_content_section_price"))
         self.assertLess(block, html.index("o_wsale_product_details_content_section_cta"))
 
+    def test_position_after_price_boxed(self):
+        # The boxed call to action holds the price: the block goes right under the box,
+        # once, not at the end of the details.
+        self.env.ref("website_sale.cta_wrapper_boxed").active = True
+        self.website.warehouse_stock_position = "after_price"
+        html = self._page()
+        self.assertEqual(html.count('data-wh-position="after_price"'), 1)
+        block = html.index("o_wh_stock ")
+        self.assertGreater(block, html.index("o_wsale_cta_wrapper_boxed"))
+        self.assertLess(block, html.index("o_wsale_product_details_content_section_contact"))
+
+    def test_position_details_boxed(self):
+        self.env.ref("website_sale.cta_wrapper_boxed").active = True
+        html = self._page()
+        self.assertEqual(html.count('data-wh-position="details"'), 1)
+
     def test_editor_write(self):
         self.website._warehouse_stock_editor_write("warehouse_stock_position", "after_price")
         self.website._warehouse_stock_editor_write("warehouse_stock_style", "card")

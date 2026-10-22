@@ -1,3 +1,8 @@
+## 19.0.0.0.7 (2026-10-22)
+
+- After the price also with the boxed call to action: the block goes right under the box
+  that holds the price, instead of falling back to the end of the product details.
+
 ## 19.0.0.0.6 (2026-10-22)
 
 - Position of the block per website: in the product details (default, as before) or right
