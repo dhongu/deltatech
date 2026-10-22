@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.price.change.log</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="action_view_price_change_log"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-history"
+                    string="Price History"
+                    groups="sales_team.group_sale_salesman"
+                />
+            </div>
+        </field>
+    </record>
+
+</odoo>

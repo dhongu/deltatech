@@ -13,17 +13,14 @@ Product Labels
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
-    :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_labels
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_labels
-    :alt: 8 automated tests · 79% code coverage
+    :alt: 11 automated tests · 81% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge_tests|
 
 Features:
 
@@ -40,6 +37,45 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.1.9 (2026-10-22)
+-----------------------
+
+- License changed from AGPL-3 to OPL-1, so the Terrabit modules under
+  OPL-1 or LGPL-3 can depend on it (Odoo Apps does not allow them to
+  depend on an AGPL-3 module). The module stays free.
+
+19.0.1.1.8 (2026-10-17)
+-----------------------
+
+- Replaced the deprecated ``t-raw="0"`` directive with ``t-out="0"`` in
+  the label layout, removing the deprecation warning logged at every
+  print.
+
+19.0.1.1.7 (2026-10-17)
+-----------------------
+
+- Replaces the obsolete ``terrabit_product_labels``: on upgrade, a
+  database that still has it installed marks it uninstalled, so Odoo no
+  longer reports it as a module with an inconsistent state. Labels keep
+  working from this module.
+
+19.0.1.1.6 (2026-10-16)
+-----------------------
+
+- Fixed the barcode on the PDF labels: the image is now embedded as one
+  valid SVG data URI; products without barcode or internal reference no
+  longer break the print.
+- Generated lot names are now printed on the labels of incoming
+  transfers before the lots are created.
+
+19.0.1.1.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
 
 Bug Tracker
 ===========

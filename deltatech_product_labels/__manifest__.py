@@ -3,11 +3,11 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Product Labels",
-    "version": "19.0.1.1.8",
+    "version": "19.0.1.1.9",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "license": "AGPL-3",
+    "license": "OPL-1",
     "summary": "Print product and lot labels from products, sale orders and transfers",
     "depends": ["product", "sale", "stock"],
     "data": [
