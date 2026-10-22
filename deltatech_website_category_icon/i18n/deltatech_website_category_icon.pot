@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 19:28+0000\n"
-"PO-Revision-Date: 2026-10-19 19:28+0000\n"
+"POT-Creation-Date: 2026-10-22 04:21+0000\n"
+"PO-Revision-Date: 2026-10-22 04:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,13 @@ msgstr ""
 #. module: deltatech_website_category_icon
 #: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.snippets
 msgid "Category Icon Grid"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_order
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_order
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "Category Icon Order"
 msgstr ""
 
 #. module: deltatech_website_category_icon
@@ -113,6 +120,16 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__image_svg_product
+msgid "Image, SVG, first product image"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__image_svg
+msgid "Image, SVG, none"
+msgstr ""
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
 msgid "Inherited Icon"
 msgstr ""
@@ -151,6 +168,16 @@ msgstr ""
 msgid ""
 "SVG markup of the category icon, square viewBox. Only flat shapes are kept: "
 "path, rect, circle, ellipse, line, polyline, polygon and g."
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__svg_image_product
+msgid "SVG, image, first product image"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__svg_image
+msgid "SVG, image, none"
 msgstr ""
 
 #. module: deltatech_website_category_icon
@@ -220,6 +247,22 @@ msgstr ""
 #. module: deltatech_website_category_icon
 #: model:ir.model,name:deltatech_website_category_icon.model_product_public_category
 msgid "Website Product Category"
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_res_config_settings__category_icon_order
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_order
+msgid ""
+"What the shop shows for a category, in this order, the first one found:\n"
+"SVG: the category's own icon, else the icon of its closest parent that has one.\n"
+"Image: the category's own image.\n"
+"First product image: the picture of the first published product of the category or of its subcategories.\n"
+"None: nothing, the name alone."
+msgstr ""
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "What the shop shows for a category: the first one found, in this order"
 msgstr ""
 
 #. module: deltatech_website_category_icon

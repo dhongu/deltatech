@@ -132,7 +132,7 @@ class TestCategoryIconShop(HttpCase):
         self.child.icon_svg = f'<svg viewBox="0 0 64 64">{circle}</svg>'
         page = self.url_open("/shop").text
         self.assertEqual(page.count(icon), roots)
-        self.assertNotIn(circle, page)
+        self.assertNotRegex(page, rf'o_category_icon_sm">\s*<svg[^>]*>\s*{circle}')
 
         self.website.category_icon_levels = "all"
         self.assertEqual(self.url_open("/shop").text.count(icon), 2 * roots)
@@ -148,7 +148,9 @@ class TestCategoryIconShop(HttpCase):
         # The filmstrip of an opened category lists its subcategories; one without
         # an icon or an image shows the parent's icon instead of the placeholder.
         self.env.ref("website_sale.products_categories_top").active = True
+        # all_products: the category page of deltatech_website_sale_category (a page of
+        # subcategories) is skipped when that module is installed.
         slug = self.env["ir.http"]._slug(self.category)
-        page = self.url_open(f"/shop/category/{slug}").text
+        page = self.url_open(f"/shop/category/{slug}?all_products=1").text
         self.assertIn('name="o_wsale_filmstrip_icon"', page)
         self.assertNotIn('name="o_wsale_filmstrip_placeholder"', page)

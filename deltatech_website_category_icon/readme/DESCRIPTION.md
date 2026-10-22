@@ -12,9 +12,14 @@ Gives every eCommerce category its own **SVG icon** and shows it in the shop.
   - **All categories**: every category with its own icon shows it;
   - **All categories, inherit from parent**: a subcategory without its own icon
     shows the icon of its closest parent that has one.
-- In the categories on top of the shop, usually the subcategories of the opened
-  category, a category without its own icon or image shows its closest parent's
-  icon instead of the empty placeholder.
+- Option **Category Icon Order** (same settings page) decides what the shop shows
+  for a category, the first one found: **SVG, image, none** (default), **Image,
+  SVG, none**, **SVG, image, first product image** or **Image, SVG, first product
+  image**. *SVG* is the category's icon, else its closest parent's; *first
+  product image* is the picture of the first published product of the category
+  or its subcategories. The same order applies to the filmstrip, the left
+  category list, the block Category Icon Grid and, when installed, the category
+  menu and subcategory list of Website Shop Blocks.
 - Website block **Category Icon Grid**, to drag on any page (home page, landing
   pages): the main categories or categories chosen by hand, with their icon and
   name, each linking to its shop page. The categories are rendered on each

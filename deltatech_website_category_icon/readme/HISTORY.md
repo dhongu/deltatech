@@ -1,3 +1,21 @@
+## 19.0.1.4.0 (2026-10-22)
+
+- New website option **Category Icon Order** (Website > Configuration >
+  Settings): what the shop shows for a category, the first one found. SVG,
+  image, none (default); Image, SVG, none; SVG, image, first product image;
+  Image, SVG, first product image. *SVG* is the category's icon, else its
+  closest parent's; *first product image* is the picture of the first published
+  product of the category or its subcategories, in the shop order.
+- One helper, `tb_category_visual`, decides for every place: the filmstrip, the
+  left category list (which now also shows the image when the order finds one,
+  in an icon-sized box; Category Icons in List still decides which categories
+  show something) and the block Category Icon Grid. Website Shop Blocks uses it
+  too when this module is installed.
+- Filmstrip: the image is loaded by URL instead of being inlined in the page.
+  A subcategory with its own image but no icon, under a parent with an icon,
+  now shows the parent's icon with the default order (the parent's icon is part
+  of the SVG step); choose *Image, SVG, none* to show its image first.
+
 ## 19.0.1.3.0 (2026-10-19)
 
 - New website block **Category Icon Grid** (Catalog group of the editor): a grid
