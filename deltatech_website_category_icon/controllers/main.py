@@ -17,7 +17,7 @@ class CategoryIconGrid(http.Controller):
         )
         if not categories:
             return ""
-        values = {"categories": categories, "category_url": WebsiteSale._get_shop_path}
+        values = {"categories": categories, "category_url": WebsiteSale._get_shop_path, "website": request.website}
         return str(
             request.env["ir.ui.view"]._render_template(
                 "deltatech_website_category_icon.s_category_icon_grid_items", values

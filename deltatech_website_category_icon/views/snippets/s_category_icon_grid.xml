@@ -48,7 +48,15 @@
                 t-att-href="category_url(category)"
                 t-att-data-category-id="category.id"
             >
-                <span t-if="category.icon_html" class="s_category_icon_grid_icon o_category_icon" t-out="category.icon_html" />
+                <t t-set="grid_visual" t-value="category.tb_category_visual(website, 'image_256')" />
+                <span
+                    t-if="grid_visual['kind'] == 'svg'"
+                    class="s_category_icon_grid_icon o_category_icon"
+                    t-out="grid_visual['svg']"
+                />
+                <span t-elif="grid_visual['url']" class="s_category_icon_grid_icon o_category_icon">
+                    <img class="o_category_image" t-att-src="grid_visual['url']" t-att-alt="category.name" loading="lazy" />
+                </span>
                 <span class="s_category_icon_grid_name" t-out="category.name" />
             </a>
         </div>

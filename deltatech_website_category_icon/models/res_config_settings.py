@@ -9,3 +9,4 @@ class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
     category_icon_levels = fields.Selection(related="website_id.category_icon_levels", readonly=False)
+    category_icon_order = fields.Selection(related="website_id.category_icon_order", readonly=False)

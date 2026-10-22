@@ -61,6 +61,15 @@ MAX_ICON_SIZE = 20000
 # Most categories the snippet Category Icon Grid shows, whatever the editor asks.
 MAX_GRID_CATEGORIES = 48
 
+# Steps of the website option Category Icon Order; an order without "product"
+# ends with nothing (the name alone).
+CATEGORY_ICON_ORDERS = {
+    "svg_image_product": ("svg", "image", "product"),
+    "image_svg_product": ("image", "svg", "product"),
+    "svg_image": ("svg", "image"),
+    "image_svg": ("image", "svg"),
+}
+
 
 class ProductPublicCategory(models.Model):
     _inherit = "product.public.category"
@@ -93,6 +102,53 @@ class ProductPublicCategory(models.Model):
         for category in self:
             parent = category.parent_id
             category.icon_inherited_html = Markup(parent.icon_svg) if parent.icon_svg else parent.icon_inherited_html
+
+    @api.private
+    def tb_category_visual(self, website=None, size="image_128", inherit_svg=True):
+        """What the shop shows for this category, following the website option
+        Category Icon Order: the first step that finds something.
+
+        - "svg": the category's icon, else (with ``inherit_svg``) the icon of its
+          closest parent that has one;
+        - "image": the category's image;
+        - "product": the picture of the first published product of the website, with
+          a picture, in the category or its subcategories (shop order).
+
+        Returns ``{"kind": "svg" | "image" | "product" | False, "svg": Markup or None,
+        "url": str or None}``; ``size`` is the image field used in the URL.
+        """
+        self.ensure_one()
+        website = website or self.env["website"].get_current_website()
+        for step in CATEGORY_ICON_ORDERS.get(website.category_icon_order, CATEGORY_ICON_ORDERS["svg_image"]):
+            if step == "svg":
+                svg = self.icon_html or (inherit_svg and self.icon_inherited_html)
+                if svg:
+                    return {"kind": "svg", "svg": Markup(svg), "url": None}
+            elif step == "image":
+                if self.image_128:
+                    return {"kind": "image", "svg": None, "url": website.image_url(self, size)}
+            elif step == "product":
+                product = self._tb_visual_product(website)
+                if product:
+                    return {"kind": "product", "svg": None, "url": website.image_url(product, size)}
+        return {"kind": False, "svg": None, "url": None}
+
+    def _tb_visual_product(self, website):
+        """First product of the category or its subcategories published on the website,
+        with a picture, in the shop order. Read with sudo: visitors see the picture of
+        a published product anyway."""
+        self.ensure_one()
+        domain = (
+            Domain([("active", "=", True), ("is_published", "=", True), ("image_128", "!=", False)])
+            & website.sale_product_domain()
+            & Domain("public_categ_ids", "child_of", self.id)
+        )
+        return (
+            self.env["product.template"]
+            .sudo()
+            .with_context(website_id=website.id)
+            .search(domain, order="website_sequence, id", limit=1)
+        )
 
     @api.model
     def _get_icon_grid_categories(self, website, category_ids=None, limit=12):

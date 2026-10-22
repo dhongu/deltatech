@@ -3,25 +3,31 @@
 
     <!--
         Categories shown on top of the shop (filmstrip), usually the subcategories of the
-        opened category. Order: the category's own icon (set on purpose, while the image is
-        often just the first product's photo), then its own image, then the icon of its
-        closest parent instead of the empty placeholder, as agrotrac.ro does it.
+        opened category. What each one shows follows the website option Category Icon
+        Order (tb_category_visual): the icon (its own, else its closest parent's), the
+        category's image or the picture of its first product; the placeholder when none.
+        The images layout "Cover" takes the larger image, as in the standard.
     -->
     <template id="filmstrip_categories" inherit_id="website_sale.filmstrip_categories">
         <xpath expr="//div[@name='o_wsale_filmstrip_image']" position="before">
-            <t t-set="strip_icon" t-value="c.icon_html or (not c.image_128 and c.icon_inherited_html)" />
+            <t
+                t-set="strip_size"
+                t-value="'image_512' if website.is_view_active('website_sale.filmstrip_categories_large_images') else 'image_128'"
+            />
+            <t t-set="strip_visual" t-value="c.tb_category_visual(website, strip_size)" />
             <div
-                t-if="strip_icon"
+                t-if="strip_visual['kind'] == 'svg'"
                 name="o_wsale_filmstrip_icon"
                 class="o_wsale_filmstrip_image o_category_icon rounded"
                 role="img"
                 t-att-aria-label="c.name"
-                t-out="strip_icon"
+                t-out="strip_visual['svg']"
             />
         </xpath>
         <xpath expr="//div[@name='o_wsale_filmstrip_image']" position="attributes">
-            <attribute name="t-elif">c.image_128</attribute>
+            <attribute name="t-elif">strip_visual['url']</attribute>
             <attribute name="t-if" />
+            <attribute name="t-attf-style">background-image:url('#{strip_visual['url']}')</attribute>
         </xpath>
     </template>
 
@@ -29,7 +35,9 @@
         Small icon before the name in the left category list. The website option Category
         Icons in List decides which categories show one: main categories only (the default,
         so an opened branch stays plain text and the page light), every category with its
-        own icon, or every category with the closest parent's icon as fallback.
+        own icon, or every category with the closest parent's icon as fallback. What is
+        shown follows the website option Category Icon Order: an SVG icon inline, an image
+        (the category's or its first product's) in a box of the same size.
 
         The flex layout sits on an inner span, not on the link: themes restyle the
         link itself (Agroamat forces `display: block !important` on it), which would
@@ -45,10 +53,23 @@
         </xpath>
         <xpath expr="//a" position="inside">
             <t t-set="icon_levels" t-value="website.category_icon_levels" />
-            <t t-set="cat_icon" t-value="(icon_levels != 'root' or not c.parent_id) and c.icon_html" />
-            <t t-set="cat_icon" t-value="cat_icon or (icon_levels == 'inherit' and c.icon_inherited_html)" />
+            <t
+                t-set="cat_visual"
+                t-value="(icon_levels != 'root' or not c.parent_id) and c.tb_category_visual(website, inherit_svg=icon_levels == 'inherit')"
+            />
             <span class="o_category_link d-inline-flex align-items-center gap-2">
-                <span t-if="cat_icon" class="o_category_icon o_category_icon_sm" t-out="cat_icon" />
+                <span
+                    t-if="cat_visual and cat_visual['kind'] == 'svg'"
+                    class="o_category_icon o_category_icon_sm"
+                    t-out="cat_visual['svg']"
+                />
+                <img
+                    t-elif="cat_visual and cat_visual['url']"
+                    class="o_category_image o_category_icon_sm rounded"
+                    t-att-src="cat_visual['url']"
+                    alt=""
+                    loading="lazy"
+                />
                 <span class="o_category_link_name" t-field="c.name" />
             </span>
         </xpath>

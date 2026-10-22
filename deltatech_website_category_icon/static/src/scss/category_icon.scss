@@ -2,11 +2,17 @@
 .o_category_icon {
     display: inline-flex;
 
-    > svg {
+    > svg,
+    > .o_category_image {
         display: block;
         width: 100%;
         height: 100%;
     }
+}
+
+// A picture (the category's or its first product's) in the place of the icon.
+.o_category_image {
+    object-fit: contain;
 }
 
 // A long name wraps next to the icon, not under it.

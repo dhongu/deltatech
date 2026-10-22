@@ -14,6 +14,13 @@
                 >
                     <field name="category_icon_levels" widget="radio" />
                 </setting>
+                <setting
+                    id="category_icon_order_setting"
+                    string="Category Icon Order"
+                    help="What the shop shows for a category: the first one found, in this order"
+                >
+                    <field name="category_icon_order" widget="radio" />
+                </setting>
             </setting>
         </field>
     </record>

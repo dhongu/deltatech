@@ -43,6 +43,13 @@ msgid "Category Icon Grid"
 msgstr "Grilă categorii cu iconițe"
 
 #. module: deltatech_website_category_icon
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_order
+#: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_order
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "Category Icon Order"
+msgstr "Ordinea iconiței categoriei"
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_res_config_settings__category_icon_levels
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_website__category_icon_levels
 #: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
@@ -116,6 +123,16 @@ msgstr ""
 "ului „Iconițe în lista de categorii”."
 
 #. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__image_svg_product
+msgid "Image, SVG, first product image"
+msgstr "Imagine, SVG, imaginea primului produs"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__image_svg
+msgid "Image, SVG, none"
+msgstr "Imagine, SVG, nimic"
+
+#. module: deltatech_website_category_icon
 #: model:ir.model.fields,field_description:deltatech_website_category_icon.field_product_public_category__icon_inherited_html
 msgid "Inherited Icon"
 msgstr "Iconiță moștenită"
@@ -157,6 +174,16 @@ msgid ""
 msgstr ""
 "Codul SVG al iconiței categoriei, cu viewBox pătrat. Se păstrează doar forme "
 "simple: path, rect, circle, ellipse, line, polyline, polygon și g."
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__svg_image_product
+msgid "SVG, image, first product image"
+msgstr "SVG, imagine, imaginea primului produs"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields.selection,name:deltatech_website_category_icon.selection__website__category_icon_order__svg_image
+msgid "SVG, image, none"
+msgstr "SVG, imagine, nimic"
 
 #. module: deltatech_website_category_icon
 #: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.s_category_icon_grid
@@ -227,6 +254,30 @@ msgstr "Website"
 #: model:ir.model,name:deltatech_website_category_icon.model_product_public_category
 msgid "Website Product Category"
 msgstr "Categorie produs website"
+
+#. module: deltatech_website_category_icon
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_res_config_settings__category_icon_order
+#: model:ir.model.fields,help:deltatech_website_category_icon.field_website__category_icon_order
+msgid ""
+"What the shop shows for a category, in this order, the first one found:\n"
+"SVG: the category's own icon, else the icon of its closest parent that has one.\n"
+"Image: the category's own image.\n"
+"First product image: the picture of the first published product of the category or of its subcategories.\n"
+"None: nothing, the name alone."
+msgstr ""
+"Ce afișează magazinul pentru o categorie, în această ordine, primul găsit:\n"
+"SVG: iconița proprie a categoriei, altfel iconița celui mai apropiat "
+"părinte care are una.\n"
+"Imagine: imaginea proprie a categoriei.\n"
+"Imaginea primului produs: imaginea primului produs publicat din categorie "
+"sau din subcategoriile ei.\n"
+"Nimic: nimic, doar numele."
+
+#. module: deltatech_website_category_icon
+#: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
+msgid "What the shop shows for a category: the first one found, in this order"
+msgstr ""
+"Ce afișează magazinul pentru o categorie: primul găsit, în această ordine"
 
 #. module: deltatech_website_category_icon
 #: model_terms:ir.ui.view,arch_db:deltatech_website_category_icon.res_config_settings_view_form
