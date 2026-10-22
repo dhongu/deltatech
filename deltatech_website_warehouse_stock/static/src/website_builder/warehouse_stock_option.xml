@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+<t t-name="deltatech_website_warehouse_stock.WarehouseStockOption">
+    <BuilderContext action="'warehouseStockConfig'">
+        <BuilderRow label.translate="Position">
+            <BuilderSelect actionParam="'warehouse_stock_position'">
+                <BuilderSelectItem actionValue="'after_price'">After the price</BuilderSelectItem>
+                <BuilderSelectItem actionValue="'details'">In the product details</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+        <BuilderRow label.translate="Style">
+            <BuilderSelect actionParam="'warehouse_stock_style'">
+                <BuilderSelectItem actionValue="'badges'">Badges</BuilderSelectItem>
+                <BuilderSelectItem actionValue="'list'">List with icons</BuilderSelectItem>
+                <BuilderSelectItem actionValue="'card'">Card</BuilderSelectItem>
+                <BuilderSelectItem actionValue="'selector'">Warehouse selector</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+        <BuilderRow label.translate="At zero stock">
+            <BuilderSelect actionParam="'warehouse_stock_zero_message'">
+                <BuilderSelectItem actionValue="'out_of_stock'">Out of stock</BuilderSelectItem>
+                <BuilderSelectItem actionValue="'on_order'">On order</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+        <BuilderRow label.translate="Quantity">
+            <BuilderSelect actionParam="'warehouse_stock_qty_display'">
+                <BuilderSelectItem actionValue="'exact'">Exact quantity below the threshold</BuilderSelectItem>
+                <BuilderSelectItem actionValue="'status_only'">Status only</BuilderSelectItem>
+            </BuilderSelect>
+        </BuilderRow>
+        <BuilderRow label.translate="Theme colors">
+            <BuilderCheckbox actionParam="'warehouse_stock_theme_colors'" />
+        </BuilderRow>
+    </BuilderContext>
+</t>
+
+</templates>
