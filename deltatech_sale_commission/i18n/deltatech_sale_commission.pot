@@ -337,3 +337,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_commission.view_commission_compute_form
 msgid "or"
 msgstr ""
+
+#. module: deltatech_sale_commission
+#: code:addons/deltatech_sale_commission/report/sale_margin_report.py:0
+msgid "Only a Commission Manager can change the commission."
+msgstr ""

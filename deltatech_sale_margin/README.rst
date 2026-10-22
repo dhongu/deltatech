@@ -16,14 +16,8 @@ Sale Margin
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin
     :alt: dhongu/deltatech
-.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_margin/readme/FISA_CONSULTANT.md
-    :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-27%20automated%20tests%20%C2%B7%2080%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_margin
-    :alt: 27 automated tests · 80% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2|
 
 - Features:
 
@@ -44,6 +38,12 @@ Sale Margin
     belong to different unit families - Odoo 19 converts any pair of
     units by their absolute factors, so a wrong ``uom_id`` would
     otherwise report every line as below cost.
+  - Cost price on the customer invoice lines, from the delivery (or the
+    product cost), and a warning/error on the invoice when the price is
+    below it
+  - Profit report on the posted customer invoices (Sales > Reporting),
+    with the cost, the profit, the markup and the margin; other sources
+    can be added (POS orders, with ``deltatech_sale_margin_pos``)
 
 sale.margin_limit and sale.margin_limit_check_validate are configurable
 from Settings > Sales. sale.margin_limit is the margin percentage below
@@ -62,11 +62,249 @@ draft sale orders)
 .. contents::
    :local:
 
+Configuration
+=============
+
+Set this up once per company, ideally together with the customer:
+choosing the policy is a commercial decision, not a technical detail.
+
+**Step 1 — Choose the policy**
+
+Go to **Settings → Sales → Pricing → Selling below cost**. Pick one of:
+
+- **Block the sale** (default): the price cannot be saved and the order
+  cannot be confirmed below cost.
+- **Warn only**: the line is flagged and the order can still be
+  confirmed.
+- **No check**: nothing is flagged or blocked.
+
+**Step 2 — Set the margin limit (%)**
+
+In the same place. **0** flags only negative margins; a negative value
+(for example -10) tolerates a loss up to that percentage; a positive
+value (for example 5) also flags thin margins that are still profitable.
+
+**Step 3 — Optional: check on confirmation only**
+
+On the **Block the sale** policy you can tick **Check margin on
+confirmation only**. Salespeople can then prepare a quotation freely,
+and the check runs when the order is confirmed.
+
+|Selling below cost policy and margin limit in Settings → Sales →
+Pricing|
+
+**Step 4 — Repeat for every company**
+
+The policy is stored per company. A newly created company starts on
+**Block the sale**.
+
+**Step 5 — Check user groups**
+
+- *Show purchase price on sale order lines and customer invoice*: users
+  without it do not see cost and margin, nor the **Profit Analysis**
+  report. Keep regular salespeople out of this group. The Sales
+  administrators also see the report and can recompute the cost.
+- *Sell below the purchase price* and *Sell below margin limit*: members
+  can go past the block (a note remains in the chatter).
+- *No change price on sale order*: price and discount become read-only.
+
+**Step 6 — Fill in the purchase cost on products**
+
+Without a cost (or with cost 0) there is nothing to compare and no
+warning is shown.
+
+.. |Selling below cost policy and margin limit in Settings → Sales → Pricing| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_policy_settings.png
+
+Usage
+=====
+
+Before you start, set the policy and the margin limit as described in
+*Configuration*.
+
+**Step 1 — Create the order**
+
+Go to **Sales → Orders** and create a quotation. Add a product that has
+a purchase cost, and enter the **Unit Price**.
+
+**Step 2 — See the signal**
+
+As soon as you leave the price field, if the margin falls below the
+configured limit, the line is highlighted and a banner appears at the
+top of the order. The signal comes when the price is decided, not at
+confirmation, when it is too late.
+
+On the **Warn only** policy the banner states that the order can be
+confirmed, so nobody waits for an approval that does not exist. On the
+**Block the sale** policy, a user outside the exception group gets an
+error and cannot save the price.
+
+The comparison is made in the unit of the line. Example: at a cost of 3
+per kg, a 12 kg box costs 36, so a price of 30 per box is below cost.
+
++----------------------------------+----------------------------------+
+| What you see                     | What it means                    |
++==================================+==================================+
+| Highlighted line and banner      | The margin is below the          |
+|                                  | configured limit                 |
++----------------------------------+----------------------------------+
+| **Margin** at the bottom of the  | The exact figure, shown only to  |
+| order                            | users allowed to see costs       |
++----------------------------------+----------------------------------+
+| **Confirm** button active        | The order is not blocked (Warn   |
+|                                  | only policy)                     |
++----------------------------------+----------------------------------+
+| Nothing, although the price      | The product has no cost, or the  |
+| looks low                        | units cannot be compared (for    |
+|                                  | example a wrong base unit)       |
++----------------------------------+----------------------------------+
+
+|Order below cost: banner, highlighted line and negative margin, with
+the Confirm button active|
+
+**Step 3 — Confirm the order**
+
+Click **Confirm**. On the **Warn only** policy, the order chatter
+receives one note listing the lines sold below cost and the margin of
+each. The note is written once, at confirmation, not on every price
+correction.
+
+**Step 4 — Invoice**
+
+The same policy applies on the customer invoice line, so an invoice for
+an order sold below cost is created without error on **Warn only**.
+
+Delivery lines, services, loyalty rewards and website orders are not
+checked.
+
+**Step 5 — Check the cost on the customer invoice**
+
+On the customer invoice, the **Cost Price** column shows the unit cost
+of the goods next to the **Price**. It is computed automatically:
+
+- from the **delivery** of the invoiced order (value of the stock move
+  to the customer divided by quantity, in the unit of the line);
+- for kit products, from the delivered components;
+- for invoices without an order or delivery, from the product cost;
+- for credit notes, from the **goods return**. Without a return, a
+  reversal of the invoice takes the cost of the invoice line (invoice
+  and reversal net to zero profit), while a price or discount reduction
+  has cost 0.
+
+The column is visible only to users in the cost group. On the **Block
+the sale** policy, a draft invoice with a price below cost cannot be
+saved.
+
+|Customer invoice with the cost price on each line|
+
+**Step 6 — Analyse the profit**
+
+Go to **Sales → Reporting → Profit Analysis**. The pivot opens on last
+month, grouped by product. Each row shows the sale value (without VAT),
+cost value, profit value, **Markup** (profit / cost) and **Margin**
+(profit / sale). Regroup by salesperson, category, customer, invoice,
+journal or month. Totals recalculate markup and margin from the sums.
+Export the table to Excel with the download button. Credit notes reduce
+both sale and cost.
+
+The report is shown to the cost group and to the Sales administrators.
+
+|Profit analysis report|
+
+**Step 7 — Recompute the cost when needed**
+
+If a line cost is wrong (for example the delivery was validated after
+invoicing), switch the report to the **list** view, remove the *Product*
+grouping from the search, select the lines and choose **Actions → Update
+Purchase Price**:
+
+- **Price from delivery** (default) recomputes the cost from the
+  delivery, falling back to the product cost;
+- unchecked, it takes the current product cost, without unit conversion:
+  keep the default;
+- **For all lines** applies to every line in the report, from all
+  periods: it rewrites the profit of periods already reported.
+
+A scheduled action also refreshes, every day, the cost of the lines
+invoiced in the last 7 days. Only the Sales administrators (and, with
+``deltatech_sale_commission``, the Commission Managers) can run the
+wizard.
+
+|Update Purchase Price wizard|
+
+.. |Order below cost: banner, highlighted line and negative margin, with the Confirm button active| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_below_cost_order.png
+.. |Customer invoice with the cost price on each line| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_invoice_cost_price.png
+.. |Profit analysis report| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_profit_report.png
+.. |Update Purchase Price wizard| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin/sale_margin_update_cost_wizard.png
+
 Changelog
 =========
 
 Changelog
 =========
+
+19.0.1.3.0 (2026-10-22)
+-----------------------
+
+- **Cost price on the customer invoices and the profit report (Raport
+  analiză profit), moved here from ``deltatech_sale_commission``**,
+  which keeps only the commissions. A database with both modules keeps
+  its records, ids and figures. A database with only this module gets
+  the report (menu for *Show purchase price* and the sales managers) and
+  the cost on the invoice lines; the cost of the old invoices is not
+  computed at the update, run *Update Purchase Price* on them.
+- The report accepts other sources of sales (``_extra_sources()``),
+  added with UNION ALL and matched by column name with the invoices, so
+  the extensions that add a column keep working. Their rows are
+  read-only. Used by ``deltatech_sale_margin_pos`` for the POS orders
+  without an invoice.
+- *Update Purchase Price* and changing the cost in the report are
+  allowed to whoever may change the report: the sales managers, and the
+  commission managers with ``deltatech_sale_commission``.
+- Own module icon (``icon.svg`` + ``icon.png``), replacing the generic
+  Deltatech one.
+- Profit report action: no default grouping by salesperson in the
+  context (it could not be removed from the search bar); it opens
+  grouped by product.
+- Margin report list: the product and the invoice are shown, so the
+  lines can be told apart; the cost group gets its Romanian name.
+- Consultant sheet, usage guide and screenshots: steps for the cost on
+  the invoice, the profit report and the cost recalculation.
+
+19.0.1.2.3 (2026-10-17)
+-----------------------
+
+- **Fix (MARGIN-002): the "No change price on sale order" group is
+  enforced on the server.** It only made the price and the discount
+  readonly in the order form, so the same user could still change them
+  through RPC, another client or the discount wizard. Changing
+  ``price_unit`` or ``discount`` on an existing line, directly or
+  through the order lines, now raises an access error for members of the
+  group, unless the new value is the one the pricelist computes.
+  Automatic repricing ("Update prices", price recomputed on a product or
+  quantity change), marketplace imports, the website cart and delivery,
+  down payment and reward lines are still allowed. Creating a line with
+  its own price (RMA, EDI and Excel imports) is not restricted.
+
+19.0.1.2.2 (2026-10-10)
+-----------------------
+
+- Usage guide (``USAGE.md``) rebuilt from the consultant sheet, with
+  numbered steps and screenshots; new ``CONFIGURE.md``.
+
+19.0.1.2.1 (2026-10-01)
+-----------------------
+
+- **Fix (MARGIN-001): the block now follows the same unit policy as the
+  flag.** When the line unit and the product's base unit belong to
+  different families (e.g. a product with ``uom_id`` = Units sold per
+  kg), the native conversion inflates ``purchase_price`` (3.00 per Unit
+  becomes 3000.00 per kg). The flag already stayed silent on such lines,
+  but ``check_sale_price()`` (on ``write`` and on confirmation) and the
+  onchange modal still compared the inflated cost, so in ``block`` mode
+  a line with no "below cost" flag could not be saved. Both now skip the
+  cost and margin comparison when ``_margin_uom_comparable()`` is False.
+  Same-family units (Box 12 kg against kg) are still compared on the
+  converted cost and still blocked. The "no price" check is unchanged.
 
 19.0.1.2.0 (2026-08-20)
 -----------------------

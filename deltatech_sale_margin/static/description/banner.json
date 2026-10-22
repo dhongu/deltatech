@@ -1,10 +1,10 @@
 {
-  "title": "Sale Margin Control",
-  "summary": "Protect margins and control pricing on sales",
+  "title": "Sale Margin & Profit",
+  "summary": "Protect margins and analyse invoice profit",
   "icon": "trend",
   "features": [
-    "Hide margin & cost from sales reps",
-    "Block sales below purchase price",
-    "Validate price limits at confirmation"
+    "Block or warn below cost or margin",
+    "Cost price on every invoice line",
+    "Profit report by salesperson & product"
   ]
 }

@@ -46,6 +46,7 @@ class TestSaleMarginManufacturerScreenshots(commission_screenshots.TestSaleCommi
         nord = manufacturer("Nord Computers SRL")
         (cls.laptop | cls.monitor).product_tmpl_id.manufacturer_id = nord
         cls.mouse.product_tmpl_id.manufacturer_id = manufacturer("Periferice Tech SRL")
+        cls.act_margin = env.ref("deltatech_sale_margin.action_sale_margin_report")
         # același raport, deschis direct pe pivotul grupat după producător (ca după alegerea
         # „Grupează după > Producător" din căutare)
         cls.act_margin_manufacturer = cls.act_margin.copy(

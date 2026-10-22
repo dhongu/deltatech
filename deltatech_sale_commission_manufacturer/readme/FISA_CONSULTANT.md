@@ -34,10 +34,10 @@ situație contabilă sau fiscală.
 | Rol | Ce face | Drept Odoo |
 |---|---|---|
 | Manager comercial / director vânzări | citește profitul pe producător | **Vânzări / Administrator**, **Vizualizare comisioane**, **Administrator comisioane** sau grupul *Show purchase price on sale order lines and customer invoice* (afișat în engleză, fără traducere) |
-| Responsabil nomenclator | completează producătorul pe produse | drept de modificare pe produse |
+| Responsabil nomenclator | completează producătorul pe produse | privilegiul **Produse** pe nivelul **Creează** |
 
 Meniul **Raport analiză profit** apare doar utilizatorilor cu unul dintre aceste drepturi, la fel
-ca înainte de instalarea modulului (fișa *Sale Commission*, secțiunea 3).
+ca înainte de instalarea modulului (fișele *Sale Margin* și *Sale Commission*, secțiunea 3).
 
 Roluri recomandate pentru testare: un administrator de vânzări (vede raportul) și un vânzător
 simplu (nu vede meniul).
@@ -45,8 +45,8 @@ simplu (nu vede meniul).
 ## 4. Conturi și date implicate
 
 Modulul nu are conturi proprii și nu creează note contabile. Cifrele vin din raportul existent:
-vânzarea din liniile facturilor client postate, costul din livrări (fișa *Sale Commission*,
-secțiunea 6, pasul 4).
+vânzarea din liniile facturilor client postate, costul din livrări (fișa *Sale Margin*,
+secțiunea 6, pașii 3 și 4).
 
 Date minime pentru demo (folosite și în capturi; aceleași facturi ca în fișa *Sale Commission*):
 - Companie **Demo Distribuție SRL**, plan de conturi RO, monedă RON.
@@ -185,7 +185,7 @@ Regenerare:
 
 ## 11. Observații pentru manual
 
-Prezentați modulul ca o continuare a fișei *Sale Commission*, pasul 4 (Analiza profitului): același
+Prezentați modulul ca o continuare a fișei *Sale Margin*, pasul 4 (Analiza profitului): același
 raport, cu un criteriu de grupare în plus. Ordinea de lucru:
 1. producătorii marcați și completați pe produse (*Products Extension*);
 2. raportul pe perioada dorită;

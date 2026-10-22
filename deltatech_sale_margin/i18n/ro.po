@@ -538,7 +538,7 @@ msgstr "Vânzare sub cost"
 #. module: deltatech_sale_margin
 #: model:res.groups,name:deltatech_sale_margin.group_sale_margin
 msgid "Show purchase price on sale order lines and customer invoice"
-msgstr ""
+msgstr "Afișează prețul de achiziție în comanda de vânzare și factura client"
 
 #. module: deltatech_sale_margin
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter

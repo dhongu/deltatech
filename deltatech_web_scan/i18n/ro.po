@@ -1,0 +1,195 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_web_scan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 06:05+0000\n"
+"PO-Revision-Date: 2026-10-22 06:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__ai
+msgid "AI"
+msgstr "AI"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__blocked
+msgid "Blocked"
+msgstr "Blocată"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__display_name
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__error
+msgid "Error"
+msgstr "Eroare"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_error_count
+msgid "Failed Scans"
+msgstr "Citiri eșuate"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,help:deltatech_web_scan.field_web_scan_source_mixin__scan_error_count
+msgid ""
+"Failed readings in a row; from the limit on, the scheduled action no longer "
+"reads the page."
+msgstr ""
+"Citiri eșuate la rând; de la limită încolo, acțiunea programată nu mai "
+"citește pagina."
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__date_start
+msgid "From"
+msgstr "De la"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__heuristic
+msgid "HTML Patterns"
+msgstr "Tipare HTML"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__id
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_last_fetch
+msgid "Last Scan"
+msgstr "Ultima citire"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_history_mixin__date_end
+msgid "Last Seen"
+msgstr "Văzut ultima dată"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__new
+msgid "New"
+msgstr "Nouă"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "No price found on the page (%(detail)s)."
+msgstr "Niciun preț pe pagină (%(detail)s)."
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__not_found
+msgid "Not Found"
+msgstr "Negăsită"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__ok
+msgid "OK"
+msgstr "OK"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__mismatch
+msgid "Other Product"
+msgstr "Alt produs"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_url
+msgid "Page URL"
+msgstr "Adresa paginii"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "Price confirmed by %s."
+msgstr "Preț confirmat de %s."
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "Price to confirm: %(detail)s"
+msgstr "Preț de confirmat: %(detail)s"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_source
+msgid "Read From"
+msgstr "Citit din"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "Read from %(origin)s."
+msgstr "Citit din %(origin)s."
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_message
+msgid "Scan Message"
+msgstr "Mesaj citire"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields,field_description:deltatech_web_scan.field_web_scan_source_mixin__scan_state
+msgid "Scan State"
+msgstr "Stare citire"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__selector
+msgid "Selectors"
+msgstr "Selectori"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_source__structured
+msgid "Structured Data"
+msgstr "Date structurate"
+
+#. module: deltatech_web_scan
+#: model:ir.model.fields.selection,name:deltatech_web_scan.selection__web_scan_source_mixin__scan_state__suspect
+msgid "Suspect"
+msgstr "Suspect"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "The page could not be read: %(detail)s"
+msgstr "Pagina nu a putut fi citită: %(detail)s"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "The page shows another product: %(detail)s"
+msgstr "Pagina arată alt produs: %(detail)s"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid ""
+"The site refuses automatic reading (%(detail)s). Ask for a feed or an API "
+"instead."
+msgstr ""
+"Site-ul refuză citirea automată (%(detail)s). Cereți în schimb un feed sau "
+"un API."
+
+#. module: deltatech_web_scan
+#: model:ir.model,name:deltatech_web_scan.model_web_scan_history_mixin
+msgid "Web Scan History"
+msgstr "Istoric scanare web"
+
+#. module: deltatech_web_scan
+#: model:ir.model,name:deltatech_web_scan.model_web_scan_source_mixin
+msgid "Web Scan Source"
+msgstr "Sursă scanare web"
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "no page URL"
+msgstr "fără adresa paginii"

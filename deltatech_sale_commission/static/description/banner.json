@@ -1,9 +1,9 @@
 {
   "title": "Sale Commission",
-  "summary": "Automatic commission calc for your sales team",
+  "summary": "Commissions computed from the profit",
   "icon": "trend",
   "features": [
-    "Per-salesperson commission rates",
+    "Rates per salesperson and journal",
     "Manager & director cascade rates",
     "Commission tied to invoice payment"
   ]

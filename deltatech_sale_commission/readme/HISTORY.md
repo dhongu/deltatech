@@ -2,8 +2,8 @@
 
 ## 19.0.2.0.1 (2026-10-22)
 
-- Consultant sheet: points to *Sale Margin Report by Manufacturer* for the profit per
-  manufacturer. Screenshots unchanged.
+- Consultant sheet: *Sale Margin Report by Manufacturer* listed among the related modules.
+  Screenshots unchanged.
 
 ## 19.0.2.0.0 (2026-10-22)
 
@@ -14,9 +14,13 @@
   the records keep their ids and the report the same columns. Update both modules together
   (`deltatech_sale_margin` moves the external ids before it loads its data).
 - The rows of the report that are not invoice lines (the POS orders of `deltatech_sale_margin_pos`)
-  get the rates of their salesperson on their journal, so the computed commission is there for them
+  get the rates of their salesperson on the invoice journal of the point of sale, so the computed commission is there for them
   too; the real commission stays on the invoice lines: *Set Paid* and the commission wizard leave
   them out.
+- Own module icon (`icon.svg` + `icon.png`), replacing the generic Deltatech one.
+- Only *Commission Manager* can change the real commission and *Commission Paid* in the report: the sales managers, who may now change the cost there, can not.
+- *Commission* list: *Due Date* and *Payment Term* are optional (hidden), so the commission columns fit.
+- Consultant sheet, usage guide and screenshots updated: the cost, the profit report and the cost recalculation moved to `deltatech_sale_margin`.
 
 ## 19.0.1.6.4 (2026-10-17)
 

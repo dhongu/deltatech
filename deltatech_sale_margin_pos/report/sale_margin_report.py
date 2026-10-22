@@ -29,8 +29,8 @@ class SaleMarginReport(models.Model):
         """
         columns = {
             "id": "-l.id",
-            # date_order is in UTC; the day is the one of the cashier, else an evening sale
-            # moves to the next day
+            # date_order is in UTC; the day is the one of the cashier, else a sale made after
+            # midnight in Romania (UTC+2/+3) falls on the day before
             "date": "(o.date_order AT TIME ZONE 'UTC' AT TIME ZONE COALESCE(up.tz, 'UTC'))::date",
             "categ_id": "t.categ_id",
             "product_id": "l.product_id",
@@ -64,9 +64,11 @@ class SaleMarginReport(models.Model):
             "from": from_str,
             "where": "o.state in ('paid', 'done') and o.account_move IS NULL",
             "columns": columns,
-            # the sales journal of the point of sale: the commission rates of the cashier are set on it
+            # The rates are looked up on the invoice journal of the point of sale: the commission rates
+            # accept only sales journals, and the journal of the POS orders (POSS) is a miscellaneous
+            # one. The rows keep that journal in journal_id, so they stay apart in the report.
             "user_column": "o.user_id",
-            "journal_column": "pc.journal_id",
+            "journal_column": "pc.invoice_journal_id",
             "company_column": "o.company_id",
         }
         return super()._extra_sources() + [source]
