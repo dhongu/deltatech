@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_sale_margin_report_filter_manufacturer" model="ir.ui.view">
+        <field name="name">sale.margin.report.select.manufacturer</field>
+        <field name="model">sale.margin.report</field>
+        <field name="inherit_id" ref="deltatech_sale_commission.view_sale_margin_report_filter" />
+        <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="manufacturer_id" />
+            </field>
+            <filter name="product" position="after">
+                <filter name="group_manufacturer" string="Manufacturer" context="{'group_by': 'manufacturer_id'}" />
+            </filter>
+        </field>
+    </record>
+</odoo>
