@@ -58,6 +58,14 @@ Features:
 Changelog
 =========
 
+20.0.1.3.1 (2026-10-22)
+-----------------------
+
+- Without a price list, the price on the labels uses the currency of the
+  product (of its company).
+- Consultant sheet: the label screenshots and texts show the price
+  including VAT.
+
 20.0.1.3.0 (2026-10-22)
 -----------------------
 
