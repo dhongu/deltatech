@@ -42,6 +42,12 @@ The module installs by itself when both ``deltatech_price_change`` and
 Changelog
 =========
 
+20.0.1.0.2 (2026-10-22)
+-----------------------
+
+- The price including taxes of the labels is computed by
+  ``deltatech_product_labels``, whose default layouts now print it too.
+
 20.0.1.0.1 (2026-10-22)
 -----------------------
 

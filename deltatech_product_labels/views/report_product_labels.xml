@@ -121,17 +121,39 @@
                         box-sizing: border-box;
                         overflow: hidden;
                         line-height: 1.15;
+                        color: #000;
+                        font-family: "DejaVu Sans", Arial, Helvetica, sans-serif;
                         }
                         .dt_label_name {
                         overflow: hidden;
                         font-weight: bold;
                         }
+                        .dt_label_table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        }
+                        .dt_label_table, .dt_label_table * {
+                        border: 0 none !important;
+                        background: none !important;
+                        }
+                        .dt_label_table td {
+                        padding: 0 !important;
+                        vertical-align: bottom;
+                        }
                         .dt_label_barcode {
                         display: block;
-                        margin: 0 auto;
                         }
-                        .dt_label_footer {
+                        .dt_label_small {
                         overflow: hidden;
+                        white-space: nowrap;
+                        }
+                        .dt_label_price {
+                        text-align: right;
+                        white-space: nowrap;
+                        font-weight: bold;
+                        }
+                        .dt_label_price_note {
+                        text-align: right;
                         white-space: nowrap;
                         }
                         .dt_sheet .dt_label {
@@ -144,6 +166,21 @@
                     </style>
                     <t t-out="0" />
                 </div>
+            </div>
+        </t>
+    </template>
+    <!-- price of a label, with the variables line, price_style and note_style -->
+    <template id="label_price">
+        <t t-if="line.price_incl">
+            <div class="dt_label_price" t-att-style="price_style">
+                <t
+                    t-out="line.price_incl"
+                    t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"
+                />
+            </div>
+            <div class="dt_label_price_note" t-att-style="note_style">
+                VAT incl. /
+                <t t-out="line.product_id.uom_id.name" />
             </div>
         </t>
     </template>
@@ -170,29 +207,40 @@
             </t>
         </t>
     </template>
-    <!-- 24 labels on an A4 sheet, 3 columns x 8 rows -->
+    <!-- 24 labels on an A4 sheet, 3 columns x 8 rows: shelf, warehouse or product labels -->
     <template id="product_product_label_a4_3x8">
         <t t-call="deltatech_product_labels.label_layout_fixed">
             <t t-set="lines" t-value="docs._get_print_lines()" />
             <div class="dt_sheet">
                 <t t-foreach="lines" t-as="line">
-                    <div class="dt_label" style="width: 33.33%; height: 37mm; padding: 2mm 3mm">
-                        <div class="dt_label_name" style="font-size: 9pt; height: 8.5mm">
+                    <div class="dt_label" style="width: 33.33%; height: 37mm; padding: 2.5mm 3mm 2mm 3mm">
+                        <div class="dt_label_name" style="font-size: 9.5pt; height: 8.6mm">
                             <t t-out="line.product_id.with_context(display_default_code=False).display_name" />
                         </div>
-                        <img
-                            t-if="line.barcode_image"
-                            class="dt_label_barcode"
-                            t-att-src="line.barcode_image"
-                            style="width: 60mm; height: 16mm"
-                        />
-                        <div class="dt_label_footer" style="font-size: 7pt; margin-top: 1mm">
-                            <span t-out="line.product_id.default_code or ''" />
-                            <span t-if="line.lot" style="float: right">
-                                Lot:
-                                <t t-out="line.lot" />
-                            </span>
-                        </div>
+                        <table class="dt_label_table" style="margin-top: 1mm">
+                            <tr>
+                                <td style="width: 38mm">
+                                    <img
+                                        t-if="line.barcode_image"
+                                        class="dt_label_barcode"
+                                        t-att-src="line.barcode_image"
+                                        style="width: 36mm; height: 14mm"
+                                    />
+                                    <div class="dt_label_small" style="font-size: 7pt; margin-top: 0.5mm">
+                                        <t t-out="line.product_id.default_code or ''" />
+                                        <t t-if="line.lot">
+                                            · Lot:
+                                            <t t-out="line.lot" />
+                                        </t>
+                                    </div>
+                                </td>
+                                <td>
+                                    <t t-set="price_style" t-value="'font-size: 15pt'" />
+                                    <t t-set="note_style" t-value="'font-size: 6pt'" />
+                                    <t t-call="deltatech_product_labels.label_price" />
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     <div t-if="line_index % 24 == 23 and not line_last" class="dt_page_break" />
                 </t>
@@ -204,23 +252,34 @@
         <t t-call="deltatech_product_labels.label_layout_fixed">
             <t t-set="lines" t-value="docs._get_print_lines()" />
             <t t-foreach="lines" t-as="line">
-                <div class="dt_label" style="width: 100mm; height: 49mm; padding: 2.5mm 4mm">
-                    <div class="dt_label_name" style="font-size: 14pt; height: 16mm">
+                <div class="dt_label" style="width: 100mm; height: 49mm; padding: 3mm 4mm">
+                    <div class="dt_label_name" style="font-size: 13pt; height: 11.5mm">
                         <t t-out="line.product_id.with_context(display_default_code=False).display_name" />
                     </div>
-                    <img
-                        t-if="line.barcode_image"
-                        class="dt_label_barcode"
-                        t-att-src="line.barcode_image"
-                        style="width: 80mm; height: 20mm"
-                    />
-                    <div class="dt_label_footer" style="font-size: 10pt; margin-top: 1.5mm">
-                        <span t-out="line.product_id.default_code or ''" />
-                        <span t-if="line.lot" style="float: right">
-                            Lot:
-                            <t t-out="line.lot" />
-                        </span>
-                    </div>
+                    <table class="dt_label_table" style="margin-top: 2mm">
+                        <tr>
+                            <td style="width: 54mm">
+                                <img
+                                    t-if="line.barcode_image"
+                                    class="dt_label_barcode"
+                                    t-att-src="line.barcode_image"
+                                    style="width: 52mm; height: 22mm"
+                                />
+                                <div class="dt_label_small" style="font-size: 9pt; margin-top: 1mm">
+                                    <t t-out="line.product_id.default_code or ''" />
+                                    <t t-if="line.lot">
+                                        · Lot:
+                                        <t t-out="line.lot" />
+                                    </t>
+                                </div>
+                            </td>
+                            <td>
+                                <t t-set="price_style" t-value="'font-size: 24pt'" />
+                                <t t-set="note_style" t-value="'font-size: 8pt'" />
+                                <t t-call="deltatech_product_labels.label_price" />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div t-if="not line_last" class="dt_page_break" />
             </t>
@@ -231,23 +290,33 @@
         <t t-call="deltatech_product_labels.label_layout_fixed">
             <t t-set="lines" t-value="docs._get_print_lines()" />
             <t t-foreach="lines" t-as="line">
-                <div class="dt_label" style="width: 40mm; height: 24mm; padding: 1mm 1.5mm">
-                    <div class="dt_label_name" style="font-size: 7pt; height: 6.5mm">
+                <div class="dt_label" style="width: 40mm; height: 24mm; padding: 1.2mm 1.5mm">
+                    <div class="dt_label_name" style="font-size: 6pt; height: 5.8mm">
                         <t t-out="line.product_id.with_context(display_default_code=False).display_name" />
                     </div>
                     <img
                         t-if="line.barcode_image"
                         class="dt_label_barcode"
                         t-att-src="line.barcode_image"
-                        style="width: 36mm; height: 11mm"
+                        style="width: 37mm; height: 9.5mm; margin-top: 0.6mm"
                     />
-                    <div class="dt_label_footer" style="font-size: 6pt; margin-top: 0.5mm">
-                        <span t-out="line.product_id.default_code or ''" />
-                        <span t-if="line.lot" style="float: right">
-                            Lot:
-                            <t t-out="line.lot" />
-                        </span>
-                    </div>
+                    <table class="dt_label_table" style="margin-top: 0.5mm">
+                        <tr>
+                            <td class="dt_label_small" style="font-size: 5.5pt">
+                                <t t-out="line.product_id.default_code or ''" />
+                                <div t-if="line.lot">
+                                    Lot:
+                                    <t t-out="line.lot" />
+                                </div>
+                            </td>
+                            <td t-if="line.price_incl" class="dt_label_price" style="font-size: 9pt">
+                                <t
+                                    t-out="line.price_incl"
+                                    t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"
+                                />
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div t-if="not line_last" class="dt_page_break" />
             </t>

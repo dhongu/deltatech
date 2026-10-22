@@ -1,7 +1,8 @@
 Features:
 
 - prints labels from products, sale orders, pickings, lots and quants
-- default layouts, each with its own paper format:
+- default layouts with product name, internal reference, barcode, lot and price including VAT (with currency and
+  unit of measure), for shop shelves, warehouses or products, each with its own paper format:
   - A4 sheet of 3x8 labels (70x37 mm), for any office printer
   - 100x50 mm and 40x25 mm, one label per page, for thermal printers
   - continuous labels, without a paper format

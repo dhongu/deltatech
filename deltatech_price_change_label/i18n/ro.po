@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 03:26+0000\n"
+"POT-Creation-Date: 2026-10-22 10:15+0000\n"
 "PO-Revision-Date: 2026-10-22 03:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,21 +18,14 @@ msgstr ""
 #. module: deltatech_price_change_label
 #: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_price_change__display_name
 #: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_product_label__display_name
-#: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_product_label_line__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_price_change_label
 #: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_price_change__id
 #: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_product_label__id
-#: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_product_label_line__id
 msgid "ID"
 msgstr "ID"
-
-#. module: deltatech_price_change_label
-#: model:ir.model.fields,field_description:deltatech_price_change_label.field_product_product_label_line__price_incl
-msgid "Price incl. Taxes"
-msgstr "Preț cu TVA"
 
 #. module: deltatech_price_change_label
 #: model_terms:ir.ui.view,arch_db:deltatech_price_change_label.view_change_price_form
@@ -53,11 +46,6 @@ msgstr "Etichetă de raft cu preț"
 #: model:ir.model,name:deltatech_price_change_label.model_product_product_label
 msgid "product.product.label"
 msgstr "Eticheta produs"
-
-#. module: deltatech_price_change_label
-#: model:ir.model,name:deltatech_price_change_label.model_product_product_label_line
-msgid "product.product.label.line"
-msgstr "Linie eticheta produs"
 
 #. module: deltatech_price_change_label
 #: model_terms:ir.ui.view,arch_db:deltatech_price_change_label.shelf_label

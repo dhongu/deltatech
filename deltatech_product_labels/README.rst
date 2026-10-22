@@ -19,16 +19,18 @@ Product Labels
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_product_labels/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-16%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-17%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_product_labels
-    :alt: 16 automated tests · 79% code coverage
+    :alt: 17 automated tests · 79% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
 Features:
 
 - prints labels from products, sale orders, pickings, lots and quants
-- default layouts, each with its own paper format:
+- default layouts with product name, internal reference, barcode, lot
+  and price including VAT (with currency and unit of measure), for shop
+  shelves, warehouses or products, each with its own paper format:
 
   - A4 sheet of 3x8 labels (70x37 mm), for any office printer
   - 100x50 mm and 40x25 mm, one label per page, for thermal printers
@@ -55,6 +57,18 @@ Features:
 
 Changelog
 =========
+
+20.0.1.3.0 (2026-10-22)
+-----------------------
+
+- The default layouts (A4 3x8, 100x50, 40x25) print the price including
+  taxes (VAT), with its currency and unit of measure, next to the
+  product name, internal reference, lot and barcode: they can be used as
+  shelf labels in the shop, in the warehouse or on the product. Without
+  a price, no price is printed.
+- The price including taxes (``price_incl``) moves here from
+  ``deltatech_price_change_label``; the price uses the currency of the
+  price list chosen in the wizard.
 
 20.0.1.2.0 (2026-10-22)
 -----------------------
