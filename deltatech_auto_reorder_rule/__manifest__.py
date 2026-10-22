@@ -2,10 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Auto Reorder Rule",
+    "name": "Auto Reorder Rules",
     "category": "Stock",
     "summary": "Auto create reorder rule",
-    "version": "18.0.0.1.5",
+    "version": "18.0.0.1.6",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

@@ -1,5 +1,5 @@
 ============================
-Deltatech Edit Currency Rate
+Custom Invoice Exchange Rate
 ============================
 
 ..

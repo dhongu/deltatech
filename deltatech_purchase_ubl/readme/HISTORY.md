@@ -1,5 +1,9 @@
 # Changelog
 
+## 18.0.1.2.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Purchase UBL Import* (was *Deltatech Purchase UBL*). The technical name `deltatech_purchase_ubl` does not change.
+
 ## [18.0.1.2.3] - 2026-07-18
 
 ### Fixed

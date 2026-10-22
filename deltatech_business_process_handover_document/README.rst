@@ -1,5 +1,5 @@
 ==================================
-Business process handover document
+Business Process Handover Document
 ==================================
 
 ..

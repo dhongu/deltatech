@@ -1,6 +1,6 @@
 {
-    "name": "Deltatech POS Stock",
-    "version": "18.0.1.0.0",
+    "name": "POS Stock Display",
+    "version": "18.0.1.0.1",
     "category": "Point of Sale",
     "summary": "Display stock in POS",
     "author": "Terrabit, Dorin Hongu",

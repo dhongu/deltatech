@@ -1,3 +1,7 @@
+## 18.0.1.1.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Website Alternative Codes* (was *Website alternative code*). The technical name `deltatech_alternative_website` does not change.
+
 ## 18.0.1.1.2 (2026-07-27)
 
 - Fix: the website search (autocomplete and shop) raised

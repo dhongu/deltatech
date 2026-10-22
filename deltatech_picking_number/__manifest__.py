@@ -1,9 +1,9 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Picking Number",
+    "name": "Transfer Numbering on Demand",
     "summary": "Picking Number",
-    "version": "18.0.2.0.0",
+    "version": "18.0.2.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",

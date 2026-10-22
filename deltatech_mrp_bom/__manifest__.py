@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "MRP Bom",
+    "name": "Template BoMs for Variants",
     "summary": "MRP Bom",
-    "version": "18.0.1.0.5",
+    "version": "18.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

@@ -1,9 +1,9 @@
 # ©  2023-now Terrabit
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Account Analytic",
+    "name": "Account Analytic Split",
     "summary": "Analytic lines enhancements",
-    "version": "18.0.0.0.5",
+    "version": "18.0.0.0.6",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

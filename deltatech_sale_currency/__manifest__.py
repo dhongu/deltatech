@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale Currency",
-    "version": "18.0.0.0.0",
+    "name": "Sale Invoice Currency",
+    "version": "18.0.0.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

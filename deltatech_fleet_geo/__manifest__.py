@@ -2,9 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Fleet Geo",
+    "name": "Fleet Geo Coordinates",
     "summary": "Fleet Geographical Information",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",

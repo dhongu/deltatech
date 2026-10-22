@@ -1,3 +1,7 @@
+## 18.0.1.0.1 (2026-10-22)
+
+- Listed on Odoo Apps as *Fleet Map Sheets & Fuel* (was *Deltatech Fleet*). The technical name `deltatech_fleet` does not change.
+
 ## 18.0.1.0.0 (2026-10-08)
 
 - Migration to 18.0: `list` views, `<chatter/>`, kanban `card` template,

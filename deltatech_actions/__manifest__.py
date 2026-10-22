@@ -2,10 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Actions",
+    "name": "Database Cleanup Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
-    "version": "18.0.0.0.9",
+    "version": "18.0.0.0.10",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

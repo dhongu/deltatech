@@ -3,9 +3,9 @@
 
 
 {
-    "name": "Business process",
+    "name": "Business Process Management",
     "summary": "Business process",
-    "version": "18.0.1.4.8",
+    "version": "18.0.1.4.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

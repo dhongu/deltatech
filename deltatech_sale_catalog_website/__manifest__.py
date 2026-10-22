@@ -2,10 +2,10 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Catalog Website Categories & Image Zoom",
+    "name": "Sales Catalog by Website Category",
     "summary": "In the Sales product catalog: show website categories in the "
     "left panel and open the product image full size on click",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

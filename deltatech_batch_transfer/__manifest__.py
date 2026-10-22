@@ -1,9 +1,9 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Batch Transfer",
+    "name": "Batch Transfer Extension",
     "summary": "Batch transfer improvements",
-    "version": "18.0.0.0.2",
+    "version": "18.0.0.0.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",

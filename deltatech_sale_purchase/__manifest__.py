@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Purchase",
+    "name": "Sale-Purchase Sync",
     "summary": "Sale Purchase",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

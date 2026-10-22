@@ -4,9 +4,9 @@
 
 
 {
-    "name": "Website alternative code",
+    "name": "Website Alternative Codes",
     "summary": "Show alternative code in website",
-    "version": "18.0.1.1.2",
+    "version": "18.0.1.1.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

@@ -3,8 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Invoice Pickings Automatically",
-    "version": "18.0.0.0.4",
+    "name": "Auto-Invoice from Delivery",
+    "version": "18.0.0.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generate invoice automatically from picking after validation",
