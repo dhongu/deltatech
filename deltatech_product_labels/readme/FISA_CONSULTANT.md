@@ -9,8 +9,9 @@ agent de vânzări (etichete pentru o comandă)
 
 ## 1. Scop business
 
-Marfa care intră în depozit sau pleacă spre client trebuie etichetată: denumirea produsului, codul
-de bare citit la casă sau la scanare, codul intern și, la produsele urmărite pe loturi, lotul.
+Marfa din magazin, din depozit sau de pe produs trebuie etichetată: denumirea produsului, codul
+de bare citit la casă sau la scanare, codul intern, prețul cu TVA și, la produsele urmărite pe
+loturi, lotul.
 Asistentul standard de etichete din Odoo are formatele lui fixe și pornește doar din produse și
 transferuri. Modulul aduce un singur asistent, **Etichete produs**, care se deschide din
 **produse**, **comenzi de vânzare**, **transferuri**, **loturi** și **liniile de stoc**, propune
@@ -28,8 +29,10 @@ numele loturilor înainte de tipărire, iar machetele ZPL pentru imprimante Zebr
 - Pentru produsele urmărite pe loturi (de exemplu alimente), eticheta cu lotul ajută la
   **trasabilitate** (pentru alimente, cerută de Regulamentul (CE) nr. 178/2002, art. 18). Modulul
   doar tipărește lotul; evidența loturilor rămâne în modulul **Inventar**.
-- Machetele de preț de raft (cu prețul cu TVA, cerut la vânzarea către consumatori) nu fac parte din
-  acest modul: le aduce puntea `deltatech_price_change_label`. Machetele de aici nu tipăresc prețul.
+- Machetele A4 3x8, 40x25 și 100x50 tipăresc **prețul cu TVA**, cu moneda și, pe A4 și 100x50, mențiunea
+  „TVA inclus / unitatea de măsură”. Prețul cu toate taxele incluse este cel cerut la vânzarea către
+  consumatori (OG nr. 99/2000, Legea nr. 296/2004 privind Codul consumului). Prețul unitar pe kg/l, unde
+  este cerut, nu se calculează de modul. Un produs fără preț iese fără bloc de preț.
 
 ## 3. Utilizatori și roluri
 
@@ -100,10 +103,11 @@ Se deschide fereastra **Etichete produs**:
 - **Format** — macheta de etichetă. Prima dată se propune **Etichete produs A4 3x8 (70x37 mm)**;
   după aceea, **ultima machetă tipărită de dumneavoastră** (fiecare utilizator are propria machetă
   propusă, păstrată și după închiderea sesiunii);
-- **Depozit** și **Listă de prețuri** — se folosesc doar de machetele care tipăresc locația din
-  depozit sau prețul (machetele de client sau eticheta de raft din `deltatech_price_change_label`).
-  Coloana **Preț** arată prețul de vânzare al produsului sau, cu o listă de prețuri aleasă, prețul din
-  listă. **Depozit** contează și la opțiunea **Doar pentru loturi** (pasul 6);
+- **Listă de prețuri** — fără listă, eticheta are prețul de vânzare al produsului; cu o listă aleasă,
+  prețul din listă, în moneda listei. Coloana **Preț** arată prețul fără TVA; pe etichetă se adaugă
+  taxele de vânzare ale produsului;
+- **Depozit** — se folosește de machetele care tipăresc locația din depozit (machetele de client) și
+  la opțiunea **Doar pentru loturi** (pasul 6);
 - **Utilizează reguli plasare** nu schimbă machetele implicite; lăsați-l nebifat;
 - tabelul de jos are câte o linie pe produs: **Nr. etich.** este numărul de etichete tipărite pentru
   linia respectivă. Din produs se propune 1; modificați-l după numărul de bucăți de etichetat.
@@ -125,18 +129,19 @@ de la o pagină la alta:
 | **Etichete produs (continuu)** | machetă veche, fără format de hârtie propriu | etichetele una după alta, cu chenar, pe formatul de hârtie implicit al companiei |
 
 Pe machetele A4 3x8, 40x25 și 100x50, fiecare etichetă are denumirea produsului (fără referința
-internă), codul de bare, referința internă și, dacă linia are lot, **Lot: …** în dreapta jos. Macheta
+internă), codul de bare, sub el referința internă și, dacă linia are lot, **Lot: …**, iar în dreapta
+**prețul cu TVA** (cana 39,00 + 21% = 47,19 lei). Macheta
 continuă tipărește denumirea cu referința în față (ex. „[CAN-350] Cană ceramică 350 ml”) și codul. Pentru exemplu, 3 etichete pentru cană și 2 pentru
 termos:
 
-![Coala A4 3x8: 3 etichete pentru cană și 2 pentru termos, cu cod de bare EAN-13](screenshots/03_eticheta_a4_3x8.png)
+![Coala A4 3x8: 3 etichete pentru cană și 2 pentru termos, cu cod de bare EAN-13 și preț cu TVA](screenshots/03_eticheta_a4_3x8.png)
 
 Pe machetele termice, câte o etichetă pentru cană și una pentru termos; în PDF fiecare etichetă iese
 pe pagina ei, la dimensiunea rolei (chenarul punctat din capturi marchează marginea etichetei):
 
-![Macheta 40x25 mm: o etichetă pentru cană și una pentru termos](screenshots/04_eticheta_40x25.png)
+![Macheta 40x25 mm: o etichetă pentru cană și una pentru termos, cu preț cu TVA](screenshots/04_eticheta_40x25.png)
 
-![Macheta 100x50 mm: o etichetă pentru cană și una pentru termos](screenshots/05_eticheta_100x50.png)
+![Macheta 100x50 mm: o etichetă pentru cană și una pentru termos, cu preț cu TVA](screenshots/05_eticheta_100x50.png)
 
 Verificați pe primele etichete că imprimanta are formatul de hârtie corect (A4 la coli, rola de
 40×25 sau 100×50 la imprimanta termică) și că scanerul citește codul de bare, înainte de a tipări
@@ -168,7 +173,7 @@ completează numele lotului pe fiecare linie de recepție a unui produs urmărit
 Pe etichetă apare lotul generat; verificați că același nume apare în recepție, pe linia produsului,
 înainte de a valida recepția.
 
-![Cele 3 etichete de ulei, cu lotul generat la recepție](screenshots/08_eticheta_lot_receptie.png)
+![Cele 3 etichete de ulei, cu lotul generat la recepție și prețul cu TVA](screenshots/08_eticheta_lot_receptie.png)
 
 ### Pasul 6 — Doar loturile din stoc ale unui produs
 
@@ -256,7 +261,7 @@ recepție (la evidența în timp real) apar, ca de obicei, la **Validare**, din 
 | `product` | produsul, codul de bare și referința internă; butonul **Tipărire Etichete** |
 | `sale` | etichete din comanda de vânzare, cu cantitățile comandate |
 | `stock` | etichete din transferuri, loturi și stoc; numerotarea loturilor la recepție |
-| `deltatech_price_change_label` | eticheta de raft cu prețul cu TVA, pe același asistent |
+| `deltatech_price_change_label` | etichete din modificările de preț și macheta „Shelf label with price” |
 | Labelary (`api.labelary.com`, serviciu extern) | transformă ZPL în PDF pentru **Previzualizare** |
 
 Ce este automat: cantitatea de etichete propusă din document, adunarea liniilor de comandă pe
@@ -276,6 +281,8 @@ hârtie al machetei, crearea machetelor ZPL de client și validarea recepției.
 - [ ] Coala A4 3x8 are 24 de etichete pe pagină; 3 etichete pentru cană și 2 pentru termos ocupă
       primele 5 poziții.
 - [ ] Machetele 40x25 și 100x50 tipăresc câte o etichetă pe pagină, la dimensiunea rolei.
+- [ ] Pe etichetă, prețul cănii este 47,19 lei (39,00 + TVA 21%); cu o listă de prețuri aleasă,
+      prețul din listă plus TVA.
 - [ ] Din comanda de vânzare, cana apare o singură dată, cu 16 etichete (10 + 6).
 - [ ] Din recepție, cu **Generează loturile automat** bifat, lotul generat apare pe etichetă și pe
       linia recepției, iar după **Validare** lotul există cu același nume.
@@ -310,12 +317,12 @@ internet.
 
 1. `01_produs_meniu_etichete.png` — meniul ⚙ al produsului, cu acțiunea „Tipărire Etichete”.
 2. `02_asistent_din_produs.png` — asistentul „Etichete produs” deschis din produs, format A4 3x8.
-3. `03_eticheta_a4_3x8.png` — coala A4 3x8 cu etichetele cănii și termosului.
+3. `03_eticheta_a4_3x8.png` — coala A4 3x8 cu etichetele cănii și termosului, cu prețul cu TVA.
 4. `04_eticheta_40x25.png` — macheta 40x25 mm, câte o etichetă pentru cană și termos.
 5. `05_eticheta_100x50.png` — macheta 100x50 mm, câte o etichetă pentru cană și termos.
 6. `06_asistent_din_comanda.png` — asistentul deschis din comanda de vânzare.
 7. `07_asistent_din_receptie.png` — asistentul deschis din recepție, cu „Generează loturile automat”.
-8. `08_eticheta_lot_receptie.png` — etichetele cu lotul generat la recepție.
+8. `08_eticheta_lot_receptie.png` — etichetele cu lotul generat la recepție și prețul cu TVA.
 9. `09_asistent_doar_loturi.png` — „Doar pentru loturi”: o linie pe lot din stoc.
 10. `10_asistent_din_lot.png` — asistentul deschis din lot.
 11. `11_raport_zpl_dimensiuni.png` — raportul ZPL cu dimensiunea și rezoluția etichetei.

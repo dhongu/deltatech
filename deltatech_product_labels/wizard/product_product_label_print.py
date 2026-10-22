@@ -400,7 +400,7 @@ class ProductProductLabelLine(models.TransientModel):
         company = self.env.company
         for line in self:
             product = line.product_id
-            currency = line.label_id.pricelist_id.currency_id or company.currency_id
+            currency = line.label_id.pricelist_id.currency_id or product.currency_id or company.currency_id
             taxes = product.taxes_id.filtered(lambda t, c=company: t.company_id in c.parent_ids)
             line.currency_id = currency
             line.price_incl = taxes.compute_all(line.price, currency, product=product)["total_included"]
