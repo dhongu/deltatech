@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-27 12:40+0000\n"
-"PO-Revision-Date: 2021-04-27 12:40+0000\n"
+"POT-Creation-Date: 2026-10-22 03:18+0000\n"
+"PO-Revision-Date: 2026-10-22 03:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,30 +16,312 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+msgid "%(product)s - unit price %(price)s %(currency)s, margin %(margin)s%%"
+msgstr "%(product)s - preț unitar %(price)s %(currency)s, marjă %(margin)s%%"
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+msgid ""
+"<p><b>Sold below cost - confirmed.</b> The lines below are under the "
+"configured margin limit. The order was NOT blocked; this note keeps a trace "
+"of the decision.</p><ul>%s</ul>"
+msgstr ""
+"<p><b>Vânzare sub cost - confirmată.</b> Liniile de mai jos au marja sub "
+"limita configurată. Comanda NU a fost blocată; nota rămâne ca urmă a "
+"deciziei.</p><ul>%s</ul>"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.res_config_settings_view_form
+msgid "<span class=\"ms-1\">%</span>"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__account_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Account"
+msgstr "Cont"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__invoice_line_ids
+msgid "Account invoice line"
+msgstr "Line Factură"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__margin_below_limit
+msgid "Below cost"
+msgstr "Sub cost"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__block
+msgid "Block the sale"
+msgstr "Blochează vânzarea"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order__can_change_price
+msgid "Can Change Price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__state__cancel
+msgid "Cancelled"
+msgstr "Anulată"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__categ_id
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Category of Product"
+msgstr "Categorie produs"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit_check_validate
+msgid "Check margin on confirmation only"
+msgstr "Verifică marja doar la confirmare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_res_config_settings__sale_margin_limit_check_validate
+msgid ""
+"Check the price only when the order is confirmed, instead of on every change"
+" of a line."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__commercial_partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Commercial Partner"
+msgstr "Partener comercial"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__company_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__company_currency_id
+msgid "Company Currency"
+msgstr "Valută companie"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_account_move_line__purchase_price
+msgid "Cost Price"
+msgstr "Preț cost"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__move_type__out_invoice
+msgid "Customer Invoice"
+msgstr "Factură client"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__move_type__out_refund
+msgid "Customer Refund"
+msgstr "Retur client"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__date
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_uom_uom__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_sale_margin
+#. odoo-python
 #: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
 msgid "Do not sell below the purchase price."
 msgstr "Nu puteți vinde sub prețul de achiziție."
 
 #. module: deltatech_sale_margin
-#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
-msgid "Hide purchase price on sale order lines and customer invoice"
-msgstr "Ascunde preț de achiziție în comanda de vânzare și facură client"
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__state__draft
+msgid "Draft"
+msgstr "Ciornă"
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__id
-msgid "ID"
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__due_date
+msgid "Due Date"
+msgstr "Dată scadență"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__for_all
+msgid "For all lines"
+msgstr "Pentru toate liniile"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "For the ALL invoice line will update purchase price"
+msgstr "Pentru TOATE liniile de facturi se va actualiza prețul de achiziție"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "For the selected invoice line will update purchase price"
+msgstr ""
+"Pentru liniile de facturi selectate se va actualiza prețul de achiziție"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.res_config_settings_view_form
+msgid ""
+"How the system reacts when a line falls below the purchase price or below "
+"the margin limit."
+msgstr ""
+"Cum reacționează sistemul când o linie coboară sub prețul de achiziție sau "
+"sub limita de marjă."
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_res_company__sale_margin_check_mode
+#: model:ir.model.fields,help:deltatech_sale_margin.field_res_config_settings__sale_margin_check_mode
+msgid ""
+"How the system reacts when a sale order line falls below the purchase price or below the margin limit.\n"
+"\n"
+"• Block the sale: the order cannot be confirmed and the price cannot be saved (unless the user belongs to the bypass groups). This is the historical behaviour and stays the default.\n"
+"• Warn only: nothing is ever blocked. The line is flagged, the order shows a banner, and confirming it leaves a single note in the chatter. Use this when selling below cost is a normal part of the business (perishable goods, stock clearance, commercial gestures) and the point is to make it visible, not to prevent it.\n"
+"• No check: no flag, no banner, no block."
 msgstr ""
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_account_move_line__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__id
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_uom_uom__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__payment_state__in_payment
+msgid "In Payment"
+msgstr "In plată"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__invoice_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__state
+msgid "Invoice Status"
+msgstr "Stare factură"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__payment_state__invoicing_legacy
+msgid "Invoicing App Legacy"
+msgstr "Facturare (aplicație veche)"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__journal_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_account_move
+msgid "Journal Entry"
+msgstr "Înregistrare jurnal"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Last 7 Days"
+msgstr "Ultimele 7 zile"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit
+msgid "Margin limit (%)"
+msgstr "Limită de marjă (%)"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_res_config_settings__sale_margin_limit
+msgid ""
+"Margin percentage below which a sale order line is reported.\n"
+"0 (default) reports only negative margins, i.e. strictly below the purchase price. A negative value tolerates a loss of up to that percentage without reporting it — useful when the warning would otherwise appear on so many orders that nobody reads it any more. A positive value also reports thin but positive margins."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__markup
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_pivot
+msgid "Markup"
+msgstr "Adaos (%)"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__move_type
+msgid "Move Type"
+msgstr "Tip miscare"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "My Sales"
+msgstr "Vânzările mele"
 
 #. module: deltatech_sale_margin
 #: model:res.groups,name:deltatech_sale_margin.group_sale_no_change_price
@@ -47,33 +329,194 @@ msgid "No change price on sale order"
 msgstr "Nu permite modificarea prețului în comanda de vânzare"
 
 #. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__off
+msgid "No check"
+msgstr "Fără verificare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__payment_state__not_paid
+msgid "Not Paid"
+msgstr "Neplătit"
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/report/sale_margin_report.py:0
+msgid "Only the lines of an invoice can be changed in the margin report."
+msgstr "În raportul de profit se pot modifica doar liniile de factură."
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Open"
+msgstr "Deschis"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__payment_state__paid
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Paid"
+msgstr "Plătit"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__payment_state__partial
+msgid "Partially Paid"
+msgstr "Parțial plătit"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__payment_state
+msgid "Payment Status"
+msgstr "Stare plată"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__payment_term_id
+msgid "Payment Term"
+msgstr "Termen plată"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__state__posted
+msgid "Posted"
+msgstr "Postat"
+
+#. module: deltatech_sale_margin
+#. odoo-python
 #: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
 msgid "Price Error!"
 msgstr "Eroare preț!"
 
 #. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order__price_warning_message
+msgid "Price Warning Message"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_commission_update_purchase_price__price_from_doc
+msgid "Price from delivery"
+msgstr "Preț din livrare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr "Unitate de măsură produs"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_list
+msgid "Profit"
+msgstr "Profit"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__profit_val
+msgid "Profit Amount"
+msgstr "Valoare profit"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__profit_margin
+msgid "Profit Margin"
+msgstr "Marjă profit (%)"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_sale_margin_report__profit_val
+msgid "Profit obtained at invoicing in company currency"
+msgstr "Profitul obținut la facturare în moneda companiei"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__purchase_price
+msgid "Purchase price"
+msgstr "Preț achiziție"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_list
+msgid "Qty"
+msgstr "Cant."
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__product_uom_qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__state_id
+msgid "Region"
+msgstr "Județ"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__payment_state__reversed
+msgid "Reversed"
+msgstr "Reversat"
+
+#. module: deltatech_sale_margin
+#. odoo-python
 #: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
 msgid "Sale %s below margin."
 msgstr "Vânzare %s sub marjă."
 
 #. module: deltatech_sale_margin
+#. odoo-python
 #: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
 msgid "Sale %s under the purchase price."
 msgstr "Vânzare %s sub prețul de achiziție."
 
 #. module: deltatech_sale_margin
+#. odoo-python
 #: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
 msgid "Sale %s without price."
 msgstr "Vânzare %s fără preț."
 
 #. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__sale_val
+msgid "Sale Amount"
+msgstr "Valoare vânzare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_sale_margin_report__sale_val
+msgid "Sale Amount in company currency"
+msgstr "Valoarea vânzării în moneda companiei"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_sale_margin_report
+msgid "Sale Margin Report"
+msgstr "Raport analiză profit"
+
+#. module: deltatech_sale_margin
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_sale_margin_report
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_sale_margin_report_list
+msgid "Sale margin report"
+msgstr "Raport analiză profit"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_list
+msgid "Sale value"
+msgstr "Valoare vânzare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_margin
 #: model:ir.model,name:deltatech_sale_margin.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Linie comandă vânzare"
+msgstr "Linie comandă de vânzare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__move_type__out_receipt
+msgid "Sales Receipt"
+msgstr "Bon vânzare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__user_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Salesperson"
+msgstr "Agent de vânzări"
 
 #. module: deltatech_sale_margin
 #: model:res.groups,name:deltatech_sale_margin.group_sale_below_margin
@@ -86,8 +529,51 @@ msgid "Sell below the purchase price"
 msgstr "Vânzare sub prețul de achiziție"
 
 #. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_company__sale_margin_check_mode
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_check_mode
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.res_config_settings_view_form
+msgid "Selling below cost"
+msgstr "Vânzare sub cost"
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
+msgid "Show purchase price on sale order lines and customer invoice"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__stock_val
+msgid "Stock Amount"
+msgstr "Valoare cost"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_sale_margin_report__stock_val
+msgid "Stock Amount in company currency"
+msgstr "Costul mărfii vândute în moneda companiei"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_list
+msgid "Stock value"
+msgstr "Valoare cost"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,help:deltatech_sale_margin.field_sale_order_line__margin_below_limit
+msgid "The margin of this line is under the configured margin limit."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#. odoo-python
 #: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
+msgid "The order can still be confirmed."
+msgstr "Comanda poate fi confirmată."
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
 msgid ""
 "The unit price of product %s is lower than the purchase price. The margin is"
 " negative."
@@ -96,56 +582,51 @@ msgstr ""
 " este negativă."
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
-msgid "You can not sell %s without price."
-msgstr "Nu puteți vinde %s fără preț."
+#: model_terms:ir.actions.act_window,help:deltatech_sale_margin.action_sale_margin_report
+msgid "This report performs analysis on your invoices."
+msgstr "Acest raport efectuează analiza facturilor dvs."
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
-msgid "You can not sell below margin: %s"
-msgstr "Nu puteți vinde sub marjă: %s"
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Today"
+msgstr "Azi"
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
-msgid "You can not sell below the purchase price: %s."
-msgstr "Nu puteți vinde sub prețul de achiziție: %s."
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__product_uom
+msgid "Unit of Measure"
+msgstr "Unitatea măsură"
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
-msgid "The order can still be confirmed."
-msgstr "Comanda poate fi confirmată."
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_commission_update_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "Update Purchase Price"
+msgstr "Actualizare preț achiziție"
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
-msgid "%(product)s - unit price %(price)s %(currency)s, margin %(margin)s%%"
-msgstr "%(product)s - preț unitar %(price)s %(currency)s, marjă %(margin)s%%"
+#: model:ir.actions.server,name:deltatech_sale_margin.cron_update_purchase_price_ir_actions_server
+msgid "Update Purchase Price Daily"
+msgstr "Actualizare zilnică preț achiziție"
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/models/sale.py:0
-#, python-format
-msgid "<p><b>Sold below cost - confirmed.</b> The lines below are under the configured margin limit. The order was NOT blocked; this note keeps a trace of the decision.</p><ul>%s</ul>"
-msgstr "<p><b>Vânzare sub cost - confirmată.</b> Liniile de mai jos au marja sub limita configurată. Comanda NU a fost blocată; nota rămâne ca urmă a deciziei.</p><ul>%s</ul>"
+#: model:ir.model,name:deltatech_sale_margin.model_commission_update_purchase_price
+msgid "Update purchase price"
+msgstr "Actualizare preț achiziție"
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_order_line__margin_below_limit
-msgid "Below cost"
-msgstr "Sub cost"
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__move_type__in_invoice
+msgid "Vendor Bill"
+msgstr "Factură furnizor"
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_company__sale_margin_check_mode
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_check_mode
-msgid "Selling below cost"
-msgstr "Vânzare sub cost"
+#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__sale_margin_report__move_type__in_refund
+msgid "Vendor Refund"
+msgstr "Retur furnizor"
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__block
-msgid "Block the sale"
-msgstr "Blochează vânzarea"
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.inherit_sale_view_order_product_search
+msgid "Warehouse"
+msgstr "Depozit"
 
 #. module: deltatech_sale_margin
 #: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__warn
@@ -153,25 +634,43 @@ msgid "Warn only"
 msgstr "Doar avertisment"
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields.selection,name:deltatech_sale_margin.selection__res_company__sale_margin_check_mode__off
-msgid "No check"
-msgstr "Fără verificare"
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.inherit_sale_view_order_product_search
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Yesterday"
+msgstr "Ieri"
 
 #. module: deltatech_sale_margin
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit
-msgid "Margin limit (%)"
-msgstr "Limită de marjă (%)"
-
-#. module: deltatech_sale_margin
-#: model:ir.model.fields,field_description:deltatech_sale_margin.field_res_config_settings__sale_margin_limit_check_validate
-msgid "Check margin on confirmation only"
-msgstr "Verifică marja doar la confirmare"
-
-#. module: deltatech_sale_margin
-#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.res_config_settings_view_form
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
 msgid ""
-"How the system reacts when a line falls below the purchase price or below "
-"the margin limit."
+"You are not allowed to change the price or the discount on sale order lines."
 msgstr ""
-"Cum reacționează sistemul când o linie coboară sub prețul de achiziție sau "
-"sub limita de marjă."
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+msgid "You can not sell %s without price."
+msgstr "Nu puteți vinde %s fără preț."
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+msgid "You can not sell below margin: %s"
+msgstr "Nu puteți vinde sub marjă: %s"
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/account_move.py:0
+msgid "You can not sell below the purchase price."
+msgstr "Nu puteți vinde sub prețul de achiziție."
+
+#. module: deltatech_sale_margin
+#. odoo-python
+#: code:addons/deltatech_sale_margin/models/sale.py:0
+msgid "You can not sell below the purchase price: %s."
+msgstr "Nu puteți vinde sub prețul de achiziție: %s."
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "or"
+msgstr "sau"

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_margin_report_cost,Sale margin report,model_sale_margin_report,deltatech_sale_margin.group_sale_margin,1,0,0,0
+access_sale_margin_report_sale_manager,Sale margin report,model_sale_margin_report,sales_team.group_sale_manager,1,1,0,0
+access_update_purchase_price_sale_manager,Update purchase price,model_commission_update_purchase_price,sales_team.group_sale_manager,1,1,1,1

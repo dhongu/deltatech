@@ -8,8 +8,8 @@ build-backend = "whool.buildapi"
 # modulele nepublicate pe wheelhouse se declară prin depends_override,
 # iar `dynamic` obligă pyproject-dependencies să întrebe backend-ul.
 [tool.whool.depends_override]
-deltatech_sale_commission = "odoo-addon-deltatech-sale-commission @ git+https://github.com/dhongu/deltatech.git@19.0#subdirectory=deltatech_sale_commission"
+deltatech_sale_margin = "odoo-addon-deltatech-sale-margin @ git+https://github.com/dhongu/deltatech.git@19.0#subdirectory=deltatech_sale_margin"
 
 [project]
-name = "odoo-addon-deltatech-sale-commission-pos"
+name = "odoo-addon-deltatech-sale-margin-pos"
 dynamic = ["dependencies"]

@@ -39,11 +39,6 @@ class SaleMarginReport(models.Model):
             "purchase_price": f"CASE WHEN l.qty = 0 THEN 0 ELSE ({cost}) / l.qty END",
             "sale_val": "l.price_subtotal / COALESCE(NULLIF(o.currency_rate, 0), 1.0)",
             "stock_val": cost,
-            "rate": "cu.rate",
-            "manager_rate": "cu.manager_rate",
-            "director_rate": "cu.director_rate",
-            "manager_user_id": "cu.manager_user_id",
-            "director_user_id": "cu.director_user_id",
             "partner_id": "o.partner_id",
             "commercial_partner_id": "rp.commercial_partner_id",
             "state_id": "rp.state_id",
@@ -55,8 +50,7 @@ class SaleMarginReport(models.Model):
             "user_id": "o.user_id",
             "pos_order_id": "o.id",
         }
-        from_str = (
-            """
+        from_str = """
                 pos_order_line l
                 join pos_order o on (o.id = l.order_id)
                 join pos_config pc on (pc.id = o.config_id)
@@ -65,10 +59,14 @@ class SaleMarginReport(models.Model):
                 left join res_partner rp on (rp.id = o.partner_id)
                 left join res_users u on (u.id = o.user_id)
                 left join res_partner up on (up.id = u.partner_id)
-            """
-            + self._commission_rate_join("o.user_id", "pc.journal_id", "o.company_id")
-            + """
-              WHERE o.state in ('paid', 'done') and o.account_move IS NULL
-            """
-        )
-        return super()._extra_sources() + [{"from": from_str, "columns": columns}]
+        """
+        source = {
+            "from": from_str,
+            "where": "o.state in ('paid', 'done') and o.account_move IS NULL",
+            "columns": columns,
+            # the sales journal of the point of sale: the commission rates of the cashier are set on it
+            "user_column": "o.user_id",
+            "journal_column": "pc.journal_id",
+            "company_column": "o.company_id",
+        }
+        return super()._extra_sources() + [source]

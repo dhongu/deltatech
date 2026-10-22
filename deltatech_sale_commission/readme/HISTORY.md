@@ -1,13 +1,17 @@
 # Changelog
 
-## 19.0.1.7.0 (2026-10-22)
+## 19.0.2.0.0 (2026-10-22)
 
-- Margin report: other sources of sales can be added to the report (`_extra_sources()`), used by
-  the new `deltatech_sale_commission_pos` for the Point of Sale orders without an invoice. Their
-  columns are matched by name with those of the invoices, so the extensions that add a column
-  keep working. Without such a module the report is unchanged.
-- The rows that are not invoice lines are read-only: changing them is refused, *Set Paid* and the
-  commission and cost wizards leave them out.
+- **The cost price and the margin report move to `deltatech_sale_margin`.** This module keeps only
+  the commissions: the rates per salesperson and journal, the salesperson of the sale order on the
+  invoice line, the real commission and *Commission Paid*, the commission wizard and the commission
+  columns, filters and menu of the report. Nothing changes for a database that has both modules:
+  the records keep their ids and the report the same columns. Update both modules together
+  (`deltatech_sale_margin` moves the external ids before it loads its data).
+- The rows of the report that are not invoice lines (the POS orders of `deltatech_sale_margin_pos`)
+  get the rates of their salesperson on their journal, so the computed commission is there for them
+  too; the real commission stays on the invoice lines: *Set Paid* and the commission wizard leave
+  them out.
 
 ## 19.0.1.6.4 (2026-10-17)
 

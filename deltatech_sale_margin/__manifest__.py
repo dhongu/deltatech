@@ -3,8 +3,8 @@
 
 {
     "name": "Sale Margin",
-    "summary": "Check price in sale order",
-    "version": "19.0.1.2.3",
+    "summary": "Check price in sale order, cost price on invoices and profit report",
+    "version": "19.0.1.3.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -16,8 +16,14 @@
     "license": "OPL-1",
     "data": [
         "security/sale_security.xml",
+        "security/ir.model.access.csv",
+        "security/sale_margin_report_security.xml",
         "views/sale_margin_view.xml",
         "views/res_config_settings_views.xml",
+        "views/account_invoice_view.xml",
+        "report/sale_margin_report.xml",
+        "wizard/update_purchase_price_view.xml",
+        "data/cron_jobs.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

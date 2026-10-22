@@ -3,13 +3,13 @@
 
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Sale Commission - POS",
+    "name": "Sale Margin - POS",
     "summary": "Point of Sale orders without an invoice in the sale margin report",
     "version": "19.0.1.0.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["deltatech_sale_commission", "point_of_sale"],
+    "depends": ["deltatech_sale_margin", "point_of_sale"],
     "license": "OPL-1",
     "data": ["report/sale_margin_report.xml"],
     "development_status": "Beta",

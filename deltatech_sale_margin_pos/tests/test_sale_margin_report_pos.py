@@ -12,7 +12,7 @@ class TestSaleMarginReportPos(TestPoSCommon):
     def setUp(self):
         super().setUp()
         self.config = self.basic_config
-        self.env.user.group_ids |= self.env.ref("deltatech_sale_commission.group_commission_manager")
+        self.env.user.group_ids |= self.env.ref("sales_team.group_sale_manager")
         self.product = self.create_product("Margin POS", self.categ_basic, 100, 60)
         self.open_new_session()
 
@@ -79,6 +79,9 @@ class TestSaleMarginReportPos(TestPoSCommon):
         self.assertAlmostEqual(row.stock_val, line.total_cost)
 
     def test_commission_rate_of_the_pos_journal(self):
+        if "commission.users" not in self.env:
+            self.skipTest("deltatech_sale_commission is not installed")
+        self.env.user.group_ids |= self.env.ref("deltatech_sale_commission.group_commission_manager")
         self.env["commission.users"].create(
             {"user_id": self.env.user.id, "journal_id": self.config.journal_id.id, "rate": 0.1}
         )
@@ -91,7 +94,5 @@ class TestSaleMarginReportPos(TestPoSCommon):
         order = self._order(1)
         row = self._rows(pos_order_id=order.id)
         with self.assertRaises(UserError):
-            row.write({"commission": 5})
-        # Set Paid leaves the order rows out instead of failing
-        row.action_set_commission_paid()
+            row.write({"purchase_price": 5})
         self.assertFalse(row._invoice_rows())

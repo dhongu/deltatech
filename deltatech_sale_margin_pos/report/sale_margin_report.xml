@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="view_sale_margin_report_commission_list" model="ir.ui.view">
-        <field name="name">sale.margin.report.commission.list.pos</field>
+    <record id="view_sale_margin_report_list" model="ir.ui.view">
+        <field name="name">sale.margin.report.list.pos</field>
         <field name="model">sale.margin.report</field>
-        <field name="inherit_id" ref="deltatech_sale_commission.view_sale_margin_report_commission_list" />
+        <field name="inherit_id" ref="deltatech_sale_margin.view_sale_margin_report_list" />
         <field name="arch" type="xml">
-            <field name="invoice_id" position="after">
-                <field name="pos_order_id" optional="show" />
-            </field>
-        </field>
-    </record>
-
-    <record id="view_sale_margin_report_commission_form" model="ir.ui.view">
-        <field name="name">sale.margin.report.commission.form.pos</field>
-        <field name="model">sale.margin.report</field>
-        <field name="inherit_id" ref="deltatech_sale_commission.view_sale_margin_report_commission_form" />
-        <field name="arch" type="xml">
-            <field name="invoice_id" position="after">
-                <field name="pos_order_id" invisible="not pos_order_id" />
+            <field name="partner_id" position="after">
+                <field name="pos_order_id" optional="hide" />
             </field>
         </field>
     </record>
@@ -26,7 +15,7 @@
     <record id="view_sale_margin_report_filter" model="ir.ui.view">
         <field name="name">sale.margin.report.filter.pos</field>
         <field name="model">sale.margin.report</field>
-        <field name="inherit_id" ref="deltatech_sale_commission.view_sale_margin_report_filter" />
+        <field name="inherit_id" ref="deltatech_sale_margin.view_sale_margin_report_filter" />
         <field name="arch" type="xml">
             <filter name="paid" position="before">
                 <filter string="POS Sales" name="pos_sales" domain="[('pos_order_id', '!=', False)]" />

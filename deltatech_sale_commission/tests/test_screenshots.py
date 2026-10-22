@@ -238,7 +238,7 @@ class TestSaleCommissionScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
         cls.act_settings = env.ref("sale.action_sale_config_settings")
         cls.act_users = env.ref("deltatech_sale_commission.action_commission_users")
         cls.act_invoices = env.ref("account.action_move_out_invoice_type")
-        cls.act_margin = env.ref("deltatech_sale_commission.action_sale_margin_report")
+        cls.act_margin = env.ref("deltatech_sale_margin.action_sale_margin_report")
         cls.act_commission = env.ref("deltatech_sale_commission.action_sale_margin_commission_report")
 
     def _capture(self, shots):
