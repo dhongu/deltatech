@@ -1,3 +1,9 @@
+## 18.0.2.1.10 (2026-10-22)
+
+- The module is listed on Odoo Apps as *Alternative Product Codes* (was *Products Alternative*),
+  the same title as its thumbnail and page header. The technical name `deltatech_alternative`
+  does not change, so existing installations and dependencies are not affected.
+
 ## 18.0.2.1.9 (2026-09-26)
 
 - Fix: when a trigram index could not be built, the module replaced the

@@ -3,8 +3,8 @@
 # See README.rst file on the addons root folder for license details
 
 {
-    "name": "Products Alternative",
-    "version": "18.0.2.1.9",
+    "name": "Alternative Product Codes",
+    "version": "18.0.2.1.10",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
