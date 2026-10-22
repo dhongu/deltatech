@@ -135,6 +135,13 @@
         <field name="value">5</field>
     </record>
 
+    <!-- Method "frame" (keep the background, frame in a square): pieces smaller
+         than this percent of the product (a logo in a corner) do not widen the square. -->
+    <record id="cp_bg_frame_min_island" model="ir.config_parameter">
+        <field name="key">deltatech_image_optimize.bg_frame_min_island</field>
+        <field name="value">10</field>
+    </record>
+
     <!-- Empty = transparent background (WebP). A color such as #FFFFFF gives
          a solid background (JPEG). -->
     <record id="cp_bg_color" model="ir.config_parameter">

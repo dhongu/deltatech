@@ -1,3 +1,14 @@
+## 19.0.1.14.0 (2026-10-21)
+
+- Background removal wizard: new method *Frame only (keep background)*, for product photos on a
+  plain background that are not square and show small in the shop list. The background stays; the
+  product is cropped and centered in a square filled with the background color (or the chosen
+  color), saved as JPEG. Pieces smaller than `bg_frame_min_island` percent of the product (default
+  10, e.g. a logo in a corner) do not widen the square.
+- The wizard now has *Frame in a Square*, *Margin (%)* and *Background Color*, prefilled from
+  `bg_crop`, `bg_margin` and `bg_color`, so they can be changed per run; a queued selection still
+  uses the system parameters.
+
 ## 19.0.1.13.2 (2026-10-21)
 
 - Configuration: for rembg on odoo.sh, add `coverage>=7.6.1` next to `rembg[cpu]` in the

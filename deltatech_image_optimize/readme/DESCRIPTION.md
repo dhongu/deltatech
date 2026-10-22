@@ -42,6 +42,14 @@ database. The check therefore happens *before* anything is written, in a wizard:
 
 After the cut-out, the specks left next to the product are removed.
 
+### Square product images without removing the background
+
+Photos that are not square show small in the shop list, with empty bands around them. The method
+**Frame only (keep background)** keeps the background: the product is found by color, as for the
+uniform background, cropped and centered in a square filled with the background color, with the
+margin chosen in the wizard. Small pieces next to the product — a logo in a corner, a text — do not
+widen the square. The result is saved as JPEG and needs a photo on a plain background.
+
 An AI model tends to keep only the main object and to lose accessories or thin parts. When it works
 on a plain background, its result is compared with the color cut-out: if part of the product is
 missing, the image is flagged and **unticked** in the wizard. The method and the model can be
