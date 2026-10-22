@@ -58,7 +58,7 @@ class TestProductTemplate(TransactionCase):
                 "dimensions": "10x5x3",
                 "shelf_life": 2.5,
                 "uom_shelf_life": self.env.ref("uom.product_uom_unit").id,  # Example unit of measure
-                "manufacturer": partner_b.id,  # Example manufacturer
+                "manufacturer_id": partner_b.id,  # Example manufacturer
             }
         )
 
@@ -69,7 +69,7 @@ class TestProductTemplate(TransactionCase):
             hasattr(product_template, "uom_shelf_life"), "UoM Shelf Life field is not added to product.template"
         )
         self.assertTrue(
-            hasattr(product_template, "manufacturer"), "Manufacturer field is not added to product.template"
+            hasattr(product_template, "manufacturer_id"), "Manufacturer field is not added to product.template"
         )
 
 
@@ -87,11 +87,11 @@ class TestResPartner(TransactionCase):
 class TestInvoiceReportManufacturer(AccountTestInvoicingCommon):
     def test_invoice_report_manufacturer(self):
         manufacturer = self.env["res.partner"].create({"name": "Test Manufacturer", "is_manufacturer": True})
-        self.product_a.product_tmpl_id.manufacturer = manufacturer
+        self.product_a.product_tmpl_id.manufacturer_id = manufacturer
         invoice = self.init_invoice("out_invoice", products=self.product_a, post=True)
         report_line = self.env["account.invoice.report"].search([("move_id", "=", invoice.id)])
-        self.assertEqual(report_line.manufacturer, manufacturer)
+        self.assertEqual(report_line.manufacturer_id, manufacturer)
         groups = self.env["account.invoice.report"]._read_group(
-            [("move_id", "=", invoice.id)], groupby=["manufacturer"], aggregates=["price_subtotal:sum"]
+            [("move_id", "=", invoice.id)], groupby=["manufacturer_id"], aggregates=["price_subtotal:sum"]
         )
         self.assertEqual(groups[0][0], manufacturer)
