@@ -4,9 +4,9 @@
 
 
 {
-    "name": "Products Dimension",
+    "name": "Product Dimensions",
     "summary": "Length, width and height fields on products",
-    "version": "20.0.1.0.2",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

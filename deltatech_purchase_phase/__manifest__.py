@@ -4,8 +4,8 @@
 
 
 {
-    "name": "Purchase Order Stage",
-    "version": "20.0.1.2.7",
+    "name": "Purchase Order Phases",
+    "version": "20.0.1.2.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

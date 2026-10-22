@@ -1,3 +1,7 @@
+## 20.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Competitors Price Tracker* (was *Competitors Price*). The technical name `deltatech_competitors_price` does not change.
+
 ## 20.0.1.0.2 (2026-10-16)
 
 - Migration to 20.0: access rights declared in `ir.access`; no other code change was needed.

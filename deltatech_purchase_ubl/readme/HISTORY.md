@@ -1,3 +1,7 @@
+## 20.0.1.4.15 (2026-10-22)
+
+- Listed on Odoo Apps as *Purchase UBL Import* (was *Purchase UBL*). The technical name `deltatech_purchase_ubl` does not change.
+
 ## 20.0.1.4.14 (2026-10-20)
 
 - Changed: in the import preview, each line now has an action: *Use product*,

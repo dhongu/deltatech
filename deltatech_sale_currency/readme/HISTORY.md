@@ -1,3 +1,8 @@
+## 20.0.0.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale Invoice Currency* (was *Sale Currency*), with the same title on the Apps banner.
+  The technical name `deltatech_sale_currency` does not change.
+
 ## 20.0.0.0.2 (2026-10-10)
 
 - Fix SALECUR-001: when the invoice date or currency changes, the sale line price is first

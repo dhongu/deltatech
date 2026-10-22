@@ -1,3 +1,7 @@
+## 20.0.0.1.10 (2026-10-22)
+
+- Listed on Odoo Apps as *Auto Reorder Rules* (was *Auto Reorder Rule*). The technical name `deltatech_auto_reorder_rule` does not change.
+
 ## 19.0.0.1.9 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

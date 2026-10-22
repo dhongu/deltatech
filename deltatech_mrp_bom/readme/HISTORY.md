@@ -1,3 +1,7 @@
+## 20.0.1.0.8 (2026-10-22)
+
+- Listed on Odoo Apps as *Template BoMs for Variants* (was *MRP Bom*). The technical name `deltatech_mrp_bom` does not change.
+
 ## 20.0.1.0.7 (2026-10-08)
 
 - Fixed MRPBOM-001: a derived BoM was created with quantity 1 regardless of the

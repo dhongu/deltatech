@@ -1,5 +1,10 @@
 # Changelog
 
+## 20.0.1.2.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale Margin & Profit* (was *Sale Margin*), with the same title on the Apps banner.
+  The technical name `deltatech_sale_margin` does not change.
+
 ## 20.0.1.2.2 (2026-10-01)
 
 - **Fix: delivering and invoicing a confirmed order is no longer blocked.**

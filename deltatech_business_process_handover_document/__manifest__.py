@@ -3,9 +3,9 @@
 
 
 {
-    "name": "Business process handover document",
+    "name": "Business Process Handover Document",
     "summary": "Print a PDF handover document for a business project and its developments",
-    "version": "20.0.0.0.7",
+    "version": "20.0.0.0.8",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

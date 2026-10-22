@@ -2,10 +2,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Auto Reorder Rule",
+    "name": "Auto Reorder Rules",
     "category": "Stock",
     "summary": "Automatically create reordering rules for new storable products",
-    "version": "20.0.0.1.9",
+    "version": "20.0.0.1.10",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

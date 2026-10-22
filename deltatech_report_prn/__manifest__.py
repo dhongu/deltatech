@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Raport PRN",
+    "name": "PRN Report",
     "summary": "Print .prn files (Zebra label printer syntax) from Odoo reports",
-    "version": "20.0.1.1.1",
+    "version": "20.0.1.1.2",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -1,8 +1,8 @@
 {
     "images": ["static/description/main_screenshot.png"],
-    "name": "Invoice Number",
+    "name": "Invoice Numbering Control",
     "summary": "Enforce chronological invoice dates and let authorized users change invoice numbers",
-    "version": "20.0.1.0.2",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",

@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Margin",
+    "name": "Sale Margin & Profit",
     "summary": "Check price in sale order",
-    "version": "20.0.1.2.2",
+    "version": "20.0.1.2.3",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

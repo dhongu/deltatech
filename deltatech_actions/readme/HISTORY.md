@@ -1,3 +1,8 @@
+## 20.0.0.9.10 (2026-10-22)
+
+- Listed on Odoo Apps as *Database Cleanup Actions* (was *Cleanup Actions*), with the same title on the Apps banner.
+  The technical name `deltatech_actions` does not change.
+
 ## 19.0.0.9.9 (2026-10-16)
 
 - Company-name normalization can be started only by administrators and the scheduled action;

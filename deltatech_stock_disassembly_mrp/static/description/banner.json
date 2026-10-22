@@ -1,5 +1,5 @@
 {
-  "title": "Free Disassembly - BoM",
+  "title": "Free Disassembly - Bill of Materials",
   "summary": "Fill a disassembly report from a bill of materials",
   "icon": "box",
   "features": ["Bill of materials proposed", "Components loaded in proportion", "Kits exploded"],

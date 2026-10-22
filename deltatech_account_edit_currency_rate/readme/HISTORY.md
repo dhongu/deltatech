@@ -1,3 +1,7 @@
+## 20.0.1.0.3 (2026-10-22)
+
+- Listed on Odoo Apps as *Custom Invoice Exchange Rate* (was *Edit Currency Rate*). The technical name `deltatech_account_edit_currency_rate` does not change.
+
 ## 19.0.1.0.2 (2026-10-09)
 
 - Fix CUSTOMRATE-001: the custom currency rate is applied server side. On invoices it now

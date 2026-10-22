@@ -1,7 +1,7 @@
 {
-    "name": "Product Chatter",
+    "name": "Product Chatter Protection",
     "summary": "Restrict deletion of chatter messages on products unless user belongs to a special group",
-    "version": "20.0.1.0.2",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
