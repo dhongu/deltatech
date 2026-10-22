@@ -1,0 +1,16 @@
+[build-system]
+requires = [
+    "whool",
+]
+build-backend = "whool.buildapi"
+
+# Dependențele se generează din __manifest__.py de către whool;
+# modulele nepublicate pe wheelhouse se declară prin depends_override,
+# iar `dynamic` obligă pyproject-dependencies să întrebe backend-ul.
+[tool.whool.depends_override]
+deltatech_sale_commission = "odoo-addon-deltatech-sale-commission @ git+https://github.com/dhongu/deltatech.git@20.0#subdirectory=deltatech_sale_commission"
+deltatech_product_extension = "odoo-addon-deltatech-product-extension @ git+https://github.com/dhongu/deltatech.git@20.0#subdirectory=deltatech_product_extension"
+
+[project]
+name = "odoo-addon-deltatech-sale-commission-manufacturer"
+dynamic = ["dependencies"]

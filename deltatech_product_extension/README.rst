@@ -16,11 +16,8 @@ Products Extension
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_extension
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_product_extension
-    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Deltatech Product Extension
 ===========================
@@ -77,6 +74,19 @@ Usage
 
 Changelog
 =========
+
+20.0.1.1.0 (2026-10-22)
+-----------------------
+
+- The product manufacturer field is renamed from ``manufacturer`` to
+  ``manufacturer_id``, also in Invoice Analysis. The migration keeps the
+  values and the exports; saved filters and custom views are updated too
+  where ``odoo.upgrade.util`` is available (as on odoo.sh). Server
+  actions and external integrations that use the old name must be
+  updated by hand. A database coming from 19.0 with the field already
+  renamed (19.0.1.1.0) is left as it is.
+- Invoice Analysis: search by manufacturer and "Group By >
+  Manufacturer".
 
 20.0.1.0.2 (2026-10-09)
 -----------------------
