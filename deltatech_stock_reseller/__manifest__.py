@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Stock Report Reseller",
+    "name": "Stock Report for Resellers",
     "summary": "Stock report for resellers, with pricelist prices and stock level labels",
-    "version": "19.0.1.0.6",
+    "version": "19.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
