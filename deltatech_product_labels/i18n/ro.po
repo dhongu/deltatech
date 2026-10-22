@@ -38,7 +38,7 @@ msgstr ""
 #. module: deltatech_product_labels
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label__auto_generate_lots
 msgid "Auto Generate Lots"
-msgstr ""
+msgstr "Generează loturile automat"
 
 #. module: deltatech_product_labels
 #: model:ir.model.fields,field_description:deltatech_product_labels.field_product_product_label_line__barcode_image
