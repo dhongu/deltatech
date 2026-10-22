@@ -17,6 +17,7 @@ import io
 import json
 import unittest
 from unittest.mock import patch
+from urllib.parse import quote
 
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -73,6 +74,16 @@ def _photo(background="white", funnel=False, specks=(), label=(25, 35, 130)):
         draw.polygon([(300, 290), (400, 290), (368, 720), (332, 720)], fill=(28, 28, 28))
     for x, y in specks:
         draw.rectangle((x, y, x + 6, y + 6), fill=(60, 60, 60))
+    return _jpeg(img)
+
+
+def _wide_photo():
+    """Fotografie lată, pe gri deschis, cu flaconul spre stânga și o siglă mică în colț."""
+    img = Image.new("RGB", (2000, SIZE), (236, 236, 236))
+    draw = ImageDraw.Draw(img)
+    _bottle(draw, (236, 216, 40), (25, 90, 160))
+    # sigla din colț: sub `bg_frame_min_island` procente din produs, nu lărgește pătratul
+    draw.rectangle((1820, 1100, 1940, 1150), fill=(150, 25, 25))
     return _jpeg(img)
 
 
@@ -205,9 +216,9 @@ class TestImageOptimizeScreenshots(ScreenshotCase or object):
             }}
         }})()"""
 
-    def _products_shot(self, name, names, open_wizard=True, **kw):
+    def _products_shot(self, name, names, open_wizard=True, action=None, **kw):
         shot = {
-            "url": f"action={self.products_action.id}&view_type=list",
+            "url": f"action={(action or self.products_action).id}&view_type=list",
             "name": name,
             "wait": ".o_list_view",
             "eval": self._open_action_js(names, open_wizard),
@@ -310,4 +321,84 @@ class TestImageOptimizeScreenshots(ScreenshotCase or object):
                 },
             ],
             viewport=WIZARD_VIEWPORT,
+        )
+
+    # JS: după selectarea pozei în editor, pornește „Remove Background" și așteaptă previzualizarea
+    EDITOR_JS = """(async () => {
+        const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+        const waitFor = async (test) => {
+            for (let i = 0; i < 80 && !test(); i++) {
+                await sleep(250);
+            }
+            return test();
+        };
+        document.querySelector(".o_customize_tab button[data-action-id='dtRemoveImageBackground']").click();
+        await waitFor(() => document.querySelector('.o_dt_bg_dialog img.o_dt_bg_after'));
+        await sleep(600);
+    })()"""
+
+    def test_capture_fise_noutati(self):
+        # Pasul 6 — Frame only: fundalul rămâne, produsul e încadrat într-un pătrat
+        framed = self.env["product.template"].create(
+            {
+                "name": "Aditiv benzină 250ml",
+                "default_code": "AD-250-BEN",
+                "image_1920": _wide_photo(),
+                "is_published": True,
+            }
+        )
+        framed_action = self.env["ir.actions.act_window"].create(
+            {
+                "name": "Produse",
+                "res_model": "product.template",
+                "view_mode": "list,form",
+                "domain": [("id", "=", framed.id)],
+            }
+        )
+        self._set_param("bg_method", "frame")
+        self.env.flush_all()
+        self.capture_screenshots(
+            [
+                self._products_shot(
+                    "10_previzualizare_incadrare.png",
+                    [framed.name],
+                    action=framed_action,
+                    full=True,
+                    highlight=[
+                        ".modal div[name='method']",
+                        ".modal div[name='margin']",
+                        ".modal div[name='frame_min_island']",
+                        ".modal div[name='color']",
+                    ],
+                ),
+            ],
+            viewport=WIZARD_VIEWPORT,
+        )
+
+        # Pasul 7 — butonul „Remove Background" din editorul de website
+        self._set_param("bg_method", "auto")
+        self.align_website_company()
+        path = quote(self.oil.website_url, safe="")
+        self.capture_screenshots(
+            [
+                {
+                    "path": f"/odoo/action-website.website_preview?path={path}&enable_editor=1",
+                    "name": "11_editor_eliminare_fundal.png",
+                    "wait": ".o_builder_sidebar_open .o-snippets-tabs",
+                    "timeout": 40000,
+                    # click real în iframe: editorul selectează poza la evenimentele browserului
+                    "click_btn": "iframe >> internal:control=enter-frame >> "
+                    "#o-carousel-product .o_product_detail_img_wrapper img",
+                    "wait_after": ".o_customize_tab button[data-action-id='dtRemoveImageBackground']",
+                    "eval": self.EDITOR_JS + ".then(() => " + CHECKER_JS % json.dumps(".o_dt_bg_checker img") + ")",
+                    "eval_wait": 1500,
+                    "highlight": [
+                        ".o_customize_tab button[data-action-id='dtRemoveImageBackground']",
+                        ".modal .o_dt_bg_dialog > div:first-child",
+                        ".modal .o_dt_bg_apply",
+                    ],
+                    "settle": 2000,
+                },
+            ],
+            viewport=(1920, 1080),
         )
