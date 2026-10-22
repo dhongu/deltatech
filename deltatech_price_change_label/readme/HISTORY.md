@@ -1,3 +1,8 @@
+## 19.0.1.0.2 (2026-10-22)
+
+- The price including taxes of the labels is computed by `deltatech_product_labels`, whose default
+  layouts now print it too.
+
 ## 19.0.1.0.1 (2026-10-22)
 
 - New label layout **Shelf label with price**: product name, price including taxes, code and unit

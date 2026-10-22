@@ -333,6 +333,8 @@ class ProductProductLabelLine(models.TransientModel):
 
     lot = fields.Char()
     price = fields.Float(compute="_compute_price")
+    price_incl = fields.Float("Price incl. Taxes", compute="_compute_price_incl", digits="Product Price")
+    currency_id = fields.Many2one("res.currency", compute="_compute_price_incl")
 
     def _compute_barcode_image(self):
         for line in self:
@@ -391,6 +393,17 @@ class ProductProductLabelLine(models.TransientModel):
                 )
             else:
                 label_line.price = label_line.product_id.lst_price
+
+    @api.depends("price", "product_id", "label_id.pricelist_id")
+    def _compute_price_incl(self):
+        # the price displayed to the customer includes the taxes (VAT)
+        company = self.env.company
+        for line in self:
+            product = line.product_id
+            currency = line.label_id.pricelist_id.currency_id or company.currency_id
+            taxes = product.taxes_id.filtered(lambda t, c=company: t.company_id in c.parent_ids)
+            line.currency_id = currency
+            line.price_incl = taxes.compute_all(line.price, currency, product=product)["total_included"]
 
     def get_barcode_url(self, code_format="Code128", barcode="", width=200, height=60, humanreadable=1, quiet=0):
         self.ensure_one()
