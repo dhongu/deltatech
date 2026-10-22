@@ -1,3 +1,7 @@
+## 19.0.1.3.2 (2026-10-22)
+
+- New flat module icon: printer with a label accent, on a transparent background.
+
 ## 19.0.1.3.1 (2026-10-22)
 
 - Without a price list, the price on the labels uses the currency of the product (of its company).
