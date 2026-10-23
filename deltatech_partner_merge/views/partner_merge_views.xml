@@ -12,6 +12,7 @@
                             class="oe_highlight" invisible="state not in ('analyzed', 'simulated')" />
                     <button name="action_apply" type="object" string="Apply"
                             invisible="state != 'simulated'"
+                            groups="deltatech_partner_merge.group_partner_merge_apply"
                             confirm="The simulation report is above. Applying will remove the absorbed
                                      records for good (unless you chose to archive them). Continue?" />
                     <button name="action_verify" type="object" string="Verify"
@@ -57,16 +58,16 @@
                                     <field name="vat_normalized" />
                                     <field name="category" />
                                     <field name="master_id" />
-                                    <field name="company_id" groups="base.group_multi_company" optional="show" />
-                                    <field name="absorbed_count" sum="Records" />
+                                    <field name="company_id" groups="base.group_multi_company" optional="hide" />
+                                    <field name="absorbed_count" string="Absorbed" sum="Records" />
                                     <field name="absorbed_names" optional="show" />
                                     <field name="absorbed_ids" optional="hide" />
-                                    <field name="name_suspect" optional="show" />
+                                    <field name="name_suspect" string="Suspect name" optional="show" />
                                 </list>
                             </field>
                         </page>
                         <page string="Report" name="report">
-                            <field name="report" nolabel="1" widget="text" readonly="1" />
+                            <field name="report" nolabel="1" widget="text" readonly="1" class="font-monospace" />
                         </page>
                         <page string="All groups by category" name="classification">
                             <div class="text-muted mb-2">

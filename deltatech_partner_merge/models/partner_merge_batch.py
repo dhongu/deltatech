@@ -294,12 +294,15 @@ class PartnerMergeBatch(models.Model):
         return res
 
     def _format(self, res, applied):
+        def tables(found):
+            return ", ".join(f"{table}: {count}" for table, count in found)
+
         head = self.env._("APPLIED") if applied else self.env._("SIMULATION — nothing was changed")
         lines = [
             f"=== {head} ===",
-            self.env._("de-duplicated before remap : %s", res["dedupe_fk"] or self.env._("no collisions")),
+            self.env._("de-duplicated before remap : %s", tables(res["dedupe_fk"]) or self.env._("no collisions")),
             self.env._("foreign keys remapped      : %s rows", res["remapped"]),
-            self.env._("de-duplicated on res_id    : %s", res["dedupe_poly"] or self.env._("no collisions")),
+            self.env._("de-duplicated on res_id    : %s", tables(res["dedupe_poly"]) or self.env._("no collisions")),
             self.env._("polymorphic links remapped : %s rows", res["remapped_poly"]),
             self.env._("empty fields filled in     : %s", res["filled"]),
             self.env._(

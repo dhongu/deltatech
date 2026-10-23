@@ -18,9 +18,15 @@ msgstr ""
 
 #. module: deltatech_partner_merge
 #. odoo-python
+#: code:addons/deltatech_partner_merge/models/partner_duplicate_scan.py:0
+msgid "%(count)s partners with %(label)s %(value)s: skipped"
+msgstr "%(count)s parteneri cu %(label)s %(value)s: săriți"
+
+#. module: deltatech_partner_merge
+#. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "%s indexes created."
-msgstr ""
+msgstr "%s indexuri create."
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -29,6 +35,9 @@ msgid ""
 "%s records of this batch belong to companies you do not have access to. "
 "Reset the batch and analyze it again with the right companies selected."
 msgstr ""
+"%s fișe din acest lot aparțin unor companii la care nu aveți acces. "
+"Readuceți lotul la ciornă și analizați-l din nou cu companiile corecte "
+"selectate."
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -37,12 +46,14 @@ msgid ""
 "%s records would be merged into a record of another company. Reset the batch"
 " and analyze it again."
 msgstr ""
+"%s fișe ar fi comasate într-o fișă a altei companii. Readuceți lotul la "
+"ciornă și analizați-l din nou."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "=== VERIFICATION ==="
-msgstr ""
+msgstr "=== VERIFICARE ==="
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_duplicate_scan__max_key_size
@@ -58,23 +69,28 @@ msgstr ""
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch_line__category__a
 msgid "A — others empty"
-msgstr ""
+msgstr "A — celelalte goale"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "APPLIED"
-msgstr ""
+msgstr "APLICAT"
+
+#. module: deltatech_partner_merge
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
+msgid "Absorbed"
+msgstr "Absorbite"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__absorbed_ids
 msgid "Absorbed IDs"
-msgstr ""
+msgstr "ID-uri absorbite"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__absorbed_names
 msgid "Absorbed names"
-msgstr ""
+msgstr "Nume absorbite"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch__archive_instead_of_delete
@@ -83,22 +99,25 @@ msgid ""
 "afterwards, but recoverable without restoring a backup. Recommended for the "
 "first production runs."
 msgstr ""
+"Fișele absorbite sunt dezactivate, nu șterse. Curățenia ulterioară e mai "
+"lentă, dar se pot recupera fără restaurarea unei copii de siguranță. "
+"Recomandat la primele rulări în producție."
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "All groups by category"
-msgstr ""
+msgstr "Toate grupurile pe categorii"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch__classification
 msgid "All groups by category and guard, as of the analysis."
-msgstr ""
+msgstr "Toate grupurile pe categorie și blocaj, la momentul analizei."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "An applied batch cannot be reset."
-msgstr ""
+msgstr "Un lot aplicat nu poate fi readus la ciornă."
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -107,22 +126,24 @@ msgid ""
 "Analysis done in %(sec).1f s. %(groups)s groups, %(records)s records to absorb.\n"
 "%(idx)s foreign-key columns towards res_partner still lack an index."
 msgstr ""
+"Analiză făcută în %(sec).1f s. %(groups)s grupuri, %(records)s fișe de absorbit.\n"
+"%(idx)s coloane cu chei străine către res_partner nu au încă index."
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Analyze"
-msgstr ""
+msgstr "Analizează"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "Analyze the batch first."
-msgstr ""
+msgstr "Analizați întâi lotul."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch__state__analyzed
 msgid "Analyzed"
-msgstr ""
+msgstr "Analizat"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
@@ -131,26 +152,29 @@ msgid ""
 "                        picks, for each group, the record to keep. Simulating runs the whole merge on a\n"
 "                        separate transaction and rolls it back, so it cannot write anything."
 msgstr ""
+"Analiza nu modifică date de business: doar grupează dublurile și alege, "
+"pentru fiecare grup, fișa păstrată. Simularea rulează toată comasarea într-o"
+" tranzacție separată și o anulează, deci nu poate scrie nimic."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch__state__done
 msgid "Applied"
-msgstr ""
+msgstr "Aplicat"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Apply"
-msgstr ""
+msgstr "Aplică"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__archive_instead_of_delete
 msgid "Archive instead of delete"
-msgstr ""
+msgstr "Arhivează în loc de ștergere"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch_line__category__b
 msgid "B — documents on one"
-msgstr ""
+msgstr "B — documente pe una singură"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_scan_form
@@ -161,7 +185,7 @@ msgstr "Înapoi la ciornă"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__batch_id
 msgid "Batch"
-msgstr ""
+msgstr "Lot"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -170,31 +194,34 @@ msgid ""
 "Batch %s is still in progress. The working tables are shared, so only one "
 "batch can be prepared at a time. Apply it or reset it to draft first."
 msgstr ""
+"Lotul %s este încă în lucru. Tabelele de lucru sunt comune, deci se poate "
+"pregăti un singur lot o dată. Aplicați-l sau readuceți-l întâi la ciornă."
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Batch name"
-msgstr ""
+msgstr "Denumirea lotului"
 
 #. module: deltatech_partner_merge
 #: model:ir.model,name:deltatech_partner_merge.model_partner_merge_batch
 msgid "Bulk merge of partners duplicated on the same VAT"
-msgstr ""
+msgstr "Comasare în masă a partenerilor duplicați pe același CUI"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch_line__category__c
 msgid "C — invoices on several"
-msgstr ""
+msgstr "C — facturi pe mai multe"
 
 #. module: deltatech_partner_merge
 #: model:res.groups,comment:deltatech_partner_merge.group_partner_merge_prepare
 msgid "Can analyze duplicates and run simulations. Cannot apply a merge."
-msgstr ""
+msgstr "Poate analiza dublurile și rula simulări. Nu poate aplica o comasare."
 
 #. module: deltatech_partner_merge
 #: model:res.groups,comment:deltatech_partner_merge.group_partner_merge_apply
 msgid "Can apply a merge batch — deletes or archives partner records."
 msgstr ""
+"Poate aplica un lot de comasare: șterge sau arhivează fișe de parteneri."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch_line__absorbed_names
@@ -203,11 +230,14 @@ msgid ""
 "when the kept record carries the degraded name and the correct one was on an"
 " absorbed record."
 msgstr ""
+"Reținute înainte de comasare: după aceea, aceste fișe nu mai există. Utile "
+"când fișa păstrată are numele deteriorat, iar cel corect era pe o fișă "
+"absorbită."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__category_ids
 msgid "Categories"
-msgstr ""
+msgstr "Categorii"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
@@ -217,11 +247,15 @@ msgid ""
 "                                automatically: those holding your own company record, those with portal\n"
 "                                users on several records, and those whose names differ completely."
 msgstr ""
+"Categoriile C și D schimbă cifre contabile: tratați-le cu contabilul, după "
+"închiderea lunii. Grupurile blocate sunt lăsate deoparte automat: cele care "
+"conțin fișa propriei companii, cele cu utilizatori de portal pe mai multe "
+"fișe și cele ale căror nume diferă complet."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__category
 msgid "Category"
-msgstr ""
+msgstr "Categorie"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch_line__master_id
@@ -229,6 +263,8 @@ msgid ""
 "Chosen by document volume: most invoices, then most sales orders, then "
 "oldest."
 msgstr ""
+"Aleasă după volumul de documente: cele mai multe facturi, apoi cele mai "
+"multe comenzi de vânzare, apoi cea mai veche."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_duplicate_scan__block_by__city
@@ -238,7 +274,7 @@ msgstr "Localitate"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__classification
 msgid "Classification"
-msgstr ""
+msgstr "Clasificare"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__company_id
@@ -254,12 +290,12 @@ msgstr "Compară numele în cadrul"
 #. module: deltatech_partner_merge
 #: model_terms:ir.actions.act_window,help:deltatech_partner_merge.action_partner_merge_batch
 msgid "Create a merge batch"
-msgstr ""
+msgstr "Creați un lot de comasare"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Create the indexes"
-msgstr ""
+msgstr "Creează indexurile"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__create_uid
@@ -282,7 +318,7 @@ msgstr "Creat la"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch_line__category__d
 msgid "D — balance on several"
-msgstr ""
+msgstr "D — sold pe mai multe"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__display_name
@@ -330,17 +366,17 @@ msgstr "Motor"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__expected_balance
 msgid "Expected Balance"
-msgstr ""
+msgstr "Sold așteptat"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__expected_invoices
 msgid "Expected Invoices"
-msgstr ""
+msgstr "Facturi așteptate"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__expected_sale_orders
 msgid "Expected Sale Orders"
-msgstr ""
+msgstr "Comenzi de vânzare așteptate"
 
 #. module: deltatech_partner_merge
 #: model:ir.ui.menu,name:deltatech_partner_merge.menu_partner_duplicate_scan
@@ -366,7 +402,7 @@ msgstr "Număr de grupuri"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__group_limit
 msgid "Group Limit"
-msgstr ""
+msgstr "Limită grupuri"
 
 #. module: deltatech_partner_merge
 #: model:ir.model,name:deltatech_partner_merge.model_partner_duplicate_group
@@ -393,6 +429,10 @@ msgid ""
 "                per column for the whole batch, instead of one per group per column. Foreign keys stay\n"
 "                enabled throughout, so the database guarantees integrity."
 msgstr ""
+"Grupează partenerii care au același CUI și îi comasează în masă: o singură "
+"instrucțiune pe coloană pentru tot lotul, în loc de una pe grup și pe "
+"coloană. Cheile străine rămân active tot timpul, deci baza de date "
+"garantează integritatea."
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.actions.act_window,help:deltatech_partner_merge.action_partner_duplicate_scan
@@ -402,8 +442,9 @@ msgid ""
 "                standard merge wizard."
 msgstr ""
 "Grupează partenerii care au același CUI, același telefon sau același email, "
-"ori nume asemănătoare la aceeași adresă. Nimic nu se unifică automat: "
-"confirmați fiecare grup în asistentul standard de unificare."
+"ori nume asemănătoare la aceeași adresă. Nimic nu se îmbină automat: "
+"confirmați fiecare grup în asistentul standard Odoo de îmbinare a "
+"contactelor."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch__group_limit
@@ -412,6 +453,9 @@ msgid ""
 "step has a fixed cost of about 40 seconds regardless of size, so very small "
 "batches are inefficient."
 msgstr ""
+"Câte grupuri intră în lot. 0 = toate cele eligibile. Pasul de eliminare a "
+"coliziunilor are un cost fix de circa 40 de secunde indiferent de mărime, "
+"deci loturile foarte mici sunt ineficiente."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__id
@@ -429,6 +473,8 @@ msgid ""
 "Inconsistent batch: %s records point at a master that is itself absorbed. "
 "This should not happen — do not apply, and report it."
 msgstr ""
+"Lot inconsistent: %s fișe indică o fișă păstrată care este ea însăși "
+"absorbită. Nu ar trebui să se întâmple: nu aplicați și raportați problema."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__individuals_only
@@ -438,12 +484,12 @@ msgstr "Doar persoane fizice"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch_line__expected_invoices
 msgid "Invoices of the whole group before the merge."
-msgstr ""
+msgstr "Facturile întregului grup înainte de comasare."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__master_name
 msgid "Kept name"
-msgstr ""
+msgstr "Nume păstrat"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__max_key_size
@@ -486,13 +532,13 @@ msgstr "Limite"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__line_ids
 msgid "Line"
-msgstr ""
+msgstr "Linie"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "MISMATCHES FOUND — investigate before continuing."
-msgstr ""
+msgstr "DIFERENȚE GĂSITE — investigați înainte de a continua."
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_group_search
@@ -513,24 +559,24 @@ msgstr "Potrivire pe"
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_group_form
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_group_list
 msgid "Merge"
-msgstr "Unifică"
+msgstr "Îmbină"
 
 #. module: deltatech_partner_merge
 #: model:ir.ui.menu,name:deltatech_partner_merge.menu_partner_merge_batch
 msgid "Merge Batches"
-msgstr ""
+msgstr "Loturi de comasare"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_duplicate_group.py:0
 msgid "Merge Contacts"
-msgstr "Unifică contactele"
+msgstr "Îmbină contacte"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "Merge batch"
-msgstr ""
+msgstr "Lot de comasare"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_group_form
@@ -539,16 +585,16 @@ msgid ""
 "                        time and lets you choose the record to keep. Remove from the list below the\n"
 "                        partners that are not duplicates, then merge; re-open it until one record is left."
 msgstr ""
-"Unifică deschide asistentul standard Odoo, care primește cel mult trei "
+"Îmbină deschide asistentul standard Odoo, care primește cel mult trei "
 "contacte o dată și vă lasă să alegeți fișa păstrată. Scoateți din lista de "
-"mai jos partenerii care nu sunt dubluri, apoi unificați; redeschideți-l până"
-" rămâne o singură fișă."
+"mai jos partenerii care nu sunt dubluri, apoi îmbinați; redeschideți-l până "
+"rămâne o singură fișă."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_duplicate_group__state__merged
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_group_search
 msgid "Merged"
-msgstr "Unificat"
+msgstr "Îmbinat"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_duplicate_scan__threshold
@@ -562,7 +608,7 @@ msgstr ""
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__missing_index_count
 msgid "Missing Index Count"
-msgstr ""
+msgstr "Indexuri lipsă"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__name
@@ -585,7 +631,7 @@ msgstr "Compararea numelor: %s"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__name_suspect
 msgid "Name looks degraded"
-msgstr ""
+msgstr "Nume posibil deteriorat"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__threshold
@@ -631,18 +677,18 @@ msgstr "Nu sunt dubluri"
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_duplicate_group.py:0
 msgid "Nothing left to merge in this group."
-msgstr "Nu mai e nimic de unificat în acest grup."
+msgstr "Nu mai e nimic de îmbinat în acest grup."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "Nothing lost, nothing duplicated."
-msgstr ""
+msgstr "Nimic pierdut, nimic dublat."
 
 #. module: deltatech_partner_merge
 #: model:ir.model,name:deltatech_partner_merge.model_partner_merge_batch_line
 msgid "One group of duplicates in a merge batch"
-msgstr ""
+msgstr "Un grup de dubluri dintr-un lot de comasare"
 
 #. module: deltatech_partner_merge
 #: model:ir.model,name:deltatech_partner_merge.model_partner_duplicate_ignore
@@ -662,22 +708,22 @@ msgstr "Partener B"
 #. module: deltatech_partner_merge
 #: model:ir.ui.menu,name:deltatech_partner_merge.menu_partner_merge_root
 msgid "Partner Merge"
-msgstr ""
+msgstr "Comasare parteneri"
 
 #. module: deltatech_partner_merge
 #: model:res.groups,name:deltatech_partner_merge.group_partner_merge_apply
 msgid "Partner Merge / Apply"
-msgstr ""
+msgstr "Comasare parteneri / Aplicare"
 
 #. module: deltatech_partner_merge
 #: model:res.groups,name:deltatech_partner_merge.group_partner_merge_prepare
 msgid "Partner Merge / Prepare and simulate"
-msgstr ""
+msgstr "Comasare parteneri / Pregătire și simulare"
 
 #. module: deltatech_partner_merge
 #: model:ir.actions.act_window,name:deltatech_partner_merge.action_partner_merge_batch
 msgid "Partner Merge Batches"
-msgstr ""
+msgstr "Loturi de comasare parteneri"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -707,7 +753,7 @@ msgstr "Parteneri analizați: %s"
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "Pick at least one category."
-msgstr ""
+msgstr "Alegeți cel puțin o categorie."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__reasons
@@ -717,22 +763,22 @@ msgstr "Motive"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__master_id
 msgid "Record kept"
-msgstr ""
+msgstr "Fișa păstrată"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Records"
-msgstr ""
+msgstr "Fișe"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__absorbed_count
 msgid "Records absorbed"
-msgstr ""
+msgstr "Fișe absorbite"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch__record_count
 msgid "Records to absorb"
-msgstr ""
+msgstr "Fișe de absorbit"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -741,18 +787,19 @@ msgid ""
 "References were left pointing at absorbed records: %s. Rolled back — nothing"
 " applied."
 msgstr ""
+"Au rămas referințe către fișe absorbite: %s. Anulat — nu s-a aplicat nimic."
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_scan_form
 msgid "Refresh merged groups"
-msgstr "Actualizează grupurile unificate"
+msgstr "Actualizează grupurile îmbinate"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_duplicate_group__partner_ids
 msgid ""
 "Remove from the group the partners that are not duplicates before merging."
 msgstr ""
-"Scoateți din grup partenerii care nu sunt dubluri înainte de unificare."
+"Scoateți din grup partenerii care nu sunt dubluri înainte de îmbinare."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__report
@@ -781,18 +828,18 @@ msgstr "Rulați o căutare de dubluri ca să completați această listă."
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "Run the simulation first and read its report — then apply."
-msgstr ""
+msgstr "Rulați întâi simularea și citiți-i raportul, apoi aplicați."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "SIMULATION — nothing was changed"
-msgstr ""
+msgstr "SIMULARE — nu s-a modificat nimic"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch_line__expected_sale_orders
 msgid "Sales orders of the whole group before the merge."
-msgstr ""
+msgstr "Comenzile de vânzare ale întregului grup înainte de comasare."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__use_vat
@@ -835,12 +882,12 @@ msgstr "Denumirea căutării"
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_duplicate_scan__state__done
 msgid "Scanned"
-msgstr "Analizat"
+msgstr "Căutare făcută"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__date_scan
 msgid "Scanned on"
-msgstr "Analizat la"
+msgstr "Căutare făcută la"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__score
@@ -855,7 +902,7 @@ msgstr "Căutare de parteneri probabil duplicați"
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Selection"
-msgstr ""
+msgstr "Selecție"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_scan__use_name
@@ -889,23 +936,17 @@ msgstr ""
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Simulate"
-msgstr ""
+msgstr "Simulează"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields.selection,name:deltatech_partner_merge.selection__partner_merge_batch__state__simulated
 msgid "Simulated"
-msgstr ""
-
-#. module: deltatech_partner_merge
-#. odoo-python
-#: code:addons/deltatech_partner_merge/models/partner_duplicate_scan.py:0
-msgid "Skipped %(label)s %(value)s: %(count)s partners"
-msgstr "Sărit %(label)s %(value)s: %(count)s parteneri"
+msgstr "Simulat"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__snapshot_taken
 msgid "Snapshot Taken"
-msgstr ""
+msgstr "Instantaneu luat"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_duplicate_group__state
@@ -918,6 +959,11 @@ msgstr "Stare"
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_duplicate_group__score
 msgid "Strongest match in the group, from 0 to 100."
 msgstr "Cea mai puternică potrivire din grup, de la 0 la 100."
+
+#. module: deltatech_partner_merge
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
+msgid "Suspect name"
+msgstr "Nume suspect"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.constraint,message:deltatech_partner_merge.constraint_partner_duplicate_ignore_pair_ordered
@@ -941,6 +987,9 @@ msgid ""
 "sometimes the surviving name is the one mangled at import. Check these by "
 "hand after the merge."
 msgstr ""
+"Fișa păstrată se alege după volumul de documente, nu după calitatea numelui,"
+" așa că uneori numele rămas e cel deteriorat la import. Verificați-le manual"
+" după comasare."
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -964,7 +1013,7 @@ msgid ""
 msgstr ""
 "Căutarea nu modifică niciun partener. Grupează partenerii care probabil sunt"
 " aceiași, fiecare grup cu scorul și motivul lui; decideți pentru fiecare "
-"grup, iar unificarea propriu-zisă se face cu asistentul standard Odoo. "
+"grup, iar îmbinarea propriu-zisă se face cu asistentul standard Odoo. "
 "Partenerii utilizatorilor interni și ai companiilor proprii sunt lăsați "
 "deoparte."
 
@@ -975,11 +1024,13 @@ msgid ""
 "                                      records for good (unless you chose to "
 "archive them). Continue?"
 msgstr ""
+"Raportul simulării este mai sus. Aplicarea elimină definitiv fișele "
+"absorbite (dacă nu ați ales arhivarea lor). Continuați?"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "This batch"
-msgstr ""
+msgstr "Acest lot"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -989,6 +1040,9 @@ msgid ""
 "of the module), so it cannot be verified. The working tables belong to the "
 "latest analyzed batch and would not show this batch's figures."
 msgstr ""
+"Acest lot nu are un instantaneu propriu (a fost analizat de o versiune mai "
+"veche a modulului), deci nu poate fi verificat. Tabelele de lucru aparțin "
+"ultimului lot analizat și nu ar arăta cifrele acestui lot."
 
 #. module: deltatech_partner_merge
 #: model:ir.model.constraint,message:deltatech_partner_merge.constraint_partner_duplicate_ignore_pair_uniq
@@ -1005,22 +1059,27 @@ msgstr "De verificat"
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "Unknown categories: %s"
-msgstr ""
+msgstr "Categorii necunoscute: %s"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch_line__expected_balance
 msgid "Unreconciled balance of the whole group before the merge."
-msgstr ""
+msgstr "Soldul nereconciliat al întregului grup înainte de comasare."
+
+#. module: deltatech_partner_merge
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_duplicate_group_form
+msgid "VAT"
+msgstr "CUI"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,field_description:deltatech_partner_merge.field_partner_merge_batch_line__vat_normalized
 msgid "VAT (normalized)"
-msgstr ""
+msgstr "CUI (normalizat)"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
 msgid "Verify"
-msgstr ""
+msgstr "Verifică"
 
 #. module: deltatech_partner_merge
 #: model:ir.model.fields,help:deltatech_partner_merge.field_partner_merge_batch__category_ids
@@ -1030,60 +1089,64 @@ msgid ""
 "spread over several records. D: unreconciled balance on several records. C "
 "and D change accounting figures — handle them with the accountant."
 msgstr ""
+"Ce grupuri intră în lot, separate prin virgulă. A: o fișă are documentele, "
+"restul sunt goale. B: documente pe o singură fișă. C: facturi pe mai multe "
+"fișe. D: sold nereconciliat pe mai multe fișe. C și D schimbă cifre "
+"contabile: tratați-le cu contabilul."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "You are not allowed to apply a merge batch."
-msgstr ""
+msgstr "Nu aveți dreptul să aplicați un lot de comasare."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "absorbed records remaining : %s"
-msgstr ""
+msgstr "fișe absorbite rămase      : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "archived"
-msgstr ""
+msgstr "arhivate"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "balance mismatches         : %s"
-msgstr ""
+msgstr "diferențe de sold          : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "de-duplicated before remap : %s"
-msgstr ""
+msgstr "coliziuni înainte de remap : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "de-duplicated on res_id    : %s"
-msgstr ""
+msgstr "coliziuni pe res_id        : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "deleted"
-msgstr ""
+msgstr "șterse"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "empty fields filled in     : %s"
-msgstr ""
+msgstr "câmpuri goale completate   : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "foreign keys remapped      : %s rows"
-msgstr ""
+msgstr "chei străine remapate      : %s rânduri"
 
 #. module: deltatech_partner_merge
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_merge.view_partner_merge_batch_form
@@ -1093,18 +1156,22 @@ msgid ""
 "                        indexes first, or run <code>01_fk_indexes.sql</code> from psql if a brief lock\n"
 "                        on the large tables is not acceptable."
 msgstr ""
+"coloane cu chei străine către parteneri nu au index. Ștergerea partenerilor "
+"va fi lentă: fiecare fișă eliminată forțează o scanare completă a acelor "
+"tabele. Creați întâi indexurile sau rulați <code>01_fk_indexes.sql</code> "
+"din psql, dacă o blocare scurtă a tabelelor mari nu e acceptabilă."
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "invoice count mismatches   : %s"
-msgstr ""
+msgstr "diferențe la nr. facturi   : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "masters checked            : %s"
-msgstr ""
+msgstr "fișe păstrate verificate   : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -1128,25 +1195,25 @@ msgstr "nume %s%% + aceeași stradă"
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "no collisions"
-msgstr ""
+msgstr "fără coliziuni"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "none — correct"
-msgstr ""
+msgstr "niciuna — corect"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "order count mismatches     : %s"
-msgstr ""
+msgstr "diferențe la nr. comenzi   : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "polymorphic links remapped : %s rows"
-msgstr ""
+msgstr "legături polimorfe remapate: %s rânduri"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -1162,13 +1229,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "records %(what)s          : %(n)s"
-msgstr ""
+msgstr "fișe %(what)s              : %(n)s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "references left behind     : %s"
-msgstr ""
+msgstr "referințe rămase           : %s"
 
 #. module: deltatech_partner_merge
 #. odoo-python
@@ -1192,4 +1259,4 @@ msgstr "același telefon"
 #. odoo-python
 #: code:addons/deltatech_partner_merge/models/partner_merge_batch.py:0
 msgid "took                       : %.1f s"
-msgstr ""
+msgstr "durată                     : %.1f s"
