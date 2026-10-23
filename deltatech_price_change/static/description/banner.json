@@ -1,0 +1,11 @@
+{
+  "title": "Price Change",
+  "summary": "Track list price changes and document them",
+  "edition": "community",
+  "icon": "tag",
+  "features": [
+    "Log of list price changes per product",
+    "Numbered price change document",
+    "Price change report with signatures"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "title": "POS Stock in Other Shops",
+  "summary": "Answer \"is it in the other shop?\" at the till",
+  "icon": "bag",
+  "edition": "community",
+  "features": ["Other shops' stock on the product card", "In stock here / other shops filter", "Works offline"]
+}

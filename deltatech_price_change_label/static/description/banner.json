@@ -1,0 +1,11 @@
+{
+  "title": "Price Change Labels",
+  "summary": "Print shelf labels for repriced products",
+  "edition": "community",
+  "icon": "tag",
+  "features": [
+    "Print Labels from price change document",
+    "Shelf label with price and unit",
+    "One line per product of the document"
+  ]
+}
