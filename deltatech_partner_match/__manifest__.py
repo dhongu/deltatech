@@ -10,7 +10,6 @@
     "license": "LGPL-3",
     "category": "Hidden/Tools",
     "depends": ["base"],
-    "external_dependencies": {"python": ["stdnum"]},
     "development_status": "Beta",
     "installable": True,
 }
