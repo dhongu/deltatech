@@ -1,3 +1,9 @@
+## 19.0.1.0.7 (2026-10-23)
+
+- Tests: the edit of a message on another model grants read access on journal entries
+  when `account` is installed, as the deletion test already did; the accounting audit-log
+  check of Odoo runs on every message edit and failed the test in the full CI run.
+
 ## 19.0.1.0.6 (2026-10-22)
 
 - Listed on Odoo Apps as *Product Chatter Protection* (was *Product Chatter*). The technical name `deltatech_product_chatter` does not change.

@@ -4,7 +4,7 @@
 {
     "name": "BoM Quantity Formulas",
     "summary": "Compute BoM component quantities from product attribute values",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

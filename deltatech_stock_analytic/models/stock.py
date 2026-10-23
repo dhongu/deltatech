@@ -31,8 +31,10 @@ class StockMove(models.Model):
         return res
 
     def _create_location_analytic_lines(self):
-        AnalyticLine = self.env["account.analytic.line"]
-        for move in self:
+        # Liniile analitice sunt o consecință a validării: și un utilizator de stoc
+        # fără drepturi pe contabilitatea analitică trebuie să poată valida transferul.
+        AnalyticLine = self.env["account.analytic.line"].sudo()
+        for move in self.sudo():
             # Idempotent: o mișcare are cel mult o pereche sursă/destinație.
             if move.location_analytic_line_ids or not move.can_create_analytics():
                 continue

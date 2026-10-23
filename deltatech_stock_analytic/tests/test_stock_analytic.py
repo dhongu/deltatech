@@ -192,3 +192,16 @@ class TestStockMoveAnalytics(TransactionCase):
         # unit_amount rămâne în UM mișcării, coerent cu product_uom_id
         self.assertEqual(source_line.unit_amount, 1)
         self.assertEqual(source_line.product_uom_id, dozen)
+
+    def test_stock_user_without_analytic_rights_validates(self):
+        """Un utilizator de stoc fără drepturi pe analitică validează transferul."""
+        stock_user = self.env["res.users"].create(
+            {
+                "name": "Stock User",
+                "login": "stock_user_analytic",
+                "group_ids": [(6, 0, self.env.ref("stock.group_stock_user").ids)],
+            }
+        )
+        self._validate_picking(self.picking.with_user(stock_user))
+        self.assertEqual(self.move.state, "done")
+        self.assertEqual(len(self._analytic_lines()), 2)
