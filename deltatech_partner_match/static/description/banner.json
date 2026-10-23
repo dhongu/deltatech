@@ -1,0 +1,9 @@
+{
+  "title": "Partner Match",
+  "summary": "The same partner, recognized the same way",
+  "features": [
+    "Name, VAT, phone and email normalized",
+    "CUI / CNP / EU VAT check digit",
+    "Candidates scored, never auto-merged"
+  ]
+}
