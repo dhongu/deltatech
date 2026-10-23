@@ -15,6 +15,8 @@ class TestPartnerMatchTools(BaseCase):
         self.assertEqual(pm.normalize_name("Ștefănescu  Ana"), pm.normalize_name("ana stefanescu"))
         self.assertEqual(pm.normalize_name("Alfa GmbH"), pm.normalize_name("ALFA"))
         self.assertEqual(pm.normalize_name(False), "")
+        self.assertEqual(pm.normalize_name("Sas Vasile"), "sas vasile", "a surname, not the French SAS")
+        self.assertEqual(pm.normalize_name("Tary s.r.o."), "tary")
         self.assertEqual(pm.name_prefix("S.C. Popescu Ion SRL"), "pop")
         self.assertEqual(pm.normalize_text("Cluj-Napoca"), "cluj napoca")
 

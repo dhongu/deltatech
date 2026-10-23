@@ -4,7 +4,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Partner Match",
     "summary": "Shared normalization and fuzzy matching of partners: name, VAT, phone, email",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",

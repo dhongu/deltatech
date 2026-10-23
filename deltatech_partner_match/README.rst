@@ -35,9 +35,9 @@ modules call.
 plain Python):
 
 - **Name**: lowercase, without diacritics, punctuation and legal forms
-  (one list for Romania and the EU: SRL, SA, PFA, II, GmbH, Ltd,
-  SARL...), words sorted. "S.C. Popescu Ion S.R.L." and "ion popescu
-  srl" give the same key.
+  (one list for Romania and the EU: SRL, SA, PFA, II, GmbH, Ltd, SARL,
+  KFT...), words sorted. "S.C. Popescu Ion S.R.L." and "ion popescu srl"
+  give the same key.
 - **VAT**: alphanumerics only, without the country prefix and the
   leading zeros ("RO 012.345" = "12345"); the check digit of a Romanian
   CUI or CNP, or of an EU VAT number, with ``python-stdnum``.
@@ -95,6 +95,14 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 
 Changelog
 =========
+
+19.0.1.0.1 (2026-10-23)
+-----------------------
+
+- The legal forms "SAS", "AG", "BV", "NV" and "RA" are no longer dropped
+  from the names: on a database of 551,000 partners they removed the
+  surname Sas ("Sas Vasile" became "vasile") and initials ("INSTALCO
+  A.G. SRL", "BO & RA TRANS SRL"). KFT, SARL, s.r.o., SPRL and CMI stay.
 
 19.0.1.0.0 (2026-10-23)
 -----------------------

@@ -42,7 +42,8 @@ try:
 except ImportError:  # pragma: no cover - depends on the server
     rf_fuzz = rf_process = None
 
-# legal forms dropped from the names, Romanian and the usual EU ones
+# legal forms dropped from the names, Romanian and the usual EU ones. Left out on purpose, since
+# they are also surnames or initials: "sas" (Sas Vasile), "ag" (A.G.), "bv", "nv", "ra" (Bo & Ra)
 LEGAL_FORMS = {
     # Romania
     "sc",
@@ -52,23 +53,18 @@ LEGAL_FORMS = {
     "sca",
     "snc",
     "scs",
-    "ra",
     "pfa",
     "ii",
     "if",
     "cmi",
     "ong",
     # EU and others
-    "ag",
-    "bv",
     "gmbh",
     "inc",
     "kft",
     "llc",
     "ltd",
-    "nv",
     "sarl",
-    "sas",
     "spa",
     "sprl",
     "sro",
