@@ -1,3 +1,9 @@
+## 19.0.1.0.5 (2026-10-23)
+
+- Fix: a stock user without analytic accounting rights can validate a transfer again.
+  The location analytic lines are read and created in sudo, as a consequence of the
+  validation; before, the validation stopped with an access error on the analytic lines.
+
 ## 19.0.1.0.4 (2026-10-17)
 
 - Fix: the amount of the location analytic lines is now computed on the quantity
