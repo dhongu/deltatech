@@ -1,3 +1,7 @@
+## 19.0.1.1.1 (2026-10-23)
+
+- Development status *Production/Stable*: `deltatech_marketplace` (*Production/Stable*) depends on this module, and a stable module cannot depend on a *Beta* one (`manifestoo check-dev-status` in CI). The rules are those the marketplace import and the duplicate finder already use in production.
+
 ## 19.0.1.1.0 (2026-10-23)
 
 - The county counts in the score of `_find_similar_partners`: when both sides name a county (`state_id`, or a code or name in `county` / `state_code`, as the marketplace connectors send it) and it is not the same, the street and the city score 0. A village name is shared by up to 23 counties ("Satu Nou", "Poiana", "Dumbrava": 1,411 of the 10,565 Romanian locality names), so the same street and village in another county is another address. The score can only go down: a county that matches no state, or a missing one, leaves it as before.

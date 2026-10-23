@@ -10,9 +10,9 @@ Partner Match
    !! source digest: sha256:947501fda0240e6cc559f40168fb9ed028bab7c7304e1a755402d64837b0e30e
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -97,6 +97,15 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 
 Changelog
 =========
+
+19.0.1.1.1 (2026-10-23)
+-----------------------
+
+- Development status *Production/Stable*: ``deltatech_marketplace``
+  (*Production/Stable*) depends on this module, and a stable module
+  cannot depend on a *Beta* one (``manifestoo check-dev-status`` in CI).
+  The rules are those the marketplace import and the duplicate finder
+  already use in production.
 
 19.0.1.1.0 (2026-10-23)
 -----------------------
