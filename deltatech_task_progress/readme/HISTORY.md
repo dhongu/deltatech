@@ -8,6 +8,7 @@
   introduction (`auto_start=False`, `intro`); finish as a button on the items done
   (`finish_mode="button"`); `init` method that prepares the items when the dialog opens;
   `close` method called when the dialog is closed after a complete run.
+- Development status Production/Stable: `deltatech_delivery` (stable) depends on it.
 
 ## 19.0.1.0.0 (2026-10-23)
 
