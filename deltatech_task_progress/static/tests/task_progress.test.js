@@ -150,8 +150,10 @@ describe("TaskProgressDialog", () => {
     });
 
     test("init prepares the items, close opens an action", async () => {
-        onRpc("task.wizard", "plan", () => {
+        onRpc("task.wizard", "plan", async () => {
             expect.step("plan");
+            expect(".o_task_progress_state").toHaveText("Preparing...");
+            expect(".o_task_progress_counter").toHaveCount(0, {message: "No counter before the items"});
             return {items: [0, 10], item_names: ["Batch 1", "Batch 2"], total: 2, detail: "20 rows"};
         });
         onRpc("task.wizard", "run_part", ({args}) => {
