@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 4 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 7 automated tests</div>
       
     </div>
   </div>
@@ -88,9 +88,49 @@ returns (a preview, the created records). Closing is blocked while items are run
 otherwise they fail with serialization errors: keep each item's result on a row of its
 own and merge them in the finish method. A <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">parallel</code> higher than the number of HTTP
 workers of the server only queues the requests.</p>
+<p>Without a wizard, the steps run on the records themselves (an action of the list view):</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">def action_send_to_carrier(self):
+    return self.env[&quot;task.progress.mixin&quot;]._task_progress_action(
+        &quot;action_send_to_carrier_one&quot;,  # called on each order: order.action_send_to_carrier_one()
+        self.ids,
+        model=self._name,
+        item_names=self.mapped(&quot;name&quot;),
+        parallel=1,
+        auto_start=False,
+        show_items=True,
+        intro=self.env._(&quot;Send the orders to the carrier.&quot;),
+        finish=&quot;action_download_awb_labels&quot;,  # called on the orders sent
+        finish_mode=&quot;button&quot;,
+        labels={&quot;start&quot;: self.env._(&quot;Send&quot;), &quot;finish&quot;: self.env._(&quot;Print AWBs&quot;)},
+    )
+
+def action_send_to_carrier_one(self):
+    ...
+    return {&quot;status&quot;: &quot;warning&quot;, &quot;message&quot;: &quot;uncertain result, check at the carrier&quot;}
+</code></pre>
+<p>A step returns a number (the counter) or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"status", "message", "count"}</code>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">success</code>,
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warning</code> (done, shown to check by hand, never run again) or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code> (run again by the
+retry button, like a step that raises).</p>
+<p>With <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">init</code>, the dialog first calls <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">record.init()</code>, which returns
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"items": [...], "item_names": [...], "total": n, "detail": "..."}</code>: the work is prepared
+on the server (a file read, a plan made) while the dialog shows <em>Preparing...</em>. With
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">close</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">record.close()</code> is called when the dialog is closed after a complete run, and the
+action it returns is opened.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-10-23)</h2>
+<ul>
+<li>The steps can run on the item records (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">model</code>, without a record): the
+  "Send to Carrier" dialog of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_delivery</code>.</li>
+<li>A step can return a status: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warning</code> is done and never run again (a result to check
+  by hand), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code> is run again by the retry button.</li>
+<li>List of the items with their status and message (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">show_items</code>); start button with an
+  introduction (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_start=False</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">intro</code>); finish as a button on the items done
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">finish_mode="button"</code>); <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">init</code> method that prepares the items when the dialog opens;
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">close</code> method called when the dialog is closed after a complete run.</li>
+<li>Development status Production/Stable: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_delivery</code> (stable) depends on it.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-23)</h2>
 <ul>
 <li>First version: the progress dialog of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_ai_purchase_pdf</code>, made generic

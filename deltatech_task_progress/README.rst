@@ -10,18 +10,18 @@ Task Progress
    !! source digest: sha256:0ca8cbf1508e082d68eb76e1828f936cf9378b197afe50bad534dd09f7705e9d
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_task_progress
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_task_progress/tests
-    :alt: 4 automated tests
+    :alt: 7 automated tests
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -88,8 +88,60 @@ each item's result on a row of its own and merge them in the finish
 method. A ``parallel`` higher than the number of HTTP workers of the
 server only queues the requests.
 
+Without a wizard, the steps run on the records themselves (an action of
+the list view):
+
+.. code:: python
+
+   def action_send_to_carrier(self):
+       return self.env["task.progress.mixin"]._task_progress_action(
+           "action_send_to_carrier_one",  # called on each order: order.action_send_to_carrier_one()
+           self.ids,
+           model=self._name,
+           item_names=self.mapped("name"),
+           parallel=1,
+           auto_start=False,
+           show_items=True,
+           intro=self.env._("Send the orders to the carrier."),
+           finish="action_download_awb_labels",  # called on the orders sent
+           finish_mode="button",
+           labels={"start": self.env._("Send"), "finish": self.env._("Print AWBs")},
+       )
+
+   def action_send_to_carrier_one(self):
+       ...
+       return {"status": "warning", "message": "uncertain result, check at the carrier"}
+
+A step returns a number (the counter) or
+``{"status", "message", "count"}``: ``success``, ``warning`` (done,
+shown to check by hand, never run again) or ``error`` (run again by the
+retry button, like a step that raises).
+
+With ``init``, the dialog first calls ``record.init()``, which returns
+``{"items": [...], "item_names": [...], "total": n, "detail": "..."}``:
+the work is prepared on the server (a file read, a plan made) while the
+dialog shows *Preparing...*. With ``close``, ``record.close()`` is
+called when the dialog is closed after a complete run, and the action it
+returns is opened.
+
 Changelog
 =========
+
+19.0.1.1.0 (2026-10-23)
+-----------------------
+
+- The steps can run on the item records (``model``, without a record):
+  the "Send to Carrier" dialog of ``deltatech_delivery``.
+- A step can return a status: ``warning`` is done and never run again (a
+  result to check by hand), ``error`` is run again by the retry button.
+- List of the items with their status and message (``show_items``);
+  start button with an introduction (``auto_start=False``, ``intro``);
+  finish as a button on the items done (``finish_mode="button"``);
+  ``init`` method that prepares the items when the dialog opens;
+  ``close`` method called when the dialog is closed after a complete
+  run.
+- Development status Production/Stable: ``deltatech_delivery`` (stable)
+  depends on it.
 
 19.0.1.0.0 (2026-10-23)
 -----------------------

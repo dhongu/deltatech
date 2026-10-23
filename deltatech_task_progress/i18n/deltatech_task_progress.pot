@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 05:06+0000\n"
-"PO-Revision-Date: 2026-10-23 05:06+0000\n"
+"POT-Creation-Date: 2026-10-23 05:28+0000\n"
+"PO-Revision-Date: 2026-10-23 05:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -46,8 +46,14 @@ msgstr ""
 
 #. module: deltatech_task_progress
 #. odoo-javascript
-#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Done"
+msgstr ""
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Finish"
 msgstr ""
 
 #. module: deltatech_task_progress
@@ -63,8 +69,14 @@ msgstr ""
 
 #. module: deltatech_task_progress
 #. odoo-javascript
-#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Not finished"
+msgstr ""
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Preparing..."
 msgstr ""
 
 #. module: deltatech_task_progress
@@ -82,12 +94,18 @@ msgstr ""
 #. module: deltatech_task_progress
 #. odoo-javascript
 #: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Start"
+msgstr ""
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Stop after the current items"
 msgstr ""
 
 #. module: deltatech_task_progress
 #. odoo-javascript
-#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Stopped"
 msgstr ""
 
