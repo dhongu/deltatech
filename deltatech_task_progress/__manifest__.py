@@ -3,7 +3,7 @@
 {
     "name": "Task Progress",
     "summary": "Run a long task step by step, several steps at a time, in a progress dialog",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
