@@ -10,9 +10,9 @@ Task Progress
    !! source digest: sha256:0ca8cbf1508e082d68eb76e1828f936cf9378b197afe50bad534dd09f7705e9d
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -140,6 +140,8 @@ Changelog
   ``init`` method that prepares the items when the dialog opens;
   ``close`` method called when the dialog is closed after a complete
   run.
+- Development status Production/Stable: ``deltatech_delivery`` (stable)
+  depends on it.
 
 19.0.1.0.0 (2026-10-23)
 -----------------------
