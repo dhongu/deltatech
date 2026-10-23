@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_partner_merge_batch_prepare,partner.merge.batch prepare,model_partner_merge_batch,group_partner_merge_prepare,1,1,1,1
 access_partner_merge_line_prepare,partner.merge.batch.line prepare,model_partner_merge_batch_line,group_partner_merge_prepare,1,1,1,1
+access_partner_duplicate_scan_prepare,partner.duplicate.scan prepare,model_partner_duplicate_scan,group_partner_merge_prepare,1,1,1,1
+access_partner_duplicate_group_prepare,partner.duplicate.group prepare,model_partner_duplicate_group,group_partner_merge_prepare,1,1,1,1
+access_partner_duplicate_ignore_prepare,partner.duplicate.ignore prepare,model_partner_duplicate_ignore,group_partner_merge_prepare,1,1,1,1

@@ -25,3 +25,24 @@ import, with the names of the absorbed records alongside for correction.
 
 The same procedure is available as plain SQL scripts in `deltatech/scripts/partner_merge/`, for when
 it has to be run outside Odoo.
+
+**Finding duplicates beyond the VAT number.** *Partner Merge › Find Duplicates* looks for partners
+that are probably the same record, typically individuals created twice by an import or an online
+order, and leaves the decision to you, group by group. It does not change any partner.
+
+- Exact matches on the VAT number (without the country prefix), the phone (E.164, so `0722 …` and
+  `+40 722 …` meet), and the email (lowercase).
+- Similar names (without diacritics or legal forms, words sorted) at the same street or postcode,
+  or similar names alone if you choose so. Names are compared only inside a block (same city, or
+  same first letters), so large databases are not compared all against all.
+- Each group shows its score and the reason ("same phone +40722…", "name 92% + same street").
+  *Merge* opens the standard Odoo merge wizard on the group, where you choose the record to keep.
+  *Not duplicates* remembers the pair, so later scans skip it.
+- Left out: partners of internal users and of your companies, a partner and its own contacts,
+  invoice and delivery addresses of the same customer, partners of different companies, and values
+  shared by too many partners (placeholders, switchboards), which are listed in the report.
+
+The name comparison uses `rapidfuzz` when it is installed on the server. Without it, the scan falls
+back to Python's `difflib`, which is slower and only compares blocks of up to 1,500 partners; the
+larger blocks are listed in the report. `phonenumbers` and `unidecode` are used the same way, if
+present. None of them is required.

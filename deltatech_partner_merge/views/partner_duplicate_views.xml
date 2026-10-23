@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_partner_duplicate_group_list" model="ir.ui.view">
+        <field name="name">partner.duplicate.group.list</field>
+        <field name="model">partner.duplicate.group</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false" decoration-muted="state != 'new'" decoration-warning="partner_count &gt; 3">
+                <field name="partner_ids" widget="many2many_tags" />
+                <field name="score" />
+                <field name="reasons" />
+                <field name="match_type" optional="hide" />
+                <field name="partner_count" optional="hide" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
+                <field name="scan_id" optional="hide" />
+                <field name="state" widget="badge" decoration-success="state == 'merged'" />
+                <button name="action_merge" type="object" string="Merge" icon="fa-compress"
+                        invisible="state != 'new'" groups="base.group_partner_manager" />
+                <button name="action_ignore" type="object" string="Not duplicates" icon="fa-ban"
+                        invisible="state != 'new'" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_partner_duplicate_group_form" model="ir.ui.view">
+        <field name="name">partner.duplicate.group.form</field>
+        <field name="model">partner.duplicate.group</field>
+        <field name="arch" type="xml">
+            <form create="false">
+                <header>
+                    <button name="action_merge" type="object" string="Merge" class="oe_highlight"
+                            invisible="state != 'new'" groups="base.group_partner_manager" />
+                    <button name="action_ignore" type="object" string="Not duplicates"
+                            invisible="state != 'new'" />
+                    <button name="action_reopen" type="object" string="Review again"
+                            invisible="state != 'ignored'" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_partners" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="partner_count" widget="statinfo" string="Partners" />
+                        </button>
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="state != 'new'">
+                        Merge opens the standard Odoo wizard, which takes at most three contacts at a
+                        time and lets you choose the record to keep. Remove from the list below the
+                        partners that are not duplicates, then merge; re-open it until one record is left.
+                    </div>
+                    <group>
+                        <group>
+                            <field name="score" />
+                            <field name="match_type" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                        <group>
+                            <field name="reasons" />
+                        </group>
+                    </group>
+                    <field name="partner_ids" readonly="state != 'new'">
+                        <list>
+                            <field name="display_name" string="Name" />
+                            <field name="vat" string="VAT" optional="show" />
+                            <field name="email" optional="show" />
+                            <field name="phone" optional="show" />
+                            <field name="street" optional="show" />
+                            <field name="city" optional="show" />
+                            <field name="zip" optional="hide" />
+                            <field name="create_date" optional="show" />
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_partner_duplicate_group_search" model="ir.ui.view">
+        <field name="name">partner.duplicate.group.search</field>
+        <field name="model">partner.duplicate.group</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_ids" />
+                <field name="reasons" />
+                <filter name="to_review" string="To review" domain="[('state', '=', 'new')]" />
+                <filter name="exact" string="Same VAT, phone or email" domain="[('match_type', '=', 'exact')]" />
+                <filter name="fuzzy" string="Similar name" domain="[('match_type', '=', 'fuzzy')]" />
+                <separator />
+                <filter name="merged" string="Merged" domain="[('state', '=', 'merged')]" />
+                <filter name="ignored" string="Not duplicates" domain="[('state', '=', 'ignored')]" />
+                <group>
+                    <filter name="group_scan" string="Scan" context="{'group_by': 'scan_id'}" />
+                    <filter name="group_type" string="Match" context="{'group_by': 'match_type'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_partner_duplicate_group" model="ir.actions.act_window">
+        <field name="name">Duplicate Groups</field>
+        <field name="res_model">partner.duplicate.group</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_to_review': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No duplicates to review</p>
+            <p>Run a duplicate scan to fill this list.</p>
+        </field>
+    </record>
+
+    <record id="view_partner_duplicate_scan_form" model="ir.ui.view">
+        <field name="name">partner.duplicate.scan.form</field>
+        <field name="model">partner.duplicate.scan</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_scan" type="object" string="Scan" class="oe_highlight"
+                            invisible="state != 'draft'" />
+                    <button name="action_scan" type="object" string="Scan again"
+                            invisible="state != 'done'"
+                            confirm="The groups of this scan are replaced, including the ones already reviewed.
+                                     Pairs marked as not duplicates stay excluded. Continue?" />
+                    <button name="action_refresh" type="object" string="Refresh merged groups"
+                            invisible="state != 'done'" />
+                    <button name="action_reset" type="object" string="Back to draft"
+                            invisible="state != 'done'" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Scan name" /></h1>
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="state != 'draft'">
+                        The scan does not change any partner. It groups the partners that probably are
+                        the same, each group with its score and reason; you decide on each group, and the
+                        merge itself is done with the standard Odoo wizard. Partners of internal users and
+                        of your companies are left out.
+                    </div>
+                    <group>
+                        <group string="Match on">
+                            <field name="use_vat" />
+                            <field name="use_phone" />
+                            <field name="use_email" />
+                            <field name="use_name" />
+                            <field name="individuals_only" />
+                        </group>
+                        <group string="Names" invisible="not use_name">
+                            <field name="name_match" />
+                            <field name="threshold" />
+                            <field name="block_by" />
+                        </group>
+                        <group string="Limits">
+                            <field name="max_key_size" />
+                        </group>
+                        <group string="Result" invisible="state != 'done'">
+                            <field name="partner_count" />
+                            <field name="group_count" />
+                            <field name="engine" />
+                            <field name="date_scan" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Groups" name="groups">
+                            <field name="group_ids" nolabel="1" context="{'list_view_ref': 'deltatech_partner_merge.view_partner_duplicate_group_list'}" />
+                        </page>
+                        <page string="Report" name="report">
+                            <field name="report" nolabel="1" widget="text" readonly="1" class="font-monospace" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_partner_duplicate_scan_list" model="ir.ui.view">
+        <field name="name">partner.duplicate.scan.list</field>
+        <field name="model">partner.duplicate.scan</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="date_scan" />
+                <field name="partner_count" />
+                <field name="group_count" />
+                <field name="state" widget="badge" decoration-success="state == 'done'" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_partner_duplicate_scan" model="ir.actions.act_window">
+        <field name="name">Duplicate Scans</field>
+        <field name="res_model">partner.duplicate.scan</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Find duplicated partners</p>
+            <p>
+                Groups the partners that share a VAT number, a phone or an email, or have similar names
+                at the same address. Nothing is merged automatically: you confirm every group in the
+                standard merge wizard.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_partner_duplicate_scan" name="Find Duplicates"
+              parent="menu_partner_merge_root" action="action_partner_duplicate_scan" sequence="20" />
+    <menuitem id="menu_partner_duplicate_group" name="Duplicate Groups"
+              parent="menu_partner_merge_root" action="action_partner_duplicate_group" sequence="30" />
+</odoo>
