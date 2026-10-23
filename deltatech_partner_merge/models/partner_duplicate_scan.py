@@ -16,12 +16,12 @@ _logger = logging.getLogger(__name__)
 
 Row = namedtuple(
     "Row",
-    "id name email phone vat street city zip country company_id parent_id type has_user",
+    "id name email phone vat street city zip country company_id parent_id type commercial_id has_user",
 )
 
 LOAD_PARTNERS = """
 SELECT p.id, p.name, p.email, p.phone, p.vat, p.street, p.city, p.zip, c.code,
-       p.company_id, p.parent_id, p.type,
+       p.company_id, p.parent_id, p.type, p.commercial_partner_id,
        EXISTS (SELECT 1 FROM res_users u WHERE u.partner_id = p.id) AS has_user
   FROM res_partner p
   LEFT JOIN res_country c ON c.id = p.country_id
@@ -159,37 +159,53 @@ class PartnerDuplicateScan(models.Model):
                     exact_pairs.add((a, b))
                 union.union(a, b)
 
+        # (code, label, value shown in the reason, comparison key of that value)
         keys = []
         if self.use_vat:
-            keys.append(("vat", self.env._("same VAT"), lambda r: T.normalize_vat(r.vat)))
+            # the contacts of a company carry its VAT: only the commercial entity counts
+            keys.append(
+                (
+                    "vat",
+                    self.env._("same VAT"),
+                    lambda r: r.id == r.commercial_id and T.normalize_vat(r.vat),
+                    lambda value: value,
+                )
+            )
         if self.use_email:
-            keys.append(("email", self.env._("same email"), lambda r: T.normalize_email(r.email)))
+            keys.append(("email", self.env._("same email"), lambda r: T.normalize_email(r.email), lambda value: value))
         if self.use_phone:
             keys.append(
                 (
                     "phone",
                     self.env._("same phone"),
-                    lambda r: T.phone_key(T.normalize_phone(r.phone, r.country or default_country)),
+                    lambda r: T.normalize_phone(r.phone, r.country or default_country),
+                    T.phone_key,
                 )
             )
-        for code, label, normalize in keys:
+        for code, label, normalize, key_of in keys:
             buckets = defaultdict(list)
+            shown = {}
             for row in rows:
                 value = normalize(row)
                 if value:
-                    buckets[(row.company_id, value)].append(row.id)
-            for (_company, value), ids in buckets.items():
+                    bucket = (row.company_id, key_of(value))
+                    buckets[bucket].append(row.id)
+                    shown.setdefault(bucket, value.lstrip("~"))
+            for bucket, ids in buckets.items():
                 if len(ids) < 2:
                     continue
                 if len(ids) > self.max_key_size:
                     report.append(
                         self.env._(
-                            "Skipped %(label)s %(value)s: %(count)s partners", label=label, value=value, count=len(ids)
+                            "%(count)s partners with %(label)s %(value)s: skipped",
+                            label=label,
+                            value=shown[bucket],
+                            count=len(ids),
                         )
                     )
                     continue
                 for a, b in combinations(ids, 2):
-                    add_edge(a, b, f"{label} {value}", KEY_SCORE[code], exact=True)
+                    add_edge(a, b, f"{label} {shown[bucket]}", KEY_SCORE[code], exact=True)
 
         if self.use_name:
             report += self._match_names(rows, add_edge)

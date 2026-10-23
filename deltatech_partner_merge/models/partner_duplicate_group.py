@@ -4,7 +4,6 @@
 from itertools import combinations
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 
 # the standard merge wizard refuses more contacts at once
 MERGE_WIZARD_LIMIT = 3
@@ -38,6 +37,13 @@ class PartnerDuplicateGroup(models.Model):
         readonly=True,
     )
 
+    @api.depends("partner_ids.name")
+    def _compute_display_name(self):
+        for group in self:
+            names = group.partner_ids[:MERGE_WIZARD_LIMIT].mapped("display_name")
+            more = len(group.partner_ids) - len(names)
+            group.display_name = ", ".join(names) + (f" +{more}" if more > 0 else "") or str(group.id)
+
     @api.depends("partner_ids", "partner_ids.active")
     def _compute_partner_count(self):
         for group in self:
@@ -56,7 +62,16 @@ class PartnerDuplicateGroup(models.Model):
         self.ensure_one()
         self._refresh_state()
         if self.state != "new":
-            raise UserError(self.env._("Nothing left to merge in this group."))
+            # no exception: it would roll back the state just refreshed
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "message": self.env._("Nothing left to merge in this group."),
+                    "type": "info",
+                    "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+                },
+            }
         partners = self.partner_ids.filtered("active").sorted("id")[:MERGE_WIZARD_LIMIT]
         return {
             "type": "ir.actions.act_window",

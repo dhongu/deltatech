@@ -4,13 +4,13 @@
         <field name="name">partner.duplicate.group.list</field>
         <field name="model">partner.duplicate.group</field>
         <field name="arch" type="xml">
-            <list create="false" decoration-muted="state != 'new'" decoration-warning="partner_count &gt; 3">
+            <list create="false" delete="false" decoration-muted="state != 'new'" decoration-warning="partner_count &gt; 3">
                 <field name="partner_ids" widget="many2many_tags" />
                 <field name="score" />
                 <field name="reasons" />
-                <field name="match_type" optional="show" />
+                <field name="match_type" optional="hide" />
                 <field name="partner_count" optional="hide" />
-                <field name="company_id" groups="base.group_multi_company" optional="show" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
                 <field name="scan_id" optional="hide" />
                 <field name="state" widget="badge" decoration-success="state == 'merged'" />
                 <button name="action_merge" type="object" string="Merge" icon="fa-compress"
@@ -59,7 +59,7 @@
                     <field name="partner_ids" readonly="state != 'new'">
                         <list>
                             <field name="display_name" string="Name" />
-                            <field name="vat" optional="show" />
+                            <field name="vat" string="VAT" optional="show" />
                             <field name="email" optional="show" />
                             <field name="phone" optional="show" />
                             <field name="street" optional="show" />
@@ -161,7 +161,7 @@
                             <field name="group_ids" nolabel="1" context="{'list_view_ref': 'deltatech_partner_merge.view_partner_duplicate_group_list'}" />
                         </page>
                         <page string="Report" name="report">
-                            <field name="report" nolabel="1" widget="text" readonly="1" />
+                            <field name="report" nolabel="1" widget="text" readonly="1" class="font-monospace" />
                         </page>
                     </notebook>
                 </sheet>
