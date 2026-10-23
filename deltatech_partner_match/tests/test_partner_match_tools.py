@@ -101,6 +101,9 @@ class TestPartnerMatchTools(BaseCase):
         self.assertEqual(pm.similar_pairs(names[:1], 90), [])
 
     def test_jaccard(self):
+        self.assertEqual(pm.normalize_text("Str.Memorandumului 10"), "str memorandumului 10")
+        self.assertEqual(pm.jaccard_similarity("Str.Memorandumului 10", "Str. Memorandumului 10"), 1.0)
+        self.assertEqual(pm.normalize_city("Dr.Tr.Severin"), "drtrseverin", "the block key of the duplicate finder")
         self.assertEqual(pm.jaccard_similarity("Str. Lalelelor 5", "str lalelelor 5"), 1.0)
         self.assertEqual(pm.jaccard_similarity("", ""), 0.0)
         self.assertAlmostEqual(pm.jaccard_similarity("a b", "b c"), 1 / 3)

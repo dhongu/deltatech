@@ -113,16 +113,22 @@ def ascii_fold(text):
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
 
 
-def _tokens(text, drop=()):
+def _tokens(text, drop=(), join_dots=True):
+    """Lowercase ASCII words of ``text``. With ``join_dots`` the dots are removed before splitting,
+    so the abbreviations stay one word ("S.R.L." = "srl"); without it a dot separates words, as in
+    the addresses typed without a space ("Str.Lalelelor")."""
     if not text:
         return []
-    text = ascii_fold(str(text)).lower().replace(".", "")
+    text = ascii_fold(str(text)).lower()
+    if join_dots:
+        text = text.replace(".", "")
     return [token for token in re.split(r"[^a-z0-9]+", text) if token and token not in drop]
 
 
 def normalize_text(value):
-    """Lowercase ASCII words of ``value``, without punctuation, single-spaced, in their order."""
-    return " ".join(_tokens(value))
+    """Lowercase ASCII words of ``value``, in their order, any punctuation (dots included) being a
+    separator: "Str.Memorandumului 10" and "Str. Memorandumului 10" give the same words."""
+    return " ".join(_tokens(value, join_dots=False))
 
 
 def normalize_name(name):
@@ -142,7 +148,7 @@ def normalize_street(street):
 
 
 def normalize_city(city):
-    return normalize_text(city)
+    return " ".join(_tokens(city))
 
 
 def normalize_email(email):
