@@ -104,6 +104,8 @@ Changelog
   marketplace import did: "Str.Memorandumului 10" and "Str.
   Memorandumului 10" scored 0.25 on the street instead of 1. The name,
   street and city keys of the duplicate finder are unchanged.
+- Apps Store banner (``banner.json``), instead of the generic
+  screenshot.
 
 19.0.1.0.1 (2026-10-23)
 -----------------------
