@@ -48,3 +48,41 @@ class TestTaskProgress(TransactionCase):
         action = self.record._task_progress_action("run_batch", iter([[1, 2], [3]]))
         self.assertEqual(action["params"]["items"], [[1, 2], [3]], "Any iterable, read once")
         self.assertEqual(action["params"]["total"], 2)
+
+    def test_items_without_record(self):
+        mixin = self.env["task.progress.mixin"]
+        action = mixin._task_progress_action(
+            "action_send",
+            [3, 5],
+            model="res.partner",
+            item_names=["A", "B"],
+            finish="action_print",
+            finish_mode="button",
+            auto_start=False,
+            show_items=True,
+            intro="Send 2 orders",
+        )
+        params = action["params"]
+        self.assertEqual(params["model"], "res.partner", "The steps run on the item records")
+        self.assertIs(params["res_id"], False)
+        self.assertEqual(params["finish_mode"], "button")
+        self.assertFalse(params["auto_start"])
+        self.assertTrue(params["show_items"])
+        self.assertEqual(params["intro"], "Send 2 orders")
+
+    def test_init_prepares_the_items(self):
+        action = self.record._task_progress_action("run_batch", init="action_plan", close="action_open")
+        params = action["params"]
+        self.assertEqual((params["init"], params["close"]), ("action_plan", "action_open"))
+        self.assertEqual(params["items"], [], "The items come from init")
+        self.assertTrue(params["auto_start"])
+        self.assertEqual(params["finish_mode"], "auto")
+
+    def test_invalid_calls(self):
+        mixin = self.env["task.progress.mixin"]
+        with self.assertRaises(ValueError):
+            mixin._task_progress_action("step", [1])
+        with self.assertRaises(ValueError):
+            mixin._task_progress_action("step", [1], model="res.partner", init="action_plan")
+        with self.assertRaises(ValueError):
+            self.record._task_progress_action("step", [1], finish_mode="later")
