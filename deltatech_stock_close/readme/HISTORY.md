@@ -1,3 +1,10 @@
+## 19.0.1.1.4 (2026-10-23)
+
+- Tests: the backdated test receipts flush the pending ORM values before the raw SQL
+  update of their date. Flushed afterwards, the date written by the validation could
+  overwrite the backdated one, so the storage sheet and close tests failed at random
+  in the full CI run.
+
 ## 19.0.1.1.3 (2026-10-17)
 
 - Stock moves can now be closed from the interface: the *Inventory > Operations > Adjustments >

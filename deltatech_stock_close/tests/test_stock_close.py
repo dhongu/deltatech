@@ -42,6 +42,9 @@ class TestStockClose(TransactionCase):
         move.quantity = qty
         move.picked = True
         move._action_done()
+        # write the pending ORM values (date, state...) first: flushed after the raw UPDATE,
+        # they would overwrite the backdated date
+        cls.env.flush_all()
         # the storage sheet only reads moves with a Romanian valuation account
         cls.env.cr.execute(
             SQL(

@@ -4,7 +4,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Stock Close",
     "summary": "Closed stock moves left out of the storage sheet",
-    "version": "19.0.1.1.3",
+    "version": "19.0.1.1.4",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
