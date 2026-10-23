@@ -1,0 +1,11 @@
+{
+  "title": "Web Scan Base",
+  "summary": "Safe and polite reading of product pages",
+  "icon": "globe",
+  "edition": "community",
+  "features": [
+    "Public addresses only, robots.txt kept",
+    "schema.org data and selectors",
+    "Wrong-product and price-jump checks"
+  ]
+}
