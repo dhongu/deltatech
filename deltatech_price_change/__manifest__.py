@@ -6,7 +6,7 @@
 {
     "name": "Price Change",
     "summary": "Track list price changes, price change report and document",
-    "version": "19.0.1.2.1",
+    "version": "19.0.1.2.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

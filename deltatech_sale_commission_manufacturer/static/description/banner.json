@@ -1,0 +1,7 @@
+{
+  "title": "Margin Report by Manufacturer",
+  "summary": "Product manufacturer in the sale margin report",
+  "icon": "trend",
+  "edition": "community",
+  "features": ["Search by manufacturer", "Group By Manufacturer", "Sales, cost and profit per brand"]
+}
