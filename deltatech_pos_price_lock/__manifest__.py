@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "POS Price Lock",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Point of Sale",
     "summary": "Block price changes in the POS for every cashier, managers included",
     "author": "Terrabit, Dorin Hongu",
@@ -17,7 +17,9 @@
         "web.assets_unit_tests": ["deltatech_pos_price_lock/static/tests/unit/**/*"],
     },
     "installable": True,
-    "license": "LGPL-3",
+    "license": "OPL-1",
+    "price": 10.00,
+    "currency": "EUR",
     "development_status": "Beta",
     "maintainers": ["dhongu"],
 }
