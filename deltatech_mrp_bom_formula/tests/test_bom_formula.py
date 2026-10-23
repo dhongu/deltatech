@@ -4,7 +4,7 @@
 
 from odoo import Command
 from odoo.exceptions import ValidationError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 
 
@@ -221,3 +221,11 @@ class TestBomFormula(TransactionCase):
         quantities = self._exploded_quantities(self._get_variant("Galvanized", "1250 mm"), quantity=3.0)
         # Two kit levels without formula, then qty * 2 on the component: 3 * 1 * 1 * 2.
         self.assertAlmostEqual(quantities[self.zinc], 6.0)
+
+    def test_empty_bom_explodes_like_native(self):
+        # The manufacturing order form explodes its (still empty) bill while computing the work orders.
+        variant = self._get_variant("Painted", "1000 mm")
+        boms, lines = self.env["mrp.bom"].explode(variant, 1.0)
+        self.assertEqual(lines, [])
+        self.assertFalse(boms[0][0])
+        Form(self.env["mrp.production"])

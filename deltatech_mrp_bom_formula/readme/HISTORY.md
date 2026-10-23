@@ -1,3 +1,10 @@
+## 19.0.1.0.5 (2026-10-23)
+
+- Fix: exploding an empty bill of materials no longer fails with "Expected singleton:
+  mrp.bom()". The native manufacturing order form does this while computing the work
+  orders of an order without a bill, so opening a new manufacturing order crashed as
+  soon as the module was installed.
+
 ## 19.0.1.0.4 (2026-10-22)
 
 - Listed on Odoo Apps as *BoM Quantity Formulas* (was *MRP BoM Formula*). The technical name `deltatech_mrp_bom_formula` does not change.

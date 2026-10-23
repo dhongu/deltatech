@@ -43,7 +43,8 @@ class MrpBom(models.Model):
         product_qty. The formula context is built from the attribute values of the exploded
         product and refined with the ones of the intermediate product on nested bills.
         """
-        if not self._has_formula_in_kits(picking_type):
+        # The native code also explodes an empty bill (e.g. a new manufacturing order without one).
+        if not self or not self._has_formula_in_kits(picking_type):
             return super().explode(
                 product, quantity, picking_type=picking_type, never_attribute_values=never_attribute_values
             )
