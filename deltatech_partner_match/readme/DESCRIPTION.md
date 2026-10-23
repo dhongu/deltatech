@@ -26,7 +26,8 @@ itself: it only provides functions that other modules call.
   when installed, `difflib` otherwise, on limited blocks. Use them to propose pairs for review.
 - `res.partner._find_similar_partners(values, domain, keys, limit)` selects the partners that share
   the VAT number, the email or the phone of `values` (never a name alone), and returns them with a
-  score and the keys they share. Whether one is reused is decided by the calling module.
+  score and the keys they share. When both sides name a different county, the street and
+  the city do not count: the same village name exists in several counties. Whether one is reused is decided by the calling module.
 
 `phonenumbers`, `rapidfuzz` and `unidecode` are optional: the results stay the same without them on
 the exact keys, and slightly coarser on the phones of other countries.
