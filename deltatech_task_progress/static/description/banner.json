@@ -1,0 +1,10 @@
+{
+  "title": "Task Progress",
+  "summary": "Long tasks in parallel steps, with progress",
+  "icon": "gear",
+  "features": [
+    "Progress bar with time left estimate",
+    "Several steps run in parallel",
+    "Retry failed steps or stop anytime"
+  ]
+}
