@@ -1,3 +1,8 @@
+## 19.0.1.0.2 (2026-10-23)
+
+- `normalize_text` and `jaccard_similarity` (street and city in `_find_similar_partners`) split the words on dots again, as the marketplace import did: "Str.Memorandumului 10" and "Str. Memorandumului 10" scored 0.25 on the street instead of 1. The name, street and city keys of the duplicate finder are unchanged.
+- Apps Store banner (`banner.json`), instead of the generic screenshot.
+
 ## 19.0.1.0.1 (2026-10-23)
 
 - The legal forms "SAS", "AG", "BV", "NV" and "RA" are no longer dropped from the names: on a database of 551,000 partners they removed the surname Sas ("Sas Vasile" became "vasile") and initials ("INSTALCO A.G. SRL", "BO & RA TRANS SRL"). KFT, SARL, s.r.o., SPRL and CMI stay.
