@@ -1,3 +1,14 @@
+# 19.0.1.0.15
+
+- The upgrade to 19.0.1.0.12 no longer fails with "violates foreign key
+  constraint ir_ui_view_inherit_id_fkey" on databases where views were added
+  on top of the old "Product Available" view of a website. That website copy is
+  kept, active, under the key
+  `deltatech_website_stock_availability.products_qty_available_custom`, with
+  the views that inherit it, and the website keeps its own stock rendering on
+  the shop card: the new stock status is not enabled there. The other copies
+  are removed as before.
+
 # 19.0.1.0.13
 
 - The stock badge on the product page ("4 Units in stock", shown under the

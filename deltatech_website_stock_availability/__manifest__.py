@@ -5,7 +5,7 @@
     "name": "Website Stock Availability",
     "category": "Website",
     "summary": "eCommerce Stock Availability and lead time",
-    "version": "19.0.1.0.14",
+    "version": "19.0.1.0.15",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_website_stock_availability?v=19.0",
