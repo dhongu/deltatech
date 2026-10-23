@@ -1,0 +1,7 @@
+{
+  "title": "Website llms.txt",
+  "summary": "Let AI assistants read your site correctly",
+  "icon": "globe",
+  "edition": "community",
+  "features": ["Auto-generated /llms.txt file", "Your own summary and Markdown text", "One file per website"]
+}
