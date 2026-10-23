@@ -1,0 +1,11 @@
+{
+  "title": "POS Cashier Close Register",
+  "summary": "Cashiers close their own shift, without the other manager rights",
+  "icon": "user",
+  "edition": "community",
+  "features": [
+    "Close Register for basic-rights cashiers",
+    "All other manager rights stay locked",
+    "Enabled per point of sale"
+  ]
+}
