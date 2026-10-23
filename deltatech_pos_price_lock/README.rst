@@ -13,17 +13,14 @@ POS Price Lock
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
-    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-    :alt: License: LGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock
     :alt: dhongu/deltatech
 .. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock/tests
     :alt: 4 automated tests
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge_tests|
 
 Odoo lets you restrict price changes in the Point of Sale to managers.
 When every employee working at the register is a manager, or when the
@@ -70,6 +67,12 @@ registers without a reload.
 
 Changelog
 =========
+
+19.0.1.1.0 (2026-10-23)
+-----------------------
+
+- Published as a paid module on the Odoo Apps Store (10 EUR, OPL-1
+  license).
 
 19.0.1.0.0 (2026-10-21)
 -----------------------
