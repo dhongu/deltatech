@@ -2,7 +2,6 @@
 GitPython
 extruct
 phonenumbers
-python-stdnum
 unidecode
 w3lib
 xlsxwriter
