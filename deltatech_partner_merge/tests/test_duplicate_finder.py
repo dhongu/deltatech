@@ -6,7 +6,7 @@ from unittest.mock import patch
 from odoo.tests import new_test_user, tagged
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.deltatech_partner_merge.models import duplicate_tools as T
+from odoo.addons.deltatech_partner_match.tools import partner_match as T
 
 
 @tagged("post_install", "-at_install")
