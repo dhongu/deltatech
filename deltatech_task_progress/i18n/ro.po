@@ -44,9 +44,15 @@ msgstr "Nume afișat"
 
 #. module: deltatech_task_progress
 #. odoo-javascript
-#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Done"
 msgstr "Gata"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Finish"
+msgstr "Finalizează"
 
 #. module: deltatech_task_progress
 #. odoo-javascript
@@ -61,9 +67,15 @@ msgstr "ID"
 
 #. module: deltatech_task_progress
 #. odoo-javascript
-#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Not finished"
 msgstr "Neterminat"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Preparing..."
+msgstr "Se pregătește..."
 
 #. module: deltatech_task_progress
 #. odoo-javascript
@@ -80,12 +92,18 @@ msgstr "Rulează..."
 #. module: deltatech_task_progress
 #. odoo-javascript
 #: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Start"
+msgstr "Pornește"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Stop after the current items"
 msgstr "Oprește după elementele în lucru"
 
 #. module: deltatech_task_progress
 #. odoo-javascript
-#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
 msgid "Stopped"
 msgstr "Oprit"
 
