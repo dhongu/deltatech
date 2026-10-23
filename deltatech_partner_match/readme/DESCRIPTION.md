@@ -8,7 +8,7 @@ itself: it only provides functions that other modules call.
 **Normalization** (`deltatech_partner_match.tools.partner_match`, plain Python):
 
 - **Name**: lowercase, without diacritics, punctuation and legal forms (one list for Romania and
-  the EU: SRL, SA, PFA, II, GmbH, Ltd, SARL...), words sorted. "S.C. Popescu Ion S.R.L." and
+  the EU: SRL, SA, PFA, II, GmbH, Ltd, SARL, KFT...), words sorted. "S.C. Popescu Ion S.R.L." and
   "ion popescu srl" give the same key.
 - **VAT**: alphanumerics only, without the country prefix and the leading zeros ("RO 012.345" =
   "12345"); the check digit of a Romanian CUI or CNP, or of an EU VAT number, with `python-stdnum`.

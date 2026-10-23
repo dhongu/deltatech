@@ -1,3 +1,7 @@
+## 19.0.1.0.1 (2026-10-23)
+
+- The legal forms "SAS", "AG", "BV", "NV" and "RA" are no longer dropped from the names: on a database of 551,000 partners they removed the surname Sas ("Sas Vasile" became "vasile") and initials ("INSTALCO A.G. SRL", "BO & RA TRANS SRL"). KFT, SARL, s.r.o., SPRL and CMI stay.
+
 ## 19.0.1.0.0 (2026-10-23)
 
 - Add: shared normalization and fuzzy matching of partners (name, VAT, phone, email), and
