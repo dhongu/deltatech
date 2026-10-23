@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="deltatech_task_progress.TaskProgressDialog">
+        <Dialog title="props.title" size="'md'" footer="false">
+            <t t-set-slot="header" t-slot-scope="scope">
+                <h4 class="modal-title text-break flex-grow-1" t-esc="props.title" />
+                <button
+                    t-if="!state.running"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    tabindex="-1"
+                    t-on-click="() => scope.close()"
+                />
+            </t>
+            <div class="p-3">
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-bold o_task_progress_state">
+                            <t t-if="state.finishing" t-esc="labels.finishing" />
+                            <t t-elif="state.running" t-esc="labels.running" />
+                            <t t-elif="state.failed.length">Not finished</t>
+                            <t t-elif="state.stopping">Stopped</t>
+                            <t t-else="">Done</t>
+                        </span>
+                        <span class="text-muted small">
+                            <t t-esc="progressPercent" />%
+                            <t t-if="etaLabel and state.running"> — <t t-esc="etaLabel" /></t>
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 20px;">
+                        <div
+                            class="progress-bar"
+                            t-att-class="state.running ? 'progress-bar-striped progress-bar-animated' : (state.failed.length or state.stopping ? 'bg-warning' : 'bg-success')"
+                            role="progressbar"
+                            t-att-style="'width: ' + progressPercent + '%'"
+                            t-att-aria-valuenow="progressPercent"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                        />
+                    </div>
+                    <div class="mt-1 text-muted small o_task_progress_counter">
+                        <t t-esc="counterLabel" />
+                    </div>
+                </div>
+
+                <t t-if="state.errors.length">
+                    <div class="alert alert-warning mb-2">
+                        <i class="fa fa-exclamation-triangle me-2" />
+                        <t t-esc="errorsLabel" />
+                    </div>
+                    <div class="border rounded p-2 bg-light mb-3" style="max-height: 180px; overflow-y: auto;">
+                        <t t-foreach="state.errors" t-as="err" t-key="err_index">
+                            <div class="text-danger small o_task_progress_error" t-esc="err" />
+                        </t>
+                    </div>
+                </t>
+
+                <div class="text-end d-flex justify-content-end gap-2">
+                    <button
+                        t-if="state.running"
+                        class="btn btn-secondary o_task_progress_stop"
+                        t-att-disabled="state.stopping"
+                        t-on-click="stop"
+                        t-esc="labels.stop"
+                    />
+                    <t t-else="">
+                        <button
+                            t-if="state.pending.length"
+                            class="btn btn-primary o_task_progress_retry"
+                            t-on-click="retry"
+                            t-esc="labels.retry"
+                        />
+                        <button class="btn btn-secondary" t-on-click="() => props.close()">Close</button>
+                    </t>
+                </div>
+            </div>
+        </Dialog>
+    </t>
+</templates>
