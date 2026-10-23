@@ -127,6 +127,12 @@ returns is opened.
 Changelog
 =========
 
+19.0.1.1.1 (2026-10-23)
+-----------------------
+
+- The counter is hidden while ``init`` prepares the items: it showed "0
+  / 0".
+
 19.0.1.1.0 (2026-10-23)
 -----------------------
 

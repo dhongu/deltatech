@@ -35,7 +35,7 @@
                             aria-valuemax="100"
                         />
                     </div>
-                    <div class="mt-1 text-muted small o_task_progress_counter">
+                    <div t-if="!state.preparing" class="mt-1 text-muted small o_task_progress_counter">
                         <t t-esc="counterLabel" />
                     </div>
                 </div>
