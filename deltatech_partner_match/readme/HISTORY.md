@@ -1,3 +1,7 @@
+## 19.0.1.1.0 (2026-10-23)
+
+- The county counts in the score of `_find_similar_partners`: when both sides name a county (`state_id`, or a code or name in `county` / `state_code`, as the marketplace connectors send it) and it is not the same, the street and the city score 0. A village name is shared by up to 23 counties ("Satu Nou", "Poiana", "Dumbrava": 1,411 of the 10,565 Romanian locality names), so the same street and village in another county is another address. The score can only go down: a county that matches no state, or a missing one, leaves it as before.
+
 ## 19.0.1.0.2 (2026-10-23)
 
 - `normalize_text` and `jaccard_similarity` (street and city in `_find_similar_partners`) split the words on dots again, as the marketplace import did: "Str.Memorandumului 10" and "Str. Memorandumului 10" scored 0.25 on the street instead of 1. The name, street and city keys of the duplicate finder are unchanged.
