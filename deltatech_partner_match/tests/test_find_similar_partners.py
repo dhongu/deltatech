@@ -70,3 +70,16 @@ class TestFindSimilarPartners(TransactionCase):
     def test_no_strong_key(self):
         self.assertEqual(self._find({"name": "Ion Pmatchescu"}), [], "a name alone selects nobody")
         self.assertEqual(self._find({"name": "Ion Pmatchescu", "phone": "0000000"}), [])
+
+    def test_county(self):
+        """A village name exists in several counties: in another county the address does not count."""
+        bacau, iasi = self.env.ref("base.RO_BC"), self.env.ref("base.RO_IS")
+        self.ion.write({"state_id": bacau.id, "street": "Str. Principala 1", "city": "Satu Nou"})
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456", "street": "Str. Principala 1", "city": "Satu Nou"}
+        same, other, unknown = (self._find(dict(values, county=county))[0] for county in ("BC", "Iași", "Necunoscut"))
+        self.assertEqual(same["partner"], self.ion)
+        self.assertAlmostEqual(same["score"], 1.0)
+        self.assertAlmostEqual(other["score"], 0.6, msg="name only: street and city score 0")
+        self.assertAlmostEqual(unknown["score"], 1.0, msg="an unknown county never lowers the score")
+        self.assertAlmostEqual(self._find(dict(values, state_id=iasi.id))[0]["score"], 0.6)
+        self.assertAlmostEqual(self._find(values)[0]["score"], 1.0, msg="no county given")

@@ -59,17 +59,37 @@ class ResPartner(models.Model):
         return conditions
 
     @api.model
+    def _partner_match_states(self, values):
+        """The counties (``res.country.state``) named in ``values``: ``state_id``, or the code or
+        the name sent as ``county`` / ``state_code`` ("BC", "Bacău"). Empty when none is given or
+        the text matches no county, so an unknown value never lowers a score."""
+        states = self.env["res.country.state"]
+        if values.get("state_id"):
+            return states.browse(values["state_id"]).exists()
+        county = (values.get("county") or values.get("state_code") or "").strip()
+        if not county:
+            return states
+        domain = ["|", ("code", "=ilike", county), ("name", "=ilike", county)]
+        if values.get("country_code"):
+            domain += [("country_id.code", "=ilike", values["country_code"])]
+        return states.search(domain)
+
+    @api.model
     def _partner_match_score(self, partner, values):
         """``(score, name_score)`` of ``partner`` against ``values``, both 0..1.
 
         The name is compared with :func:`~.partner_match.name_similarity`; street and city weigh
-        in only when both sides have them.
+        in only when both sides have them. When both sides name a county and it is not the same,
+        street and city score 0: a village name exists in up to 23 counties ("Satu Nou"), and
+        the same street there is another address.
         """
         scores = {"name": pm.name_similarity(partner.name, values.get("name"))}
+        states = self._partner_match_states(values) if partner.state_id else None
+        other_county = bool(states) and partner.state_id not in states
         for field in ("street", "city"):
             stored, given = pm.normalize_text(partner[field]), pm.normalize_text(values.get(field))
             if stored and given:
-                scores[field] = pm.jaccard_similarity(stored, given)
+                scores[field] = 0.0 if other_county else pm.jaccard_similarity(stored, given)
         total_weight = sum(MATCH_WEIGHTS[field] for field in scores)
         score = sum(MATCH_WEIGHTS[field] * value for field, value in scores.items()) / total_weight
         return score, scores["name"]
@@ -91,7 +111,8 @@ class ResPartner(models.Model):
         """Partners that share a strong key with ``values``, scored, best first.
 
         ``values``: ``name``, ``vat``, ``email``, ``phone``, ``country_code`` (of the phone,
-        Romania by default), ``street``, ``city``. Candidates are selected only on the keys in
+        Romania by default), ``street``, ``city``, and the county as ``state_id`` or as a code or
+        name in ``county`` / ``state_code``. Candidates are selected only on the keys in
         ``keys`` (VAT, email, phone): a name alone matches every "Ion Popescu" in the database.
         ``domain`` narrows them (company, ``is_company``, ...).
 

@@ -59,7 +59,9 @@ plain Python):
 - ``res.partner._find_similar_partners(values, domain, keys, limit)``
   selects the partners that share the VAT number, the email or the phone
   of ``values`` (never a name alone), and returns them with a score and
-  the keys they share. Whether one is reused is decided by the calling
+  the keys they share. When both sides name a different county, the
+  street and the city do not count: the same village name exists in
+  several counties. Whether one is reused is decided by the calling
   module.
 
 ``phonenumbers``, ``rapidfuzz`` and ``unidecode`` are optional: the
@@ -95,6 +97,19 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 
 Changelog
 =========
+
+19.0.1.1.0 (2026-10-23)
+-----------------------
+
+- The county counts in the score of ``_find_similar_partners``: when
+  both sides name a county (``state_id``, or a code or name in
+  ``county`` / ``state_code``, as the marketplace connectors send it)
+  and it is not the same, the street and the city score 0. A village
+  name is shared by up to 23 counties ("Satu Nou", "Poiana", "Dumbrava":
+  1,411 of the 10,565 Romanian locality names), so the same street and
+  village in another county is another address. The score can only go
+  down: a county that matches no state, or a missing one, leaves it as
+  before.
 
 19.0.1.0.2 (2026-10-23)
 -----------------------
