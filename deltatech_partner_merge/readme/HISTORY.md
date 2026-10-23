@@ -1,3 +1,11 @@
+## 19.0.1.2.0 (2026-10-23)
+
+- *Find Duplicates* uses the shared rules of `deltatech_partner_match` (new dependency, installed automatically: functions only, no data or behavior of its own) instead of its own copy, so a partner is recognized here the same way as in the marketplace import and the trial balance import. Checked on a database of 551,000 partners against the previous rules:
+  - phone and email keys: identical;
+  - VAT: the leading zeros are dropped (`RO0733329058` = `733329058`); 42 codes change, all phone numbers typed in the VAT field, and the number of VAT groups stays the same;
+  - names: the legal forms KFT, SARL, s.r.o., SPRL and CMI are dropped too (6,294 names), so "Vario KFT" and "Vario" get the same key;
+  - a phone that is not recognized as a valid number is still compared on its last nine digits, as before.
+
 ## 19.0.1.1.0 (2026-10-23)
 
 - Add: *Find Duplicates*, a scan for partners that are probably duplicated, on the VAT number, the phone (E.164), the email, and similar names at the same street or postcode. Results are kept as groups with a score and a reason; each group is merged with the standard Odoo merge wizard after you confirm it, or marked as not duplicates so later scans skip it. Partners of internal users and of the companies are left out. The name comparison uses `rapidfuzz` if it is installed, otherwise `difflib` on limited blocks; no new required dependency.

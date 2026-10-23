@@ -10,7 +10,7 @@ from odoo import Command, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import SQL
 
-from . import duplicate_tools as T
+from odoo.addons.deltatech_partner_match.tools import partner_match as T
 
 _logger = logging.getLogger(__name__)
 
@@ -178,7 +178,10 @@ class PartnerDuplicateScan(models.Model):
                 (
                     "phone",
                     self.env._("same phone"),
-                    lambda r: T.normalize_phone(r.phone, r.country or default_country),
+                    # E.164 when the number is recognized, else its last digits: a number the
+                    # rules refuse still meets the same number written otherwise
+                    lambda r: T.normalize_phone(r.phone, r.country or default_country)
+                    or T.phone_key(r.phone, r.country or default_country),
                     T.phone_key,
                 )
             )
@@ -190,7 +193,7 @@ class PartnerDuplicateScan(models.Model):
                 if value:
                     bucket = (row.company_id, key_of(value))
                     buckets[bucket].append(row.id)
-                    shown.setdefault(bucket, value.lstrip("~"))
+                    shown.setdefault(bucket, value)
             for bucket, ids in buckets.items():
                 if len(ids) < 2:
                     continue
