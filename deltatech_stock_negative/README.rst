@@ -19,39 +19,150 @@ No Negative Stock
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_negative/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-35%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_negative
-    :alt: 32 automated tests · 96% code coverage
+    :alt: 35 automated tests · 87% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+By default, Odoo lets a transfer be validated even when the stock is not
+there, and the quantity on hand quietly goes below zero. The error
+surfaces weeks later, at the next inventory count. This module stops the
+move at validation instead, and tells the user what is actually left in
+the location.
 
-  - No negative stock for internal location
-  - Allows negative stock at certain locations
+- **Blocks negative stock at validation**: A transfer that would take an
+  internal location below zero cannot be validated.
+- **Clear message**: The user sees the product, the location and the
+  quantity that would remain, and is pointed to adjust the quantities or
+  correct the stock.
+- **Exceptions per location**: Allow negative stock on the locations
+  where you need it, such as a production floor or a consignment area.
+- **Checked on the physical stock**: The quantity on hand in the
+  location, per lot, package and owner, not the forecast.
+- **Safe for multi-line transfers**: Several lines of the same product
+  in one validation are added up, so they cannot overdraw the stock
+  together.
+- **Company setting**: Turn the rule on or off separately for each
+  company.
 
 **Table of contents**
 
 .. contents::
    :local:
 
-Usage
-=====
+Configuration
+=============
 
-- Inventory -> Configuration -> Settings
-- Traceability -> Negative Stock
+1. Go to *Inventory > Configuration > Settings*, section *Traceability*,
+   and enable **No negative stock**. The setting applies to the current
+   company.
 
 |image1|
 
-- Inventory -> Configuration -> Location
+2. Optionally, open *Inventory > Configuration > Locations* and, on the
+   locations where stock may go below zero, check **Allow Negative
+   Stock**.
+
+3. For products tracked by serial number, **Check Serial No.** (enabled
+   by default) makes the check per serial number. Uncheck it on a
+   location to check the product as a whole there.
 
 |image2|
 
 .. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/settings.png
 .. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/settings_location.png
 
+Usage
+=====
+
+Work with transfers as usual. When a user validates a transfer, the
+module checks every line that takes stock out of an internal location:
+
+- if enough stock is left, the transfer is validated normally;
+- if the location would go below zero, the validation stops with a
+  message such as *"You have chosen to avoid negative stock. -2 pieces
+  of Desk Combination are remaining in location Stock."*
+
+The user can then lower the quantities, pick from another location or
+lot, or correct the stock with an inventory adjustment first. A stock
+that is already wrong can always be brought back with an inventory
+adjustment.
+
 Changelog
 =========
+
+19.0.2.1.1
+----------
+
+- Deliveries containing consumable products without stock tracking
+  (*Track Inventory* off) can be validated again when *No negative
+  stock* is enabled. Odoo keeps no stock for such products, so the check
+  compared them against zero and refused the whole transfer; it now
+  applies only to products whose stock is tracked.
+
+19.0.2.1.0
+----------
+
+- A Point of Sale receipt no longer leaves its goods on the stock. Point
+  of Sale validates its own delivery in the background and swallows any
+  ``UserError`` that validation raises, so the refusal issued here when
+  a location would go below zero never reached the cashier: the receipt
+  was closed, the customer walked out with the goods, and the transfer
+  stayed unvalidated with the stock never decreased - silently, with
+  nothing to act on but a stray open transfer nobody was looking for.
+  Refusing the move does not keep the goods on the shelf; it only stops
+  the system from recording what already happened at the register.
+- New company setting *Allow negative stock from Point of Sale*
+  (``no_negative_stock_pos_bypass``, on by default, shown only when *No
+  negative stock* is enabled): a Point of Sale delivery is validated
+  even when it takes the location below zero. Every bypass is logged as
+  a warning naming the transfer, the quantity, the product and the
+  location, and the deviation stays visible as negative stock to be
+  corrected by an inventory adjustment. Turn the setting off to apply
+  the rule to Point of Sale as well, accepting that such receipts will
+  not decrease the stock.
+- The check also honours a ``skip_negative_stock_check`` context key,
+  for callers that have to force a validation knowingly.
+
+19.0.2.0.12 (2026-10-01)
+------------------------
+
+- Screenshots on the Apps Store page load again: the description pointed
+  to ``static/description/…``, which the store does not resolve.
+- Description rewritten for the Apps Store: what the module does and
+  why, with separate Configuration and Usage sections. Clearer summary;
+  category moved to Inventory.
+
+19.0.2.0.11 (2026-10-01)
+------------------------
+
+- **Serialized stock is no longer blocked when Check Serial No. is
+  off.** On a location with the serial check disabled, the
+  no-negative-stock check cleared the line's serial number and then
+  searched explicitly for quants *without* a serial, so it excluded the
+  very quants holding the stock and blocked a legitimate transfer,
+  although reservation had gone through. The lot filter is now left out
+  entirely in that case: the physical quantity is summed across all
+  serial numbers of the location (product, package and owner filters
+  kept), and every line of the product consumes from that same
+  aggregate. With the serial check on (the default), the check stays per
+  serial number. (STOCK-001)
+- Romanian translations brought in line with the current strings: the
+  blocking message was shown in English (its translation matched an
+  older wording), the setting read "Fară stoc negativ" and Check Serial
+  No. had no translation. A post-migration reloads them over the old
+  ones on existing databases.
+- The help of Check Serial No. described a reservation check the module
+  does not do; it now says what the option changes.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) with screenshots
+  generated by ``tests/test_screenshots.py``, covering every case of the
+  check.
+
+19.0.2.0.10 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.2.0.9 (2026-09-23)
 -----------------------

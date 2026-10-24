@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 4 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:72%;background-color:#57B952;"></div>
       </div>
@@ -57,6 +57,10 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.5 (2026-10-17)</h2>
+<ul>
+<li>Fix PRODUCTTRANSFER-002: the wizard now reserves the source product explicitly before validation, so it also works with operation types set to manual or by-date reservation, instead of failing with a zero-quantity transfer error.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.4 (2026-10-09)</h2>
 <ul>
 <li>Fix PRODUCTTRANSFER-001: the wizard validates the source leg first and returns the native backorder confirmation when only part of the quantity is available, instead of completing the replacement alone. The replacement leg is validated once the source leg is done, for the quantity actually taken out, and follows the same backorder decision (native <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_create_backorder</code>).</li>
@@ -142,7 +146,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Reordering Limit</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Reordering Limits</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory</span>
             </span>
           </div>

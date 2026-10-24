@@ -16,9 +16,9 @@ Product Reordering Limits
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_reordering_limit
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-15%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-17%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_reordering_limit
-    :alt: 15 automated tests · 100% code coverage
+    :alt: 17 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -74,6 +74,33 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.6 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Reordering Limits* (was *Product
+  Reordering Limit*). The technical name
+  ``deltatech_product_reordering_limit`` does not change.
+
+19.0.1.0.5
+----------
+
+- Fix: the "Below Minimum" filter counted stock from all companies,
+  warehouses and locations, so a product could show as below minimum on
+  its form but be missing from the filter. The filter now uses the same
+  stock quantity as the product (allowed companies and the selected
+  warehouse/location).
+
+19.0.1.0.4
+----------
+
+- Add unit tests covering the reordering limit fields, the below-minimum
+  compute and search, and the XLSX reordering report wizard.
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.2 (2026-08-14)
 -----------------------

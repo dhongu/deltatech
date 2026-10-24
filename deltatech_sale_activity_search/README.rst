@@ -16,8 +16,11 @@ Sale Order activity type search
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_activity_search
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_activity_search
+    :alt: 4 automated tests · 88% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Sale Order Activity Search Extension
 ====================================
@@ -68,6 +71,14 @@ Usage
 
 Changelog
 =========
+
+19.0.0.0.2 (2026-10-17)
+-----------------------
+
+- Editing several activities at once no longer fails with "Expected
+  singleton".
+- Moving an activity to another sale order or another document also
+  refreshes the activity types shown on the order it left.
 
 19.0.0.0.1 (2026-09-29)
 -----------------------

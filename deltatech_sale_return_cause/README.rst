@@ -10,9 +10,9 @@ Sale Return Cause
    !! source digest: sha256:376cf43b30946efc4f70adee9d2c23fbd35b76f713df9a230f082d22018e9b26
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_return_cause
     :alt: dhongu/deltatech
@@ -56,6 +56,35 @@ Features
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.0.0.12 (2026-10-16)
+------------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.0.11 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.10 (2026-10-01)
+------------------------
+
+- Setting the return cause on several orders at once no longer fails
+  with "Expected singleton": orders that already have a return cause
+  date keep it, only the others get today's date, and a date given
+  explicitly is kept.
+- Recalculating the return amount on several orders uses the credit
+  notes of each order.
+
+19.0.0.0.9 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

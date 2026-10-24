@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 20 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 22 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:91%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:85%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">91% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">85% code coverage</div>
     </div>
   </div>
 </div>
@@ -51,6 +51,11 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.4 (2026-10-17)</h2>
+<ul>
+<li>The validation journal records each transfer with its own quantity: when several transfers were validated together, every journal received the quantity of the last one of the batch (and, in mixed batches, the entries/exits/internal moves of the others).</li>
+<li>A validation is recorded only when the transfer is actually done. A validation stopped at the backorder wizard, then closed or abandoned, no longer counts as validated and no longer reports handled quantities; it is recorded when the wizard completes the transfer.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-10-03)</h2>
 <ul>
 <li>PICKACT-001 (security): the picking activity journal (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking.activity.record</code>) had no company rule and every stock user had full create/write/delete rights on it, so the journal of other companies could be read, and entries could be edited, deleted or forged (including the user they are attributed to). The journal now stores the company of its picking (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_id</code>) with a multi-company record rule, and stock users only read it: the entries are written by the logging itself (as superuser), and only system administrators can still change or delete them by hand. The automatic cleanup (Data Recycle) is unaffected.</li>
@@ -158,7 +163,7 @@ and about 1.7 GB in the database with only two months of activity kept.</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Reordering Limit</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Reordering Limits</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory</span>
             </span>
           </div>

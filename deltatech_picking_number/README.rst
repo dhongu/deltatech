@@ -14,20 +14,72 @@ Transfer Numbering on Demand
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_picking_number
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_number
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_picking_number
+    :alt: 4 automated tests · 90% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
-- Features:
+Give transfers a second, official number only when you decide to: an
+operation type can carry an extra "request" sequence, and the **Allocate
+number** button on the transfer takes the next number from it. Drafts,
+cancelled and test transfers no longer consume numbers from the official
+series, so the numbered documents stay consecutive and without gaps.
 
-  - A second sequence can be linked to the operation type
-  - A number from the second sequence can be requested
+- **Second sequence per operation type**: the *Sequence on Request*
+  field on the operation type, next to the standard reference sequence,
+  sets the series used for allocated numbers.
+- **Number on demand**: the **Allocate number** button on the transfer
+  form takes the next number from that sequence and sets it as the
+  transfer reference; the number is also kept in the *Request Number*
+  field of the transfer.
+- **Allocated only once**: a transfer that already has a request number,
+  or whose operation type has no request sequence, is left unchanged.
+- **Several transfers at once**: the action works on a set of transfers
+  and each one gets its own number.
+- **Protected numbering**: a transfer with an allocated number cannot be
+  deleted, so no number disappears from the series.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Go to *Inventory > Configuration > Operation Types*, open an
+   operation type and set *Sequence on Request* to the sequence of the
+   official series.
+2. Create a transfer with that operation type; it receives the usual
+   draft reference.
+3. When the document has to be numbered, click **Allocate number**: the
+   transfer gets the next number of the request sequence as its
+   reference.
+4. A transfer with an allocated number can no longer be deleted; cancel
+   it instead.
+
+Changelog
+=========
+
+19.0.1.0.1 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Transfer Numbering on Demand* (was *Picking
+  Number*). The technical name ``deltatech_picking_number`` does not
+  change.
+
+19.0.1.0.0 (2026-10-17)
+-----------------------
+
+- Migration to 19.0.
+- "Allocate number" works on a set of transfers: each transfer without a
+  request number gets its own number from the operation type's request
+  sequence (on 18.0 the action assumed a single transfer).
+- The "document has been numbered" error uses ``self.env._`` (the
+  translation is unchanged).
 
 Bug Tracker
 ===========
@@ -57,6 +109,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_picking_number>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_number>`_ project on GitHub.
 
 You are welcome to contribute.

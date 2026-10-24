@@ -19,8 +19,11 @@ Notification Sound
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_notification_sound
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_notification_sound
+    :alt: 2 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_tests|
 
 Overview: Adds audible feedback to Odoo backend notifications so
 operators are alerted instantly without watching the screen.
@@ -97,6 +100,15 @@ Credits:
 
 Changelog
 =========
+
+19.0.2.0.3 (2026-10-16)
+-----------------------
+
+- Fixed: disabling the notification sounds in the user preferences had
+  no effect. The preference was read from ``session.user_context``,
+  which ``@web/core/user`` deletes; it is now read from
+  ``user.context``. Tests check the flag in the session info (on by
+  default, off when disabled).
 
 19.0.2.0.2 (2026-10-09)
 -----------------------

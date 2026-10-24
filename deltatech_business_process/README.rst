@@ -19,9 +19,9 @@ Business Process Management
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_business_process/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-136%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-145%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_business_process
-    :alt: 136 automated tests · 92% code coverage
+    :alt: 145 automated tests · 92% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -178,8 +178,493 @@ License
 .. contents::
    :local:
 
+Configuration
+=============
+
+Access rights
+-------------
+
+Go to *Settings → Users* and, for each user, set the **Business
+process** access level:
+
+- **Process admin**: creates projects and processes, configures areas
+  and the library.
+- **Process responsible**: writes steps, developments and tests, and
+  moves processes through their lifecycle.
+- **End user**: runs acceptance tests, records results on steps and
+  opens issues.
+
+The groups are inherited: Process admin includes Process responsible,
+which includes End user.
+
+Master data
+-----------
+
+Go to *Business process → Configuration*:
+
+- **Area**: create the areas of the project (Sales, Purchasing,
+  Inventory, Accounting…). An area can have *Process groups* and a
+  **Responsible**, who is automatically set as *Implementation
+  responsible* on new processes in that area.
+- **Implementation Stage**: three stages exist after installation.
+  Rename them to match your project plan.
+- **Development Type**, **Business Role**, **Transactions**: optional
+  lists, in the same menu.
+
+Process library (optional)
+--------------------------
+
+Go to *Business process → Configuration → Process Library*:
+
+- **Discover processes from all modules** (on by default): any installed
+  module with a ``processes/`` folder becomes a source.
+- **Limit to modules**: comma-separated list; when filled in, only these
+  modules are sources.
+- **Git repositories**: comma-separated URLs, then **Sync now**.
+- **Private repository credentials**: user name and token for private
+  HTTPS repositories.
+
+|Process library settings|
+
+.. |Process library settings| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_library_settings.png
+
+Usage
+=====
+
+Before you start, set up access rights and master data as described in
+*Configuration*.
+
+The screenshots below were taken on demo data (project *Odoo Mobila
+Nord*) with a Romanian user interface.
+
+Project lifecycle
+-----------------
+
+**Step 1 — Create the project**
+
+Go to *Business process → Business process → Projects* and click
+**New**. Fill in the name, customer, project manager, start date and
+go-live date. The code (``P00001``) is assigned automatically. Move the
+project through its stages (*Preparation → Exploration → Realization →
+Launch → In operation → Closed*) by clicking the status bar.
+
+|Projects list|
+
+The buttons at the top right open the project's processes, steps,
+developments, documents and issues. **Get Duration** recalculates the
+*Total project duration*. Only a Process admin can change the project.
+
+|Project form|
+
+**Step 2 — Add processes and their steps**
+
+Go to *Business process → Business process → Processes* and click
+**New** (or use the *Processes* button on the project, which fills in
+the project for you). *Name*, *Project* and *Area* are required. You can
+type a code (for example VZ02); otherwise it is assigned automatically.
+
+|Processes list, grouped by area|
+
+On the **Process steps** tab add the steps in order, each with a *Step
+responsible*. Steps can be edited only while the process is in *Draft*
+or *Design*.
+
+|Process and its steps|
+
+On the **Duration** tab enter the effort estimates (configuration,
+training, data migration, testing) and the design (BBP) period. The
+process total is the sum of the four estimates.
+
+|Process duration|
+
+On the **Responsible** tab choose the implementation responsible,
+support, customer responsible and who approved the process. The
+**Visibility** block (Process admins only) restricts the process to
+selected users. Leave it empty to make the process visible to everyone.
+
+|Process responsibles and visibility|
+
+**Step 3 — Start the design**
+
+On the process, click **Start Design**. The process moves to *Design*,
+the BBP start date is set (if empty), and the responsible, the customer
+and the step responsibles become followers.
+
+When design is done, the status button **Start Test** (top left, in the
+header) moves the process to *Test*, sets the BBP end date and the
+completion to 100%. Do not confuse it with the **Start Test** smart
+button (top right, with a counter), which creates an acceptance test
+(Step 4).
+
+The status buttons are available to *Process responsible* and *Process
+admin*. End users do not see them.
+
+**Step 4 — Start the tests**
+
+In the processes list, select one or more processes and open the
+**Actions** (gear) menu:
+
+- **Start Internal Test**: the consultant's own test, with the
+  implementation responsible as tester.
+- **Start Integration Test**.
+- **Start User Acceptance Test**: the customer's test.
+
+|Actions menu in the processes list|
+
+Each test is created with all the steps of the process. For several
+selected processes, one test is created for each. The same menu also
+offers **Import from library** (see Step 9) and the resets of the
+acceptance / internal test status on the process (existing tests are
+kept).
+
+The **Start Test** smart button on the process form always creates a new
+acceptance test (with all the steps of the process) and opens it; the
+counter shows how many acceptance tests the process has. To see the
+existing ones, use the **Tests** smart button.
+
+**Step 5 — Run the acceptance test**
+
+Go to *Business process → Business process → Process Tests* and open the
+test. Click **Run**: the test starts, the start date is set and you
+become the tester if none was chosen.
+
+For each step, the key user fills in *Data used*, *Data obtained* and
+the **Result** (*Passed* / *Failed*). Passed rows are green, failed rows
+are red, and *Test progress* shows the percentage of passed steps.
+
+On a failed step, a smart button shows the **step issues**: it opens
+their list and lets you create a new issue with project, process, area
+and responsible already filled in.
+
+|Acceptance test with a failed step|
+
+Click **Done** to close the test. On the process, the status of that
+test becomes *Done*. When no unfinished test remains, the process moves
+to **Done** by itself. Finishing the internal test does not change the
+process state, and a process already in *Done*, *Production* or
+*Abandoned* keeps its state.
+
+Use **Wait** to put the test on hold (for example until test data
+arrives from the customer) and **Resume** to continue. **Done** marks as
+*Passed* only the steps still in *Draft*; failed steps stay failed.
+Close the test after its issues are solved.
+
+**Step 6 — Track issues**
+
+Go to *Business process → Business process → Issues*. An issue has a
+**Category** (Defect, Open issue, Improvement, Change request,
+Operation, Other) and a **Severity** (Critical, Major, Minor, Cosmetic).
+Move it through its workflow:
+
++-----------------+---------------------+------------------------------+
+| Button          | New state           | Notes                        |
++=================+=====================+==============================+
+| **Send**        | Open                | marks the test step as       |
+|                 |                     | *Failed*                     |
++-----------------+---------------------+------------------------------+
+| **In progress** | Assigned            | *Estimated date* becomes     |
+|                 |                     | required                     |
++-----------------+---------------------+------------------------------+
+| **Solved**      | Solved              | requires *Solution* and      |
+|                 |                     | *Solution date*              |
++-----------------+---------------------+------------------------------+
+| **In test**     | In customer testing | the customer rechecks        |
++-----------------+---------------------+------------------------------+
+| **Done**        | Closed              | requires *Closing date*;     |
+|                 |                     | sets the test step to        |
+|                 |                     | *Passed* if it has no other  |
+|                 |                     | open issue                   |
++-----------------+---------------------+------------------------------+
+| **Reopen**      | Reopened            | from *In customer testing*   |
++-----------------+---------------------+------------------------------+
+| **Set Draft**   | Draft               | Process admins only          |
++-----------------+---------------------+------------------------------+
+
+When an issue is created, the project manager receives an "Issue
+Submitted" email. When a development is approved, the "Development
+Approved" email is sent to the project manager.
+
+|Open issue on the failed step|
+
+**Step 7 — Go live**
+
+The process reaches **Done** either by itself when its last test is
+closed (Step 5), or manually with **End Testing**. The latter refuses to
+proceed while the process has unfinished tests and names them in the
+message. Open issues are not checked, so follow them in the test.
+
+When the process is *Done*, click **Go live** to move it to
+*Production*. **Reset to Draft** (from any state except *Draft*) and
+**Abandon** are available for corrections.
+
+**Step 8 — Reports**
+
+Go to *Business process → Reports*:
+
+- **Business Processes**: process steps by project, area and state. The
+  table counts steps, not processes.
+
+|Processes report|
+
+- **Business Tests**: test steps by area and result (passed / failed /
+  draft).
+
+|Tests report|
+
+- **Issues**: issues by area and severity.
+
+|Issues report|
+
+From the project, **Actions → Download Excel Report** downloads
+``Project_Report.xlsx``: processes by area, with configuration,
+training, testing and migration durations and the total. Processes with
+a total duration of 0 are shown in red. Headers use the language of the
+user who downloads the report.
+
+|Project Excel export|
+
+**Step 9 — Reuse processes: JSON export and import**
+
+- **Export**: in the processes list, select the processes and choose
+  **Actions → Export Business Process**. Pick what to include (state,
+  tests, issues, modules, durations, developments, and on the *Contacts*
+  tab the responsibles), then click **Export** and download the JSON
+  file.
+
+|Export processes to JSON|
+
+- **Import**: on the target project form, choose **Actions → Import from
+  file (JSON)**. Processes already in the project (same code) are
+  updated, without durations; new ones are created. Responsibles are
+  matched by name: a name that does not exist in the target database
+  creates a new contact.
+
+**Step 10 — Import from the process library**
+
+On the project form, choose **Actions → Import from library**. The
+dialog asks whether to import the exported **durations** too (for all
+selected processes, all or nothing). Click **Continue** to list the
+available processes, grouped by area, with their linked modules and
+source.
+
+|Process library|
+
+Tick the processes and click **Import selected**. Each process comes
+with its steps and tests. The process sheet and the consultant sheets of
+the linked modules are attached as PDFs. A process whose code already
+exists in the project is skipped.
+
+Opening the library creates any missing areas, even if you import
+nothing. The total project duration is updated only by **Get Duration**.
+
+.. |Projects list| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_projects_list.png
+.. |Project form| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_project_form.png
+.. |Processes list, grouped by area| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_processes_list.png
+.. |Process and its steps| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_process_steps.png
+.. |Process duration| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_process_duration.png
+.. |Process responsibles and visibility| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_process_responsible.png
+.. |Actions menu in the processes list| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_start_tests_actions.png
+.. |Acceptance test with a failed step| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_acceptance_test.png
+.. |Open issue on the failed step| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_issue.png
+.. |Processes report| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_report_processes.png
+.. |Tests report| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_report_tests.png
+.. |Issues report| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_report_issues.png
+.. |Project Excel export| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_report_excel.png
+.. |Export processes to JSON| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_export_json.png
+.. |Process library| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_process_library.png
+
 Changelog
 =========
+
+19.0.1.9.19 (2026-10-22)
+------------------------
+
+- Listed on Odoo Apps as *Business Process Management* (was *Business
+  process*). The technical name ``deltatech_business_process`` does not
+  change.
+
+19.0.1.9.18 (2026-10-16)
+------------------------
+
+- Approving several developments at once no longer fails; each approved
+  development of a project with a project manager gets its own approval
+  note and notification mail.
+- Git sources of the process library with the same repository name
+  (other owner or host) keep separate checkouts and both appear in the
+  library. Existing checkouts are cloned again once, in a folder named
+  after the full URL.
+- Re-importing a process exported with durations updates the durations
+  of the existing process; the total duration is recomputed when its
+  components change.
+- The "Discover processes from all modules" setting is saved and read
+  back correctly, both enabled and disabled.
+- The "Rejected" filter on developments shows the developments whose
+  approval is rejected.
+- Open Issues get their own code (prefix OI); existing Open Issues
+  without a code receive one on update.
+- "Abandon" is refused for non-administrators and for processes in
+  production or already abandoned, also when called directly.
+- The Open Issue submission mail is translated into Romanian.
+- All test classes run post-install.
+
+19.0.1.9.17 (2026-10-16)
+------------------------
+
+- The "Start Internal Test" and "Start Integration Test" actions run
+  with the user's own access rights, like the acceptance test;
+  regression test for the test-start access paths.
+
+19.0.1.9.16 (2026-10-16)
+------------------------
+
+- Module icon restored from 18.0 (flat checklist in the Odoo palette,
+  transparent background); Apps Store main image regenerated with it.
+
+19.0.1.9.15 (2026-10-15)
+------------------------
+
+- The **Start Test** smart button on the process form now always creates
+  a new user acceptance test and opens it. Before, it opened the
+  existing acceptance test (or the list of them), creating one only when
+  the process had none.
+
+19.0.1.9.14 (2026-10-15)
+------------------------
+
+- Apps Store main image regenerated with the redrawn module icon.
+
+19.0.1.9.13 (2026-10-15)
+------------------------
+
+- Module icon redrawn in the Terrabit house style: clean vector, 100x100
+  viewBox, no embedded image.
+
+19.0.1.9.12 (2026-10-12)
+------------------------
+
+- JSON export/import: the process *Description* lost its formatting
+  (lists, bold, paragraphs) on import, because the import stripped every
+  HTML tag. The HTML written by the export is now kept (the Html field
+  still sanitizes it), and a plain-text description (e.g. from a
+  hand-written ``process.json``) is converted to HTML so its line breaks
+  are preserved.
+
+19.0.1.9.11 (2026-10-10)
+------------------------
+
+- Usage guide (``USAGE.md``) rebuilt from the consultant sheet, with
+  numbered steps and screenshots; new ``CONFIGURE.md``.
+
+19.0.1.9.10 (2026-10-09)
+------------------------
+
+- BUSINESS-001: in the *Business process test report*, two test runs of
+  the same step showed up as the same row, because the row id was the
+  step id. Each row now has the id of its step test, so every run keeps
+  its own result, dates and data in the list, the form and the pivot.
+
+19.0.1.9.9 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.9.8 (2026-10-06)
+-----------------------
+
+- In the many2one dropdowns, projects, processes, steps, developments,
+  issues, migrations and transactions now show the code in a second,
+  muted column (a step also shows the code of its process, because step
+  codes repeat between imported processes). The display name elsewhere
+  (``[code] name``) is unchanged. Typing the code in the dropdown now
+  finds projects, steps, developments, issues, migrations and
+  transactions. A process is now found by its name as well as by its
+  code: its own search looked only at the code, so typing the process
+  name in the dropdown found nothing.
+
+19.0.1.9.7 (2026-10-06)
+-----------------------
+
+- Creating several business projects in one call (``create`` with a list
+  of values) created only the last one, because the values of the last
+  iteration were passed to ``super().create`` instead of the whole list.
+  All projects are now created, each with its own sequence code.
+
+19.0.1.9.6 (2026-10-03)
+-----------------------
+
+- BUSINESS-011: creating an *Open Issue* failed with "Record does not
+  exist or has been deleted" (MissingError), because the submission mail
+  used the *Issue Submitted* template, bound to *Business Issue*, with
+  the id of the Open Issue; when a Business Issue with the same id
+  existed, the creation succeeded but the project manager received the
+  mail of that unrelated issue. Open Issues now have their own template
+  (*Open Issue Submitted*), each model uses the template of its own
+  model, and a template bound to another model is never rendered.
+
+19.0.1.9.5 (2026-10-03)
+-----------------------
+
+- BUSINESS-002 (security): the *Business process report*, the *Business
+  process test report*, *Open Issue* and the data migration records
+  (*Migration*, *Migration test*) had no company record rule, so a user
+  restricted to one company (Business Admin included) saw processes,
+  tests, issues and migrations of the other companies. The two SQL
+  reports now expose the process company (``company_id``) and all five
+  models get a global multi-company rule (the migrations through their
+  project company); records of projects without a company stay visible
+  to everybody.
+
+19.0.1.9.4 (2026-10-02)
+-----------------------
+
+- BUSINESS-003 (security): *Start User Acceptance Test* (and the *Start
+  Test* smart button, which calls it) created the test as superuser on
+  any process id passed through RPC, including processes hidden by the
+  company or "Allowed users" rules. The caller must now be a Business
+  Process user and be able to read the processes; the test is still
+  created as superuser and is returned in the caller's environment.
+
+19.0.1.9.3 (2026-09-24)
+-----------------------
+
+- Excel project report: the *Testing duration* and *Data Migration
+  Duration* columns (and their totals) showed each other's values; the
+  column headers are now translatable.
+- Process state buttons (Start Design, Start Test, End Testing, Go live,
+  Reset to Draft) work for the **Process Responsible** group, which has
+  read-only access on processes: the transition is checked against the
+  group and the record rules, then written as superuser. The buttons are
+  hidden from end users.
+- A Process Responsible can create a process in an area that has a
+  responsible: the area responsible is now set before the record is
+  created.
+- *Start Internal Test* on several selected processes creates one test
+  per process, each with its own tester (it used to stop after the first
+  process or fail with "Expected singleton").
+- The **Start Test** smart button opens the existing user acceptance
+  test (or the list, when there are several) and creates one only if the
+  process has none.
+- Marking a test *Done*: only the steps still in draft are set to
+  *passed* (failed steps stay failed), the start date is no longer
+  overwritten, and a process that is already ready, in production or
+  abandoned is not moved back to *Ready*.
+- **End Testing** refuses to close the testing phase while the process
+  still has unfinished tests.
+- A test in the *Waiting* state can be resumed (**Resume**) or finished
+  (**Done**) and the state is shown on the status bar.
+- The open issue counter on test steps drops when an issue is closed.
+- Project form: the status bar shows the *Exploration* and *Closed*
+  states, and long project names are no longer truncated.
+
+19.0.1.9.2 (2026-09-24)
+-----------------------
+
+- Consultant sheet (``readme/FISA_CONSULTANT.md``, in Romanian) with 16
+  screenshots generated by ``tests/test_screenshots.py`` (runs only on
+  request, tag ``fise_screenshots``).
+- Romanian translation completed (all 415 terms) and several wrong terms
+  corrected, e.g. the *Deployment* / *Running* project states and the
+  *Get Duration* button.
 
 19.0.1.9.1 (2026-09-23)
 -----------------------

@@ -10,9 +10,9 @@ Sale Payment
    !! source digest: sha256:7c477c0067998ac27344e5ce556bcb5cb67ac40b7185436e23137995d44775e3
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -22,9 +22,9 @@ Sale Payment
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_payment/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-42%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-42%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_payment
-    :alt: 42 automated tests · 96% code coverage
+    :alt: 42 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -37,8 +37,313 @@ Sale Payment
 .. contents::
    :local:
 
+Configuration
+=============
+
+- Install the module. On install, the payment status is computed for
+  existing orders.
+- Enable the payment providers you use: **Accounting → Configuration →
+  Online Payments → Payment Providers** (e.g. **Bank Transfer**). The
+  **Confirm Payment** window offers only providers that are not
+  disabled.
+- For **electronic** providers (card, online payments), check the
+  **Payment Journal** field in the **Configuration** tab of the
+  provider. On the bank journal, under **Incoming Payments**, set the
+  **Outstanding Receipts** account of the provider's line to an account
+  for amounts in course of settlement (a dedicated analytic account per
+  provider is recommended), so the money not yet settled does not appear
+  as available in the bank.
+- Optionally, in **Sales → Configuration → Settings**, enable automatic
+  invoicing, so an order paid through an **electronic** provider (or
+  confirmed with **Confirm** on **Bank Transfer**) is invoiced
+  automatically.
+- Set the down payment account: **Accounting → Configuration → Settings
+  → Default Accounts → Down Payment Account** (customer advances
+  account), otherwise the down payment invoice line goes to the product
+  income account.
+- In the order list, the **Payment Status** column is visible by
+  default; **Payment Provider** is added from the optional columns
+  selector.
+
+Usage
+=====
+
+Before you start, see *Configuration* to enable the payment providers
+you use.
+
+Scenario: a customer ordered 2 pcs × 500 + VAT (1,210.00 in total) and
+chose to pay by bank transfer. The money has arrived in the bank
+account, and the sales operator confirms the payment on the order.
+
+**Step 1 — Check the order with the payment pending**
+
+Go to **Sales → Orders → Quotations** (or **Orders**) and open the
+order.
+
+Under **Payment Terms** the module adds:
+
+- **Payment** — the amount collected so far (here 0.00) and, next to it,
+  the payment provider (**Bank Transfer**);
+- **Payment Status** — **Pending**: the customer chose bank transfer,
+  but the money has not been confirmed yet.
+
+Colors make it easy to read: green = **Paid**, orange = **Partially paid
+/ Pending / Initiated / Authorized**, red = **Cancelled**, gray =
+**Without payment**.
+
+|Order with the payment pending|
+
+**Step 2 — Open "Confirm Payment"**
+
+On the order form, click the **⚙** icon next to the order number
+(actions menu) → **Confirm Payment**.
+
+|Order actions menu with Confirm Payment|
+
+**Step 3 — Fill in and confirm the payment**
+
+The **Confirm Payment** window opens. When the order has a **pending**
+transaction (our case), the window picks it up: **Transaction**,
+**Provider**, **Payment Method** and **Amount** are prefilled from it.
+Otherwise **Amount** proposes the **remaining amount** (order total
+minus **Payment**) and you choose the provider.
+
+The window never changes an already **confirmed** transaction: on a
+partially paid order it adds a new transaction for the remainder, and on
+a fully paid one it proposes 0 and does nothing. An order with an
+**authorized** card payment is refused: capture or cancel the
+authorization from the payment provider.
+
+Check before confirming:
+
+- **Amount** is the sum actually received (on the bank statement or in
+  cash), not necessarily the order total. A smaller amount leaves the
+  order **Partially paid**;
+- **Provider** is the one through which the money came;
+- **Payment Date** is the date from the statement (default: today).
+
+Buttons:
+
+- **Confirm** — the transaction becomes confirmed; the order goes to
+  **Paid** (or **Partially paid**);
+- **Add** — records the transaction as **pending**, without confirmation
+  (e.g. the customer announced the payment, but the money has not
+  arrived yet);
+- **Cancel** — closes the window without changes.
+
+The payment date is kept in the order chatter note, in the transaction
+status message and, for **electronic** providers, as the date of the
+accounting payment created by Odoo.
+
+|Confirm Payment window|
+
+**Step 4 — See the paid order**
+
+After **Confirm**, the same order shows **Payment 1,210.00**, the
+provider **Bank Transfer** and **Payment Status: Paid** (green).
+
+The transaction is processed immediately, as with electronic providers:
+
+- the quotation is **confirmed automatically** when the payment reaches
+  the prepayment percentage required on the quotation (**Online
+  Payment**) or, if the quotation does not require online payment, on
+  any payment, even partial. In both cases only if online signature is
+  not required. If the quotation requires a signature, it stays a
+  **Quotation** and you confirm it with **Confirm** from the order
+  header;
+- with automatic invoicing enabled (see *Configuration*), the confirmed
+  order is invoiced: a final invoice on full payment, a down payment
+  invoice on partial payment;
+- for **Bank Transfer** no accounting payment is created. The accountant
+  registers the payment on the invoice or when reconciling the bank
+  statement.
+
+|Order paid in full|
+
+**Step 5 — Follow the payments in the order list**
+
+Go to **Sales → Orders → Orders**.
+
+- **Find** — the **Payment Status** column shows the status of each
+  order. Use **Filters** (Without payment, Payment initiated, Payment
+  pending, Payment authorized, Partially paid, Paid, Payment cancelled)
+  or **Group By → Payment Status** for an overview by group. The
+  **Payment Provider** column can be added from the optional columns
+  selector.
+- **Check** — **Partially paid** orders have a remainder to collect
+  (order total minus **Payment**). Orders **Pending** for several days
+  are announced transfers that have not arrived: follow them up with the
+  customer. No prepaid order should ship before it is **Paid**.
+- **Go further** — open the order to follow up, or export the list
+  (**select rows → ⚙ Actions → Export**) for accounting.
+
+|Order list grouped by payment status|
+
+.. |Order with the payment pending| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_payment_pending.png
+.. |Order actions menu with Confirm Payment| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_action_menu.png
+.. |Confirm Payment window| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/confirm_payment_wizard.png
+.. |Order paid in full| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_payment_done.png
+.. |Order list grouped by payment status| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_payment/order_list_grouped_status.png
+
 Changelog
 =========
+
+19.0.1.3.6 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.3.5 (2026-10-10)
+-----------------------
+
+- Usage guide (``USAGE.md``) rebuilt from the consultant sheet, with
+  numbered steps and screenshots; new ``CONFIGURE.md``.
+
+19.0.1.3.4 (2026-10-09)
+-----------------------
+
+- SALEPAY-008: the "Confirm Payment" wizard accepts again the payment
+  provider of a parent company on an order of a branch, as Odoo does
+  everywhere else for providers. Since 19.0.1.3.2 (SALEPAY-006) such an
+  order, with a pending transaction on the parent company's provider,
+  could no longer be confirmed ("The payment provider … belongs to
+  another company than the order …"). A provider of an unrelated company
+  is still refused.
+
+19.0.1.3.3 (2026-10-09)
+-----------------------
+
+- The three messages added by SALEPAY-006 (transaction of another order,
+  provider of another company, payment method not available for the
+  provider) are translated in Romanian; they showed in English.
+- Consultant sheet corrected after its audit: the default outstanding
+  account of an electronic provider is the "Outstanding Receipts" 5121
+  sub-account created with the chart, not 581; payment received before
+  the invoice is an advance (advance invoice 419 + output VAT, art.
+  282(2) Fiscal Code); the down payment account (419) to set in the
+  settings, as the RO chart leaves it empty; processor fees (627) at
+  settlement and cash on delivery through the courier (461, courier
+  fee); the quotation is confirmed once the required prepayment is
+  reached, a partial payment included when no online payment is
+  required; new error messages of the wizard. Screenshots regenerated.
+
+19.0.1.3.2 (2026-10-02)
+-----------------------
+
+- SALEPAY-006 (security): through RPC, an internal user could create a
+  "Confirm Payment" wizard with any transaction and call
+  ``update_transaction`` on it, changing as superuser the amount,
+  provider and payment method of another order's pending payment, or
+  confirm it through an order they could access. The method is now
+  private (``_update_transaction``), and every step of the wizard checks
+  that the transaction belongs to the order, that the provider is of the
+  order's company and that the payment method belongs to the provider.
+  The normal use of the wizard from the order is unchanged; a custom
+  code calling ``update_transaction()`` must call ``do_add_payment()``
+  instead.
+
+19.0.1.3.1 (2026-10-01)
+-----------------------
+
+- Tests: the invoice payment tests sell a product without cost, so they
+  no longer fail with "You can not sell below the purchase price." when
+  ``deltatech_sale_commission`` is installed in the same database.
+
+19.0.1.3.0 (2026-10-01)
+-----------------------
+
+"Confirm Payment" wizard (SALEPAY-002 to SALEPAY-005):
+
+- SALEPAY-002: the payment date is kept. It goes in the transaction's
+  state message, in a note on the order and, when the provider creates
+  an accounting payment, as the date of that payment. The transaction is
+  post-processed when it is confirmed instead of waiting for the cron,
+  so the payment exists with that date right away.
+- SALEPAY-003: the wizard takes over only a transaction still waiting
+  for the money (draft or pending). A confirmed transaction is never
+  cancelled or deleted any more: the wizard proposes the rest to pay and
+  adds a new transaction for it. An order with an authorized payment is
+  refused, the authorization is captured or voided at the provider.
+- SALEPAY-004: whoever may change the order may confirm its payment. The
+  wizard checks the write access on the order and writes the transaction
+  as superuser, so a salesman without Invoicing rights no longer gets an
+  access error; salesmen can read the transactions, and the action is
+  shown to sales users only.
+- SALEPAY-005: the post-processing of a transaction whose provider has
+  no payment method line (wire transfer, "none": Odoo has no
+  ``account.payment.method`` for them) creates no accounting payment
+  instead of failing with "Please define a payment method line on your
+  payment." every 10 minutes for 4 days. The quotation is confirmed
+  (when it needs no online signature) and, with automatic invoicing,
+  invoiced, as for the other providers; the accountant records the
+  payment from the bank statement.
+
+19.0.1.2.3 (2026-10-01)
+-----------------------
+
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) with screenshots
+  generated by ``tests/test_screenshots.py``.
+- The "Payment Status" group-by of the order search showed in English:
+  the view term was missing from the translations.
+
+19.0.1.2.2 (2026-10-01)
+-----------------------
+
+- SALEPAY-001: the amount paid is computed in the order currency. The
+  invoice side used the ``*_signed`` amounts (company currency) and
+  compared them with the order total: a EUR 100 order invoiced at 5
+  RON/EUR and paid EUR 50 showed 250 paid, status ``done``, and the
+  payment link proposed 0. It now uses the invoice amounts in the
+  invoice currency (negative for credit notes) and converts invoices and
+  transactions in another currency at the document date.
+- Migration: the orders in a currency other than the company's are
+  recomputed; the SQL of 19.0.1.2.0 uses the invoice currency too.
+
+19.0.1.2.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.2.0 (2026-09-23)
+-----------------------
+
+Brings back what 18.0.1.2.0 (#2469, #2482) added and never reached 19.0,
+and replaces the 19.0.1.1.5 amount rule:
+
+- ``payment_amount``, ``payment_status`` and ``provider_id`` are stored
+  again, with the full dependencies (transactions and invoices), so the
+  order list can filter, group and sort on them in SQL. The Python
+  search method is gone.
+- **Amount paid = max(amount paid on the posted invoices, amount of the
+  confirmed transactions).** A transaction confirmed on a provider
+  without a journal (e.g. Shopify card) has no accounting payment and
+  reaches the invoice only when the processor's settlement is
+  reconciled, so the data cannot tell whether it is already in the
+  invoice amount. 18.0 subtracted it (card 382 + payment link 44 showed
+  44); 19.0.1.1.5 added it (a settled card order showed twice its
+  total). The maximum is right in both cases; it only underestimates an
+  unsettled card payment completed by a manual payment on the invoice.
+- New ``pending`` status for orders whose transactions are waiting on
+  the provider (bank transfer, 3-D Secure...); until now they showed as
+  ``initiated``.
+- The displayed provider follows the most relevant transaction: done,
+  then authorized, pending, cancelled, then the last one.
+- An order is ``done`` when the amount paid reaches its total within the
+  currency rounding.
+- Search filters for every status (without, initiated, pending,
+  authorized, partially paid, paid, cancelled), a "Payment Status"
+  group-by, and colour decorations on the form.
+- The payment link proposes what is left to pay on the order (total
+  minus the amount paid); it used to propose 0 once an invoice existed.
+- Migration: the three fields are computed in SQL, set-based, before the
+  registry loads (seconds instead of an ORM recompute of every order),
+  for databases coming from 18.0 as well as from 19.0.1.1.x. Only the
+  rows that change are written, and the receipts that
+  ``deltatech_sale_store`` adds to ``invoice_ids`` are included. Checked
+  against ``_compute_payment`` order by order, and on a 470,000-order
+  database: 26 s for the whole module update, 0 differences on a random
+  sample.
 
 19.0.1.1.6 (2026-09-23)
 -----------------------

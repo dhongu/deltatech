@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 9 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 17 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:94%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:95%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">94% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">95% code coverage</div>
     </div>
   </div>
 </div>
@@ -51,6 +51,31 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-10-17)</h2>
+<ul>
+<li>The vendor stock counts only the vendor rows of the current company, of its parent companies and
+  the rows without a company; vendor stock recorded for another company is no longer added.</li>
+<li>On a sale order line the vendor stock is computed for the company of the order.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-15)</h2>
+<ul>
+<li>The availability popover lists the free stock per warehouse as a table, read when the popover
+  opens instead of for every order line: the warehouse of the order comes first, is marked and is
+  shown even without stock; each warehouse shows its code and name.</li>
+<li>Quantities that cover the quantity to deliver are green; the order warehouse is red when it does
+  not cover it.</li>
+<li>A click on a warehouse opens the forecast of the product in that warehouse.</li>
+<li>The vendor stock is shown under the warehouses, and only when it is not zero.</li>
+<li>Romanian translations for the popover labels; "Other Stock" is now "Alt stoc".</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.12 (2026-10-15)</h2>
+<ul>
+<li>The availability popover shows the vendor stock and the stock per warehouse again: the widget
+  now loads these fields itself instead of relying on columns declared in the order line view.</li>
+<li>The unit of measure is shown again next to the quantities in the popover (many2one values are
+  objects in 19.0, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_uom_id[1]</code> was empty).</li>
+<li>Each warehouse is listed on its own line in the popover.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.11 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -140,11 +165,31 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Drop Shipping</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Drop Shipping Enhanced</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Delivery address in picking</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_picking_number" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TN</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_picking_number/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Transfer Numbering on Demand</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Allocate official transfer numbers on demand from a second sequence</p>
         </div>
       </a>
     </div>
@@ -245,26 +290,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Closed stock moves left out of the storage sheet</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_inventory" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SI</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_stock_inventory/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Inventory</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Restore the classic inventory adjustment document with valuation control</p>
         </div>
       </a>
     </div>

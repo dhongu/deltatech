@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 94 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 122 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:94%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:93%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">94% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">93% code coverage</div>
     </div>
   </div>
 </div>
@@ -31,19 +31,6 @@
   </div>
 </div>
 
-<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
-  <li class="nav-item mx-1 mb-2">
-    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
-       style="padding:10px 22px;">Overview</a>
-  </li>
-  <li class="nav-item mx-1 mb-2">
-    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
-       style="padding:10px 22px;">Versions</a>
-  </li>
-</ul>
-<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module imports vendor invoices in UBL XML format and uses them to update purchase workflows in Odoo.</p>
@@ -54,112 +41,6 @@
 <li class="small">when no purchase order is resolved, the wizard can still identify the vendor from XML and update supplier prices.</li>
 </ul></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Price management</span><div>updates vendor prices in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.supplierinfo</code> directly from the XML data.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Discount support</span><div>extracts line discounts from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AllowanceCharge</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ChargeIndicator=false</code>) and applies them as percentage discounts on purchase order lines.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Total check</span><div>compares the purchase order total with the XML total (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">PayableAmount</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TaxInclusiveAmount</code>, with untaxed fallback) and shows a warning when there is a difference.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Stock automation</span><div>optionally validates the associated stock receipt by matching quantities from the XML.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Accounting</span><div>optionally creates and links a vendor bill from the purchase order when an order is resolved.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Missing products</span><div>option to automatically create missing products using data from the UBL file. Automated callers can pass <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_ubl_no_new_products</code> in context to leave unmatched lines unmatched instead of silently creating duplicates.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Mapping preview</span><div>the interactive flow previews one row per invoice line with the product the matcher found and how it found it (green = supplier code or barcode, yellow = name only, red = no match); any row can be reassigned to a different product before confirming.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Unattended runs surface themselves</span><div>a headless import whose total does not add up, or that leaves lines unmatched, posts a color-coded log and schedules a "SPV import needs review" to-do activity on the purchase order, assigned to its buyer.</div></div></li></ul>
 <p>The module supports standard UBL Invoice namespaces and common unit code mappings (C62, KGM, LTR, etc.).</p>
-</div>
-<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.11 (2026-10-12)</h2>
-<ul>
-<li>Fixed: the vendor was not found by its tax id when the invoice and the partner
-  wrote the Romanian CUI differently (with or without the RO prefix, with
-  spaces); only an exact name match was left. The tax ids are now compared
-  without spaces and without the RO prefix (other countries keep theirs), which
-  also removes the false "Supplier VAT ... differs" warning. For a supplier not
-  registered for VAT, the CUI is read from PartyLegalEntity/CompanyID.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.10 (2026-10-12)</h2>
-<ul>
-<li>Fixed: a supplier credit note (a CreditNote document, or an Invoice with type
-  code 381) was imported as an invoice. A CreditNote created a vendor bill from
-  the order instead of a refund; an Invoice 381 wrote negative quantities on the
-  order lines and overwrote the vendor prices. Credit notes are now recognised
-  and not imported: the order is left as it is, the log shows a warning and the
-  automatic import schedules the "SPV import needs review" activity. Record the
-  vendor refund manually.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.9 (2026-10-12)</h2>
-<ul>
-<li>Fixed: a supplier invoice imported on a purchase order with nothing left to
-  invoice (already fully invoiced, or billed on received quantities with nothing
-  received yet) created a vendor bill with every line at zero quantity. The bill
-  is now skipped with a message in the log, and the automatic import schedules
-  the "SPV import needs review" activity on the order, since it may be a
-  duplicate invoice or an extra charge.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.8 (2026-10-12)</h2>
-<ul>
-<li>Fixed: a receipt validated without a purchase order context (or still waiting
-  for another operation) stayed undone when the invoice covered only part of it,
-  while the log said "Receipt updated". The received quantities are now validated
-  and the rest goes to a backorder. When the receipt still cannot be validated,
-  the log shows a warning instead.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.7 (2026-10-12)</h2>
-<ul>
-<li>Tests: 33 new tests for the automatic import on attachment, XML parsing and
-  detection, wizard defaults and preview, vendor/order resolution, product
-  matching, units of measure, partial receipts and vendor bill taxes. Local
-  coverage of the module goes from 82.5% to 95.8%. No change in behaviour.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.6 (2026-10-09)</h2>
-<ul>
-<li>Apps Store banner (banner.json).</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.5 (2026-10-08)</h2>
-<ul>
-<li>Fixed UBL-001: a line with an explicit 0% VAT kept the default 21% tax of the
-  order on the vendor bill. The 0% rate is now applied when the line declares a
-  zero-rated (Z), exempt (E), out-of-scope (O, e.g. a supplier not registered
-  for VAT) or export (G) category. For reverse charge (AE), intra-community (K)
-  or lines without a category the taxes of the order are kept, as before; the
-  PDF imports, which report 0 when they cannot read the rate, are not affected.</li>
-<li>Fixed UBL-002: two lines of the same product with different VAT rates both
-  received the last rate. Each bill line now takes the rate of the source line
-  matched to its purchase order line.</li>
-<li>Fixed UBL-003: with receipt validation, a product present on several source
-  lines (e.g. 2 + 3 units) was received with the last quantity on every stock
-  move (3 + 3). The quantities are now summed per product and split over the
-  moves, so the received total matches the document (5).</li>
-<li>A bill line whose taxes already match the source rate is left unchanged, and
-  the tax is searched in the bill company instead of the current company.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.4 (2026-10-03)</h2>
-<ul>
-<li>Fixed: the import copied the source quantity and unit price into purchase lines, receipts and
-  vendor prices without looking at the source unit (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unitCode</code>). A kg order line receiving
-  "1000 GRM at 0.01" became 1000 kg at 0.01. Quantities and prices are now converted from the
-  source unit to the unit of the existing order line, of the stock move and of the existing
-  vendor pricelist row; new order lines and new vendor prices keep the source unit when it is
-  compatible with the product unit. A source unit that is unknown is treated as before (same unit
-  as the destination); an incompatible unit is left unconverted and reported as a warning in the
-  import log. The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">MLT</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">MMT</code> codes now resolve to millilitre/millimetre (they fell back to Units)
-  and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">DZN</code> resolves to Dozens (UBL-005). Imported quantities, prices and receipt quantities change
-  for documents whose unit differs from the order/product unit.</li>
-</ul>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.3</h1>
-<ul>
-<li>Own module icon, instead of the generic gears it had.</li>
-</ul>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Changelog</h1>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.4.2 (2026-09-23)</h2>
-<ul>
-<li>Translatable strings in code use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env._()</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_()</code>, the Odoo 19
-  convention (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prefer-env-translation</code>). The translated messages are
-  unchanged.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">[19.0.1.4.1] - 2026-09-02</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Fixed</h3>
-<ul>
-<li><strong>Version bump so a build can be told apart by its translations.</strong> The RO translation fix of
-  19.0.1.4.0 (regenerated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.pot</code>, resynced <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro.po</code>) landed <em>without</em> touching <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__manifest__.py</code>,
-  so code from before and after it both report <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">19.0.1.4.0</code>. On a customer database
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ir.module.module.latest_version</code> therefore proved nothing about whether the translations were
-  actually on disk &#8212; a Romchim check had to fall back to reading <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">code_translations</code> in a shell.
-  Python code translations are read from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/*.po</code> on disk at runtime (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CodeTranslations</code>), not
-  from the database, so no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">-u</code> can compensate for a stale build: the manifest version is the only
-  handle an audit has. Bumped so it is one.</li>
-</ul>
-<p><em>Older releases are listed in the module's HISTORY file.</em></p>
-</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -246,12 +127,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PO</span>
               <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_mail/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase: Send Multi Orders by Email with XLSX</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Orders Bulk Email with XLSX</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
             </span>
           </div>
@@ -331,7 +212,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>

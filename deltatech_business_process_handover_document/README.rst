@@ -10,9 +10,9 @@ Business Process Handover Document
    !! source digest: sha256:c1c7b221faee247db986ca3e865dffd76af1e92184919010de240e5a6da95f27
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_business_process_handover_document
     :alt: dhongu/deltatech
@@ -26,7 +26,7 @@ Extends the **deltatech_business_process** module to generate a formal
 **Handover Document** (proces-verbal de predare-primire) in PDF format
 directly from a Business Project.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds provider and recipient company details (name, representative,
   testers) to the Business Project form.
@@ -76,6 +76,33 @@ Marking Business Areas as Checked
 On each **Business Area** form, tick the **Handover Checked** checkbox
 to indicate that the area has been reviewed and accepted during
 handover.
+
+Changelog
+=========
+
+19.0.0.0.8 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Business Process Handover Document* (was
+  *Business process handover document*), with the same title on the Apps
+  banner. The technical name
+  ``deltatech_business_process_handover_document`` does not change.
+
+19.0.0.0.7 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.0.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.5 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

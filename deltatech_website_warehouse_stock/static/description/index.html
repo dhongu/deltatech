@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 2 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 18 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:90%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:98%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">90% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">98% code coverage</div>
     </div>
   </div>
 </div>
@@ -51,6 +51,19 @@
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Direct visibility</span><div>Stock status is displayed statically on the product page, eliminating the need for clicks or popups.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Stock Thresholds</span><div>Uses configurable thresholds to display "Available" instead of exact numbers for high stock levels, protecting inventory data and brand image.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Simplified Setup</span><div>Enable stock display per warehouse with a single checkbox, without complex shipping method configurations.</div></div></li></ul>
 <p>Features:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Adds the stok of the main stock location of every warehouse to the product template page in website.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>If the stock is &lt; 0 it will display "Out of stock" on that warehouse.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>If the stock is 0&lt;x&lt;=10 it will display the stock of the product.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>If the stock is &gt; 10 it will display "Available" on that warehouse</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The value 10 is the default value for the stock threshold and it is configurable in site settings</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The name for the warehouse displayed in warehouse is the same of the name in the warehouse form.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>There is a check in the warehouse to choose if the stock is displayed in the product template page.</div></div></li></ul>
+<p>Design options (per website, in Website &gt; Configuration &gt; Settings, Warehouse Stock Design, or
+in the website editor: click the block on the product page):</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Position</span><div>in the product details (default) or right after the price.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Style</span><div><ul class="ps-3 mt-1 mb-0">
+<li class="small"><em>Badges</em> (default): a colored badge per warehouse.</li>
+<li class="small"><em>List with icons</em>: one line per warehouse, with a check for in stock, a clock for on order
+and the quantity.</li>
+<li class="small"><em>Card</em>: a bordered box with a map-marker title and one row per warehouse.</li>
+<li class="small"><em>Warehouse selector</em>: the customer picks a warehouse and presses "Check stock" to read
+"In stock at X: N pcs. Ready for delivery." or "Currently not on the shelf at X. Brought
+in on order." The quantities are already in the page, no extra request is made.</li>
+</ul></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Message at zero stock</span><div>"Out of stock" (default) or the softer "On order", optionally
+  followed by a short note (for example the delivery time).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Quantity display</span><div>the exact quantity below the threshold (default) or only "In stock".</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Theme colors</span><div>badges tinted on the colors of the page instead of solid green, grey and
+  red, readable on dark themes.</div></div></li></ul>
 <p>Future Development &amp; Integration:
 This module is specifically designed to function as an <strong>informative addon</strong> that complements the standard Odoo 18/19 "Click &amp; Collect" (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale_collect</code>) feature. While the standard Odoo flow is optimized for the checkout process (map selector, pickup point selection), this module adds value by providing:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Instant Awareness</span><div>Customers see stock distribution before even starting the checkout process.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Data Protection</span><div>Prevents competitors from knowing exact stock levels via the threshold system.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Enhanced UX</span><div>Reduces friction by providing all necessary availability data directly on the product page.</div></div></li></ul>
@@ -60,6 +73,32 @@ The module has been updated to follow Odoo 19 standards and best practices:</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.7 (2026-10-22)</h2>
+<ul>
+<li>After the price also with the boxed call to action: the block goes right under the box
+  that holds the price, instead of falling back to the end of the product details.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.6 (2026-10-22)</h2>
+<ul>
+<li>Position of the block per website: in the product details (default, as before) or right
+  after the price. After the price falls back to the details when the price is not above
+  the Add to Cart button (boxed call to action, product that cannot be added to the cart).</li>
+<li>The design options are also in the website editor: click the block on the product page
+  and change Position, Style, At zero stock, Quantity and Theme colors. They are the
+  settings of the website, the same as in Website &gt; Configuration &gt; Settings.</li>
+<li>The block is its own template (Warehouse Stock Block), called from the product page.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.5 (2026-10-21)</h2>
+<ul>
+<li>Design options per website (Website &gt; Configuration &gt; Settings, Warehouse Stock Design):
+  style (badges as before, list with icons, card, warehouse selector with a "Check stock"
+  button), message at zero stock ("Out of stock" or "On order" with an optional note),
+  quantity display (exact below the threshold or status only) and theme colors (badges
+  tinted on the page colors, readable on dark themes). The defaults keep the previous look.</li>
+<li>The block is no longer shown when no warehouse is displayed on the website; the
+  template is named "Warehouse Stock" in the Customize menu (was "Alternative code").</li>
+<li>The quantity below the threshold is shown without decimals when whole (4, not 4.0).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.4 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -125,7 +164,7 @@ The module has been updated to follow Odoo 19 standards and best practices:</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website alternative code</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Alternative Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
@@ -170,6 +209,26 @@ The module has been updated to follow Odoo 19 standards and best practices:</p>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Archive eCommerce categories without deleting them</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_website_category_icon" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_website_category_icon/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Category Icons</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">SVG icons for eCommerce categories, shown in the shop</p>
         </div>
       </a>
     </div>
@@ -250,26 +309,6 @@ The module has been updated to follow Odoo 19 standards and best practices:</p>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_website_fixed_price" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ED</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_website_fixed_price/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Display Fixed Price As Discount</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
         </div>
       </a>
     </div>

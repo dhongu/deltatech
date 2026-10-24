@@ -19,9 +19,9 @@ Sale Prepare Transfer
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_transfer
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_transfer/tests
-    :alt: 2 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2072%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_transfer
+    :alt: 2 automated tests · 72% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -34,6 +34,28 @@ Sale Prepare Transfer
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.2 (2026-10-03)
+-----------------------
+
+- Fixed: the transfer request created on sale confirmation mixed the
+  sale line unit with the product unit. For 1 Dozen ordered with 6 Units
+  in the sale warehouse it computed 1 - 6, found no shortage and created
+  no transfer; in other cases it could request more than the source
+  warehouse had. Shortage and source availability are now computed in
+  the product unit and the transfer move is created in the product unit
+  (before: in the sale line unit). Repeated lines of the same product no
+  longer count the same destination/source stock twice
+  (SALETRANSFER-001). Transfer quantities change whenever the sale unit
+  differs from the product unit or a product is repeated.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

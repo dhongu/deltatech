@@ -16,9 +16,9 @@ eCommerce Product Code
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_product_code
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-37%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_product_code
-    :alt: 32 automated tests · 87% code coverage
+    :alt: 37 automated tests · 89% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -70,6 +70,67 @@ eCommerce Product Code
 
 Changelog
 =========
+
+19.0.1.3.7 (2026-10-16)
+-----------------------
+
+- ``/shop/product-code/<code>`` now also finds the codes of the variants
+  of a product with several variants (until now only single-variant
+  products were found, the others gave 404). The product page opens with
+  that variant selected; unpublished products are still not shown.
+- Search for a pasted list of codes: when one search field matched more
+  than 500 products, some products were left out of the results and the
+  count, and could be missing from the first page although they should
+  rank first. All matching products are now counted, ordered and
+  paginated.
+- A legacy non-numeric value of the "Shortest Search Term" parameter
+  (e.g. ``False``) no longer makes the shop search fail; as on the
+  settings page, it is read as 0 (every term kept).
+
+19.0.1.3.6 (2026-10-09)
+-----------------------
+
+- Fix: the migration that resets the per-website copies of
+  ``product_item_code`` still carrying the 18.0 xpath ran as
+  ``end-migration``, after the upgrade platform's template check, so
+  that check reported the shop template as broken a few seconds before
+  it was repaired. It now runs as ``post-migrate``, when the module is
+  loaded. The result for the database is the same.
+
+19.0.1.3.5 (2026-10-02)
+-----------------------
+
+- WEBCODE-001 (security): on a shop restricted to logged-in users,
+  ``/shop/products-json`` and ``/shop/products-search`` still returned
+  product names, codes and prices to anonymous visitors. They now return
+  an empty list, as the standard website search does, and
+  ``/shop/product-code/<code>`` redirects the visitor to the login page.
+  External pages or scripts that call these endpoints anonymously on
+  such a shop now get no results.
+
+19.0.1.3.4 (2026-10-01)
+-----------------------
+
+- Fixed the shop page failing with "Element '' cannot be located in
+  parent view" on databases upgraded from 18.0. The 19.0.1.0.2 migration
+  recreated the generic ``product_item_code`` view but left its
+  website-specific copies with the 18.0 arch. These copies now get the
+  arch of the generic view; whether the option is on or off on each
+  website is kept.
+
+19.0.1.3.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.3.2 (2026-09-25)
+-----------------------
+
+- Security: the ``vat`` parameter of ``/shop/products-json`` and
+  ``/shop/products-search`` is now honoured only for internal users. For
+  public and portal visitors it is ignored, so comparing results with
+  and without ``vat`` no longer reveals which partner supplies a
+  product.
 
 19.0.1.3.1 (2026-07-28)
 -----------------------

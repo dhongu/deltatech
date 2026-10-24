@@ -16,9 +16,9 @@ Payment Term Rate Wizard
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_term
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2099%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_payment_term
-    :alt: 11 automated tests · 99% code coverage
+    :alt: 12 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -29,7 +29,7 @@ line, users fill in a simple wizard and the system generates the
 complete term with the correct advance, number of installments, and due
 dates automatically.
 
-**Key features:**
+**✨ Key features:**
 
 - **Rate generation wizard** — a single form (name, type, advance
   amount/percentage, number of installments, day of the month) generates
@@ -115,6 +115,54 @@ entries linked to installment payment terms for that partner.
 
 Changelog
 =========
+
+19.0.2.0.8 (2026-10-16)
+-----------------------
+
+- Fix the rates wizard: the selected "Day of the Month" was ignored and
+  every rate fell 30, 60, 90... days after the invoice date. The rates
+  now use the "Days end of month on the" due type with a new "Extra
+  Months" offset on the payment term lines, so rate N is due on the
+  selected day of the N-th month after the invoice (clamped to the month
+  end, e.g. day 31 gives February 28/29). The advance stays due on the
+  invoice date.
+
+19.0.2.0.7 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.2.0.6 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.2.0.5 (2026-10-02)
+-----------------------
+
+- Recreate the ``action_account_moves_sale`` action (missing since 16.0)
+  on top of ``account.move.line``: the "Rates" buttons on invoices and
+  partners raised an error on click. The invoice button lists the
+  payment term lines of that invoice (one per rate, with due date and
+  residual); the partner button lists the open customer rates of posted
+  invoices. The domains are built in Python instead of string
+  concatenation. Tests cover both buttons.
+
+19.0.2.0.4 (2026-10-02)
+-----------------------
+
+- Fix the rates wizard: the ``Advance`` field used a non-existent
+  decimal precision (``Payment Term``, now ``Payment Terms``); with a
+  single rate in percent mode the wizard crashed (``rest`` undefined);
+  the constraints on rate and advance only checked the first record;
+  ``do_create_rate`` now calls ``ensure_one()``. Tests cover the wizard,
+  defaults, constraints, the rates flags and the views.
+
+19.0.2.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.2.0.2 (2026-09-23)
 -----------------------

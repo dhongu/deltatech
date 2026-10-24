@@ -1,6 +1,6 @@
-===================
-Deltatech Kit Price
-===================
+========================
+Kit Price on Sale Orders
+========================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Kit Price
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_kit_price
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2073%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_kit_price
-    :alt: 2 automated tests · 78% code coverage
+    :alt: 2 automated tests · 73% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -81,6 +81,12 @@ Changelog
 
 Changelog
 =========
+
+19.0.0.0.4 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Kit Price on Sale Orders* (was *Kit Price*).
+  The technical name ``deltatech_kit_price`` does not change.
 
 19.0.0.0.2 (2026-08-15)
 -----------------------

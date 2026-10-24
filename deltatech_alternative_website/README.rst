@@ -29,7 +29,7 @@ industrial suppliers) where customers search by OEM codes,
 cross-reference numbers, or manufacturer codes rather than internal
 SKUs.
 
-**Key features:**
+**✨ Key features:**
 
 - Displays the alternative code(s) stored on the product
   (``alternative_ids``) as hidden ``<span>`` elements with
@@ -109,6 +109,37 @@ edit them:
 
 Changelog
 =========
+
+19.0.1.0.13 (2026-10-22)
+------------------------
+
+- Listed on Odoo Apps as *Website Alternative Codes* (was *Website
+  alternative code*). The technical name
+  ``deltatech_alternative_website`` does not change.
+
+19.0.1.0.12 (2026-10-11)
+------------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.11 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.10 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.0.9 (2026-09-26)
+-----------------------
+
+- Roadmap: replaced the manual ``CREATE INDEX ... gin_trgm_ops`` SQL
+  with the indexes Odoo 19 already maintains (``variants_default_code``
+  and ``default_code`` in ``website_sale``, ``product.alternative.name``
+  in ``deltatech_alternative``). Documentation only, no code change.
 
 19.0.1.0.8 (2026-07-27)
 -----------------------

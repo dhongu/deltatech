@@ -16,8 +16,14 @@ Sale Margin & Profit
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_margin
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_margin/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-43%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_margin
+    :alt: 43 automated tests · 81% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 - Features:
 
@@ -241,6 +247,28 @@ Changelog
 
 Changelog
 =========
+
+19.0.1.3.3 (2026-10-22)
+-----------------------
+
+- The *selling below cost* check on customer invoices runs only when the
+  sale price is set or changed, not when the cost is recomputed.
+  Installing the module on a database with draft invoices below cost
+  (the check mode defaults to *Block the sale*) stopped with "You can
+  not sell below the purchase price."; it now installs, and a new line
+  or a changed price below cost is still blocked.
+
+19.0.1.3.2 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale Margin & Profit* (was *Sale Margin*). The
+  technical name ``deltatech_sale_margin`` does not change.
+
+19.0.1.3.1 (2026-10-22)
+-----------------------
+
+- Consultant sheet: points to *Sale Margin Report by Manufacturer* for
+  the profit per manufacturer. Screenshots unchanged.
 
 19.0.1.3.0 (2026-10-22)
 -----------------------

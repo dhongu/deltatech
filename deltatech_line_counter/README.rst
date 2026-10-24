@@ -1,6 +1,6 @@
-======================
-Deltatech Line Counter
-======================
+===================
+Module Line Counter
+===================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -28,12 +28,40 @@ Module Line Counter
 This module adds a wizard to count lines of code in selected Odoo
 modules. It provides a quick way to estimate the size and complexity of
 modules by counting lines in ``.py``, ``.xml``, ``.js``, ``.css``, and
-``.scss`` files. Tests are excluded from the count.
+``.scss`` files. Tests are excluded from the count. The result is an
+estimate: only non-empty lines are counted (comments and docstrings
+included), only the file types above are considered, and files that
+cannot be read as UTF-8 are skipped.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Module Line Counter* (was *Code Line
+  Counter*). The technical name ``deltatech_line_counter`` does not
+  change.
+
+19.0.1.0.2 (2026-10-02)
+-----------------------
+
+- The module name in the result is HTML-escaped. Unreadable files are
+  skipped explicitly (``OSError``/``UnicodeDecodeError``, logged at
+  debug level) instead of swallowing every exception. The description
+  states that the line count is an estimate. Tests added for the count,
+  the skipped files and the escaping.
+
+19.0.1.0.1 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
 
 Bug Tracker
 ===========

@@ -1,6 +1,6 @@
-===================
-Deltatech POS Stock
-===================
+=================
+POS Stock Display
+=================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Deltatech POS Stock
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_stock
-    :alt: 9 automated tests · 87% code coverage
+    :alt: 11 automated tests · 93% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -72,6 +72,56 @@ without any overlap:
 
 Changelog
 =========
+
+19.0.1.2.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *POS Stock Display* (was *POS Stock*). The
+  technical name ``deltatech_pos_stock`` does not change.
+
+19.0.1.2.2 (2026-10-17)
+-----------------------
+
+- **Fix: shared products update the badge in every company.** When a
+  stock change touched, in the same batch, a product shared between
+  companies and a product of one company, only the registers of that
+  company were notified; the registers of the other companies kept
+  showing the old stock of the shared product (POSSTOCK-001). Each open
+  register now receives the shared products and the products of its own
+  company.
+
+19.0.1.2.1 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.2.0 (2026-10-08)
+-----------------------
+
+- New POS setting **Quantity shown**: the badge can display the stock
+  *on hand* (the default, unchanged behaviour) or the *available*
+  quantity, which subtracts what is already reserved for orders that
+  have not left the warehouse yet. Needed wherever the picking is
+  validated by the warehouse rather than at the till — on hand does not
+  move until then, so the cashier would otherwise be looking at stock
+  that is already sold.
+- ``free_qty`` is now computed on ``product.template`` by summing its
+  variants. Core aggregates ``qty_available`` and the forecast onto the
+  template but stops short of the free quantity, and the POS card is
+  handed a template.
+- ``stock.quant`` also notifies open sessions when ``reserved_quantity``
+  changes, so the available badge keeps up. Restricted to the registers
+  actually showing the available quantity: reservations move with every
+  sale, and registers left on "on hand" must not be woken up.
+- Products with nothing left to sell show the quantity in red, and
+  adding one raises a warning in the register. The sale still goes
+  through — a hard block would stop the cashier whenever the figure in
+  Odoo is behind.
+
+19.0.1.1.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.1.0 (2026-08-19)
 -----------------------

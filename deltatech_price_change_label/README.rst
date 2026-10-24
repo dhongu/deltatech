@@ -16,9 +16,9 @@ Price Change Labels
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change_label
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_price_change_label/tests
-    :alt: 1 automated test
+.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_price_change_label
+    :alt: 1 automated test · 90% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -41,6 +41,17 @@ The module installs by itself when both ``deltatech_price_change`` and
 
 Changelog
 =========
+
+19.0.1.0.3 (2026-10-23)
+-----------------------
+
+- New module icon and main image for the Odoo Apps Store (banner).
+
+19.0.1.0.2 (2026-10-22)
+-----------------------
+
+- The price including taxes of the labels is computed by
+  ``deltatech_product_labels``, whose default layouts now print it too.
 
 19.0.1.0.1 (2026-10-22)
 -----------------------

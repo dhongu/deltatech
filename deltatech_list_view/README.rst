@@ -10,27 +10,63 @@ List View Select Text
    !! source digest: sha256:6e1349f56785c4272bb3dd8949a2aeba1bcb121829012924cee6b5c209756212
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_list_view
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_list_view/tests
+    :alt: 1 automated test
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Function:
 
 - Block opening an item from the list when selecting text
+- Deleting an unsaved one2many line twice (e.g. Enter pressed twice on
+  its trash icon) no longer breaks the save of the form with a
+  ``virtual_N`` id error
 
 Functions:
 
 - Blocheaza deschiderea unui item din lista la selecta unui text
+- Stergerea de doua ori a unei linii one2many nesalvate nu mai blocheaza
+  salvarea formularului cu eroarea ``virtual_N``
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.5 (2026-10-19)
+-----------------------
+
+- Fixed the ``invalid input syntax for type integer: "virtual_N"`` error
+  when saving a form (e.g. the stock return wizard) after a one2many
+  line that was never saved got deleted twice, for instance with Enter
+  pressed twice on its trash icon: the second delete no longer sends a
+  ``DELETE`` command with the line's virtual id to the server.
+
+19.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.3 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

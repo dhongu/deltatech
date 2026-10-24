@@ -14,10 +14,13 @@ Purchase Price History
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_price_history
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_price_history
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_purchase_price_history
+    :alt: 1 automated test · 100% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Features:
 
@@ -33,6 +36,25 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.1 (2026-10-23)
+-----------------------
+
+- New module icon and main image for the Odoo Apps Store (banner).
+
+19.0.1.0.0 (2026-10-17)
+-----------------------
+
+- Migration to 19.0.
+- The raw query that fills the minimum, maximum and average purchase
+  prices is built with ``SQL()``, and the cached values of the product
+  templates are invalidated after the update, so the form shows the new
+  prices right away.
+- The test now checks the computed prices (10, 20 and 15 for two vendor
+  bills of 10 and 20).
 
 Bug Tracker
 ===========
@@ -62,6 +84,6 @@ Current maintainer:
 
 |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_purchase_price_history>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_price_history>`_ project on GitHub.
 
 You are welcome to contribute.

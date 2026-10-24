@@ -73,6 +73,11 @@ only the lines related to that pricelist will be printed.
 Changelog
 =========
 
+19.0.1.2.2 (2026-10-23)
+-----------------------
+
+- New module icon and main image for the Odoo Apps Store (banner).
+
 19.0.1.2.1 (2026-10-22)
 -----------------------
 

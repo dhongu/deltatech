@@ -1,6 +1,6 @@
-===========================
-Deltatech Project Pricelist
-===========================
+=================
+Project Pricelist
+=================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Deltatech Project Pricelist
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_project_price_list
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_project_price_list
-    :alt: 9 automated tests · 78% code coverage
+    :alt: 10 automated tests · 78% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -120,6 +120,26 @@ LGPL-3.
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-17)
+-----------------------
+
+- Creating a Sales Order with an explicit ``default_pricelist_id`` in
+  context keeps that pricelist instead of replacing it with the project
+  pricelist.
+
+19.0.1.0.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

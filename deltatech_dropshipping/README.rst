@@ -1,6 +1,6 @@
-=======================
-Deltatech Drop Shipping
-=======================
+======================
+Drop Shipping Enhanced
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,9 +10,9 @@ Deltatech Drop Shipping
    !! source digest: sha256:b3539b79504f6d4845ed1eabb414119cc2710c9a32be0476c9f4aff029b89467
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_dropshipping
     :alt: dhongu/deltatech
@@ -38,6 +38,26 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.1.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Drop Shipping Enhanced* (was *Drop Shipping*).
+  The technical name ``deltatech_dropshipping`` does not change.
+
+19.0.1.1.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.1.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

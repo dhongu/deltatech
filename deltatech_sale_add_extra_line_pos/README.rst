@@ -16,8 +16,11 @@ POS Auto Extra Lines
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line_pos
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line_pos
+    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Sale Add Extra Line - Point of Sale Extension
 =============================================
@@ -182,6 +185,38 @@ overlap:
 
 Changelog
 =========
+
+19.0.1.0.5 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *POS Auto Extra Lines* (was *POS Add Extra
+  Line*). The technical name ``deltatech_sale_add_extra_line_pos`` does
+  not change.
+
+19.0.1.0.4
+----------
+
+- [FIX] POSEXTRA-001: no extra line is added when the main product is
+  not added (configurator, lot or weight popup cancelled, refund
+  constraint).
+- [FIX] POSEXTRA-002: removing a main line updates its extra line, and
+  removes it when no other line asks for that extra product.
+- [FIX] POSEXTRA-003: the first extra line takes its quantity from the
+  lines the order actually holds (weighed, negative in a return preset,
+  merged with an existing line), not from the requested quantity.
+- Tests: POS tours for the three cases.
+
+19.0.1.0.3
+----------
+
+- Tests: a POS tour checks that the extra line is added with the
+  configured quantity multiplier and follows the main line quantity; the
+  previous test class had no test method, so nothing ran.
+
+19.0.1.0.2
+----------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.1
 ----------

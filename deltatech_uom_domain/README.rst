@@ -10,18 +10,18 @@ UoM Domain by Reference
    !! source digest: sha256:c104daecc5f765a0ac60933cf036705026c5bbe314edf7631728e2754019790d
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_uom_domain
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_uom_domain
-    :alt: 9 automated tests · 100% code coverage
+    :alt: 19 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -45,8 +45,21 @@ intern de Odoo pentru conversie - aceeași rădăcină de arbore
 categorii. Un produs în bucăți oferă „Duzina", „10 buc", „100 buc"; nu
 oferă „kg".
 
+Același criteriu se aplică și unității de pe linia de furnizor (lista de
+prețuri a furnizorului). Aici standardul nu pune niciun domeniu: se
+putea alege orice unitate, inclusiv una dintr-un alt arbore. Exemplu
+real: „ml” (mililitru) ales ca unitate de achiziție pentru un cablu în
+metri - conversia trece fără eroare, iar 22,5 m devin 22.500 ml pe
+cererea de ofertă. Cu modulul, pe linia de furnizor apar doar unitatea
+produsului, ambalajele lui (``uom_ids``) și unitățile din același
+arbore. Pentru metrul liniar se creează o unitate proprie (ex. „mlin.”,
+cu unitatea de referință „m” și raportul 1), care apare automat la toate
+produsele în metri.
+
 Ce calculează standardul se păstrează: unitatea produsului, ``uom_ids``
-și unitatea de pe linia de furnizor rămân în listă. Modulul doar adaugă.
+și unitatea de pe linia de furnizor rămân în listă. Pe comenzi și
+facturi modulul doar adaugă; singura restrângere e pe linia de furnizor,
+unde standardul nu avea niciun domeniu.
 
 De ce contează limita la același arbore
 ---------------------------------------
@@ -86,6 +99,31 @@ o achiziție se convertește oricum în unitatea produsului
 nu e activat), iar pe eCommerce numărul de unități disponibile schimbă
 comportamentul butonului „Adaugă în coș".
 
+Unitatea implicită de achiziție
+-------------------------------
+
+Până în 18.0 produsul avea o unitate de achiziție proprie
+(``uom_po_id``). În 19.0 câmpul a dispărut: unitatea de pe comandă vine
+doar de pe linia de furnizor valabilă la data comenzii. Dacă linia
+lipsește (produs nou, creat prin duplicare), a expirat (dată de sfârșit
+depășită) sau e pentru alt furnizor, comanda pune tăcut unitatea
+produsului. Exemplu real: cherestea cumpărată la mc și vândută la bucată
+- 4,894 mc au intrat în stoc ca 4,894 buc, la prețul unui metru cub pe
+bucată.
+
+Modulul adaugă pe produs, în tab-ul Achiziție, câmpul „Unitate implicită
+de achiziție", cu unitățile din arborele unității produsului. Când e
+completat:
+
+- linia de furnizor nouă o preia automat, iar pe linia de furnizor nu se
+  mai poate alege altă unitate;
+- pe comanda de achiziție, linia o preia la alegerea produsului și nu se
+  mai poate alege altă unitate, chiar dacă linia de furnizor lipsește
+  sau a expirat.
+
+Liniile de furnizor existente nu se modifică: dacă au altă unitate, se
+corectează manual, odată cu prețul, care e exprimat în unitatea liniei.
+
 **Table of contents**
 
 .. contents::
@@ -93,6 +131,42 @@ comportamentul butonului „Adaugă în coș".
 
 Changelog
 =========
+
+19.0.1.2.0 (2026-10-20)
+-----------------------
+
+- Default purchase unit on the product (``purchase_uom_id``, Purchase
+  tab), restricted to the units of the product unit's reference tree.
+  When it is set, it is the only unit offered on vendor pricelist lines
+  and purchase order lines, and both take it by default. Odoo 19 removed
+  ``uom_po_id``: a new vendor line came out in the product unit, and
+  without a valid vendor line the order fell back to the product unit,
+  so 4.894 m³ of timber were received as 4.894 pieces.
+
+19.0.1.1.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.1.1 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.1.0 (2026-10-07)
+-----------------------
+
+- Vendor pricelist lines (``product.supplierinfo``) now restrict the
+  vendor unit to the product unit, its packagings and the units of the
+  same reference tree. Standard Odoo 19 puts no domain on this field, so
+  a unit of another tree was accepted silently: "ml" (millilitre) on a
+  product in metres turned 22.5 m into 22,500 ml on the generated RFQ.
+
+19.0.1.0.1 (2026-09-30)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.0 (2026-09-29)
 -----------------------

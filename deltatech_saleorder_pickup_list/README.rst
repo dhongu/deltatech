@@ -1,6 +1,6 @@
-================================
-Deltatech Sale Order Pickup List
-================================
+======================
+Sale Order Pickup List
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,8 +16,11 @@ Deltatech Sale Order Pickup List
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_saleorder_pickup_list
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_saleorder_pickup_list/tests
+    :alt: 3 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Sale Order Pickup List Report
 =============================
@@ -69,6 +72,21 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.2 (2026-10-17)
+-----------------------
+
+- **Fix: the Pickup list report is in the order's Print menu again.**
+  The report action had no binding model, so it could not be printed
+  from the order.
+- **Fix: the report no longer fails for users with units of measure
+  enabled.** It used the field ``product_uom``, renamed
+  ``product_uom_id`` in Odoo 19.
+- **Fix: the rack, row and case are taken from the order's warehouse.**
+  They were always read from the main warehouse.
+- **Fix: the section subtotal no longer fails on orders without a
+  pricelist.** It is formatted in the order currency.
+- The product image uses the standard image data URI.
 
 19.0.1.0.1 (2026-09-29)
 -----------------------

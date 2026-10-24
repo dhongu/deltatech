@@ -16,8 +16,11 @@ eCommerce Category Icons
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_category_icon
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-25%20automated%20tests%20%C2%B7%2099%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_category_icon
+    :alt: 25 automated tests · 99% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Gives every eCommerce category its own **SVG icon** and shows it in the
 shop.
@@ -38,9 +41,21 @@ shop.
   - **All categories, inherit from parent**: a subcategory without its
     own icon shows the icon of its closest parent that has one.
 
-- In the categories on top of the shop, usually the subcategories of the
-  opened category, a category without its own icon or image shows its
-  closest parent's icon instead of the empty placeholder.
+- Option **Category Icon Order** (same settings page) decides what the
+  shop shows for a category, the first one found: **SVG, image, none**
+  (default), **Image, SVG, none**, **SVG, image, first product image**
+  or **Image, SVG, first product image**. *SVG* is the category's icon,
+  else its closest parent's; *first product image* is the picture of the
+  first published product of the category or its subcategories. The same
+  order applies to the filmstrip, the left category list, the block
+  Category Icon Grid and, when installed, the category menu and
+  subcategory list of Website Shop Blocks.
+- Website block **Category Icon Grid**, to drag on any page (home page,
+  landing pages): the main categories or categories chosen by hand, with
+  their icon and name, each linking to its shop page. The categories are
+  rendered on each visit, so the page always shows the current icons;
+  the maximum number and the icon size are options of the block. 6
+  columns on desktop, 2 on phones.
 - Icons drawn with ``currentColor`` take the color of the category link,
   so they follow the theme, the hover color and the active category.
 - The icon is checked when saved, so it is safe to show on public pages:
@@ -77,9 +92,52 @@ Usage
 5. To choose which categories of the list show an icon (main categories
    only, all, or all with the parent's icon as fallback), set **Category
    Icons in List** in Website > Configuration > Settings.
+6. To choose what a category shows (its icon, its image or the picture
+   of its first product, and in which order), set **Category Icon
+   Order** in Website > Configuration > Settings.
+7. To show the categories with their icons on any page (the home page, a
+   landing page), open the page in the website editor and drag the block
+   **Category Icon Grid** from the Catalog group. In its options, choose
+   the main categories or pick categories by hand, the maximum number
+   and the icon size.
 
 Changelog
 =========
+
+19.0.1.4.0 (2026-10-22)
+-----------------------
+
+- New website option **Category Icon Order** (Website > Configuration >
+  Settings): what the shop shows for a category, the first one found.
+  SVG, image, none (default); Image, SVG, none; SVG, image, first
+  product image; Image, SVG, first product image. *SVG* is the
+  category's icon, else its closest parent's; *first product image* is
+  the picture of the first published product of the category or its
+  subcategories, in the shop order.
+- One helper, ``tb_category_visual``, decides for every place: the
+  filmstrip, the left category list (which now also shows the image when
+  the order finds one, in an icon-sized box; Category Icons in List
+  still decides which categories show something) and the block Category
+  Icon Grid. Website Shop Blocks uses it too when this module is
+  installed.
+- Filmstrip: the image is loaded by URL instead of being inlined in the
+  page. A subcategory with its own image but no icon, under a parent
+  with an icon, now shows the parent's icon with the default order (the
+  parent's icon is part of the SVG step); choose *Image, SVG, none* to
+  show its image first.
+
+19.0.1.3.0 (2026-10-19)
+-----------------------
+
+- New website block **Category Icon Grid** (Catalog group of the
+  editor): a grid of eCommerce categories with their icon and name, each
+  linking to its shop page. Options: main categories or categories
+  chosen by hand (kept in the chosen order), maximum number (1 to 48)
+  and icon size. The page keeps only the options; the categories are
+  rendered by the server on each visit, for the current website, so the
+  block follows the icons of the database. Categories without an icon
+  show only their name. 6 columns on desktop, 3 on tablets and 2 on
+  phones.
 
 19.0.1.2.0 (2026-10-17)
 -----------------------

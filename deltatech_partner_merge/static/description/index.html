@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 5 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 21 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:77%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:85%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">77% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">85% code coverage</div>
     </div>
   </div>
 </div>
@@ -67,9 +67,45 @@ that is not the same as name quality, the surviving record is flagged when its n
 import, with the names of the absorbed records alongside for correction.</p>
 <p>The same procedure is available as plain SQL scripts in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech/scripts/partner_merge/</code>, for when
 it has to be run outside Odoo.</p>
+<p><strong>Finding duplicates beyond the VAT number.</strong> <em>Partner Merge &#8250; Find Duplicates</em> looks for partners
+that are probably the same record, typically individuals created twice by an import or an online
+order, and leaves the decision to you, group by group. It does not change any partner.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Exact matches on the VAT number (without the country prefix), the phone (E.164, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0722 &#8230;</code> and
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">+40 722 &#8230;</code> meet), and the email (lowercase).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Similar names (without diacritics or legal forms, words sorted) at the same street or postcode,
+  or similar names alone if you choose so. Names are compared only inside a block (same city, or
+  same first letters), so large databases are not compared all against all.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Each group shows its score and the reason ("same phone +40722&#8230;", "name 92% + same street").
+  <em>Merge</em> opens the standard Odoo merge wizard on the group, where you choose the record to keep.
+  <em>Not duplicates</em> remembers the pair, so later scans skip it.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Left out: partners of internal users and of your companies, a partner and its own contacts,
+  invoice and delivery addresses of the same customer, partners of different companies, and values
+  shared by too many partners (placeholders, switchboards), which are listed in the report.</div></div></li></ul>
+<p>The name comparison uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rapidfuzz</code> when it is installed on the server. Without it, the scan falls
+back to Python's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">difflib</code>, which is slower and only compares blocks of up to 1,500 partners; the
+larger blocks are listed in the report. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">phonenumbers</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unidecode</code> are used the same way, if
+present. None of them is required.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-23)</h2>
+<ul>
+<li><em>Find Duplicates</em> uses the shared rules of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_partner_match</code> (new dependency, installed automatically: functions only, no data or behavior of its own) instead of its own copy, so a partner is recognized here the same way as in the marketplace import and the trial balance import. Checked on a database of 551,000 partners against the previous rules:<ul>
+<li>phone and email keys: identical;</li>
+<li>VAT: the leading zeros are dropped (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">RO0733329058</code> = <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">733329058</code>); 42 codes change, all phone numbers typed in the VAT field, and the number of VAT groups stays the same;</li>
+<li>names: the legal forms KFT, SARL, s.r.o., SPRL and CMI are dropped too (6,294 names), so "Vario KFT" and "Vario" get the same key;</li>
+<li>a phone that is not recognized as a valid number is still compared on its last nine digits, as before.</li>
+</ul>
+</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-10-23)</h2>
+<ul>
+<li>Add: <em>Find Duplicates</em>, a scan for partners that are probably duplicated, on the VAT number, the phone (E.164), the email, and similar names at the same street or postcode. Results are kept as groups with a score and a reason; each group is merged with the standard Odoo merge wizard after you confirm it, or marked as not duplicates so later scans skip it. Partners of internal users and of the companies are left out. The name comparison uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rapidfuzz</code> if it is installed, otherwise <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">difflib</code> on limited blocks; no new required dependency.</li>
+<li>Romanian translation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code>) for the whole module.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) for finding and merging duplicates, with screenshots generated by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-10-17)</h2>
+<ul>
+<li>MERGE-002: <em>Verify</em> on an applied batch checked the working tables of the latest analyzed batch, so after another batch was analyzed it reported the masters, totals and remaining records of that other batch. The snapshot taken at the analysis (expected invoices, sales orders and unreconciled balance per kept record) is now stored on the batch lines, and <em>Verify</em> compares against it and against the batch's own absorbed records. Batches analyzed before this version have no stored snapshot and <em>Verify</em> refuses them with a message instead of showing another batch's figures.</li>
+<li>MERGE-003: the stand-alone SQL scripts in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech/scripts/partner_merge/</code> grouped partners by VAT alone, so a manual run on a multi-company database merged partners of different companies into one master. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">02_build_map.sql</code> now groups and chooses the master per (VAT, company), with shared partners (no company) in groups of their own, as the module does; the progress count in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">04_verify.sql</code> uses the same grouping.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -173,7 +209,7 @@ it has to be run outside Odoo.</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Markdown Field</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Markdown Field Widget</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
             </span>
           </div>
@@ -293,7 +329,7 @@ it has to be run outside Odoo.</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>

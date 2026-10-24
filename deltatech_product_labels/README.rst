@@ -16,15 +16,28 @@ Product Labels
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_labels
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_product_labels/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-17%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_labels
-    :alt: 11 automated tests · 81% code coverage
+    :alt: 17 automated tests · 84% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Features:
 
-- prints labels from products, sale orders, pickings
+- prints labels from products, sale orders, pickings, lots and quants
+- default layouts with product name, internal reference, barcode, lot
+  and price including VAT (with currency and unit of measure), for shop
+  shelves, warehouses or products, each with its own paper format:
+
+  - A4 sheet of 3x8 labels (70x37 mm), for any office printer
+  - 100x50 mm and 40x25 mm, one label per page, for thermal printers
+  - continuous labels, without a paper format
+
+- the wizard proposes the layout printed last by the user; the first
+  time, the A4 3x8 sheet
 - if only lot option is selected and printing is started from a product,
   all lots in stock will be printed
 - by default overrides the print label button in products. To revert to
@@ -32,6 +45,10 @@ Features:
   "terrabit_labels.override_print_button" must be set to False
 - custom layouts can be created by defining a report on the
   product.product.label model
+- the ZPL layouts (report type text) have a Preview button: the ZPL is
+  sent to the Labelary service (api.labelary.com) and returned as PDF.
+  The label size is set on the report (Label width / height, Printer
+  resolution) or read from its name, e.g. "Labels 40x30 ZPL (300 DPI)"
 
 **Table of contents**
 
@@ -40,6 +57,44 @@ Features:
 
 Changelog
 =========
+
+19.0.1.3.2 (2026-10-22)
+-----------------------
+
+- New flat module icon: printer with a label accent, on a transparent
+  background.
+
+19.0.1.3.1 (2026-10-22)
+-----------------------
+
+- Without a price list, the price on the labels uses the currency of the
+  product (of its company).
+- Consultant sheet: the label screenshots and texts show the price
+  including VAT.
+
+19.0.1.3.0 (2026-10-22)
+-----------------------
+
+- The default layouts (A4 3x8, 100x50, 40x25) print the price including
+  taxes (VAT), with its currency and unit of measure, next to the
+  product name, internal reference, lot and barcode: they can be used as
+  shelf labels in the shop, in the warehouse or on the product. Without
+  a price, no price is printed.
+- The price including taxes (``price_incl``) moves here from
+  ``deltatech_price_change_label``; the price uses the currency of the
+  price list chosen in the wizard.
+
+19.0.1.2.0 (2026-10-22)
+-----------------------
+
+- New default layouts with their own paper format: A4 sheet of 3x8
+  labels (70x37 mm), and thermal labels of 100x50 mm and 40x25 mm, one
+  label per page. The 100x50 layout no longer prints on an A4 page.
+- The wizard proposes the layout printed last by the user; the first
+  time, the A4 3x8 sheet.
+- Preview for the ZPL (text) layouts: the labels are converted to PDF
+  with the Labelary service, as for the AWB labels. The size of the
+  label is set on the layout or read from its name (e.g. "40x30").
 
 19.0.1.1.9 (2026-10-22)
 -----------------------

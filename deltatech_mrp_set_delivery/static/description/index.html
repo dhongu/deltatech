@@ -2,18 +2,24 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Deltatech restrict incomplete set deliveries" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Block Incomplete Kit Deliveries" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Deltatech restrict incomplete set deliveries</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Can restrict incomplete set deliveries</p>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Block Incomplete Kit Deliveries</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Block deliveries that would ship an incomplete kit</p>
       <div>
-        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 18.0</span>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Manufacturing</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 5 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:95%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">95% code coverage</div>
+    </div>
   </div>
 </div>
 
@@ -25,40 +31,85 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Restrict Incomplete Set Deliveries</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides a safeguard for the delivery process of products sold as sets (Phantom BoM). It is designed to prevent the shipment of incomplete sets by ensuring that all components of a defined set are available and processed together.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Never ship half a kit: when a product sold as a kit (a Bill of Materials of type
+<strong>Kit</strong>) is marked as restricted, the delivery cannot be validated unless its
+components are present in the same transfer in the proportions of the Bill of
+Materials.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Enabled per Bill of Materials</span><div>the <strong>Restrict Incomplete Delivery</strong> option
+  appears on Bills of Materials of type Kit; kits without it are delivered as in
+  standard Odoo.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Every component in the transfer</span><div>if a component of the kit is missing
+  from the transfer, validation stops with a message naming the product, the
+  transfer and the kit.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Quantities in proportion</span><div>the done quantity of each component must match
+  the Bill of Materials ratio against the first component, compared with the
+  rounding of the unit of measure; a mismatch stops validation and names the
+  component.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Partial deliveries allowed</span><div>a transfer may deliver fewer sets than
+  ordered (for example 1 of 2), as long as the components stay in proportion.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Sales deliveries only</span><div>the check applies to transfer lines generated from
+  a sales order line; other transfers are not affected.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Clear blocking message</span><div>when several transfers are validated together,
+  the errors of all of them are shown in one message and none is validated.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <ol>
+<li>Go to <strong>Manufacturing &gt; Products &gt; Bills of Materials</strong> and open the Bill of
+   Materials of the product sold as a set.</li>
+<li>Set <strong>BoM Type</strong> to <strong>Kit</strong> and tick <strong>Restrict Incomplete Delivery</strong> (the
+   option is shown only for kits). Save.</li>
+<li>Create and confirm a sales order for the kit product. The delivery order
+   contains one line for each component.</li>
 <li>
-<p><strong>Phantom BoM Integration</strong>:</p>
+<p>On the delivery order, set the quantities of the components and click
+   <strong>Validate</strong>:</p>
 <ul>
-<li>Adds a dedicated configuration option to <strong>Phantom Bills of Materials (BoM)</strong> to restrict incomplete deliveries.</li>
-<li>Ensures that Odoo's delivery system treats the components of a phantom BoM as an atomic unit for logistical purposes.</li>
+<li>if every component is present and the quantities follow the Bill of
+ Materials ratio, the delivery is validated as usual;</li>
+<li>if a component is missing, or its quantity breaks the ratio, Odoo shows
+ a "Set delivery restriction" message and the delivery stays open.</li>
 </ul>
 </li>
 <li>
-<p><strong>Validation Security</strong>:</p>
-<ul>
-<li>Prevents the validation of a stock picking if it contains only a partial set of components for a configured phantom BoM.</li>
-<li>Reduces customer dissatisfaction and return costs by ensuring that customers always receive complete product sets.</li>
-</ul>
-</li>
-<li>
-<p><strong>Manufacturing Awareness</strong>:</p>
-<ul>
-<li>Integrates with Odoo's core <strong>Manufacturing (MRP)</strong> and <strong>Inventory (Stock)</strong> modules to maintain strict control over set integrity during transfers.</li>
-</ul>
+<p>Correct the quantities (or deliver fewer complete sets) and validate again.</p>
 </li>
 </ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Manufacturing &gt; Products &gt; Bills of Materials</strong>.</li>
-<li>Open a BoM of type <strong>Phantom</strong>.</li>
-<li>Enable the <strong>Restrict Incomplete Delivery</strong> option (added by the module).</li>
-<li>When a sales order or transfer is created for this set, Odoo will now prevent the delivery from being validated unless all required components for the set are included in the transfer and available.</li>
-</ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-10-22)</h2>
+<ul>
+<li>Listed on Odoo Apps as <em>Block Incomplete Kit Deliveries</em> (was <em>Deltatech restrict incomplete set deliveries</em>), with the same title on the Apps banner.
+  The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_mrp_set_delivery</code> does not change.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-17)</h2>
+<ul>
+<li>Migration to 19.0.</li>
+<li>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_mrp</code>: the check reads the sale order line of the
+  delivery moves, which did not exist with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mrp</code> alone, so validating a kit
+  transfer without the Sales app installed raised an error.</li>
+<li>A transfer missing the first component of a restricted set showed a
+  technical error instead of the "missing product" message.</li>
+<li>Component quantities are compared with the rounding of the unit of measure,
+  so a set split with decimals is no longer refused for a rounding difference.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -99,34 +150,74 @@
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_mrp_bom" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_bom" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TB</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Template BoMs for Variants</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Base BoM templates that propagate automatically to product variants</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_bom_alternative" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">MB</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_bom/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_alternative/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">MRP Bom</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">MRP BoM Alternative Components</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">MRP Bom</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative components on BoM lines, substituted on manufacturing orders</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_mrp_cost" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_bom_formula" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BQ</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_bom_formula/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">BoM Quantity Formulas</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Compute BoM component quantities from product attribute values</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_cost" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">MC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_cost/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_cost/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -134,19 +225,19 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">MRP Cost</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add labour, utilities and overhead costs to the manufacturing order price</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_mrp_simple" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_simple" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_simple/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_simple/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -154,19 +245,19 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Simple production</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Simple production without a BoM: consume components, output products, cost computed</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_mrp_simple_barcode" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_simple_barcode" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_simple_barcode/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_simple_barcode/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -174,19 +265,19 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Simple production</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Scan barcodes to add components in simple production</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_mrp_validation_date" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_mrp_validation_date" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">MV</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_validation_date/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_mrp_validation_date/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -199,62 +290,22 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_ral" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_ral" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_ral/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_ral/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">RAL</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">RAL Pigments</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">RAL</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech_report_layout" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RL</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_report_layout/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Report Layout</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Customized report layouts</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/18.0/deltatech" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generic module</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Choose the RAL pigment on the manufacturing order and replace it in the BoM</p>
         </div>
       </a>
     </div>

@@ -10,15 +10,15 @@ Picking Validation Restrict
    !! source digest: sha256:de9d131891da2106e60bc20e48601e0c2f76cd8c5bd3725245ce6cbb34c9830c
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_restrict
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_restrict/tests
-    :alt: 3 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_picking_restrict
+    :alt: 8 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -27,18 +27,43 @@ Features:
 - A security group can be attached to a Operation Type. Only users in
   this group can validate pickings of this type
 - If left empty, no security group is required
-- Adds another option, "Restrict done quantities to reserved", on move
-  type, if the option is checked you can't validate a picking if the
-  done quantity is different than the reserved quantity
-- Adds another option, "Restrict new products", on move type, if the
-  option is checked you can't validate a picking if there are product
-  where the reserved quantity is 0 but the done quantity is different
-  that 0
+- Adds another option, "Restrict done quantities to reserved", on the
+  operation type: if checked, a picking cannot be validated when the
+  done quantity of a move differs from its ordered quantity (demand),
+  compared in the same unit of measure
+- Adds another option, "Restrict new products", on the operation type:
+  if checked, a picking cannot be validated when it has a done quantity
+  on a product that was not ordered (a move added after confirmation or
+  without ordered quantity)
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-17)
+-----------------------
+
+- "Restrict done quantities to reserved" now compares the done quantity
+  of each move with its demand, in the same unit of measure: a line in
+  dozens no longer blocks a correct validation, and a changed quantity
+  is now refused.
+- "Restrict new products" now refuses any product added after the
+  transfer was confirmed or without demand, whatever its quantity.
+
+19.0.1.0.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

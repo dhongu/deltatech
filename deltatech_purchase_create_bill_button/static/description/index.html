@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 8 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
       </div>
@@ -93,6 +93,10 @@ which Odoo converts automatically into a vendor credit note when the total is ne
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.4 (2026-10-17)</h2>
+<ul>
+<li>A bill created from several purchase orders with "Create Bills" now keeps the vendor references of all the orders in its Reference, not only the first one. When the orders have different vendor references, the Payment Reference is left empty.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-10-10)</h2>
 <ul>
 <li>Usage guide (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">USAGE.md</code>) rebuilt from the consultant sheet, with numbered steps and screenshots; new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">CONFIGURE.md</code>.</li>
@@ -172,12 +176,12 @@ which Odoo converts automatically into a vendor credit note when the total is ne
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PS</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PO</span>
               <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_mail/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase: Send Multi Orders by Email with XLSX</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Orders Bulk Email with XLSX</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
             </span>
           </div>
@@ -217,7 +221,7 @@ which Odoo converts automatically into a vendor credit note when the total is ne
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase UBL</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase UBL Import</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
             </span>
           </div>
@@ -277,7 +281,7 @@ which Odoo converts automatically into a vendor credit note when the total is ne
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>

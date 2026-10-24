@@ -16,9 +16,9 @@ Product Website Visibility Score
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_visibility
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_visibility/tests
-    :alt: 4 automated tests
+    :alt: 5 automated tests
 
 |badge1| |badge2| |badge_tests|
 
@@ -136,6 +136,25 @@ OPL-1
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.4 (2026-10-17)
+-----------------------
+
+- Visibility criteria no longer accept negative weights, so the product
+  score stays between 0 and 100.
+
+19.0.1.0.3 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

@@ -19,9 +19,9 @@ Report Packaging
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_packaging
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-27%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-29%20automated%20tests%20%C2%B7%2098%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_report_packaging
-    :alt: 27 automated tests · 97% code coverage
+    :alt: 29 automated tests · 98% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -30,6 +30,12 @@ provides an aggregate packaging-material report from the invoice list.
 Every material is configured with a purchase quantity and a sale
 quantity, for the products packed one way by the vendor and another way
 on shipping; vendor bills use the first, customer invoices the second.
+
+The materials can also be configured on the product category, as the
+default for the products it holds: a product without materials of its
+own uses the ones of its category, or of the closest parent category
+that configures some. A product that uses no packaging material at all
+can stop the inheritance explicitly.
 
 The quantities are refreshed when the invoice is posted, as long as the
 invoice is under automatic update. Editing or deleting a quantity by
@@ -52,6 +58,25 @@ the product, and **Sale quantity**, for the way it is packed when
 shipped to the customer. Leave one of them at zero for a material used
 in a single direction.
 
+The same section exists on the product category, for the materials
+shared by a whole range of products. A product that has no material of
+its own uses the ones of its category; a category that has none uses the
+ones of its parent, so a configuration set on a top category covers
+every subcategory under it. The materials of the product take precedence
+over the ones of the category and replace all of them at once, and the
+product form shows what it inherits as long as it has none of its own.
+
+An empty configuration means *take the materials of the category*, so a
+product that uses no packaging material at all inside a category that
+does has to say so: tick **No packaging material** on the product. The
+option only stops the inheritance — a product that has materials of its
+own keeps using them.
+
+Nothing is copied on the product: the materials are resolved when the
+quantities are computed, so products created by hand, imported or coming
+from the website all follow their category, and a change made on a
+category applies at once to its products.
+
 On a customer or vendor invoice, the **Packaging materials** tab shows
 the quantity of each material, computed as the invoiced quantity
 multiplied by the quantity configured on the product — the purchase
@@ -69,6 +94,54 @@ under automatic update.
 
 To obtain the aggregate report, select several invoices in the list view
 and run the packaging-material report action.
+
+Changelog
+=========
+
+19.0.1.3.5 (2026-10-17)
+-----------------------
+
+- PACKMAT-001: the packaging quantities of an invoice line are now
+  computed in the unit of measure of the product. A line invoiced in
+  another unit (for example one dozen of a product configured per unit)
+  reported the material of a single unit instead of twelve.
+- PACKMAT-002: generating the Packaging materials report no longer
+  recomputes an invoice whose packaging lines were all deleted by hand.
+  The invoice stays empty and under manual update; only invoices still
+  under automatic update are computed when they have no lines yet.
+
+19.0.1.3.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.3.3 (2026-10-09)
+-----------------------
+
+- The product form no longer lists the materials of the category: they
+  are configured and shown only on the category form, and the product
+  form says in one line that it uses them while it has none of its own.
+  Ticking "No packaging material" now hides the product's own materials
+  list as well, so no table is left on the form.
+
+19.0.1.3.2 (2026-10-03)
+-----------------------
+
+- PACKMAT-003 (security): the invoice packaging lines
+  (``packaging.invoice.material``) had no company rule and any internal
+  user could create, change or delete them on any invoice, also on
+  invoices of other companies or without write access on the invoice
+  (passing the ``packaging_material_sync`` context skipped even the
+  invoice update). The lines now follow the company of their invoice
+  through a multi-company record rule, and creating, changing or
+  deleting a line requires write access on its invoice, whatever the
+  context. Internal users without invoicing rights can no longer edit
+  the packaging quantities of an invoice.
+
+19.0.1.3.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

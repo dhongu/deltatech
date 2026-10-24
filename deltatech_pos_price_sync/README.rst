@@ -1,6 +1,6 @@
-========================
-Deltatech POS Price Sync
-========================
+==============
+POS Price Sync
+==============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Deltatech POS Price Sync
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_price_sync
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_price_sync
-    :alt: 5 automated tests · 87% code coverage
+    :alt: 6 automated tests · 88% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -74,6 +74,19 @@ without any overlap:
 Changelog
 =========
 
+19.0.1.0.2 (2026-10-17)
+-----------------------
+
+- Saving a new price on a shared product together with a product of
+  another company now still pushes the shared product to the open POS
+  sessions of every company; before, only the sessions of the other
+  company received the update (#3415).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.0.0 (2026-08-20)
 -----------------------
 
@@ -85,10 +98,10 @@ Changelog
   available in POS, to every open POS session. The frontend subscribes
   to it and merges the fresh ``product.template`` data straight into the
   in-memory model.
-- Root cause (Terrabit ticket #9305, client Damira COM SRL): a POS
-  session that stays open never re-runs the write_date-based sync on
-  ``loadInitialData()`` (see ``data_service.js``), so pressing F5 kept
-  showing the old price even though the change was saved on the backend.
+- Root cause: a POS session that stays open never re-runs the
+  write_date-based sync on ``loadInitialData()`` (see
+  ``data_service.js``), so pressing F5 kept showing the old price even
+  though the change was saved on the backend.
 
 Bug Tracker
 ===========

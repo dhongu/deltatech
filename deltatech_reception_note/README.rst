@@ -1,6 +1,6 @@
-========================
-Deltatech reception_note
-========================
+====================
+Batch Reception Note
+====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,9 +10,9 @@ Deltatech reception_note
    !! source digest: sha256:8dd7a144f306c425595a4ce22f763df87ba21bd510d1463632359b26a82fc539
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -75,6 +75,51 @@ Usage
 
 Changelog
 =========
+
+19.0.0.1.7 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.1.6 (2026-10-11)
+-----------------------
+
+- Fixed: confirming again a reception note that was already confirmed
+  (through RPC, an import or a double click) consumed the sent RFQs a
+  second time. Only the notes that are confirmed now, from Draft or
+  Sent, consume the RFQs (RECEPTION-003).
+
+19.0.0.1.5 (2026-10-11)
+-----------------------
+
+- Fixed: a reception note consumed the sent RFQs without unit
+  conversion, so a note of 1 dozen took 1 unit from an RFQ of 12 units,
+  and 6 units emptied an RFQ of 2 packs of 12. The quantities are now
+  compared in the product unit, and what is left on the RFQ is written
+  back in the unit of the RFQ line. The missing or forced quantity in
+  the messages is shown in the unit of the reception note line
+  (RECEPTION-001).
+
+19.0.0.1.4 (2026-10-03)
+-----------------------
+
+- Fixed: confirming a reception note consumed sent RFQs of every allowed
+  company, so a receipt in one company could reduce (and mark empty) the
+  RFQ of another company. Only the sent RFQs of the reception note
+  company are consumed now, in that company context (RECEPTION-002).
+- Fixed: the "Create reception note" wizard created the RFQ-only
+  counterpart in the active company and its default currency, while
+  copying the prices and taxes of the source order unchanged. The new
+  RFQ now keeps the company, currency and fiscal position of the source
+  order (RECEPTION-004). The amounts of new RFQs created from
+  foreign-currency orders change accordingly (same figures, now in the
+  right currency).
+
+19.0.0.1.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.0.1.2 (2026-07-29)
 -----------------------

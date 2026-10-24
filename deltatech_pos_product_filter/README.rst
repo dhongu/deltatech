@@ -59,6 +59,14 @@ without any overlap:
 - **l10n_ro_pos_returns** — dedicated return invoice and cash register
   line for every POS return
 
+Changelog
+=========
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 

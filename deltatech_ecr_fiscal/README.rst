@@ -25,13 +25,13 @@ ECR Fiscal Audit Fields
 Defines, in a single place, the fields that record the result of
 printing on a fiscal cash register (ECR/AMEF):
 
-- **Fiscal receipt (BF)** — receipt number within the current Z report;
+- **Fiscal receipt (BF)**: Receipt number within the current Z report;
   restarts at every Z
-- **Fiscal document (NR)** — fiscal document number, unique per device;
+- **Fiscal document (NR)**: Fiscal document number, unique per device;
   the one to use when a document must be identified without ambiguity
-- **Z report** — number of the Z report the receipt belongs to
-- **Fiscal state** — outcome reported by the device driver
-- **Fiscal error** — error message, when the device refused or failed
+- **Z report**: Number of the Z report the receipt belongs to
+- **Fiscal state**: Outcome reported by the device driver
+- **Fiscal error**: Error message, when the device refused or failed
 
 The fields are added to **journal entries** here, and to **POS orders**
 by ``deltatech_pos``, through the abstract mixin
@@ -55,39 +55,29 @@ register driver modules, and from the POS-free store alternative
 Use Cases / Context
 ===================
 
-Câmpurile erau definite de două ori, identic: pe ``pos.order`` în
-``deltatech_pos`` și pe ``account.move`` în ``deltatech_sale_store``.
-Orice consumator al lor trebuia să depindă de unul din acele module,
-deci de întreaga suită de casă de marcat — chiar dacă nu voia decât să
-citească numărul bonului.
+The fields used to be defined twice, identically: on ``pos.order`` in
+``deltatech_pos`` and on ``account.move`` in ``deltatech_sale_store``.
+Any module that only needed to read the receipt number had to depend on
+one of them, and so on the whole cash register suite.
 
-Concret, asta a blocat puntea ``l10n_ro_pos_fiscal_compliance_ecr`` din
-suita de localizare: dependența pe ``deltatech_pos`` nu se putea
-satisface în CI-ul acelei suite, și rezolvarea dependențelor cădea
-înainte de teste.
+The contract now lives in a module that depends only on ``account``. The
+cash register modules still **write** the fields; any other module can
+**read** them without pulling in the driver. ``point_of_sale`` is not a
+dependency either: the mixin on ``pos.order`` is applied by
+``deltatech_pos``, so ``deltatech_sale_store``, the store alternative
+without POS, does not need Point of Sale to reach the fields.
 
-Contractul stă acum într-un modul care depinde doar de ``account``.
-Modulele de casă de marcat rămân cele care **scriu** câmpurile; oricine
-altcineva le poate doar **citi**, fără să atragă driverul.
-
-Nici ``point_of_sale`` nu e în dependențe: mixinul pe ``pos.order`` îl
-aplică ``deltatech_pos``, care oricum depinde de POS. Altfel
-``deltatech_sale_store`` — alternativa de magazin **fără** POS — ar fi
-tras Point of Sale ca dependență obligatorie doar ca să ajungă la
-câmpuri.
-
-La instalare, un ``pre_init_hook`` preia rândurile din ``ir_model_data``
-de la cele două module donoare, ca actualizarea lor să nu ducă la
-ștergerea coloanelor și a numerelor de bon fiscal deja înregistrate.
+On install, a ``pre_init_hook`` takes over the ``ir_model_data`` rows of
+the two former owners, so updating them does not drop the columns and
+the fiscal receipt numbers already recorded.
 
 Usage
 =====
 
-Modulul nu adaugă interfață proprie: el doar pune câmpurile la
-dispoziție.
+The module adds no screens of its own: it only provides the fields.
 
-**Ca să scrii în ele** (driver de casă de marcat), moștenește mixinul pe
-modelul tău:
+**To write them** (a cash register driver), inherit the mixin on your
+model:
 
 .. code:: python
 
@@ -95,8 +85,24 @@ modelul tău:
        _name = "my.model"
        _inherit = ["my.model", "deltatech.ecr.fiscal.mixin"]
 
-**Ca să le citești**, e destul să declari ``deltatech_ecr_fiscal`` în
-``depends`` — nu ai nevoie de modulele de casă de marcat.
+**To read them**, declaring ``deltatech_ecr_fiscal`` in ``depends`` is
+enough; the cash register modules are not needed.
+
+Changelog
+=========
+
+19.0.1.0.3
+----------
+
+- Apps Store page: Usage and the context section in English (they were
+  in Romanian), the Romanian translation in its own tab
+  (``readme/*.ro.md``), and an own banner (the cover showed the banner
+  of the ``deltatech`` module). Support address ``support@terrabit.ro``.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

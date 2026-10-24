@@ -1,6 +1,6 @@
-=================================
-Deltatech  Queue Job Enhancements
-=================================
+======================
+Queue Job Enhancements
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Deltatech  Queue Job Enhancements
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_queue_job
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-31%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_queue_job/tests
-    :alt: 31 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2070%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_queue_job
+    :alt: 32 automated tests · 70% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -180,11 +180,17 @@ Response:
    {
      "status": "success",
      "processed": 15,
-     "failed": 0,
+     "done": 13,
+     "failed": 1,
+     "postponed": 1,
      "pending_count": 10,
      "time_elapsed": 12.34,
      "timestamp": "2026-03-18 04:40:00"
    }
+
+``processed`` counts the jobs attempted in this call: ``done`` finished,
+``failed`` ended in the failed state and ``postponed`` were put back to
+pending for a retry.
 
 **Manual Processing** You can manually trigger job processing from the
 Queue Job list view using the **Process** button (internal cron trigger)
@@ -193,6 +199,47 @@ background execution using **Cron Trigger**.
 
 Changelog
 =========
+
+19.0.1.4.5 (2026-10-17)
+-----------------------
+
+- QUEUE-003: removed the legacy ``/run_jobs`` route. It called a runner
+  method that does not exist and always answered with a server error;
+  external callers use ``/api/v1/queue/process``.
+
+19.0.1.4.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.4.3 (2026-10-02)
+-----------------------
+
+- Security: the module shipped the same API key on every installation
+  (``sk_live_CHANGE_ME_...``) and the public ``/api/v1/queue/process``
+  and ``/api/v1/queue/stats`` endpoints accepted it. No key is shipped
+  anymore, the placeholder is always rejected, and the upgrade removes
+  it from ``queue_job_processor.api_key``; both endpoints use the same
+  constant-time check. **Behavior change:** installations still using
+  the default key must generate one in Settings > Queue Job and update
+  the external cron caller (cron-job.org); until then the API answers
+  "Unauthorized".
+
+19.0.1.4.2
+==========
+
+- Fix: the API runner (``/queue_job/process``, "Process (Thread)")
+  reported failed jobs as successful. ``_process()`` catches the job
+  exceptions, stores the job as failed or as pending for a retry and
+  returns normally, so the runner counted ``failed`` only for exceptions
+  that never reached it. The counters now follow the stored job state:
+  ``processed`` (attempted) is split into ``done``, ``failed`` and
+  ``postponed``, and the endpoint returns the two new keys too.
+
+19.0.1.4.1
+==========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========

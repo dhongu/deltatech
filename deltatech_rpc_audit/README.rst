@@ -10,9 +10,9 @@ RPC Audit Log
    !! source digest: sha256:541efa2063b70da2188aa912e3accedecd07dbf287da9a0844a17f24843fd560
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_rpc_audit
     :alt: dhongu/deltatech
@@ -42,10 +42,12 @@ Calls to ``/json/2/ir.cron/acquire_job`` are skipped: on Odoo.sh that is
 the platform driving the scheduler in a tight loop, and logging it would
 bury the handful of lines the audit exists for.
 
-The real client IP is read from the ``X-Forwarded-For`` header, so calls
-behind a reverse proxy (nginx, the Odoo.sh edge) are not all attributed
-to the proxy IP (e.g. ``10.0.0.2``), independently of the ``proxy_mode``
-server option.
+The client IP is the ``remote_addr`` resolved by the Odoo server. Behind
+a reverse proxy (nginx, the Odoo.sh edge) run the server with
+``proxy_mode`` -- always on for Odoo.sh -- so calls are not all
+attributed to the proxy IP (e.g. ``10.0.0.2``). The ``X-Forwarded-For``
+header is set by the caller and is not trusted: it is only appended to
+the line as ``xff=...``, never used to decide whether a call is skipped.
 
 The module can be turned on/off without uninstalling it, via the
 config-file key ``rpc_audit_enabled`` (self-hosted) or the System
@@ -71,8 +73,38 @@ is not affected, since it uses a different endpoint.
 Changelog
 =========
 
+19.0.1.2.5 (2026-10-16)
+=======================
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.2.4 (2026-10-09)
+=======================
+
+- Apps Store banner (banner.json).
+
+19.0.1.2.3
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 History
 =======
+
+19.0.1.2.2 (2026-09-25)
+-----------------------
+
+- Security: the client IP is now ``remote_addr``, no longer the first
+  entry of ``X-Forwarded-For``. That entry is set by the caller (nginx
+  only appends to the header), so anyone with an API key could send the
+  address of an ``ignore_ips`` entry and drop out of the audit on
+  ``/xmlrpc``, ``/jsonrpc`` and ``/json/2``, or log a false IP. Behind a
+  reverse proxy run the server with ``proxy_mode`` (always on for
+  managed hosting): core then resolves ``remote_addr`` from the entry
+  the trusted proxy added.
+- The raw header is still written at the end of the line as ``xff=...``,
+  as information only; it is never used to skip a call.
 
 19.0.1.2.1 (2026-08-25)
 -----------------------
@@ -96,11 +128,11 @@ History
 - The line keeps the same fields as the legacy one, so a single grep
   still finds every call, and adds ``via=json2`` to tell the two
   endpoints apart while integrations are being moved.
-- ``/json/2/ir.cron/acquire_job`` is skipped: Odoo.sh drives the
-  scheduler through it in a tight loop, and logging that would bury the
-  handful of lines the audit exists for. Skipped by (model, method),
-  because the address the platform calls from is not stable enough to
-  skip by IP.
+- ``/json/2/ir.cron/acquire_job`` is skipped: the hosting platform
+  drives the scheduler through it in a tight loop, and logging that
+  would bury the handful of lines the audit exists for. Skipped by
+  (model, method), because the address the platform calls from is not
+  stable enough to skip by IP.
 - The route is inherited rather than re-declared, so core keeps deciding
   the path, the authentication and whether the call is readonly; only
   the logging is added.
@@ -120,7 +152,7 @@ History
 - Add an on/off switch, so the module can stay installed but idle:
 
   - config-file key ``rpc_audit_enabled`` (self-hosted);
-  - System Parameter ``rpc_audit.enabled`` (works on Odoo.sh, no
+  - System Parameter ``rpc_audit.enabled`` (works on managed hosting, no
     rebuild), cached 60s alongside the ignore list. Either source can
     disable; default is enabled.
 
@@ -144,8 +176,8 @@ History
   checks), from two sources merged together:
 
   - config-file key ``rpc_audit_ignore_ips`` (self-hosted);
-  - System Parameter ``rpc_audit.ignore_ips`` (works on Odoo.sh), cached
-    60s.
+  - System Parameter ``rpc_audit.ignore_ips`` (works on managed
+    hosting), cached 60s.
 
 Bug Tracker
 ===========

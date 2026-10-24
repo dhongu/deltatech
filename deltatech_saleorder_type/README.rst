@@ -71,6 +71,18 @@ Usage
 Changelog
 =========
 
+19.0.1.0.2 (2026-10-23)
+-----------------------
+
+- New module icon and main image for the Odoo Apps Store (banner).
+
+19.0.1.0.1 (2026-10-19)
+-----------------------
+
+- The module is hidden from the Apps list: it is an obsolete
+  compatibility shim, kept only so that the databases that still have it
+  installed can upgrade.
+
 19.0.1.0.0 (2026-10-17)
 -----------------------
 

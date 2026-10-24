@@ -10,15 +10,15 @@ MRP Concentration
    !! source digest: sha256:5569b9dc897293df4eca744110e788642518322e14668b5e4f357886db9e8aa3
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_concentration
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_mrp_concentration
-    :alt: 4 automated tests · 81% code coverage
+    :alt: 4 automated tests · 89% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -71,6 +71,32 @@ Usage
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.3 (2026-10-08)
+-----------------------
+
+- Fixed CONCENTRATION-001: on a manufacturing order, a concentration
+  higher than the base one raised an error, because the by-product
+  quantity was written on a computed field of the stock move. The
+  by-product demand is now set on the move quantity.
+- Fixed CONCENTRATION-002: switching a BoM or a manufacturing order
+  between dilution and concentration kept the quantity of the group no
+  longer used (secondary ingredient or by-product). That group is now
+  set to zero.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

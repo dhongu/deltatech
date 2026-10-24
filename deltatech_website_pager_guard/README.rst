@@ -46,6 +46,12 @@ products are counted, which is why the check runs after ``super()``.
 That still avoids the expensive part — ``request.render`` is lazy in
 Odoo, so raising there means the QWeb template is never rendered.
 
+The same applies to the sort order. Core passes ``?order=`` straight
+into the product search and lets the ORM reject what it cannot sort by,
+which surfaces as a ``500`` with a ``ValueError`` traceback. The module
+compiles the clause with the ORM's own parser first and answers ``404``
+when it is invalid, before any product is searched.
+
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
    Only for development or testing purpose, do not use in production.
@@ -59,8 +65,21 @@ Odoo, so raising there means the QWeb template is never rendered.
 Changelog
 =========
 
+19.0.1.1.1
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 History
 =======
+
+19.0.1.1.0 (2026-09-26)
+-----------------------
+
+- An invalid ``?order=`` on the shop (unknown field, non-sortable field
+  or malformed clause, e.g. ``?order=1034054500`` sent by crawlers) now
+  returns ``404`` instead of a ``500`` with a
+  ``ValueError: Invalid field`` traceback.
 
 19.0.1.0.0 (2026-07-30)
 -----------------------

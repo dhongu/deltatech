@@ -1,6 +1,6 @@
-=========================
-Deltatech Delivery Status
-=========================
+===============
+Delivery Status
+===============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Delivery Status
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_delivery_status
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2086%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_delivery_status
-    :alt: 8 automated tests · 86% code coverage
+    :alt: 10 automated tests · 87% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -120,6 +120,16 @@ and payment processes.
 
 Changelog
 =========
+
+19.0.2.3.5 (2026-10-17)
+-----------------------
+
+- Fixed the *Split* button on transfers, which failed with
+  ``TypeError: _create_backorder() got an unexpected keyword argument 'backorder_moves'``:
+  the override now accepts the ``backorder_moves`` argument passed by
+  ``action_split_transfer()`` in Odoo 19. The split-off transfer is
+  still marked postponed when the ``backorders.postponed`` parameter is
+  set.
 
 19.0.2.3.4 (2026-10-09)
 -----------------------

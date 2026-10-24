@@ -1,6 +1,6 @@
-===================================
-Deltatech - Restrict Reports Access
-===================================
+=======================
+Restrict Reports Access
+=======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -46,6 +46,11 @@ Settings > Users.
 
 Changelog
 =========
+
+19.0.1.0.1
+==========
+
+- Own module icon, instead of the generic gears it had.
 
 History
 =======

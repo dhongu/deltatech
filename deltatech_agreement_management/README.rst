@@ -16,9 +16,9 @@ Agreement Management
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_agreement_management
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_agreement_management/tests
-    :alt: 1 automated test
+.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_agreement_management
+    :alt: 9 automated tests · 93% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -26,7 +26,7 @@ Manage commercial and service agreements with partners — track reference
 numbers, dates, statuses, and print agreement documents directly from
 Odoo.
 
-**Key features:**
+**✨ Key features:**
 
 - Create agreements linked to a partner, with agreement date and expiry
   date.
@@ -130,6 +130,52 @@ Deleting agreements
 Only agreements in **Draft** state can be deleted. Attempting to delete
 an agreement that is In Progress or Terminated will raise a validation
 error.
+
+Changelog
+=========
+
+19.0.0.0.8 (2026-10-14)
+-----------------------
+
+- Translations: .pot regenerated and Romanian translation completed for
+  the new terms.
+
+19.0.0.0.7 (2026-10-14)
+-----------------------
+
+- Fix: the partner search on the number of agreements ("With agreement"
+  filter) ignored the operator and the value and always returned the
+  partners with agreements, even for ``= 0``; it now honours the
+  operator and counts the agreements with a grouped query instead of
+  reading all of them.
+- Fix: the number of agreements on the partner was computed with
+  superuser rights; the count and the search now follow the same access
+  rights and record rules (a user without access sees 0).
+- Multi-company: record rule on the agreements (the agreements of the
+  allowed companies only) and company consistency check of the partner.
+- The User/Manager groups are shown under their own privilege
+  ("Agreements", category Services) on the user form; a migration script
+  links the existing groups.
+- Agreement form: the status bar shows the real states (Draft, In
+  Progress, Terminated) instead of a non-existent "quote" state.
+- Agreement types: own list and form views (configuration menu).
+
+19.0.0.0.6 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.4 (2026-09-30)
+-----------------------
+
+- New module icon in the flat style of the other modules; it replaces
+  the old one.
 
 Bug Tracker
 ===========

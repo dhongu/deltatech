@@ -10,15 +10,15 @@ Product Dimensions
    !! source digest: sha256:0a8e4e0aa6989c296400518379ecde99c473e239a09887e4d9282e421bb1b369
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_dimension
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_dimension
-    :alt: 1 automated test · 91% code coverage
+    :alt: 3 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -34,8 +34,35 @@ Product Dimensions
 Changelog
 =========
 
+19.0.1.0.3 (2026-10-17)
+=======================
+
+- Setting a dimension to zero now resets the volume to zero, instead of
+  keeping the previous value.
+- The volume computed from the dimensions is now expressed in the
+  configured volume unit: with volumes in cubic feet, 100 x 100 x 100 cm
+  gives about 35.31 ft³, not 1.
+
+19.0.1.0.2 (2026-10-16)
+=======================
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.1
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 Changelog
 =========
+
+19.0.1.0.4 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Dimensions* (was *Products
+  Dimension*). The technical name ``deltatech_product_dimension`` does
+  not change.
 
 [19.0.1.0.0] - 2026-06-15
 -------------------------

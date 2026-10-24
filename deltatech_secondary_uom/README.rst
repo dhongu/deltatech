@@ -1,6 +1,6 @@
-===============================
-Deltatech Product Secondary UoM
-===============================
+=====================
+Product Secondary UoM
+=====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Product Secondary UoM
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_secondary_uom
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-17%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_secondary_uom
-    :alt: 14 automated tests · 92% code coverage
+    :alt: 17 automated tests · 92% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -54,6 +54,35 @@ valuation or any code reading ``uom.factor`` directly in SQL.
 
 Changelog
 =========
+
+19.0.1.2.2 (2026-10-17)
+-----------------------
+
+- A secondary quantity entered on a line expressed in a coarser unit
+  (e.g. Dozens for a product in Units) is now rounded **up** in the line
+  unit, so the line covers the requested quantity, and the secondary
+  quantity is recomputed from the final line quantity. Before, the line
+  was rounded half-up and could represent less than the secondary
+  quantity shown on sale order lines, purchase order lines and stock
+  moves.
+
+19.0.1.2.1 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.2.0 (2026-10-01)
+-----------------------
+
+- Creating, editing or deleting a product unit conversion now recomputes
+  the secondary quantity of the open sale order lines, purchase order
+  lines and stock moves using it. Locked or cancelled orders and done or
+  cancelled moves keep the quantity computed with the previous ratio.
+
+19.0.1.1.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.1.0 (2026-08-06)
 -----------------------

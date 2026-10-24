@@ -16,9 +16,9 @@ Invoice Weight
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_weight
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_weight
-    :alt: 3 automated tests · 100% code coverage
+    :alt: 7 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -70,6 +70,28 @@ Usage
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.5 (2026-10-17)
+-----------------------
+
+- Weights on invoices, sale and purchase orders now convert the line
+  quantity to the product unit (one dozen of a 2 kg product gives 24 kg,
+  not 2 kg).
+- Gross weight is converted to kg when product weights are configured in
+  pounds.
+
+19.0.1.0.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

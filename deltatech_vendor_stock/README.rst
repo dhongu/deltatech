@@ -16,9 +16,9 @@ Vendor Stock
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_vendor_stock
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-17%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_vendor_stock
-    :alt: 9 automated tests · 94% code coverage
+    :alt: 17 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -32,6 +32,68 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.2.1 (2026-10-17)
+-----------------------
+
+- The vendor stock counts only the vendor rows of the current company,
+  of its parent companies and the rows without a company; vendor stock
+  recorded for another company is no longer added.
+- On a sale order line the vendor stock is computed for the company of
+  the order.
+
+19.0.1.2.0 (2026-10-15)
+-----------------------
+
+- The availability popover lists the free stock per warehouse as a
+  table, read when the popover opens instead of for every order line:
+  the warehouse of the order comes first, is marked and is shown even
+  without stock; each warehouse shows its code and name.
+- Quantities that cover the quantity to deliver are green; the order
+  warehouse is red when it does not cover it.
+- A click on a warehouse opens the forecast of the product in that
+  warehouse.
+- The vendor stock is shown under the warehouses, and only when it is
+  not zero.
+- Romanian translations for the popover labels; "Other Stock" is now
+  "Alt stoc".
+
+19.0.1.1.12 (2026-10-15)
+------------------------
+
+- The availability popover shows the vendor stock and the stock per
+  warehouse again: the widget now loads these fields itself instead of
+  relying on columns declared in the order line view.
+- The unit of measure is shown again next to the quantities in the
+  popover (many2one values are objects in 19.0, so ``product_uom_id[1]``
+  was empty).
+- Each warehouse is listed on its own line in the popover.
+
+19.0.1.1.11 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.1.10 (2026-09-29)
+------------------------
+
+- The stock colors set in Settings are applied again: the colors service
+  imported ``jsonrpc``, which no longer exists, so the widget silently
+  fell back to the default colors.
+- Warehouse stock is read in one batch per warehouse, not once per line
+  and warehouse.
+- Only the warehouses of the order's company are listed, and only for
+  storable lines that show the availability widget.
+- Warehouse and vendor quantities are shown in the unit of measure of
+  the line.
+
+19.0.1.1.9 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

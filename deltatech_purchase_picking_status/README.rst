@@ -10,18 +10,18 @@ Purchase picking status
    !! source digest: sha256:63ad66ac85eac22e1bea4b93cf1d8e0775ebd8b28817671f9913ff30f3982159
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_picking_status
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2071%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_purchase_picking_status
-    :alt: 2 automated tests · 71% code coverage
+    :alt: 7 automated tests · 88% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -39,6 +39,24 @@ Purchase picking status
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-16)
+-----------------------
+
+- The "Done" and "In progress" filters now also find cancelled orders,
+  with the same status shown in the list (#3434).
+- The delivery status is refreshed as soon as the order is confirmed or
+  a receipt is validated or cancelled, without reloading the order
+  (#3435).
+
+19.0.1.0.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 Bug Tracker
 ===========

@@ -16,9 +16,9 @@ MRP Validation Date
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_validation_date
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_mrp_validation_date
-    :alt: 2 automated tests · 100% code coverage
+    :alt: 3 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -26,7 +26,7 @@ Tracks the exact date when a manufacturing order is validated (marked as
 done), giving production managers a reliable audit trail of order
 completion times.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a **Validation Date** field to the manufacturing order form,
   automatically populated when the operator clicks **Mark as Done**.
@@ -55,6 +55,29 @@ Using the Validation Date
    the Responsible user) is automatically set to today's date.
 5. The field is read-only — it reflects the actual date the order was
    validated and cannot be edited manually.
+
+Changelog
+=========
+
+19.0.0.0.4 (2026-10-17)
+-----------------------
+
+- Fixed MRPDATE-001: the validation date was written on every *Mark as
+  Done* click, even when Odoo first opened a wizard (backorder,
+  consumption) and the order stayed unfinished after the wizard was
+  cancelled. The date is now set only on the orders actually done, in
+  the user's timezone, and the date of an order already done is kept.
+
+19.0.0.0.3 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.0.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

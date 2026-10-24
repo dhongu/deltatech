@@ -1,6 +1,6 @@
-=========================
-Deltatech Generic Partner
-=========================
+===============
+Generic Partner
+===============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Generic Partner
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_generic
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-24%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_generic/tests
-    :alt: 24 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-24%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_partner_generic
+    :alt: 24 automated tests · 93% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -96,6 +96,11 @@ elevated rights.
 
 Changelog
 =========
+
+19.0.2.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.2.0.1 (2026-09-23)
 -----------------------

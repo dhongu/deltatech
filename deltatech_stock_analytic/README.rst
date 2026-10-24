@@ -1,6 +1,6 @@
-=============================
-Deltatech stock move analytic
-=============================
+===================
+Stock Move Analytic
+===================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Deltatech stock move analytic
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_analytic
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_analytic
-    :alt: 4 automated tests · 92% code coverage
+    :alt: 6 automated tests · 93% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -80,6 +80,22 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.5 (2026-10-23)
+-----------------------
+
+- Fix: a stock user without analytic accounting rights can validate a
+  transfer again. The location analytic lines are read and created in
+  sudo, as a consequence of the validation; before, the validation
+  stopped with an access error on the analytic lines.
+
+19.0.1.0.4 (2026-10-17)
+-----------------------
+
+- Fix: the amount of the location analytic lines is now computed on the
+  quantity converted to the product unit of measure; a transfer done in
+  another unit (e.g. dozens) was valued with the unit price per product
+  unit times the quantity in the move unit (STOCKANALYTIC-001).
 
 19.0.1.0.3 (2026-10-09)
 -----------------------

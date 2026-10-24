@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 15 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:97%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:98%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">97% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">98% code coverage</div>
     </div>
   </div>
 </div>
@@ -50,17 +50,65 @@
 if the stock is not sufficient. The module also calculates the number of days for delivery, taking into account the
 delivery time from the product, the number of safety days, and the number of delivery days from the supplier for
 products that are not in stock.</p>
+<p>On the shop product card, the stock status (immediate or subsequent delivery) is configured from
+the website builder, in the "Products Design" panel: text, LED or LED with text, placed above the
+price, on the image or next to the price, with orange, gray or red for products not in stock.</p>
 <p>Modulul permite afi&#537;area stocului pe website sub un anumit prag cu posibilitatea de a comanda chiar dac&#259; stocul nu este
 suficient. Modulul calculeaz&#259; &#537;i num&#259;rul de zile de &#238;n care se va face livrare &#539;in&#226;nd cont de timpul de livrare din
 produs, num&#259;rul de zile de siguran&#539;&#259; &#537;i num&#259;rul de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.</p>
+<p>Pe cardul de produs din magazin, statusul stocului (livrare imediat&#259; sau ulterioar&#259;) se configureaz&#259;
+din editorul website-ului, &#238;n panoul &#8222;Products Design&#8221;: text, LED sau LED cu text, deasupra pre&#539;ului,
+pe imagine sau l&#226;ng&#259; pre&#539;, cu portocaliu, gri sau ro&#537;u pentru produsele care nu sunt pe stoc.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.15</h1>
+<ul>
+<li>The upgrade to 19.0.1.0.12 no longer fails with "violates foreign key
+  constraint ir_ui_view_inherit_id_fkey" on databases where views were added
+  on top of the old "Product Available" view of a website. That website copy is
+  kept, active, under the key
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_website_stock_availability.products_qty_available_custom</code>, with
+  the views that inherit it, and the website keeps its own stock rendering on
+  the shop card: the new stock status is not enabled there. The other copies
+  are removed as before.</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.13</h1>
+<ul>
+<li>The stock badge on the product page ("4 Units in stock", shown under the
+  availability threshold) gets a style picked from the website builder, in the
+  "Product Page" options, "Stock Badge": the standard pill, text with a dot,
+  theme colors, outline, a level bar filled up to the threshold, or the status
+  only ("Limited stock", without the quantity). The new styles take their
+  colors from the website theme, so they stay readable on dark themes.</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.12</h1>
+<ul>
+<li>The stock status on the shop product card is configured from the website
+  builder, in the "Products Design" panel: shown as text, LED or LED with text,
+  placed above the price, on the image or next to the price, with orange, gray
+  or red for products not in stock. Websites that had the "Product Available"
+  card badge active keep it, as text above the price.</li>
+</ul>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.11</h1>
+<ul>
+<li>The vendor stock and lead time on the product page now come from the supplier
+  that really applies to the selected variant: suppliers of another variant, of
+  another company, of an archived vendor or with an expired offer are skipped,
+  and a current offer wins over a future one.</li>
+<li>The cart delivery badges now use the stock of the website warehouse, expressed
+  in the unit of the cart line (a line of one dozen with six units in stock is no
+  longer shown as "Immediate delivery").</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.10</h1>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
 </ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">History</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.14 (2026-10-22)</h2>
+<ul>
+<li>Listed on Odoo Apps as <em>Website Stock Availability</em> (was <em>eCommerce Stock Availability</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_website_stock_availability</code> does not change.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.9 (2026-07-30)</h2>
 <ul>
 <li>Fixed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">?ppg=</code> silently filtering the shop by price. The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">shop()</code> override
@@ -131,7 +179,7 @@ produs, num&#259;rul de zile de siguran&#539;&#259; &#537;i num&#259;rul de zile
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website alternative code</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Alternative Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
@@ -176,6 +224,26 @@ produs, num&#259;rul de zile de siguran&#539;&#259; &#537;i num&#259;rul de zile
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Archive eCommerce categories without deleting them</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_website_category_icon" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_website_category_icon/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Category Icons</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">SVG icons for eCommerce categories, shown in the shop</p>
         </div>
       </a>
     </div>
@@ -256,26 +324,6 @@ produs, num&#259;rul de zile de siguran&#539;&#259; &#537;i num&#259;rul de zile
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_website_fixed_price" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ED</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_website_fixed_price/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Display Fixed Price As Discount</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
         </div>
       </a>
     </div>

@@ -1,6 +1,6 @@
-==========================
-Deltatech Invoice Delivery
-==========================
+================
+Invoice Delivery
+================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Invoice Delivery
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_invoice_delivery
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_delivery
     :alt: dhongu/deltatech
 .. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_delivery
@@ -22,16 +22,99 @@ Deltatech Invoice Delivery
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+Deliver the goods straight from the customer invoice: when an invoice is
+posted, the storable products are added to a sale order, the order is
+confirmed and the delivery is validated, in one step and without a
+separate quotation.
 
-  - Generation of a sale order and delivery automatically when
-    validating a sale invoice
-  - Allows negative quantity in sale order
+- **One step**: posting the invoice creates the sale order, confirms it
+  and delivers the goods from stock.
+- **Enabled per journal**: only the sales journals with *Delivery from
+  invoice* checked use the flow, so the invoices issued from sale orders
+  keep the standard behaviour.
+- **Only what needs a delivery**: services and lines already linked to a
+  sale order are left as they are.
+- **Same values as the invoice**: quantity, unit, price, discount and
+  taxes are copied to the order line, which stays linked to the invoice
+  line, so the order is shown as delivered and invoiced.
+- **Stock check before posting**: when the stock is not enough, the
+  invoice is not posted and the message lists each product with the
+  available and the requested quantity.
+- **Returns on the same invoice**: a line with a negative quantity
+  brings the goods back to stock.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+1. Go to *Invoicing > Configuration > Journals* and open the sales
+   journal used for these invoices.
+2. Check **Delivery from invoice**. A separate journal, for example
+   *Store invoices*, keeps the invoices issued from sale orders on the
+   standard flow.
+3. The warehouse of the generated order must deliver in one step
+   (*Inventory > Configuration > Warehouses*, *Outgoing shipments:
+   Deliver goods directly*).
+
+Usage
+=====
+
+1. Create a customer invoice in the journal with *Delivery from invoice*
+   and add the products.
+2. Click **Confirm**. The sale order is created and confirmed, the
+   delivery is validated and a note on the invoice links to the order.
+3. When a product does not have enough stock, the invoice stays in draft
+   and the message shows the available and the requested quantity.
+4. To take goods back on the same invoice, add the product with a
+   negative quantity: a return is validated together with the delivery.
+
+With ``l10n_ro_stock_account_date`` installed, the stock accounting
+entries of the delivery take the accounting date of the invoice, so the
+sale (707) and the cost of the goods sold (607) fall in the same period.
+
+Limits:
+
+- Use this journal only when the goods leave on the invoice date. Goods
+  delivered earlier, especially in a previous month, are recorded at the
+  delivery date (418) and invoiced afterwards, from the delivery.
+- A negative line on the invoice must refer to the original invoice
+  (number and date). The goods returned this way enter the stock at the
+  current cost of the product, not at the cost of the original delivery:
+  for an exact reversal of the cost, return them from the original
+  delivery and issue a credit note.
+
+Changelog
+=========
+
+19.0.1.0.0 (2026-10-12)
+-----------------------
+
+- Migrated to Odoo 19.
+- The flow is enabled per sales journal (*Delivery from invoice*). Up to
+  18.0 it ran on every customer invoice; when upgrading, the option is
+  checked on all the sales journals, so the behaviour stays the same.
+- The discount of the invoice line is copied to the sale order line, and
+  the order line stays linked to the invoice line.
+- The lines without a sale order always go to a new order. Up to 18.0
+  they could be added to an existing order of the customer, which was
+  then not delivered.
+- The delivery keeps the reserved quantities: every move with a demand
+  is delivered in full. The 18.0 code deleted the moves that already had
+  a quantity, so those products were not delivered.
+- When the stock is not enough, the message lists each product with the
+  available and the requested quantity.
+- The delivery is refused, with a clear message, for warehouses that
+  deliver in more than one step.
+- A negative quantity is returned by the standard Odoo 19 flow; the
+  custom stock rule override was removed.
+- The delivery takes the accounting date of the invoice, so that the
+  sale and the cost of the goods sold fall in the same period.
+- Own module icon, in the flat style of the other invoice modules,
+  instead of the generic gears.
 
 Bug Tracker
 ===========
@@ -61,6 +144,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_invoice_delivery>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_delivery>`_ project on GitHub.
 
 You are welcome to contribute.

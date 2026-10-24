@@ -19,9 +19,9 @@ Stock Auto Transfer
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_transit
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2076%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_picking_transit
-    :alt: 6 automated tests · 76% code coverage
+    :alt: 7 automated tests · 75% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -51,6 +51,57 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.0.0.15 (2026-10-17)
+------------------------
+
+- Fix TRANSIT-003 (#3413): opening or reloading a transit delivery no
+  longer locks or unlocks it. The "Transit Transfer" indicator used to
+  toggle the lock each time it was computed, so the lock state of the
+  transfer depended on how often it was displayed; the lock is now
+  changed only with the native Lock / Unlock button.
+
+19.0.0.0.14 (2026-10-09)
+------------------------
+
+- Fix partial deliveries with a backorder (TRANSIT-004): the receiving
+  leg checks its products against the source transfer and all its
+  backorders, so the products left for a source backorder can still be
+  received. A source backorder created by the native
+  ``_create_backorder`` keeps "Second Transfer Created" (its products
+  are already in the receiving leg, no duplicate reception) and its
+  chatter names the receiving transfer.
+
+19.0.0.0.13 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.0.0.12 (2026-10-02)
+------------------------
+
+- Port the 18.0 fix: the second transfer is created with ``sudo()``
+  (warehouse and reception type lookup, picking creation, move copy), so
+  an operator without access rights on the receiving warehouse can
+  validate the first leg.
+
+19.0.0.0.11 (2026-10-01)
+------------------------
+
+- Fix creation of the second transfer: the removed
+  ``move_ids_without_package`` field is replaced by ``move_ids``
+  (TRANSIT-001).
+- Fix the computed fields ``is_transit_transfer`` and
+  ``sub_location_existent`` on multi-record sets (TRANSIT-002).
+- Replace the commented-out tests with working Odoo 19 tests.
+
+19.0.0.0.10 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
