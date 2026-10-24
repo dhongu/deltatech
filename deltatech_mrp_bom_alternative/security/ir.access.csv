@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_mrp_bom_line_alternative_user,mrp.bom.line.alternative user,mrp.bom.line.alternative,mrp.group_mrp_user,r,
+access_mrp_bom_line_alternative_manager,mrp.bom.line.alternative manager,mrp.bom.line.alternative,mrp.group_mrp_manager,crud,
+access_mrp_bom_alternative_substitute_user,mrp.bom.alternative.substitute user,mrp.bom.alternative.substitute,mrp.group_mrp_user,crud,

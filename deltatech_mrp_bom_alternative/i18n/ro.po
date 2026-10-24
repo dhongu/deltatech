@@ -1,0 +1,554 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_mrp_bom_alternative
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-24 06:24+0000\n"
+"PO-Revision-Date: 2026-10-24 05:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/stock_move.py:0
+msgid ""
+"%(qty)s %(uom)s of %(original)s replaced by %(alt_qty)s %(alt_uom)s of %"
+"(alternative)s (%(reason)s)."
+msgstr ""
+"%(qty)s %(uom)s din %(original)s înlocuite cu %(alt_qty)s %(alt_uom)s din %"
+"(alternative)s (%(reason)s)."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/mrp_bom_line_alternative.py:0
+msgid "A component cannot be an alternative of itself."
+msgstr "O componentă nu poate fi propria alternativă."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_res_company__mrp_alternative_partial
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_res_config_settings__mrp_alternative_partial
+msgid ""
+"Allow a component to be split between the original product and one or more "
+"alternatives. When unchecked, an alternative is used only if it covers the "
+"whole shortage."
+msgstr ""
+"Permite împărțirea unei componente între produsul original și una sau mai "
+"multe alternative. Când opțiunea este debifată, o alternativă se folosește "
+"doar dacă acoperă tot lipsa."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__allowed_alternative_ids
+msgid "Allowed Alternative"
+msgstr "Alternative permise"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__alternative_id
+msgid "Alternative"
+msgstr "Alternativă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_alternative_view_search
+msgid "Alternative Component"
+msgstr "Componentă alternativă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_view_form_alternative
+msgid "Alternative Components"
+msgstr "Componente alternative"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line__alternative_count
+msgid "Alternative Count"
+msgstr "Număr alternative"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__alternative_qty
+msgid "Alternative Quantity"
+msgstr "Cantitate alternativă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_stock_move__bom_line_alternative_id
+msgid "Alternative Rule"
+msgstr "Regulă alternativă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__alternative_uom_id
+msgid "Alternative Unit"
+msgstr "UM alternativă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line__alternative_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_form_view
+msgid "Alternatives"
+msgstr "Alternative"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.actions.act_window,help:deltatech_mrp_bom_alternative.mrp_bom_line_alternative_action
+msgid ""
+"Alternatives are added on the components of a bill of materials, with the "
+"exchange button."
+msgstr ""
+"Alternativele se adaugă pe componentele unei liste de materiale, cu butonul "
+"de schimb."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/mrp_bom_line.py:0
+msgid "Alternatives for %s"
+msgstr "Alternative pentru %s"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields.selection,name:deltatech_mrp_bom_alternative.selection__mrp_bom_line__alternative_policy__auto
+#: model:ir.model.fields.selection,name:deltatech_mrp_bom_alternative.selection__stock_move__substitution_reason__auto
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Automatic"
+msgstr "Automat"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__availability_html
+msgid "Availability Html"
+msgstr "Disponibilitate (HTML)"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_mrp_bom_line
+msgid "Bill of Material Line"
+msgstr "Linie listă de materiale"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_alternative_view_search
+msgid "Bill of Materials"
+msgstr "Listă de materiale"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.actions.act_window,name:deltatech_mrp_bom_alternative.mrp_bom_line_alternative_action
+#: model:ir.ui.menu,name:deltatech_mrp_bom_alternative.menu_mrp_bom_line_alternative
+msgid "BoM Alternatives"
+msgstr "Alternative LdM"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__bom_line_id
+msgid "BoM Line"
+msgstr "Linie LdM"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_mrp_bom_line_alternative
+msgid "BoM Line Alternative Component"
+msgstr "Componentă alternativă pe linia LdM"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_alternative_substitute_view_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_res_company
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__product_id
+msgid "Component"
+msgstr "Componentă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__move_id
+msgid "Component Move"
+msgstr "Mișcare componentă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.actions.act_window,name:deltatech_mrp_bom_alternative.stock_move_action_substitution
+#: model:ir.ui.menu,name:deltatech_mrp_bom_alternative.menu_stock_move_substitution
+msgid "Component Substitutions"
+msgstr "Substituții de componente"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_list_substitution
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Consumed Instead"
+msgstr "Consumat în loc"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__create_uid
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__create_date
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_view_form_alternative
+msgid "Discard"
+msgstr "Renunță"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_production__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_stock_move__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "Forecasted"
+msgstr "Prognozat"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "Free"
+msgstr "Liber"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_stock_move__has_bom_alternatives
+msgid "Has Bom Alternatives"
+msgstr "Are alternative LdM"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line__id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_production__id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_stock_move__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__write_uid
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__write_date
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields.selection,name:deltatech_mrp_bom_alternative.selection__mrp_bom_line__alternative_policy__manual
+#: model:ir.model.fields.selection,name:deltatech_mrp_bom_alternative.selection__stock_move__substitution_reason__manual
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Manual"
+msgstr "Manual"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_mrp_bom_line__alternative_policy
+msgid ""
+"Manual: alternatives are chosen by the user on the manufacturing order.\n"
+"Automatic: when the original component is not available, the shortage is "
+"covered from the alternatives, in their order."
+msgstr ""
+"Manual: alternativele sunt alese de utilizator pe comanda de producție.\n"
+"Automat: când componenta originală nu este disponibilă, lipsa se acoperă din "
+"alternative, în ordinea lor."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_mrp_production
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_list_substitution
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Manufacturing Order"
+msgstr "Comandă de producție"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "Needed"
+msgstr "Necesar"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.actions.act_window,help:deltatech_mrp_bom_alternative.mrp_bom_line_alternative_action
+msgid "No alternative component yet"
+msgstr "Nicio componentă alternativă încă"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__note
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "Original"
+msgstr "Original"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__original_product_id
+msgid "Original Component"
+msgstr "Componentă originală"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__original_qty
+msgid "Original Quantity"
+msgstr "Cantitate originală"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__original_uom_id
+msgid "Original Unit"
+msgstr "UM originală"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__bom_id
+msgid "Parent BoM"
+msgstr "LdM părinte"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_company__mrp_alternative_partial
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_config_settings__mrp_alternative_partial
+msgid "Partial Substitution"
+msgstr "Substituție parțială"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__production_id
+msgid "Production Order for components"
+msgstr "Comandă de producție pentru componente"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__product_qty
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_view_form_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_list_substitution
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__product_qty
+msgid ""
+"Quantity of the alternative that replaces the quantity of the original "
+"component on the BoM line."
+msgstr ""
+"Cantitatea alternativei care înlocuiește cantitatea componentei originale de "
+"pe linia LdM."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__qty
+msgid ""
+"Quantity of the original component, in its unit, consumed from the "
+"alternative instead."
+msgstr ""
+"Cantitatea componentei originale, în UM ei, consumată în schimb din "
+"alternativă."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__qty
+msgid "Quantity to Replace"
+msgstr "Cantitate de înlocuit"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__max_qty
+msgid "Replaceable"
+msgstr "Înlocuibil"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_stock_move__original_product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_search_substitution
+msgid "Replaced Component"
+msgstr "Componentă înlocuită"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__reserved_qty
+msgid "Reserved"
+msgstr "Rezervat"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_res_company__mrp_alternative_on_assign
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_res_config_settings__mrp_alternative_on_assign
+msgid ""
+"Run the automatic substitution again when the availability of a "
+"manufacturing order is checked, not only when the order is confirmed."
+msgstr ""
+"Rulează din nou substituția automată la verificarea disponibilității unei "
+"comenzi de producție, nu doar la confirmarea ei."
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_view_form_alternative
+msgid "Save"
+msgstr "Salvează"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__sequence
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.res_config_settings_view_form
+msgid ""
+"Split a component between the original product and its alternatives when the "
+"stock is short"
+msgstr ""
+"Împarte o componentă între produsul original și alternativele ei când stocul "
+"nu ajunge"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_alternative_substitute_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_production_form_view
+msgid "Substitute"
+msgstr "Înlocuiește"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/stock_move.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_alternative_substitute_view_form
+msgid "Substitute Component"
+msgstr "Înlocuiește componenta"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model,name:deltatech_mrp_bom_alternative.model_mrp_bom_alternative_substitute
+msgid "Substitute Component with an Alternative"
+msgstr "Înlocuire componentă cu o alternativă"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.res_config_settings_view_form
+msgid ""
+"Substitute automatically also when checking availability, not only at "
+"confirmation"
+msgstr ""
+"Substituție automată și la verificarea disponibilității, nu doar la "
+"confirmare"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_company__mrp_alternative_on_assign
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_res_config_settings__mrp_alternative_on_assign
+msgid "Substitute on Availability Check"
+msgstr "Substituție la verificarea disponibilității"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line__alternative_policy
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_stock_move__substitution_reason
+msgid "Substitution"
+msgstr "Substituție"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "The component move is already done or cancelled."
+msgstr "Mișcarea componentei este deja efectuată sau anulată."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/mrp_bom_line_alternative.py:0
+msgid "The product to manufacture cannot be its own alternative component."
+msgstr "Produsul de fabricat nu poate fi propria componentă alternativă."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/mrp_bom_line_alternative.py:0
+msgid "The quantity of an alternative component must be positive."
+msgstr "Cantitatea unei componente alternative trebuie să fie pozitivă."
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.mrp_bom_line_view_form_alternative
+msgid ""
+"The quantity of an alternative replaces the quantity of the original "
+"component shown above."
+msgstr ""
+"Cantitatea unei alternative înlocuiește cantitatea componentei originale "
+"afișate mai sus."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "The quantity to replace must be positive."
+msgstr "Cantitatea de înlocuit trebuie să fie pozitivă."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/models/mrp_bom_line_alternative.py:0
+msgid "The validity start date must be before the end date."
+msgstr ""
+"Data de început a valabilității trebuie să fie înaintea datei de sfârșit."
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "This alternative is not valid for the component on the order date."
+msgstr ""
+"Această alternativă nu este valabilă pentru componentă la data comenzii."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,help:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__product_uom_qty
+msgid ""
+"This is the quantity of product that is planned to be moved.Lowering this "
+"quantity does not generate a backorder.Changing this quantity on assigned "
+"moves affects the product reservation, and should be done with care."
+msgstr ""
+"Aceasta este cantitatea de produs planificată să fie mutată. Scăderea "
+"acestei cantități nu generează o comandă restantă. Modificarea acestei "
+"cantități pe mișcările rezervate afectează rezervarea produsului și trebuie "
+"făcută cu atenție."
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__product_uom_qty
+msgid "To Consume"
+msgstr "De consumat"
+
+#. module: deltatech_mrp_bom_alternative
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_bom_alternative.stock_move_view_list_substitution
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_alternative_substitute__uom_id
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__product_uom_id
+msgid "Unit"
+msgstr "UM"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__date_start
+msgid "Valid From"
+msgstr "Valabil de la"
+
+#. module: deltatech_mrp_bom_alternative
+#: model:ir.model.fields,field_description:deltatech_mrp_bom_alternative.field_mrp_bom_line_alternative__date_end
+msgid "Valid Until"
+msgstr "Valabil până la"
+
+#. module: deltatech_mrp_bom_alternative
+#. odoo-python
+#: code:addons/deltatech_mrp_bom_alternative/wizard/mrp_bom_alternative_substitute.py:0
+msgid "You cannot replace more than %(qty)s %(uom)s."
+msgstr "Nu puteți înlocui mai mult de %(qty)s %(uom)s."
