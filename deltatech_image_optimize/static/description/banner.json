@@ -2,6 +2,11 @@
   "title": "Image Optimizer",
   "summary": "Lighter, cleaner eCommerce product images",
   "icon": "file",
-  "features": ["Background and watermark removal", "Duplicate image removal", "Recompress oversized images"],
-  "lang": "en"
+  "features": [
+    "AI background removal, on your server",
+    "Watermark and duplicate image removal",
+    "Recompress oversized images"
+  ],
+  "lang": "en",
+  "ai": true
 }
