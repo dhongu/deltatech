@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_bom_line_alternative_user,mrp.bom.line.alternative user,model_mrp_bom_line_alternative,mrp.group_mrp_user,1,0,0,0
+access_mrp_bom_line_alternative_manager,mrp.bom.line.alternative manager,model_mrp_bom_line_alternative,mrp.group_mrp_manager,1,1,1,1
+access_mrp_bom_alternative_substitute_user,mrp.bom.alternative.substitute user,model_mrp_bom_alternative_substitute,mrp.group_mrp_user,1,1,1,1

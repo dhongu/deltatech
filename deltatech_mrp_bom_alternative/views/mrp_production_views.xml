@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="mrp_production_form_view" model="ir.ui.view">
+        <field name="name">mrp.production.form.alternative</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='move_raw_ids']/list/field[@name='product_id']" position="after">
+                <field name="original_product_id" optional="show" readonly="1" />
+                <field name="has_bom_alternatives" column_invisible="True" />
+            </xpath>
+            <xpath expr="//field[@name='move_raw_ids']/list/field[@name='product_uom']" position="after">
+                <button
+                    name="action_open_bom_alternative_substitute"
+                    type="object"
+                    icon="fa-exchange"
+                    title="Substitute"
+                    aria-label="Substitute"
+                    invisible="not id or not has_bom_alternatives or state in ('done', 'cancel') or picked or parent.state not in ('draft', 'confirmed', 'progress', 'to_close')"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
