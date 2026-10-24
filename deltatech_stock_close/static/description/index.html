@@ -13,7 +13,13 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">AGPL-3</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 3 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">100% code coverage</div>
+    </div>
   </div>
 </div>
 
@@ -61,10 +67,14 @@ the storage sheet can be run on the stock moves that are still open only.</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Valuation Active flag</span><div>Each stock move gets a <strong>Valuation Active</strong> flag, on by default; a move
   whose flag is off counts as closed. In Odoo 19 the valuation is kept on the stock move, so the flag
   is set there.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Only active option</span><div>The storage sheet wizard gets an <strong>Only active</strong> option; when ticked, the
-  initial balance, the receipts, the deliveries and the final balance leave out the closed moves.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Report unchanged otherwise</span><div>With the option off, the storage sheet is exactly the one of the
-  Romanian localization; the stock moves themselves are never hidden elsewhere in Odoo.</div></div></li></ul>
-<p>The <strong>Valuation Active</strong> flag is not shown on the stock move form in this version: it is set by import
-or by a script.</p>
+  initial balance, the receipts, the deliveries and the final balance leave out the closed moves.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
+<p><strong>Report unchanged otherwise</strong>: With the option off, the storage sheet is exactly the one of the
+  Romanian localization; the stock moves themselves are never hidden elsewhere in Odoo.</p>
+</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
+<p><strong>Close Stock Moves</strong>: The <em>Inventory &gt; Operations &gt; Adjustments &gt; Close Stock Moves</em> wizard closes
+  every done stock move of the company dated on or before a chosen day. No accounting entry is changed.</p>
+</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Flag on the stock move list</span><div>The <strong>Valuation Active</strong> column (hidden by default) and the
+  <strong>Closed</strong> filter of the stock move list let a stock manager check or reopen a single move.</div></div></li></ul>
 <p><strong>Data sent outside Odoo:</strong> none.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -73,8 +83,10 @@ or by a script.</p>
 <li>Install the module; it needs the storage sheet of the Romanian localization
    (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>).</li>
 <li>Decide which stock moves count as closed (for instance every move of a closed fiscal year) and
-   untick <strong>Valuation Active</strong> on them, by import (<em>Inventory &gt; Reporting &gt; Moves History</em>, export and
-   import of the field) or by a script.</li>
+   close them with <em>Inventory &gt; Operations &gt; Adjustments &gt; Close Stock Moves</em>: choose the last day of
+   the closed period and press <strong>Close</strong>. The wizard is for stock managers.</li>
+<li>To reopen a move, show the <strong>Valuation Active</strong> column of the stock move list
+   (<em>Inventory &gt; Reporting &gt; Moves Analysis</em>, <strong>Closed</strong> filter) and tick it again.</li>
 </ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -94,18 +106,26 @@ rula doar pe mi&#537;c&#259;rile de stoc &#238;nc&#259; deschise.</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Indicatorul Valuation Active</span><div>Fiecare mi&#537;care de stoc prime&#537;te indicatorul <strong>Valuation Active</strong>,
   activ implicit; o mi&#537;care cu indicatorul dezactivat e considerat&#259; &#238;nchis&#259;. &#206;n Odoo 19 evaluarea se
   &#539;ine pe mi&#537;carea de stoc, deci indicatorul st&#259; acolo.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Op&#539;iunea Only active</span><div>Asistentul fi&#537;ei de magazie prime&#537;te op&#539;iunea <strong>Only active</strong>; c&#226;nd e
-  bifat&#259;, soldul ini&#539;ial, intr&#259;rile, ie&#537;irile &#537;i soldul final nu mai iau &#238;n calcul mi&#537;c&#259;rile &#238;nchise.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Raportul r&#259;m&#226;ne altfel neschimbat</span><div>Cu op&#539;iunea nebifat&#259;, fi&#537;a de magazie e exact cea din
-  localizarea rom&#226;neasc&#259;; mi&#537;c&#259;rile de stoc nu sunt ascunse nic&#259;ieri altundeva &#238;n Odoo.</div></div></li></ul>
-<p>Indicatorul <strong>Valuation Active</strong> nu apare pe formularul mi&#537;c&#259;rii de stoc &#238;n aceast&#259; versiune: se seteaz&#259;
-prin import sau printr-un script.</p>
+  bifat&#259;, soldul ini&#539;ial, intr&#259;rile, ie&#537;irile &#537;i soldul final nu mai iau &#238;n calcul mi&#537;c&#259;rile &#238;nchise.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
+<p><strong>Raportul r&#259;m&#226;ne altfel neschimbat</strong>: Cu op&#539;iunea nebifat&#259;, fi&#537;a de magazie e exact cea din
+  localizarea rom&#226;neasc&#259;; mi&#537;c&#259;rile de stoc nu sunt ascunse nic&#259;ieri altundeva &#238;n Odoo.</p>
+</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>
+<p><strong>&#206;nchiderea mi&#537;c&#259;rilor de stoc</strong>: Asistentul <em>Inventar &gt; Opera&#539;ii &gt; Ajust&#259;ri &gt; Close Stock Moves</em>
+  &#238;nchide toate mi&#537;c&#259;rile de stoc efectuate ale companiei, cu data p&#226;n&#259; la ziua aleas&#259; inclusiv. Nicio
+  not&#259; contabil&#259; nu se modific&#259;.</p>
+</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Indicatorul pe lista mi&#537;c&#259;rilor de stoc</span><div>Coloana <strong>Valuation Active</strong> (ascuns&#259; implicit) &#537;i
+  filtrul <strong>Closed</strong> din lista mi&#537;c&#259;rilor de stoc permit unui manager de stoc s&#259; verifice sau s&#259;
+  redeschid&#259; o singur&#259; mi&#537;care.</div></div></li></ul>
 <p><strong>Date trimise &#238;n afara Odoo:</strong> niciuna.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Configurare</h3>
 <ol>
 <li>Instala&#539;i modulul; are nevoie de fi&#537;a de magazie din localizarea rom&#226;neasc&#259;
    (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_stock_report</code>).</li>
 <li>Stabili&#539;i ce mi&#537;c&#259;ri de stoc sunt &#238;nchise (de exemplu toate mi&#537;c&#259;rile unui an fiscal &#238;nchis) &#537;i
-   debifa&#539;i pe ele <strong>Valuation Active</strong>, prin import (<em>Inventar &gt; Raportare &gt; Istoric mi&#537;c&#259;ri</em>, export
-   &#537;i import al c&#226;mpului) sau printr-un script.</li>
+   &#238;nchide&#539;i-le din <em>Inventar &gt; Opera&#539;ii &gt; Ajust&#259;ri &gt; Close Stock Moves</em>: alege&#539;i ultima zi a
+   perioadei &#238;nchise &#537;i ap&#259;sa&#539;i <strong>Close</strong>. Asistentul este pentru managerii de stoc.</li>
+<li>Ca s&#259; redeschide&#539;i o mi&#537;care, afi&#537;a&#539;i coloana <strong>Valuation Active</strong> &#238;n lista mi&#537;c&#259;rilor de stoc
+   (<em>Inventar &gt; Raportare &gt; Analiz&#259; mi&#537;c&#259;ri</em>, filtrul <strong>Closed</strong>) &#537;i bifa&#539;i-o din nou.</li>
 </ol>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
 <ol>
@@ -117,6 +137,20 @@ prin import sau printr-un script.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.4 (2026-10-23)</h2>
+<ul>
+<li>Tests: the backdated test receipts flush the pending ORM values before the raw SQL
+  update of their date. Flushed afterwards, the date written by the validation could
+  overwrite the backdated one, so the storage sheet and close tests failed at random
+  in the full CI run.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.3 (2026-10-17)</h2>
+<ul>
+<li>Stock moves can now be closed from the interface: the <em>Inventory &gt; Operations &gt; Adjustments &gt;
+  Close Stock Moves</em> wizard closes the done moves up to a date, and the <strong>Valuation Active</strong> column
+  and the <strong>Closed</strong> filter are on the stock move list (dhongu/deltatech#3473).</li>
+<li>The storage sheet with <strong>Only active</strong> now also leaves out moves closed in the same transaction.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-10-10)</h2>
 <ul>
 <li>Apps Store page: description written from the code (the "close at date" feature, which the module
@@ -209,11 +243,31 @@ prin import sau printr-un script.</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Drop Shipping</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Drop Shipping Enhanced</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Delivery address in picking</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_picking_number" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TN</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_picking_number/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Transfer Numbering on Demand</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Allocate official transfer numbers on demand from a second sequence</p>
         </div>
       </a>
     </div>
@@ -314,26 +368,6 @@ prin import sau printr-un script.</p>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Restore the classic inventory adjustment document with valuation control</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_inventory_product_display" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SI</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_stock_inventory_product_display/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Inventory Product Display</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Adds product display button on sales and invoices to see the stock of the products in the order</p>
         </div>
       </a>
     </div>

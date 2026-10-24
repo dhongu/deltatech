@@ -1,6 +1,6 @@
-=====================
-Deltatech Stock Close
-=====================
+===========
+Stock Close
+===========
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,44 +19,104 @@ Deltatech Stock Close
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_close
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_close
+    :alt: 3 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_tests|
 
-Stock Closing Operations
-========================
+Leaves closed stock moves out of the Romanian **storage sheet** (*fișa
+de magazie*, from the ``l10n_ro_stock_report`` module of the Romanian
+localization): once a period or a fiscal year is closed, the storage
+sheet can be run on the stock moves that are still open only.
 
-This module provides tools for managing stock closing operations at a
-specific date. It helps maintain inventory accuracy by allowing users to
-mark stock move valuations as closed, so they can be excluded from the
-Romanian storage sheet after a certain period or when closing the fiscal
-year.
+- **Valuation Active flag**: Each stock move gets a **Valuation Active**
+  flag, on by default; a move whose flag is off counts as closed. In
+  Odoo 19 the valuation is kept on the stock move, so the flag is set
+  there.
 
-Key Features
-------------
+- **Only active option**: The storage sheet wizard gets an **Only
+  active** option; when ticked, the initial balance, the receipts, the
+  deliveries and the final balance leave out the closed moves.
 
-- Ability to close stock operations as of a given date.
-- Adds a "Valuation Active" field on stock moves (Odoo 19 stores
-  valuation on stock moves) for better visibility.
-- Improves reporting performance by filtering out old or closed stock
-  move valuations in the storage sheet ("Only active" option).
-- Integration with Romanian localization stock reports.
+- **Report unchanged otherwise**: With the option off, the storage sheet
+  is exactly the one of the Romanian localization; the stock moves
+  themselves are never hidden elsewhere in Odoo.
 
-Usage
------
+- **Close Stock Moves**: The *Inventory > Operations > Adjustments >
+  Close Stock Moves* wizard closes every done stock move of the company
+  dated on or before a chosen day. No accounting entry is changed.
 
-- Go to Inventory > Reporting > Romanian Stock Storage Sheet.
-- Enable the "Only active" option to exclude closed valuations from the
-  report.
-- Mark stock move valuations as closed (unset "Valuation Active")
-  according to your business needs.
+- **Flag on the stock move list**: The **Valuation Active** column
+  (hidden by default) and the **Closed** filter of the stock move list
+  let a stock manager check or reopen a single move.
+
+**Data sent outside Odoo:** none.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Configuration
+=============
+
+1. Install the module; it needs the storage sheet of the Romanian
+   localization (``l10n_ro_stock_report``).
+2. Decide which stock moves count as closed (for instance every move of
+   a closed fiscal year) and close them with *Inventory > Operations >
+   Adjustments > Close Stock Moves*: choose the last day of the closed
+   period and press **Close**. The wizard is for stock managers.
+3. To reopen a move, show the **Valuation Active** column of the stock
+   move list (*Inventory > Reporting > Moves Analysis*, **Closed**
+   filter) and tick it again.
+
+Usage
+=====
+
+1. Open the storage sheet of the Romanian localization (*Inventory >
+   Reporting*).
+2. Tick **Only active** to leave the closed stock moves out; leave it
+   unticked for the full report.
+3. Run the report as usual.
+
 Changelog
 =========
+
+19.0.1.1.4 (2026-10-23)
+-----------------------
+
+- Tests: the backdated test receipts flush the pending ORM values before
+  the raw SQL update of their date. Flushed afterwards, the date written
+  by the validation could overwrite the backdated one, so the storage
+  sheet and close tests failed at random in the full CI run.
+
+19.0.1.1.3 (2026-10-17)
+-----------------------
+
+- Stock moves can now be closed from the interface: the *Inventory >
+  Operations > Adjustments > Close Stock Moves* wizard closes the done
+  moves up to a date, and the **Valuation Active** column and the
+  **Closed** filter are on the stock move list (dhongu/deltatech#3473).
+- The storage sheet with **Only active** now also leaves out moves
+  closed in the same transaction.
+
+19.0.1.1.2 (2026-10-10)
+-----------------------
+
+- Apps Store page: description written from the code (the "close at
+  date" feature, which the module does not have, removed; the Valuation
+  Active flag and the Only active option of the storage sheet
+  described), Configuration and Usage added, and the Romanian
+  translation in its own tab (``readme/*.ro.md``). Known bugs in
+  ``readme/bugs.md``. English summary; banner aligned.
+- Module name: "Stock Close" (was "Deltatech Stock Close"), without the
+  brand name and the same as the banner.
+
+19.0.1.1.1
+==========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========
