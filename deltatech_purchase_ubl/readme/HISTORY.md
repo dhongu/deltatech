@@ -1,3 +1,11 @@
+## 19.0.1.4.21 (2026-10-24)
+
+- Matching by name without spaces (the last matching step, UBL-010, #3760): the name
+  is read in the user's language with English as fallback, so on a Romanian database a
+  product created in English is found too; case is ignored; archived products and
+  products of other companies are left out; and the name must be unique, as in the
+  step before it, instead of taking one of several products at random.
+
 ## 19.0.1.4.20 (2026-10-22)
 
 - Listed on Odoo Apps as *Purchase UBL Import* (was *Purchase UBL*). The technical name `deltatech_purchase_ubl` does not change.
