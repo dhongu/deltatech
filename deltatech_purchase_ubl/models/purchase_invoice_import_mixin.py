@@ -445,24 +445,35 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 return products[0], "name"
 
         if name:
-            name_without_spaces = name.replace(" ", "")
-            lang = self.env.context.get("lang") or self.env.user.lang
-            self.env.cr.execute(
-                SQL(
-                    "SELECT id FROM product_template"
-                    " WHERE name ->> %(lang)s IS NOT NULL"
-                    " AND REPLACE(name ->> %(lang)s, ' ', '') = %(name)s"
-                    " LIMIT 1",
-                    lang=lang,
-                    name=name_without_spaces,
-                )
-            )
-            product_id = self.env.cr.fetchone()
-            if product_id:
-                product_template = self.env["product.template"].browse(product_id[0])
+            product_template = self._match_template_by_name_without_spaces(name)
+            if product_template:
                 return product_template.product_variant_id, "name"
 
         return Product.browse(), False
+
+    def _match_template_by_name_without_spaces(self, name):
+        """The product template whose name equals ``name`` once spaces and case are left
+        out (UBL-010), or an empty recordset when there is none or more than one.
+
+        The name is read in the user's language, falling back to English: a product
+        created in English has no translation in the user's language. The candidates
+        go through the ORM, which leaves out archived products and those of other
+        companies."""
+        lang = self.env.context.get("lang") or self.env.user.lang or "en_US"
+        self.env.cr.execute(
+            SQL(
+                "SELECT id FROM product_template"
+                " WHERE lower(replace(COALESCE(name ->> %(lang)s, name ->> 'en_US'), ' ', '')) = %(name)s"
+                " LIMIT 10",
+                lang=lang,
+                name=name.replace(" ", "").lower(),
+            )
+        )
+        template_ids = [row[0] for row in self.env.cr.fetchall()]
+        if not template_ids:
+            return self.env["product.template"]
+        templates = self.env["product.template"].search([("id", "in", template_ids)], limit=2)
+        return templates if len(templates) == 1 else self.env["product.template"]
 
     def _match_product_on_order(self, order, partner, code, name, barcode=None):
         return self._match_product_on_order_detailed(order, partner, code, name, barcode=barcode)[0]
