@@ -10,18 +10,18 @@ Lot Generation & Selection
    !! source digest: sha256:cd33dd01e7f229870a27937f803dfa28946b1cc6b809f72a3a3c9a250bfaea5b
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_lot
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2080%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_lot
-    :alt: 3 automated tests · 80% code coverage
+    :alt: 5 automated tests · 81% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -34,6 +34,36 @@ Lot Generation & Selection
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.4 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Lot Generation & Selection* (was
+  *Generate/Select lot*). The technical name ``deltatech_lot`` does not
+  change.
+
+19.0.1.0.3 (2026-10-17)
+-----------------------
+
+- The lot location is refreshed when the quantity of an existing quant
+  changes (for example when a location is emptied), not only when quants
+  are added or removed.
+- A lot held in a single location on several quants (different owners or
+  packages) keeps its location instead of showing none.
+
+19.0.1.0.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========
