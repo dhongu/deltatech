@@ -98,6 +98,15 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 Changelog
 =========
 
+19.0.1.2.0 (2026-10-24)
+-----------------------
+
+- Add ``name_words``: the name without diacritics, punctuation and legal
+  forms, with the words in their order, for an exact name key where the
+  order matters ("Alfa Beta" and "Beta Alfa" can be two companies).
+  ``normalize_name`` is the same with the words sorted. Used by the
+  trial balance import.
+
 19.0.1.1.1 (2026-10-23)
 -----------------------
 
