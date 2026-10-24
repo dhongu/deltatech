@@ -1,6 +1,6 @@
-======================
-Terrabit - Record Type
-======================
+============
+Record Types
+============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Terrabit - Record Type
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_record_type/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests%20%C2%B7%2074%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-16%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_record_type
-    :alt: 14 automated tests · 74% code coverage
+    :alt: 16 automated tests · 79% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -53,8 +53,8 @@ Technical Implementation
 
 The module implements a flexible framework through two main models:
 
-- : Defines the type configuration including allowed users and routing
-  ``record.type``
+- ``record.type``: Defines the type configuration including allowed
+  users and routing
 - ``record.type.default.values``: Manages default field values for each
   record type with dynamic field selection
 
@@ -78,17 +78,243 @@ Business Benefits
 Usage
 -----
 
-Record types can be configured in the system settings. Each type can
-have specific default values for fields, which will be automatically
-applied when creating new records of that type. User access to record
-types can be restricted, ensuring that users only see and use the
-appropriate record types for their role. This module is maintained by
-Terrabit and is available for Odoo 17.0.
+Record types are configured from the Configuration menu of each
+application (Sales, Purchase, Invoicing). Each type can have specific
+default values for fields, which are automatically applied when the type
+is selected on a document. On sales orders, the types can be restricted
+to specific users, ensuring that users only see and use the appropriate
+record types for their role. This module is maintained by Terrabit and
+is available for Odoo 19.0.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+Install ``deltatech_record_type`` (it pulls in ``sale``, ``sale_stock``
+and ``purchase``), then:
+
+- **Settings → Sales → Quotations & Orders → Confirmed without record
+  type**:
+
+  - ticked: all internal users can confirm orders without a type;
+  - cleared: only members of the group *Can confirm orders without order
+    type* can do so. After installation only the administrator and the
+    system user are in that group, so as soon as you define a type, all
+    other users must pick one before confirming. Grant the group only to
+    those who need the exception.
+
+- Define the types you need (see *Usage*, Step 1). A document shows the
+  type field only if at least one type exists for it.
+- To use stock routes on a type, enable **Settings → Inventory →
+  Multi-Step Routes**. The **Routes** field is visible only then.
+
+Usage
+=====
+
+Before you start, check the *Configuration* section: types are defined
+once, then offered on sales orders, purchase orders and invoices. A type
+is a classification, a source of default values and (for sales) stock
+routes. It has no direct accounting effect.
+
+**Step 1 — Define an order type**
+
+Go to **Sales → Configuration → Order Types** and click **New**. Fill in
+**Name** (for example "Wholesale sale"), keep **Model** = *Sales Order*
+(it is filled in automatically when you open the list from this menu),
+and optionally set **Allowed Users**, **Routes** and **Company**. Empty
+**Allowed Users** means the type is available to everyone; the
+restriction applies to sales orders only. Empty **Company** means all
+companies.
+
+Do not change **Model** after creation: the default values are tied to
+fields of the chosen model. For another document, create a new type.
+
+|Order type form for sales orders|
+
+**Step 2 — Add default values**
+
+On the **Default Values** tab add one line per field to pre-fill: choose
+the **Field** (for example *Customer Reference* or *Payment Terms*) and
+fill in **Field Value**:
+
+- text and selection values go **between apostrophes**, for example
+  ``'Wholesale order'``;
+- booleans are ``True`` or ``False``;
+- numbers are written without apostrophes, for example ``5``;
+- relational fields (customer, payment terms, warehouse, journal) are
+  picked in the **Related** column. Odoo pre-fills the first record
+  found, so check it and change it if needed.
+
+The **Field Type** column is filled in automatically for relational,
+char, selection, integer and boolean fields. For float, monetary, date,
+datetime and long text fields, check it manually (for example ``12.5``
+or ``'2026-12-31'``). Many2many and one2many fields cannot be used.
+
+|Default values of a type|
+
+Purchase types are defined in **Purchase → Configuration → Order
+Types**, and invoice types in **Accounting → Configuration → Invoicing →
+Invoice Types**. The screen is the same; only the target document
+differs.
+
+|List of order types|
+
+**Step 3 — Pick the type on a sales order**
+
+Go to **Sales → Orders → Quotations → New**. The **Order Type** field
+appears before the customer and offers only the types you are allowed to
+use. When you pick one, its default values are applied to the order.
+Default values apply at selection time, so existing documents are not
+changed. The field becomes read-only after confirmation or cancellation.
+
+The **Journal** (invoice journal) is also visible on the order, in
+**Other Info → Invoicing**.
+
+|Sales order with the type selected and default payment terms applied|
+
+**Step 4 — Confirm the order**
+
+Click **Confirm**. If types exist for sales and the order has none,
+users without the exception right get the message *"You do not have the
+rights to confirm an order without specifying an Order Type."* Orders
+from the website are not blocked. Quotations accepted or paid by the
+customer in the portal are confirmed normally and stay without a type,
+so pick the type on the quotation before sending it if you need it for
+reporting.
+
+When the order lines have no route of their own, procurement uses the
+**routes of the type**; the effect shows on the generated transfers.
+
+|Blocking message when confirming without a type|
+
+**Step 5 — Pick the type on a purchase order**
+
+Go to **Purchase → Orders → Requests for Quotation → New**. **Order
+Type** appears before the vendor, and **Journal** in **Other Info**,
+after **Fiscal Position**. The list of types is not filtered by allowed
+users. The type can be changed only while the order is a draft.
+Confirmation follows the same rule as for sales, without the website
+exception.
+
+Set **Journal** manually or through a default value of the type. When
+you click **Create Bill**, the vendor bill is issued in the order's
+journal and follows its sequence. If **Journal** is empty, the default
+purchase journal is used.
+
+|Purchase order with type and journal|
+
+|Vendor bill generated in the order's journal|
+
+**Step 6 — Pick the type on an invoice**
+
+Go to **Accounting → Customers → Invoices → New**. **Invoice Type** is
+in **Other Info**, **Invoice** group, after **Sales Team**, and is
+editable only in draft. The type is optional on invoices: posting does
+not check it. It exists only on customer invoices and credit notes, and
+it is not copied from the sales order, so choose it on the invoice. Its
+default values apply when picked.
+
+|Invoice with the type selected|
+
+**Step 7 — Filter, group and analyze**
+
+The **Order Type** column is available (optional) in the lists of sales
+orders, purchase orders and invoices. In search you get an **Order
+Type** field and an **Order Type** group-by. Sales and purchase reports
+expose the type as a dimension through **Custom Group**.
+
+|Sales orders grouped by type|
+
+.. |Order type form for sales orders| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_form.png
+.. |Default values of a type| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_default_values.png
+.. |List of order types| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_list.png
+.. |Sales order with the type selected and default payment terms applied| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_sale_order.png
+.. |Blocking message when confirming without a type| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_confirm_blocked.png
+.. |Purchase order with type and journal| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_purchase_order.png
+.. |Vendor bill generated in the order's journal| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_vendor_bill_journal.png
+.. |Invoice with the type selected| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_invoice.png
+.. |Sales orders grouped by type| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_record_type/record_type_group_by.png
+
+Changelog
+=========
+
+19.0.1.1.22 (2026-10-22)
+------------------------
+
+- Listed on Odoo Apps as *Record Types* (was *Record Type*). The
+  technical name ``deltatech_record_type`` does not change.
+
+19.0.1.1.21 (2026-10-17)
+------------------------
+
+- TYPE-002 (security): every internal user could create, change or
+  delete record types and their default values, which are applied on the
+  sales orders, purchase orders and invoices of other users. Internal
+  users now only read them; the Sales, Purchase and Accounting
+  administrators maintain them.
+
+19.0.1.1.20 (2026-10-10)
+------------------------
+
+- Usage guide (``USAGE.md``) rebuilt from the consultant sheet, with
+  numbered steps and screenshots; new ``CONFIGURE.md``.
+
+19.0.1.1.19 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.1.18 (2026-10-03)
+------------------------
+
+- TYPE-001 (security): the default values of a record type
+  (``record.type.default.values``) had no company rule, so a user of
+  company A could read, change or delete the default values of a
+  company-B record type (applied afterwards on that company's sales,
+  purchases and invoices). The default values now follow the company of
+  their record type through a multi-company record rule (values of
+  shared record types stay visible to everybody), and moving a default
+  value to another record type requires write access on the target type.
+
+19.0.1.1.17 (2026-10-01)
+------------------------
+
+- Consultant sheet reviewed: Romanian field labels aligned with the
+  interface, supported field types for default values, portal acceptance
+  documented as fixed, vendor bill journal taken from the purchase
+  order.
+- New screenshot ``09_factura_furnizor_jurnal.png``; screenshots ``02``,
+  ``04`` and ``06`` regenerated from the real flow (type onchange,
+  purchase journal from the order type).
+- Romanian translations added for the "Invoice" model option and the
+  field types "Char", "Id", "Boolean".
+- DESCRIPTION updated for Odoo 19.0.
+
+19.0.1.1.16 (2026-10-01)
+------------------------
+
+- Quotations without an order type accepted/signed or paid by the
+  customer in the portal are confirmed again: the order type check
+  applies only to internal users, not to portal/public users or to the
+  confirmation made by an online payment.
+
+19.0.1.1.14 (2026-09-30)
+------------------------
+
+- Consultant sheet (``FISA_CONSULTANT.md``) with 8 screenshots,
+  generated by ``tests/test_screenshots.py``.
+- Romanian translations completed: "Rute", "Companie", "Înregistrare
+  asociată"; diacritics fixed in "Tip factură" and "Utilizatori
+  permiși".
+
+19.0.1.1.13 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

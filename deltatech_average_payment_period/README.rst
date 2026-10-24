@@ -1,6 +1,6 @@
-================================
-Deltatech Average Payment Period
-================================
+======================
+Average Payment Period
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Average Payment Period
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_average_payment_period
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_average_payment_period
-    :alt: 5 automated tests · 79% code coverage
+    :alt: 5 automated tests · 75% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -32,7 +32,7 @@ aggregated pivot/graph report — **Average Payment Period** — is added
 directly to the Accounting Reports menu so managers can slice the data
 by partner, journal, or period at a glance.
 
-**Key features:**
+**✨ Key features:**
 
 - **Payment Date** — automatically derived from the reconciliation
   partner line and stored on each ``account.move.line``.
@@ -95,6 +95,31 @@ fully reconciled:
 
 No manual action is required; values update automatically on
 reconciliation and de-reconciliation.
+
+Changelog
+=========
+
+19.0.1.0.5 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.4 (2026-10-09)
+-----------------------
+
+- Average Payment Period report: company field and company record rule,
+  users only see journal items of their active companies (AVGPAY-002).
+
+19.0.1.0.3 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

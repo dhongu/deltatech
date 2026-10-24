@@ -19,9 +19,9 @@ Invoice Pickings
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking/tests
-    :alt: 9 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%2077%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_picking
+    :alt: 18 automated tests · 77% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -48,6 +48,76 @@ Invoice Pickings
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.16 (2026-10-17)
+------------------------
+
+- Fixed: the To invoice flag of a transfer was decided by a single
+  invoice line, so a fully invoiced product could clear the flag of a
+  transfer with another product only partly invoiced, and two partial
+  invoices covering the whole delivery left the transfer to invoice. The
+  flag is now derived from all the done moves of the transfer and the
+  cumulative invoiced quantity of each order line (non-cancelled
+  invoices minus refunds); the quantity not invoiced yet is attributed
+  to the most recent transfers (PICKINV-002). Resetting a cancelled
+  invoice to draft links its transfers again.
+- Fixed: a batch with a partially invoiced transfer was reported as
+  invoiced and the batch Invoice action left that transfer out; it is
+  now kept, so the rest can be invoiced (PICKINV-003).
+
+19.0.1.0.15 (2026-10-16)
+------------------------
+
+- Fixed: invoicing several selected batch transfers stopped after the
+  first batch; the not yet invoiced transfers of all the selected
+  batches are now invoiced together (delivery and receipt batches cannot
+  be mixed).
+- Fixed: a batch without transfers was reported as invoiced.
+- Fixed: the Invoice button on the batch form was shown on batches that
+  were not done or were already invoiced (``and`` instead of ``or`` in
+  its visibility condition).
+
+19.0.1.0.14 (2026-10-07)
+------------------------
+
+- Fixed: the Create Purchase Invoices action could bill an already
+  billed receipt again, with the full receipt quantity, and moved the
+  receipt's invoice link to the new bill. The billed quantity is now
+  capped at what is still to bill on the purchase order line (received
+  minus billed on non-cancelled bills), and receipts with nothing left
+  to bill are refused with an error (PICKINV-004). After a bill is
+  cancelled, the receipt can be billed again.
+
+19.0.1.0.13 (2026-10-06)
+------------------------
+
+- Summary in English, as the Apps Store requires, the same as the
+  banner; support address.
+
+19.0.1.0.12 (2026-10-03)
+------------------------
+
+- Fixed: invoicing from transfers copied the stock move quantity into
+  the invoice line without unit conversion. A purchase line of 1 Dozen
+  received as 12 Units was billed as 12 Dozen (12 times the amount), and
+  a partial delivery of 12 Units on a 2 Dozen sale line was invoiced as
+  2 Dozen. Move quantities are now converted from the move unit to the
+  order line unit before summing and before the remaining-quantity cap
+  (PICKINV-001). Invoice quantities change whenever the order unit
+  differs from the stock move unit.
+- Declared the missing ``purchase_stock`` dependency: the transfer form
+  uses ``stock.picking.purchase_id``, added by ``purchase_stock``, so a
+  standalone install failed with ``Field "purchase_id" does not exist``.
+  No change on existing databases, where ``purchase_stock`` is
+  auto-installed with ``purchase`` and ``stock``.
+
+19.0.1.0.11 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

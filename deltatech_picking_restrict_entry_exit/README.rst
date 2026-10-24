@@ -10,9 +10,9 @@ Picking Validation Restrict Entry Exit
    !! source digest: sha256:601b0dbf9cbd991403953421a46c4de1b92fc0e938e78c47e479182226eba248
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_restrict_entry_exit
     :alt: dhongu/deltatech
@@ -40,6 +40,45 @@ Features:
 
 Changelog
 =========
+
+19.0.0.0.14 (2026-10-16)
+========================
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.0.0.13
+===========
+
+- Fix (RESTRICT-001): the save-time restrictions in ``write()``
+  inspected only ``move_ids_without_package``, a field removed from
+  ``stock.picking`` in Odoo 19, so they never ran. They now read the
+  ``move_ids`` commands sent by the picking form: CREATE commands
+  (virtual id from the web client or ``0``) are checked as new lines,
+  falling back on the picking's type and locations when the line does
+  not carry them, UPDATE commands as existing lines (against the demand
+  sent in the same save, if any). Commands without values (delete,
+  unlink, link, clear, set) are ignored instead of crashing.
+
+19.0.0.0.12
+===========
+
+- Fix: when several pickings were validated together, a single return or
+  backorder in the selection exempted all of them from the restriction,
+  so a receipt or delivery with a quantity above the ordered one could
+  be validated. The return/backorder exemption is now checked for each
+  picking.
+
+19.0.0.0.11
+===========
+
+- Add unit tests covering validation and save-time restrictions on
+  receipts, deliveries and internal transfers.
+
+19.0.0.0.10
+===========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========

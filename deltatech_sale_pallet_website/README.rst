@@ -16,8 +16,11 @@ Pallet Sales on Website
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_pallet_website
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2073%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_pallet_website
+    :alt: 4 automated tests · 73% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Sale Pallet Website
 ===================
@@ -67,6 +70,23 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Pallet Sales on Website* (was *Sale Pallet
+  Website*). The technical name ``deltatech_sale_pallet_website`` does
+  not change.
+
+19.0.1.0.2 (2026-10-16)
+-----------------------
+
+- The pallet lines of the shop cart are now updated before the delivery
+  price and the cart quantity are recalculated, so both include them.
+- Removing the last product that needs a pallet from the cart also
+  removes its pallet line.
+- Pallet lines added to the cart are marked as generated pallet lines
+  (``is_pallet_line``), like the ones on the sales order.
 
 19.0.1.0.1 (2026-09-29)
 -----------------------

@@ -16,8 +16,14 @@ Sale Commission
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_commission
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_commission/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-50%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_commission
+    :alt: 50 automated tests · 97% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 - Features:
 
@@ -51,7 +57,7 @@ Configuration
   ``deltatech_sale_margin``) is shown to the cost group and the Sales
   administrators. The viewer group shows cost and margin, so grant it
   only to people allowed to see costs. To see the cost on invoices, also
-  add the cost group from \`deltatech_sale_margin\`. Only **Commission
+  add the cost group from ``deltatech_sale_margin``. Only **Commission
   Manager** can change the real commission and *Commission Paid*; the
   Sales administrators can change the cost.
 - **Who earns the commission.** In **Settings → Sales → Invoicing**, set
@@ -63,7 +69,7 @@ Configuration
   rates as fractions of the profit (0.100 = 10%).
 - **Payment on time (optional).** In **Settings → Technical → System
   Parameters** (developer mode), create
-  \`deltatech_sale_commission.days_for_commission\` with the maximum
+  ``deltatech_sale_commission.days_for_commission`` with the maximum
   number of days between due date and last payment, as an integer (0 =
   paid by the due date). Without it, commission is granted whether or
   not the invoice is paid.
@@ -163,6 +169,12 @@ Changelog
 
 Changelog
 =========
+
+19.0.2.0.1 (2026-10-22)
+-----------------------
+
+- Consultant sheet: *Sale Margin Report by Manufacturer* listed among
+  the related modules. Screenshots unchanged.
 
 19.0.2.0.0 (2026-10-22)
 -----------------------

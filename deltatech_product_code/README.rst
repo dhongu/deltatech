@@ -16,9 +16,9 @@ Products Code
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_code
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-16%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-22%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_code
-    :alt: 16 automated tests · 93% code coverage
+    :alt: 22 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -35,6 +35,9 @@ Key Features
 
 - Automated internal reference generation based on predefined sequences.
 - Improved barcode management for product identification.
+- GTIN-13 allocation from the GS1 company prefix: each new product
+  receives the next free code in the range assigned by GS1, with the
+  check digit computed automatically.
 - Consistency checks to prevent duplicate product codes.
 - Supports both products and product variants.
 
@@ -50,6 +53,80 @@ Usage
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.2.1 (2026-10-14)
+=======================
+
+- The Python uniqueness check of the internal reference honours the
+  "Allow duplicate product codes" group of
+  ``deltatech_product_unique_code`` when that module is installed: users
+  in the group can again save duplicate codes.
+
+19.0.1.2.0 (2026-10-14)
+=======================
+
+- Internal reference uniqueness checked in Python on product templates
+  and variants, instead of the SQL constraint
+  ``unique(default_code, active, company_id)``, which let duplicates
+  through when the product is shared (no company: in PostgreSQL NULL !=
+  NULL) and between a shared product and a company product. Variants are
+  now checked too: the internal reference is written there. One indexed
+  query per batch, so imports stay fast; only active products conflict,
+  also when the context comes with ``active_test=False`` (marketplace
+  imports). Ported from 18.0.
+
+19.0.1.1.1 (2026-10-09)
+=======================
+
+- Apps Store banner (banner.json).
+
+19.0.1.1.0 (2026-10-07)
+=======================
+
+- Barcodes from the GS1 company prefix: on the product category,
+  "Barcode Source" = "GS1 company prefix" allocates to each new product
+  the next free GTIN-13 in the range of the prefix received from GS1
+  (prefix + item reference + check digit). Product and packaging
+  barcodes, including archived ones, are taken into account; the
+  category shows how many codes are still free, and an error is raised
+  when the range is used up.
+- The default internal barcode prefix of new categories is now 20 (GS1
+  range for internal use) instead of 40, which belongs to GS1 Germany.
+  Existing categories keep their prefix.
+
+19.0.1.0.8 (2026-10-02)
+=======================
+
+- Fix the "Find Duplicate" action on product variants: it referenced a
+  non-existent action (``product.product_open_variants``) and the SQL
+  looked for ``company_id`` in ``product_product`` (the company is read
+  from the template). Queries moved to ``SQL()`` and the models are
+  flushed before the search; regression test added.
+
+19.0.1.0.7
+==========
+
+- Own module icon, instead of the generic gears it had.
+
+Changelog
+=========
+
+19.0.1.0.6 (2026-09-25)
+-----------------------
+
+- Fix: the category sequence could propose an internal reference that
+  was already used. Its counter does not know about codes created
+  outside the sequence (catalog imports, supplier invoice imports, mass
+  renumbering, manually typed codes), so "New internal code" and
+  automatic coding on product creation failed with "Internal Reference
+  already exists". When the proposed code is taken (including by
+  archived products or other companies), the sequence is now moved past
+  the highest number already used with its prefix/suffix and the next
+  number is taken. Sequences with date ranges are not synchronised.
+  Ported from a customer project.
 
 Bug Tracker
 ===========

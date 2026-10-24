@@ -19,9 +19,9 @@ Stock Inventory
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_inventory/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-97%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-109%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_inventory
-    :alt: 97 automated tests · 95% code coverage
+    :alt: 109 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -163,6 +163,90 @@ Usage
 Changelog
 =========
 
+19.0.2.10.9 (2026-10-16)
+------------------------
+
+- The product form has again the *Reserved Transfers* smart button: it
+  counts the transfers that currently hold a reservation on the product
+  (on the template, all its variants) and opens their list. It was added
+  on 18.0 after the module had been migrated and was missing in 19.0.
+  The button is shown for products that track inventory (*Track
+  Inventory*) and to inventory users.
+
+19.0.2.10.8 (2026-10-16)
+------------------------
+
+- Searching inventory lines by *Difference* now compares with the
+  requested value (``=``, ``!=``, ``in``, ``not in``, ``<``, ``<=``,
+  ``>``, ``>=``). Before, ``= 0`` returned every line of the inventory
+  and ``!= x`` always returned the lines with a nonzero difference,
+  whatever the value.
+- Creating a product from *Warehouse Products* or from the product
+  fields of an inventory no longer sends the removed product type
+  ``product``: the new product is storable goods. The *On Hand* button
+  of the *Warehouse Products* form is shown again for storable products
+  (it was hidden for all).
+- The *Show manual location fields* setting now controls the
+  Rack/Row/Shelf/Case fields on the product forms. On upgrade the
+  setting is turned on, so the fields stay visible until it is disabled.
+
+19.0.2.10.7 (2026-10-12)
+------------------------
+
+- Removed dead code: the ``stock.picking`` override of
+  ``action_view_stock_valuation_layers`` (the parent method no longer
+  exists in 19.0, stock valuation layers were removed) and the unused
+  ``stock.request.count`` extension (``wizard/stock_request_count.py``,
+  never imported). No functional change.
+
+19.0.2.10.6 (2026-10-12)
+------------------------
+
+- The *Clear* button on a counted quant now detaches it from its
+  inventory document and line again. The override still used the
+  pre-19.0 method name ``action_set_inventory_quantity_to_zero``, which
+  no longer exists, so it never ran: after *Clear*, a new count was
+  applied into the old document.
+
+19.0.2.10.5 (2026-10-12)
+------------------------
+
+- Tests: new coverage tests for the return, adjustment reason and merge
+  wizards, quant/inventory links and quantity rights, inventory states
+  and line generation without locations, line onchanges and search
+  helpers, detailed warehouse stock and product warehouse location (93
+  tests, coverage 82.7% → 94.9%). No functional change.
+
+19.0.2.10.4 (2026-10-09)
+------------------------
+
+- Apps Store banner (banner.json).
+
+19.0.2.10.3 (2026-10-03)
+------------------------
+
+- INVENTORY-003 (security): the inventory documents
+  (``stock.inventory``) and their lines (``stock.inventory.line``) had
+  no company record rule, so a stock user working in company A could
+  search, read, change or delete the inventories, quantities and owners
+  of other companies. New multi-company rules (``security/ir_rule.xml``)
+  restrict both models to the allowed companies (lines without an
+  inventory stay visible).
+
+19.0.2.10.2 (2026-10-01)
+------------------------
+
+- Applying a count on a quant moved since it was counted no longer
+  closes the inventory before the conflict is resolved. The inventory
+  stays in progress until the *Conflict in Inventory Adjustment* wizard
+  is confirmed, and then the same document is finalized (no second
+  document is created) and the note reaches the inventory move.
+
+19.0.2.10.1 (2026-09-29)
+------------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.2.10.0 (2026-09-24)
 ------------------------
 
@@ -205,21 +289,21 @@ Changelog
 19.0.2.9.0 (2026-09-14)
 -----------------------
 
-- **Grupare** este din nou disponibil în wizard-ul de reaprovizionare
-  produs (*product.replenish*). Câmpul exista în 18.0 ca ``group_id``
-  (``procurement.group``), eliminat la portarea pe 19.0 pentru că
-  modelul ``procurement.group`` nu mai există în core — a fost înlocuit
-  acum cu noul mecanism O19, ``stock.reference`` (``reference_ids`` pe
-  ``stock.move``).
-- Gruparea se completează **automat, o dată pe zi și pe depozit**: toate
-  reaprovizionările lansate în aceeași zi, din același depozit, primesc
-  aceeași referință și ajung astfel pe un singur ``stock.picking``, în
-  loc de câte un document separat per produs. Câmpul rămâne editabil,
-  dacă se dorește altă grupare manuală.
-- Garda anti-duplicare e păstrată, dar acum e per produs+referință (nu
-  per referință, cum era în 18.0 per grup) — altfel gruparea zilnică
-  automată ar bloca reaprovizionarea celui de-al doilea produs din
-  aceeași zi.
+- **Grupare** is available again in the product replenishment wizard
+  (*product.replenish*). The field existed in 18.0 as ``group_id``
+  (``procurement.group``), removed during the 19.0 port because the
+  ``procurement.group`` model no longer exists in core — it has now been
+  replaced with the new O19 mechanism, ``stock.reference``
+  (``reference_ids`` on ``stock.move``).
+- The grouping is filled in **automatically, once per day and per
+  warehouse**: all replenishments launched on the same day, from the
+  same warehouse, receive the same reference and thus end up on a single
+  ``stock.picking``, instead of a separate document per product. The
+  field remains editable, if a different manual grouping is wanted.
+- The anti-duplication guard is kept, but it is now per
+  product+reference (not per reference, as it was in 18.0 per group) —
+  otherwise the automatic daily grouping would block the replenishment
+  of the second product on the same day.
 
 19.0.2.8.0 (2026-09-10)
 -----------------------

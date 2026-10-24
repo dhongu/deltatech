@@ -1,6 +1,6 @@
-===================
-Deltatech Team Logo
-===================
+===============
+Sales Team Logo
+===============
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -22,37 +22,66 @@ Deltatech Team Logo
 
 |badge1| |badge2| |badge3|
 
-Permite afișarea unui logo diferit în rapoartele PDF (factură,
-ofertă/comandă, aviz de livrare) în funcție de **echipa de vânzare** a
-documentului.
+One legal company, several brands: in standard Odoo every PDF report
+carries the same company logo. With this module, each sales team can
+have its own logo, and invoices, quotations, sales orders and delivery
+slips issued for that team show it in the header automatically.
 
-Util pentru companiile care operează mai multe branduri sub aceeași
-firmă juridică: fiecare echipă de vânzare poate avea propriul logo, iar
-acesta este folosit automat în antetul rapoartelor.
-
-Funcționare
------------
-
-- Se adaugă un câmp **Logo** pe echipa de vânzare (``crm.team``).
-- La randarea raportului, dacă documentul are o echipă de vânzare cu
-  logo propriu, se folosește acel logo; altfel se folosește logo-ul
-  firmei.
-- Mecanismul este generic, în dispecerul ``web.external_layout``, deci
-  acoperă toate variantele de layout (standard, striped, boxed, bold,
-  folder, wave, bubble) și orice document care are câmpul ``team_id``:
-
-  - ``sale.order`` (ofertă/comandă) — ``team_id`` nativ
-  - ``account.move`` (factură) — ``team_id`` nativ
-  - ``stock.picking`` (aviz/livrare) — ``team_id`` calculat din comanda
-    sursă
-
-Dacă echipa nu are logo configurat, comportamentul rămâne identic cu cel
-standard (logo-ul firmei).
+- **Logo per sales team**: A **Logo** field on the sales team, set like
+  the company logo.
+- **Used automatically**: A document whose sales team has a logo prints
+  with that logo; all other documents keep the company logo.
+- **Invoices, quotations and deliveries**: Works for sales orders and
+  quotations, invoices, and delivery slips that come from a sales order.
+- **All report layouts**: Standard, Striped, Boxed, Bold, Folder, Wave
+  and Bubble.
+- **Nothing changes without a logo**: A team without a logo prints
+  exactly as standard Odoo.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+1. Go to *Sales > Configuration > Sales Teams* and open a team.
+2. Upload the brand's image in the **Logo** field, at the top of the
+   form.
+3. Repeat for each team that sells under its own brand.
+
+Usage
+=====
+
+Work as usual. When you print or send a quotation, sales order, invoice
+or delivery slip, the report header shows the logo of the document's
+sales team. A delivery slip takes the team of the sales order it comes
+from.
+
+If the team has no logo, or the document has no sales team, the company
+logo is used.
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sales Team Logo* (was *Team Logo*). The
+  technical name ``deltatech_team_logo`` does not change.
+
+19.0.1.0.2 (2026-10-07)
+-----------------------
+
+- Apps Store page in English (it was in Romanian), written from the
+  code, with Configuration and Usage sections. Summary in English;
+  support address.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

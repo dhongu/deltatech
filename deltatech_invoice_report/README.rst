@@ -16,9 +16,9 @@ Invoice Report
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_report
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_report
-    :alt: 3 automated tests · 84% code coverage
+    :alt: 10 automated tests · 94% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -27,7 +27,7 @@ with purchase/sales history data, making it easy to see how much of each
 product was bought or sold in any given year without leaving the product
 record.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds **Region** (partner state) and **Default Supplier** fields to
   ``account.invoice.report``, so invoice analysis can be grouped or
@@ -143,6 +143,24 @@ is required for routine updates.
 
 Changelog
 =========
+
+19.0.1.0.11 (2026-10-14)
+------------------------
+
+- Fix: the invoice history subtracts credit notes (customer and vendor)
+  instead of adding them, and converts the quantities to the unit of the
+  product (INVOICEHISTORY-001).
+
+19.0.1.0.10 (2026-10-11)
+------------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.9
+----------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.8
 ----------

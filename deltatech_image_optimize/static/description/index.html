@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 73 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 88 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:94%;background-color:#57B952;"></div>
       </div>
@@ -67,7 +67,9 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Background removal</h2>
 <p>Product photos taken on a printed mat, on a table or on a supplier's white background end up
 looking the same in the shop once the background is gone. Select products in a list and use
-<strong>Actions &#8594; Remove Image Background</strong>; on a product the action also covers its eCommerce gallery.</p>
+<strong>Actions &#8594; Remove Image Background</strong>; on a product the action also covers its eCommerce gallery.
+One picture can also be cleaned from the <strong>website editor</strong>: click the product picture, then
+<em>Background &#8594; Remove Background</em>.</p>
 <p><strong>The original image is not kept</strong> &#8212; keeping a copy of every image would double the images in the
 database. The check therefore happens <em>before</em> anything is written, in a wizard:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>up to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_sync_limit</code> images (default 5, main and gallery images counted), the wizard shows
@@ -102,6 +104,12 @@ database. The check therefore happens <em>before</em> anything is written, in a 
 </tbody>
 </table>
 <p>After the cut-out, the specks left next to the product are removed.</p>
+<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Square product images without removing the background</h3>
+<p>Photos that are not square show small in the shop list, with empty bands around them. The method
+<strong>Frame only (keep background)</strong> keeps the background: the product is found by color, as for the
+uniform background, cropped and centered in a square filled with the background color, with the
+margin chosen in the wizard. Small pieces next to the product &#8212; a logo in a corner, a text &#8212; do not
+widen the square. The result is saved as JPEG and needs a photo on a plain background.</p>
 <p>An AI model tends to keep only the main object and to lose accessories or thin parts. When it works
 on a plain background, its result is compared with the color cut-out: if part of the product is
 missing, the image is flagged and <strong>unticked</strong> in the wizard. The method and the model can be
@@ -196,7 +204,14 @@ ONNX Runtime; it is an optional dependency, not declared in the manifest, so the
 without it. Add it to the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">requirements.txt</code> of the deployment (on odoo.sh, in the project
 repository) and rebuild:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>rembg[cpu]
+coverage&gt;=7.6.1
 </code></pre>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numba</code> (a dependency of rembg) 0.61 and later needs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage.types.Tracer</code>, which exists only
+from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage</code> 7.6.1; odoo.sh ships an older <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage</code> (7.4.4), and importing rembg then fails
+with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">module 'coverage.types' has no attribute 'Tracer'</code>. The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage</code> line installs a newer
+one for the server. Do not pin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numba&lt;0.61</code> instead: the current rembg needs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numpy&gt;=2.3</code>, which
+that numba does not accept, and pip then fails to install the requirements. Without the line the
+module still works, but treats rembg as not installed and logs the error once.</p>
 <p>The model is downloaded on first use (ISNet: 180 MB, under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">~/.rembg/models</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$U2NET_HOME</code>)
 and kept loaded per worker process; on CPU an image takes about one second. Only one model is kept
 loaded at a time.</p>
@@ -213,7 +228,7 @@ loaded at a time.</p>
 <tr>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_method</code></td>
 <td>auto</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uniform</code> (by color, no AI model) or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> (always the AI model)</td>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uniform</code> (by color, no AI model), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> (always the AI model) or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">frame</code> (keep the background, frame in a square)</td>
 </tr>
 <tr>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_model</code></td>
@@ -244,6 +259,11 @@ loaded at a time.</p>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_margin</code></td>
 <td>5</td>
 <td>margin around the product, in percent, when cropping</td>
+</tr>
+<tr>
+<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_frame_min_island</code></td>
+<td>10</td>
+<td>method <em>Frame only</em>: pieces smaller than this percent of the product (a logo in a corner) do not widen the square</td>
 </tr>
 <tr>
 <td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_color</code></td>
@@ -432,6 +452,13 @@ spot, writes nothing yet, and shows <strong>Before</strong> and <strong>After</s
   that white areas inside the product (the label) stayed opaque.</li>
 <li>Untick the rows whose result is not good and press <strong>Apply</strong>. Only ticked rows are written.</li>
 </ul>
+<p>The wizard also sets how the result is framed: <strong>Frame in a Square</strong> with a <strong>Margin (%)</strong>, and a
+<strong>Background Color</strong> (empty = transparent, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">#FFFFFF</code> = solid white). They start from the system
+parameters and apply after <strong>Refresh Preview</strong>.</p>
+<p>To make photos square <strong>without removing the background</strong>, choose the method <strong>Frame only (keep
+background)</strong>: the product is centered in a square filled with the background color, and pieces
+smaller than <strong>Ignore Pieces Under (%)</strong> of the product (a logo in a corner) are left out of the
+square. It needs a photo on a plain background.</p>
 <p>With the <em>Automatic</em> method, the wizard cuts by color when the image border has a single color and
 uses the AI model otherwise.</p>
 <p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Preview with the automatic method" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_preview_automatic.png" /></p>
@@ -458,6 +485,18 @@ appears only in the server log.</p>
 <em>Background Removal</em> field (<em>Pending</em> or <em>Failed</em>).</p>
 <p>Tip: try a few images with the preview first, to see the result on your own catalog photos.</p>
 <p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Queue for a large selection" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_image_optimize/image_optimize_queue.png" /></p>
+<p><strong>From the website editor &#8212; one picture</strong></p>
+<p>On the product page of the website, click <strong>Edit</strong>, then click the product picture. Under
+<em>Background</em>, click <strong>Remove Background</strong> (not the red <em>Remove</em> of <em>Media</em>, which deletes the
+picture). A dialog shows the picture before and
+after, on a checkerboard, with the warning of the method when there is one; the method can be
+changed there and the preview is refreshed. <strong>Apply</strong> writes the picture on the product, then the
+editor saves the page and reloads it, as for the standard <em>Re-order</em> and <em>Remove</em> buttons of product
+pictures. <strong>Cancel</strong> writes nothing.</p>
+<p>The button appears only on product pictures (product, variant, gallery image), not on the pictures
+of the page (banners, blocks), and the change needs the right to modify the product. A variant
+without its own picture shows the picture of its product: the background is then removed on the
+product.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Remove a watermark</h2>
 <p><strong>Step 6 &#8212; Remove the watermark of your catalog images</strong></p>
 <p>Only on images whose watermark you have the right to remove (your own, or with the rights holder's
@@ -506,6 +545,56 @@ becomes black permanently.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.14.1 (2026-10-22)</h2>
+<ul>
+<li>Consultant sheet: covers the <em>Frame only (keep background)</em> method and its <em>Margin (%)</em>,
+  <em>Ignore Pieces Under (%)</em> and <em>Background Color</em> fields, the per-run wizard fields prefilled from
+  the system parameters, the <em>Remove Background</em> button of the website editor and the own picture
+  of a variant. Two new screenshots, generated by the screenshot test.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.14.0 (2026-10-21)</h2>
+<ul>
+<li>Background removal wizard: new method <em>Frame only (keep background)</em>, for product photos on a
+  plain background that are not square and show small in the shop list. The background stays; the
+  product is cropped and centered in a square filled with the background color (or the chosen
+  color), saved as JPEG. Pieces smaller than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_frame_min_island</code> percent of the product (default
+  10, e.g. a logo in a corner) do not widen the square.</li>
+<li>The wizard now has <em>Frame in a Square</em>, <em>Margin (%)</em> and <em>Background Color</em>, prefilled from
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_crop</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_margin</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_color</code>, so they can be changed per run; a queued selection still
+  uses the system parameters.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.13.2 (2026-10-21)</h2>
+<ul>
+<li>Configuration: for rembg on odoo.sh, add <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage&gt;=7.6.1</code> next to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg[cpu]</code> in the
+  requirements, not <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numba&lt;0.61</code> as advised in 19.0.1.13.1. numba needs
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage.types.Tracer</code>, added in coverage 7.6.1 (odoo.sh ships 7.4.4), while the pin on
+  numba conflicts with the numpy required by the current rembg and makes the build fail
+  while installing the requirements.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.13.1 (2026-10-21)</h2>
+<ul>
+<li>rembg installed but failing to import (on odoo.sh, numba 0.61+ with an older <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">coverage</code>
+  raised <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">AttributeError: module 'coverage.types' has no attribute 'Tracer'</code>) blocked the
+  background removal dialog of the website editor, the wizard and the queue. It is now
+  handled as rembg not installed: the error is logged once, the AI model is shown as not
+  available and pictures on a plain background are still cut out by color. To use rembg on
+  such a server, see 19.0.1.13.2.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.13.0 (2026-10-21)</h2>
+<ul>
+<li>Website editor: a product picture (product, variant or gallery image) gets <em>Background &#8594;
+  Remove Background</em>. A dialog previews the picture before and after, with the method and its warning; <em>Apply</em>
+  writes the picture on the product, then the editor saves and reloads the page. Pictures of the
+  page itself (banners, blocks) do not get the button, and the change needs the right to modify the
+  product.</li>
+<li>Background removal also works on the own picture of a variant (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">image_variant_1920</code>); a variant
+  without its own picture is handled on its product.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.5 (2026-10-16)</h2>
+<ul>
+<li>Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.4 (2026-10-12)</h2>
 <ul>
 <li>Tests: the watermark tests now run in CI. They were skipped because the CI image has
@@ -532,84 +621,6 @@ becomes black permanently.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.1 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.12.0 (2026-10-09)</h2>
-<ul>
-<li>New action <strong>Remove Watermark</strong> on products and product images. It learns,
-  from the selected images, a semi-transparent watermark whose blend also
-  lowered the image transparency (the exact mask of the logo stays in the
-  alpha channel), shows the detected watermark and a before / after preview,
-  and saves the cleaned image opaque. Large selections are queued with the
-  learned watermark. The wizard opens with an information box on the legal
-  limits: only a watermark one has the right to remove (own, or with the
-  rights holder's consent; EU Directive 2001/29/EC, art. 7). Needs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numpy</code>.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.11.1 (2026-10-08)</h2>
-<ul>
-<li>The AI model no longer runs the worker out of memory. BiRefNet is gone from
-  the wizard's model list: on a managed-hosting worker it stopped with
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Failed to allocate memory</code> from ONNX Runtime. Only one model is kept
-  loaded per worker, a model that fails is dropped from memory, and ONNX
-  Runtime runs without its memory arena, which never gave back what it had
-  reserved. When memory still runs out, the wizard line says so and suggests
-  ISNet or the uniform background method instead of showing the raw error.</li>
-<li><strong>Duplicated Images</strong> opens again. The list stopped with
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Invalid field 'write_date'</code> as soon as there was a duplicate to show: the
-  report is an SQL view without the log fields, and the image widget always
-  reads <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">write_date</code>. The view now provides it.</li>
-<li>The background removal wizard shows the whole image name (main image or
-  gallery image N) and the whole warning, on several lines; the list of what
-  <strong>Remove Duplicated Images</strong> deletes uses the full width of the dialog, and
-  the <em>Removable</em> column of <strong>Duplicated Images</strong> is no longer cut.</li>
-<li>Documentation: the description is reorganized around the three jobs of the
-  module, the parameters move to a configuration page, and a step-by-step
-  usage guide with screenshots is added, with a consultant sheet in Romanian
-  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) whose screenshots are generated by
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.11.0 (2026-10-08)</h2>
-<ul>
-<li>Background removal keeps what the AI model loses. Product photos on a plain
-  background (white, studio grey) are now cut out by color, without the AI
-  model: the background is what has the color of the image border and touches
-  it. Dark accessories next to the product (the black funnel beside a bottle)
-  are kept whole, and white areas inside the product (a label) stay opaque.
-  The AI model is still used for photos on a real background; method
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_image_optimize.bg_method</code> = <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto</code> (default), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uniform</code> or
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code>. Without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> installed, images on a plain background can now
-  be cut out too.</li>
-<li>Specks left next to the product are removed: pieces smaller than
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bg_min_island</code> percent (default 1) of the main object.</li>
-<li>When the AI model leaves out part of a product on a plain background, the
-  image gets a warning in the wizard and is <strong>unticked</strong>; it is applied only if
-  ticked by hand.</li>
-<li>In the wizard: choose the method and the AI model and <strong>Refresh Preview</strong>;
-  the result is shown on a checkerboard, so leftovers are visible in any theme;
-  each line says whether it is the main image or which gallery image of which
-  product; larger previews.</li>
-<li>Works with Pillow 9.0 too (no <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Image.Resampling</code> there), the oldest
-  version Odoo 19 accepts.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.10.0 (2026-10-08)</h2>
-<ul>
-<li>Remove the background of product images: <strong>Action &#8594; Remove Image Background</strong>
-  on products (including their eCommerce gallery) and on product images. The
-  product is cut out with the optional library <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">rembg</code> and saved on a
-  transparent background as WebP, variants included. The original is not kept;
-  a wizard shows each image before and after so the result is checked before it
-  is written. Large selections are queued for a new scheduled action.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.2 (2026-10-07)</h2>
-<ul>
-<li>Own module icon, instead of the generic gears it had.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.0 (2026-08-27)</h2>
-<ul>
-<li>Detect duplicated <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> records via the attachment checksum, report
-  them grouped by content, and remove the copies that repeat inside the same
-  product. The same picture used on several products is reported but never
-  deleted &#8212; each product needs its own copy.</li>
-<li>Adds a dependency on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>, where <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.image</code> is defined.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
@@ -699,12 +710,12 @@ becomes black permanently.</p>
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CR</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CS</span>
               <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_credentials/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Credentials</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Credentials Store</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
             </span>
           </div>

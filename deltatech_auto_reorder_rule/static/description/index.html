@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 9 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:86%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:95%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">86% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">95% code coverage</div>
     </div>
   </div>
 </div>
@@ -103,6 +103,31 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.11 (2026-10-22)</h2>
+<ul>
+<li>Listed on Odoo Apps as <em>Auto Reorder Rules</em> (was <em>Auto Reorder Rule</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_auto_reorder_rule</code> does not change.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.10 (2026-10-16)</h2>
+<ul>
+<li><strong>Fix (#3364): a rule in one warehouse no longer blocks the others.</strong> Create
+  rule skipped the product entirely when it already had a rule in any
+  warehouse of the company, so a warehouse enabled later never got its rule.
+  Each warehouse is now checked separately: missing rules are created, the
+  existing ones are kept and no duplicates are added.</li>
+<li><strong>Fix (#3365): the system parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">dont_auto_create_rule</code> set to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">False</code>
+  no longer disables the automatic rules.</strong> The value is now read as a
+  boolean: only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">1</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">yes</code> disable the creation of rules for new
+  products.</li>
+<li><strong>Fix (#3366): the Rules Wizard creates the rules in the company of each
+  location.</strong> Selecting a location of another allowed company failed with a
+  company inconsistency error; the rule now gets the company of its location
+  and an auto-rule route of that company (or without company).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.9 (2026-10-16)</h2>
+<ul>
+<li>Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.8 (2026-10-11)</h2>
 <ul>
 <li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
@@ -187,7 +212,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Batch Transfer</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Batch Transfer Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
@@ -207,7 +232,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Picking Service Lines</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Picking Services</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
@@ -262,12 +287,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PR</span>
               <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_report_prn/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Raport PRN</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">PRN Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>

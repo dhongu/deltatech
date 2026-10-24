@@ -16,9 +16,9 @@ Simple MRP barcode
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_simple_barcode
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_mrp_simple_barcode
-    :alt: 6 automated tests · 100% code coverage
+    :alt: 7 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -35,6 +35,21 @@ Simple MRP barcode
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.0.0.3 (2026-10-17)
+-----------------------
+
+- Scanning an internal reference shared by several products no longer
+  raises an error: a warning lists the matching products so you can add
+  the right one manually.
+
+19.0.0.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

@@ -16,9 +16,9 @@ Website Stock Availability
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_stock_availability
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-15%20automated%20tests%20%C2%B7%2098%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_stock_availability
-    :alt: 6 automated tests · 97% code coverage
+    :alt: 15 automated tests · 98% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -29,11 +29,23 @@ taking into account the delivery time from the product, the number of
 safety days, and the number of delivery days from the supplier for
 products that are not in stock.
 
+On the shop product card, the stock status (immediate or subsequent
+delivery) is configured from the website builder, in the "Products
+Design" panel: text, LED or LED with text, placed above the price, on
+the image or next to the price, with orange, gray or red for products
+not in stock.
+
 Modulul permite afișarea stocului pe website sub un anumit prag cu
 posibilitatea de a comanda chiar dacă stocul nu este suficient. Modulul
 calculează și numărul de zile de în care se va face livrare ținând cont
 de timpul de livrare din produs, numărul de zile de siguranță și numărul
 de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
+
+Pe cardul de produs din magazin, statusul stocului (livrare imediată sau
+ulterioară) se configurează din editorul website-ului, în panoul
+„Products Design”: text, LED sau LED cu text, deasupra prețului, pe
+imagine sau lângă preț, cu portocaliu, gri sau roșu pentru produsele
+care nu sunt pe stoc.
 
 **Table of contents**
 
@@ -43,8 +55,64 @@ de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
 Changelog
 =========
 
+19.0.1.0.15
+===========
+
+- The upgrade to 19.0.1.0.12 no longer fails with "violates foreign key
+  constraint ir_ui_view_inherit_id_fkey" on databases where views were
+  added on top of the old "Product Available" view of a website. That
+  website copy is kept, active, under the key
+  ``deltatech_website_stock_availability.products_qty_available_custom``,
+  with the views that inherit it, and the website keeps its own stock
+  rendering on the shop card: the new stock status is not enabled there.
+  The other copies are removed as before.
+
+19.0.1.0.13
+===========
+
+- The stock badge on the product page ("4 Units in stock", shown under
+  the availability threshold) gets a style picked from the website
+  builder, in the "Product Page" options, "Stock Badge": the standard
+  pill, text with a dot, theme colors, outline, a level bar filled up to
+  the threshold, or the status only ("Limited stock", without the
+  quantity). The new styles take their colors from the website theme, so
+  they stay readable on dark themes.
+
+19.0.1.0.12
+===========
+
+- The stock status on the shop product card is configured from the
+  website builder, in the "Products Design" panel: shown as text, LED or
+  LED with text, placed above the price, on the image or next to the
+  price, with orange, gray or red for products not in stock. Websites
+  that had the "Product Available" card badge active keep it, as text
+  above the price.
+
+19.0.1.0.11
+===========
+
+- The vendor stock and lead time on the product page now come from the
+  supplier that really applies to the selected variant: suppliers of
+  another variant, of another company, of an archived vendor or with an
+  expired offer are skipped, and a current offer wins over a future one.
+- The cart delivery badges now use the stock of the website warehouse,
+  expressed in the unit of the cart line (a line of one dozen with six
+  units in stock is no longer shown as "Immediate delivery").
+
+19.0.1.0.10
+===========
+
+- Own module icon, instead of the generic gears it had.
+
 History
 =======
+
+19.0.1.0.14 (2026-10-22)
+------------------------
+
+- Listed on Odoo Apps as *Website Stock Availability* (was *eCommerce
+  Stock Availability*). The technical name
+  ``deltatech_website_stock_availability`` does not change.
 
 19.0.1.0.9 (2026-07-30)
 -----------------------

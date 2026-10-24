@@ -1,5 +1,5 @@
 =====================
-Deltatech Test System
+Test System Indicator
 =====================
 
 ..
@@ -34,6 +34,11 @@ Features:
 
 Changelog
 =========
+
+19.0.0.0.11
+===========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========

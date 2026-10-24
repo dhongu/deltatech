@@ -10,9 +10,9 @@ Stock Removal Location by Priority
    !! source digest: sha256:5eef8d08b1fdef9f211658cea724b3a9d05848f4a654777f6c68681bfef91fa2
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -98,6 +98,30 @@ Configuration
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Removal priority is now recomputed when the product category or the
+  location type changes (PRIORITY-001).
+- Changing the ``stock.removal_priority.default`` parameter recomputes
+  the quants that use the default priority.
+- Archiving or restoring a putaway rule recomputes the priority of the
+  affected quants (PRIORITY-002).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

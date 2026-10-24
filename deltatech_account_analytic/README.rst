@@ -1,6 +1,6 @@
-==========================
-Deltatech Account Analytic
-==========================
+======================
+Account Analytic Split
+======================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -147,8 +147,51 @@ Use Cases
 Changelog
 =========
 
+19.0.0.0.9
+==========
+
+- Fixed: with this module installed, Timesheets (``hr_timesheet``, and
+  so ``sale_timesheet`` or ``helpdesk_timesheet``) could not be
+  installed: the *Sale team* and *Product category* groupings were added
+  to the base analytic search view, which the timesheet analysis report
+  inherits without having these fields. They are now added to the
+  accounting search view of analytic items (*Analytic Items*, *Analytic
+  Reporting*).
+
+19.0.0.0.8
+==========
+
+- Fixed ANALYTICSPLIT-001: confirming a *Line* split before *Compute*,
+  or after removing its lines, deleted the analytic line to split
+  without creating any replacement. Confirmation now requires split
+  lines whose total equals the amount to split (the source line for a
+  *Line* split), checked before anything is created or deleted.
+- Fixed ANALYTICSPLIT-002: confirming an already confirmed split again
+  (RPC or a retried request) created a second set of analytic entries
+  and lost the link to the first one. A split can now be confirmed only
+  once.
+- Fixed ANALYTICSPLIT-003: posting an invoice with an analytic
+  distribution failed with ``AttributeError: stock_move_ids`` on
+  databases without ``stock_account``. The sales team lookup through the
+  stock transfer is now done only when the stock modules are installed.
+- Fixed ANALYTICSPLIT-004: posting a vendor bill whose analytic
+  distribution used only an additional analytic plan failed with
+  ``KeyError: 'account_id'``.
+
+19.0.0.0.7
+==========
+
+- Own module icon, instead of the generic gears it had.
+
 Changelog
 =========
+
+19.0.0.0.10 (2026-10-22)
+------------------------
+
+- Listed on Odoo Apps as *Account Analytic Split* (was *Account
+  Analytic*). The technical name ``deltatech_account_analytic`` does not
+  change.
 
 19.0.0.0.6 (2026-07-31)
 -----------------------

@@ -1,6 +1,6 @@
-=============================================
-Deltatech Sale Order Search by Partner Fields
-=============================================
+============================
+Sale Order Search by Contact
+============================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -10,9 +10,9 @@ Deltatech Sale Order Search by Partner Fields
    !! source digest: sha256:211720a767a660c84e6d6e56d8254199671de56615201003d5ace0f0559d0ea0
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_saleorder_search
     :alt: dhongu/deltatech
@@ -49,6 +49,27 @@ Usage:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.5 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale Order Search by Contact* (was *Sale Order
+  Search by Partner Fields*). The technical name
+  ``deltatech_saleorder_search`` does not change.
+
+19.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

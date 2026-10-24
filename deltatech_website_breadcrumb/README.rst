@@ -16,20 +16,50 @@ eCommerce Category Breadcrumb
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_breadcrumb
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_breadcrumb/tests
-    :alt: 3 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_breadcrumb
+    :alt: 4 automated tests · 75% code coverage
 
 |badge1| |badge2| |badge_tests|
 
 Features:
 
 - adds breadcrumbs to the top of the page on website
+- the product name at the end of the breadcrumb can be switched off in
+  the website settings (*Product Name in Breadcrumb*), when the page
+  title already shows it
+- a product without a category still shows *Products*; when the product
+  has several categories, one shown in the category menu is used
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.1.0 (2026-10-21)
+-----------------------
+
+- *Product Name in Breadcrumb* website setting (on by default): off, the
+  breadcrumb of the product page ends with the category, the page title
+  right under it showing the name.
+- *Products* is shown also for a product without a category (the
+  breadcrumb was then only the product name, repeating the title).
+- The category of the breadcrumb is one shown in the category menu when
+  the product has one: campaign categories hidden in the menu
+  (``deltatech_website_shop_snippets``) are passed over.
+
+19.0.1.0.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

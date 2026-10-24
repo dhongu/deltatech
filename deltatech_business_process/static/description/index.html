@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 136 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 145 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:92%;background-color:#57B952;"></div>
       </div>
@@ -172,7 +172,7 @@
 </ul>
 <p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Actions menu in the processes list" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_business_process/bp_start_tests_actions.png" /></p>
 <p>Each test is created with all the steps of the process. For several selected processes, one test is created for each. The same menu also offers <strong>Import from library</strong> (see Step 9) and the resets of the acceptance / internal test status on the process (existing tests are kept).</p>
-<p>The <strong>Start Test</strong> smart button on the process form opens its acceptance test, creating it only if none exists yet. If there are several acceptance tests, it opens their list.</p>
+<p>The <strong>Start Test</strong> smart button on the process form always creates a new acceptance test (with all the steps of the process) and opens it; the counter shows how many acceptance tests the process has. To see the existing ones, use the <strong>Tests</strong> smart button.</p>
 <p><strong>Step 5 &#8212; Run the acceptance test</strong></p>
 <p>Go to <em>Business process &#8594; Business process &#8594; Process Tests</em> and open the test. Click <strong>Run</strong>: the test starts, the start date is set and you become the tester if none was chosen.</p>
 <p>For each step, the key user fills in <em>Data used</em>, <em>Data obtained</em> and the <strong>Result</strong> (<em>Passed</em> / <em>Failed</em>). Passed rows are green, failed rows are red, and <em>Test progress</em> shows the percentage of passed steps.</p>
@@ -265,6 +265,49 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.19 (2026-10-22)</h2>
+<ul>
+<li>Listed on Odoo Apps as <em>Business Process Management</em> (was <em>Business process</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_business_process</code> does not change.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.18 (2026-10-16)</h2>
+<ul>
+<li>Approving several developments at once no longer fails; each approved development of a project
+  with a project manager gets its own approval note and notification mail.</li>
+<li>Git sources of the process library with the same repository name (other owner or host) keep
+  separate checkouts and both appear in the library. Existing checkouts are cloned again once,
+  in a folder named after the full URL.</li>
+<li>Re-importing a process exported with durations updates the durations of the existing process;
+  the total duration is recomputed when its components change.</li>
+<li>The "Discover processes from all modules" setting is saved and read back correctly, both
+  enabled and disabled.</li>
+<li>The "Rejected" filter on developments shows the developments whose approval is rejected.</li>
+<li>Open Issues get their own code (prefix OI); existing Open Issues without a code receive one on update.</li>
+<li>"Abandon" is refused for non-administrators and for processes in production or already
+  abandoned, also when called directly.</li>
+<li>The Open Issue submission mail is translated into Romanian.</li>
+<li>All test classes run post-install.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.17 (2026-10-16)</h2>
+<ul>
+<li>The "Start Internal Test" and "Start Integration Test" actions run with the user's own access
+  rights, like the acceptance test; regression test for the test-start access paths.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.16 (2026-10-16)</h2>
+<ul>
+<li>Module icon restored from 18.0 (flat checklist in the Odoo palette, transparent background); Apps Store main image regenerated with it.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.15 (2026-10-15)</h2>
+<ul>
+<li>The <strong>Start Test</strong> smart button on the process form now always creates a new user acceptance test and opens it. Before, it opened the existing acceptance test (or the list of them), creating one only when the process had none.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.14 (2026-10-15)</h2>
+<ul>
+<li>Apps Store main image regenerated with the redrawn module icon.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.13 (2026-10-15)</h2>
+<ul>
+<li>Module icon redrawn in the Terrabit house style: clean vector, 100x100 viewBox, no embedded image.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.12 (2026-10-12)</h2>
 <ul>
 <li>JSON export/import: the process <em>Description</em> lost its formatting (lists, bold, paragraphs) on import, because the import stripped every HTML tag. The HTML written by the export is now kept (the Html field still sanitizes it), and a plain-text description (e.g. from a hand-written <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">process.json</code>) is converted to HTML so its line breaks are preserved.</li>
@@ -276,57 +319,6 @@
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.10 (2026-10-09)</h2>
 <ul>
 <li>BUSINESS-001: in the <em>Business process test report</em>, two test runs of the same step showed up as the same row, because the row id was the step id. Each row now has the id of its step test, so every run keeps its own result, dates and data in the list, the form and the pivot.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.9 (2026-10-09)</h2>
-<ul>
-<li>Apps Store banner (banner.json).</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.8 (2026-10-06)</h2>
-<ul>
-<li>In the many2one dropdowns, projects, processes, steps, developments, issues, migrations and transactions now show the code in a second, muted column (a step also shows the code of its process, because step codes repeat between imported processes). The display name elsewhere (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[code] name</code>) is unchanged. Typing the code in the dropdown now finds projects, steps, developments, issues, migrations and transactions. A process is now found by its name as well as by its code: its own search looked only at the code, so typing the process name in the dropdown found nothing.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.7 (2026-10-06)</h2>
-<ul>
-<li>Creating several business projects in one call (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">create</code> with a list of values) created only the last one, because the values of the last iteration were passed to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">super().create</code> instead of the whole list. All projects are now created, each with its own sequence code.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.6 (2026-10-03)</h2>
-<ul>
-<li>BUSINESS-011: creating an <em>Open Issue</em> failed with "Record does not exist or has been deleted" (MissingError), because the submission mail used the <em>Issue Submitted</em> template, bound to <em>Business Issue</em>, with the id of the Open Issue; when a Business Issue with the same id existed, the creation succeeded but the project manager received the mail of that unrelated issue. Open Issues now have their own template (<em>Open Issue Submitted</em>), each model uses the template of its own model, and a template bound to another model is never rendered.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.5 (2026-10-03)</h2>
-<ul>
-<li>BUSINESS-002 (security): the <em>Business process report</em>, the <em>Business process test report</em>, <em>Open Issue</em> and the data migration records (<em>Migration</em>, <em>Migration test</em>) had no company record rule, so a user restricted to one company (Business Admin included) saw processes, tests, issues and migrations of the other companies. The two SQL reports now expose the process company (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_id</code>) and all five models get a global multi-company rule (the migrations through their project company); records of projects without a company stay visible to everybody.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.4 (2026-10-02)</h2>
-<ul>
-<li>BUSINESS-003 (security): <em>Start User Acceptance Test</em> (and the <em>Start Test</em> smart button, which calls it) created the test as superuser on any process id passed through RPC, including processes hidden by the company or "Allowed users" rules. The caller must now be a Business Process user and be able to read the processes; the test is still created as superuser and is returned in the caller's environment.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.9.3 (2026-09-24)</h2>
-<ul>
-<li>Excel project report: the <em>Testing duration</em> and <em>Data Migration Duration</em>
-  columns (and their totals) showed each other's values; the column headers are
-  now translatable.</li>
-<li>Process state buttons (Start Design, Start Test, End Testing, Go live, Reset to
-  Draft) work for the <strong>Process Responsible</strong> group, which has read-only access
-  on processes: the transition is checked against the group and the record rules,
-  then written as superuser. The buttons are hidden from end users.</li>
-<li>A Process Responsible can create a process in an area that has a responsible:
-  the area responsible is now set before the record is created.</li>
-<li><em>Start Internal Test</em> on several selected processes creates one test per
-  process, each with its own tester (it used to stop after the first process or
-  fail with "Expected singleton").</li>
-<li>The <strong>Start Test</strong> smart button opens the existing user acceptance test (or the
-  list, when there are several) and creates one only if the process has none.</li>
-<li>Marking a test <em>Done</em>: only the steps still in draft are set to <em>passed</em> (failed
-  steps stay failed), the start date is no longer overwritten, and a process that
-  is already ready, in production or abandoned is not moved back to <em>Ready</em>.</li>
-<li><strong>End Testing</strong> refuses to close the testing phase while the process still has
-  unfinished tests.</li>
-<li>A test in the <em>Waiting</em> state can be resumed (<strong>Resume</strong>) or finished (<strong>Done</strong>)
-  and the state is shown on the status bar.</li>
-<li>The open issue counter on test steps drops when an issue is closed.</li>
-<li>Project form: the status bar shows the <em>Exploration</em> and <em>Closed</em> states, and
-  long project names are no longer truncated.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
@@ -381,7 +373,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Business process handover document</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Business Process Handover Document</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
             </span>
           </div>
@@ -421,11 +413,31 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Record Type</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Record Types</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage multiple record types</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_saleorder_type" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SO</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_saleorder_type/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Terrabit - Sale Order Type - Obsolete</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage multiple sale order types</p>
         </div>
       </a>
     </div>
@@ -501,31 +513,11 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Despatch Advice</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>

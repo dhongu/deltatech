@@ -16,9 +16,9 @@ Base pricelist on cost with vat
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_vat_cost
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pricelist_vat_cost
-    :alt: 8 automated tests · 100% code coverage
+    :alt: 9 automated tests · 91% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -79,6 +79,29 @@ Usage
 Changelog
 =========
 
+19.0.1.0.6 (2026-10-17)
+-----------------------
+
+- **Fix: cost with VAT in the right currency.** In multi-company with
+  different currencies, a pricelist rule based on *Cost with VAT*
+  treated the cost of the current company as if it were in the currency
+  of the main company, and converted it again: a cost of 50 EUR became a
+  price of 100 EUR (VATCOST-003). The cost with VAT is now in the cost
+  currency of the current company, as for the native *Cost* base.
+
+19.0.1.0.5 (2026-10-17)
+-----------------------
+
+- **Fix: the rule label shows the right base.** A rule based on *Cost
+  with VAT* was labelled "... on sales price", although the price was
+  computed from the cost with VAT. The label now reads "... on product
+  cost with VAT".
+
+19.0.1.0.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
 19.0.1.0.3
 ----------
 
@@ -110,10 +133,9 @@ Changelog
 - Ported from 18.0. No code changes: the ``product.pricelist.item.base``
   selection value and the ``standard_price_with_vat`` compute fields on
   ``product.template``/``product.product`` use APIs unchanged in Odoo
-  19. In use in production at Ridacon (helpdesk ticket #9538); the
-  migration script was about to uninstall it, which would have silently
-  reset any pricelist rule based on "Cost with VAT" to the field's
-  default base.
+  19. In use in production at a customer; the migration script was about
+  to uninstall it, which would have silently reset any pricelist rule
+  based on "Cost with VAT" to the field's default base.
 
 Bug Tracker
 ===========

@@ -16,9 +16,9 @@ Product Unique Code
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_unique_code
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-16%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_unique_code
-    :alt: 16 automated tests · 100% code coverage
+    :alt: 18 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -45,6 +45,24 @@ Features:
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-10-17)
+-----------------------
+
+- Writing or creating the same Internal Reference or Barcode on several
+  products in one operation is now rejected as a duplicate.
+
+19.0.1.0.3 (2026-10-04)
+-----------------------
+
+- Add unit tests covering the uniqueness checks on create/write of
+  products and templates, archived products, the "no new duplicates"
+  cleanup policy and the bypass group.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.1 (2026-09-23)
 -----------------------

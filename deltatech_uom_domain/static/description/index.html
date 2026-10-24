@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 9 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 19 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
       </div>
@@ -95,9 +95,40 @@ implicit, mi&#537;carea de stoc generat&#259; de o achizi&#539;ie se converte&#5
 produsului (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_adjust_uom_quantities</code>, c&#226;t timp parametrul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.propagate_uom</code> nu e
 activat), iar pe eCommerce num&#259;rul de unit&#259;&#539;i disponibile schimb&#259; comportamentul
 butonului &#8222;Adaug&#259; &#238;n co&#537;".</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Unitatea implicit&#259; de achizi&#539;ie</h2>
+<p>P&#226;n&#259; &#238;n 18.0 produsul avea o unitate de achizi&#539;ie proprie (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_po_id</code>). &#206;n 19.0 c&#226;mpul
+a disp&#259;rut: unitatea de pe comand&#259; vine doar de pe linia de furnizor valabil&#259; la data
+comenzii. Dac&#259; linia lipse&#537;te (produs nou, creat prin duplicare), a expirat (dat&#259; de
+sf&#226;r&#537;it dep&#259;&#537;it&#259;) sau e pentru alt furnizor, comanda pune t&#259;cut unitatea produsului.
+Exemplu real: cherestea cump&#259;rat&#259; la mc &#537;i v&#226;ndut&#259; la bucat&#259; - 4,894 mc au intrat &#238;n
+stoc ca 4,894 buc, la pre&#539;ul unui metru cub pe bucat&#259;.</p>
+<p>Modulul adaug&#259; pe produs, &#238;n tab-ul Achizi&#539;ie, c&#226;mpul &#8222;Unitate implicit&#259; de achizi&#539;ie",
+cu unit&#259;&#539;ile din arborele unit&#259;&#539;ii produsului. C&#226;nd e completat:</p>
+<ul>
+<li>linia de furnizor nou&#259; o preia automat, iar pe linia de furnizor nu se mai poate
+  alege alt&#259; unitate;</li>
+<li>pe comanda de achizi&#539;ie, linia o preia la alegerea produsului &#537;i nu se mai poate
+  alege alt&#259; unitate, chiar dac&#259; linia de furnizor lipse&#537;te sau a expirat.</li>
+</ul>
+<p>Liniile de furnizor existente nu se modific&#259;: dac&#259; au alt&#259; unitate, se corecteaz&#259;
+manual, odat&#259; cu pre&#539;ul, care e exprimat &#238;n unitatea liniei.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-20)</h2>
+<ul>
+<li>Default purchase unit on the product (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_uom_id</code>, Purchase tab), restricted
+  to the units of the product unit's reference tree. When it is set, it is the only
+  unit offered on vendor pricelist lines and purchase order lines, and both take it
+  by default. Odoo 19 removed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_po_id</code>: a new vendor line came out in the product
+  unit, and without a valid vendor line the order fell back to the product unit, so
+  4.894 m&#179; of timber were received as 4.894 pieces.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-10-16)</h2>
+<ul>
+<li>Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.1 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -190,7 +221,7 @@ butonului &#8222;Adaug&#259; &#238;n co&#537;".</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Reordering Limit</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Reordering Limits</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory</span>
             </span>
           </div>

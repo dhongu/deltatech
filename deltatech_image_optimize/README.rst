@@ -10,18 +10,18 @@ Image Optimizer
    !! source digest: sha256:52431cbd7b6fd0fc59d3bda1dabac2b5135bb31f428e09674eea8f8fe8b3af2c
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_image_optimize
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_image_optimize/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-73%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-88%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_image_optimize
-    :alt: 73 automated tests · 94% code coverage
+    :alt: 88 automated tests · 94% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -55,6 +55,8 @@ Product photos taken on a printed mat, on a table or on a supplier's
 white background end up looking the same in the shop once the background
 is gone. Select products in a list and use **Actions → Remove Image
 Background**; on a product the action also covers its eCommerce gallery.
+One picture can also be cleaned from the **website editor**: click the
+product picture, then *Background → Remove Background*.
 
 **The original image is not kept** — keeping a copy of every image would
 double the images in the database. The check therefore happens *before*
@@ -89,6 +91,17 @@ How the product is cut out
 +----------------------+----------------------+----------------------------------------------------+
 
 After the cut-out, the specks left next to the product are removed.
+
+Square product images without removing the background
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Photos that are not square show small in the shop list, with empty bands
+around them. The method **Frame only (keep background)** keeps the
+background: the product is found by color, as for the uniform
+background, cropped and centered in a square filled with the background
+color, with the margin chosen in the wizard. Small pieces next to the
+product — a logo in a corner, a text — do not widen the square. The
+result is saved as JPEG and needs a photo on a plain background.
 
 An AI model tends to keep only the main object and to lose accessories
 or thin parts. When it works on a plain background, its result is
@@ -237,6 +250,17 @@ repository) and rebuild:
 ::
 
    rembg[cpu]
+   coverage>=7.6.1
+
+``numba`` (a dependency of rembg) 0.61 and later needs
+``coverage.types.Tracer``, which exists only from ``coverage`` 7.6.1;
+odoo.sh ships an older ``coverage`` (7.4.4), and importing rembg then
+fails with ``module 'coverage.types' has no attribute 'Tracer'``. The
+``coverage`` line installs a newer one for the server. Do not pin
+``numba<0.61`` instead: the current rembg needs ``numpy>=2.3``, which
+that numba does not accept, and pip then fails to install the
+requirements. Without the line the module still works, but treats rembg
+as not installed and logs the error once.
 
 The model is downloaded on first use (ISNet: 180 MB, under
 ``~/.rembg/models`` or ``$U2NET_HOME``) and kept loaded per worker
@@ -245,56 +269,72 @@ loaded at a time.
 
 |System parameters for background removal|
 
-+---------------------+-------------------+----------------------------+
-| Key                 | Default           | Meaning                    |
-+=====================+===================+============================+
-| ``bg_method``       | auto              | ``auto``, ``uniform`` (by  |
-|                     |                   | color, no AI model) or     |
-|                     |                   | ``rembg`` (always the AI   |
-|                     |                   | model)                     |
-+---------------------+-------------------+----------------------------+
-| ``bg_model``        | isnet-general-use | rembg model.               |
-|                     |                   | ``birefnet-general`` is    |
-|                     |                   | finer but about 10×        |
-|                     |                   | slower, 970 MB, and does   |
-|                     |                   | not fit in the memory of   |
-|                     |                   | an odoo.sh worker          |
-+---------------------+-------------------+----------------------------+
-| ``bg_tolerance``    | 24                | how far (0..255 per        |
-|                     |                   | channel) a pixel may be    |
-|                     |                   | from the border color and  |
-|                     |                   | still be background; raise |
-|                     |                   | it for noisy JPEGs or soft |
-|                     |                   | shadows                    |
-+---------------------+-------------------+----------------------------+
-| ``bg_min_island``   | 1                 | pieces smaller than this   |
-|                     |                   | percent of the main object |
-|                     |                   | are removed; 0 = keep all  |
-+---------------------+-------------------+----------------------------+
-| ``bg_lost_warning`` | 5                 | flag and untick an image   |
-|                     |                   | when the AI model left out |
-|                     |                   | this percent of a product  |
-|                     |                   | on a plain background      |
-+---------------------+-------------------+----------------------------+
-| ``bg_crop``         | 0                 | 1 = frame the product in a |
-|                     |                   | square, 0 = keep the       |
-|                     |                   | original canvas            |
-+---------------------+-------------------+----------------------------+
-| ``bg_margin``       | 5                 | margin around the product, |
-|                     |                   | in percent, when cropping  |
-+---------------------+-------------------+----------------------------+
-| ``bg_color``        | (empty)           | empty = transparent        |
-|                     |                   | (WebP); a color such as    |
-|                     |                   | ``#FFFFFF`` = solid        |
-|                     |                   | background (JPEG)          |
-+---------------------+-------------------+----------------------------+
-| ``bg_sync_limit``   | 5                 | up to this many images     |
-|                     |                   | (main and gallery) get a   |
-|                     |                   | preview; more are queued   |
-+---------------------+-------------------+----------------------------+
-| ``bg_batch``        | 20                | images per run of the      |
-|                     |                   | scheduled action           |
-+---------------------+-------------------+----------------------------+
++-------------------------+-------------------+------------------------+
+| Key                     | Default           | Meaning                |
++=========================+===================+========================+
+| ``bg_method``           | auto              | ``auto``, ``uniform``  |
+|                         |                   | (by color, no AI       |
+|                         |                   | model), ``rembg``      |
+|                         |                   | (always the AI model)  |
+|                         |                   | or ``frame`` (keep the |
+|                         |                   | background, frame in a |
+|                         |                   | square)                |
++-------------------------+-------------------+------------------------+
+| ``bg_model``            | isnet-general-use | rembg model.           |
+|                         |                   | ``birefnet-general``   |
+|                         |                   | is finer but about 10× |
+|                         |                   | slower, 970 MB, and    |
+|                         |                   | does not fit in the    |
+|                         |                   | memory of an odoo.sh   |
+|                         |                   | worker                 |
++-------------------------+-------------------+------------------------+
+| ``bg_tolerance``        | 24                | how far (0..255 per    |
+|                         |                   | channel) a pixel may   |
+|                         |                   | be from the border     |
+|                         |                   | color and still be     |
+|                         |                   | background; raise it   |
+|                         |                   | for noisy JPEGs or     |
+|                         |                   | soft shadows           |
++-------------------------+-------------------+------------------------+
+| ``bg_min_island``       | 1                 | pieces smaller than    |
+|                         |                   | this percent of the    |
+|                         |                   | main object are        |
+|                         |                   | removed; 0 = keep all  |
++-------------------------+-------------------+------------------------+
+| ``bg_lost_warning``     | 5                 | flag and untick an     |
+|                         |                   | image when the AI      |
+|                         |                   | model left out this    |
+|                         |                   | percent of a product   |
+|                         |                   | on a plain background  |
++-------------------------+-------------------+------------------------+
+| ``bg_crop``             | 0                 | 1 = frame the product  |
+|                         |                   | in a square, 0 = keep  |
+|                         |                   | the original canvas    |
++-------------------------+-------------------+------------------------+
+| ``bg_margin``           | 5                 | margin around the      |
+|                         |                   | product, in percent,   |
+|                         |                   | when cropping          |
++-------------------------+-------------------+------------------------+
+| ``bg_frame_min_island`` | 10                | method *Frame only*:   |
+|                         |                   | pieces smaller than    |
+|                         |                   | this percent of the    |
+|                         |                   | product (a logo in a   |
+|                         |                   | corner) do not widen   |
+|                         |                   | the square             |
++-------------------------+-------------------+------------------------+
+| ``bg_color``            | (empty)           | empty = transparent    |
+|                         |                   | (WebP); a color such   |
+|                         |                   | as ``#FFFFFF`` = solid |
+|                         |                   | background (JPEG)      |
++-------------------------+-------------------+------------------------+
+| ``bg_sync_limit``       | 5                 | up to this many images |
+|                         |                   | (main and gallery) get |
+|                         |                   | a preview; more are    |
+|                         |                   | queued                 |
++-------------------------+-------------------+------------------------+
+| ``bg_batch``            | 20                | images per run of the  |
+|                         |                   | scheduled action       |
++-------------------------+-------------------+------------------------+
 
 **Access rights.** The action needs *Products: Create*. Writing gallery
 images needs *Sales: Administrator* or *Website: Restricted Editor*, as
@@ -480,6 +520,17 @@ products: the main image plus every gallery image of each product.
 - Untick the rows whose result is not good and press **Apply**. Only
   ticked rows are written.
 
+The wizard also sets how the result is framed: **Frame in a Square**
+with a **Margin (%)**, and a **Background Color** (empty = transparent,
+``#FFFFFF`` = solid white). They start from the system parameters and
+apply after **Refresh Preview**.
+
+To make photos square **without removing the background**, choose the
+method **Frame only (keep background)**: the product is centered in a
+square filled with the background color, and pieces smaller than
+**Ignore Pieces Under (%)** of the product (a logo in a corner) are left
+out of the square. It needs a photo on a plain background.
+
 With the *Automatic* method, the wizard cuts by color when the image
 border has a single color and uses the AI model otherwise.
 
@@ -526,6 +577,23 @@ Tip: try a few images with the preview first, to see the result on your
 own catalog photos.
 
 |Queue for a large selection|
+
+**From the website editor — one picture**
+
+On the product page of the website, click **Edit**, then click the
+product picture. Under *Background*, click **Remove Background** (not
+the red *Remove* of *Media*, which deletes the picture). A dialog shows
+the picture before and after, on a checkerboard, with the warning of the
+method when there is one; the method can be changed there and the
+preview is refreshed. **Apply** writes the picture on the product, then
+the editor saves the page and reloads it, as for the standard *Re-order*
+and *Remove* buttons of product pictures. **Cancel** writes nothing.
+
+The button appears only on product pictures (product, variant, gallery
+image), not on the pictures of the page (banners, blocks), and the
+change needs the right to modify the product. A variant without its own
+picture shows the picture of its product: the background is then removed
+on the product.
 
 Remove a watermark
 ------------------
@@ -610,6 +678,83 @@ transparency becomes black permanently.
 
 Changelog
 =========
+
+19.0.1.14.1 (2026-10-22)
+------------------------
+
+- Consultant sheet: covers the *Frame only (keep background)* method and
+  its *Margin (%)*, *Ignore Pieces Under (%)* and *Background Color*
+  fields, the per-run wizard fields prefilled from the system
+  parameters, the *Remove Background* button of the website editor and
+  the own picture of a variant. Two new screenshots, generated by the
+  screenshot test.
+
+19.0.1.14.0 (2026-10-21)
+------------------------
+
+- Background removal wizard: new method *Frame only (keep background)*,
+  for product photos on a plain background that are not square and show
+  small in the shop list. The background stays; the product is cropped
+  and centered in a square filled with the background color (or the
+  chosen color), saved as JPEG. Pieces smaller than
+  ``bg_frame_min_island`` percent of the product (default 10, e.g. a
+  logo in a corner) do not widen the square.
+- The wizard now has *Frame in a Square*, *Margin (%)* and *Background
+  Color*, prefilled from ``bg_crop``, ``bg_margin`` and ``bg_color``, so
+  they can be changed per run; a queued selection still uses the system
+  parameters.
+
+19.0.1.13.2 (2026-10-21)
+------------------------
+
+- Configuration: for rembg on odoo.sh, add ``coverage>=7.6.1`` next to
+  ``rembg[cpu]`` in the requirements, not ``numba<0.61`` as advised in
+  19.0.1.13.1. numba needs ``coverage.types.Tracer``, added in coverage
+  7.6.1 (odoo.sh ships 7.4.4), while the pin on numba conflicts with the
+  numpy required by the current rembg and makes the build fail while
+  installing the requirements.
+
+19.0.1.13.1 (2026-10-21)
+------------------------
+
+- rembg installed but failing to import (on odoo.sh, numba 0.61+ with an
+  older ``coverage`` raised
+  ``AttributeError: module 'coverage.types' has no attribute 'Tracer'``)
+  blocked the background removal dialog of the website editor, the
+  wizard and the queue. It is now handled as rembg not installed: the
+  error is logged once, the AI model is shown as not available and
+  pictures on a plain background are still cut out by color. To use
+  rembg on such a server, see 19.0.1.13.2.
+
+19.0.1.13.0 (2026-10-21)
+------------------------
+
+- Website editor: a product picture (product, variant or gallery image)
+  gets *Background → Remove Background*. A dialog previews the picture
+  before and after, with the method and its warning; *Apply* writes the
+  picture on the product, then the editor saves and reloads the page.
+  Pictures of the page itself (banners, blocks) do not get the button,
+  and the change needs the right to modify the product.
+- Background removal also works on the own picture of a variant
+  (``image_variant_1920``); a variant without its own picture is handled
+  on its product.
+
+19.0.1.12.5 (2026-10-16)
+------------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.12.4 (2026-10-12)
+------------------------
+
+- Tests: the watermark tests now run in CI. They were skipped because
+  the CI image has no numpy; the repository gets a
+  ``test-requirements.txt`` with numpy (numpy stays an optional
+  dependency of the module). New tests cover the error and queue paths
+  of watermark and background removal, recompression edge cases
+  (unreadable input, palette images, PNG fallback without WebP, orphan
+  attachments, failed writes) and the duplicate image report and wizard.
 
 19.0.1.12.3 (2026-10-12)
 ------------------------

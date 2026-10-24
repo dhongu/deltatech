@@ -1,6 +1,6 @@
-=============================
-Deltatech Payment Method Card
-=============================
+===================
+Card Payment Method
+===================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +14,7 @@ Deltatech Payment Method Card
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_card_payment
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_card_payment
     :alt: dhongu/deltatech
 .. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_card_payment
@@ -56,6 +56,23 @@ Usage:
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.1.0.3 (2026-09-24)
+-----------------------
+
+- Port to Odoo 19: ``_default_inbound_payment_methods`` and
+  ``_get_payment_method_information`` are unchanged in the ``account``
+  core on O19, so the code is ported verbatim (no API adaptation at
+  all). Needed for the migration of a customer (18.0→19.0): the "Card
+  Payment" payment method is in active production use there.
+
 Bug Tracker
 ===========
 
@@ -84,6 +101,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_card_payment>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_card_payment>`_ project on GitHub.
 
 You are welcome to contribute.

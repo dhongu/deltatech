@@ -38,6 +38,17 @@ Features:
 Changelog
 =========
 
+19.0.1.1.2 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *PRN Report* (was *Raport PRN*). The technical
+  name ``deltatech_report_prn`` does not change.
+
+19.0.1.1.1
+----------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.1.0
 ----------
 

@@ -14,25 +14,55 @@ Product Category per Company
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_product_category
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_category
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_category
+    :alt: 3 automated tests · 100% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Features:
 
-- Product category per company
+- Product category per company (field "Company" on the category form,
+  visible in multi-company)
 
-- The "All" category must remain without a company
+- Setting "Share product category to all companies" (Settings >
+  Companies, debug mode): unchecked, it activates the multi-company
+  record rule on product categories
+
+- The standard categories ("All", "Goods", "Expenses", "Services")
+  remain without a company
 
 - Categorii de produse pentru fiecare companie
 
-- Categoria All trebuie sa ramana fara companie
+- Categoriile standard ("All", "Goods", "Expenses", "Services") trebuie
+  să rămână fără companie
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.1 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Category per Company* (was *Products
+  Category*). The technical name ``deltatech_product_category`` does not
+  change.
+
+19.0.1.0.0 (2026-10-14)
+-----------------------
+
+- Migrated from 18.0.
+- The settings checkbox uses the 19.0 ``<setting>`` layout in the
+  Companies block.
+- Saving the settings keeps the standard categories shared (no company):
+  "All" in databases migrated from 18.0 and "Goods", "Expenses",
+  "Services" added by Odoo 19.0.
 
 Bug Tracker
 ===========
@@ -62,6 +92,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_product_category>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_category>`_ project on GitHub.
 
 You are welcome to contribute.

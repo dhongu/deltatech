@@ -25,45 +25,73 @@ Expenses Deduction - HR Expense Bridge
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-Punte între modulul standard de cheltuieli **``hr_expense``** și
-**``deltatech_expenses``** (Decont de cheltuieli din avans de
-trezorerie, cont 542), pentru companiile care folosesc ambele fluxuri și
-vor să evite dubla contabilizare a acelorași cheltuieli.
+A bridge between the standard Odoo Expenses app (``hr_expense``) and the
+Terrabit expense report for cash advances (``deltatech_expenses``,
+account 542), for companies that use both and want to avoid booking the
+same expense twice.
 
-Se instalează **automat** (``auto_install``) doar atunci când ambele
-module — ``deltatech_expenses`` și ``hr_expense`` — sunt prezente în
-baza de date. Companiile care nu folosesc modulul standard de cheltuieli
-nu primesc acest modul, deci nu văd bifa „Cheltuieli" pe produs adusă de
-``hr_expense`` decât dacă chiar au nevoie de el.
-
-Features:
-
-- Buton **„Preia cheltuieli HR"** pe formularul Decontului (stările
-  Ciornă/Avans): deschide un wizard cu cheltuielile ``hr.expense``
-  eligibile ale angajatului (aprobate/depuse, fără notă contabilă
-  proprie, nelegate de alt decont) și le adaugă ca linii de decont.
-- Acțiune contextuală pe lista de cheltuieli standard: „Adaugă în decont
-  de cheltuieli" — trimite mai multe cheltuieli selectate către un
-  decont ales.
-- Cheltuielile ``hr.expense`` legate de un decont
-  (``expenses_deduction_id``) nu se mai postează prin ``action_post``
-  standard — contabilizarea se face exclusiv prin Decont, evitând
-  dublarea. Formularul cheltuielii arată un banner și ascunde butoanele
-  de postare standard.
-- La invalidarea unui decont, liniile importate din ``hr.expense`` se
-  șterg automat, iar cheltuielile respective sunt eliberate — redevin
-  disponibile pentru fluxul standard sau o nouă preluare.
-
-Configurare: niciuna suplimentară — funcționează imediat ce ambele
-module sunt instalate.
+- **Import HR expenses into the report**: The **Preia cheltuieli HR**
+  button on the expense report adds the employee's submitted or approved
+  expenses as report lines.
+- **Send from the expense list**: The **Adaugă în decont de cheltuieli**
+  action sends several selected expenses to a chosen report in one step.
+- **No double booking**: An expense linked to a report is posted only
+  through the report; its own posting buttons are hidden.
+- **Released on cancel**: When a report is cancelled, its imported lines
+  are removed and the expenses become available again.
+- **Installed automatically**: The module installs itself when both
+  ``deltatech_expenses`` and ``hr_expense`` are present; no
+  configuration is needed.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+1. Open an expense report in **Draft** or **Advance** and click **Preia
+   cheltuieli HR**.
+2. The wizard lists the employee's submitted or approved expenses that
+   are not posted and not linked to another report; select them and
+   confirm.
+3. Each expense becomes a report line, with its amount, taxes, vendor,
+   account and analytic distribution. The report is then validated and
+   posted as usual.
+
+From *Expenses*, you can also select several expenses of the same
+employee and use *Actions > Adaugă în decont de cheltuieli*.
+
 Changelog
 =========
+
+19.0.1.1.2 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.1.1 (2026-10-07)
+-----------------------
+
+- Apps Store page in English (it was in Romanian): what the module does,
+  with a Usage section, and the Romanian translation in its own tab
+  (``readme/*.ro.md``), since the module is meant for companies in
+  Romania. Summary in English; support address.
+
+19.0.1.1.0 (2026-10-01)
+-----------------------
+
+- Imported expenses keep their total with VAT included as the line
+  amount, matching the new rule of ``deltatech_expenses`` (the amount is
+  always gross).
+- The screenshot test writes only its own captures (03, 04) into this
+  module.
+
+19.0.1.0.2 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.1 (2026-09-23)
 -----------------------

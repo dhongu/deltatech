@@ -16,9 +16,9 @@ Invoice Delivery / Reception
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_delivery
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2076%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2076%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_delivery
-    :alt: 3 automated tests · 76% code coverage
+    :alt: 4 automated tests · 76% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -54,6 +54,30 @@ Usage:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.3 (2026-10-17)
+-----------------------
+
+- The Delivery button now shows on customer invoices and credit notes,
+  and the Reception button on vendor bills and refunds; before, both
+  were always hidden.
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Declare ``sale_stock`` and ``purchase_stock`` as dependencies: the
+  invoice button reads the stock moves of sale and purchase lines, which
+  these modules provide.
+- Tests run post-install on the standard accounting test setup and also
+  cover sale invoices and invoices without deliveries.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

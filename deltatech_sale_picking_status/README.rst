@@ -10,18 +10,18 @@ Sale Delivery Status
    !! source digest: sha256:84c906a5b5716466a0b5f56d9b4224b964b81c427a9424e1dcca7ad0328adc06
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_picking_status
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_picking_status
-    :alt: 1 automated test · 90% code coverage
+    :alt: 3 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -39,6 +39,38 @@ Sale Delivery Status
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.4 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale Delivery Status* (was *Sale order picking
+  status*). The technical name ``deltatech_sale_picking_status`` does
+  not change.
+
+19.0.1.0.3 (2026-10-17)
+-----------------------
+
+- The picking status now follows every change of the order state: an
+  order cancelled and reset to quotation is shown again as "In
+  Progress", and a cancelled quotation as "Done", in lists and filters
+  (#3470).
+- The module update recomputes the picking status of existing orders, so
+  statuses left wrong by the previous version are corrected right away
+  (#3470).
+
+19.0.1.0.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

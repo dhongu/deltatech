@@ -1,6 +1,6 @@
-============================
-Deltatech Sale Cost on Order
-============================
+==================
+Sale Cost on Order
+==================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Sale Cost on Order
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_cost_product
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_cost_product
-    :alt: 4 automated tests · 100% code coverage
+    :alt: 8 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -67,6 +67,23 @@ Usage
    margin in the order footer.
 5. Use the search and filter options to identify orders with margins
    below a certain threshold.
+
+Changelog
+=========
+
+19.0.0.0.4 (2026-10-16)
+-----------------------
+
+- The cost of goods is converted from the product unit of measure to the
+  line unit, from the cost currency to the order currency, and is read
+  in the order company.
+- The Cost of Goods field is restricted to the "Can See Cost Of Goods"
+  group, so other users can no longer read it through export or RPC.
+
+19.0.0.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

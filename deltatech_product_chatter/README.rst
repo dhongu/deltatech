@@ -1,6 +1,6 @@
-=========================
-Deltatech Product Chatter
-=========================
+==========================
+Product Chatter Protection
+==========================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Product Chatter
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_chatter
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2080%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_chatter
-    :alt: 5 automated tests · 80% code coverage
+    :alt: 8 automated tests · 81% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -37,6 +37,8 @@ What it does
 - Blocks direct record deletions of ``mail.message`` linked to products
   (e.g., via ORM/RPC, scripts, or third‑party modules) when the user
   lacks the group.
+- Blocks direct edits of the body or attachments of ``mail.message``
+  linked to products (ORM/RPC) when the user lacks the group.
 
 How it works
 ------------
@@ -88,6 +90,57 @@ Notes
 
 Changelog
 =========
+
+19.0.1.0.7 (2026-10-23)
+-----------------------
+
+- Tests: the edit of a message on another model grants read access on
+  journal entries when ``account`` is installed, as the deletion test
+  already did; the accounting audit-log check of Odoo runs on every
+  message edit and failed the test in the full CI run.
+
+19.0.1.0.6 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Chatter Protection* (was *Product
+  Chatter*). The technical name ``deltatech_product_chatter`` does not
+  change.
+
+19.0.1.0.5
+----------
+
+- Direct edits of the content (body, attachments) of product chatter
+  messages through the ORM/RPC are now restricted to the security group,
+  like deletion and the chatter "Edit"/"Delete" actions. Sudo is not
+  restricted. Tests added.
+
+19.0.1.0.4 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.3 (2026-10-03)
+-----------------------
+
+- Tests: the "other models not restricted" test gives its user read
+  access on journal entries when ``account`` is installed, because the
+  accounting audit-log check on message deletion reads them (it failed
+  with ``AccessError`` in the full CI run). No functional change.
+
+19.0.1.0.2 (2026-10-02)
+-----------------------
+
+- Block direct deletion of product chatter messages
+  (``mail.message.unlink()`` through ORM/RPC/scripts) for users outside
+  the security group, as the description promised: only the
+  edit/"Delete" action of the chatter was guarded before. Sudo is not
+  blocked, so deleting a product still removes its messages. Tests
+  added.
+
+19.0.1.0.1
+----------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.0
 ----------

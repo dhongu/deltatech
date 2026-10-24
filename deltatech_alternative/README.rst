@@ -16,9 +16,9 @@ Alternative Product Codes
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_alternative
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-26%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_alternative
-    :alt: 26 automated tests · 88% code coverage
+    :alt: 32 automated tests · 89% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -28,7 +28,7 @@ different references — supplier codes, manufacturer part numbers, legacy
 codes, or customer-specific identifiers — and your team needs to locate
 it regardless of which code they have at hand.
 
-**Key features:**
+**✨ Key features:**
 
 - Adds a dedicated **Alternative** tab on the product form where you can
   record any number of extra codes, reorder them, and optionally hide
@@ -44,6 +44,12 @@ it regardless of which code they have at hand.
   the order-to-delivery flow.
 - Adds a free-text **Used For** field on the product to note what the
   item can be used for, aiding identification and cross-selling.
+- A daily scheduled action (inactive by default) splits codes entered on
+  one line and separated by ``;`` or ``,`` into one alternative record
+  per code, without creating codes the product already has. Spaces are
+  kept as part of the code (OEM numbers such as ``366 200 05 01``).
+  Activate it in **Settings > Technical > Scheduled Actions** when
+  needed.
 
 **Table of contents**
 
@@ -85,9 +91,118 @@ behaviour:
 |                   |                             |          | triggered.        |
 +-------------------+-----------------------------+----------+-------------------+
 
-These three values are stored as ``ir.config_parameter`` system
-parameters and can also be set directly via **Settings > Technical >
-Parameters > System Parameters** if needed.
+\| **Code Before Name** \| ``alternative.dropdown_code_first`` \|
+disabled \| The product selection list shows ``[code] name`` instead of
+the name with the code muted on the right. \| \| **Show Stock in
+Dropdown** \| ``alternative.dropdown_show_qty`` \| disabled \| The
+product selection list shows, muted on the right, the quantity on hand
+of storable products. \|
+
+These values are stored as ``ir.config_parameter`` system parameters and
+can also be set directly via **Settings > Technical > Parameters >
+System Parameters** if needed.
+
+Large Databases (Index on Alternative Codes)
+--------------------------------------------
+
+Alternative codes (``product.alternative.name``) use a trigram (GIN)
+index, so a search such as ``ilike '%4561%'`` does not scan the whole
+table.
+
+- The PostgreSQL extension ``pg_trgm`` must be available. Without it
+  Odoo creates no index on the column.
+- Odoo adds ``unaccent`` to the index only when
+  ``public.unaccent(text)`` is ``IMMUTABLE``. Otherwise the index is
+  created without it and the search, which calls
+  ``unaccent(name) ILIKE unaccent(...)``, cannot use it. Odoo logs
+  *PostgreSQL function 'unaccent' is present but not immutable* in that
+  case.
+
+Checking ``unaccent``
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: sql
+
+   SELECT oid::regprocedure, provolatile FROM pg_proc WHERE proname = 'unaccent';
+
+- **odoo.sh** needs nothing: the extension lives in ``unaccent_schema``
+  and the platform adds an ``IMMUTABLE`` wrapper
+  ``public.unaccent(text)`` (``provolatile = i``).
+- **Self-hosted**, with the extension installed in ``public``,
+  ``unaccent(text)`` is ``STABLE`` (``s``). Do **not** use
+  ``ALTER FUNCTION public.unaccent(text) IMMUTABLE``, and do not replace
+  the extension's function: the change is part of the extension,
+  ``pg_dump`` does not keep it, and restoring the database fails on
+  every index that uses ``unaccent`` (*functions in index expression
+  must be marked IMMUTABLE*). The Odoo database manager then reports
+  *Couldn't restore database*.
+
+Setting up ``unaccent`` like odoo.sh (self-hosted)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run as a superuser, then restart Odoo (it reads the function status at
+startup). The script moves the extension to its own schema, adds the
+``IMMUTABLE`` wrapper and rebuilds the indexes that used the extension's
+function. Rebuilding blocks writes on those tables, so run it in a
+maintenance window.
+
+.. code:: sql
+
+   BEGIN;
+   CREATE SCHEMA IF NOT EXISTS unaccent_schema;
+   ALTER EXTENSION unaccent SET SCHEMA unaccent_schema;
+   CREATE FUNCTION public.unaccent(text) RETURNS text
+       LANGUAGE sql IMMUTABLE PARALLEL SAFE STRICT
+       AS $$ SELECT unaccent_schema.unaccent('unaccent_schema.unaccent'::regdictionary, $1) $$;
+   DO $$
+   DECLARE r record;
+   BEGIN
+       FOR r IN
+           SELECT DISTINCT i.indexrelid::regclass AS idx, pg_get_indexdef(i.indexrelid) AS def
+           FROM pg_index i
+           JOIN pg_depend d ON d.classid = 'pg_class'::regclass AND d.objid = i.indexrelid
+           WHERE d.refclassid = 'pg_proc'::regclass
+             AND d.refobjid = 'unaccent_schema.unaccent(text)'::regprocedure
+       LOOP
+           EXECUTE format('DROP INDEX %s', r.idx);
+           EXECUTE replace(r.def, 'unaccent_schema.unaccent(', 'public.unaccent(');
+       END LOOP;
+   END $$;
+   COMMIT;
+
+The dictionary is schema-qualified on purpose. With a bare
+``'unaccent'``, PostgreSQL 17 cannot build the index (index builds run
+with a restricted ``search_path``) and older versions fail on restore.
+
+Trigram indexes created while ``unaccent`` was ``STABLE`` do not contain
+``unaccent``. Odoo compares only the access method (``gin``), not the
+expression, so it keeps them although the search cannot use them. Drop
+them after the change and update the modules that declare them (``-u``).
+
+Creating the index on a large table
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With millions of codes, create the index before updating the module, so
+writes are not blocked while it is built:
+
+.. code:: sql
+
+   DROP INDEX IF EXISTS product_alternative__name_index;
+   CREATE INDEX CONCURRENTLY product_alternative__name_index
+       ON product_alternative USING gin (unaccent(name) gin_trgm_ops);
+
+Leave out ``unaccent(...)`` if ``public.unaccent(text)`` is not
+``IMMUTABLE``. Odoo finds an index with the expected name and access
+method and does not rebuild it.
+
+Databases migrated from 18.0 already have the same index under another
+name (``product_alternative_name_unaccent_gin``, created by the 18.0
+module). Rename it instead of building a new one:
+
+.. code:: sql
+
+   DROP INDEX IF EXISTS product_alternative__name_index;
+   ALTER INDEX product_alternative_name_unaccent_gin RENAME TO product_alternative__name_index;
 
 Usage
 =====
@@ -135,6 +250,116 @@ default) on Sales Order and Purchase Order lines. To show it:
 
 The column is read-only and reflects the concatenated visible codes of
 the selected product.
+
+Changelog
+=========
+
+19.0.2.2.1 (2026-10-22)
+-----------------------
+
+- The module is listed on Odoo Apps as *Alternative Product Codes* (was
+  *Products Alternative*), the same title as its thumbnail and page
+  header. The technical name ``deltatech_alternative`` does not change,
+  so existing installations and dependencies are not affected.
+
+19.0.2.2.0 (2026-10-15)
+-----------------------
+
+**Added**
+
+- *Code Before Name* option: the product selection list shows the
+  classic ``[code] name`` again, instead of the Odoo 19 layout with the
+  internal reference muted after the name.
+- *Show Stock in Dropdown* option: the muted part of the product
+  selection list shows the quantity on hand of storable products, with
+  the unit of measure. Product names elsewhere (documents, reports,
+  lists) are not affected.
+
+19.0.2.1.7 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.2.1.6 (2026-10-05)
+-----------------------
+
+**Fixed**
+
+- The read access to product alternatives that applied to everyone, with
+  no group, is now granted explicitly to internal, portal and public
+  users. Behavior is unchanged (the website product page still shows the
+  alternatives to visitors), but Odoo no longer logs the deprecated
+  *rule has no group* warning at install and upgrade.
+- The sale order form inheritance matches the kanban and the first text
+  block with ``hasclass()`` instead of an exact ``@class`` comparison,
+  which Odoo flags as error-prone.
+
+19.0.2.1.5 (2026-10-01)
+-----------------------
+
+- Searching a product by alternative code (*Search by alternative code*
+  option) now keeps the selector's domain: a product hidden from the
+  field by ``sale_ok``, ``purchase_ok``, category or company no longer
+  comes back through its alternative code. The alternative code is now
+  one more condition of the product search, so record rules apply as
+  well (ALTERNATIVE-001).
+- Variants found by alternative code are shown with their full name
+  (``[code] Name``), like the other results, instead of the bare name.
+- ``name_search`` with ``limit=None`` no longer raises ``TypeError``.
+- Negative operators (``not ilike``...) no longer add products by
+  alternative code.
+
+19.0.2.1.4 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
+19.0.2.1.3 (2026-09-26)
+-----------------------
+
+- The index on ``product.alternative.name`` is now a trigram (GIN) index
+  instead of btree. Product search runs ``ilike '%code%'``, which the
+  btree index could not serve (sequential scan: 169 ms against 4.6 ms
+  with GIN on 1.36 million codes), and btree rejects values over ~2,700
+  bytes. The existing btree index is replaced when the module is
+  updated. On large databases, see *Large Databases* in the
+  configuration notes.
+- Removed ``index=True`` from the computed, non-stored
+  ``alternative_code`` field, where it had no effect.
+- Added an index on ``product.alternative.product_tmpl_id``. Reading the
+  codes of a product (the ``alternative_ids`` list, the computed
+  ``alternative_code``) scanned the whole table: 40 ms against under 1
+  ms on 1.36 million codes.
+- Configuration notes:
+  ``ALTER FUNCTION public.unaccent(text) IMMUTABLE`` is no longer
+  recommended, because ``pg_dump`` does not keep it and the restore
+  fails on the indexes that use ``unaccent``. They now describe the
+  managed-hosting setup (extension in its own schema, ``IMMUTABLE``
+  wrapper in ``public``), with a script for self-hosted databases, and
+  how to reuse the index that 18.0 created
+  (``product_alternative_name_unaccent_gin``).
+
+19.0.2.1.2 (2026-09-26)
+-----------------------
+
+- Ported from 18.0: the daily *Alternative: Split multi-code records*
+  cron and the ``product.alternative.split_multi_codes()`` method, which
+  split a record holding several codes on one line (``A; B, C``) into
+  one record per code. The first code stays on the original record; the
+  others inherit its product, sequence and hide flag.
+- The cron is inactive by default on new installations. Activate it in
+  *Settings > Technical > Scheduled Actions* when needed.
+- Codes are split only on ``;`` and ``,``. Spaces are never a delimiter,
+  because many OEM part numbers contain them (``366 200 05 01``).
+- A single code surrounded by stray delimiters (``12345,``) is cleaned
+  up in place.
+- New compared to 18.0: codes the product already has, or that repeat on
+  the same line, are no longer created again. The batch size can be
+  passed as ``split_multi_codes(limit=...)`` (default 5000).
+- On databases migrated from 18.0 the existing cron record (same XML id)
+  is reused and keeps its current active/inactive state (``noupdate``).
+  It had stopped working because the method was missing on 19.0.
 
 Bug Tracker
 ===========

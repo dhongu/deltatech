@@ -31,6 +31,35 @@ Product Category Colors
 .. contents::
    :local:
 
+Changelog
+=========
+
+19.0.1.0.4 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Category Colors* (was *Products
+  Category Color*). The technical name
+  ``deltatech_product_category_color`` does not change.
+
+19.0.1.0.3 (2026-10-02)
+-----------------------
+
+- ``stock.picking.categ_ids`` is computed from the moves (not cancelled)
+  instead of the move lines: transfers that are not reserved yet have no
+  move lines, so they showed no category. Tests added.
+
+19.0.1.0.2 (2026-10-02)
+-----------------------
+
+- Fix ``stock.picking.categ_ids``: the compute had no ``@api.depends``,
+  so the categories stayed stale in the same transaction after the move
+  lines changed. Tests check the computed categories.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 Bug Tracker
 ===========
 

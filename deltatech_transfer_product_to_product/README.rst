@@ -16,9 +16,9 @@ Transfer Product to Product
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_transfer_product_to_product
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2072%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2072%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_transfer_product_to_product
-    :alt: 4 automated tests · 72% code coverage
+    :alt: 6 automated tests · 72% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -37,6 +37,24 @@ Features:
 
 Changelog
 =========
+
+19.0.0.0.5 (2026-10-17)
+-----------------------
+
+- Fix PRODUCTTRANSFER-002: the wizard now reserves the source product
+  explicitly before validation, so it also works with operation types
+  set to manual or by-date reservation, instead of failing with a
+  zero-quantity transfer error.
+
+19.0.0.0.4 (2026-10-09)
+-----------------------
+
+- Fix PRODUCTTRANSFER-001: the wizard validates the source leg first and
+  returns the native backorder confirmation when only part of the
+  quantity is available, instead of completing the replacement alone.
+  The replacement leg is validated once the source leg is done, for the
+  quantity actually taken out, and follows the same backorder decision
+  (native ``_create_backorder``).
 
 19.0.0.0.3 (2026-10-09)
 -----------------------

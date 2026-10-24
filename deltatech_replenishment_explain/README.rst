@@ -1,6 +1,6 @@
-===============================
-Deltatech Replenishment Explain
-===============================
+=====================
+Replenishment Explain
+=====================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -16,9 +16,9 @@ Deltatech Replenishment Explain
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_replenishment_explain
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-25%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-26%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_replenishment_explain
-    :alt: 25 automated tests · 100% code coverage
+    :alt: 26 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -55,6 +55,32 @@ set), rounding inflation, manual overrides and snoozes.
 
 Changelog
 =========
+
+19.0.1.1.6 (2026-10-17)
+-----------------------
+
+- The explanation no longer counts transfers that stay inside the
+  reordering rule location (for example stock to a shelf) as receipts or
+  demand, and no longer warns about a stockout for such transfers after
+  the lead horizon. Receipts are matched on their final destination, as
+  in the native forecast (multi-step routes).
+
+19.0.1.1.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.1.4 (2026-10-04)
+-----------------------
+
+- Extend unit tests to cover the replenishment explanation values, the
+  scheduled-move breakdown, every risk finding, the explanation wizard
+  and the server action.
+
+19.0.1.1.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.1.2 (2026-09-23)
 -----------------------

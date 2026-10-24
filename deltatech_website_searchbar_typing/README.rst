@@ -85,8 +85,10 @@ body of the call is placed inside the form:
        </ul>
    </t>
 
-The same list can be added to a search snippet placed with the Website
-Builder, from the HTML editor of the page.
+On a search box placed with the Website Builder, select the search input
+and turn on **Typing examples** in the panel. Edit the **Prefix** (leave
+it empty for none) and the **Examples**: add, remove or drag them to
+change the order. The option writes the same hidden list in the form.
 
 The speed can be changed with data attributes on the
 ``o_searchbar_typing`` element, in milliseconds: ``data-start-delay``
@@ -100,6 +102,13 @@ find something.
 
 Changelog
 =========
+
+19.0.1.1.0 (2026-10-17)
+-----------------------
+
+- Website Builder option on the search box: "Typing examples" turns the
+  animation on or off, and the prefix and the examples are edited in the
+  panel, without the HTML editor.
 
 19.0.1.0.0 (2026-10-17)
 -----------------------

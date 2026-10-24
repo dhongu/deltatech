@@ -16,9 +16,9 @@ MRP Cost
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mrp_cost
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_mrp_cost
-    :alt: 2 automated tests · 81% code coverage
+    :alt: 3 automated tests · 83% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -30,6 +30,30 @@ MRP Cost
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.2.0.9 (2026-10-17)
+-----------------------
+
+- Fixed MRPCOST-002: the *Costs* tab of the manufacturing order showed
+  the native real duration (computed, in minutes) instead of the
+  duration used by the labour and utilities cost formulas. It now shows
+  the editable cost duration, in hours.
+
+19.0.2.0.8 (2026-10-08)
+-----------------------
+
+- Fixed MRPCOST-001: printing the production order of a done
+  manufacturing order failed, because the *Finished Products* table and
+  the component amounts still read the stock valuation layers removed in
+  Odoo 19. Both now use the stock move value.
+
+19.0.2.0.7 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

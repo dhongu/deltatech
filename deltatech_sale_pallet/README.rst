@@ -16,9 +16,9 @@ Sale Pallet
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_pallet
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2085%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2085%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_pallet
-    :alt: 2 automated tests · 85% code coverage
+    :alt: 6 automated tests · 85% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -40,6 +40,37 @@ Features:
 
 Changelog
 =========
+
+19.0.1.0.13
+===========
+
+- Fix: pallets are now added to the quotation also when
+  ``deltatech_sale_add_extra_line`` is installed (the two order-line
+  onchanges no longer override each other).
+- Fix: removing the last product that needs pallets now also removes the
+  pallet line added automatically for it (on a confirmed order its
+  quantity is set to 0). Pallet lines added by hand are kept.
+- Fix: the product "Pallet Price" is refreshed when the product price,
+  the pallet product, its price or the minimum quantity per pallet
+  changes.
+
+19.0.1.0.12
+===========
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.11
+===========
+
+- Fix: pallet count was wrong near multiples of the minimum quantity per
+  pallet (e.g. 199.5 units at 100 per pallet rounded down to 2, 100.5
+  units rounded up to 1). Rounding down/up now uses floor/ceiling with a
+  tolerance based on the ``Product Unit`` precision.
+
+19.0.1.0.10
+===========
+
+- Own module icon, instead of the generic gears it had.
 
 Changelog
 =========

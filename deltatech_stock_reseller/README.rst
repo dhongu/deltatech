@@ -16,9 +16,9 @@ Stock Report for Resellers
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_reseller
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_reseller
-    :alt: 4 automated tests · 96% code coverage
+    :alt: 5 automated tests · 96% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -34,6 +34,40 @@ Features:
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+19.0.1.0.7 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Stock Report for Resellers* (was *Stock Report
+  Reseller*). The technical name ``deltatech_stock_reseller`` does not
+  change.
+
+19.0.1.0.6 (2026-10-17)
+-----------------------
+
+- Fix: a report generated without a reseller pricelist shows the
+  reseller price in the company currency, instead of leaving it without
+  currency (RESELLER-002).
+
+19.0.1.0.5 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.4 (2026-10-01)
+-----------------------
+
+- Fix: a cached report is reused only when it was generated with the
+  same partner, reseller pricelist and threshold settings
+  (RESELLER-001).
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

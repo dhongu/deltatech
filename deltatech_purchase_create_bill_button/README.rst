@@ -22,9 +22,9 @@ Purchase Create Bill Button
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_purchase_create_bill_button/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_purchase_create_bill_button
-    :alt: 6 automated tests · 100% code coverage
+    :alt: 8 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -110,6 +110,14 @@ accounts on the lines before confirming it.
 
 Changelog
 =========
+
+19.0.1.1.4 (2026-10-17)
+-----------------------
+
+- A bill created from several purchase orders with "Create Bills" now
+  keeps the vendor references of all the orders in its Reference, not
+  only the first one. When the orders have different vendor references,
+  the Payment Reference is left empty.
 
 19.0.1.1.3 (2026-10-10)
 -----------------------

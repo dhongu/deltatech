@@ -16,9 +16,9 @@ Fast Sale
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_fast_sale
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%2076%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2082%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_fast_sale
-    :alt: 2 automated tests · 76% code coverage
+    :alt: 7 automated tests · 82% code coverage
 
 |badge1| |badge2| |badge_tests|
 
@@ -28,7 +28,7 @@ Designed for businesses that need to process straightforward orders
 quickly — no separate picking validation or invoice wizard steps
 required.
 
-**Key features:**
+**✨ Key features:**
 
 - **Confirm, Deliver and Invoice** — one-click button on draft/sent sale
   orders that confirms the order, validates the delivery (using order
@@ -95,6 +95,30 @@ Invoice from the picking
    **Note:** All three flows verify stock availability before
    proceeding. If any product is not fully available in the warehouse,
    the action is blocked and an error message is displayed.
+
+Changelog
+=========
+
+19.0.1.0.5 (2026-10-17)
+-----------------------
+
+- Fix: Deliver Notice no longer fails when the order has more than one
+  ready transfer; the list of transfers opens.
+- Fix: Confirm, Deliver and Invoice now completes multi-step deliveries
+  (pick + ship, pick + pack + ship): every step of the route is
+  validated in order, so the goods reach the customer and the delivered
+  quantities are set.
+
+19.0.1.0.4 (2026-10-11)
+-----------------------
+
+- Docs: emoji symbols added to the bold headings of the module
+  description, for a uniform look on the Odoo Apps page. No code change.
+
+19.0.1.0.3 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 Bug Tracker
 ===========

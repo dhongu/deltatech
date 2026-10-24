@@ -59,6 +59,27 @@ Usage:
 Changelog
 =========
 
+19.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale-Purchase Sync* (was *Sale Purchase*). The
+  technical name ``deltatech_sale_purchase`` does not change.
+
+19.0.1.0.2 (2026-10-01)
+-----------------------
+
+- Cancelling a sale order no longer deletes a draft purchase line that
+  also supplies another sale order. With a vendor grouping RFQs Daily,
+  Weekly or Always, the needs of several sale orders are merged on one
+  line; now only the cancelled moves are detached from it and their
+  quantity (converted to the purchase unit of measure) is subtracted. A
+  line left without any active sale order is removed as before.
+
+19.0.1.0.1 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
+
 19.0.1.0.0 (2026-07-29)
 -----------------------
 
