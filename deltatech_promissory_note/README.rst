@@ -1,6 +1,6 @@
-=========================
-Deltatech Promissory Note
-=========================
+================
+Promissory Notes
+================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -19,9 +19,9 @@ Deltatech Promissory Note
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_promissory_note
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_promissory_note/tests
-    :alt: 2 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_promissory_note
+    :alt: 4 automated tests · 84% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -36,6 +36,31 @@ Features:
 
 Changelog
 =========
+
+19.0.1.0.9 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Promissory Notes* (was *Promissory Note*). The
+  technical name ``deltatech_promissory_note`` does not change.
+
+19.0.1.0.8 (2026-10-13)
+-----------------------
+
+- The tests run again: they had been switched off since the migration to
+  19.0, because the form requires both banks and the tests did not fill
+  them in. They now also check the issuer/beneficiary set by the note
+  type, the state changes and the notification sent when the last note
+  is cashed.
+
+19.0.1.0.7 (2026-10-09)
+-----------------------
+
+- Apps Store banner (banner.json).
+
+19.0.1.0.6 (2026-09-29)
+-----------------------
+
+- Own module icon, instead of the generic gears it had.
 
 19.0.1.0.5 (2026-09-24)
 -----------------------
