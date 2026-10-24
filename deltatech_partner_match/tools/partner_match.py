@@ -131,9 +131,16 @@ def normalize_text(value):
     return " ".join(_tokens(value, join_dots=False))
 
 
+def name_words(name):
+    """Lowercase, without diacritics, punctuation and legal forms, words in their order:
+    ``"S.C. Alfa Beta S.R.L."`` gives ``"alfa beta"``. For an exact name key where the order of
+    the words matters ("Alfa Beta" and "Beta Alfa" can be two companies)."""
+    return " ".join(_tokens(name, LEGAL_FORMS))
+
+
 def normalize_name(name):
-    """Lowercase, without diacritics, punctuation and legal forms, words sorted:
-    ``"S.C. Popescu Ion S.R.L."`` and ``"ion popescu srl"`` give the same key."""
+    """:func:`name_words` with the words sorted: ``"S.C. Popescu Ion S.R.L."`` and
+    ``"ion popescu srl"`` give the same key."""
     return " ".join(sorted(_tokens(name, LEGAL_FORMS)))
 
 
