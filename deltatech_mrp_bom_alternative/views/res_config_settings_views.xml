@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.mrp.alternative</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="mrp.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='process_operations_setting_container']" position="inside">
+                <setting
+                    id="mrp_alternative_partial"
+                    help="Split a component between the original product and its alternatives when the stock is short"
+                >
+                    <field name="mrp_alternative_partial" />
+                </setting>
+                <setting
+                    id="mrp_alternative_on_assign"
+                    help="Substitute automatically also when checking availability, not only at confirmation"
+                >
+                    <field name="mrp_alternative_on_assign" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

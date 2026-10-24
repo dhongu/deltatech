@@ -1,0 +1,10 @@
+{
+  "title": "BoM Alternative Components",
+  "summary": "Keep production running when a component is missing",
+  "icon": "gear",
+  "features": [
+    "Alternatives with ratio and validity",
+    "Automatic or manual substitution",
+    "Partial split with traceability"
+  ]
+}
