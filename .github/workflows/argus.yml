@@ -1,0 +1,29 @@
+name: argus
+
+# Argus, the advisory AI review: it comments, it never blocks the merge. The job, the
+# rules and the scripts live in terrabit-solutions/ci-agents; this suite's own rules, if
+# any, are in .github/argus/REVIEW.local.md. PRs start as drafts: Argus reviews them while
+# the tests and Mentor wait for "Ready for review" (that head is already reviewed).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - "19.0"
+    paths-ignore:
+      - "**/i18n/**"
+      - "**/readme/screenshots/**"
+      - "**/static/description/**"
+      - "**/README.rst"
+      - "**/README.md"
+
+jobs:
+  argus:
+    uses: terrabit-solutions/ci-agents/.github/workflows/argus.yml@main
+    with:
+      # Outside the organization: GitHub-hosted runners, not the org's VPS ones.
+      runs-on: '"ubuntu-latest"'
+    secrets: inherit
+    permissions:
+      contents: read
+      pull-requests: write
