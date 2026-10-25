@@ -1,3 +1,9 @@
+## 19.0.1.0.2 (2026-10-25)
+
+- The screenshots for the Apps Store (`static/description/`) work again with Pillow 9.0.1, the
+  version Odoo 19 pins on Python 3.10: they failed with "module 'PIL.Image' has no attribute
+  'Quantize'", a name that exists only since Pillow 9.1.
+
 ## 19.0.1.0.1 (2026-10-25)
 
 - `capture_screenshots` lifts Odoo's virtual memory limit (`limit_memory_hard`, RLIMIT_AS) while
