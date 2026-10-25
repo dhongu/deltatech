@@ -47,6 +47,7 @@ Reguli de conținut pentru fișe:
   - capturile se fac pe compania „RO Company" în RON (``prepare_ro_company``).
 """
 
+import contextlib
 import json
 import logging
 import os
@@ -68,6 +69,32 @@ TAB_LABELS_RO = {
     "Invoice Lines": "Linii factură",
     "Other Info": "Alte informații",
 }
+
+
+@contextlib.contextmanager
+def _unlimited_address_space():
+    """Ridică temporar limita de memorie virtuală (RLIMIT_AS) pusă de Odoo (`limit_memory_hard`).
+
+    Chrome rezervă mult spațiu virtual la pornire; cu limita lui Odoo moștenită, cel pornit de
+    Playwright moare imediat (SIGTRAP, „Target page, context or browser has been closed").
+    Browserul de teste al lui Odoo ridică limita singur (`_preexec` din odoo.tests.common),
+    Playwright nu: o ridicăm noi cât timp rulează driverul, care pornește Chrome. Doar
+    limita soft, până la cea hard, fără drepturi speciale; pe macOS nu se aplică.
+    """
+    try:
+        import resource  # noqa: PLC0415
+    except ImportError:  # Windows
+        yield
+        return
+    soft, hard = resource.getrlimit(resource.RLIMIT_AS)
+    if soft == hard:
+        yield
+        return
+    resource.setrlimit(resource.RLIMIT_AS, (hard, hard))
+    try:
+        yield
+    finally:
+        resource.setrlimit(resource.RLIMIT_AS, (soft, hard))
 
 
 class ScreenshotCase(HttpCase):
@@ -689,7 +716,7 @@ class ScreenshotCase(HttpCase):
         sid = self.session.sid
 
         written = []
-        with self.allow_requests(all_requests=True), sync_playwright() as p:
+        with self.allow_requests(all_requests=True), _unlimited_address_space(), sync_playwright() as p:
             browser = p.chromium.launch(channel="chrome", headless=True)
             ctx = browser.new_context(viewport={"width": viewport[0], "height": viewport[1]}, locale=locale)
             ctx.add_cookies([{"name": "session_id", "value": sid, "url": base}])
