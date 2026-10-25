@@ -1,0 +1,11 @@
+{
+  "title": "Doc Screenshots",
+  "summary": "Consultant sheet screenshots from tests",
+  "icon": "gear",
+  "lang": "en",
+  "features": [
+    "Screenshots generated from the tests",
+    "Outlines and numbered badges on the steps",
+    "Skipped cleanly when Playwright is missing"
+  ]
+}
