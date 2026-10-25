@@ -37,11 +37,8 @@ class TestPosStockBadge(TestPointOfSaleHttpCommon):
                     return null;
                 };
 
-                const openButton = await waitFor(() =>
-                    [...document.querySelectorAll("button, .button")].find(
-                        (el) => el.innerText.trim() === "Open Register"
-                    )
-                );
+                // by class: with pos_hr installed the label reads "Unlock Register" on an opened session
+                const openButton = await waitFor(() => document.querySelector(".open-register-btn"));
                 if (!openButton) {
                     console.error("could not open the register");
                     return;
@@ -116,11 +113,8 @@ class TestPosStockBadge(TestPointOfSaleHttpCommon):
                     return null;
                 }};
 
-                const openButton = await waitFor(() =>
-                    [...document.querySelectorAll("button, .button")].find(
-                        (el) => el.innerText.trim() === "Open Register"
-                    )
-                );
+                // by class: with pos_hr installed the label reads "Unlock Register" on an opened session
+                const openButton = await waitFor(() => document.querySelector(".open-register-btn"));
                 if (!openButton) {{
                     console.error("could not open the register");
                     return;
