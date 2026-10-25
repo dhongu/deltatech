@@ -1,3 +1,8 @@
+## 19.0.1.2.4 (2026-10-25)
+
+- Tests: the POS badge tests open the register by the button's class, so they also pass
+  when pos_hr is installed (it labels the button "Unlock Register" on an opened session).
+
 ## 19.0.1.2.3 (2026-10-22)
 
 - Listed on Odoo Apps as *POS Stock Display* (was *POS Stock*). The technical name `deltatech_pos_stock` does not change.
