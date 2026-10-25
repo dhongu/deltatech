@@ -1,0 +1,335 @@
+<div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
+<!-- tb-gen v1 -->
+<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+  <div class="d-flex flex-wrap align-items-center">
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Doc Screenshots" style="width:80px;height:80px;border:none;"/></span>
+    <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Doc Screenshots</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Consultant sheet screenshots from tests</p>
+      <div>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Hidden</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mb-4" style="background-color:#DEF1DD;color:#212529;">
+  <span class="flex-shrink-0 me-3" style="font-size:26px;line-height:1.2;color:#006F42;">&#9733;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:#006F42;">Happy with this module?</span> A rating on this page helps other Odoo users find it and tells our developers what works. Thank you!
+  </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">A <strong>development tooling</strong> module: it adds no business feature.</p>
+<p>It provides the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ScreenshotCase</code> mixin (in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/screenshot_case.py</code>) that generates the
+screenshots of the consultant sheets (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;module&gt;/static/description/</code>) <strong>automatically</strong>, from data
+seeded deterministically in the tests.</p>
+<p>How it works: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">HttpCase</code> (the Odoo server and the test transaction) plus <strong>Playwright</strong> (system
+Chrome) to navigate and take screenshots with clean names, written straight into
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;module&gt;/static/description/</code>. Login through the session cookie.</p>
+<p><strong>&#10024; Main features:</strong></p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ScreenshotCase</code> &#8212; reusable <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">HttpCase</code> base class for any consumer module: the screenshots are
+  described as a list of dicts and generated with one command.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_ro_company</code> &#8212; seeds the company with Romanian data (country, RON, VAT, address), gives
+  the admin accounting rights and switches on the Romanian language and the light theme.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_demo_company</code> &#8212; the alternative for modules with pre-filled demo data (invoices, etc.).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account_move_shot</code> &#8212; screenshot of an <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code> form with the <em>Journal Items</em> tab open.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_light_theme</code> &#8212; forces the light theme on the admin, whatever the database preference.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_autotrim</code> &#8212; trims the uniform margins of the screenshot.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">highlight</code> per shot &#8212; outlines CSS/Playwright selectors in Odoo orange with numbered badges
+  &#9312;&#9313;&#9314;, to point at the exact steps of the sheet.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Graceful degradation: without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">playwright</code>, the screenshot tests are skipped and the test suite
+  still passes.</div></div></li></ul>
+<p>It replaces <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_doc_screenshots</code> (Romania localization suite), which now only re-exports
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ScreenshotCase</code> from here, so existing tests keep working.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>The module installs as usual. Generating the screenshots needs extra packages in the Odoo Python
+environment:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-bash">pip install playwright websocket-client pillow
+playwright install chrome
+</code></pre>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">playwright</code> &#8212; drives a headless Chrome to navigate and take the screenshots.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">websocket-client</code> &#8212; talks to the Chrome DevTools Protocol.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pillow</code> &#8212; trims the margins of the screenshots (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_autotrim</code>); optional, without it the
+  screenshot is saved untrimmed.</li>
+<li><strong>System Chrome</strong> &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">playwright install chrome</code> downloads the Chrome managed by Playwright.</li>
+</ul>
+<p>Without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">playwright</code>, the screenshot tests (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--test-tags=fise_screenshots</code>) are skipped instead of
+failing.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>In a consumer module, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code> extends <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ScreenshotCase</code>, seeds deterministic data
+in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">setUpClass</code> and lists the screenshots in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots([...])</code>. The import is defensive,
+so the module's tests still load when this tooling module is not on disk:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">try:
+    from odoo.addons.deltatech_doc_screenshots.tests.screenshot_case import ScreenshotCase
+except ImportError:
+    ScreenshotCase = None
+</code></pre>
+<p>Run:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>./odoo/odoo-bin -c odoo.conf -d &lt;db&gt; -u &lt;module&gt; \
+    --test-tags=fise_screenshots --stop-after-init --http-port=&lt;free&gt; --gevent-port=&lt;free&gt;
+</code></pre>
+<p><strong>Screenshots are generated only on request.</strong> Unlike a normal test, they <em>write</em> to the working
+tree (they rewrite the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.png</code> files of the module), so a test run that did not ask for them skips
+them. They count as requested when:</p>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--test-tags</code> contains the class's own tag (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fise_screenshots</code>, or any tag ending in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_screenshots</code>), as in the command above;</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--test-tags</code> names the class, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--test-tags=/&lt;module&gt;:TestXScreenshots</code>;</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FISE_SCREENSHOTS=1</code> is set in the environment.</li>
+</ul>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP_FISE_SCREENSHOTS=1</code> is a veto over any request.</p>
+<p>Framing: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots(..., viewport=(1920, 950))</code> by default, wide enough for
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.report</code> tables with many columns; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_light_theme()</code> is called by
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_ro_company</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_demo_company</code>; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_autotrim</code> trims the margins. Useful per-shot
+options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">full</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wait</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">click_btn</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">click_tab</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unfold_report</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">eval</code> (custom JS), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">settle</code>
+(pause in ms).</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-25)</h2>
+<ul>
+<li>Moved here from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_doc_screenshots</code> (Romania localization suite, 19.0.1.1.9), in a public
+  repository, so every suite and its CI can fetch it without access to a private one. The code is
+  the same; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_doc_screenshots</code> now re-exports <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ScreenshotCase</code> from this module.</li>
+</ul>
+</div>
+</div>
+
+<div class="row text-center mt-4 mb-1 g-3">
+  <div class="col-md-6">
+    <div class="border rounded-3 px-4 py-2 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">350+</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border rounded-3 px-4 py-2 h-100">
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">Silver</div>
+      <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Odoo Partner &mdash; implementation &amp; support</div>
+    </div>
+  </div>
+</div>
+
+
+<div class="d-flex align-items-start rounded-4 px-4 py-3 mt-4 mb-3" style="background-color:#DEF1DD;color:#212529;">
+  <span class="flex-shrink-0 me-3" style="font-size:24px;line-height:1.2;color:#006F42;">&#10003;</span>
+  <div style="font-size:16px;line-height:1.55;">
+    <span class="fw-bold" style="color:#006F42;">For projects implemented by Terrabit,</span> the post-implementation subscription includes access to our module portfolio, with no separate purchase, together with upgrades to every new Odoo version and support from the developers who build the modules.
+  </div>
+</div>
+
+
+<div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
+  <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
+  <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Our 350+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
+     advantage of building modules that simply work.</p>
+  <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
+     Questions about this module, or need it adapted to your processes?
+     Write to us &mdash; the developers who build it will answer.</p>
+  <a href="mailto:support@terrabit.ro" target="_blank" rel="noopener"
+     class="d-inline-block fw-bold text-decoration-none rounded-3"
+     style="background-color:#DEF1DD;color:#00432a;padding:14px 32px;font-size:15px;">Terrabit support &rarr;</a>
+</div>
+
+
+<section class="rounded-4 p-4 mb-3 border">
+  <h2 class="text-center fw-bold mb-1" style="color:#212529;font-size:24px;border:none;">More apps by Terrabit</h2>
+  <p class="text-center mb-4" style="color:#3d4752;">Other modules from the same publisher, built to work together.
+    <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
+       class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
+  <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_sms_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SO</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sms_sale/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">SMS on Sale Order Confirmation</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Hidden</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">send SMS at sale order confirmation</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Accounting Extensions</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Despatch Advice</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account UBL despatch advice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Custom Invoice Exchange Rate</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Edit the currency rate on the invoice</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_actions/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Database Cleanup Actions</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Other</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Cleaning and other actions</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_agreement_management" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Agreement Management</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Services/Agreement</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage agreements numbers, date, state</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>
