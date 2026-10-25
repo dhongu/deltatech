@@ -18,6 +18,9 @@ class TestReplenishmentExplanationLogic(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # deltatech_auto_reorder_rule, when installed in the same database, creates a reordering
+        # rule for every new product; the tests create their own, so switch that off.
+        cls.env["ir.config_parameter"].sudo().set_param("deltatech_auto_reorder_rule.dont_auto_create_rule", "True")
         cls.warehouse = cls.env["stock.warehouse"].create({"name": "WH Replenishment Explain", "code": "WRX"})
         cls.stock_location = cls.warehouse.lot_stock_id
         cls.supplier_location = cls.env["stock.location"].create(
