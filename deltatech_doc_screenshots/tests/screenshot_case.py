@@ -930,9 +930,11 @@ class ScreenshotCase(HttpCase):
             img = img.resize((cls.APPS_MAX_WIDTH, round(img.height * cls.APPS_MAX_WIDTH / img.width)), Image.LANCZOS)
         elif img.mode == "P":
             return
-        img.convert("RGB").quantize(256, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE).save(
-            path, optimize=True
-        )
+        # Image.Quantize / Image.Dither exist since Pillow 9.1; Odoo 19 pins 9.0.1 on Python 3.10,
+        # where the same values are module constants (Image.MEDIANCUT, Image.NONE).
+        quantize = getattr(Image, "Quantize", Image)
+        dither = getattr(Image, "Dither", Image)
+        img.convert("RGB").quantize(256, method=quantize.MEDIANCUT, dither=dither.NONE).save(path, optimize=True)
 
     @staticmethod
     def _autotrim(path, padding=10, tol=24):
