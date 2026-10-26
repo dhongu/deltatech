@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="import_lines_wizard_form" model="ir.ui.view">
+        <field name="name">import.lines.wizard.form</field>
+        <field name="model">import.lines.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Lines">
+                <field name="state" widget="statusbar" />
+                <field name="res_model" invisible="1" />
+                <field name="res_id" invisible="1" />
+                <group invisible="state == 'preview'">
+                    <group>
+                        <field name="file" filename="file_name" readonly="state != 'upload'" />
+                        <field name="file_name" invisible="1" />
+                        <field name="mapping_id" options="{'no_create': True}" />
+                        <field name="partner_id" invisible="not partner_id" />
+                    </group>
+                    <group>
+                        <field name="has_header" />
+                        <field name="separator" placeholder="detected" />
+                        <field name="match_by" />
+                    </group>
+                </group>
+                <div invisible="state != 'upload'" class="text-muted">
+                    Supported files: XLSX, XLS, ODS, CSV and TXT. The first sheet of a spreadsheet is read.
+                </div>
+                <div invisible="state != 'map'">
+                    <field name="column_ids" nolabel="1">
+                        <list editable="bottom" create="0" delete="0">
+                            <field name="column_index" />
+                            <field name="header" />
+                            <field name="sample" />
+                            <field name="target" />
+                        </list>
+                    </field>
+                    <group>
+                        <group string="Save the mapping">
+                            <field name="mapping_name" placeholder="leave empty to update the selected mapping" />
+                            <field name="mapping_for_partner" invisible="not partner_id" />
+                        </group>
+                    </group>
+                </div>
+                <div invisible="state != 'preview'">
+                    <div class="alert alert-warning" role="alert" invisible="not error_count">
+                        Rows with errors, imported only when skipped:
+                        <field name="error_count" class="oe_inline fw-bold" />
+                    </div>
+                    <div class="alert alert-info" role="status" invisible="error_count">
+                        Rows ready to import:
+                        <field name="ok_count" class="oe_inline fw-bold" />
+                    </div>
+                    <field name="show_price_unit" invisible="1" />
+                    <field name="show_discount" invisible="1" />
+                    <field name="show_uom" invisible="1" />
+                    <field name="show_lot" invisible="1" />
+                    <field name="show_description" invisible="1" />
+                    <field name="row_ids" nolabel="1" readonly="1">
+                        <list
+                            decoration-danger="status != 'ok'"
+                            decoration-muted="status == 'ok'"
+                            default_order="status desc, row_number"
+                        >
+                            <field name="row_number" />
+                            <field name="product_ref" />
+                            <field name="product_id" />
+                            <field name="quantity" />
+                            <field name="uom_id" column_invisible="not parent.show_uom" />
+                            <field name="has_price_unit" column_invisible="1" />
+                            <field
+                                name="price_unit"
+                                column_invisible="not parent.show_price_unit"
+                                invisible="not has_price_unit"
+                            />
+                            <field name="has_discount" column_invisible="1" />
+                            <field
+                                name="discount"
+                                column_invisible="not parent.show_discount"
+                                invisible="not has_discount"
+                            />
+                            <field name="lot_name" column_invisible="not parent.show_lot" />
+                            <field name="description" column_invisible="not parent.show_description" />
+                            <field name="status" />
+                            <field name="message" />
+                        </list>
+                    </field>
+                    <group invisible="not error_count">
+                        <field name="skip_errors" />
+                    </group>
+                </div>
+                <footer>
+                    <button
+                        name="action_load"
+                        string="Next"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'upload'"
+                        data-hotkey="q"
+                    />
+                    <button
+                        name="action_preview"
+                        string="Preview"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'map'"
+                        data-hotkey="q"
+                    />
+                    <button
+                        name="action_save_mapping"
+                        string="Save Mapping"
+                        type="object"
+                        invisible="state != 'map'"
+                    />
+                    <button
+                        name="action_load"
+                        string="Reload File"
+                        type="object"
+                        invisible="state != 'map'"
+                    />
+                    <button
+                        name="action_import"
+                        string="Import"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'preview'"
+                        data-hotkey="q"
+                    />
+                    <button name="action_back" string="Back" type="object" invisible="state != 'preview'" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_lines_wizard" model="ir.actions.act_window">
+        <field name="name">Import Lines</field>
+        <field name="res_model">import.lines.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'dialog_size': 'extra-large'}</field>
+    </record>
+</odoo>
