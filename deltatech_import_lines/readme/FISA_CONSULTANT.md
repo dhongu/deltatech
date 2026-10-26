@@ -48,7 +48,8 @@ gestionarul apasă **Aplică** în **Inventariere fizică**, ca la o numărătoa
 | **Planificator producție** | adaugă componente într-o comandă de producție |
 
 Drepturi: butonul apare oricui poate modifica documentul. **Import cantități numărate** cere rolul de
-utilizator de stoc. Mapările salvate sunt comune utilizatorilor companiei.
+utilizator de stoc. Mapările salvate sunt comune utilizatorilor companiei (sau doar ale companiei pentru care
+au fost create); utilizatorii obișnuiți le pot crea și modifica, dar le șterge doar administratorul.
 
 Roluri recomandate la testare: un utilizator de vânzări, un achizitor și un gestionar cu loturi activate
 (**Inventar → Configurare → Setări → Loturi și numere de serie**).
@@ -127,7 +128,11 @@ au motivul în coloana **Mesaj**.
 - **Verificați:**
   - fiecare rând **OK** are produsul corect și cantitatea din fișier;
   - rândurile **Produs negăsit** (aici `SC-99`) sunt produse care trebuie create sau coduri greșite;
-  - rândurile cu **Mai multe produse**, **Cantitate invalidă** sau **Unitate de măsură invalidă** se corectează în fișier.
+  - rândurile cu **Mai multe produse**, **Cantitate invalidă**, **Număr invalid** sau **Unitate de măsură
+    invalidă** se corectează în fișier;
+  - un număr de forma `1,234` (o virgulă urmată de exact trei cifre) nu e ghicit: rândul are starea
+    **Cantitate invalidă** (**Număr invalid** la preț și reducere), iar în **Mesaj** scrie că numărul e ambiguu;
+    se scrie `1234` pentru întreg sau `1.234` pentru zecimal.
 - Apoi fie corectați fișierul și apăsați **Înapoi** și **Previzualizare**, fie bifați **Omite rândurile cu
   erori** și apăsați **Importă**.
 
@@ -153,8 +158,10 @@ o aplică singur. Maparea fără partener se aplică tuturor documentelor de ace
 ### Pasul 7 — Achiziții: lista furnizorului, după codurile lui
 
 **Achiziții → Comenzi → Cereri de ofertă** → cererea furnizorului → **Import linii**. La **Caută produsul
-după** alegeți **Cod produs furnizor**: codurile din fișier (`F-7710`, `F-2018`) se caută în lista de prețuri a
-furnizorului de pe comandă. Prețul vine din lista de prețuri a furnizorului, dacă fișierul nu are coloană de preț.
+după** (în pasul **Fișier**) alegeți **Cod produs furnizor**: codurile din fișier (`F-7710`, `F-2018`) se caută
+în lista de prețuri a furnizorului de pe comandă. Prețul vine din lista de prețuri a furnizorului, dacă fișierul
+nu are coloană de preț. Opțiunea aleasă nu se vede în previzualizare; potrivirea se vede în coloanele **Produs
+din fișier** și **Produs**.
 
 ![Previzualizarea pe cererea de ofertă, cu potrivire după codul furnizorului](../static/description/07_achizitie_cod_furnizor.png)
 
@@ -166,8 +173,12 @@ furnizorului de pe comandă. Prețul vine din lista de prețuri a furnizorului, 
 - **Verificați:**
   - lotul existent (`L2610-01`) și lotul nou (`L2610-02`) sunt **OK**: pe recepții, lotul nou se creează la validare;
   - produsele fără urmărire au lotul gol;
-  - un rând cu număr de serie are cantitatea 1.
+  - un rând cu număr de serie are cantitatea 1; un număr de serie repetat pe mai multe rânduri sau cu
+    cantitate diferită de 1 e marcat **Eroare lot/serie**.
 - Apăsați **Importă**.
+
+Verificările detaliate de lot și număr de serie (inclusiv la inventar) sunt în fișa modulului
+`deltatech_import_lines_stock`.
 
 Pe livrări și transferuri interne, lotul trebuie să existe deja.
 
@@ -188,10 +199,10 @@ două operațiuni detaliate, câte una pe lot. Validarea recepției rămâne pas
 
 ### Pasul 11 — Locația numărată și previzualizarea
 
-În asistent alegeți **Locație inventariată** (implicit stocul depozitului), apoi fișierul și coloanele, ca la
-pașii 2–4. Un produs urmărit pe lot cere un lot existent. Rândurile aceluiași produs și lot se adună.
+În asistent alegeți, la pasul **Fișier**, **Locație inventariată** (implicit stocul depozitului), apoi fișierul
+și coloanele, ca la pașii 2–4. Locația nu se vede în previzualizare. Un produs urmărit pe lot cere un lot existent; fără lot, rândul e refuzat. Rândurile aceluiași produs și lot se adună.
 
-![Asistentul de inventar, cu locația și previzualizarea](../static/description/11_inventar_previzualizare.png)
+![Asistentul de inventar, previzualizarea](../static/description/11_inventar_previzualizare.png)
 
 ### Pasul 12 — Cantitățile numărate în inventarul fizic
 
@@ -221,7 +232,8 @@ Modulul **nu** generează note contabile. Documentele completate urmează fluxul
 
 | Operațiune (după validare) | Debit | Credit |
 |---|---|---|
-| Recepție mărfuri / materii prime (stoc perpetuu) | 371 Mărfuri / 301 Materii prime | 408 Furnizori - facturi nesosite (sau 401 la factura furnizorului) |
+| Recepție mărfuri / materii prime (stoc perpetuu) | 371 Mărfuri / 301 Materii prime | 408 Furnizori - facturi nesosite |
+| Factura furnizorului pentru recepție | 408 Furnizori - facturi nesosite; 4426 TVA deductibilă | 401 Furnizori |
 | Livrare către client | 607 Cheltuieli privind mărfurile | 371 Mărfuri |
 
 Plusurile și minusurile de inventar se înregistrează la **Aplică**, pe conturile configurate pentru locația
@@ -254,6 +266,10 @@ de ajustare a inventarului, la fel ca la o numărătoare introdusă manual.
 - [ ] Un cod inexistent apare ca **Produs negăsit**, iar **Importă** e refuzat până se bifează **Omite rândurile cu erori**.
 - [ ] Fără coloană de preț, linia de vânzare are prețul din lista de prețuri; cu coloană, prețul din fișier.
 - [ ] Cantitățile cu virgulă zecimală (`1,5`) și cu separator de mii (`1.234,50`) sunt citite corect.
+- [ ] Cantitatea `1,234` e marcată ca ambiguă, cu mesaj care cere `1234` sau `1.234`.
+- [ ] Un produs căutat după **Nume produs** (inclusiv în forma `[COD] Nume`) e găsit în importul unui fișier cu multe rânduri.
+- [ ] Un utilizator obișnuit nu poate șterge o mapare salvată.
+- [ ] Pe inventar, un produs urmărit pe lot, fără lot în fișier, e marcat **Eroare lot/serie**.
 - [ ] O mapare salvată **Doar pentru acest partener** e propusă la următoarea comandă a partenerului, dar nu la alt partener.
 - [ ] Pe cererea de ofertă, căutarea după **Cod produs furnizor** găsește doar codurile furnizorului de pe comandă.
 - [ ] Pe recepție, un lot nou e acceptat, iar pe livrare același lot e marcat **Eroare lot/serie**.
@@ -269,6 +285,8 @@ de ajustare a inventarului, la fel ca la o numărătoare introdusă manual.
 | Acest document nu folosește țintele: … | o coloană e mapată pe o țintă pe care documentul nu o are (ex. Lot pe o ofertă) | goliți **Importă ca** pe acea coloană |
 | X rânduri au erori. Corectați fișierul sau bifați Omite rândurile cu erori. | previzualizarea are rânduri roșii | corectați fișierul sau omiteți rândurile |
 | Lotul … nu există, iar această operațiune nu poate crea loturi. | lot nou pe o livrare sau pe un transfer intern | creați lotul sau corectați numele |
+| … este ambiguu (virgulă zecimală sau separator de mii): … | cantitate de forma `1,234` | scrieți `1234` pentru întreg sau `1.234` pentru zecimal |
+| … este urmărit pe lot: lotul sau numărul de serie este obligatoriu. | produs urmărit, fără lot, în importul de inventar | completați coloana de lot |
 | Fișierul nu poate fi citit: … | fișier deteriorat, protejat cu parolă sau în alt format | salvați din nou fișierul ca XLSX sau CSV |
 
 ## 10. Capturi de ecran
@@ -287,7 +305,7 @@ stau în `static/description/`:
 8. `08_receptie_loturi.png` — previzualizarea pe recepție, cu loturile;
 9. `09_receptie_linii_importate.png` — recepția, cu liniile importate;
 10. `10_inventar_buton_import.png` — lista **Inventariere fizică**, cu butonul **Import cantități numărate**;
-11. `11_inventar_previzualizare.png` — asistentul de inventar, cu locația și previzualizarea;
+11. `11_inventar_previzualizare.png` — asistentul de inventar, la previzualizare (locația se alege în pasul **Fișier**, nu se vede aici);
 12. `12_inventar_cantitati_numarate.png` — lista **Inventariere fizică**, cu cantitățile numărate;
 13. `13_productie_componente.png` — comanda de producție, cu componenta importată.
 
