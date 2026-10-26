@@ -25,14 +25,17 @@ default_language_version:
   python: python3
   node: "22.9.0"
 repos:
-  # Hook-urile comune Terrabit (licență, pyproject, iconiță, traduceri)
+  # Hook-urile comune Terrabit (licență, pyproject, iconiță, traduceri, API Odoo 19/20)
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.2.0
+    rev: v1.5.0
     hooks:
       - id: license-compat
       - id: update-pyproject-name
       - id: check-module-icon
       - id: check-po-vs-pot
+      # API Odoo 19/20 eliminate; deocamdată doar avertizează (faza 3, pilot)
+      - id: tb-odoo-lint
+        args: [--warn-only]
   - repo: local
     hooks:
       # These files are most likely copier diff rejection junks; if found,
@@ -164,7 +167,7 @@ repos:
   # Pagina Apps Store, la cerere: `pre-commit run --hook-stage manual --all-files`.
   # Ordinea contează: tb-test-stats -> tb-gen-index -> tb-fisa-badge, după oca-gen-addon-readme.
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.2.0
+    rev: v1.5.0
     hooks:
       - id: tb-test-stats
       - id: tb-gen-index
