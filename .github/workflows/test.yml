@@ -8,6 +8,8 @@ on:
         required: false
         default: ""
   pull_request:
+    # Drafts wait: Argus reviews them first, the tests run at "Ready for review".
+    types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - "20.0*"
   push:
@@ -30,6 +32,7 @@ concurrency:
 
 jobs:
   unreleased-deps:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     name: Detect unreleased dependencies
     steps:
@@ -51,6 +54,7 @@ jobs:
   # resolve the base commit, so the previous inline version fell back to a full
   # run on every single build. See .github/scripts/plan_tests.py.
   plan:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     name: Plan test shards
     outputs:
@@ -149,7 +153,7 @@ jobs:
   # collects the result of the whole matrix — put THIS one in branch protection.
   tests-passed:
     needs: [plan, test]
-    if: ${{ always() }}
+    if: ${{ always() && !github.event.pull_request.draft }}
     runs-on: ubuntu-latest
     name: tests passed
     steps:
