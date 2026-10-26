@@ -91,7 +91,8 @@ Exemplul urmărește o zi de actualizare a prețurilor la **Magazin Centru**:
 
 Deschideți produsul din **Vânzări → Produse → Produse** și schimbați **Preț vânzare** ①. Salvați. Nu
 trebuie făcut nimic în plus: modulul notează singur modificarea. Butonul **Istoric preț** ② din
-dreapta-sus deschide modificările de preț ale produsului.
+dreapta-sus deschide modificările de preț ale produsului. Butonul este disponibil și pe formularul
+variantei de produs și deschide aceleași modificări, ale șablonului variantei.
 
 Prețul se poate schimba și din lista de produse, prin import sau de un alt modul (de exemplu
 actualizarea prețului la recepție): toate ajung în jurnal.
@@ -281,7 +282,8 @@ schimbarea etichetelor, nota contabilă a diferenței la magazinele cu evidenț�
 - [ ] Două modificări de preț ale aceluiași produs în aceeași zi lasă **un singur** rând în jurnal,
       de la prețul inițial la cel final (cana 35,00 → 39,00).
 - [ ] Un preț care revine în aceeași zi la valoarea inițială nu lasă niciun rând (setul de lingurițe).
-- [ ] **Istoric preț** de pe produs deschide doar rândurile produsului.
+- [ ] **Istoric preț** de pe produs deschide doar rândurile produsului, și de pe formularul
+      variantei de produs.
 - [ ] Documentul de tip **Din modificările de preț** aduce doar rândurile **neincluse într-un
       document** și cu data până la data documentului.
 - [ ] Cantitatea pe linie este stocul din locația documentului (cana 40, termosul 15).

@@ -81,3 +81,12 @@ class TestPriceChangeLog(TransactionCase):
             0
         ]
         self.assertIn(b"Test price change", html)
+
+    def test_variant_opens_price_history(self):
+        variant = self.product.product_variant_id
+        action = variant.action_view_price_change_log()
+        self.assertEqual(action["res_model"], "product.price.change.log")
+        self.assertEqual(action["domain"], [("product_tmpl_id", "=", self.product.id)])
+        # the template button is inherited by the variant form
+        arch = variant.get_views([(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="action_view_price_change_log"', arch)

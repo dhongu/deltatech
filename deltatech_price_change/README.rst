@@ -19,9 +19,9 @@ Price Change
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_price_change/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_price_change/tests
-    :alt: 7 automated tests
+    :alt: 8 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -72,6 +72,13 @@ only the lines related to that pricelist will be printed.
 
 Changelog
 =========
+
+20.0.1.2.2 (2026-10-26)
+-----------------------
+
+- The "Price History" button also works on the product variant form: the
+  method exists on ``product.product`` too, otherwise installing
+  ``website_sale`` with ``hr_expense`` failed.
 
 20.0.1.2.1 (2026-10-22)
 -----------------------

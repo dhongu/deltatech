@@ -1,3 +1,8 @@
+## 20.0.1.2.2 (2026-10-26)
+
+- The "Price History" button also works on the product variant form: the method exists on
+  `product.product` too, otherwise installing `website_sale` with `hr_expense` failed.
+
 ## 20.0.1.2.1 (2026-10-22)
 
 - Migration to 20.0, with the changes of 19.0.1.2.0 and 19.0.1.2.1: daily log of the list price
