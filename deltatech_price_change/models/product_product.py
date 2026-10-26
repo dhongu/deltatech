@@ -8,6 +8,11 @@ from odoo.tools.safe_eval import safe_eval
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
+    def action_view_price_change_log(self):
+        # the stat button is inherited from the template form by the variant form views
+        self.ensure_one()
+        return self.product_tmpl_id.action_view_price_change_log()
+
     def get_price_change_items(self):
         self.ensure_one()
         get_str = self.env["ir.config_parameter"].sudo().get_str

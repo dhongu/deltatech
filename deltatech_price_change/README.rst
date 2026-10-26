@@ -73,6 +73,17 @@ only the lines related to that pricelist will be printed.
 Changelog
 =========
 
+20.0.1.2.2 (2026-10-26)
+-----------------------
+
+- **Price History button on the product variant form**: the stat button
+  inherited from the product form called ``action_view_price_change_log``,
+  which existed only on ``product.template``. Modules that extend the variant
+  form (e.g. ``sale_renting``) failed view validation on install/update with
+  "action_view_price_change_log is not a valid action on product.product". The
+  method now also exists on ``product.product`` and opens the log of the
+  template.
+
 20.0.1.2.1 (2026-10-22)
 -----------------------
 
