@@ -32,6 +32,7 @@ class ImportLinesMapping(models.Model):
     res_model = fields.Selection(selection="_selection_res_model", string="Document Type", required=True)
     partner_id = fields.Many2one(
         "res.partner",
+        check_company=True,
         domain="[('parent_id', '=', False)]",
         help="When set, the mapping is proposed first for the documents of this partner.",
     )

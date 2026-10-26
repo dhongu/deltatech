@@ -18,3 +18,10 @@
 
 The saved mappings can be reviewed under **Configuration > Import Line
 Mappings** in Sales, Purchase and Inventory.
+
+Numbers are read with a decimal comma or a decimal point. A single comma is
+always the decimal separator: `1,5` is one and a half, and `1,234` is
+read as one point two three four, not as one thousand two hundred
+thirty-four. Save files that use the
+comma as thousands separator with a decimal point (`1,234.00`) or without
+thousands separators.

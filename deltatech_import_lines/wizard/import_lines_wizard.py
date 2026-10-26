@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import math
 import os
 
 from odoo import api, fields, models
@@ -56,8 +57,12 @@ def parse_number(value):
         else:
             text = text.replace(",", "")
     elif "," in text:
+        # a single comma is the decimal separator (1,5); several are thousands separators (1,234,567)
         text = text.replace(",", ".") if text.count(",") == 1 else text.replace(",", "")
-    return float(text)
+    number = float(text)
+    if not math.isfinite(number):
+        raise ValueError(value)
+    return number
 
 
 class ImportLinesWizard(models.TransientModel):
@@ -313,9 +318,16 @@ class ImportLinesWizard(models.TransientModel):
         __, data = self._split_header(self._read_file_rows())
         first_row = 2 if self.has_header else 1
         document = self._get_document()
+        # products and units are looked up once for the whole file, not row by row
+        product_index = mapped["product"]
+        refs = {values[product_index] for values in data if product_index < len(values) and values[product_index]}
+        lookup = {
+            "products": document._import_lines_find_products(self.match_by, refs),
+            "uoms": {uom.name.casefold(): uom for uom in self.env["uom.uom"].search([])},
+        }
         rows = []
         for row_number, values in enumerate(data, start=first_row):
-            row_vals = self._parse_row(document, mapped, values)
+            row_vals = self._parse_row(document, mapped, values, lookup)
             if row_vals:
                 row_vals["row_number"] = row_number
                 rows.append(row_vals)
@@ -324,7 +336,7 @@ class ImportLinesWizard(models.TransientModel):
         self.write({"row_ids": [(5, 0, 0)] + [(0, 0, vals) for vals in rows], "state": "preview"})
         return self._reopen()
 
-    def _parse_row(self, document, mapped, values):
+    def _parse_row(self, document, mapped, values, lookup):
         def cell(target):
             index = mapped.get(target)
             if index is None or index >= len(values):
@@ -358,7 +370,7 @@ class ImportLinesWizard(models.TransientModel):
                 except ValueError:
                     errors.append(("invalid_number", f"{self._target_label(target)}: {cell(target)}"))
 
-        products = document._import_lines_find_product(self.match_by, product_ref)
+        products = lookup["products"].get(product_ref, self.env["product.product"])
         if not products:
             errors.append(("not_found", product_ref))
         elif len(products) > 1:
@@ -366,7 +378,7 @@ class ImportLinesWizard(models.TransientModel):
         else:
             row["product_id"] = products.id
             if row["uom_name"]:
-                uom = self.env["uom.uom"].search([("name", "=ilike", row["uom_name"])], limit=1)
+                uom = lookup["uoms"].get(row["uom_name"].casefold())
                 if not uom or not uom._has_common_reference(products.uom_id):
                     errors.append(("invalid_uom", row["uom_name"]))
                 else:

@@ -20,7 +20,8 @@ class TestImportLines(ImportLinesCommon):
         self.assertEqual(parse_number("1 234,5"), 1234.5)
         self.assertEqual(parse_number("10%"), 10.0)
         self.assertEqual(parse_number(3), 3.0)
-        for value in ("", "abc", True):
+        self.assertEqual(parse_number("1,234,567"), 1234567.0)
+        for value in ("", "abc", True, "nan", "inf", "-Infinity"):
             with self.assertRaises(ValueError):
                 parse_number(value)
 
