@@ -1,0 +1,119 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_import_lines_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 16:23+0000\n"
+"PO-Revision-Date: 2026-10-26 16:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_picking.py:0
+#: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
+msgid "%s is not tracked by lot or serial number."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_import_lines_wizard__location_id
+msgid "Counted Location"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_import_lines_wizard__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_stock_quant__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_import_lines_wizard__id
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_stock_quant__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines_stock.view_stock_quant_tree_inventory_editable
+msgid "Import Counts"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model,name:deltatech_import_lines_stock.model_import_lines_wizard
+msgid "Import Document Lines"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.ui.menu,name:deltatech_import_lines_stock.menu_import_lines_mapping
+msgid "Import Line Mappings"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines_stock.view_picking_form
+msgid "Import Lines"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_picking.py:0
+msgid "Lines cannot be imported in a done or cancelled transfer."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model.fields,help:deltatech_import_lines_stock.field_import_lines_wizard__location_id
+msgid "Location of the inventory count."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_picking.py:0
+msgid "Lot %s does not exist and this operation cannot create lots."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
+msgid "Lot %s does not exist."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
+msgid "Only inventory users can import inventory counts."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model,name:deltatech_import_lines_stock.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
+msgid "Select the location of the inventory count."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
+msgid "The quantity of serial number %s cannot be more than 1."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_picking.py:0
+msgid "The quantity of serial number %s must be 1."
+msgstr ""
+
+#. module: deltatech_import_lines_stock
+#: model:ir.model,name:deltatech_import_lines_stock.model_stock_picking
+msgid "Transfer"
+msgstr ""
