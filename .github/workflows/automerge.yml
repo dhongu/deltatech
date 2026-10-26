@@ -1,0 +1,32 @@
+name: automerge
+
+# Merges a PR labelled `automerge` once Argus and Mentor are clean and every check passed: the
+# job and the script live in terrabit-solutions/ci-agents. It looks again after each PR workflow
+# ends and when a label is added. `wip`, `needs-pacioli` and `no-merge` stop it.
+
+on:
+  workflow_run:
+    workflows: [tests, pre-commit, argus, mentor]
+    types: [completed]
+  pull_request:
+    types: [labeled]
+    branches:
+      - "19.0"
+
+permissions:
+  contents: read
+
+jobs:
+  automerge:
+    uses: terrabit-solutions/ci-agents/.github/workflows/automerge.yml@main
+    with:
+      # Outside the organization: GitHub-hosted runners, not the org's VPS ones.
+      runs-on: '"ubuntu-latest"'
+    # By name: `secrets: inherit` only works inside the organization.
+    secrets:
+      ARGUS_APP_ID: ${{ secrets.ARGUS_APP_ID }}
+      ARGUS_APP_PRIVATE_KEY: ${{ secrets.ARGUS_APP_PRIVATE_KEY }}
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: read
