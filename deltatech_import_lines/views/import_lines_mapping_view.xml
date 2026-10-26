@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="import_lines_mapping_list" model="ir.ui.view">
+        <field name="name">import.lines.mapping.list</field>
+        <field name="model">import.lines.mapping</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="res_model" />
+                <field name="partner_id" />
+                <field name="match_by" />
+                <field name="company_id" groups="base.group_multi_company" />
+            </list>
+        </field>
+    </record>
+
+    <record id="import_lines_mapping_form" model="ir.ui.view">
+        <field name="name">import.lines.mapping.form</field>
+        <field name="model">import.lines.mapping</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active" />
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Vendor price list" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="res_model" />
+                            <field name="partner_id" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="active" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="has_header" />
+                            <field name="separator" />
+                            <field name="match_by" />
+                        </group>
+                    </group>
+                    <field name="column_ids">
+                        <list editable="bottom">
+                            <field name="column_index" />
+                            <field name="header" />
+                            <field name="target" />
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="import_lines_mapping_search" model="ir.ui.view">
+        <field name="name">import.lines.mapping.search</field>
+        <field name="model">import.lines.mapping</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="partner_id" />
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]" />
+                <group>
+                    <filter name="group_res_model" string="Document Type" context="{'group_by': 'res_model'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_import_lines_mapping" model="ir.actions.act_window">
+        <field name="name">Import Line Mappings</field>
+        <field name="res_model">import.lines.mapping</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Save a column mapping from the Import Lines wizard</p>
+            <p>A mapping remembers which file column holds the product, the quantity or the price, per document type and, optionally, per partner.</p>
+        </field>
+    </record>
+</odoo>

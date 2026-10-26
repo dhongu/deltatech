@@ -1,0 +1,7 @@
+{
+  "title": "Import Lines in Purchase Orders",
+  "summary": "Load RFQ lines from a vendor file",
+  "icon": "file",
+  "features": ["Match by vendor product code", "Vendor prices or prices from the file", "Mapping saved per vendor"],
+  "lang": "en"
+}

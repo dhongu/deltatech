@@ -1,0 +1,11 @@
+{
+  "title": "Import Lines in Sale Orders",
+  "summary": "Load quotation lines from a spreadsheet",
+  "icon": "file",
+  "features": [
+    "Prices and taxes from the pricelist",
+    "Or price and discount from the file",
+    "Mapping saved per customer"
+  ],
+  "lang": "en"
+}

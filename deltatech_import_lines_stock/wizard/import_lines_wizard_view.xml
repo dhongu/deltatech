@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="import_lines_wizard_form" model="ir.ui.view">
+        <field name="name">import.lines.wizard.form.stock</field>
+        <field name="model">import.lines.wizard</field>
+        <field name="inherit_id" ref="deltatech_import_lines.import_lines_wizard_form" />
+        <field name="arch" type="xml">
+            <field name="mapping_id" position="before">
+                <field
+                    name="location_id"
+                    invisible="res_model != 'stock.quant'"
+                    required="res_model == 'stock.quant'"
+                    options="{'no_create': True}"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>
