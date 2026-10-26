@@ -1,0 +1,41 @@
+name: mentor
+
+# Mentor: when a PR changes a module functionally, it writes or updates the module's
+# consultant sheet and regenerates its screenshots, as Mentor commits on the PR. The jobs,
+# the rules and the scripts live in terrabit-solutions/ci-agents. This suite provides
+# .github/mentor/private_repos.sh and install.sh, the parts of its test.yml the
+# screenshots job needs. Label a PR "mentor-skip" to leave it alone.
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+    branches:
+      - "20.0"
+    paths-ignore:
+      - "**/i18n/**"
+      - "**/readme/screenshots/**"
+      - "**/static/description/**"
+      - "**/README.rst"
+      - "**/README.md"
+
+permissions:
+  contents: read
+
+jobs:
+  mentor:
+    uses: terrabit-solutions/ci-agents/.github/workflows/mentor.yml@main
+    with:
+      odoo-version: "20.0"
+      postgres-image: postgres:16
+      # Outside the organization: GitHub-hosted runners, not the org's VPS ones.
+      runs-on: '"ubuntu-latest"'
+    # By name: `secrets: inherit` only works inside the organization.
+    secrets:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      ARGUS_APP_ID: ${{ secrets.ARGUS_APP_ID }}
+      ARGUS_APP_PRIVATE_KEY: ${{ secrets.ARGUS_APP_PRIVATE_KEY }}
+      MENTOR_APP_ID: ${{ secrets.MENTOR_APP_ID }}
+      MENTOR_APP_PRIVATE_KEY: ${{ secrets.MENTOR_APP_PRIVATE_KEY }}
+    permissions:
+      contents: read
+      actions: read
