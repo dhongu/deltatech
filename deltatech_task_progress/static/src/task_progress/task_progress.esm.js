@@ -1,9 +1,10 @@
-import {Component, onMounted, useState} from "@odoo/owl";
+import {Component, onMounted, proxy, t, usePlugin, useProps} from "@odoo/owl";
 import {Dialog} from "@web/core/dialog/dialog";
 import {_t} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
 import {useHotkey} from "@web/core/hotkeys/hotkey_hook";
 import {useService} from "@web/core/utils/hooks";
+import {ActionPlugin} from "@web/webclient/actions/action_plugin";
 
 // Item status: "pending" (not run yet), "running" (RPC in flight), "success", "warning"
 // (done, with a result to check by hand: never run again) and "error" (run again by retry).
@@ -48,41 +49,35 @@ function errorMessage(error) {
  * nothing is silently missing. Opened by task.progress.mixin._task_progress_action.
  */
 export class TaskProgressDialog extends Component {
-    static get template() {
-        return "deltatech_task_progress.TaskProgressDialog";
-    }
-    static get components() {
-        return {Dialog};
-    }
-    static get props() {
-        return {
-            title: String,
-            model: String,
-            resId: {type: [Number, Boolean]},
-            step: String,
-            init: {type: [String, {value: null}], optional: true},
-            finish: {type: [String, {value: null}], optional: true},
-            finishMode: String,
-            closeMethod: {type: [String, {value: null}], optional: true},
-            items: Array,
-            itemNames: Array,
-            total: Number,
-            parallel: Number,
-            autoStart: Boolean,
-            showItems: Boolean,
-            intro: String,
-            unitLabel: String,
-            countLabel: String,
-            detail: String,
-            labels: Object,
-            close: Function,
-        };
-    }
+    static template = "deltatech_task_progress.TaskProgressDialog";
+    static components = {Dialog};
+    props = useProps({
+        title: t.string(),
+        model: t.string(),
+        resId: t.or([t.number(), t.boolean()]),
+        step: t.string(),
+        init: t.or([t.string(), t.literal(null)]).optional(),
+        finish: t.or([t.string(), t.literal(null)]).optional(),
+        finishMode: t.string(),
+        closeMethod: t.or([t.string(), t.literal(null)]).optional(),
+        items: t.array(),
+        itemNames: t.array(),
+        total: t.number(),
+        parallel: t.number(),
+        autoStart: t.boolean(),
+        showItems: t.boolean(),
+        intro: t.string(),
+        unitLabel: t.string(),
+        countLabel: t.string(),
+        detail: t.string(),
+        labels: t.object(),
+        close: t.function(),
+    });
 
     setup() {
         this.orm = useService("orm");
-        this.action = useService("action");
-        this.state = useState({
+        this.action = usePlugin(ActionPlugin);
+        this.state = proxy({
             rows: [],
             before: 0,
             total: 0,
