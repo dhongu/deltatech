@@ -7,6 +7,7 @@ class SaleOrder(models.Model):
     cost_of_goods = fields.Monetary(
         string="Cost of Goods",
         default=0.0,
+        copy=False,
         groups="deltatech_sale_cost_product.group_view_cost_on_sale",
     )
 

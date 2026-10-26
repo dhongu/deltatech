@@ -1,3 +1,7 @@
+## 19.0.0.0.5 (2026-10-26)
+
+- Cost of Goods is no longer copied when an order is duplicated, so users outside the "Can See Cost Of Goods" group can duplicate orders without an access error.
+
 ## 19.0.0.0.4 (2026-10-16)
 
 - The cost of goods is converted from the product unit of measure to the line unit, from the cost currency to the order currency, and is read in the order company.

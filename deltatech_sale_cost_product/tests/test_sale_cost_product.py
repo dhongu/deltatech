@@ -205,3 +205,19 @@ class TestSaleCostProduct(TransactionCase):
         self.assertAlmostEqual(order.cost_of_goods, 40.0)
         salesman.group_ids = [(4, self.env.ref("deltatech_sale_cost_product.group_view_cost_on_sale").id)]
         self.assertAlmostEqual(order.with_user(salesman).read(["cost_of_goods"])[0]["cost_of_goods"], 40.0)
+
+    def test_copy_order_without_group(self):
+        """Un vânzător din afara grupului poate duplica o comandă confirmată, fără a moșteni costul."""
+        salesman = self.env["res.users"].create(
+            {
+                "name": "Salesman copy SCP",
+                "login": "salesman_copy_scp",
+                "group_ids": [(6, 0, [self.env.ref("sales_team.group_sale_salesman_all_leads").id])],
+            }
+        )
+        order = self._create_sale_order()
+        order.action_confirm()
+        self.assertAlmostEqual(order.cost_of_goods, 40.0)
+        new_order = order.with_user(salesman).copy()
+        self.assertEqual(new_order.state, "draft")
+        self.assertEqual(new_order.sudo().cost_of_goods, 0.0)
