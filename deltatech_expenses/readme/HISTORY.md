@@ -1,5 +1,17 @@
 # Changelog
 
+## 19.0.3.6.0 (2026-10-27)
+
+- Expense reports in a foreign currency. The report currency follows the
+  currency of the cash journal (it can be changed in draft) and the lines
+  take it. Every journal entry (advance, receipts, settlement from 542, per
+  diem, difference) carries the currency amount and its company currency
+  value at the exchange rate of its own date (OMFP 1802/2014 pt. 319); the
+  company currency balance left on 542 is closed as exchange difference on
+  665/765. The journal items of the report show the currency amount. The
+  migration (`migrations/19.0.3.6.0`) keeps existing reports in the company
+  currency.
+
 ## 19.0.3.5.2 (2026-10-09)
 
 - **Fix (EXPENSES-001): the workflow and a done deduction are protected on the
