@@ -91,7 +91,8 @@ Exemplul urmărește o zi de actualizare a prețurilor la **Magazin Centru**:
 
 Deschideți produsul din **Vânzări → Produse → Produse** și schimbați **Preț vânzare** ①. Salvați. Nu
 trebuie făcut nimic în plus: modulul notează singur modificarea. Butonul **Istoric preț** ② din
-dreapta-sus deschide modificările de preț ale produsului.
+dreapta-sus deschide modificările de preț ale produsului. Butonul este disponibil și pe formularul
+variantei de produs și deschide, la fel, jurnalul șablonului din care face parte varianta.
 
 Prețul se poate schimba și din lista de produse, prin import sau de un alt modul (de exemplu
 actualizarea prețului la recepție): toate ajung în jurnal.
