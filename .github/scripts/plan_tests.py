@@ -62,6 +62,29 @@ NEUTRAL_PREFIXES = ("scripts/",)
 # Odoo never loads anything from there at runtime. Matched on the second path
 # component only, so `static/src/images/` (used by code) stays relevant.
 NEUTRAL_ADDON_DIRS = ("images",)
+# Repo-root configuration files read only by linters, editors, Codecov or the
+# copier template, never by `oca_init_test_database` / `oca_run_tests`. Without
+# this list a root file falls under the repo-root rule below and forces a full
+# run: bumping the pre-commit hooks (deltatech#3790) ran all 14 shards for
+# nothing. Exact paths, not prefixes. `.gitattributes` is left out on purpose,
+# since it can change how files are checked out.
+NEUTRAL_ROOT_FILES = frozenset(
+    {
+        ".pre-commit-config.yaml",
+        ".ruff.toml",
+        ".flake8",
+        ".pylintrc",
+        ".pylintrc-mandatory",
+        ".isort.cfg",
+        ".eslintrc.yml",
+        ".prettierrc.yml",
+        ".editorconfig",
+        ".copier-answers.yml",
+        ".codecov.yml",
+        ".gitignore",
+        ".travis.yml",
+    }
+)
 
 # Manifest keys that change neither what gets installed nor what the tests run: a
 # version bump with its HISTORY entry, a new Apps Store image or a repriced module
@@ -96,10 +119,6 @@ INFRA_PREFIXES = (
     ".github/",
     "requirements.txt",
     "test-requirements.txt",
-    ".pre-commit-config.yaml",
-    ".ruff.toml",
-    ".flake8",
-    ".pylintrc",
     "setup/",
 )
 
@@ -304,6 +323,8 @@ def is_neutral(path):
     dependent into the matrix, and a root-level `*.md` forces a full run.
     """
     if path.endswith(NEUTRAL_SUFFIXES):
+        return True
+    if path in NEUTRAL_ROOT_FILES:
         return True
     if path.startswith(NEUTRAL_PREFIXES):
         return True
