@@ -7,3 +7,6 @@
    **Aprobator** (approver) or **Contabil** (accountant).
 4. On each employee, the **Work Contact** is used as partner on the journal entries; without it,
    the entries are posted without a partner.
+5. For expense reports in a foreign currency, create a cash journal with that **Currency** (account
+   5314) and an expense journal on a 542 account in foreign currency, keep the exchange rates up to
+   date and set the exchange gain/loss accounts (765/665) in *Accounting > Settings*.
