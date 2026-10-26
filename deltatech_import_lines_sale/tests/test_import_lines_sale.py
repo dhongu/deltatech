@@ -123,6 +123,12 @@ class TestImportLinesSale(ImportLinesCommon):
         with self.assertRaises(UserError):
             self._open_wizard(self.order, [["Code", "Qty"], ["IL-A", "1"]])
 
+    def test_document_model_checked(self):
+        wizard = self._open_wizard(self.order, [["Code", "Qty"], ["IL-A", "1"]])
+        wizard.res_model = "res.partner"
+        with self.assertRaises(UserError):
+            wizard.action_preview()
+
     def test_target_not_used_by_document(self):
         wizard = self._open_wizard(self.order, [["Code", "Qty", "Lot"], ["IL-A", "1", "L1"]])
         with self.assertRaises(UserError):

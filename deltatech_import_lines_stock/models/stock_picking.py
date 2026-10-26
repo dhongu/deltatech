@@ -5,6 +5,8 @@
 from odoo import api, models
 from odoo.exceptions import UserError
 
+from .lot_lookup import duplicate_serials, find_lots
+
 
 class StockPicking(models.Model):
     _name = "stock.picking"
@@ -29,27 +31,30 @@ class StockPicking(models.Model):
     def _import_lines_product_domain(self):
         return super()._import_lines_product_domain() + [("type", "=", "consu")]
 
-    def _import_lines_find_lot(self, product, lot_name):
-        company = self._import_lines_company()
-        return self.env["stock.lot"].search(
-            [("name", "=", lot_name), ("product_id", "=", product.id), ("company_id", "in", [company.id, False])],
-            limit=1,
-        )
-
     def _import_lines_can_create_lots(self):
         return self.picking_type_code == "incoming" and self.picking_type_id.use_create_lots
 
-    def _import_lines_check_row(self, row):
-        error = super()._import_lines_check_row(row)
+    def _import_lines_check_rows(self, rows):
+        errors = super()._import_lines_check_rows(rows)
+        lots = find_lots(self.env, self._import_lines_company(), rows)
+        duplicates = duplicate_serials(rows)
+        return [
+            error or self._import_lines_check_lot(row, lots, duplicates)
+            for row, error in zip(rows, errors, strict=True)
+        ]
+
+    def _import_lines_check_lot(self, row, lots, duplicates):
         lot_name = row.get("lot_name")
-        if error or not lot_name:
-            return error
+        if not lot_name:
+            return False
         product = row["product"]
         if product.tracking == "none":
             return "lot_error", self.env._("%s is not tracked by lot or serial number.", product.display_name)
         if product.tracking == "serial" and row["quantity"] != 1:
             return "lot_error", self.env._("The quantity of serial number %s must be 1.", lot_name)
-        if not self._import_lines_find_lot(product, lot_name) and not self._import_lines_can_create_lots():
+        if (product.id, lot_name) in duplicates:
+            return "lot_error", self.env._("Serial number %s appears on several rows.", lot_name)
+        if (product.id, lot_name) not in lots and not self._import_lines_can_create_lots():
             return "lot_error", self.env._("Lot %s does not exist and this operation cannot create lots.", lot_name)
         return False
 
@@ -75,13 +80,13 @@ class StockPicking(models.Model):
             .create([dict(self._import_lines_prepare_move(row), picking_id=self.id) for row in rows])
         )
         # the lots are set before the confirmation, which can merge the new moves into the existing ones
+        lots = find_lots(self.env, self._import_lines_company(), rows)
         for row, move in zip(rows, moves, strict=True):
             if row.get("lot_name"):
-                self._import_lines_set_lot(move, row)
+                self._import_lines_set_lot(move, row, lots.get((move.product_id.id, row["lot_name"])))
         self._autoconfirm_picking()
 
-    def _import_lines_set_lot(self, move, row):
-        lot = self._import_lines_find_lot(move.product_id, row["lot_name"])
+    def _import_lines_set_lot(self, move, row, lot):
         move.move_line_ids.unlink()
         vals = move._prepare_move_line_vals(quantity=row["quantity"])
         if lot:

@@ -89,6 +89,14 @@ class ImportLinesMixin(models.AbstractModel):
         """
         return False
 
+    def _import_lines_check_rows(self, rows):
+        """Check all the matched rows at once; return a list of errors (or False), one per row.
+
+        Override it to look up data for the whole file in one query or to compare the rows between
+        them (for example, the same serial number on two rows).
+        """
+        return [self._import_lines_check_row(row) for row in rows]
+
     def _import_lines_create(self, rows, wizard):
         """Create the document lines from the valid rows.
 

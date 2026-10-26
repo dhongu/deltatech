@@ -148,6 +148,8 @@ class ImportLinesWizard(models.TransientModel):
 
     def _get_document(self):
         self.ensure_one()
+        if self.res_model not in self.env.registry["import.lines.mixin"]._inherit_children:
+            raise UserError(self.env._("Lines cannot be imported in this document."))
         return self.env[self.res_model].browse(self.res_id or [])
 
     def _reopen(self):
@@ -326,11 +328,21 @@ class ImportLinesWizard(models.TransientModel):
             "uoms": {uom.name.casefold(): uom for uom in self.env["uom.uom"].search([])},
         }
         rows = []
+        to_check = []
         for row_number, values in enumerate(data, start=first_row):
             row_vals = self._parse_row(document, mapped, values, lookup)
             if row_vals:
                 row_vals["row_number"] = row_number
                 rows.append(row_vals)
+                if row_vals["status"] == "ok":
+                    to_check.append(row_vals)
+        # the document checks the matched rows together (lots, duplicates)
+        row_data = [
+            self._row_data(row, self.env["product.product"].browse(row["product_id"]), mapped) for row in to_check
+        ]
+        for row_vals, error in zip(to_check, document._import_lines_check_rows(row_data), strict=True):
+            if error:
+                row_vals["status"], row_vals["message"] = error
         if not rows:
             raise UserError(self.env._("The file has no rows with a product."))
         self.write({"row_ids": [(5, 0, 0)] + [(0, 0, vals) for vals in rows], "state": "preview"})
@@ -383,10 +395,6 @@ class ImportLinesWizard(models.TransientModel):
                     errors.append(("invalid_uom", row["uom_name"]))
                 else:
                     row["uom_id"] = uom.id
-            if not errors:
-                error = document._import_lines_check_row(self._row_data(row, products, mapped))
-                if error:
-                    errors.append(error)
         if errors:
             row["status"] = errors[0][0]
             row["message"] = "; ".join(str(message) for __, message in errors if message)
