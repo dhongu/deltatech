@@ -5,7 +5,7 @@
 
 {
     "name": "Sale Cost on Order",
-    "version": "19.0.0.0.4",
+    "version": "19.0.0.0.5",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
