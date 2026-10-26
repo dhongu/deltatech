@@ -87,12 +87,12 @@ Usage
 The saved mappings can be reviewed under **Configuration > Import Line
 Mappings** in Sales, Purchase and Inventory.
 
-Numbers are read with a decimal comma or a decimal point. A single comma
-is always the decimal separator: ``1,5`` is one and a half, and
-``1,234`` is read as one point two three four, not as one thousand two
-hundred thirty-four. Save files that use the comma as thousands
-separator with a decimal point (``1,234.00``) or without thousands
-separators.
+Numbers are read with a decimal comma or a decimal point (``1,5``,
+``1.5``, ``1.234,50``, ``1,234.50``). A number such as ``1,234``, with
+one comma followed by exactly three digits, can be a decimal or an
+integer with a thousands separator, so its row is shown as an error
+instead of guessed: write ``1234`` for the integer or ``1.234`` for the
+decimal number.
 
 Changelog
 =========

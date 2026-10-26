@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 16:43+0000\n"
-"PO-Revision-Date: 2026-10-26 16:43+0000\n"
+"POT-Creation-Date: 2026-10-26 16:48+0000\n"
+"PO-Revision-Date: 2026-10-26 16:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -24,6 +24,17 @@ msgid ""
 msgstr ""
 "%(count)s rânduri au erori. Corectați fișierul sau bifați Omite rândurile cu"
 " erori."
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid ""
+"%s is ambiguous (decimal comma or thousands separator): remove the comma for"
+" an integer or use a decimal point for a decimal number"
+msgstr ""
+"%s este ambiguu (virgulă zecimală sau separator de mii): scoateți virgula "
+"pentru un număr întreg sau folosiți punctul zecimal pentru un număr cu "
+"zecimale"
 
 #. module: deltatech_import_lines
 #: model_terms:ir.actions.act_window,help:deltatech_import_lines.action_import_lines_mapping

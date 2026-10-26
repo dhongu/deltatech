@@ -5,6 +5,7 @@
 import base64
 import math
 import os
+import re
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
@@ -42,6 +43,14 @@ HEADER_GUESS = {
 }
 
 
+# one comma followed by exactly three digits, as in 1,234: decimal comma or thousands separator
+AMBIGUOUS_COMMA = re.compile(r"^-?[1-9]\d{0,2},\d{3}$")
+
+
+class AmbiguousNumberError(ValueError):
+    """A number that reads both as a decimal (1,234 = 1.234) and as an integer (1,234 = 1234)."""
+
+
 def parse_number(value):
     """Parse a number written with a decimal point or a decimal comma; raise ValueError when invalid."""
     if isinstance(value, bool):
@@ -57,7 +66,10 @@ def parse_number(value):
         else:
             text = text.replace(",", "")
     elif "," in text:
-        # a single comma is the decimal separator (1,5); several are thousands separators (1,234,567)
+        # a single comma is the decimal separator (1,5); several are thousands separators (1,234,567);
+        # 1,234 can be either, so it is refused instead of guessed
+        if AMBIGUOUS_COMMA.match(text):
+            raise AmbiguousNumberError(value)
         text = text.replace(",", ".") if text.count(",") == 1 else text.replace(",", "")
     number = float(text)
     if not math.isfinite(number):
@@ -372,15 +384,17 @@ class ImportLinesWizard(models.TransientModel):
             row["quantity"] = parse_number(quantity_text)
             if row["quantity"] < 0 or (not row["quantity"] and not document._import_lines_allow_zero_quantity()):
                 errors.append(("invalid_quantity", quantity_text))
-        except ValueError:
-            errors.append(("invalid_quantity", quantity_text))
+        except ValueError as error:
+            errors.append(("invalid_quantity", self._number_error(quantity_text, error)))
         for target in ("price_unit", "discount"):
             if target in mapped and cell(target):
                 try:
                     row[target] = parse_number(cell(target))
                     row[f"has_{target}"] = True
-                except ValueError:
-                    errors.append(("invalid_number", f"{self._target_label(target)}: {cell(target)}"))
+                except ValueError as error:
+                    errors.append(
+                        ("invalid_number", f"{self._target_label(target)}: {self._number_error(cell(target), error)}")
+                    )
 
         products = lookup["products"].get(product_ref, self.env["product.product"])
         if not products:
@@ -399,6 +413,15 @@ class ImportLinesWizard(models.TransientModel):
             row["status"] = errors[0][0]
             row["message"] = "; ".join(str(message) for __, message in errors if message)
         return row
+
+    def _number_error(self, text, error):
+        if isinstance(error, AmbiguousNumberError):
+            return self.env._(
+                "%s is ambiguous (decimal comma or thousands separator): remove the comma for an integer "
+                "or use a decimal point for a decimal number",
+                text,
+            )
+        return text
 
     def _row_data(self, row, product, mapped):
         """Values handed to the document adapter; only the mapped optional targets are present."""

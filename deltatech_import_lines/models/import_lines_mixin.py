@@ -2,8 +2,11 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from collections import defaultdict
+
 from odoo import api, models
 from odoo.exceptions import UserError
+from odoo.fields import Domain
 
 
 class ImportLinesMixin(models.AbstractModel):
@@ -69,6 +72,8 @@ class ImportLinesMixin(models.AbstractModel):
         """
         values = set(values)
         Product = self.env["product.product"]
+        if match_by == "name":
+            return self._import_lines_find_products_by_name(values)
         field = {"default_code": "default_code", "barcode": "barcode"}.get(match_by)
         if not field:
             return {value: self._import_lines_find_product(match_by, value) for value in values}
@@ -76,6 +81,35 @@ class ImportLinesMixin(models.AbstractModel):
         products = Product.search(self._import_lines_product_domain() + [(field, "in", list(values))])
         for product in products:
             result[product[field]] |= product
+        return result
+
+    def _import_lines_find_products_by_name(self, values):
+        """Name matching for the whole file: one query for the "[CODE] Name" codes, one for the names."""
+        Product = self.env["product.product"]
+        domain = self._import_lines_product_domain()
+        codes = {}
+        names = {}
+        for value in values:
+            if value.startswith("[") and "]" in value:
+                codes[value] = value[1 : value.index("]")].strip()
+                names[value] = value[value.index("]") + 1 :].strip()
+            else:
+                names[value] = value
+        by_code = defaultdict(lambda: Product)
+        if codes:
+            for product in Product.search(domain + [("default_code", "in", list(set(codes.values())))]):
+                by_code[product.default_code] |= product
+        by_name = defaultdict(lambda: Product)
+        wanted = {name for name in names.values() if name}
+        if wanted:
+            name_domain = Domain.OR([[("name", "=ilike", name)] for name in wanted])
+            for product in Product.search(Domain.AND([domain, name_domain])):
+                by_name[product.name.casefold()] |= product
+        result = {}
+        for value in values:
+            # the code of "[CODE] Name" wins; the name is the fallback, as for a single value
+            products = by_code[codes[value]] if value in codes else Product
+            result[value] = products or by_name[names[value].casefold()]
         return result
 
     @api.model
