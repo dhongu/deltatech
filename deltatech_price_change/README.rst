@@ -73,6 +73,13 @@ only the lines related to that pricelist will be printed.
 Changelog
 =========
 
+20.0.1.2.2 (2026-10-26)
+-----------------------
+
+- The "Price History" button also works on the product variant form: the
+  method exists on ``product.product`` too, otherwise installing
+  ``website_sale`` with ``hr_expense`` failed.
+
 20.0.1.2.1 (2026-10-22)
 -----------------------
 
