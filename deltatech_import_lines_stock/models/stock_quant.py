@@ -39,9 +39,14 @@ class StockQuant(models.Model):
 
     def _import_lines_check_lot(self, row, lots, duplicates):
         lot_name = row.get("lot_name")
-        if not lot_name:
-            return False
         product = row["product"]
+        if not lot_name:
+            # a tracked product is counted per lot: without the lot the count cannot be applied
+            if product.tracking != "none":
+                return "lot_error", self.env._(
+                    "%s is tracked: the lot or serial number is required.", product.display_name
+                )
+            return False
         if product.tracking == "none":
             return "lot_error", self.env._("%s is not tracked by lot or serial number.", product.display_name)
         if product.tracking == "serial" and row["quantity"] > 1:

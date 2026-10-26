@@ -87,6 +87,13 @@ class TestImportLinesStock(ImportLinesCommon):
         wizard.action_preview()
         self.assertEqual(wizard.row_ids.status, "lot_error")
 
+    def test_inventory_tracked_product_without_lot(self):
+        context = {"import_lines_model": "stock.quant", "inventory_mode": True}
+        rows = [["Code", "Qty"], ["IL-LOT", "4"], ["IL-BOX", "2"]]
+        wizard = self._open_wizard(self.env["stock.quant"], rows, context=context)
+        wizard.action_preview()
+        self.assertEqual(wizard.row_ids.mapped("status"), ["lot_error", "ok"])
+
     def test_duplicate_serial_rows(self):
         sn = self.env["stock.lot"].create({"name": "SN-DUP", "product_id": self.product_serial.id})
         rows = [["Code", "Qty", "Lot"], ["IL-SN", "1", "SN-DUP"], ["IL-SN", "1", "SN-DUP"], ["IL-SN", "1", "SN-2"]]
