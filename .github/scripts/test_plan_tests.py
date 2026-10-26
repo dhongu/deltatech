@@ -97,5 +97,18 @@ class TestColocatePreinstalled(unittest.TestCase):
         self.assertEqual(caught_anywhere(manifests, shards), set())
 
 
+class TestNeutralRootFiles(unittest.TestCase):
+    def test_lint_configs_are_neutral(self):
+        for path in (".pre-commit-config.yaml", ".ruff.toml", ".pylintrc-mandatory", ".editorconfig"):
+            self.assertTrue(plan_tests.is_neutral(path), path)
+
+    def test_only_at_repo_root(self):
+        self.assertFalse(plan_tests.is_neutral("deltatech/.pre-commit-config.yaml"))
+
+    def test_test_inputs_still_force_a_full_run(self):
+        for path in (".github/workflows/test.yml", "requirements.txt", ".gitattributes"):
+            self.assertFalse(plan_tests.is_neutral(path), path)
+
+
 if __name__ == "__main__":
     unittest.main()
