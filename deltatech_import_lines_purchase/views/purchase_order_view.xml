@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase.order.form.import.lines</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="%(deltatech_import_lines.action_import_lines_wizard)d"
+                    string="Import Lines"
+                    type="action"
+                    invisible="state not in ('draft', 'sent')"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_import_lines_mapping"
+        action="deltatech_import_lines.action_import_lines_mapping"
+        parent="purchase.menu_purchase_config"
+        sequence="90"
+    />
+</odoo>

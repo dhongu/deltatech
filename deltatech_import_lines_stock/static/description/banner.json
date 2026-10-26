@@ -1,0 +1,7 @@
+{
+  "title": "Import Transfer and Inventory Lines",
+  "summary": "Load receipts, deliveries and inventory counts",
+  "icon": "file",
+  "features": ["Receipts, deliveries, internal transfers", "Lots and serial numbers", "Inventory counts per location"],
+  "lang": "en"
+}

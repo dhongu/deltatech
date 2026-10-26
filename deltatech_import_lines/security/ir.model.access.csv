@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_lines_mapping_user,import.lines.mapping user,model_import_lines_mapping,base.group_user,1,1,1,1
+access_import_lines_mapping_column_user,import.lines.mapping.column user,model_import_lines_mapping_column,base.group_user,1,1,1,1
+access_import_lines_wizard_user,import.lines.wizard user,model_import_lines_wizard,base.group_user,1,1,1,1
+access_import_lines_wizard_column_user,import.lines.wizard.column user,model_import_lines_wizard_column,base.group_user,1,1,1,1
+access_import_lines_wizard_row_user,import.lines.wizard.row user,model_import_lines_wizard_row,base.group_user,1,1,1,1

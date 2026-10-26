@@ -1,0 +1,7 @@
+{
+  "title": "Import Components in Manufacturing",
+  "summary": "Load manufacturing order components from a file",
+  "icon": "file",
+  "features": ["Draft and confirmed orders", "Component unit of measure", "Preview with the unmatched rows"],
+  "lang": "en"
+}
