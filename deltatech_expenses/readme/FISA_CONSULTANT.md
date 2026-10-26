@@ -23,6 +23,9 @@ angajatului.
   deplasări, detașări și transferări", 623 „Cheltuieli de protocol, reclamă și publicitate",
   4426 „TVA deductibilă", 409 „Furnizori - debitori" (4091 bunuri de natura stocurilor, 4092
   servicii, 4093/4094 imobilizări).
+- OMFP 1802/2014 pct. 319 și 322 — pentru decontul în valută, operațiunile se înregistrează în
+  valută și în lei la cursul BNR din data fiecăreia, iar diferența de curs rămasă pe 542 la decontare
+  se trece pe cheltuieli (665) sau venituri (765) din diferențe de curs.
 - Legea 82/1991 art. 6 alin. (1) — operațiunea se înregistrează la data efectuării ei, pe baza unui
   document justificativ.
 - Codul fiscal art. 76 alin. (2) lit. k) — diurna este neimpozabilă doar în limita a **2,5 ori**
@@ -62,6 +65,12 @@ văd fișa completă a angajatului (drepturi în aplicația Angajați).
 - **4092** — Furnizori-debitori pentru servicii (plată directă din avans fără factură deschisă;
   pentru bunuri se reclasifică manual pe 4091, pentru imobilizări pe 4093).
 
+Pentru deconturile în valută:
+- **5314** — Casa în valută (contul registrului de casă în valută, sursa avansului);
+- **542 în valută** — contul jurnalului de avansuri, ținut în moneda decontului;
+- **665 / 765** — Cheltuieli / Venituri din diferențe de curs valutar (diferența de curs rămasă pe 542
+  la validare).
+
 Date minime pentru demo:
 - companie românească cu localizarea contabilă instalată (RON);
 - un angajat `hr.employee` cu „Work Contact" completat (partenerul folosit pe notele contabile);
@@ -85,6 +94,10 @@ Date minime pentru demo:
    partener).
 7. Opțional, pentru verificarea automată a plafonului fiscal al diurnei, instalați
    `l10n_ro_expense_allowance`.
+8. Doar pentru deconturi în valută: creați un registru de casă cu **Moneda** respectivă (cont 5314) și
+   un jurnal de avansuri pe un cont 542 în valută, actualizați cursurile valutare și setați conturile
+   de diferențe de curs (765/665) în **Contabilitate → Configurare → Setări**. Fără aceste conturi,
+   validarea unui decont în valută cu diferență de curs se oprește cu o eroare (vezi secțiunea 9).
 
 ## 6. Flux de utilizare
 
@@ -95,6 +108,12 @@ Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul** ș
 completați **data avansului**, **data cheltuielii** (data decontului; se completează din data
 avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, dacă e cazul, **diurna**
 (sumă/zi și număr de zile). În tabul „Alte informații" verificați **jurnalul de avansuri (542)**.
+
+**Moneda decontului** (câmpul **„Monedă"**, sub jurnalul de numerar; apare utilizatorilor cu
+monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
+companiei dacă registrul nu are una. Se poate schimba doar în Ciornă și se blochează după **Avans**.
+Avansul, liniile de cheltuieli, diurna și diferența se introduc în această monedă, iar lista
+deconturilor are o coloană „Monedă". Un decont în valută este descris la „Decont în valută" mai jos.
 
 Aprobatorul apasă **Avans**: documentul primește număr (`DEC/…`) și trece în starea „Avans". Pe
 măsură ce adăugați liniile de cheltuieli, se calculează automat totalul și **diferența** față de
@@ -176,6 +195,22 @@ declarată sau închisă: acolo corecția se face prin stornare.
 Decontul se tipărește din meniul cu rotița (⚙) → **Tipărire → Tipărire decont cheltuieli**; documentul tipărit e
 justificativul semnat de titularul avansului.
 
+### Decont în valută
+
+Când registrul de casă este în valută, fiecare notă contabilă poartă **suma în valută** și
+**contravaloarea în lei**, la cursul BNR din data ei: avansul la data avansului, fiecare chitanță la
+data ei, diurna și diferența la data cheltuielii (a decontului). În tabul „Elemente jurnal" apare
+coloana cu **suma în valută** (doar pentru decontul în valută). Chitanțele de achiziție sunt emise în
+moneda decontului, iar nota de decontare din avans preia aceleași sume (în valută și în lei) ca datoria
+chitanței, ca reconcilierea să o închidă complet.
+
+Cursurile diferă între data avansului și cea a cheltuielilor, deci 542 se închide în valută, dar
+poate rămâne un sold în lei. La validare, acesta se înregistrează ca **diferență de curs**
+(**Dr 665 = Cr 542** nefavorabilă sau **Dr 542 = Cr 765** favorabilă), în jurnalul de diferențe de
+curs al companiei (dacă nu e setat, în jurnalul de avansuri 542). Exemplu: avans 100 la 5,00 lei și
+cheltuială 121 la 5,10 lei, cu plata suplimentară de 21: 542 este zero în valută, iar cei 100 × (5,00 −
+5,10) = −10 lei rămași se trec pe **765**.
+
 ### Note de monografie și raportare (notele generate la fiecare pas)
 
 - **Acordare avans** (Pasul 1): **Dr 542 = Cr 5311/5121** (suma avansului);
@@ -189,7 +224,10 @@ justificativul semnat de titularul avansului.
 - **Diferență** (la validare), cu data cheltuielii (a decontului), ca soldul 542 al angajatului să
   devină **zero**:
   - angajatul restituie restul avansului: **Dr 5311 = Cr 542**;
-  - firma îi plătește angajatului diferența: **Dr 542 = Cr 5311**.
+  - firma îi plătește angajatului diferența: **Dr 542 = Cr 5311**;
+- **Decont în valută** (la validare): casa este **5314**, iar toate notele de mai sus poartă suma în
+  valută și contravaloarea în lei la cursul din data lor; în plus, soldul în lei rămas pe 542 se
+  închide cu **Dr 665 = Cr 542** (diferență nefavorabilă) sau **Dr 542 = Cr 765** (favorabilă).
 
 ### Pasul 3 — Urmărirea deconturilor pe angajat
 
@@ -211,7 +249,8 @@ lista filtrată pentru acel angajat.
 | Salarizare / D112 | surplusul de diurnă peste plafon se declară manual ca venit salarial |
 | D300 | chitanțele cu TVA intră în decontul de TVA prin grilele taxei de achiziție |
 
-Ce este automat: generarea notelor contabile, calculul diferenței și al diurnei, închiderea contului 542.
+Ce este automat: generarea notelor contabile, calculul diferenței și al diurnei, închiderea contului 542,
+conversia în lei la cursul din data fiecărei note și diferența de curs la decontul în valută.
 Ce rămâne manual: configurarea jurnalelor/conturilor, alegerea cotei TVA și a contului pe fiecare
 linie, plafonul fiscal al diurnei (fără `l10n_ro_expense_allowance`), reclasificarea avansului la
 furnizor pe 4091/4093 când nu e pentru servicii, compensarea lui la primirea facturii și verificarea
@@ -230,6 +269,10 @@ soldului 542 după validare.
 - [ ] O plată furnizor fără factură deschisă ajunge pe 4092, iar pe 401 nu rămâne sold debitor.
 - [ ] Diurna se încadrează în plafonul fiscal sau surplusul a fost transmis la salarizare.
 - [ ] După validare, soldul contului 542 al angajatului este zero.
+- [ ] Decont în valută: moneda decontului este cea a registrului de casă, iar liniile o preiau.
+- [ ] Decont în valută: nota de avans are suma în valută și contravaloarea în lei la cursul din data avansului.
+- [ ] Decont în valută: după validare, 542 este zero atât în valută, cât și în lei; diferența de curs
+  este pe 665 (nefavorabilă) sau 765 (favorabilă).
 
 ## 9. Mesaje de eroare frecvente
 
@@ -240,6 +283,8 @@ soldului 542 după validare.
 | „Furnizorul ... nu are un cont de datorii (401)" | Linie „Plată furnizor" cu un furnizor fără cont de plătit configurat | Completați „Cont de plătit" pe fișa furnizorului |
 | „Nu aveți rolul necesar pentru a ... decontul" / lipsesc butoanele Avans, Validează | Utilizatorul nu are rolul Aprobator sau Contabil | Atribuiți rolul în Setări → Utilizatori, secțiunea „Decont Cheltuieli" |
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
+| „Set the gain and loss exchange rate accounts (765/665) in the accounting settings of the company …" | Decont în valută cu diferență de curs la validare, iar compania nu are setate conturile de diferențe de curs | Setați conturile de câștig/pierdere din diferențe de curs (765/665) în Contabilitate → Configurare → Setări |
+| Contravaloarea în lei a unei note în valută este neașteptată | Cursul BNR lipsește sau este vechi pentru data notei (Odoo ia cursul zilei precedente) | Actualizați cursurile valutare și reluați decontul (Invalidare, apoi Avans / Validează) |
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
 
 Pentru mesajele legate de preluarea cheltuielilor standard (`hr_expense`), vezi fișa modulului
@@ -275,5 +320,6 @@ Regenerare (pe o bază fără `hr_expense`, altfel apare și butonul „Preia ch
 
 În manualul final, păstrați explicația orientată pe activitatea utilizatorului: când se acordă avansul,
 ce documente justificative se adaugă, cum se citește diferența de restituit/încasat și cum se verifică
-închiderea contului 542. Notele contabile se prezintă în detaliu (liniile Dr/Cr), iar integrarea cu
+închiderea contului 542; pentru decontul în valută, explicați cursul din data fiecărei note și diferența de
+curs de la validare. Notele contabile se prezintă în detaliu (liniile Dr/Cr), iar integrarea cu
 `hr_expense` se menționează ca opțiune pentru companiile care folosesc și fluxul standard de cheltuieli.
