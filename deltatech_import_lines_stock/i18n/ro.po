@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-26 16:43+0000\n"
-"PO-Revision-Date: 2026-10-26 16:43+0000\n"
+"POT-Creation-Date: 2026-10-26 16:52+0000\n"
+"PO-Revision-Date: 2026-10-26 16:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -22,6 +22,12 @@ msgstr ""
 #: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
 msgid "%s is not tracked by lot or serial number."
 msgstr "%s nu este urmărit pe lot sau număr de serie."
+
+#. module: deltatech_import_lines_stock
+#. odoo-python
+#: code:addons/deltatech_import_lines_stock/models/stock_quant.py:0
+msgid "%s is tracked: the lot or serial number is required."
+msgstr "%s este urmărit pe lot: lotul sau numărul de serie este obligatoriu."
 
 #. module: deltatech_import_lines_stock
 #: model:ir.model.fields,field_description:deltatech_import_lines_stock.field_import_lines_wizard__location_id

@@ -12,7 +12,9 @@ Loads stock moves and inventory counts from a file with the wizard of
   the lot must exist. A serial number row must have the quantity 1.
 - **Inventory counts**: an **Import Counts** button on **Physical
   Inventory** sets the counted quantity of the products (and lots) in the
-  chosen location. Rows of the same product and lot are added up. The
+  chosen location. Rows of the same product and lot are added up. A
+  product tracked by lot or serial number needs an existing lot on its
+  row. The
   count is applied by the user, with **Apply** or **Apply All**.
 
 Installed automatically when both Inventory and `deltatech_import_lines`
