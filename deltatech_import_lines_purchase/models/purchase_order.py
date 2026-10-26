@@ -36,14 +36,21 @@ class PurchaseOrder(models.Model):
     def _import_lines_find_product(self, match_by, value):
         if match_by != "vendor_code":
             return super()._import_lines_find_product(match_by, value)
+        return self._import_lines_find_products(match_by, [value])[value]
+
+    def _import_lines_find_products(self, match_by, values):
+        if match_by != "vendor_code":
+            return super()._import_lines_find_products(match_by, values)
+        values = set(values)
         company = self._import_lines_company()
-        domain = [("product_code", "=", value), ("company_id", "in", [company.id, False])]
+        domain = [("product_code", "in", list(values)), ("company_id", "in", [company.id, False])]
         if self.partner_id:
             domain.append(("partner_id", "child_of", self.partner_id.commercial_partner_id.id))
-        products = self.env["product.product"]
+        result = dict.fromkeys(values, self.env["product.product"])
         for seller in self.env["product.supplierinfo"].search(domain):
-            products |= seller.product_id or seller.product_tmpl_id.product_variant_ids
-        return products.filtered_domain(self._import_lines_product_domain())
+            result[seller.product_code] |= seller.product_id or seller.product_tmpl_id.product_variant_ids
+        product_domain = self._import_lines_product_domain()
+        return {value: products.filtered_domain(product_domain) for value, products in result.items()}
 
     def _import_lines_prepare_line(self, row):
         vals = {"product_id": row["product"].id, "product_qty": row["quantity"]}

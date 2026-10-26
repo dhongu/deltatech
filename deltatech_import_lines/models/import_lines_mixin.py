@@ -61,6 +61,23 @@ class ImportLinesMixin(models.AbstractModel):
             return Product.search(domain + [("name", "=ilike", value)], limit=2)
         return Product
 
+    def _import_lines_find_products(self, match_by, values):
+        """Return {value: products} for all the product references of the file at once.
+
+        The internal reference and the barcode are searched in one query; the other keys fall back to
+        ``_import_lines_find_product`` for each distinct value.
+        """
+        values = set(values)
+        Product = self.env["product.product"]
+        field = {"default_code": "default_code", "barcode": "barcode"}.get(match_by)
+        if not field:
+            return {value: self._import_lines_find_product(match_by, value) for value in values}
+        result = dict.fromkeys(values, Product)
+        products = Product.search(self._import_lines_product_domain() + [(field, "in", list(values))])
+        for product in products:
+            result[product[field]] |= product
+        return result
+
     @api.model
     def _import_lines_allow_zero_quantity(self):
         return False
