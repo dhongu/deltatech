@@ -1,0 +1,125 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_task_progress
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "%(count)s item(s) failed. Run them again to continue."
+msgstr "%(count)s element(e) nu au reușit. Rulați-le din nou pentru a continua."
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "%(done)s / %(total)s %(unit)s"
+msgstr "%(done)s / %(total)s %(unit)s"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "%(item)s: %(message)s"
+msgstr "%(item)s: %(message)s"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.xml:0
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_task_progress
+#: model:ir.model.fields,field_description:deltatech_task_progress.field_task_progress_mixin__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Done"
+msgstr "Gata"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Finish"
+msgstr "Finalizează"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Finishing..."
+msgstr "Se finalizează..."
+
+#. module: deltatech_task_progress
+#: model:ir.model.fields,field_description:deltatech_task_progress.field_task_progress_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Not finished"
+msgstr "Neterminat"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Preparing..."
+msgstr "Se pregătește..."
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Run the remaining items"
+msgstr "Rulează elementele rămase"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Running..."
+msgstr "Rulează..."
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Start"
+msgstr "Pornește"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Stop after the current items"
+msgstr "Oprește după elementele în lucru"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "Stopped"
+msgstr "Oprit"
+
+#. module: deltatech_task_progress
+#: model:ir.model,name:deltatech_task_progress.model_task_progress_mixin
+msgid "Task Progress Mixin"
+msgstr "Mixin progres sarcină"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "~%(minutes)smin left"
+msgstr "~%(minutes)s min rămase"
+
+#. module: deltatech_task_progress
+#. odoo-javascript
+#: code:addons/deltatech_task_progress/static/src/task_progress/task_progress.esm.js:0
+msgid "~%(seconds)ss left"
+msgstr "~%(seconds)s s rămase"

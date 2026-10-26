@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="deltatech_task_progress.TaskProgressDialog">
+        <Dialog title="this.props.title" size="'md'" footer="false">
+            <t t-set-slot="header" t-slot-scope="scope">
+                <h4 class="modal-title text-break flex-grow-1" t-out="this.props.title" />
+                <button
+                    t-if="!this.busy"
+                    type="button"
+                    class="btn-close"
+                    aria-label="Close"
+                    tabindex="-1"
+                    t-on-click="() => this.closeDialog()"
+                />
+            </t>
+            <div class="p-3">
+                <p t-if="this.props.intro and !this.state.started" class="o_task_progress_intro" t-out="this.props.intro" />
+
+                <div t-if="this.state.started or this.state.preparing" class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="fw-bold o_task_progress_state" t-out="this.statusLabel" />
+                        <span class="text-muted small">
+                            <t t-out="this.progressPercent" />%
+                            <t t-if="this.etaLabel and this.state.running"> — <t t-out="this.etaLabel" /></t>
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 20px;">
+                        <div
+                            class="progress-bar"
+                            t-att-class="this.busy ? 'progress-bar-striped progress-bar-animated' : (this.failedRows.length or this.state.stopping or this.warningsCount ? 'bg-warning' : 'bg-success')"
+                            role="progressbar"
+                            t-att-style="'width: ' + this.progressPercent + '%'"
+                            t-att-aria-valuenow="this.progressPercent"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                        />
+                    </div>
+                    <div t-if="!this.state.preparing" class="mt-1 text-muted small o_task_progress_counter">
+                        <t t-out="this.counterLabel" />
+                    </div>
+                </div>
+
+                <div t-if="this.state.fatal" class="alert alert-danger o_task_progress_fatal">
+                    <i class="oi oi-filled me-2" data-icon="cancel" />
+                    <t t-out="this.state.fatal" />
+                </div>
+
+                <table t-if="this.props.showItems and this.state.rows.length" class="table table-sm o_task_progress_items">
+                    <tbody>
+                        <t t-foreach="this.state.rows" t-as="row" t-key="row_index">
+                            <tr t-att-class="'o_task_progress_item_' + row.status">
+                                <td t-out="row.name" />
+                                <td>
+                                    <span t-if="row.status === 'pending'" class="text-muted">—</span>
+                                    <span t-if="row.status === 'running'" class="oi oi-spin" data-icon="progress_activity" />
+                                    <span t-if="row.status === 'success'" class="text-success">
+                                        <i class="oi" data-icon="check" /> <t t-out="row.message" />
+                                    </span>
+                                    <span t-if="row.status === 'warning'" class="text-warning">
+                                        <i class="oi" data-icon="warning" /> <t t-out="row.message" />
+                                    </span>
+                                    <span t-if="row.status === 'error'" class="text-danger">
+                                        <i class="oi" data-icon="close" /> <t t-out="row.message" />
+                                    </span>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+                <t t-elif="this.failedRows.length and !this.busy">
+                    <div class="alert alert-warning mb-2">
+                        <i class="oi me-2" data-icon="warning" />
+                        <t t-out="this.errorsLabel" />
+                    </div>
+                    <div class="border rounded p-2 bg-light mb-3" style="max-height: 180px; overflow-y: auto;">
+                        <t t-foreach="this.errors" t-as="err" t-key="err_index">
+                            <div class="text-danger small o_task_progress_error" t-out="err" />
+                        </t>
+                    </div>
+                </t>
+
+                <div class="text-end d-flex justify-content-end gap-2">
+                    <button
+                        t-if="this.state.running"
+                        class="btn btn-secondary o_task_progress_stop"
+                        t-att-disabled="this.state.stopping"
+                        t-on-click="this.stop"
+                        t-out="this.labels.stop"
+                    />
+                    <t t-else="">
+                        <button
+                            t-if="this.canStart"
+                            class="btn btn-primary o_task_progress_start"
+                            t-on-click="() => this.run()"
+                            t-out="this.labels.start"
+                        />
+                        <button
+                            t-if="this.canRetry"
+                            class="btn btn-primary o_task_progress_retry"
+                            t-on-click="this.retry"
+                            t-out="this.labels.retry"
+                        />
+                        <button
+                            t-if="this.canFinish"
+                            t-att-class="'btn o_task_progress_finish ' + (this.canRetry ? 'btn-secondary' : 'btn-primary')"
+                            t-att-disabled="this.state.finishing"
+                            t-on-click="() => this.finish()"
+                            t-out="this.labels.finish"
+                        />
+                        <button
+                            class="btn btn-secondary o_task_progress_close"
+                            t-att-disabled="this.busy"
+                            t-on-click="() => this.closeDialog()"
+                        >Close</button>
+                    </t>
+                </div>
+            </div>
+        </Dialog>
+    </t>
+</templates>
