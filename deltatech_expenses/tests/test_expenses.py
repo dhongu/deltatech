@@ -1126,3 +1126,128 @@ class TestExpenses(TransactionCase):
         self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_4092).mapped("debit")), 100.0)
         lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
         self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    # Decont în valută: casa în valută, fiecare notă la cursul din data ei, diferența de curs pe 665/765
+
+    def _foreign_cash_journal(self, currency):
+        account = self.env["account.account"].create(
+            {"name": "Casa în valută", "code": "5314TEST", "account_type": "asset_cash", "currency_id": currency.id}
+        )
+        return self.env["account.journal"].create(
+            {
+                "name": "Casa valută",
+                "code": "CSHV",
+                "type": "cash",
+                "currency_id": currency.id,
+                "default_account_id": account.id,
+                "company_id": self.company.id,
+            }
+        )
+
+    def _set_rate(self, currency, date, company_per_unit):
+        """Odoo aplică la data D cursul cu data strict anterioară (cursul BNR publicat în ziua
+        precedentă), iar înaintea primului curs, cel mai vechi; deci un curs pentru operațiunile
+        din `date` se înregistrează cu o zi înainte."""
+        date = fields.Date.subtract(date, days=1)
+        vals = {"currency_id": currency.id, "name": date, "company_id": self.company.id}
+        rate = self.env["res.currency.rate"].search([(key, "=", value) for key, value in vals.items()])
+        if rate:
+            rate.rate = 1 / company_per_unit
+        else:
+            self.env["res.currency.rate"].create(dict(vals, rate=1 / company_per_unit))
+        # inverse_rate e calculat nestocat, ținut în cache per context (dată)
+        self.env.invalidate_all()
+
+    def test_foreign_currency_deduction_follows_cash_journal(self):
+        """Decontul pe o casă în valută e în moneda casei; liniile o preiau, iar avansul e notat
+        în valută și în lei la cursul din data avansului."""
+        foreign = self._foreign_currency(self.company)
+        journal = self._foreign_cash_journal(foreign)
+        deduction = self._new_deduction(100.0, journal_id=journal.id)
+        self.assertEqual(deduction.currency_id, foreign)
+        self.assertTrue(deduction.is_foreign_currency)
+        line = self._new_line(deduction, 50.0)
+        self.assertEqual(line.currency_id, foreign)
+        advance_lines = self._lines_for_expenses(deduction)
+        cash_line = advance_lines.filtered(lambda l: l.account_id == journal.default_account_id)
+        self.assertEqual(cash_line.currency_id, foreign)
+        self.assertAlmostEqual(cash_line.amount_currency, -100.0, places=2)
+        self.assertAlmostEqual(cash_line.credit, 500.0, places=2)  # curs 5 lei / unitate
+
+    def test_foreign_currency_exchange_difference_closes_542(self):
+        """Avans 100 la 5,00, cheltuială 121 la 5,10, plată suplimentară 21 la 5,10: 542 e zero în
+        valută, diferența de curs (100 × 5,00 − 100 × 5,10 = −10 lei) se închide pe 765."""
+        foreign = self._foreign_currency(self.company)
+        journal = self._foreign_cash_journal(foreign)
+        acc_765 = self.env["account.account"].create(
+            {"name": "Venituri diferențe curs", "code": "765TEST", "account_type": "income_other"}
+        )
+        acc_665 = self.env["account.account"].create(
+            {"name": "Cheltuieli diferențe curs", "code": "665TEST", "account_type": "expense"}
+        )
+        self.company.write(
+            {"income_currency_exchange_account_id": acc_765.id, "expense_currency_exchange_account_id": acc_665.id}
+        )
+        advance_date = fields.Date.subtract(fields.Date.today(), days=5)
+        self._set_rate(foreign, advance_date, 5.0)
+        self._set_rate(foreign, fields.Date.today(), 5.1)
+        deduction = self._new_deduction(
+            100.0, journal_id=journal.id, date_advance=advance_date, date_expense=fields.Date.today()
+        )
+        self._new_line(deduction, 121.0, self.tax_21, date=fields.Date.today())
+        deduction.validate_expenses()
+
+        voucher = deduction.voucher_ids
+        self.assertEqual(voucher.currency_id, foreign)
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+        self.assertAlmostEqual(voucher.amount_total_signed, -617.1, places=2)
+        self.assertEqual(voucher.payment_state, "paid")
+
+        lines = self._lines_for_expenses(deduction)
+        lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("amount_currency")), 0.0, places=2)
+        self.assertAlmostEqual(sum(lines_542.mapped("balance")), 0.0, places=2)
+        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_765).mapped("credit")), 10.0)
+        extra = lines.filtered(lambda l: l.account_id == journal.default_account_id and l.date == fields.Date.today())
+        self.assertAlmostEqual(extra.amount_currency, -21.0, places=2)
+        self.assertAlmostEqual(extra.credit, 107.1, places=2)
+
+        deduction.invalidate_expenses()
+        self.assertFalse(self._lines_for_expenses(deduction))
+
+    def test_foreign_currency_diem_closes_542(self):
+        """Diurna în valută se înregistrează la cursul din data decontului, iar 542 se închide."""
+        foreign = self._foreign_currency(self.company)
+        journal = self._foreign_cash_journal(foreign)
+        acc_665 = self.env["account.account"].create(
+            {"name": "Cheltuieli diferențe curs", "code": "665TEST", "account_type": "expense"}
+        )
+        acc_765 = self.env["account.account"].create(
+            {"name": "Venituri diferențe curs", "code": "765TEST", "account_type": "income_other"}
+        )
+        self.company.write(
+            {"income_currency_exchange_account_id": acc_765.id, "expense_currency_exchange_account_id": acc_665.id}
+        )
+        advance_date = fields.Date.subtract(fields.Date.today(), days=3)
+        self._set_rate(foreign, advance_date, 5.0)
+        self._set_rate(foreign, fields.Date.today(), 4.9)
+        deduction = self._new_deduction(
+            175.0,
+            journal_id=journal.id,
+            date_advance=advance_date,
+            date_expense=fields.Date.today(),
+            diem=87.5,
+            days=2,
+        )
+        deduction.validate_expenses()
+        diem_line = deduction.move_id.line_ids.filtered(lambda l: l.account_id == self.acc_exp)
+        self.assertAlmostEqual(diem_line.amount_currency, 175.0, places=2)
+        self.assertAlmostEqual(diem_line.debit, 857.5, places=2)
+        lines_542 = (self._lines_for_expenses(deduction) | deduction.move_id.line_ids).filtered(
+            lambda l: l.account_id == self.acc_542
+        )
+        self.assertAlmostEqual(sum(lines_542.mapped("balance")), 0.0, places=2)
+        # avans 875 lei, diurnă 857,50 lei: diferență nefavorabilă 17,50 lei pe 665
+        self.assertAlmostEqual(
+            sum(self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == acc_665).mapped("debit")), 17.5
+        )
