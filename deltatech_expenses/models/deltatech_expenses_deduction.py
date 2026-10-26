@@ -13,11 +13,6 @@ class DeltatechExpensesDeduction(models.Model):
     _rec_name = "number"
 
     @api.model
-    def _default_currency(self):
-        journal = self._default_journal()
-        return journal.currency_id or journal.company_id.currency_id or self.env.user.company_id.currency_id
-
-    @api.model
     def _default_journal(self):
         if self.env.context.get("default_journal_id", False):
             return self.env["account.journal"].browse(self.env.context.get("default_journal_id"))
@@ -147,14 +142,20 @@ class DeltatechExpensesDeduction(models.Model):
 
     difference = fields.Monetary(string="Difference", compute="_compute_amount")
 
+    # Moneda decontului: a jurnalului de casă (casa în valută, 5314) sau a companiei. Avansul, liniile,
+    # diurna și diferența sunt în această monedă; fiecare notă contabilă poartă suma în valută și
+    # contravaloarea în moneda companiei la cursul BNR din data ei (OMFP 1802/2014 pct. 319).
     currency_id = fields.Many2one(
         "res.currency",
         string="Currency",
-        readonly=True,
         required=True,
-        default=lambda self: self._default_currency(),
         compute="_compute_currency",
+        store=True,
+        readonly=False,
+        precompute=True,
     )
+    company_currency_id = fields.Many2one(related="company_id.currency_id", string="Company Currency")
+    is_foreign_currency = fields.Boolean(compute="_compute_is_foreign_currency")
 
     journal_id = fields.Many2one(
         "account.journal",
@@ -227,9 +228,32 @@ class DeltatechExpensesDeduction(models.Model):
 
             expense.difference = expense.amount - expense.advance
 
+    @api.depends("journal_id", "company_id")
     def _compute_currency(self):
         for expense in self:
-            expense.currency_id = expense.company_id.currency_id.id
+            expense.currency_id = expense.journal_id.currency_id or expense.company_id.currency_id
+
+    @api.depends("currency_id", "company_id")
+    def _compute_is_foreign_currency(self):
+        for expense in self:
+            expense.is_foreign_currency = expense.currency_id != expense.company_id.currency_id
+
+    def _to_company_currency(self, amount, date):
+        """Contravaloarea în moneda companiei a unei sume în moneda decontului, la cursul BNR din `date`."""
+        self.ensure_one()
+        company = self.company_id or self.env.company
+        if not self.currency_id or self.currency_id == company.currency_id:
+            return amount
+        return self.currency_id._convert(amount, company.currency_id, company, date or fields.Date.context_today(self))
+
+    def _move_line_vals(self, amount, date, balance=None, **vals):
+        """Valori pentru o linie de notă contabilă: `amount` e în moneda decontului (pozitiv = debit,
+        negativ = credit); `balance` (moneda companiei) se calculează la cursul din `date` dacă lipsește."""
+        self.ensure_one()
+        if balance is None:
+            balance = self._to_company_currency(amount, date)
+        vals.update({"currency_id": self.currency_id.id, "amount_currency": amount, "balance": balance})
+        return vals
 
     def _check_role(self, group_xmlid, action):
         """Verificare explicită de rol pentru acțiunile ireversibile/contabile: dreptul de scriere
@@ -254,6 +278,7 @@ class DeltatechExpensesDeduction(models.Model):
         return {
             "number",
             "company_id",
+            "currency_id",
             "employee_id",
             "date_advance",
             "date_expense",
@@ -273,7 +298,15 @@ class DeltatechExpensesDeduction(models.Model):
         """Câmpurile care au intrat în nota de avans (Dr 542 = Cr casă) postată la „Avans”: nu se mai
         modifică în starea Avans, altfel diferența de la decontare se calculează față de alt avans
         decât cel din registru (restituire fictivă, sold creditor pe 542)."""
-        return {"advance", "journal_id", "expense_journal_id", "date_advance", "employee_id", "company_id"}
+        return {
+            "advance",
+            "journal_id",
+            "expense_journal_id",
+            "date_advance",
+            "employee_id",
+            "company_id",
+            "currency_id",
+        }
 
     def _check_workflow_write(self, vals):
         """EXPENSES-001: starea și câmpurile de flux se schimbă doar prin metodele de flux, iar un
@@ -454,19 +487,24 @@ class DeltatechExpensesDeduction(models.Model):
                     "ref": expenses.number,
                     "expenses_deduction_id": expenses.id,
                 }
+                advance_balance = expenses._to_company_currency(expenses.advance, expenses.date_advance)
                 value_lines = [
-                    {
-                        "partner_id": expenses.partner_id.id,
-                        "account_id": account.id,
-                        "name": self.env._("Avans"),
-                        "debit": expenses.advance,
-                    },
-                    {
-                        "partner_id": expenses.partner_id.id,
-                        "account_id": expenses.journal_id.default_account_id.id,
-                        "name": self.env._("Avans"),
-                        "credit": expenses.advance,
-                    },
+                    expenses._move_line_vals(
+                        expenses.advance,
+                        expenses.date_advance,
+                        advance_balance,
+                        partner_id=expenses.partner_id.id,
+                        account_id=account.id,
+                        name=self.env._("Avans"),
+                    ),
+                    expenses._move_line_vals(
+                        -expenses.advance,
+                        expenses.date_advance,
+                        -advance_balance,
+                        partner_id=expenses.partner_id.id,
+                        account_id=expenses.journal_id.default_account_id.id,
+                        name=self.env._("Avans"),
+                    ),
                 ]
                 value["line_ids"] = [(0, 0, x) for x in value_lines]
                 move = self.env["account.move"].create(value)
@@ -474,9 +512,12 @@ class DeltatechExpensesDeduction(models.Model):
 
             expenses.write({"state": "advance", "number": name, "approved_by_id": self.env.user.id})
 
-    def _create_advance_settlement(self, expenses, partner, amount, date, ref, payable_account=None):
+    def _create_advance_settlement(self, expenses, partner, amount, date, ref, payable_account=None, balance=None):
         """Notă de decontare a cheltuielii din avans: Dr cont furnizor (401, partenerul furnizor)
         = Cr 542 (partenerul angajatului — avansul rămâne închis pe cine l-a primit).
+
+        `amount` e în moneda decontului; `balance` (moneda companiei) se dă când trebuie să fie
+        exact cel al datoriei decontate (linia furnizor a chitanței), altfel se calculează la cursul decontului.
 
         În Odoo 19 nu se folosește `account.payment` pentru această operațiune: jurnalul de avans
         este de tip „general" (fără metode de plată), iar o plată pe casă ar dubla mișcarea de
@@ -493,37 +534,42 @@ class DeltatechExpensesDeduction(models.Model):
                 % (partner.display_name or "")
             )
         account_542 = expenses.expense_journal_id.default_account_id
+        date = date or expenses.date_expense
+        if balance is None:
+            balance = expenses._to_company_currency(amount, date)
         move = self.env["account.move"].create(
             {
                 "journal_id": expenses.expense_journal_id.id,
-                "date": date or expenses.date_expense,
+                "date": date,
                 "ref": ref,
                 "expenses_deduction_id": expenses.id,
                 "line_ids": [
                     (
                         0,
                         0,
-                        {
-                            "partner_id": partner.id,
-                            "account_id": payable_account.id,
-                            "name": self.env._("Decontare avans"),
-                            "debit": amount,
-                            "credit": 0.0,
-                        },
+                        expenses._move_line_vals(
+                            amount,
+                            date,
+                            balance,
+                            partner_id=partner.id,
+                            account_id=payable_account.id,
+                            name=self.env._("Decontare avans"),
+                        ),
                     ),
                     (
                         0,
                         0,
-                        {
-                            # partenerul angajatului, NU furnizorul: 542 trebuie să rămână analitic
-                            # pe cine a primit avansul, altfel soldul analitic per partener e greșit
-                            # deși contul se închide global (vezi tichet POPVAL-COS).
-                            "partner_id": expenses.partner_id.id,
-                            "account_id": account_542.id,
-                            "name": self.env._("Decontare avans"),
-                            "debit": 0.0,
-                            "credit": amount,
-                        },
+                        # partenerul angajatului, NU furnizorul: 542 trebuie să rămână analitic
+                        # pe cine a primit avansul, altfel soldul analitic per partener e greșit
+                        # deși contul se închide global (vezi tichet POPVAL-COS).
+                        expenses._move_line_vals(
+                            -amount,
+                            date,
+                            -balance,
+                            partner_id=expenses.partner_id.id,
+                            account_id=account_542.id,
+                            name=self.env._("Decontare avans"),
+                        ),
                     ),
                 ],
             }
@@ -562,6 +608,8 @@ class DeltatechExpensesDeduction(models.Model):
         residual = settle_payable.amount_residual
         if settle_payable.company_currency_id.is_zero(residual) or residual < 0:
             return
+        currency = settle_payable.currency_id
+        residual_currency = settle_payable.amount_residual_currency
         account_409 = self.env["account.account"].search(
             [("code", "=like", "4092%"), ("company_ids", "in", settle_payable.company_id.id)], limit=1
         )
@@ -581,7 +629,9 @@ class DeltatechExpensesDeduction(models.Model):
                             "partner_id": settle_payable.partner_id.id,
                             "account_id": account_409.id,
                             "name": self.env._("Avans furnizor"),
-                            "debit": residual,
+                            "currency_id": currency.id,
+                            "amount_currency": residual_currency,
+                            "balance": residual,
                         },
                     ),
                     (
@@ -591,7 +641,9 @@ class DeltatechExpensesDeduction(models.Model):
                             "partner_id": settle_payable.partner_id.id,
                             "account_id": settle_payable.account_id.id,
                             "name": self.env._("Avans furnizor"),
-                            "credit": residual,
+                            "currency_id": currency.id,
+                            "amount_currency": -residual_currency,
+                            "balance": -residual,
                         },
                     ),
                 ],
@@ -655,6 +707,8 @@ class DeltatechExpensesDeduction(models.Model):
                         "date": line.date,
                         "ref": line.name,
                         "journal_id": purchase_journal.id,
+                        # chitanța e în moneda decontului; Odoo o convertește la cursul din data ei
+                        "currency_id": expenses.currency_id.id,
                         # "payment_journal_id": expenses.journal_payment_id.id,  # plata prin jurnalu de decont chelturili
                         "expenses_deduction_id": expenses.id,
                         # 'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
@@ -694,13 +748,15 @@ class DeltatechExpensesDeduction(models.Model):
                 for payable in voucher.line_ids.filtered(
                     lambda aml: aml.account_id.account_type == "liability_payable"
                 ):
+                    # aceleași sume (valută și lei) ca datoria chitanței, ca reconcilierea să o închidă complet
                     settle = self._create_advance_settlement(
                         expenses,
                         payable.partner_id,
-                        payable.credit,
+                        -payable.amount_currency,
                         voucher.date,
                         name,
                         payable_account=payable.account_id,
+                        balance=-payable.balance,
                     )
                     settle_payable = settle.line_ids.filtered(lambda aml: aml.account_id == payable.account_id)
                     (payable | settle_payable).reconcile()
@@ -709,47 +765,30 @@ class DeltatechExpensesDeduction(models.Model):
             # deci intră în is_invoice(include_receipts=True)) — nu-l mai forțăm manual (runda 2,
             # tichet POPVAL-COS: scrierea directă a payment_state ocolea calculul standard).
 
-            # Create the account move record.
-            line_ids = []
-
+            account_542 = expenses.expense_journal_id.default_account_id
+            date_expense = expenses.date_expense or fields.Date.context_today(self)
             if expenses.difference:
-                account = expenses.expense_journal_id.default_account_id
-                # amount = -expenses.difference + expenses.amount_vouchers
-                amount = abs(expenses.difference)
-                if expenses.difference < 0:
-                    value_lines = [
-                        {
-                            "partner_id": expenses.partner_id.id,
-                            "account_id": account.id,
-                            "name": self.env._("Diferență avans"),
-                            "credit": amount,
-                        },
-                        {
-                            "partner_id": expenses.partner_id.id,
-                            "account_id": expenses.journal_id.default_account_id.id,
-                            "name": self.env._("Diferență avans"),
-                            "debit": amount,
-                        },
-                    ]
-                else:
-                    value_lines = [
-                        {
-                            "partner_id": expenses.partner_id.id,
-                            "account_id": account.id,
-                            "name": self.env._("Diferență avans"),
-                            "debit": amount,
-                        },
-                        {
-                            "partner_id": expenses.partner_id.id,
-                            "account_id": expenses.journal_id.default_account_id.id,
-                            "name": self.env._("Diferență avans"),
-                            "credit": amount,
-                        },
-                    ]
+                # difference < 0: restituire în casă (Dr casă = Cr 542); > 0: plată suplimentară (Dr 542 = Cr casă)
+                value_lines = [
+                    expenses._move_line_vals(
+                        expenses.difference,
+                        date_expense,
+                        partner_id=expenses.partner_id.id,
+                        account_id=account_542.id,
+                        name=self.env._("Diferență avans"),
+                    ),
+                    expenses._move_line_vals(
+                        -expenses.difference,
+                        date_expense,
+                        partner_id=expenses.partner_id.id,
+                        account_id=expenses.journal_id.default_account_id.id,
+                        name=self.env._("Diferență avans"),
+                    ),
+                ]
                 value = {
                     "journal_id": expenses.journal_id.id,
                     # restituirea/plata diferenței are loc la decontare, nu la acordarea avansului
-                    "date": expenses.date_expense or fields.Date.context_today(self),
+                    "date": date_expense,
                     "ref": expenses.number,
                     "expenses_deduction_id": expenses.id,
                 }
@@ -759,28 +798,36 @@ class DeltatechExpensesDeduction(models.Model):
                 move._post()
 
             if expenses.total_diem:
-                move_line_dr = {
+                common = {
                     "name": self.env._("Diurnă"),
-                    "debit": expenses.total_diem,
-                    "credit": 0.0,
-                    "account_id": expenses.account_diem_id.id,
-                    "journal_id": expenses.journal_diem_id.id,
                     "partner_id": expenses.partner_id.id,
-                    "date": expenses.date_expense,
                     "date_maturity": expenses.date_expense,
                 }
-                move_line_cr = {
-                    "name": self.env._("Diurnă"),
-                    "debit": 0.0,
-                    "credit": expenses.total_diem,
-                    "account_id": expenses.expense_journal_id.default_account_id.id,  # 542
-                    "journal_id": expenses.journal_diem_id.id,
-                    "partner_id": expenses.partner_id.id,
-                    "date": expenses.date_expense,
-                    "date_maturity": expenses.date_expense,
-                }
-                line_ids.append([0, False, move_line_dr])
-                line_ids.append([0, False, move_line_cr])
+                diem_balance = expenses._to_company_currency(expenses.total_diem, expenses.date_expense)
+                line_ids = [
+                    (
+                        0,
+                        0,
+                        expenses._move_line_vals(
+                            expenses.total_diem,
+                            expenses.date_expense,
+                            diem_balance,
+                            account_id=expenses.account_diem_id.id,
+                            **common,
+                        ),
+                    ),
+                    (
+                        0,
+                        0,
+                        expenses._move_line_vals(
+                            -expenses.total_diem,
+                            expenses.date_expense,
+                            -diem_balance,
+                            account_id=account_542.id,
+                            **common,
+                        ),
+                    ),
+                ]
                 move = self.env["account.move"].create(
                     {
                         # "name": name or "/",
@@ -793,7 +840,59 @@ class DeltatechExpensesDeduction(models.Model):
                 expenses_vals["move_id"] = move.id
                 move.action_post()
 
+            expenses._close_542_exchange_difference(date_expense, expenses_vals.get("move_id"))
+
             expenses.write(expenses_vals)
+
+    def _close_542_exchange_difference(self, date, diem_move_id=False):
+        """Decont în valută: avansul, cheltuielile, diurna și diferența sunt fiecare la cursul BNR din
+        data lor (OMFP 1802/2014 pct. 319), deci 542 se închide în valută, dar poate rămâne un sold în
+        lei. Acesta e diferența de curs la decontare (pct. 322, funcțiunea contului 542):
+        Dr 665 = Cr 542 (nefavorabilă) sau Dr 542 = Cr 765 (favorabilă)."""
+        self.ensure_one()
+        company = self.company_id
+        if not self.is_foreign_currency:
+            return
+        account_542 = self.expense_journal_id.default_account_id
+        domain = [
+            ("account_id", "=", account_542.id),
+            ("parent_state", "=", "posted"),
+            "|",
+            ("move_id.expenses_deduction_id", "=", self.id),
+            ("move_id", "=", diem_move_id or 0),
+        ]
+        lines_542 = self.env["account.move.line"].search(domain)
+        residual = company.currency_id.round(sum(lines_542.mapped("balance")))
+        if company.currency_id.is_zero(residual):
+            return
+        if residual > 0:
+            exchange_account = company.expense_currency_exchange_account_id
+        else:
+            exchange_account = company.income_currency_exchange_account_id
+        if not exchange_account:
+            raise UserError(
+                self.env._(
+                    "Set the gain and loss exchange rate accounts (765/665) in the accounting settings of "
+                    "the company %(company)s, to close the exchange difference of the expenses deduction %(number)s.",
+                    company=company.name,
+                    number=self.number,
+                )
+            )
+        common = {"partner_id": self.partner_id.id, "name": self.env._("Diferență de curs avans")}
+        move = self.env["account.move"].create(
+            {
+                "journal_id": (company.currency_exchange_journal_id or self.expense_journal_id).id,
+                "date": date,
+                "ref": self.number,
+                "expenses_deduction_id": self.id,
+                "line_ids": [
+                    (0, 0, self._move_line_vals(0.0, date, residual, account_id=exchange_account.id, **common)),
+                    (0, 0, self._move_line_vals(0.0, date, -residual, account_id=account_542.id, **common)),
+                ],
+            }
+        )
+        move._post()
+        return move
 
     # def get_statement(self, date):
     #     statement = self.env["account.bank.statement"].search(
@@ -864,9 +963,9 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     # todo: de scos required si de acompletat cu partner_generic in situatia in care nu se completeaza nimic
     partner_id = fields.Many2one("res.partner", string="Partner")
-    # The deduction is kept and posted in the company currency (advance, cash journal, 542, receipts):
-    # the line currency is always the company currency of the deduction, never an independent value
-    # (a different currency was only a label, its amount was added and posted as company currency).
+    # The line currency is always the currency of the deduction (company currency or the currency of
+    # a foreign currency cash journal), never an independent value: line amounts are added to the
+    # advance and posted in the same currency.
     currency_id = fields.Many2one(
         "res.currency",
         string="Currency",
@@ -881,11 +980,11 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     state = fields.Selection(related="expenses_deduction_id.state")
 
-    @api.depends("expenses_deduction_id.company_id")
+    @api.depends("expenses_deduction_id.currency_id", "expenses_deduction_id.company_id")
     def _compute_currency_id(self):
         for line in self:
-            company = line.expenses_deduction_id.company_id or self.env.company
-            line.currency_id = company.currency_id
+            deduction = line.expenses_deduction_id
+            line.currency_id = deduction.currency_id or (deduction.company_id or self.env.company).currency_id
 
     def _check_deduction_open(self, deductions):
         """EXPENSES-001: liniile unui decont Finalizat/Anulat nu se mai creează, modifică sau
@@ -904,7 +1003,7 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        # the currency is derived from the deduction company, a value sent by the caller is ignored
+        # the currency is derived from the deduction, a value sent by the caller is ignored
         for vals in vals_list:
             vals.pop("currency_id", None)
         deduction_ids = [vals["expenses_deduction_id"] for vals in vals_list if vals.get("expenses_deduction_id")]

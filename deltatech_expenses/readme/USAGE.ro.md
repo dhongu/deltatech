@@ -9,3 +9,10 @@
 
 Exemplu: un avans de 1.000 RON și bonuri de 800 RON lasă 200 RON de restituit de către angajat;
 după validare, soldul contului 542 al angajatului este zero.
+
+**Decont în valută.** Un decont pe un registru de casă în valută este ținut în moneda respectivă:
+avansul, chitanțele, diurna și diferența se introduc în valută, iar fiecare notă contabilă are suma
+în valută și contravaloarea în lei la cursul BNR din data ei (avansul la data avansului, fiecare
+chitanță la data ei, diurna și diferența la data decontului — OMFP 1802/2014 pct. 319). La validare
+542 se închide în valută, iar soldul rămas în lei se înregistrează ca diferență de curs:
+Dr 665 = Cr 542 (nefavorabilă) sau Dr 542 = Cr 765 (favorabilă).
