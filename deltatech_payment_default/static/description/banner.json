@@ -1,0 +1,11 @@
+{
+  "title": "Payment Default Method",
+  "summary": "Remember the journal and payment method per partner",
+  "icon": "clipboard",
+  "features": [
+    "Set as default in Register Payment",
+    "Separate for receipts and payments",
+    "Proposed again on the next payment"
+  ],
+  "lang": "en"
+}

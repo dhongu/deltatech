@@ -1,0 +1,79 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_payment_default
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 00:00+0000\n"
+"PO-Revision-Date: 2026-10-26 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_payment_default
+#: model:ir.model.fields,field_description:deltatech_payment_default.field_account_payment_register__can_set_as_default
+msgid "Can Set As Default"
+msgstr "Poate seta ca implicit"
+
+#. module: deltatech_payment_default
+#. odoo-python
+#: code:addons/deltatech_payment_default/wizard/account_payment_register.py:0
+msgid ""
+"Default payment method for %(type)s set to %(method)s (%(journal)s) for "
+"company %(company)s."
+msgstr ""
+"Metoda de plată implicită pentru %(type)s a fost setată la %(method)s "
+"(%(journal)s) pentru compania %(company)s."
+
+#. module: deltatech_payment_default
+#: model:ir.model.fields,field_description:deltatech_payment_default.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_payment_default.field_account_payment_register__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_payment_default
+#: model:ir.model.fields,field_description:deltatech_payment_default.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_payment_default.field_account_payment_register__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_payment_default
+#: model:ir.model,name:deltatech_payment_default.model_account_move
+msgid "Journal Entry"
+msgstr "Înregistrare jurnal"
+
+#. module: deltatech_payment_default
+#: model:ir.model,name:deltatech_payment_default.model_account_payment_register
+msgid "Pay"
+msgstr "Plătește"
+
+#. module: deltatech_payment_default
+#: model:ir.model.fields,help:deltatech_payment_default.field_account_payment_register__set_as_default
+msgid ""
+"Remember this journal and payment method on the partner and propose them for"
+" the next payments."
+msgstr ""
+"Reține acest jurnal și această metodă de plată pe partener și le propune la "
+"plățile următoare."
+
+#. module: deltatech_payment_default
+#: model:ir.model.fields,field_description:deltatech_payment_default.field_account_payment_register__set_as_default
+msgid "Set as default"
+msgstr "Setează ca implicit"
+
+#. module: deltatech_payment_default
+#. odoo-python
+#: code:addons/deltatech_payment_default/wizard/account_payment_register.py:0
+msgid "payments"
+msgstr "plăți"
+
+#. module: deltatech_payment_default
+#. odoo-python
+#: code:addons/deltatech_payment_default/wizard/account_payment_register.py:0
+msgid "receipts"
+msgstr "încasări"
