@@ -67,12 +67,12 @@ class TestImportLinesSale(ImportLinesCommon):
         wizard.action_import()
         self.assertEqual(self.order.order_line.product_id, self.product_a)
 
-        rows = [["[IL-B] Import Table", "1"], ["import table", "2"]]
+        rows = [["[IL-B] Import Table", "1"], ["import table", "2"], ["[XX] Import Chair", "1"], ["Missing", "1"]]
         wizard = self._open_wizard(self.order, rows, has_header=False, match_by="name")
         self._set_targets(wizard, {1: "product", 2: "quantity"})
         wizard.action_preview()
-        self.assertEqual(wizard.row_ids.mapped("product_id"), self.product_b)
-        self.assertEqual(wizard.ok_count, 2)
+        self.assertEqual(wizard.row_ids.mapped("product_id"), self.product_b | self.product_a)
+        self.assertEqual(wizard.ok_count, 3)
 
     def test_unmatched_rows_block_import(self):
         rows = [["Code", "Qty"], ["IL-A", "1"], ["MISSING", "1"], ["IL-B", "abc"], ["IL-B", "1"], ["", "Total"]]

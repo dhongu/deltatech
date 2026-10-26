@@ -6,7 +6,7 @@ import base64
 
 from odoo.tests import tagged
 
-from ..wizard.import_lines_wizard import parse_number
+from ..wizard.import_lines_wizard import AmbiguousNumberError, parse_number
 from .common import ImportLinesCommon
 
 
@@ -21,6 +21,10 @@ class TestImportLines(ImportLinesCommon):
         self.assertEqual(parse_number("10%"), 10.0)
         self.assertEqual(parse_number(3), 3.0)
         self.assertEqual(parse_number("1,234,567"), 1234567.0)
+        self.assertEqual(parse_number("0,125"), 0.125)
+        self.assertEqual(parse_number("12,25"), 12.25)
+        with self.assertRaises(AmbiguousNumberError):
+            parse_number("1,234")
         for value in ("", "abc", True, "nan", "inf", "-Infinity"):
             with self.assertRaises(ValueError):
                 parse_number(value)

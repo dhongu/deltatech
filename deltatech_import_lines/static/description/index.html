@@ -447,12 +447,12 @@ Errors</strong>.</li>
 </ol>
 <p>The saved mappings can be reviewed under <strong>Configuration &gt; Import Line
 Mappings</strong> in Sales, Purchase and Inventory.</p>
-<p>Numbers are read with a decimal comma or a decimal point. A single comma
-is always the decimal separator: <tt class="docutils literal">1,5</tt> is one and a half, and
-<tt class="docutils literal">1,234</tt> is read as one point two three four, not as one thousand two
-hundred thirty-four. Save files that use the comma as thousands
-separator with a decimal point (<tt class="docutils literal">1,234.00</tt>) or without thousands
-separators.</p>
+<p>Numbers are read with a decimal comma or a decimal point (<tt class="docutils literal">1,5</tt>,
+<tt class="docutils literal">1.5</tt>, <tt class="docutils literal">1.234,50</tt>, <tt class="docutils literal">1,234.50</tt>). A number such as <tt class="docutils literal">1,234</tt>, with
+one comma followed by exactly three digits, can be a decimal or an
+integer with a thousands separator, so its row is shown as an error
+instead of guessed: write <tt class="docutils literal">1234</tt> for the integer or <tt class="docutils literal">1.234</tt> for the
+decimal number.</p>
 </div>
 <div class="section" id="changelog">
 <h1><a class="toc-backref" href="#toc-entry-2">Changelog</a></h1>
