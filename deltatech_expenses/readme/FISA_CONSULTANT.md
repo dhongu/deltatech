@@ -134,7 +134,10 @@ avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, da
 
 La schimbarea modului, jurnalul de plată se înlocuiește cu primul jurnal de tipul potrivit (numerar sau
 bancă) al companiei, iar la „Card de firmă" avansul se golește și se propune jurnalul cardului din fișa
-angajatului. Un jurnal de alt tip decât cel cerut de mod blochează acordarea avansului și validarea.
+angajatului. La schimbarea angajatului, „Jurnal card firmă" se reînnoiește mereu din fișa noului
+angajat și rămâne gol dacă acesta nu are card, ca să nu rămână cardul angajatului precedent. Jurnalele
+decontului (de plată și al cardului) trebuie să fie ale companiei decontului. Un jurnal de alt tip decât
+cel cerut de mod blochează acordarea avansului și validarea.
 La actualizarea modulului, deconturile existente al căror jurnal de plată este de bancă sau de card
 trec automat pe „Virament (card personal)"; celelalte rămân pe „Numerar". Un decont deja în starea
 „Avans" își păstrează nota de avans postată direct pe contul băncii (Dr 542 = Cr 5121); diferența lui se
