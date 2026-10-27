@@ -112,7 +112,7 @@ Date minime pentru demo:
 9. Doar pentru modurile Virament și Card de firmă: pe metodele de plată ale jurnalului de bancă / card
    setați un cont de **plăți în curs** și unul de **încasări în curs** (5125 „Sume în curs de
    decontare"). Jurnalul cardului de firmă se poate seta o dată pe angajat, în fișa angajatului
-   (câmpul **„Jurnal card firmă"**, vizibil doar utilizatorilor cu drepturi de Facturare), și se
+   (câmpul **„Jurnal card firmă"**, vizibil doar utilizatorilor cu drepturi de Angajați), și se
    propune apoi pe fiecare decont, la alegerea angajatului sau a modului Card de firmă.
 10. La actualizarea modulului la versiunea 20.0.3.6.0, deconturile existente al căror jurnal de plată
     este de bancă sau de card trec automat pe modul **Virament**; restul rămân pe **Numerar**. Un

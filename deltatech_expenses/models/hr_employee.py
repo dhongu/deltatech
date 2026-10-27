@@ -7,12 +7,14 @@ from odoo import api, fields, models
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
+    # câmp privat (absent din hr.employee.public): groups=hr.group_hr_user, altfel intră în prefetch-ul
+    # utilizatorilor fără drept HR (ex. casierul POS) și citirea angajatului dă AccessError
     expenses_card_journal_id = fields.Many2one(
         "account.journal",
         string="Company Card Journal",
         domain="[('type', 'in', ('bank', 'credit')), ('company_id', '=', company_id)]",
         check_company=True,
-        groups="account.group_account_invoice",
+        groups="hr.group_hr_user",
         help="Bank journal of the company card of the employee, proposed on the expenses deductions "
         "paid with a company card.",
     )
