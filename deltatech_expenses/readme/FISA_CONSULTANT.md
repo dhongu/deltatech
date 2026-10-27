@@ -108,7 +108,8 @@ Date minime pentru demo:
 8. Pentru virament pe cardul personal și pentru cardul de firmă: pe **metodele de plată** ale
    jurnalului de bancă / card setați un cont de **plăți în curs** și unul de **încasări în curs**
    (5125). Fără ele, avansul sau plata nu se pot contabiliza. Jurnalul cardului de firmă se poate seta
-   pe angajat (fila *Setări*, **Jurnal card firmă**) și se propune automat pe deconturile lui.
+   pe fișa angajatului (câmpul **Jurnal card firmă**, vizibil doar utilizatorilor cu drepturi de
+   facturare) și se propune automat pe deconturile lui.
 9. Opțional, pentru verificarea automată a plafonului fiscal al diurnei, instalați
    `l10n_ro_expense_allowance`.
 
@@ -135,7 +136,9 @@ La schimbarea modului, jurnalul de plată se înlocuiește cu primul jurnal de t
 bancă) al companiei, iar la „Card de firmă" avansul se golește și se propune jurnalul cardului din fișa
 angajatului. Un jurnal de alt tip decât cel cerut de mod blochează acordarea avansului și validarea.
 La actualizarea modulului, deconturile existente al căror jurnal de plată este de bancă sau de card
-trec automat pe „Virament (card personal)"; celelalte rămân pe „Numerar".
+trec automat pe „Virament (card personal)"; celelalte rămân pe „Numerar". Un decont deja în starea
+„Avans" își păstrează nota de avans postată direct pe contul băncii (Dr 542 = Cr 5121); diferența lui se
+postează la validare pe 5125, deci contul 5125 trebuie setat pe metodele de plată ale jurnalului de bancă.
 
 **Moneda decontului.** Câmpul **„Moneda"** (vizibil utilizatorilor cu moneda multiplă activă, lângă
 jurnalul de plată) preia moneda jurnalului de plată ales, sau moneda companiei dacă jurnalul nu
@@ -218,7 +221,7 @@ extrasului cardului, 5125 se închide cu 5121 și linia din extras se reconcilia
 aplică liniilor „Plată furnizor": se stinge factura deschisă a furnizorului din 5125, nu din 542.
 Doar diurna se datorează angajatului (Dr 625 = Cr 542) și se plătește din jurnalul de plată. O retragere
 de numerar cu cardul de firmă se înregistrează într-un decont separat, cu modul „Virament" (Dr 542 =
-Cr 5121).
+Cr 5125, apoi 5125 = 5121 la importul extrasului).
 
 Diurna se înregistrează cu data cheltuielii (**Dr 625 = Cr 542**; dacă data cheltuielii lipsește, se
 folosește data de azi), iar diferența dintre avans și
@@ -319,7 +322,7 @@ soldului 542 după validare.
 - [ ] Card de firmă: decontarea chitanței este Dr 401 = Cr 5125 pe jurnalul cardului, fără linii pe 542 pentru sumele de pe chitanță, iar chitanța e plătită.
 - [ ] Diurna se încadrează în plafonul fiscal sau surplusul a fost transmis la salarizare.
 - [ ] După validare, soldul contului 542 al angajatului este zero.
-- [ ] Decont în valută: moneda decontului este cea a jurnalului de numerar.
+- [ ] Decont în valută: moneda decontului este cea a jurnalului de plată.
 - [ ] Decont în valută: fiecare notă are suma în valută și contravaloarea în lei la cursul BNR din data ei (avans — data avansului, chitanță — data liniei, diurnă și diferență — data cheltuielii).
 - [ ] Decont în valută: după validare, soldul 542 este zero în valută și în lei; diferența de curs, dacă există, este pe 665 sau 765.
 
@@ -337,10 +340,11 @@ soldului 542 după validare.
 | „The expenses deduction ... is settled by bank transfer: choose a bank journal." | Mod „Virament" cu jurnal de plată de numerar | Alegeți un jurnal de bancă sau schimbați modul |
 | „The expenses deduction ... is paid with a company card: choose the company card journal." | Mod „Card de firmă" fără „Jurnal card firmă" | Completați jurnalul cardului pe decont sau pe fișa angajatului |
 | „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
-
-Mesajele de mai sus nu au încă traducere în română și apar în engleză, chiar și în interfața în română.
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
+
+Mesajele despre contul 5125, jurnalul de numerar / bancă și cardul de firmă nu au încă traducere în
+română și apar în engleză, chiar și în interfața în română.
 
 Pentru mesajele legate de preluarea cheltuielilor standard (`hr_expense`), vezi fișa modulului
 `deltatech_expenses_hr_expense`.
