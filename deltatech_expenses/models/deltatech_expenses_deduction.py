@@ -258,12 +258,18 @@ class DeltatechExpensesDeduction(models.Model):
         if self.settlement_mode == "company_card":
             self.advance = 0.0
             if not self.card_journal_id:
-                self.card_journal_id = self.employee_id.expenses_card_journal_id
+                self.card_journal_id = self._employee_card_journal()
 
     @api.onchange("employee_id")
     def _onchange_employee_card(self):
-        if self.employee_id.expenses_card_journal_id:
-            self.card_journal_id = self.employee_id.expenses_card_journal_id
+        card_journal = self._employee_card_journal()
+        if card_journal:
+            self.card_journal_id = card_journal
+
+    def _employee_card_journal(self):
+        """Jurnalul cardului de firmă de pe angajat: câmpul e vizibil doar contabilității, dar angajatul
+        și aprobatorul își completează decontul, deci se citește cu sudo (doar valoarea jurnalului)."""
+        return self.employee_id.sudo().expenses_card_journal_id
 
     @api.depends("journal_id", "company_id")
     def _compute_currency(self):
