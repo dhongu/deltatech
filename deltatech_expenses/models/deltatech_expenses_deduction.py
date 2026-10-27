@@ -39,12 +39,12 @@ class DeltatechExpensesDeduction(models.Model):
         account_pool = self.env["account.account"]
         try:
             account_id = account_pool.search(
-                [("code", "=ilike", "625%"), ("company_id", "=", self.env.company.id)], limit=1
+                [("code", "=ilike", "625%"), ("company_ids", "in", self.env.company.id)], limit=1
             )  # Cheltuieli cu deplasari
         except Exception:
             try:
                 account_id = account_pool.search(
-                    [("account_type", "=", "expense"), ("company_id", "=", self.env.company.id)], limit=1
+                    [("account_type", "=", "expense"), ("company_ids", "in", self.env.company.id)], limit=1
                 )
             except Exception:
                 account_id = False
@@ -333,6 +333,7 @@ class DeltatechExpensesDeduction(models.Model):
             expenses_vals = {"state": "done", "number": name}
             vouchers = self.env["account.move"]
             payments = self.env["account.payment"]
+            supplier_payments = self.env["account.payment"]
 
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
 
@@ -369,31 +370,24 @@ class DeltatechExpensesDeduction(models.Model):
                         ],
                     }
                     vouchers |= self.env["account.move"].create(voucher_value)
-                payment_methods = expenses.journal_id.outbound_payment_method_line_ids
-
                 payment_value = {
                     "payment_type": "outbound",
                     "date": line.date,
                     "partner_type": "supplier",
                     "partner_id": partner_id.id,
                     "journal_id": expenses.expense_journal_id.id,
-                    "payment_method_id": payment_methods and payment_methods[0].id or False,
                     "amount": line.tax_amount + line.price_subtotal,
                     "expenses_deduction_id": expenses.id,
                 }
-                payments |= self.env["account.payment"].create(payment_value)
+                payment = self.env["account.payment"].create(payment_value)
+                # plata se face din avansul de trezorerie: Dr 401 = Cr 542
+                payment.outstanding_account_id = expenses.expense_journal_id.default_account_id
+                payments |= payment
+                if line.type == "supplier_payment":
+                    supplier_payments |= payment
             # vouchers.with_context(expenses_deduction_id=expenses.id).proforma_voucher()  # validare
             vouchers.action_post()
 
-            for payment in payments:
-                for payment_line in payment.move_id.line_ids:
-                    if payment_line.account_id == self.company_id.account_journal_payment_credit_account_id:
-                        # (
-                        #     payment.journal_id.default_account_id,
-                        #     # payment.journal_id.payment_debit_account_id,
-                        #     # payment.journal_id.payment_credit_account_id,
-                        # ):
-                        payment_line.account_id = expenses.expense_journal_id.default_account_id
             # payments.with_context(add_statement_line=False).action_post()
             payments.with_context().action_post()
 
@@ -403,12 +397,16 @@ class DeltatechExpensesDeduction(models.Model):
                     if aml.account_id.account_type == "liability_payable":
                         move_lines |= aml
 
-            for payment in payments:
+            # platile directe catre furnizori se reconciliaza separat, cu facturile deschise ale furnizorului
+            for payment in payments - supplier_payments:
                 for aml in payment.move_id.line_ids:
                     if aml.account_id.account_type == "liability_payable":
                         move_lines |= aml
 
             move_lines.reconcile()
+
+            for payment in supplier_payments:
+                expenses._reconcile_supplier_payment(payment)
 
             # change state for vouchers without residual. If not in statement, remains "in_payment"
             vouchers.set_paid()
@@ -519,6 +517,75 @@ class DeltatechExpensesDeduction(models.Model):
     #     #         % (self.journal_id.name, date)
     #     #     )
     #     return statement
+
+    def _reconcile_supplier_payment(self, payment):
+        """Plata directa a unui furnizor din avans: stinge datoriile deschise ale furnizorului
+        pe acelasi cont (ex. o factura mai veche). Ce ramane neacoperit este un avans acordat
+        furnizorului si se trece pe 4092 (vezi _reclassify_supplier_advance)."""
+        self.ensure_one()
+        payable = payment.move_id.line_ids.filtered(lambda aml: aml.account_id.account_type == "liability_payable")
+        if not payable:
+            return
+        open_lines = self.env["account.move.line"].search(
+            [
+                ("partner_id", "=", payable.partner_id.id),
+                ("account_id", "=", payable.account_id.id),
+                ("company_id", "=", payable.company_id.id),
+                ("parent_state", "=", "posted"),
+                ("reconciled", "=", False),
+                ("balance", "<", 0.0),  # datorii deschise (credit furnizor)
+                ("id", "not in", payable.ids),
+            ]
+        )
+        if open_lines:
+            (payable | open_lines).reconcile()
+        self._reclassify_supplier_advance(payable)
+
+    def _reclassify_supplier_advance(self, payable):
+        """Soldul debitor ramas pe 401 dupa o plata directa din avans este un avans acordat
+        furnizorului: Dr 4092 = Cr 401, reconciliat cu plata. La primirea facturii, avansul
+        se regularizeaza Dr 401 = Cr 4092. Fara cont 4092 in plan, soldul ramane pe 401."""
+        self.ensure_one()
+        residual = payable.amount_residual
+        if payable.company_currency_id.is_zero(residual) or residual < 0:
+            return
+        account_409 = self.env["account.account"].search(
+            [("code", "=like", "4092%"), ("company_ids", "in", payable.company_id.id)], limit=1
+        )
+        if not account_409:
+            return
+        move = self.env["account.move"].create(
+            {
+                "journal_id": payable.journal_id.id,
+                "date": payable.date,
+                "ref": payable.move_id.ref,
+                "expenses_deduction_id": self.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": payable.partner_id.id,
+                            "account_id": account_409.id,
+                            "name": _("Avans furnizor"),
+                            "debit": residual,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": payable.partner_id.id,
+                            "account_id": payable.account_id.id,
+                            "name": _("Avans furnizor"),
+                            "credit": residual,
+                        },
+                    ),
+                ],
+            }
+        )
+        move._post()
+        (payable | move.line_ids.filtered(lambda aml: aml.account_id == payable.account_id)).reconcile()
 
     def cancel_expenses(self):
         self.write({"state": "cancel"})
