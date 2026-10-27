@@ -110,7 +110,10 @@ Date minime pentru demo:
 9. Doar pentru modurile Virament și Card de firmă: pe metodele de plată ale jurnalului de bancă / card
    setați un cont de **plăți în curs** și unul de **încasări în curs** (5125 „Sume în curs de
    decontare"). Jurnalul cardului de firmă se poate seta o dată pe angajat, în fișa angajatului
-   (fila **Setări**, câmpul **„Jurnal card firmă"**), și se propune apoi pe fiecare decont.
+   (câmpul **„Jurnal card firmă"**, vizibil doar utilizatorilor cu drepturi de Facturare), și se
+   propune apoi pe fiecare decont, la alegerea angajatului sau a modului Card de firmă.
+10. La actualizarea modulului la versiunea 20.0.3.6.0, deconturile existente al căror jurnal de plată
+   este de bancă sau de card trec automat pe modul **Virament**; restul rămân pe **Numerar**.
 
 ## 6. Flux de utilizare
 
@@ -118,9 +121,9 @@ Date minime pentru demo:
 
 Meniul este **Facturare → Furnizori → Decont Cheltuieli** (cu Enterprise: **Contabilitate →
 Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul**, **modul de decontare**
-(implicit **Numerar**) și **jurnalul de plată** (jurnalul de numerar), completați **data avansului**, **data cheltuielii** (data decontului; se completează din data
-avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, dacă e cazul, **diurna**
-(sumă/zi și număr de zile). În tabul „Alte informații" verificați **jurnalul de avansuri (542)**.
+(implicit **Numerar**) și **jurnalul de plată** (jurnalul de numerar), completați **data avansului**,
+**data cheltuielii** (data decontului; se completează din data avansului dacă e goală), **ordinul de
+deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și număr de zile). În tabul „Alte informații" verificați **jurnalul de avansuri (542)**.
 
 **Moneda decontului** (câmpul **„Monedă"**, sub jurnalul de plată; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
@@ -222,7 +225,8 @@ angajat. Schimbarea lui propune automat un jurnal de plată potrivit (de numerar
   (Dr 5125 = Cr 5121), deci banca nu se contabilizează de două ori.
 - **Card de firmă** — angajatul plătește cu cardul firmei, deci **nu există avans** (câmpul **Avans**
   se ascunde și se pune pe zero) și chitanțele nu trec prin 542. Se alege **„Jurnal card firmă"**
-  (obligatoriu; se propune din fișa angajatului). La validare, chitanța de achiziție
+  (obligatoriu; se propune din fișa angajatului, inclusiv pentru utilizatorii care nu văd câmpul
+  pe angajat). La validare, chitanța de achiziție
   (Dr 6xx + Dr 4426 = Cr 401) se decontează **Dr 401 = Cr 5125** al jurnalului cardului, cu partenerul
   furnizor, și se reconciliază cu extrasul cardului. Angajatului i se datorează doar **diurna**:
   **Diferența** din antet este egală cu totalul diurnei, iar plata ei se face din jurnalul de plată
