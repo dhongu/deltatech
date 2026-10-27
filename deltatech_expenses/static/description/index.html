@@ -85,6 +85,13 @@ twice.</p>
    <strong>Aprobator</strong> (approver) or <strong>Contabil</strong> (accountant).</li>
 <li>On each employee, the <strong>Work Contact</strong> is used as partner on the journal entries; without it,
    the entries are posted without a partner.</li>
+<li>For expense reports in a foreign currency, create a cash journal with that <strong>Currency</strong> (account
+   5314) and an expense journal on a 542 account in foreign currency, keep the exchange rates up to
+   date and set the exchange gain/loss accounts (765/665) in <em>Accounting &gt; Settings</em>.</li>
+<li>For bank transfers to the personal card of the employee and for company cards, set an
+   <strong>Outstanding Payments</strong> and an <strong>Outstanding Receipts</strong> account (5125 "Sume &#238;n curs de
+   decontare") on the payment methods of the bank / card journal. The company card journal can be
+   set on the employee (<em>Settings</em> tab, <strong>Company Card Journal</strong>).</li>
 </ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -99,6 +106,20 @@ twice.</p>
    diem and the payment of the difference are posted, and the report is <strong>Done</strong>.</li>
 <li><strong>Invalidate</strong> reverses a validated report, so it can be corrected.</li>
 </ol>
+<p><strong>Settlement mode.</strong> <em>Cash</em> pays the advance from the cash register. <em>Bank transfer (personal
+card)</em> pays it from a bank journal: Dr 542 = Cr 5125 (outstanding payments), matched with the bank
+statement line (Dr 5125 = Cr 5121); a refund is Dr 5125 = Cr 542. <em>Company card</em> has no advance: the
+receipts were paid by the company, so each one is settled Dr 401 = Cr 5125 of the card journal and
+matched with the card statement; only the per diem is owed to the employee and paid from the payment
+journal. A cash withdrawal with the company card is a separate <em>Bank transfer</em> report (Dr 542 =
+Cr 5121).</p>
+<p><strong>Foreign currency.</strong> A report on a foreign currency cash journal is kept in that currency: the
+advance, the receipts, the per diem and the difference are entered in the currency, and each
+journal entry carries the currency amount and its company currency value at the exchange rate of
+its date (the advance at the advance date, each receipt at its date, the per diem and the
+difference at the expense date). At validation, 542 is closed in the currency and the remaining
+company currency balance is posted as exchange difference: Dr 665 = Cr 542 (loss) or Dr 542 =
+Cr 765 (gain).</p>
 <p>Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON to be returned by the
 employee; after validation, the employee's 542 balance is zero.</p>
 </div>
@@ -131,6 +152,13 @@ dubl&#259; contabilizare.</p>
    <strong>Aprobator</strong> sau <strong>Contabil</strong>.</li>
 <li>Pe fiecare angajat, <strong>contactul de lucru</strong> este folosit ca partener pe notele contabile; f&#259;r&#259;
    el, notele se &#238;nregistreaz&#259; f&#259;r&#259; partener.</li>
+<li>Pentru deconturi &#238;n valut&#259;, crea&#539;i un registru de cas&#259; cu <strong>moneda</strong> respectiv&#259; (cont 5314) &#537;i
+   un jurnal de avans pe un cont 542 &#238;n valut&#259;, actualiza&#539;i cursurile valutare &#537;i seta&#539;i conturile
+   de diferen&#539;e de curs (765/665) &#238;n <em>Contabilitate &gt; Set&#259;ri</em>.</li>
+<li>Pentru viramentul pe cardul personal al angajatului &#537;i pentru cardul de firm&#259;, seta&#539;i pe
+   metodele de plat&#259; ale jurnalului de banc&#259; / card un cont de <strong>pl&#259;&#539;i &#238;n curs</strong> &#537;i unul de
+   <strong>&#238;ncas&#259;ri &#238;n curs</strong> (5125 &#8222;Sume &#238;n curs de decontare&#8221;). Jurnalul cardului de firm&#259; se poate
+   seta pe angajat (fila <em>Set&#259;ri</em>, <strong>Jurnal card firm&#259;</strong>).</li>
 </ol>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
 <ol>
@@ -145,6 +173,19 @@ dubl&#259; contabilizare.</p>
 </ol>
 <p>Exemplu: un avans de 1.000 RON &#537;i bonuri de 800 RON las&#259; 200 RON de restituit de c&#259;tre angajat;
 dup&#259; validare, soldul contului 542 al angajatului este zero.</p>
+<p><strong>Mod de decontare.</strong> <em>Numerar</em> pl&#259;te&#537;te avansul din cas&#259;. <em>Virament (card personal)</em> &#238;l pl&#259;te&#537;te
+dintr-un jurnal de banc&#259;: Dr 542 = Cr 5125 (pl&#259;&#539;i &#238;n curs), reconciliat cu linia din extras
+(Dr 5125 = Cr 5121); restituirea e Dr 5125 = Cr 542. <em>Card de firm&#259;</em> nu are avans: chitan&#539;ele sunt
+pl&#259;tite de firm&#259;, deci fiecare se deconteaz&#259; Dr 401 = Cr 5125 al jurnalului cardului &#537;i se
+reconciliaz&#259; cu extrasul cardului; angajatului i se datoreaz&#259; doar diurna, pl&#259;tit&#259; din jurnalul de
+plat&#259;. O retragere de numerar cu cardul de firm&#259; e un decont separat <em>Virament</em> (Dr 542 = Cr 5121),
+conform OMFP 1802/2014 pct. 302.</p>
+<p><strong>Decont &#238;n valut&#259;.</strong> Un decont pe un registru de cas&#259; &#238;n valut&#259; este &#539;inut &#238;n moneda respectiv&#259;:
+avansul, chitan&#539;ele, diurna &#537;i diferen&#539;a se introduc &#238;n valut&#259;, iar fiecare not&#259; contabil&#259; are suma
+&#238;n valut&#259; &#537;i contravaloarea &#238;n lei la cursul BNR din data ei (avansul la data avansului, fiecare
+chitan&#539;&#259; la data ei, diurna &#537;i diferen&#539;a la data decontului &#8212; OMFP 1802/2014 pct. 319). La validare
+542 se &#238;nchide &#238;n valut&#259;, iar soldul r&#259;mas &#238;n lei se &#238;nregistreaz&#259; ca diferen&#539;&#259; de curs:
+Dr 665 = Cr 542 (nefavorabil&#259;) sau Dr 542 = Cr 765 (favorabil&#259;).</p>
 </div>
 </div>
 

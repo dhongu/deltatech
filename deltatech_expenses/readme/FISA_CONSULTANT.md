@@ -86,7 +86,7 @@ aplicația Facturare/Contabilitate, deci utilizatorii au nevoie și de acces în
   din setările companiei, folosite la închiderea 542 în deconturile în valută).
 - **401** — Furnizori (chitanțele de achiziție și plățile directe din avans).
 - **4092** — Furnizori-debitori pentru servicii (plată directă din avans fără factură deschisă;
-  pentru bunuri se reclasifică manual pe 4091, pentru imobilizări pe 4093).
+  pentru bunuri se reclasifică manual pe 4091; pentru imobilizări pe 4093, prin 404 în loc de 401).
 
 Date minime pentru demo:
 - companie românească cu localizarea contabilă instalată (RON);
@@ -204,12 +204,20 @@ Fiecare linie are un **tip**:
   decontarea din avans (vezi mai jos);
 - **Plată furnizor** — angajatul a achitat direct o datorie a firmei către un furnizor (fără chitanță
   proprie); la validare se generează nota `Dr 401 = Cr 542`, care se **reconciliază cu facturile
-  furnizor deschise** ale aceluiași furnizor (stinge datoria, ca o plată). Partea neacoperită de
-  facturi deschise este un **avans acordat furnizorului** și se reclasifică automat
-  `Dr 4092 = Cr 401`. De exemplu, o plată de 300 lei către un furnizor fără facturi deschise dă
+  furnizor deschise** ale aceluiași furnizor (stinge datoria, ca o plată), întâi pe cele mai vechi
+  după scadență. Partea neacoperită de facturi deschise este un **avans acordat furnizorului** și se
+  reclasifică automat `Dr 4092 = Cr 401`. De exemplu, o plată de 300 lei către un furnizor fără facturi deschise dă
   `Dr 401 = Cr 542` 300 lei și `Dr 4092 = Cr 401` 300 lei. La primirea facturii, contabilul compensează
-  avansul (`Dr 401 = Cr 4092`). Modulul folosește mereu 4092 (servicii); dacă avansul e pentru bunuri
-  (4091) sau imobilizări (4093), contabilul îl reclasifică manual.
+  avansul (`Dr 401 = Cr 4092`). Modulul folosește mereu 4092 (servicii); dacă avansul e pentru bunuri,
+  contabilul îl reclasifică manual pe 4091. La imobilizări se corectează și contul furnizorului:
+  avansul trece pe 4093 prin 404, nu prin 401.
+
+  Ordinea „întâi cele mai vechi” aplică regula legală de imputație a plății, cea folosită când nici
+  plătitorul, nici furnizorul nu indică ce factură se stinge. Dacă ordinul de plată sau chitanța
+  furnizorului indică o anumită factură, contabilul anulează reconcilierea automată și reconciliază
+  manual plata cu factura indicată. Dacă furnizorul emite o **factură de avans**, aceasta nu se mai
+  înregistrează o dată prin 401, pentru că avansul e deja pe 4092 cu TVA inclus. Se înregistrează
+  doar TVA-ul, exigibil la data plății avansului: `Dr 4426 = Cr 4092`.
 
 Contabilul apasă **Validează**: decontul trece în starea „Efectuat", iar modulul generează
 chitanțele de achiziție, notele de decontare din avans, nota de diurnă și nota de regularizare a
@@ -337,8 +345,10 @@ curs pe 665/765, închiderea contului 542.
 Ce rămâne manual: configurarea jurnalelor/conturilor (inclusiv a conturilor de diferențe de curs),
 actualizarea cursurilor valutare, alegerea cotei TVA și a contului pe fiecare
 linie, plafonul fiscal al diurnei (fără `l10n_ro_expense_allowance`), reclasificarea avansului la
-furnizor pe 4091/4093 când nu e pentru servicii, compensarea lui la primirea facturii și verificarea
-soldului 542 după validare.
+furnizor pe 4091 (bunuri) sau pe 4093 prin 404 (imobilizări) când nu e pentru servicii, TVA-ul de pe
+factura de avans (`Dr 4426 = Cr 4092`), compensarea avansului la primirea facturii, reconcilierea
+manuală a unei plăți furnizor cu factura indicată pe documentul de plată și verificarea soldului 542
+după validare.
 
 ## 8. Verificări pentru consultant
 
@@ -351,6 +361,7 @@ soldului 542 după validare.
 - [ ] Diferența = cheltuieli + diurnă − avans (negativă = angajatul restituie).
 - [ ] Nota de diferență din casă are data decontului, nu data avansului.
 - [ ] O plată furnizor fără factură deschisă ajunge pe 4092, iar pe 401 nu rămâne sold debitor.
+- [ ] O plată furnizor mai mică decât facturile deschise stinge întâi factura cea mai veche.
 - [ ] Virament: pe metodele de plată ale jurnalului de bancă sunt setate conturile 5125; avansul produce Dr 542 = Cr 5125, nu o notă directă pe 5121.
 - [ ] Virament: restituirea diferenței este Dr 5125 = Cr 542, iar soldul 542 devine zero.
 - [ ] Card de firmă: decontul nu are avans, are „Jurnal card firmă", iar „Diferența" este egală cu diurna.

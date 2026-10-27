@@ -760,7 +760,8 @@ class DeltatechExpensesDeduction(models.Model):
                 ("reconciled", "=", False),
                 ("balance", "<", 0.0),  # datorii deschise (credit furnizor)
                 ("id", "!=", settle_payable.id),
-            ]
+            ],
+            order="date_maturity, date, id",  # întâi facturile cele mai vechi
         )
         if open_lines:
             (settle_payable | open_lines).reconcile()

@@ -73,6 +73,16 @@ Configuration
 4. On each employee, the **Work Contact** is used as partner on the
    journal entries; without it, the entries are posted without a
    partner.
+5. For expense reports in a foreign currency, create a cash journal with
+   that **Currency** (account 5314) and an expense journal on a 542
+   account in foreign currency, keep the exchange rates up to date and
+   set the exchange gain/loss accounts (765/665) in *Accounting >
+   Settings*.
+6. For bank transfers to the personal card of the employee and for
+   company cards, set an **Outstanding Payments** and an **Outstanding
+   Receipts** account (5125 "Sume în curs de decontare") on the payment
+   methods of the bank / card journal. The company card journal can be
+   set on the employee (*Settings* tab, **Company Card Journal**).
 
 Usage
 =====
@@ -88,6 +98,26 @@ Usage
    are posted, and the report is **Done**.
 4. **Invalidate** reverses a validated report, so it can be corrected.
 
+**Settlement mode.** *Cash* pays the advance from the cash register.
+*Bank transfer (personal card)* pays it from a bank journal: Dr 542 = Cr
+5125 (outstanding payments), matched with the bank statement line (Dr
+5125 = Cr 5121); a refund is Dr 5125 = Cr 542. *Company card* has no
+advance: the receipts were paid by the company, so each one is settled
+Dr 401 = Cr 5125 of the card journal and matched with the card
+statement; only the per diem is owed to the employee and paid from the
+payment journal. A cash withdrawal with the company card is a separate
+*Bank transfer* report (Dr 542 = Cr 5121).
+
+**Foreign currency.** A report on a foreign currency cash journal is
+kept in that currency: the advance, the receipts, the per diem and the
+difference are entered in the currency, and each journal entry carries
+the currency amount and its company currency value at the exchange rate
+of its date (the advance at the advance date, each receipt at its date,
+the per diem and the difference at the expense date). At validation, 542
+is closed in the currency and the remaining company currency balance is
+posted as exchange difference: Dr 665 = Cr 542 (loss) or Dr 542 = Cr 765
+(gain).
+
 Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON
 to be returned by the employee; after validation, the employee's 542
 balance is zero.
@@ -97,6 +127,54 @@ Changelog
 
 Changelog
 =========
+
+19.0.3.7.1 (2026-10-27)
+-----------------------
+
+- A direct supplier payment from the advance settles the supplier's open
+  bills oldest first (by due date); it used to settle the newest bill
+  first.
+
+19.0.3.7.0 (2026-10-27)
+-----------------------
+
+- Settlement mode on the expense report: **Cash** (as before), **Bank
+  transfer (personal card)** or **Company card**.
+
+  - Bank transfer: the advance and the difference go through the bank
+    journal, on the outstanding payments / receipts account of its
+    payment method (5125), so they are matched with the bank statement
+    lines instead of being posted twice on 5121 (Dr 542 = Cr 5125,
+    refund Dr 5125 = Cr 542).
+  - Company card: no advance and no 542 for the receipts, which are paid
+    by the company: the receipt Dr 6xx/4426 = Cr 401 is settled Dr 401 =
+    Cr 5125 of the card journal (supplier partner), matched with the
+    card statement. Only the per diem is owed to the employee (Dr 625 =
+    Cr 542, paid from the payment journal). The card journal can be set
+    on the employee.
+
+- The per diem entry falls back to today when the expense date is empty
+  (the entry could not be created without a date).
+- The migration (``migrations/19.0.3.7.0``) sets the Bank transfer mode
+  on the existing reports whose payment journal is a bank or card
+  journal. A report already in the Advance state keeps its posted
+  advance (Dr 542 = Cr 5121, posted directly on the bank account as
+  before); its difference is posted at validation on the outstanding
+  account (5125) of the bank journal, which must then be set on its
+  payment methods.
+
+19.0.3.6.0 (2026-10-27)
+-----------------------
+
+- Expense reports in a foreign currency. The report currency follows the
+  currency of the cash journal (it can be changed in draft) and the
+  lines take it. Every journal entry (advance, receipts, settlement from
+  542, per diem, difference) carries the currency amount and its company
+  currency value at the exchange rate of its own date (OMFP 1802/2014
+  pt. 319); the company currency balance left on 542 is closed as
+  exchange difference on 665/765. The journal items of the report show
+  the currency amount. The migration (``migrations/19.0.3.6.0``) keeps
+  existing reports in the company currency.
 
 19.0.3.5.2 (2026-10-09)
 -----------------------
