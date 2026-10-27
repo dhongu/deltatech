@@ -1256,8 +1256,18 @@ class TestExpenses(TransactionCase):
         with self.assertRaises(UserError):
             cash_as_card.validate_advance()
 
+    def test_employee_readable_by_invoicing_user_without_hr(self):
+        """Un utilizator cu Facturare dar fără drept HR (ex. casierul POS) citește angajatul prin
+        hr.employee.public: jurnalul cardului nu trebuie să intre în prefetch (AccessError)."""
+        self.employee.expenses_card_journal_id = self._bank_journal("CRD5")
+        user = self._expenses_user("expenses_invoice_no_hr", ["base.group_user", "account.group_account_invoice"])
+        self.assertFalse(user.has_group("hr.group_hr_user"))
+        employee = self.employee.with_user(user)
+        employee.invalidate_recordset()
+        self.assertEqual(employee.name, self.employee.name)
+
     def test_company_card_journal_proposed_for_expenses_only_user(self):
-        """Jurnalul cardului de pe angajat (vizibil doar grupului Facturare) e propus pe decont și pentru
+        """Jurnalul cardului de pe angajat (vizibil doar grupului HR) e propus pe decont și pentru
         un utilizator cu rolul de cheltuieli fără acel grup (aici cu acces de citire la contabilitate,
         necesar oricum pentru jurnalele decontului), fără AccessError."""
         card = self._bank_journal("CRD4")

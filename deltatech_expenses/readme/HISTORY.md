@@ -1,5 +1,11 @@
 # Changelog
 
+## 19.0.3.7.2 (2026-10-27)
+
+- The company card journal on the employee is restricted to HR officers: users
+  without HR rights (e.g. the PoS cashier) got an access error when reading
+  employees, as the field was prefetched from the public employee profile.
+
 ## 19.0.3.7.1 (2026-10-27)
 
 - A direct supplier payment from the advance settles the supplier's open bills

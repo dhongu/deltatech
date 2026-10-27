@@ -116,7 +116,7 @@ Date minime pentru demo:
    jurnalului de bancă / card setați un cont de **plăți în curs** și unul de **încasări în curs**
    (5125). Fără ele, avansul sau plata nu se pot contabiliza. Jurnalul cardului de firmă se poate seta
    pe fișa angajatului, în fila **Setări** (câmpul **Jurnal card firmă**, vizibil doar utilizatorilor
-   cu drepturi de facturare) și se propune automat pe deconturile lui. Jurnalul trebuie să fie al companiei angajatului
+   cu drepturi de Angajați) și se propune automat pe deconturile lui. Jurnalul trebuie să fie al companiei angajatului
    (altfel se refuză la salvare) și se propune pe decont doar dacă e al companiei decontului.
 9. Opțional, pentru verificarea automată a plafonului fiscal al diurnei, instalați
    `l10n_ro_expense_allowance`.
