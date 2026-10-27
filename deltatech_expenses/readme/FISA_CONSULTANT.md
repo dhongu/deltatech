@@ -131,7 +131,7 @@ deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și nu
 
 **Moneda decontului** (câmpul **„Monedă"**, sub jurnalul de plată; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
-companiei dacă registrul nu are una. Se poate schimba doar în Ciornă și se blochează după **Avans**.
+companiei dacă registrul nu are una; în modul Card de firmă se preia din jurnalul cardului. Se poate schimba doar în Ciornă și se blochează după **Avans**.
 Avansul, liniile de cheltuieli, diurna și diferența se introduc în această monedă, iar lista
 deconturilor are o coloană „Monedă". Un decont în valută este descris la „Decont în valută" mai jos.
 
@@ -264,7 +264,8 @@ cheltuială 121 la 5,10 lei, cu plata suplimentară de 21: 542 este zero în val
   - decontarea din avans: **Dr 401 = Cr 542** (reconciliată cu chitanța); în modul Card de firmă,
     **Dr 401 = Cr 5125** al jurnalului cardului (partenerul furnizor), fără 542;
 - **Plată furnizor** (Pasul 2, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542**, reconciliată cu
-  facturile furnizor deschise; restul neacoperit: **Dr 4092 = Cr 401**;
+  facturile furnizor deschise (în modul Card de firmă: **Dr 401 = Cr 5125** al jurnalului cardului);
+  restul neacoperit: **Dr 4092 = Cr 401**;
 - **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei), cu data cheltuielii;
 - **Diferență** (la validare), cu data cheltuielii (a decontului), ca soldul 542 al angajatului să
   devină **zero**:
@@ -336,6 +337,7 @@ soldului 542 după validare.
 | „The expenses deduction … is settled in cash: choose a cash journal." / „… is settled by bank transfer: choose a bank journal." | Jurnalul de plată nu corespunde modului de decontare | Alegeți un jurnal de numerar (Numerar) sau de bancă (Virament) |
 | „The expenses deduction … is paid with a company card: choose the company card journal." | Mod Card de firmă fără „Jurnal card firmă" | Completați jurnalul cardului pe decont sau pe fișa angajatului |
 | „… is paid with a company card: it has no advance …" | Mod Card de firmă cu avans diferit de zero | Lăsați avansul 0; retragerea de numerar cu cardul este un decont separat în modul Virament |
+| „The journal … is in <monedă>, but the expenses deduction … is in <monedă>." | Jurnalul de plată sau al cardului este în altă monedă decât decontul (jurnalul în valută primește doar note în moneda lui) | Alegeți un jurnal în moneda decontului; moneda decontului urmează jurnalul ales, deci nu o schimbați manual după aceea |
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „Set the gain and loss exchange rate accounts (765/665) in the accounting settings of the company …" | Decont în valută cu diferență de curs la validare, iar compania nu are setate conturile de diferențe de curs | Setați conturile de câștig/pierdere din diferențe de curs (765/665) în Contabilitate → Configurare → Setări |
 | Contravaloarea în lei a unei note în valută este neașteptată | Cursul BNR lipsește sau este vechi pentru data notei (Odoo ia cursul zilei precedente) | Actualizați cursurile valutare și reluați decontul (Invalidare, apoi Avans / Validează) |
