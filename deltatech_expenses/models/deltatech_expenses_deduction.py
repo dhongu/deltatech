@@ -359,11 +359,11 @@ class DeltatechExpensesDeduction(models.Model):
                     )
                 )
             if mode == "company_card":
-                if not expenses.card_journal_id:
+                if expenses.card_journal_id.type not in ("bank", "credit"):
                     raise UserError(
                         self.env._(
                             "The expenses deduction %(number)s is paid with a company card: choose the company "
-                            "card journal.",
+                            "card journal (a bank or credit card journal).",
                             number=expenses.number,
                         )
                     )

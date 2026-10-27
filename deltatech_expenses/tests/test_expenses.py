@@ -1214,6 +1214,12 @@ class TestExpenses(TransactionCase):
         )
         with self.assertRaises(UserError):
             without_journal.validate_advance()
+        # un jurnal de casă ca „jurnal al cardului” (import / API) ar posta pe casă în loc de 5125
+        cash_as_card = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(0.0), settlement_mode="company_card", card_journal_id=self.cash_journal.id)
+        )
+        with self.assertRaises(UserError):
+            cash_as_card.validate_advance()
 
     def test_company_card_journal_proposed_for_expenses_only_user(self):
         """Jurnalul cardului de pe angajat (vizibil doar grupului Facturare) e propus pe decont și pentru
