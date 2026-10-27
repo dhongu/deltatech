@@ -19,113 +19,99 @@ Expenses Deduction
 
 |badge1| |badge2|
 
-Features:
+Cash advances to employees, settled with an expense report, the way
+Romanian accounting books them: the advance goes to account 542, the
+employee brings the receipts, and validating the report books the
+purchase receipts, the per diem and the difference to return or to pay,
+until 542 is back to zero for that person.
 
-- Introducerea decontului de cheltuieli într-un document distinct care
-  generează automat chitanțe de achiziție
-- Validarea documentului duce la generarea notelor contabile de avans și
-  înregistrarea plăților
+- **Advance on account 542**: The advance is paid from the cash journal
+  and booked on the employee's 542.
+- **Receipts as report lines**: Each line is a receipt, with its VAT
+  computed from the tax on the line; validation creates the purchase
+  receipts and settles them from the advance. A line can also be a
+  payment to a supplier made from the advance.
+- **Per diem**: A daily amount (42.5 by default) times the number of
+  days, booked on a travel expense account (625 by default).
+- **Difference settled**: What is left of the advance is returned by the
+  employee, or what was spent above it is paid to the employee, through
+  the cash journal.
+- **Printable report**: Each expense report can be printed.
 
-Configurare:
-
-- În registrul de numerar trebuie completat câmpul "Cash advances" cu
-  542.
-
-Exemplu de Testare: Decontarea Cheltuielilor din Avans
-======================================================
-
-🎯 Obiectivul Testului
-----------------------
-
-Decontarea corectă a unui avans de **1.000 RON**, cu cheltuieli totale
-de **800 RON**, rezultând în **restituirea diferenței** de **200 RON**
-de către angajat.
-
-⚙️ Pașii de Testare (Scenariu)
-------------------------------
-
-+----------------------+----------------------+-------------------------+
-| Pas                  | Acțiune Utilizator   | Rezultat Așteptat       |
-|                      | (Tester)             | (Verificare)            |
-+======================+======================+=========================+
-| **1. Acordare        | Se înregistrează     | Soldul contului **542** |
-| Avans**              | acordarea unui avans | (Avansuri de decontat)  |
-|                      | de 1.000 RON         | crește cu 1.000 RON.    |
-|                      | angajatului X.       |                         |
-+----------------------+----------------------+-------------------------+
-| **2. Creare Decont** | Angajatul X inițiază | Decontul preia automat  |
-|                      | un nou decont,       | valoarea avansului de   |
-|                      | făcând referire la   | 1.000 RON.              |
-|                      | avansul primit.      |                         |
-+----------------------+----------------------+-------------------------+
-| **3. Introducere     | Se introduc          | Total cheltuieli =      |
-| Cheltuieli**         | cheltuielile: Cazare | **800 RON**. Se         |
-|                      | (500 RON, TVA        | calculează corect       |
-|                      | inclus) și Transport | TVA-ul deductibil.      |
-|                      | (300 RON, TVA        |                         |
-|                      | inclus).             |                         |
-+----------------------+----------------------+-------------------------+
-| **4. Validare        | Se verifică automat  | **Avans (1.000) -       |
-| Calcul**             | calculul diferenței. | Cheltuieli (800) =      |
-|                      |                      | Diferență de restituit  |
-|                      |                      | (200 RON)**.            |
-+----------------------+----------------------+-------------------------+
-| **5. Aprobare        | Decontul este trimis | Statutul decontului se  |
-| Decont**             | și aprobat de toți   | schimbă în              |
-|                      | factorii             | "**Aprobat/Decontat**". |
-|                      | decizionali.         |                         |
-+----------------------+----------------------+-------------------------+
-| **6. Restituire      | Angajatul restituie  | Se generează documentul |
-| Avans**              | diferența de 200 RON | de încasare             |
-|                      | (înregistrare la     | (Chitanță/Dispoziție de |
-|                      | Casierie/Bancă).     | Încasare).              |
-+----------------------+----------------------+-------------------------+
-| **7. Contabilizare   | Sistemul             | Contul **542** al       |
-| Finală**             | contabilizează       | angajatului se închide  |
-|                      | decontul și          | (Sold **0**).           |
-|                      | restituirea.         |                         |
-+----------------------+----------------------+-------------------------+
-
---------------
-
-📝 Note Contabile Aferente
---------------------------
-
-Acestea sunt notele contabile așteptate pentru a testa închiderea
-corectă a avansului (Contul 542 - Avansuri de decontat):
-
-+----------+------------+---------------+---------------+------------+---------------+
-| Nr. Crt. | Operațiune | Cont Debitor  | Cont Creditor | Suma (RON) | Explicație    |
-+==========+============+===============+===============+============+===============+
-| **1**    | Acordare   | **542**       | **5311/5121** | 1.000      | Acordarea     |
-|          | Avans      | (Avans X)     | (Casa/Banca)  |            | avansului.    |
-+----------+------------+---------------+---------------+------------+---------------+
-| **2**    | Decontare  | **6xx**       | **542**       | 672.27     | Valoarea      |
-|          | Cheltuieli | (Cheltuieli)  | (Avans X)     |            | cheltuielilor |
-|          |            |               |               |            | fără TVA (ex: |
-|          |            |               |               |            | 800 -         |
-|          |            |               |               |            | 127.73).      |
-+----------+------------+---------------+---------------+------------+---------------+
-|          |            | **4426** (TVA | **542**       | 127.73     | TVA aferent   |
-|          |            | Deductibil)   | (Avans X)     |            | cheltuielilor |
-|          |            |               |               |            | (ex: 19%).    |
-+----------+------------+---------------+---------------+------------+---------------+
-| **3**    | Restituire | **5311/5121** | **542**       | 200        | Diferența     |
-|          | Sold       | (Casa/Banca)  | (Avans X)     |            | restituită de |
-|          |            |               |               |            | angajat.      |
-+----------+------------+---------------+---------------+------------+---------------+
-
-**Verificare Sold Final Cont 542 (Avans X):**
-
-- **Total Debitor:** 1.000 RON
-- **Total Creditor:** 800 RON (Cheltuieli) + 200 RON (Restituire) =
-  1.000 RON
-- **Sold Final:** 1.000 (D) - 1.000 (C) = **0 RON (Corect)**
+The module does not replace the standard Expenses app (``hr_expense``),
+which reimburses expenses paid by employees and has no cash advance.
+Both can be used in the same database.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Configuration
+=============
+
+1. Prepare a journal of type **Cash** (or Bank) whose default account is
+   **542** (advances to be settled), and choose it as the **Expense
+   Journal** of each report. It must be a cash or bank journal because
+   the report pays the receipts and the suppliers from it, and a payment
+   needs an outgoing payment method.
+2. The **Cash Journal** (the first cash journal by default), the **Diem
+   Journal** (a general journal) and the **Diem Account** (625 by
+   default) are filled in on the report and can be changed there.
+3. The employee is a contact (partner): create one for each person who
+   receives advances.
+
+Usage
+=====
+
+1. In *Accounting > Vendors > Expenses Deduction*, create a report for
+   the employee, with the advance amount and date, and click
+   **Advance**: the advance is booked on 542 against the cash journal.
+2. When the employee returns, add the receipts as lines (amount, tax,
+   supplier, account) and, for a trip, the number of days for the per
+   diem. If the employee paid a supplier bill from the advance (for
+   example an older vendor bill), add a line of type **Supplier
+   Payment** with that supplier (see below).
+3. Click **Validate**: the purchase receipts, their settlement from 542,
+   the per diem and the payment of the difference are posted, and the
+   report is **Done**.
+4. **Invalidate** reverses a validated report, so it can be corrected.
+
+**Supplier Payment lines.** Validation books the payment as **Dr 401 /
+Cr 542** and reconciles it automatically with the supplier's open bills
+on the same payable account (oldest first), so the bill is paid or
+partly paid without any manual matching. If the payment is larger than
+the open bills, the rest is an advance to the supplier and is moved to
+**4092** (Dr 4092 / Cr 401); when the bill arrives, the accountant
+offsets it (Dr 401 / Cr 4092). Without a 4092 account in the chart of
+accounts, the rest stays as a debit balance on 401. Invalidating the
+report removes the payment and the reconciliation: the bill is open
+again.
+
+Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON
+to be returned by the employee; after validation, the employee's 542
+balance is zero.
+
+Changelog
+=========
+
+18.0.2.3.1 (2026-10-27)
+-----------------------
+
+- **Supplier Payment** lines are reconciled with the supplier's open
+  bills, oldest first; what the open bills do not cover goes to 4092
+  (supplier advance).
+- The report payments are booked on 542 (they were left on the
+  outstanding payments account), the advance journal's payment method is
+  no longer overwritten, the default per diem account is found again.
+
+18.0.2.2.1 (2026-10-07)
+-----------------------
+
+- Apps Store page in English (it was in Romanian), written from the 18.0
+  code, with Configuration and Usage sections, and the Romanian
+  translation in its own tab (``readme/*.ro.md``). The test scenario is
+  left out of the page. Summary in English; support address.
 
 Bug Tracker
 ===========

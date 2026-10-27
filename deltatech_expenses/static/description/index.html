@@ -74,8 +74,10 @@ paid by employees and has no cash advance. Both can be used in the same database
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <ol>
-<li>Prepare a journal whose default account is <strong>542</strong> (advances to be settled). Choose it as the
-   <strong>Expense Journal</strong> of each report.</li>
+<li>Prepare a journal of type <strong>Cash</strong> (or Bank) whose default account is <strong>542</strong> (advances to be
+   settled), and choose it as the <strong>Expense Journal</strong> of each report. It must be a cash or bank
+   journal because the report pays the receipts and the suppliers from it, and a payment needs an
+   outgoing payment method.</li>
 <li>The <strong>Cash Journal</strong> (the first cash journal by default), the <strong>Diem Journal</strong> (a general
    journal) and the <strong>Diem Account</strong> (625 by default) are filled in on the report and can be
    changed there.</li>
@@ -88,11 +90,20 @@ paid by employees and has no cash advance. Both can be used in the same database
 <li>In <em>Accounting &gt; Vendors &gt; Expenses Deduction</em>, create a report for the employee, with the
    advance amount and date, and click <strong>Advance</strong>: the advance is booked on 542 against the cash
    journal.</li>
-<li>When the employee returns, add the receipts as lines (amount, tax, supplier, account) and, for a trip, the number of days for the per diem.</li>
+<li>When the employee returns, add the receipts as lines (amount, tax, supplier, account) and, for a trip, the number of days for the per diem.
+   If the employee paid a supplier bill from the advance (for example an older vendor bill), add
+   a line of type <strong>Supplier Payment</strong> with that supplier (see below).</li>
 <li>Click <strong>Validate</strong>: the purchase receipts, their settlement from 542, the per
    diem and the payment of the difference are posted, and the report is <strong>Done</strong>.</li>
 <li><strong>Invalidate</strong> reverses a validated report, so it can be corrected.</li>
 </ol>
+<p><strong>Supplier Payment lines.</strong> Validation books the payment as <strong>Dr 401 / Cr 542</strong> and reconciles it
+automatically with the supplier's open bills on the same payable account (oldest first), so the
+bill is paid or partly paid without any manual matching. If the payment is larger than the open
+bills, the rest is an advance to the supplier and is moved to <strong>4092</strong> (Dr 4092 / Cr 401); when the
+bill arrives, the accountant offsets it (Dr 401 / Cr 4092). Without a 4092 account in the chart of
+accounts, the rest stays as a debit balance on 401. Invalidating the report removes the payment
+and the reconciliation: the bill is open again.</p>
 <p>Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON to be returned by the
 employee; after validation, the employee's 542 balance is zero.</p>
 </div>
@@ -113,8 +124,10 @@ restituit sau de pl&#259;tit, p&#226;n&#259; c&#226;nd contul 542 al persoanei a
 cheltuielile pl&#259;tite de angaja&#539;i &#537;i nu are avans de trezorerie. Cele dou&#259; pot fi folosite &#238;n aceea&#537;i baz&#259; de date.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Configurare</h3>
 <ol>
-<li>Preg&#259;ti&#539;i un jurnal al c&#259;rui cont implicit este <strong>542</strong> (avansuri de trezorerie). Alege&#539;i-l ca
-   <strong>Expense Journal</strong> pe fiecare decont.</li>
+<li>Preg&#259;ti&#539;i un jurnal de tip <strong>Numerar</strong> (sau Banc&#259;) al c&#259;rui cont implicit este <strong>542</strong> (avansuri
+   de trezorerie) &#537;i alege&#539;i-l ca <strong>Expense Journal</strong> pe fiecare decont. Trebuie s&#259; fie un jurnal de
+   numerar sau de banc&#259;, pentru c&#259; decontul pl&#259;te&#537;te din el chitan&#539;ele &#537;i furnizorii, iar o plat&#259;
+   are nevoie de o metod&#259; de plat&#259; la ie&#537;ire.</li>
 <li><strong>Registrul de cas&#259;</strong> (implicit primul registru de cas&#259;), <strong>jurnalul de diurn&#259;</strong> (un jurnal
    general) &#537;i <strong>contul de diurn&#259;</strong> (implicit 625) se completeaz&#259; pe decont &#537;i pot fi schimbate acolo.</li>
 <li>Angajatul este un contact (partener): crea&#539;i c&#226;te unul pentru fiecare persoan&#259; care prime&#537;te
@@ -126,16 +139,33 @@ cheltuielile pl&#259;tite de angaja&#539;i &#537;i nu are avans de trezorerie. C
    data avansului, &#537;i ap&#259;sa&#539;i <strong>Advance</strong>: avansul se &#238;nregistreaz&#259; &#238;n contul 542 pe registrul de
    cas&#259;.</li>
 <li>La &#238;ntoarcere, ad&#259;uga&#539;i bonurile ca linii (suma, taxa, furnizorul, contul) &#537;i, pentru o
-   deplasare, num&#259;rul de zile de diurn&#259;.</li>
+   deplasare, num&#259;rul de zile de diurn&#259;. Dac&#259; angajatul a pl&#259;tit din avans o factur&#259; a unui
+   furnizor (de exemplu o factur&#259; mai veche), ad&#259;uga&#539;i o linie de tip <strong>Supplier Payment</strong> cu acel
+   furnizor (vezi mai jos).</li>
 <li>Ap&#259;sa&#539;i <strong>Validate</strong>: se contabilizeaz&#259; chitan&#539;ele de achizi&#539;ie, decontarea lor din 542,
    diurna &#537;i plata diferen&#539;ei, iar decontul trece &#238;n starea <strong>Efectuat</strong>.</li>
 <li><strong>Invalidate</strong> anuleaz&#259; un decont validat, ca s&#259; poat&#259; fi corectat.</li>
 </ol>
+<p><strong>Liniile Supplier Payment.</strong> La validare plata se &#238;nregistreaz&#259; <strong>Dr 401 = Cr 542</strong> &#537;i se
+reconciliaz&#259; automat cu facturile deschise ale furnizorului pe acela&#537;i cont de datorii (&#238;nt&#226;i cele
+mai vechi), deci factura devine pl&#259;tit&#259; sau par&#539;ial pl&#259;tit&#259; f&#259;r&#259; nicio legare manual&#259;. Dac&#259; plata
+dep&#259;&#537;e&#537;te facturile deschise, diferen&#539;a este un avans acordat furnizorului &#537;i se trece pe <strong>4092</strong>
+(Dr 4092 = Cr 401); la primirea facturii, contabilul compenseaz&#259; avansul (Dr 401 = Cr 4092). Dac&#259;
+planul de conturi nu are contul 4092, diferen&#539;a r&#259;m&#226;ne ca sold debitor pe 401. Invalidarea
+decontului &#537;terge plata &#537;i reconcilierea, iar factura redevine deschis&#259;.</p>
 <p>Exemplu: un avans de 1.000 RON &#537;i bonuri de 800 RON las&#259; 200 RON de restituit de c&#259;tre angajat;
 dup&#259; validare, soldul contului 542 al angajatului este zero.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.2.3.1 (2026-10-27)</h2>
+<ul>
+<li><strong>Supplier Payment</strong> lines are reconciled with the supplier's open bills, oldest first; what the
+  open bills do not cover goes to 4092 (supplier advance).</li>
+<li>The report payments are booked on 542 (they were left on the outstanding payments account), the
+  advance journal's payment method is no longer overwritten, the default per diem account is
+  found again.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.2.2.1 (2026-10-07)</h2>
 <ul>
 <li>Apps Store page in English (it was in Romanian), written from the 18.0 code, with
@@ -215,7 +245,7 @@ dup&#259; validare, soldul contului 542 al angajatului este zero.</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
@@ -310,12 +340,12 @@ dup&#259; validare, soldul contului 542 al angajatului este zero.</p>
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Custom Invoice Exchange Rate</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
