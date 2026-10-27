@@ -1376,3 +1376,24 @@ class TestExpenses(TransactionCase):
         )
         with self.assertRaises(UserError):
             without_journal.validate_advance()
+
+    def test_company_card_journal_proposed_for_expenses_only_user(self):
+        """Jurnalul cardului de pe angajat (vizibil doar grupului Facturare) e propus pe decont și pentru
+        un utilizator cu rolul de cheltuieli fără acel grup (aici cu acces de citire la contabilitate,
+        necesar oricum pentru jurnalele decontului), fără AccessError."""
+        card = self._bank_journal("CRD4")
+        self.employee.expenses_card_journal_id = card
+        user = self._expenses_user(
+            "expenses_card_only_user", ["deltatech_expenses.group_expenses_user", "account.group_account_readonly"]
+        )
+        self.assertFalse(user.has_group("account.group_account_invoice"))
+        deduction = (
+            self.env["deltatech.expenses.deduction"]
+            .with_user(user)
+            .new({"employee_id": self.employee.id, "settlement_mode": "company_card"})
+        )
+        deduction._onchange_employee_card()
+        self.assertEqual(deduction.card_journal_id, card)
+        deduction.card_journal_id = False
+        deduction._onchange_settlement_mode()
+        self.assertEqual(deduction.card_journal_id, card)
