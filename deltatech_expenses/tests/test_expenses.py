@@ -1235,6 +1235,10 @@ class TestExpenses(TransactionCase):
         deduction.card_journal_id = False
         deduction._onchange_settlement_mode()
         self.assertEqual(deduction.card_journal_id, card)
+        # alt angajat, fără card: jurnalul cardului precedent nu rămâne pe decont
+        deduction.employee_id = self.env["hr.employee"].create({"name": "Fără card"})
+        deduction._onchange_employee_card()
+        self.assertFalse(deduction.card_journal_id)
 
     def test_company_card_journal_of_another_company_rejected(self):
         """Jurnalul cardului trebuie să fie al companiei decontului (check_company), și prin RPC."""

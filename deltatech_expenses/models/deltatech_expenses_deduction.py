@@ -174,6 +174,7 @@ class DeltatechExpensesDeduction(models.Model):
         readonly=True,
         # states={"draft": [("readonly", False)]},
         default=lambda self: self._default_journal(),
+        check_company=True,
         help="Journal of the advance and of the difference: the cash journal, or the bank journal for a "
         "bank transfer to the personal card of the employee.",
     )
@@ -264,9 +265,8 @@ class DeltatechExpensesDeduction(models.Model):
 
     @api.onchange("employee_id")
     def _onchange_employee_card(self):
-        card_journal = self._employee_card_journal()
-        if card_journal:
-            self.card_journal_id = card_journal
+        # mereu, și gol când noul angajat nu are card: altfel ar rămâne cardul angajatului precedent
+        self.card_journal_id = self._employee_card_journal()
 
     def _employee_card_journal(self):
         """Jurnalul cardului de firmă de pe angajat: câmpul e vizibil doar contabilității, dar angajatul
