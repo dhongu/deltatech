@@ -1308,7 +1308,8 @@ class TestExpenses(TransactionCase):
         deduction = self.env["deltatech.expenses.deduction"].create(
             dict(self._deduction_vals(500.0), settlement_mode="transfer")
         )
-        with self.assertRaises(UserError):
+        # înainte de avans numărul e „/”: mesajul numește decontul după angajat
+        with self.assertRaisesRegex(UserError, self.employee.name):
             deduction.validate_advance()
 
     def test_company_card_receipts_settled_on_card_without_542(self):
