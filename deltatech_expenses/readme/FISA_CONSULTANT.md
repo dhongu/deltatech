@@ -129,7 +129,8 @@ avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, da
 - **Virament (card personal)** — avansul se virează pe cardul personal al angajatului; **jurnalul de
   plată** trebuie să fie un jurnal de bancă;
 - **Card de firmă** — angajatul plătește cu cardul firmei, deci nu există avans (câmpul dispare) și
-  apare **„Jurnal card firmă"**, obligatoriu. Diferența de plată devine doar diurna: chitanțele sunt
+  apare **„Jurnal card firmă"**, obligatoriu și de tip bancă sau card. **Jurnalul de plată** servește
+  atunci doar plății diurnei către angajat și trebuie să fie în moneda cardului sau în moneda companiei. Diferența de plată devine doar diurna: chitanțele sunt
   plătite direct furnizorilor, nu se datorează angajatului.
 
 La schimbarea modului, jurnalul de plată se înlocuiește cu primul jurnal de tipul potrivit (numerar sau
@@ -343,7 +344,8 @@ soldului 542 după validare.
 | „Set an outstanding payments (receipts) account (5125) on the payments (receipts) payment method of the journal ..." | Virament sau card de firmă, iar jurnalul de bancă nu are cont de plăți / încasări în curs pe metodele de plată | Setați contul 5125 pe metoda de plată de ieșire (și de intrare, pentru restituiri) a jurnalului |
 | „The expenses deduction ... is settled in cash: choose a cash journal." | Mod „Numerar" cu jurnal de plată de bancă | Alegeți un jurnal de numerar sau schimbați modul |
 | „The expenses deduction ... is settled by bank transfer: choose a bank journal." | Mod „Virament" cu jurnal de plată de numerar | Alegeți un jurnal de bancă sau schimbați modul |
-| „The expenses deduction ... is paid with a company card: choose the company card journal." | Mod „Card de firmă" fără „Jurnal card firmă" | Completați jurnalul cardului pe decont sau pe fișa angajatului |
+| „The expenses deduction ... is paid with a company card: choose the company card journal." | Mod „Card de firmă" fără „Jurnal card firmă", sau cu un jurnal care nu e de bancă / card (de ex. de numerar) | Completați un jurnal de bancă sau de card pe decont sau pe fișa angajatului |
+| „The expenses deduction ... is paid with a company card in ...: the per diem is paid from the payment journal ..., which is in ..." | Mod „Card de firmă", iar jurnalul de plată (din care se plătește diurna) este în altă monedă decât cardul | Alegeți un jurnal de plată în moneda cardului sau în moneda companiei |
 | „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
 | „The journal ... is in ..., but the expenses deduction ... is in ..." | Jurnalul de plată sau al cardului este în altă monedă decât decontul | Alegeți un jurnal în moneda decontului (sau fără monedă, pentru moneda companiei) |
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
