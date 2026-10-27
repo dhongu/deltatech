@@ -16,8 +16,11 @@ Fleet Geo Coordinates
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_fleet_geo
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_fleet_geo/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Adds geographical information to the Fleet extensions from
 ``deltatech_fleet``.

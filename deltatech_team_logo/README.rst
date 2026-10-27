@@ -19,11 +19,14 @@ Sales Team Logo
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_team_logo
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_team_logo/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_team_logo
     :alt: 9 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 One legal company, several brands: in standard Odoo every PDF report
 carries the same company logo. With this module, each sales team can
