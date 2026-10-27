@@ -1,5 +1,21 @@
 # Changelog
 
+## 20.0.3.6.0 (2026-10-27)
+
+- Settlement mode on the expense report: **Cash** (as before), **Bank transfer
+  (personal card)** or **Company card**.
+  - Bank transfer: the advance and the difference go through the bank journal,
+    on the outstanding payments / receipts account of its payment method
+    (5125), so they are matched with the bank statement lines instead of being
+    posted twice on 5121 (Dr 542 = Cr 5125, refund Dr 5125 = Cr 542).
+  - Company card: no advance and no 542 for the receipts, which are paid by the
+    company: the receipt Dr 6xx/4426 = Cr 401 is settled Dr 401 = Cr 5125 of the
+    card journal (supplier partner), matched with the card statement. Only the
+    per diem is owed to the employee (Dr 625 = Cr 542, paid from the payment
+    journal). The card journal can be set on the employee.
+- The per diem entry falls back to today when the expense date is empty (the
+  entry could not be created without a date).
+
 ## 20.0.3.5.0 (2026-10-27)
 
 - Expense reports in a foreign currency. The report currency follows the

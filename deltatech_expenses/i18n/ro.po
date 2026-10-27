@@ -140,11 +140,6 @@ msgid "Cannot delete Expenses Deduction(s) which are already done."
 msgstr "Nu se pot șterge cheltuielile deja înregistrate."
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
-msgid "Cash Journal"
-msgstr "Jurnal numerar"
-
-#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_import_journal_creation__account_cash_advances_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__account_cash_advances_id
 msgid "Cash advances"
@@ -725,3 +720,34 @@ msgstr "Jurnal diurnă"
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
 msgid "Diem Account"
 msgstr "Cont diurnă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__transfer
+msgid "Bank transfer (personal card)"
+msgstr "Virament (card personal)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__cash
+msgid "Cash"
+msgstr "Numerar"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__card_journal_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__expenses_card_journal_id
+msgid "Company Card Journal"
+msgstr "Jurnal card firmă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__company_card
+msgid "Company card"
+msgstr "Card de firmă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
+msgid "Payment Journal"
+msgstr "Jurnal de plată"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__settlement_mode
+msgid "Settlement Mode"
+msgstr "Mod de decontare"
