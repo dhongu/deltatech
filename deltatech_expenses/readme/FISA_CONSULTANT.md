@@ -113,7 +113,10 @@ Date minime pentru demo:
    (câmpul **„Jurnal card firmă"**, vizibil doar utilizatorilor cu drepturi de Facturare), și se
    propune apoi pe fiecare decont, la alegerea angajatului sau a modului Card de firmă.
 10. La actualizarea modulului la versiunea 20.0.3.6.0, deconturile existente al căror jurnal de plată
-   este de bancă sau de card trec automat pe modul **Virament**; restul rămân pe **Numerar**.
+    este de bancă sau de card trec automat pe modul **Virament**; restul rămân pe **Numerar**. Un
+    decont deja în starea „Avans" își păstrează nota de avans (Dr 542 = Cr 5121, postată direct pe
+    bancă); diferența lui se postează la validare pe 5125, deci jurnalul de bancă trebuie să aibă
+    contul 5125 setat pe metodele de plată (pasul 9).
 
 ## 6. Flux de utilizare
 
@@ -123,7 +126,8 @@ Meniul este **Facturare → Furnizori → Decont Cheltuieli** (cu Enterprise: **
 Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul**, **modul de decontare**
 (implicit **Numerar**) și **jurnalul de plată** (jurnalul de numerar), completați **data avansului**,
 **data cheltuielii** (data decontului; se completează din data avansului dacă e goală), **ordinul de
-deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și număr de zile). În tabul „Alte informații" verificați **jurnalul de avansuri (542)**.
+deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și număr de zile). În tabul
+„Alte informații" verificați **jurnalul de avansuri (542)**.
 
 **Moneda decontului** (câmpul **„Monedă"**, sub jurnalul de plată; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
@@ -226,9 +230,10 @@ angajat. Schimbarea lui propune automat un jurnal de plată potrivit (de numerar
 - **Card de firmă** — angajatul plătește cu cardul firmei, deci **nu există avans** (câmpul **Avans**
   se ascunde și se pune pe zero) și chitanțele nu trec prin 542. Se alege **„Jurnal card firmă"**
   (obligatoriu; se propune din fișa angajatului, inclusiv pentru utilizatorii care nu văd câmpul
-  pe angajat). La validare, chitanța de achiziție
-  (Dr 6xx + Dr 4426 = Cr 401) se decontează **Dr 401 = Cr 5125** al jurnalului cardului, cu partenerul
-  furnizor, și se reconciliază cu extrasul cardului. Angajatului i se datorează doar **diurna**:
+  pe angajat). La validare, chitanța de achiziție (Dr 6xx + Dr 4426 = Cr 401) se decontează
+  **Dr 401 = Cr 5125** al jurnalului cardului, cu partenerul furnizor, și se reconciliază cu extrasul
+  cardului; la fel, o linie „Plată furnizor" plătită cu cardul stinge factura furnizorului prin
+  **Dr 401 = Cr 5125**, fără 542. Angajatului i se datorează doar **diurna**:
   **Diferența** din antet este egală cu totalul diurnei, iar plata ei se face din jurnalul de plată
   (Dr 542 = Cr casă). O retragere de numerar cu cardul firmei nu face parte din decontul cu card, ci
   este un decont separat, în modul **Virament**.
