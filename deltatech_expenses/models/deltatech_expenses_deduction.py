@@ -11,6 +11,7 @@ class DeltatechExpensesDeduction(models.Model):
     _description = "Expenses Deduction"
     _order = "date_expense desc, id desc"
     _rec_name = "number"
+    _check_company_auto = True
 
     @api.model
     def _default_journal(self):
@@ -157,13 +158,33 @@ class DeltatechExpensesDeduction(models.Model):
     company_currency_id = fields.Many2one(related="company_id.currency_id", string="Company Currency")
     is_foreign_currency = fields.Boolean(compute="_compute_is_foreign_currency")
 
+    # Cum ajung banii la angajat: din casă (cash), prin virament pe cardul lui personal (transfer)
+    # sau deloc — cheltuielile se plătesc direct cu cardul firmei (company_card), fără avans pe 542.
+    settlement_mode = fields.Selection(
+        [("cash", "Cash"), ("transfer", "Bank transfer (personal card)"), ("company_card", "Company card")],
+        string="Settlement Mode",
+        required=True,
+        default="cash",
+        tracking=True,
+    )
     journal_id = fields.Many2one(
         "account.journal",
-        string="Cash Journal",
+        string="Payment Journal",
         required=True,
         readonly=True,
         # states={"draft": [("readonly", False)]},
         default=lambda self: self._default_journal(),
+        check_company=True,
+        help="Journal of the advance and of the difference: the cash journal, or the bank journal for a "
+        "bank transfer to the personal card of the employee.",
+    )
+    card_journal_id = fields.Many2one(
+        "account.journal",
+        string="Company Card Journal",
+        domain="[('type', 'in', ('bank', 'credit')), ('company_id', '=', company_id)]",
+        check_company=True,
+        help="Bank journal of the company card used by the employee: the receipts are settled on its "
+        "outstanding payments account (5125), matched later with the bank statement.",
     )
     expense_journal_id = fields.Many2one("account.journal", string="Expense Journal")
 
@@ -215,7 +236,7 @@ class DeltatechExpensesDeduction(models.Model):
         if not self.date_expense or self.date_advance > self.date_expense:
             self.date_expense = self.date_advance
 
-    @api.depends("expenses_line_ids", "days", "diem", "advance")
+    @api.depends("expenses_line_ids", "days", "diem", "advance", "settlement_mode")
     def _compute_amount(self):
         for expense in self:
             total = 0.0
@@ -226,12 +247,42 @@ class DeltatechExpensesDeduction(models.Model):
             expense.total_diem = expense.days * expense.diem
             expense.amount = expense.amount_vouchers + expense.total_diem
 
-            expense.difference = expense.amount - expense.advance
+            # cu cardul firmei chitanțele sunt plătite direct furnizorilor: angajatului i se datorează doar diurna
+            owed = expense.total_diem if expense.settlement_mode == "company_card" else expense.amount
+            expense.difference = owed - expense.advance
 
-    @api.depends("journal_id", "company_id")
+    @api.onchange("settlement_mode")
+    def _onchange_settlement_mode(self):
+        journal_type = "bank" if self.settlement_mode == "transfer" else "cash"
+        if self.journal_id.type != journal_type:
+            self.journal_id = self.env["account.journal"].search(
+                [("type", "=", journal_type), ("company_id", "=", (self.company_id or self.env.company).id)], limit=1
+            )
+        if self.settlement_mode == "company_card":
+            self.advance = 0.0
+            if not self.card_journal_id:
+                self.card_journal_id = self._employee_card_journal()
+
+    @api.onchange("employee_id")
+    def _onchange_employee_card(self):
+        # mereu, și gol când noul angajat nu are card: altfel ar rămâne cardul angajatului precedent
+        self.card_journal_id = self._employee_card_journal()
+
+    def _employee_card_journal(self):
+        """Jurnalul cardului de firmă de pe angajat: câmpul e vizibil doar contabilității, dar angajatul
+        și aprobatorul își completează decontul, deci se citește cu sudo (doar valoarea jurnalului).
+        Se propune doar dacă e al companiei decontului (check_company l-ar refuza abia la salvare)."""
+        card_journal = self.employee_id.sudo().expenses_card_journal_id
+        if card_journal.company_id != (self.company_id or self.env.company):
+            return self.env["account.journal"]
+        return card_journal.sudo(False)
+
+    @api.depends("journal_id", "card_journal_id", "settlement_mode", "company_id")
     def _compute_currency(self):
         for expense in self:
-            expense.currency_id = expense.journal_id.currency_id or expense.company_id.currency_id
+            # cu cardul firmei chitanțele se decontează pe jurnalul cardului: moneda lui e moneda decontului
+            journal = expense.card_journal_id if expense.settlement_mode == "company_card" else expense.journal_id
+            expense.currency_id = journal.currency_id or expense.company_id.currency_id
 
     @api.depends("currency_id", "company_id")
     def _compute_is_foreign_currency(self):
@@ -254,6 +305,106 @@ class DeltatechExpensesDeduction(models.Model):
             balance = self._to_company_currency(amount, date)
         vals.update({"currency_id": self.currency_id.id, "amount_currency": amount, "balance": balance})
         return vals
+
+    def _deduction_label(self):
+        """Numele decontului în mesaje: numărul, iar înainte de avans (număr „/”) angajatul și data avansului."""
+        self.ensure_one()
+        if self.number and self.number != "/":
+            return self.number
+        return f"{self.employee_id.name or ''} ({self.date_advance or ''})"
+
+    def _get_liquidity_account(self, journal, outbound=True):
+        """Contul pe care ies (outbound) sau intră banii prin `journal`: contul casei, iar pentru un
+        jurnal de bancă / card contul de plăți / încasări în curs al metodei de plată (5125), ca nota
+        să se reconcilieze cu linia din extras — o notă direct pe 5121 s-ar dubla cu cea a extrasului."""
+        self.ensure_one()
+        if journal.type == "cash":
+            return journal.default_account_id
+        method_lines = journal.outbound_payment_method_line_ids if outbound else journal.inbound_payment_method_line_ids
+        account = method_lines.payment_account_id[:1]
+        if not account:
+            raise UserError(
+                self.env._(
+                    "Set an outstanding %(direction)s account (5125) on the %(direction)s payment method of the "
+                    "journal %(journal)s: the payments of the expenses deduction %(number)s are posted on it and "
+                    "matched with the bank statement.",
+                    direction=self.env._("payments") if outbound else self.env._("receipts"),
+                    journal=journal.display_name,
+                    number=self._deduction_label(),
+                )
+            )
+        return account
+
+    def _check_settlement_mode(self):
+        for expenses in self:
+            mode = expenses.settlement_mode
+            if (
+                mode == "company_card"
+                and expenses.journal_id.currency_id
+                and expenses.journal_id.currency_id != expenses.currency_id
+            ):
+                # cu cardul firmei, jurnalul de plată servește doar plății diurnei către angajat, în moneda
+                # decontului (a cardului): un jurnal de plată în altă valută ar primi note în moneda greșită
+                raise UserError(
+                    self.env._(
+                        "The expenses deduction %(number)s is paid with a company card in %(currency)s: the per diem "
+                        "is paid from the payment journal %(journal)s, which is in %(journal_currency)s. Choose a "
+                        "payment journal in %(currency)s or in the company currency.",
+                        number=expenses._deduction_label(),
+                        currency=expenses.currency_id.name,
+                        journal=expenses.journal_id.display_name,
+                        journal_currency=expenses.journal_id.currency_id.name,
+                    )
+                )
+            # jurnalul cardului contează doar pe cardul firmei; pe numerar / virament e invizibil, deși
+            # onchange-ul angajatului îl completează
+            journals = expenses.journal_id | (
+                expenses.card_journal_id if mode == "company_card" else self.env["account.journal"]
+            )
+            for journal in journals:
+                # un jurnal în valută (cont 5314 / 5124) primește doar note în moneda lui
+                if journal.currency_id and journal.currency_id != expenses.currency_id:
+                    raise UserError(
+                        self.env._(
+                            "The journal %(journal)s is in %(journal_currency)s, but the expenses deduction "
+                            "%(number)s is in %(currency)s.",
+                            journal=journal.display_name,
+                            journal_currency=journal.currency_id.name,
+                            number=expenses._deduction_label(),
+                            currency=expenses.currency_id.name,
+                        )
+                    )
+            if mode == "cash" and expenses.journal_id.type != "cash":
+                raise UserError(
+                    self.env._(
+                        "The expenses deduction %(number)s is settled in cash: choose a cash journal.",
+                        number=expenses._deduction_label(),
+                    )
+                )
+            if mode == "transfer" and expenses.journal_id.type not in ("bank", "credit"):
+                raise UserError(
+                    self.env._(
+                        "The expenses deduction %(number)s is settled by bank transfer: choose a bank journal.",
+                        number=expenses._deduction_label(),
+                    )
+                )
+            if mode == "company_card":
+                if expenses.card_journal_id.type not in ("bank", "credit"):
+                    raise UserError(
+                        self.env._(
+                            "The expenses deduction %(number)s is paid with a company card: choose the company "
+                            "card journal (a bank or credit card journal).",
+                            number=expenses._deduction_label(),
+                        )
+                    )
+                if expenses.advance:
+                    raise UserError(
+                        self.env._(
+                            "The expenses deduction %(number)s is paid with a company card: it has no advance. "
+                            "A cash withdrawal with the card is a separate deduction (Dr 542 = Cr 5121).",
+                            number=expenses._deduction_label(),
+                        )
+                    )
 
     def _check_role(self, group_xmlid, action):
         """Verificare explicită de rol pentru acțiunile ireversibile/contabile: dreptul de scriere
@@ -282,7 +433,9 @@ class DeltatechExpensesDeduction(models.Model):
             "employee_id",
             "date_advance",
             "date_expense",
+            "settlement_mode",
             "journal_id",
+            "card_journal_id",
             "expense_journal_id",
             "journal_diem_id",
             "account_diem_id",
@@ -300,7 +453,9 @@ class DeltatechExpensesDeduction(models.Model):
         decât cel din registru (restituire fictivă, sold creditor pe 542)."""
         return {
             "advance",
+            "settlement_mode",
             "journal_id",
+            "card_journal_id",
             "expense_journal_id",
             "date_advance",
             "employee_id",
@@ -457,6 +612,7 @@ class DeltatechExpensesDeduction(models.Model):
         # un Aprobator nu trebuie să aibă și grupurile standard de Contabilitate/Jurnale doar ca
         # să poată apăsa acest buton (tichet POPVAL-COS, pct. 6).
         self = self.sudo()
+        self._check_settlement_mode()
         for expenses in self:
             if not expenses.number or expenses.number == "/":
                 sequence = self.env.ref("deltatech_expenses.sequence_expenses_deduction")
@@ -502,7 +658,7 @@ class DeltatechExpensesDeduction(models.Model):
                         expenses.date_advance,
                         -advance_balance,
                         partner_id=expenses.partner_id.id,
-                        account_id=expenses.journal_id.default_account_id.id,
+                        account_id=expenses._get_liquidity_account(expenses.journal_id).id,
                         name=self.env._("Avans"),
                     ),
                 ]
@@ -515,6 +671,9 @@ class DeltatechExpensesDeduction(models.Model):
     def _create_advance_settlement(self, expenses, partner, amount, date, ref, payable_account=None, balance=None):
         """Notă de decontare a cheltuielii din avans: Dr cont furnizor (401, partenerul furnizor)
         = Cr 542 (partenerul angajatului — avansul rămâne închis pe cine l-a primit).
+
+        Plătită cu cardul firmei, cheltuiala nu trece prin 542: Dr 401 = Cr 5125 (plăți în curs ale
+        jurnalului cardului, partenerul furnizor), închis la importul extrasului cu 5125 = 5121.
 
         `amount` e în moneda decontului; `balance` (moneda companiei) se dă când trebuie să fie
         exact cel al datoriei decontate (linia furnizor a chitanței), altfel se calculează la cursul decontului.
@@ -533,13 +692,20 @@ class DeltatechExpensesDeduction(models.Model):
                 )
                 % (partner.display_name or "")
             )
-        account_542 = expenses.expense_journal_id.default_account_id
+        if expenses.settlement_mode == "company_card":
+            credit_journal = expenses.card_journal_id
+            credit_account = expenses._get_liquidity_account(credit_journal)
+            credit_partner = partner
+        else:
+            credit_journal = expenses.expense_journal_id
+            credit_account = expenses.expense_journal_id.default_account_id  # 542
+            credit_partner = expenses.partner_id
         date = date or expenses.date_expense
         if balance is None:
             balance = expenses._to_company_currency(amount, date)
         move = self.env["account.move"].create(
             {
-                "journal_id": expenses.expense_journal_id.id,
+                "journal_id": credit_journal.id,
                 "date": date,
                 "ref": ref,
                 "expenses_deduction_id": expenses.id,
@@ -566,8 +732,8 @@ class DeltatechExpensesDeduction(models.Model):
                             -amount,
                             date,
                             -balance,
-                            partner_id=expenses.partner_id.id,
-                            account_id=account_542.id,
+                            partner_id=credit_partner.id,
+                            account_id=credit_account.id,
                             name=self.env._("Decontare avans"),
                         ),
                     ),
@@ -670,6 +836,7 @@ class DeltatechExpensesDeduction(models.Model):
         # (vezi validate_advance) — un Contabil nu trebuie să mai aibă și acces direct pe jurnale
         # doar ca să poată finaliza decontul (tichet POPVAL-COS, pct. 6).
         self = self.sudo()
+        self._check_settlement_mode()
 
         domain = [
             ("type", "=", "purchase"),
@@ -768,7 +935,8 @@ class DeltatechExpensesDeduction(models.Model):
             account_542 = expenses.expense_journal_id.default_account_id
             date_expense = expenses.date_expense or fields.Date.context_today(self)
             if expenses.difference:
-                # difference < 0: restituire în casă (Dr casă = Cr 542); > 0: plată suplimentară (Dr 542 = Cr casă)
+                # difference < 0: restituire (Dr casă / 5125 încasări în curs = Cr 542);
+                # > 0: plată suplimentară (Dr 542 = Cr casă / 5125 plăți în curs)
                 value_lines = [
                     expenses._move_line_vals(
                         expenses.difference,
@@ -781,7 +949,9 @@ class DeltatechExpensesDeduction(models.Model):
                         -expenses.difference,
                         date_expense,
                         partner_id=expenses.partner_id.id,
-                        account_id=expenses.journal_id.default_account_id.id,
+                        account_id=expenses._get_liquidity_account(
+                            expenses.journal_id, outbound=expenses.difference > 0
+                        ).id,
                         name=self.env._("Diferență avans"),
                     ),
                 ]
@@ -801,16 +971,16 @@ class DeltatechExpensesDeduction(models.Model):
                 common = {
                     "name": self.env._("Diurnă"),
                     "partner_id": expenses.partner_id.id,
-                    "date_maturity": expenses.date_expense,
+                    "date_maturity": date_expense,
                 }
-                diem_balance = expenses._to_company_currency(expenses.total_diem, expenses.date_expense)
+                diem_balance = expenses._to_company_currency(expenses.total_diem, date_expense)
                 line_ids = [
                     (
                         0,
                         0,
                         expenses._move_line_vals(
                             expenses.total_diem,
-                            expenses.date_expense,
+                            date_expense,
                             diem_balance,
                             account_id=expenses.account_diem_id.id,
                             **common,
@@ -821,7 +991,7 @@ class DeltatechExpensesDeduction(models.Model):
                         0,
                         expenses._move_line_vals(
                             -expenses.total_diem,
-                            expenses.date_expense,
+                            date_expense,
                             -diem_balance,
                             account_id=account_542.id,
                             **common,
@@ -832,7 +1002,7 @@ class DeltatechExpensesDeduction(models.Model):
                     {
                         # "name": name or "/",
                         "journal_id": expenses.journal_diem_id.id,
-                        "date": expenses.date_expense,
+                        "date": date_expense,
                         "ref": name or "",
                         "line_ids": line_ids,
                     }

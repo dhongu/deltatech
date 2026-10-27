@@ -7,6 +7,14 @@
    diem and the payment of the difference are posted, and the report is **Done**.
 4. **Invalidate** reverses a validated report, so it can be corrected.
 
+**Settlement mode.** *Cash* pays the advance from the cash register. *Bank transfer (personal
+card)* pays it from a bank journal: Dr 542 = Cr 5125 (outstanding payments), matched with the bank
+statement line (Dr 5125 = Cr 5121); a refund is Dr 5125 = Cr 542. *Company card* has no advance: the
+receipts were paid by the company, so each one is settled Dr 401 = Cr 5125 of the card journal and
+matched with the card statement; only the per diem is owed to the employee and paid from the payment
+journal. A cash withdrawal with the company card is a separate *Bank transfer* report (Dr 542 =
+Cr 5121).
+
 **Foreign currency.** A report on a foreign currency cash journal is kept in that currency: the
 advance, the receipts, the per diem and the difference are entered in the currency, and each
 journal entry carries the currency amount and its company currency value at the exchange rate of

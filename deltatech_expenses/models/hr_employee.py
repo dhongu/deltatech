@@ -1,16 +1,30 @@
 # ©  2008-2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
+    expenses_card_journal_id = fields.Many2one(
+        "account.journal",
+        string="Company Card Journal",
+        domain="[('type', 'in', ('bank', 'credit')), ('company_id', '=', company_id)]",
+        check_company=True,
+        groups="account.group_account_invoice",
+        help="Bank journal of the company card of the employee, proposed on the expenses deductions "
+        "paid with a company card.",
+    )
     expenses_deduction_count = fields.Integer(
         string="Expenses Deductions",
         compute="_compute_expenses_deduction_count",
     )
+
+    @api.constrains("expenses_card_journal_id", "company_id")
+    def _check_expenses_card_journal_company(self):
+        # hr.employee nu are _check_company_auto: check_company se verifică explicit, doar pe acest câmp
+        self._check_company(["expenses_card_journal_id"])
 
     def _compute_expenses_deduction_count(self):
         deduction = self.env["deltatech.expenses.deduction"]

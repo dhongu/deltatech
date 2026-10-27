@@ -58,7 +58,20 @@
                             <field name="employee_id" readonly="state != 'draft'" />
                         </group>
                         <group>
-                            <field name="journal_id" widget="selection" readonly="state != 'draft'" />
+                            <field name="settlement_mode" readonly="state != 'draft'" />
+                            <field
+                                name="journal_id"
+                                widget="selection"
+                                readonly="state != 'draft'"
+                                domain="[('type', 'in', ('cash', 'bank', 'credit')), ('company_id', '=', company_id)]"
+                            />
+                            <field
+                                name="card_journal_id"
+                                options="{'no_create': True}"
+                                readonly="state != 'draft'"
+                                invisible="settlement_mode != 'company_card'"
+                                required="settlement_mode == 'company_card'"
+                            />
                             <field
                                 name="currency_id"
                                 options="{'no_create': True, 'no_open': True}"
@@ -78,6 +91,7 @@
                                 name="advance"
                                 widget="monetary"
                                 readonly="state != 'draft'"
+                                invisible="settlement_mode == 'company_card'"
                                 options="{'currency_field': 'currency_id'}"
                             />
                             <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
@@ -230,7 +244,6 @@
                         </page>
                         <page string="Other information">
                             <group>
-                                <field name="journal_id" widget="selection" readonly="state != 'draft'" />
                                 <field name="expense_journal_id" widget="selection" readonly="state != 'draft'" />
                                 <field name="journal_diem_id" widget="selection" />
                                 <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'" />
