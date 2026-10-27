@@ -1297,3 +1297,16 @@ class TestExpenses(TransactionCase):
         self.assertEqual(deduction.currency_id, self.company.currency_id)
         with self.assertRaisesRegex(UserError, "per diem"):
             deduction.validate_advance()
+
+    def test_card_journal_ignored_outside_company_card(self):
+        """Pe numerar / virament jurnalul cardului (completat din angajat, invizibil) nu intră în
+        verificarea de monedă: un card în valută nu blochează avansul unui decont în lei."""
+        foreign = self._foreign_currency(self.company)
+        card = self._bank_journal("CRDE")
+        card.currency_id = foreign
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(100.0), card_journal_id=card.id)
+        )
+        self.assertEqual(deduction.currency_id, self.company.currency_id)
+        deduction.validate_advance()
+        self.assertEqual(deduction.state, "advance")
