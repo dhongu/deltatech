@@ -131,7 +131,8 @@ deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și nu
 
 **Moneda decontului** (câmpul **„Monedă"**, sub jurnalul de plată; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
-companiei dacă registrul nu are una; în modul Card de firmă se preia din jurnalul cardului. Se poate schimba doar în Ciornă și se blochează după **Avans**.
+companiei dacă registrul nu are una; în modul Card de firmă se preia din jurnalul cardului. Se poate
+schimba doar în Ciornă și se blochează după **Avans**.
 Avansul, liniile de cheltuieli, diurna și diferența se introduc în această monedă, iar lista
 deconturilor are o coloană „Monedă". Un decont în valută este descris la „Decont în valută" mai jos.
 
@@ -142,8 +143,9 @@ angajatul restituie restul în casă.
 
 ![Decontul în starea „Avans": avans, linii de cheltuieli cu TVA, diurnă și diferență](screenshots/01_decont_avans.png)
 
-Acordarea avansului generează nota contabilă **Dr 542 = Cr 5311** (avansul iese din casă în contul de
-avansuri de trezorerie al angajatului).
+În modul Numerar, acordarea avansului generează nota contabilă **Dr 542 = Cr 5311** (avansul iese din
+casă în contul de avansuri de trezorerie al angajatului); în modul Virament nota este Dr 542 = Cr 5125
+(vezi „Moduri de decontare").
 
 ![Nota contabilă de acordare a avansului (542 = 5311)](screenshots/02_nota_avans.png)
 
@@ -307,7 +309,7 @@ soldului 542 după validare.
 
 - [ ] Modulul se instalează fără erori pe baza demo.
 - [ ] „Jurnal avansuri (542)" are contul implicit 542.
-- [ ] Acordarea avansului produce nota Dr 542 = Cr 5311.
+- [ ] În modul Numerar, acordarea avansului produce nota Dr 542 = Cr 5311.
 - [ ] Utilizatorii au rolurile potrivite (Angajat / Aprobator / Contabil).
 - [ ] Liniile de deplasare au contul 625, nu 623 implicit.
 - [ ] Un bon de 555 lei cu TVA 11% dă bază 500 și TVA 55; „Total chitanțe" este egal cu suma bonurilor.
