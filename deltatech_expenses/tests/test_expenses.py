@@ -1279,3 +1279,21 @@ class TestExpenses(TransactionCase):
         deduction.currency_id = self.company.currency_id
         with self.assertRaises(UserError):
             deduction.validate_advance()
+
+    def test_company_card_per_diem_journal_currency(self):
+        """Cu cardul firmei (în lei), diurna se plătește din jurnalul de plată: unul în valută e refuzat cu
+        un mesaj despre plata diurnei, nu se postează note în moneda greșită."""
+        foreign = self._foreign_currency(self.company)
+        card = self._bank_journal("CRDL")
+        cash_foreign = self._foreign_cash_journal(foreign)
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            dict(
+                self._deduction_vals(0.0),
+                settlement_mode="company_card",
+                card_journal_id=card.id,
+                journal_id=cash_foreign.id,
+            )
+        )
+        self.assertEqual(deduction.currency_id, self.company.currency_id)
+        with self.assertRaisesRegex(UserError, "per diem"):
+            deduction.validate_advance()
