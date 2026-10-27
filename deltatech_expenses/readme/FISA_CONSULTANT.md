@@ -109,7 +109,8 @@ Date minime pentru demo:
    jurnalului de bancă / card setați un cont de **plăți în curs** și unul de **încasări în curs**
    (5125). Fără ele, avansul sau plata nu se pot contabiliza. Jurnalul cardului de firmă se poate seta
    pe fișa angajatului (câmpul **Jurnal card firmă**, vizibil doar utilizatorilor cu drepturi de
-   facturare) și se propune automat pe deconturile lui.
+   facturare) și se propune automat pe deconturile lui. Jurnalul trebuie să fie al companiei angajatului
+   (altfel se refuză la salvare) și se propune pe decont doar dacă e al companiei decontului.
 9. Opțional, pentru verificarea automată a plafonului fiscal al diurnei, instalați
    `l10n_ro_expense_allowance`.
 
@@ -353,7 +354,8 @@ soldului 542 după validare.
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
 
 Mesajele despre contul 5125, jurnalul de numerar / bancă și cardul de firmă nu au încă traducere în
-română și apar în engleză, chiar și în interfața în română.
+română și apar în engleză, chiar și în interfața în română. În ele, „...” din locul numărului decontului este numărul `DEC/…`,
+iar înainte de acordarea avansului (numărul e încă „/”) este angajatul și data avansului.
 
 Pentru mesajele legate de preluarea cheltuielilor standard (`hr_expense`), vezi fișa modulului
 `deltatech_expenses_hr_expense`.
