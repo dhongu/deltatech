@@ -134,6 +134,8 @@ avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, da
 La schimbarea modului, jurnalul de plată se înlocuiește cu primul jurnal de tipul potrivit (numerar sau
 bancă) al companiei, iar la „Card de firmă" avansul se golește și se propune jurnalul cardului din fișa
 angajatului. Un jurnal de alt tip decât cel cerut de mod blochează acordarea avansului și validarea.
+La actualizarea modulului, deconturile existente al căror jurnal de plată este de bancă sau de card
+trec automat pe „Virament (card personal)"; celelalte rămân pe „Numerar".
 
 **Moneda decontului.** Câmpul **„Moneda"** (vizibil utilizatorilor cu moneda multiplă activă, lângă
 jurnalul de plată) preia moneda jurnalului de plată ales, sau moneda companiei dacă jurnalul nu
@@ -330,11 +332,13 @@ soldului 542 după validare.
 | „Furnizorul ... nu are un cont de datorii (401)" | Linie „Plată furnizor" cu un furnizor fără cont de plătit configurat | Completați „Cont de plătit" pe fișa furnizorului |
 | „Nu aveți rolul necesar pentru a ... decontul" / lipsesc butoanele Avans, Validează | Utilizatorul nu are rolul Aprobator sau Contabil | Atribuiți rolul în Setări → Utilizatori, secțiunea „Decont Cheltuieli" |
 | Mesaj la validare care cere setarea conturilor de diferențe de curs (765/665) | Decont în valută cu sold în lei pe 542, iar compania nu are conturile de diferențe de curs setate | Setați conturile în Contabilitate → Setări, apoi validați din nou |
-| „Setați un cont de plăți (încasări) în curs (5125) pe metoda de plată ... a jurnalului ..." | Virament sau card de firmă, iar jurnalul de bancă nu are cont de plăți / încasări în curs pe metodele de plată | Setați contul 5125 pe metoda de plată de ieșire (și de intrare, pentru restituiri) a jurnalului |
-| „Decontul ... se decontează în numerar: alegeți un jurnal de numerar" | Mod „Numerar" cu jurnal de plată de bancă | Alegeți un jurnal de numerar sau schimbați modul |
-| „Decontul ... se decontează prin virament: alegeți un jurnal de bancă" | Mod „Virament" cu jurnal de plată de numerar | Alegeți un jurnal de bancă sau schimbați modul |
-| „Decontul ... se plătește cu cardul de firmă: alegeți jurnalul cardului" | Mod „Card de firmă" fără „Jurnal card firmă" | Completați jurnalul cardului pe decont sau pe fișa angajatului |
-| „Decontul ... se plătește cu cardul de firmă: nu are avans" | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
+| „Set an outstanding payments (receipts) account (5125) on the payments (receipts) payment method of the journal ..." | Virament sau card de firmă, iar jurnalul de bancă nu are cont de plăți / încasări în curs pe metodele de plată | Setați contul 5125 pe metoda de plată de ieșire (și de intrare, pentru restituiri) a jurnalului |
+| „The expenses deduction ... is settled in cash: choose a cash journal." | Mod „Numerar" cu jurnal de plată de bancă | Alegeți un jurnal de numerar sau schimbați modul |
+| „The expenses deduction ... is settled by bank transfer: choose a bank journal." | Mod „Virament" cu jurnal de plată de numerar | Alegeți un jurnal de bancă sau schimbați modul |
+| „The expenses deduction ... is paid with a company card: choose the company card journal." | Mod „Card de firmă" fără „Jurnal card firmă" | Completați jurnalul cardului pe decont sau pe fișa angajatului |
+| „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
+
+Mesajele de mai sus nu au încă traducere în română și apar în engleză, chiar și în interfața în română.
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
 
