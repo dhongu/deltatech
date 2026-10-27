@@ -377,35 +377,98 @@ genereaza automat chitante de achizitie</li>
 <li>Validarea documentului duce la generarea notelor contabile de avans si
 inegistrarea platilor</li>
 </ul>
-<p>In registrul de numerat trebue completat campul Cash advances cu 542.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-3">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-4">17.0.2.3.1 (2026-10-27)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-7">Authors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-8">Maintainers</a></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<ol class="arabic simple">
+<li>Prepare a journal of type <strong>Cash</strong> (or Bank) whose default account is
+<strong>542</strong> (advances to be settled), and choose it as the <strong>Expense
+Journal</strong> of each report. It must be a cash or bank journal because
+the report pays the receipts and the suppliers from it, and a payment
+needs an outgoing payment method.</li>
+<li>The <strong>Cash Journal</strong> (the first cash journal by default), the <strong>Diem
+Journal</strong> (a general journal) and the <strong>Diem Account</strong> (625 by
+default) are filled in on the report and can be changed there.</li>
+<li>The employee is a contact (partner): create one for each person who
+receives advances.</li>
+</ol>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
+<ol class="arabic simple">
+<li>In <em>Accounting &gt; Vendors &gt; Expenses Deduction</em>, create a report for
+the employee, with the advance amount and date, and click
+<strong>Advance</strong>: the advance is booked on 542 against the cash journal.</li>
+<li>When the employee returns, add the receipts as lines (amount, tax,
+supplier, account) and, for a trip, the number of days for the per
+diem. If the employee paid a supplier bill from the advance (for
+example an older vendor bill), add a line of type <strong>Supplier
+Payment</strong> with that supplier (see below).</li>
+<li>Click <strong>Validate</strong>: the purchase receipts, their payment from 542,
+the per diem and the difference are posted, and the report is
+<strong>Done</strong>.</li>
+<li><strong>Invalidate</strong> reverses a validated report, so it can be corrected.</li>
+</ol>
+<p><strong>Supplier Payment lines.</strong> Validation books the payment as <strong>Dr 401 /
+Cr 542</strong> and reconciles it automatically with the supplier’s open bills
+on the same payable account (oldest first), so the bill is paid or
+partly paid without any manual matching. If the payment is larger than
+the open bills, the rest is an advance to the supplier and is moved to
+<strong>4092</strong> (Dr 4092 / Cr 401); when the bill arrives, the accountant
+offsets it (Dr 401 / Cr 4092). Without a 4092 account in the chart of
+accounts, the rest stays as a debit balance on 401. Invalidating the
+report removes the payment and the reconciliation: the bill is open
+again.</p>
+<p>Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON
+to be returned by the employee; after validation, the employee’s 542
+balance is zero.</p>
+</div>
+<div class="section" id="changelog">
+<h1><a class="toc-backref" href="#toc-entry-3">Changelog</a></h1>
+<div class="section" id="section-1">
+<h2><a class="toc-backref" href="#toc-entry-4">17.0.2.3.1 (2026-10-27)</a></h2>
+<ul class="simple">
+<li><strong>Supplier Payment</strong> lines are reconciled with the supplier’s open
+bills, oldest first; what the open bills do not cover goes to 4092
+(supplier advance).</li>
+<li>Validating a report with lines no longer fails with “one and only one
+outstanding payments/receipts account”.</li>
+</ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-6">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-7">Authors</a></h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-8">Maintainers</a></h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_expenses">dhongu/deltatech</a> project on GitHub.</p>

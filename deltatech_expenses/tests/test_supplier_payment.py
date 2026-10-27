@@ -39,12 +39,12 @@ class TestSupplierPayment(AccountTestInvoicingCommon):
         cls.employee = cls.env["res.partner"].create({"name": "Angajat X"})
         cls.supplier = cls.env["res.partner"].create({"name": "Furnizor Y", "is_company": True})
 
-    def _old_bill(self, amount):
+    def _old_bill(self, amount, invoice_date=None):
         bill = self.env["account.move"].create(
             {
                 "move_type": "in_invoice",
                 "partner_id": self.supplier.id,
-                "invoice_date": fields.Date.today(),
+                "invoice_date": invoice_date or fields.Date.today(),
                 "invoice_line_ids": [(0, 0, {"name": "Factura veche", "price_unit": amount, "tax_ids": []})],
             }
         )
@@ -90,6 +90,16 @@ class TestSupplierPayment(AccountTestInvoicingCommon):
         credit_542 = expenses.payment_ids.move_id.line_ids.filtered(lambda aml: aml.account_id == self.acc_542)
         self.assertAlmostEqual(credit_542.credit, 300.0)
         self.assertAlmostEqual(payment_line.debit, 300.0)
+
+    def test_supplier_payment_oldest_bill_first(self):
+        today = fields.Date.today()
+        old_bill = self._old_bill(200.0, fields.Date.subtract(today, days=60))
+        new_bill = self._old_bill(200.0, fields.Date.subtract(today, days=10))
+        expenses = self._expenses(300.0)
+        expenses.validate_expenses()
+
+        self.assertIn(old_bill.payment_state, ("paid", "in_payment"))
+        self.assertAlmostEqual(new_bill.amount_residual, 100.0)
 
     def test_receipt_and_supplier_payment(self):
         bill = self._old_bill(500.0)
