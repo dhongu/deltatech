@@ -1,3 +1,7 @@
+## 20.0.1.0.5 (2026-10-22)
+
+- Listed on Odoo Apps as *Product Reordering Limits* (was *Product Reordering Limit*). The technical name `deltatech_product_reordering_limit` does not change.
+
 ## 19.0.1.0.4
 
 - Add unit tests covering the reordering limit fields, the below-minimum compute and

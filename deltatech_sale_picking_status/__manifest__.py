@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale order picking status",
+    "name": "Sale Delivery Status",
     "summary": "Filters, list column and tracking for the standard delivery status",
-    "version": "20.0.2.0.1",
+    "version": "20.0.2.0.2",
     "category": "Sales",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

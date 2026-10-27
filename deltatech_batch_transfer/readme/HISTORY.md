@@ -1,3 +1,7 @@
+## 20.0.0.0.8 (2026-10-22)
+
+- Listed on Odoo Apps as *Batch Transfer Extension* (was *Batch Transfer*). The technical name `deltatech_batch_transfer` does not change.
+
 ## 20.0.0.0.7 (2026-10-16)
 
 Migration to 20.0:

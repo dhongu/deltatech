@@ -1,9 +1,9 @@
 # ©  2023-now Terrabit
 # See README.rst file on addons root folder for license details
 {
-    "name": "Account Analytic",
+    "name": "Account Analytic Split",
     "summary": "Analytic lines enhancements",
-    "version": "20.0.0.0.9",
+    "version": "20.0.0.0.10",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

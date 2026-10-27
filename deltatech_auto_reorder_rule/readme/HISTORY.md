@@ -1,3 +1,12 @@
+## 20.0.0.1.11 (2026-10-27)
+
+- Reordering rules are created only for storable products. Non-stocked goods no longer get a
+  rule, so a kit bill of materials can be created for them (Odoo forbids kits with reordering rules).
+
+## 20.0.0.1.10 (2026-10-22)
+
+- Listed on Odoo Apps as *Auto Reorder Rules* (was *Auto Reorder Rule*). The technical name `deltatech_auto_reorder_rule` does not change.
+
 ## 19.0.0.1.9 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

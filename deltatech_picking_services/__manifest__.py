@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Picking Service Lines",
+    "name": "Picking Services",
     "summary": "Service lines in pickings",
-    "version": "20.0.1.0.2",
+    "version": "20.0.1.0.3",
     "category": "Stock",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

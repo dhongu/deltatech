@@ -1,3 +1,7 @@
+## 20.0.1.9.16 (2026-10-22)
+
+- Listed on Odoo Apps as *Business Process Management* (was *Business process*). The technical name `deltatech_business_process` does not change.
+
 ## 20.0.1.9.15 (2026-10-16)
 
 - Module icon restored from 18.0 (flat checklist in the Odoo palette, transparent background); Apps Store main image regenerated with it.

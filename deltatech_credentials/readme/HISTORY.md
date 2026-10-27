@@ -1,3 +1,7 @@
+## 20.0.1.0.5 (2026-10-22)
+
+- Listed on Odoo Apps as *Credentials Store* (was *Credentials*). The technical name `deltatech_credentials` does not change.
+
 ## 20.0.1.0.4 (2026-10-16)
 
 - Migration to 20.0: access rights declared in `ir.access`; no other code change was needed.

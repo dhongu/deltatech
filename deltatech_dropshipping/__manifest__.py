@@ -1,9 +1,9 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Drop Shipping",
+    "name": "Drop Shipping Enhanced",
     "summary": "Delivery address in picking",
-    "version": "20.0.1.1.2",
+    "version": "20.0.1.1.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

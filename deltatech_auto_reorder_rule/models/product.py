@@ -10,7 +10,8 @@ class ProductProduct(models.Model):
     def create_rule(self):
         # The rules are generated for the company of the product or, for products shared between companies,
         # for the active company (env.company), not for the default company of the user.
-        for record in self:
+        # Reordering rules apply only to storable products (kits and non-stocked goods are skipped).
+        for record in self.filtered("is_storable"):
             company = record.company_id or self.env.company
             warehouses = self.env["stock.warehouse"].search(
                 [("generate_reorder_rules", "=", True), ("company_id", "=", company.id)]

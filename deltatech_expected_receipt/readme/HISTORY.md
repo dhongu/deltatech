@@ -1,3 +1,7 @@
+## 20.0.1.0.4 (2026-10-22)
+
+- Listed on Odoo Apps as *Expected Card Receipts* (was *Expected Receipts*). The technical name `deltatech_expected_receipt` does not change.
+
 ## 19.0.1.0.3 (2026-10-12)
 
 - Tests: the test suite now runs on the generic chart of accounts, so it also runs

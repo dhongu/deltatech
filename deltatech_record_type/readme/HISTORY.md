@@ -1,3 +1,7 @@
+## 20.0.1.1.17 (2026-10-22)
+
+- Listed on Odoo Apps as *Record Types* (was *Record Type*). The technical name `deltatech_record_type` does not change.
+
 ## 20.0.1.1.16 (2026-10-09)
 
 - Apps Store banner (banner.json).

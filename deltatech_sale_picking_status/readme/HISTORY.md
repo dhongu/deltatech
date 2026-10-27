@@ -1,3 +1,7 @@
+## 20.0.2.0.2 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale Delivery Status* (was *Sale order picking status*). The technical name `deltatech_sale_picking_status` does not change.
+
 ## 20.0.2.0.1 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
