@@ -129,7 +129,7 @@ Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul**, *
 deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și număr de zile). În tabul
 „Alte informații" verificați **jurnalul de avansuri (542)**.
 
-**Moneda decontului** (câmpul **„Monedă"**, sub jurnalul de plată; apare utilizatorilor cu
+**Moneda decontului** (câmpul **„Monedă"**, în antet, după jurnale; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
 companiei dacă registrul nu are una; în modul Card de firmă se preia din jurnalul cardului. Se poate
 schimba doar în Ciornă și se blochează după **Avans**.
