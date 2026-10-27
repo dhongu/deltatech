@@ -130,8 +130,9 @@ avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, da
   plată** trebuie să fie un jurnal de bancă;
 - **Card de firmă** — angajatul plătește cu cardul firmei, deci nu există avans (câmpul dispare) și
   apare **„Jurnal card firmă"**, obligatoriu și de tip bancă sau card. **Jurnalul de plată** servește
-  atunci doar plății diurnei către angajat și trebuie să fie în moneda cardului sau în moneda companiei. Diferența de plată devine doar diurna: chitanțele sunt
-  plătite direct furnizorilor, nu se datorează angajatului.
+  atunci doar plății diurnei către angajat și trebuie să fie în moneda cardului sau în moneda
+  companiei. Diferența de plată devine doar diurna: chitanțele sunt plătite direct furnizorilor, nu se
+  datorează angajatului.
 
 La schimbarea modului, jurnalul de plată se înlocuiește cu primul jurnal de tipul potrivit (numerar sau
 bancă) al companiei, iar la „Card de firmă" avansul se golește și se propune jurnalul cardului din fișa
