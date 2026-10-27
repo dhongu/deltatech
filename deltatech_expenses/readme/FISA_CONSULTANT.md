@@ -145,7 +145,9 @@ postează la validare pe 5125, deci contul 5125 trebuie setat pe metodele de pla
 
 **Moneda decontului.** Câmpul **„Moneda"** (vizibil utilizatorilor cu moneda multiplă activă, lângă
 jurnalul de plată) preia moneda jurnalului de plată ales, sau moneda companiei dacă jurnalul nu
-are una. Se poate schimba doar în Ciornă. Avansul, liniile de cheltuieli, diurna și diferența se
+are una; la „Card de firmă" preia moneda **jurnalului cardului**. Un jurnal (de plată sau al cardului)
+în altă monedă decât cea a decontului blochează acordarea avansului și validarea. Se poate schimba
+doar în Ciornă. Avansul, liniile de cheltuieli, diurna și diferența se
 introduc în moneda decontului. Pe un decont în valută, liniile din „Elemente jurnal" arată și suma în
 valută. Deconturile existente la actualizarea modulului rămân în moneda companiei.
 
@@ -325,7 +327,7 @@ soldului 542 după validare.
 - [ ] Card de firmă: decontarea chitanței este Dr 401 = Cr 5125 pe jurnalul cardului, fără linii pe 542 pentru sumele de pe chitanță, iar chitanța e plătită.
 - [ ] Diurna se încadrează în plafonul fiscal sau surplusul a fost transmis la salarizare.
 - [ ] După validare, soldul contului 542 al angajatului este zero.
-- [ ] Decont în valută: moneda decontului este cea a jurnalului de plată.
+- [ ] Decont în valută: moneda decontului este cea a jurnalului de plată (la „Card de firmă", a jurnalului cardului).
 - [ ] Decont în valută: fiecare notă are suma în valută și contravaloarea în lei la cursul BNR din data ei (avans — data avansului, chitanță — data liniei, diurnă și diferență — data cheltuielii).
 - [ ] Decont în valută: după validare, soldul 542 este zero în valută și în lei; diferența de curs, dacă există, este pe 665 sau 765.
 
@@ -343,6 +345,7 @@ soldului 542 după validare.
 | „The expenses deduction ... is settled by bank transfer: choose a bank journal." | Mod „Virament" cu jurnal de plată de numerar | Alegeți un jurnal de bancă sau schimbați modul |
 | „The expenses deduction ... is paid with a company card: choose the company card journal." | Mod „Card de firmă" fără „Jurnal card firmă" | Completați jurnalul cardului pe decont sau pe fișa angajatului |
 | „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
+| „The journal ... is in ..., but the expenses deduction ... is in ..." | Jurnalul de plată sau al cardului este în altă monedă decât decontul | Alegeți un jurnal în moneda decontului (sau fără monedă, pentru moneda companiei) |
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
 
