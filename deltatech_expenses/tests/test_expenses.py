@@ -1265,6 +1265,9 @@ class TestExpenses(TransactionCase):
             self.env["deltatech.expenses.deduction"].create(
                 dict(self._deduction_vals(0.0), settlement_mode="company_card", card_journal_id=card_b.id)
             )
+        # nici pe angajat (al companiei principale) nu se poate seta cardul altei companii
+        with self.assertRaises(UserError):
+            self.employee.expenses_card_journal_id = card_b
 
     def test_company_card_currency_follows_card_journal(self):
         """Pe cardul firmei moneda decontului vine din jurnalul cardului; un jurnal în altă monedă
