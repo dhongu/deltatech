@@ -270,13 +270,19 @@ class DeltatechExpensesDeduction(models.Model):
 
     def _employee_card_journal(self):
         """Jurnalul cardului de firmă de pe angajat: câmpul e vizibil doar contabilității, dar angajatul
-        și aprobatorul își completează decontul, deci se citește cu sudo (doar valoarea jurnalului)."""
-        return self.employee_id.sudo().expenses_card_journal_id
+        și aprobatorul își completează decontul, deci se citește cu sudo (doar valoarea jurnalului).
+        Se propune doar dacă e al companiei decontului (check_company l-ar refuza abia la salvare)."""
+        card_journal = self.employee_id.sudo().expenses_card_journal_id
+        if card_journal.company_id != (self.company_id or self.env.company):
+            return self.env["account.journal"]
+        return card_journal.sudo(False)
 
-    @api.depends("journal_id", "company_id")
+    @api.depends("journal_id", "card_journal_id", "settlement_mode", "company_id")
     def _compute_currency(self):
         for expense in self:
-            expense.currency_id = expense.journal_id.currency_id or expense.company_id.currency_id
+            # cu cardul firmei chitanțele se decontează pe jurnalul cardului: moneda lui e moneda decontului
+            journal = expense.card_journal_id if expense.settlement_mode == "company_card" else expense.journal_id
+            expense.currency_id = journal.currency_id or expense.company_id.currency_id
 
     @api.depends("currency_id", "company_id")
     def _compute_is_foreign_currency(self):
@@ -325,6 +331,19 @@ class DeltatechExpensesDeduction(models.Model):
     def _check_settlement_mode(self):
         for expenses in self:
             mode = expenses.settlement_mode
+            for journal in expenses.journal_id | expenses.card_journal_id:
+                # un jurnal în valută (cont 5314 / 5124) primește doar note în moneda lui
+                if journal.currency_id and journal.currency_id != expenses.currency_id:
+                    raise UserError(
+                        self.env._(
+                            "The journal %(journal)s is in %(journal_currency)s, but the expenses deduction "
+                            "%(number)s is in %(currency)s.",
+                            journal=journal.display_name,
+                            journal_currency=journal.currency_id.name,
+                            number=expenses.number,
+                            currency=expenses.currency_id.name,
+                        )
+                    )
             if mode == "cash" and expenses.journal_id.type != "cash":
                 raise UserError(
                     self.env._(

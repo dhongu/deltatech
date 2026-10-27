@@ -1397,6 +1397,12 @@ class TestExpenses(TransactionCase):
         deduction.card_journal_id = False
         deduction._onchange_settlement_mode()
         self.assertEqual(deduction.card_journal_id, card)
+        # decont în altă companie decât cea a cardului: jurnalul nu e propus
+        company_b = self.env["res.company"].create({"name": "Expenses card proposal company B"})
+        deduction.company_id = company_b
+        deduction._onchange_employee_card()
+        self.assertFalse(deduction.card_journal_id)
+        deduction.company_id = self.company
         # alt angajat, fără card: jurnalul cardului precedent nu rămâne pe decont
         deduction.employee_id = self.env["hr.employee"].create({"name": "Fără card"})
         deduction._onchange_employee_card()
@@ -1415,3 +1421,17 @@ class TestExpenses(TransactionCase):
             self.env["deltatech.expenses.deduction"].create(
                 dict(self._deduction_vals(0.0), settlement_mode="company_card", card_journal_id=card_b.id)
             )
+
+    def test_company_card_currency_follows_card_journal(self):
+        """Pe cardul firmei moneda decontului vine din jurnalul cardului; un jurnal în altă monedă
+        decât decontul e refuzat la avans."""
+        foreign = self._foreign_currency(self.company)
+        card = self._bank_journal("CRDV")
+        card.currency_id = foreign
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(0.0), settlement_mode="company_card", card_journal_id=card.id)
+        )
+        self.assertEqual(deduction.currency_id, foreign)
+        deduction.currency_id = self.company.currency_id
+        with self.assertRaises(UserError):
+            deduction.validate_advance()
