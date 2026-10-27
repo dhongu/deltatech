@@ -11,6 +11,7 @@ class DeltatechExpensesDeduction(models.Model):
     _description = "Expenses Deduction"
     _order = "date_expense desc, id desc"
     _rec_name = "number"
+    _check_company_auto = True
 
     @api.model
     def _default_journal(self):
@@ -180,6 +181,7 @@ class DeltatechExpensesDeduction(models.Model):
         "account.journal",
         string="Company Card Journal",
         domain="[('type', 'in', ('bank', 'credit')), ('company_id', '=', company_id)]",
+        check_company=True,
         help="Bank journal of the company card used by the employee: the receipts are settled on its "
         "outstanding payments account (5125), matched later with the bank statement.",
     )

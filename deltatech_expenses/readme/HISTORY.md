@@ -16,7 +16,11 @@
 - The per diem entry falls back to today when the expense date is empty (the
   entry could not be created without a date).
 - The migration (`migrations/20.0.3.6.0`) sets the Bank transfer mode on the
-  existing reports whose payment journal is a bank or card journal.
+  existing reports whose payment journal is a bank or card journal. A report
+  already in the Advance state keeps its posted advance (Dr 542 = Cr 5121,
+  posted directly on the bank account as before); its difference is posted at
+  validation on the outstanding account (5125) of the bank journal, which must
+  then be set on its payment methods.
 
 ## 20.0.3.5.0 (2026-10-27)
 

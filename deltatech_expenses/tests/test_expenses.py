@@ -1397,3 +1397,17 @@ class TestExpenses(TransactionCase):
         deduction.card_journal_id = False
         deduction._onchange_settlement_mode()
         self.assertEqual(deduction.card_journal_id, card)
+
+    def test_company_card_journal_of_another_company_rejected(self):
+        """Jurnalul cardului trebuie să fie al companiei decontului (check_company), și prin RPC."""
+        company_b = self.env["res.company"].create({"name": "Expenses card company B"})
+        self.env.user.company_ids |= company_b
+        card_b = (
+            self.env["account.journal"]
+            .with_company(company_b)
+            .create({"name": "Card B", "code": "CRDB", "type": "bank", "company_id": company_b.id})
+        )
+        with self.assertRaises(UserError):
+            self.env["deltatech.expenses.deduction"].create(
+                dict(self._deduction_vals(0.0), settlement_mode="company_card", card_journal_id=card_b.id)
+            )
