@@ -19,8 +19,11 @@ Cron Monitor Webhook
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_cron_monitor_webhook
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_cron_monitor_webhook/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 This module provides a simple and secure solution to trigger Odoo cron
 jobs via webhooks using a global access token.
