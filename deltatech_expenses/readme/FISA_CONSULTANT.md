@@ -237,7 +237,7 @@ angajat. Schimbarea lui propune automat un jurnal de plată potrivit (de numerar
   cardului; la fel, o linie „Plată furnizor" plătită cu cardul stinge factura furnizorului prin
   **Dr 401 = Cr 5125**, fără 542. Angajatului i se datorează doar **diurna**:
   **Diferența** din antet este egală cu totalul diurnei, iar plata ei se face din jurnalul de plată
-  (Dr 542 = Cr casă). O retragere de numerar cu cardul firmei nu face parte din decontul cu card, ci
+  (Dr 542 = Cr casă; dacă jurnalul de plată este de bancă, Dr 542 = Cr 5125). O retragere de numerar cu cardul firmei nu face parte din decontul cu card, ci
   este un decont separat, în modul **Virament**.
 
 ### Decont în valută
