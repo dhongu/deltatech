@@ -331,6 +331,24 @@ class DeltatechExpensesDeduction(models.Model):
     def _check_settlement_mode(self):
         for expenses in self:
             mode = expenses.settlement_mode
+            if (
+                mode == "company_card"
+                and expenses.journal_id.currency_id
+                and expenses.journal_id.currency_id != expenses.currency_id
+            ):
+                # cu cardul firmei, jurnalul de plată servește doar plății diurnei către angajat, în moneda
+                # decontului (a cardului): un jurnal de plată în altă valută ar primi note în moneda greșită
+                raise UserError(
+                    self.env._(
+                        "The expenses deduction %(number)s is paid with a company card in %(currency)s: the per diem "
+                        "is paid from the payment journal %(journal)s, which is in %(journal_currency)s. Choose a "
+                        "payment journal in %(currency)s or in the company currency.",
+                        number=expenses.number,
+                        currency=expenses.currency_id.name,
+                        journal=expenses.journal_id.display_name,
+                        journal_currency=expenses.journal_id.currency_id.name,
+                    )
+                )
             for journal in expenses.journal_id | expenses.card_journal_id:
                 # un jurnal în valută (cont 5314 / 5124) primește doar note în moneda lui
                 if journal.currency_id and journal.currency_id != expenses.currency_id:
