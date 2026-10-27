@@ -306,6 +306,13 @@ class DeltatechExpensesDeduction(models.Model):
         vals.update({"currency_id": self.currency_id.id, "amount_currency": amount, "balance": balance})
         return vals
 
+    def _deduction_label(self):
+        """Numele decontului în mesaje: numărul, iar înainte de avans (număr „/”) angajatul și data avansului."""
+        self.ensure_one()
+        if self.number and self.number != "/":
+            return self.number
+        return f"{self.employee_id.name or ''} ({self.date_advance or ''})"
+
     def _get_liquidity_account(self, journal, outbound=True):
         """Contul pe care ies (outbound) sau intră banii prin `journal`: contul casei, iar pentru un
         jurnal de bancă / card contul de plăți / încasări în curs al metodei de plată (5125), ca nota
@@ -323,7 +330,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "matched with the bank statement.",
                     direction=self.env._("payments") if outbound else self.env._("receipts"),
                     journal=journal.display_name,
-                    number=self.number,
+                    number=self._deduction_label(),
                 )
             )
         return account
@@ -343,7 +350,7 @@ class DeltatechExpensesDeduction(models.Model):
                         "The expenses deduction %(number)s is paid with a company card in %(currency)s: the per diem "
                         "is paid from the payment journal %(journal)s, which is in %(journal_currency)s. Choose a "
                         "payment journal in %(currency)s or in the company currency.",
-                        number=expenses.number,
+                        number=expenses._deduction_label(),
                         currency=expenses.currency_id.name,
                         journal=expenses.journal_id.display_name,
                         journal_currency=expenses.journal_id.currency_id.name,
@@ -363,7 +370,7 @@ class DeltatechExpensesDeduction(models.Model):
                             "%(number)s is in %(currency)s.",
                             journal=journal.display_name,
                             journal_currency=journal.currency_id.name,
-                            number=expenses.number,
+                            number=expenses._deduction_label(),
                             currency=expenses.currency_id.name,
                         )
                     )
@@ -371,14 +378,14 @@ class DeltatechExpensesDeduction(models.Model):
                 raise UserError(
                     self.env._(
                         "The expenses deduction %(number)s is settled in cash: choose a cash journal.",
-                        number=expenses.number,
+                        number=expenses._deduction_label(),
                     )
                 )
             if mode == "transfer" and expenses.journal_id.type not in ("bank", "credit"):
                 raise UserError(
                     self.env._(
                         "The expenses deduction %(number)s is settled by bank transfer: choose a bank journal.",
-                        number=expenses.number,
+                        number=expenses._deduction_label(),
                     )
                 )
             if mode == "company_card":
@@ -387,7 +394,7 @@ class DeltatechExpensesDeduction(models.Model):
                         self.env._(
                             "The expenses deduction %(number)s is paid with a company card: choose the company "
                             "card journal (a bank or credit card journal).",
-                            number=expenses.number,
+                            number=expenses._deduction_label(),
                         )
                     )
                 if expenses.advance:
@@ -395,7 +402,7 @@ class DeltatechExpensesDeduction(models.Model):
                         self.env._(
                             "The expenses deduction %(number)s is paid with a company card: it has no advance. "
                             "A cash withdrawal with the card is a separate deduction (Dr 542 = Cr 5121).",
-                            number=expenses.number,
+                            number=expenses._deduction_label(),
                         )
                     )
 
