@@ -9,3 +9,7 @@
 5. Pentru deconturi în valută, creați un registru de casă cu **moneda** respectivă (cont 5314) și
    un jurnal de avans pe un cont 542 în valută, actualizați cursurile valutare și setați conturile
    de diferențe de curs (765/665) în *Contabilitate > Setări*.
+6. Pentru viramentul pe cardul personal al angajatului și pentru cardul de firmă, setați pe
+   metodele de plată ale jurnalului de bancă / card un cont de **plăți în curs** și unul de
+   **încasări în curs** (5125 „Sume în curs de decontare”). Jurnalul cardului de firmă se poate
+   seta pe angajat (fila *Setări*, **Jurnal card firmă**).

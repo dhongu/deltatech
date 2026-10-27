@@ -10,6 +10,14 @@
 Exemplu: un avans de 1.000 RON și bonuri de 800 RON lasă 200 RON de restituit de către angajat;
 după validare, soldul contului 542 al angajatului este zero.
 
+**Mod de decontare.** *Numerar* plătește avansul din casă. *Virament (card personal)* îl plătește
+dintr-un jurnal de bancă: Dr 542 = Cr 5125 (plăți în curs), reconciliat cu linia din extras
+(Dr 5125 = Cr 5121); restituirea e Dr 5125 = Cr 542. *Card de firmă* nu are avans: chitanțele sunt
+plătite de firmă, deci fiecare se decontează Dr 401 = Cr 5125 al jurnalului cardului și se
+reconciliază cu extrasul cardului; angajatului i se datorează doar diurna, plătită din jurnalul de
+plată. O retragere de numerar cu cardul de firmă e un decont separat *Virament* (Dr 542 = Cr 5121),
+conform OMFP 1802/2014 pct. 302.
+
 **Decont în valută.** Un decont pe un registru de casă în valută este ținut în moneda respectivă:
 avansul, chitanțele, diurna și diferența se introduc în valută, iar fiecare notă contabilă are suma
 în valută și contravaloarea în lei la cursul BNR din data ei (avansul la data avansului, fiecare
