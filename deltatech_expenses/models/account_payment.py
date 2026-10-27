@@ -10,5 +10,7 @@ class AccountPayment(models.Model):
         liquidity_lines, counterpart_lines, writeoff_lines = super()._seek_for_lines()
         for line in self.move_id.line_ids:
             if line.account_id == self.expenses_deduction_id.expense_journal_id.default_account_id:
-                liquidity_lines += line
+                # 542 poate fi deja linie de lichiditate (contul implicit al jurnalului)
+                liquidity_lines |= line
+                writeoff_lines -= line
         return liquidity_lines, counterpart_lines, writeoff_lines
