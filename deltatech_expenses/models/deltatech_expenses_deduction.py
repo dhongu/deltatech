@@ -349,7 +349,12 @@ class DeltatechExpensesDeduction(models.Model):
                         journal_currency=expenses.journal_id.currency_id.name,
                     )
                 )
-            for journal in expenses.journal_id | expenses.card_journal_id:
+            # jurnalul cardului contează doar pe cardul firmei; pe numerar / virament e invizibil, deși
+            # onchange-ul angajatului îl completează
+            journals = expenses.journal_id | (
+                expenses.card_journal_id if mode == "company_card" else self.env["account.journal"]
+            )
+            for journal in journals:
                 # un jurnal în valută (cont 5314 / 5124) primește doar note în moneda lui
                 if journal.currency_id and journal.currency_id != expenses.currency_id:
                     raise UserError(
