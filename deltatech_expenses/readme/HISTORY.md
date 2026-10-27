@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.0.3.7.1 (2026-10-27)
+
+- A direct supplier payment from the advance settles the supplier's open bills
+  oldest first (by due date); it used to settle the newest bill first.
+
 ## 19.0.3.7.0 (2026-10-27)
 
 - Settlement mode on the expense report: **Cash** (as before), **Bank transfer

@@ -717,6 +717,40 @@ class TestExpenses(TransactionCase):
         lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
         self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
 
+    def test_supplier_payment_settles_oldest_bill_first(self):
+        """O plată directă care nu acoperă toate facturile deschise ale furnizorului o stinge
+        întâi pe cea mai veche (ordinea implicită a liniilor contabile e de la cea mai nouă)."""
+        today = fields.Date.today()
+        bills = self.env["account.move"]
+        for days in (60, 10):
+            bills |= self.env["account.move"].create(
+                {
+                    "move_type": "in_invoice",
+                    "partner_id": self.supplier.id,
+                    "invoice_date": fields.Date.subtract(today, days=days),
+                    "journal_id": self.purchase_journal.id,
+                    "invoice_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "name": "Marfă",
+                                "price_unit": 200.0,
+                                "account_id": self.acc_exp.id,
+                                "tax_ids": [(6, 0, [])],
+                            },
+                        )
+                    ],
+                }
+            )
+        bills.action_post()
+        old_bill, new_bill = bills
+        deduction = self._new_deduction(300.0)
+        self._new_line(deduction, 300.0, type="supplier_payment")
+        deduction.validate_expenses()
+        self.assertIn(old_bill.payment_state, ("paid", "in_payment"))
+        self.assertAlmostEqual(new_bill.amount_residual, 100.0, places=2)
+
     def _foreign_currency(self, company):
         """An active currency different from the company currency, with a rate far from 1."""
         currency = (

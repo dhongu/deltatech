@@ -204,9 +204,9 @@ Fiecare linie are un **tip**:
   decontarea din avans (vezi mai jos);
 - **Plată furnizor** — angajatul a achitat direct o datorie a firmei către un furnizor (fără chitanță
   proprie); la validare se generează nota `Dr 401 = Cr 542`, care se **reconciliază cu facturile
-  furnizor deschise** ale aceluiași furnizor (stinge datoria, ca o plată). Partea neacoperită de
-  facturi deschise este un **avans acordat furnizorului** și se reclasifică automat
-  `Dr 4092 = Cr 401`. De exemplu, o plată de 300 lei către un furnizor fără facturi deschise dă
+  furnizor deschise** ale aceluiași furnizor (stinge datoria, ca o plată), întâi pe cele mai vechi
+  după scadență. Partea neacoperită de facturi deschise este un **avans acordat furnizorului** și se
+  reclasifică automat `Dr 4092 = Cr 401`. De exemplu, o plată de 300 lei către un furnizor fără facturi deschise dă
   `Dr 401 = Cr 542` 300 lei și `Dr 4092 = Cr 401` 300 lei. La primirea facturii, contabilul compensează
   avansul (`Dr 401 = Cr 4092`). Modulul folosește mereu 4092 (servicii); dacă avansul e pentru bunuri
   (4091) sau imobilizări (4093), contabilul îl reclasifică manual.
@@ -351,6 +351,7 @@ soldului 542 după validare.
 - [ ] Diferența = cheltuieli + diurnă − avans (negativă = angajatul restituie).
 - [ ] Nota de diferență din casă are data decontului, nu data avansului.
 - [ ] O plată furnizor fără factură deschisă ajunge pe 4092, iar pe 401 nu rămâne sold debitor.
+- [ ] O plată furnizor mai mică decât facturile deschise stinge întâi factura cea mai veche.
 - [ ] Virament: pe metodele de plată ale jurnalului de bancă sunt setate conturile 5125; avansul produce Dr 542 = Cr 5125, nu o notă directă pe 5121.
 - [ ] Virament: restituirea diferenței este Dr 5125 = Cr 542, iar soldul 542 devine zero.
 - [ ] Card de firmă: decontul nu are avans, are „Jurnal card firmă", iar „Diferența" este egală cu diurna.
