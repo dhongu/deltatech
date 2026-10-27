@@ -33,13 +33,16 @@ class SaleOrder(models.Model):
         return res
 
     def set_phase(self, phase_step, ignore_sequence=False):
-        if self.env.context.get("skip_phase_update", False):
+        if not self or self.env.context.get("skip_phase_update", False):
             return
         domain = [(phase_step, "=", True)]
-        phases = self.env["sale.order.phase"].search(domain)
+        # the phases are configuration: a user without sales rights (e.g. an accountant posting the invoice)
+        # must still be able to move the order to the next phase
+        phases = self.env["sale.order.phase"].sudo().search(domain)
         if not phases:
             return
         for order in self:
+            current_phase = order.sudo().phase_id
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
             relevant_phase = False
             if transactions:
@@ -52,11 +55,11 @@ class SaleOrder(models.Model):
                 if ignore_sequence:
                     new_phase = phase
                     break
-                if phase.sequence > order.phase_id.sequence:
+                if phase.sequence > current_phase.sequence:
                     new_phase = phase
                     break
 
-            if new_phase and new_phase != order.phase_id:
+            if new_phase and new_phase != current_phase:
                 order.phase_id = new_phase
 
     def write(self, vals):

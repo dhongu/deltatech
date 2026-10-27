@@ -5,7 +5,7 @@
 
 {
     "name": "Sale Order Phases",
-    "version": "20.0.1.2.9",
+    "version": "20.0.1.2.10",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
