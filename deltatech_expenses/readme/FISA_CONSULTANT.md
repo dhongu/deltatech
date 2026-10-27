@@ -83,7 +83,9 @@ Date minime pentru demo:
 - companie românească cu localizarea contabilă instalată (RON);
 - un angajat `hr.employee` cu „Work Contact" completat (partenerul folosit pe notele contabile);
 - jurnal de numerar (Casă), un jurnal general cu **contul implicit = 542** (pentru avans/decont) și
-  un jurnal pentru diurnă.
+  un jurnal pentru diurnă;
+- pentru modurile Virament și Card de firmă: un jurnal de bancă / card cu contul 5125 setat pe metodele
+  de plată (vezi secțiunea 5, pasul 9).
 
 ## 5. Configurare inițială
 
@@ -237,8 +239,11 @@ angajat. Schimbarea lui propune automat un jurnal de plată potrivit (de numerar
   cardului; la fel, o linie „Plată furnizor" plătită cu cardul stinge factura furnizorului prin
   **Dr 401 = Cr 5125**, fără 542. Angajatului i se datorează doar **diurna**:
   **Diferența** din antet este egală cu totalul diurnei, iar plata ei se face din jurnalul de plată
-  (Dr 542 = Cr casă; dacă jurnalul de plată este de bancă, Dr 542 = Cr 5125). O retragere de numerar cu cardul firmei nu face parte din decontul cu card, ci
-  este un decont separat, în modul **Virament**.
+  (Dr 542 = Cr casă; dacă jurnalul de plată este de bancă, Dr 542 = Cr 5125). O retragere de numerar
+  cu cardul firmei nu face parte din decontul cu card, ci este un decont separat, în modul **Virament**.
+  Jurnalul de plată și jurnalul cardului trebuie să fie în moneda decontului (sau în moneda
+  companiei, pentru jurnalul de plată al diurnei), iar jurnalul cardului trebuie să fie al companiei
+  decontului.
 
 ### Decont în valută
 
@@ -273,7 +278,8 @@ cheltuială 121 la 5,10 lei, cu plata suplimentară de 21: 542 este zero în val
   devină **zero**:
   - angajatul restituie restul avansului: **Dr 5311 = Cr 542** (în modul Virament: **Dr 5125 = Cr 542**);
   - firma îi plătește angajatului diferența: **Dr 542 = Cr 5311** (în modul Virament: **Dr 542 = Cr 5125**);
-  - cu cardul de firmă, diferența este doar diurna: **Dr 542 = Cr casă** (jurnalul de plată);
+  - cu cardul de firmă, diferența este doar diurna: **Dr 542 = Cr casă** (jurnalul de plată; **Cr 5125**
+    dacă jurnalul de plată este de bancă);
 - **Decont în valută** (la validare): casa este **5314**, iar toate notele de mai sus poartă suma în
   valută și contravaloarea în lei la cursul din data lor; în plus, soldul în lei rămas pe 542 se
   închide cu **Dr 665 = Cr 542** (diferență nefavorabilă) sau **Dr 542 = Cr 765** (favorabilă).
@@ -378,7 +384,8 @@ Regenerare (pe o bază fără `hr_expense`, altfel apare și butonul „Preia ch
 ## 11. Observații pentru manual
 
 În manualul final, păstrați explicația orientată pe activitatea utilizatorului: când se acordă avansul,
-ce documente justificative se adaugă, cum se citește diferența de restituit/încasat și cum se verifică
+ce documente justificative se adaugă, ce mod de decontare se alege (numerar, virament pe cardul personal
+sau card de firmă) și de ce banii în tranzit trec prin 5125, cum se citește diferența de restituit/încasat și cum se verifică
 închiderea contului 542; pentru decontul în valută, explicați cursul din data fiecărei note și diferența de
 curs de la validare. Notele contabile se prezintă în detaliu (liniile Dr/Cr), iar integrarea cu
 `hr_expense` se menționează ca opțiune pentru companiile care folosesc și fluxul standard de cheltuieli.
