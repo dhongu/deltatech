@@ -16,11 +16,14 @@ Website Alternative Codes
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_alternative_website
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_alternative_website/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_alternative_website/tests
     :alt: 8 automated tests
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 This module extends the Odoo website shop to expose **alternative
 product codes** directly on the product page and in the website search
