@@ -5,9 +5,6 @@ on:
   pull_request:
     branches:
       - "19.0*"
-  push:
-    branches:
-      - "19.0"
 
 jobs:
   pre-commit:
