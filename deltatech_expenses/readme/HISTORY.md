@@ -15,6 +15,8 @@
     journal). The card journal can be set on the employee.
 - The per diem entry falls back to today when the expense date is empty (the
   entry could not be created without a date).
+- The migration (`migrations/19.0.3.7.0`) sets the Bank transfer mode on the
+  existing reports whose payment journal is a bank or card journal.
 
 ## 19.0.3.6.0 (2026-10-27)
 
