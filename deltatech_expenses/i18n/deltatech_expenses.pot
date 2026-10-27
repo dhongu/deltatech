@@ -161,11 +161,6 @@ msgid "Cannot delete Expenses Deduction(s) which are already done."
 msgstr ""
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
-msgid "Cash Journal"
-msgstr ""
-
-#. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "Chelt. conf. borderou de mai jos"
 msgstr ""
@@ -913,4 +908,35 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid "The advance of the expenses deduction %(number)s is already posted: the advance amount, journals, advance date, employee and company can no longer be changed. To change the advance, invalidate the deduction."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__transfer
+msgid "Bank transfer (personal card)"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__cash
+msgid "Cash"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__card_journal_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__expenses_card_journal_id
+msgid "Company Card Journal"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__company_card
+msgid "Company card"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
+msgid "Payment Journal"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__settlement_mode
+msgid "Settlement Mode"
 msgstr ""

@@ -10,3 +10,7 @@
 5. For expense reports in a foreign currency, create a cash journal with that **Currency** (account
    5314) and an expense journal on a 542 account in foreign currency, keep the exchange rates up to
    date and set the exchange gain/loss accounts (765/665) in *Accounting > Settings*.
+6. For bank transfers to the personal card of the employee and for company cards, set an
+   **Outstanding Payments** and an **Outstanding Receipts** account (5125 "Sume în curs de
+   decontare") on the payment methods of the bank / card journal. The company card journal can be
+   set on the employee (*Settings* tab, **Company Card Journal**).

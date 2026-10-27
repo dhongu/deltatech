@@ -7,6 +7,14 @@ from odoo import fields, models
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
+    expenses_card_journal_id = fields.Many2one(
+        "account.journal",
+        string="Company Card Journal",
+        domain="[('type', 'in', ('bank', 'credit')), ('company_id', '=', company_id)]",
+        groups="account.group_account_invoice",
+        help="Bank journal of the company card of the employee, proposed on the expenses deductions "
+        "paid with a company card.",
+    )
     expenses_deduction_count = fields.Integer(
         string="Expenses Deductions",
         compute="_compute_expenses_deduction_count",

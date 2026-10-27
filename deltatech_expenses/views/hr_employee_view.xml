@@ -16,6 +16,9 @@
                     <field name="expenses_deduction_count" widget="statinfo" string="Deconturi" />
                 </button>
             </div>
+            <group name="managers" position="inside">
+                <field name="expenses_card_journal_id" options="{'no_create': True}" />
+            </group>
         </field>
     </record>
 </odoo>

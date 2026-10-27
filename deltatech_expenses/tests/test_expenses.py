@@ -1089,3 +1089,128 @@ class TestExpenses(TransactionCase):
         self.assertAlmostEqual(
             sum(self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == acc_665).mapped("debit")), 17.5
         )
+
+    # Decont prin bancă: virament pe cardul personal (542 prin 5125) și card de firmă (fără 542)
+
+    def _bank_journal(self, code="BNKT", outstanding=True):
+        journal = self.env["account.journal"].create(
+            {"name": f"Banca {code}", "code": code, "type": "bank", "company_id": self.company.id}
+        )
+        if outstanding:
+            account = self.env["account.account"].create(
+                {
+                    "name": f"Sume în curs de decontare {code}",
+                    "code": f"5125{code}",
+                    "account_type": "asset_current",
+                    "reconcile": True,
+                }
+            )
+            method_lines = journal.inbound_payment_method_line_ids | journal.outbound_payment_method_line_ids
+            method_lines.payment_account_id = account
+        return journal
+
+    def test_transfer_advance_and_refund_through_outstanding_account(self):
+        """Avans virat pe cardul personal: Dr 542 = Cr 5125 (plăți în curs, reconciliat apoi cu extrasul),
+        restituirea Dr 5125 = Cr 542; nimic direct pe contul băncii, deci fără dublare la extras."""
+        bank = self._bank_journal()
+        outstanding = bank.outbound_payment_method_line_ids.payment_account_id
+        deduction = self._new_deduction(1000.0, settlement_mode="transfer", journal_id=bank.id)
+        advance_lines = self._lines_for_expenses(deduction)
+        self.assertAlmostEqual(
+            sum(advance_lines.filtered(lambda l: l.account_id == outstanding).mapped("credit")), 1000.0
+        )
+        self.assertEqual(
+            advance_lines.filtered(lambda l: l.account_id == outstanding).partner_id, self.employee_partner
+        )
+        self._new_line(deduction, 800.0)
+        deduction.validate_expenses()
+        lines = self._lines_for_expenses(deduction)
+        self.assertFalse(lines.filtered(lambda l: l.account_id == bank.default_account_id))
+        refund = lines.filtered(lambda l: l.account_id == outstanding and l.debit)
+        self.assertAlmostEqual(refund.debit, 200.0, places=2)
+        lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("balance")), 0.0, places=2)
+        self.assertEqual(deduction.voucher_ids.payment_state, "paid")
+
+    def test_transfer_requires_outstanding_account(self):
+        """Fără cont de plăți în curs pe jurnalul de bancă, avansul nu se poate posta (ar ajunge direct
+        pe 5121 și s-ar dubla cu extrasul)."""
+        bank = self._bank_journal("BNKN", outstanding=False)
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(500.0), settlement_mode="transfer", journal_id=bank.id)
+        )
+        with self.assertRaises(UserError):
+            deduction.validate_advance()
+
+    def test_transfer_requires_bank_journal(self):
+        deduction = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(500.0), settlement_mode="transfer")
+        )
+        with self.assertRaises(UserError):
+            deduction.validate_advance()
+
+    def test_company_card_receipts_settled_on_card_without_542(self):
+        """Card de firmă: chitanța Dr 6xx/4426 = Cr 401, decontată Dr 401 = Cr 5125 al cardului
+        (partenerul furnizor), fără 542; diurna Dr 625 = Cr 542 se plătește angajatului din casă."""
+        card = self._bank_journal("CARD")
+        card_outstanding = card.outbound_payment_method_line_ids.payment_account_id
+        deduction = self._new_deduction(0.0, settlement_mode="company_card", card_journal_id=card.id, diem=42.5, days=2)
+        self.assertFalse(self._lines_for_expenses(deduction))
+        self._new_line(deduction, 121.0, self.tax_21)
+        self.assertAlmostEqual(deduction.difference, 85.0, places=2)  # doar diurna se datorează angajatului
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        voucher = deduction.voucher_ids
+        self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
+        self.assertEqual(voucher.payment_state, "paid")
+        lines = self._lines_for_expenses(deduction)
+        card_line = lines.filtered(lambda l: l.account_id == card_outstanding)
+        self.assertAlmostEqual(card_line.credit, 121.0, places=2)
+        self.assertEqual(card_line.partner_id, self.supplier)
+        self.assertEqual(card_line.journal_id, card)
+        lines_542 = (lines | deduction.move_id.line_ids).filtered(lambda l: l.account_id == self.acc_542)
+        # 542: Cr 85 diurnă, Dr 85 plata diurnei din casă — nicio sumă de pe chitanță
+        self.assertAlmostEqual(sum(lines_542.mapped("credit")), 85.0, places=2)
+        self.assertAlmostEqual(sum(lines_542.mapped("balance")), 0.0, places=2)
+        cash_paid = lines.filtered(lambda l: l.account_id == self.acc_cash)
+        self.assertAlmostEqual(cash_paid.credit, 85.0, places=2)
+
+        deduction.invalidate_expenses()
+        self.assertFalse(self._lines_for_expenses(deduction))
+
+    def test_company_card_supplier_payment_settled_on_card(self):
+        """Plată directă cu cardul firmei către un furnizor: Dr 401 = Cr 5125 al cardului, reconciliat
+        cu factura deschisă a furnizorului."""
+        card = self._bank_journal("CRD2")
+        card_outstanding = card.outbound_payment_method_line_ids.payment_account_id
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.supplier.id,
+                "invoice_date": fields.Date.today(),
+                "journal_id": self.purchase_journal.id,
+                "invoice_line_ids": [(0, 0, {"name": "Servicii", "price_unit": 300.0, "account_id": self.acc_exp.id})],
+            }
+        )
+        bill.action_post()
+        deduction = self._new_deduction(0.0, settlement_mode="company_card", card_journal_id=card.id)
+        self._new_line(deduction, 300.0, type="supplier_payment")
+        deduction.validate_expenses()
+        self.assertEqual(bill.payment_state, "paid")
+        lines = self._lines_for_expenses(deduction)
+        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == card_outstanding).mapped("credit")), 300.0)
+        self.assertFalse(lines.filtered(lambda l: l.account_id == self.acc_542))
+
+    def test_company_card_rejects_advance_and_missing_journal(self):
+        """Cu cardul firmei nu există avans, iar jurnalul cardului e obligatoriu."""
+        card = self._bank_journal("CRD3")
+        with_advance = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(100.0), settlement_mode="company_card", card_journal_id=card.id)
+        )
+        with self.assertRaises(UserError):
+            with_advance.validate_advance()
+        without_journal = self.env["deltatech.expenses.deduction"].create(
+            dict(self._deduction_vals(0.0), settlement_mode="company_card")
+        )
+        with self.assertRaises(UserError):
+            without_journal.validate_advance()
