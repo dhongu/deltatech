@@ -75,5 +75,10 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
                     invoice_line.write({"purchase_price": purchase_price})
 
             elif invoice_line.product_id.standard_price > 0:
-                invoice_line.write({"purchase_price": invoice_line.product_id.standard_price})
+                # the product cost is per product unit, the cost of the line per line unit
+                product_uom = invoice_line.product_id.uom_id
+                purchase_price = product_uom._compute_price(
+                    invoice_line.product_id.standard_price, invoice_line.product_uom_id or product_uom
+                )
+                invoice_line.write({"purchase_price": purchase_price})
         return True

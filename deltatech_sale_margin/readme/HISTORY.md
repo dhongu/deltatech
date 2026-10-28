@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.1.3.4 (2026-10-28)
+
+- Profit report: the purchase price is shown per product unit, like the quantity (it was per unit of the invoice line, so a line sold by the dozen showed the cost of a dozen next to a quantity in units). Changing it in the report converts it back to the unit of the line.
+- Profit report: a line without a unit of measure keeps its quantity instead of an empty one.
+- *Update Purchase Price* without *Price from delivery* converts the product cost to the unit of the invoice line.
+- Profit report: new *Storable Products* filter (*Track Inventory* on the product), on by default.
+
 ## 19.0.1.3.3 (2026-10-22)
 
 - The *selling below cost* check on customer invoices runs only when the sale price is set or changed, not when the cost is recomputed. Installing the module on a database with draft invoices below cost (the check mode defaults to *Block the sale*) stopped with "You can not sell below the purchase price."; it now installs, and a new line or a changed price below cost is still blocked.

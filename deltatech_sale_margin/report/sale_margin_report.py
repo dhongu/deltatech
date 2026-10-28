@@ -22,7 +22,9 @@ class SaleMarginReport(models.Model):
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
     product_uom_qty = fields.Float("Quantity", readonly=True)
+    # in the product unit, like the quantity: the cost of the invoice line is in the unit of the line
     purchase_price = fields.Float("Purchase price", readonly=False)
+    is_storable = fields.Boolean("Track Inventory", readonly=True)
     sale_val = fields.Monetary(
         "Sale Amount",
         readonly=True,
@@ -96,7 +98,7 @@ class SaleMarginReport(models.Model):
         select_str = """
             SELECT
                 id, date,due_date, invoice_id,payment_term_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
-                purchase_price,
+                purchase_price, is_storable,
                 sale_val ,
                 stock_val  as stock_val,
                 (sale_val  - stock_val ) as profit_val,
@@ -134,15 +136,20 @@ class SaleMarginReport(models.Model):
 
 
                     -- quantity in the product unit: uom factors are absolute (Dozen = 12), so
-                    -- line unit -> product unit is qty * u.factor / u2.factor, as in uom._compute_quantity
+                    -- line unit -> product unit is qty * u.factor / u2.factor, as in uom._compute_quantity;
+                    -- a line without a unit or without a product keeps its quantity
                     SUM(CASE
                      WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
                       'in_invoice'::character varying::text])
-                        THEN -(l.quantity * u.factor / NULLIF(u2.factor, 0))
-                        ELSE  (l.quantity * u.factor / NULLIF(u2.factor, 0))
+                        THEN -(l.quantity * COALESCE(u.factor / NULLIF(u2.factor, 0), 1))
+                        ELSE  (l.quantity * COALESCE(u.factor / NULLIF(u2.factor, 0), 1))
                     END) AS product_uom_qty,
 
-                    avg(purchase_price) as purchase_price,
+                    -- the cost of the line is per line unit; per product unit it is
+                    -- price * u2.factor / u.factor, as in uom._compute_price
+                    avg(l.purchase_price * COALESCE(u2.factor / NULLIF(u.factor, 0), 1)) as purchase_price,
+
+                    COALESCE(t.is_storable, false) as is_storable,
 
                     SUM(-l.balance) AS sale_val,
 
@@ -195,6 +202,7 @@ class SaleMarginReport(models.Model):
                     l.account_id,
                     l.move_id,
                     t.uom_id,
+                    t.is_storable,
                     t.categ_id,
                     s.invoice_date,
                     s.invoice_date_due,
@@ -321,6 +329,15 @@ class SaleMarginReport(models.Model):
             raise UserError(self.env._("Only the lines of an invoice can be changed in the margin report."))
         value = {fname: vals[fname] for fname in self._invoice_line_fields() if fname in vals}
         invoice_lines = self.env["account.move.line"].sudo().browse(self.ids)
+        if "purchase_price" in value:
+            # the report shows the cost per product unit, the invoice line keeps it per line unit
+            purchase_price = value.pop("purchase_price")
+            for invoice_line in invoice_lines:
+                product_uom = invoice_line.product_id.uom_id
+                line_price = purchase_price
+                if product_uom and invoice_line.product_uom_id and invoice_line.product_uom_id != product_uom:
+                    line_price = product_uom._compute_price(purchase_price, invoice_line.product_uom_id)
+                invoice_line.write({"purchase_price": line_price})
         if value:
             invoice_lines.write(value)
         if "user_id" in vals:

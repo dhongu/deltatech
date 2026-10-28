@@ -36,6 +36,7 @@ class SaleMarginReport(models.Model):
             "product_id": "l.product_id",
             "product_uom": "t.uom_id",
             "product_uom_qty": "l.qty",
+            "is_storable": "COALESCE(t.is_storable, false)",
             "purchase_price": f"CASE WHEN l.qty = 0 THEN 0 ELSE ({cost}) / l.qty END",
             "sale_val": "l.price_subtotal / COALESCE(NULLIF(o.currency_rate, 0), 1.0)",
             "stock_val": cost,

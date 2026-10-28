@@ -43,6 +43,54 @@ class TestSaleMarginReport(AccountTestInvoicingCommon):
         self.assertAlmostEqual(self.invoice.invoice_line_ids.purchase_price, 50)
         self.assertAlmostEqual(row.stock_val, 150)
 
+    def test_line_in_other_unit(self):
+        """A line sold by the dozen: quantity and cost per product unit, the value unchanged."""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.partner_a.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {"product_id": self.product.id, "quantity": 2, "product_uom_id": dozen.id, "price_unit": 1200},
+                    )
+                ],
+            }
+        )
+        invoice.action_post()
+        self.env.flush_all()
+        line = invoice.invoice_line_ids
+        self.assertAlmostEqual(line.purchase_price, 720)
+        row = self.env["sale.margin.report"].search([("invoice_id", "=", invoice.id)])
+        self.assertEqual(row.product_uom, self.product.uom_id)
+        self.assertAlmostEqual(row.product_uom_qty, 24)
+        self.assertAlmostEqual(row.purchase_price, 60)
+        self.assertAlmostEqual(row.stock_val, 1440)
+        self.assertAlmostEqual(row.profit_val, 960)
+        row.write({"purchase_price": 50})
+        self.assertAlmostEqual(line.purchase_price, 600)
+        self.assertAlmostEqual(row.stock_val, 1200)
+
+    def test_storable_filter(self):
+        storable = self.env["product.product"].create(
+            {"name": "Storable", "is_storable": True, "standard_price": 10, "list_price": 20}
+        )
+        invoice = self.env["account.move"].create(
+            {
+                "move_type": "out_invoice",
+                "partner_id": self.partner_a.id,
+                "invoice_line_ids": [(0, 0, {"product_id": storable.id, "quantity": 1, "price_unit": 20})],
+            }
+        )
+        invoice.action_post()
+        self.env.flush_all()
+        rows = self.env["sale.margin.report"].search(
+            [("invoice_id", "in", (self.invoice | invoice).ids), ("is_storable", "=", True)]
+        )
+        self.assertEqual(rows.product_id, storable)
+
     def test_salesman_can_not_read(self):
         salesman = self.env["res.users"].create(
             {
