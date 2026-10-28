@@ -93,8 +93,10 @@ Nu e nimic de făcut în plus: bonul intră singur în raport, cu linia lui.
 
 ### Pasul 2 — Raportul de profit, cu vânzările de la casă
 
-Accesați **Vânzări → Raportare → Raport analiză profit** și grupați rândurile pe **Jurnal**, apoi pe
-**Produs** (în pivot, pe antetul *Total*).
+Accesați **Vânzări → Raportare → Raport analiză profit**, scoateți din bara de căutare filtrul
+**Produse stocabile** (pe demo, cafeaua și espressorul nu au bifa *Urmărește stocul*, deci filtrul le-ar
+ascunde) și grupați rândurile pe **Jurnal**, apoi pe **Produs** (în pivot, pe antetul *Total*). Rândurile
+bonurilor urmează filtrul ca facturile: un produs stocabil vândut la casă rămâne vizibil cu filtrul pus.
 
 1. **Găsiți pe ecran** — sub jurnalul de vânzări sunt facturile, sub jurnalul comenzilor casei (pe demo,
    *Casa Magazin Centru*) sunt bonurile nefacturate; pe fiecare rând, **Valoare vânzare**, **Valoare cost**, **Valoare
@@ -117,7 +119,7 @@ curent al produsului.
 ### Pasul 3 — Doar vânzările de la casă
 
 În același raport, treceți pe vizualizarea **listă**, scoateți din bara de căutare grupările implicite
-(*Agent de vânzări*, *Produs*) și filtrul de dată, apoi alegeți filtrul **Vânzări POS** (meniul
+(*Agent de vânzări*, *Produs*), filtrul de dată și filtrul **Produse stocabile**, apoi alegeți filtrul **Vânzări POS** (meniul
 filtrelor). Filtrul **Facturi** arată doar liniile de factură. Rândurile bonurilor au starea plății
 *Plătit*, deci intră la filtrul **Plătit**.
 

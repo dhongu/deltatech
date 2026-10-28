@@ -51,6 +51,17 @@ class TestSaleMarginReportPos(TestPoSCommon):
         self.assertEqual(row.payment_state, "paid")
         self.assertEqual(row.user_id, order.user_id)
 
+    def test_storable_column(self):
+        """The POS rows say whether the product is storable, for the default filter of the report."""
+        order = self._order(1)
+        self.assertTrue(self.product.is_storable)
+        row = self._rows(pos_order_id=order.id, is_storable=True)
+        self.assertEqual(len(row), 1)
+        self.product.is_storable = False
+        self.env.flush_all()
+        self.assertFalse(self._rows(pos_order_id=order.id, is_storable=True))
+        self.assertEqual(len(self._rows(pos_order_id=order.id, is_storable=False)), 1)
+
     def test_invoiced_order_not_counted_twice(self):
         order = self._order(1, is_invoiced=True)
         self.assertTrue(order.account_move)

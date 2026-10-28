@@ -674,3 +674,13 @@ msgstr "Nu puteți vinde sub prețul de achiziție: %s."
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_commission_update_purchase_price_form
 msgid "or"
 msgstr "sau"
+
+#. module: deltatech_sale_margin
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Storable Products"
+msgstr "Produse stocabile"
+
+#. module: deltatech_sale_margin
+#: model:ir.model.fields,field_description:deltatech_sale_margin.field_sale_margin_report__is_storable
+msgid "Track Inventory"
+msgstr "Urmărește stocul"
