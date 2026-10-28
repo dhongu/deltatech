@@ -39,16 +39,25 @@ primită (factură sau notă de credit de la furnizor), în afara acestui modul.
 
 | Rol | Ce face | Drept Odoo |
 |---|---|---|
-| Manager achiziții | definește țintele, citește **Realizat vs. țintă** și **Comparație cost furnizori** | **Achiziții / Administrator**; pentru comparația de cost și un drept de **Facturare** sau **Contabilitate (citire)** |
+| Manager achiziții | definește țintele, citește **Realizat vs. țintă** | **Achiziții / Administrator** |
 | Achizitor | vede țintele și realizatul din formularul țintei (butonul **Realizat**) | **Achiziții / Utilizator** |
-| Manager comercial | deschide vânzările din spatele cifrelor | **Vânzări / Administrator** sau dreptul de raport de marjă (*Sale Margin*) |
+| Contabil / manager achiziții cu drept contabil | deschide liniile de factură din spatele realizatului și **Comparație cost furnizori** | în plus, **Facturare** sau **Contabilitate (citire)** |
+| Manager comercial | vede coloanele de vânzări și deschide vânzările din spatele cifrelor | **Vânzări / Administrator** sau dreptul de raport de marjă (*Sale Margin*) |
 | Responsabil nomenclator | completează producătorul și categoriile eCommerce pe produse | privilegiul **Produse** pe nivelul **Creează** |
 
 Meniul **Achiziții → Raportare** este vizibil doar administratorilor de achiziții (regula standard
 Odoo). Achizitorul simplu ajunge la realizat doar din formularul țintei.
 
-Roluri recomandate pentru testare: un administrator de achiziții (vede tot) și un achizitor simplu
-(vede țintele doar în citire, fără meniul de raportare).
+Drepturile pe cifre urmează sursa lor:
+- **realizatul** (totalurile de achiziție pe trimestru) îl vede orice utilizator de achiziții, chiar
+  fără drept contabil, pentru că e volumul pe care îl vede deja în comenzi;
+- **liniile de factură** din spatele lui cer un drept contabil;
+- **coloanele de vânzări** (**Vândut**, **Cantitate vândută**, **Vândut cumulat**) apar doar celor
+  cu drept pe raportul de profit, pentru că vin din raportul care arată costul și marja.
+
+Roluri recomandate pentru testare: un administrator de achiziții cu drept contabil și de raport de
+profit (vede tot) și un achizitor simplu (vede țintele doar în citire și realizatul, fără vânzări,
+fără liniile de factură și fără meniul de raportare).
 
 ## 4. Conturi și date implicate
 
@@ -75,6 +84,9 @@ Facturi:
 | 12.05.2026 | Nord Computers SRL | factură furnizor | Laptop 14" | 4 | 11.200,00 lei |
 | 20.05.2026 | Nord Computers SRL | notă de credit furnizor (retur) | Laptop 14" | 1 | 2.800,00 lei |
 
+Plus o comandă de achiziție confirmată la Nord Computers SRL: 6 × Laptop 14" la 2.800,00 lei
+(nefacturată, folosită doar în pasul 8).
+
 Ținta Nord Computers SRL 2026, în valoare:
 
 | Trimestru | Categorie | Țintă |
@@ -91,27 +103,33 @@ Facturi:
    *Products Extension*, *Sale Margin* și *eCommerce*, dacă nu erau deja instalate.
 2. Pe fiecare producător cu țintă, în **Contacte**, bifați **Este producător** (fișa
    *Products Extension*).
-3. Pe produse completați **Producător** și **Categorii eCommerce** (fila **Vânzări**). Pentru
+3. Pe produse completați **Producător** (fila **Informații generale**) și **Categorii** (fila
+   **Vânzări**, secțiunea **Magazin eCommerce**). Pentru
    mii de produse folosiți exportul și importul din listă.
 4. Verificați că utilizatorii au drepturile din secțiunea 3.
 
 ## 6. Flux de utilizare
 
-### Pasul 1 — Producătorul și categoria pe produs
+### Pasul 1 — Producătorul pe produs
 
-Deschideți **Achiziții → Produse → Produse** și alegeți **Laptop 14"**. Verificați:
-- câmpul **Producător** este **Nord Computers SRL**;
-- în fila **Vânzări**, **Categorii eCommerce** conține **Laptopuri**.
+Deschideți **Achiziții → Produse → Produse** și alegeți **Laptop 14"**. În fila **Informații
+generale**, câmpul **Producător** (evidențiat) trebuie să fie **Nord Computers SRL**.
 
-Un produs poate avea mai multe categorii eCommerce: **Docking USB-C** este și în **Laptopuri**, și în
-**Accesorii / Docking**.
+Fără producător completat, produsul nu intră în nicio țintă.
 
-Fără producător completat, produsul nu intră în nicio țintă. Fără categorie, intră doar în ținta
-globală a producătorului.
+![Produsul Laptop 14" cu producătorul Nord Computers SRL](../static/description/01_produs_producator.png)
 
-![Produsul Laptop 14" cu producătorul Nord Computers SRL și categoria eCommerce Laptopuri](../static/description/01_produs_producator_categorii.png)
+### Pasul 2 — Categoria eCommerce pe produs
 
-### Pasul 2 — Definirea țintei producătorului
+Pe același produs, deschideți fila **Vânzări**. În secțiunea **Magazin eCommerce**, câmpul
+**Categorii** (evidențiat) conține **Laptopuri**.
+
+Un produs poate avea mai multe categorii: **Docking USB-C** este și în **Laptopuri**, și în
+**Accesorii / Docking**. Fără categorie, produsul intră doar în ținta globală a producătorului.
+
+![Fila Vânzări a produsului, cu categoria eCommerce Laptopuri](../static/description/02_produs_categorii_ecommerce.png)
+
+### Pasul 3 — Definirea țintei producătorului
 
 Deschideți **Achiziții → Produse → Ținte producători** și apăsați **Nou**. Completați:
 - **Producător:** Nord Computers SRL;
@@ -119,7 +137,7 @@ Deschideți **Achiziții → Produse → Ținte producători** și apăsați **N
 - **Tip țintă:** **Valoare** (achiziții fără TVA, în lei) sau **Cantitate** (bucăți, în unitatea de
   măsură a fiecărui produs).
 
-Câmpul **Furnizori** se completează singur cu producătorul. Doar facturile acestor parteneri intră
+Câmpul **Furnizori** (evidențiat cu 1) se completează singur cu producătorul. Doar facturile acestor parteneri intră
 în realizat, deci facturile redistribuitorilor (IT Distribuție SRL) nu se numără. Dacă producătorul
 facturează și prin altă firmă din grupul lui, adăugați-o aici.
 
@@ -131,56 +149,64 @@ Pe demo: T1 și T2 globale de 30.000,00 lei, T1 **Laptopuri** 25.000,00 lei și 
 2.000,00 lei. Salvați.
 
 Coloanele **Țintă cumulată**, **Achiziționat cumulat**, **Realizat %** și **Rămas** se calculează
-imediat în formular.
+imediat în formular. Ținta globală apare prima în fiecare trimestru. Bara de realizat devine verde
+peste 100 %, iar **Rămas** negativ înseamnă depășirea țintei (pe demo, Laptopuri −4.500,00).
 
-![Ținta Nord Computers SRL 2026, cu liniile pe trimestre și categorii și realizatul calculat](../static/description/02_tinta_producator.png)
+În fila **Note** se pot păstra condițiile acordului: pragurile de bonus, procentele, numărul
+contractului.
 
-### Pasul 3 — Realizat vs. țintă
+Butonul **Realizat** (evidențiat cu 2) deschide raportul din pasul următor, filtrat pe această țintă.
+
+![Ținta Nord Computers SRL 2026, cu liniile pe trimestre și categorii și realizatul calculat](../static/description/03_tinta_producator.png)
+
+### Pasul 4 — Realizat vs. țintă
 
 Deschideți **Achiziții → Raportare → Realizat vs. țintă** sau apăsați butonul **Realizat** din
-formularul țintei. Lista se deschide pe anul curent, grupată pe producător. Rândurile sub țintă
-sunt roșii, iar cele cu ținta atinsă sunt verzi.
+formularul țintei. Lista se deschide pe anul curent, grupată pe producător; deschideți grupul
+producătorului. Rândurile sub țintă sunt roșii, iar cele cu ținta atinsă sunt verzi.
 
 1. **Găsiți pe ecran** — pentru fiecare linie de țintă (trimestru × categorie):
    - **Țintă** și **Țintă cumulată** (suma țintelor de la T1 până la trimestrul liniei);
    - **Achiziționat** în trimestru și **Achiziționat cumulat**;
    - **Realizat %** și **Rămas**;
-   - **Vândut** în trimestru și **Vândut cumulat**.
+   - **Vândut** în trimestru și **Vândut cumulat** (doar cu drept pe raportul de profit).
 
    Coloanele cu cantități (**Cantitate achiziționată**, **Cantitate vândută**) se afișează din
    meniul de coloane opționale.
 2. **Verificați** pe demo:
    - **T1 global**: achiziționat 28.000,00 + 1.500,00 = **29.500,00**, din ținta de 30.000,00, adică
-     **98,33 %** și 500,00 rămas. Factura de 14.500,00 a redistribuitorului nu e inclusă.
+     **98,33 %** (bara rotunjește la 98 %) și 500,00 rămas. Factura de 14.500,00 a redistribuitorului nu e inclusă.
    - **T2 global**: în trimestru 11.200,00 − 2.800,00 (retur) = **8.400,00**; cumulat
-     29.500,00 + 8.400,00 = **37.900,00** din ținta cumulată de **60.000,00**, adică **63,17 %** și
+     29.500,00 + 8.400,00 = **37.900,00** din ținta cumulată de **60.000,00**, adică **63,17 %** (63 %) și
      22.100,00 rămas.
    - **T1 Laptopuri**: **29.500,00** (laptopurile plus docking-ul, care e și în Laptopuri) din
-     25.000,00, adică **118 %**, verde.
+     25.000,00, adică **118 %**, verde, cu **Rămas** −4.500,00.
    - **T1 Accesorii**: doar docking-ul, din subcategoria **Accesorii / Docking**: **1.500,00** din
      2.000,00, adică **75 %**.
    - **Vândut** pe T1 global: **10.500,00** (3 laptopuri facturate clientului).
    - Docking-ul se numără în ambele categorii, dar o singură dată în ținta globală. Suma
      categoriilor poate depăși deci totalul global.
 3. **Treceți mai departe** — selectați rândurile și folosiți **Acțiuni → Exportă** pentru Excel.
-   Pe fiecare rând, iconițele din dreapta deschid documentele din spatele cifrelor (pașii 4 și 5).
+   Pe fiecare rând, iconițele din dreapta deschid documentele din spatele cifrelor (pașii 5 și 6).
 
-![Realizat vs. țintă pentru Nord Computers SRL, cu T1 global la 98,33 % și T2 cumulat la 63,17 %](../static/description/03_realizat_vs_tinta.png)
+![Realizat vs. țintă pentru Nord Computers SRL, cu T1 global la 98,33 % și T2 cumulat la 63,17 %](../static/description/04_realizat_vs_tinta.png)
 
-### Pasul 4 — Facturile din spatele realizatului
+### Pasul 5 — Facturile din spatele realizatului
 
-Pe rândul **T2 global**, apăsați iconița coș (**Linii facturi furnizor**). Se deschid liniile de
-factură ale trimestrului care formează cifra.
+Pe rândul **T2 global**, apăsați iconița coș (**Linii facturi furnizor**). Iconița e vizibilă doar
+utilizatorilor cu drept contabil (**Facturare** sau **Contabilitate (citire)**). Se deschid liniile de
+factură ale trimestrului care formează cifra, cu factura, partenerul, produsul, cantitatea, prețul
+și valoarea fără TVA.
 
 1. **Găsiți pe ecran** — liniile facturii din 12.05.2026 (Laptop 14", 11.200,00) și ale notei de
    credit din 20.05.2026 (2.800,00, cu minus).
-2. **Verificați** că suma liniilor este **8.400,00**, egală cu **Achiziționat** din pasul 3, și că
+2. **Verificați** că totalul coloanei **Valoare** este **8.400,00**, egal cu **Achiziționat** din pasul 4, și că
    nu apare nicio linie a redistribuitorului.
 3. **Treceți mai departe** — înapoi la raport din bara de navigare (breadcrumb).
 
-![Liniile facturilor furnizor din T2 pentru ținta Nord Computers SRL: factura și returul](../static/description/04_linii_facturi_furnizor.png)
+![Liniile facturilor furnizor din T2 pentru ținta Nord Computers SRL: factura și returul](../static/description/05_linii_facturi_furnizor.png)
 
-### Pasul 5 — Vânzările pe aceleași produse
+### Pasul 6 — Vânzările pe aceleași produse
 
 Pe rândul **T1 global**, apăsați iconița grafic (**Vânzări**). Iconița e vizibilă doar
 utilizatorilor cu drept pe raportul de profit. Se deschide **Raport analiză profit**, filtrat pe
@@ -188,22 +214,23 @@ produsele producătorului și pe trimestru.
 
 1. **Găsiți pe ecran** — factura client din 15.02.2026: 3 × Laptop 14", **Valoare vânzare**
    10.500,00, cu costul și profitul.
-2. **Verificați** că **Valoare vânzare** totală este egală cu **Vândut** din pasul 3. Vânzările
+2. **Verificați** că **Valoare vânzare** totală este egală cu **Vândut** din pasul 4. Vânzările
    produselor cumpărate prin redistribuitori se numără și ele, pentru că filtrul este pe producător,
    nu pe furnizor.
 3. **Treceți mai departe** — comparați cumpărat cu vândut. O achiziție mult peste vânzare înseamnă
    stoc care trebuie susținut cu campanii, iar o vânzare peste achiziție arată unde se poate
    completa achiziția ca să se atingă ținta.
 
-![Raport analiză profit cu vânzările Laptop 14" din T1, deschis din ținta producătorului](../static/description/05_vanzari_aceleasi_produse.png)
+![Raport analiză profit cu vânzările Laptop 14" din T1, deschis din ținta producătorului](../static/description/06_vanzari_aceleasi_produse.png)
 
-### Pasul 6 — Comparația costului între furnizori
+### Pasul 7 — Comparația costului între furnizori
 
-Deschideți **Achiziții → Raportare → Comparație cost furnizori**. Analiza facturilor furnizor se
+Deschideți **Achiziții → Raportare → Comparație cost furnizori** (meniul cere și un drept contabil).
+Analiza facturilor furnizor se
 deschide ca pivot: produsele pe rânduri, furnizorii pe coloane, măsura **Preț mediu**.
 
 1. **Găsiți pe ecran** — rândul **Laptop 14"**: **2.800,00** la Nord Computers SRL și **2.900,00**
-   la IT Distribuție SRL.
+   la IT Distribuție SRL. Coloana **Total** a rândului e media pe toți furnizorii (2.827,78).
 2. **Verificați** perioada din filtrul de dată și că sunt bifate filtrele **Furnizori** și
    **Facturat** (implicite). Prețul este media ponderată din facturi, fără TVA, nu prețul din lista
    de prețuri a furnizorului.
@@ -211,18 +238,19 @@ deschide ca pivot: produsele pe rânduri, furnizorii pe coloane, măsura **Preț
    comparația pe o comandă în lucru, butonul **Compare supplier prices** al modulului
    *deltatech_purchase_price_compare*, dacă e instalat, folosește prețurile din listele furnizorilor.
 
-![Comparație cost furnizori: Laptop 14" la 2.800,00 lei de la producător și 2.900,00 lei de la redistribuitor](../static/description/06_comparatie_cost_furnizori.png)
+![Comparație cost furnizori: Laptop 14" la 2.800,00 lei de la producător și 2.900,00 lei de la redistribuitor](../static/description/07_comparatie_cost_furnizori.png)
 
-### Pasul 7 — Producătorul în Analiza achizițiilor
+### Pasul 8 — Producătorul în Analiza achizițiilor
 
-Deschideți **Achiziții → Raportare → Achiziții** (analiza comenzilor de achiziție). În
-**Grupează după** apare **Producător**, iar în căutare se poate tasta numele producătorului.
+Deschideți **Achiziții → Raportare → Achiziții** (**Analize achiziții**). În **Grupează după**
+apare **Producător**, iar în căutare se poate tasta numele producătorului.
 
-1. **Găsiți pe ecran** — valorile comandate pe producător.
-2. **Verificați** — aici sunt **comenzile**, nu facturile. Diferența față de realizatul din pasul 3
-   înseamnă comenzi încă nefacturate. Ținta se urmărește doar pe facturi.
+1. **Găsiți pe ecran** — rândul producătorului cu **Cant. comandată** și **Total**; pe demo, o
+   comandă confirmată de 6 × Laptop 14": 6,00 și 20.328,00 lei.
+2. **Verificați** — aici sunt **comenzile**, cu TVA în **Total**, nu facturile. Diferența față de
+   realizatul din pasul 4 înseamnă comenzi încă nefacturate. Ținta se urmărește doar pe facturi.
 
-![Analiza achizițiilor grupată pe producător](../static/description/07_analiza_achizitii_producator.png)
+![Analiza achizițiilor grupată pe producător](../static/description/08_analiza_achizitii_producator.png)
 
 ### Note de monografie și raportare
 
@@ -273,13 +301,15 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 - [ ] O a doua țintă pentru același producător și an este refuzată.
 - [ ] Pe demo, T1 global arată 29.500,00 achiziționat și 98,33 %, iar T2 global 37.900,00 cumulat
       și 63,17 %.
-- [ ] Factura redistribuitorului (14.500,00) nu apare în realizat și nici în liniile din pasul 4.
+- [ ] Factura redistribuitorului (14.500,00) nu apare în realizat și nici în liniile din pasul 5.
 - [ ] Returul de 2.800,00 scade realizatul din T2.
 - [ ] Ținta pe **Accesorii** include docking-ul din subcategoria **Accesorii / Docking**.
 - [ ] **Vândut** pe T1 este egal cu totalul din **Raport analiză profit** deschis din rând.
 - [ ] **Comparație cost furnizori** arată Laptop 14" la 2.800,00 (Nord Computers) și 2.900,00
       (IT Distribuție).
-- [ ] Un achizitor simplu vede țintele doar în citire și nu vede meniul **Raportare**.
+- [ ] Un achizitor simplu vede țintele doar în citire, vede realizatul, dar nu vede coloanele de
+      vânzări, iconița liniilor de factură și meniul **Raportare**.
+- [ ] Ținta depășită are bara verde și **Rămas** negativ.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -291,30 +321,31 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 | Realizatul pe categorie este 0, dar cel global nu | Produsele nu au categoria eCommerce a liniei | Completați **Categorii eCommerce** pe produse |
 | Suma categoriilor depășește totalul global | Produse în mai multe categorii | Normal: se numără în fiecare categorie, o singură dată global |
 | Lipsește meniul **Realizat vs. țintă** | Utilizatorul nu e **Achiziții / Administrator** | Butonul **Realizat** din formularul țintei, sau dreptul de administrator |
-| Lipsește iconița **Vânzări** pe rând | Utilizatorul nu are drept pe raportul de profit | Dreptul de raport de marjă sau **Vânzări / Administrator** |
+| Lipsesc coloanele de vânzări sau iconița **Vânzări** | Utilizatorul nu are drept pe raportul de profit | Dreptul de raport de marjă sau **Vânzări / Administrator** |
+| Lipsește iconița coș (liniile de factură) | Utilizatorul nu are drept contabil | **Facturare** sau **Contabilitate (citire)** |
 | Realizatul unui trimestru închis s-a schimbat | Factură postată sau anulată ulterior, ori producătorul sau categoria produsului au fost schimbate | Cifrele sunt live; păstrați exportul pentru perioadele închise |
 
 ## 10. Capturi de ecran
 
-Capturile (`static/description/`) **nu sunt încă generate**: trebuie rulat skill-ul
-`fisa-screenshots`. Se generează din `tests/test_screenshots.py`, cu mixinul `ScreenshotCase` din
-`l10n_ro_doc_screenshots` (import defensiv), în **limba română**, pe compania **Demo Distribuție
-SRL**, cu planul de conturi RO și datele din secțiunea 4.
+Capturile (`static/description/`) se generează automat din `tests/test_screenshots.py`, cu mixinul
+`ScreenshotCase` din `deltatech_doc_screenshots` (import defensiv). Sunt în **limba română**, pe
+compania **Demo Distribuție SRL**, cu planul de conturi RO și datele din secțiunea 4.
 
 | # | Fișier | Conținut |
 |---|---|---|
-| 1 | `01_produs_producator_categorii.png` | formularul produsului Laptop 14" cu **Producător** și **Categorii eCommerce** |
-| 2 | `02_tinta_producator.png` | formularul țintei Nord Computers SRL 2026 cu liniile pe trimestre și categorii |
-| 3 | `03_realizat_vs_tinta.png` | lista **Realizat vs. țintă** grupată pe producător |
-| 4 | `04_linii_facturi_furnizor.png` | liniile facturilor furnizor din T2 (factura și returul) |
-| 5 | `05_vanzari_aceleasi_produse.png` | **Raport analiză profit** deschis din rândul T1 |
-| 6 | `06_comparatie_cost_furnizori.png` | pivotul **Comparație cost furnizori** produs × furnizor |
-| 7 | `07_analiza_achizitii_producator.png` | **Analiza achizițiilor** grupată pe producător |
+| 1 | `01_produs_producator.png` | formularul produsului Laptop 14", fila **Informații generale**, cu **Producător** |
+| 2 | `02_produs_categorii_ecommerce.png` | fila **Vânzări** a produsului, cu **Categorii** din **Magazin eCommerce** |
+| 3 | `03_tinta_producator.png` | formularul țintei Nord Computers SRL 2026, cu **Furnizori**, butonul **Realizat** și liniile |
+| 4 | `04_realizat_vs_tinta.png` | lista **Realizat vs. țintă**, grupată pe producător |
+| 5 | `05_linii_facturi_furnizor.png` | liniile facturilor furnizor din T2 (factura și returul) |
+| 6 | `06_vanzari_aceleasi_produse.png` | **Raport analiză profit** deschis din rândul T1 |
+| 7 | `07_comparatie_cost_furnizori.png` | pivotul **Comparație cost furnizori** produs × furnizor |
+| 8 | `08_analiza_achizitii_producator.png` | **Analize achiziții** grupată pe producător |
 
 Regenerare:
 
 ```bash
-./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro,l10n_ro_doc_screenshots,deltatech_purchase_target \
+./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro,deltatech_purchase_target \
     --test-tags=fise_screenshots/deltatech_purchase_target --stop-after-init \
     --http-port=8987 --gevent-port=8988
 ```

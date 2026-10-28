@@ -39,6 +39,7 @@ msgstr "Activ"
 
 #. module: deltatech_purchase_target
 #: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target__target_type__amount
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
 msgid "Amount"
 msgstr "Valoare"
 
@@ -57,6 +58,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
 msgid "Archived"
 msgstr "Arhivat"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_search
+msgid "Bill"
+msgstr "Factură"
 
 #. module: deltatech_purchase_target
 #: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__public_categ_id
@@ -174,6 +181,11 @@ msgstr "Global"
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
 msgid "Per Category"
 msgstr "Pe categorii"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_search
+msgid "Product"
+msgstr "Produs"
 
 #. module: deltatech_purchase_target
 #: model:ir.model,name:deltatech_purchase_target.model_purchase_report
@@ -311,7 +323,7 @@ msgid "There is already a target for this manufacturer and year."
 msgstr "Există deja o țintă pentru acest producător și an."
 
 #. module: deltatech_purchase_target
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
 msgid "Total"
 msgstr "Total"
 

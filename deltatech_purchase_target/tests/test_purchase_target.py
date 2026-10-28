@@ -1,7 +1,8 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo.exceptions import ValidationError
+from odoo import Command
+from odoo.exceptions import AccessError, ValidationError
 from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -132,3 +133,43 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
     def test_unique_quarter_category(self):
         with self.assertRaises(ValidationError):
             self.target.line_ids = [(0, 0, {"quarter": "1", "target_value": 5})]
+
+    def test_purchase_user_without_accounting(self):
+        """A purchase user follows the targets: purchases yes, sales and bill lines no."""
+        user = self.env["res.users"].create(
+            {
+                "name": "Buyer TGT",
+                "login": "buyer_tgt",
+                "company_id": self.env.company.id,
+                "company_ids": [Command.set(self.env.company.ids)],
+                "group_ids": [Command.set(self.env.ref("purchase.group_purchase_user").ids)],
+            }
+        )
+        line = self._line("1").with_user(user)
+        self.assertAlmostEqual(line.purchase_ytd, 1100)
+        with self.assertRaises(AccessError):
+            line.read(["sale_amount"])
+        with self.assertRaises(AccessError):
+            line.target_id.write({"year": 2027})
+
+    def test_other_company_bills_excluded(self):
+        other_company = self.setup_other_company()["company"]
+        self.env.user.company_ids |= other_company
+        bill = (
+            self.env["account.move"]
+            .with_company(other_company)
+            .create(
+                {
+                    "move_type": "in_invoice",
+                    "partner_id": self.manufacturer.id,
+                    "invoice_date": "2026-02-20",
+                    "date": "2026-02-20",
+                    "company_id": other_company.id,
+                    "invoice_line_ids": [(0, 0, {"product_id": self.paint.id, "quantity": 7, "price_unit": 100})],
+                }
+            )
+        )
+        bill.action_post()
+        self.env.flush_all()
+        self.target.line_ids.invalidate_recordset()
+        self.assertAlmostEqual(self._line("1").purchase_amount, 1100)

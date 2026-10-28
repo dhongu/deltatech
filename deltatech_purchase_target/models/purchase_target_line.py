@@ -13,7 +13,11 @@ QUARTERS = [("1", "Q1"), ("2", "Q2"), ("3", "Q3"), ("4", "Q4")]
 class PurchaseTargetLine(models.Model):
     _name = "purchase.target.line"
     _description = "Purchase Target Line"
-    _order = "year desc, manufacturer_id, quarter, public_categ_id"
+    _order = "year desc, manufacturer_id, quarter, public_categ_id NULLS FIRST, id"
+    _check_company_auto = True
+
+    # the sales come from the sale margin report (cost and profit): same rights as the report
+    SALE_GROUPS = "deltatech_sale_margin.group_sale_margin,sales_team.group_sale_manager"
 
     target_id = fields.Many2one(
         "purchase.target", string="Purchase Target", required=True, ondelete="cascade", index=True
@@ -29,7 +33,8 @@ class PurchaseTargetLine(models.Model):
         string="Category",
         help="eCommerce category of the products. Empty: the overall target of the manufacturer.",
     )
-    target_value = fields.Float(string="Target")
+    # summing targets of different quarters and categories means nothing
+    target_value = fields.Float(string="Target", aggregator=None)
 
     # the achieved figures are read live from the posted invoices, they are not stored
     target_ytd = fields.Float(string="Target YTD", compute="_compute_achieved")
@@ -38,9 +43,9 @@ class PurchaseTargetLine(models.Model):
     purchase_ytd = fields.Float(string="Purchased YTD", compute="_compute_achieved")
     achieved_pct = fields.Float(string="Achieved %", compute="_compute_achieved")
     remaining = fields.Float(compute="_compute_achieved", help="Target YTD minus purchased YTD")
-    sale_amount = fields.Monetary(string="Sold", compute="_compute_achieved")
-    sale_qty = fields.Float(string="Sold Qty", compute="_compute_achieved")
-    sale_ytd = fields.Float(string="Sold YTD", compute="_compute_achieved")
+    sale_amount = fields.Monetary(string="Sold", compute="_compute_achieved", groups=SALE_GROUPS)
+    sale_qty = fields.Float(string="Sold Qty", compute="_compute_achieved", groups=SALE_GROUPS)
+    sale_ytd = fields.Float(string="Sold YTD", compute="_compute_achieved", groups=SALE_GROUPS)
 
     @api.constrains("target_id", "quarter", "public_categ_id")
     def _check_unique_quarter_categ(self):
@@ -94,6 +99,9 @@ class PurchaseTargetLine(models.Model):
     def _read_purchases(self):
         """Purchases of the year per quarter: {quarter: (amount, qty)}, credit notes deducted."""
         result = defaultdict(lambda: [0.0, 0.0])
+        # sudo: the purchase users follow the targets without accounting rights. They get only
+        # the totals per quarter of the target's own company and vendors, the volume they
+        # already see on the purchase orders; the bill lines (drill-down) need accounting rights.
         lines = self.env["account.move.line"].sudo()
         for move_type, sign in (("in_invoice", 1), ("in_refund", -1)):
             domain = [*self._purchase_domain(), ("move_id.move_type", "=", move_type)]
@@ -107,17 +115,27 @@ class PurchaseTargetLine(models.Model):
     def _read_sales(self):
         """Sales of the year per quarter: {quarter: (amount, qty)}, from the sale margin report."""
         result = defaultdict(lambda: [0.0, 0.0])
-        groups = (
-            self.env["sale.margin.report"]
-            .sudo()
-            ._read_group(self._sale_domain(), ["date:quarter_number"], ["sale_val:sum", "product_uom_qty:sum"])
+        if not self.env.user.has_groups(self.SALE_GROUPS):
+            return result
+        groups = self.env["sale.margin.report"]._read_group(
+            self._sale_domain(), ["date:quarter_number"], ["sale_val:sum", "product_uom_qty:sum"]
         )
         for quarter, amount, qty in groups:
             result[quarter][0] += amount
             result[quarter][1] += qty
         return result
 
-    @api.depends("target_value", "quarter", "public_categ_id", "target_id.partner_ids", "target_id.line_ids")
+    @api.depends(
+        "target_value",
+        "quarter",
+        "public_categ_id",
+        "year",
+        "target_type",
+        "company_id",
+        "manufacturer_id",
+        "target_id.partner_ids",
+        "target_id.line_ids",
+    )
     def _compute_achieved(self):
         # the four quarters of a category share the same figures: read them once per year
         cache = {}
@@ -170,7 +188,8 @@ class PurchaseTargetLine(models.Model):
             "name": self.env._("Purchases - %s", self.display_name),
             "res_model": "account.move.line",
             "view_mode": "list",
-            "views": [(self.env.ref("account.view_move_line_tree").id, "list")],
+            "views": [(self.env.ref("deltatech_purchase_target.view_move_line_purchase_target_list").id, "list")],
+            "search_view_id": self.env.ref("deltatech_purchase_target.view_move_line_purchase_target_search").id,
             "domain": [*self._purchase_domain(), *self._quarter_domain()],
             "context": {"create": False},
         }
@@ -187,7 +206,8 @@ class PurchaseTargetLine(models.Model):
     @api.depends("target_id", "quarter", "public_categ_id")
     def _compute_display_name(self):
         for line in self:
-            parts = [line.target_id.display_name, f"Q{line.quarter}"]
+            quarters = dict(line._fields["quarter"]._description_selection(line.env))
+            parts = [line.target_id.display_name, quarters.get(line.quarter)]
             if line.public_categ_id:
                 parts.append(line.public_categ_id.display_name)
             line.display_name = " / ".join(p for p in parts if p)

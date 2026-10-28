@@ -58,7 +58,7 @@
                                     <field name="target_value" />
                                     <field name="target_ytd" />
                                     <field name="purchase_ytd" />
-                                    <field name="achieved_pct" widget="progressbar" />
+                                    <field name="achieved_pct" widget="progressbar" options="{'overflow_class': 'bg-success'}" />
                                     <field name="remaining" />
                                 </list>
                             </field>

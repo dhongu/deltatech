@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 23:26+0000\n"
-"PO-Revision-Date: 2026-10-28 23:26+0000\n"
+"POT-Creation-Date: 2026-10-28 23:41+0000\n"
+"PO-Revision-Date: 2026-10-28 23:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,7 @@ msgstr ""
 
 #. module: deltatech_purchase_target
 #: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target__target_type__amount
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
 msgid "Amount"
 msgstr ""
 
@@ -53,6 +54,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
 msgid "Archived"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_search
+msgid "Bill"
 msgstr ""
 
 #. module: deltatech_purchase_target
@@ -169,6 +176,11 @@ msgstr ""
 #. module: deltatech_purchase_target
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
 msgid "Per Category"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_search
+msgid "Product"
 msgstr ""
 
 #. module: deltatech_purchase_target
@@ -307,7 +319,7 @@ msgid "There is already a target for this manufacturer and year."
 msgstr ""
 
 #. module: deltatech_purchase_target
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
 msgid "Total"
 msgstr ""
 
