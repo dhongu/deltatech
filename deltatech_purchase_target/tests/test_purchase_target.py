@@ -117,6 +117,38 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
         self.target.target_type = "qty"
         self.assertAlmostEqual(self._line("2").purchase_ytd, 17)
 
+    def test_quantity_in_product_unit(self):
+        """A bill line in dozens counts in the unit of the product (units)."""
+        self.env.user.group_ids |= self.env.ref("uom.group_uom")
+        move = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": self.manufacturer.id,
+                "invoice_date": "2026-08-10",
+                "date": "2026-08-10",
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.paint.id,
+                            "quantity": 2,
+                            "product_uom_id": self.env.ref("uom.product_uom_dozen").id,
+                            "price_unit": 1200,
+                            "tax_ids": [],
+                        },
+                    )
+                ],
+            }
+        )
+        move.action_post()
+        self.target.write({"target_type": "qty", "line_ids": [(0, 0, {"quarter": "3", "target_value": 100})]})
+        self.env.flush_all()
+        q3 = self._line("3")
+        self.assertAlmostEqual(q3.purchase_qty, 24)
+        # 15 + 2 in the first half of the year, 24 in Q3
+        self.assertAlmostEqual(q3.purchase_ytd, 41)
+
     def test_sales_on_same_products(self):
         q1 = self._line("1")
         self.assertAlmostEqual(q1.sale_amount, 450)

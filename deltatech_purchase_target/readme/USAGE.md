@@ -12,4 +12,5 @@ Notes:
 - Achieved = posted vendor bills minus vendor credit notes, without VAT, by accounting date.
 - A product in two eCommerce categories counts in each category target, but only once in the
   overall target of the manufacturer.
-- Quantity targets add up the quantities in the unit of measure of each product.
+- Quantity targets add up the quantities in the unit of measure of each product; a bill line in
+  another unit (box, dozen) is converted to the unit of the product.

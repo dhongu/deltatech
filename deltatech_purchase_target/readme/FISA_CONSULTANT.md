@@ -173,6 +173,12 @@ producătorului. Rândurile sub țintă sunt roșii, iar cele cu ținta atinsă 
 
    Coloanele cu cantități (**Cantitate achiziționată**, **Cantitate vândută**) se afișează din
    meniul de coloane opționale.
+
+   La o țintă de tip **Cantitate**, **Țintă**, **Țintă cumulată**, **Achiziționat cumulat**,
+   **Realizat %**, **Rămas** și **Vândut cumulat** sunt în bucăți (unitatea de măsură a produsului;
+   o factură în cutii sau duzini se convertește). **Achiziționat** și **Vândut** din trimestru rămân
+   însă în lei: cantitatea trimestrului e în coloanele opționale **Cantitate achiziționată** și
+   **Cantitate vândută**.
 2. **Verificați** pe demo:
    - **T1 global**: achiziționat 28.000,00 + 1.500,00 = **29.500,00**, din ținta de 30.000,00, adică
      **98,33 %** (bara rotunjește la 98 %) și 500,00 rămas. Factura de 14.500,00 a redistribuitorului nu e inclusă.
@@ -263,8 +269,9 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
   anulată schimbă imediat realizatul, inclusiv pe trimestrele trecute.
 - **Producătorul și categoriile sunt cele actuale ale produsului**: dacă le schimbați, se schimbă
   și realizatul perioadelor trecute. Pentru un trimestru închis, păstrați exportul.
-- **Ținta în cantitate** adună cantitățile în unitatea de măsură a fiecărui produs. Folosiți-o
-  doar pentru producători cu produse în aceeași unitate (bucăți).
+- **Ținta în cantitate** adună cantitățile în unitatea de măsură a fiecărui produs (o linie
+  facturată în cutii sau duzini se convertește). Folosiți-o doar pentru producători cu produse în
+  aceeași unitate (bucăți).
 - **Bonusul de volum** primit de la producător după atingerea țintei se înregistrează, ca orice
   reducere comercială primită, pe factura sau nota de credit a furnizorului. Ca notă de credit de
   la același furnizor, scade realizatul.
@@ -319,6 +326,7 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 | „Categoria are deja o țintă în trimestrul T…” | Două linii cu același trimestru și aceeași categorie (sau ambele globale) | Păstrați o singură linie și corectați valoarea |
 | Realizatul este 0 | Producătorul nu e completat pe produse sau factura e de la alt partener decât cel din **Furnizori** | Completați producătorul; adăugați firma care facturează în **Furnizori** |
 | Realizatul pe categorie este 0, dar cel global nu | Produsele nu au categoria eCommerce a liniei | Completați **Categorii eCommerce** pe produse |
+| La o țintă în cantitate, **Achiziționat** din trimestru nu se potrivește cu ținta | Coloana trimestrului e mereu în lei; cumulatul e în bucăți | Afișați **Cantitate achiziționată** din coloanele opționale |
 | Suma categoriilor depășește totalul global | Produse în mai multe categorii | Normal: se numără în fiecare categorie, o singură dată global |
 | Lipsește meniul **Realizat vs. țintă** | Utilizatorul nu e **Achiziții / Administrator** | Butonul **Realizat** din formularul țintei, sau dreptul de administrator |
 | Lipsesc coloanele de vânzări sau iconița **Vânzări** | Utilizatorul nu are drept pe raportul de profit | Dreptul de raport de marjă sau **Vânzări / Administrator** |
@@ -364,7 +372,9 @@ Prezentați modulul în capitolul de achiziții, după nomenclatorul de produse.
 - **Cifre live, nememorate:** schimbarea producătorului sau a categoriilor pe produs ori facturile
   postate retroactiv modifică trimestrele trecute.
 - **Produse în mai multe categorii:** se numără în fiecare categorie.
-- **Ținta în cantitate** nu convertește unitățile de măsură între produse.
+- **Ținta în cantitate** adună bucățile tuturor produselor; liniile facturate în altă unitate
+  (cutie, duzină) se convertesc în unitatea produsului, dar produse cu unități diferite (buc. și kg)
+  nu se pot aduna cu sens.
 - **Un singur tip de țintă pe an:** valoare sau cantitate. Pentru un producător cu ambele tipuri
   de țintă, tipul se alege pe țintă, nu pe linie.
 - **Lista Realizat vs. țintă** nu afișează totaluri pe grup pentru coloanele de realizat, pentru că

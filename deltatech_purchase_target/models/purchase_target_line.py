@@ -105,8 +105,14 @@ class PurchaseTargetLine(models.Model):
         lines = self.env["account.move.line"].sudo()
         for move_type, sign in (("in_invoice", 1), ("in_refund", -1)):
             domain = [*self._purchase_domain(), ("move_id.move_type", "=", move_type)]
-            groups = lines._read_group(domain, ["date:quarter_number"], ["balance:sum", "quantity:sum"])
-            for quarter, balance, quantity in groups:
+            # the quantity is in the unit of the bill line (a box, a dozen): grouped per unit and
+            # product, to convert it to the unit of the product
+            groups = lines._read_group(
+                domain, ["date:quarter_number", "product_uom_id", "product_id"], ["balance:sum", "quantity:sum"]
+            )
+            for quarter, line_uom, product, balance, quantity in groups:
+                if line_uom and line_uom != product.uom_id:
+                    quantity = line_uom._compute_quantity(quantity, product.uom_id, round=False)
                 # the balance of a credit note is already negative, only the quantity is unsigned
                 result[quarter][0] += balance
                 result[quarter][1] += sign * quantity
