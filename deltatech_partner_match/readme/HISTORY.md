@@ -1,3 +1,8 @@
+## 19.0.1.3.0 (2026-10-28)
+
+- The county lowers the score only when both counties have a locality of that name (`res.city`, from `base_address_extended`), as "Satu Nou" in Bacău and in Iași. On a database of 528,000 partners, 2.1% have a county that does not fit their city ("Sibiu" in Timiș, București in 25 counties): with the rule of 19.0.1.1.0 these lost the street and city points against a correct import, so the marketplace created a new contact instead of reusing them. A county that does not fit the city is now ignored, and without the list of localities the county never lowers the score.
+- The localities of a county and the county of the searched values are read once per search, not once per candidate.
+
 ## 19.0.1.2.0 (2026-10-24)
 
 - Add `name_words`: the name without diacritics, punctuation and legal forms, with the words in their order, for an exact name key where the order matters ("Alfa Beta" and "Beta Alfa" can be two companies). `normalize_name` is the same with the words sorted. Used by the trial balance import.
