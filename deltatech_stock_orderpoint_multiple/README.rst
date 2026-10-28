@@ -53,6 +53,12 @@ tăcere. În acest caz se comandă un multiplu întreg.
 Changelog
 =========
 
+20.0.1.0.4 (2026-10-28)
+-----------------------
+
+- Migrated to Odoo 20.0. Quantities are compared with the *Product Unit*
+  decimal precision (the unit of measure no longer has a rounding).
+
 19.0.1.0.4 (2026-10-16)
 -----------------------
 

@@ -1,3 +1,8 @@
+## 20.0.1.0.2 (2026-10-28)
+
+- Migrated to Odoo 20.0. The test closing an empty POS session uses `close_session_from_ui()`
+  (`action_pos_session_closing_control()` no longer exists).
+
 ## 19.0.1.0.2 (2026-10-17)
 
 - Saving a new price on a shared product together with a product of another company now still

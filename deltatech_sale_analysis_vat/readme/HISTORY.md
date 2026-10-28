@@ -1,3 +1,9 @@
+## 20.0.1.0.4 (2026-10-28)
+
+- Migrated to Odoo 20.0. The VAT columns of the invoice analysis are added through
+  `_select_list()` (the report no longer has `_select`/`_from`); the POS order analysis builds its
+  query with `SQL`.
+
 ## 19.0.1.0.4 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
