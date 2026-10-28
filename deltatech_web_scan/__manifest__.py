@@ -3,7 +3,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Web Scan Base",
     "summary": "Safe and polite reading of product pages: schema.org data, selectors, checks, history",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "category": "Hidden/Tools",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

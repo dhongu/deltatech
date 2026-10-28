@@ -2,6 +2,7 @@
 
 from types import SimpleNamespace
 
+from odoo.orm.identifiers import NewId
 from odoo.tests.common import BaseCase, TransactionCase, tagged
 
 from odoo.addons.deltatech_web_scan.utils.scan import group_by_domain, history_needs_new_interval, scan_page
@@ -91,10 +92,15 @@ class TestScanPage(BaseCase):
 
 @tagged("post_install", "-at_install")
 class TestScanSourceMixin(TransactionCase):
+    def _new_source(self, values):
+        """An in-memory record of the mixin: Odoo 20 refuses `new()` on abstract models"""
+        record = self.env["web.scan.source.mixin"].browse((NewId(),))
+        record._update_cache(values, validate=False)
+        return record
+
     def test_scan_fetch_keeps_state(self):
         """The mixin reads the page, keeps the state, counts the failures in a row and calls _scan_apply"""
-        Source = self.env["web.scan.source.mixin"]
-        record = Source.new({"scan_url": URL})
+        record = self._new_source({"scan_url": URL})
         with fake_web({URL: PRODUCT_PAGE}):
             outcomes = record._scan_fetch()
         self.assertEqual(outcomes[record.id]["state"], "ok")
@@ -102,18 +108,18 @@ class TestScanSourceMixin(TransactionCase):
         self.assertEqual(record.scan_source, "structured")
         self.assertTrue(record.scan_last_fetch)
 
-        failing = Source.new({"scan_url": "https://shop.example/gone", "scan_error_count": 2})
+        failing = self._new_source({"scan_url": "https://shop.example/gone", "scan_error_count": 2})
         with fake_web():
             failing._scan_fetch()
         self.assertEqual(failing.scan_state, "not_found")
         self.assertEqual(failing.scan_error_count, 3)
 
-        no_url = Source.new({})
+        no_url = self._new_source({})
         no_url._scan_fetch()
         self.assertEqual(no_url.scan_state, "error")
 
     def test_confirm_suspect(self):
-        record = self.env["web.scan.source.mixin"].new({"scan_url": URL})
+        record = self._new_source({"scan_url": URL})
         record.scan_state = "suspect"
         record.action_scan_confirm()
         self.assertEqual(record.scan_state, "ok")

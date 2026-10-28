@@ -14,13 +14,10 @@ Web Scan Base
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_web_scan
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_scan
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-35%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_web_scan
-    :alt: 35 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Technical base for the modules that read **product pages on the web**:
 the pages of the competitors, the pages of the vendors that give no
@@ -149,6 +146,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_web_scan>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_scan>`_ project on GitHub.
 
 You are welcome to contribute.
