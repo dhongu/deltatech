@@ -98,6 +98,14 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 Changelog
 =========
 
+19.0.1.3.1 (2026-10-28)
+-----------------------
+
+- Consultant sheet (``readme/FISA_CONSULTANT.md``): the matching rules
+  with examples, the score, and where their effect shows in the modules
+  that use them (duplicate finder, marketplace customer import, trial
+  balance import).
+
 19.0.1.3.0 (2026-10-28)
 -----------------------
 
