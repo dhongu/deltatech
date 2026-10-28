@@ -4,7 +4,7 @@
 
 
 from odoo import fields
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -819,6 +819,184 @@ class TestExpenses(TransactionCase):
         values.update(vals)
         return self.env["deltatech.expenses.deduction.line"].create(values)
 
+    def test_supplier_payment_settles_oldest_bill_first(self):
+        """O plată directă care nu acoperă toate facturile deschise ale furnizorului o stinge
+        întâi pe cea mai veche (ordinea implicită a liniilor contabile e de la cea mai nouă)."""
+        today = fields.Date.today()
+        bills = self.env["account.move"]
+        for days in (60, 10):
+            bills |= self.env["account.move"].create(
+                {
+                    "move_type": "in_invoice",
+                    "partner_id": self.supplier.id,
+                    "invoice_date": fields.Date.subtract(today, days=days),
+                    "journal_id": self.purchase_journal.id,
+                    "invoice_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "name": "Marfă",
+                                "price_unit": 200.0,
+                                "account_id": self.acc_exp.id,
+                                "tax_ids": [(6, 0, [])],
+                            },
+                        )
+                    ],
+                }
+            )
+        bills.action_post()
+        old_bill, new_bill = bills
+        deduction = self._new_deduction(300.0)
+        self._new_line(deduction, 300.0, type="supplier_payment")
+        deduction.validate_expenses()
+        self.assertIn(old_bill.payment_state, ("paid", "in_payment"))
+        self.assertAlmostEqual(new_bill.amount_residual, 100.0, places=2)
+
+    def _bill(self, amount, days=0, currency=None, partner=None):
+        bill = self.env["account.move"].create(
+            {
+                "move_type": "in_invoice",
+                "partner_id": (partner or self.supplier).id,
+                "invoice_date": fields.Date.subtract(fields.Date.today(), days=days),
+                "journal_id": self.purchase_journal.id,
+                "currency_id": (currency or self.company.currency_id).id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {"name": "Marfă", "price_unit": amount, "account_id": self.acc_exp.id, "tax_ids": [(6, 0, [])]},
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        return bill
+
+    def _allocate(self, line, bill, amount):
+        return self.env["deltatech.expenses.deduction.allocation"].create(
+            {"line_id": line.id, "move_id": bill.id, "amount": amount}
+        )
+
+    def test_supplier_payment_settles_chosen_bill(self):
+        """Cu o factură aleasă pe linie, plata o stinge pe ea, nu pe cea mai veche."""
+        old_bill = self._bill(200.0, days=60)
+        new_bill = self._bill(200.0, days=10)
+        deduction = self._new_deduction(200.0)
+        line = self._new_line(deduction, 200.0, type="supplier_payment")
+        self._allocate(line, new_bill, 200.0)
+        deduction.validate_expenses()
+        self.assertIn(new_bill.payment_state, ("paid", "in_payment"))
+        self.assertEqual(old_bill.payment_state, "not_paid")
+        # plata apare în widget-ul facturii, cu referința decontului
+        self.assertEqual(new_bill._get_reconciled_amls().move_id.ref, deduction.number)
+
+    def test_supplier_payment_partial_allocation_rest_on_payable(self):
+        """Plată 300 cu 50 alocați pe o factură de 200 și 100 pe alta: prima rămâne parțial plătită,
+        a doua plătită, iar restul de 150 stă pe 401 ca plată nealocată (nu stinge alte facturi)."""
+        bill_a = self._bill(200.0, days=30)
+        bill_b = self._bill(100.0, days=20)
+        other_bill = self._bill(500.0, days=90)
+        deduction = self._new_deduction(300.0)
+        line = self._new_line(deduction, 300.0, type="supplier_payment")
+        self._allocate(line, bill_a, 50.0)
+        self._allocate(line, bill_b, 100.0)
+        self.assertAlmostEqual(line.allocated_amount, 150.0, places=2)
+        deduction.validate_expenses()
+        self.assertEqual(bill_a.payment_state, "partial")
+        self.assertAlmostEqual(bill_a.amount_residual, 150.0, places=2)
+        self.assertIn(bill_b.payment_state, ("paid", "in_payment"))
+        self.assertEqual(other_bill.payment_state, "not_paid")
+        payable = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_payable)
+        self.assertEqual(len(payable), 3)
+        self.assertAlmostEqual(sum(payable.mapped("debit")), 300.0, places=2)
+        self.assertAlmostEqual(sum(payable.mapped("amount_residual")), 150.0, places=2)
+        lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(lines_542.mapped("credit")), 300.0, places=2)
+
+    def test_supplier_payment_allocation_checks(self):
+        """Alocarea nu poate depăși restul de plată al facturii, nici suma plătită, și e permisă doar
+        pe o linie de plată furnizor."""
+        bill = self._bill(100.0)
+        big_bill = self._bill(500.0)
+        deduction = self._new_deduction(300.0)
+        line = self._new_line(deduction, 300.0, type="supplier_payment")
+        allocation = self._allocate(line, bill, 150.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+        allocation.move_id = big_bill
+        allocation.amount = 400.0
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+        expense_line = self._new_line(deduction, 10.0)
+        with self.assertRaises(ValidationError):
+            self._allocate(expense_line, bill, 10.0)
+
+    def test_supplier_payment_default_allocation_amount(self):
+        """La alegerea facturii, suma implicită e restul de plată, limitat la suma încă nealocată."""
+        bill = self._bill(500.0)
+        deduction = self._new_deduction(300.0)
+        line = self._new_line(deduction, 300.0, type="supplier_payment")
+        allocation = self.env["deltatech.expenses.deduction.allocation"].new({"line_id": line.id, "move_id": bill.id})
+        allocation._onchange_move_id()
+        self.assertAlmostEqual(allocation.amount, 300.0, places=2)
+
+    def test_supplier_payment_contact_person_settles_company_bill(self):
+        """Linia cu o persoană de contact a furnizorului stinge facturile firmei (commercial partner)."""
+        contact = self.env["res.partner"].create({"name": "Ion Contact", "parent_id": self.supplier.id})
+        bill = self._bill(100.0)
+        deduction = self._new_deduction(100.0)
+        self._new_line(deduction, 100.0, type="supplier_payment", partner_id=contact.id)
+        deduction.validate_expenses()
+        self.assertIn(bill.payment_state, ("paid", "in_payment"))
+
+    def test_supplier_payment_invalidate_restores_bills(self):
+        """La invalidarea decontului reconcilierile se desfac, iar facturile revin la neplătite;
+        alocările rămân pe linie pentru o nouă validare."""
+        bill = self._bill(200.0)
+        deduction = self._new_deduction(200.0)
+        line = self._new_line(deduction, 200.0, type="supplier_payment")
+        self._allocate(line, bill, 120.0)
+        deduction.validate_expenses()
+        self.assertEqual(bill.payment_state, "partial")
+        deduction.invalidate_expenses()
+        self.assertEqual(bill.payment_state, "not_paid")
+        self.assertAlmostEqual(bill.amount_residual, 200.0, places=2)
+        self.assertEqual(line.allocation_ids.move_id, bill)
+
+    def test_foreign_currency_supplier_payment_allocation_exchange_difference(self):
+        """Factură de 100 în valută la 5,00, plătită din avansul în aceeași valută la 5,10: factura e
+        plătită integral în valută, iar diferența de curs de 10 lei ajunge pe 665."""
+        foreign = self._foreign_currency(self.company)
+        journal = self._foreign_cash_journal(foreign)
+        acc_765 = self.env["account.account"].create(
+            {"name": "Venituri diferențe curs", "code": "765TEST", "account_type": "income_other"}
+        )
+        acc_665 = self.env["account.account"].create(
+            {"name": "Cheltuieli diferențe curs", "code": "665TEST", "account_type": "expense"}
+        )
+        self.company.write(
+            {"income_currency_exchange_account_id": acc_765.id, "expense_currency_exchange_account_id": acc_665.id}
+        )
+        if not self.company.currency_exchange_journal_id:
+            self.company.currency_exchange_journal_id = self.env["account.journal"].create(
+                {"name": "Diferențe curs", "code": "EXCH", "type": "general", "company_id": self.company.id}
+            )
+        bill_date = fields.Date.subtract(fields.Date.today(), days=10)
+        self._set_rate(foreign, bill_date, 5.0)
+        self._set_rate(foreign, fields.Date.today(), 5.1)
+        bill = self._bill(100.0, days=10, currency=foreign)
+        self.assertAlmostEqual(bill.amount_total_signed, -500.0, places=2)
+        deduction = self._new_deduction(
+            100.0, journal_id=journal.id, date_advance=fields.Date.today(), date_expense=fields.Date.today()
+        )
+        line = self._new_line(deduction, 100.0, type="supplier_payment", date=fields.Date.today())
+        self._allocate(line, bill, 100.0)
+        deduction.validate_expenses()
+        self.assertIn(bill.payment_state, ("paid", "in_payment"))
+        exchange_lines = self.env["account.move.line"].search([("account_id", "=", acc_665.id)])
+        self.assertAlmostEqual(sum(exchange_lines.mapped("debit")), 10.0, places=2)
+
     def _foreign_currency(self, company):
         """An active currency different from the company currency, with a rate far from 1."""
         currency = (
@@ -1110,24 +1288,20 @@ class TestExpenses(TransactionCase):
         self.assertEqual(refund_move.date, fields.Date.today())
         self.assertAlmostEqual(refund_move.line_ids.filtered(lambda l: l.account_id == self.acc_cash).debit, 200.0)
 
-    def test_supplier_payment_without_bill_is_supplier_advance(self):
-        """Plata directă către un furnizor fără datorii deschise e un avans acordat furnizorului:
-        Dr 4092 = Cr 401, reconciliat cu Dr 401 = Cr 542 — pe 401 nu rămâne sold debitor."""
-        acc_4092 = self.env["account.account"].create(
-            {"name": "Furnizori-debitori servicii", "code": "4092TEST", "account_type": "asset_current"}
-        )
+    def test_supplier_payment_without_bill_stays_on_payable(self):
+        """Plata directă către un furnizor fără datorii deschise rămâne pe 401 ca plată nealocată, cu
+        firma furnizorului ca partener, disponibilă pentru reconcilierea cu facturile ulterioare."""
         deduction = self._new_deduction(100.0)
         self._new_line(deduction, 100.0, type="supplier_payment")
         deduction.validate_expenses()
         lines = self._lines_for_expenses(deduction)
         payable = lines.filtered(lambda l: l.account_id == self.acc_payable)
-        self.assertAlmostEqual(sum(payable.mapped("balance")), 0.0, places=2)
-        self.assertTrue(all(payable.mapped("reconciled")))
-        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_4092).mapped("debit")), 100.0)
+        self.assertEqual(len(payable), 1)
+        self.assertEqual(payable.partner_id, self.supplier)
+        self.assertAlmostEqual(payable.amount_residual, 100.0, places=2)
+        self.assertFalse(payable.reconciled)
         lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
         self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
-
-    # Decont în valută: casa în valută, fiecare notă la cursul din data ei, diferența de curs pe 665/765
 
     def _foreign_cash_journal(self, currency):
         account = self.env["account.account"].create(

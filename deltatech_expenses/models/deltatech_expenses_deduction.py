@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 
 class DeltatechExpensesDeduction(models.Model):
@@ -668,7 +668,9 @@ class DeltatechExpensesDeduction(models.Model):
 
             expenses.write({"state": "advance", "number": name, "approved_by_id": self.env.user.id})
 
-    def _create_advance_settlement(self, expenses, partner, amount, date, ref, payable_account=None, balance=None):
+    def _create_advance_settlement(
+        self, expenses, partner, amount, date, ref, payable_account=None, balance=None, allocations=None
+    ):
         """Notă de decontare a cheltuielii din avans: Dr cont furnizor (401, partenerul furnizor)
         = Cr 542 (partenerul angajatului — avansul rămâne închis pe cine l-a primit).
 
@@ -677,6 +679,10 @@ class DeltatechExpensesDeduction(models.Model):
 
         `amount` e în moneda decontului; `balance` (moneda companiei) se dă când trebuie să fie
         exact cel al datoriei decontate (linia furnizor a chitanței), altfel se calculează la cursul decontului.
+
+        `allocations` (plată furnizor cu facturi alese): perechi (cont de datorii, sumă în moneda decontului).
+        Nota are câte o linie Dr 401 pentru fiecare, în ordinea dată, plus una pentru restul nealocat,
+        ca fiecare să se reconcilieze doar cu factura ei.
 
         În Odoo 19 nu se folosește `account.payment` pentru această operațiune: jurnalul de avans
         este de tip „general" (fără metode de plată), iar o plată pe casă ar dubla mișcarea de
@@ -703,25 +709,41 @@ class DeltatechExpensesDeduction(models.Model):
         date = date or expenses.date_expense
         if balance is None:
             balance = expenses._to_company_currency(amount, date)
+        debit_parts = list(allocations or [])
+        rest = amount - sum(part for _account, part in debit_parts)
+        if not debit_parts or not expenses.currency_id.is_zero(rest):
+            debit_parts.append((payable_account, rest))
+        debit_lines = []
+        allocated_balance = 0.0
+        for index, (account, part) in enumerate(debit_parts):
+            # ultima linie ia diferența, ca suma în lei a liniilor 401 să fie exact `balance`
+            if index == len(debit_parts) - 1:
+                part_balance = balance - allocated_balance
+            else:
+                part_balance = expenses._to_company_currency(part, date)
+                allocated_balance += part_balance
+            debit_lines.append(
+                (
+                    0,
+                    0,
+                    expenses._move_line_vals(
+                        part,
+                        date,
+                        part_balance,
+                        partner_id=partner.id,
+                        account_id=account.id,
+                        name=self.env._("Decontare avans"),
+                    ),
+                )
+            )
         move = self.env["account.move"].create(
             {
                 "journal_id": credit_journal.id,
                 "date": date,
                 "ref": ref,
                 "expenses_deduction_id": expenses.id,
-                "line_ids": [
-                    (
-                        0,
-                        0,
-                        expenses._move_line_vals(
-                            amount,
-                            date,
-                            balance,
-                            partner_id=partner.id,
-                            account_id=payable_account.id,
-                            name=self.env._("Decontare avans"),
-                        ),
-                    ),
+                "line_ids": debit_lines
+                + [
                     (
                         0,
                         0,
@@ -743,11 +765,48 @@ class DeltatechExpensesDeduction(models.Model):
         move._post()
         return move
 
+    def _settle_supplier_payment(self, expenses, line, partner, ref):
+        """Plată directă către furnizor din avans (fără chitanță): Dr 401 = Cr 542, cu firma furnizorului
+        (commercial partner) pe 401, ca plata să apară ca disponibilă pe facturile lui.
+
+        Cu facturi alese pe linie (allocation_ids): câte o linie 401 pentru fiecare factură, reconciliată
+        doar cu ea; restul rămâne pe 401 ca plată nealocată. Fără facturi alese: imputația legală a plății,
+        întâi facturile cele mai vechi (vezi _reconcile_supplier_payment)."""
+        partner = partner.commercial_partner_id
+        line._check_allocations()
+        bill_payables = [
+            alloc.move_id.line_ids.filtered(
+                lambda aml: aml.account_id.account_type == "liability_payable" and not aml.reconciled
+            )
+            for alloc in line.allocation_ids
+        ]
+        settle = self._create_advance_settlement(
+            expenses,
+            partner,
+            line._supplier_payment_amount(),
+            line.date,
+            ref,
+            allocations=[
+                (payables[:1].account_id, alloc.amount)
+                for alloc, payables in zip(line.allocation_ids, bill_payables, strict=True)
+            ],
+        )
+        settle_payables = settle.line_ids.filtered(
+            lambda aml: aml.account_id.account_type == "liability_payable"
+        ).sorted("id")
+        if not line.allocation_ids:
+            self._reconcile_supplier_payment(settle_payables)
+            return settle
+        # liniile 401 sunt create în ordinea alocărilor; ultima, dacă e în plus, e restul nealocat
+        for settle_payable, payables in zip(settle_payables, bill_payables, strict=False):
+            (settle_payable | payables).reconcile()
+        return settle
+
     def _reconcile_supplier_payment(self, settle_payable):
-        """Reconciliază linia de furnizor a unei plăți directe (supplier_payment) cu datoriile
-        deschise ale aceluiași furnizor pe același cont (ca o plată: stinge facturile existente).
-        Ce rămâne neacoperit de datorii deschise e un avans acordat furnizorului și se trece pe
-        4092 (vezi _reclassify_supplier_advance)."""
+        """Reconciliază linia de furnizor a unei plăți directe (supplier_payment) fără facturi alese cu
+        datoriile deschise ale aceluiași furnizor pe același cont (ca o plată: stinge facturile existente,
+        întâi pe cele mai vechi). Ce rămâne neacoperit stă pe 401 ca plată nealocată a furnizorului,
+        disponibilă pentru reconcilierea manuală cu facturile primite ulterior."""
         settle_payable.ensure_one()
         open_lines = self.env["account.move.line"].search(
             [
@@ -760,63 +819,11 @@ class DeltatechExpensesDeduction(models.Model):
                 ("reconciled", "=", False),
                 ("balance", "<", 0.0),  # datorii deschise (credit furnizor)
                 ("id", "!=", settle_payable.id),
-            ]
+            ],
+            order="date_maturity, date, id",  # întâi facturile cele mai vechi
         )
         if open_lines:
             (settle_payable | open_lines).reconcile()
-        self._reclassify_supplier_advance(settle_payable)
-
-    def _reclassify_supplier_advance(self, settle_payable):
-        """Soldul debitor rămas pe 401 după o plată directă din avans este un avans acordat
-        furnizorului: Dr 4092 = Cr 401, reconciliat cu plata. Conform funcțiunii conturilor
-        (OMFP 1802/2014), 409 se debitează prin 401, nu direct prin 542. La primirea facturii,
-        avansul se regularizează Dr 401 = Cr 4092. Fără cont 4092 în plan, soldul rămâne pe 401."""
-        residual = settle_payable.amount_residual
-        if settle_payable.company_currency_id.is_zero(residual) or residual < 0:
-            return
-        currency = settle_payable.currency_id
-        residual_currency = settle_payable.amount_residual_currency
-        account_409 = self.env["account.account"].search(
-            [("code", "=like", "4092%"), ("company_ids", "in", settle_payable.company_id.id)], limit=1
-        )
-        if not account_409:
-            return
-        move = self.env["account.move"].create(
-            {
-                "journal_id": settle_payable.journal_id.id,
-                "date": settle_payable.date,
-                "ref": settle_payable.move_id.ref,
-                "expenses_deduction_id": settle_payable.move_id.expenses_deduction_id.id,
-                "line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "partner_id": settle_payable.partner_id.id,
-                            "account_id": account_409.id,
-                            "name": self.env._("Avans furnizor"),
-                            "currency_id": currency.id,
-                            "amount_currency": residual_currency,
-                            "balance": residual,
-                        },
-                    ),
-                    (
-                        0,
-                        0,
-                        {
-                            "partner_id": settle_payable.partner_id.id,
-                            "account_id": settle_payable.account_id.id,
-                            "name": self.env._("Avans furnizor"),
-                            "currency_id": currency.id,
-                            "amount_currency": -residual_currency,
-                            "balance": -residual,
-                        },
-                    ),
-                ],
-            }
-        )
-        move._post()
-        (settle_payable | move.line_ids.filtered(lambda aml: aml.account_id == settle_payable.account_id)).reconcile()
 
     def validate_expenses(self):
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
@@ -898,14 +905,8 @@ class DeltatechExpensesDeduction(models.Model):
                     vouchers |= self.env["account.move"].create(voucher_value)
                 else:
                     # plată directă către furnizor din avans (fără chitanță): Dr 401 = Cr 542,
-                    # apoi se reconciliază cu datoriile deschise ale furnizorului (ca o plată)
-                    settle = self._create_advance_settlement(
-                        expenses, partner_id, line.tax_amount + line.price_subtotal, line.date, name
-                    )
-                    settle_payable = settle.line_ids.filtered(
-                        lambda aml: aml.account_id.account_type == "liability_payable"
-                    )
-                    self._reconcile_supplier_payment(settle_payable)
+                    # reconciliată cu facturile alese pe linie sau, fără ele, cu cele mai vechi datorii
+                    self._settle_supplier_payment(expenses, line, partner_id, name)
 
             vouchers.action_post()
 
@@ -1149,6 +1150,90 @@ class DeltatechExpensesDeductionLine(models.Model):
     )
 
     state = fields.Selection(related="expenses_deduction_id.state")
+
+    # facturile furnizorului stinse de o plată directă (tipul „Supplier Payment"); fără ele, plata
+    # stinge întâi facturile cele mai vechi
+    allocation_ids = fields.One2many(
+        "deltatech.expenses.deduction.allocation", "line_id", string="Bills Paid", copy=False
+    )
+    allocated_amount = fields.Monetary(compute="_compute_allocated_amount", string="Allocated")
+
+    @api.depends("allocation_ids.amount")
+    def _compute_allocated_amount(self):
+        for line in self:
+            line.allocated_amount = sum(line.allocation_ids.mapped("amount"))
+
+    @api.constrains("type", "allocation_ids")
+    def _check_allocation_type(self):
+        for line in self:
+            if line.allocation_ids and line.type != "supplier_payment":
+                raise ValidationError(
+                    self.env._(
+                        "Only a supplier payment line can pay bills: line %(line)s is an expense.", line=line.name
+                    )
+                )
+
+    def _supplier_payment_amount(self):
+        """Suma plătită furnizorului (moneda decontului), cea din nota Dr 401 = Cr 542."""
+        self.ensure_one()
+        return self.tax_amount + self.price_subtotal
+
+    def _check_allocations(self):
+        """La validare: fiecare factură aleasă e a furnizorului liniei, postată și încă de plătit cu cel
+        puțin suma alocată, iar alocările nu depășesc suma plătită."""
+        self.ensure_one()
+        currency = self.currency_id
+        partner = self.partner_id.commercial_partner_id
+        for alloc in self.allocation_ids:
+            bill = alloc.move_id
+            if bill.commercial_partner_id != partner or bill.company_id != self.expenses_deduction_id.company_id:
+                raise UserError(
+                    self.env._(
+                        "The bill %(bill)s is not a bill of the supplier %(partner)s in this company.",
+                        bill=bill.display_name,
+                        partner=partner.display_name,
+                    )
+                )
+            if bill.state != "posted" or currency.compare_amounts(alloc.amount, 0.0) <= 0:
+                raise UserError(
+                    self.env._(
+                        "The bill %(bill)s must be posted and have a positive allocated amount.",
+                        bill=bill.display_name,
+                    )
+                )
+            residual = alloc._bill_residual(self.date)
+            if currency.compare_amounts(alloc.amount, residual) > 0:
+                raise UserError(
+                    self.env._(
+                        "The amount allocated to the bill %(bill)s (%(amount)s) is greater than its amount due "
+                        "(%(residual)s).",
+                        bill=bill.display_name,
+                        amount=alloc.amount,
+                        residual=residual,
+                    )
+                )
+        if currency.compare_amounts(self.allocated_amount, self._supplier_payment_amount()) > 0:
+            raise UserError(
+                self.env._(
+                    "The bills allocated on the line %(line)s (%(allocated)s) exceed the amount paid (%(amount)s).",
+                    line=self.name,
+                    allocated=self.allocated_amount,
+                    amount=self._supplier_payment_amount(),
+                )
+            )
+
+    def action_open_allocations(self):
+        """Fereastra cu facturile plătite de linie (lista decontului e editabilă, fără formular)."""
+        self.ensure_one()
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("Bills Paid"),
+            "res_model": self._name,
+            "res_id": self.id,
+            "view_mode": "form",
+            "views": [(self.env.ref("deltatech_expenses.view_expenses_deduction_line_allocation_form").id, "form")],
+            "target": "new",
+        }
 
     @api.depends("expenses_deduction_id.currency_id", "expenses_deduction_id.company_id")
     def _compute_currency_id(self):

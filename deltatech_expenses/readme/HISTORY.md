@@ -1,5 +1,20 @@
 # Changelog
 
+## 20.0.3.7.0 (2026-10-29)
+
+- A supplier payment line can name the bills it pays (button on the line, **Bills Paid**): for
+  each bill, the allocated amount (by default its amount due, at most the unallocated part of the
+  payment). On validation the entry Dr 401 = Cr 542 has one 401 line per bill, reconciled only with
+  that bill, so the bill becomes paid or partially paid and shows the payment with the report
+  number. Bills in the currency of the report are settled in that currency; the exchange
+  difference goes to 665/765. Invalidating the report undoes the reconciliations.
+- The unallocated part of a supplier payment stays on 401 as an unallocated payment of the
+  supplier (available on its bills for manual reconciliation); it is no longer reclassified to 4092.
+- Without bills named on the line, the payment settles the oldest open bills first (by due date);
+  it used to settle the newest bill first (forward-port of 19.0.3.7.1).
+- The 401 line of a supplier payment is booked on the supplier company (commercial partner): a
+  line entered with a contact person of the supplier did not find the company's bills.
+
 ## 20.0.3.6.1 (2026-10-27)
 
 - The company card journal on the employee is restricted to HR officers: users

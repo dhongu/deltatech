@@ -95,11 +95,10 @@ suplimentare. Verificate în cod pe 2026-07-11:
 
 ## Corectitudine
 
-- **Reconciliere supplier_payment fără potrivire exactă pe document/sumă.** După fix-ul de
-  companie (mai sus), căutarea rămâne pe `partner_id`+`account_id`+stare deschisă — poate încă
-  reconcilia cu o factură a aceluiași furnizor fără legătură reală cu decontul, dacă există mai
-  multe facturi deschise. *De adăugat, unde e posibil, o corelare pe document de origine sau cel
-  puțin pe sumă exactă înainte de reconciliere.*
+- **Reconciliere supplier_payment fără potrivire exactă pe document/sumă** — FIXAT (19.0.3.8.0).
+  Pe linia de plată se aleg facturile plătite și suma alocată fiecăreia (`allocation_ids`); fără
+  ele rămâne imputația legală (întâi facturile cele mai vechi). Teste `test_supplier_payment_settles_chosen_bill`,
+  `test_supplier_payment_partial_allocation_rest_on_payable`.
 
 - **Import multi-monedă.** La preluarea unei `hr.expense` în altă monedă decât a companiei, linia
   primește suma în moneda companiei dar `currency_id` = moneda cheltuielii — nepotrivire care produce
