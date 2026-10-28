@@ -97,6 +97,13 @@ For the developers
 Changelog
 =========
 
+20.0.1.0.1 (2026-10-28)
+-----------------------
+
+- Migration to 20.0. No functional change; the tests of the scanning
+  mixin build their in-memory record directly, because Odoo 20 no longer
+  allows ``new()`` on an abstract model.
+
 19.0.1.0.1 (2026-10-22)
 -----------------------
 
