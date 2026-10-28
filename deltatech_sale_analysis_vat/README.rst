@@ -14,13 +14,10 @@ Sale Analysis by VAT
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_analysis_vat
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_analysis_vat
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_analysis_vat
-    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Adds a VAT dimension to the standard sales analysis reports, so the
 turnover of a period can be broken down by VAT rate without leaving the
@@ -118,6 +115,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_analysis_vat>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_analysis_vat>`_ project on GitHub.
 
 You are welcome to contribute.
