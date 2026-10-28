@@ -19,11 +19,14 @@ Task Progress
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_task_progress
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_task_progress/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_task_progress
     :alt: 7 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 Technical module: runs a long task step by step in a progress dialog,
 several steps at a time, instead of a single request that times out or
@@ -126,6 +129,13 @@ returns is opened.
 
 Changelog
 =========
+
+19.0.1.1.2 (2026-10-28)
+-----------------------
+
+- Consultant sheet (readme/FISA_CONSULTANT.md) with screenshots of the
+  dialog in the modules that use it. Documentation only, no module
+  update needed.
 
 19.0.1.1.1 (2026-10-23)
 -----------------------
