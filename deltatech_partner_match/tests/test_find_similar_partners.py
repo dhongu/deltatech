@@ -94,6 +94,40 @@ class TestFindSimilarPartners(TransactionCase):
         self.assertAlmostEqual(self._find(dict(values, state_id=iasi.id))[0]["score"], 0.6)
         self.assertAlmostEqual(self._find(values)[0]["score"], 1.0, msg="no county given")
 
+    def test_county_localities_read_once(self):
+        """The localities of a county are read once per search, not once per candidate."""
+        if "res.city" not in self.env:
+            self.skipTest("res.city comes with base_address_extended")
+        bacau, iasi = self.env.ref("base.RO_BC"), self.env.ref("base.RO_IS")
+        self.env["res.city"].create(
+            [{"name": "Satu Nou", "state_id": state.id, "country_id": state.country_id.id} for state in (bacau, iasi)]
+        )
+        (self.ion | self.ana).write({"state_id": bacau.id, "city": "Satu Nou"})
+        values = {
+            "name": "Ion Pmatchescu",
+            "phone": "0722914456",
+            "city": "Satu Nou",
+            "county": "IS",
+            "country_code": "RO",
+        }
+        Partner = type(self.env["res.partner"])
+        with patch.object(
+            Partner, "_partner_match_states", autospec=True, side_effect=Partner._partner_match_states
+        ) as states:
+            reads = []
+            original = self.env["res.city"].search_read
+
+            def search_read(*args, **kwargs):
+                reads.append(args)
+                return original(*args, **kwargs)
+
+            with patch.object(type(self.env["res.city"]), "search_read", side_effect=search_read):
+                result = self._find(values)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(states.call_count, 1)
+        self.assertEqual(len(reads), 2, "one read per county (Bacău, Iași), whatever the number of candidates")
+        self.assertTrue(all(item["score"] < 1.0 for item in result), "the other county does count here")
+
     def test_county_without_localities(self):
         """Without the list of localities the county is never a reason to lower the score."""
         self.ion.write({"state_id": self.env.ref("base.RO_BC").id, "street": "Str. Principala 1", "city": "Satu Nou"})
