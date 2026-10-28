@@ -1,3 +1,8 @@
+## 19.0.1.3.1 (2026-10-28)
+
+- Consultant sheet (`readme/FISA_CONSULTANT.md`): the matching rules with examples, the score, and where their effect shows in the modules that use them (duplicate finder, marketplace customer import, trial balance import).
+- The sheet's screenshots are in `static/description/`: two from `deltatech_partner_merge`, one of a marketplace customer marked as a possible duplicate, one of the partner matching in the trial balance import.
+
 ## 19.0.1.3.0 (2026-10-28)
 
 - The county lowers the score only when both counties have a locality of that name (`res.city`, from `base_address_extended`), as "Satu Nou" in Bacău and in Iași. On a database of 528,000 partners, 2.1% have a county that does not fit their city ("Sibiu" in Timiș, București in 25 counties): with the rule of 19.0.1.1.0 these lost the street and city points against a correct import, so the marketplace created a new contact instead of reusing them. A county that does not fit the city is now ignored, and without the list of localities the county never lowers the score.
