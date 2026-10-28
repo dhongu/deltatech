@@ -16,8 +16,11 @@ Web Scan Base
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_web_scan
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_web_scan/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Technical base for the modules that read **product pages on the web**:
 the pages of the competitors, the pages of the vendors that give no
@@ -96,6 +99,13 @@ For the developers
 
 Changelog
 =========
+
+20.0.1.0.1 (2026-10-28)
+-----------------------
+
+- Migration to 20.0. No functional change; the tests of the scanning
+  mixin build their in-memory record directly, because Odoo 20 no longer
+  allows ``new()`` on an abstract model.
 
 19.0.1.0.1 (2026-10-22)
 -----------------------
