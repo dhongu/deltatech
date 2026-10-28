@@ -75,31 +75,44 @@ class ResPartner(models.Model):
         return states.search(domain)
 
     @api.model
-    def _partner_match_is_locality(self, city, states):
+    def _partner_match_is_locality(self, city, states, cache=None):
         """True when ``city`` is the name of a locality (``res.city``, from base_address_extended) of
-        one of ``states``, diacritics and punctuation ignored. False without the model."""
+        one of ``states``, diacritics and punctuation ignored. False without the model.
+
+        The normalized names of a county are read once per ``cache`` (a dict shared by the
+        candidates of one search), not once per candidate."""
         if not city or not states or "res.city" not in self.env:
             return False
+        cache = {} if cache is None else cache
         key = pm.normalize_city(city)
-        cities = self.env["res.city"].sudo().search_read([("state_id", "in", states.ids)], ["name"])
-        return any(pm.normalize_city(locality["name"]) == key for locality in cities)
+        for state in states:
+            names = cache.get(("localities", state.id))
+            if names is None:
+                cities = self.env["res.city"].sudo().search_read([("state_id", "=", state.id)], ["name"])
+                names = cache[("localities", state.id)] = {pm.normalize_city(row["name"]) for row in cities}
+            if key in names:
+                return True
+        return False
 
     @api.model
-    def _partner_match_other_county(self, partner, values):
+    def _partner_match_other_county(self, partner, values, cache=None):
         """True when ``partner`` and ``values`` are in two counties that both have a locality of
         that name ("Satu Nou" in Bacău and in Iași). A county that does not fit the city is a data
         error (2% of the partners of a large database: "Sibiu" in Timiș) and is ignored."""
         if not partner.state_id:
             return False
-        states = self._partner_match_states(values)
+        cache = {} if cache is None else cache
+        if "states" not in cache:
+            cache["states"] = self._partner_match_states(values)
+        states = cache["states"]
         if not states or partner.state_id in states:
             return False
-        return self._partner_match_is_locality(partner.city, partner.state_id) and self._partner_match_is_locality(
-            values.get("city"), states
-        )
+        return self._partner_match_is_locality(
+            partner.city, partner.state_id, cache
+        ) and self._partner_match_is_locality(values.get("city"), states, cache)
 
     @api.model
-    def _partner_match_score(self, partner, values):
+    def _partner_match_score(self, partner, values, cache=None):
         """``(score, name_score)`` of ``partner`` against ``values``, both 0..1.
 
         The name is compared with :func:`~.partner_match.name_similarity`; street and city weigh
@@ -108,7 +121,7 @@ class ResPartner(models.Model):
         to 23 counties ("Satu Nou"), and the same street there is another address.
         """
         scores = {"name": pm.name_similarity(partner.name, values.get("name"))}
-        other_county = self._partner_match_other_county(partner, values)
+        other_county = self._partner_match_other_county(partner, values, cache)
         for field in ("street", "city"):
             stored, given = pm.normalize_text(partner[field]), pm.normalize_text(values.get(field))
             if stored and given:
@@ -156,9 +169,11 @@ class ResPartner(models.Model):
         if not ids:
             return []
         candidates = self.search([*(domain or []), ("id", "in", ids)], limit=limit)
+        # the county of values and the localities of a county are the same for every candidate
+        cache = {}
         result = []
         for partner in candidates:
-            score, name_score = self._partner_match_score(partner, values)
+            score, name_score = self._partner_match_score(partner, values, cache)
             result.append(
                 {
                     "partner": partner,

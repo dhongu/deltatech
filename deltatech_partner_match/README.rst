@@ -110,6 +110,8 @@ Changelog
   created a new contact instead of reusing them. A county that does not
   fit the city is now ignored, and without the list of localities the
   county never lowers the score.
+- The localities of a county and the county of the searched values are
+  read once per search, not once per candidate.
 
 19.0.1.2.0 (2026-10-24)
 -----------------------
