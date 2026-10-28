@@ -1,0 +1,30 @@
+name: pacioli
+
+# Pacioli's pre-check of a PR labelled needs-pacioli (Argus adds it when the PR touches
+# accounting entries, accounts or taxes): a proposed verdict with the Dr/Cr findings, as a
+# PR comment, when the label is added and on every new head while it stays. Advisory: the
+# verdict that opens Argus's gate ("## Verificare Pacioli") is still a person's, who also
+# removes the label. The job and the script live in terrabit-solutions/ci-agents, the rules
+# in terrabit-claude.
+
+on:
+  pull_request:
+    types: [labeled, synchronize, reopened]
+    branches:
+      - "20.0"
+
+jobs:
+  pacioli:
+    uses: terrabit-solutions/ci-agents/.github/workflows/pacioli.yml@main
+    with:
+      odoo-version: "20.0"
+      # Outside the organization: GitHub-hosted runners, not the org's VPS ones.
+      runs-on: '"ubuntu-latest"'
+    # By name: `secrets: inherit` only works inside the organization.
+    secrets:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      ARGUS_APP_ID: ${{ secrets.ARGUS_APP_ID }}
+      ARGUS_APP_PRIVATE_KEY: ${{ secrets.ARGUS_APP_PRIVATE_KEY }}
+    permissions:
+      contents: read
+      pull-requests: write
