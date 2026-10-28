@@ -131,7 +131,7 @@ nume**) și sunt în aceeași localitate (**Compară numele în cadrul**). Dacă
 goale, alegeți **Doar nume asemănător**. Apăsați **Caută**. Căutarea
 nu modifică niciun partener.
 
-![Formularul unei căutări noi de dubluri, cu criteriile](../../deltatech_partner_merge/static/description/01_cautare_dubluri_ciorna.png)
+![Formularul unei căutări noi de dubluri, cu criteriile](../static/description/01_cautare_dubluri_ciorna.png)
 
 ### Pasul 2 — Citirea grupurilor: motivul arată regula aplicată
 
@@ -157,7 +157,7 @@ nume.
 Restul fluxului (îmbinarea, „Nu sunt dubluri”, loturile de comasare) e descris în fișa
 `deltatech_partner_merge`.
 
-![Rezultatul căutării: grupurile cu scor și motivul normalizat](../../deltatech_partner_merge/static/description/02_cautare_dubluri_grupuri.png)
+![Rezultatul căutării: grupurile cu scor și motivul normalizat](../static/description/02_cautare_dubluri_grupuri.png)
 
 ### Pasul 3 — Importul clienților din marketplace: contact refolosit sau „Posibil duplicat al”
 
@@ -179,8 +179,12 @@ marcați. Deschideți unul.
 unificați-le cu **Setări → Comasare parteneri → Caută dubluri** (pașii 1–2) sau cu asistentul
 standard **Îmbină contacte**.
 
-Pasul nu are captură: în baza de test a fișei, versiunea locală a `deltatech_marketplace` nu are
-încă potrivirea pe regulile acestui modul (secțiunea 10).
+![Clientul din marketplace marcat posibil duplicat al unui contact existent, cu scorul în zona gri](../static/description/03_marketplace_posibil_duplicat.png)
+
+În captură, clienta Ana Popescu are același telefon cu Ion Popescu, dar alt nume: scorul 0,80 e
+între **Prag posibil duplicat** (0,60) și **Prag de potrivire** (0,85), deci s-a creat un contact nou,
+iar bannerul (1) trimite la contactul existent. Formularul nu arată telefonul și adresa: le vedeți
+pe cele două contacte.
 
 ### Pasul 4 — Importul balanței din PDF: potrivirea partenerilor pe CUI și nume
 
@@ -199,8 +203,11 @@ verificați partenerul.”, „Nume apropiate: alegeți partenerul.”, „Mai m
 …”, „Mai mulți parteneri se numesc …”, „Partenerul nu există în Odoo.”. **Verificați** propunerile din butonul **De verificat**, apoi
 **Confirmă propunerile**. Un partener lipsă nu se creează automat.
 
-Pasul nu are captură: modulul face parte din suita `bitshop_ent`, care nu e în configurația bazei
-de test a fișei (secțiunea 10).
+![Rândurile de balanță pe parteneri de verificat: un nume apropiat propus spre confirmare și un partener lipsă](../static/description/04_balanta_potrivire_parteneri.png)
+
+În captură, rândul POPESCU ION e potrivit după un nume apropiat cu partenerul „Ion Popescu” și
+așteaptă confirmarea (1); rândul GAMA CONSTRUCT S.R.L. nu are partener în Odoo, iar butonul (2) îl
+creează doar la cerere.
 
 ### Note de monografie și raportare
 
@@ -262,36 +269,34 @@ n-a recunoscut partenerul”:
 
 ## 10. Capturi de ecran
 
-Modulul **nu are capturi proprii** în `static/description/` (în afară de iconiță și imaginea
-principală de Apps): nu are ecrane, iar efectul lui se vede doar în modulele care îl folosesc.
+Modulul nu are ecrane proprii, iar efectul lui se vede în modulele care îl folosesc. Capturile din
+`static/description/` sunt luate din acele module, în română, pe planul de conturi RO, pe aceleași
+reguli de potrivire:
 
-Fișa folosește capturile din `deltatech_partner_merge/static/description/`, generate automat de
-`deltatech_partner_merge/tests/test_screenshots.py` (mixinul `ScreenshotCase` din
-`l10n_ro_doc_screenshots`), în română, pe planul de conturi RO, pe aceleași reguli de potrivire:
+| Pasul | Fișier | Ce arată | Sursa |
+|---|---|---|---|
+| 1 | `01_cautare_dubluri_ciorna.png` | formularul unei căutări de dubluri, cu criteriile pe CUI, telefon, email și nume | `deltatech_partner_merge/tests/test_screenshots.py` |
+| 2 | `02_cautare_dubluri_grupuri.png` | grupurile găsite, cu scorul și motivul normalizat | `deltatech_partner_merge/tests/test_screenshots.py` |
+| 3 | `03_marketplace_posibil_duplicat.png` | clientul din marketplace marcat „Posibil duplicat al”, cu scorul | captură din `deltatech_marketplace` |
+| 4 | `04_balanta_potrivire_parteneri.png` | rândurile de balanță pe parteneri de verificat: nume apropiat și partener lipsă | `deltatech_ai_trial_balance_import/tests/test_screenshots.py` (`10_parteneri_de_verificat.png`) |
 
-| Pasul | Fișier | Ce arată |
-|---|---|---|
-| 1 | `../../deltatech_partner_merge/static/description/01_cautare_dubluri_ciorna.png` | formularul unei căutări de dubluri, cu criteriile pe CUI, telefon, email și nume |
-| 2 | `../../deltatech_partner_merge/static/description/02_cautare_dubluri_grupuri.png` | grupurile găsite, cu scorul și motivul normalizat |
+Captura 3 e făcută cu traducerea bannerului și spațiile dintre texte corectate local: în
+`deltatech_marketplace` actual, bannerul apare în engleză („Possible duplicate of … - similarity
+score …”) și textele se lipesc de câmpuri, până la corectura din acel modul (secțiunea 11).
 
-Regenerarea lor se face din modulul `deltatech_partner_merge`:
+Capturile 1, 2 și 4 sunt copii ale celor din modulele sursă: la o regenerare acolo, se copiază din
+nou aici. Regenerarea pentru pașii 1–2:
 
 ```bash
 ./odoo/odoo-bin -c odoo.conf -d test19 -i deltatech_partner_merge \
     --test-tags=/deltatech_partner_merge:TestPartnerMergeScreenshots --stop-after-init
 ```
 
-Pași fără captură, cu motivul:
-
-- **Pasul 3 (marketplace)**: în baza de test a fișei (`test19_fisa_pm`), suita `bitshop_marketplace`
-  din configurație nu are încă potrivirea pe regulile acestui modul (câmpurile de prag și bannerul
-  **Posibil duplicat al lui** există doar pe `origin/19.0`). Captura se face în fișa
-  `deltatech_marketplace`, când suita locală e la zi.
-- **Pasul 4 (import balanță)**: `deltatech_ai_trial_balance_import` e în suita `bitshop_ent`, care nu e
-  în configurația bazei de test a fișei, iar modulul nu are încă fișă consultant cu capturi.
-
 ## 11. Observații pentru manual
 
+- În `deltatech_marketplace`, bannerul „Posibil duplicat al lui … - scor de similaritate …” nu e
+  tradus (termenii lipsesc din `.pot`, deci intrările din `ro.po` sunt ignorate) și textele se lipesc
+  de câmpuri („al luiIon Popescu”). Până la corectură, pe ecran apare textul în engleză.
 - Modulul nu are un capitol propriu în manual. Regulile din secțiunea 4 se citează în capitolele
   modulelor care îl folosesc (comasarea partenerilor, importul din marketplace, importul balanței).
 - Mesajul pentru client: „Odoo recunoaște același partener după CUI, email sau telefon, oricum ar fi
