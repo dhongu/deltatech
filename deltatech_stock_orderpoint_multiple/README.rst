@@ -17,13 +17,10 @@ Stock Orderpoint Qty Multiple
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_orderpoint_multiple
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_orderpoint_multiple
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_orderpoint_multiple
-    :alt: 8 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 Odoo a eliminat câmpul ``qty_multiple`` de pe
 ``stock.warehouse.orderpoint`` la trecerea la versiunea 19.0 (commit
@@ -116,6 +113,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_orderpoint_multiple>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_orderpoint_multiple>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -10,7 +10,7 @@ class StockWarehouseOrderpoint(models.Model):
 
     qty_multiple = fields.Float(
         string="Multiple Quantity",
-        digits="Product Unit of Measure",
+        digits="Product Unit",
         default=0,
         help="The procurement quantity will be rounded to a multiple of this field "
         "quantity: down when a maximum quantity is set (so the order stays within "
@@ -42,17 +42,20 @@ class StockWarehouseOrderpoint(models.Model):
         depasirea plafonului e preferabila unei reguli moarte.
         """
         self.ensure_one()
-        rounding = self.product_uom.rounding
-        if float_compare(self.qty_multiple, 0.0, precision_rounding=rounding) <= 0:
+        # 20.0: uom.uom.rounding a disparut - precizia e cea globala "Product Unit"
+        # (aceeasi folosita de uom.uom.compare()/is_zero()); fara singleton pe uom_id,
+        # care poate fi gol pe o linie noua din lista editabila.
+        digits = self.env["decimal.precision"].precision_get("Product Unit")
+        if float_compare(self.qty_multiple, 0.0, precision_digits=digits) <= 0:
             return super()._get_multiple_rounded_qty(qty_to_order)
 
         remainder = qty_to_order % self.qty_multiple
         if (
-            float_compare(remainder, 0.0, precision_rounding=rounding) > 0
-            and float_compare(self.qty_multiple - remainder, 0.0, precision_rounding=rounding) > 0
+            float_compare(remainder, 0.0, precision_digits=digits) > 0
+            and float_compare(self.qty_multiple - remainder, 0.0, precision_digits=digits) > 0
         ):
-            capped = not float_is_zero(self.product_max_qty, precision_rounding=rounding)
-            if capped and float_compare(qty_to_order - remainder, 0.0, precision_rounding=rounding) > 0:
+            capped = not float_is_zero(self.product_max_qty, precision_digits=digits)
+            if capped and float_compare(qty_to_order - remainder, 0.0, precision_digits=digits) > 0:
                 qty_to_order -= remainder
             else:
                 qty_to_order += self.qty_multiple - remainder
