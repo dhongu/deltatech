@@ -1,3 +1,8 @@
+## 19.0.1.1.2 (2026-10-28)
+
+- Consultant sheet (readme/FISA_CONSULTANT.md) with screenshots of the dialog in the modules that
+  use it. Documentation only, no module update needed.
+
 ## 19.0.1.1.1 (2026-10-23)
 
 - The counter is hidden while `init` prepares the items: it showed "0 / 0".
