@@ -4,7 +4,7 @@
 {
     "name": "Sale Margin & Profit",
     "summary": "Check price in sale order, cost price on invoices and profit report",
-    "version": "19.0.1.3.3",
+    "version": "19.0.1.3.4",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

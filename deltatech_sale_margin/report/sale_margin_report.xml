@@ -75,6 +75,8 @@
                 <filter name="due_date" date="due_date" />
 
                 <separator />
+                <filter string="Storable Products" name="storable" domain="[('is_storable', '=', True)]" />
+                <separator />
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
                 <filter string="Paid" name="paid" domain="[('payment_state','in',['paid','in_payment'])]" />
                 <filter string="Open" name="open" domain="[('payment_state','not in',['paid','in_payment'])]" />
@@ -129,7 +131,7 @@
         <field name="help">This report performs analysis on your invoices.</field>
         <!-- grouped by product through the search: a group_by in the context would be a grouping
              the user can not remove from the search bar -->
-        <field name="context">{"search_default_filter_date":1, 'search_default_product':1}</field>
+        <field name="context">{"search_default_filter_date":1, 'search_default_storable':1, 'search_default_product':1}</field>
     </record>
 
     <record id="inherit_sale_view_order_product_search" model="ir.ui.view">
