@@ -72,14 +72,31 @@ class TestFindSimilarPartners(TransactionCase):
         self.assertEqual(self._find({"name": "Ion Pmatchescu", "phone": "0000000"}), [])
 
     def test_county(self):
-        """A village name exists in several counties: in another county the address does not count."""
+        """A village name exists in several counties: there the address of another county does not
+        count. A county that does not fit the city is a data error and is ignored."""
+        if "res.city" not in self.env:
+            self.skipTest("res.city comes with base_address_extended")
+        ro = self.env.ref("base.ro")
         bacau, iasi = self.env.ref("base.RO_BC"), self.env.ref("base.RO_IS")
+        self.env["res.city"].create(
+            [{"name": "Satu Nou", "state_id": state.id, "country_id": ro.id} for state in (bacau, iasi)]
+        )
         self.ion.write({"state_id": bacau.id, "street": "Str. Principala 1", "city": "Satu Nou"})
         values = {"name": "Ion Pmatchescu", "phone": "0722914456", "street": "Str. Principala 1", "city": "Satu Nou"}
-        same, other, unknown = (self._find(dict(values, county=county))[0] for county in ("BC", "Iași", "Necunoscut"))
+        same, other, unknown, wrong = (
+            self._find(dict(values, county=county))[0] for county in ("BC", "Iași", "Necunoscut", "TM")
+        )
         self.assertEqual(same["partner"], self.ion)
         self.assertAlmostEqual(same["score"], 1.0)
         self.assertAlmostEqual(other["score"], 0.6, msg="name only: street and city score 0")
         self.assertAlmostEqual(unknown["score"], 1.0, msg="an unknown county never lowers the score")
+        self.assertAlmostEqual(wrong["score"], 1.0, msg="Timiș has no Satu Nou: a data error, ignored")
         self.assertAlmostEqual(self._find(dict(values, state_id=iasi.id))[0]["score"], 0.6)
         self.assertAlmostEqual(self._find(values)[0]["score"], 1.0, msg="no county given")
+
+    def test_county_without_localities(self):
+        """Without the list of localities the county is never a reason to lower the score."""
+        self.ion.write({"state_id": self.env.ref("base.RO_BC").id, "street": "Str. Principala 1", "city": "Satu Nou"})
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456", "street": "Str. Principala 1", "city": "Satu Nou"}
+        with patch.object(type(self.env["res.partner"]), "_partner_match_is_locality", return_value=False):
+            self.assertAlmostEqual(self._find(dict(values, county="IS"))[0]["score"], 1.0)
