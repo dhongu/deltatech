@@ -140,7 +140,10 @@ class PurchaseTargetLine(models.Model):
         "company_id",
         "manufacturer_id",
         "target_id.partner_ids",
-        "target_id.line_ids",
+        # the cumulated target adds up the sibling lines of the same category
+        "target_id.line_ids.target_value",
+        "target_id.line_ids.quarter",
+        "target_id.line_ids.public_categ_id",
     )
     def _compute_achieved(self):
         # the four quarters of a category share the same figures: read them once per year

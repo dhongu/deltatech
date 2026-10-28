@@ -113,6 +113,13 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
         self.assertAlmostEqual(self._line("1", self.categ_tools).purchase_amount, 100)
         self.assertAlmostEqual(self._line("1", self.categ_tools).achieved_pct, 50)
 
+    def test_target_ytd_follows_sibling(self):
+        q2 = self._line("2")
+        self.assertAlmostEqual(q2.target_ytd, 2000)
+        self._line("1").target_value = 1500
+        self.assertAlmostEqual(q2.target_ytd, 2500)
+        self.assertAlmostEqual(q2.remaining, 1200)
+
     def test_quantity_target(self):
         self.target.target_type = "qty"
         self.assertAlmostEqual(self._line("2").purchase_ytd, 17)
