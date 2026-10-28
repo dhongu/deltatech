@@ -143,7 +143,7 @@ produs**, **Negăsită**, **Blocată** sau **Eroare**. Captura modulului care fo
 ### Pasul 2 — Citirea stărilor în listă
 
 **Meniu (în modulul care folosește baza):** *Achiziții → Produse → Catalog produse furnizor*,
-filtrul **Cu pagină**.
+filtrul **Cu pagină** (sau butonul **Pagini** din formularul feed-ului).
 
 **Găsiți pe ecran:** coloana **Stare citire** (stările din secțiunea 4) și, pe formularul rândului,
 **Mesaj citire**, **Ultima citire**, **Citiri eșuate** și **Citit din**.
@@ -228,8 +228,8 @@ modulul care folosește baza.
 ## 8. Verificări pentru consultant
 
 - [ ] Modulul apare instalat după instalarea unui modul care îl folosește și nu adaugă niciun meniu.
-- [ ] O pagină cu date schema.org, pe un site fără selector de preț, iese **OK**, cu **Citit din** =
-      **Date structurate**.
+- [ ] O pagină cu date schema.org, pe un site fără selector de preț, iese **OK** (la prima citire sau
+      cu prețul în prag), cu **Citit din** = **Date structurate**.
 - [ ] O pagină fără preț iese **Negăsită**; o adresă inexistentă (404) tot **Negăsită**.
 - [ ] O pagină interzisă de `robots.txt` iese **Blocată** (cu respectarea `robots.txt` activă).
 - [ ] O adresă din rețeaua locală (de exemplu `http://localhost/...` sau `http://192.168.1.10/...`)
