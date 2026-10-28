@@ -90,7 +90,10 @@ Ambele sunt aduse în **moneda** și în **unitatea de măsură ale liniei** —
 unitatea e esențială.
 
 Pentru costul pe factură și raport: costul liniei de factură (*Preț cost*) vine din **valoarea mișcării
-de livrare** (costul FIFO sau mediu al mărfii ieșite), iar vânzarea din valoarea netă a liniei.
+de livrare** (costul FIFO sau mediu al mărfii ieșite), iar vânzarea din valoarea netă a liniei. Pe
+factură, costul e în **unitatea liniei**; în raport, **Cantitatea** și **Prețul de achiziție** sunt în
+**unitatea produsului** (o linie de 2 Duzini la un cost de 720 lei/duzină apare ca 24 Unități la 60
+lei), iar valorile rămân aceleași.
 
 Date minime pentru demo:
 - un produs cu **cost de achiziție completat** (fără cost nu există comparație și nu se semnalează
@@ -136,6 +139,8 @@ opriți, sau o realitate pe care vreți să o vedeți?"*
 
 Pe **„Blochează vânzarea"**, operatorul din afara grupului de excepție primește o eroare și nu poate
 salva prețul. Pe **„Doar avertisment"**, nimic nu se oprește.
+
+![Politica „Vânzare sub cost" și pragul de marjă, alese de consultant](screenshots/01_setari_politica.png)
 
 ### Pasul 2 — Operatorul vinde sub cost și vede semnalul
 
@@ -193,7 +198,18 @@ utilizatorii din grupul **Vânzare sub prețul de achiziție**.
 ### Pasul 4 — Analiza profitului
 
 Accesați **Vânzări → Raportare → Raport analiză profit**. Se deschide ca tabel pivot, pe luna trecută,
-grupat pe produs. Liniile se pot regrupa pe agent, categorie, client, factură, jurnal sau lună.
+cu filtrul **Produse stocabile** pus și grupat pe produs. Liniile se pot regrupa pe agent, categorie,
+client, factură, jurnal sau lună.
+
+Filtrul **Produse stocabile** (bifa *Urmărește stocul* pe produs) lasă în raport doar marfa: serviciile,
+consumabilele fără stoc, transportul și liniile de discount fără produs nu apar până nu scoateți filtrul
+(×) din bara de căutare. Pe demo, ambele produse sunt stocabile, deci cifrele sunt aceleași cu sau fără
+filtru.
+
+**Cantitatea** și **Prețul de achiziție** sunt în **unitatea produsului**, chiar dacă linia s-a vândut în
+altă unitate: 2 Duzini cu un cost de 720 lei/duzină apar ca 24 Unități la 60 lei, cu aceeași Valoare
+cost, 1.440 lei. Un preț de achiziție corectat în raport se scrie pe factură convertit înapoi în
+unitatea liniei (50 lei/unitate devine 600 lei/duzină).
 
 1. **Găsiți pe ecran** — pe fiecare rând, **Valoare vânzare**, **Valoare cost**, **Valoare profit**,
    **Adaos (%)** și **Marjă profit (%)**.
@@ -223,8 +239,8 @@ ca rândurile să apară una câte una, cu produsul și factura, selectați lini
 Actualizare preț achiziție**:
 - **Preț din livrare** (implicit) — recalculează costul din livrare, iar dacă nu există, ia costul
   produsului;
-- fără bifă — ia direct costul actual al produsului, **fără conversia unității de măsură** și și pe
-  notele de credit (vezi limitările): folosiți varianta implicită;
+- fără bifă — ia direct costul actual al produsului, convertit în unitatea liniei, și pe notele de
+  credit (vezi limitările): folosiți varianta implicită;
 - **Pentru toate liniile** — aplică recalcularea pe **toate** liniile din raport, din toate perioadele,
   nu doar pe cele selectate.
 
@@ -289,6 +305,10 @@ cost.
 - [ ] Preț cost pe factură = costul real al mărfii livrate (2.800,00 pe demo), nu prețul de listă.
 - [ ] În raport, pe demo: total vânzare 42.000,00, cost 33.000,00, profit 9.000,00; adaos total 27,27 %,
       calculat din sume, nu media rândurilor.
+- [ ] O linie de **2 Duzini** dintr-un produs pe Unități, cu cost 60 lei/unitate: în raport, 24,00
+      Unități, preț de achiziție 60,00, valoare cost 1.440,00 — aceeași valoare ca pe factură (2 × 720).
+- [ ] Raportul se deschide cu filtrul **Produse stocabile**: o factură cu un serviciu nu apare; scoțând
+      filtrul, apare.
 - [ ] O notă de credit **cu retur** are costul mărfii returnate; o **stornare** a facturii are costul
       facturii (profit net 0); una cu **prețul modificat** are cost 0.
 - [ ] Un utilizator cu rolul **Utilizator** pe Vânzări, fără grupul de cost, nu vede meniul *Raport
@@ -331,7 +351,7 @@ conturi RO:
 | 1 | `screenshots/01_setari_politica.png` | **Setări → Vânzări → Prețuri**: politica „Vânzare sub cost" pe „Doar avertisment" și „Limită de marjă (%)" |
 | 2 | `screenshots/02_comanda_sub_cost.png` | Comandă cu 10 Cutii 12 kg la 30 lei/cutie peste un cost de 36 lei/cutie: bannerul, rândul marcat, marja −60,00 lei (−20%), butonul **Confirmă** activ |
 | 3 | `screenshots/03_factura_pret_cost.png` | Factura client, cu **Preț cost** 2.800,00 pe linia de Laptop |
-| 4 | `screenshots/04_raport_profit.png` | **Raport analiză profit** (pivot): vânzare, cost, profit, adaos și marjă pe produs |
+| 4 | `screenshots/04_raport_profit.png` | **Raport analiză profit** (pivot, cu filtrul **Produse stocabile**): vânzare, cost, profit, adaos și marjă pe produs |
 | 5 | `screenshots/05_actualizare_pret_achizitie.png` | Asistentul **Actualizare preț achiziție**, deschis din lista raportului |
 
 Nota din chatter de la confirmare **nu** are captură proprie: chatterul cade în afara cadrului capturat,
@@ -365,9 +385,8 @@ că pe totaluri ambele se recalculează din sume.
 - **Pe facturile fără livrare**, recalcularea (zilnică sau din asistent, cu **Preț din livrare**) pune
   costul **curent** al produsului și suprascrie astfel, în primele 7 zile, un cost corectat manual.
   Recalcularea zilnică nu scrie niciodată costul 0.
-- **Recalcularea fără bifa „Preț din livrare”** ia costul produsului în unitatea lui de bază (pe o
-  linie vândută pe ambalaj, de exemplu Cutie 12 kg, scrie costul pe kg) și îl pune și pe notele de
-  credit fără retur, care ar trebui să aibă cost 0.
+- **Recalcularea fără bifa „Preț din livrare”** ia costul curent al produsului (convertit în unitatea
+  liniei) și îl pune și pe notele de credit fără retur, care ar trebui să aibă cost 0.
 - **Corectarea manuală a costului sau a agentului** în raport e posibilă doar cu
   `deltatech_sale_commission` (din formularul liniei); agentul se scrie atunci pe **toată** factura.
 - **La actualizarea de la o versiune anterioară, pe o bază fără `deltatech_sale_commission`**, costul

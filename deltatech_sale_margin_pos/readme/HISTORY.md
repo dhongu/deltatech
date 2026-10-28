@@ -1,5 +1,13 @@
 # Changelog
 
+## 19.0.1.0.1 (2026-10-28)
+
+- The POS rows give the *Track Inventory* column of the product, used by the *Storable Products*
+  filter of the report (on by default since `deltatech_sale_margin` 19.0.1.3.4); without it the
+  POS sales of storable products were hidden by that filter.
+- Consultant sheet: the *Storable Products* filter is removed in the steps that show the demo,
+  whose products are not storable.
+
 ## 19.0.1.0.0 (2026-10-22)
 
 - Point of Sale orders without an invoice in the sale margin report, with the cost computed
