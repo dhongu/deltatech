@@ -75,17 +75,40 @@ class ResPartner(models.Model):
         return states.search(domain)
 
     @api.model
+    def _partner_match_is_locality(self, city, states):
+        """True when ``city`` is the name of a locality (``res.city``, from base_address_extended) of
+        one of ``states``, diacritics and punctuation ignored. False without the model."""
+        if not city or not states or "res.city" not in self.env:
+            return False
+        key = pm.normalize_city(city)
+        cities = self.env["res.city"].sudo().search_read([("state_id", "in", states.ids)], ["name"])
+        return any(pm.normalize_city(locality["name"]) == key for locality in cities)
+
+    @api.model
+    def _partner_match_other_county(self, partner, values):
+        """True when ``partner`` and ``values`` are in two counties that both have a locality of
+        that name ("Satu Nou" in Bacău and in Iași). A county that does not fit the city is a data
+        error (2% of the partners of a large database: "Sibiu" in Timiș) and is ignored."""
+        if not partner.state_id:
+            return False
+        states = self._partner_match_states(values)
+        if not states or partner.state_id in states:
+            return False
+        return self._partner_match_is_locality(partner.city, partner.state_id) and self._partner_match_is_locality(
+            values.get("city"), states
+        )
+
+    @api.model
     def _partner_match_score(self, partner, values):
         """``(score, name_score)`` of ``partner`` against ``values``, both 0..1.
 
         The name is compared with :func:`~.partner_match.name_similarity`; street and city weigh
-        in only when both sides have them. When both sides name a county and it is not the same,
-        street and city score 0: a village name exists in up to 23 counties ("Satu Nou"), and
-        the same street there is another address.
+        in only when both sides have them. In two counties that both have a locality of that name
+        (``_partner_match_other_county``), street and city score 0: a village name exists in up
+        to 23 counties ("Satu Nou"), and the same street there is another address.
         """
         scores = {"name": pm.name_similarity(partner.name, values.get("name"))}
-        states = self._partner_match_states(values) if partner.state_id else None
-        other_county = bool(states) and partner.state_id not in states
+        other_county = self._partner_match_other_county(partner, values)
         for field in ("street", "city"):
             stored, given = pm.normalize_text(partner[field]), pm.normalize_text(values.get(field))
             if stored and given:

@@ -19,11 +19,8 @@ Partner Match
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_match
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_partner_match
-    :alt: 18 automated tests · 89% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 Technical module: one place for the rules that decide whether two
 partner records are the same, so the modules that look for an existing
@@ -62,10 +59,10 @@ plain Python):
 - ``res.partner._find_similar_partners(values, domain, keys, limit)``
   selects the partners that share the VAT number, the email or the phone
   of ``values`` (never a name alone), and returns them with a score and
-  the keys they share. When both sides name a different county, the
-  street and the city do not count: the same village name exists in
-  several counties. Whether one is reused is decided by the calling
-  module.
+  the keys they share. When both sides are in two counties that both
+  have a locality of that name ("Satu Nou" in Bacău and in Iași), the
+  street and the city do not count. Whether one is reused is decided by
+  the calling module.
 
 ``phonenumbers``, ``rapidfuzz`` and ``unidecode`` are optional: the
 results stay the same without them on the exact keys, and slightly
@@ -100,6 +97,19 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 
 Changelog
 =========
+
+19.0.1.3.0 (2026-10-28)
+-----------------------
+
+- The county lowers the score only when both counties have a locality of
+  that name (``res.city``, from ``base_address_extended``), as "Satu
+  Nou" in Bacău and in Iași. On a database of 528,000 partners, 2.1%
+  have a county that does not fit their city ("Sibiu" in Timiș,
+  București in 25 counties): with the rule of 19.0.1.1.0 these lost the
+  street and city points against a correct import, so the marketplace
+  created a new contact instead of reusing them. A county that does not
+  fit the city is now ignored, and without the list of localities the
+  county never lowers the score.
 
 19.0.1.2.0 (2026-10-24)
 -----------------------
