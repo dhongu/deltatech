@@ -1,0 +1,357 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_target
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 23:26+0000\n"
+"PO-Revision-Date: 2026-10-28 23:26+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+msgid "Achieved"
+msgstr "Realizat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__achieved_pct
+msgid "Achieved %"
+msgstr "Realizat %"
+
+#. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_purchase_target_line
+#: model:ir.ui.menu,name:deltatech_purchase_target.menu_purchase_target_line
+msgid "Achieved vs Target"
+msgstr "Realizat vs. țintă"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target__target_type__amount
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target__target_type
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target_line__target_type
+msgid ""
+"Amount: purchases without VAT, in the company currency. Quantity: purchased "
+"quantities, in the unit of measure of each product."
+msgstr ""
+"Valoare: achiziții fără TVA, în moneda companiei. Cantitate: cantitățile "
+"achiziționate, în unitatea de măsură a fiecărui produs."
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__public_categ_id
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__company_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__create_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__create_date
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__currency_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
+msgid "Current Year"
+msgstr "Anul curent"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.actions.act_window,help:deltatech_purchase_target.action_purchase_target
+msgid "Define the purchase targets of a manufacturer"
+msgstr "Definiți țintele de achiziție ale unui producător"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_report__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_report__id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__write_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__write_date
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_report__manufacturer_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__manufacturer_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__manufacturer_id
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_order_search
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Manufacturer"
+msgstr "Producător"
+
+#. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_purchase_target
+#: model:ir.ui.menu,name:deltatech_purchase_target.menu_purchase_target
+msgid "Manufacturer Targets"
+msgstr "Ținte producători"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__note
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+msgid "Notes"
+msgstr "Note"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.actions.act_window,help:deltatech_purchase_target.action_purchase_target
+msgid ""
+"One target per manufacturer and year, split per quarter and eCommerce "
+"category."
+msgstr ""
+"O țintă pe producător și an, împărțită pe trimestre și categorii eCommerce."
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Overall"
+msgstr "Global"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Per Category"
+msgstr "Pe categorii"
+
+#. module: deltatech_purchase_target
+#: model:ir.model,name:deltatech_purchase_target.model_purchase_report
+msgid "Purchase Report"
+msgstr "Raport achiziții"
+
+#. module: deltatech_purchase_target
+#: model:ir.model,name:deltatech_purchase_target.model_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_id
+msgid "Purchase Target"
+msgstr "Țintă de achiziție"
+
+#. module: deltatech_purchase_target
+#: model:ir.model,name:deltatech_purchase_target.model_purchase_target_line
+msgid "Purchase Target Line"
+msgstr "Linie țintă de achiziție"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_amount
+msgid "Purchased"
+msgstr "Achiziționat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_qty
+msgid "Purchased Qty"
+msgstr "Cantitate achiziționată"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_ytd
+msgid "Purchased YTD"
+msgstr "Achiziționat cumulat"
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target_line.py:0
+msgid "Purchases - %s"
+msgstr "Achiziții - %s"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__1
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q1"
+msgstr "T1"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__2
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q2"
+msgstr "T2"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__3
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q3"
+msgstr "T3"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__4
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q4"
+msgstr "T4"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target__target_type__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__quarter
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Quarter"
+msgstr "Trimestru"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__remaining
+msgid "Remaining"
+msgstr "Rămas"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+msgid "Sales"
+msgstr "Vânzări"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_amount
+msgid "Sold"
+msgstr "Vândut"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_qty
+msgid "Sold Qty"
+msgstr "Cantitate vândută"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_ytd
+msgid "Sold YTD"
+msgstr "Vândut cumulat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_value
+msgid "Target"
+msgstr "Țintă"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__target_type
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_type
+msgid "Target Type"
+msgstr "Tip țintă"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_ytd
+msgid "Target YTD"
+msgstr "Țintă cumulată"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target_line__remaining
+msgid "Target YTD minus purchased YTD"
+msgstr "Ținta cumulată minus achiziționatul cumulat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__line_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+msgid "Targets"
+msgstr "Ținte"
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target_line.py:0
+msgid "The category already has a target in quarter Q%s."
+msgstr "Categoria are deja o țintă în trimestrul T%s."
+
+#. module: deltatech_purchase_target
+#: model:ir.model.constraint,message:deltatech_purchase_target.constraint_purchase_target_manufacturer_year_uniq
+msgid "There is already a target for this manufacturer and year."
+msgstr "Există deja o țintă pentru acest producător și an."
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_vendor_cost_compare
+#: model:ir.ui.menu,name:deltatech_purchase_target.menu_vendor_cost_compare
+msgid "Vendor Cost Comparison"
+msgstr "Comparație cost furnizori"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+msgid "Vendor bill lines"
+msgstr "Linii facturi furnizor"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target__partner_ids
+msgid ""
+"Vendor bills counted as achieved. By default the manufacturer itself; add "
+"the other companies through which the manufacturer invoices."
+msgstr ""
+"Facturile furnizorilor care intră în realizat. Implicit producătorul; "
+"adăugați celelalte firme prin care facturează producătorul."
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__partner_ids
+msgid "Vendors"
+msgstr "Furnizori"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__year
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__year
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
+msgid "Year"
+msgstr "An"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target_line__public_categ_id
+msgid ""
+"eCommerce category of the products. Empty: the overall target of the "
+"manufacturer."
+msgstr ""
+"Categoria eCommerce a produselor. Necompletat: ținta globală a "
+"producătorului."

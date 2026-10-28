@@ -1,0 +1,134 @@
+# ©  2026 Terrabit
+# See README.rst file on addons root folder for license details
+
+from odoo.exceptions import ValidationError
+from odoo.tests import tagged
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+
+@tagged("post_install", "-at_install")
+class TestPurchaseTarget(AccountTestInvoicingCommon):
+    """Achieved vs target: only the bills of the manufacturer count, credit notes are deducted,
+    the quarters are cumulated and a product in two categories counts in each of them."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env.user.group_ids |= cls.env.ref("purchase.group_purchase_manager")
+        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
+        Partner = cls.env["res.partner"]
+        cls.manufacturer = Partner.create({"name": "Manufacturer TGT", "is_manufacturer": True})
+        cls.reseller = Partner.create({"name": "Reseller TGT"})
+        Category = cls.env["product.public.category"]
+        cls.categ_paint = Category.create({"name": "Paint TGT"})
+        cls.categ_tools = Category.create({"name": "Tools TGT"})
+        cls.categ_brushes = Category.create({"name": "Brushes TGT", "parent_id": cls.categ_tools.id})
+        Product = cls.env["product.product"]
+        cls.paint = Product.create(
+            {
+                "name": "Paint",
+                "manufacturer_id": cls.manufacturer.id,
+                "public_categ_ids": [(6, 0, cls.categ_paint.ids)],
+            }
+        )
+        # in two categories: counts in both, but once in the overall target
+        cls.brush = Product.create(
+            {
+                "name": "Brush",
+                "manufacturer_id": cls.manufacturer.id,
+                "public_categ_ids": [(6, 0, (cls.categ_paint | cls.categ_brushes).ids)],
+            }
+        )
+        cls.other = Product.create({"name": "Other manufacturer"})
+
+        cls._bill(cls.manufacturer, "2026-02-10", [(cls.paint, 10, 100), (cls.brush, 5, 20), (cls.other, 1, 999)])
+        cls._bill(cls.manufacturer, "2026-05-10", [(cls.paint, 4, 100)])
+        cls._bill(cls.manufacturer, "2026-05-20", [(cls.paint, 2, 100)], move_type="in_refund")
+        cls._bill(cls.reseller, "2026-03-10", [(cls.paint, 50, 100)])
+        cls._bill(cls.manufacturer, "2025-12-10", [(cls.paint, 50, 100)])
+        cls._bill(cls.partner_a, "2026-02-15", [(cls.paint, 3, 150)], move_type="out_invoice")
+
+        cls.target = cls.env["purchase.target"].create(
+            {
+                "manufacturer_id": cls.manufacturer.id,
+                "year": 2026,
+                "line_ids": [
+                    (0, 0, {"quarter": "1", "target_value": 1000}),
+                    (0, 0, {"quarter": "2", "target_value": 1000}),
+                    (0, 0, {"quarter": "1", "public_categ_id": cls.categ_paint.id, "target_value": 500}),
+                    (0, 0, {"quarter": "1", "public_categ_id": cls.categ_tools.id, "target_value": 200}),
+                ],
+            }
+        )
+        cls.env.flush_all()
+
+    @classmethod
+    def _bill(cls, partner, date, lines, move_type="in_invoice"):
+        move = cls.env["account.move"].create(
+            {
+                "move_type": move_type,
+                "partner_id": partner.id,
+                "invoice_date": date,
+                "date": date,
+                "invoice_line_ids": [
+                    (0, 0, {"product_id": product.id, "quantity": qty, "price_unit": price, "tax_ids": []})
+                    for product, qty, price in lines
+                ],
+            }
+        )
+        move.action_post()
+        return move
+
+    def _line(self, quarter, categ=None):
+        return self.target.line_ids.filtered(
+            lambda line: line.quarter == quarter
+            and line.public_categ_id == (categ or self.env["product.public.category"])
+        )
+
+    def test_vendors_default_to_manufacturer(self):
+        self.assertEqual(self.target.partner_ids, self.manufacturer)
+        self.assertEqual(self.target.name, "Manufacturer TGT 2026")
+
+    def test_overall_cumulated(self):
+        q1 = self._line("1")
+        # 10 x 100 + 5 x 20; the reseller, the other manufacturer and 2025 are left out
+        self.assertAlmostEqual(q1.purchase_amount, 1100)
+        self.assertAlmostEqual(q1.purchase_qty, 15)
+        self.assertAlmostEqual(q1.purchase_ytd, 1100)
+        self.assertAlmostEqual(q1.achieved_pct, 110)
+        q2 = self._line("2")
+        # 4 x 100 billed, 2 x 100 credited
+        self.assertAlmostEqual(q2.purchase_amount, 200)
+        self.assertAlmostEqual(q2.purchase_qty, 2)
+        self.assertAlmostEqual(q2.target_ytd, 2000)
+        self.assertAlmostEqual(q2.purchase_ytd, 1300)
+        self.assertAlmostEqual(q2.remaining, 700)
+        self.assertAlmostEqual(q2.achieved_pct, 65)
+
+    def test_categories(self):
+        self.assertAlmostEqual(self._line("1", self.categ_paint).purchase_amount, 1100)
+        # the brush is in a child category of Tools
+        self.assertAlmostEqual(self._line("1", self.categ_tools).purchase_amount, 100)
+        self.assertAlmostEqual(self._line("1", self.categ_tools).achieved_pct, 50)
+
+    def test_quantity_target(self):
+        self.target.target_type = "qty"
+        self.assertAlmostEqual(self._line("2").purchase_ytd, 17)
+
+    def test_sales_on_same_products(self):
+        q1 = self._line("1")
+        self.assertAlmostEqual(q1.sale_amount, 450)
+        self.assertAlmostEqual(q1.sale_qty, 3)
+        self.assertAlmostEqual(self._line("2").sale_ytd, 450)
+
+    def test_drill_down(self):
+        action = self._line("1").action_view_purchases()
+        bill_lines = self.env["account.move.line"].search(action["domain"])
+        self.assertEqual(bill_lines.product_id, self.paint | self.brush)
+        action = self._line("1").action_view_sales()
+        self.assertEqual(self.env["sale.margin.report"].search(action["domain"]).product_id, self.paint)
+
+    def test_unique_quarter_category(self):
+        with self.assertRaises(ValidationError):
+            self.target.line_ids = [(0, 0, {"quarter": "1", "target_value": 5})]
