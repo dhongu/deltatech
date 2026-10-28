@@ -105,6 +105,10 @@ Changelog
   with examples, the score, and where their effect shows in the modules
   that use them (duplicate finder, marketplace customer import, trial
   balance import).
+- The sheet's screenshots are in ``static/description/``: two from
+  ``deltatech_partner_merge``, one of a marketplace customer marked as a
+  possible duplicate, one of the partner matching in the trial balance
+  import.
 
 19.0.1.3.0 (2026-10-28)
 -----------------------
