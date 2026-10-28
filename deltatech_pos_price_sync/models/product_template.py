@@ -9,7 +9,7 @@ class ProductTemplate(models.Model):
     def write(self, vals):
         # `list_price`/`standard_price` do bump the template's write_date, but a POS session
         # that is already open never re-runs the write_date-based sync (see
-        # data_service.js loadInitialData()) — F5 just returns the cached IndexedDB data.
+        # pos_data_plugin.js loadInitialData()) — F5 just returns the cached IndexedDB data.
         # Push the fresh price explicitly, same bus pattern deltatech_pos_stock uses for stock.
         templates_to_notify = (
             self.filtered("available_in_pos") if PRICE_FIELDS & vals.keys() else self.env["product.template"]

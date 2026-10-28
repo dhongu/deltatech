@@ -47,7 +47,10 @@ class TestPosPriceSync(TransactionCase):
         notify_mock.assert_not_called()
 
     def test_no_open_session_does_not_notify(self):
-        self.pos_config.current_session_id.action_pos_session_closing_control()
+        # 20.0: action_pos_session_closing_control was removed, closing goes through close_session_from_ui
+        session = self.pos_config.current_session_id
+        session.close_session_from_ui()
+        self.assertNotEqual(session.state, "opened")
         with patch.object(type(self.pos_config), "_notify") as notify_mock:
             self.product.product_tmpl_id.write({"list_price": 30.0})
         notify_mock.assert_not_called()
