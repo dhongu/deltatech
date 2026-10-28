@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_account_invoice_report_search" model="ir.ui.view">
+        <field name="name">account.invoice.report.search.vat</field>
+        <field name="model">account.invoice.report</field>
+        <field name="inherit_id" ref="account.view_account_invoice_report_search" />
+        <field name="arch" type="xml">
+            <filter name="creditnote" position="after">
+                <separator />
+                <filter
+                    string="Invoices for Fiscal Receipts"
+                    name="fiscal_receipt"
+                    domain="[('is_fiscal_receipt', '=', True)]"
+                    help="Invoices issued for an existing fiscal receipt"
+                />
+                <filter
+                    string="Invoices without Fiscal Receipt"
+                    name="not_fiscal_receipt"
+                    domain="[('is_fiscal_receipt', '=', False)]"
+                    help="Invoices that do not duplicate a fiscal receipt"
+                />
+            </filter>
+            <field name="product_categ_id" position="after">
+                <field name="vat_tax_group_id" />
+                <field name="vat_tax_id" />
+            </field>
+            <filter name="category_product" position="after">
+                <filter string="VAT Rate" name="vat_tax_group" context="{'group_by': 'vat_tax_group_id'}" />
+                <filter string="VAT" name="vat_tax" context="{'group_by': 'vat_tax_id'}" />
+                <filter
+                    string="Fiscal Receipt Invoice"
+                    name="fiscal_receipt_group"
+                    context="{'group_by': 'is_fiscal_receipt'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+</odoo>
