@@ -751,3 +751,102 @@ msgstr "Jurnal de plată"
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__settlement_mode
 msgid "Settlement Mode"
 msgstr "Mod de decontare"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__allocation_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Bills Paid"
+msgstr "Facturi plătite"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__allocated_amount
+msgid "Allocated"
+msgstr "Alocat"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__amount
+msgid "Allocated Amount"
+msgstr "Sumă alocată"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__move_id
+msgid "Bill"
+msgstr "Factură"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__bill_amount_residual
+msgid "Amount Due"
+msgstr "Rest de plată"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__bill_currency_id
+msgid "Bill Currency"
+msgstr "Moneda facturii"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__line_id
+msgid "Expenses Line"
+msgstr "Linie decont"
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_deltatech_expenses_deduction_allocation
+msgid "Expenses Deduction Supplier Payment Allocation"
+msgstr "Alocare plată furnizor din decont"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_allocation__amount
+msgid "Amount of the payment that settles this bill."
+msgstr "Partea din plată care stinge această factură."
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Save"
+msgstr "Salvează"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Discard"
+msgstr "Renunță"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "The payment settles only these bills; the rest stays on 401, unallocated."
+msgstr "Plata stinge doar aceste facturi; restul rămâne pe 401, nealocat."
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Without bills, the payment settles the oldest open bills first."
+msgstr "Fără facturi alese, plata stinge întâi facturile deschise cele mai vechi."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Only a supplier payment line can pay bills: line %(line)s is an expense."
+msgstr "Doar o linie de plată furnizor poate plăti facturi: linia %(line)s este o cheltuială."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bill %(bill)s is not a bill of the supplier %(partner)s in this company."
+msgstr "Factura %(bill)s nu este o factură a furnizorului %(partner)s în această companie."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bill %(bill)s must be posted and have a positive allocated amount."
+msgstr "Factura %(bill)s trebuie să fie postată și să aibă o sumă alocată pozitivă."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The amount allocated to the bill %(bill)s (%(amount)s) is greater than its amount due (%(residual)s)."
+msgstr "Suma alocată facturii %(bill)s (%(amount)s) este mai mare decât restul ei de plată (%(residual)s)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bills allocated on the line %(line)s (%(allocated)s) exceed the amount paid (%(amount)s)."
+msgstr "Facturile alocate pe linia %(line)s (%(allocated)s) depășesc suma plătită (%(amount)s)."

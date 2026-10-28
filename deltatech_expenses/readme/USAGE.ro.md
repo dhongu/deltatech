@@ -7,6 +7,11 @@
    diurna și plata diferenței, iar decontul trece în starea **Efectuat**.
 4. **Invalidate** anulează un decont validat, ca să poată fi corectat.
 
+**Plată furnizor.** O linie de tip *Supplier Payment* este o factură plătită de angajat din avans
+(Dr 401 = Cr 542). Butonul **Bills Paid** de pe linie arată facturile furnizorului plătite, cu suma
+alocată fiecăreia (se acceptă plata parțială); fără facturi alese, plata stinge întâi facturile
+deschise cele mai vechi. Partea nealocată rămâne pe 401, ca plată nealocată a furnizorului.
+
 Exemplu: un avans de 1.000 RON și bonuri de 800 RON lasă 200 RON de restituit de către angajat;
 după validare, soldul contului 542 al angajatului este zero.
 
