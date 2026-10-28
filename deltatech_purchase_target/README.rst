@@ -85,7 +85,8 @@ Notes:
 - A product in two eCommerce categories counts in each category target,
   but only once in the overall target of the manufacturer.
 - Quantity targets add up the quantities in the unit of measure of each
-  product.
+  product; a bill line in another unit (box, dozen) is converted to the
+  unit of the product.
 
 Changelog
 =========
