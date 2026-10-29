@@ -178,7 +178,8 @@ Fiecare linie are un **tip**:
   proprie); la validare se generează nota `Dr 401 = Cr 542`, cu firma furnizorului pe 401 (chiar
   dacă pe linie e o persoană de contact a lui), care stinge facturile furnizorului ca o plată:
   - **cu facturi alese** — butonul **„Facturi plătite”** de pe linie (vizibil pentru Aprobator și
-    Contabil, cât decontul e în starea „Avans”) deschide lista facturilor plătite. Pentru fiecare
+    Contabil) deschide lista facturilor plătite; facturile se aleg și se modifică doar cât decontul e
+    în starea „Avans”, după validare lista e doar pentru citire. Pentru fiecare
     factură postată și neplătită a furnizorului se completează **suma alocată**: implicit restul de
     plată, cel mult partea încă nealocată a plății; o sumă mai mică înseamnă plată parțială. La
     validare, nota are câte o linie `Dr 401` pentru fiecare factură, reconciliată doar cu ea:
@@ -374,6 +375,8 @@ reclasificarea pe 409 a unei plăți care e avans la furnizor și verificarea so
 | „Suma alocată facturii ... este mai mare decât restul ei de plată ...” | Suma alocată depășește restul de plată al facturii (plătită între timp) | Micșorați suma alocată sau scoateți factura |
 | „Facturile alocate pe linia ... depășesc suma plătită ...” | Suma alocărilor depășește suma liniei de plată | Micșorați sumele alocate |
 | „Factura ... nu este o factură a furnizorului ... în această companie.” | Furnizorul liniei a fost schimbat după alegerea facturilor | Alegeți din nou facturile furnizorului |
+| „Doar o linie de plată furnizor poate plăti facturi: linia ... este o cheltuială.” | Tipul liniei a fost schimbat în „Cheltuieli” după alegerea facturilor | Scoateți facturile alese sau readuceți tipul „Plată furnizor” |
+| „O factură poate fi alocată o singură dată pe o linie de plată furnizor.” | Aceeași factură a fost aleasă de două ori pe linie | Păstrați un singur rând pentru factură, cu suma totală alocată |
 | „Set the gain and loss exchange rate accounts (765/665) in the accounting settings of the company …" | Decont în valută cu diferență de curs la validare, iar compania nu are setate conturile de diferențe de curs | Setați conturile de câștig/pierdere din diferențe de curs (765/665) în Contabilitate → Configurare → Setări |
 | Contravaloarea în lei a unei note în valută este neașteptată | Cursul BNR lipsește sau este vechi pentru data notei (Odoo ia cursul zilei precedente) | Actualizați cursurile valutare și reluați decontul (Invalidare, apoi Avans / Validează) |
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
