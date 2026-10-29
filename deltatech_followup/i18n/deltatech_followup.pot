@@ -58,8 +58,8 @@ msgstr ""
 #. module: deltatech_followup
 #: model:ir.model.fields,help:deltatech_followup.field_account_invoice_followup__amount_margin
 msgid ""
-"Amount margin. If total due debit is lower than this margin, the followup "
-"will be skipped"
+"Amount margin. If the total of the invoices to be sent is lower than this "
+"margin, the followup will be skipped"
 msgstr ""
 
 #. module: deltatech_followup
@@ -393,10 +393,8 @@ msgid ""
 "$amount_tax=invoice.amount_tax,\n"
 "$amount_total=invoice.amount_total,\n"
 "$amount_due=invoice.residual,\n"
-"$total_debit=total amount to pay,\n"
 "$currency=invoice.currency\n"
-"$total_all_debit=all partner debit\n"
-"$total_due_debit=all due debit"
+"The totals $total_debit, $total_all_debit and $total_due_debit can only be used in the mail template body."
 msgstr ""
 
 #. module: deltatech_followup
@@ -417,4 +415,18 @@ msgstr ""
 #. module: deltatech_followup
 #: model:ir.model.fields,help:deltatech_followup.field_account_invoice_followup__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: deltatech_followup
+#. odoo-python
+#: code:addons/deltatech_followup/wizard/followup_send.py:0
+msgid ""
+"Followup not sent: total of the invoices to send (%(amount)s) is within the "
+"configured margin (%(margin)s)."
+msgstr ""
+
+#. module: deltatech_followup
+#. odoo-python
+#: code:addons/deltatech_followup/wizard/followup_send.py:0
+msgid "Followup %(followup)s failed and was not sent: %(error)s"
 msgstr ""

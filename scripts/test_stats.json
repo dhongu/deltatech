@@ -143,7 +143,7 @@
       "tests": 0
     },
     "deltatech_followup": {
-      "tests": 15
+      "tests": 25
     },
     "deltatech_gln": {
       "coverage": 100.0,
