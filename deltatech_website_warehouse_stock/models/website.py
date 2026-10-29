@@ -74,6 +74,6 @@ class Website(models.Model):
         definition = self._fields[field]
         if definition.type == "boolean":
             value = value in (True, "1", "true", "True")
-        elif value not in dict(definition._description_selection(self.env)):
+        elif not isinstance(value, str) or value not in dict(definition._description_selection(self.env)):
             raise UserError(self.env._("Invalid value %(value)s for %(field)s", value=value, field=field))
         self.write({field: value})

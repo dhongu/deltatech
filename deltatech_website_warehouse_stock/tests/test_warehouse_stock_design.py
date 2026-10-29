@@ -190,6 +190,8 @@ class TestWarehouseStockDesign(HttpCase):
             self.website._warehouse_stock_editor_write("warehouse_stock_style", "bogus")
         with self.assertRaises(UserError):
             self.website._warehouse_stock_editor_write("name", "Hacked")
+        with self.assertRaises(UserError):
+            self.website._warehouse_stock_editor_write("warehouse_stock_style", ["list"])
 
     def test_editor_route(self):
         self.authenticate("admin", "admin")
