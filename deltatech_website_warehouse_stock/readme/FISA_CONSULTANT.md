@@ -53,7 +53,8 @@ Modulul nu folosește conturi contabile și nu creează documente. Adaugă:
   stoc zero**, **Notă** (textul de după „La comandă”), **Cantitate**, **Culorile temei**.
 
 Cantitatea afișată pentru un depozit = stocul disponibil din locația de stoc principală a depozitului
-(cu sublocațiile ei) **minus ieșirile planificate** din ea (livrări confirmate, încă nevalidate).
+(cu sublocațiile ei) **minus toate ieșirile planificate** din ea, confirmate dar nevalidate: livrări, transferuri către
+alt depozit, consum de componente în producție, retururi la furnizor.
 Se iau doar depozitele **companiei site-ului**, cu **Afișare pe site** bifat.
 
 | Cantitate calculată | Text afișat (implicit) | Culoare etichetă |
@@ -62,7 +63,8 @@ Se iau doar depozitele **companiei site-ului**, cu **Afișare pe site** bifat.
 | peste 0 și până la prag, inclusiv (ex. 4) | cantitatea exactă, fără zecimale când e întreagă | culoarea secundară a temei (gri / bej) |
 | 0 sau negativă | **Stoc epuizat** sau, la alegere, **La comandă** | roșu / galben |
 
-Cu **Cantitate = Doar starea**, primele două rânduri afișează amândouă **În stoc**.
+Cu **Cantitate = Doar starea**, primele două rânduri afișează amândouă **În stoc**, dar culoarea
+etichetei rămâne diferită peste și sub prag; pentru diferențe mai discrete folosiți **Culorile temei**.
 
 Date minime pentru demo (folosite și în capturi):
 - **Depozit București** cu 50 buc., **Depozit Cluj** cu 4 buc., **Depozit Iași** fără stoc — toate
@@ -103,7 +105,7 @@ depozite. Un depozit nou are bifa activă: dacă nu vreți să apară, debifați
   - **Culorile temei**: etichete nuanțate pe culorile site-ului, lizibile pe temele întunecate, în
     locul etichetelor pline verde / gri / roșu.
 
-Apăsați **Salvează**. Valorile implicite păstrează aspectul de dinaintea opțiunilor de design.
+Apăsați **Salvează**. Cu valorile implicite, blocul apare ca etichete în detaliile produsului (Pasul 3).
 
 ![Pragul și aspectul stocului pe depozite în setările site-ului](../static/description/02_setari_stoc_depozite.png)
 
@@ -178,7 +180,8 @@ Ca designer, pe pagina produsului apăsați **Editor** (stânga sus), apoi **cli
 Acestea **sunt** setările site-ului din Pasul 2, nu ale paginii: o schimbare se scrie imediat în
 setări, pagina se reîncarcă și noul aspect se aplică tuturor paginilor de produs ale site-ului.
 **Abandonează** nu anulează o opțiune deja schimbată — reveniți la valoarea anterioară din același
-panou. **Nota** de după „La comandă” se completează doar din setări (Pasul 2).
+panou. **Nota** de după „La comandă” se completează doar din setări (Pasul 2). În editor, nuanțele
+etichetelor pot diferi ușor; aspectul final este cel din pagina publică.
 
 ![Opțiunile blocului în editorul de website](../static/description/08_editor_optiuni.png)
 
@@ -229,7 +232,7 @@ aspectul blocului și nota la „La comandă”.
 | Blocul **Disponibilitate în stoc** nu apare deloc | niciun depozit al companiei site-ului nu are **Afișare pe site** bifat; sau vizualizarea **Warehouse Stock** a fost dezactivată | bifați depozitele; cu modul de dezvoltare, **Setări → Tehnic → Interfață utilizator → Vizualizări**, căutați „Warehouse Stock” și reactivați-o |
 | Un depozit nu apare deși are stoc | bifa **Afișare pe site** e debifată, depozitul e al altei companii, sau locația lui de stoc principală nu e de tip internă | verificați bifa, compania și locația de stoc a depozitului |
 | Pe site apare un depozit nou, nedorit | bifa **Afișare pe site** e activă implicit pe depozitele noi | debifați-o pe depozit |
-| Cantitatea afișată e mai mică decât stocul din Inventar | se scad ieșirile planificate (livrări confirmate, nevalidate) | comportament normal; verificați livrările în așteptare din depozit |
+| Cantitatea afișată e mai mică decât stocul din Inventar | se scad toate ieșirile planificate din locația de stoc (livrări, transferuri către alt depozit, consum în producție, retururi), confirmate dar nevalidate | comportament normal; verificați mișcările în așteptare care ies din depozit |
 | **Disponibil** la un produs cu 8 buc., deși pragul dorit e 10 | pragul a fost schimbat (e comun pentru toate site-urile) | verificați **Prag stoc în depozit pentru site** |
 | **Poziție = După preț** nu mută blocul | produsul nu poate fi adăugat în coș (blocul rămâne în detalii) | comportament normal; verificați că produsul e de vânzare și are preț |
 
