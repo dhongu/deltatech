@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from . import deltatech_expenses_deduction
+from . import deltatech_expenses_deduction_allocation
 
 # from . import account_bank_statement
 from . import account_payment

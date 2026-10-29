@@ -7,3 +7,6 @@ expenses_deduction_line_own_rule,ExpensesDeductionLine: doar liniile decontului 
 expenses_deduction_line_approver_rule,ExpensesDeductionLine: acces complet (Aprobator/Contabil),deltatech.expenses.deduction.line,deltatech_expenses.group_expenses_approver,cru,
 expenses_deduction_line_approver_rule_1,ExpensesDeductionLine: acces complet (Aprobator/Contabil),deltatech.expenses.deduction.line,deltatech_expenses.group_expenses_accounting,crud,
 expenses_deduction_line_comp_rule,ExpensesDeductionLine multi-company,deltatech.expenses.deduction.line,,crud,"['|', ('expenses_deduction_id.company_id', '=', False), ('expenses_deduction_id.company_id', 'in', company_ids)]"
+expenses_deduction_allocation_own_rule,ExpensesDeductionAllocation: doar decontul propriu (Angajat),deltatech.expenses.deduction.allocation,deltatech_expenses.group_expenses_user,r,"[('expenses_deduction_id.employee_id.user_id', '=', user.id)]"
+expenses_deduction_allocation_approver_rule,ExpensesDeductionAllocation: acces complet (Aprobator/Contabil),deltatech.expenses.deduction.allocation,deltatech_expenses.group_expenses_approver,crud,
+expenses_deduction_allocation_comp_rule,ExpensesDeductionAllocation multi-company,deltatech.expenses.deduction.allocation,,crud,"['|', ('expenses_deduction_id.company_id', '=', False), ('expenses_deduction_id.company_id', 'in', company_ids)]"
