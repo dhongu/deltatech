@@ -85,8 +85,9 @@ aplicația Facturare/Contabilitate, deci utilizatorii au nevoie și de acces în
 - **665 / 765** — Cheltuieli / Venituri din diferențe de curs valutar (conturile de diferențe de curs
   din setările companiei, folosite la închiderea 542 în deconturile în valută).
 - **401** — Furnizori (chitanțele de achiziție și plățile directe din avans).
-- **4091 / 4092** — Furnizori-debitori: modulul nu le folosește; plata directă din avans care nu
-  stinge o factură rămâne pe 401 (vezi Pasul 2), iar contabilul o reclasifică manual dacă e un avans.
+- **4092** — Furnizori-debitori pentru servicii: partea dintr-o plată directă din avans care nu
+  stinge nicio factură (avans acordat furnizorului); pentru bunuri se reclasifică manual pe 4091,
+  pentru imobilizări pe 4093, prin 404 în loc de 401.
 
 Date minime pentru demo:
 - companie românească cu localizarea contabilă instalată (RON);
@@ -208,8 +209,8 @@ Fiecare linie are un **tip**:
   - **cu facturi alese** — butonul **„Bills Paid”** de pe linie (vizibil pentru Aprobator și
     Contabil) deschide lista facturilor plătite; facturile se aleg și se modifică doar cât decontul e
     în starea „Avans”, după validare lista e doar pentru citire. Sub listă, fereastra amintește
-    regula: plata stinge doar facturile alese, restul rămâne pe 401, iar fără facturi alese stinge
-    întâi facturile deschise cele mai vechi. Pentru fiecare
+    regula: plata stinge doar facturile alese, restul e avans la furnizor (4092), iar fără facturi
+    alese stinge întâi facturile deschise cele mai vechi. Pentru fiecare
     factură postată și neplătită a furnizorului se completează **suma alocată**: implicit restul de
     plată, cel mult partea încă nealocată a plății; o sumă mai mică înseamnă plată parțială. La
     validare, nota are câte o linie `Dr 401` pentru fiecare factură, reconciliată doar cu ea:
@@ -219,14 +220,15 @@ Fiecare linie are un **tip**:
     vechi după scadență (regula legală de imputație a plății, când documentul de plată nu indică
     factura).
 
-  Partea nealocată (fără facturi deschise sau peste suma lor) **rămâne pe 401** ca plată nealocată,
-  cu firma furnizorului, și apare ca plată disponibilă pe facturile lui, unde se reconciliază manual
-  la primirea facturii. De exemplu, o plată de 300 lei cu 50 lei alocați pe factura A (200 lei) și
+  Partea nealocată (fără facturi deschise sau peste suma lor) este un **avans acordat
+  furnizorului** și se reclasifică automat `Dr 4092 = Cr 401`, reconciliată cu plata, ca pe 401 să nu
+  rămână sold debitor. De exemplu, o plată de 300 lei cu 50 lei alocați pe factura A (200 lei) și
   100 lei pe factura B (100 lei) dă `Dr 401 = Cr 542` 300 lei în trei linii: A rămâne cu 150 lei de
-  plată, B e plătită, iar 150 lei stau pe 401 ca sold debitor nealocat. Dacă plata e de fapt un avans
-  acordat furnizorului, contabilul îl reclasifică manual pe 409 (`Dr 4091/4092 = Cr 401`; la
-  imobilizări pe 4093, prin 404); dacă furnizorul emite o **factură de avans**, se înregistrează doar
-  TVA-ul, exigibil la data plății avansului.
+  plată, B e plătită, iar restul de 150 lei trece pe `Dr 4092 = Cr 401`. La primirea facturii,
+  contabilul compensează avansul (`Dr 401 = Cr 4092`). Modulul folosește mereu 4092 (servicii); dacă
+  avansul e pentru bunuri, contabilul îl reclasifică manual pe 4091, iar la imobilizări pe 4093, prin
+  404. Dacă furnizorul emite o **factură de avans**, se înregistrează doar TVA-ul, exigibil la data
+  plății avansului: `Dr 4426 = Cr 4092`. Fără cont 4092 în planul de conturi, restul rămâne pe 401.
 
   La facturile în moneda decontului (decont în valută), plata se alocă în valută, iar diferența de
   curs față de factură se înregistrează automat pe 665 / 765. La **invalidarea** decontului,
@@ -324,7 +326,7 @@ justificativul semnat de titularul avansului.
     1802/2014 pct. 302 alin. (3), vezi mai sus);
 - **Plată furnizor** (Pasul 2, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542** (la „Card de
   firmă", **Dr 401 = Cr 5125**), câte o linie 401 pentru fiecare factură aleasă, reconciliată cu ea
-  (fără facturi alese: cu cele mai vechi facturi deschise); restul nealocat rămâne pe 401;
+  (fără facturi alese: cu cele mai vechi facturi deschise); restul nealocat: **Dr 4092 = Cr 401**;
 - **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei), cu data cheltuielii;
 - **Diferență de curs** (doar la deconturi în valută, la validare, dacă 542 are sold în lei):
   **Dr 665 = Cr 542** (nefavorabilă) sau **Dr 542 = Cr 765** (favorabilă);
@@ -358,9 +360,10 @@ Ce este automat: generarea notelor contabile, calculul diferenței și al diurne
 curs pe 665/765, închiderea contului 542.
 Ce rămâne manual: configurarea jurnalelor/conturilor (inclusiv a conturilor de diferențe de curs),
 actualizarea cursurilor valutare, alegerea cotei TVA și a contului pe fiecare
-linie, alegerea facturilor plătite pe liniile „Plată furnizor”, reconcilierea plății nealocate rămase
-pe 401 cu facturile primite ulterior, reclasificarea pe 409 a unei plăți care e avans la furnizor,
-TVA-ul de pe factura de avans și verificarea soldului 542 după validare.
+linie, alegerea facturilor plătite pe liniile „Plată furnizor”, reclasificarea avansului la furnizor
+pe 4091 (bunuri) sau pe 4093 prin 404 (imobilizări) când nu e pentru servicii, TVA-ul de pe factura de
+avans (`Dr 4426 = Cr 4092`), compensarea avansului la primirea facturii și verificarea soldului 542
+după validare.
 
 ## 8. Verificări pentru consultant
 
@@ -374,7 +377,7 @@ TVA-ul de pe factura de avans și verificarea soldului 542 după validare.
 - [ ] Nota de diferență din casă are data decontului, nu data avansului.
 - [ ] O plată furnizor cu facturi alese stinge doar facturile alese, cu sumele alocate (parțial, dacă suma e mai mică).
 - [ ] Plata apare pe factură, în lista plăților, cu numărul decontului.
-- [ ] Partea nealocată a plății rămâne pe 401 cu firma furnizorului și apare ca plată disponibilă pe facturile lui.
+- [ ] Partea nealocată a plății trece pe 4092 (Dr 4092 = Cr 401), iar pe 401 nu rămâne sold debitor.
 - [ ] O plată furnizor fără facturi alese, mai mică decât facturile deschise, stinge întâi factura cea mai veche.
 - [ ] După invalidarea decontului, facturile plătite din el revin la „Neplătit”.
 - [ ] Virament: pe metodele de plată ale jurnalului de bancă sunt setate conturile 5125; avansul produce Dr 542 = Cr 5125, nu o notă directă pe 5121.
@@ -403,7 +406,7 @@ TVA-ul de pe factura de avans și verificarea soldului 542 după validare.
 | „The expenses deduction ... is paid with a company card in ...: the per diem is paid from the payment journal ..., which is in ..." | Mod „Card de firmă", iar jurnalul de plată (din care se plătește diurna) este în altă monedă decât cardul | Alegeți un jurnal de plată în moneda cardului sau în moneda companiei |
 | „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
 | „The journal ... is in ..., but the expenses deduction ... is in ..." | Jurnalul de plată sau al cardului este în altă monedă decât decontul | Alegeți un jurnal în moneda decontului (sau fără monedă, pentru moneda companiei) |
-| Plata furnizor rămâne cu sold debitor pe 401 | Nicio factură aleasă sau deschisă nu o acoperă (plată nealocată) | Reconciliați-o cu factura la primire sau reclasificați-o pe 409 dacă e avans |
+| Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „The bill ... is allocated on several lines for ..., more than its amount due ...” | Aceeași factură e aleasă pe mai multe linii „Plată furnizor” ale decontului, cu sume care împreună depășesc restul ei de plată | Micșorați sumele alocate pe linii |
 | „The bill ... must be posted and have a positive allocated amount.” | Factura aleasă a fost trecută în ciornă sau anulată, ori suma alocată e zero | Scoateți factura sau completați o sumă alocată pozitivă; repostați factura dacă e cazul |
 | „The amount allocated to the bill ... is greater than its amount due ...” | Suma alocată depășește restul de plată al facturii (plătită între timp) | Micșorați suma alocată sau scoateți factura |

@@ -813,8 +813,8 @@ msgstr "Renunță"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
-msgid "The payment settles only these bills; the rest stays on 401, unallocated."
-msgstr "Plata stinge doar aceste facturi; restul rămâne pe 401, nealocat."
+msgid "The payment settles only these bills; the rest is a supplier advance (4092)."
+msgstr "Plata stinge doar aceste facturi; restul e avans la furnizor (4092)."
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form

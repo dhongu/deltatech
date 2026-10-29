@@ -10,7 +10,7 @@
 **Supplier payment.** A line of type *Supplier Payment* is a bill paid by the employee from the
 advance (Dr 401 = Cr 542). Its **Bills Paid** button lists the supplier bills it pays, with the
 amount allocated to each (partial payments allowed); without bills, it settles the oldest open
-bills first. The unallocated part stays on 401 as an unallocated payment of the supplier.
+bills first. The unallocated part is a supplier advance, reclassified Dr 4092 = Cr 401.
 
 **Settlement mode.** *Cash* pays the advance from the cash register. *Bank transfer (personal
 card)* pays it from a bank journal: Dr 542 = Cr 5125 (outstanding payments), matched with the bank

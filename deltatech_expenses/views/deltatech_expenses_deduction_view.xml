@@ -302,7 +302,7 @@
                         <field name="commercial_partner_id" column_invisible="1" />
                     </list>
                 </field>
-                <p class="text-muted">The payment settles only these bills; the rest stays on 401, unallocated.</p>
+                <p class="text-muted">The payment settles only these bills; the rest is a supplier advance (4092).</p>
                 <p class="text-muted">Without bills, the payment settles the oldest open bills first.</p>
                 <footer>
                     <button string="Save" special="save" class="btn-primary" />

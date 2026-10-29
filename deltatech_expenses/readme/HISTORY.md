@@ -8,8 +8,8 @@
   that bill, so the bill becomes paid or partially paid and shows the payment with the report
   number. Bills in the currency of the report are settled in that currency; the exchange
   difference goes to 665/765. Invalidating the report undoes the reconciliations.
-- The unallocated part of a supplier payment stays on 401 as an unallocated payment of the
-  supplier (available on its bills for manual reconciliation); it is no longer reclassified to 4092.
+- The unallocated part of a supplier payment is a supplier advance and is still reclassified
+  Dr 4092 = Cr 401, as when no bill covers the payment.
 - Without bills named on the line, the payment still settles the oldest open bills first.
 - The 401 line of a supplier payment is booked on the supplier company (commercial partner): a
   line entered with a contact person of the supplier did not find the company's bills.
