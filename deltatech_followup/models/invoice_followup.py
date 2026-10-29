@@ -51,10 +51,8 @@ class InvoiceFollowup(models.Model):
         "$amount_tax=invoice.amount_tax,\n"
         "$amount_total=invoice.amount_total,\n"
         "$amount_due=invoice.residual,\n"
-        "$total_debit=total amount to pay,\n"
         "$currency=invoice.currency\n"
-        "$total_all_debit=all partner debit\n"
-        "$total_due_debit=all due debit",
+        "The totals $total_debit, $total_all_debit and $total_due_debit can only be used in the mail template body.",
     )
     mail_template = fields.Many2one(
         "mail.template",
@@ -70,7 +68,8 @@ class InvoiceFollowup(models.Model):
     amount_margin = fields.Float(
         "Amount margin",
         default=1.0,
-        help="Amount margin. If total due debit is lower than this margin, the followup will be skipped",
+        help="Amount margin. If the total of the invoices to be sent is lower than this margin, "
+        "the followup will be skipped",
     )
 
     @api.model

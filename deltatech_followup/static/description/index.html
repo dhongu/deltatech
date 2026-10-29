@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 15 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 25 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:97%;background-color:#57B952;"></div>
       </div>
@@ -38,6 +38,16 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-configure"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-configure" href="#tb-panel-configure"
+       style="padding:10px 22px;">Configuration</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -46,65 +56,114 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>
-<ul>
-<li>Configure followup items:</li>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module sends your customers automatic e-mail reminders for their invoices:
+a few days before the due date, on the due date, or some days after it. For each
+reminder step (a <em>followup</em>) you choose the reference date, the offset in days
+and the mail template, and the e-mail can list the invoices concerned together
+with the customer's totals.</p>
+<p><strong>&#10024; Key features:</strong></p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Reminder steps you configure yourself</span><div>the date used (invoice date or due
+  date), the offset in days (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">-2</code> means two days before, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">3</code> three days after),
+  and whether only that exact day or every day from then on is processed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Open invoices only</span><div>credit notes are optional, and totals are shown in the
+  company currency or in the customer currency.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Your own mail template</span><div>set on the Contact, with the invoices inserted where
+  you place <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[invoices]</code>, one row per invoice (number, dates, payment term,
+  amounts), plus the total to pay, the customer's total debit and the amount
+  already overdue.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Only the customers you flag</span><div>those with <em>Send followup e-mails</em> ticked receive
+  reminders.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Amount margin</span><div>nothing is sent when the invoices in the e-mail add up to
+  less than the margin (or to a negative amount, when credit notes exceed the
+  invoices), and a note on the customer says why.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Amounts and dates in the customer's language</span><div>credit notes are shown negative
+  and subtracted from the total.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Errors stay local</span><div>if one customer cannot be processed (for example an
+  unknown placeholder), the error is logged and noted on that customer, and all
+  the other customers are still processed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Run from a scheduled action</span><div>for all the followups or only for those with
+  given codes, so different steps can run at different times.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Scheduled action</h2>
+<ol>
+<li>Activate the developer mode and go to <strong>Settings &gt; Technical &gt; Automation &gt;
+   Scheduled Actions</strong>.</li>
+<li>Create an action on the model <strong>Followup Send Wizard</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">followup.send.wizard</code>),
+   with the frequency you want (usually daily), and this Python code:<ul>
+<li>for all the followups: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">model.run_followup()</code></li>
+<li>for selected followups only: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">model.run_followup(["f-1", "AZI"])</code>, where the
+ values are the <strong>Code</strong> of the followups to run.</li>
 </ul>
 </li>
-<li>
-<p>Name - name of the followup</p>
+<li>The user of the scheduled action needs the <strong>Followup manager</strong> group.</li>
+</ol>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Mail template</h2>
+<p>Create a mail template on the model <strong>Contact</strong>. In its body you can use
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">${object.name}</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$total_debit</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$total_all_debit</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$total_due_debit</code>,
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$currency</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[invoices]</code>. By default the template deletes the mail after it
+is sent (<strong>Auto Delete</strong>); untick it if you want to keep a trace in
+<strong>Settings &gt; Technical &gt; Email &gt; Emails</strong>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Testing</h2>
+<p>To test without writing to customers, create the system parameter
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">followup.override_partner_id</code> (<strong>Settings &gt; Technical &gt; Parameters &gt; System
+Parameters</strong>) with the id of a contact: the e-mails go to that contact instead of
+the customers. Remove the parameter before going live.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Choosing the customers to remind</h2>
+<ol>
+<li>Open the customer (<strong>Invoicing &gt; Customers &gt; Customers</strong>).</li>
+<li>Tick <strong>Send followup e-mails</strong>, under the <strong>Tags</strong> field. The box must be on the
+   same contact that appears on the invoice, not on its parent company.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Followup box on the customer" src="01_partener_bifa_followup.png" /></p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Defining a followup</h2>
+<ol>
+<li>Go to <strong>Invoicing &gt; Configuration &gt; Followups</strong> and click <strong>New</strong>. You need
+   accounting manager rights and the <strong>Followup manager</strong> group.</li>
+<li>Fill in the <strong>Name</strong> and the <strong>Code</strong>, then choose the <strong>Date field to use</strong>
+   (invoice date or due date), the <strong>Comparator</strong> and the <strong>Days from</strong>:<ul>
+<li><strong>Equal</strong> processes only the invoices whose date plus the offset is today;
+ a day on which the scheduled action does not run is lost.</li>
+<li><strong>Greater or equal</strong> processes every invoice from that day on, so the
+ reminder is repeated daily.</li>
+</ul>
 </li>
-<li>Code - can be used in cron jobs to run only selected followups</li>
-<li>Active - if the followup items will be processed or not</li>
-<li>Date field - invoice date or due date</li>
-<li>relative days from configured date field (i.e. -5 means 5 days before, 3 means 3 days after)</li>
-<li>mail subject</li>
-<li>mail from</li>
-<li>
-<p>mail body (with pre-configured blocks - please see field help)</p>
-</li>
-<li>
+<li>Choose the <strong>Mail template</strong> (required) and, under <strong>Invoices placeholder</strong>, the
+   HTML of one invoice row, with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$number</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$payment_term_id</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$date_invoice</code>,
+   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$date_due</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$amount_untaxed</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$amount_tax</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$amount_total</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$amount_due</code>
+   and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$currency</code>.</li>
+<li>Set the options: <strong>Only open invoices</strong>, <strong>Parse refund invoices</strong>, <strong>Use
+   customer currency</strong> and the <strong>Amount margin</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Followup form" src="03_formular_followup.png" /></p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">What happens when it runs</h2>
+<p>For each active followup and each flagged customer, the module takes the posted
+invoices that match the followup, adds up the totals and sends the e-mail built
+from the template. Amounts and dates follow the language of the customer.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="E-mail generated for the customer" src="05_email_trimis.png" /></p>
 <ul>
-<li>Configure Partners</li>
+<li>If the invoices in the e-mail add up to the margin or less, or to a negative
+  amount (credit notes over invoices), no e-mail is sent and a note is posted on
+  the customer.</li>
+<li>If a customer cannot be processed, a note says that the followup failed and
+  why; the other customers are processed normally.</li>
+<li>The e-mails appear in <strong>Settings &gt; Technical &gt; Email &gt; Emails</strong> until they are
+  sent; with <strong>Auto Delete</strong> on the template they are removed afterwards.</li>
 </ul>
-</li>
-<li>
-<p>will receive followups - check if the partner will be processed for followups</p>
-</li>
-<li>
-<ul>
-<li>Configure cron job for followup mails:</li>
-</ul>
-</li>
-<li>
-<p>model: Followup Send (followup.send.wizard)</p>
-</li>
-<li>
-<ul>
-<li>
-<p>Python code:</p>
-</li>
-<li>
-<p>for all followups: model.run_followup()</p>
-</li>
-<li>for selected followups: model.run_followup(["12D", "20D"]) - 12D and 20D are the codes of the followups to
-    run</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>An override partner id can be configured for testing purposes. In system parameters, parameter name -&gt;
-  "followup.override_partner_id", value -&gt; id of the partner</p>
-</li>
-</ul>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Note posted when the amount is within the margin" src="06_nota_marja.png" /></p>
+<p>A reminder does not replace a formal notice of non-payment.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.4 (2026-10-29)</h2>
+<ul>
+<li>Fix: the amount margin is now compared with the total of the invoices included in the followup, not with the partner's overdue debit. Followups sent before or on the due date were skipped for partners without other overdue invoices.</li>
+<li>Fix: credit notes included in a followup are now subtracted from the total to pay (they were added) and shown with a negative sign; the total uses the same currency as the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$currency</code> placeholder.</li>
+<li>Amounts in the e-mail are formatted in the language of the partner.</li>
+<li>The "Followup not sent" note is translatable and uses the currency format of the followup totals.</li>
+<li>Fix: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">$payment_term_id</code> shows the name of the payment term instead of the technical recordset text.</li>
+<li>Fix: a followup whose invoices total a negative amount (credit notes over invoices) is no longer sent.</li>
+<li>Fix: a partner without language or an error on one partner (invoice without due date, unknown placeholder) no longer stops the whole run; the error is logged and noted on the partner.</li>
+<li>The mail template is required on the followup form (a followup without template failed for every partner).</li>
+<li>Followup form: options moved to the right column; list shows the comparator and the mail template; help texts and Romanian translation updated.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.3 (2026-10-04)</h2>
 <ul>
 <li>Add unit tests covering followup date matching, residual amount computation and the followup mail sending wizard (codes filter, margin skip, refunds, customer currency, override partner).</li>

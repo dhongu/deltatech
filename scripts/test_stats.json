@@ -198,7 +198,7 @@
     "deltatech_followup": {
       "coverage": 97.6,
       "lines": 123,
-      "tests": 15
+      "tests": 25
     },
     "deltatech_generic_partner_restriction": {
       "tests": 0
