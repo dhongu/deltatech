@@ -1,7 +1,6 @@
-import {BaseOptionComponent} from "@html_builder/core/utils";
+import {BaseOptionComponent} from "@html_builder/core/base_option_component";
 import {BuilderAction} from "@html_builder/core/builder_action";
 import {Plugin} from "@html_editor/plugin";
-import {_t} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
 import {rpc} from "@web/core/network/rpc";
 
@@ -16,12 +15,10 @@ const DATA_KEYS = {
 
 const BOOLEAN_FIELDS = ["warehouse_stock_theme_colors"];
 
+// Selector, title and groups are in the option declaration (website.BuilderOptions)
 export class WarehouseStockOption extends BaseOptionComponent {
+    static id = "warehouse_stock_option";
     static template = "deltatech_website_warehouse_stock.WarehouseStockOption";
-    static selector = ".o_wh_stock";
-    static title = _t("Warehouse Stock");
-    static groups = ["website.group_website_designer"];
-    static editableOnly = false;
 }
 
 // The options are settings of the website (also in Website > Configuration > Settings):
@@ -58,9 +55,9 @@ export class WarehouseStockConfigAction extends BuilderAction {
 class WarehouseStockOptionPlugin extends Plugin {
     static id = "warehouseStockOption";
     resources = {
-        builder_options: [WarehouseStockOption],
         builder_actions: {WarehouseStockConfigAction},
     };
 }
 
 registry.category("website-plugins").add(WarehouseStockOptionPlugin.id, WarehouseStockOptionPlugin);
+registry.category("website-options").add(WarehouseStockOption.id, WarehouseStockOption);

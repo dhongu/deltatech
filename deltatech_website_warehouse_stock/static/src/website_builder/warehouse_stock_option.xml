@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
 
+<t t-inherit="website.BuilderOptions" t-inherit-mode="extension">
+    <xpath expr="//t[@id='snippet_specific_options']" position="after">
+        <warehouse_stock_option
+            selector=".o_wh_stock"
+            title="Warehouse Stock"
+            editableOnly="false"
+            groups='["website.group_website_designer"]'
+        />
+    </xpath>
+</t>
+
 <t t-name="deltatech_website_warehouse_stock.WarehouseStockOption">
     <BuilderContext action="'warehouseStockConfig'">
         <BuilderRow label.translate="Position">

@@ -1,4 +1,5 @@
 from odoo.tests import HttpCase, JsonRpcException, tagged
+from odoo.tools import mute_logger
 
 
 @tagged("post_install", "-at_install")
@@ -159,7 +160,9 @@ class TestWarehouseStockDesign(HttpCase):
         self.assertEqual(html.count('data-wh-position="after_price"'), 1)
         block = html.index("o_wh_stock ")
         self.assertGreater(block, html.index("o_wsale_cta_wrapper_boxed"))
-        self.assertLess(block, html.index("o_wsale_product_details_content_section_contact"))
+        # Odoo 20 has no contact section: the next element is the dropzone under the call to action
+        cta_section = html.index('id="o_wsale_product_cta_section"')
+        self.assertLess(block, html.index("o_drop_inner_empty", cta_section))
 
     def test_position_details_boxed(self):
         self.env.ref("website_sale.cta_wrapper_boxed").active = True
@@ -204,7 +207,7 @@ class TestWarehouseStockDesign(HttpCase):
             }
         )
         self.authenticate("test_portal_stock", "test_portal_stock")
-        with self.assertRaisesRegex(JsonRpcException, "AccessError"):
+        with self.assertRaisesRegex(JsonRpcException, "AccessError"), mute_logger("odoo.http"):
             self.make_jsonrpc_request(
                 "/website/warehouse_stock/config", {"field": "warehouse_stock_style", "value": "list"}
             )
