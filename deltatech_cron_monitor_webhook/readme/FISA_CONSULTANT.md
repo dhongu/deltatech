@@ -91,14 +91,16 @@ programată și răspunde în JSON:
 3. **Treceți mai departe:** abia apoi activați programul periodic și alertele din serviciul extern.
 
 Codurile de eroare: **401** — token lipsă sau greșit; **404** — cod webhook inexistent sau webhook
-dezactivat; **500** — acțiunea programată a dat eroare (mesajul erorii este în `message` și în jurnalul
+dezactivat (doar cu tokenul corect; fără token răspunsul este 401); **500** — acțiunea programată a dat eroare (mesajul erorii este în `message` și în jurnalul
 serverului).
 
 ### Pasul 4 — Starea unei acțiuni
 
-Adresa `/cron/webhook/<cod>/status` (metoda `GET`) întoarce `job_name`, `next_run` (următoarea rulare
-planificată) și `active` (dacă acțiunea este activă). Adresa `/cron/healthcheck` răspunde `OK` cât timp
-serverul Odoo funcționează și poate fi folosită pentru monitorizarea disponibilității.
+Adresa `/cron/webhook/<cod>/status?token=<token global>` (metoda `GET`) întoarce `job_name`, `next_run`
+(următoarea rulare planificată) și `active` (dacă acțiunea este activă). Tokenul se trimite la fel ca la
+declanșare (parametrul `token` sau antetul `X-Access-Token`); fără el, răspunsul este HTTP 401.
+Adresa `/cron/healthcheck` răspunde `OK` cât timp serverul Odoo funcționează și poate fi folosită
+pentru monitorizarea disponibilității.
 
 ### Note de monografie și raportare
 
@@ -126,7 +128,8 @@ configurarea serviciului extern.
 - [ ] **Webhook URL** conține tokenul global după salvarea lui în setări.
 - [ ] Apelul cu tokenul corect rulează acțiunea și întoarce `success` (HTTP 200).
 - [ ] Apelul fără token sau cu token greșit întoarce HTTP 401 și nu rulează acțiunea.
-- [ ] Apelul unui cod inexistent sau al unui webhook dezactivat întoarce HTTP 404.
+- [ ] Apelul cu tokenul corect al unui cod inexistent sau al unui webhook dezactivat întoarce HTTP 404.
+- [ ] Adresa de stare (`/status`) fără token întoarce HTTP 401; cu tokenul corect întoarce `job_name`.
 - [ ] Tokenul trimis în antetul `X-Access-Token` sau în corpul JSON este acceptat.
 - [ ] Două acțiuni nu pot avea același **Cod webhook**.
 
@@ -151,8 +154,6 @@ secțiunea 6; răspunsurile JSON rămân extrase de text.
 - **Webhook URL** conține tokenul global în clar; oricine are adresa poate porni acțiunea. Adresa se
   păstrează doar în serviciul extern, iar tokenul se schimbă dacă adresa a fost expusă (schimbarea lui
   invalidează toate webhook-urile până la actualizarea serviciului extern).
-- Adresa de stare (`/status`) nu cere token: arată numele acțiunii, următoarea rulare și dacă este
-  activă oricui cunoaște codul. Alegeți coduri greu de ghicit.
 - Acțiunea pornită prin webhook rulează în cererea HTTP; acțiunile lungi pot depăși timpul limită al
   serverului sau al serviciului extern.
 - Modulul nu ține un istoric propriu al rulărilor și nu trimite alerte: monitorizarea și alertele vin din
