@@ -37,8 +37,21 @@ class TestCronWebhookController(HttpCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(json.loads(response.text)["status"], "error")
 
-    def test_status(self):
+    def test_unknown_webhook_without_token(self):
+        response = self.url_open("/cron/webhook/does_not_exist")
+        self.assertEqual(response.status_code, 401)
+
+    def test_status_without_token(self):
         response = self.url_open("/cron/webhook/test_webhook_ctrl/status")
+        self.assertEqual(response.status_code, 401)
+        self.assertNotIn("Webhook Cron Job", response.text)
+
+    def test_status_invalid_token(self):
+        response = self.url_open("/cron/webhook/test_webhook_ctrl/status?token=wrong")
+        self.assertEqual(response.status_code, 401)
+
+    def test_status(self):
+        response = self.url_open("/cron/webhook/test_webhook_ctrl/status?token=global_secret")
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.text)
         self.assertEqual(data["job_name"], "Webhook Cron Job")
