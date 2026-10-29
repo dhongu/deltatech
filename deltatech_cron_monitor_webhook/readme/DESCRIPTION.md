@@ -7,7 +7,7 @@ This module provides a simple and secure solution to trigger Odoo cron jobs via 
 - **Global Token Security**: Protection via a global access token (Bearer or Parameter) instead of complex HMAC signatures.
 - **Dedicated Endpoints**:
   - Trigger: `/cron/webhook/<webhook_code>` (POST/GET)
-  - Status: `/cron/webhook/<webhook_code>/status` (GET)
+  - Status: `/cron/webhook/<webhook_code>/status` (GET, same token)
 - **Easy Configuration**: A single global token manages access for all enabled webhooks, simplifying integration with external services.
 
 ### Integration:
