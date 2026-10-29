@@ -855,3 +855,9 @@ msgstr "Facturile alocate pe linia %(line)s (%(allocated)s) depășesc suma plă
 #: model:ir.model.constraint,message:deltatech_expenses.constraint_deltatech_expenses_deduction_allocation_line_bill_uniq
 msgid "A bill can be allocated only once on a supplier payment line."
 msgstr "O factură poate fi alocată o singură dată pe o linie de plată furnizor."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bill %(bill)s is allocated on several lines for %(amount)s, more than its amount due (%(residual)s)."
+msgstr "Factura %(bill)s este alocată pe mai multe linii pentru %(amount)s, mai mult decât restul ei de plată (%(residual)s)."

@@ -402,6 +402,7 @@ TVA-ul de pe factura de avans și verificarea soldului 542 după validare.
 | „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
 | „The journal ... is in ..., but the expenses deduction ... is in ..." | Jurnalul de plată sau al cardului este în altă monedă decât decontul | Alegeți un jurnal în moneda decontului (sau fără monedă, pentru moneda companiei) |
 | Plata furnizor rămâne cu sold debitor pe 401 | Nicio factură aleasă sau deschisă nu o acoperă (plată nealocată) | Reconciliați-o cu factura la primire sau reclasificați-o pe 409 dacă e avans |
+| „The bill ... is allocated on several lines for ..., more than its amount due ...” | Aceeași factură e aleasă pe mai multe linii „Plată furnizor” ale decontului, cu sume care împreună depășesc restul ei de plată | Micșorați sumele alocate pe linii |
 | „The bill ... must be posted and have a positive allocated amount.” | Factura aleasă a fost trecută în ciornă sau anulată, ori suma alocată e zero | Scoateți factura sau completați o sumă alocată pozitivă; repostați factura dacă e cazul |
 | „The amount allocated to the bill ... is greater than its amount due ...” | Suma alocată depășește restul de plată al facturii (plătită între timp) | Micșorați suma alocată sau scoateți factura |
 | „The bills allocated on the line ... exceed the amount paid ...” | Suma alocărilor depășește suma liniei de plată | Micșorați sumele alocate |

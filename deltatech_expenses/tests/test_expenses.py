@@ -870,6 +870,16 @@ class TestExpenses(TransactionCase):
         with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
             self._allocate(line, bill, 100.0)
 
+    def test_supplier_payment_bill_allocated_on_two_lines_over_amount_due(self):
+        """Aceeași factură pe două linii de plată ale decontului nu poate depăși restul ei de plată."""
+        bill = self._bill(100.0)
+        deduction = self._new_deduction(200.0)
+        self._allocate(self._new_line(deduction, 100.0, type="supplier_payment"), bill, 80.0)
+        self._allocate(self._new_line(deduction, 100.0, type="supplier_payment"), bill, 80.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+        self.assertEqual(bill.payment_state, "not_paid")
+
     def test_supplier_payment_bill_of_other_company_rejected(self):
         """Factura altei companii e respinsă la salvarea alocării, nu abia la validare."""
         other_company = self.env["res.company"].create({"name": "Altă companie"})
