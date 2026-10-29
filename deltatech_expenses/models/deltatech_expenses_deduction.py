@@ -802,6 +802,28 @@ class DeltatechExpensesDeduction(models.Model):
             (settle_payable | payables).reconcile()
         return settle
 
+    def _check_bill_allocations(self):
+        """O factură alocată pe mai multe linii de plată ale decontului: totalul alocat nu depășește
+        restul ei de plată (verificarea per linie nu vede celelalte linii)."""
+        self.ensure_one()
+        allocations = self.expenses_line_ids.allocation_ids
+        for bill in allocations.move_id:
+            bill_allocations = allocations.filtered(lambda alloc, bill=bill: alloc.move_id == bill)
+            if len(bill_allocations) < 2:
+                continue
+            total = sum(bill_allocations.mapped("amount"))
+            residual = bill_allocations[0]._bill_residual(self.date_expense)
+            if self.currency_id.compare_amounts(total, residual) > 0:
+                raise UserError(
+                    self.env._(
+                        "The bill %(bill)s is allocated on several lines for %(amount)s, more than its amount due "
+                        "(%(residual)s).",
+                        bill=bill.display_name,
+                        amount=total,
+                        residual=residual,
+                    )
+                )
+
     def _reconcile_supplier_payment(self, settle_payable):
         """Reconciliază linia de furnizor a unei plăți directe (supplier_payment) fără facturi alese cu
         datoriile deschise ale aceluiași furnizor pe același cont (ca o plată: stinge facturile existente,
@@ -857,6 +879,7 @@ class DeltatechExpensesDeduction(models.Model):
         for expenses in self:
             name = expenses.number
             expenses_vals = {"state": "done", "number": name, "accounted_by_id": self.env.user.id}
+            expenses._check_bill_allocations()
             vouchers = self.env["account.move"]
 
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
