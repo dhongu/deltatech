@@ -229,6 +229,8 @@ aspectul blocului și nota la „La comandă”.
 |-----------------|-----------------|-----------|
 | Secțiunea **Stoc pe depozite** lipsește din panoul editorului | utilizatorul nu are drepturi de **Designer** pe site | acordați grupul **Designer** (aplicația Pagină web) sau schimbați opțiunea din setări |
 | „Doar designerii site-ului pot schimba afișarea stocului.” | o cerere directă de schimbare a opțiunii, făcută de un utilizator fără drepturi de **Designer** (protecția serverului) | ca mai sus |
+| „Opțiune necunoscută pentru stocul pe depozite: …” | o cerere directă către server cu o opțiune care nu se poate schimba din editor (de exemplu nota de la stoc zero) | schimbați opțiunea din **Pagină web → Configurare → Setări** (Pasul 2) |
+| „Valoare invalidă … pentru …” | o cerere directă către server cu o valoare care nu există în lista opțiunii | alegeți valoarea din panoul editorului sau din setări; lista arată doar valorile permise |
 | Blocul **Disponibilitate în stoc** nu apare deloc | niciun depozit al companiei site-ului nu are **Afișare pe site** bifat; sau vizualizarea **Warehouse Stock** a fost dezactivată | bifați depozitele; cu modul de dezvoltare, **Setări → Tehnic → Interfață utilizator → Vizualizări**, căutați „Warehouse Stock” și reactivați-o |
 | Un depozit nu apare deși are stoc | bifa **Afișare pe site** e debifată, depozitul e al altei companii, sau locația lui de stoc principală nu e de tip internă | verificați bifa, compania și locația de stoc a depozitului |
 | Pe site apare un depozit nou, nedorit | bifa **Afișare pe site** e activă implicit pe depozitele noi | debifați-o pe depozit |
