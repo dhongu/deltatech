@@ -367,3 +367,9 @@ msgid ""
 msgstr ""
 "Categoria eCommerce a produselor. Necompletat: ținta globală a "
 "producătorului."
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target.py:0
+msgid "The year of a target must be between 2000 and 2100."
+msgstr "Anul unei ținte trebuie să fie între 2000 și 2100."

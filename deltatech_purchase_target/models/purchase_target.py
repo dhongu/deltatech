@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class PurchaseTarget(models.Model):
@@ -16,6 +17,7 @@ class PurchaseTarget(models.Model):
         string="Manufacturer",
         required=True,
         index=True,
+        check_company=True,
         domain=[("is_manufacturer", "=", True)],
     )
     year = fields.Integer(required=True, default=lambda self: fields.Date.context_today(self).year)
@@ -33,6 +35,7 @@ class PurchaseTarget(models.Model):
     partner_ids = fields.Many2many(
         "res.partner",
         string="Vendors",
+        check_company=True,
         compute="_compute_partner_ids",
         store=True,
         readonly=False,
@@ -47,6 +50,12 @@ class PurchaseTarget(models.Model):
         "UNIQUE(manufacturer_id, year, company_id)",
         "There is already a target for this manufacturer and year.",
     )
+
+    @api.constrains("year")
+    def _check_year(self):
+        for target in self:
+            if not 2000 <= target.year <= 2100:
+                raise ValidationError(self.env._("The year of a target must be between 2000 and 2100."))
 
     @api.depends("manufacturer_id", "year")
     def _compute_name(self):

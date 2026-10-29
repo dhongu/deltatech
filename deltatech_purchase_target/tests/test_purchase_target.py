@@ -169,6 +169,10 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
         action = self._line("1").action_view_sales()
         self.assertEqual(self.env["sale.margin.report"].search(action["domain"]).product_id, self.paint)
 
+    def test_year_range(self):
+        with self.assertRaises(ValidationError):
+            self.target.year = 20260
+
     def test_unique_quarter_category(self):
         with self.assertRaises(ValidationError):
             self.target.line_ids = [(0, 0, {"quarter": "1", "target_value": 5})]

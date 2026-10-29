@@ -359,3 +359,9 @@ msgid ""
 "eCommerce category of the products. Empty: the overall target of the "
 "manufacturer."
 msgstr ""
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target.py:0
+msgid "The year of a target must be between 2000 and 2100."
+msgstr ""
