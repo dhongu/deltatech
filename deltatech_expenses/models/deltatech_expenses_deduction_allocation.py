@@ -12,18 +12,26 @@ class DeltatechExpensesDeductionAllocation(models.Model):
     _name = "deltatech.expenses.deduction.allocation"
     _description = "Expenses Deduction Supplier Payment Allocation"
     _order = "line_id, id"
+    _check_company_auto = True
+
+    # o factură apare o singură dată pe linie: suma ei alocată se compară cu restul de plată
+    _line_bill_uniq = models.Constraint(
+        "unique(line_id, move_id)",
+        "A bill can be allocated only once on a supplier payment line.",
+    )
 
     line_id = fields.Many2one(
         "deltatech.expenses.deduction.line", string="Expenses Line", required=True, ondelete="cascade", index=True
     )
     expenses_deduction_id = fields.Many2one(related="line_id.expenses_deduction_id", store=True, index=True)
-    company_id = fields.Many2one(related="line_id.expenses_deduction_id.company_id")
+    company_id = fields.Many2one(related="line_id.expenses_deduction_id.company_id", store=True)
     commercial_partner_id = fields.Many2one(related="line_id.partner_id.commercial_partner_id")
     currency_id = fields.Many2one(related="line_id.currency_id")
     move_id = fields.Many2one(
         "account.move",
         string="Bill",
         required=True,
+        check_company=True,
         domain="[('move_type', 'in', ('in_invoice', 'in_receipt')), ('state', '=', 'posted'), "
         "('payment_state', 'in', ('not_paid', 'partial')), ('company_id', '=', company_id), "
         "('commercial_partner_id', '=', commercial_partner_id)]",

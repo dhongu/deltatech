@@ -206,7 +206,8 @@ Fiecare linie are un **tip**:
   proprie); la validare se generează nota `Dr 401 = Cr 542`, cu firma furnizorului pe 401 (chiar
   dacă pe linie e o persoană de contact a lui), care stinge facturile furnizorului ca o plată:
   - **cu facturi alese** — butonul **„Bills Paid”** de pe linie (vizibil pentru Aprobator și
-    Contabil, cât decontul e în starea „Avans”) deschide lista facturilor plătite. Pentru fiecare
+    Contabil) deschide lista facturilor plătite; facturile se aleg și se modifică doar cât decontul e
+    în starea „Avans”, după validare lista e doar pentru citire. Pentru fiecare
     factură postată și neplătită a furnizorului se completează **suma alocată**: implicit restul de
     plată, cel mult partea încă nealocată a plății; o sumă mai mică înseamnă plată parțială. La
     validare, nota are câte o linie `Dr 401` pentru fiecare factură, reconciliată doar cu ea:
@@ -404,6 +405,8 @@ TVA-ul de pe factura de avans și verificarea soldului 542 după validare.
 | „The amount allocated to the bill ... is greater than its amount due ...” | Suma alocată depășește restul de plată al facturii (plătită între timp) | Micșorați suma alocată sau scoateți factura |
 | „The bills allocated on the line ... exceed the amount paid ...” | Suma alocărilor depășește suma liniei de plată | Micșorați sumele alocate |
 | „The bill ... is not a bill of the supplier ... in this company.” | Furnizorul liniei a fost schimbat după alegerea facturilor | Alegeți din nou facturile furnizorului |
+| „Only a supplier payment line can pay bills: line ... is an expense.” | Tipul liniei a fost schimbat în „Cheltuieli” după alegerea facturilor | Scoateți facturile alese sau readuceți tipul „Plată furnizor” |
+| „A bill can be allocated only once on a supplier payment line.” | Aceeași factură a fost aleasă de două ori pe linie | Păstrați un singur rând pentru factură, cu suma totală alocată |
 | „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
 
 Mesajele despre contul 5125, jurnalul de numerar / bancă și cardul de firmă nu au încă traducere în

@@ -850,3 +850,8 @@ msgstr "Suma alocată facturii %(bill)s (%(amount)s) este mai mare decât restul
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid "The bills allocated on the line %(line)s (%(allocated)s) exceed the amount paid (%(amount)s)."
 msgstr "Facturile alocate pe linia %(line)s (%(allocated)s) depășesc suma plătită (%(amount)s)."
+
+#. module: deltatech_expenses
+#: model:ir.model.constraint,message:deltatech_expenses.constraint_deltatech_expenses_deduction_allocation_line_bill_uniq
+msgid "A bill can be allocated only once on a supplier payment line."
+msgstr "O factură poate fi alocată o singură dată pe o linie de plată furnizor."

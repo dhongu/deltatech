@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 23:57+0000\n"
-"PO-Revision-Date: 2026-10-28 23:57+0000\n"
+"POT-Creation-Date: 2026-10-29 00:09+0000\n"
+"PO-Revision-Date: 2026-10-29 00:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -68,6 +68,11 @@ msgstr ""
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "<strong>TVA</strong>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.constraint,message:deltatech_expenses.constraint_deltatech_expenses_deduction_allocation_line_bill_uniq
+msgid "A bill can be allocated only once on a supplier payment line."
 msgstr ""
 
 #. module: deltatech_expenses

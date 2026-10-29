@@ -3,10 +3,13 @@
 # See README.rst file on addons root folder for license details
 
 
+from psycopg2 import IntegrityError
+
 from odoo import fields
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 @tagged("post_install", "-at_install")
@@ -769,6 +772,36 @@ class TestExpenses(TransactionCase):
         bill.action_post()
         return bill
 
+    def _other_company_bill(self, company, journal):
+        partner = self.supplier.with_company(company)
+        partner.property_account_payable_id = (
+            self.env["account.account"]
+            .with_company(company)
+            .create({"name": "Furnizori B", "code": "401B", "account_type": "liability_payable", "reconcile": True})
+        )
+        expense = (
+            self.env["account.account"]
+            .with_company(company)
+            .create({"name": "Cheltuieli B", "code": "628B", "account_type": "expense"})
+        )
+        bill = (
+            self.env["account.move"]
+            .with_company(company)
+            .create(
+                {
+                    "move_type": "in_invoice",
+                    "partner_id": self.supplier.id,
+                    "invoice_date": fields.Date.today(),
+                    "journal_id": journal.id,
+                    "invoice_line_ids": [
+                        (0, 0, {"name": "Marfă", "price_unit": 50.0, "account_id": expense.id, "tax_ids": [(6, 0, [])]})
+                    ],
+                }
+            )
+        )
+        bill.action_post()
+        return bill
+
     def _allocate(self, line, bill, amount):
         return self.env["deltatech.expenses.deduction.allocation"].create(
             {"line_id": line.id, "move_id": bill.id, "amount": amount}
@@ -827,6 +860,29 @@ class TestExpenses(TransactionCase):
         expense_line = self._new_line(deduction, 10.0)
         with self.assertRaises(ValidationError):
             self._allocate(expense_line, bill, 10.0)
+
+    def test_supplier_payment_bill_allocated_once_per_line(self):
+        """Aceeași factură nu poate fi alocată de două ori pe o linie (ar depăși restul de plată)."""
+        bill = self._bill(100.0)
+        deduction = self._new_deduction(300.0)
+        line = self._new_line(deduction, 300.0, type="supplier_payment")
+        self._allocate(line, bill, 100.0)
+        with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
+            self._allocate(line, bill, 100.0)
+
+    def test_supplier_payment_bill_of_other_company_rejected(self):
+        """Factura altei companii e respinsă la salvarea alocării, nu abia la validare."""
+        other_company = self.env["res.company"].create({"name": "Altă companie"})
+        self.env.user.company_ids |= other_company
+        other_journal = self.env["account.journal"].create(
+            {"name": "Purch B", "code": "PUB", "type": "purchase", "company_id": other_company.id}
+        )
+        other_bill = self._other_company_bill(other_company, other_journal)
+        deduction = self._new_deduction(100.0)
+        line = self._new_line(deduction, 100.0, type="supplier_payment")
+        allocation = self._allocate(line, self._bill(100.0), 100.0)
+        with self.assertRaises(UserError):
+            allocation.move_id = other_bill
 
     def test_supplier_payment_default_allocation_amount(self):
         """La alegerea facturii, suma implicită e restul de plată, limitat la suma încă nealocată."""
