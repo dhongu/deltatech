@@ -770,8 +770,9 @@ class DeltatechExpensesDeduction(models.Model):
         (commercial partner) pe 401, ca plata să apară ca disponibilă pe facturile lui.
 
         Cu facturi alese pe linie (allocation_ids): câte o linie 401 pentru fiecare factură, reconciliată
-        doar cu ea; restul rămâne pe 401 ca plată nealocată. Fără facturi alese: imputația legală a plății,
-        întâi facturile cele mai vechi (vezi _reconcile_supplier_payment)."""
+        doar cu ea; restul nealocat e un avans acordat furnizorului (vezi _reclassify_supplier_advance).
+        Fără facturi alese: imputația legală a plății, întâi facturile cele mai vechi (vezi
+        _reconcile_supplier_payment)."""
         partner = partner.commercial_partner_id
         line._check_allocations()
         bill_payables = [
@@ -800,6 +801,8 @@ class DeltatechExpensesDeduction(models.Model):
         # liniile 401 sunt create în ordinea alocărilor; ultima, dacă e în plus, e restul nealocat
         for settle_payable, payables in zip(settle_payables, bill_payables, strict=False):
             (settle_payable | payables).reconcile()
+        if len(settle_payables) > len(bill_payables):
+            self._reclassify_supplier_advance(settle_payables[-1])
         return settle
 
     def _check_bill_allocations(self):
@@ -827,8 +830,8 @@ class DeltatechExpensesDeduction(models.Model):
     def _reconcile_supplier_payment(self, settle_payable):
         """Reconciliază linia de furnizor a unei plăți directe (supplier_payment) fără facturi alese cu
         datoriile deschise ale aceluiași furnizor pe același cont (ca o plată: stinge facturile existente,
-        întâi pe cele mai vechi). Ce rămâne neacoperit stă pe 401 ca plată nealocată a furnizorului,
-        disponibilă pentru reconcilierea manuală cu facturile primite ulterior."""
+        întâi pe cele mai vechi). Ce rămâne neacoperit de datorii deschise e un avans acordat
+        furnizorului și se trece pe 4092 (vezi _reclassify_supplier_advance)."""
         settle_payable.ensure_one()
         open_lines = self.env["account.move.line"].search(
             [
@@ -846,6 +849,59 @@ class DeltatechExpensesDeduction(models.Model):
         )
         if open_lines:
             (settle_payable | open_lines).reconcile()
+        self._reclassify_supplier_advance(settle_payable)
+
+    def _reclassify_supplier_advance(self, settle_payable):
+        """Soldul debitor rămas pe 401 după o plată directă din avans este un avans acordat
+        furnizorului: Dr 4092 = Cr 401, reconciliat cu plata. Conform funcțiunii conturilor
+        (OMFP 1802/2014), 409 se debitează prin 401, nu direct prin 542. La primirea facturii,
+        avansul se regularizează Dr 401 = Cr 4092. Fără cont 4092 în plan, soldul rămâne pe 401."""
+        residual = settle_payable.amount_residual
+        if settle_payable.company_currency_id.is_zero(residual) or residual < 0:
+            return
+        currency = settle_payable.currency_id
+        residual_currency = settle_payable.amount_residual_currency
+        account_409 = self.env["account.account"].search(
+            [("code", "=like", "4092%"), ("company_ids", "in", settle_payable.company_id.id)], limit=1
+        )
+        if not account_409:
+            return
+        move = self.env["account.move"].create(
+            {
+                "journal_id": settle_payable.journal_id.id,
+                "date": settle_payable.date,
+                "ref": settle_payable.move_id.ref,
+                "expenses_deduction_id": settle_payable.move_id.expenses_deduction_id.id,
+                "line_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": settle_payable.partner_id.id,
+                            "account_id": account_409.id,
+                            "name": self.env._("Avans furnizor"),
+                            "currency_id": currency.id,
+                            "amount_currency": residual_currency,
+                            "balance": residual,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "partner_id": settle_payable.partner_id.id,
+                            "account_id": settle_payable.account_id.id,
+                            "name": self.env._("Avans furnizor"),
+                            "currency_id": currency.id,
+                            "amount_currency": -residual_currency,
+                            "balance": -residual,
+                        },
+                    ),
+                ],
+            }
+        )
+        move._post()
+        (settle_payable | move.line_ids.filtered(lambda aml: aml.account_id == settle_payable.account_id)).reconcile()
 
     def validate_expenses(self):
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.

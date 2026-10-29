@@ -70,8 +70,9 @@ văd fișa completă a angajatului (drepturi în aplicația Angajați).
 - **625 / 623** — Cheltuieli cu deplasări / de protocol (contul se alege pe fiecare linie).
 - **4426** — TVA deductibilă aferentă cheltuielilor.
 - **401** — Furnizori (chitanțele de achiziție și plățile directe din avans).
-- **4091 / 4092** — Furnizori-debitori: modulul nu le folosește; plata directă din avans care nu
-  stinge o factură rămâne pe 401 (vezi Pasul 2), iar contabilul o reclasifică manual dacă e un avans.
+- **4092** — Furnizori-debitori pentru servicii: partea dintr-o plată directă din avans care nu
+  stinge nicio factură (avans acordat furnizorului); pentru bunuri se reclasifică manual pe 4091,
+  pentru imobilizări pe 4093, prin 404 în loc de 401.
 
 Pentru deconturile în valută:
 - **5314** — Casa în valută (contul registrului de casă în valută, sursa avansului);
@@ -180,8 +181,8 @@ Fiecare linie are un **tip**:
   - **cu facturi alese** — butonul **„Facturi plătite”** de pe linie (vizibil pentru Aprobator și
     Contabil) deschide lista facturilor plătite; facturile se aleg și se modifică doar cât decontul e
     în starea „Avans”, după validare lista e doar pentru citire. Sub listă, fereastra amintește
-    regula: plata stinge doar facturile alese, restul rămâne pe 401, iar fără facturi alese stinge
-    întâi facturile deschise cele mai vechi. Pentru fiecare
+    regula: plata stinge doar facturile alese, restul e avans la furnizor (4092), iar fără facturi
+    alese stinge întâi facturile deschise cele mai vechi. Pentru fiecare
     factură postată și neplătită a furnizorului se completează **suma alocată**: implicit restul de
     plată, cel mult partea încă nealocată a plății; o sumă mai mică înseamnă plată parțială. La
     validare, nota are câte o linie `Dr 401` pentru fiecare factură, reconciliată doar cu ea:
@@ -191,13 +192,15 @@ Fiecare linie are un **tip**:
     vechi după scadență (regula legală de imputație a plății, când documentul de plată nu indică
     factura).
 
-  Partea nealocată (fără facturi deschise sau peste suma lor) **rămâne pe 401** ca plată nealocată,
-  cu firma furnizorului, și apare ca plată disponibilă pe facturile lui, unde se reconciliază manual
-  la primirea facturii. De exemplu, o plată de 300 lei cu 50 lei alocați pe factura A (200 lei) și
+  Partea nealocată (fără facturi deschise sau peste suma lor) este un **avans acordat
+  furnizorului** și se reclasifică automat `Dr 4092 = Cr 401`, reconciliată cu plata, ca pe 401 să nu
+  rămână sold debitor. De exemplu, o plată de 300 lei cu 50 lei alocați pe factura A (200 lei) și
   100 lei pe factura B (100 lei) dă `Dr 401 = Cr 542` 300 lei în trei linii: A rămâne cu 150 lei de
-  plată, B e plătită, iar 150 lei stau pe 401 ca sold debitor nealocat. Dacă plata e de fapt un avans
-  acordat furnizorului, contabilul îl reclasifică manual pe 409 (`Dr 4091/4092 = Cr 401`; la
-  imobilizări pe 4093, prin 404).
+  plată, B e plătită, iar restul de 150 lei trece pe `Dr 4092 = Cr 401`. La primirea facturii,
+  contabilul compensează avansul (`Dr 401 = Cr 4092`). Modulul folosește mereu 4092 (servicii); dacă
+  avansul e pentru bunuri, contabilul îl reclasifică manual pe 4091, iar la imobilizări pe 4093, prin
+  404. Dacă furnizorul emite o **factură de avans**, se înregistrează doar TVA-ul, exigibil la data
+  plății avansului: `Dr 4426 = Cr 4092`. Fără cont 4092 în planul de conturi, restul rămâne pe 401.
 
   La facturile în moneda decontului (decont în valută), plata se alocă în valută, iar diferența de
   curs față de factură se înregistrează automat pe 665 / 765. La **invalidarea** decontului,
@@ -293,8 +296,8 @@ cheltuială 121 la 5,10 lei, cu plata suplimentară de 21: 542 este zero în val
     **Dr 401 = Cr 5125** al jurnalului cardului (partenerul furnizor), fără 542;
 - **Plată furnizor** (Pasul 2, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542** (în modul Card de
   firmă: **Dr 401 = Cr 5125** al jurnalului cardului), câte o linie 401 pentru fiecare factură aleasă,
-  reconciliată cu ea (fără facturi alese: cu cele mai vechi facturi deschise); restul nealocat rămâne
-  pe 401;
+  reconciliată cu ea (fără facturi alese: cu cele mai vechi facturi deschise); restul nealocat:
+  **Dr 4092 = Cr 401**;
 - **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei), cu data cheltuielii;
 - **Diferență** (la validare), cu data cheltuielii (a decontului), ca soldul 542 al angajatului să
   devină **zero**:
@@ -330,8 +333,8 @@ Ce este automat: generarea notelor contabile, calculul diferenței și al diurne
 conversia în lei la cursul din data fiecărei note și diferența de curs la decontul în valută.
 Ce rămâne manual: configurarea jurnalelor/conturilor, alegerea cotei TVA și a contului pe fiecare
 linie, plafonul fiscal al diurnei (fără `l10n_ro_expense_allowance`), alegerea facturilor plătite pe
-liniile „Plată furnizor”, reconcilierea plății nealocate rămase pe 401 cu facturile primite ulterior,
-reclasificarea pe 409 a unei plăți care e avans la furnizor și verificarea soldului 542 după validare.
+liniile „Plată furnizor”, reclasificarea avansului la furnizor pe 4091 (bunuri) sau pe 4093 prin 404
+(imobilizări), compensarea lui la primirea facturii și verificarea soldului 542 după validare.
 
 ## 8. Verificări pentru consultant
 
@@ -345,7 +348,7 @@ reclasificarea pe 409 a unei plăți care e avans la furnizor și verificarea so
 - [ ] Nota de diferență din casă are data decontului, nu data avansului.
 - [ ] O plată furnizor cu facturi alese stinge doar facturile alese, cu sumele alocate (parțial, dacă suma e mai mică).
 - [ ] Plata apare pe factură, în lista plăților, cu numărul decontului.
-- [ ] Partea nealocată a plății rămâne pe 401 cu firma furnizorului și apare ca plată disponibilă pe facturile lui.
+- [ ] Partea nealocată a plății trece pe 4092 (Dr 4092 = Cr 401), iar pe 401 nu rămâne sold debitor.
 - [ ] O plată furnizor fără facturi alese, mai mică decât facturile deschise, stinge întâi factura cea mai veche.
 - [ ] După invalidarea decontului, facturile plătite din el revin la „Neplătit”.
 - [ ] Diurna se încadrează în plafonul fiscal sau surplusul a fost transmis la salarizare.
@@ -373,7 +376,7 @@ reclasificarea pe 409 a unei plăți care e avans la furnizor și verificarea so
 | „… is paid with a company card: it has no advance …" | Mod Card de firmă cu avans diferit de zero | Lăsați avansul 0; retragerea de numerar cu cardul este un decont separat în modul Virament |
 | „The journal … is in <monedă>, but the expenses deduction … is in <monedă>." | Jurnalul de plată sau al cardului este în altă monedă decât decontul (jurnalul în valută primește doar note în moneda lui) | Alegeți un jurnal în moneda decontului; moneda decontului urmează jurnalul ales, deci nu o schimbați manual după aceea |
 | „The expenses deduction … is paid with a company card in <monedă>: the per diem is paid from the payment journal …, which is in <monedă>." | Mod Card de firmă cu jurnal de plată (cel din care se plătește diurna) într-o altă valută decât cardul | Alegeți un jurnal de plată în moneda cardului sau în moneda companiei |
-| Plata furnizor rămâne cu sold debitor pe 401 | Nicio factură aleasă sau deschisă nu o acoperă (plată nealocată) | Reconciliați-o cu factura la primire sau reclasificați-o pe 409 dacă e avans |
+| Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „Factura ... este alocată pe mai multe linii pentru ..., mai mult decât restul ei de plată ...” | Aceeași factură e aleasă pe mai multe linii „Plată furnizor” ale decontului, cu sume care împreună depășesc restul ei de plată | Micșorați sumele alocate pe linii |
 | „Factura ... trebuie să fie postată și să aibă o sumă alocată pozitivă.” | Factura aleasă a fost trecută în ciornă sau anulată, ori suma alocată e zero | Scoateți factura sau completați o sumă alocată pozitivă; repostați factura dacă e cazul |
 | „Suma alocată facturii ... este mai mare decât restul ei de plată ...” | Suma alocată depășește restul de plată al facturii (plătită între timp) | Micșorați suma alocată sau scoateți factura |

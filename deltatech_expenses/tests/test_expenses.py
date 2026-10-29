@@ -926,7 +926,10 @@ class TestExpenses(TransactionCase):
 
     def test_supplier_payment_partial_allocation_rest_on_payable(self):
         """Plată 300 cu 50 alocați pe o factură de 200 și 100 pe alta: prima rămâne parțial plătită,
-        a doua plătită, iar restul de 150 stă pe 401 ca plată nealocată (nu stinge alte facturi)."""
+        a doua plătită, iar restul de 150 e avans la furnizor (Dr 4092 = Cr 401), fără să stingă alte facturi."""
+        acc_4092 = self.env["account.account"].create(
+            {"name": "Furnizori-debitori servicii", "code": "4092TEST", "account_type": "asset_current"}
+        )
         bill_a = self._bill(200.0, days=30)
         bill_b = self._bill(100.0, days=20)
         other_bill = self._bill(500.0, days=90)
@@ -940,10 +943,12 @@ class TestExpenses(TransactionCase):
         self.assertAlmostEqual(bill_a.amount_residual, 150.0, places=2)
         self.assertIn(bill_b.payment_state, ("paid", "in_payment"))
         self.assertEqual(other_bill.payment_state, "not_paid")
-        payable = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_payable)
-        self.assertEqual(len(payable), 3)
+        lines = self._lines_for_expenses(deduction)
+        payable = lines.filtered(lambda l: l.account_id == self.acc_payable)
         self.assertAlmostEqual(sum(payable.mapped("debit")), 300.0, places=2)
-        self.assertAlmostEqual(sum(payable.mapped("amount_residual")), 150.0, places=2)
+        self.assertAlmostEqual(sum(payable.mapped("balance")), 150.0, places=2)  # 300 plată − 150 reclasificat
+        self.assertTrue(all(payable.filtered(lambda l: l.debit).mapped("reconciled")))
+        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_4092).mapped("debit")), 150.0)
         lines_542 = self._lines_for_expenses(deduction).filtered(lambda l: l.account_id == self.acc_542)
         self.assertAlmostEqual(sum(lines_542.mapped("credit")), 300.0, places=2)
 
@@ -1354,20 +1359,24 @@ class TestExpenses(TransactionCase):
         self.assertEqual(refund_move.date, fields.Date.today())
         self.assertAlmostEqual(refund_move.line_ids.filtered(lambda l: l.account_id == self.acc_cash).debit, 200.0)
 
-    def test_supplier_payment_without_bill_stays_on_payable(self):
-        """Plata directă către un furnizor fără datorii deschise rămâne pe 401 ca plată nealocată, cu
-        firma furnizorului ca partener, disponibilă pentru reconcilierea cu facturile ulterioare."""
+    def test_supplier_payment_without_bill_is_supplier_advance(self):
+        """Plata directă către un furnizor fără datorii deschise e un avans acordat furnizorului:
+        Dr 4092 = Cr 401, reconciliat cu Dr 401 = Cr 542 — pe 401 nu rămâne sold debitor."""
+        acc_4092 = self.env["account.account"].create(
+            {"name": "Furnizori-debitori servicii", "code": "4092TEST", "account_type": "asset_current"}
+        )
         deduction = self._new_deduction(100.0)
         self._new_line(deduction, 100.0, type="supplier_payment")
         deduction.validate_expenses()
         lines = self._lines_for_expenses(deduction)
         payable = lines.filtered(lambda l: l.account_id == self.acc_payable)
-        self.assertEqual(len(payable), 1)
-        self.assertEqual(payable.partner_id, self.supplier)
-        self.assertAlmostEqual(payable.amount_residual, 100.0, places=2)
-        self.assertFalse(payable.reconciled)
+        self.assertAlmostEqual(sum(payable.mapped("balance")), 0.0, places=2)
+        self.assertTrue(all(payable.mapped("reconciled")))
+        self.assertAlmostEqual(sum(lines.filtered(lambda l: l.account_id == acc_4092).mapped("debit")), 100.0)
         lines_542 = lines.filtered(lambda l: l.account_id == self.acc_542)
         self.assertAlmostEqual(sum(lines_542.mapped("debit")), sum(lines_542.mapped("credit")), places=2)
+
+    # Decont în valută: casa în valută, fiecare notă la cursul din data ei, diferența de curs pe 665/765
 
     def _foreign_cash_journal(self, currency):
         account = self.env["account.account"].create(
