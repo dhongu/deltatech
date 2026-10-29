@@ -15,28 +15,7 @@ class CronWebhookController(http.Controller):
             json.dumps(data, default=str), headers=[("Content-Type", "application/json")], status=status
         )
 
-    @http.route(
-        "/cron/webhook/<string:webhook_code>",
-        type="http",
-        auth="none",
-        methods=["POST", "GET"],
-        csrf=False,
-        readonly=False,
-    )
-    def trigger_cron(self, webhook_code, **kw):
-        # We need to use sudo() and a proper environment since auth is none
-        cron = (
-            request.env["ir.cron"]
-            .sudo()
-            .search([("webhook_code", "=", webhook_code), ("enable_webhook", "=", True)], limit=1)
-        )
-
-        if not cron:
-            return self._make_json_response(
-                {"status": "error", "message": "Invalid webhook code or disabled"}, status=404
-            )
-
-        # Verify token
+    def _check_token(self, **kw):
         token = kw.get("token") or request.httprequest.headers.get("X-Access-Token")
         if (
             not token
@@ -50,8 +29,34 @@ class CronWebhookController(http.Controller):
                 _logger.debug("Failed to parse JSON body for token extraction")
 
         global_token = request.env["ir.config_parameter"].sudo().get_str("deltatech_cron_monitor_webhook.global_token")
-        if not global_token or not token or not hmac.compare_digest(global_token, token):
+        return bool(global_token and token and hmac.compare_digest(global_token, token))
+
+    def _get_cron(self, webhook_code):
+        # We need to use sudo() and a proper environment since auth is none
+        return (
+            request.env["ir.cron"]
+            .sudo()
+            .search([("webhook_code", "=", webhook_code), ("enable_webhook", "=", True)], limit=1)
+        )
+
+    @http.route(
+        "/cron/webhook/<string:webhook_code>",
+        type="http",
+        auth="none",
+        methods=["POST", "GET"],
+        csrf=False,
+        readonly=False,
+    )
+    def trigger_cron(self, webhook_code, **kw):
+        # Check the token first, so an unknown code cannot be told apart from a wrong token
+        if not self._check_token(**kw):
             return self._make_json_response({"status": "error", "message": "Invalid token"}, status=401)
+
+        cron = self._get_cron(webhook_code)
+        if not cron:
+            return self._make_json_response(
+                {"status": "error", "message": "Invalid webhook code or disabled"}, status=404
+            )
 
         start_time = time.time()
         try:
@@ -74,12 +79,10 @@ class CronWebhookController(http.Controller):
 
     @http.route("/cron/webhook/<string:webhook_code>/status", type="http", auth="none", methods=["GET"])
     def get_status(self, webhook_code, **kw):
-        cron = (
-            request.env["ir.cron"]
-            .sudo()
-            .search([("webhook_code", "=", webhook_code), ("enable_webhook", "=", True)], limit=1)
-        )
+        if not self._check_token(**kw):
+            return self._make_json_response({"status": "error", "message": "Invalid token"}, status=401)
 
+        cron = self._get_cron(webhook_code)
         if not cron:
             return self._make_json_response(
                 {"status": "error", "message": "Invalid webhook code or disabled"}, status=404
