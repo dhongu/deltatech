@@ -23,6 +23,7 @@ class ProductTemplate(models.Model):
         - ``qty``: available quantity, for the warehouse selector;
         - ``message``: sentence of the warehouse selector.
         """
+        self.ensure_one()
         # Called with sudo() from the public product page: company rules do not apply,
         # so the warehouses are restricted explicitly to the current website's company.
         # env.website is empty outside a website request: fall back to the current company.
