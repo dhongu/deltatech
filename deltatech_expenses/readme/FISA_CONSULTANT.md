@@ -179,7 +179,9 @@ Fiecare linie are un **tip**:
   dacă pe linie e o persoană de contact a lui), care stinge facturile furnizorului ca o plată:
   - **cu facturi alese** — butonul **„Facturi plătite”** de pe linie (vizibil pentru Aprobator și
     Contabil) deschide lista facturilor plătite; facturile se aleg și se modifică doar cât decontul e
-    în starea „Avans”, după validare lista e doar pentru citire. Pentru fiecare
+    în starea „Avans”, după validare lista e doar pentru citire. Sub listă, fereastra amintește
+    regula: plata stinge doar facturile alese, restul rămâne pe 401, iar fără facturi alese stinge
+    întâi facturile deschise cele mai vechi. Pentru fiecare
     factură postată și neplătită a furnizorului se completează **suma alocată**: implicit restul de
     plată, cel mult partea încă nealocată a plății; o sumă mai mică înseamnă plată parțială. La
     validare, nota are câte o linie `Dr 401` pentru fiecare factură, reconciliată doar cu ea:
