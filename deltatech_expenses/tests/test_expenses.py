@@ -868,6 +868,30 @@ class TestExpenses(TransactionCase):
         with self.assertRaises(ValidationError):
             self._allocate(expense_line, bill, 10.0)
 
+    def test_supplier_payment_allocation_rejects_refund(self):
+        """O rambursare de la furnizor (in_refund) nu poate fi stinsă de o plată din avans."""
+        refund = self.env["account.move"].create(
+            {
+                "move_type": "in_refund",
+                "partner_id": self.supplier.id,
+                "invoice_date": fields.Date.today(),
+                "journal_id": self.purchase_journal.id,
+                "invoice_line_ids": [
+                    (
+                        0,
+                        0,
+                        {"name": "Retur", "price_unit": 50.0, "account_id": self.acc_exp.id, "tax_ids": [(6, 0, [])]},
+                    )
+                ],
+            }
+        )
+        refund.action_post()
+        deduction = self._new_deduction(100.0)
+        line = self._new_line(deduction, 100.0, type="supplier_payment")
+        self._allocate(line, refund, 50.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+
     def test_supplier_payment_bill_allocated_once_per_line(self):
         """Aceeași factură nu poate fi alocată de două ori pe o linie (ar depăși restul de plată)."""
         bill = self._bill(100.0)

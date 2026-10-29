@@ -1265,7 +1265,12 @@ class DeltatechExpensesDeductionLine(models.Model):
         partner = self.partner_id.commercial_partner_id
         for alloc in self.allocation_ids:
             bill = alloc.move_id
-            if bill.commercial_partner_id != partner or bill.company_id != self.expenses_deduction_id.company_id:
+            # domeniul câmpului e doar în view: o factură client sau o rambursare (prin RPC/import) e refuzată
+            if (
+                bill.move_type not in ("in_invoice", "in_receipt")
+                or bill.commercial_partner_id != partner
+                or bill.company_id != self.expenses_deduction_id.company_id
+            ):
                 raise UserError(
                     self.env._(
                         "The bill %(bill)s is not a bill of the supplier %(partner)s in this company.",
