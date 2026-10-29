@@ -1,0 +1,5 @@
+{
+  "title": "Purchase Targets by Manufacturer",
+  "summary": "Track quarterly purchase targets per manufacturer and category, live from vendor bills",
+  "features": ["Quarterly targets, cumulated YTD", "Achieved vs target with sales alongside", "Vendor cost comparison"]
+}

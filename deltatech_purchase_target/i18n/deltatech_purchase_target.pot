@@ -1,0 +1,367 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_target
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 23:41+0000\n"
+"PO-Revision-Date: 2026-10-28 23:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+msgid "Achieved"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__achieved_pct
+msgid "Achieved %"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_purchase_target_line
+#: model:ir.ui.menu,name:deltatech_purchase_target.menu_purchase_target_line
+msgid "Achieved vs Target"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target__target_type__amount
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
+msgid "Amount"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target__target_type
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target_line__target_type
+msgid ""
+"Amount: purchases without VAT, in the company currency. Quantity: purchased "
+"quantities, in the unit of measure of each product."
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
+msgid "Archived"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_search
+msgid "Bill"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__public_categ_id
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__company_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__create_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__create_date
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__currency_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
+msgid "Current Year"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.actions.act_window,help:deltatech_purchase_target.action_purchase_target
+msgid "Define the purchase targets of a manufacturer"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_report__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__display_name
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_report__id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__write_uid
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__write_date
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_report__manufacturer_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__manufacturer_id
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__manufacturer_id
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_order_search
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Manufacturer"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_purchase_target
+#: model:ir.ui.menu,name:deltatech_purchase_target.menu_purchase_target
+msgid "Manufacturer Targets"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__note
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+msgid "Notes"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.actions.act_window,help:deltatech_purchase_target.action_purchase_target
+msgid ""
+"One target per manufacturer and year, split per quarter and eCommerce "
+"category."
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Overall"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Per Category"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_search
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model,name:deltatech_purchase_target.model_purchase_report
+msgid "Purchase Report"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model,name:deltatech_purchase_target.model_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_id
+msgid "Purchase Target"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model,name:deltatech_purchase_target.model_purchase_target_line
+msgid "Purchase Target Line"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_amount
+msgid "Purchased"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_qty
+msgid "Purchased Qty"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_ytd
+msgid "Purchased YTD"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target_line.py:0
+msgid "Purchases - %s"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__1
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q1"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__2
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q2"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__3
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q3"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target_line__quarter__4
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Q4"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields.selection,name:deltatech_purchase_target.selection__purchase_target__target_type__qty
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__quarter
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_search
+msgid "Quarter"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__remaining
+msgid "Remaining"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+msgid "Sales"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_amount
+msgid "Sold"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_qty
+msgid "Sold Qty"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_ytd
+msgid "Sold YTD"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_value
+msgid "Target"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__target_type
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_type
+msgid "Target Type"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__target_ytd
+msgid "Target YTD"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target_line__remaining
+msgid "Target YTD minus purchased YTD"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__line_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
+msgid "Targets"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target_line.py:0
+msgid "The category already has a target in quarter Q%s."
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.constraint,message:deltatech_purchase_target.constraint_purchase_target_manufacturer_year_uniq
+msgid "There is already a target for this manufacturer and year."
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_move_line_purchase_target_list
+msgid "Total"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_vendor_cost_compare
+#: model:ir.ui.menu,name:deltatech_purchase_target.menu_vendor_cost_compare
+msgid "Vendor Cost Comparison"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_line_list
+msgid "Vendor bill lines"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target__partner_ids
+msgid ""
+"Vendor bills counted as achieved. By default the manufacturer itself; add "
+"the other companies through which the manufacturer invoices."
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__partner_ids
+msgid "Vendors"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target__year
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__year
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_search
+msgid "Year"
+msgstr ""
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,help:deltatech_purchase_target.field_purchase_target_line__public_categ_id
+msgid ""
+"eCommerce category of the products. Empty: the overall target of the "
+"manufacturer."
+msgstr ""
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target.py:0
+msgid "The year of a target must be between 2000 and 2100."
+msgstr ""

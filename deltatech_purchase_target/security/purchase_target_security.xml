@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="purchase_target_comp_rule" model="ir.rule">
+        <field name="name">Purchase target multi-company</field>
+        <field name="model_id" ref="model_purchase_target" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="purchase_target_line_comp_rule" model="ir.rule">
+        <field name="name">Purchase target line multi-company</field>
+        <field name="model_id" ref="model_purchase_target_line" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

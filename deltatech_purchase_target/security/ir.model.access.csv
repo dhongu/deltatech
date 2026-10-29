@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_target_user,Purchase target user,model_purchase_target,purchase.group_purchase_user,1,0,0,0
+access_purchase_target_manager,Purchase target manager,model_purchase_target,purchase.group_purchase_manager,1,1,1,1
+access_purchase_target_line_user,Purchase target line user,model_purchase_target_line,purchase.group_purchase_user,1,0,0,0
+access_purchase_target_line_manager,Purchase target line manager,model_purchase_target_line,purchase.group_purchase_manager,1,1,1,1
