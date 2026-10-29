@@ -5,7 +5,7 @@
 {
     "name": "Product Attribute Role",
     "summary": "Bind code to attributes by role, not by their translatable name",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
@@ -16,6 +16,6 @@
         "views/product_attribute_views.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
