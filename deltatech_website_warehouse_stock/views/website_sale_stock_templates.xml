@@ -156,7 +156,7 @@
         <xpath expr="//div[hasclass('o_wsale_product_details_content_section_price')]" position="after">
             <!-- The price section is not rendered with the boxed call to action. -->
             <t
-                t-if="website.warehouse_stock_position == 'after_price' and not is_view_active('website_sale.cta_wrapper_boxed')"
+                t-if="website.warehouse_stock_position == 'after_price' and is_add_to_cart_possible and not is_view_active('website_sale.cta_wrapper_boxed')"
                 t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
             />
         </xpath>

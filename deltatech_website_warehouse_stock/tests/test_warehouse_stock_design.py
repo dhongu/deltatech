@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from odoo.exceptions import UserError
 from odoo.tests import HttpCase, JsonRpcException, tagged
 from odoo.tools import mute_logger
@@ -164,6 +166,16 @@ class TestWarehouseStockDesign(HttpCase):
         # Odoo 20 has no contact section: the next element is the dropzone under the call to action
         cta_section = html.index('id="o_wsale_product_cta_section"')
         self.assertLess(block, html.index("o_drop_inner_empty", cta_section))
+
+    def test_position_after_price_not_sellable(self):
+        # A product that cannot be added to the cart has no price section: the block
+        # stays in the details, once.
+        self.website.warehouse_stock_position = "after_price"
+        ProductTemplate = type(self.env["product.template"])
+        with patch.object(ProductTemplate, "_has_ecommerce_sellable_variants", lambda self: False):
+            html = self._page()
+        self.assertEqual(html.count("o_wh_stock "), 1)
+        self.assertNotIn("o_wsale_product_details_content_section_price", html)
 
     def test_position_details_boxed(self):
         self.env.ref("website_sale.cta_wrapper_boxed").active = True
