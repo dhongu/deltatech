@@ -11,8 +11,9 @@
                     <field name="code" />
                     <field name="active" />
                     <field name="date_field" />
+                    <field name="match" />
                     <field name="relative_days" />
-<!--                    <field name="subject"/>-->
+                    <field name="mail_template" />
                 </list>
             </field>
         </record>
@@ -31,13 +32,13 @@
                                 <field name="date_field" required="1" />
                                 <field name="match" required="1" />
                                 <field name="relative_days" />
+                            </group>
+                            <group>
+                                <field name="mail_template" required="1" />
                                 <field name="only_open" />
                                 <field name="with_refunds" />
                                 <field name="use_customer_currency" />
                                 <field name="amount_margin" />
-                            </group>
-                            <group>
-                                <field name="mail_template" />
                             </group>
                             <group colspan="2">
                                 <field name="invoice_html" />

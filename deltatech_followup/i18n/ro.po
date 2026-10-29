@@ -59,11 +59,11 @@ msgstr "Marjă sumă"
 #. module: deltatech_followup
 #: model:ir.model.fields,help:deltatech_followup.field_account_invoice_followup__amount_margin
 msgid ""
-"Amount margin. If total due debit is lower than this margin, the followup "
-"will be skipped"
+"Amount margin. If the total of the invoices to be sent is lower than this "
+"margin, the followup will be skipped"
 msgstr ""
-"Marjă sumă. Dacă totalul debitului scadent este sub această marjă, urmărirea"
-" este omisă"
+"Marjă sumă. Dacă totalul facturilor care se trimit este sub această marjă, "
+"urmărirea este omisă"
 
 #. module: deltatech_followup
 #: model:ir.model.fields,field_description:deltatech_followup.field_account_invoice_followup__message_attachment_count
@@ -231,7 +231,7 @@ msgstr "Urmărire factură"
 #. module: deltatech_followup
 #: model:ir.model.fields.selection,name:deltatech_followup.selection__account_invoice_followup__date_field__invoice_date
 msgid "Invoice date"
-msgstr "Data factura"
+msgstr "Data facturii"
 
 #. module: deltatech_followup
 #: model:ir.model.fields,field_description:deltatech_followup.field_account_invoice_followup__invoice_html
@@ -408,10 +408,8 @@ msgid ""
 "$amount_tax=invoice.amount_tax,\n"
 "$amount_total=invoice.amount_total,\n"
 "$amount_due=invoice.residual,\n"
-"$total_debit=total amount to pay,\n"
 "$currency=invoice.currency\n"
-"$total_all_debit=all partner debit\n"
-"$total_due_debit=all due debit"
+"The totals $total_debit, $total_all_debit and $total_due_debit can only be used in the mail template body."
 msgstr ""
 "Acest cod va fi inserat în e-mail, înlocuind cheia [invoices]. Se pot folosi următorii substituenți:\n"
 "$number=numărul facturii,\n"
@@ -422,10 +420,8 @@ msgstr ""
 "$amount_tax=suma TVA,\n"
 "$amount_total=suma totală,\n"
 "$amount_due=suma de plată (rest),\n"
-"$total_debit=suma totală de plată,\n"
 "$currency=moneda facturii\n"
-"$total_all_debit=tot debitul partenerului\n"
-"$total_due_debit=tot debitul scadent"
+"Totalurile $total_debit, $total_all_debit și $total_due_debit se pot folosi doar în corpul șablonului de e-mail."
 
 #. module: deltatech_followup
 #: model:ir.model.fields,help:deltatech_followup.field_account_invoice_followup__activity_exception_decoration
@@ -446,3 +442,19 @@ msgstr "Mesaje Website"
 #: model:ir.model.fields,help:deltatech_followup.field_account_invoice_followup__website_message_ids
 msgid "Website communication history"
 msgstr "Istoric comunicare website"
+
+#. module: deltatech_followup
+#. odoo-python
+#: code:addons/deltatech_followup/wizard/followup_send.py:0
+msgid ""
+"Followup not sent: total of the invoices to send (%(amount)s) is within the "
+"configured margin (%(margin)s)."
+msgstr ""
+"Urmărirea nu a fost trimisă: totalul facturilor de trimis (%(amount)s) este "
+"în limita marjei configurate (%(margin)s)."
+
+#. module: deltatech_followup
+#. odoo-python
+#: code:addons/deltatech_followup/wizard/followup_send.py:0
+msgid "Followup %(followup)s failed and was not sent: %(error)s"
+msgstr "Urmărirea %(followup)s a eșuat și nu a fost trimisă: %(error)s"
