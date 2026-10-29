@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import fields, models
+from odoo.exceptions import UserError
 
 
 class Website(models.Model):
@@ -69,10 +70,10 @@ class Website(models.Model):
         against the field (selection key or boolean)."""
         self.ensure_one()
         if field not in self._WAREHOUSE_STOCK_EDITOR_FIELDS:
-            raise ValueError(self.env._("Unknown warehouse stock option: %s", field))
+            raise UserError(self.env._("Unknown warehouse stock option: %s", field))
         definition = self._fields[field]
         if definition.type == "boolean":
             value = value in (True, "1", "true", "True")
         elif value not in dict(definition._description_selection(self.env)):
-            raise ValueError(self.env._("Invalid value %(value)s for %(field)s", value=value, field=field))
+            raise UserError(self.env._("Invalid value %(value)s for %(field)s", value=value, field=field))
         self.write({field: value})

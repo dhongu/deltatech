@@ -1,3 +1,4 @@
+from odoo.exceptions import UserError
 from odoo.tests import HttpCase, JsonRpcException, tagged
 from odoo.tools import mute_logger
 
@@ -185,9 +186,9 @@ class TestWarehouseStockDesign(HttpCase):
         )
         self.website._warehouse_stock_editor_write("warehouse_stock_theme_colors", "0")
         self.assertFalse(self.website.warehouse_stock_theme_colors)
-        with self.assertRaises(ValueError):
+        with self.assertRaises(UserError):
             self.website._warehouse_stock_editor_write("warehouse_stock_style", "bogus")
-        with self.assertRaises(ValueError):
+        with self.assertRaises(UserError):
             self.website._warehouse_stock_editor_write("name", "Hacked")
 
     def test_editor_route(self):
