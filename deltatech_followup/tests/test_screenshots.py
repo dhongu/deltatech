@@ -47,7 +47,6 @@ class TestFollowupScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         cls.client = partner.create(
             {
                 "name": "Alfa Distribuție SRL",
-                "is_company": True,
                 "email": "contabilitate@alfa-distributie.example",
                 "lang": "ro_RO",
                 "send_followup": True,
@@ -56,7 +55,6 @@ class TestFollowupScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         cls.small_client = partner.create(
             {
                 "name": "Beta Papetărie SRL",
-                "is_company": True,
                 "email": "office@beta-papetarie.example",
                 "lang": "ro_RO",
                 "send_followup": True,
