@@ -10,9 +10,9 @@ Product Attribute Role
    !! source digest: sha256:7f23ffafc1df6a2e41e3c1ef0e7399d2f83a07c5b41686d03d614072cfeb301d
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_attribute_role
     :alt: dhongu/deltatech
@@ -88,6 +88,11 @@ database.
 
 Changelog
 =========
+
+19.0.1.0.1 (2026-10-29)
+-----------------------
+
+- Development status set to **Production/Stable**.
 
 19.0.1.0.0 (2026-10-29)
 -----------------------
