@@ -1,0 +1,10 @@
+{
+  "title": "Attribute Role",
+  "summary": "Find attributes by role, not by name",
+  "icon": "tags",
+  "features": [
+    "Rename or translate attributes safely",
+    "One attribute per role, enforced",
+    "Roles added by the modules that use them"
+  ]
+}
