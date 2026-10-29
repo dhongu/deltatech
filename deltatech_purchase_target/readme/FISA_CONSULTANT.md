@@ -306,6 +306,7 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 - [ ] O țintă nouă primește singură furnizorul (producătorul) în **Furnizori**.
 - [ ] O a doua linie cu același trimestru și aceeași categorie este refuzată.
 - [ ] O a doua țintă pentru același producător și an este refuzată.
+- [ ] Un an în afara intervalului 2000–2100 (ex. 20260, tastat greșit) este refuzat.
 - [ ] Pe demo, T1 global arată 29.500,00 achiziționat și 98,33 %, iar T2 global 37.900,00 cumulat
       și 63,17 %.
 - [ ] Factura redistribuitorului (14.500,00) nu apare în realizat și nici în liniile din pasul 5.
@@ -322,6 +323,7 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 
 | Mesaj / simptom | Cauză probabilă | Remediere |
 |---|---|---|
+| „Anul unei ținte trebuie să fie între 2000 și 2100.” | Anul tastat greșit (o cifră în plus sau lipsă) | Corectați anul, ex. 2026 |
 | „Există deja o țintă pentru acest producător și an.” | Ținta anului există, poate arhivată | Deschideți ținta existentă (filtrul **Arhivat** pentru cele arhivate) și completați-o |
 | „Categoria are deja o țintă în trimestrul T…” | Două linii cu același trimestru și aceeași categorie (sau ambele globale) | Păstrați o singură linie și corectați valoarea |
 | Realizatul este 0 | Producătorul nu e completat pe produse sau factura e de la alt partener decât cel din **Furnizori** | Completați producătorul; adăugați firma care facturează în **Furnizori** |
