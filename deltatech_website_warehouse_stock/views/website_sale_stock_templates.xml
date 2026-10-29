@@ -1,56 +1,180 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <!--
+        Status of one warehouse as a badge. Solid Bootstrap colors by default; with the
+        theme colors option, a tint over the page background (o_wh_stock_pill), readable
+        on dark themes.
+    -->
+    <template id="warehouse_stock_badge" name="Warehouse Stock Badge">
+        <t t-set="wh_state_class" t-value="{'green': 'o_wh_stock_pill_success', 'grey': 'o_wh_stock_pill_neutral', 'red': 'o_wh_stock_pill_warning' if warehouse_distribution['state'] == 'on_order' else 'o_wh_stock_pill_danger'}[warehouse_distribution['badge']]" />
+        <span
+            t-if="website.warehouse_stock_theme_colors"
+            t-attf-class="o_wh_stock_pill #{wh_state_class}"
+            t-out="warehouse_distribution['quantity']"
+        />
+        <t t-else="">
+            <t t-if="warehouse_distribution['badge'] == 'green'">
+                <span id="warehouse_stock_qty_available" class="badge bg-success" t-out="warehouse_distribution['quantity']" />
+            </t>
+            <t t-if="warehouse_distribution['badge'] == 'grey'">
+                <span id="warehouse_stock_qty_low" class="badge bg-secondary" t-out="warehouse_distribution['quantity']" />
+            </t>
+            <t t-if="warehouse_distribution['badge'] == 'red' and warehouse_distribution['state'] == 'on_order'">
+                <span id="warehouse_stock_qty_order" class="badge text-bg-warning" t-out="warehouse_distribution['quantity']" />
+            </t>
+            <t t-if="warehouse_distribution['badge'] == 'red' and warehouse_distribution['state'] == 'out'">
+                <span id="warehouse_stock_qty_out" class="badge bg-danger" t-out="warehouse_distribution['quantity']" />
+            </t>
+        </t>
+    </template>
 
+    <!-- Short note after "On order", for example the delivery time. -->
+    <template id="warehouse_stock_note" name="Warehouse Stock Note">
+        <small
+            t-if="warehouse_distribution['state'] == 'on_order' and website.warehouse_stock_zero_note"
+            class="o_wh_stock_note text-muted"
+            t-out="website.warehouse_stock_zero_note"
+        />
+    </template>
 
-     <template
+    <!--
+        The block itself; the data attributes give the current settings to the options of
+        the website editor (deltatech_website_warehouse_stock.WarehouseStockOption).
+    -->
+    <template id="warehouse_stock_block" name="Warehouse Stock Block">
+        <t t-set="product_warehouse_distribution" t-value="product.sudo().get_warehouse_stock_distribution()" />
+        <t t-set="wh_style" t-value="website.warehouse_stock_style or 'badges'" />
+        <div
+            t-if="product_warehouse_distribution"
+            t-attf-class="o_wsale_product_details_content_section o_wh_stock o_wh_stock_style_#{wh_style} #{'o_wh_stock_theme' if website.warehouse_stock_theme_colors else ''} #{'mb-4' if website.warehouse_stock_position == 'after_price' else ''}"
+            t-att-data-wh-position="website.warehouse_stock_position or 'details'"
+            t-att-data-wh-style="wh_style"
+            t-att-data-wh-zero="website.warehouse_stock_zero_message"
+            t-att-data-wh-qty="website.warehouse_stock_qty_display"
+            t-att-data-wh-theme="'1' if website.warehouse_stock_theme_colors else '0'"
+        >
+            <!-- Badges: today's look, one line per warehouse -->
+            <t t-if="wh_style == 'badges'">
+                <span id="warehouse_stock_title" class="fw-bold">
+                    In stock availability
+                </span>
+                <div id="warehouse_stock_distribution" t-foreach="product_warehouse_distribution" t-as="warehouse_distribution">
+                    <div class="o_warehouse_stock_distribution" t-attf-id="warehouse_stock_distribution_{{warehouse_distribution_index}}">
+                        <span id="warehouse_name" t-out="warehouse_distribution['warehouse']" />:
+                        <t t-call="deltatech_website_warehouse_stock.warehouse_stock_badge" />
+                        <t t-call="deltatech_website_warehouse_stock.warehouse_stock_note" />
+                    </div>
+                </div>
+            </t>
+
+            <!-- List: an icon, the warehouse and its status -->
+            <t t-elif="wh_style == 'list'">
+                <div class="fw-bold mb-1">In stock availability</div>
+                <ul class="o_wh_stock_list list-unstyled mb-0">
+                    <li
+                        t-foreach="product_warehouse_distribution"
+                        t-as="warehouse_distribution"
+                        t-attf-class="o_wh_stock_row o_wh_stock_state_#{warehouse_distribution['state']}"
+                    >
+                        <i
+                            t-attf-class="o_wh_stock_icon fa fa-fw #{'fa-check-circle' if warehouse_distribution['state'] == 'in_stock' else ('fa-clock-o' if warehouse_distribution['state'] == 'on_order' else 'fa-times-circle')}"
+                            role="img"
+                            aria-hidden="true"
+                        />
+                        <span class="o_wh_stock_name" t-out="warehouse_distribution['warehouse']" />
+                        <span class="o_wh_stock_value" t-out="warehouse_distribution['quantity']" />
+                        <t t-call="deltatech_website_warehouse_stock.warehouse_stock_note" />
+                    </li>
+                </ul>
+            </t>
+
+            <!-- Card: bordered box, like the estimated delivery -->
+            <t t-elif="wh_style == 'card'">
+                <div class="o_wh_stock_card">
+                    <div class="o_wh_stock_card_title">
+                        <span class="o_wh_stock_card_icon">
+                            <i class="fa fa-map-marker" role="img" aria-label="Warehouses" />
+                        </span>
+                        <span class="fw-bold">In stock availability</span>
+                    </div>
+                    <div
+                        t-foreach="product_warehouse_distribution"
+                        t-as="warehouse_distribution"
+                        t-attf-class="o_wh_stock_row o_wh_stock_state_#{warehouse_distribution['state']}"
+                    >
+                        <span class="o_wh_stock_name" t-out="warehouse_distribution['warehouse']" />
+                        <span class="o_wh_stock_status">
+                            <t t-call="deltatech_website_warehouse_stock.warehouse_stock_badge" />
+                            <t t-call="deltatech_website_warehouse_stock.warehouse_stock_note" />
+                        </span>
+                    </div>
+                </div>
+            </t>
+
+            <!-- Selector: the customer picks the warehouse and checks the stock there -->
+            <t t-elif="wh_style == 'selector'">
+                <div class="o_wh_stock_selector">
+                    <label class="fw-bold mb-1" for="o_wh_stock_select">Check stock in a warehouse</label>
+                    <div class="d-flex flex-wrap gap-2">
+                        <select id="o_wh_stock_select" class="form-select o_wh_stock_select w-auto flex-grow-1">
+                            <option
+                                t-foreach="product_warehouse_distribution"
+                                t-as="warehouse_distribution"
+                                t-att-value="warehouse_distribution_index"
+                                t-att-data-state="warehouse_distribution['state']"
+                                t-att-data-message="warehouse_distribution['message']"
+                                t-att-data-note="website.warehouse_stock_zero_note if warehouse_distribution['state'] == 'on_order' else ''"
+                                t-out="warehouse_distribution['warehouse']"
+                            />
+                        </select>
+                        <button type="button" class="btn btn-primary o_wh_stock_check">Check stock</button>
+                    </div>
+                    <div class="o_wh_stock_result d-none mt-2" role="status" aria-live="polite">
+                        <i class="o_wh_stock_icon fa fa-fw" aria-hidden="true" />
+                        <span class="o_wh_stock_message" />
+                        <small class="o_wh_stock_note text-muted" />
+                    </div>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <!--
+        After the price, or at the end of the product details (default). After the price is
+        right under the price section, or with the boxed call to action right under the box
+        that holds the price (cta_wrapper_warehouse_stock); when the product cannot be added
+        to the cart the block stays in the details.
+    -->
+    <template
         id="product_warehouse_distribution"
         inherit_id="website_sale.product"
         active="True"
         customize_show="True"
-        name="Alternative code"
+        name="Warehouse Stock"
     >
+        <xpath expr="//div[hasclass('o_wsale_product_details_content_section_price')]" position="after">
+            <!-- The price section is not rendered with the boxed call to action. -->
+            <t
+                t-if="website.warehouse_stock_position == 'after_price' and is_add_to_cart_possible and not is_view_active('website_sale.cta_wrapper_boxed')"
+                t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
+            />
+        </xpath>
+        <xpath expr="//div[@id='o_wsale_product_details_content']" position="inside">
+            <t
+                t-if="website.warehouse_stock_position != 'after_price' or not is_add_to_cart_possible"
+                t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
+            />
+        </xpath>
+    </template>
 
-            <xpath expr="//div[@id='o_wsale_product_details_content']" position="inside">
-                <div class="o_wsale_product_details_content_section">
-                <t t-set="product_warehouse_distribution" t-value="product.sudo().get_warehouse_stock_distribution()" />
-                <span id="warehouse_stock_title" class="fw-bold">
-                    In stock availability
-                </span>
-                <div
-                id="warehouse_stock_distribution"
-                t-foreach="product_warehouse_distribution"
-                t-as="warehouse_distribution"
-            >
-                    <div
-                    class="o_warehouse_stock_distribution"
-                    t-attf-id="warehouse_stock_distribution_{{warehouse_distribution_index}}"
-                >
-                    <span id="warehouse_name" t-out="warehouse_distribution['warehouse']" />:
-                    <t t-if="warehouse_distribution['badge'] == 'green'">
-                        <span
-                            id="warehouse_stock_qty_available"
-                            class="badge bg-success"
-                            t-out="warehouse_distribution['quantity']"
-                        />
-                    </t>
-                    <t t-if="warehouse_distribution['badge'] == 'grey'">
-                        <span
-                            id="warehouse_stock_qty_low"
-                            class="badge bg-secondary"
-                            t-out="warehouse_distribution['quantity']"
-                        />
-                    </t>
-                    <t t-if="warehouse_distribution['badge'] == 'red'">
-                        <span
-                            id="warehouse_stock_qty_out"
-                            class="badge bg-danger"
-                            t-out="warehouse_distribution['quantity']"
-                        />
-                    </t>
-                    </div>
-                </div>
-                </div>
+    <!-- After the price with the boxed call to action: right under the box with the price. -->
+    <template id="cta_wrapper_warehouse_stock" inherit_id="website_sale.cta_wrapper" name="Warehouse Stock after the Box">
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+            <t
+                t-if="website.warehouse_stock_position == 'after_price' and is_add_to_cart_possible and is_view_active('website_sale.cta_wrapper_boxed') and is_view_active('deltatech_website_warehouse_stock.product_warehouse_distribution')"
+                t-call="deltatech_website_warehouse_stock.warehouse_stock_block"
+            />
         </xpath>
     </template>
 

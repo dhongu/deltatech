@@ -16,6 +16,24 @@ Features:
 - The name for the warehouse displayed in warehouse is the same of the name in the warehouse form.
 - There is a check in the warehouse to choose if the stock is displayed in the product template page.
 
+Design options (per website, in Website > Configuration > Settings, Warehouse Stock Design, or
+in the website editor: click the block on the product page):
+
+- **Position**: in the product details (default) or right after the price.
+- **Style**:
+  - *Badges* (default): a colored badge per warehouse.
+  - *List with icons*: one line per warehouse, with a check for in stock, a clock for on order
+    and the quantity.
+  - *Card*: a bordered box with a map-marker title and one row per warehouse.
+  - *Warehouse selector*: the customer picks a warehouse and presses "Check stock" to read
+    "In stock at X: N pcs. Ready for delivery." or "Currently not on the shelf at X. Brought
+    in on order." The quantities are already in the page, no extra request is made.
+- **Message at zero stock**: "Out of stock" (default) or the softer "On order", optionally
+  followed by a short note (for example the delivery time).
+- **Quantity display**: the exact quantity below the threshold (default) or only "In stock".
+- **Theme colors**: badges tinted on the colors of the page instead of solid green, grey and
+  red, readable on dark themes.
+
 Future Development & Integration:
 This module is specifically designed to function as an **informative addon** that complements the standard Odoo 18/19 "Click & Collect" (`website_sale_collect`) feature. While the standard Odoo flow is optimized for the checkout process (map selector, pickup point selection), this module adds value by providing:
 

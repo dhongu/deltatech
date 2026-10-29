@@ -10,6 +10,36 @@
                 <setting id="warehouse_stock_threshold_setting" help="Warehouse Stock Display: Threshold for displaying stock as 'Available'. This setting is specific to the Warehouse Stock module and controls the individual warehouse availability display on the product page.">
                     <field name="website_warehouse_stock_threshold" />
                 </setting>
+                <setting
+                    id="warehouse_stock_design_setting"
+                    string="Warehouse Stock Design"
+                    help="How the stock per warehouse looks on the product page of this website"
+                >
+                    <div class="row mt-2">
+                        <label for="warehouse_stock_position" string="Position" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_position" class="col-lg-7" />
+                    </div>
+                    <div class="row">
+                        <label for="warehouse_stock_style" string="Style" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_style" class="col-lg-7" />
+                    </div>
+                    <div class="row">
+                        <label for="warehouse_stock_zero_message" string="At zero stock" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_zero_message" class="col-lg-7" />
+                    </div>
+                    <div class="row" invisible="warehouse_stock_zero_message != 'on_order'">
+                        <label for="warehouse_stock_zero_note" string="Note" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_zero_note" class="col-lg-7" placeholder="e.g. Delivery in 3-5 days" />
+                    </div>
+                    <div class="row">
+                        <label for="warehouse_stock_qty_display" string="Quantity" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_qty_display" class="col-lg-7" />
+                    </div>
+                    <div class="row">
+                        <label for="warehouse_stock_theme_colors" string="Theme colors" class="col-lg-5 o_light_label" />
+                        <field name="warehouse_stock_theme_colors" class="col-lg-7" />
+                    </div>
+                </setting>
             </xpath>
         </field>
     </record>

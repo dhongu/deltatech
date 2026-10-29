@@ -33,5 +33,5 @@ class TestWebsiteWarehouseCompany(TransactionCase):
 
     def test_quantity_only_from_website_company(self):
         lines = {line["warehouse"]: line for line in self._distribution()}
-        self.assertEqual(lines[self.warehouse_a.name]["quantity"], 3)
+        self.assertEqual(lines[self.warehouse_a.name]["quantity"], "3")
         self.assertEqual(lines[self.warehouse_a.name]["badge"], "grey")
