@@ -149,6 +149,20 @@
                                         options="{ 'account_field': 'account_id', 'force_applicability': 'optional'}"
                                     />
                                     <field name="type" />
+                                    <field
+                                        name="allocated_amount"
+                                        optional="show"
+                                        invisible="type != 'supplier_payment'"
+                                        groups="deltatech_expenses.group_expenses_approver"
+                                    />
+                                    <button
+                                        name="action_open_allocations"
+                                        type="object"
+                                        icon="fa-file-text-o"
+                                        title="Bills Paid"
+                                        invisible="type != 'supplier_payment'"
+                                        groups="deltatech_expenses.group_expenses_approver"
+                                    />
                                     <field name="state" optional="hide" />
                                     <field name="currency_id" column_invisible="1" />
                                 </list>
@@ -258,6 +272,46 @@
             </form>
         </field>
     </record>
+    <record id="view_expenses_deduction_line_allocation_form" model="ir.ui.view">
+        <field name="name">deltatech.expenses.deduction.line.allocation.form</field>
+        <field name="model">deltatech.expenses.deduction.line</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form string="Bills Paid">
+                <group>
+                    <group>
+                        <field name="partner_id" string="Supplier" readonly="1" />
+                        <field name="name" readonly="1" />
+                    </group>
+                    <group>
+                        <field name="amount" readonly="1" />
+                        <field name="allocated_amount" />
+                        <field name="currency_id" invisible="1" />
+                        <field name="state" invisible="1" />
+                    </group>
+                </group>
+                <field name="allocation_ids" readonly="state != 'advance'">
+                    <list editable="bottom">
+                        <field name="move_id" options="{'no_create': True}" />
+                        <field name="invoice_date_due" />
+                        <field name="bill_amount_residual" />
+                        <field name="amount" sum="Total" />
+                        <field name="currency_id" column_invisible="1" />
+                        <field name="bill_currency_id" column_invisible="1" />
+                        <field name="company_id" column_invisible="1" />
+                        <field name="commercial_partner_id" column_invisible="1" />
+                    </list>
+                </field>
+                <p class="text-muted">The payment settles only these bills; the rest is a supplier advance (4092).</p>
+                <p class="text-muted">Without bills, the payment settles the oldest open bills first.</p>
+                <footer>
+                    <button string="Save" special="save" class="btn-primary" />
+                    <button string="Discard" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="view_deltatech_expenses_deduction_tree">
         <field name="name">deltatech.expenses.deduction.tree</field>
         <field name="model">deltatech.expenses.deduction</field>
