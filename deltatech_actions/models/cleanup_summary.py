@@ -8,6 +8,12 @@
 
 from odoo.exceptions import AccessError
 
+# Attachments deleted per statement. ir.attachment.unlink() already splits at
+# cr.IN_MAX (1000 ids), but on a large database a single 1000-row DELETE can run
+# past odoo.sh's 66 s statement limit: every table that references ir_attachment
+# through an unindexed foreign key is scanned once per deleted row.
+UNLINK_CHUNK = 200
+
 
 def check_cleanup_access(env):
     """The cleanups select across companies with raw SQL and delete with sudo(), so
@@ -29,6 +35,38 @@ def rows_summary(rows, dry_run):
 def log_prefix(dry_run):
     """'[DRY RUN] Would delete' vs 'Deleted', so a dry run never claims a deletion."""
     return "[DRY RUN] Would delete" if dry_run else "Deleted"
+
+
+def unlink_attachments(env, rows, dry_run):
+    """Delete the (id, file_size) rows selected by a PDF/label cleanup, a chunk
+    at a time, and return the rows actually deleted (all of them in a dry run).
+
+    Inside a cron every chunk is committed and reported on the cron's progress, so
+    a worker killed mid-run -- odoo.sh stops an idle staging build with a 5 s grace
+    period, and reports the SIGKILL as a memory limit -- loses one chunk instead of
+    the whole batch, and the cleanup stops while there is still time for the chunk
+    it just did. Outside a cron nothing is committed: the caller's transaction is
+    left alone.
+    """
+    import time  # noqa: PLC0415 -- keep this module importable without Odoo
+
+    from odoo.tools import split_every  # noqa: PLC0415 -- avoids an import cycle at module load
+
+    if dry_run:
+        return rows
+    in_cron = bool(env.context.get("ir_cron_progress_id"))
+    deleted = []
+    for chunk in split_every(UNLINK_CHUNK, rows, list):
+        start = time.monotonic()
+        # ACTIONS-005: a refused deletion is raised, so the selected rows are never
+        # reported (by the settings button or the autovacuum job) as deleted
+        env["ir.attachment"].browse([row[0] for row in chunk]).sudo().unlink()
+        deleted += chunk
+        if in_cron:
+            time_left = env["ir.cron"]._commit_progress(len(chunk))
+            if time_left <= (time.monotonic() - start) * 1.5:
+                break
+    return deleted
 
 
 def autovacuum_run(model, from_settings, limit_param):
@@ -88,8 +126,10 @@ def autovacuum_run(model, from_settings, limit_param):
     # Only when actually running inside a cron: outside one there is no progress
     # record and no time limit, and _commit_progress() would commit the caller's
     # transaction -- surprising from a shell, and forbidden in a test.
+    # A real deletion was already reported chunk by chunk (unlink_attachments);
+    # only a dry run's count still has to reach the counter.
     if model.env.context.get("ir_cron_progress_id"):
-        time_left = model.env["ir.cron"]._commit_progress(count)
+        time_left = model.env["ir.cron"]._commit_progress(count if summary.get("dry_run") else 0)
     else:
         time_left = float("inf")
 

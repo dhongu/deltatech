@@ -4,6 +4,7 @@
 
 from . import cleanup_summary
 from . import account_move
+from . import account_edi_document
 from . import sale_order
 from . import product
 from . import stock_picking

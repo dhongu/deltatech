@@ -107,7 +107,7 @@ class TestAutovacuumCleanup(TransactionCase):
             done, _remaining = orders._gc_generated_pdfs()
 
         self.assertEqual(done, 1)
-        self.assertEqual(reported, [1], "the batch size must reach the cron's progress counter")
+        self.assertEqual(sum(reported), 1, "the batch size must reach the cron's progress counter")
 
     def test_no_requeue_when_the_run_is_nearly_out_of_time(self):
         """Asking for a requeue with seconds left only gets the next batch killed
@@ -125,6 +125,63 @@ class TestAutovacuumCleanup(TransactionCase):
 
         self.assertEqual(done, 1, "the batch still runs")
         self.assertFalse(remaining, "must not ask for another batch with no time left")
+
+    def test_deletes_in_committed_chunks_inside_a_cron(self):
+        """A batch is deleted a chunk at a time and every chunk is reported (and, for
+        real, committed): a worker killed mid-run loses one chunk, not the batch."""
+        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
+        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
+        self.icp.set_param("deltatech_actions.sale_pdf_limit", "10")
+        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        atts = self._old_pdf("Oferta - S0010.pdf") | self._old_pdf("Oferta - S0011.pdf")
+        atts |= self._old_pdf("Oferta - S0012.pdf")
+        reported = []
+
+        def spy(cron_self, processed=0, **kwargs):
+            reported.append(processed)
+            return float("inf")
+
+        orders = self.env["sale.order"].with_context(ir_cron_progress_id=1, cron_id=1)
+        with (
+            patch("odoo.addons.deltatech_actions.models.cleanup_summary.UNLINK_CHUNK", 2),
+            patch.object(type(self.env["ir.cron"]), "_commit_progress", spy),
+        ):
+            done, remaining = orders._gc_generated_pdfs()
+
+        self.assertEqual(done, 3)
+        self.assertFalse(remaining)
+        self.assertEqual(reported[:2], [2, 1], "each chunk must be reported on its own")
+        self.assertFalse(atts.exists())
+
+    def test_stops_between_chunks_when_out_of_time(self):
+        """Once the cron has no time left for another chunk the cleanup stops, and
+        reports only what it really deleted."""
+        self.icp.set_param("deltatech_actions.autovacuum_enabled", "True")
+        self.icp.set_param("deltatech_actions.sale_pdf_dry_run", "False")
+        self.icp.set_param("deltatech_actions.sale_pdf_limit", "10")
+        self.icp.set_param("deltatech_actions.sale_pdf_max_date_days", "90")
+        atts = self._old_pdf("Oferta - S0013.pdf") | self._old_pdf("Oferta - S0014.pdf")
+
+        orders = self.env["sale.order"].with_context(ir_cron_progress_id=1, cron_id=1)
+        with (
+            patch("odoo.addons.deltatech_actions.models.cleanup_summary.UNLINK_CHUNK", 1),
+            patch.object(type(self.env["ir.cron"]), "_commit_progress", lambda *a, **kw: 0.0),
+        ):
+            done, remaining = orders._gc_generated_pdfs()
+
+        self.assertEqual(done, 1, "only the chunk actually deleted is reported")
+        self.assertFalse(remaining)
+        self.assertEqual(len(atts.exists()), 1, "the second chunk must be left for the next run")
+
+    def test_edi_document_attachment_is_indexed(self):
+        """Deleting an attachment checks account_edi_document.attachment_id for every
+        deleted row; without an index each check is a full table scan."""
+        self.env.cr.execute(
+            """SELECT 1 FROM pg_index i
+                 JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = i.indkey[0]
+                WHERE i.indrelid = 'account_edi_document'::regclass AND a.attname = 'attachment_id'"""
+        )
+        self.assertTrue(self.env.cr.fetchone(), "account_edi_document.attachment_id has no index")
 
     def test_hooks_are_registered_as_autovacuum(self):
         """_run_vacuum_cleaner finds these only through the decorator."""
