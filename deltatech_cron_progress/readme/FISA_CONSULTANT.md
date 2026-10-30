@@ -42,15 +42,16 @@ necesar pentru acțiunile programate) și acces la jurnalul serverului (pe Odoo.
 
 Modulul nu folosește conturi contabile.
 
-Date minime pentru demo:
+Date minime pentru demo: două acțiuni planificate de test, de tip cod (secțiunea 5), care folosesc
+regula pe un contor ținut într-un parametru de sistem:
 
-- o acțiune programată a unui modul care folosește regula comună, cu mai multe înregistrări de procesat
-  decât limita unui lot (de exemplu 25 de grupuri de contacte duplicate la o limită de 10), ca rularea
-  să aibă mai multe loturi.
+- **Demo: procesare pe loturi** procesează 25 de înregistrări pe loturi de câte 10, ca rularea să aibă
+  mai multe loturi;
+- **Demo: lot fără progres** raportează 5 înregistrări rămase fără să proceseze vreuna.
 
-> **Pe 20.0, deocamdată, niciun modul nu folosește regula**: trecerea `deltatech_actions` (unirea
-> partenerilor duplicați, curățarea atașamentelor) urmează. Până atunci nu există o acțiune programată
-> de test, iar modulul se verifică prin testele lui automate (secțiunea 8).
+Pe 20.0, deocamdată, niciun modul Terrabit nu folosește regula: trecerea `deltatech_actions` (unirea
+partenerilor duplicați, curățarea atașamentelor) urmează. După trecere, testul se poate face și pe
+acțiunile acelui modul.
 
 ## 5. Configurare inițială
 
@@ -58,49 +59,81 @@ Date minime pentru demo:
    **Aplicații**, după ce scoateți filtrul **Aplicații** din căutare.
 2. Activați modul dezvoltator: **Setări** → blocul **Instrumente de dezvoltare** → **Activează modul de
    dezvoltare**.
-3. Verificați că acțiunea programată de test este activă: **Setări → Tehnic → Automatizare → Acțiuni
-   planificate**.
+3. **Setări → Tehnic → Automatizare → Acțiuni planificate** → **Nou(ă)**: numele **Demo: procesare pe
+   loturi**, **Model** = **Parametru de sistem**, **Executați fiecare** 1 **Zile**, iar în tabul **Cod**:
+
+   ```python
+   # 25 de înregistrări, procesate pe loturi de câte 10
+   total = 25
+   done_before = env['ir.config_parameter'].get_int('deltatech_cron_progress.demo_done')
+   batch = min(10, total - done_before)
+   env['ir.config_parameter'].set_int('deltatech_cron_progress.demo_done', done_before + batch)
+   env['ir.cron']._cron_report_progress(batch, total - done_before - batch)
+   ```
+
+4. La fel, a doua acțiune, **Demo: lot fără progres**, cu codul:
+
+   ```python
+   # 5 înregistrări rămase, dar niciuna nu poate fi procesată
+   env['ir.cron']._cron_report_progress(0, 5)
+   ```
 
 ## 6. Flux de utilizare
 
-> Fișă text: modulul nu are ecrane proprii, deci pașii nu au capturi de ecran. Rezultatul se citește în
-> jurnalul serverului.
+> Modulul nu are ecrane proprii: capturile arată acțiunile planificate de test din secțiunea 5. Starea
+> fiecărei rulări se citește și în jurnalul serverului.
 
-### Pasul 1 — Pornirea manuală a acțiunii programate
+### Pasul 1 — Pornirea manuală a acțiunii planificate
 
-**Setări → Tehnic → Automatizare → Acțiuni planificate** → deschideți acțiunea de test → butonul
-**Rulează manual**.
+**Setări → Tehnic → Automatizare → Acțiuni planificate** → deschideți **Demo: procesare pe loturi** →
+butonul **Rulează manual** (①). În tabul **Cod** (②) se vede apelul regulii comune după fiecare lot:
+câte înregistrări a procesat lotul și câte au rămas.
+
+![Formularul acțiunii planificate Demo: procesare pe loturi, cu Model Parametru de sistem, rulare la 1 zi și Ora Urmatoarei Executii azi; butonul Rulează manual e marcat cu 1, iar codul din tabul Cod, care procesează 25 de înregistrări pe loturi de 10 și apelează _cron_report_progress, e marcat cu 2](../static/description/01_actiune_planificata.png)
 
 Odoo rulează lotul următor imediat, până nu mai rămâne nimic. Dacă după cel puțin 10 loturi și cel
 puțin 120 de secunde tot mai e de lucru, rularea se încheie, iar planificatorul o reia cât mai repede, după
-celelalte acțiuni gata de rulare.
+celelalte acțiuni gata de rulare. Ecranul așteaptă până se termină rularea manuală. Ce nu încape în ea
+continuă prin planificator, care trebuie să fie pornit pe server.
 
-Ecranul așteaptă până se termină rularea manuală. Ce nu încape în ea continuă prin planificator, care
-trebuie să fie pornit pe server.
+### Pasul 2 — Verificarea rezultatului
 
-### Pasul 2 — Citirea rezultatului în jurnalul serverului
+1. **Găsiți pe ecran:** după rulare, formularul acțiunii se reîncarcă. **Ora Urmatoarei Executii** (①)
+   a trecut la următoarea rulare din program (a doua zi), deci acțiunea a terminat tot.
 
-1. **Găsiți în jurnal:** la finalul rulării, un rând de forma
-   `Job 'Merge duplicate contacts by email' (12) fully done (#loop 3; done 5; remaining 0; duration 1.20s)`.
-   Numele este cel salvat la instalarea acțiunii, de obicei în engleză. `#loop` este numărul de loturi
-   rulate, iar `done` și `remaining` sunt valorile ultimului lot.
-2. **Verificați:**
+   ![Formularul acțiunii Demo: procesare pe loturi după Rulează manual: Ora Urmatoarei Executii, marcată cu 1, este acum a doua zi la aceeași oră, adică următoarea rulare din program](../static/description/02_dupa_rulare_manuala.png)
+
+2. **Verificați datele:** **Setări → Tehnic → Parametri → Parametri sistem**: parametrul
+   `deltatech_cron_progress.demo_done` are valoarea **25**, deci toate cele 3 loturi (10 + 10 + 5) au
+   rulat la o singură apăsare a butonului.
+
+   ![Lista Parametri sistem, cu rândul deltatech_cron_progress.demo_done marcat: valoarea 25, adică toate înregistrările procesate într-o singură rulare manuală](../static/description/03_inregistrari_procesate.png)
+
+3. **Verificați în jurnal:** la finalul rulării, serverul scrie un rând de forma
+
+   ```text
+   Job 'Demo: procesare pe loturi' (12) fully done (#loop 3; done 5; remaining 0; duration 0.05s)
+   ```
+
+   - `#loop` este numărul de loturi rulate, iar `done` și `remaining` sunt valorile ultimului lot;
    - starea este `fully done` și `remaining 0` când nu mai e nimic de procesat;
-   - starea este `partially done` cu `remaining` mai mare ca 0 doar când lucrul nu a încăput în
-     rularea curentă; la rularea următoare `remaining` scade;
-   - în Odoo, datele sunt procesate (de exemplu nu mai există contacte duplicate cu același email).
-3. **Treceți mai departe:** abia după ce rularea manuală se termină corect, lăsați acțiunea pe
+   - `partially done` cu `remaining` mai mare ca 0 apare doar când lucrul nu a încăput în rularea
+     curentă; la rularea următoare `remaining` scade.
+4. **Treceți mai departe:** abia după ce rularea manuală se termină corect, lăsați acțiunea pe
    programul ei normal.
 
 ### Pasul 3 — Lotul care nu poate procesa nimic
 
-Dacă înregistrările rămase nu pot fi procesate, iar modulul care folosește regula tratează eroarea
-fiecărei înregistrări, lotul raportează că nu a procesat nimic. Rularea se oprește cu `fully done` și
-`remaining 0`, iar acțiunea revine la programul ei normal, fără să fie reluată imediat.
+Deschideți **Demo: lot fără progres** și apăsați **Rulează manual**. Codul (①) raportează 5
+înregistrări rămase, dar niciuna procesată. Regula comună oprește rularea: **Ora Urmatoarei Executii**
+(②) trece la următoarea rulare din program, iar acțiunea nu este reluată imediat, la nesfârșit.
 
-În acest caz `fully done` **nu** înseamnă că totul s-a procesat: căutați în jurnal rândul cu `done 0`
-și erorile înregistrărilor, scrise de modulul care folosește regula. Dacă modulul nu tratează erorile,
-rularea apare ca `failed`.
+![Formularul acțiunii Demo: lot fără progres după Rulează manual: codul din tabul Cod, marcat cu 1, raportează 0 procesate și 5 rămase; Ora Urmatoarei Executii, marcată cu 2, este a doua zi, deci acțiunea nu a fost reluată imediat](../static/description/04_lot_fara_progres.png)
+
+În jurnal, rândul final arată `fully done` cu `done 0` și `remaining 0`. În acest caz `fully done`
+**nu** înseamnă că totul s-a procesat: la o acțiune reală, căutați în jurnal rândul cu `done 0` și
+erorile înregistrărilor, scrise de modulul care folosește regula. Dacă modulul nu tratează erorile
+fiecărei înregistrări, rularea apare ca `failed`.
 
 ### Note de monografie și raportare
 
@@ -115,26 +148,36 @@ sunt cele ale acțiunilor respective.
 | `deltatech_actions` | Pe 18.0 folosește regula la unirea partenerilor duplicați și la curățarea atașamentelor; pe 19.0 și 20.0 trecerea urmează |
 | `deltatech_cron_monitor_webhook` | Pornește acțiunile din exterior, ca butonul **Rulează manual**; regula funcționează și acolo |
 
-**Ce e automat:** salvarea progresului după fiecare lot, reluarea imediată cât timp mai e de lucru,
-oprirea când nu mai e nimic de procesat sau când lotul nu a procesat nimic.
+**Ce e automat:**
+
+- salvarea progresului după fiecare lot și reluarea imediată cât timp mai e de lucru;
+- oprirea când nu mai e nimic de procesat sau când lotul nu a procesat nimic;
+- dezactivarea acțiunii după ce a procesat tot, când modulul care o folosește o cere (pentru acțiunile
+  care trebuie să ruleze o singură dată, de exemplu o migrare de date): după ultimul lot, câmpul
+  **Activ** se debifează singur;
+- la apelul direct din cod, în afara unei rulări a acțiunii (de exemplu dintr-un buton al altui modul),
+  progresul nu se salvează în acțiune, dar dacă mai e de lucru acțiunea e pornită în fundal pentru rest.
 
 **Ce rămâne manual:** pornirea manuală pentru test, citirea jurnalului, stabilirea limitei lotului în
 acțiunea programată, unde modulul care o folosește o permite.
 
 ## 8. Verificări pentru consultant
 
-- [ ] Testele automate ale modulului trec (singura verificare posibilă pe 20.0 până la migrarea
-      `deltatech_actions`): verificați că rularea testelor din CI (PR / Odoo.sh) e verde sau cereți-o
-      dezvoltatorului (`odoo-bin … --test-tags=/deltatech_cron_progress …`).
-- [ ] La **Rulează manual**, cu mai multe înregistrări decât limita unui lot, jurnalul arată `#loop`
-      mai mare ca 1, iar la final `fully done` și `remaining 0`.
-- [ ] Datele sunt procesate integral după rulare (de exemplu nu mai rămân contacte duplicate).
-- [ ] Fără date de procesat, jurnalul arată `fully done` cu `#loop 1`.
-- [ ] Când înregistrările rămase nu pot fi procesate, rularea se oprește cu `fully done` și
-      `remaining 0`, iar acțiunea nu se reia imediat.
-- [ ] După terminare, câmpul **Ora Urmatoarei Executii** al acțiunii arată următoarea rulare din program.
+- [ ] După **Rulează manual** pe **Demo: procesare pe loturi**, parametrul
+      `deltatech_cron_progress.demo_done` are valoarea 25, iar jurnalul arată `#loop 3`,
+      `fully done` și `remaining 0`.
+- [ ] **Ora Urmatoarei Executii** a acțiunii arată, după rulare, următoarea rulare din program.
+- [ ] La a doua apăsare, fără date de procesat (valoarea rămâne 25), jurnalul arată `fully done` cu
+      `#loop 1`.
+- [ ] După **Rulează manual** pe **Demo: lot fără progres**, jurnalul arată `fully done` cu `done 0` și
+      `remaining 0`, iar **Ora Urmatoarei Executii** trece la următoarea rulare din program.
+- [ ] La o acțiune care cere dezactivarea după procesarea completă, câmpul **Activ** e debifat după
+      ultimul lot.
+- [ ] Testele automate ale modulului sunt verzi în CI (PR / Odoo.sh); dezvoltatorul le poate rula cu
+      `odoo-bin … --test-tags=/deltatech_cron_progress …`.
 
 ## 9. Mesaje de eroare frecvente
+
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
@@ -144,9 +187,22 @@ acțiunea programată, unde modulul care o folosește o permite.
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text**: modulul nu are ecrane proprii și nici test `tests/test_screenshots.py`.
-Rezultatul se citește în jurnalul serverului. În `static/description/` sunt doar iconița, imaginea
-principală și pagina de descriere pentru Odoo Apps.
+Capturile sunt **generate automat** din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
+`l10n_ro_doc_screenshots`, import defensiv), în română, pe cele două acțiuni de test din secțiunea 5:
+
+1. `01_actiune_planificata.png` — formularul acțiunii **Demo: procesare pe loturi**, cu **Rulează manual**
+   și codul din tabul **Cod**;
+2. `02_dupa_rulare_manuala.png` — aceeași acțiune după rulare, cu **Ora Urmatoarei Executii** mutată la
+   următoarea rulare;
+3. `03_inregistrari_procesate.png` — **Parametri sistem**, cu valoarea 25 a contorului;
+4. `04_lot_fara_progres.png` — acțiunea **Demo: lot fără progres** după rulare.
+
+Regenerare:
+
+```bash
+.venv/bin/python odoo/odoo-bin -c odoo.conf -d <baza> -i deltatech_cron_progress,l10n_ro_doc_screenshots \
+    --test-tags=fise_screenshots --stop-after-init
+```
 
 ## 11. Observații pentru manual
 
@@ -156,3 +212,5 @@ principală și pagina de descriere pentru Odoo Apps.
   120 de secunde, acțiunea lasă loc celorlalte.
 - Regula se aplică doar acțiunilor programate ale modulelor care o folosesc; acțiunile standard Odoo
   nu se schimbă.
+- Acțiunile **Demo** din secțiunea 5 sunt doar pentru test: ștergeți-le, împreună cu parametrul
+  `deltatech_cron_progress.demo_done`, după verificare.
