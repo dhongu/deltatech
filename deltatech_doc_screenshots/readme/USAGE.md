@@ -27,6 +27,26 @@ them. They count as requested when:
 
 `SKIP_FISE_SCREENSHOTS=1` is a veto over any request.
 
+**Two languages.** The consultant sheet (`readme/FISA_CONSULTANT.md`) uses Romanian screenshots;
+`readme/USAGE.md`, published on the Apps Store, uses English ones. Build the shot list once and
+capture it per language:
+
+```python
+def _shots(self):
+    return [{"url": ..., "name": "01_list.png", "highlight": "button[name='action_post']"}]
+
+def test_capture_fise(self):  # ro_RO -> static/description/ (or readme/screenshots/)
+    self.capture_screenshots(self._shots())
+
+def test_capture_usage(self):  # en_US -> static/description/en/
+    self.capture_screenshots(self._shots(), lang="en_US")
+```
+
+Prefer selectors by `name`; when a selector needs UI text, give it per language:
+`{"ro_RO": "button:has-text('Confirmă')", "en_US": "button:has-text('Confirm')"}`.
+To capture a single language, name the method:
+`--test-tags=/<module>:TestXScreenshots.test_capture_usage`.
+
 Framing: `capture_screenshots(..., viewport=(1920, 950))` by default, wide enough for
 `account.report` tables with many columns; `force_light_theme()` is called by
 `prepare_ro_company` / `prepare_demo_company`; `_autotrim` trims the margins. Useful per-shot

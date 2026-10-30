@@ -1,3 +1,14 @@
+## 19.0.1.1.0 (2026-10-30)
+
+- Screenshots in a second language: `capture_screenshots(shots, lang="en_US")` sets the user's
+  language and the browser locale, renders `report_shot` reports in that language and writes the
+  files to `static/description/en/` with the same names, for `readme/USAGE.md` on the Apps Store.
+  Romanian (`ro_RO`, the default) still goes to the usual folder, for the consultant sheet.
+- Any shot value can depend on the language, as `{"ro_RO": ..., "en_US": ...}` (e.g. a
+  `:has-text(...)` selector); `click_tab` finds the tab by its English or Romanian label.
+- `report_shot` follows the capture language by default (`lang="auto"`); an explicit code still
+  pins it.
+
 ## 19.0.1.0.2 (2026-10-25)
 
 - The screenshots for the Apps Store (`static/description/`) work again with Pillow 9.0.1, the
