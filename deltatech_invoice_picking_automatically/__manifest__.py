@@ -4,7 +4,7 @@
 
 {
     "name": "Auto-Invoice from Delivery",
-    "version": "18.0.0.0.5",
+    "version": "18.0.0.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generate invoice automatically from picking after validation",
