@@ -10,7 +10,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, models
 from odoo.tools import str2bool
 
-from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary
+from .cleanup_summary import autovacuum_run, check_cleanup_access, log_prefix, rows_summary, unlink_attachments
 
 PREFIX = "deltatech_actions."
 
@@ -89,16 +89,14 @@ class SaleOrder(models.Model):
         params = {"limit": limit, "create_date": max_date, "pattern": pattern}
         self.env.cr.execute(query, params=params)
         res = self.env.cr.fetchall()
+        # deleted chunk by chunk: a cron run that stops early reports only what it removed
+        res = unlink_attachments(self.env, res, dry_run)
         attachment_ids = [item[0] for item in res]
         # `or 0`: ir_attachment.file_size is nullable, and a single NULL row used to
         # raise TypeError here. Inside the autovacuum job that failure is invisible --
         # _run_vacuum_cleaner logs the exception, rolls the transaction back and moves
         # on, so a crashing cleanup looks exactly like one with nothing to delete.
         sum_sizes = sum((item[1] or 0) for item in res)
-        if not dry_run:
-            # ACTIONS-005: a refused deletion is raised, so the selected rows are never
-            # reported (by the settings button or the autovacuum job) as deleted
-            self.env["ir.attachment"].browse(attachment_ids).sudo().unlink()
         _logger.info(
             f"{log_prefix(dry_run)} {len(attachment_ids)} attachments, "
             f"total size: {round(sum_sizes / (1024 * 1024), 3)} MB"

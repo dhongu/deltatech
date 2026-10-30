@@ -1,3 +1,17 @@
+## 19.0.0.9.12 (2026-10-30)
+
+- The PDF and label cleanups delete in chunks of 200 attachments. Inside a cron,
+  each chunk is committed and reported on the cron's progress, and the cleanup
+  stops when no time is left for another chunk. Before this, a batch of
+  thousands of attachments was deleted in one transaction. On a staging
+  database the worker was killed when odoo.sh put the idle build to sleep (the
+  log calls this a memory limit), the whole batch was rolled back, and the next
+  run started over.
+- Indexed `account_edi_document.attachment_id`. Every deleted attachment
+  checks this foreign key; without the index each check scanned the whole
+  table, and a 1000-row `DELETE FROM ir_attachment` ran past odoo.sh's 66 s
+  statement limit.
+
 ## 19.0.0.9.11 (2026-10-22)
 
 - Listed on Odoo Apps as *Database Cleanup Actions* (was *Cleanup Actions*), with the same title on the Apps banner.
