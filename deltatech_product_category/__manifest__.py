@@ -6,7 +6,7 @@
 {
     "name": "Product Category per Company",
     "summary": "Products Category",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
