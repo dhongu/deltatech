@@ -71,3 +71,14 @@ class TestCronGeneratedPDFs(TransactionCase):
 
         self.env["sale.order"].cron_clean_generated_pdfs(limit=100, pattern="", max_date_days=1, dry_run=False)
         self.assertFalse(att_other.exists())
+
+    def test_cron_clean_generated_pdfs_progress(self):
+        self._create_attachment_for_so(name="SO_P1.pdf")
+        self._create_attachment_for_so(name="SO_P2.pdf")
+        cron = self.env.ref("deltatech_actions.ir_cron_delete_pdf_attachments_sale_order")
+        cron, progress = cron._add_progress()
+        SaleOrder = self.env["sale.order"].with_context(ir_cron_progress_id=progress.id)
+        SaleOrder.cron_clean_generated_pdfs(limit=1, pattern="SO_P%", max_date_days=1, dry_run=False)
+        self.assertEqual((progress.done, progress.remaining), (1, 1))
+        SaleOrder.cron_clean_generated_pdfs(limit=1, pattern="SO_P%", max_date_days=1, dry_run=True)
+        self.assertEqual((progress.done, progress.remaining), (0, 0))

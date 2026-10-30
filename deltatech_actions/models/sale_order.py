@@ -3,9 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 import logging
-from datetime import datetime
-
-from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
 
@@ -50,32 +47,11 @@ class SaleOrder(models.Model):
         :param dry_run: if set to True, just selects the attachments and does not delete anything
         :return: None
         """
-        if not max_date_days:
-            max_date = datetime.now() - relativedelta(days=1)
-        else:
-            max_date = datetime.now() - relativedelta(days=max_date_days)
-        if not pattern:
-            pattern = "%%"
-        query = """SELECT id,file_size FROM ir_attachment
-                        WHERE mimetype='application/pdf' AND res_model='sale.order'
-                        AND create_date <= %(create_date)s AND name like %(pattern)s
-                        limit %(limit)s;
-                        """
-        params = {"limit": limit, "create_date": max_date, "pattern": pattern}
-        self.env.cr.execute(query, params=params)
-        res = self.env.cr.fetchall()
-        attachment_ids = [item[0] for item in res]
-        sizes = [item[1] for item in res]
-        sum_sizes = 0
-        for size in sizes:
-            sum_sizes += size
-        if not dry_run:
-            attachments = self.env["ir.attachment"].browse(attachment_ids)
-            try:
-                attachments.sudo().unlink()
-            except Exception as e:
-                _logger.info(e)
-        _logger.info(
-            f"Deleted {len(attachment_ids)} attachments., total size: {round(sum_sizes / (1024 * 1024), 3)} MB"
+        return self.env["ir.attachment"]._cron_clean_generated_pdfs(
+            "sale.order",
+            ["application/pdf"],
+            limit=limit,
+            pattern=pattern,
+            max_date_days=max_date_days,
+            dry_run=dry_run,
         )
-        return res

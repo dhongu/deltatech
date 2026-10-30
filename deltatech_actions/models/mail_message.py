@@ -8,6 +8,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, models
+from odoo.tools import SQL
 
 _logger = logging.getLogger(__name__)
 
@@ -24,38 +25,33 @@ class MailMessage(models.Model):
         :param max_date_days: relative days from which the messages will be deleted.
         Ex. 30 = messages will be deleted if older than today - 30 days
         :param dry_run: if set to True, just selects the messages and does not delete anything
-        :param exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]
+        :param exclude_models: list of models to exclude. Ex: ["business.%", "res.partner"]; False = none
         :return: None
         """
         # mimetype fix
-        query = """UPDATE ir_attachment set mimetype='application/xml'
-                                    WHERE name='%.xml' and mimetype='text/plain'
-                                    """
-        self.env.cr.execute(query)
+        self.env.cr.execute(
+            SQL(
+                "UPDATE ir_attachment SET mimetype = 'application/xml' WHERE name LIKE %s AND mimetype = 'text/plain'",
+                "%.xml",
+            )
+        )
         _logger.info("Corrected attachments mimetype.")
 
         if not max_date_days:
             max_date = datetime.now() - relativedelta(days=1)
         else:
             max_date = datetime.now() - relativedelta(days=max_date_days)
-        if not pattern:
-            query = """SELECT id FROM mail_message
-                                        WHERE model not like any(%(exclude_models)s)
-                                        AND create_date <= %(create_date)s
-                                        ORDER BY id
-                                        limit %(limit)s;
-                                        """
-            params = {"limit": limit, "create_date": max_date, "exclude_models": exclude_models}
-        else:
-            query = """SELECT id FROM mail_message
-                                WHERE model not like any(%(exclude_models)s)
-                                AND create_date <= %(create_date)s AND subject like %(pattern)s
-                                ORDER BY id
-                                limit %(limit)s;
-                                """
-            params = {"limit": limit, "create_date": max_date, "pattern": pattern, "exclude_models": exclude_models}
+        # NOT LIKE ALL: the model must match none of the excluded patterns
+        # (NOT LIKE ANY kept every message whose model differed from at least one pattern)
+        where = SQL(
+            "model NOT LIKE ALL(%s::varchar[]) AND create_date <= %s",
+            list(exclude_models or []),
+            max_date,
+        )
+        if pattern:
+            where = SQL("%s AND subject like %s", where, pattern)
 
-        self.env.cr.execute(query, params=params)
+        self.env.cr.execute(SQL("SELECT id FROM mail_message WHERE %s ORDER BY id LIMIT %s", where, limit))
         res = self.env.cr.fetchall()
         message_ids = [item[0] for item in res]
         messages_to_delete = self.browse(message_ids)
@@ -65,10 +61,25 @@ class MailMessage(models.Model):
         for attachment in all_attachments:
             if attachment.mimetype not in ["application/xml", "application/zip", "text/plain"]:
                 attachments_to_delete |= attachment
-        if not dry_run:
+        done = 0
+        if not dry_run and messages_to_delete:
             try:
-                attachments_to_delete.sudo().unlink()
-                messages_to_delete.sudo().unlink()
+                with self.env.cr.savepoint():
+                    attachments_to_delete.sudo().unlink()
+                    messages_to_delete.sudo().unlink()
+                done = len(messages_to_delete)
             except Exception as e:
                 _logger.info(e)
-        _logger.info(f"Deleted {len(messages_to_delete)} messages and {len(attachments_to_delete)} attachments linked.")
+        _logger.info(
+            "Deleted %s messages (%s selected) and %s attachments linked.",
+            done,
+            len(messages_to_delete),
+            len(attachments_to_delete) if done else 0,
+        )
+
+        # dry run or failed unlink: nothing advanced, so nothing remains for this run
+        remaining = 0
+        if done:
+            self.env.cr.execute(SQL("SELECT count(*) FROM mail_message WHERE %s", where))
+            remaining = self.env.cr.fetchone()[0]
+        self.env["ir.cron"]._cron_report_progress(done, remaining)
