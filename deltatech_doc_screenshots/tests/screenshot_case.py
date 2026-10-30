@@ -32,6 +32,19 @@ testul de capturi nu se definește, fără să strice încărcarea suitei modulu
                 {"url": f"action={self.act}&id={rec}&model=x&view_type=form", "name": "02_form.png", "full": True},
             ])
 
+Capturi în două limbi (fișa consultant în RO, ``readme/USAGE.md`` pentru Apps Store în EN):
+aceeași listă de shot-uri, câte o metodă per limbă. Capturile RO rămân în folderul obișnuit,
+cele EN ajung în ``static/description/en/`` (vezi ``screenshots_dir``):
+
+        def _shots(self):
+            return [...]
+
+        def test_capture_fise(self):
+            self.capture_screenshots(self._shots())  # ro_RO
+
+        def test_capture_usage(self):
+            self.capture_screenshots(self._shots(), lang="en_US")
+
 Rulare:
 
     ./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro_x --test-tags=fise_screenshots --stop-after-init
@@ -69,6 +82,35 @@ TAB_LABELS_RO = {
     "Invoice Lines": "Linii factură",
     "Other Info": "Alte informații",
 }
+
+#: limba capturilor fișei consultant; celelalte limbi au subfolderul lor (``en/``)
+DEFAULT_LANG = "ro_RO"
+
+#: ``report_shot`` fără limbă explicită: raportul se randează în limba capturii curente
+AUTO_LANG = "auto"
+
+
+def _is_lang_map(value):
+    """Spune dacă ``value`` e o valoare dependentă de limbă: ``{"ro_RO": ..., "en_US": ...}``."""
+    return (
+        isinstance(value, dict)
+        and bool(value)
+        and all(isinstance(k, str) and len(k) == 5 and k[2] == "_" for k in value)
+    )
+
+
+def _for_lang(value, lang):
+    """Alege varianta pentru ``lang`` dintr-o valoare dependentă de limbă; altfel o lasă neatinsă.
+
+    Folosit pe selectoarele care conțin text din interfață (``button:has-text('Confirmă')``),
+    care nu se mai potrivesc când capturile se fac în altă limbă. Dacă limba lipsește din
+    dicționar se ia varianta ``en_US``, apoi prima.
+    """
+    if _is_lang_map(value):
+        return value.get(lang) or value.get("en_US") or next(iter(value.values()))
+    if isinstance(value, list):
+        return [_for_lang(v, lang) for v in value]
+    return value
 
 
 @contextlib.contextmanager
@@ -167,16 +209,29 @@ class ScreenshotCase(HttpCase):
         lipsește, deci reapelarea e idempotentă. Apelat automat din ``prepare_ro_company`` /
         ``prepare_demo_company``. No-op dacă limba nu poate fi activată.
         """
+        cls.activate_lang(DEFAULT_LANG)
+
+    @classmethod
+    def activate_lang(cls, code, user=None):
+        """Activează limba ``code``, îi încarcă termenii și o setează pe ``user`` (implicit admin).
+
+        Vezi ``activate_ro_lang`` pentru de ce instalarea termenilor rulează mereu. ``en_US``
+        e limba sursă a termenilor, deci nu are ce instala: doar se setează pe utilizator.
+        No-op dacă limba nu poate fi activată.
+        """
         env = cls.env
         try:
-            lang = env["res.lang"].with_context(active_test=False).search([("code", "=", "ro_RO")], limit=1)
-            if lang:
-                # activează limba (dacă nu e) + încarcă termenii tuturor modulelor instalate
-                env["base.language.install"].create({"lang_ids": [(6, 0, lang.ids)], "overwrite": False}).lang_install()
-            env.ref("base.user_admin").lang = "ro_RO"
+            if code != "en_US":
+                lang = env["res.lang"].with_context(active_test=False).search([("code", "=", code)], limit=1)
+                if lang:
+                    # activează limba (dacă nu e) + încarcă termenii tuturor modulelor instalate
+                    env["base.language.install"].create(
+                        {"lang_ids": [(6, 0, lang.ids)], "overwrite": False}
+                    ).lang_install()
+            (user or env.ref("base.user_admin")).lang = code
             env.flush_all()
         except Exception:  # noqa: BLE001 - dacă limba nu e disponibilă, rămânem pe EN
-            _logger.debug("Screenshots: dacă limba nu e disponibilă, rămânem pe EN", exc_info=True)
+            _logger.debug("Screenshots: limba %s nu e disponibilă, rămânem pe EN", code, exc_info=True)
 
     @classmethod
     def force_light_theme(cls):
@@ -348,7 +403,7 @@ class ScreenshotCase(HttpCase):
 
     @classmethod
     def report_shot(
-        cls, report_ref, res_id, name, wait="body", full=True, settle=2000, lang="ro_RO", companies=None, **extra
+        cls, report_ref, res_id, name, wait="body", full=True, settle=2000, lang=AUTO_LANG, companies=None, **extra
     ):
         """Construiește un element de captură pentru un **raport tipăribil (PDF)**, randându-l HTML.
 
@@ -367,13 +422,15 @@ class ScreenshotCase(HttpCase):
         salvată e pagina de eroare, fără ca testul să pice. Treci ``companies=False`` ca să
         lași rezoluția implicită, sau un recordset ``res.company`` pentru alt set.
 
-        ``lang`` (implicit ``"ro_RO"``) forțează limba de randare a raportului. Necesar pentru fișe:
-        ``/report/html`` este o rută ``website=True``, iar cu modulul ``website`` instalat
-        middleware-ul de website impune limba IMPLICITĂ a site-ului (de regulă ``en_US``) pe rutele
-        frontend, ignorând limba utilizatorului — așa că, fără forțare, raportul ar ieși în engleză
-        chiar dacă admin-ul e pe ``ro_RO``. Transmitem limba prin ``?context={"lang": ...}``, pe care
-        controllerul raportului îl aplică (``report_routes`` face ``context.update``). Treci ``lang=None``
-        ca să lași rezoluția implicită (limba site-ului).
+        ``lang`` forțează limba de randare a raportului. Necesar pentru fișe: ``/report/html`` este
+        o rută ``website=True``, iar cu modulul ``website`` instalat middleware-ul de website impune
+        limba IMPLICITĂ a site-ului (de regulă ``en_US``) pe rutele frontend, ignorând limba
+        utilizatorului — așa că, fără forțare, raportul ar ieși în engleză chiar dacă admin-ul e pe
+        ``ro_RO``. Transmitem limba prin ``?context={"lang": ...}``, pe care controllerul raportului
+        îl aplică (``report_routes`` face ``context.update``). Implicit (``"auto"``) se folosește
+        limba capturii (``capture_screenshots(lang=...)``), ca același shot să iasă în RO pentru
+        fișă și în EN pentru USAGE.md. Un cod de limbă o fixează; ``lang=None`` lasă rezoluția
+        implicită (limba site-ului).
 
         Utilizare:
             shots.append(self.report_shot("l10n_ro_x.report_xxx", self.doc, "06_raport_pdf.png"))
@@ -381,14 +438,17 @@ class ScreenshotCase(HttpCase):
         rid = getattr(res_id, "id", res_id)
         path = f"/report/html/{report_ref}/{rid}"
         context = {}
-        if lang:
+        if lang and lang != AUTO_LANG:
             context["lang"] = lang
         if companies is not False:
             records = companies if companies is not None else cls.env.company
             context["allowed_company_ids"] = [getattr(c, "id", c) for c in records]
-        if context:
-            path += "?context=" + quote(json.dumps(context))
-        shot = {"path": path, "name": name, "wait": wait, "full": full, "settle": settle}
+        shot = {"name": name, "wait": wait, "full": full, "settle": settle}
+        if lang == AUTO_LANG:
+            # calea finală (cu limba capturii) o construiește ``capture_screenshots``
+            shot.update({"report_path": path, "report_context": context})
+        else:
+            shot["path"] = path + ("?context=" + quote(json.dumps(context)) if context else "")
         shot.update(extra)
         return shot
 
@@ -648,17 +708,24 @@ class ScreenshotCase(HttpCase):
         cls.align_website_company(company)
         return company
 
-    def screenshots_dir(self):
+    def screenshots_dir(self, lang=DEFAULT_LANG):
         assert self.screenshots_module, "Setați atributul `screenshots_module` pe clasa de test."
         path = get_module_path(self.screenshots_module)
+        description = os.path.join(path, "static", "description")
+        if lang != DEFAULT_LANG:
+            # Capturile în altă limbă (``en/``) sunt pentru readme/USAGE.md, publicat pe Apps
+            # Store, deci stau mereu sub static/description/, chiar și la modulele nemigrate.
+            return os.path.join(description, lang.split("_")[0])
         # Convenția nouă: capturile stau în static/description/, de unde le servește și
         # Apps Store. Modulele din suitele încă nemigrate păstrează readme/screenshots/.
         legacy = os.path.join(path, "readme", "screenshots")
         if os.path.isdir(legacy):
             return legacy
-        return os.path.join(path, "static", "description")
+        return description
 
-    def capture_screenshots(self, shots, login="admin", viewport=(1920, 950), locale="ro-RO", hide_systray=False):
+    def capture_screenshots(
+        self, shots, login="admin", viewport=(1920, 950), locale=None, hide_systray=False, lang=DEFAULT_LANG
+    ):
         """Generează capturile descrise în ``shots``.
 
         Fiecare element din ``shots`` este un dict cu:
@@ -688,6 +755,15 @@ class ScreenshotCase(HttpCase):
             indice exact unde apasă/completează operatorul;
           - ``settle`` (int): pauză în ms înainte de captură (implicit 1500).
 
+        ``lang`` (implicit ``"ro_RO"``) e limba interfeței pe capturi: se setează pe utilizator
+        înainte de autentificare, dă locale-ul browserului (dacă ``locale`` nu e dat) și limba
+        rapoartelor din ``report_shot``. Capturile în altă limbă decât RO se scriu în subfolderul
+        ei (``static/description/en/`` pentru ``en_US``), cu aceleași nume ca în fișă. Orice
+        valoare din shot poate fi dependentă de limbă, ca dict ``{"ro_RO": ..., "en_US": ...}``
+        (ex. ``"highlight": {"ro_RO": "button:has-text('Confirmă')", "en_US":
+        "button:has-text('Confirm')"}``) — preferați însă selectoarele după ``name``, valabile
+        în orice limbă.
+
         ``hide_systray=True`` ascunde bara de iconuri din dreapta-sus (AI, notificări, Studio,
         meniul de debug) pe toate capturile — zgomot inutil într-un manual de client. Injectat
         ca ``<style>``, deci rezistă la re-randările OWL, spre deosebire de ``remove()`` pe nod.
@@ -699,9 +775,10 @@ class ScreenshotCase(HttpCase):
         except ImportError:
             self.skipTest("playwright nu este instalat (uv pip install playwright)")
 
-        out = self.screenshots_dir()
+        out = self.screenshots_dir(lang)
         os.makedirs(out, exist_ok=True)
         base = self.base_url()
+        locale = locale or lang.replace("_", "-")
 
         # Pe o bază fără date demo, ``res.users.tour_enabled`` (web_tour, compute stocat) e True
         # pentru admin, iar indicatorul turului de onboarding (picătura mov) apare în capturi
@@ -709,6 +786,9 @@ class ScreenshotCase(HttpCase):
         user = self.env["res.users"].sudo().search([("login", "=", login)], limit=1)
         if user and "tour_enabled" in user._fields:
             user.tour_enabled = False
+        # limba interfeței o dă utilizatorul (contextul sesiunii), nu locale-ul browserului
+        if user and user.lang != lang:
+            self.activate_lang(lang, user=user)
 
         # autentificăm sesiunea și o transmitem browserului prin cookie (sărim formularul de login,
         # care expiră pe serverul de test); all_requests permite serverului să servească browserul.
@@ -734,6 +814,10 @@ class ScreenshotCase(HttpCase):
             try:
                 shot_name = "?"
                 for s in shots:
+                    s = {key: _for_lang(value, lang) for key, value in s.items()}
+                    if s.get("report_path"):
+                        context = dict(s.get("report_context") or {}, lang=lang)
+                        s["path"] = s["report_path"] + "?context=" + quote(json.dumps(context))
                     shot_name = s.get("name", "?")
                     if s.get("html") is not None:
                         # Shot din HTML inline (ex. tabel randat dintr-un XLSX generat) — nu navigăm,
@@ -771,10 +855,11 @@ class ScreenshotCase(HttpCase):
                         # implicit așteptăm un formular; pentru dropdown/meniu folosiți ``wait_after``
                         page.wait_for_selector(s.get("wait_after", ".o_form_view"), timeout=s.get("timeout", 20000))
                     if s.get("click_tab"):
-                        # Capturile se fac cu interfața în RO, deci tab-ul căutat după textul
-                        # englezesc nu se găsește: încercăm și eticheta tradusă, altfel shot-ul
-                        # ar rămâne tăcut pe primul tab (ex. factura fără liniile Dr/Cr).
-                        for label in (s["click_tab"], TAB_LABELS_RO.get(s["click_tab"])):
+                        # Capturile se fac cu interfața în RO sau EN, deci tab-ul cerut într-o
+                        # limbă nu se găsește în cealaltă: încercăm și eticheta tradusă, altfel
+                        # shot-ul ar rămâne tăcut pe primul tab (ex. factura fără liniile Dr/Cr).
+                        tab_en = {ro: en for en, ro in TAB_LABELS_RO.items()}
+                        for label in (s["click_tab"], TAB_LABELS_RO.get(s["click_tab"]), tab_en.get(s["click_tab"])):
                             if not label:
                                 continue
                             try:

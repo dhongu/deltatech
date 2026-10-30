@@ -5,7 +5,7 @@
     "name": "Doc Screenshots",
     "category": "Hidden",
     "summary": "Test mixin (HttpCase + Playwright) that generates the screenshots of the consultant sheets",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
