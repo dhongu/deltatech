@@ -5,7 +5,7 @@
     "name": "Database Cleanup Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
-    "version": "18.0.0.0.10",
+    "version": "18.0.0.1.0",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -14,6 +14,7 @@
         "sale",
         "product",
         "stock",
+        "deltatech_cron_progress",
     ],
     "data": [
         "data/ir_cron_data.xml",
