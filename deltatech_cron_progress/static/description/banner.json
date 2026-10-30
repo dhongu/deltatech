@@ -1,0 +1,10 @@
+{
+  "title": "Cron Batch Progress",
+  "summary": "Batch crons that run until all is done",
+  "icon": "gear",
+  "features": [
+    "Runs the next batch right away",
+    "Progress saved after each batch",
+    "Stops when a batch makes no progress"
+  ]
+}
