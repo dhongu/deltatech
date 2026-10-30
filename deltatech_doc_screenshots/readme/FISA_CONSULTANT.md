@@ -41,35 +41,60 @@ compania demo pregătită de modul (țara România, RON, limba română, dreptur
    `playwright install chrome`.
 2. Modulul documentat are `tests/test_screenshots.py`, care pornește de la `ScreenshotCase`.
    Modulul de capturi nu se pune în `depends`; se instalează doar la rulare.
+3. În test, lista capturilor se scrie **o singură dată** (`_shots`), în ordinea pașilor din fișă:
+   adresa ecranului, numele fișierului (`01_...png`) și, opțional, câmpurile sau butoanele de
+   evidențiat. O metodă o rulează în română, alta în engleză:
+
+   ```python
+   def test_capture_fise(self):  # RO, pentru fișă
+       self.capture_screenshots(self._shots())
+
+   def test_capture_usage(self):  # EN, pentru USAGE.md
+       self.capture_screenshots(self._shots(), lang="en_US")
+   ```
+
+   Evidențierile se dau preferabil după numele câmpului (`div[name='vat']`), valabil în ambele limbi.
+   Când un selector conține text din interfață, se dă pe limbă:
+   `{"ro_RO": "button:has-text('Confirmă')", "en_US": "button:has-text('Confirm')"}`.
+   Capturile de raport (PDF randat) ies singure în limba capturii.
+4. Generarea, pentru ambele limbi:
+
+   ```bash
+   ./odoo/odoo-bin -c odoo.conf -d <baza> -i <modul>,deltatech_doc_screenshots \
+       --test-tags=fise_screenshots --stop-after-init --http-port=<port liber>
+   ```
+
+   Pentru o singură limbă se numește metoda:
+   `--test-tags=/<modul>:<ClasaTest>.test_capture_fise` (RO) sau `.test_capture_usage` (EN).
+   Capturile se generează doar la cerere; o rulare obișnuită a testelor le sare, ca să nu rescrie
+   imaginile.
 
 ## 6. Flux de utilizare
 
-### Pasul 1 — Lista capturilor
+Exemplul de mai jos e chiar testul acestui modul (`tests/test_screenshots.py`): formularul companiei
+demo, cu numele și codul fiscal evidențiate.
 
-În testul modulului documentat se trece, în ordinea pașilor din fișă, câte o captură pentru fiecare
-ecran: adresa ecranului, numele fișierului (`01_...png`, `02_...png`) și, opțional, butoanele sau
-câmpurile de evidențiat cu contur portocaliu și număr ①②③.
+### Pasul 1 — Captura în română, pentru fișă
 
-### Pasul 2 — Generarea capturilor
+Metoda `test_capture_fise` deschide ecranul cu interfața în română și salvează captura în
+`static/description/` (la modulele nemigrate, `readme/screenshots/`), cu numele din fișă. Câmpurile
+evidențiate primesc contur portocaliu și numerele ①②, în ordinea din listă.
 
-```bash
-./odoo/odoo-bin -c odoo.conf -d <baza> -i <modul>,deltatech_doc_screenshots \
-    --test-tags=fise_screenshots --stop-after-init --http-port=<port liber>
-```
+![Formularul companiei demo, în română, cu numele și codul fiscal evidențiate](../static/description/01_formular_companie.png)
 
-Rezultatul:
+Se verifică pe captură: ecranul e cel din pasul fișei, datele promise apar, interfața e în română cu
+diacritice, câmpurile evidențiate au eticheta lor.
 
-- capturile RO în `<modul>/static/description/` (la modulele nemigrate, `readme/screenshots/`);
-- capturile EN în `<modul>/static/description/en/`, cu aceleași nume, dacă testul le cere
-  (`lang="en_US"`).
+### Pasul 2 — Aceeași captură în engleză, pentru USAGE.md
 
-Capturile se generează doar la cerere (tag-ul `fise_screenshots`); o rulare obișnuită a testelor le
-sare, ca să nu rescrie imaginile.
+Metoda `test_capture_usage` rulează aceeași listă cu `lang="en_US"`: interfața și rapoartele sunt în
+engleză, iar captura ajunge în `static/description/en/`, cu același nume. `readme/USAGE.md` o folosește
+pe Odoo Apps.
 
-### Pasul 3 — Verificarea capturilor
+![Același formular, în engleză, cu aceleași evidențieri](../static/description/en/01_formular_companie.png)
 
-Se deschide fiecare imagine și se verifică: ecranul e cel din pasul fișei, datele promise apar pe
-ecran, interfața e în limba potrivită, câmpurile evidențiate au eticheta lor.
+Se verifică: același ecran și aceleași evidențieri ca în pasul 1, interfața în engleză, fără etichete
+rămase în română. Datele demo („RO Company”, adresa, RON) rămân cele din test.
 
 ### Note de monografie și raportare
 
@@ -92,6 +117,8 @@ marginilor, folderul pe limbă.
 - [ ] Rularea cu `--test-tags=fise_screenshots` produce câte o imagine pentru fiecare pas din fișă,
       cu numele din fișă.
 - [ ] Capturile RO au interfața în română, cu diacritice; cele din `en/` au interfața în engleză.
+- [ ] O captură de raport (PDF randat) din `en/` e în engleză, iar perechea ei RO în română.
+- [ ] Rularea unei singure metode (`.test_capture_usage`) scrie doar capturile din `en/`.
 - [ ] Fără `playwright` instalat, testele de capturi sunt sărite, nu picate.
 - [ ] O rulare obișnuită a testelor modulului nu modifică imaginile.
 
@@ -106,9 +133,14 @@ marginilor, folderul pe limbă.
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text**: modulul nu are ecrane proprii, deci nici capturi ale fluxului. În
-`static/description/` sunt doar iconița și imaginea principală pentru Odoo Apps. Exemple de capturi
-produse de modul se găsesc în fișele modulelor care îl folosesc (ex. `deltatech_product_attribute_role`).
+Generate automat de `tests/test_screenshots.py` al acestui modul, pe compania demo „RO Company”:
+
+| Fișier | Ce arată |
+|---|---|
+| `static/description/01_formular_companie.png` | formularul companiei, în română, cu ①② pe nume și cod fiscal |
+| `static/description/en/01_formular_companie.png` | același formular, în engleză (pentru USAGE.md) |
+
+Regenerare: `-i deltatech_doc_screenshots --test-tags=fise_screenshots` (comanda de la secțiunea 5).
 
 ## 11. Observații pentru manual
 
