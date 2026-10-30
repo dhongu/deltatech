@@ -1,3 +1,7 @@
+## 19.0.1.0.2 (2026-10-30)
+
+- Own module icon in the flat style of the other modules.
+
 ## 19.0.1.0.1 (2026-10-22)
 
 - Listed on Odoo Apps as *Product Category per Company* (was *Products Category*). The technical name `deltatech_product_category` does not change.
