@@ -59,8 +59,6 @@ Date minime pentru demo:
 
 ## 6. Flux de utilizare
 
-> Fișă text: pașii nu au capturi de ecran.
-
 ### Pasul 1 — Secțiunea Curățare bază de date
 
 **Setări → Setări generale → Curățare bază de date.** Fiecare curățare este o setare cu bifa în titlu;
@@ -77,6 +75,8 @@ bifa pornește sau oprește acțiunea programată corespunzătoare. Curățăril
 | **Companii duplicate** | Unește firmele cu același CUI | *Merge duplicate companies by VAT* |
 | **Reguli de reaprovizionare lipsă** | Creează reguli de reaprovizionare pentru produsele stocabile fără reguli | *Create missing reordering rules (0/0)* |
 | **Normalizează numele companiilor** | Uniformizează forma juridică din nume (srl → S.R.L., sa → S.A., pfa → P.F.A., ii → I.I.), câte 500 pe rulare | *Normalize company names* |
+
+![Secțiunea Curățare bază de date din Setări generale](../static/description/01_sectiune_curatare.png)
 
 ### Pasul 2 — Reglarea parametrilor
 
@@ -99,6 +99,8 @@ Sub fiecare curățare care șterge date:
 La unirea duplicatelor se reglează **Grupuri de contacte pe rulare** și **Grupuri de companii pe
 rulare**. Acestea **nu** au rulare de test.
 
+![Parametrii curățării PDF-urilor de factură: ① rulare de test, ② atașamente pe rulare, ③ prag de zile, ④ model de nume](../static/description/02_parametri.png)
+
 ### Pasul 3 — Dimensionarea cu Rulează acum, în rulare de test
 
 Cu **Rulare de test** bifată, apăsați **Rulează acum** sub curățare și confirmați mesajul. Setările se
@@ -110,6 +112,8 @@ salvează, curățarea rulează imediat, iar rezultatul apare ca notificare:
    măriți pragul de zile sau restrângeți modelul de nume și rulați din nou. Pentru etichetele AWB,
    confirmați cu curierul cât timp păstrează etichetele, ca să poată fi regenerate.
 3. **Treceți mai departe:** abia când rezultatul este cel așteptat, debifați **Rulare de test**.
+
+![Notificarea Rulare de test după Rulează acum: nu s-a șters nimic](../static/description/03_rulare_test.png)
 
 Unirea contactelor și a companiilor nu are buton **Rulează acum**, intenționat: șterge date fără cale de
 întoarcere și rulează doar programat.
@@ -123,6 +127,14 @@ târziu.
 
 **Rulează acum** cu **Rulare de test** debifată șterge imediat și afișează notificarea **Curățare
 efectuată**: „S-au șters N înregistrări (X MB).” Ștergerea este definitivă.
+
+![Curățarea activată, cu Următoarea execuție, rularea de test debifată și notificarea Curățare efectuată](../static/description/04_activare_rulare.png)
+
+La curățările PDF-urilor de factură, de comandă și a etichetelor AWB, ștergerea se face pe bucăți de
+câte 200 de atașamente. În rularea programată, fiecare bucată se salvează imediat, iar curățarea se
+oprește când timpul acțiunii programate nu mai ajunge pentru încă o bucată. O rulare programată poate
+deci șterge mai puțin decât **Atașamente pe rulare**; restul lotului rămâne pentru rularea următoare,
+iar ce s-a șters până la oprire rămâne șters. **Rulează acum** prelucrează tot lotul.
 
 Dacă ștergerea este refuzată (de exemplu de regula altui modul), rezultatul nu se raportează ca
 șters:
@@ -141,6 +153,12 @@ automate a Odoo (*auto-vacuum*). Setarea **Run cleanups from the auto-vacuum job
 face ca PDF-urile de factură, de comandă și etichetele AWB să fie curățate și de această acțiune, cu
 aceleași praguri și aceeași rulare de test. Pe baza de producție, setarea rămâne debifată.
 
+Pe copie, păstrați **Atașamente pe rulare** mic (de exemplu 500). Odoo.sh oprește copia la câteva
+minute după ultima accesare; dacă tocmai rulează curățarea, ea se oprește, dar bucățile deja șterse
+rămân șterse și curățarea continuă la următoarea pornire.
+
+![Setarea Run cleanups from the auto-vacuum job, pentru copiile restaurate](../static/description/05_copie_staging.png)
+
 ### Pasul 6 — Anularea forțată a unei comenzi de vânzare (opțional)
 
 Modulul are o metodă care anulează o comandă confirmată împreună cu livrările, mișcările de stoc și
@@ -148,10 +166,12 @@ notele contabile legate de ele, **fără verificările obișnuite**. Din motive 
 se activează manual:
 
 1. **Setări → Tehnic → Acțiuni → Acțiuni server** → **Nou**.
-2. Model **Comandă de vânzare**, tip **Executare cod Python**, cod
+2. Model **Comandă de vânzare**, tip **Executați codul**, cod
    `record.force_cancel_order_and_moves()`.
 3. Opțional, adăugați acțiunea în meniul **Acțiuni** al comenzii și restrângeți-o la un grup de
    administratori.
+
+![Acțiunea server pentru anularea forțată: ① model, ② tip, ③ cod](../static/description/06_anulare_fortata.png)
 
 ### Note de monografie și raportare
 
@@ -191,6 +211,8 @@ crearea acțiunii de anulare forțată; confirmarea cu curierul a perioadei de p
 - [ ] O ștergere refuzată dă **Cleanup failed** (sau **Cleanup partly done** la XML) și nu e numărată
   ca ștearsă.
 - [ ] **Următoarea execuție** apare doar după activarea curățării și poate fi modificată.
+- [ ] O rulare programată a curățării PDF-urilor sau a etichetelor AWB, oprită înainte de final,
+  păstrează ștergerile deja făcute; restul lotului se șterge la rularea următoare.
 - [ ] Unirea companiilor după CUI lasă un singur partener pe fiecare CUI.
 
 ## 9. Mesaje de eroare frecvente
@@ -206,10 +228,17 @@ crearea acțiunii de anulare forțată; confirmarea cu curierul a perioadei de p
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text**: modulul nu are capturi ale fluxului și nici test `tests/test_screenshots.py`.
-În `static/description/` sunt doar iconița, bannerul și imaginea principală pentru Odoo Apps. Dacă se
-vor adăuga capturi, ele se generează cu skill-ul `fisa-screenshots` și se leagă în pașii 1–6 din
-secțiunea 6.
+Capturile se generează cu testul `tests/test_screenshots.py` (tag `fise_screenshots`), pe „RO Company”,
+cu trei PDF-uri de factură de exemplu, și se scriu în `static/description/`:
+
+| Fișier | Pas |
+|---|---|
+| `01_sectiune_curatare.png` | Pasul 1 — secțiunea **Curățare bază de date** |
+| `02_parametri.png` | Pasul 2 — parametrii curățării PDF-urilor de factură |
+| `03_rulare_test.png` | Pasul 3 — **Rulează acum** în rulare de test |
+| `04_activare_rulare.png` | Pasul 4 — activarea și rularea reală |
+| `05_copie_staging.png` | Pasul 5 — setarea pentru copiile restaurate |
+| `06_anulare_fortata.png` | Pasul 6 — acțiunea server de anulare forțată |
 
 ## 11. Observații pentru manual
 
