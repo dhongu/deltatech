@@ -6,6 +6,9 @@ The extra line is configured once, on the main product.
    - **Extra Product** - the product that is added automatically;
    - **Extra Percent** - percentage of the main line's unit price. Leave **0** if
      the extra product has its own price (vendor price list or purchase price);
+   - **Extra Amount** - fixed unit price of the extra line, in the company
+     currency. When set, it replaces the percent and the vendor price (for example
+     the green stamp, which differs for each piece of equipment);
    - **Extra Quantity** - quantity multiplier (1 = one extra unit for every unit
      purchased).
 3. Save.

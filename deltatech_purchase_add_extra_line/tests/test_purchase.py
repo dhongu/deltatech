@@ -63,6 +63,18 @@ class TestPurchaseAddExtraLine(TransactionCase):
         self.assertAlmostEqual(extra_line.price_unit, 30.0)
         self.assertFalse(extra_line._has_manual_price())
 
+    def test_extra_line_fixed_amount(self):
+        """A fixed amount on the main product is the unit price of the extra line,
+        whatever the price of the main line and the percent."""
+        self.main_product.extra_amount = 4.0
+        po = self._new_order()
+        extra_line = self._extra_line(po)
+        self.assertEqual(extra_line.price_unit, 4.0)
+        self.assertEqual(extra_line.product_qty, 10)
+
+        self._main_line(po).price_unit = 500
+        self.assertEqual(extra_line.price_unit, 4.0)
+
     def test_extra_line_manual_price_is_kept(self):
         """A price typed in on the extra line is no longer overwritten."""
         po = self._new_order()

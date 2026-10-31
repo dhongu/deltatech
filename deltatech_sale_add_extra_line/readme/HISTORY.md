@@ -1,3 +1,7 @@
+## 19.0.1.6.0 (2026-10-31)
+
+- [IMP] new **Extra Amount** on the product: a fixed unit price of the extra line, in the company currency (converted to the currency of the order). It replaces the percent and the standard price, so the extra line can cost a different amount for each main product, as the green stamp of electrical equipment does. The price comes from the new hook `_get_extra_price_unit`, which a module can override together with `_get_extra_product`. The point of sale keeps using the price of the extra product.
+
 ## 19.0.1.5.3 (2026-10-17)
 
 - [FIX] the order-line onchange of the module has its own name. It was named

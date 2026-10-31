@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:36+0000\n"
-"PO-Revision-Date: 2026-07-31 10:36+0000\n"
+"POT-Creation-Date: 2026-10-31 21:51+0000\n"
+"PO-Revision-Date: 2026-10-31 21:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_sale_order__display_name
 #: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_sale_order_line__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_add_extra_line
+#: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_product_product__extra_amount
+#: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_product_template__extra_amount
+msgid "Extra Amount"
 msgstr ""
 
 #. module: deltatech_sale_add_extra_line
@@ -51,10 +57,25 @@ msgid "Extra Qty"
 msgstr ""
 
 #. module: deltatech_sale_add_extra_line
+#: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_product_product__extra_amount
+#: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_product_template__extra_amount
+msgid ""
+"Fixed unit price of the extra line, in the company currency. When set, it "
+"replaces the percent and the standard price of the extra product: use it "
+"when the extra line costs a different amount for each main product (for "
+"example the green stamp of electrical equipment)"
+msgstr ""
+
+#. module: deltatech_sale_add_extra_line
 #: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_product_template__id
 #: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_sale_order__id
 #: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_sale_order_line__id
 msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_add_extra_line
+#: model:ir.model.fields,field_description:deltatech_sale_add_extra_line.field_sale_order_line__is_extra_line
+msgid "Is Extra Line"
 msgstr ""
 
 #. module: deltatech_sale_add_extra_line
@@ -106,4 +127,11 @@ msgstr ""
 msgid ""
 "Technical field: last unit price computed for this extra line. A unit price "
 "that differs from it was set by the user and is kept as is."
+msgstr ""
+
+#. module: deltatech_sale_add_extra_line
+#: model:ir.model.fields,help:deltatech_sale_add_extra_line.field_sale_order_line__is_extra_line
+msgid ""
+"Technical field: the line was generated as the extra line of the main line "
+"sharing its UUID. It is removed or replaced together with that main line."
 msgstr ""

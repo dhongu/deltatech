@@ -84,6 +84,35 @@ class PurchaseOrderLine(models.Model):
             self.with_context(skip_check_extra_product=True).check_extra_product()
         return res
 
+    def _get_extra_product(self):
+        """Return the product the extra line of this line must carry.
+
+        By default the one set on the product itself, but a module can decide it
+        from the line instead - the extra product then no longer has to be filled
+        in on every product for the line to appear.
+        """
+        self.ensure_one()
+        return self.product_id.extra_product_id
+
+    def _get_extra_price_unit(self):
+        """Return the unit price of the extra line of this main line.
+
+        The fixed amount set on the main product comes first, converted from the company
+        currency to the currency of the order, then the percent of the main line price.
+        ``None`` keeps the vendor price of the extra product. A module can decide the
+        price from the line instead, together with ``_get_extra_product``.
+        """
+        self.ensure_one()
+        product = self.product_id
+        if product.extra_amount:
+            company = self.company_id or self.env.company
+            currency = self.currency_id or company.currency_id
+            date = fields.Date.to_date(self.order_id.date_order) or fields.Date.context_today(self)
+            return company.currency_id._convert(product.extra_amount, currency, company, date)
+        if product.extra_percent:
+            return self.price_unit * product.extra_percent / 100.0
+        return None
+
     def _get_extra_line(self):
         """Return the extra line generated for this main line, if any."""
         self.ensure_one()
@@ -142,7 +171,7 @@ class PurchaseOrderLine(models.Model):
                 continue
             if line.order_id.state not in ["draft", "sent"]:
                 continue
-            extra_product = line.product_id.extra_product_id
+            extra_product = line._get_extra_product()
             extra_line_id = line._get_extra_line()
             if extra_line_id and extra_line_id.product_id != extra_product:
                 obsolete_lines |= extra_line_id
@@ -167,16 +196,23 @@ class PurchaseOrderLine(models.Model):
                 else:
                     extra_line_id = line.order_id.order_line.create(values)
                 line.line_uuid = new_uuid
+                # the description and the vendor price of a line are computed together, and
+                # not at all once the price differs from the computed one: compute them now,
+                # before the price of the extra line is set (a fixed amount does not read the
+                # main line, whose read used to trigger this computation)
+                extra_line_id.mapped("name")
             product_qty = line.product_qty * (line.product_id.extra_qty or 1.0)
             if product_qty != extra_line_id.product_qty:
                 extra_line_id.product_qty = product_qty
-            if not line.product_id.extra_percent:
+            price_unit = line._get_extra_price_unit()
+            if price_unit is None:
+                # no fixed amount and no percent: the extra line keeps the vendor price
+                # of its own product
                 continue
             # a price typed in on the extra line wins over the computed one, until the
             # extra line is deleted (it is then regenerated with the computed price)
             if not new_line and extra_line_id._has_manual_price():
                 continue
-            price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
             # keep track of the price we set, so that a later manual change is recognized
             extra_line_id.update({"price_unit": price_unit, "extra_price_computed": price_unit})
         stored_lines = obsolete_lines.filtered(lambda l: isinstance(l.id, int))

@@ -135,3 +135,15 @@ msgstr ""
 "Câmp tehnic: linia a fost generată ca linie suplimentară a liniei principale "
 "cu același line_uuid, așa că este înlocuită sau ștearsă când se schimbă "
 "produsul principal."
+
+#. module: deltatech_purchase_add_extra_line
+#: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_product_product__extra_amount
+#: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_product_template__extra_amount
+msgid "Extra Amount"
+msgstr "Sumă fixă suplimentară"
+
+#. module: deltatech_purchase_add_extra_line
+#: model:ir.model.fields,help:deltatech_purchase_add_extra_line.field_product_product__extra_amount
+#: model:ir.model.fields,help:deltatech_purchase_add_extra_line.field_product_template__extra_amount
+msgid "Fixed unit price of the extra line, in the company currency. When set, it replaces the percent and the standard price of the extra product: use it when the extra line costs a different amount for each main product (for example the green stamp of electrical equipment)"
+msgstr "Prețul unitar fix al liniei suplimentare, în moneda companiei. Când este completat, înlocuiește procentul și prețul standard al produsului suplimentar: folosiți-l când linia suplimentară are o sumă diferită pentru fiecare produs principal (de exemplu timbrul verde al echipamentelor electrice)"

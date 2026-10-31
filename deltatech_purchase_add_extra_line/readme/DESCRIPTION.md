@@ -11,6 +11,7 @@ Key Features
     *   Enables automated adding of this extra line whenever the primary product is added to a Purchase Order.
 
 2.  **Flexible Pricing Logic**:
+    *   The unit price for the extra line can be a **fixed amount** set on the primary product (in the company currency), for an extra line that costs a different amount for each primary product, such as the green stamp of electrical equipment.
     *   The unit price for the extra line can be computed as a **percentage** of the primary product's price.
     *   If the percentage is set to zero, the standard price computation applies, so the extra line gets the vendor price of its own product, in the currency and unit of measure of the order.
     *   A unit price typed in on the extra line is kept and no longer recomputed from the main line. The quantity keeps following the main line. To go back to the computed price, delete the extra line — it is regenerated automatically.

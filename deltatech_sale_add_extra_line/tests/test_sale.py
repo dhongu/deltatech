@@ -86,6 +86,42 @@ class TestSale(TransactionCase):
         self.assertAlmostEqual(extra_line.price_unit, self._main_line(order).price_unit * 0.10)
         self.assertFalse(extra_line._has_manual_price())
 
+    def test_extra_line_fixed_amount(self):
+        """A fixed amount on the main product is the unit price of the extra line,
+        whatever the price of the main line and the percent."""
+        self.product_b.extra_amount = 12.5
+        order = self._new_order()
+        extra_line = self._extra_line(order)
+        self.assertEqual(extra_line.price_unit, 12.5)
+        self.assertFalse(extra_line._has_manual_price())
+
+        with Form(order) as order_form:
+            with order_form.order_line.edit(0) as main_line_form:
+                main_line_form.price_unit = 300
+        self.assertEqual(extra_line.price_unit, 12.5)
+
+    def test_extra_line_fixed_amount_in_order_currency(self):
+        """The fixed amount is in the company currency and is converted to the currency
+        of the order."""
+        self.product_b.extra_amount = 12.0
+        test_currency = self.env["res.currency"].create(
+            {
+                "name": "TCF",
+                "symbol": "TCF",
+                "rate_ids": [(0, 0, {"rate": 0.25, "company_id": self.env.company.id})],
+            }
+        )
+        pricelist = self.env["product.pricelist"].create({"name": "Test TCF", "currency_id": test_currency.id})
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "pricelist_id": pricelist.id,
+                "order_line": [(0, 0, {"product_id": self.product_b.id, "product_uom_qty": 2})],
+            }
+        )
+        order.order_line.check_extra_product()
+        self.assertAlmostEqual(self._extra_line(order).price_unit, 3.0)
+
     def test_extra_line_manual_price_is_kept(self):
         """A price typed in on the extra line is no longer overwritten."""
         order = self._new_order()

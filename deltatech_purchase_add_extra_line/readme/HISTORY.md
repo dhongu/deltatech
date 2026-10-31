@@ -1,3 +1,8 @@
+## 19.0.1.6.0 (2026-10-31)
+
+- [IMP] new **Extra Amount** on the product: a fixed unit price of the extra line, in the company currency (converted to the currency of the order). It replaces the percent and the vendor price, so the extra line can cost a different amount for each main product, as the green stamp of electrical equipment does. New hooks `_get_extra_product` and `_get_extra_price_unit` on the purchase order line, as on the sale order line.
+- [FIX] an extra line generated in the RFQ form with a price that does not come from the main line (a fixed amount) got no description, and the RFQ could not be saved: the description is now computed before the price is set.
+
 ## 19.0.1.5.1 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
