@@ -72,20 +72,26 @@ Date minime pentru demo (cele două scenarii folosite și în capturi):
    - **Produs suplimentar** — produsul care se adaugă automat;
    - **Procent suplimentar** — procentul din prețul liniei principale; lăsați **0** dacă produsul extra
      trebuie vândut la prețul lui propriu;
+   - **Sumă fixă suplimentară** — prețul unitar fix al liniei extra, în moneda companiei, convertit în
+     moneda comenzii. Când e completată, are prioritate peste procent și peste prețul din lista de prețuri,
+     iar **Procent suplimentar** dispare din formular. Folosiți-o când linia extra costă altă sumă pentru
+     fiecare produs principal (de exemplu timbrul verde);
    - **Cantitate suplimentară** — multiplicatorul de cantitate (1 = o unitate extra pentru fiecare unitate vândută).
 4. Verificați că utilizatorul de test are grupul **Vânzări / Utilizator** și acces la produse.
 5. Pentru scenariul POS, instalați suplimentar `deltatech_sale_add_extra_line_pos`.
 
 > Interfața este tradusă în română (`i18n/ro.po`): grupul apare ca **Linie suplimentară**, iar
-> câmpurile ca **Produs suplimentar**, **Procent suplimentar** și **Cantitate suplimentară**.
+> câmpurile ca **Produs suplimentar**, **Procent suplimentar**, **Sumă fixă suplimentară** și
+> **Cantitate suplimentară**.
 
 ## 6. Flux de utilizare
 
 ### Pasul 1 — Configurarea produsului principal
 
 Accesați **Vânzări → Produse → Produse**, deschideți produsul principal și mergeți în fila
-**Vânzări**, grupul **Linie suplimentară**. Completați produsul extra, procentul și multiplicatorul de
-cantitate, apoi salvați.
+**Vânzări**, grupul **Linie suplimentară**. Completați produsul extra, procentul sau **Sumă fixă
+suplimentară** și multiplicatorul de cantitate, apoi salvați. Cu suma fixă completată, câmpul **Procent
+suplimentar** nu mai apare: prețul liniei extra este suma fixă.
 
 În exemplul din captură, „Centrală termică 24 kW" are atașat „Serviciu montaj și punere în funcțiune",
 cu **Procent suplimentar = 10** (montajul costă 10% din prețul centralei) și **Cantitate suplimentară = 1** (un montaj
@@ -103,7 +109,8 @@ Ce găsiți pe ecran și ce trebuie să verificați:
 - linia extra are **cantitatea** = cantitatea liniei principale × **Cantitate suplimentară** — în captură,
   2 centrale → 2 montaje;
 - linia extra are **prețul unitar** = prețul liniei principale × **Procent suplimentar** / 100 — în captură,
-  450,00 lei, adică 10% din 4.500,00 lei;
+  450,00 lei, adică 10% din 4.500,00 lei. Dacă produsul principal are **Sumă fixă suplimentară**, prețul
+  unitar este suma fixă (convertită în moneda comenzii), indiferent de prețul liniei principale;
 - linia extra stă imediat sub linia principală (nu la finalul comenzii).
 
 ![Comanda cu linia extra generată automat](screenshots/02_comanda_linie_extra.png)
@@ -234,11 +241,13 @@ alegerea prețului atunci când procentul nu se potrivește.
    magazinul online nu există calea de revenire la prețul calculat prin ștergerea liniei, ca în
    backend (pasul 5).
 3. **În POS se sincronizează doar cantitatea.** Extensia de Punct de vânzare adaugă produsul extra și
-   îi calculează cantitatea, dar **nu** aplică **Procent suplimentar** — linia extra ia prețul propriu al
-   produsului. Pentru POS, configurați produsul extra la prețul dorit și lăsați procentul pe 0.
+   îi calculează cantitatea, dar **nu** aplică **Procent suplimentar** și nici **Sumă fixă suplimentară** —
+   linia extra ia prețul propriu al produsului. Pentru POS, configurați produsul extra la prețul dorit și
+   lăsați procentul și suma fixă goale.
 4. **Fără procent (Procent suplimentar = 0)**, prețul liniei extra este cel calculat standard de Odoo pentru
    produsul respectiv: se aplică lista de prețuri a clientului, valuta comenzii și unitatea de măsură.
    Până la versiunea 19.0.1.1.0 se folosea prețul de listă brut, care ignora lista de prețuri și valuta.
+   Dacă e completată **Sumă fixă suplimentară**, ea are prioritate peste procent și peste lista de prețuri.
 
 ## 8. Verificări pentru consultant
 
@@ -248,6 +257,8 @@ alegerea prețului atunci când procentul nu se potrivește.
 - [ ] Cantitatea liniei extra = cantitatea liniei principale × **Cantitate suplimentară**.
 - [ ] Prețul liniei extra = prețul liniei principale × **Procent suplimentar** / 100.
 - [ ] Cu **Procent suplimentar = 0**, prețul liniei extra respectă lista de prețuri și valuta comenzii.
+- [ ] Cu **Sumă fixă suplimentară** completată, prețul liniei extra = suma fixă, indiferent de prețul liniei
+      principale; pe o comandă în altă monedă, suma e convertită în moneda comenzii.
 - [ ] Un preț introdus manual pe linia extra rămâne după salvare și după modificarea cantității sau a
       prețului liniei principale.
 - [ ] După ștergerea liniei extra, aceasta se regenerează cu prețul calculat automat.
@@ -273,7 +284,7 @@ Modulul nu ridică mesaje de eroare proprii; problemele se manifestă ca **compo
 | Cantitatea liniei extra nu urmează linia principală | **Cantitate suplimentară** este 0 sau necompletat | Setați **Cantitate suplimentară** (implicit 1); valoarea 0 este tratată ca 1 |
 | În coșul din site nu apare linia extra | Modul la o versiune anterioară lui 19.0.1.2.0 (se lega de `_cart_update`, metodă inexistentă în Odoo 19); sau produsul principal nu are **Produs suplimentar** completat | Actualizați modulul la 19.0.1.2.0 și verificați configurarea produsului |
 | Linia extra ștearsă din coș reapare imediat | Comportament dorit — coșul resincronizează liniile la fiecare actualizare (limitarea 2 din secțiunea 7) | Nu este o eroare; dacă produsul extra nu trebuie vândut online, scoateți-l din configurarea produsului principal |
-| În POS prețul liniei extra nu respectă procentul | Extensia POS sincronizează doar cantitatea | Configurați produsul extra la prețul final dorit, cu procentul pe 0 |
+| În POS prețul liniei extra nu respectă procentul sau suma fixă | Extensia POS sincronizează doar cantitatea | Configurați produsul extra la prețul final dorit, cu procentul și suma fixă goale |
 
 ## 10. Capturi de ecran
 
