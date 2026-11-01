@@ -4,7 +4,7 @@
 {
     "name": "Sale Add Extra Line",
     "summary": "Add extra lines to sale orders automatically, per product",
-    "version": "19.0.1.5.3",
+    "version": "19.0.1.6.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

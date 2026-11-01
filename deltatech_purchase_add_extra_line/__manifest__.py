@@ -4,7 +4,7 @@
 {
     "name": "Purchase Add Extra Line",
     "summary": "Add extra lines (fees, packaging) to purchase orders automatically, per product",
-    "version": "19.0.1.5.1",
+    "version": "19.0.1.6.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

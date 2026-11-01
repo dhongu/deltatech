@@ -1,3 +1,8 @@
+## 19.0.1.6.0 (2026-11-01)
+
+- [IMP] new hooks `_get_extra_product` and `_get_extra_price_unit` on the purchase order line, as on the sale order line: a module can decide the extra product and its unit price from the line (for example the green stamp of electrical equipment, `l10n_ro_green_stamp`).
+- [FIX] an extra line generated in the RFQ form with a price that does not come from the main line got no description, and the RFQ could not be saved: the description is now computed before the price is set.
+
 ## 19.0.1.5.1 (2026-10-10)
 
 - Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
