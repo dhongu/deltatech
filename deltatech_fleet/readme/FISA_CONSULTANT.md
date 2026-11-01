@@ -59,7 +59,7 @@ Date minime pentru demo: un vehicul cu kilometraj, consum mediu și categorie; d
 
 1. Instalați modulul `deltatech_fleet` (depinde de `fleet`).
 2. Pe vehicul (**Flotă → Flotă → Flotă**), completați:
-   - **Vehicle Category** (lângă șofer) și **Engine Serial Number**;
+   - **Categorie vehicul** (*Vehicle Category*, lângă șofer) și **Engine Serial Number**;
    - fila **Consumption**: **Reservoir capacity**, **Average Consumption** (consumul normat, l/100 km,
      folosit la calculul consumului pe trasee), consumurile urban / extraurban, **Average Speed**;
    - fila **Allocation**: firma proprietară, firma contractantă, firma utilizatoare, modul de alocare,
@@ -91,6 +91,8 @@ Date minime pentru demo: un vehicul cu kilometraj, consum mediu și categorie; d
 
 Lista alimentărilor este grupată implicit pe vehicul și are și vedere kanban și grafic.
 
+![Formularul alimentării pentru vehiculul Dacia/Logan/B-101-TRB: alimentarea Alimentare 5 oct., Date Time 5 oct., 07:30 marcat cu 1, Level Reservoir 49, cardul 7080 1234 5678, tipul de serviciu Carburant; în dreapta Liter 40 marcat cu 2, prețul 7,20, costul 288, To full bifat, carburantul Motorină și foaia MS/00010 marcată cu 3; jos kilometrajul 45.000 marcat cu 4](../static/description/01_alimentare.png)
+
 ### Pasul 2 — Crearea foii de parcurs
 
 **Flotă → Flotă → Foi parcurs**, butonul **Nou** (sau butonul **Foi parcurs** din fișa vehiculului).
@@ -102,6 +104,8 @@ vehiculului (ultima citire de la începutul perioadei, prima de după sfârșitu
 manual; o valoare scrisă manual devine citire de kilometraj a vehiculului. Butoanele de citire a
 kilometrajului (vizibile în stadiul **Draft**) reiau calculul.
 
+![Foaia de parcurs MS/00010 în stadiul Draft, cu butonul Confirm: vehiculul Dacia/Logan/B-101-TRB marcat cu 1, categoria Autoturism, șoferii Andrei Ionescu și Mihai Stan, consumul mediu 6,50; Date Start 5 oct., 06:00 marcat cu 2, Date End 5 oct., 18:00 marcat cu 3, Odometer Start 45.000 cu butonul Read odometer start marcat cu 4 și Odometer End 45.240 cu butonul Read odometer end marcat cu 5](../static/description/02_foaie_parcurs.png)
+
 ### Pasul 3 — Traseele parcurse
 
 În fila **Traseu parcurs** (*Route Log*) adăugați câte un rând pentru fiecare deplasare: la alegerea traseului se
@@ -112,11 +116,15 @@ apar cu roșu. Coloanele **Distance** și **Equivalence Distance** au total.
 Traseele înregistrate separat (**Flotă → Flotă → Traseu parcurs**) pentru vehicul și perioadă se
 aduc în foaie cu butonul **Get route log**.
 
+![Fila Traseu parcurs a foii: butonul Get route log marcat cu 1 și trei rânduri din 5 oct. (08:00–09:00 București - sediu-Ploiești - client, 10:00–11:00 înapoi, 12:30–14:15 București - sediu-Pitești - depozit), scopul Livrare marfă; pe primul rând traseul marcat cu 2 și distanța 60 marcată cu 3; totalul 240 sub coloanele Distance și Equivalence Distance](../static/description/03_traseu_parcurs.png)
+
 ### Pasul 4 — Alimentările din foaie
 
 În fila **Fuel Logs** se adaugă alimentările direct în foaie, sau se aduc cele înregistrate la pasul 1,
 pentru vehicul și perioadă, cu butonul **Get fuel log**. Totalurile **Total Liter** și **Total Amount**
 apar sub coloane.
+
+![Fila Fuel Logs a foii: butonul Get fuel log marcat cu 1 și alimentarea din 5 oct., 07:30, To full bifat, 40 de litri marcați cu 2, prețul 7,20 și costul 288 marcat cu 3; totalurile 40 și 288 sub coloane](../static/description/04_alimentari_foaie.png)
 
 ### Pasul 5 — Verificarea foii pe ecran
 
@@ -130,8 +138,15 @@ apar sub coloane.
    Totalurile se recalculează la adăugarea sau ștergerea rândurilor, dar **nu** la modificarea
    distanței sau a litrilor unui rând deja salvat (issue dhongu/deltatech#3680): după o astfel de
    modificare, verificați totalurile cu sumele din coloane.
+
+   ![Antetul foii MS/00010: Total distance 240 marcat cu 1, Total Liter 40 marcat cu 2, Normal Consumption 15,60 marcat cu 3, Level Reservoir Start 9 marcat cu 4 și Level Reservoir End 33,40 marcat cu 5; kilometrajul 45.000 la început și 45.240 la sfârșit](../static/description/05_verificare_foaie.png)
+
+   În exemplu: 45.240 − 45.000 = 240 km = **Total distance**; consumul normat 240 × 6,5 / 100 =
+   15,6 l; rezervorul: 9 + 40 − 15,6 = 33,4 l.
 3. **Mai departe** — tipăriți foaia: meniul **Tipăriți → Map Sheet** generează PDF-ul foii, cu antetul
    (vehicul, șofer, perioadă, kilometraj, nivel rezervor), traseele și alimentările.
+
+   ![PDF-ul foii de parcurs MS/00010 al firmei RO Company: data, distanța totală 240, suma 288, consumul normat 15,6, vehiculul, categoria Autoturism, șoferul, consumul mediu 6,5, datele, kilometrajul și nivelul rezervorului la început și la sfârșit; tabelul Route log cu cele trei trasee, distanța și consumul fiecăruia, total 240 km și 15,6 l; tabelul Consum combustibil cu alimentarea de 40 l la 7,2, valoare 288 lei](../static/description/06_foaie_parcurs_pdf.png)
 
 ### Pasul 6 — Confirmarea și închiderea foii
 
@@ -139,16 +154,24 @@ Butonul **Confirm** trece foaia în **In Progress**. Butonul **Done** o închide
 ei ca terminate; o foaie cu distanța totală zero nu poate fi închisă. Duplicarea unei foi creează foaia
 zilei următoare (datele mutate cu o zi, fără alimentări).
 
+![Foaia MS/00010 după Confirm: stadiul In Progress marcat cu 2 în bara de stadii și butonul Done marcat cu 1; butoanele de citire a kilometrajului nu mai apar](../static/description/07_confirmare_foaie.png)
+
 ### Pasul 7 — Raportul costului pe kilometru
 
 **Flotă → Raportare → Distance Report** (doar Manager Flotă) deschide fereastra cu **Start Date** și
 **End Date** (implicit luna curentă). Butonul **Show Report** deschide lista pe vehicule:
 
+![Fereastra Distance Report: Start Date 1 oct. marcat cu 1, End Date 31 oct. marcat cu 2 și butonul Show Report marcat cu 3](../static/description/08_raport_cost_km_perioada.png)
+
+![Lista Distance Report pentru octombrie 2026: Dacia/Logan/B-101-TRB cu Cost 288 marcat cu 1, Distance 240 marcat cu 2 și Price 1,20 marcat cu 3; Dacia/Duster/B-202-TRB cu cost 730, distanța 1.500 și prețul 0,49](../static/description/09_raport_cost_km.png)
+
+
 1. **Găsiți pe ecran** — coloanele **Vehicle**, **Cost** (costurile de servicii și contracte ale
    vehiculului din raportul de costuri al Flotei, inclusiv alimentările), **Distance** (diferența dintre
    citirile de kilometraj de la capetele perioadei) și **Price** (cost pe kilometru).
-2. **Verificați** — vehiculul are citiri de kilometraj înainte și după perioadă (altfel distanța e zero
-   și prețul pe km rămâne zero); costul corespunde costurilor vehiculului din **Flotă → Raportare**
+2. **Verificați** — distanța este diferența dintre citirea de kilometraj de dinaintea perioadei (sau,
+   dacă lipsește, prima din perioadă) și citirea de după perioadă (sau ultima din perioadă); cu o
+   singură citire, distanța și prețul pe km sunt zero; costul corespunde costurilor vehiculului din **Flotă → Raportare**
    pentru aceleași luni.
 3. **Mai departe** — exportați lista în Excel din acțiunile listei, dacă e nevoie.
 
@@ -206,18 +229,34 @@ combustibil.
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text**: modulul nu are capturi ale fluxului în `static/description/` (acolo sunt doar
-iconița și imaginea principală pentru Odoo Apps) și nici test `tests/test_screenshots.py`. Capturile
-(alimentarea, foaia de parcurs cu filele **Traseu parcurs** și **Fuel Logs**, PDF-ul **Map Sheet**,
-fereastra și lista **Distance Report**) se pot genera ulterior cu skill-ul `fisa-screenshots`.
+Capturile sunt generate de `tests/test_screenshots.py` (tag `fise_screenshots`), pe date de
+exemplu: vehiculul Dacia/Logan/B-101-TRB, foaia din 5 octombrie 2026 cu trei trasee și o alimentare,
+raportul costului pe kilometru pe octombrie 2026.
+
+| Fișier | Ce arată |
+|---|---|
+| `01_alimentare.png` | Formularul alimentării, cu legătura la foaia de parcurs și kilometrajul (pasul 1) |
+| `02_foaie_parcurs.png` | Foaia de parcurs în **Draft**: vehicul, perioadă, kilometraj (pasul 2) |
+| `03_traseu_parcurs.png` | Fila **Traseu parcurs**, cu butonul **Get route log** (pasul 3) |
+| `04_alimentari_foaie.png` | Fila **Fuel Logs**, cu butonul **Get fuel log** (pasul 4) |
+| `05_verificare_foaie.png` | Totalurile și nivelul rezervorului din antetul foii (pasul 5) |
+| `06_foaie_parcurs_pdf.png` | PDF-ul **Map Sheet** (pasul 5) |
+| `07_confirmare_foaie.png` | Foaia în **In Progress**, cu butonul **Done** (pasul 6) |
+| `08_raport_cost_km_perioada.png` | Fereastra **Distance Report**, cu perioada (pasul 7) |
+| `09_raport_cost_km.png` | Lista costului pe kilometru pe vehicule (pasul 7) |
 
 ## 11. Observații pentru manual
 
 - Etichetele modulului sunt în mare parte netraduse în română (de exemplu **Fuel Logs**, **Get fuel
   log**, **Distance Report**); manualul le citează în engleză, așa cum apar pe ecran.
 - Consumul normat folosește **Average Consumption** al vehiculului la momentul calculului traseului;
-  schimbarea consumului pe vehicul nu recalculează foile vechi.
+  schimbarea consumului pe vehicul nu recalculează foile vechi, dar antetul și PDF-ul lor arată
+  consumul mediu actual al vehiculului.
 - Nivelul rezervorului este calculat (alimentări minus consum normat), nu măsurat: o alimentare lipsă
   sau un traseu lipsă îl deformează.
+- PDF-ul **Map Sheet** are etichete greșite în partea de sfârșit a antetului: **Start end** în loc
+  de data de sfârșit, **Odometer start** și **Reservoir lever start** repetate pentru valorile de
+  sfârșit (vezi captura de la pasul 5). Valorile tipărite sunt corecte (sfârșitul perioadei,
+  kilometrajul și nivelul rezervorului la sfârșit); etichetele se corectează în raport.
 - Issue-uri deschise relevante: dhongu/deltatech#3680 (totalurile foii), dhongu/deltatech#3681
   (nivelul rezervorului, accesul pe companie), dhongu/deltatech#3682 (raportul de costuri).
