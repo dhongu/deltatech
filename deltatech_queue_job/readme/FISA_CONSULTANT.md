@@ -100,6 +100,14 @@ corpul JSON al apelului.
 Opțional, în `params` se pot trimite `batch_size` și `max_seconds`, care au prioritate față de
 valorile din setări.
 
+Înainte de procesare, verificați cheia cu adresa de statistici, care doar numără joburile și nu
+procesează nimic: aceeași cerere, cu adresa `https://<adresa bazei>/api/v1/queue/stats`. Rezultatul
+(în `result`, apoi încă o dată în `result`) are `status` = `success` și, în `stats`, numărul de joburi
+pe stări: `pending`, `started`, `done`, `failed` și `total`. Cifrele trebuie să corespundă listei de
+joburi din pasul 3.
+
+![Cererea POST către adresa api/v1/queue/stats, cu antetul Content-Type application/json și corpul JSON cu cheia API, și răspunsul Odoo împachetat de două ori în result, cu status success și stats: pending 2, started 0, done 0, failed 1, total 4](../static/description/02_raspuns_api.png)
+
 Porniți sarcina o dată, manual, din serviciul extern și citiți răspunsul:
 
 1. **Găsiți pe ecran:** rezultatul este împachetat de două ori: în răspunsul JSON, în `result` și
@@ -143,7 +151,7 @@ dependențe, în așteptare, în coadă, pornite, eșuate). În antetul listei s
 Aceleași butoane sunt și în antetul formularului unui job; acolo **Procesează în fundal** apare ca
 **Procesează (fir separat)**.
 
-![Lista Joburi din Coadă de joburi: patru joburi, trei în așteptare sau în coadă și unul Eșuat cu roșu, primul rând bifat; în antet butoanele Declanșator CRON marcat cu 1, Procesează în fundal marcat cu 2 și Procesează marcat cu 3](../static/description/02_lista_joburi.png)
+![Lista Joburi din Coadă de joburi: patru joburi, trei în așteptare sau în coadă și unul Eșuat cu roșu, primul rând bifat; în antet butoanele Declanșator CRON marcat cu 1, Procesează în fundal marcat cu 2 și Procesează marcat cu 3](../static/description/03_lista_joburi.png)
 
 ### Pasul 4 — Confirmarea pornirii
 
@@ -156,7 +164,7 @@ După **Declanșator CRON**, Odoo afișează o notificare:
 3. **Treceți mai departe:** reîmprospătați lista după câteva secunde; joburile procesate dispar din
    filtrul implicit și se văd cu filtrul **Finalizat**.
 
-![Lista Joburi după apăsarea Declanșator CRON: în dreapta sus notificarea verde Declanșator CRON, Operația va fi executată în fundal, marcată cu 1](../static/description/03_declansare_cron.png)
+![Lista Joburi după apăsarea Declanșator CRON: în dreapta sus notificarea verde Declanșator CRON, Operația va fi executată în fundal, marcată cu 1](../static/description/04_declansare_cron.png)
 
 ### Ce face modulul automat, fără acțiunea operatorului
 
@@ -203,6 +211,11 @@ coadă** (din **Acțiuni**, pe listă).
 - [ ] **Declanșator CRON** afișează notificarea verde, iar a doua apăsare imediată pe cea galbenă
       „CRON Trigger already exists".
 - [ ] Un job nou cu aceeași identitate ca un job **Eșuat** trece jobul eșuat în **Anulat**.
+- [ ] Apelul la `/api/v1/queue/stats` cu cheia corectă întoarce `status` = `success` și numărul de joburi
+      pe stări, aceleași ca în lista de joburi.
+- [ ] Un job **Finalizat** sau **Anulat** fără dată de finalizare, creat înainte de intervalul de
+      păstrare al canalului său, este șters la următoarea rulare a curățeniei automate; unul mai recent
+      rămâne.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -218,13 +231,16 @@ coadă** (din **Acțiuni**, pe listă).
 
 Capturile sunt **generate automat** din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
 `deltatech_doc_screenshots`, import defensiv), în română, pe joburi demonstrative seedate de test;
-aceleași ecrane în engleză sunt în `static/description/en/` pentru `readme/USAGE.md`.
+aceleași ecrane în engleză sunt în `static/description/en/` pentru `readme/USAGE.md`. Captura 02 nu
+este un ecran Odoo: arată cererea și răspunsul real al adresei de statistici, obținut în test cu o cheie
+demonstrativă (adresa de procesare ar fi rulat joburile din pașii următori).
 
 | Fișier | Ce arată |
 |---|---|
 | `01_setari_procesor_extern.png` | Setările procesorului extern: cheia API, dimensiunea lotului, timpul maxim |
-| `02_lista_joburi.png` | Lista de joburi cu butoanele de procesare din antet |
-| `03_declansare_cron.png` | Notificarea de confirmare după **Declanșator CRON** |
+| `02_raspuns_api.png` | Cererea către adresa de statistici și răspunsul real al Odoo |
+| `03_lista_joburi.png` | Lista de joburi cu butoanele de procesare din antet |
+| `04_declansare_cron.png` | Notificarea de confirmare după **Declanșator CRON** |
 
 Regenerare:
 
