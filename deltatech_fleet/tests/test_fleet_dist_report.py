@@ -35,6 +35,19 @@ class TestFleetDistanceReport(FleetCommon):
         # 375 lei / 500 km
         self.assertRecordValues(line, [{"cost": 375, "distance": 500, "price": 0.75}])
 
+    def test_cost_view_sees_pending_date_change(self):
+        fuel = self._fuel_log(50, self.day.replace(hour=8))
+        fuel.date = "2026-10-05"
+        # grouped like the distance report: the view rows of a vehicle share the same id
+        report = self.env["fleet.vehicle.cost.report"]
+        domain = [("vehicle_id", "=", self.vehicle.id), ("cost", "!=", 0)]
+        groups = report._read_group(domain, ["date_start:month"], ["cost:sum"])
+        self.assertEqual(groups, [(date(2026, 10, 1), 375)])
+        # moved to September in the same transaction, without an explicit flush
+        fuel.date = "2026-09-10"
+        groups = report._read_group(domain, ["date_start:month"], ["cost:sum"])
+        self.assertEqual(groups, [(date(2026, 9, 1), 375)])
+
     def test_distance_from_readings_inside_period(self):
         self._odometer(1000, "2026-10-03")
         self._odometer(1300, "2026-10-20")
