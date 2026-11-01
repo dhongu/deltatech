@@ -7,7 +7,7 @@ import time
 from datetime import datetime, timedelta
 
 from odoo import api, fields, models, modules
-from odoo.tools import config
+from odoo.fields import Domain
 
 _logger = logging.getLogger(__name__)
 
@@ -15,37 +15,38 @@ _logger = logging.getLogger(__name__)
 class QueueJob(models.Model):
     _inherit = "queue.job"
 
-    def autovacuum(self):
+    @api.autovacuum
+    def _gc_dateless_terminal_jobs(self):
         """Șterge și joburile terminale rămase fără dată de finalizare.
 
-        Cronul standard selectează după ``date_done`` sau ``date_cancelled``,
+        Curățarea standard selectează după ``date_done`` sau ``date_cancelled``,
         deci joburile anulate în lanț de ``cancel_dependent_jobs()`` — care le
         scria doar starea — nu erau eliminate niciodată. `job_patch` completează
         data de acum înainte; aici curățăm ce s-a adunat înainte de el, folosind
         ``date_created``, singurul câmp completat mereu.
+
+        Metodă proprie, nu override: `queue_job` a înlocuit ``autovacuum()`` (cron
+        propriu) cu ``_gc_old_jobs()`` (cronul de bază), deci nu depindem de
+        niciuna. Ca ele, șterge loturi de 1000 și raportează ce a rămas, iar
+        cronul de bază o reapelează și face commit după fiecare lot.
         """
-        res = super().autovacuum()
+        domain = Domain.FALSE
         for channel in self.env["queue.job.channel"].search([]):  # pylint: disable=no-search-all
             deadline = datetime.now() - timedelta(days=int(channel.removal_interval))
-            while True:
-                jobs = self.search(
-                    [
-                        ("state", "in", ("done", "cancelled")),
-                        ("date_done", "=", False),
-                        ("date_cancelled", "=", False),
-                        ("date_created", "<=", deadline),
-                        ("channel", "=", channel.complete_name),
-                    ],
-                    order="date_created",
-                    limit=1000,
-                )
-                if not jobs:
-                    break
-                _logger.info("Removing %d terminal job(s) left without a completion date", len(jobs))
-                jobs.sudo().unlink()
-                if not config["test_enable"]:
-                    self.env.cr.commit()  # pylint: disable=E8102
-        return res
+            domain |= Domain("channel", "=", channel.complete_name) & Domain("date_created", "<=", deadline)
+        domain &= Domain(
+            [
+                ("state", "in", ("done", "cancelled")),
+                ("date_done", "=", False),
+                ("date_cancelled", "=", False),
+            ]
+        )
+        limit = 1000
+        jobs = self.search(domain, order="date_created", limit=limit + 1)
+        if jobs:
+            _logger.info("Removing %d terminal job(s) left without a completion date", len(jobs[:limit]))
+            jobs[:limit].sudo().unlink()
+        return len(jobs[:limit]), len(jobs) > limit
 
     @api.model_create_multi
     def create(self, vals_list):
