@@ -17,6 +17,31 @@ class FleetReport(models.Model):
     )
     cost_type_id = fields.Many2one("fleet.service.type", "Service Type", readonly=True)
 
+    # the view reads these tables directly: pending writes must be flushed before searching it
+    _depends = {
+        "fleet.vehicle": [
+            "acquisition_date",
+            "active",
+            "company_id",
+            "driver_id",
+            "fuel_type",
+            "model_id",
+            "name",
+        ],
+        "fleet.vehicle.model": ["vehicle_type"],
+        "fleet.vehicle.log.services": ["active", "amount", "date", "service_type_id", "state", "vehicle_id"],
+        "fleet.vehicle.log.contract": [
+            "amount",
+            "cost_frequency",
+            "cost_generated",
+            "cost_subtype_id",
+            "date",
+            "expiration_date",
+            "start_date",
+            "vehicle_id",
+        ],
+    }
+
     def init(self):
         query = """
 WITH service_costs AS (

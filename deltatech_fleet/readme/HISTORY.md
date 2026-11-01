@@ -1,3 +1,10 @@
+## 19.0.1.0.5 (2026-11-01)
+
+- The cost per km report includes the costs changed in the same transaction:
+  a fuel or service log whose date was just edited was counted in the month
+  of its old date (or not at all), because the cost view read the tables
+  before the pending changes were saved.
+
 ## 19.0.1.0.4 (2026-10-22)
 
 - Listed on Odoo Apps as *Fleet Map Sheets & Fuel* (was *Fleet Routes and Map Sheets*). The technical name `deltatech_fleet` does not change.
