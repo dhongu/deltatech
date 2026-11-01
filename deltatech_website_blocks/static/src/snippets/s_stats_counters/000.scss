@@ -1,0 +1,84 @@
+.s_deltatech_stats_counters {
+    --stat-primary: #007bff;
+    --text: #222;
+    --muted: #666;
+
+    background: radial-gradient(1200px 400px at 50% 20%, rgba(0, 0, 0, 0.03), transparent 60%),
+        linear-gradient(#ffffff, #ffffff);
+    padding: 38px 16px 44px;
+
+    .stats-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px;
+    }
+
+    .stat {
+        text-align: center;
+        padding: 8px 8px 10px;
+        position: relative;
+    }
+
+    .value {
+        color: var(--stat-primary);
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        font-size: 44px;
+        line-height: 1.05;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        gap: 2px;
+        white-space: nowrap;
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 450ms ease, transform 450ms ease;
+
+        &.is-fading-out {
+            opacity: 0;
+            transform: translateY(-6px);
+        }
+    }
+
+    .suffix {
+        font-size: 34px;
+        font-weight: 800;
+        color: var(--stat-primary);
+        transform: translateY(-2px);
+    }
+
+    .label {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.25;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 900px) {
+    .s_deltatech_stats_counters .stats-container {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .s_deltatech_stats_counters {
+        .stats-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .value {
+            font-size: 40px;
+        }
+
+        .suffix {
+            font-size: 30px;
+        }
+    }
+}

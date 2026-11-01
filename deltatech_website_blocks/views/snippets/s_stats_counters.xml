@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="s_deltatech_stats_counters" name="Stats Counters">
+        <section
+            class="s_deltatech_stats_counters stats-section oe_img_bg o_colored_level"
+            data-snippet="s_deltatech_stats_counters"
+            data-name="Stats Counters"
+        >
+            <div class="stats-container" id="stats">
+                <div class="stat o_colored_level">
+                    <div class="value">
+                        <span class="count" data-target="85000" data-format="group">85,000</span>
+                        <span class="suffix">+</span>
+                    </div>
+                    <div class="label">
+                        Parts and complete solutions sold annually
+                    </div>
+                </div>
+                <div class="stat o_colored_level">
+                    <div class="value">
+                        <span class="count" data-target="2900" data-format="group">2,900</span>
+                        <span class="suffix">+</span>
+                    </div>
+                    <div class="label">
+                        National clients
+                    </div>
+                </div>
+                <div class="stat o_colored_level">
+                    <div class="value">
+                        <span class="count" data-target="20" data-format="plain">20</span>
+                        <span class="suffix">+ years</span>
+                    </div>
+                    <div class="label">
+                        Experience
+                    </div>
+                </div>
+                <div class="stat o_colored_level">
+                    <div class="value">
+                        <span class="count" data-target="4900" data-format="group">4,900</span>
+                        <span class="suffix">+</span>
+                    </div>
+                    <div class="label">
+                        Solutions provided annually
+                    </div>
+                </div>
+                <div class="stat o_colored_level">
+                    <div class="value">
+                        <span class="count" data-target="100" data-format="plain">100</span>
+                        <span class="suffix">%</span>
+                    </div>
+                    <div class="label">
+                        Customer Satisfaction
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>
