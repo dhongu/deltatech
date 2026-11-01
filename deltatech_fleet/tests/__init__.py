@@ -8,3 +8,4 @@ from . import test_fleet_fuel
 from . import test_fleet_vehicle
 from . import test_fleet_dist_report
 from . import test_fleet_odometer
+from . import test_screenshots

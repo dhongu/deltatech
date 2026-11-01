@@ -1,0 +1,28 @@
+name: fork-gate
+
+# Argus and Mentor do not run on a PR opened from a fork: GitHub gives it no secrets, and its
+# code must not run next to the apps' tokens. Their jobs are then skipped, and a skipped job
+# counts as passed for a required check. This required check fails instead, so such a PR
+# cannot be merged until its branch is pushed to this repository and the PR reopened from it.
+
+on:
+  pull_request:
+    branches:
+      - "19.0"
+
+permissions: {}
+
+jobs:
+  fork-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: The PR branch is in this repository
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          if [ "$HEAD_REPO" != "$REPO" ]; then
+            echo "::error::PR from the fork $HEAD_REPO: Argus and Mentor do not run on it." \
+              "Push the branch to $REPO and open the PR from there."
+            exit 1
+          fi
