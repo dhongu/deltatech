@@ -14,7 +14,7 @@ class TestDateCancelled(TransactionCase):
     """Joburile anulate în lanț trebuie să poată fi curățate de autovacuum.
 
     ``Job.cancel_dependent_jobs()`` scrie doar starea, printr-un UPDATE brut, iar
-    cronul de autovacuum selectează după ``date_done``/``date_cancelled``: fără
+    curățarea standard selectează după ``date_done``/``date_cancelled``: fără
     dată, joburile rămâneau în tabel pentru totdeauna (189.644 pe o instanță de
     producție).
     """
@@ -65,7 +65,7 @@ class TestDateCancelled(TransactionCase):
         strain.invalidate_recordset(["date_cancelled"])
         self.assertFalse(strain.date_cancelled)
 
-    def test_autovacuum_removes_dateless_terminal_jobs(self):
+    def test_gc_removes_dateless_terminal_jobs(self):
         """Joburile terminale fără dată, dinainte de patch, sunt curățate."""
         channel = self.env["queue.job.channel"].search([("complete_name", "=", "root")], limit=1)
         old = self._create_job(channel="root")
@@ -76,16 +76,16 @@ class TestDateCancelled(TransactionCase):
         )
         old_id = old.id
 
-        self.env["queue.job"].autovacuum()
+        self.env["queue.job"]._gc_dateless_terminal_jobs()
 
         self.assertFalse(self.env["queue.job"].browse(old_id).exists())
 
-    def test_autovacuum_keeps_recent_dateless_jobs(self):
+    def test_gc_keeps_recent_dateless_jobs(self):
         """Un job terminal recent fără dată rămâne — poate fi încă util."""
         recent = self._create_job(channel="root")
         self._clear_dates(recent)
         recent_id = recent.id
 
-        self.env["queue.job"].autovacuum()
+        self.env["queue.job"]._gc_dateless_terminal_jobs()
 
         self.assertTrue(self.env["queue.job"].browse(recent_id).exists())

@@ -1,3 +1,12 @@
+## 19.0.1.4.6 (2026-11-01)
+
+- Fix: cleaning up terminal jobs left without a completion date no longer overrides
+  `queue.job.autovacuum()`, which recent `queue_job` releases replaced with
+  `_gc_old_jobs()` on the base autovacuum cron (`'super' object has no attribute
+  'autovacuum'`). It is now its own `@api.autovacuum` method,
+  `_gc_dateless_terminal_jobs()`, which works with both `queue_job` versions and
+  deletes in batches of 1000, letting the base cron commit between batches.
+
 ## 19.0.1.4.5 (2026-10-17)
 
 - QUEUE-003: removed the legacy `/run_jobs` route. It called a runner method that does
