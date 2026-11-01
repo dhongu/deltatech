@@ -56,6 +56,13 @@ catch them.
 `processed` counts the jobs attempted in this call: `done` finished, `failed` ended in
 the failed state and `postponed` were put back to pending for a retry.
 
+### Queue Statistics (External)
+
+**POST** `/api/v1/queue/stats`, with the same body and API key. It only counts the jobs and processes
+nothing, which makes it a safe way to check the key before enabling the processing call.
+
+![The POST request to api/v1/queue/stats with the Content-Type header and the JSON body with the API key, and the Odoo response wrapped twice in result, with status success and stats: pending 2, started 0, done 0, failed 1, total 4](static/description/en/02_raspuns_api.png)
+
 **Manual Processing**
 
 Open `Job Queue` -> `Queue` -> `Jobs`. The list header has the module's buttons:
@@ -66,8 +73,8 @@ Open `Job Queue` -> `Queue` -> `Jobs`. The list header has the module's buttons:
 
 The same buttons are on the job form header (there, **Process Background** is labelled **Process (Thread)**).
 
-![Jobs list: four jobs, pending, enqueued and one failed in red, the first row selected; the header shows Cron Trigger (1), Process Background (2) and Process (3)](static/description/en/02_lista_joburi.png)
+![Jobs list: four jobs, pending, enqueued and one failed in red, the first row selected; the header shows Cron Trigger (1), Process Background (2) and Process (3)](static/description/en/03_lista_joburi.png)
 
 After **Cron Trigger**, a notification confirms the request: green when the run is scheduled, yellow "CRON Trigger already exists" when a run is already scheduled, red "No CRON Trigger found" when the queue cron is missing.
 
-![Jobs list after Cron Trigger: the green notification in the top right corner confirms that the operation will run in the background](static/description/en/03_declansare_cron.png)
+![Jobs list after Cron Trigger: the green notification in the top right corner confirms that the operation will run in the background](static/description/en/04_declansare_cron.png)
