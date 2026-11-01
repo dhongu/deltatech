@@ -193,7 +193,7 @@ class QueueJob(models.Model):
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": "CRON Trigger",
+                "title": self.env._("Cron Trigger"),
                 "message": messages,
                 "type": message_type,
                 "sticky": False,
