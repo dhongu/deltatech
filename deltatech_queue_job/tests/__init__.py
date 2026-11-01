@@ -7,3 +7,4 @@ from . import test_api_runner_counters
 from . import test_identity_key_dedup, test_queue_job
 from . import test_api_key
 from . import test_legacy_run_jobs_route
+from . import test_screenshots
