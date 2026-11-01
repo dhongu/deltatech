@@ -3,6 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
+from unittest.mock import patch
+
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -85,6 +87,21 @@ class TestSale(TransactionCase):
         # 10% of the price of the main line
         self.assertAlmostEqual(extra_line.price_unit, self._main_line(order).price_unit * 0.10)
         self.assertFalse(extra_line._has_manual_price())
+
+    def test_extra_line_price_from_hook(self):
+        """A module decides the unit price of the extra line through `_get_extra_price_unit`,
+        whatever the price of the main line and the percent."""
+        line_class = type(self.env["sale.order.line"])
+        with patch.object(line_class, "_get_extra_price_unit", lambda line: 12.5):
+            order = self._new_order()
+            extra_line = self._extra_line(order)
+            self.assertEqual(extra_line.price_unit, 12.5)
+            self.assertFalse(extra_line._has_manual_price())
+
+            with Form(order) as order_form:
+                with order_form.order_line.edit(0) as main_line_form:
+                    main_line_form.price_unit = 300
+            self.assertEqual(extra_line.price_unit, 12.5)
 
     def test_extra_line_manual_price_is_kept(self):
         """A price typed in on the extra line is no longer overwritten."""
