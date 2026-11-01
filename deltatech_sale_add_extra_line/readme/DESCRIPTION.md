@@ -6,7 +6,6 @@ The **deltatech_sale_add_extra_line** module is an Odoo addon that provides auto
 
 - **Automatic Extra Line Addition**: Automatically adds an extra line for configured products in sale orders
 - **Product Configuration**: The product added in the extra line can be configured in the product template
-- **Fixed Amount per Product**: A fixed unit price of the extra line can be set on the main product (in the company currency), for an extra line that costs a different amount for each main product, such as the green stamp of electrical equipment
 - **Smart Price Calculation**: The unit price of the extra line is computed from the percent configured in the product. If the percent is zero, the standard price computation applies, so the extra line gets the price of its own product in the pricelist, currency and unit of measure of the order
 - **Manual Price Override**: A unit price typed in on the extra line is kept and no longer recomputed from the main line. The quantity keeps following the main line. To go back to the computed price, delete the extra line — it is regenerated automatically
 - **Quantity-based Calculation**: The quantity of the extra product is calculated based on the quantity of the main product and a configurable multiplier

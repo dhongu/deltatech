@@ -21,12 +21,6 @@ class ProductTemplate(models.Model):
         "line keeps the standard price computed for its own product (price list or vendor price, "
         "currency and unit of measure of the order)"
     )
-    extra_amount = fields.Float(
-        digits="Product Price",
-        help="Fixed unit price of the extra line, in the company currency. When set, it replaces the "
-        "percent and the standard price of the extra product: use it when the extra line costs a "
-        "different amount for each main product (for example the green stamp of electrical equipment)",
-    )
     extra_qty = fields.Float(
         default=1.0,
         help="Multiplier for the quantity of the extra line: extra quantity = quantity of the main line x this value",

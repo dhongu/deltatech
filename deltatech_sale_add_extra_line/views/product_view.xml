@@ -8,8 +8,7 @@
             <group name="sale" position="inside">
                 <group name="sale_extra_line" string="Extra Line">
                     <field name="extra_product_id" />
-                    <field name="extra_percent" invisible="extra_amount" />
-                    <field name="extra_amount" />
+                    <field name="extra_percent" />
                     <field name="extra_qty" />
                 </group>
             </group>

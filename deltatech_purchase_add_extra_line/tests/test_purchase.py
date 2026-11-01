@@ -2,6 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
+from unittest.mock import patch
+
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
@@ -63,17 +65,20 @@ class TestPurchaseAddExtraLine(TransactionCase):
         self.assertAlmostEqual(extra_line.price_unit, 30.0)
         self.assertFalse(extra_line._has_manual_price())
 
-    def test_extra_line_fixed_amount(self):
-        """A fixed amount on the main product is the unit price of the extra line,
-        whatever the price of the main line and the percent."""
-        self.main_product.extra_amount = 4.0
-        po = self._new_order()
-        extra_line = self._extra_line(po)
-        self.assertEqual(extra_line.price_unit, 4.0)
-        self.assertEqual(extra_line.product_qty, 10)
+    def test_extra_line_price_from_hook(self):
+        """A module decides the unit price of the extra line through `_get_extra_price_unit`.
+        The extra line generated in the RFQ form still gets its description, although its
+        price no longer reads the main line."""
+        line_class = type(self.env["purchase.order.line"])
+        with patch.object(line_class, "_get_extra_price_unit", lambda line: 4.0):
+            po = self._new_order()
+            extra_line = self._extra_line(po)
+            self.assertEqual(extra_line.price_unit, 4.0)
+            self.assertEqual(extra_line.product_qty, 10)
+            self.assertTrue(extra_line.name)
 
-        self._main_line(po).price_unit = 500
-        self.assertEqual(extra_line.price_unit, 4.0)
+            self._main_line(po).price_unit = 500
+            self.assertEqual(extra_line.price_unit, 4.0)
 
     def test_extra_line_manual_price_is_kept(self):
         """A price typed in on the extra line is no longer overwritten."""

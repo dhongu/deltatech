@@ -4,7 +4,6 @@ Install the module together with its dependencies (`sale`, `website_sale`, `stoc
 2. Open the **main** product and, on the **Sales** tab, fill in the **Extra Line** group:
    - **Extra Product**: the product that is added automatically;
    - **Extra Percent**: percentage of the main line price. Leave **0** if the extra product must be sold at its own price;
-   - **Extra Amount**: fixed unit price of the extra line, in the company currency. When set, it replaces the percent and the price of the extra product (for example the green stamp, which differs for each piece of equipment). The Point of Sale ignores it and uses the price of the extra product;
    - **Extra Quantity**: quantity multiplier (1 = one extra unit for each unit sold).
 3. Make sure the user has the **Sales / User** access group.
 

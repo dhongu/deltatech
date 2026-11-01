@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-31 21:51+0000\n"
-"PO-Revision-Date: 2026-10-31 21:51+0000\n"
+"POT-Creation-Date: 2026-10-01 09:22+0000\n"
+"PO-Revision-Date: 2026-10-01 09:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,12 +20,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_purchase_order_line__display_name
 msgid "Display Name"
-msgstr ""
-
-#. module: deltatech_purchase_add_extra_line
-#: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_product_product__extra_amount
-#: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_product_template__extra_amount
-msgid "Extra Amount"
 msgstr ""
 
 #. module: deltatech_purchase_add_extra_line
@@ -54,16 +48,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_product_product__extra_qty
 #: model:ir.model.fields,field_description:deltatech_purchase_add_extra_line.field_product_template__extra_qty
 msgid "Extra Qty"
-msgstr ""
-
-#. module: deltatech_purchase_add_extra_line
-#: model:ir.model.fields,help:deltatech_purchase_add_extra_line.field_product_product__extra_amount
-#: model:ir.model.fields,help:deltatech_purchase_add_extra_line.field_product_template__extra_amount
-msgid ""
-"Fixed unit price of the extra line, in the company currency. When set, it "
-"replaces the percent and the standard price of the extra product: use it "
-"when the extra line costs a different amount for each main product (for "
-"example the green stamp of electrical equipment)"
 msgstr ""
 
 #. module: deltatech_purchase_add_extra_line

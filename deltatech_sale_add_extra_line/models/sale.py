@@ -62,20 +62,14 @@ class SaleOrderLine(models.Model):
     def _get_extra_price_unit(self):
         """Return the unit price of the extra line of this main line.
 
-        The fixed amount set on the main product comes first, converted from the company
-        currency to the currency of the order, then the percent of the main line price.
-        ``None`` keeps the standard price of the extra product. A module can decide the
-        price from the line instead, together with ``_get_extra_product``.
+        By default the percent of the main line price set on the product; ``None``
+        keeps the standard price of the extra product. A module can decide the price from
+        the line instead, together with ``_get_extra_product`` - for example a fixed
+        amount that differs for each main product.
         """
         self.ensure_one()
-        product = self.product_id
-        if product.extra_amount:
-            company = self.company_id or self.env.company
-            currency = self.currency_id or company.currency_id
-            date = fields.Date.to_date(self.order_id.date_order) or fields.Date.context_today(self)
-            return company.currency_id._convert(product.extra_amount, currency, company, date)
-        if product.extra_percent:
-            return self.price_unit * product.extra_percent / 100.0
+        if self.product_id.extra_percent:
+            return self.price_unit * self.product_id.extra_percent / 100.0
         return None
 
     def _get_extra_line(self):
@@ -167,7 +161,7 @@ class SaleOrderLine(models.Model):
                     continue
                 price_unit = line._get_extra_price_unit()
                 if price_unit is None:
-                    # no fixed amount and no percent: the standard price computation applies,
+                    # no price decided (no percent): the standard price computation applies,
                     # so the extra line gets the price of its own product in the pricelist,
                     # currency and unit of measure of the order
                     continue

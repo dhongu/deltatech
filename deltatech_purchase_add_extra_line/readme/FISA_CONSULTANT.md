@@ -2,7 +2,7 @@
 
 **Modul:** `deltatech_purchase_add_extra_line`
 **Utilizator principal:** Operator achiziții, responsabil date de bază produse
-**Versiune documentată:** 19.0.1.6.0
+**Versiune documentată:** 19.0.1.2.0
 **Prioritate:** 🟡 Medie (obligatoriu unde furnizorul facturează automat un al doilea articol: ambalaj, transport, taxă, serviciu)
 
 ---
@@ -93,10 +93,6 @@ de la furnizor.
    - **Produs suplimentar** — produsul care se adaugă automat;
    - **Procent suplimentar** — procentul din prețul liniei principale; lăsați **0** dacă produsul
      suplimentar are preț propriu (de la furnizor sau din lista de prețuri);
-   - **Sumă fixă suplimentară** — prețul unitar fix al liniei suplimentare, în moneda companiei,
-     convertit în moneda comenzii. Când e completată, are prioritate peste procent și peste prețul
-     furnizorului, iar **Procent suplimentar** dispare din formular. Folosiți-o când linia
-     suplimentară costă altă sumă pentru fiecare produs principal (de exemplu timbrul verde);
    - **Cantitate suplimentară** — multiplicatorul de cantitate (1 = o unitate suplimentară pentru
      fiecare unitate achiziționată).
 4. Verificați drepturile: **configurarea** de la pasul 1 cere drept de scriere pe produs
@@ -112,9 +108,8 @@ de la furnizor.
 ### Pasul 1 — Configurarea produsului principal
 
 Accesați **Achiziții → Produse → Produse**, deschideți produsul principal și mergeți în fila
-**Achiziții**, grupul **Linie suplimentară**. Completați produsul suplimentar, procentul sau
-**Sumă fixă suplimentară** și multiplicatorul de cantitate, apoi salvați. Cu suma fixă completată,
-câmpul **Procent suplimentar** nu mai apare: prețul liniei suplimentare este suma fixă.
+**Achiziții**, grupul **Linie suplimentară**. Completați produsul suplimentar, procentul și
+multiplicatorul de cantitate, apoi salvați.
 
 În exemplul din captură, „Motor electric 7,5 kW" are atașat „Transport și manipulare", cu
 **Procent suplimentar = 5** (transportul costă 5% din valoarea motorului) și
@@ -132,9 +127,7 @@ Ce găsiți pe ecran și ce trebuie să verificați:
 - linia suplimentară are **cantitatea** = cantitatea liniei principale × **Cantitate suplimentară** —
   în captură, 5 motoare → 5 transporturi;
 - linia suplimentară are **prețul unitar** = prețul liniei principale × **Procent suplimentar** / 100 —
-  în captură, 120,00 lei, adică 5% din 2.400,00 lei. Dacă produsul principal are **Sumă fixă
-  suplimentară**, prețul unitar este suma fixă (convertită în moneda comenzii), indiferent de prețul
-  liniei principale;
+  în captură, 120,00 lei, adică 5% din 2.400,00 lei;
 - linia suplimentară stă imediat sub linia principală (nu la finalul comenzii).
 
 ![Cererea de ofertă cu linia suplimentară generată automat](screenshots/02_comanda_linie_extra.png)
@@ -255,8 +248,7 @@ articolul este element de cost de achiziție.
    manual.
 2. **Fără procent (Procent suplimentar = 0)**, prețul liniei suplimentare este cel calculat standard
    de Odoo pentru produsul respectiv: prețul de la furnizor dacă există o intrare în lista de prețuri
-   a furnizorului, altfel prețul de achiziție al produsului. Modulul nu îl atinge. Dacă e completată
-   **Sumă fixă suplimentară**, ea are prioritate peste procent și peste prețul furnizorului.
+   a furnizorului, altfel prețul de achiziție al produsului. Modulul nu îl atinge.
 3. **Pe comenzi cu mai multe produse configurate, ordinea liniilor poate să nu fie strictă.**
    Linia suplimentară primește secvența liniei principale + 1, fără ca liniile următoare să fie
    decalate, deci pe o comandă cu două sau mai multe produse configurate pot apărea secvențe egale, iar
@@ -275,8 +267,6 @@ articolul este element de cost de achiziție.
 - [ ] Cantitatea liniei suplimentare = cantitatea liniei principale × **Cantitate suplimentară**.
 - [ ] Prețul liniei suplimentare = prețul liniei principale × **Procent suplimentar** / 100.
 - [ ] Cu **Procent suplimentar = 0**, prețul vine de la furnizor / din prețul de achiziție.
-- [ ] Cu **Sumă fixă suplimentară** completată, prețul liniei suplimentare = suma fixă, indiferent
-      de prețul liniei principale; pe o comandă în altă monedă, suma e convertită în moneda comenzii.
 - [ ] Un preț introdus manual pe linia suplimentară rămâne după modificarea cantității sau a
       prețului liniei principale.
 - [ ] După ștergerea liniei suplimentare, aceasta se regenerează cu prețul calculat.
