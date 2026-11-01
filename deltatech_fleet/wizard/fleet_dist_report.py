@@ -37,8 +37,6 @@ class FleetDistanceReport(models.Model):
             ("date_start", "<=", self.date_to),
             ("company_id", "=", self.company_id.id),
         ]
-        # the cost report is an SQL view over the logs and contracts: pending writes must reach the database first
-        self.env.flush_all()
         costs = self.env["fleet.vehicle.cost.report"]._read_group(
             domain=domain,
             groupby=["vehicle_id"],
