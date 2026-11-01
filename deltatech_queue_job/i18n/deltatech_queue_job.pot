@@ -86,6 +86,8 @@ msgid "Create a new cron job with these settings:"
 msgstr ""
 
 #. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_tree
 msgid "Cron Trigger"

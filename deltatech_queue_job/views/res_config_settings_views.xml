@@ -11,13 +11,13 @@
                     <block title="Queue Job Processor" name="queue_job_processor">
                         <setting string="External Processor" help="Configure external cron processor (cron-job.org)">
                             <div class="content-group">
-                                <div class="mt16">
+                                <div class="row mt16">
                                     <label
                                         for="queue_job_processor_api_key"
                                         string="API Key"
                                         class="col-lg-3 o_light_label"
                                     />
-                                    <field name="queue_job_processor_api_key" class="oe_inline" />
+                                    <field name="queue_job_processor_api_key" class="col-lg-6" />
                                     <button
                                         name="action_generate_queue_job_processor_api_key"
                                         type="object"
@@ -26,7 +26,7 @@
                                         icon="fa-refresh"
                                     />
                                 </div>
-                                <div class="mt8">
+                                <div class="row mt8">
                                     <label
                                         for="queue_job_processor_batch_size"
                                         string="Batch Size"
@@ -34,7 +34,7 @@
                                     />
                                     <field name="queue_job_processor_batch_size" />
                                 </div>
-                                <div class="mt8">
+                                <div class="row mt8">
                                     <label
                                         for="queue_job_processor_max_seconds"
                                         string="Max Seconds"
@@ -82,7 +82,7 @@
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
-        <field name="context">{'module': 'deltatech_queue_job'}</field>
+        <field name="context">{'module': 'queue_job'}</field>
     </record>
 
     <menuitem

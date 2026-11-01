@@ -6,6 +6,12 @@
   'autovacuum'`). It is now its own `@api.autovacuum` method,
   `_gc_dateless_terminal_jobs()`, which works with both `queue_job` versions and
   deletes in batches of 1000, letting the base cron commit between batches.
+- Fix: the `Job Queue > Settings` menu now opens the Queue Job settings section instead
+  of the first settings page; the API key, Batch Size and Max Seconds labels no longer
+  overlap their values.
+- Translations: the "Cron Trigger" notification title is translated; the list button
+  "Process" reads "Procesează" in Romanian.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`) with generated screenshots in RO and EN.
 
 ## 19.0.1.4.5 (2026-10-17)
 

@@ -24,7 +24,7 @@ msgstr "<strong>Corp:</strong>"
 #. module: deltatech_queue_job
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
 msgid "<strong>Headers:</strong> <code>Content-Type: application/json</code>"
-msgstr "<strong>Headere:</strong> <code>Content-Type: application/json</code>"
+msgstr "<strong>Antet:</strong> <code>Content-Type: application/json</code>"
 
 #. module: deltatech_queue_job
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.res_config_settings_view_form
@@ -90,6 +90,8 @@ msgid "Create a new cron job with these settings:"
 msgstr "Creați un job cron nou cu aceste setări:"
 
 #. module: deltatech_queue_job
+#. odoo-python
+#: code:addons/deltatech_queue_job/models/queue_job.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_tree
 msgid "Cron Trigger"
@@ -154,7 +156,7 @@ msgstr "Niciun declanșator CRON găsit"
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_tree
 msgid "Process"
-msgstr "Proces"
+msgstr "Procesează"
 
 #. module: deltatech_queue_job
 #: model_terms:ir.ui.view,arch_db:deltatech_queue_job.view_queue_job_form
