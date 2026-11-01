@@ -370,45 +370,67 @@ ul.auto-toc {
 !! source digest: sha256:11b4d786120117ff69118f14555da90ddaa2111a4a0af2b9d11e04a9868e17d2
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_stock_picking_activity_report"><img alt="dhongu/deltatech" src="https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github" /></a></p>
-<p>Features:</p>
+<p>The <strong>Stock Picking Activity Report</strong> module provides detailed tracking
+and reporting of user activities on Stock Pickings (transfers). It
+captures every change, message, and stage transition, allowing managers
+to monitor team productivity and warehouse operations through
+comprehensive pivot and graph views.</p>
+<div class="section" id="features">
+<h1>Features</h1>
 <ul class="simple">
-<li>Logs detailed modifications on stock pickings, including field changes
-and line updates.</li>
-<li>Captures messages posted in the chatter for a comprehensive activity
-history.</li>
-<li>Automatically tracks validation events and categorizes the number of
-products processed (Incoming, Outgoing, or Internal).</li>
-<li>Provides an Activity Report accessible via Inventory -&gt; Reporting -&gt;
-Activity Report for statistical analysis.</li>
-</ul>
-<p><strong>Table of contents</strong></p>
-<div class="contents local topic" id="contents">
-<ul class="simple">
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-1">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-2">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-3">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-4">Maintainers</a></li>
+<li><strong>Automatic Activity Logging</strong>: Every change made to a Stock Picking
+is automatically recorded, including field updates and status changes
+(Draft, Waiting, Ready, Done, etc.).</li>
+<li><strong>Detailed Change Tracking</strong>: The system logs both the old and new
+values of changed fields, providing a clear audit trail of warehouse
+operations.</li>
+<li><strong>Product Movement Analysis</strong>:<ul>
+<li><strong>Entry Product Number</strong>: Tracks the number of products in incoming
+transfers.</li>
+<li><strong>Exit Product Number</strong>: Tracks the number of products in outgoing
+transfers.</li>
+<li><strong>Internal Product Number</strong>: Monitors quantities in internal
+warehouse movements.</li>
 </ul>
 </li>
+<li><strong>Special Event Capture</strong>:<ul>
+<li><strong>Validation Tracking</strong>: Specifically records when a picking is
+validated and by whom.</li>
+<li><strong>Chatter Messages</strong>: Records messages posted in the picking’s
+chatter.</li>
 </ul>
+</li>
+<li><strong>Comprehensive Reporting</strong>:<ul>
+<li><strong>Pivot View</strong>: Analyze activities by user, state, and date.
+Measures include validation counts and chatter message counts.</li>
+<li><strong>Graph View</strong>: Visualize activity distribution across different
+picking states.</li>
+<li><strong>Search &amp; Filters</strong>: Easily find activities for “Today”,
+“Yesterday”, “This Month”, or “This Year”.</li>
+</ul>
+</li>
+<li><strong>User-Based Analysis</strong>: See exactly which user performed which action
+and when, helping to evaluate warehouse staff efficiency.</li>
+</ul>
+<p><strong>Table of contents</strong></p>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-1">Bug Tracker</a></h1>
+<h1>Bug Tracker</h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-2">Credits</a></h1>
+<h1>Credits</h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-3">Authors</a></h2>
+<h2>Authors</h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Voicu Stefan</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-4">Maintainers</a></h2>
+<h2>Maintainers</h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/VoicuStefan2001"><img alt="VoicuStefan2001" src="https://github.com/VoicuStefan2001.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/17.0/deltatech_stock_picking_activity_report">dhongu/deltatech</a> project on GitHub.</p>

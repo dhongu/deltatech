@@ -190,7 +190,7 @@ addon | version | maintainers | summary
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 17.0.2.4.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Inventory Old Method
 [deltatech_stock_inventory_product_display](deltatech_stock_inventory_product_display/) | 17.0.0.0.0 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Adds product display button on sales and invoices to see the stock of the products in the order
 [deltatech_stock_negative](deltatech_stock_negative/) | 17.0.2.0.5 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Negative stocks are not allowed
-[deltatech_stock_picking_activity_report](deltatech_stock_picking_activity_report/) | 17.0.0.0.3 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Tracks activities and changes on stock pickings
+[deltatech_stock_picking_activity_report](deltatech_stock_picking_activity_report/) | 17.0.0.0.3 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Detailed tracking and reporting of user activities on stock pickings
 [deltatech_stock_removal_priority](deltatech_stock_removal_priority/) | 17.0.1.0.3 |  | Stock Removal Location by Priority
 [deltatech_stock_report](deltatech_stock_report/) | 17.0.1.0.3 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report with positions from picking lists
 [deltatech_stock_reseller](deltatech_stock_reseller/) | 17.0.1.0.1 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Report report reseller
@@ -232,7 +232,7 @@ addon | version | maintainers | summary
 [deltatech_website_stock_availability](deltatech_website_stock_availability/) | 17.0.1.0.6 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | eCommerce Stock Availability and lead time
 [deltatech_website_texture_attributes](deltatech_website_texture_attributes/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Attribute with image for texture
 [deltatech_website_vat_validation](deltatech_website_vat_validation/) | 17.0.0.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | VAT Validation
-[deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 17.0.0.0.2 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | eCommerce Warehouse Stock
+[deltatech_website_warehouse_stock](deltatech_website_warehouse_stock/) | 17.0.0.0.3 | [![VoicuStefan2001](https://github.com/VoicuStefan2001.png?size=30px)](https://github.com/VoicuStefan2001) | Display warehouse stock availability on eCommerce product pages
 [deltatech_widget_fontawesome](deltatech_widget_fontawesome/) | 17.0.1.0.0 | [![dhongu](https://github.com/dhongu.png?size=30px)](https://github.com/dhongu) | Font Awesome Widget
 [deltatech_widget_many2one_badge](deltatech_widget_many2one_badge/) | 17.0.1.0.0 |  | Many2one field widget displayed as colored badge, similar to many2many_tags
 
