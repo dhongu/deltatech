@@ -1,3 +1,9 @@
+## 19.0.1.0.5 (2026-11-01)
+
+- The distance report counts the costs edited in the same transaction. The
+  cost report reads the logs from the database, so a fuel log whose date had
+  just been changed was still taken in the month of its old date.
+
 ## 19.0.1.0.4 (2026-10-22)
 
 - Listed on Odoo Apps as *Fleet Map Sheets & Fuel* (was *Fleet Routes and Map Sheets*). The technical name `deltatech_fleet` does not change.
