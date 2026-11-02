@@ -1,3 +1,8 @@
+## 20.0.1.4.16 (2026-11-02)
+
+- Fixed: importing an invoice with *Update vendor prices* checked no longer resets the lead time
+  (`delay`) of the existing vendor line to 1 day; only the price, currency, unit and code are updated.
+
 ## 20.0.1.4.15 (2026-10-22)
 
 - Listed on Odoo Apps as *Purchase UBL Import* (was *Purchase UBL*). The technical name `deltatech_purchase_ubl` does not change.
