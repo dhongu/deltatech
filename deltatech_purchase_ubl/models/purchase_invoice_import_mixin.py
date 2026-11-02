@@ -384,13 +384,17 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
     def _update_supplier_price(self, supplier, product, code, price, currency):
         SupplierInfo = self.env["product.supplierinfo"]
-        sinfo = SupplierInfo.search(
-            [
-                ("partner_id", "=", supplier.id),
-                ("product_tmpl_id", "=", product.product_tmpl_id.id),
-            ],
-            limit=1,
-        )
+        domain = [
+            ("partner_id", "=", supplier.id),
+            ("product_tmpl_id", "=", product.product_tmpl_id.id),
+        ]
+        # Linia variantei; la un șablon cu o singură variantă, ca înainte, orice linie a șablonului.
+        # La un șablon cu mai multe variante nu se rescrie linia altei variante (sau cea valabilă pe tot
+        # șablonul): variantei îi ia loc o linie nouă.
+        sinfo = SupplierInfo.search(domain + [("product_id", "=", product.id)], limit=1)
+        if not sinfo and product.product_tmpl_id.product_variant_count == 1:
+            sinfo = SupplierInfo.search(domain, limit=1)
+        # Fără "delay": termenul liniei existente nu se resetează la fiecare import (linia nouă ia implicitul din core).
         values = {
             "partner_id": supplier.id,
             "product_tmpl_id": product.product_tmpl_id.id,
@@ -398,7 +402,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "product_code": code,
             "price": price,
             "currency_id": self._resolve_currency(currency).id,
-            "delay": 1,
         }
         if sinfo:
             sinfo.write(values)

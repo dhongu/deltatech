@@ -1,5 +1,12 @@
 # Changelog
 
+## 18.0.1.2.5 (2026-11-02)
+
+### Fixed
+- **Bug**: with "Update vendor prices" ticked, every invoice import reset the lead time (`delay`) of the existing vendor line to 1 day (`_update_supplier_price`). The lead time is no longer written; a new vendor line keeps the core default.
+- **Bug**: for a template with several variants, importing one variant overwrote `product_id`, price and vendor code of the first vendor line found for the template, usually another variant's. The line of the variant itself is updated; if it has none, a new one is created and the other lines are left alone. A template with a single variant behaves as before.
+  - Added tests `test_price_update_keeps_the_lead_time_of_the_vendor_line` and `test_price_update_on_a_variant_leaves_the_line_of_another_variant`.
+
 ## 18.0.1.2.4 (2026-10-22)
 
 - Listed on Odoo Apps as *Purchase UBL Import* (was *Deltatech Purchase UBL*). The technical name `deltatech_purchase_ubl` does not change.

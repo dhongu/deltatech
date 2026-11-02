@@ -803,3 +803,103 @@ class TestPurchaseUblImport(TransactionCase):
         wiz.action_import()
 
         self.assertIn("Total check OK", wiz.log or "")
+
+    def test_price_update_keeps_the_lead_time_of_the_vendor_line(self):
+        unit_uom = self.env.ref("uom.product_uom_unit")
+        product = self.env["product.product"].create(
+            {
+                "name": "Product With Lead Time",
+                "default_code": "LEAD-001",
+                "is_storable": True,
+                "purchase_ok": True,
+                "uom_id": unit_uom.id,
+                "uom_po_id": unit_uom.id,
+            }
+        )
+        sinfo = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": "LEAD-001",
+                "price": 5.0,
+                "currency_id": self.env.ref("base.RON").id,
+                "delay": 9,
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "LEAD-001",
+                    "name": product.name,
+                    "qty": "2",
+                    "price": "7.5",
+                    "line_total": "15",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+        self._run_wizard(xml, self.po)
+
+        self.assertAlmostEqual(sinfo.price, 7.5, places=2)
+        self.assertEqual(sinfo.delay, 9)
+
+    def test_price_update_on_a_variant_leaves_the_line_of_another_variant(self):
+        unit_uom = self.env.ref("uom.product_uom_unit")
+        attribute = self.env["product.attribute"].create(
+            {
+                "name": "Size UBL test",
+                "value_ids": [(0, 0, {"name": "S"}), (0, 0, {"name": "L"})],
+            }
+        )
+        template = self.env["product.template"].create(
+            {
+                "name": "Shirt UBL test",
+                "is_storable": True,
+                "purchase_ok": True,
+                "uom_id": unit_uom.id,
+                "uom_po_id": unit_uom.id,
+                "attribute_line_ids": [
+                    (0, 0, {"attribute_id": attribute.id, "value_ids": [(6, 0, attribute.value_ids.ids)]})
+                ],
+            }
+        )
+        small, large = template.product_variant_ids
+        small.default_code = "SHIRT-S"
+        large.default_code = "SHIRT-L"
+        small_line = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": template.id,
+                "product_id": small.id,
+                "product_code": "SHIRT-S",
+                "price": 5.0,
+                "currency_id": self.env.ref("base.RON").id,
+                "delay": 9,
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "SHIRT-L",
+                    "name": large.display_name,
+                    "qty": "2",
+                    "price": "12",
+                    "line_total": "24",
+                    "unit_code": "C62",
+                }
+            ],
+        )
+        self._run_wizard(xml, self.po)
+
+        self.assertEqual(small_line.product_id, small)
+        self.assertEqual(small_line.product_code, "SHIRT-S")
+        self.assertAlmostEqual(small_line.price, 5.0, places=2)
+        large_line = self.env["product.supplierinfo"].search(
+            [("partner_id", "=", self.vendor.id), ("product_id", "=", large.id)]
+        )
+        self.assertEqual(len(large_line), 1)
+        self.assertEqual(large_line.product_code, "SHIRT-L")
+        self.assertAlmostEqual(large_line.price, 12.0, places=2)
