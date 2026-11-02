@@ -10,6 +10,7 @@
 #     fișa să poată arăta legenda completă într-o singură captură;
 #   - activitatea „Import SPV necesită verificare" + nota colorată din chatter (19.0.1.4.0),
 #     comportament care nu există în nicio bază locală, deci nu putea fi pozat manual;
+#   - pașii 1, 2, 5 și 6 (butonul, opțiunile, comanda importată, factura);
 #   - previzualizarea ca dialog, cu coloana „Acțiune" și opțiunile importului, și pasul de
 #     rezultat cu butonul „Deschide comanda de achiziție" (19.0.1.4.14).
 #
@@ -93,7 +94,7 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         )
 
         # VERDE — produs cu cod de furnizor: potrivire sigură.
-        cls.prod_green = env["product.product"].create({"name": "Cot PVC 110 mm", "type": "consu"})
+        cls.prod_green = env["product.product"].create({"name": "Cot PVC 110 mm", "type": "consu", "is_storable": True})
         env["product.supplierinfo"].create(
             {
                 "partner_id": cls.vendor.id,
@@ -108,10 +109,12 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         # fără cod de furnizor și fără cod de bare: matcherul cade pe potrivirea după nume.
         # Numele trebuie să fie UNIC în bază — `_match_product_detailed` acceptă potrivirea
         # după nume doar la un singur rezultat (`len(products) == 1`).
-        cls.prod_yellow = env["product.product"].create({"name": "Teu PVC 110 x 50 mm", "type": "consu"})
+        cls.prod_yellow = env["product.product"].create({"name": "Teu PVC 110 x 50 mm", "type": "consu", "is_storable": True})
 
         cls.xml_preview = _xml_invoice(
             invoice_id="FMS-2026-00418",
+            issue_date="2026-10-15",
+            due_date="2026-11-14",
             order_ref="PO-DEMO-UBL",
             supplier_vat="12345674",
             supplier_name="Furnizor Materiale SRL",
@@ -168,6 +171,8 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
                     "data_file": b64encode(cls.xml_preview),
                     "filename": "FMS-2026-00418.xml",
                     "order_id": cls.po_preview.id,
+                    "update_prices": True,
+                    "create_bill": True,
                 }
             )
         )
@@ -195,6 +200,46 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         cls.wizard_done.action_preview()
         cls.wizard_done.action_confirm_import()
 
+        # --- Pașii 1–2: butonul de pe comandă și fereastra înainte de previzualizare -------
+        cls.po_start = env["purchase.order"].create(
+            {"partner_id": cls.vendor.id, "company_id": company.id, "partner_ref": "PO-DEMO-UBL-0"}
+        )
+        cls.wizard_start = (
+            env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=cls.po_start.id)
+            .create(
+                {
+                    "data_file": b64encode(cls.xml_preview),
+                    "filename": "FMS-2026-00418.xml",
+                    "order_id": cls.po_start.id,
+                    # opțiunile bifate implicit din acțiunea de pe comandă
+                    "update_prices": True,
+                    "create_bill": True,
+                }
+            )
+        )
+
+        # --- Pașii 5–6: comanda confirmată, importată cu factură ---------------------------
+        cls.po_bill = env["purchase.order"].create(
+            {"partner_id": cls.vendor.id, "company_id": company.id, "partner_ref": "PO-DEMO-UBL-3"}
+        )
+        # Facturarea pe cantitatea comandată, ca factura să se poată crea fără recepție.
+        (cls.prod_green | cls.prod_yellow).product_tmpl_id.write({"purchase_method": "purchase"})
+        cls.po_bill.button_confirm()
+        cls.wizard_bill = (
+            env["purchase.ubl.import.wizard"]
+            .with_context(active_model="purchase.order", active_id=cls.po_bill.id)
+            .create(
+                {
+                    "data_file": b64encode(cls.xml_preview),
+                    "filename": "FMS-2026-00418.xml",
+                    "order_id": cls.po_bill.id,
+                }
+            )
+        )
+        cls.wizard_bill.action_preview()
+        cls.wizard_bill.action_confirm_import()
+
         # --- Scenariul activității (19.0.1.4.0) -------------------------------------
         # Comandă creată „din mesajul SPV": XML cu o linie pe care matcherul nu o poate
         # plasa, importată headless cu `purchase_ubl_no_new_products` — exact fluxul
@@ -212,6 +257,8 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         )
         xml_activity = _xml_invoice(
             invoice_id="FMS-2026-00419",
+            issue_date="2026-10-15",
+            due_date="2026-11-14",
             order_ref="PO-DEMO-SPV",
             supplier_vat="12345674",
             supplier_name="Furnizor Materiale SRL",
@@ -261,12 +308,52 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         )
         self.assertEqual(self.wizard_done.state, "done")
 
+        self.assertTrue(self.po_bill.invoice_ids, "Seed-ul trebuie să producă factura furnizorului")
         self.capture_screenshots(
             [
+                # Pasul 1: butonul „Import factură" din bara comenzii (①).
+                {
+                    "url": f"id={self.po_start.id}&model=purchase.order&view_type=form",
+                    "name": "01_comanda_buton_import.png",
+                    "wait": ".o_form_view",
+                    "highlight": ["button:has-text('Import factură')"],
+                    "settle": 2000,
+                },
+                # Pasul 2: fereastra cu fișierul încărcat și opțiunile importului (①②③).
+                {
+                    "url": f"id={self.po_start.id}&model=purchase.order&view_type=form",
+                    "name": "02_optiuni_import.png",
+                    "wait": ".o_form_view",
+                    "eval": _open_wizard(self.wizard_start.id),
+                    "eval_wait": 2500,
+                    "highlight": [
+                        ".modal div[name='update_prices']",
+                        ".modal div[name='create_bill']",
+                        ".modal button[name='action_preview']",
+                    ],
+                    "settle": 2000,
+                },
+                # Pasul 5: comanda după import, cu liniile preluate din factură.
+                {
+                    "url": f"id={self.po_bill.id}&model=purchase.order&view_type=form",
+                    "name": "05_comanda_dupa_import.png",
+                    "wait": ".o_form_view",
+                    "settle": 2500,
+                    "full": True,
+                },
+                # Pasul 6: factura furnizorului creată din XML, în ciornă.
+                {
+                    "url": f"id={self.po_bill.invoice_ids[:1].id}&model=account.move&view_type=form",
+                    "name": "06_factura_furnizor.png",
+                    "wait": ".o_form_view",
+                    "highlight": ["div[name='ref']"],
+                    "settle": 2500,
+                    "full": True,
+                },
                 # Previzualizarea cu toate trei culorile; bulina ① indică linia galbenă.
                 {
                     "url": f"id={self.wizard.id}&model=purchase.ubl.import.wizard&view_type=form",
-                    "name": "06_preview_linie_galbena.png",
+                    "name": "03_preview_linie_galbena.png",
                     "wait": ".o_list_view",
                     "highlight": ["tr.o_data_row:has-text('Teu PVC 110 x 50 mm')"],
                     "settle": 2500,
@@ -288,10 +375,10 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
                 },
                 # Rezultatul importului: jurnalul și butonul care deschide comanda (①).
                 {
-                    "url": f"id={self.po_done.id}&model=purchase.order&view_type=form",
-                    "name": "09_rezultat_deschide_comanda.png",
+                    "url": f"id={self.po_bill.id}&model=purchase.order&view_type=form",
+                    "name": "04_rezultat_deschide_comanda.png",
                     "wait": ".o_form_view",
-                    "eval": _open_wizard(self.wizard_done.id),
+                    "eval": _open_wizard(self.wizard_bill.id),
                     "eval_wait": 2500,
                     "highlight": [".modal button[name='action_open_order']"],
                     "settle": 2000,
@@ -306,6 +393,24 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
                     "hide_chatter": False,
                     "highlight": [".o-mail-Chatter"],
                     "settle": 4000,
+                    "full": True,
+                },
+            ],
+            viewport=(1700, 1100),
+        )
+
+        # Pasul 6, după „Confirmă": nota contabilă a facturii, pe tab-ul „Elemente jurnal".
+        bill = self.po_bill.invoice_ids[:1]
+        bill.action_post()
+        self.env.flush_all()
+        self.capture_screenshots(
+            [
+                {
+                    "url": f"id={bill.id}&model=account.move&view_type=form",
+                    "name": "09_factura_nota_contabila.png",
+                    "wait": ".o_form_view",
+                    "click_tab": "Elemente jurnal",
+                    "settle": 2500,
                     "full": True,
                 },
             ],
