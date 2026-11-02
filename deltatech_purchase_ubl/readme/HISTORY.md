@@ -1,7 +1,8 @@
 ## 20.0.1.4.16 (2026-11-02)
 
 - Fixed: importing an invoice with *Update vendor prices* checked no longer resets the lead time
-  (`delay`) of the existing vendor line to 1 day; only the price, currency, unit and code are updated.
+  (`delay`) of the existing vendor line to 1 day; only the price (converted to the line unit), currency and code are updated.
+- Docs: the consultant sheet states that the lead time of the vendor line is kept on price update.
 
 ## 20.0.1.4.15 (2026-10-22)
 
