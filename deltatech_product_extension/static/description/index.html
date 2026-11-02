@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Deltatech Products Extension" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Deltatech Products Extension</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">New fields in product: Manufacturer  Dimensions, Shelf Life and Unit of Measure for Shelf Life</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">New fields in product: Manufacturer, Dimensions, Shelf Life and Unit of Measure for Shelf Life</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 18.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Sales</span>
@@ -31,6 +31,19 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deltatech Product Extension</h1>
@@ -54,8 +67,8 @@
 <li>
 <p><strong>Physical Dimensions</strong>:</p>
 <ul>
-<li>Adds fields for specifying product dimensions (Length, Width, Height) directly on the product record.</li>
-<li>Useful for shipping, storage planning, and catalog displays.</li>
+<li>Adds a free-text <strong>Dimensions</strong> field to the product, for example "120 x 60 x 75 cm".</li>
+<li>Useful for documents, catalogs and quick reference. The field does not calculate the product volume. For numeric Length, Width and Height fields that fill in the volume, use the Product Dimensions module (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_product_dimension</code>).</li>
 </ul>
 </li>
 <li>
@@ -68,11 +81,19 @@
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
 <ol>
 <li>Go to <strong>Sales &gt; Products &gt; Products</strong> or <strong>Inventory &gt; Products &gt; Products</strong>.</li>
-<li>Open any product record and locate the new fields in the <strong>General Information</strong> or a dedicated <strong>Technical</strong> tab.</li>
+<li>Open any product record. <strong>Manufacturer</strong> appears under the product category; <strong>Dimensions</strong> and <strong>Shelf Life</strong> appear in the <strong>General Information</strong> tab, next to the cost.</li>
 <li>Fill in the <strong>Manufacturer</strong>, <strong>Shelf Life</strong>, and its <strong>UOM</strong>.</li>
-<li>Enter the <strong>Dimensions</strong> (L x W x H) as needed for your logistics or cataloging.</li>
+<li>Enter the <strong>Dimensions</strong> as text (for example L x W x H) as needed for your documents or catalog.</li>
 <li>In the <strong>Contacts</strong> module, you can now tag partners as manufacturers for better filtering.</li>
 </ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.1 (2026-11-02)</h2>
+<ul>
+<li>Apps Store description: Dimensions is a free-text field and does not calculate the volume; for numeric dimensions with volume, see Product Dimensions. The fields' location on the product form is described exactly.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -119,12 +140,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Custom Invoice Exchange Rate</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -139,12 +160,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_alternative/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Alternative Product Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -219,12 +240,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_invoice_picking_automatically/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings Automatically</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Auto-Invoice from Delivery</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -239,12 +260,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_pricelist/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Currency Extension</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Pricelist Currency Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
