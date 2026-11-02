@@ -1,6 +1,6 @@
 {
   "title": "Stock Close",
-  "summary": "Closed stock moves left out of the storage sheet",
+  "summary": "Closed moves left out of the storage sheet",
   "icon": "box",
   "features": [
     "Valuation Active flag on stock moves",
