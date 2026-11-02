@@ -1,3 +1,8 @@
+## 20.0.0.9.11 (2026-11-02)
+
+- The *Database Cleanup* section of the general settings is placed before the developer tools,
+  no longer at the very end of the page, after *About*.
+
 ## 20.0.0.9.10 (2026-10-22)
 
 - Listed on Odoo Apps as *Database Cleanup Actions* (was *Cleanup Actions*), with the same title on the Apps banner.
