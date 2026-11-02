@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_website_form" model="ir.ui.view">
+        <field name="name">website.form.llms.txt</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <!-- not on the creation dialog of a new website (website.modal.form) -->
+                <page string="llms.txt" name="page_llms_txt" invisible="not id">
+                    <group>
+                        <field name="llms_txt_enabled" />
+                        <field
+                            name="llms_txt_summary"
+                            placeholder="Who you are and what you sell, in one or two sentences"
+                            invisible="not llms_txt_enabled"
+                        />
+                    </group>
+                    <div invisible="not llms_txt_enabled">
+                        <label for="llms_txt_details" class="fw-bold" />
+                        <field
+                            name="llms_txt_details"
+                            placeholder="## Delivery&#10;&#10;Delivery areas, payment, returns, what an assistant should know before recommending you (Markdown)"
+                        />
+                        <label for="llms_txt_custom" class="fw-bold mt16" />
+                        <field name="llms_txt_custom" placeholder="Replaces the generated file" />
+                        <div class="mt16">
+                            <field name="llms_txt_url" widget="url" text="View llms.txt" />
+                        </div>
+                    </div>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

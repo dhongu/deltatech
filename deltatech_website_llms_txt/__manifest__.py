@@ -10,7 +10,7 @@
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "depends": ["website"],
-    "data": ["views/res_config_settings_views.xml"],
+    "data": ["views/res_config_settings_views.xml", "views/website_views.xml"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
 }
