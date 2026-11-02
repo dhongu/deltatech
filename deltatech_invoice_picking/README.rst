@@ -19,9 +19,9 @@ Invoice Pickings
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_picking
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_picking/tests
-    :alt: 9 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests%20%C2%B7%2071%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_invoice_picking
+    :alt: 14 automated tests · 71% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -35,14 +35,16 @@ Invoice Pickings
     invoiced
   - a picking must be in "done" state to be invoiced
   - a "to invoice" field is added to pickings, for filtering purposes.
-    When a sale picking is created, the field is set to True. When an
-    invoice is created, the field is set to False. When an invoice is
-    cancelled or deleted, it's set to True
+    When a picking that comes from a sale or purchase order is
+    validated, the field is set to True. When an invoice is created, it
+    is set to False. When the invoice is cancelled or deleted, it is set
+    back to True and the link to the invoice is cleared
   - a field with link to the invoice is added to pickings. The field is
     computed to point to the invoice generated from the picking
-  - **if changes are made to the invoice (lines deleted, qty's
-    modified), the invoice fields will not be updated in linked
-    pickings.**
+  - **on an invoice created from pickings, the quantity or product of
+    storable product lines cannot be changed and those lines cannot be
+    deleted, so the invoice stays aligned with the delivered
+    quantities**
 
 **Table of contents**
 
@@ -51,6 +53,25 @@ Invoice Pickings
 
 Changelog
 =========
+
+20.0.1.0.16 (2026-11-02)
+------------------------
+
+- Description aligned with the code: the to-invoice flag is set when the
+  picking is validated, and storable lines of invoices created from
+  pickings are locked.
+
+20.0.1.0.15 (2026-10-16)
+------------------------
+
+- Fixed: invoicing several selected batch transfers stopped after the
+  first batch; the not yet invoiced transfers of all the selected
+  batches are now invoiced together (delivery and receipt batches cannot
+  be mixed).
+- Fixed: a batch without transfers was reported as invoiced.
+- Fixed: the Invoice button on the batch form was shown on batches that
+  were not done or were already invoiced (``and`` instead of ``or`` in
+  its visibility condition).
 
 19.0.1.0.14 (2026-10-07)
 ------------------------

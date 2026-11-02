@@ -1,3 +1,7 @@
+## 20.0.1.0.16 (2026-11-02)
+
+- Description aligned with the code: the to-invoice flag is set when the picking is validated, and storable lines of invoices created from pickings are locked.
+
 ## 20.0.1.0.15 (2026-10-16)
 
 - Fixed: invoicing several selected batch transfers stopped after the first batch; the not yet
