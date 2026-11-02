@@ -20,6 +20,8 @@ UBL_NS = {
 def _xml_invoice(
     *,
     invoice_id="INV-ATT-001",
+    issue_date="2025-01-01",
+    due_date="2025-01-30",
     currency="RON",
     order_ref="PO001",
     supplier_vat="RO12345678",
@@ -69,8 +71,8 @@ def _xml_invoice(
     xml = f"""
         <inv:Invoice xmlns:inv=\"{UBL_NS["inv"]}\" xmlns:cac=\"{UBL_NS["cac"]}\" xmlns:cbc=\"{UBL_NS["cbc"]}\">
             <cbc:ID>{invoice_id}</cbc:ID>
-            <cbc:IssueDate>2025-01-01</cbc:IssueDate>
-            <cbc:DueDate>2025-01-30</cbc:DueDate>
+            <cbc:IssueDate>{issue_date}</cbc:IssueDate>
+            <cbc:DueDate>{due_date}</cbc:DueDate>
             <cbc:DocumentCurrencyCode>{currency}</cbc:DocumentCurrencyCode>
             <cac:OrderReference><cbc:ID>{order_ref}</cbc:ID></cac:OrderReference>
             <cac:AccountingSupplierParty>

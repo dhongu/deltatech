@@ -75,12 +75,22 @@ Accesați **Achiziții → Comenzi → Comenzi de achiziție** și deschideți c
 de sus apăsați **Import factură**. Se deschide fereastra **Import factură**. Dacă pe comandă este deja
 atașat un fișier XML de factură UBL, acesta este preluat automat în câmpul **Fișier XML**.
 
+![Butonul Import factură pe comanda de achiziție](screenshots/01_comanda_buton_import.png)
+
 ### Pasul 2 — Alegerea fișierului și a opțiunilor
 
 În grupul **Fișier**, încărcați factura în câmpul **Fișier XML** (dacă nu a fost preluată automat);
 câmpul **Comandă de achiziție** arată comanda pe care se face importul. În grupul **Opțiuni**:
 - **Actualizează prețurile furnizorului** (bifat implicit) — scrie prețul unitar din XML în lista de
-  prețuri a furnizorului;
+  prețuri a furnizorului. Pe o linie de furnizor existentă se modifică doar prețul (convertit în
+  unitatea de măsură a liniei, când unitatea din XML e recunoscută și compatibilă; altfel prețul se
+  scrie ca în XML), moneda din XML și codul produsului furnizorului, acesta din urmă numai dacă
+  XML-ul îl conține; **Termenul de livrare**, unitatea de măsură, cantitatea minimă și perioada de
+  valabilitate rămân cele ale liniei existente. Dacă furnizorul nu are încă o linie pentru produs,
+  se creează una nouă, cu unitatea din XML (dacă e compatibilă cu cea a produsului) și termenul implicit.
+  Se actualizează o singură linie de furnizor (prima, după secvență și cantitatea minimă): treptele
+  de preț pe cantitate rămân cu prețul vechi, iar discountul liniei de furnizor nu se modifică, deci
+  verificați prețul net dacă linia avea discount;
 - **Creează factură furnizor** (bifat implicit) — creează factura furnizorului din comandă;
 - **Validează recepția din XML** (nebifat implicit) — setează cantitățile din XML pe recepția
   comenzii și o validează.
@@ -94,11 +104,17 @@ Deasupra pot apărea avertismente galbene:
 
 Apăsați **Previzualizare**.
 
+![Fereastra Import factură cu fișierul și opțiunile importului](screenshots/02_optiuni_import.png)
+
 ### Pasul 3 — Verificarea asocierii produselor în previzualizare
 
 Fereastra afișează un tabel cu câte un rând pentru fiecare linie a facturii: **Cod furnizor**,
 **Descriere furnizor**, **Cantitate**, **Preț unitar**, **Produs** (produsul găsit), **Acțiune** și
 **Tip potrivire**.
+
+![Previzualizarea cu rânduri verzi, galbene și roșii](screenshots/03_preview_linie_galbena.png)
+
+![Alegerea acțiunii pe un rând roșu](screenshots/08_preview_actiune_linie.png)
 
 1. **Găsiți pe ecran** culoarea fiecărui rând și coloana **Tip potrivire**:
    - **verde** — „După cod furnizor” sau „După cod de bare”: asociere sigură;
@@ -123,7 +139,7 @@ portocaliu/roșu = avertismente):
 - „Factură furnizor creată: …” sau motivul pentru care nu a fost creată (comandă neconfirmată, nimic
   de facturat, factură existentă deja cu aceeași referință);
 - rezultatul verificării totalului comenzii față de XML (fără TVA și cu TVA);
-- un avertisment „VAT rate differs on … line(s) …” când cota de TVA a liniilor de comandă diferă de
+- un avertisment „Cota TVA diferă pe … linie(i) …” când cota de TVA a liniilor de comandă diferă de
   cea din factură — de obicei lipsește poziția fiscală a furnizorului (achiziție intracomunitară cu
   taxare inversă sau import);
 - dacă comanda fusese creată goală din butonul de încărcare al listei de achiziții, cu compania sau
@@ -131,12 +147,16 @@ portocaliu/roșu = avertismente):
 
 Citiți jurnalul înainte de a închide: orice rând roșu cere o verificare manuală pe comandă.
 
+![Rezultatul importului, cu butonul de deschidere a comenzii](screenshots/04_rezultat_deschide_comanda.png)
+
 ### Pasul 5 — Verificarea comenzii și a recepției
 
 Apăsați **Deschide comanda de achiziție**. Pe comandă verificați liniile (cantități, prețuri unitare,
 discounturi preluate din XML) și liniile noi adăugate. Dacă ați bifat **Validează recepția din XML**,
 deschideți recepția din butonul **Recepție**: cantitățile realizate sunt cele din factură, iar
 recepția este validată.
+
+![Comanda după import, cu liniile din factură](screenshots/05_comanda_dupa_import.png)
 
 ### Pasul 6 — Verificarea facturii furnizorului
 
@@ -149,6 +169,12 @@ comenzii din XML). Cotele de TVA ale liniilor sunt aliniate cu procentele din XM
    factura primită (atenție la liniile cu 0% — vezi secțiunea 9).
 3. **Treceți mai departe** — confirmați factura cu butonul standard **Confirmă**.
 
+![Factura furnizorului în ciornă, completată din XML](screenshots/06_factura_furnizor.png)
+
+După **Confirmă**, nota contabilă a facturii se vede în tabul **Elemente jurnal**:
+
+![Nota contabilă a facturii confirmate](screenshots/09_factura_nota_contabila.png)
+
 ### Pasul 7 — Importul automat la atașarea XML-ului
 
 Când un fișier XML de factură UBL este atașat automat pe comandă (de exemplu de fluxul de preluare a
@@ -157,6 +183,8 @@ totalul nu se potrivește sau rămân linii neasociate, factura **nu** se creeaz
 postează în istoricul comenzii, iar responsabilul comenzii primește activitatea
 **„Import SPV necesită verificare”**. Rezolvați liniile pe comandă, apoi relansați importul manual
 (pașii 1–6).
+
+![Nota colorată și activitatea de verificare pe comandă](screenshots/07_activitate_verificare.png)
 
 Dacă documentul XML este o **notă de credit**, nu se aplică pe comandă: jurnalul afișează
 „Atenție: documentul … este o notă de credit; notele de credit nu se importă. Înregistrați manual
@@ -168,7 +196,9 @@ Modulul nu generează note contabile proprii. Notele rezultă din documentele st
 - **Recepția validată** (în configurarea RO cu evaluare automată a stocului): Dr 371 „Mărfuri” (sau
   contul de stoc al categoriei) = Cr 408 „Furnizori — facturi nesosite”, la valoarea comenzii.
 - **Factura furnizorului confirmată**: Dr 408 (pentru cantitățile recepționate) / Dr cont de
-  cheltuială (pentru servicii) + Dr 4426 „TVA deductibilă” = Cr 401 „Furnizori”.
+  cheltuială (pentru servicii) + Dr 4426 „TVA deductibilă” = Cr 401 „Furnizori”. Fără evaluare
+  automată a stocului (inventar intermitent), liniile merg direct pe contul de cheltuială al
+  categoriei, de exemplu 607 „Cheltuieli privind mărfurile”, ca în captura de mai jos.
 
 Conturile exacte depind de configurarea categoriilor de produse, a taxelor și a jurnalului de
 achiziții.
@@ -196,7 +226,9 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] Schimbarea produsului pe un rând îl marchează „Ales manual”; „Ignoră” lasă linia neimportată.
 - [ ] După **Importă**, liniile existente au cantitatea și prețul din XML, iar produsele care nu erau
       pe comandă apar ca linii noi.
-- [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate.
+- [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate, iar
+      **Termenul de livrare** al liniilor de furnizor existente a rămas neschimbat (verificați cu un
+      termen diferit de 1 zi pe linie înainte de import, de exemplu 9 zile; după import trebuie să fie tot 9 zile).
 - [ ] Cu **Validează recepția din XML** bifat, recepția comenzii este validată cu cantitățile din XML.
 - [ ] Factura furnizorului are referința, data și scadența din XML; un al doilea import al aceleiași
       facturi nu creează o factură dublă.
@@ -212,30 +244,33 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 |-----------------|-----------------|-----------|
 | „Vă rugăm să selectați un fișier XML.” | Câmpul **Fișier XML** este gol | Încărcați fișierul facturii |
 | „XML nevalid: …” | Fișierul nu este un XML corect (de ex. PDF sau arhivă ZIP din SPV) | Extrageți fișierul XML al facturii și reîncercați |
-| „No vendor found for supplier VAT … / name …” | Importul nu e pornit de pe o comandă, iar furnizorul nu există cu acel CUI/nume | Porniți importul de pe comandă sau creați furnizorul cu CUI-ul din XML |
+| „Nu s-a găsit niciun furnizor pentru codul de TVA … / numele …” | Importul nu e pornit de pe o comandă, iar furnizorul nu există cu acel CUI/nume | Porniți importul de pe comandă sau creați furnizorul cu CUI-ul din XML |
 | Multe rânduri galbene/roșii | Prețurile furnizorului nu au **Cod produs furnizor**, produsele nu au cod de bare | Completați codurile furnizorului; la importurile următoare asocierea va fi verde |
 | „Crearea facturii de furnizor a fost sărită: comanda … nu este încă confirmată…” | Comanda este în stadiul de cerere de ofertă | Confirmați comanda și relansați importul |
 | „Factura de furnizor nu a fost creată: pe comanda … nu a mai rămas nimic de facturat.” | Comanda e deja facturată sau se facturează pe cantități recepționate și nimic nu e recepționat | Verificați facturile existente; validați recepția (bifați **Validează recepția din XML**) |
 | „Factura furnizor există deja pentru această referință de factură (…)” | Factura a fost deja importată | Nu e nevoie de acțiune; folosiți **Vezi factura furnizor** |
 | „Atenție: recepția … nu a putut fi validată; verificați-o manual.” | Cantitățile nu pot fi setate (de ex. produs cu lot/serie) | Completați și validați recepția manual |
-| „VAT rate differs on … line(s) …” | Furnizorul nu are poziția fiscală potrivită (intracomunitar / import), deci comanda a luat TVA-ul intern | Setați poziția fiscală pe furnizor și pe comandă, apoi creați factura |
+| „Cota TVA diferă pe … linie(i) …” | Furnizorul nu are poziția fiscală potrivită (intracomunitar / import), deci comanda a luat TVA-ul intern | Setați poziția fiscală pe furnizor și pe comandă, apoi creați factura |
 | Total fără TVA corect, total cu TVA diferit | Cotele de TVA ale comenzii diferă de cele din factură | Verificați poziția fiscală și taxele liniilor |
 | Factură XML în altă monedă decât comanda | Prețurile din XML se scriu în moneda comenzii, fără conversie | Importați doar pe o comandă în aceeași monedă ca factura |
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text** — pașii din secțiunea 6 nu includ capturi. În `readme/screenshots/` există
-patru capturi generate automat din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
-`l10n_ro_doc_screenshots`, import defensiv), care corespund pașilor 3, 4 și 7, dar nu sunt
-încorporate în fișă:
+Capturile sunt în `readme/screenshots/`, generate automat din `tests/test_screenshots.py` (mixinul
+`ScreenshotCase` din `l10n_ro_doc_screenshots`, import defensiv), pe „RO Company” în RON, în română,
+și sunt încorporate în pașii secțiunii 6:
 
-1. `06_preview_linie_galbena.png` — previzualizarea cu o linie asociată doar după nume (galbenă).
-2. `07_activitate_verificare.png` — activitatea „Import SPV necesită verificare” pe comandă.
-3. `08_preview_actiune_linie.png` — alegerea acțiunii pe o linie din previzualizare.
-4. `09_rezultat_deschide_comanda.png` — rezultatul importului, cu butonul de deschidere a comenzii.
+1. `01_comanda_buton_import.png` — butonul **Import factură** pe comanda de achiziție (pasul 1).
+2. `02_optiuni_import.png` — fereastra cu fișierul și opțiunile importului (pasul 2).
+3. `03_preview_linie_galbena.png` — previzualizarea cu rânduri verzi, galbene și roșii (pasul 3).
+4. `08_preview_actiune_linie.png` — alegerea acțiunii pe un rând roșu (pasul 3).
+5. `04_rezultat_deschide_comanda.png` — rezultatul importului, cu butonul de deschidere a comenzii (pasul 4).
+6. `05_comanda_dupa_import.png` — comanda cu liniile preluate din factură (pasul 5).
+7. `06_factura_furnizor.png` — factura furnizorului în ciornă, completată din XML (pasul 6).
+8. `07_activitate_verificare.png` — activitatea „Import SPV necesită verificare” și nota din istoric (pasul 7).
+9. `09_factura_nota_contabila.png` — nota contabilă a facturii confirmate, tab „Elemente jurnal” (pasul 6).
 
-Pentru o fișă completă cu capturi pe toți pașii se rulează skill-ul `fisa-screenshots`; regenerarea
-capturilor existente:
+Regenerarea capturilor:
 
 ```bash
 ./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_purchase_ubl,l10n_ro_doc_screenshots \
@@ -250,4 +285,3 @@ roșu se decide (produs, produs nou sau ignorare). Recomandați completarea **Co
 pe prețurile furnizorului, care face asocierea sigură. Pentru importul automat din SPV, explicați
 activitatea „Import SPV necesită verificare” și faptul că factura nu se creează până la rezolvarea
 liniilor. Explicați și avertismentul de cotă TVA, care trimite la poziția fiscală a furnizorului.
-Avertismentul de cotă TVA apare momentan în engleză.
