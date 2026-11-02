@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.indexnow</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="website_settings" position="inside">
+                <setting
+                    id="indexnow_setting"
+                    string="IndexNow"
+                    help="Tell Bing and the other IndexNow search engines every hour which pages changed"
+                >
+                    <field name="indexnow_enabled" />
+                    <div class="content-group" invisible="not indexnow_enabled">
+                        <div class="mt16">
+                            <label for="indexnow_key" string="Key" class="o_light_label" />
+                            <field name="indexnow_key" class="w-100 font-monospace" />
+                        </div>
+                        <div class="mt8">
+                            <field name="indexnow_key_url" widget="url" text="View key file" class="text-nowrap" />
+                        </div>
+                        <div class="mt8">
+                            <button
+                                name="action_indexnow_submit_all"
+                                type="object"
+                                string="Send all pages now"
+                                icon="oi-arrow-right"
+                                class="btn-link"
+                            />
+                        </div>
+                        <div class="mt8 text-muted" invisible="not indexnow_last_run">
+                            <span>Last run: </span>
+                            <field name="indexnow_last_run" class="oe_inline" />
+                            <span> · </span>
+                            <field name="indexnow_last_result" class="oe_inline" />
+                        </div>
+                    </div>
+                </setting>
+            </block>
+        </field>
+    </record>
+</odoo>
