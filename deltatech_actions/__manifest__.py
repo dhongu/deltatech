@@ -6,7 +6,7 @@
     "name": "Database Cleanup Actions",
     "category": "Other",
     "summary": "Cleaning and other actions",
-    "version": "20.0.0.9.10",
+    "version": "20.0.0.9.11",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
