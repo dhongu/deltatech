@@ -566,7 +566,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             "product_id": product.id,
             "price": price,
             "currency_id": self._resolve_currency(currency).id,
-            "delay": 1,
             **uom_vals,
         }
         # a source line without a supplier code must not erase the code already on the row
