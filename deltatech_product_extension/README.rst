@@ -51,9 +51,12 @@ Key Features
 
 3. **Physical Dimensions**:
 
-   - Adds fields for specifying product dimensions (Length, Width,
-     Height) directly on the product record.
-   - Useful for shipping, storage planning, and catalog displays.
+   - Adds a free-text **Dimensions** field to the product, for example
+     "120 x 60 x 75 cm".
+   - Useful for documents, catalogs and quick reference. The field does
+     not calculate the product volume. For numeric Length, Width and
+     Height fields that fill in the volume, use the Product Dimensions
+     module (``deltatech_product_dimension``).
 
 4. **Partner Integration**:
 
@@ -65,11 +68,12 @@ Usage
 
 1. Go to **Sales > Products > Products** or **Inventory > Products >
    Products**.
-2. Open any product record and locate the new fields in the **General
-   Information** or a dedicated **Technical** tab.
+2. Open any product record. **Manufacturer** appears under the product
+   category; **Dimensions** and **Shelf Life** appear in the **General
+   Information** tab, next to the cost.
 3. Fill in the **Manufacturer**, **Shelf Life**, and its **UOM**.
-4. Enter the **Dimensions** (L x W x H) as needed for your logistics or
-   cataloging.
+4. Enter the **Dimensions** as text (for example L x W x H) as needed
+   for your documents or catalog.
 5. In the **Contacts** module, you can now tag partners as manufacturers
    for better filtering.
 
@@ -80,6 +84,14 @@ Usage
 
 Changelog
 =========
+
+19.0.1.1.2 (2026-11-02)
+-----------------------
+
+- Apps Store description: Dimensions is a free-text field and does not
+  calculate the volume; for numeric dimensions with volume, see Product
+  Dimensions. The fields' location on the product form is described
+  exactly.
 
 19.0.1.1.1 (2026-10-22)
 -----------------------
