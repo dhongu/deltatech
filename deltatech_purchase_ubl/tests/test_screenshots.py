@@ -30,9 +30,12 @@ def _xml_invoice(**kwargs):
     """Factura de test cu date din 2026: TVA 21% e cota în vigoare abia din 1 august 2025,
     iar exemplele din fișă trebuie să arate o cotă corectă la data facturii."""
     xml = _base_xml_invoice(**kwargs)
-    return xml.replace(b"2025-01-01", b"2026-10-26").replace(b"2025-01-30", b"2026-11-25") if isinstance(
-        xml, bytes
-    ) else xml.replace("2025-01-01", "2026-10-26").replace("2025-01-30", "2026-11-25")
+    return (
+        xml.replace(b"2025-01-01", b"2026-10-26").replace(b"2025-01-30", b"2026-11-25")
+        if isinstance(xml, bytes)
+        else xml.replace("2025-01-01", "2026-10-26").replace("2025-01-30", "2026-11-25")
+    )
+
 
 _logger = logging.getLogger(__name__)
 
@@ -318,7 +321,9 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         # real al comenzii, iar starea „previzualizare" se obține prin click pe butonul
         # **Previzualizare**, ca pe ecranul operatorului.
         open_wizard = {"click_btn": "button:has-text('Importă UBL')", "wait_after": ".modal-footer"}
-        widen = "const d = document.querySelector('.modal-dialog'); d.style.maxWidth = '1500px'; d.style.width = '95vw';"
+        widen = (
+            "const d = document.querySelector('.modal-dialog'); d.style.maxWidth = '1500px'; d.style.width = '95vw';"
+        )
         click_preview = (
             "const sleep = ms => new Promise(r => setTimeout(r, ms));"
             "document.querySelector(\".modal-footer button[name='action_preview']\").click();"
