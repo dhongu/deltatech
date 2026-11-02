@@ -1,3 +1,14 @@
+## 20.0.1.1.0 (2026-11-02)
+
+- Migration to 20.0. The mixin keeps the Odoo 20 fixes already made in
+  `l10n_ro_doc_screenshots` 20.0.1.1.10: `click_tab` looks only among the notebook tabs (in 20.0
+  they are `button.nav-link`, and a form button with the same text no longer catches the click),
+  folded report lines are found by `[data-id="btn_foldable"]`, `render_all` / `unfold_report`
+  render the whole report despite the virtual grid of `account_reports`, and the company masking
+  clears `additional_identifiers` (formerly `company_registry`) and `account_number` (formerly
+  `acc_number`).
+- The tests of these page helpers (`test_screenshot_case.py`) come along with them.
+
 ## 19.0.1.1.0 (2026-10-30)
 
 - Screenshots in a second language: `capture_screenshots(shots, lang="en_US")` sets the user's

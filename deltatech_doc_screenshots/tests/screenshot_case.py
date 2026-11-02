@@ -64,6 +64,7 @@ import contextlib
 import json
 import logging
 import os
+import re
 import unittest
 from urllib.parse import quote
 
@@ -75,6 +76,21 @@ from odoo.tools import config
 _logger = logging.getLogger(__name__)
 
 DEFAULT_READY = ".o_form_view, .o_list_view"
+
+#: înălțimea maximă (px) până la care ``render_full_report`` mărește viewport-ul; Chrome nu
+#: produce capturi mai înalte de ~16384 px
+MAX_RENDER_HEIGHT = 15000
+
+#: tab-urile unui Notebook din formular (20.0: ``<button class="nav-link">`` în
+#: ``.o_notebook_headers``); NU butoanele din bara formularului, care pot purta același text
+NOTEBOOK_TAB_SELECTOR = ".o_notebook .o_notebook_headers .nav-link"
+
+#: containerele derulabile măsurate de ``render_full_report``: raportul account_reports 20.0
+#: derulează în propriul container, restul ecranelor în ``.o_content``
+SCROLL_CONTAINERS = ".o_account_report_scroll_container, .o_content"
+
+#: caret-ul colapsat al unei linii pliabile dintr-un account.report 20.0
+REPORT_FOLDED_CARET = 'td.line_name [data-id="btn_foldable"][data-icon="arrow_right"]'
 
 #: etichetele RO ale tab-urilor cerute prin ``click_tab`` cu numele lor englezesc
 TAB_LABELS_RO = {
@@ -278,7 +294,9 @@ class ScreenshotCase(HttpCase):
                 # Date complete ca să nu apară bannerul galben „definiți ID-ul companiei,
                 # telefon, oraș/cod poștal" în capturi (date RO plauzibile pentru manual).
                 "vat": "RO14388698",
-                "company_registry": "J40/1234/2020",
+                # 20.0: `res.company.company_registry` nu mai există (6f8c2526a00d); NRC-ul
+                # se maschează pe partener (`nrc`, mai jos), iar identificatorii suplimentari
+                # (`additional_identifiers`, succesorul lui) se golesc tot pe partener.
                 "street": "Str. Exemplu nr. 10",
                 "street2": False,  # pe bazele reale conținea etajul/biroul clientului
                 "city": "București",
@@ -321,6 +339,10 @@ class ScreenshotCase(HttpCase):
             partner_vals["state_id"] = state_ro_b.id
         if "nrc" in company.partner_id._fields:  # NRC (l10n_ro) — tipărit de rapoartele RO
             partner_vals["nrc"] = "J40/1234/2020"
+        if "additional_identifiers" in company.partner_id._fields:
+            # 20.0: registrul comerțului & co. (fostul `company_registry`) stau în JSON-ul
+            # `additional_identifiers`; pe o bază copiată ar rămâne identificatorii reali.
+            partner_vals["additional_identifiers"] = False
         company.partner_id.write(partner_vals)
         # IBAN-ul apare pe factură („pe acest cont: …"). Mascăm primul cont cu IBAN-ul
         # de test RO și arhivăm restul: pe un singur cont nu se încalcă unicitatea
@@ -328,7 +350,8 @@ class ScreenshotCase(HttpCase):
         banks = env["res.partner.bank"].search([("partner_id", "=", company.partner_id.id)])
         if banks:
             try:
-                banks[0].acc_number = "RO49AAAA1B31007593840000"
+                # 20.0: `acc_number` → `account_number` (res.partner.bank refăcut)
+                banks[0].account_number = "RO49AAAA1B31007593840000"
                 banks[1:].active = False
             except Exception:  # noqa: BLE001 - IBAN validat/constrâns: capturile merg și fără
                 _logger.debug("Screenshots: IBAN validat/constrâns: capturile merg și fără", exc_info=True)
@@ -742,9 +765,17 @@ class ScreenshotCase(HttpCase):
           - ``hover`` (str): selector CSS peste care se trece cu mouse-ul înainte de click/captură
             (ex. un card kanban al cărui meniu ⋮ e vizibil doar la hover);
           - ``click_btn`` (str): selector CSS pe care se dă click înainte de captură (ex. smart button);
-          - ``click_tab`` (str): textul unui tab de notebook pe care se dă click;
+          - ``click_tab`` (str): eticheta unui tab de notebook pe care se dă click (EN sau RO —
+            se încearcă ambele, vezi ``click_notebook_tab``); se caută doar printre tab-urile
+            formularului, nu în butoanele cu același text din bara lui;
           - ``unfold_report`` (bool): desfășoară toate liniile pliabile dintr-un account.report
-            (click pe fiecare caret colapsat) înainte de captură — util pentru rapoarte cu detalii;
+            (click pe fiecare caret colapsat) înainte de captură — util pentru rapoarte cu detalii.
+            Ca să ajungă și la liniile din afara ecranului (în 20.0 raportul randează doar ce e
+            vizibil), viewport-ul se mărește temporar cât durează desfășurarea, apoi revine;
+          - ``render_all`` (bool, implicit False): randează **tot** raportul/pagina — mărește
+            viewport-ul la înălțimea conținutului derulabil (``SCROLL_CONTAINERS``), plafonat la
+            ``max_height`` (implicit ``MAX_RENDER_HEIGHT``), și îl păstrează pentru captură;
+            viewport-ul revine la dimensiunea inițială după shot. Vezi ``render_full_report``;
           - ``eval`` (str): cod JS rulat în pagină înainte de captură (ex. desfășurări custom);
           - ``hide_fields`` (list[str]): nume tehnice de câmpuri (atributul ``name`` din formular)
             de ascuns cu eticheta lor — util pentru câmpuri injectate de un modul frate pe un
@@ -801,6 +832,7 @@ class ScreenshotCase(HttpCase):
             ctx = browser.new_context(viewport={"width": viewport[0], "height": viewport[1]}, locale=locale)
             ctx.add_cookies([{"name": "session_id", "value": sid, "url": base}])
             page = ctx.new_page()
+            base_viewport = {"width": viewport[0], "height": viewport[1]}
             # Erorile JS ale paginii se colectează și se raportează la eșec: când clientul
             # web crapă în timp ce construiește un ecran, `wait_for_selector` întoarce doar
             # „Timeout exceeded", fără nicio urmă despre cauză, iar în log-ul serverului
@@ -855,31 +887,15 @@ class ScreenshotCase(HttpCase):
                         # implicit așteptăm un formular; pentru dropdown/meniu folosiți ``wait_after``
                         page.wait_for_selector(s.get("wait_after", ".o_form_view"), timeout=s.get("timeout", 20000))
                     if s.get("click_tab"):
-                        # Capturile se fac cu interfața în RO sau EN, deci tab-ul cerut într-o
-                        # limbă nu se găsește în cealaltă: încercăm și eticheta tradusă, altfel
-                        # shot-ul ar rămâne tăcut pe primul tab (ex. factura fără liniile Dr/Cr).
-                        tab_en = {ro: en for en, ro in TAB_LABELS_RO.items()}
-                        for label in (s["click_tab"], TAB_LABELS_RO.get(s["click_tab"]), tab_en.get(s["click_tab"])):
-                            if not label:
-                                continue
-                            try:
-                                page.click(f"a.nav-link:has-text('{label}')", timeout=4000)
-                                break
-                            except Exception:  # noqa: BLE001 - tab opțional
-                                continue
+                        self.click_notebook_tab(page, s["click_tab"])
+                    if s.get("render_all"):
+                        self.render_full_report(page, max_height=s.get("max_height", MAX_RENDER_HEIGHT))
                     if s.get("unfold_report"):
-                        # Desfășoară liniile pliabile dintr-un account.report, **secvențial** (câte
-                        # unul, așteptând RPC-ul de încărcare a subliniilor). Click-urile concurente
-                        # ar insera subliniile la index greșit (toate sub primul părinte).
-                        for _ in range(60):  # plafon de siguranță
-                            caret = page.query_selector('td.line_name button[data-id="btn_foldable"] i.fa-caret-right')
-                            if not caret:
-                                break
-                            caret.evaluate("i => i.closest('td.line_name').click()")
-                            try:
-                                page.wait_for_load_state("networkidle", timeout=5000)
-                            except Exception:  # noqa: BLE001 - fallback pauză fixă
-                                page.wait_for_timeout(600)
+                        self.unfold_report(
+                            page,
+                            keep_viewport=bool(s.get("render_all")),
+                            max_height=s.get("max_height", MAX_RENDER_HEIGHT),
+                        )
                     if s.get("hide_fields"):
                         # ascunde câmpul și eticheta lui. Eticheta e potrivită independent de
                         # poziția în DOM, prin atributul 'for' (= numele câmpului în InnerGroup
@@ -936,6 +952,9 @@ class ScreenshotCase(HttpCase):
                     if os.sep + os.path.join("static", "description") + os.sep in dest:
                         self._fit_for_apps(dest)
                     written.append(dest)
+                    if page.viewport_size != base_viewport:
+                        # ``render_all`` mărește viewport-ul doar pentru shot-ul curent
+                        page.set_viewport_size(base_viewport)
             except Exception as exc:  # noqa: BLE001 - re-ridicăm, doar adăugăm diagnosticul
                 # Numele shot-ului curent + erorile JS strânse: fără ele, un ecran care crapă
                 # în client se raportează ca simplu timeout pe un selector, fără să spună
@@ -945,6 +964,120 @@ class ScreenshotCase(HttpCase):
             finally:
                 browser.close()
         return written
+
+    @staticmethod
+    def click_notebook_tab(page, label, timeout=4000):
+        """Activează tab-ul de notebook cu eticheta ``label`` (EN sau RO). Întoarce True dacă l-a găsit.
+
+        Caută **doar** printre tab-urile Notebook-ului (``NOTEBOOK_TAB_SELECTOR``). În 20.0
+        factura are în bara de sus și butonul „Journal Items" / „Elemente jurnal", iar un
+        selector după text pe toată pagina îl nimerea pe acela: click-ul „reușea", dar
+        captura rămânea pe primul tab, fără liniile Dr/Cr.
+
+        Capturile se fac cu interfața în RO, deci se încearcă ambele etichete din
+        ``TAB_LABELS_RO`` (indiferent în ce limbă e dată ``label``): întâi potrivire exactă a
+        textului, apoi ca subșir. Un tab negăsit lasă un WARNING în log, ca eroarea să nu mai
+        treacă neobservată (shot-ul continuă, ca înainte).
+        """
+        labels = [label]
+        labels += [ro for en, ro in TAB_LABELS_RO.items() if en == label]
+        labels += [en for en, ro in TAB_LABELS_RO.items() if ro == label]
+        try:
+            page.wait_for_selector(NOTEBOOK_TAB_SELECTOR, timeout=timeout)
+        except Exception:  # noqa: BLE001 - formular fără notebook
+            _logger.debug("Screenshots: niciun notebook în pagină", exc_info=True)
+        tabs = page.locator(NOTEBOOK_TAB_SELECTOR)
+        patterns = [re.compile(rf"^\s*{re.escape(lbl)}\s*$", re.IGNORECASE) for lbl in labels]
+        patterns += [re.compile(re.escape(lbl), re.IGNORECASE) for lbl in labels]
+        for pattern in patterns:
+            tab = tabs.filter(has_text=pattern).first
+            try:
+                if not tab.count():
+                    continue
+                tab.click(timeout=timeout)
+                # tab-ul activ primește clasa `active` după re-randare
+                page.wait_for_function(
+                    "(el) => el.classList.contains('active')", arg=tab.element_handle(), timeout=timeout
+                )
+                return True
+            except Exception:  # noqa: BLE001 - încercăm următoarea variantă de etichetă
+                _logger.debug("Screenshots: tab %r neactivat", pattern.pattern, exc_info=True)
+        _logger.warning("Screenshots: tab-ul de notebook %r nu a fost găsit (etichete încercate: %s)", label, labels)
+        return False
+
+    @staticmethod
+    def render_full_report(page, container=SCROLL_CONTAINERS, max_height=MAX_RENDER_HEIGHT, settle=800):
+        """Mărește viewport-ul ca tot conținutul derulabil din ``container`` să încapă pe ecran.
+
+        ``container`` e un selector CSS (poate fi o listă separată prin virgulă); se ia
+        elementul cu cel mai mult conținut ascuns (plus ``document.scrollingElement``). În
+        20.0 raportul derulează în ``.o_account_report_scroll_container``, formularele și
+        listele în ``.o_content``.
+
+        În 20.0 rapoartele ``account_reports`` folosesc o grilă virtuală: randează doar
+        liniile din zona vizibilă (dimensionată după ``window.innerHeight``), restul fiind
+        doar spațiu gol. O captură „full" a unui raport lung pierdea deci rânduri, iar
+        caret-urile din afara ecranului nu existau în DOM ca să fie desfășurate. Cu viewport-ul
+        cât conținutul, grila randează toate liniile. Repetă până se stabilizează înălțimea
+        (desfășurarea poate adăuga linii), plafonat la ``max_height``.
+
+        Întoarce noua înălțime a viewport-ului. Apelantul restaurează viewport-ul
+        (``capture_screenshots`` o face după fiecare shot).
+        """
+        size = dict(page.viewport_size)
+        for _ in range(6):
+            extra = page.evaluate(
+                "(sel) => [document.scrollingElement, ...document.querySelectorAll(sel)]"
+                ".filter(Boolean).reduce((m, el) => Math.max(m, el.scrollHeight - el.clientHeight), 0)",
+                container,
+            )
+            new_height = min(size["height"] + max(int(extra), 0), max_height)
+            if extra <= 2 or new_height <= size["height"]:
+                break
+            size["height"] = new_height
+            page.set_viewport_size(size)
+            page.wait_for_timeout(settle)
+        return size["height"]
+
+    @classmethod
+    def unfold_report(cls, page, keep_viewport=False, max_height=MAX_RENDER_HEIGHT, max_clicks=200):
+        """Desfășoară toate liniile pliabile dintr-un account.report (20.0 pornește pliat).
+
+        Click pe fiecare caret colapsat, **secvențial** — câte unul, așteptând RPC-ul care
+        încarcă subliniile; click-urile concurente le-ar insera la index greșit. Nu folosește
+        opțiunea „Unfold All" a raportului: aceea rămâne în opțiunile sesiunii și ar
+        desfășura și capturile următoare.
+
+        Cum raportul randează doar liniile vizibile, viewport-ul se mărește întâi
+        (``render_full_report``), ca să existe în DOM și caret-urile de mai jos. Cu
+        ``keep_viewport=False`` (implicit) revine apoi la dimensiunea inițială. Întoarce
+        numărul de linii desfășurate.
+        """
+        initial = dict(page.viewport_size)
+        clicks = 0
+        while clicks < max_clicks:
+            caret = page.query_selector(REPORT_FOLDED_CARET)
+            if not caret:
+                # poate sunt caret-uri sub zona randată: mărim și mai căutăm o dată
+                before = page.viewport_size["height"]
+                if cls.render_full_report(page, max_height=max_height) <= before:
+                    break
+                continue
+            caret.evaluate("i => i.closest('td.line_name').click()")
+            clicks += 1
+            try:
+                # caret-ul își schimbă iconul (sau e re-creat) abia după ce subliniile sosesc;
+                # fără așteptarea asta, următorul pas ar da click din nou pe aceeași linie
+                page.wait_for_function(
+                    "(i) => !i.isConnected || i.dataset.icon !== 'arrow_right'", arg=caret, timeout=5000
+                )
+                page.wait_for_load_state("networkidle", timeout=5000)
+            except Exception:  # noqa: BLE001 - fallback pauză fixă
+                page.wait_for_timeout(600)
+        if not keep_viewport and page.viewport_size != initial:
+            page.set_viewport_size(initial)
+            page.wait_for_timeout(500)
+        return clicks
 
     #: JS aplicat pe fiecare element evidențiat: contur portocaliu Odoo + halou translucid și,
     #: dacă ``num`` nu e null, o bulină numerotată în colțul stânga-sus. ``num`` e dat o singură
