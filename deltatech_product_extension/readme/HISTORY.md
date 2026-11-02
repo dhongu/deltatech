@@ -1,6 +1,9 @@
 ## 20.0.1.1.1 (2026-11-02)
 
 - Apps Store description: Dimensions is a free-text field and does not calculate the volume; for numeric dimensions with volume, see Product Dimensions. The fields' location on the product form is described exactly.
+- Consultant sheet (readme/FISA_CONSULTANT.md) ported from 19.0: the manufacturer, dimensions
+  (free text) and shelf life on the product, and Invoice Analysis searched and grouped by
+  manufacturer, with five screenshots.
 
 ## 20.0.1.1.0 (2026-10-22)
 
