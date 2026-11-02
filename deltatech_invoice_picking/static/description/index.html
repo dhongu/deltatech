@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 18 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 20 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:77%;background-color:#57B952;"></div>
       </div>
@@ -36,6 +36,11 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -66,11 +71,61 @@ those lines cannot be deleted, so the invoice stays aligned with the delivered q
 </li>
 </ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p><strong>Invoice a delivery</strong></p>
+<ol>
+<li>Validate the delivery in <strong>Inventory &gt; Operations &gt; Transfers &gt; Deliveries</strong>. A delivery that comes from a
+   sale order gets the <strong>To invoice</strong> flag (tab <strong>Additional Info</strong>) and an <strong>Invoice</strong> button.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done delivery with the Invoice button and the To invoice flag checked" src="en/01_livrare_de_facturat.png" /></p>
+<ol start="2">
+<li>Click <strong>Invoice</strong>. The standard invoicing window of the sale order opens; keep <strong>Regular invoice</strong>
+   and click <strong>Create Draft</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Create invoice(s) window opened from the delivery, with Create Draft highlighted" src="en/02_fereastra_creare_factura.png" /></p>
+<ol start="3">
+<li>The draft invoice holds only the quantities delivered in the selected transfers (6.00), not the
+   whole order (10). In the <strong>Other Info</strong> tab, <strong>Created from pickings</strong> is checked. On such an invoice, the
+   quantity and the product of storable lines cannot be changed and these lines cannot be deleted.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Draft customer invoice, Invoice Lines tab: one line with quantity 6.00 at 45.00, total 326.70 lei" src="en/03_factura_din_livrare.png" /></p>
+<ol start="4">
+<li>Back on the delivery, <strong>To invoice</strong> is cleared and the invoice is linked. If the invoice is
+   cancelled or deleted, the delivery is flagged <strong>To invoice</strong> again.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Invoiced delivery: the invoice is linked and To invoice is cleared" src="en/04_livrare_facturata.png" /></p>
+<p><strong>Invoice several deliveries</strong></p>
+<ol start="5">
+<li>In <strong>Inventory &gt; Operations &gt; Transfers &gt; Deliveries</strong>, use the <strong>To invoice</strong> filter, select the done deliveries and choose
+   <strong>Actions &gt; Create Sale Invoices</strong>. Backorders still to deliver keep the flag of their origin
+   delivery but cannot be invoiced until they are done.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Deliveries filtered To invoice, one done delivery selected and the Actions menu open" src="en/05_livrari_de_facturat.png" /></p>
+<p><strong>Bill a receipt</strong></p>
+<ol start="6">
+<li>On a done receipt from a purchase order, fill in <strong>Supplier Invoice No</strong> and click <strong>Bill</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done receipt with Supplier Invoice No filled in and the Bill button" src="en/06_receptie_nr_factura.png" /></p>
+<ol start="7">
+<li>The vendor bill holds the received quantities. The supplier invoice number is saved as the vendor
+   reference of the purchase order; on Odoo 19 the <strong>Bill Reference</strong> of the bill is not filled in
+   automatically, so copy it before confirming the bill.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Draft vendor bill created from the receipt, with the Bill Reference field to fill in" src="en/07_factura_furnizor.png" /></p>
+<p><strong>Invoice a batch</strong></p>
+<ol start="8">
+<li>A done batch of deliveries has an <strong>Invoice</strong> button that invoices its transfers not invoiced yet; a
+   batch of receipts creates the vendor bill. Delivery and receipt batches cannot be invoiced together.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done batch transfer with two deliveries and the Invoice button" src="en/08_lot_facturare.png" /></p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.17 (2026-11-02)</h2>
 <ul>
 <li>Description aligned with the code: the to-invoice flag is set when the picking is validated, and storable lines of invoices created from pickings are locked.</li>
+<li>Consultant sheet (readme/FISA_CONSULTANT.md) and usage guide (readme/USAGE.md), with screenshots generated by tests/test_screenshots.py.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.16 (2026-10-17)</h2>
 <ul>

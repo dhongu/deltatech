@@ -19,11 +19,14 @@ Invoice Pickings
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%2077%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_invoice_picking/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-20%20automated%20tests%20%C2%B7%2077%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_picking
-    :alt: 18 automated tests · 77% code coverage
+    :alt: 20 automated tests · 77% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 - Features:
 
@@ -51,6 +54,82 @@ Invoice Pickings
 .. contents::
    :local:
 
+Usage
+=====
+
+**Invoice a delivery**
+
+1. Validate the delivery in **Inventory > Operations > Transfers >
+   Deliveries**. A delivery that comes from a sale order gets the **To
+   invoice** flag (tab **Additional Info**) and an **Invoice** button.
+
+   |Done delivery with the Invoice button and the To invoice flag
+   checked|
+
+2. Click **Invoice**. The standard invoicing window of the sale order
+   opens; keep **Regular invoice** and click **Create Draft**.
+
+   |Create invoice(s) window opened from the delivery, with Create Draft
+   highlighted|
+
+3. The draft invoice holds only the quantities delivered in the selected
+   transfers (6.00), not the whole order (10). In the **Other Info**
+   tab, **Created from pickings** is checked. On such an invoice, the
+   quantity and the product of storable lines cannot be changed and
+   these lines cannot be deleted.
+
+   |Draft customer invoice, Invoice Lines tab: one line with quantity
+   6.00 at 45.00, total 326.70 lei|
+
+4. Back on the delivery, **To invoice** is cleared and the invoice is
+   linked. If the invoice is cancelled or deleted, the delivery is
+   flagged **To invoice** again.
+
+   |Invoiced delivery: the invoice is linked and To invoice is cleared|
+
+**Invoice several deliveries**
+
+5. In **Inventory > Operations > Transfers > Deliveries**, use the **To
+   invoice** filter, select the done deliveries and choose **Actions >
+   Create Sale Invoices**. Backorders still to deliver keep the flag of
+   their origin delivery but cannot be invoiced until they are done.
+
+   |Deliveries filtered To invoice, one done delivery selected and the
+   Actions menu open|
+
+**Bill a receipt**
+
+6. On a done receipt from a purchase order, fill in **Supplier Invoice
+   No** and click **Bill**.
+
+   |Done receipt with Supplier Invoice No filled in and the Bill button|
+
+7. The vendor bill holds the received quantities. The supplier invoice
+   number is saved as the vendor reference of the purchase order; on
+   Odoo 19 the **Bill Reference** of the bill is not filled in
+   automatically, so copy it before confirming the bill.
+
+   |Draft vendor bill created from the receipt, with the Bill Reference
+   field to fill in|
+
+**Invoice a batch**
+
+8. A done batch of deliveries has an **Invoice** button that invoices
+   its transfers not invoiced yet; a batch of receipts creates the
+   vendor bill. Delivery and receipt batches cannot be invoiced
+   together.
+
+   |Done batch transfer with two deliveries and the Invoice button|
+
+.. |Done delivery with the Invoice button and the To invoice flag checked| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/01_livrare_de_facturat.png
+.. |Create invoice(s) window opened from the delivery, with Create Draft highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/02_fereastra_creare_factura.png
+.. |Draft customer invoice, Invoice Lines tab: one line with quantity 6.00 at 45.00, total 326.70 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/03_factura_din_livrare.png
+.. |Invoiced delivery: the invoice is linked and To invoice is cleared| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/04_livrare_facturata.png
+.. |Deliveries filtered To invoice, one done delivery selected and the Actions menu open| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/05_livrari_de_facturat.png
+.. |Done receipt with Supplier Invoice No filled in and the Bill button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/06_receptie_nr_factura.png
+.. |Draft vendor bill created from the receipt, with the Bill Reference field to fill in| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/07_factura_furnizor.png
+.. |Done batch transfer with two deliveries and the Invoice button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/08_lot_facturare.png
+
 Changelog
 =========
 
@@ -60,6 +139,9 @@ Changelog
 - Description aligned with the code: the to-invoice flag is set when the
   picking is validated, and storable lines of invoices created from
   pickings are locked.
+- Consultant sheet (readme/FISA_CONSULTANT.md) and usage guide
+  (readme/USAGE.md), with screenshots generated by
+  tests/test_screenshots.py.
 
 19.0.1.0.16 (2026-10-17)
 ------------------------
