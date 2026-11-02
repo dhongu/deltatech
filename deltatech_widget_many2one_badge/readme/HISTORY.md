@@ -1,3 +1,10 @@
+# 19.0.1.0.4
+
+- One `read` for the colors of all the badges on screen, instead of one `read` per
+  badge: a list of 80 orders sent 80 extra requests to the server, each time it was
+  displayed. The color is also no longer read again when the record changes but the
+  value stays the same.
+
 # 19.0.1.0.3
 
 - Own module icon, instead of the generic gears it had.
