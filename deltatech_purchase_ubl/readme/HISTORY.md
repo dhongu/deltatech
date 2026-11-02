@@ -1,9 +1,10 @@
 ## 19.0.1.4.22 (2026-11-02)
 
 - Updating vendor prices from an imported invoice no longer resets the lead time
-  (*Delivery Lead Time*) of the existing vendor line to 1 day: only the price,
-  currency, product code and unit of measure are written. A vendor line created
-  by the import still gets the default lead time.
+  (*Delivery Lead Time*) of the existing vendor line to 1 day. On an existing line only
+  the price (converted to the unit of the line), the currency and the vendor product
+  code (when the invoice line has one) are written. A vendor line created by the
+  import still gets the default lead time.
 
 ## 19.0.1.4.21 (2026-10-24)
 

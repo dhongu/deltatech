@@ -80,9 +80,11 @@ atașat un fișier XML de factură UBL, acesta este preluat automat în câmpul 
 În grupul **Fișier**, încărcați factura în câmpul **Fișier XML** (dacă nu a fost preluată automat);
 câmpul **Comandă de achiziție** arată comanda pe care se face importul. În grupul **Opțiuni**:
 - **Actualizează prețurile furnizorului** (bifat implicit) — scrie prețul unitar din XML în lista de
-  prețuri a furnizorului. Se modifică doar prețul, moneda, unitatea de măsură și codul produsului
-  furnizor ale liniei de furnizor; **Termenul de livrare** al unei linii existente rămâne
-  neschimbat (o linie nouă primește termenul implicit, 1 zi);
+  prețuri a furnizorului. Pe o linie de furnizor existentă se modifică doar prețul (convertit în
+  unitatea de măsură a liniei), moneda și codul produsului furnizorului, acesta din urmă numai dacă
+  XML-ul îl conține; **Termenul de livrare**, unitatea de măsură, cantitatea minimă și perioada de
+  valabilitate rămân cele ale liniei existente. Dacă furnizorul nu are încă o linie pentru produs,
+  se creează una nouă, cu unitatea din XML și termenul implicit;
 - **Creează factură furnizor** (bifat implicit) — creează factura furnizorului din comandă;
 - **Validează recepția din XML** (nebifat implicit) — setează cantitățile din XML pe recepția
   comenzii și o validează.
@@ -199,7 +201,8 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] După **Importă**, liniile existente au cantitatea și prețul din XML, iar produsele care nu erau
       pe comandă apar ca linii noi.
 - [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate, iar
-      **Termenul de livrare** al liniilor de furnizor existente a rămas neschimbat.
+      **Termenul de livrare** al liniilor de furnizor existente a rămas neschimbat (verificați cu un
+      termen diferit de 1 zi pe linie înainte de import: pe datele demo, cu 1 zi, testul trece și fără fix).
 - [ ] Cu **Validează recepția din XML** bifat, recepția comenzii este validată cu cantitățile din XML.
 - [ ] Factura furnizorului are referința, data și scadența din XML; un al doilea import al aceleiași
       facturi nu creează o factură dublă.
