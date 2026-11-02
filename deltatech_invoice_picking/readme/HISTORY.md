@@ -1,3 +1,7 @@
+## 19.0.1.0.17 (2026-11-02)
+
+- Description aligned with the code: the to-invoice flag is set when the picking is validated, and storable lines of invoices created from pickings are locked.
+
 ## 19.0.1.0.16 (2026-10-17)
 
 - Fixed: the To invoice flag of a transfer was decided by a single invoice line, so a fully invoiced

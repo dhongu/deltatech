@@ -55,19 +55,23 @@
 <li>only the products in the picking(s) with their respective done quantities will be added to the invoice</li>
 <li>only pickings that come from a sale order or purchase orders can be invoiced</li>
 <li>a picking must be in "done" state to be invoiced</li>
-<li>a "to invoice" field is added to pickings, for filtering purposes. When a sale picking is created, the field is set
-to True. When an invoice is created, the field is set to False. When an invoice is cancelled or deleted, it's set to
-True</li>
+<li>a "to invoice" field is added to pickings, for filtering purposes. When a picking that comes from a sale or purchase
+order is validated, the field is set to True. When an invoice is created, it is set to False. When the invoice is
+cancelled or deleted, it is set back to True and the link to the invoice is cleared</li>
 <li>a field with link to the invoice is added to pickings. The field is computed to point to the invoice generated from
 the picking</li>
-<li><strong>if changes are made to the invoice (lines deleted, qty's modified), the invoice fields will not be updated in
-linked pickings.</strong></li>
+<li><strong>on an invoice created from pickings, the quantity or product of storable product lines cannot be changed and
+those lines cannot be deleted, so the invoice stays aligned with the delivered quantities</strong></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.17 (2026-11-02)</h2>
+<ul>
+<li>Description aligned with the code: the to-invoice flag is set when the picking is validated, and storable lines of invoices created from pickings are locked.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.16 (2026-10-17)</h2>
 <ul>
 <li>Fixed: the To invoice flag of a transfer was decided by a single invoice line, so a fully invoiced
@@ -245,6 +249,26 @@ linked pickings.</strong></li>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_import_lines_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_import_lines_sale/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Import Lines in Sale Orders</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Load sale order lines from an XLSX, XLS, CSV or TXT file</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking_automatically" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -301,26 +325,6 @@ linked pickings.</strong></li>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set the product list price in a currency other than the company&#x27;s</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist_line_viewer" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist_line_viewer/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Line Viewer</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Creates a list view for the lines of a price list for search and management</p>
         </div>
       </a>
     </div>
