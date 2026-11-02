@@ -7,7 +7,7 @@
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Doc Screenshots</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Consultant sheet screenshots from tests</p>
       <div>
-        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Hidden</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
@@ -107,6 +107,22 @@ them. They count as requested when:</p>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FISE_SCREENSHOTS=1</code> is set in the environment.</li>
 </ul>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP_FISE_SCREENSHOTS=1</code> is a veto over any request.</p>
+<p><strong>Two languages.</strong> The consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) uses Romanian screenshots;
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code>, published on the Apps Store, uses English ones. Build the shot list once and
+capture it per language:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">def _shots(self):
+    return [{&quot;url&quot;: ..., &quot;name&quot;: &quot;01_list.png&quot;, &quot;highlight&quot;: &quot;button[name='action_post']&quot;}]
+
+def test_capture_fise(self):  # ro_RO -&gt; static/description/ (or readme/screenshots/)
+    self.capture_screenshots(self._shots())
+
+def test_capture_usage(self):  # en_US -&gt; static/description/en/
+    self.capture_screenshots(self._shots(), lang=&quot;en_US&quot;)
+</code></pre>
+<p>Prefer selectors by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">name</code>; when a selector needs UI text, give it per language:
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"ro_RO": "button:has-text('Confirm&#259;')", "en_US": "button:has-text('Confirm')"}</code>.
+To capture a single language, name the method:
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--test-tags=/&lt;module&gt;:TestXScreenshots.test_capture_usage</code>.</p>
 <p>Framing: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots(..., viewport=(1920, 950))</code> by default, wide enough for
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.report</code> tables with many columns; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_light_theme()</code> is called by
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_ro_company</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_demo_company</code>; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_autotrim</code> trims the margins. Useful per-shot
@@ -115,6 +131,40 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.0 (2026-11-02)</h2>
+<ul>
+<li>Migration to 20.0. The mixin keeps the Odoo 20 fixes already made in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_doc_screenshots</code> 20.0.1.1.10: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">click_tab</code> looks only among the notebook tabs (in 20.0
+  they are <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">button.nav-link</code>, and a form button with the same text no longer catches the click),
+  folded report lines are found by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[data-id="btn_foldable"]</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">render_all</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">unfold_report</code>
+  render the whole report despite the virtual grid of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account_reports</code>, and the company masking
+  clears <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">additional_identifiers</code> (formerly <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_registry</code>) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account_number</code> (formerly
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">acc_number</code>).</li>
+<li>The tests of these page helpers (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">test_screenshot_case.py</code>) come along with them.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-10-30)</h2>
+<ul>
+<li>Screenshots in a second language: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots(shots, lang="en_US")</code> sets the user's
+  language and the browser locale, renders <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">report_shot</code> reports in that language and writes the
+  files to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/en/</code> with the same names, for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> on the Apps Store.
+  Romanian (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro_RO</code>, the default) still goes to the usual folder, for the consultant sheet.</li>
+<li>Any shot value can depend on the language, as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"ro_RO": ..., "en_US": ...}</code> (e.g. a
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">:has-text(...)</code> selector); <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">click_tab</code> finds the tab by its English or Romanian label.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">report_shot</code> follows the capture language by default (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lang="auto"</code>); an explicit code still
+  pins it.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-25)</h2>
+<ul>
+<li>The screenshots for the Apps Store (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/</code>) work again with Pillow 9.0.1, the
+  version Odoo 19 pins on Python 3.10: they failed with "module 'PIL.Image' has no attribute
+  'Quantize'", a name that exists only since Pillow 9.1.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-10-25)</h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots</code> lifts Odoo's virtual memory limit (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit_memory_hard</code>, RLIMIT_AS) while
+  Playwright runs: Chrome inherited it and died at launch on Linux ("Target page, context or
+  browser has been closed", SIGTRAP), as in CI. Odoo's own test browser already does this.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-25)</h2>
 <ul>
 <li>Moved here from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_doc_screenshots</code> (Romania localization suite, 19.0.1.1.9), in a public
@@ -170,34 +220,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_sms_sale" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SO</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sms_sale/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">SMS on Sale Order Confirmation</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Hidden</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">send SMS at sale order confirmation</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -210,14 +240,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -230,14 +260,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_analytic" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_analytic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -250,14 +280,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -270,14 +300,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_edit_currency_rate" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -290,14 +320,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_actions" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_actions/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_actions/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -310,14 +340,14 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_agreement_management" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_agreement_management" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
                     style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
@@ -326,6 +356,26 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage agreements numbers, date, state</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Alternative Product Codes</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
         </div>
       </a>
     </div>
