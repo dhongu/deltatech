@@ -5,7 +5,7 @@
     "name": "Website llms.txt",
     "category": "Website",
     "summary": "Publish /llms.txt so that ChatGPT, Claude and other AI assistants read your site correctly",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

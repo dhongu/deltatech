@@ -49,6 +49,24 @@ class TestLlmsTxt(HttpCase):
         self.assertIn(f"- [Sitemap]({self.site_url}/sitemap.xml)", lines)
         self.assertTrue(content.endswith("\n"))
 
+    def test_description_from_template(self):
+        # a theme page: the description is set in its template, not in the SEO field
+        view = self.env["ir.ui.view"].create(
+            {
+                "name": "LLMS Delivery",
+                "type": "qweb",
+                "arch": '<t><t t-set="website_meta_description">Odoo   for\n shops</t>'
+                '<t t-set="website_meta_description" t-value="other" /><div>LLMS</div></t>',
+            }
+        )
+        self.page.write({"view_id": view.id, "website_meta_description": False})
+        self.assertIn(
+            f"- [LLMS Delivery]({self.site_url}/llms-delivery): Odoo for shops",
+            self.website._get_llms_txt().splitlines(),
+        )
+        self.page.website_meta_description = "From the SEO dialog"
+        self.assertIn("/llms-delivery): From the SEO dialog", self.website._get_llms_txt())
+
     def test_unindexed_page_left_out(self):
         self.page.website_indexed = False
         self.assertNotIn("/llms-delivery", self.website._get_llms_txt())
