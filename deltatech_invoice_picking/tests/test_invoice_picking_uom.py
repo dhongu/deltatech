@@ -62,6 +62,8 @@ class TestInvoicePickingUom(TransactionCase):
         line = bill.invoice_line_ids.filtered(lambda aml: aml.product_id == self.product)
         self.assertRecordValues(line, [{"product_uom_id": self.uom_dozen.id, "quantity": 1.0, "price_unit": 120.0}])
         self.assertAlmostEqual(bill.amount_untaxed, 120.0)
+        # 12 received units are fully covered by the bill of 1 dozen
+        self.assertFalse(picking.to_invoice)
 
     def test_customer_invoice_converts_delivered_quantity(self):
         self.env["stock.quant"]._update_available_quantity(self.product, self.warehouse.lot_stock_id, 24.0)
@@ -96,3 +98,6 @@ class TestInvoicePickingUom(TransactionCase):
         line = invoice.invoice_line_ids.filtered(lambda aml: aml.product_id == self.product)
         self.assertRecordValues(line, [{"product_uom_id": self.uom_dozen.id, "quantity": 1.0, "price_unit": 120.0}])
         self.assertAlmostEqual(invoice.amount_untaxed, 120.0)
+        # 12 delivered units are fully covered by the invoice of 1 dozen
+        self.assertEqual(picking.account_move_id, invoice)
+        self.assertFalse(picking.to_invoice)
