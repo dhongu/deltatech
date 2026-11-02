@@ -74,13 +74,18 @@ Accesați **Achiziții → Comenzi → Comenzi de achiziție** și deschideți c
 de sus apăsați **Importă UBL**. Se deschide fereastra **Importă UBL XML**. Dacă pe comandă este deja
 atașat un fișier XML de factură UBL, acesta este preluat automat în câmpul **Fișier XML**.
 
+![Butonul Importă UBL pe comanda de achiziție](screenshots/01_buton_importa_ubl.png)
+
 ### Pasul 2 — Alegerea fișierului și a opțiunilor
 
 În grupul **Fișier**, încărcați factura în câmpul **Fișier XML** (dacă nu a fost preluată automat);
 câmpul **Comandă de achiziție** arată comanda pe care se face importul. În grupul **Opțiuni**:
 - **Actualizează prețurile furnizorului** (bifat implicit) — scrie prețul unitar din XML în lista de
-  prețuri a furnizorului;
-- **Creează factură furnizor** (bifat implicit) — creează factura furnizorului din comandă;
+  prețuri a furnizorului; se modifică doar prețul (convertit în unitatea de măsură a liniei), moneda
+  și codul produsului furnizorului (numai dacă XML-ul îl conține); **Termen livrare** și unitatea de
+  măsură rămân cele ale liniei existente;
+- **Creează factură furnizor** (bifat implicit) — creează factura furnizorului din comandă; atenție:
+  la o factură e-Factura, care are număr de factură în XML, factura se creează chiar și cu bifa debifată;
 - **Validează recepția din XML** (nebifat implicit) — setează cantitățile din XML pe recepția
   comenzii și o validează.
 
@@ -90,6 +95,8 @@ Deasupra pot apărea avertismente galbene:
   (vezi [dhongu/deltatech#3820](https://github.com/dhongu/deltatech/issues/3820));
 - un avertisment de **verificare a totalului**, dacă totalul comenzii diferă de totalul din XML.
 
+![Asistentul Importă UBL: fișierul și opțiunile](screenshots/02_asistent_optiuni.png)
+
 Apăsați **Previzualizare**.
 
 ### Pasul 3 — Verificarea asocierii produselor în previzualizare
@@ -97,6 +104,8 @@ Apăsați **Previzualizare**.
 Fereastra afișează un tabel cu câte un rând pentru fiecare linie a facturii: **Cod furnizor**,
 **Descriere (XML)**, **Cantitate**, **Preț unitar**, **Produs** (produsul găsit), **Action** și
 **Tip potrivire**.
+
+![Previzualizarea: verde, galben, roșu; bulina 1 indică rândul galben](screenshots/06_preview_linie_galbena.png)
 
 1. **Găsiți pe ecran** culoarea fiecărui rând și coloana **Tip potrivire**:
    - **verde** — „După cod furnizor” sau „După cod de bare”: asociere sigură;
@@ -112,7 +121,7 @@ Fereastra afișează un tabel cu câte un rând pentru fiecare linie a facturii:
 
 ### Pasul 4 — Citirea rezultatului importului
 
-Fereastra trece în secțiunea **Rezultat**, cu un jurnal colorat (verde = operații reușite,
+Fereastra trece în secțiunea **Rezultat**, cu un jurnal de mesaje (în teorie colorat: verde = operații reușite,
 portocaliu/roșu = avertismente):
 - „Furnizor: …” și „Comandă: … | Referință XML: …”;
 - câte linii de comandă au fost actualizate și câte au fost adăugate;
@@ -122,7 +131,12 @@ portocaliu/roșu = avertismente):
   de facturat, factură existentă deja cu aceeași referință);
 - rezultatul verificării totalului comenzii față de totalul din XML.
 
-Citiți jurnalul înainte de a închide: orice rând roșu cere o verificare manuală pe comandă.
+![Jurnalul de rezultat al importului](screenshots/03_jurnal_rezultat.png)
+
+Citiți jurnalul înainte de a închide: nu vă bazați pe culori, deoarece în interfața română clasificarea
+colorată nu se aplică mereu (mesajele „Avertisment”, „Linii neasociate” pot apărea ca informații);
+citiți fiecare rând. Capturile de rezultat (pașii 4–6) sunt pe o comandă confirmată cu produse codificate,
+spre deosebire de pașii 1–3, care arată o comandă fără linii cu cele trei culori.
 
 ### Pasul 5 — Verificarea comenzii și a recepției
 
@@ -131,16 +145,29 @@ discounturi preluate din XML) și liniile noi adăugate. Dacă ați bifat **Vali
 deschideți recepția din butonul **Recepție**: cantitățile realizate sunt cele din factură, iar
 recepția este validată.
 
+![Comanda după import: liniile actualizate, Primit și Facturat](screenshots/04_comanda_importata.png)
+
+![Recepția validată cu cantitățile din XML](screenshots/05_receptie_validata.png)
+
+Validarea recepției **nu** generează o notă contabilă proprie: în configurarea standard Odoo 20 cu evaluare
+perpetuă („la facturare”) nota de stoc apare abia la confirmarea facturii (pasul 6).
+
 ### Pasul 6 — Verificarea facturii furnizorului
 
 Din fereastra de rezultat apăsați **Vezi factura furnizor** (sau deschideți-o din butonul
 **Facturi furnizor** de pe comandă). Factura este în ciornă și are completate din XML: **Referință** (numărul
 facturii furnizorului), **Data facturii**, **Data scadenței** și **Document sursă** (referința
 comenzii din XML). Cotele de TVA ale liniilor sunt aliniate cu procentele din XML.
+![Factura furnizorului în ciornă: referința, data facturii și scadența din XML](screenshots/08_factura_furnizor.png)
+
 1. **Găsiți** totalul facturii și comparați-l cu totalul din XML-ul furnizorului.
 2. **Verificați** că furnizorul, numărul și data sunt corecte și că fiecare linie are cota de TVA din
    factura primită (atenție la liniile cu 0% — vezi secțiunea 9).
 3. **Treceți mai departe** — confirmați factura cu butonul standard **Confirmă**.
+
+După **Confirmă**, în tab-ul **Elemente jurnal** apare nota contabilă a facturii:
+
+![Elementele jurnal ale facturii confirmate](screenshots/09_nota_factura.png)
 
 ### Pasul 7 — Importul automat la atașarea XML-ului
 
@@ -151,20 +178,29 @@ postează în istoricul comenzii, iar responsabilul comenzii primește activitat
 **„Import SPV necesită verificare”**. Rezolvați liniile pe comandă, apoi relansați importul manual
 (pașii 1–6).
 
+![Activitatea „Import SPV necesită verificare” și nota colorată din istoricul comenzii](screenshots/07_activitate_verificare.png)
+
 Dacă documentul XML este o **notă de credit**, nu se aplică pe comandă: jurnalul afișează
 „Atenție: documentul … este o notă de credit; notele de credit nu se importă. Înregistrați manual
 rambursarea de la furnizor.”
 
 ### Note de monografie și raportare
 
-Modulul nu generează note contabile proprii. Notele rezultă din documentele standard create în flux:
-- **Recepția validată** (în configurarea RO cu evaluare automată a stocului): Dr 371 „Mărfuri” (sau
-  contul de stoc al categoriei) = Cr 408 „Furnizori — facturi nesosite”, la valoarea comenzii.
-- **Factura furnizorului confirmată**: Dr 408 (pentru cantitățile recepționate) / Dr cont de
-  cheltuială (pentru servicii) + Dr 4426 „TVA deductibilă” = Cr 401 „Furnizori”.
+Modulul nu generează note contabile proprii. Notele rezultă din documentele standard create în flux
+(verificate pe compania demo RO, plan de conturi `l10n_ro`, categorie de produse cu evaluare
+perpetuă și contul de stoc 371 setat pe categorie):
+- **Recepția validată**: în Odoo 20 evaluarea perpetuă se contabilizează „la facturare”, deci
+  validarea recepției din XML **nu** generează nicio notă contabilă (nu apare niciun Dr 371 = Cr 408).
+- **Factura furnizorului confirmată** (captura `09_nota_factura.png`): Dr 371 „Mărfuri” (contul de
+  stoc al categoriei) + Dr 4426 „TVA deductibilă” = Cr 401 „Furnizori” (contul analitic 401100 în planul RO). În planul RO standard,
+  contul de stoc implicit al categoriilor este 301; pentru mărfuri setați 371 pe categoria de
+  produse. Liniile de serviciu se înregistrează pe contul de cheltuială al produsului.
 
-Conturile exacte depind de configurarea categoriilor de produse, a taxelor și a jurnalului de
-achiziții.
+Dacă recepția și factura cad în luni diferite, la închiderea lunii verificați stocul recepționat și
+nefacturat (practica RO: Dr 371 = Cr 408 „Furnizori - facturi nesosite”), pentru separarea exercițiilor.
+Dacă firma folosește module suplimentare de stoc ale localizării (de exemplu înregistrarea
+recepției pe 408), notele pot diferi; conturile exacte depind de configurarea categoriilor de
+produse, a taxelor și a jurnalului de achiziții.
 
 ## 7. Legături cu alte module / declarații
 
@@ -190,6 +226,7 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] După **Importă**, liniile existente au cantitatea și prețul din XML, iar produsele care nu erau
       pe comandă apar ca linii noi.
 - [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate.
+- [ ] Dacă înainte de import linia de furnizor avea **Termen livrare** diferit de 1, valoarea a rămas neschimbată după import.
 - [ ] Cu **Validează recepția din XML** bifat, recepția comenzii este validată cu cantitățile din XML.
 - [ ] Factura furnizorului are referința, data și scadența din XML; un al doilea import al aceleiași
       facturi nu creează o factură dublă.
@@ -211,24 +248,35 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 | „Factura furnizor există deja pentru această referință de factură (…)” | Factura a fost deja importată | Nu e nevoie de acțiune; folosiți **Vezi factura furnizor** |
 | „Atenție: recepția … nu a putut fi validată; verificați-o manual.” | Cantitățile nu pot fi setate (de ex. produs cu lot/serie) | Completați și validați recepția manual |
 | Avertisment de total la o factură cu avans | Comparația folosește suma de plată, nu totalul facturii (problemă cunoscută, descrisă în `readme/bugs.md`) | Verificați manual totalul facturii |
+| „Vendor bill creation skipped: … line(s) of the source document are unmatched” (netradus) | La importul automat au rămas linii neasociate; factura nu s-a creat | Rezolvați liniile pe comandă, apoi creați factura sau relansați importul |
+| „Nu s-a găsit nicio recepție de validat.” | Comanda nu are recepție (neconfirmată sau fără produse stocabile) | Confirmați comanda și validați recepția manual |
 | Linie cu TVA 0% în XML rămâne cu TVA pe factură | Problemă cunoscută (descrisă în `readme/bugs.md`) | Corectați manual taxa pe linia facturii |
 | Factură XML în altă monedă decât comanda | Moneda nu este verificată la import (problemă cunoscută, în `readme/bugs.md`) | Importați doar pe o comandă în aceeași monedă ca factura |
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text** — pașii din secțiunea 6 nu includ capturi. În `readme/screenshots/` există
-două capturi generate automat din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
-`l10n_ro_doc_screenshots`, import defensiv), care corespund pașilor 3 și 7, dar nu sunt încorporate
-în fișă:
+Capturile sunt în `readme/screenshots/` și sunt generate automat din `tests/test_screenshots.py`
+(mixinul `ScreenshotCase` din `l10n_ro_doc_screenshots`, import defensiv: fără tooling testul se
+sare), pe compania demo RO în RON, interfață în română:
 
-1. `06_preview_linie_galbena.png` — previzualizarea cu o linie asociată doar după nume (galbenă).
-2. `07_activitate_verificare.png` — activitatea „Import SPV necesită verificare” pe comandă.
+1. `01_buton_importa_ubl.png` — pasul 1: butonul **Importă UBL** pe comanda de achiziție.
+2. `02_asistent_optiuni.png` — pasul 2: asistentul cu **Fișier XML** și cele trei opțiuni.
+3. `06_preview_linie_galbena.png` — pasul 3: previzualizarea cu rânduri verde, galben (după nume) și roșu.
+4. `03_jurnal_rezultat.png` — pasul 4: jurnalul de rezultat al importului.
+5. `04_comanda_importata.png` — pasul 5: comanda cu liniile actualizate, **Primit** și **Facturat**.
+6. `05_receptie_validata.png` — pasul 5: recepția validată cu cantitățile din XML.
+7. `08_factura_furnizor.png` — pasul 6: factura furnizorului în ciornă, cu datele din XML.
+8. `09_nota_factura.png` — pasul 6: **Elemente jurnal** ale facturii confirmate (Dr 371 + Dr 4426 = Cr 401).
+9. `07_activitate_verificare.png` — pasul 7: activitatea „Import SPV necesită verificare” și nota colorată.
 
-Pentru o fișă completă cu capturi pe toți pașii se rulează skill-ul `fisa-screenshots`; regenerarea
-capturilor existente:
+Numerele 06 și 07 au rămas de la primele capturi generate, de aceea ordinea numerică nu urmează
+strict ordinea pașilor. Recepția validată nu are captură de note contabile, pentru că nu generează
+nicio notă (vezi „Note de monografie”). Datele din XML-ul demo sunt din 2026, cu TVA 21%.
+
+Regenerarea capturilor (pe o bază cu date demo și `l10n_ro` instalat, Playwright și Chrome de sistem):
 
 ```bash
-./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_purchase_ubl,l10n_ro_doc_screenshots \
+./odoo/odoo-bin -c odoo.conf -d <db> --with-demo -i l10n_ro,deltatech_purchase_ubl,l10n_ro_doc_screenshots \
     --test-tags=fise_screenshots --stop-after-init
 ```
 

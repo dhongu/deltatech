@@ -1400,3 +1400,40 @@ class TestPurchaseUblImport(TransactionCase):
         self.assertTrue(pol, "the order line must use the manually chosen product")
         self.assertAlmostEqual(pol.product_qty, 5.0, places=4)
         self.assertAlmostEqual(pol.price_unit, 40.0, places=2)
+
+    def test_price_update_keeps_the_lead_time_of_the_vendor_line(self):
+        """Updating the vendor price from an invoice must not reset the lead time of the vendor line."""
+        product = self.env["product.product"].create(
+            {
+                "name": "Lead Time Product",
+                "default_code": "VEND-LEAD",
+                "is_storable": True,
+                "purchase_ok": True,
+            }
+        )
+        sinfo = self.env["product.supplierinfo"].create(
+            {
+                "partner_id": self.vendor.id,
+                "product_tmpl_id": product.product_tmpl_id.id,
+                "product_id": product.id,
+                "product_code": "VEND-LEAD",
+                "price": 5.0,
+                "delay": 9,
+            }
+        )
+        xml = _xml_invoice(
+            order_ref=self.po.name,
+            lines=[
+                {
+                    "code": "VEND-LEAD",
+                    "name": "Lead Time Product",
+                    "qty": "2",
+                    "price": "7.25",
+                    "line_total": "14.50",
+                }
+            ],
+        )
+        self._run_wizard(xml, self.po)
+
+        self.assertAlmostEqual(sinfo.price, 7.25, places=2)
+        self.assertEqual(sinfo.delay, 9, "the lead time of the vendor line must be kept")
