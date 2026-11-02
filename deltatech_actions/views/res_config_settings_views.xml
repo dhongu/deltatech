@@ -6,7 +6,7 @@
         <field name="priority" eval="90" />
         <field name="inherit_id" ref="base.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//app[@name='general_settings']" position="inside">
+            <xpath expr="//app[@name='general_settings']/widget[@name='res_config_dev_tool']" position="before">
                 <block title="Database Cleanup" name="dt_actions_cleanup" groups="base.group_system">
                     <setting
                         string="Run cleanups from the auto-vacuum job"

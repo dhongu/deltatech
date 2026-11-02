@@ -1,3 +1,8 @@
+## 19.0.0.9.13 (2026-11-02)
+
+- The *Database Cleanup* section of the general settings is placed before the developer tools,
+  no longer at the very end of the page, after *About*.
+
 ## 19.0.0.9.12 (2026-10-30)
 
 - The PDF and label cleanups delete in chunks of 200 attachments. Inside a cron,
