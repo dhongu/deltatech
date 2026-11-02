@@ -36,6 +36,12 @@ class Website(models.Model):
         string="Custom llms.txt",
         help="When filled in, served as is instead of the generated file.",
     )
+    llms_txt_url = fields.Char(string="llms.txt URL", compute="_compute_llms_txt_url")
+
+    def _compute_llms_txt_url(self):
+        # on the domain of each website: a relative link opens the file of the current one
+        for website in self:
+            website.llms_txt_url = f"{website.get_base_url()}/llms.txt"
 
     def _get_llms_txt(self):
         self.ensure_one()

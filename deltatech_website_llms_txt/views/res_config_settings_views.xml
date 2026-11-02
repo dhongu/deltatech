@@ -13,22 +13,17 @@
                 >
                     <field name="llms_txt_enabled" />
                     <div class="content-group" invisible="not llms_txt_enabled">
-                        <div class="row mt16">
-                            <label class="col-lg-3 o_light_label" for="llms_txt_summary" string="Summary" />
-                            <field name="llms_txt_summary" placeholder="Who you are and what you sell" />
-                        </div>
-                        <div class="row mt16">
-                            <label class="col-lg-3 o_light_label" for="llms_txt_details" string="Details" />
-                            <field name="llms_txt_details" placeholder="Delivery, payment, returns (Markdown)" />
-                        </div>
-                        <div class="row mt16">
-                            <label class="col-lg-3 o_light_label" for="llms_txt_custom" string="Custom file" />
-                            <field name="llms_txt_custom" placeholder="Replaces the generated file" />
+                        <div class="mt8">
+                            <button
+                                name="action_open_llms_txt"
+                                type="object"
+                                string="Edit llms.txt"
+                                icon="oi-arrow-right"
+                                class="btn-link"
+                            />
                         </div>
                         <div class="mt8">
-                            <a href="/llms.txt" target="_blank" class="btn-link">
-                                <i class="oi oi-arrow-right" /> View llms.txt
-                            </a>
+                            <field name="llms_txt_url" widget="url" text="View llms.txt" />
                         </div>
                     </div>
                 </setting>
