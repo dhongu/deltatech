@@ -16,8 +16,14 @@ Products Extension
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_extension
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_product_extension/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_product_extension
+    :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Deltatech Product Extension
 ===========================
@@ -45,9 +51,12 @@ Key Features
 
 3. **Physical Dimensions**:
 
-   - Adds fields for specifying product dimensions (Length, Width,
-     Height) directly on the product record.
-   - Useful for shipping, storage planning, and catalog displays.
+   - Adds a free-text **Dimensions** field to the product, for example
+     "120 x 60 x 75 cm".
+   - Useful for documents, catalogs and quick reference. The field does
+     not calculate the product volume. For numeric Length, Width and
+     Height fields that fill in the volume, use the Product Dimensions
+     module (``deltatech_product_dimension``).
 
 4. **Partner Integration**:
 
@@ -59,11 +68,12 @@ Usage
 
 1. Go to **Sales > Products > Products** or **Inventory > Products >
    Products**.
-2. Open any product record and locate the new fields in the **General
-   Information** or a dedicated **Technical** tab.
+2. Open any product record. **Manufacturer** appears under the product
+   category; **Dimensions** and **Shelf Life** appear in the **General
+   Information** tab, next to the cost.
 3. Fill in the **Manufacturer**, **Shelf Life**, and its **UOM**.
-4. Enter the **Dimensions** (L x W x H) as needed for your logistics or
-   cataloging.
+4. Enter the **Dimensions** as text (for example L x W x H) as needed
+   for your documents or catalog.
 5. In the **Contacts** module, you can now tag partners as manufacturers
    for better filtering.
 
@@ -74,6 +84,18 @@ Usage
 
 Changelog
 =========
+
+20.0.1.1.1 (2026-11-02)
+-----------------------
+
+- Apps Store description: Dimensions is a free-text field and does not
+  calculate the volume; for numeric dimensions with volume, see Product
+  Dimensions. The fields' location on the product form is described
+  exactly.
+- Consultant sheet (readme/FISA_CONSULTANT.md) ported from 19.0: the
+  manufacturer, dimensions (free text) and shelf life on the product,
+  and Invoice Analysis searched and grouped by manufacturer, with five
+  screenshots.
 
 20.0.1.1.0 (2026-10-22)
 -----------------------
