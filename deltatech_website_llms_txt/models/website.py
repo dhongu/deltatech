@@ -1,6 +1,8 @@
 # © 2026 Terrabit
 # See README.rst file on addons root folder for license details
 
+from lxml import etree
+
 from odoo import fields, models
 
 # Links listed per section: llms.txt is an index for a model's context, not a sitemap.
@@ -34,6 +36,12 @@ class Website(models.Model):
         string="Custom llms.txt",
         help="When filled in, served as is instead of the generated file.",
     )
+    llms_txt_url = fields.Char(string="llms.txt URL", compute="_compute_llms_txt_url")
+
+    def _compute_llms_txt_url(self):
+        # on the domain of each website: a relative link opens the file of the current one
+        for website in self:
+            website.llms_txt_url = f"{website.get_base_url()}/llms.txt"
 
     def _get_llms_txt(self):
         self.ensure_one()
@@ -64,7 +72,22 @@ class Website(models.Model):
 
     def _get_llms_txt_default_summary(self):
         homepage = self.with_context(website_id=self.id)._get_website_pages(domain=[("url", "=", "/")], limit=1)
-        return homepage.website_meta_description
+        return self._get_llms_txt_page_description(homepage)
+
+    def _get_llms_txt_page_description(self, page):
+        """Meta description of the page: the SEO field, or else the one set in its template.
+
+        Pages that come from a theme have no SEO field of their own (`theme.website.page` has
+        none): their template sets the description with
+        `<t t-set="website_meta_description">...</t>`, read here in the current language.
+        """
+        if not page or page.website_meta_description:
+            return page.website_meta_description or ""
+        arch = page.view_id.arch
+        if not arch:
+            return ""
+        nodes = etree.fromstring(arch).xpath("//t[@t-set='website_meta_description' and not(@t-value)]")
+        return " ".join("".join(nodes[0].itertext()).split()) if nodes else ""
 
     def _get_llms_txt_contact(self):
         company = self.company_id
@@ -82,7 +105,7 @@ class Website(models.Model):
             order="url",
             limit=LLMS_TXT_LINK_LIMIT,
         )
-        page_links = [(page.name, base_url + page.url, page.website_meta_description) for page in pages]
+        page_links = [(page.name, base_url + page.url, self._get_llms_txt_page_description(page)) for page in pages]
         sections = [(self.env._("Pages"), page_links)]
         # the shop is optional: the module only needs `website`
         if "product.public.category" in self.env:
