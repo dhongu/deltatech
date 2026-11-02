@@ -80,7 +80,9 @@ atașat un fișier XML de factură UBL, acesta este preluat automat în câmpul 
 În grupul **Fișier**, încărcați factura în câmpul **Fișier XML** (dacă nu a fost preluată automat);
 câmpul **Comandă de achiziție** arată comanda pe care se face importul. În grupul **Opțiuni**:
 - **Actualizează prețurile furnizorului** (bifat implicit) — scrie prețul unitar din XML în lista de
-  prețuri a furnizorului;
+  prețuri a furnizorului. Se modifică doar prețul, moneda, unitatea de măsură și codul produsului
+  furnizor ale liniei de furnizor; **Termenul de livrare** al unei linii existente rămâne
+  neschimbat (o linie nouă primește termenul implicit, 1 zi);
 - **Creează factură furnizor** (bifat implicit) — creează factura furnizorului din comandă;
 - **Validează recepția din XML** (nebifat implicit) — setează cantitățile din XML pe recepția
   comenzii și o validează.
@@ -196,7 +198,8 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] Schimbarea produsului pe un rând îl marchează „Ales manual”; „Ignoră” lasă linia neimportată.
 - [ ] După **Importă**, liniile existente au cantitatea și prețul din XML, iar produsele care nu erau
       pe comandă apar ca linii noi.
-- [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate.
+- [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate, iar
+      **Termenul de livrare** al liniilor de furnizor existente a rămas neschimbat.
 - [ ] Cu **Validează recepția din XML** bifat, recepția comenzii este validată cu cantitățile din XML.
 - [ ] Factura furnizorului are referința, data și scadența din XML; un al doilea import al aceleiași
       facturi nu creează o factură dublă.
