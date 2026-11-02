@@ -1,6 +1,15 @@
 import {describe, expect, test} from "@odoo/hoot";
 import {queryOne} from "@odoo/hoot-dom";
-import {clickSave, contains, defineModels, fields, models, mountView, onRpc} from "@web/../tests/web_test_helpers";
+import {
+    clickSave,
+    contains,
+    defineModels,
+    defineWebModels,
+    fields,
+    models,
+    mountView,
+    onRpc,
+} from "@web/../tests/web_test_helpers";
 
 describe("Many2oneBadgeField", () => {
     class Partner extends models.Model {
@@ -17,12 +26,20 @@ describe("Many2oneBadgeField", () => {
         name = fields.Char({string: "Task Name"});
         partner_id = fields.Many2one({relation: "partner", string: "Partner"});
 
-        _records = [{id: 1, name: "Task 1", partner_id: 1}];
+        _records = [
+            {id: 1, name: "Task 1", partner_id: 1},
+            {id: 2, name: "Task 2", partner_id: 2},
+        ];
     }
 
+    // Vizualizarea listă are nevoie și de modelele web (res.users)
+    defineWebModels();
     defineModels([Partner, Task]);
 
     test("Many2oneBadgeField: readonly rendering", async () => {
+        onRpc("partner", "read", ({args}) => {
+            expect.step(`partner read ${JSON.stringify(args[0])}`);
+        });
         await mountView({
             type: "form",
             resModel: "task",
@@ -39,6 +56,29 @@ describe("Many2oneBadgeField", () => {
         expect(badge).toHaveText("Partner 1");
         expect(badge).toHaveClass("o_tag_color_1");
         expect(".o_field_many2one_badge .o_delete").toHaveCount(0);
+        expect.verifySteps(["partner read [1]"]);
+    });
+
+    test("Many2oneBadgeField: list view reads all colors at once", async () => {
+        onRpc("partner", "read", ({args}) => {
+            expect.step(`partner read ${JSON.stringify(args[0])}`);
+        });
+        await mountView({
+            type: "list",
+            resModel: "task",
+            arch: `
+                <list>
+                    <field name="name"/>
+                    <field name="partner_id" widget="many2one_badge" options="{'color_field': 'color'}"/>
+                </list>
+            `,
+        });
+
+        expect(".o_data_row .badge.o_tag").toHaveCount(2);
+        expect(".o_data_row:eq(0) .badge.o_tag").toHaveClass("o_tag_color_1");
+        expect(".o_data_row:eq(1) .badge.o_tag").toHaveClass("o_tag_color_2");
+        // Un RPC per rând încărca serverul pe listele mari (PTC, sale.order.phase)
+        expect.verifySteps(["partner read [1,2]"]);
     });
 
     // Pe mobil autocomplete-ul deschide un dialog, nu un dropdown

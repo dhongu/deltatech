@@ -9,7 +9,7 @@ Features
 - ✅ Remove button (`×`) appears on hover over the badge
 - ✅ Autocomplete input for selecting a new value when field is empty
 - ✅ Supports customizable `color_field` option
-- ✅ Compatible with all standard Odoo colors (0–11)
+- ✅ Compatible with the standard Odoo colors (1–11 from the picker, 0 for no color)
 - ✅ Modern rounded badge design
 
 Installation
@@ -135,22 +135,23 @@ XML view
 Available Colors
 ================
 
-Odoo provides 12 predefined colors (indices 0–11):
+Odoo provides 12 predefined colors (indices 0–11). The badge color picker offers 1–11; index 0
+(no color) is set from the related record's own form.
 
 | Index | Color |
 |---|---|
-| 0 | Grey (no color) |
+| 0 | No color (grey) |
 | 1 | Red |
 | 2 | Orange |
 | 3 | Yellow |
-| 4 | Light green |
-| 5 | Green |
-| 6 | Cyan |
-| 7 | Light blue |
+| 4 | Cyan |
+| 5 | Purple |
+| 6 | Almond |
+| 7 | Teal |
 | 8 | Blue |
-| 9 | Purple |
-| 10 | Pink |
-| 11 | Brown |
+| 9 | Raspberry |
+| 10 | Green |
+| 11 | Violet |
 
 Troubleshooting
 ===============

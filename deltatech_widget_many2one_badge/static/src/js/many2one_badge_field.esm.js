@@ -14,6 +14,27 @@ import {registry} from "@web/core/registry";
 import {usePopover} from "@web/core/popover/popover_hook";
 import {useService} from "@web/core/utils/hooks";
 
+// Citirile de culoare cerute în același ciclu de randare (rândurile unei liste) se
+// strâng într-un singur `read`, în loc de un RPC per badge
+const pendingColorReads = new Map();
+
+function readColor(orm, relation, colorField, resId) {
+    const key = `${relation},${colorField}`;
+    let batch = pendingColorReads.get(key);
+    if (!batch) {
+        const ids = new Set();
+        const promise = Promise.resolve().then(async () => {
+            pendingColorReads.delete(key);
+            const records = await orm.read(relation, [...ids], [colorField]);
+            return Object.fromEntries(records.map((rec) => [rec.id, rec[colorField] || 0]));
+        });
+        batch = {ids, promise};
+        pendingColorReads.set(key, batch);
+    }
+    batch.ids.add(resId);
+    return batch.promise.then((colors) => colors[resId] || 0);
+}
+
 class Many2oneBadgeColorPopover extends Component {
     static template = "deltatech_widget_many2one_badge.ColorPopover";
     static components = {ColorList};
@@ -54,19 +75,26 @@ export class Many2oneBadgeField extends Component {
         }
         const val = props.record.data[props.name];
         if (!val) {
+            this.colorResId = null;
             this.state.colorIndex = 0;
             return;
         }
         const resId = Array.isArray(val) ? val[0] : val.id || val.resId;
         if (!resId) {
+            this.colorResId = null;
             this.state.colorIndex = 0;
             return;
         }
+        // Aceeași valoare: culoarea e deja încărcată (sau aleasă din popover)
+        if (resId === this.colorResId) {
+            return;
+        }
+        this.colorResId = resId;
         const relation = props.record.fields[props.name].relation;
         try {
-            const result = await this.orm.read(relation, [resId], [colorField]);
-            this.state.colorIndex = (result && result[0] && result[0][colorField]) || 0;
+            this.state.colorIndex = await readColor(this.orm, relation, colorField, resId);
         } catch {
+            this.colorResId = null;
             this.state.colorIndex = 0;
         }
     }
@@ -133,6 +161,7 @@ export class Many2oneBadgeField extends Component {
 
     async removeValue() {
         await this.props.record.update({[this.props.name]: false});
+        this.colorResId = null;
         this.state.colorIndex = 0;
     }
 
