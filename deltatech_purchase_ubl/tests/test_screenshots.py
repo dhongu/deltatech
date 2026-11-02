@@ -109,7 +109,9 @@ class TestPurchaseUblScreenshots(ScreenshotCase or object):
         # fără cod de furnizor și fără cod de bare: matcherul cade pe potrivirea după nume.
         # Numele trebuie să fie UNIC în bază — `_match_product_detailed` acceptă potrivirea
         # după nume doar la un singur rezultat (`len(products) == 1`).
-        cls.prod_yellow = env["product.product"].create({"name": "Teu PVC 110 x 50 mm", "type": "consu", "is_storable": True})
+        cls.prod_yellow = env["product.product"].create(
+            {"name": "Teu PVC 110 x 50 mm", "type": "consu", "is_storable": True}
+        )
 
         cls.xml_preview = _xml_invoice(
             invoice_id="FMS-2026-00418",
