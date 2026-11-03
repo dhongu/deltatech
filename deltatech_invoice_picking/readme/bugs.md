@@ -15,7 +15,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PICKINV-002 — P2: Picking billing status is decided by one invoice line instead of cumulative coverage
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.16 / 20.0.1.0.17 — `account.move.update_pickings()` derives the flag of each transfer once from all its done moves (`_update_order_pickings()`), using the cumulative invoiced quantity of each order line (non-cancelled invoices minus refunds) converted to the order line unit; the quantity not invoiced yet is attributed to the most recent open transfers. `button_draft()` calls `update_pickings()` after the reset, so a cancelled invoice reset to draft links its transfers again. Covered by tests in tests/test_invoice_picking_coverage.py.
 - **Location:** models/account_move.py, update_pickings().
 - **Trigger:** A normal order invoice covers several products in one picking only partially, or the same delivered quantity is invoiced across several invoices.
 - **Actual behavior:** Each line overwrites the whole picking to_invoice flag using only its own quantity versus one stock move. A full line can clear an earlier partial line; once cleared, later lines are skipped. Prior invoices are not accumulated.
@@ -26,7 +26,7 @@ Review date: 2026-10-02. Target version: Odoo 19.
 
 ## PICKINV-003 — P2: Batch invoicing excludes pickings that still need partial billing
 
-- **Status:** Open.
+- **Status:** Fixed in 19.0.1.0.16 / 20.0.1.0.17 — `_compute_invoiced()` and `_search_invoiced()` treat a batch with a partially invoiced transfer (`to_invoice` set) as not invoiced, and `action_create_invoice()` keeps such transfers. Covered by tests in tests/test_invoice_picking_coverage.py.
 - **Location:** models/stock_picking_batch.py, _compute_invoiced()/action_create_invoice().
 - **Trigger:** A done batch contains a picking with account_move_id set and to_invoice=True after a partial order invoice.
 - **Actual behavior:** The batch compute treats any invoice link as fully invoiced. The action removes all linked pickings without checking to_invoice, and so omits partially billed pickings from the invoice wizard or supplier bill selection.
