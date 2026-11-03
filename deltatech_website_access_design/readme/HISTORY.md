@@ -1,3 +1,10 @@
+## 19.0.1.0.2 (2026-11-03)
+
+- Description rewritten from the code: the module grants no website rights; it
+  reserves the Contacts, Sales and Invoicing > Customers / Vendors menus to the
+  group *Access Partners, Sale, Invoice*. Documented the limitations after a
+  Contacts update and at uninstall.
+
 # 19.0.1.0.1
 
 - Own module icon, instead of the generic gears it had.
