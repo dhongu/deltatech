@@ -1,3 +1,9 @@
+## 19.0.1.0.10 (2026-11-03)
+
+- Description rewritten from the code: the transfer value is shown in the transfers list, not on the transfer form.
+- Documented the account propagation to subcategories and the Change Product Price group, which the old description did not mention.
+- Summary and banner corrected.
+
 ## 19.0.1.0.9 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in
