@@ -39,11 +39,11 @@ class TestInvoicePickingCoverage(TransactionCase):
         self.assertEqual(picking.state, "done")
         self.assertTrue(picking.to_invoice)
 
-    def _invoice(self, order, quantities):
+    def _invoice(self, order, quantities, move_type="out_invoice"):
         """Invoice the order lines with the given quantities, in the given order, as _create_invoices does."""
         invoice = self.env["account.move"].create(
             {
-                "move_type": "out_invoice",
+                "move_type": move_type,
                 "partner_id": self.partner.id,
                 "invoice_line_ids": [
                     (
@@ -118,3 +118,73 @@ class TestInvoicePickingCoverage(TransactionCase):
         self.assertNotIn(batch, Batch.search([("invoiced", "=", True)]))
         action = batch.action_create_invoice()
         self.assertEqual(action["context"]["picking_ids"], picking.ids)
+
+    def _return(self, picking, qty):
+        return_picking = picking._create_return()
+        return_picking.move_ids.quantity = qty
+        return_picking.move_ids.picked = True
+        return_picking.button_validate()
+        self.assertEqual(return_picking.state, "done")
+        return return_picking
+
+    def test_return_before_invoice(self):
+        # delivered 10, returned 4, invoiced the net 6: nothing is left to invoice
+        order = self._sale_order(self.product_a)
+        picking = order.picking_ids
+        self._validate(picking)
+        return_picking = self._return(picking, 4.0)
+        invoice = self._invoice(order, [(self.product_a, 6.0)])
+        self.assertEqual(picking.account_move_id, invoice)
+        self.assertFalse(picking.to_invoice)
+        self.assertFalse(return_picking.to_invoice)
+
+    def test_return_to_refund(self):
+        # delivered and invoiced 10, then returned 4: the return is to refund until the credit note
+        order = self._sale_order(self.product_a)
+        picking = order.picking_ids
+        self._validate(picking)
+        invoice = self._invoice(order, [(self.product_a, 10.0)])
+        invoice.action_post()
+        self.assertFalse(picking.to_invoice)
+        return_picking = self._return(picking, 4.0)
+        refund = self._invoice(order, [(self.product_a, 4.0)], move_type="out_refund")
+        self.assertEqual(return_picking.account_move_id, refund)
+        self.assertFalse(return_picking.to_invoice, "The credit note covers the return")
+        self.assertEqual(picking.account_move_id, invoice, "The delivery keeps its invoice")
+        self.assertFalse(picking.to_invoice)
+
+    def test_partial_vendor_bill(self):
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [(0, 0, {"product_id": self.product_a.id, "product_qty": 10.0, "price_unit": 60.0})],
+            }
+        )
+        order.button_confirm()
+        receipt = order.picking_ids
+        self._validate(receipt)
+        for qty, still_to_bill in ((4.0, True), (6.0, False)):
+            bill = self.env["account.move"].create(
+                {
+                    "move_type": "in_invoice",
+                    "partner_id": self.partner.id,
+                    "invoice_date": "2026-11-03",
+                    "invoice_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "product_id": self.product_a.id,
+                                "quantity": qty,
+                                "price_unit": 60.0,
+                                "purchase_line_id": order.order_line.id,
+                            },
+                        )
+                    ],
+                }
+            )
+            # the billed quantity of the purchase line counts the bill once it is posted
+            bill.action_post()
+            bill.update_pickings()
+            self.assertEqual(receipt.account_move_id, bill)
+            self.assertEqual(receipt.to_invoice, still_to_bill)
