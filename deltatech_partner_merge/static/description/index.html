@@ -54,20 +54,36 @@ it means hundreds of thousands of statements and does not finish in any reasonab
 keys enabled throughout, so integrity is guaranteed by PostgreSQL rather than by the procedure being
 right. On a production database of 538.000 partners, merging 5.350 records took about four and a half
 minutes.</p>
-<p><strong>Safety.</strong> The simulation is not a flag you can forget: it runs the whole merge on a separate
-transaction and rolls it back, so it cannot write even if something is wrong. Applying is a distinct
-step, guarded by its own access group, and refuses to finish if any reference is left pointing at an
-absorbed record.</p>
-<p><strong>What it does not touch by itself.</strong> Groups whose unreconciled balance is spread over several records
-are classified apart &#8212; merging those moves money between ledgers and belongs with the accountant.
-Also left out: groups holding your own company record, groups with portal users on more than one
-record, and groups whose names differ completely on the same VAT number.</p>
+<p><strong>Merge batches.</strong> <em>Settings &gt; Partner Merge &gt; Merge Batches</em>. A batch goes through <em>Analyze</em>,
+<em>Simulate</em>, <em>Apply</em> and, once applied, <em>Verify</em>. You choose the categories of groups that enter the
+batch, how many groups (<em>Group Limit</em>, 0 for all) and whether the absorbed records are deleted or
+archived (<em>Archive instead of delete</em>). The <em>Groups</em> tab lists each group with the kept record, the
+absorbed ones and their names; <em>Report</em> holds the simulation or merge report, and <em>All groups by
+category</em> the full classification. Partners are grouped by VAT number and company, so partners of
+different companies are never merged together.</p>
+<p><strong>Safety.</strong> The simulation is not a flag you can forget: it runs the whole merge inside a savepoint
+and rolls it back, so it cannot write even if something is wrong. Applying is a distinct step,
+reserved to the <em>Partner Merge / Apply</em> group (system administrators have it), checks that every
+partner of the batch is in your companies and that you may change or delete it, and refuses to
+finish if any reference is left pointing at an absorbed record. <em>Partner Merge / Prepare and
+simulate</em> can analyze and simulate, but not apply. <em>Verify</em> compares the result with the figures
+taken at the analysis: invoices, sales orders and unreconciled balance per kept record.</p>
+<p><strong>What it does not touch by itself.</strong> Groups are classified A (one record holds the documents, the
+rest are empty), B (documents on a single record), C (invoices spread over several records) and D
+(unreconciled balance on several records). A batch takes A and B by default; C and D move figures
+between ledgers and belong with the accountant. Also left out: groups holding your own company
+record, groups with portal users on more than one record, and groups whose names differ completely
+on the same VAT number.</p>
 <p><strong>Kept record.</strong> Chosen by document volume &#8212; most invoices, then most sales orders, then oldest. Since
 that is not the same as name quality, the surviving record is flagged when its name looks mangled at
 import, with the names of the absorbed records alongside for correction.</p>
-<p>The same procedure is available as plain SQL scripts in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech/scripts/partner_merge/</code>, for when
-it has to be run outside Odoo.</p>
-<p><strong>Finding duplicates beyond the VAT number.</strong> <em>Partner Merge &#8250; Find Duplicates</em> looks for partners
+<p><strong>Indexes.</strong> When foreign-key columns towards partners have no index, the batch shows a warning and a
+<em>Create the indexes</em> button, because deleting partners would otherwise scan those tables for each
+record.</p>
+<p>The same procedure also exists as stand-alone SQL scripts, for when it has to be run outside Odoo by
+the database administrator. They are kept in the source repository of the suite
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scripts/partner_merge/</code>) and are not part of the module package downloaded from Odoo Apps.</p>
+<p><strong>Finding duplicates beyond the VAT number.</strong> <em>Settings &gt; Partner Merge &gt; Find Duplicates</em> looks for partners
 that are probably the same record, typically individuals created twice by an import or an online
 order, and leaves the decision to you, group by group. It does not change any partner.</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Exact matches on the VAT number (without the country prefix), the phone (E.164, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">0722 &#8230;</code> and
@@ -85,6 +101,14 @@ present. None of them is required.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-11-03)</h2>
+<ul>
+<li>Description: the stand-alone SQL scripts are kept in the source repository of the suite and are
+  not part of the module package from Odoo Apps (the text pointed to them as if they shipped with it).</li>
+<li>Description: the simulation runs inside a rolled-back savepoint, not a separate transaction.</li>
+<li>Description: added the menus (<em>Settings &gt; Partner Merge</em>), the batch steps and options, the two
+  access groups, the A&#8211;D categories and the index warning.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-23)</h2>
 <ul>
 <li><em>Find Duplicates</em> uses the shared rules of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_partner_match</code> (new dependency, installed automatically: functions only, no data or behavior of its own) instead of its own copy, so a partner is recognized here the same way as in the marketplace import and the trial balance import. Checked on a database of 551,000 partners against the previous rules:<ul>
@@ -333,7 +357,7 @@ present. None of them is required.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>
