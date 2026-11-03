@@ -18,6 +18,9 @@ class TestPurchaseUom(BaseCommon):
         "uom.group_uom",
         "product.group_product_manager",
         "purchase.group_purchase_user",
+        # formularul produsului citeste cantitatile din stoc cand stock e instalat (ex. cu
+        # deltatech_change_uom); grupul e ignorat de BaseCommon cand stock lipseste
+        "stock.group_stock_user",
     )
 
     @classmethod

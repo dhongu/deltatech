@@ -1,3 +1,10 @@
+## 20.0.1.0.2 (2026-11-03)
+
+- `readme/USAGE.md` for the Apps Store: installation, the wizard and the effect on
+  orders, posted invoices and stock moves, with English screenshots in
+  `static/description/en/`. The screenshot test captures the same shots in both
+  languages (`test_capture_fise` RO, `test_capture_usage` EN).
+
 ## 20.0.1.0.1 (2026-10-21)
 
 - One unit mapping on every document: lines in the old purchase unit move to the

@@ -1,3 +1,15 @@
+## 20.0.1.2.1 (2026-11-03)
+
+- `readme/USAGE.md` for the Apps Store: wider unit lists on purchases, the vendor
+  line restriction and the default purchase unit, with English screenshots in
+  `static/description/en/`.
+- Consultant sheet `readme/FISA_CONSULTANT.md` with Romanian screenshots, generated
+  by `tests/test_screenshots.py` in both languages.
+- `i18n/ro.po`: Romanian translation of *Default Purchase Unit*, its help and the
+  constraint message.
+- `tests/test_purchase_uom.py`: the test user also gets the Inventory user group, so
+  the product form test passes when `stock` is installed in the same run.
+
 ## 20.0.1.2.0 (2026-10-20)
 
 - Default purchase unit on the product (`purchase_uom_id`, Purchase tab), restricted
