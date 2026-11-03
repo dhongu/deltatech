@@ -43,11 +43,14 @@ de stoc deja validate și adaugă pe bon câmpul *Destinație consum*. Contextul
 - **Destinația consumului** este informativă: grupează raportul, dar **nu schimbă nota contabilă**
   a bonului. Conturile rămân cele din categoria produsului (secțiunea 4), indiferent dacă destinația
   e *Investiții* sau *Consum propriu*.
-- **Marfa nu se dă direct pe consum.** Contul 371 ține doar bunurile cumpărate pentru revânzare
-  (OMFP 1802/2014, pct. 276 alin. (1) lit. a)), iar în relația cu 371 contul 607 primește doar marfa
-  vândută, lipsă la inventar sau depreciată. Marfa luată din vânzare pentru uz intern își schimbă destinația: se
+- **Marfa nu se dă direct pe consum.** Mărfurile sunt bunurile cumpărate în vederea revânzării sau
+  produsele predate spre vânzare magazinelor proprii (OMFP 1802/2014, pct. 276 alin. (1) lit. a)), iar
+  materialele consumabile sunt cele care ajută la procesul de exploatare (lit. c)). În relația cu 371,
+  contul 607 primește doar marfa vândută, lipsă la inventar sau depreciată ireversibil. Marfa luată din vânzare pentru uz intern își schimbă destinația: se
   transferă întâi, la cost, într-o gestiune de materiale (Dr 3028 = Cr 371), apoi se dă în consum din
-  materiale (Dr 6028 = Cr 3028). Un bon de consum care scoate marfa direct din stoc (Dr 607 = Cr 371)
+  materiale (Dr 6028 = Cr 3028). Reclasificarea Dr 3028 = Cr 371 nu e prevăzută expres în funcțiunea
+  conturilor 302 și 371; se justifică prin schimbarea destinației bunului (pct. 276 alin. (1) lit. a)
+  → lit. c)) și trebuie prevăzută în politica contabilă a firmei. Un bon de consum care scoate marfa direct din stoc (Dr 607 = Cr 371)
   este o **anomalie**: umflă costul mărfurilor vândute și strică marja comercială. Raportul o scoate
   în evidență prin coloana *Livrat clienților*; corecția rămâne la contabil.
 
@@ -77,7 +80,7 @@ Raportul nu are conturi proprii; consumurile pe care le citește au fost contate
 | Consum din gestiunea de materiale (marfa de mai sus) | 6028 Cheltuieli privind alte materiale consumabile | 3028 Alte materiale consumabile |
 | **Anomalie:** marfă dată în consum direct din stoc | 607 Cheltuieli privind mărfurile | 371 Mărfuri |
 | Dare în folosință obiecte de inventar | 603 Cheltuieli privind obiectele de inventar | 303 Materiale de natura obiectelor de inventar |
-| Retur din consum | **storno în roșu** pe aceleași conturi: Dr cheltuieli = Cr stoc, cu sumă negativă | |
+| Retur din consum (storno în roșu) | contul de cheltuieli, sumă negativă | contul de stoc, sumă negativă |
 
 Debitul este **contul de cheltuieli al produsului** (din categorie) sau, dacă e setat, contul de
 cheltuieli al locației din care iese bonul. Pentru marfa folosită intern:
@@ -280,7 +283,10 @@ A doua foaie, **Detaliat**, are câte un rând pe **magazin × destinație × pr
    (1) **storno în roșu** al notei bonului, Dr 607 = Cr 371 cu −50,56 (în practică, returul bonului);
    (2) transferul intern în locația de materiale, Dr 3028 = Cr 371, 50,56; (3) bonul de consum din
    materiale, Dr 6028 = Cr 3028, 50,56. **Nu** se adaugă doar o reclasificare Dr 3028 = Cr 371: marfa
-   a ieșit deja din 371, iar 607 ar rămâne umflat. Când categoriile nu separă consumabilele de
+   a ieșit deja din 371, iar 607 ar rămâne umflat. După corecție, raportul lunii arată și bonul-anomalie
+   (50,56), și bonul nou din materiale (50,56), dar nu și returul: la reconciliere scădeți returul, ca
+   la orice retur din consum (Pasul 6). Dacă luna bonului-anomalie e închisă, storno-ul și notele noi
+   se fac în perioada curentă, deschisă. Când categoriile nu separă consumabilele de
    marfă (de exemplu sunt pe furnizor) și aproape toate produsele au bifa „Se poate vinde",
    **coloana relevantă este cea cu livrările către clienți**, nu categoria.
 3. **Treceți mai departe** — fișierul se transmite contabilității / se arhivează cu închiderea lunii.
@@ -308,15 +314,34 @@ Retur din consum:               storno în roșu al notei de consum (sume negati
 
 După destinație:
 
-- **Consum propriu în activitate:** notele de mai sus; fără TVA colectată, cheltuială deductibilă.
+- **Consum propriu în activitate:** notele de mai sus; fără TVA colectată, pentru că preluarea
+  bunurilor pentru propria activitate economică nu e livrare (HG 1/2016, Titlul VII, pct. 7 alin. (1));
+  cheltuială deductibilă, fiind efectuată în scopul activității. Aceeași regulă susține lipsa TVA la
+  investiția în regie proprie.
 - **Investiție în regie proprie:** notele de mai sus, plus lunar (sau la finalizare) Dr 231 = Cr 722
   la costul acumulat, apoi Dr 21x = Cr 231 la recepție. Nota Dr 231 = Cr 371 direct **nu** e corectă.
-- **Utilizare în afara activității** (preluat de asociat, dat gratuit): livrare asimilată **dacă TVA
-  a fost dedusă** total sau parțial (Cod fiscal art. 270 alin. (4)), cu excepțiile din alin. (8)
-  (mostre, bunuri de mică valoare din sponsorizare, mecenat, protocol, în limitele din norme); TVA
-  colectată Dr 635 = Cr 4427, 21%. Acestea **nu sunt consum propriu**: donația se înregistrează
-  Dr 6582 = Cr 371, protocolul pe 623, preluarea de către asociat ca distribuire sau creanță. Nu
-  folosiți pentru ele bonul de consum pe 6028 fără acordul contabilului; modulul nu calculează TVA.
+- **Utilizare în afara activității** (uz personal, dat gratuit, preluat de asociat): livrare asimilată,
+  cu TVA colectată, **doar dacă TVA aferentă a fost dedusă total sau parțial** (Codul fiscal art. 270
+  alin. (4) lit. a) pentru scopuri fără legătură cu activitatea, lit. b) pentru bunuri puse gratuit la
+  dispoziția altor persoane, alin. (5) pentru distribuirea de bunuri către asociați). Nu constituie
+  livrare (alin. (8)):
+  - bunurile acordate gratuit în scop de reclamă, stimularea vânzărilor (inclusiv mostre) sau în alte
+    scopuri legate de activitate (lit. b));
+  - bunurile de mică valoare din sponsorizare, mecenat sau protocol (lit. c)), în limitele din HG
+    1/2016, Titlul VII, pct. 7 alin. (12): la protocol cel mult 100 lei pe cadou, fără TVA; la
+    sponsorizare și mecenat 3‰ din cifra de afaceri;
+  - alimentele aproape de expirare, în condițiile legii risipei alimentare (lit. d)).
+
+  Baza de impozitare e prețul de cumpărare sau, în lipsă, prețul de cost (art. 286 alin. (1) lit.
+  c)); cota standard e 21% pentru operațiunile de după 1 august 2025 (art. 291 alin. (1), modificat
+  prin L 141/2025). Nota Dr 635 = Cr 4427 se face doar la bunurile date gratuit sau folosite în scop
+  personal, pe costul firmei; la preluarea de către asociat, TVA se recuperează odată cu creanța
+  (Dr 4xx = Cr 4427), nu prin 635.
+
+  Acestea **nu sunt consum propriu**: donația se înregistrează Dr 6582 = Cr 371; protocolul pe 623,
+  deși funcțiunea lui 623 nu prevede contrapartida 371/302, deci modul de înregistrare se stabilește
+  prin politica contabilă; preluarea de către asociat, ca distribuire sau creanță. Nu folosiți pentru
+  ele bonul de consum pe 6028 fără acordul contabilului; modulul nu calculează TVA.
 
 Retururile din consum **nu** intră în raport: el ia doar mișcările cu destinația locație de consum /
 dare în folosință. Dacă în lună au existat retururi, totalul raportului este mai mare decât rulajul
