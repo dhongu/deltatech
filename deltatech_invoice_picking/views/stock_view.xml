@@ -91,8 +91,13 @@
         <field name="inherit_id" ref="stock.vpicktree" />
         <field name="arch" type="xml">
             <field name="origin" position="after">
-                <field name="picking_type_code" invisible="1" />
-                <field name="supplier_invoice_number" invisible="picking_type_code!='incoming'" />
+                <!-- in a list, invisible hides only the cells: the columns are hidden with column_invisible -->
+                <field name="picking_type_code" column_invisible="True" />
+                <field
+                    name="supplier_invoice_number"
+                    invisible="picking_type_code!='incoming'"
+                    column_invisible="context.get('restricted_picking_type_code') in ('outgoing', 'internal')"
+                />
             </field>
         </field>
     </record>

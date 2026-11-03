@@ -261,7 +261,7 @@ class TestInvoicePickingScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
                 "url": f"id={self.batch.id}&model=stock.picking.batch&view_type=form",
                 "name": "09_lot_buton_factura.png",
                 "wait": ".o_form_view button[name='action_create_invoice']",
-                "highlight": ["button[name='action_create_invoice']", ".o_statusbar_status"],
+                "highlight": ["button[name='action_create_invoice']"],
             },
             {
                 "url": f"id={self.order.id}&model=sale.order&view_type=form",

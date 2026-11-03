@@ -53,6 +53,7 @@
 Open a done batch in **Inventory → Operations → Jobs → Batch Transfers** and click **Invoice**. The
 transfers of the batch that are not invoiced, or only partly invoiced, go on the invoice; the fully
 invoiced ones are skipped. For a batch of receipts, fill in **Supplier Invoice No** on each receipt first.
+Batches need **Inventory → Configuration → Settings → Batch, Wave & Cluster Transfers**.
 
 ![Done batch BATCH/00101 with the Invoice button](static/description/en/09_lot_buton_factura.png)
 

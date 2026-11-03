@@ -15,7 +15,7 @@ recepționate de acel transfer. Modulul adaugă facturarea direct din transferur
 
 - butoanele **Facturează** (pe livrare) și **Factură** (pe recepție), plus acțiunile din listă
   **Creează factură vânzare** și **Creează factură furnizor**, pentru mai multe transferuri odată;
-- butonul **Facturează** pe lotul de transferuri (**Transferuri în lot**);
+- butonul **Facturează** pe lotul de transferuri (**Batch Transfers**);
 - pe factură intră doar produsele transferurilor alese, cu cantitățile efectiv livrate sau recepționate;
 - pe transfer, câmpul **De facturat** (și filtrul cu același nume) și legătura către factură, ca
   operatorul să vadă ce transferuri au rămas nefacturate.
@@ -59,15 +59,18 @@ Date minime pentru demo (cele din capturi):
 ## 5. Configurare inițială
 
 1. Instalați modulul `deltatech_invoice_picking` (depinde de `account`, `sale_management`, `stock`,
-   `sale_stock`, `stock_picking_batch`, `purchase` și `purchase_stock`).
+   `sale_stock`, `purchase` și `purchase_stock`; în Odoo 20, loturile de transferuri fac parte din
+   `stock`).
 2. Pentru produsele facturate din transfer, alegeți pe produs **Politică de facturare** = **Cantități
    livrate** (vânzări) și **Politică control** = **Pe cantitățile primite** (achiziții), ca factura să
    urmeze cantitățile efective.
-3. Nu este necesară altă configurare: câmpurile și butoanele apar pe transferuri, loturi și comenzi
+3. Pentru facturarea loturilor: **Inventar → Configurare → Setări**, bifați **Transferuri batch, val și
+   cluster**. Fără această setare, meniul loturilor de la Pasul 9 nu apare.
+4. Nu este necesară altă configurare: câmpurile și butoanele apar pe transferuri, loturi și comenzi
    imediat după instalare.
-4. Dacă folosiți evaluarea automată a stocului, verificați conturile categoriei de produse: în
-   planul de conturi RO, contul implicit de evaluare a stocului al companiei este 301, deci pentru
-   mărfuri setați 371 pe categorie.
+5. Dacă folosiți evaluarea automată a stocului (pe categoria de produse, **Evaluare stocuri** =
+   *Perpetual (at invoicing)*), verificați **Stock Account** pe categorie: în planul de conturi RO,
+   contul implicit de evaluare a stocului al companiei este 301, deci pentru mărfuri setați 371.
 
 ## 6. Flux de utilizare
 
@@ -75,7 +78,7 @@ Date minime pentru demo (cele din capturi):
 
 **Inventar → Operații → Transferuri → Livrări**, în căutare alegeți filtrul **De facturat**.
 
-![Lista Livrări cu filtrul De facturat aplicat: livrările DC/OUT/00004, DC/OUT/00003 și DC/OUT/00001 ale comenzilor S00103, S00102 și S00101, toate în starea Efectuat](../static/description/01_livrari_de_facturat.png)
+![Lista Livrări cu filtrul De facturat aplicat: livrările DC/OUT/00001, DC/OUT/00003 și DC/OUT/00004 ale comenzilor S00101, S00102 și S00103, toate în starea Efectuat](../static/description/01_livrari_de_facturat.png)
 
 Găsiți pe ecran: fiecare rând este o livrare validată care încă nu e facturată sau e facturată doar
 parțial. Verificați că livrările din listă sunt în starea **Efectuat** — doar acestea se pot factura.
@@ -154,7 +157,8 @@ goală.
 
 ### Pasul 9 — Facturarea unui lot
 
-**Inventar → Operații → Locuri de muncă → Transferuri în lot**, deschideți lotul **BATCH/00101**.
+**Inventar → Operații → Jobs → Batch Transfers** (meniul apare netradus în Odoo 20), deschideți lotul
+**BATCH/00101**.
 Butonul **Facturează** apare când lotul este **Efectuat** și nu e încă facturat. Lotul se facturează
 împreună: transferurile nefacturate sau facturate parțial ale lotului intră pe factură, cele facturate
 integral se sar. La un lot de **recepții**, completați întâi **Nr. factură furnizor** pe fiecare recepție
@@ -176,14 +180,16 @@ rămân tot cele ale transferului.
 Modulul nu generează note contabile proprii. Facturile create din transferuri sunt facturi standard,
 iar contul fiecărei linii vine din configurarea produsului și a categoriei.
 
-**Fără evaluare automată a stocului (inventar intermitent)** — cazul din capturi:
+**Fără evaluare automată a stocului** (inventar intermitent; pe categorie, **Evaluare stocuri** =
+*Periodic (at closing)*) — cazul din capturi. Variația stocului se înregistrează la închiderea
+perioadei, din raportul de evaluare, și nu ține de acest modul:
 
 - factura clientului din Pasul 4: Dr 4111 „Clienți" 6.171 = Cr 707 „Venituri din vânzarea mărfurilor"
   5.100 + Cr 4427 „TVA colectată" 1.071 (6 × 450 + 2 × 1.200 = 5.100 lei, TVA 21%);
 - factura furnizorului din Pasul 8: Dr 607 „Cheltuieli privind mărfurile" 4.000 + Dr 4426 „TVA
   deductibilă" 840 = Cr 401 „Furnizori" 4.840 (5 × 800 lei, TVA 21%).
 
-**Cu evaluare automată (perpetuă), Odoo 20 standard:**
+**Cu evaluare automată** (*Perpetual (at invoicing)*), **Odoo 20 standard:**
 
 - factura furnizorului: Dr 371 „Mărfuri" 4.000 + Dr 4426 840 = Cr 401 4.840 (recepția nu înregistrează
   o notă proprie);
@@ -208,7 +214,7 @@ iar contul fiecărei linii vine din configurarea produsului și a categoriei.
 |---|---|
 | `sale_stock` | livrările comenzilor de vânzare și asistentul de facturare al comenzii |
 | `purchase_stock` | recepțiile comenzilor de achiziție și crearea facturii furnizorului |
-| `stock_picking_batch` | loturile de transferuri și butonul **Facturează** de pe lot |
+| `stock` (loturi, din Odoo 20) | loturile de transferuri și butonul **Facturează** de pe lot |
 | `account` | facturile; jurnalul de vânzări/cumpărări și declarațiile TVA le preiau ca pe orice factură |
 
 **Ce e automat:** cantitățile de pe factură din transferurile alese (convertite în unitatea liniei de
@@ -278,7 +284,13 @@ Regenerare:
   schimbată, se anulează și se refac din transferurile corecte, sau se anulează și se aduce în ciornă
   (**Anulează**, apoi **Resetare la Ciornă**), ceea ce recalculează starea **De facturat**.
 - Câmpul **Factura** de pe transfer se poate corecta de mână, dar schimbarea lui nu recalculează
-  **De facturat**.
+  **De facturat**. La fel, după **Redeschide** și o corectură de cantitate pe un transfer deja facturat,
+  starea nu se reevaluează: factura se corectează separat.
+- Returul unei livrări facturate apare în **Recepții**, validat și **De facturat**. Se stornează cu
+  butonul **Facturează** de pe retur: Odoo creează nota de credit cu cantitatea returnată, o leagă de
+  retur și îl scoate din lista de facturat. O notă de credit făcută direct din factură (**Notă credit**)
+  nu actualizează returul. Un retur făcut înainte de facturare se scade din cantitatea de facturat a
+  livrării.
 - Starea **De facturat** a unui transfer facturat parțial ține cont de toate facturile și facturile
   storno ale liniilor de comandă; cantitatea încă nefacturată se atribuie celor mai recente transferuri.
 - Pe facturile furnizorilor, numărul facturii furnizorului se completează pe recepție și ajunge pe
