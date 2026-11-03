@@ -129,6 +129,20 @@ each receipt first.
 
 |Done batch BATCH/00101 with the Invoice button|
 
+**Refund a return**
+
+A validated return of an invoiced delivery is **To invoice**, with no
+invoice linked. Click **Invoice** on the return and **Create Draft**:
+Odoo creates the customer credit note with the returned quantity and
+links it to the return. A credit note made from the invoice with
+**Credit Note** does not update the return.
+
+|Return of delivery DC/OUT/00001, done: no invoice, To invoice set and
+the Invoice button|
+
+|Credit note created from the return: 2 Scaun ergonomic Nova, 1,089.00
+lei|
+
 **Invoice the ordered quantities**
 
 On the sale order, the **Other Info** tab has **Force Invoice Order**:
@@ -147,6 +161,8 @@ transfer, the quantities are still those of the transfer.
 .. |Done receipt of order P00101 with Supplier Invoice No BM-2026-0457 and the Bill button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/07_receptie_numar_factura.png
 .. |Draft vendor bill created from the receipt: the Purchases button shows P00101 (BM-2026-0457) and the line has 5 Birou reglabil Flex| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/08_factura_furnizor.png
 .. |Done batch BATCH/00101 with the Invoice button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/09_lot_buton_factura.png
+.. |Return of delivery DC/OUT/00001, done: no invoice, To invoice set and the Invoice button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/11_retur_de_facturat.png
+.. |Credit note created from the return: 2 Scaun ergonomic Nova, 1,089.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/12_nota_credit_retur.png
 .. |Sale order S00101, Other Info tab, with the Force Invoice Order field| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/10_comanda_facturare_fortata.png
 
 Changelog
@@ -162,6 +178,9 @@ Changelog
   of the original transfer, so it was not left to invoice; the invoice
   link is no longer copied.
 - Tests for returns, refunds and partial vendor bills.
+- Consultant sheet: step 11 (return of an invoiced delivery and the
+  credit note issued from the return), with RO and EN screenshots,
+  checks and manual notes.
 
 19.0.1.0.18 (2026-11-03)
 ------------------------
