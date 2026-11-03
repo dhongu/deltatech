@@ -13,6 +13,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "security/ir_rule.xml",
         "views/consumption_purpose_views.xml",
         "views/stock_picking_views.xml",
         "wizard/consumption_report_wizard_views.xml",
