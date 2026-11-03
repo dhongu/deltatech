@@ -4,3 +4,4 @@
 
 from . import test_cnp
 from . import test_display_name
+from . import test_screenshots
