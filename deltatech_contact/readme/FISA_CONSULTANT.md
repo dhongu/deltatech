@@ -96,7 +96,7 @@ Dacă modificați apoi data nașterii, CNP-ul se rescrie cu noua dată și cu ci
 Atenție: completarea automată **corectează tăcut cifra de control**. Un CNP de 13 cifre cu ultima cifră
 greșită (sau unul de 12 cifre) e rescris cu cifra de control calculată, fără niciun mesaj. Verificați CNP-ul
 după ieșirea din câmp: dacă ultima cifră s-a schimbat, CNP-ul introdus avea o greșeală de tastare,
-care poate fi și în altă cifră decât ultima.
+care poate fi și în altă cifră decât ultima (issue dhongu/deltatech#3921).
 
 ### Pasul 3 — CNP invalid la salvare
 
@@ -111,7 +111,7 @@ control greșită dă eroarea doar la un import care modifică un contact existe
 
 La un contact **nou**, un CNP invalid nu oprește salvarea: contactul se salvează **fără CNP**, fără
 mesaj. La fel la importul de contacte noi; un import care actualizează contacte existente se oprește cu
-**CNP invalid**. Verificați după salvare că CNP-ul a rămas.
+**CNP invalid**. Verificați după salvare că CNP-ul a rămas (issue dhongu/deltatech#3923).
 
 ### Pasul 4 — Mijlocul de transport
 
@@ -174,8 +174,8 @@ introdus e chiar al persoanei (modulul verifică doar lungimea și cifra de cont
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | Eroare de validare — **CNP invalid** | La salvarea unui contact existent, CNP-ul e prea scurt (sub 8 caractere); la importul care modifică un contact existent, și cifra de control greșită | Corectați CNP-ul sau ștergeți-l |
-| Eroare Server Odoo, „string index out of range" | CNP de 8–11 cifre: completarea automată nu are destule cifre | Scrieți CNP-ul complet, de 13 cifre |
-| Eroare Server Odoo, „unconverted data remains" sau „does not match format" | Cifrele 2–7 nu formează o dată validă (de exemplu luna 13) sau CNP-ul conține litere | Verificați CNP-ul; cifrele 2–7 sunt data nașterii AAMMZZ |
+| Eroare Server Odoo, „string index out of range" | CNP de 8–11 cifre: completarea automată nu are destule cifre | Scrieți CNP-ul complet, de 13 cifre (issue dhongu/deltatech#3922) |
+| Eroare Server Odoo, „unconverted data remains" sau „does not match format" | Cifrele 2–7 nu formează o dată validă (de exemplu luna 13) sau CNP-ul conține litere | Verificați CNP-ul; cifrele 2–7 sunt data nașterii AAMMZZ (issue-urile dhongu/deltatech#3922 și #3379) |
 | (fără mesaj) CNP-ul dispare după salvare | Contact nou sau import de contacte noi cu CNP invalid: CNP-ul e golit tăcut | Corectați CNP-ul și salvați din nou |
 
 ## 10. Capturi de ecran
@@ -207,11 +207,11 @@ Regenerare:
 - Calculul secolului și al genului ține cont doar de cifrele 1, 2, 5 și 6. La prima cifră 3, 4 (născuți
   în anii 1800), 7, 8 sau 9 (rezidenți străini), anul nașterii iese greșit, în anii 2000 (de exemplu
   `7850101…` dă anul 2085). Genul iese greșit la 3 și 7 (apare Feminin), iar la 9 nu se poate deduce.
-  Corectați-le manual.
+  Corectați-le manual (issue dhongu/deltatech#3924).
 - În fereastra care se deschide la clic pe o persoană din fila **Contacte** a unei firme, câmpurile de
   CI și CNP **nu apar**, deși modulul le adaugă acolo. Datele personale se completează din fișa
-  persoanei (pasul 1).
+  persoanei (pasul 1) (issue dhongu/deltatech#3925).
 - Descrierea modulului menționează parametrul de sistem `contact.get_name_only` (numele contactului fără
-  firmă). În Odoo 19 parametrul nu mai are efect: persoana apare tot ca „Agro Prod SRL, Andrei Popescu".
+  firmă). În Odoo 19 parametrul nu mai are efect: persoana apare tot ca „Agro Prod SRL, Andrei Popescu" (issue dhongu/deltatech#3926).
 - Datele personale sunt vizibile oricui vede contactul. Dacă firma are nevoie de acces restrâns la CNP,
   se discută la implementare (nu e acoperit de modul).
