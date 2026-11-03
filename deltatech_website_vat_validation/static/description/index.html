@@ -38,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -69,6 +74,41 @@ country-neutral.</p>
 gets <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_website_anaf</code> installed with the update, when l10n-romania is on the addons path; otherwise the log says
 to add it.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>The module has no settings of its own. Its checks run when a <strong>logged-in</strong> customer saves an
+address form: the <strong>Address</strong> step of the website checkout, and <strong>My Account &#8594; Edit information</strong>
+(the <strong>Details</strong> page) or <strong>Addresses</strong> in the customer portal. A visitor checking out without an
+account is not checked, so the form cannot be used to find out who is a customer.</p>
+<p><strong>1. A tax code of another company, at checkout</strong></p>
+<p>In the cart, the customer clicks <strong>Checkout</strong> and reaches the <strong>Address</strong> step, where their
+addresses are shown as cards. The pencil on the billing address card opens <strong>Edit address</strong>.
+In <strong>VAT</strong> they type
+the tax code of a company that already has an account, here <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro 12 34 567</code> (lower case, spaces
+around and inside), and click <strong>Confirm</strong>. The spaces are removed and the code is compared without
+its country prefix, so it matches <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">RO1234567</code> of an existing customer. The <strong>VAT</strong> field is marked
+in red and the message above the form asks the customer to get access from a colleague or to
+contact the shop. The company found is not named. With <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_b2b_portal</code>, the message points
+to the access request form of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/b2b</code> page instead.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Address step of the checkout: the VAT field with ro 12 34 567 marked in red and, above the form, the message that a company with this tax code already has an account, asking to get access from a colleague or to contact the shop" src="en/01_cod_fiscal_duplicat_checkout.png" /></p>
+<p><strong>2. An e-mail address of another account, at checkout</strong></p>
+<p>On the same step, an <strong>Email</strong> that belongs to another customer is refused: the field is marked in
+red and the message asks the customer to log in with that account or to use another address.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Address step of the checkout: the Email field with an address of another customer marked in red and the message that this e-mail address belongs to another account" src="en/02_email_duplicat_checkout.png" /></p>
+<p><strong>3. The same check in the customer portal</strong></p>
+<p>In <strong>My Account &#8594; Edit information</strong>, the same tax code is refused with the same message when the
+customer clicks <strong>Save Address</strong>; nothing is saved.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Details page of the customer portal: the VAT field with ro 12 34 567 marked in red and the message that a company with this tax code already has an account" src="en/03_cod_fiscal_duplicat_portal.png" /></p>
+<p>What is not a duplicate: the tax code and e-mail of the customer's own company and of its contacts,
+and any phone number, since colleagues share the company phone and relatives a home phone.</p>
+<p><strong>4. Display Product Prices keeps its value</strong></p>
+<p>In <strong>Website &#8594; Configuration &#8594; Settings</strong>, section <strong>eCommerce</strong>, choose <strong>Display Product Prices</strong>:
+<strong>Tax Excluded</strong> or <strong>Tax Included</strong>. Odoo recomputes this setting whenever the fiscal country of the
+website company is recomputed, for example after the address of the company's own partner is
+rewritten by a partner sync, and without the module it falls back to <strong>Tax Excluded</strong>. With the
+module, the saved value stays.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Website settings: Display Product Prices highlighted, with Tax Included selected" src="en/04_afisare_preturi_pastrata.png" /></p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.2.1 (2026-11-03)</h2>
@@ -77,6 +117,9 @@ to add it.</p>
   customers, tax code compared without prefix and spaces, messages, price display setting kept. It no
   longer claims to validate the tax code format, which Odoo itself does. Shorter summary and banner
   to match.</li>
+<li>Consultant sheet (readme/FISA_CONSULTANT.md, in Romanian), usage page (readme/USAGE.md) and
+  screenshots in Romanian and English, generated by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>: tax code and
+  e-mail refused at checkout and in the portal, price display setting kept.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.2.0 (2026-10-12)</h2>
 <ul>
