@@ -96,31 +96,45 @@ optionally, the operation types (one per store or warehouse), then <em>View</em>
 </ol>
 <p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Journal entry of the consumption voucher: expense account debited, stock accounts credited" src="en/03_nota_consum.png" /></p>
 <ol start="4">
+<li><strong>Goods used internally</strong> are not issued for consumption straight from the sale stock (that
+   books them on the cost of goods sold). Move them first with an internal transfer to a materials
+   location of the store (with its own stock and expense accounts; with the Romanian localisation
+   the entry is Dr 3028 = Cr 371 at cost), then issue the consumption voucher from that location.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Journal entry of the internal transfer of goods to the materials location" src="en/04_transfer_marfa.png" /></p>
+<ol start="5">
 <li><strong>Open the report</strong> from <em>Inventory &#8594; Reporting &#8594; Consumption report</em>. The period defaults to
    the current month and the operation types whose default destination is a consumption location
    are preselected; empty the field to include every consumption of the period.</li>
 </ol>
-<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Consumption report wizard with the period, the operation types and the Export XLSX and View buttons" src="en/04_wizard_raport.png" /></p>
-<ol start="5">
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Consumption report wizard with the period, the operation types and the Export XLSX and View buttons" src="en/05_wizard_raport.png" /></p>
+<ol start="6">
 <li><strong>Check the figures on screen</strong> with <em>View</em>: a pivot by store, purpose and product, with
    quantity and value. Rows marked <em>Undefined</em> are vouchers without a purpose.</li>
 </ol>
-<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Consumption pivot by store, purpose and product" src="en/05_pivot_consumuri.png" /></p>
-<ol start="6">
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Consumption pivot by store, purpose and product" src="en/06_pivot_consumuri.png" /></p>
+<ol start="7">
 <li><strong>Export XLSX</strong> for the accountant. The <em>Summary</em> sheet has one row per store and purpose; its
    total equals the total of the pivot.</li>
 </ol>
-<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Summary sheet of the XLSX export, by store and purpose" src="en/06_xlsx_centralizat.png" /></p>
-<ol start="7">
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Summary sheet of the XLSX export, by store and purpose" src="en/07_xlsx_centralizat.png" /></p>
+<ol start="8">
 <li>The <em>Detail</em> sheet has one row per store, purpose and product, with category, average cost,
    <em>Can be sold</em> and the quantity delivered to customers in the last 6 months, to spot goods meant
-   for sale that were issued for consumption.</li>
+   for sale that were issued for consumption straight from the sale stock.</li>
 </ol>
-<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Detail sheet of the XLSX export, by store, purpose and product" src="en/07_xlsx_detaliat.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Detail sheet of the XLSX export, by store, purpose and product" src="en/08_xlsx_detaliat.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">History</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1</h2>
+<ul>
+<li>Consultant sheet and screenshots: goods used internally go first to a materials location
+  (Dr 3028 = Cr 371 at cost) and are then issued for consumption; goods issued straight from the
+  sale stock (Dr 607 = Cr 371) are shown as an anomaly found with the <em>Delivered to customers</em>
+  column. The <em>Consumption account</em> on 607 is no longer recommended.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0</h2>
 <ul>
 <li>First version: consumption purpose on the consumption voucher, report by store and purpose

@@ -43,8 +43,13 @@ de stoc deja validate și adaugă pe bon câmpul *Destinație consum*. Contextul
 - **Destinația consumului** este informativă: grupează raportul, dar **nu schimbă nota contabilă**
   a bonului. Conturile rămân cele din categoria produsului (secțiunea 4), indiferent dacă destinația
   e *Investiții* sau *Consum propriu*.
-- Verificarea „nu s-a dat marfă de vânzare pe consum" este o verificare de **control intern**, nu o
-  obligație legală; raportul doar scoate în evidență cazurile, decizia rămâne la contabil.
+- **Marfa nu se dă direct pe consum.** Contul 371 ține doar bunurile cumpărate pentru revânzare
+  (OMFP 1802/2014, pct. 276 alin. (1) lit. a)), iar în relația cu 371 contul 607 primește doar marfa
+  vândută, lipsă la inventar sau depreciată. Marfa luată din vânzare pentru uz intern își schimbă destinația: se
+  transferă întâi, la cost, într-o gestiune de materiale (Dr 3028 = Cr 371), apoi se dă în consum din
+  materiale (Dr 6028 = Cr 3028). Un bon de consum care scoate marfa direct din stoc (Dr 607 = Cr 371)
+  este o **anomalie**: umflă costul mărfurilor vândute și strică marja comercială. Raportul o scoate
+  în evidență prin coloana *Livrat clienților*; corecția rămâne la contabil.
 
 ## 3. Utilizatori și roluri
 
@@ -68,14 +73,30 @@ Raportul nu are conturi proprii; consumurile pe care le citește au fost contate
 | Operațiune | Debit | Credit |
 |-----------|-------|--------|
 | Consum materiale consumabile | 6028 Cheltuieli privind alte materiale consumabile | 3028 Alte materiale consumabile |
-| Consum propriu de mărfuri | 6xx — contul de consum setat pe contul de cheltuieli al mărfii (ex. 6028) | 371 Mărfuri |
+| Marfă trecută în materiale (transfer intern, la cost) | 3028 Alte materiale consumabile (prin 482, contul de transfer al companiei) | 371 Mărfuri |
+| Consum din gestiunea de materiale (marfa de mai sus) | 6028 Cheltuieli privind alte materiale consumabile | 3028 Alte materiale consumabile |
+| **Anomalie:** marfă dată în consum direct din stoc | 607 Cheltuieli privind mărfurile | 371 Mărfuri |
 | Dare în folosință obiecte de inventar | 603 Cheltuieli privind obiectele de inventar | 303 Materiale de natura obiectelor de inventar |
 | Retur din consum | **storno în roșu** pe aceleași conturi: Dr cheltuieli = Cr stoc, cu sumă negativă | |
 
-Debitul este **contul de cheltuieli al produsului** (din categorie), înlocuit cu **Cont consum**
-dacă acesta e setat pe contul de cheltuieli. **Atenție la mărfuri:** contul lor de cheltuieli este de
-regulă **607**. Fără *Cont consum* setat pe 607, consumul propriu de marfă se înregistrează pe 607 și
-umflă costul mărfurilor vândute. Conturile exacte se verifică în baza de date a clientului, cu contabilul.
+Debitul este **contul de cheltuieli al produsului** (din categorie) sau, dacă e setat, contul de
+cheltuieli al locației din care iese bonul. Pentru marfa folosită intern:
+
+- pe categoria mărfii se bifează **schimbarea contului de stoc după gestiune**, iar locația de
+  materiale a magazinului (ex. *Materiale uz intern*) are cont de stoc **3028** (sau alt 302x, după
+  politica contabilă) și cont de cheltuieli **6028**; transferul intern Stoc → Materiale face nota
+  Dr 3028 = Cr 371, iar bonul de consum din locația de materiale face Dr 6028 = Cr 3028;
+- transferul trece prin **contul de transfer stoc al companiei** (implicit 482 în localizarea
+  română): Dr 482 = Cr 371 și Dr 3028 = Cr 482, în aceeași notă. Aici 482 e un **tranzit tehnic**
+  al localizării, nu o decontare între subunități cu contabilitate proprie (funcțiunea lui din OMFP):
+  soldul rămâne 0, dar contul are rulaj pe ambele laturi, vizibil în balanță și în D406. Contul de
+  transfer se alege cu contabilul (eventual un analitic dedicat), iar la închiderea lunii se verifică
+  soldul 0;
+- **nu** se setează *Cont consum* = 6028 pe contul 607 ca soluție implicită: dă Dr 6028 = Cr 371,
+  acceptabil doar dacă politica contabilă a firmei prevede explicit această simplificare;
+- **nu** se setează niciodată *Cont consum* pe conturile de stoc (371, 3028): dă note în oglindă.
+
+Conturile exacte se verifică în baza de date a clientului, cu contabilul.
 
 La darea în folosință, Odoo înregistrează contul extrabilanțier 8035 **simultan pe debit și pe credit**
 în aceeași notă (sold 0). Monografia corectă este **Dr 8035** la darea în folosință și **Cr 8035**
@@ -86,7 +107,8 @@ verifică cu contabilul.
 
 - un depozit (magazin) cu un **tip de operațiune** al cărui *locație destinație implicită* este de tip
   **Consum** (în capturi: `NRD/CNS` — Magazin Nord și `SUD/CNS` — Magazin Sud);
-- 2–3 produse stocabile, cu stoc și cost;
+- 2 consumabile (3028) și o marfă (371, categorie cu schimbarea contului de stoc), cu stoc și cost;
+- o locație de materiale în magazin, cu cont de stoc 3028 și cont de cheltuieli 6028;
 - două **destinații de consum** (ex. *Consum propriu* și *Investiții*);
 - cel puțin două bonuri de consum **validate** în luna raportată, pe destinații diferite.
 
@@ -98,9 +120,12 @@ verifică cu contabilul.
 3. Verificați că fiecare magazin are un tip de operațiune pentru consum, cu destinația implicită o
    locație de tip **Consum** (Inventar → Configurare → Tipuri de operațiuni). Raportul preselectează
    automat toate tipurile de operațiune ale companiei care au o astfel de destinație (sau una de tip *Utilizare* (dare în folosință)).
-4. Pe contul de cheltuieli al categoriilor de **mărfuri** (607) setați **Cont consum** (ex. 6028)
-   — Contabilitate → Configurare → Plan de conturi → contul 607 → câmpul *Cont consum*. Altfel,
-   consumul propriu de marfă ajunge pe 607 (vezi secțiunea 4).
+4. Dacă magazinele folosesc intern marfă din vânzare: activați **Locații de depozitare** (Inventar →
+   Configurare → Setări), bifați pe categoria mărfii schimbarea contului de stoc după gestiune, verificați
+   cu contabilul contul de transfer stoc al companiei (implicit 482, vezi secțiunea 4) și creați în
+   fiecare magazin o locație de materiale (Inventar → Configurare → Locații), cu cont de stoc 3028 și
+   cont de cheltuieli 6028. Marfa se mută acolo cu un transfer
+   intern, apoi se dă în consum din locația de materiale (vezi secțiunea 4 și Pasul 4).
 5. Definiți **destinațiile consumului** — **Inventar → Configurare → Destinații consum** (pasul 1 din
    fluxul de mai jos). Lista e **goală la instalare** și trebuie completată înainte de primul bon
    nou, altfel bonul nu se poate salva.
@@ -137,7 +162,7 @@ Nou este câmpul **Destinație consum**, în dreapta, sub *Document sursă*:
 La validare, mișcarea primește **valoarea de stoc** cu care a ieșit produsul și se face nota contabilă. Raportul ia în calcul
 **doar bonurile validate** (starea *Efectuat*).
 
-![Bonul de consum NRD/CNS/00001 în starea Efectuat: Tip operație Magazin Nord: Consum, Destinație consum Consum propriu, cu mănuși, detergent și ciment pe liniile de operații](../static/description/02_bon_consum.png)
+![Bonul de consum NRD/CNS/00001 în starea Efectuat: Tip operație Magazin Nord: Consum, Destinație consum Consum propriu, cu mănuși și detergent pe liniile de operații](../static/description/02_bon_consum.png)
 
 ### Pasul 3 — Nota contabilă a bonului
 
@@ -147,14 +172,29 @@ Nota se deschide din bon (butonul **Elemente jurnal** din partea de sus) sau din
 Facturare) → Contabilitate → Elemente jurnal**, căutând după referința bonului (ex. `NRD/CNS/00001`).
 Destinația consumului nu schimbă conturile notei.
 
-În exemplu, bonul `NRD/CNS/00001` are o notă de 107,56 lei: mănușile și detergentul (materiale
-consumabile) merg Dr 6028 = Cr 3028, iar cimentul (marfă) Dr 6028 = Cr 371, prin *Cont consum*
-setat pe 607. Raportul ia valoarea din această notă (creditul pe 3028 și 371), deci aceeași sumă, 107,56, apare pe
-rândul *Consum propriu* al magazinului *Magazin Nord* din pivotul de la Pasul 5.
+În exemplu, bonul `NRD/CNS/00001` are o notă de 57,00 lei: mănușile și detergentul (materiale
+consumabile) merg Dr 6028 = Cr 3028. Raportul ia valoarea din această notă (creditul pe 3028), deci
+aceeași sumă, 57,00, apare pe rândul *Consum propriu* al magazinului *Magazin Nord* din pivotul de la
+Pasul 6.
 
-![Nota contabilă a bonului NRD/CNS/00001, tabul Elemente jurnal: Dr 6028 pe cele trei produse, Cr 3028 pentru consumabile și Cr 371 pentru ciment, total 107,56 lei](../static/description/03_nota_consum.png)
+![Nota contabilă a bonului NRD/CNS/00001, tabul Elemente jurnal: Dr 6028 și Cr 3028 pentru mănuși (38,50) și detergent (18,50), total 57,00 lei](../static/description/03_nota_consum.png)
 
-### Pasul 4 — Deschiderea raportului
+### Pasul 4 — Marfă folosită intern: transferul în gestiunea de materiale
+
+Când magazinul folosește intern o marfă din vânzare (în exemplu, 10 saci de ciment pentru o
+investiție), marfa nu se dă direct pe consum. Gestionarul o mută întâi cu un **transfer intern**
+(**Inventar → Operații → Transferuri → Nou**, tip *Transferuri interne*) din stocul magazinului în
+locația de materiale (*Materiale uz intern*), apoi face bonul de consum **din locația de materiale**
+(câmpul *Locația sursă* pe bon), cu destinația potrivită.
+
+Transferul face nota la cost: Dr 482 = Cr 371 și Dr 3028 = Cr 482, adică net **Dr 3028 = Cr 371**
+(482 e tranzitul tehnic al localizării și rămâne cu sold 0; din cauza lui, totalul de jos al notei
+arată 252,80 lei, dublul valorii transferate de 126,40). Bonul de consum din materiale face apoi
+Dr 6028 = Cr 3028, 126,40 lei. Transferul nu apare în raportul de consumuri (nu e consum); apare doar bonul.
+
+![Nota contabilă a transferului intern NRD/INT/00001: Dr 482 și Cr 371 Mărfuri 126,40 lei, Dr 3028 Alte materiale consumabile și Cr 482 126,40 lei](../static/description/04_transfer_marfa.png)
+
+### Pasul 5 — Deschiderea raportului
 
 **Inventar → Raportare → Raport consumuri.** Se deschide fereastra raportului, cu:
 
@@ -166,9 +206,9 @@ rândul *Consum propriu* al magazinului *Magazin Nord* din pivotul de la Pasul 5
   să rulați raportul pe un singur magazin. Dacă goliți câmpul, intră **toate** mișcările spre locații
   de consum / dare în folosință din perioadă, indiferent de tipul de operațiune.
 
-![Fereastra Raport consumuri: De la data 1 nov., Până la data 30 nov., Tipuri de operațiune Magazin Nord: Consum și Magazin Sud: Consum, butoanele Export XLSX și Vizualizare](../static/description/04_wizard_raport.png)
+![Fereastra Raport consumuri: De la data 1 nov., Până la data 30 nov., Tipuri de operațiune Magazin Nord: Consum și Magazin Sud: Consum, butoanele Export XLSX și Vizualizare](../static/description/05_wizard_raport.png)
 
-### Pasul 5 — Verificarea pe ecran (pivot)
+### Pasul 6 — Verificarea pe ecran (pivot)
 
 Apăsați **Vizualizare**. Se deschide un **pivot** pe mișcările de consum din perioadă:
 
@@ -179,7 +219,7 @@ Apăsați **Vizualizare**. Se deschide un **pivot** pe mișcările de consum din
    o singură dată, la apăsarea butonului).
 2. **Verificați:**
    - apar **toate magazinele** care au avut consumuri în lună (dacă lipsește unul, verificați
-     tipurile de operațiune selectate la Pasul 4);
+     tipurile de operațiune selectate la Pasul 5);
    - **nu există rânduri *Nedefinit*** — ele sunt bonuri fără destinație; completați destinația pe
      bonurile respective (Pasul 2) și rulați din nou raportul;
    - **nicio valoare nu este 0** pe un produs cu cantitate — o valoare 0 înseamnă o mișcare fără
@@ -195,12 +235,13 @@ Apăsați **Vizualizare**. Se deschide un **pivot** pe mișcările de consum din
    fereastra raportului pentru export. Din pivot se poate descărca și direct un Excel standard Odoo
    (butonul de descărcare din pivot), dar exportul de mai jos are formatul pentru contabilitate.
 
-În exemplu, Magazin Nord are 233,96 lei, din care *Consum propriu* 107,56 și *Investiții* 126,40 (10
-saci de ciment), iar Magazin Sud 24,65 lei, tot *Consum propriu*; total 258,61 lei.
+În exemplu, Magazin Nord are 183,40 lei, din care *Consum propriu* 57,00 și *Investiții* 126,40 (10
+saci de ciment, din locația de materiale), iar Magazin Sud 75,21 lei, tot *Consum propriu*, în care
+intră și 4 saci de ciment dați direct din stoc (anomalia de la Pasul 8); total 258,61 lei.
 
-![Pivotul Consumuri: Magazin Nord desfăcut pe Consum propriu 107,56 lei și Investiții 126,40 lei, Magazin Sud cu Consum propriu 24,65 lei, apoi pe produse; total 258,61 lei](../static/description/05_pivot_consumuri.png)
+![Pivotul Consumuri: Magazin Nord desfăcut pe Consum propriu 57,00 lei și Investiții 126,40 lei, Magazin Sud cu Consum propriu 75,21 lei (ciment, detergent, mănuși); total 258,61 lei](../static/description/06_pivot_consumuri.png)
 
-### Pasul 6 — Exportul XLSX: foaia centralizată
+### Pasul 7 — Exportul XLSX: foaia centralizată
 
 Din fereastra raportului apăsați **Export XLSX**. Fișierul (`consumuri_<de la>_<până la>.xlsx`)
 apare în fereastră, gata de descărcat. Prima foaie, **Centralizat**, are câte un rând pe **magazin ×
@@ -210,16 +251,16 @@ destinație**:
    rândul *Total* se adună contoarele rândurilor, deci un produs consumat în ambele magazine sau pe
    două destinații e numărat de mai multe ori), *Cantitate*, *Valoare* și *Produse vândute în
    ultimele 6 luni* (câte dintre produse s-au și vândut clienților); ultimul rând este **Total**.
-2. **Verificați** — totalul din *Valoare* este **același** cu totalul din pivotul de la Pasul 5 și cu
+2. **Verificați** — totalul din *Valoare* este **același** cu totalul din pivotul de la Pasul 6 și cu
    contabilitatea; perioada din antet (*Perioada*) este luna corectă; nu există rânduri cu destinația
    *Nedefinit*.
 3. **Treceți mai departe** la foaia de detaliu dacă *Produse vândute în ultimele 6 luni* nu este 0.
 
 Capturile sunt pe date demonstrative.
 
-![Foaia Centralizat a exportului XLSX: rândurile Magazin Nord Consum propriu 107,56, Magazin Nord Investiții 126,40 și Magazin Sud Consum propriu 24,65, cu Total 258,61](../static/description/06_xlsx_centralizat.png)
+![Foaia Centralizat a exportului XLSX: rândurile Magazin Nord Consum propriu 57,00, Magazin Nord Investiții 126,40 și Magazin Sud Consum propriu 75,21, cu Total 258,61 și 2 produse vândute în ultimele 6 luni](../static/description/07_xlsx_centralizat.png)
 
-### Pasul 7 — Exportul XLSX: foaia detaliată pe produs
+### Pasul 8 — Exportul XLSX: foaia detaliată pe produs
 
 A doua foaie, **Detaliat**, are câte un rând pe **magazin × destinație × produs**:
 
@@ -228,14 +269,27 @@ A doua foaie, **Detaliat**, are câte un rând pe **magazin × destinație × pr
    (ultimele 6 luni)* — cantitatea livrată clienților **pe toată compania** (nu doar din magazinul
    rândului), începând cu 6 luni înainte de sfârșitul perioadei, **brută** (retururile de la clienți
    nu se scad). Rulat retroactiv, raportul include și livrările de după perioadă.
-2. **Verificați** — produsele cu **cantitate mare livrată clienților** sunt marfă care se vinde
-   efectiv; dacă au ieșit pe consum în cantități mari, verificați destinația și cereți justificarea
-   magazinului. Când categoriile nu separă consumabilele de marfă (de exemplu sunt pe furnizor) și
-   aproape toate produsele au bifa „Se poate vinde", **coloana relevantă este cea cu livrările către
-   clienți**, nu categoria.
+2. **Verificați** — un produs cu **cantitate livrată clienților** este marfă. Pe un rând de consum el
+   e corect doar dacă a trecut întâi prin gestiunea de materiale (Pasul 4); dacă a ieșit direct din
+   stocul de vânzare, nota bonului e Dr 607 = Cr 371 și e o **anomalie**. În exemplu, rândul *Magazin
+   Sud / Consum propriu / Ciment 20 kg* (4 saci, 50,56 lei, 30 livrați clienților) e un astfel de bon:
+   rândul arată la fel ca *Magazin Nord / Investiții / Ciment*, care e corect, pentru că raportul nu
+   are locația sursă. Testul care decide: **Contabilitate (sau Facturare) → Contabilitate → Elemente
+   jurnal**, filtrat pe perioadă, pe contul **607** și pe *Etichetă* care conține `/CNS/`: fiecare
+   linie găsită e un bon-anomalie (sau deschideți bonul și verificați *Locația sursă*). Corecția:
+   (1) **storno în roșu** al notei bonului, Dr 607 = Cr 371 cu −50,56 (în practică, returul bonului);
+   (2) transferul intern în locația de materiale, Dr 3028 = Cr 371, 50,56; (3) bonul de consum din
+   materiale, Dr 6028 = Cr 3028, 50,56. **Nu** se adaugă doar o reclasificare Dr 3028 = Cr 371: marfa
+   a ieșit deja din 371, iar 607 ar rămâne umflat. Când categoriile nu separă consumabilele de
+   marfă (de exemplu sunt pe furnizor) și aproape toate produsele au bifa „Se poate vinde",
+   **coloana relevantă este cea cu livrările către clienți**, nu categoria.
 3. **Treceți mai departe** — fișierul se transmite contabilității / se arhivează cu închiderea lunii.
 
-![Foaia Detaliat a exportului XLSX: câte un rând pe magazin, destinație și produs; cimentul apare la Magazin Nord pe Consum propriu (4) și pe Investiții (10), cu 30 livrate clienților](../static/description/07_xlsx_detaliat.png)
+![Foaia Detaliat a exportului XLSX: câte un rând pe magazin, destinație și produs; cimentul apare la Magazin Nord pe Investiții (10) și la Magazin Sud pe Consum propriu (4), ambele cu 30 livrate clienților](../static/description/08_xlsx_detaliat.png)
+
+Nota bonului-anomalie, găsită în Elemente jurnal pe contul 607:
+
+![Nota contabilă a bonului-anomalie SUD/CNS/00002, tabul Elemente jurnal: Dr 607 Cheltuieli privind mărfurile și Cr 371 Mărfuri pentru ciment, 50,56 lei](../static/description/09_nota_anomalie.png)
 
 ### Note de monografie și raportare
 
@@ -243,12 +297,26 @@ Raportul **nu creează note contabile**. Notele pe care le reflectă sunt cele a
 
 ```
 Consum materiale consumabile:   Dr 6028 = Cr 3028
-Consum propriu de mărfuri:      Dr 6028 (Cont consum al lui 607) = Cr 371
+Marfă trecută în materiale:     Dr 3028 = Cr 371   (transfer intern, la cost, prin 482)
+Consum din materiale:           Dr 6028 = Cr 3028
+Anomalie, marfă direct pe consum: Dr 607 = Cr 371  (de corectat de contabil)
 Dare în folosință:              Dr 603  = Cr 303
                                 extracontabil corect: Dr 8035 (la scoaterea din uz Cr 8035);
                                 Odoo pune 8035 pe ambele laturi, evidența se ține separat
 Retur din consum:               storno în roșu al notei de consum (sume negative)
 ```
+
+După destinație:
+
+- **Consum propriu în activitate:** notele de mai sus; fără TVA colectată, cheltuială deductibilă.
+- **Investiție în regie proprie:** notele de mai sus, plus lunar (sau la finalizare) Dr 231 = Cr 722
+  la costul acumulat, apoi Dr 21x = Cr 231 la recepție. Nota Dr 231 = Cr 371 direct **nu** e corectă.
+- **Utilizare în afara activității** (preluat de asociat, dat gratuit): livrare asimilată **dacă TVA
+  a fost dedusă** total sau parțial (Cod fiscal art. 270 alin. (4)), cu excepțiile din alin. (8)
+  (mostre, bunuri de mică valoare din sponsorizare, mecenat, protocol, în limitele din norme); TVA
+  colectată Dr 635 = Cr 4427, 21%. Acestea **nu sunt consum propriu**: donația se înregistrează
+  Dr 6582 = Cr 371, protocolul pe 623, preluarea de către asociat ca distribuire sau creanță. Nu
+  folosiți pentru ele bonul de consum pe 6028 fără acordul contabilului; modulul nu calculează TVA.
 
 Retururile din consum **nu** intră în raport: el ia doar mișcările cu destinația locație de consum /
 dare în folosință. Dacă în lună au existat retururi, totalul raportului este mai mare decât rulajul
@@ -299,7 +367,11 @@ contabilitatea și decizia asupra produselor de vânzare ieșite pe consum.
 - [ ] Totalul valorii din raport, minus retururile din consum ale lunii, = rulajul creditor net
       (cu storno) al conturilor de stoc din notele bonurilor de consum / dare în folosință ale lunii
       (filtrate după prefixul tipului de operațiune, ex. `/CNS/` — nu tot jurnalul de stoc).
-- [ ] Consumul de marfă se înregistrează pe contul de consum (ex. 6028), nu pe 607.
+- [ ] Transferul intern al unei mărfi în locația de materiale face nota Dr 3028 = Cr 371 (prin 482),
+      iar bonul de consum din locația de materiale face Dr 6028 = Cr 3028.
+- [ ] Un bon de consum cu marfă scoasă direct din stocul de vânzare apare în Elemente jurnal pe contul
+      607 cu eticheta `/CNS/` (Dr 607 = Cr 371); un bon din locația de materiale nu apare acolo.
+- [ ] La închiderea lunii, soldul contului de transfer stoc (482) este 0.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -312,7 +384,8 @@ contabilitatea și decizia asupra produselor de vânzare ieșite pe consum.
 | Lipsește un magazin din raport | Tipul lui de operațiune nu are destinația implicită o locație de tip *Consum* sau *Utilizare* (dare în folosință), deci nu e preselectat | Corectați destinația implicită a tipului de operațiune sau adăugați-l manual în *Tipuri de operațiune* |
 | Valoare 0 pe un produs cu cantitate | Bonul nu are notă contabilă (valorizare periodică) și produsul nu avea cost la momentul ieșirii | Verificați costul produsului și mișcarea; corecția valorii se face în contabilitate, nu în raport |
 | Totalul nu se potrivește cu contabilitatea | În lună au existat retururi din consum (storno în roșu) sau consumuri pe alte tipuri de operațiune decât cele selectate | Goliți *Tipuri de operațiune* (toate consumurile) și scădeți retururile din consum din total |
-| Consumul de marfă apare pe 607 | Contul 607 nu are *Cont consum* setat | Setați *Cont consum* (ex. 6028) pe 607 — secțiunea 5, pasul 4 |
+| Consumul de marfă apare pe 607 (Dr 607 = Cr 371) | Marfa a fost dată pe consum direct din stocul de vânzare | Returul bonului (storno Dr 607 = Cr 371), transfer intern în locația de materiale, bon nou din materiale (Pasul 8); pe viitor marfa trece întâi prin locația de materiale — secțiunea 5, pasul 4 |
+| Contul 482 are sold la închiderea lunii | Un transfer intern între gestiuni cu conturi de stoc diferite nu s-a încheiat (ex. tranzit neajuns) | Verificați transferurile interne ale lunii; nota de transfer trebuie să închidă 482 în aceeași notă |
 | Eroare „Object stock.consumption.report.wizard doesn't exist" după instalare | Modulul a fost instalat din shell, iar serverul web nu și-a reîncărcat registry-ul | Reporniți serverul (pe odoo.sh: `odoosh-restart http`) |
 
 ## 10. Capturi de ecran
@@ -324,11 +397,13 @@ engleză din `static/description/en/`, pentru `readme/USAGE.md`:
 
 1. `01_destinatii_consum.png` — lista destinațiilor consumului (Consum propriu, Investiții).
 2. `02_bon_consum.png` — bonul de consum validat, cu *Tip operație* și *Destinație consum* marcate.
-3. `03_nota_consum.png` — nota contabilă a bonului: Dr cont de consum, Cr cont de stoc.
-4. `04_wizard_raport.png` — fereastra raportului: perioada și tipurile de operațiune de consum.
-5. `05_pivot_consumuri.png` — pivotul consumurilor, magazin × destinație × produs, cu cantitate și valoare.
-6. `06_xlsx_centralizat.png` — exportul XLSX, foaia centralizată pe magazin și destinație.
-7. `07_xlsx_detaliat.png` — exportul XLSX, foaia detaliată pe magazin, destinație și produs.
+3. `03_nota_consum.png` — nota contabilă a bonului: Dr 6028, Cr 3028.
+4. `04_transfer_marfa.png` — nota transferului de marfă în locația de materiale: Dr 3028 = Cr 371, prin 482.
+5. `05_wizard_raport.png` — fereastra raportului: perioada și tipurile de operațiune de consum.
+6. `06_pivot_consumuri.png` — pivotul consumurilor, magazin × destinație × produs, cu cantitate și valoare.
+7. `07_xlsx_centralizat.png` — exportul XLSX, foaia centralizată pe magazin și destinație.
+8. `08_xlsx_detaliat.png` — exportul XLSX, foaia detaliată pe magazin, destinație și produs, cu bonul-anomalie.
+9. `09_nota_anomalie.png` — nota bonului-anomalie: Dr 607 = Cr 371.
 
 Regenerare:
 
@@ -354,7 +429,9 @@ Regenerare:
   trebuie să fie cea pe care o recunoaște contabilul.
 - Insistați pe ordinea **verificare pe ecran → export**: contabilul confirmă întâi totalul din pivot
   cu contabilitatea, abia apoi trimite Excel-ul.
-- Capturile foilor Excel (06, 07) sunt randate ca tabel simplu: datele și formatul numerelor sunt cele
+- Capturile foilor Excel (07, 08) sunt randate ca tabel simplu: datele și formatul numerelor sunt cele
   din fișier, dar fără culorile și lățimile de coloană din Excel.
 - Coloana *Livrat clienților (ultimele 6 luni)* este „semnalul" pentru marfa de vânzare dată pe
   consum, când categoria și bifa „Se poate vinde" nu ajută (aproape toate produsele sunt vandabile).
+- Prezentați marfa dată direct pe consum ca **anomalie**, nu ca flux: fluxul corect e transferul în
+  gestiunea de materiale, apoi bonul de consum din materiale.
