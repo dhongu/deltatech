@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 #
 # Capturi de ecran pentru fișa „Schimbarea unității de măsură a unui produs folosit
-# deja în documente" — generate în timpul testelor, în limba RO, pe compania
-# „Demo UM SRL" în RON.
+# deja în documente" — generate în timpul testelor, pe compania „Demo UM SRL" în RON:
+# în RO pentru fișă și în EN (static/description/en/) pentru readme/USAGE.md.
 #
 # Seedează două produse de cherestea create greșit în Unități. Primul rămâne
 # neschimbat (meniul Acțiune și asistentul). Al doilea are o achiziție recepționată
@@ -33,14 +33,14 @@ OPEN_ACTION_MENU = """
         .find((b) => b.querySelector('.fa-cog')).click();
 """
 
-# Deschide meniul „Acțiune" și alege „Schimbă UM", ca să apară asistentul.
+# Deschide meniul „Acțiune" și alege acțiunea (eticheta e în limba capturii), ca să apară asistentul.
 OPEN_WIZARD = """
     new Promise((resolve) => {
         [...document.querySelectorAll('.o_cp_action_menus button')]
             .find((b) => b.querySelector('.fa-cog')).click();
         setTimeout(() => {
             [...document.querySelectorAll('.o-dropdown--menu .dropdown-item')]
-                .find((i) => i.textContent.includes('Schimbă UM')).click();
+                .find((i) => i.textContent.includes('%(label)s')).click();
             resolve();
         }, 800);
     })
@@ -49,7 +49,7 @@ OPEN_WIZARD = """
 # Tab-ul „Achiziție" din formularul produsului, unde stă unitatea implicită de achiziție.
 OPEN_PURCHASE_TAB = """
     [...document.querySelectorAll('.o_notebook a.nav-link')]
-        .find((a) => a.textContent.includes('Achizi')).click();
+        .find((a) => a.textContent.includes('%(label)s')).click();
 """
 
 # Pe factură, coloana „Unitate" e opțională și ascunsă implicit: o afișăm din meniul coloanelor.
@@ -58,7 +58,7 @@ SHOW_INVOICE_UOM = """
         document.querySelector('.o_field_one2many .o_optional_columns_dropdown_toggle').click();
         setTimeout(() => {
             const input = [...document.querySelectorAll('.o-dropdown--menu input[type=checkbox]')]
-                .find((i) => i.closest('.dropdown-item, label, span').textContent.includes('Unitate'));
+                .find((i) => i.closest('.dropdown-item, label, span').textContent.includes('%(label)s'));
             if (input && !input.checked) input.click();
             document.body.click();
             setTimeout(resolve, 800);
@@ -130,13 +130,15 @@ class TestChangeUomScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obj
 
         cls.action_moves = env["ir.actions.act_window"].create(
             {
-                "name": "Istoric mișcări",
+                "name": "Moves History",
                 "res_model": "stock.move.line",
                 "view_mode": "list",
                 "view_id": env.ref("stock.view_move_line_tree").id,
                 "domain": [("product_id", "=", cls.product_after.product_variant_id.id)],
             }
         )
+        # titlul listei în limba capturii
+        cls.action_moves.update_field_translations("name", {"ro_RO": "Istoric mișcări"})
 
     @classmethod
     def _validate(cls, pickings):
@@ -176,69 +178,81 @@ class TestChangeUomScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obj
         )
         return sale, purchase
 
-    def test_capture_fise(self):
+    def _shots(self):
         before = f"id={self.product_before.id}&model=product.template&view_type=form"
         after = f"id={self.product_after.id}&model=product.template&view_type=form"
-        self.capture_screenshots(
-            [
-                # 1. meniul Acțiune din formularul produsului, cu „Schimbă UM"
-                {
-                    "url": before,
-                    "name": "01_produs_actiune_schimba_um.png",
-                    "wait": ".o_form_view",
-                    "eval": OPEN_ACTION_MENU,
-                    "highlight": [".o-dropdown--menu .dropdown-item:has-text('Schimbă UM')"],
-                    "settle": 2000,
+        action = {"ro_RO": "Schimbă UM", "en_US": "Change Uom"}
+        return [
+            # 1. meniul Acțiune din formularul produsului, cu „Schimbă UM"
+            {
+                "url": before,
+                "name": "01_produs_actiune_schimba_um.png",
+                "wait": ".o_form_view",
+                "eval": OPEN_ACTION_MENU,
+                "highlight": [
+                    {lang: f".o-dropdown--menu .dropdown-item:has-text('{label}')" for lang, label in action.items()}
+                ],
+                "settle": 2000,
+            },
+            # 2. asistentul, cu unitatea produsului și unitatea implicită de achiziție
+            {
+                "url": before,
+                "name": "02_asistent_schimba_um.png",
+                "wait": ".o_form_view",
+                "eval": {lang: OPEN_WIZARD % {"label": label} for lang, label in action.items()},
+                "eval_wait": 2500,
+                "highlight": [
+                    ".modal div[name='uom_id']",
+                    ".modal div[name='purchase_uom_id']",
+                    ".modal button[name='do_change']",
+                ],
+                "settle": 2000,
+            },
+            # 3. produsul după schimbare: unitatea m³ și unitatea implicită de achiziție m³
+            {
+                "url": after,
+                "name": "03_produs_dupa_schimbare.png",
+                "wait": ".o_form_view",
+                "eval": {
+                    "ro_RO": OPEN_PURCHASE_TAB % {"label": "Achizi"},
+                    "en_US": OPEN_PURCHASE_TAB % {"label": "Purchase"},
                 },
-                # 2. asistentul, cu unitatea produsului și unitatea implicită de achiziție
-                {
-                    "url": before,
-                    "name": "02_asistent_schimba_um.png",
-                    "wait": ".o_form_view",
-                    "eval": OPEN_WIZARD,
-                    "eval_wait": 2500,
-                    "highlight": [
-                        ".modal div[name='uom_id']",
-                        ".modal div[name='purchase_uom_id']",
-                        ".modal button[name='do_change']",
-                    ],
-                    "settle": 2000,
+                "highlight": ["div[name='purchase_uom_id']"],
+                "settle": 2000,
+            },
+            # 4. comanda de achiziție recepționată și facturată, trecută în m³
+            {
+                "url": f"id={self.purchase_after.id}&model=purchase.order&view_type=form",
+                "name": "04_comanda_achizitie_dupa.png",
+                "wait": ".o_form_view",
+                "highlight": [".o_field_one2many td[name='product_uom_id']"],
+                "settle": 2000,
+            },
+            # 5. factura de client postată, cu linia trecută în m³
+            {
+                "url": f"id={self.invoice_after.id}&model=account.move&view_type=form",
+                "name": "05_factura_client_dupa.png",
+                "wait": ".o_form_view",
+                "eval": {
+                    "ro_RO": SHOW_INVOICE_UOM % {"label": "Unitate"},
+                    "en_US": SHOW_INVOICE_UOM % {"label": "Unit"},
                 },
-                # 3. produsul după schimbare: unitatea m³ și unitatea implicită de achiziție m³
-                {
-                    "url": after,
-                    "name": "03_produs_dupa_schimbare.png",
-                    "wait": ".o_form_view",
-                    "eval": OPEN_PURCHASE_TAB,
-                    "highlight": ["div[name='purchase_uom_id']"],
-                    "settle": 2000,
-                },
-                # 4. comanda de achiziție recepționată și facturată, trecută în m³
-                {
-                    "url": f"id={self.purchase_after.id}&model=purchase.order&view_type=form",
-                    "name": "04_comanda_achizitie_dupa.png",
-                    "wait": ".o_form_view",
-                    "highlight": [".o_field_one2many td[name='product_uom_id']"],
-                    "settle": 2000,
-                },
-                # 5. factura de client postată, cu linia trecută în m³
-                {
-                    "url": f"id={self.invoice_after.id}&model=account.move&view_type=form",
-                    "name": "05_factura_client_dupa.png",
-                    "wait": ".o_form_view",
-                    "eval": SHOW_INVOICE_UOM,
-                    "eval_wait": 2500,
-                    "highlight": [".o_field_one2many td[name='product_uom_id']"],
-                    "settle": 2000,
-                },
-                # 6. mișcările de stoc ale produsului (recepție și livrare), în m³
-                {
-                    "url": f"action={self.action_moves.id}",
-                    "name": "06_miscari_stoc_dupa.png",
-                    "wait": ".o_list_view",
-                    "highlight": ["td[name='product_uom_id']"],
-                    "settle": 2000,
-                },
-            ],
-            hide_systray=True,
-        )
+                "eval_wait": 2500,
+                "highlight": [".o_field_one2many td[name='product_uom_id']"],
+                "settle": 2000,
+            },
+            # 6. mișcările de stoc ale produsului (recepție și livrare), în m³
+            {
+                "url": f"action={self.action_moves.id}",
+                "name": "06_miscari_stoc_dupa.png",
+                "wait": ".o_list_view",
+                "highlight": ["td[name='product_uom_id']"],
+                "settle": 2000,
+            },
+        ]
+
+    def test_capture_fise(self):
+        self.capture_screenshots(self._shots(), hide_systray=True)
+
+    def test_capture_usage(self):
+        self.capture_screenshots(self._shots(), hide_systray=True, lang="en_US")
