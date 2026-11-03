@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <record id="rule_stock_consumption_purpose_company" model="ir.rule">
+    <field name="name">Consumption purpose: multi-company</field>
+    <field name="model_id" ref="model_stock_consumption_purpose" />
+    <field name="domain_force">[("company_id", "in", [False] + company_ids)]</field>
+  </record>
+</odoo>

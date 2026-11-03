@@ -5,6 +5,7 @@ class StockConsumptionPurpose(models.Model):
     _name = "stock.consumption.purpose"
     _description = "Consumption purpose"
     _order = "sequence, name"
+    _check_company_auto = True
 
     name = fields.Char(required=True, translate=True)
     sequence = fields.Integer(default=10)
