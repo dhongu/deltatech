@@ -13,7 +13,8 @@ from odoo.tools import float_is_zero
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    account_move_id = fields.Many2one("account.move")
+    # a return or a copy of the transfer is not invoiced by the invoice of the original
+    account_move_id = fields.Many2one("account.move", copy=False)
     to_invoice = fields.Boolean("To invoice")
     supplier_invoice_number = fields.Char("Supplier Invoice No")
 
