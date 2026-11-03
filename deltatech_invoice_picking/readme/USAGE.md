@@ -56,6 +56,17 @@ invoiced ones are skipped. For a batch of receipts, fill in **Supplier Invoice N
 
 ![Done batch BATCH/00101 with the Invoice button](static/description/en/09_lot_buton_factura.png)
 
+**Refund a return**
+
+A validated return of an invoiced delivery is **To invoice**, with no invoice linked. Click **Invoice**
+on the return and **Create Draft**: Odoo creates the customer credit note with the returned quantity
+and links it to the return. A credit note made from the invoice with **Credit Note** does not update the
+return.
+
+![Return of delivery DC/OUT/00001, done: no invoice, To invoice set and the Invoice button](static/description/en/11_retur_de_facturat.png)
+
+![Credit note created from the return: 2 Scaun ergonomic Nova, 1,089.00 lei](static/description/en/12_nota_credit_retur.png)
+
 **Invoice the ordered quantities**
 
 On the sale order, the **Other Info** tab has **Force Invoice Order**: the order lines are invoiced on the

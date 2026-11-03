@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "19.0.1.0.18",
+    "version": "19.0.1.0.19",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking?v=19.0",
@@ -31,5 +31,5 @@
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "danila12"],
 }
