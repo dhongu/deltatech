@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Product trade markup",
-    "summary": "Compute the selling price from cost with a trade markup percentage",
-    "version": "20.0.1.0.2",
+    "summary": "Trade markup percentage field on products, used for cost-plus pricing",
+    "version": "20.0.1.0.3",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

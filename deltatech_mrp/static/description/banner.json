@@ -1,8 +1,8 @@
 {
-  "summary": "Production costing & BOM extensions",
+  "summary": "Cost categories & production cost analysis",
   "features": [
-    "Overhead % on BOM for indirect cost",
-    "Auto production lot generation",
+    "Cost category on product categories",
+    "Costs tab on manufacturing orders",
     "Production cost analysis report"
   ]
 }

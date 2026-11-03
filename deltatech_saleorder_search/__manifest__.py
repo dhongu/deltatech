@@ -3,8 +3,8 @@
 
 {
     "name": "Sale Order Search by Contact",
-    "summary": "Search sale order by partner e-mail, phone",
-    "version": "20.0.1.0.5",
+    "summary": "Search sale orders by customer e-mail or phone",
+    "version": "20.0.1.0.6",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",

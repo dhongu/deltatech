@@ -1,24 +1,21 @@
-This module adds a button on the Sales Quotation to create Purchase RFQ(s)
-from the quotation lines and links those RFQs back to the quote.
+Starts requests for quotation to vendors straight from a sales quotation, so the buyer can price the
+products before the quotation goes to the customer, and keeps the RFQs linked to the quotation.
 
-Key points:
+**Create RFQ.** A *Create RFQ* button in the header of a quotation (states *Quotation* and *Quotation
+Sent*) opens a new purchase order form, not saved yet, prefilled with:
 
-- Works with alternative purchase orders (no Purchase Requisition used).
-- Opens the Purchase Order form in create mode, prefilled with eligible
-  products from the quotation (no automatic creation).
-- The buyer selects the vendor and saves the RFQ (draft PO).
-- A smart button on the quotation shows and opens the linked RFQs.
+- the quotation lines that can be purchased (*Purchase* ticked on the product) and have a quantity
+  above zero, with their unit of measure, quantity and description (when the line has none, the
+  purchase line takes the vendor description of the product);
+- the quotation number as *Source* and the quotation company.
 
-Eligibility rules for lines:
+Sections and notes are skipped. The buyer picks the vendor, checks the prices and saves the RFQ. The
+button can be used again for other vendors, so the same quotation can be priced by several vendors.
 
-- Product must be purchasable (`purchase_ok = True`).
-- Quantity must be strictly greater than 0.
-- Section/note/display lines are ignored.
+**Linked RFQs.** Every RFQ started this way keeps the quotation it came from. An *RFQs* smart button on
+the quotation shows how many there are and opens them, or opens the RFQ directly when there is only
+one.
 
-User interface:
+**Access.** The button is shown to users with purchase rights (*Purchase*: *User* or *Administrator*).
 
-- Header button on Sales Quotation: "Create Purchase Order(s)".
-- Smart button: "Purchase Orders" with the count of linked RFQs.
-
-This keeps the flow simple and aligned with the standard alternative
-purchasing approach in Odoo, without introducing purchase agreements.
+No purchase agreement is created and the *Purchase Agreements* module is not needed.

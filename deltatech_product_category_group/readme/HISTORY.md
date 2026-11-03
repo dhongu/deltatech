@@ -1,3 +1,10 @@
+## 20.0.1.0.7 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: the responsible is
+  assigned from the **Responsible** button on the transfer list (or from custom
+  code), not automatically; documented the balancing among the members of the
+  group.
+
 ## 20.0.1.0.6 (2026-10-15)
 
 - `responsible_determination`: the candidates are now only active internal users (not portal) with the Inventory user group who can work in the company of the transfer; before, any member of the category group was a candidate. The number of "Ready" transfers used for balancing counts only the transfers of the same company. If no candidate is eligible the transfer is left unassigned. The "Responsible" button on the transfer list is restricted to Inventory managers.

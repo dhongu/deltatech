@@ -19,28 +19,52 @@ Sale Feedback
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_feedback
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_feedback/tests
-    :alt: 2 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_feedback
+    :alt: 2 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-Features:
+Asks customers to rate the products they bought, by e-mail, a few days
+after the invoice.
 
-- Sends an automated e-mail to clients based on out invoices
-- A cron job (default not active) is used to send the e-mails at 3 days
-  after the invoice date. Another interval can be set using the
-  sale.days_request_feedback system parameter
-- E-mail template used: Invoice: request feedback
+**Feedback e-mail per invoice.** The *Invoice: request feedback* e-mail
+template lists the lines of a customer invoice, each with the product
+image, a link to the product page, the quantity and three rating links
+(*Satisfied*, *Not satisfied*, *Highly Dissatisfied*). Section and note
+lines are shown as headings. The e-mail is posted in the chatter of the
+invoice and sent right away.
 
-Descriere:
+**Rating on the product.** Each product line gets its own rating record
+on the product template, so a click on a rating link records the
+customer's rating for that product through the standard ``/rate`` page
+of Odoo.
 
-- Trimite la client un email pentru a cere feedback pentru produsele
-  vandute.
-- Trimiterea se face prin cron job (la instalare inactiv), default la 3
-  zile dupa data facturii. Daca se doreste alt interval, se foloseste
-  paramentrul de sistem sale.days_request_feedback
-- Template-ul de e-mail: Invoice: request feedback
+**Scheduled sending.** The *Request Feedback* scheduled action (inactive
+at install) runs once a day and sends the e-mail for the posted customer
+invoices dated a given number of days ago, 3 by default, of the
+companies where *Email feedback after sale* is enabled. The delay is
+read from the ``sale.days_request_feedback`` system parameter (*Settings
+> Technical > Parameters > System Parameters*).
+
+**Manual sending.** On customer invoices, *Actions > Request feedback*
+sends the e-mail for the selected invoices, whether the option is
+enabled or not.
+
+**Template per company.** In *Sales > Configuration > Settings*, the
+*Email feedback after sale* option shows the *Email Template Request
+Feedback* field, where another e-mail template on invoices can be chosen
+for the company. Without one, the module's own template is used.
+
+**Links on the company website.** When the invoice company has a website
+address, the links in the e-mail are built on that address instead of
+the database ``web.base.url``.
+
+Limitations
+-----------
+
+- The delay in days has no field in the settings; it is changed only
+  through the system parameter.
 
 **Table of contents**
 
@@ -49,6 +73,16 @@ Descriere:
 
 Changelog
 =========
+
+20.0.1.0.8 (2026-11-03)
+-----------------------
+
+- Description rewritten after the code: the per-line rating links, the
+  scheduled action (posted invoices of the companies with *Email
+  feedback after sale* enabled), the manual *Request feedback* action
+  and the template chosen per company in the settings.
+- Summary and Apps banner no longer promise automatic sending configured
+  from the settings: the delay is set by a system parameter.
 
 19.0.1.0.7 (2026-10-09)
 -----------------------

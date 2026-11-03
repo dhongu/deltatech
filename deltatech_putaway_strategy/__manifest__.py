@@ -1,6 +1,6 @@
 {
     "name": "Putaway Strategy",
-    "version": "20.0.1.1.1",
+    "version": "20.0.1.1.2",
     "summary": "Location capacities and enhanced putaway strategy for Inventory",
     "author": "Deltatech, Terrabit",
     "website": "https://www.terrabit.ro",

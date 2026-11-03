@@ -1,4 +1,4 @@
 {
-  "summary": "Active-ingredient concentration in BOM",
-  "features": ["Concentration field on BOM lines", "Adjusts consumed quantities", "Traceability on BOM & MO"]
+  "summary": "Dilute or concentrate to a target",
+  "features": ["Concentrations on BoM and MO", "Primary / secondary ingredient type", "Diluent or by-product balance"]
 }

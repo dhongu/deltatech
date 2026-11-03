@@ -2,9 +2,9 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Invoice Renumbering" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Invoice Numbering Control" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Invoice Renumbering</h1>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Invoice Numbering Control</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Control invoice numbers and their order</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
@@ -13,7 +13,13 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 9 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:94%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">94% code coverage</div>
+    </div>
   </div>
 </div>
 
@@ -40,27 +46,49 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Keeps customer invoices in chronological order on the journals where it
+matters, and lets a dedicated group of users correct the number of an invoice.</p>
+<p><strong>Chronological invoice dates.</strong> On a sales journal with <em>Restrict invoice
+date</em> enabled, a draft customer invoice or credit note cannot be confirmed with
+an invoice date earlier than the latest posted document of the same type in that
+journal. The error states the earliest date allowed. When the journal is chosen
+on a draft invoice, a warning shows the same information.</p>
+<p><strong>Change of the invoice number.</strong> Users in the group <em>Allow to change invoice
+number</em> get the action <strong>Change invoice number</strong> in the Actions menu (gear icon)
+of the invoice form. The wizard proposes the current number; after <strong>Apply</strong>,
+the new number is written on the invoice and copied to the reference of its
+journal items (and to the invoice <em>Reference</em> for customer documents).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Functions:</p>
-<ul>
-<li>At validation, the invoice date must be greater than or equal to the date of the last validated invoice.</li>
-<li>The invoice number can be modified by authorized users.</li>
-<li>A number can be allocated to an invoice in draft state from a sequence configured on the journal.</li>
+<li><strong>Accounting &gt; Configuration &gt; Journals</strong>, a journal of type <em>Sales</em>, tab
+  <strong>Journal Entries</strong>, section <strong>Invoice numbering</strong>: tick <em>Restrict invoice
+  date</em>.</li>
+<li><strong>Settings &gt; Users &amp; Companies &gt; Groups</strong>: add the users who may change
+  invoice numbers to the group <em>Allow to change invoice number</em>.</li>
 </ul>
-</li>
-<li>
-<p>Functionalit&#259;&#539;i:</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Valideaz&#259; ordinea cronologic&#259; a facturilor emise.</li>
-<li>Permite modificarea num&#259;rului unei facturi pentru un grup dedicat de utilizatori.</li>
-<li>Permite numerotarea unei facturi aflate &#238;n starea ciorn&#259;.</li>
-</ul>
-</li>
+<li>The <strong>Invoice numbering</strong> section also shows a <em>Journal Sequence</em> field. The
+  module contains a method that numbers a draft invoice from this sequence, but
+  no button or menu calls it, so the field has no effect in the interface.</li>
+<li>The new number is written as typed: the wizard does not check it against the
+  journal's numbering format or for gaps.</li>
 </ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.4 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code, in English only: removed the numbering of
+  draft invoices from the journal sequence, which no button or menu triggers
+  (now under Limitations); added where the date restriction and the user group
+  are configured.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.3 (2026-10-22)</h2>
+<ul>
+<li>Listed on Odoo Apps as <em>Invoice Numbering Control</em> (was <em>Invoice Number</em>), with the same title on the Apps banner.
+  The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_invoice_number</code> does not change.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -150,6 +178,26 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_change_uom" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CU</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_change_uom/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Change Unit of measure</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Change unit of measure in product</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_followup" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -225,7 +273,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create receipt form invoice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create the purchase order and the receipt from the vendor bill</p>
         </div>
       </a>
     </div>
@@ -246,26 +294,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Net and gross weight totals on invoices, sale and purchase orders</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_payment_forecast" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PF</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_payment_forecast/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Payment Forecast</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generates a report to estimate payments at a certain date</p>
         </div>
       </a>
     </div>

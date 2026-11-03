@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Picking Validation Restrict Entry Exit",
-    "summary": "You can't create entry/exit picking if there are no purchase/sale atached",
-    "version": "20.0.0.0.14",
+    "summary": "Block the validation of receipts and deliveries with lines not linked to an order or above the demand",
+    "version": "20.0.0.0.15",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",

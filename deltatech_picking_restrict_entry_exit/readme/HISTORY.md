@@ -1,3 +1,9 @@
+## 20.0.0.0.15 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: the creation of a transfer without
+  an origin is not blocked, only its validation; the exemption group holds only the
+  administrator at installation, not all users.
+
 ## 20.0.0.0.14 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

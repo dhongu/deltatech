@@ -10,9 +10,9 @@ Sale Order Search by Contact
    !! source digest: sha256:211720a767a660c84e6d6e56d8254199671de56615201003d5ace0f0559d0ea0
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_saleorder_search
     :alt: dhongu/deltatech
@@ -25,31 +25,23 @@ Sale Order Search by Contact
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-Key Features
-============
+Finds sales orders when the only thing you know about the customer is an
+e-mail address or a phone number.
 
-This module enhances the search capabilities in Odoo Sales by allowing
-users to find sales orders based on multiple partner-related fields.
+**Search by e-mail.** The search bar of quotations and sales orders gets
+the option **Search E-mail for: ...**, which returns the orders whose
+customer has an e-mail address containing the typed text.
 
-Features:
----------
+**Search by phone.** The option **Search Phone for: ...** does the same
+with the customer's phone number. The text is matched as typed, so enter
+the number in the format in which it is stored on the contact.
 
-- Expands the default search options to include partner e-mail, phone,
-  and mobile numbers.
-- Enables sales teams to quickly locate orders when they only have the
-  customer's contact information.
-- Improves overall search efficiency and customer service
-  responsiveness.
-- Integrates seamlessly with the standard Odoo search view for Sales.
+Both options work in **Sales > Orders > Quotations** and **Sales >
+Orders > Orders**, and in every other list of sales orders that uses the
+standard search view. Nothing needs to be configured.
 
-Usage:
-------
-
-1. Navigate to Sales > Orders > Quotations or Sales.
-2. In the search box at the top right, enter a customer's e-mail, phone,
-   or mobile number.
-3. The results will now include all sales orders where the customer
-   matches any of these fields.
+The search looks at the e-mail and phone of the contact set as
+*Customer* on the order, not at the other contacts of the same company.
 
 **Table of contents**
 
@@ -58,6 +50,27 @@ Usage:
 
 Changelog
 =========
+
+20.0.1.0.6 (2026-11-03)
+-----------------------
+
+- Description rewritten from the code: removed the search by mobile
+  number, which the module does not offer (contacts have no separate
+  mobile field in Odoo 20); named the search options and menus as they
+  appear in the interface.
+
+20.0.1.0.5 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale Order Search by Contact* (was *Sale Order
+  Search by Partner Fields*). The technical name
+  ``deltatech_saleorder_search`` does not change.
+
+20.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 19.0.1.0.3 (2026-09-29)
 -----------------------

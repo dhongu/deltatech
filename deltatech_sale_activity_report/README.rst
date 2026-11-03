@@ -16,20 +16,58 @@ Sale Activity Log
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_activity_report
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_activity_report/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-22%20automated%20tests%20%C2%B7%2082%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_activity_report
     :alt: 22 automated tests · 82% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-Features:
+Keeps a journal of who worked on which sales order and when, so a sales
+manager can see the activity of each salesperson per day.
 
-- whenever a user changes something on a sale order , a record is
-  created in the activity report
-- in the report menu of the sales app you can see the activity records
-  and the pivot view so you can see the activity per user
-- Automatically deletes activity records older than 2 months using the
-  Data Recycle mechanism.
+**One activity record per order, user and day.** The first time an
+internal user touches a sales order on a given day, an activity record
+is created for that order, user and date; later actions of the same user
+on the same day are added to it. Actions of the system and of portal or
+website users are not recorded.
+
+**What is recorded.** The *Log* tab of a record holds the timed list of:
+
+- field changes, with the old and the new value (order lines are
+  described line by line);
+- the *Confirm*, *Cancel*, *Set to Quotation*, *Lock*, *Unlock* and
+  *Send* buttons;
+- messages posted in the chatter.
+
+Scheduling an activity on the order also creates the record of the day,
+without a log line. The record keeps the order status, and the flags
+*Chatter Message* and *Tags Changed*. Binary fields (labels, signatures)
+are not logged, and long values are truncated.
+
+**Activity Records report.** *Sales > Reporting > Activity Records*
+opens the records of the current month in list, form, pivot (users and
+stages per day) and graph views, with *Today*, *Yesterday*, *This Month*
+and *This Year* filters and grouping by user, stage or date.
+
+**Access.** *User: Own Documents Only* salespeople can read the records
+of their own orders and of unassigned ones; *User: All Documents* and
+*Administrator* see all of them, within their allowed companies. Only
+the Sales *Administrator* can change or delete records. The *Reporting*
+menu of Sales, and so the report, is shown to the Sales *Administrator*
+only.
+
+**Automatic clean-up.** A *Data Cleaning* rule deletes the records older
+than 2 months. The period can be changed in *Data Cleaning >
+Configuration > Rules > Recycle Records*, rule *Sale Order Activity
+Record*.
+
+**With order stages.** When the order stages from
+``deltatech_website_sale_status`` are installed, the record also keeps
+the order stage and the *AWB Generated* flag, set when the order moves
+to *Pre advice*.
 
 **Table of contents**
 
@@ -38,6 +76,24 @@ Features:
 
 Changelog
 =========
+
+20.0.1.2.2 (2026-11-03)
+-----------------------
+
+- Summary corrected: the module keeps a separate activity journal per
+  order, user and day, not a "last modified" field on the order.
+- Description rewritten after the code: what is logged (field changes,
+  header buttons, chatter messages, scheduled activities), the *Activity
+  Records* report and its views, the access rules, the Data Cleaning
+  rule and the optional order stages.
+- Apps banner aligned with the description.
+
+20.0.1.2.1 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale Activity Log* (was *Sale Order Last
+  Modified*). The technical name ``deltatech_sale_activity_report`` does
+  not change.
 
 19.0.1.2.0 (2026-10-09)
 -----------------------

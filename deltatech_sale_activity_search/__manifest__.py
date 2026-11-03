@@ -1,10 +1,10 @@
 {
     "name": "Sale Order activity type search",
-    "version": "20.0.0.0.1",
+    "version": "20.0.0.0.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "summary": "Adds a field with the active activity types on that sale order",
+    "summary": "Stores the types of pending activities on the sale order, for custom filters",
     "depends": ["sale", "mail"],
     "license": "OPL-1",
     "data": [],

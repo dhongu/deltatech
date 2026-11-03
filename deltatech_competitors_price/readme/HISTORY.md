@@ -1,3 +1,9 @@
+## 20.0.1.0.4 (2026-11-03)
+
+- Description rewritten from the code: removed the product-level button that fetches all lines, which does not exist; prices are fetched line by line.
+- Documented that Auto Fetch is only a marker (no scheduled fetch) and the public-address check on URLs.
+- Banner: "On-demand price fetch (per line or all)" corrected to per line.
+
 ## 20.0.1.0.3 (2026-10-22)
 
 - Listed on Odoo Apps as *Competitors Price Tracker* (was *Competitors Price*). The technical name `deltatech_competitors_price` does not change.

@@ -1,3 +1,12 @@
+## 20.0.2.0.4 (2026-11-03)
+
+- Description rewritten from the code: the purchase order created from the bill stays a request
+  for quotation and must be confirmed before the bill can be posted; it is not confirmed
+  automatically.
+- Documented the return transfer created for negative purchase lines and the limitations (credit
+  notes, regular orders, discount not copied to the purchase order).
+- Summary typo fixed; banner corrected.
+
 ## 20.0.2.0.3 (2026-10-08)
 
 - Returns to the vendor from negative purchase lines: the quantity already returned is now

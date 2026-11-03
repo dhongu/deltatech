@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Account Analytic Split",
-    "summary": "Analytic lines enhancements",
-    "version": "20.0.0.0.10",
+    "summary": "Analytic distribution by sales team and percentage split of analytic amounts",
+    "version": "20.0.0.0.11",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

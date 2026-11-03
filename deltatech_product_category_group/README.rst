@@ -19,17 +19,45 @@ Products Category User Group
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_category_group
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_product_category_group
-    :alt: 4 automated tests · 91% code coverage
+    :alt: 9 automated tests · 97% code coverage
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-Features:
+In a warehouse where each team handles its own product families, the
+transfers ready to be processed should go to the people of the right
+team, and the work should be spread evenly among them. This module links
+product categories to a user group and assigns the responsible of the
+transfers from that group.
 
-- User Group in product category
-- Automatic assignment of the responsible in transfer based on the user
-  group from category
+**User Group on the product category**: adds the **User Group** field on
+the product category form. The members of this group are the people who
+handle the products of the category.
+
+**Responsible button on the transfer list**: select transfers in a
+transfers list and click **Responsible** to fill in their
+**Responsible**. Only transfers in state **Ready** without a responsible
+are processed; the others are left as they are.
+
+**Balanced assignment**: for each transfer, the module collects the user
+groups of the categories of its products, up to three parent levels, and
+takes their members that are active internal users with the Inventory
+**User** right and allowed in the company of the transfer. Among them, a
+user without any Ready transfer is chosen first; otherwise the one with
+the fewest Ready transfers in that company.
+
+The button is visible to Inventory **Administrator** users. The
+``responsible_determination`` method can also be called from custom
+code, for example after the reservation.
+
+Limitations
+-----------
+
+- The assignment is not automatic: it runs only from the **Responsible**
+  button or from code that calls it.
+- Only the direct members of the group are taken into account, not the
+  users who get it through an implied group.
 
 **Table of contents**
 
@@ -38,6 +66,31 @@ Features:
 
 Changelog
 =========
+
+20.0.1.0.7 (2026-11-03)
+-----------------------
+
+- Description, summary and banner rewritten after the code: the
+  responsible is assigned from the **Responsible** button on the
+  transfer list (or from custom code), not automatically; documented the
+  balancing among the members of the group.
+
+20.0.1.0.6 (2026-10-15)
+-----------------------
+
+- ``responsible_determination``: the candidates are now only active
+  internal users (not portal) with the Inventory user group who can work
+  in the company of the transfer; before, any member of the category
+  group was a candidate. The number of "Ready" transfers used for
+  balancing counts only the transfers of the same company. If no
+  candidate is eligible the transfer is left unassigned. The
+  "Responsible" button on the transfer list is restricted to Inventory
+  managers.
+- ``responsible_determination`` takes the categories from the moves (not
+  cancelled) instead of the move lines: in a partially reserved transfer
+  the unreserved moves were ignored when choosing the user group.
+- Tests added for each case; the list-view arch check accepts bytes as
+  well as text.
 
 19.0.1.0.5 (2026-09-29)
 -----------------------

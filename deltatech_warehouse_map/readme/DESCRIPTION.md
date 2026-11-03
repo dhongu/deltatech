@@ -1,33 +1,41 @@
-- Features:
-  - Generic warehouse map for any `stock.location` (backend/QWeb):
-    - Select a location and see its direct children as rows.
-    - Each row shows a full‑width bar split into equal segments for the next level (grandchildren), enabling quick drill‑down.
-    - Click any segment to open the graphical view for that sub‑location; a Back link returns to the parent.
-  - Visual occupancy per sub‑location:
-    - Each segment contains an internal progress bar representing the occupancy percentage of that sub‑location.
-    - Color thresholds: green (<60%), yellow (60–90%), red (≥90%). High‑contrast labels with the name and `(current/max)` values.
-    - Clear cell borders to visually separate segments.
-  - Capacity and occupancy tracking on `stock.location` (fields provided by `deltatech_putaway_strategy`):
-    - `max_products_leaf` (manual, for leaf locations).
-    - Computed `max_products` (sum of children for non‑leaf locations).
-    - Computed `current_products` (for leaves: sum of `quantity` from `stock.quant` with quantity > 0; for non‑leaves: sum of children).
-    - Computed `occupancy_ratio` = `current/max` (protected against division by zero).
-  - Navigation and UI integration:
-    - List view button “Map” on Locations; form smart button “Open Map”.
-    - The occupancy and quantity labels of a segment open the current stock (quants) of that location and its sublocations, grouped by product.
-    - `/deltatech/warehouse_map` opens the Stock root in the generic view.
-  - Technical details:
-    - Routes: `/deltatech/warehouse_map`, `/deltatech/warehouse_map/location/<id>` and `/deltatech/warehouse_map/location_open_quants/<id>`.
-    - Only Inventory users (`stock.group_stock_user`) can open the map; locations of other companies return 404.
-    - Layout independent of Bootstrap utilities; responsive flex layout to keep the name and bar on a single line.
+In a warehouse organized as a deep location tree (zones, lines, racks,
+shelves, cells), the standard Locations list does not show where space is
+left. This module adds a visual map of the location hierarchy, colored by
+occupancy, so you can see at a glance which racks and cells are full and
+drill down to the products stored in a cell.
 
-- Configuration:
-  - Set `Max products (leaf)` on leaf locations in the Location form (Capacity section). Non‑leaf values are computed from children.
+**Location map.** For a selected location, the map shows each child location
+as a bar and nests all its descendants underneath, level by level. Click a
+location name to open the map one level lower; the back button in the
+header returns to the parent location.
 
-- Usage:
-  - Open Inventory → Configuration → Locations and click “Map” on any record, or use the smart button on the Location form.
-  - Start at the Stock root (`/deltatech/warehouse_map`) or at any location and drill down by clicking segments.
+**Occupancy colors.** Each bar is filled in proportion to the occupancy of
+that location and shows the percentage and the current quantity. The fill is
+green below 60%, yellow from 60% to 90% and red from 90%. A tooltip shows the
+full location name, the occupancy and the current / maximum quantity. The
+percentage and the quantity on each bar open *Current Stock*: the stock of
+that location and of its sublocations, grouped by product.
 
-- Notes & limitations:
-  - Occupancy is based on total on‑hand quantity (`sum(quantity)`) in leaf locations; can be adapted to available quantity or other metrics if needed.
-  - Segments are equal‑width by design (not weighted by capacity) to keep a consistent visual grid.
+**Cell contents.** When the selected location has no children, the map lists
+the products stored in it with their on-hand quantity.
+
+**Opening the map.** The **Map** button on each line of *Inventory >
+Configuration > Locations* and the **Open Map** smart button on the location
+form open the map for that location. The map of the main *Stock* location is
+also available at the URL `/deltatech/warehouse_map`.
+
+## Configuration
+
+Capacity and occupancy come from the `deltatech_putaway_strategy` module,
+installed as a dependency: set **Max products (leaf)** on the leaf locations
+(the cells); the maximum, the current quantity and the occupancy of the
+parent locations are summed from their children. Occupancy is the on-hand
+quantity of the location divided by its maximum.
+
+The map is available only to users of the *Inventory / User* group; access
+rights and multi-company rules apply to the locations and quantities shown.
+
+## Limitations
+
+- There is no menu entry for the map; open it from a location or by URL.
+- The labels of the map page are in Romanian and are not translated.

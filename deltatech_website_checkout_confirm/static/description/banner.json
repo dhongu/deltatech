@@ -1,6 +1,10 @@
 {
   "title": "Checkout Confirm",
   "icon": "globe",
-  "summary": "Final order confirmation at checkout",
-  "features": ["Confirm step before finalizing", "Order review after payment", "Built on the website_sale flow"]
+  "summary": "Confirm web orders at the end of checkout",
+  "features": [
+    "Auto-confirm on the confirmation page",
+    "Wire transfer and COD included",
+    "Checks paid amount and signature"
+  ]
 }

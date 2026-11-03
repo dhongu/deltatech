@@ -1,3 +1,9 @@
+## 20.0.1.0.5 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: there is no extra review page or
+  Confirm button; the order is confirmed automatically on the standard confirmation page,
+  including wire transfer and cash on delivery.
+
 ## 20.0.1.0.4 (2026-10-01)
 
 - Migration to Odoo 20.0. The confirmation logic is unchanged: `_has_to_be_signed()`,

@@ -1,3 +1,9 @@
+## 20.0.1.0.4 (2026-11-03)
+
+- Description and banner rewritten after the code: removed the claim that decreases of the
+  ordered quantity update the purchase lines (only the cancellation of the whole sales order is
+  handled); documented the reduction of purchase lines shared by several sales orders.
+
 ## 20.0.1.0.3 (2026-10-22)
 
 - Listed on Odoo Apps as *Sale-Purchase Sync* (was *Sale Purchase*). The technical name `deltatech_sale_purchase` does not change.
