@@ -11,6 +11,7 @@
     "depends": [
         "stock_account",
     ],
+    "external_dependencies": {"python": ["xlsxwriter"]},
     "data": [
         "security/ir.model.access.csv",
         "security/ir_rule.xml",
