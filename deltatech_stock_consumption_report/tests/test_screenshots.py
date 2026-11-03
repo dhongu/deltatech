@@ -3,9 +3,12 @@
 # din `l10n_ro_stock_account`, fără ea testul se sare.
 #
 # Seedează două magazine (Magazin Nord, Magazin Sud), fiecare cu tipul lui de operațiune de consum,
-# două destinații de consum (Consum propriu, Investiții), trei produse cu stoc și cost, trei bonuri
-# de consum validate (două la Magazin Nord, pe destinații diferite, unul la Magazin Sud) și o
-# livrare către client pentru produsul de vânzare (ca să apară în coloana „livrat clienților").
+# două destinații de consum (Consum propriu, Investiții), două consumabile și o marfă (cimentul).
+# Fluxul corect pentru marfa folosită intern: transfer la cost din stoc în gestiunea de materiale a
+# magazinului (Dr 3028 = Cr 371, categoria permite schimbarea contului de stoc), apoi bonul de consum
+# din materiale (Dr 6028 = Cr 3028). La Magazin Sud, un bon-anomalie dă cimentul direct din stoc pe
+# consum (Dr 607 = Cr 371): fișa îl folosește ca exemplu de ce trebuie găsit în raport, prin coloana
+# „livrat clienților" (o livrare către client pentru ciment).
 # Planul de conturi RO (`setup_country("ro")`) și valorizarea în timp real fac ca bonul să aibă și
 # nota de consum.
 #
@@ -80,9 +83,10 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
             )
         category = cls.env["product.category"]
         consumables = category.create(cls._category_vals("Consumabile", stock="3028", expense="6028"))
-        # marfă: cheltuiala implicită 607, dar consumul propriu merge pe contul de consum 6028
-        goods = category.create(cls._category_vals("Materiale de construcții", stock="371", expense="607"))
-        goods.property_account_expense_categ_id.l10n_ro_stock_consume_account_id = cls._account("6028")
+        # marfă (371 / 607); contul de stoc se schimbă după gestiune, ca marfa trecută în
+        # materiale să ajungă pe 3028
+        goods = category.create(cls._category_vals("Mărfuri", stock="371", expense="607"))
+        goods.l10n_ro_stock_account_change = True
         product = cls.env["product.product"]
         cls.gloves = product.create(
             {
@@ -120,18 +124,26 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
         investments = purpose.create({"name": "Investiții", "sequence": 2, "company_id": cls.company.id})
         north, south = cls.stores
         north_type, south_type = cls.consume_types
-        cls.voucher = cls._consume(
-            north,
-            north_type,
-            [(cls.gloves, 5), (cls.detergent, 2), (cls.cement, 4)],
-            own_use,
+        materials = cls.env["stock.location"].create(
+            {
+                "name": "Materiale uz intern",
+                "usage": "internal",
+                "location_id": north.view_location_id.id,
+                "company_id": cls.company.id,
+                "l10n_ro_property_stock_valuation_account_id": cls._account("3028").id,
+                "l10n_ro_property_account_expense_location_id": cls._account("6028").id,
+            }
         )
-        cls._consume(north, north_type, [(cls.cement, 10)], investments)
+        cls.voucher = cls._consume(north, north_type, [(cls.gloves, 5), (cls.detergent, 2)], own_use)
+        cls.transfer = cls._validate(north.int_type_id, materials, [(cls.cement, 10)])
+        cls.investment = cls._consume(north, north_type, [(cls.cement, 10)], investments, source=materials)
         cls._consume(south, south_type, [(cls.gloves, 2), (cls.detergent, 1)], own_use)
+        cls.anomaly = cls._consume(south, south_type, [(cls.cement, 4)], own_use)
         cls._deliver(north, cls.cement, 30)
 
         cls.xlsx = {lang: cls._export(lang) for lang in ("ro_RO", "en_US")}
         cls.voucher_entry = cls.env["account.move"].search([("stock_move_ids", "in", cls.voucher.move_ids.ids)])
+        cls.transfer_entry = cls.env["account.move"].search([("stock_move_ids", "in", cls.transfer.move_ids.ids)])
         cls.action = cls.env.ref("deltatech_stock_consumption_report.action_stock_consumption_report_wizard")
         cls.purpose_action = cls.env.ref("deltatech_stock_consumption_report.action_stock_consumption_purpose")
 
@@ -161,8 +173,8 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
         }
 
     @classmethod
-    def _validate(cls, picking_type, location_dest, lines, partner=None, purpose=None):
-        source = picking_type.default_location_src_id
+    def _validate(cls, picking_type, location_dest, lines, partner=None, purpose=None, source=None):
+        source = source or picking_type.default_location_src_id
         picking = cls.env["stock.picking"].create(
             {
                 "picking_type_id": picking_type.id,
@@ -190,8 +202,8 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
         return picking
 
     @classmethod
-    def _consume(cls, warehouse, picking_type, lines, purpose):
-        return cls._validate(picking_type, cls.consume_location, lines, purpose=purpose)
+    def _consume(cls, warehouse, picking_type, lines, purpose, source=None):
+        return cls._validate(picking_type, cls.consume_location, lines, purpose=purpose, source=source)
 
     @classmethod
     def _deliver(cls, warehouse, prod, qty):
@@ -223,9 +235,10 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
                 "settle": 2000,
             },
             self.account_move_shot(self.voucher_entry[:1], "03_nota_consum.png"),
+            self.account_move_shot(self.transfer_entry[:1], "04_transfer_marfa.png"),
             {
                 "url": f"action={self.action.id}",
-                "name": "04_wizard_raport.png",
+                "name": "05_wizard_raport.png",
                 "wait": ".modal-content",
                 "highlight": [
                     "div[name='date_from']",
@@ -236,7 +249,7 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
             },
             {
                 "url": f"action={self.action.id}",
-                "name": "05_pivot_consumuri.png",
+                "name": "06_pivot_consumuri.png",
                 "wait": ".modal-content",
                 "click_btn": "button[name='action_view']",
                 "wait_after": ".o_pivot",
@@ -245,14 +258,20 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
             # foaia centralizată randată ca tabel: pagina tipărită taie ultima coloană
             {
                 "html": self.xlsx_to_html(xlsx, sheet=0, title=titles[0], lang=lang),
-                "name": "06_xlsx_centralizat.png",
+                "name": "07_xlsx_centralizat.png",
                 "full": True,
             },
-            self.xlsx_shot(xlsx, "07_xlsx_detaliat.png", sheet=1, title=titles[1], lang=lang),
+            self.xlsx_shot(xlsx, "08_xlsx_detaliat.png", sheet=1, title=titles[1], lang=lang),
+            self.account_move_shot(self.anomaly.move_ids.account_move_id[:1], "09_nota_anomalie.png"),
         ]
 
     def test_capture_fise(self):
         self.assertTrue(self.voucher_entry, "bonul de consum nu a generat notă contabilă")
+        self.assertTrue(self.transfer_entry, "transferul în materiale nu a generat notă contabilă")
+        for picking, debit, credit in ((self.investment, "6028", "3028"), (self.anomaly, "607", "371")):
+            lines = picking.move_ids.account_move_id.line_ids
+            self.assertTrue(lines.filtered("debit").account_id.code.startswith(debit))
+            self.assertTrue(lines.filtered("credit").account_id.code.startswith(credit))
         self.capture_screenshots(self._shots("ro_RO"))
 
     def test_capture_usage(self):
