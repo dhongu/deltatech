@@ -1,7 +1,12 @@
 ## 19.0.1.2.1 (2026-11-03)
 
 - `readme/USAGE.md` for the Apps Store: wider unit lists on purchases, the vendor
-  line restriction and the default purchase unit.
+  line restriction and the default purchase unit, with English screenshots in
+  `static/description/en/`.
+- Consultant sheet `readme/FISA_CONSULTANT.md` with Romanian screenshots, generated
+  by `tests/test_screenshots.py` in both languages.
+- `i18n/ro.po`: Romanian translation of *Default Purchase Unit*, its help and the
+  constraint message.
 
 ## 19.0.1.2.0 (2026-10-20)
 

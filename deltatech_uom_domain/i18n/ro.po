@@ -1,0 +1,48 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_uom_domain
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-03 10:00+0000\n"
+"PO-Revision-Date: 2026-11-03 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_uom_domain
+#: model:ir.model,name:deltatech_uom_domain.model_deltatech_uom_domain_mixin
+msgid "Allow every unit convertible to the product's own unit"
+msgstr "Permite orice unitate convertibilă la unitatea produsului"
+
+#. module: deltatech_uom_domain
+#: model:ir.model.fields,field_description:deltatech_uom_domain.field_product_product__purchase_uom_id
+#: model:ir.model.fields,field_description:deltatech_uom_domain.field_product_template__purchase_uom_id
+msgid "Default Purchase Unit"
+msgstr "Unitate implicită de achiziție"
+
+#. module: deltatech_uom_domain
+#. odoo-python
+#: code:addons/deltatech_uom_domain/models/product_template.py:0
+msgid ""
+"The default purchase unit %(purchase_uom)s of %(product)s cannot be "
+"converted to its unit %(uom)s."
+msgstr ""
+"Unitatea implicită de achiziție %(purchase_uom)s a produsului %(product)s "
+"nu poate fi convertită în unitatea lui, %(uom)s."
+
+#. module: deltatech_uom_domain
+#: model:ir.model.fields,help:deltatech_uom_domain.field_product_product__purchase_uom_id
+#: model:ir.model.fields,help:deltatech_uom_domain.field_product_template__purchase_uom_id
+msgid ""
+"Unit proposed on purchase order lines when the vendor has no valid pricelist"
+" line for the product (missing, expired or for another vendor)."
+msgstr ""
+"Unitatea propusă pe liniile comenzilor de achiziție când furnizorul nu are o "
+"linie de preț valabilă pentru produs (lipsă, expirată sau pentru alt "
+"furnizor)."
