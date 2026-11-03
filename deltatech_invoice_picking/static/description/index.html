@@ -38,9 +38,9 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
-    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
-       style="padding:10px 22px;">Versions</a>
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
 </ul>
 <div class="tab-content">
@@ -55,67 +55,77 @@
 <li>only the products in the picking(s) with their respective done quantities will be added to the invoice</li>
 <li>only pickings that come from a sale order or purchase orders can be invoiced</li>
 <li>a picking must be in "done" state to be invoiced</li>
-<li>a "to invoice" field is added to pickings, for filtering purposes. When a sale picking is created, the field is set
-to True. When an invoice is created, the field is set to False. When an invoice is cancelled or deleted, it's set to
-True</li>
+<li>a "to invoice" field is added to pickings, for filtering purposes. When a picking that comes from a sale or purchase
+order is validated, the field is set to True. When an invoice is created, it is set to False. When the invoice is
+cancelled or deleted, it is set back to True and the link to the invoice is cleared</li>
 <li>a field with link to the invoice is added to pickings. The field is computed to point to the invoice generated from
 the picking</li>
-<li><strong>if changes are made to the invoice (lines deleted, qty's modified), the invoice fields will not be updated in
-linked pickings.</strong></li>
+<li><strong>on an invoice created from pickings, the quantity or product of storable product lines cannot be changed and
+those lines cannot be deleted, so the invoice stays aligned with the delivered quantities</strong></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.16 (2026-10-17)</h2>
-<ul>
-<li>Fixed: the To invoice flag of a transfer was decided by a single invoice line, so a fully invoiced
-  product could clear the flag of a transfer with another product only partly invoiced, and two
-  partial invoices covering the whole delivery left the transfer to invoice. The flag is now derived
-  from all the done moves of the transfer and the cumulative invoiced quantity of each order line
-  (non-cancelled invoices minus refunds); the quantity not invoiced yet is attributed to the most
-  recent transfers (PICKINV-002). Resetting a cancelled invoice to draft links its transfers again.</li>
-<li>Fixed: a batch with a partially invoiced transfer was reported as invoiced and the batch Invoice
-  action left that transfer out; it is now kept, so the rest can be invoiced (PICKINV-003).</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.15 (2026-10-16)</h2>
-<ul>
-<li>Fixed: invoicing several selected batch transfers stopped after the first batch; the not yet
-  invoiced transfers of all the selected batches are now invoiced together (delivery and receipt
-  batches cannot be mixed).</li>
-<li>Fixed: a batch without transfers was reported as invoiced.</li>
-<li>Fixed: the Invoice button on the batch form was shown on batches that were not done or were already
-  invoiced (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">and</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">or</code> in its visibility condition).</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.14 (2026-10-07)</h2>
-<ul>
-<li>Fixed: the Create Purchase Invoices action could bill an already billed receipt again, with the full
-  receipt quantity, and moved the receipt's invoice link to the new bill. The billed quantity is now
-  capped at what is still to bill on the purchase order line (received minus billed on non-cancelled
-  bills), and receipts with nothing left to bill are refused with an error (PICKINV-004). After a bill
-  is cancelled, the receipt can be billed again.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.13 (2026-10-06)</h2>
-<ul>
-<li>Summary in English, as the Apps Store requires, the same as the banner; support address.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.12 (2026-10-03)</h2>
-<ul>
-<li>Fixed: invoicing from transfers copied the stock move quantity into the invoice line without unit
-  conversion. A purchase line of 1 Dozen received as 12 Units was billed as 12 Dozen (12 times the
-  amount), and a partial delivery of 12 Units on a 2 Dozen sale line was invoiced as 2 Dozen. Move
-  quantities are now converted from the move unit to the order line unit before summing and before
-  the remaining-quantity cap (PICKINV-001). Invoice quantities change whenever the order unit differs
-  from the stock move unit.</li>
-<li>Declared the missing <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> dependency: the transfer form uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.picking.purchase_id</code>,
-  added by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code>, so a standalone install failed with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Field "purchase_id" does not exist</code>.
-  No change on existing databases, where <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> is auto-installed with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code>.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.11 (2026-09-29)</h2>
-<ul>
-<li>Own module icon, instead of the generic gears it had.</li>
-</ul>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p><strong>Invoice a delivery</strong></p>
+<ol>
+<li>Go to <strong>Inventory &#8594; Operations &#8594; Transfers &#8594; Deliveries</strong> and apply the <strong>To invoice</strong> filter. The list shows the
+   done deliveries that are not invoiced yet, or only partly invoiced. To invoice several deliveries at
+   once, select them and use <strong>Actions &#8594; Create Sale Invoices</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Deliveries list with the To invoice filter: the done deliveries of orders S00101, S00102 and S00103" src="en/01_livrari_de_facturat.png" /></p>
+<ol start="2">
+<li>Open a done delivery that comes from a sale order. The <strong>Invoice</strong> button is shown while the delivery
+   is to invoice.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done delivery of order S00101 with the Invoice button and the delivered quantities, 6 chairs and 2 desks" src="en/02_livrare_buton_factura.png" /></p>
+<ol start="3">
+<li>Click <strong>Invoice</strong>. The standard <strong>Create invoice(s)</strong> wizard opens: keep <strong>Regular invoice</strong> and
+   click <strong>Create Draft</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Create invoice(s) wizard opened from the delivery, with Regular invoice selected and the Create Draft button" src="en/03_asistent_facturare.png" /></p>
+<ol start="4">
+<li>The invoice contains only the products of the selected deliveries, with the delivered quantities
+   (6 chairs out of the 10 ordered). Its product lines cannot be changed or deleted, so the invoice
+   stays equal to the delivery.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Customer invoice created from the delivery: 6 Scaun ergonomic Nova and 2 Birou reglabil Flex, with 21% VAT" src="en/04_factura_din_livrare.png" /></p>
+<ol start="5">
+<li>On the delivery, the <strong>Additional Info</strong> tab shows the invoice, and <strong>To invoice</strong> is cleared. If the
+   invoice is cancelled or deleted, the delivery is to invoice again.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Invoiced delivery: the Additional Info tab shows the invoice and To invoice is cleared" src="en/05_livrare_facturata.png" /></p>
+<ol start="6">
+<li>A delivery that is only partly invoiced is linked to the invoice but stays <strong>To invoice</strong>, so the rest
+   can be invoiced. The flag follows all the done moves of the transfer and the quantity invoiced on each
+   order line (invoices minus refunds, cancelled ones excluded).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Partly invoiced delivery of order S00102: the invoice is linked, To invoice is still set and the Invoice button is still shown" src="en/06_livrare_facturata_partial.png" /></p>
+<p><strong>Bill a receipt</strong></p>
+<ol>
+<li>In <strong>Inventory &#8594; Operations &#8594; Transfers &#8594; Receipts</strong>, open a done receipt that comes from a purchase
+   order, fill in <strong>Supplier Invoice No</strong> and click <strong>Bill</strong>. Several receipts can be
+   billed from the list with <strong>Actions &#8594; Create Purchase Invoices</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done receipt of order P00101 with Supplier Invoice No BM-2026-0457 and the Bill button" src="en/07_receptie_numar_factura.png" /></p>
+<ol start="2">
+<li>A draft vendor bill is created with the received quantities. The supplier invoice number is copied
+   to the purchase order as <strong>Vendor Reference</strong> and shown on the <strong>Purchases</strong> button of the bill; fill
+   in <strong>Bill Reference</strong> and <strong>Bill Date</strong> before <strong>Confirm</strong>. A receipt that is already fully billed
+   cannot be billed again.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Draft vendor bill created from the receipt: the Purchases button shows P00101 (BM-2026-0457) and the line has 5 Birou reglabil Flex" src="en/08_factura_furnizor.png" /></p>
+<p><strong>Invoice a batch</strong></p>
+<p>Open a done batch in <strong>Inventory &#8594; Operations &#8594; Jobs &#8594; Batch Transfers</strong> and click <strong>Invoice</strong>. The
+transfers of the batch that are not invoiced, or only partly invoiced, go on the invoice; the fully
+invoiced ones are skipped. For a batch of receipts, fill in <strong>Supplier Invoice No</strong> on each receipt first.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done batch BATCH/00101 with the Invoice button" src="en/09_lot_buton_factura.png" /></p>
+<p><strong>Invoice the ordered quantities</strong></p>
+<p>On the sale order, the <strong>Other Info</strong> tab has <strong>Force Invoice Order</strong>: the order lines are invoiced on the
+ordered quantities, whatever the invoicing policy of the product. When the invoice starts from a
+transfer, the quantities are still those of the transfer.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sale order S00101, Other Info tab, with the Force Invoice Order field" src="en/10_comanda_facturare_fortata.png" /></p>
 </div>
 </div>
 
@@ -245,6 +255,26 @@ linked pickings.</strong></li>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_import_lines_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_import_lines_sale/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Import Lines in Sale Orders</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Load sale order lines from an XLSX, XLS, CSV or TXT file</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking_automatically" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -301,26 +331,6 @@ linked pickings.</strong></li>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set the product list price in a currency other than the company&#x27;s</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist_line_viewer" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist_line_viewer/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Line Viewer</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Creates a list view for the lines of a price list for search and management</p>
         </div>
       </a>
     </div>

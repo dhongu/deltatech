@@ -19,11 +19,8 @@ Invoice Pickings
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%2077%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_picking
-    :alt: 18 automated tests · 77% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 - Features:
 
@@ -35,22 +32,141 @@ Invoice Pickings
     invoiced
   - a picking must be in "done" state to be invoiced
   - a "to invoice" field is added to pickings, for filtering purposes.
-    When a sale picking is created, the field is set to True. When an
-    invoice is created, the field is set to False. When an invoice is
-    cancelled or deleted, it's set to True
+    When a picking that comes from a sale or purchase order is
+    validated, the field is set to True. When an invoice is created, it
+    is set to False. When the invoice is cancelled or deleted, it is set
+    back to True and the link to the invoice is cleared
   - a field with link to the invoice is added to pickings. The field is
     computed to point to the invoice generated from the picking
-  - **if changes are made to the invoice (lines deleted, qty's
-    modified), the invoice fields will not be updated in linked
-    pickings.**
+  - **on an invoice created from pickings, the quantity or product of
+    storable product lines cannot be changed and those lines cannot be
+    deleted, so the invoice stays aligned with the delivered
+    quantities**
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+**Invoice a delivery**
+
+1. Go to **Inventory → Operations → Transfers → Deliveries** and apply
+   the **To invoice** filter. The list shows the done deliveries that
+   are not invoiced yet, or only partly invoiced. To invoice several
+   deliveries at once, select them and use **Actions → Create Sale
+   Invoices**.
+
+   |Deliveries list with the To invoice filter: the done deliveries of
+   orders S00101, S00102 and S00103|
+
+2. Open a done delivery that comes from a sale order. The **Invoice**
+   button is shown while the delivery is to invoice.
+
+   |Done delivery of order S00101 with the Invoice button and the
+   delivered quantities, 6 chairs and 2 desks|
+
+3. Click **Invoice**. The standard **Create invoice(s)** wizard opens:
+   keep **Regular invoice** and click **Create Draft**.
+
+   |Create invoice(s) wizard opened from the delivery, with Regular
+   invoice selected and the Create Draft button|
+
+4. The invoice contains only the products of the selected deliveries,
+   with the delivered quantities (6 chairs out of the 10 ordered). Its
+   product lines cannot be changed or deleted, so the invoice stays
+   equal to the delivery.
+
+   |Customer invoice created from the delivery: 6 Scaun ergonomic Nova
+   and 2 Birou reglabil Flex, with 21% VAT|
+
+5. On the delivery, the **Additional Info** tab shows the invoice, and
+   **To invoice** is cleared. If the invoice is cancelled or deleted,
+   the delivery is to invoice again.
+
+   |Invoiced delivery: the Additional Info tab shows the invoice and To
+   invoice is cleared|
+
+6. A delivery that is only partly invoiced is linked to the invoice but
+   stays **To invoice**, so the rest can be invoiced. The flag follows
+   all the done moves of the transfer and the quantity invoiced on each
+   order line (invoices minus refunds, cancelled ones excluded).
+
+   |Partly invoiced delivery of order S00102: the invoice is linked, To
+   invoice is still set and the Invoice button is still shown|
+
+**Bill a receipt**
+
+1. In **Inventory → Operations → Transfers → Receipts**, open a done
+   receipt that comes from a purchase order, fill in **Supplier Invoice
+   No** and click **Bill**. Several receipts can be billed from the list
+   with **Actions → Create Purchase Invoices**.
+
+   |Done receipt of order P00101 with Supplier Invoice No BM-2026-0457
+   and the Bill button|
+
+2. A draft vendor bill is created with the received quantities. The
+   supplier invoice number is copied to the purchase order as **Vendor
+   Reference** and shown on the **Purchases** button of the bill; fill
+   in **Bill Reference** and **Bill Date** before **Confirm**. A receipt
+   that is already fully billed cannot be billed again.
+
+   |Draft vendor bill created from the receipt: the Purchases button
+   shows P00101 (BM-2026-0457) and the line has 5 Birou reglabil Flex|
+
+**Invoice a batch**
+
+Open a done batch in **Inventory → Operations → Jobs → Batch Transfers**
+and click **Invoice**. The transfers of the batch that are not invoiced,
+or only partly invoiced, go on the invoice; the fully invoiced ones are
+skipped. For a batch of receipts, fill in **Supplier Invoice No** on
+each receipt first.
+
+|Done batch BATCH/00101 with the Invoice button|
+
+**Invoice the ordered quantities**
+
+On the sale order, the **Other Info** tab has **Force Invoice Order**:
+the order lines are invoiced on the ordered quantities, whatever the
+invoicing policy of the product. When the invoice starts from a
+transfer, the quantities are still those of the transfer.
+
+|Sale order S00101, Other Info tab, with the Force Invoice Order field|
+
+.. |Deliveries list with the To invoice filter: the done deliveries of orders S00101, S00102 and S00103| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/01_livrari_de_facturat.png
+.. |Done delivery of order S00101 with the Invoice button and the delivered quantities, 6 chairs and 2 desks| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/02_livrare_buton_factura.png
+.. |Create invoice(s) wizard opened from the delivery, with Regular invoice selected and the Create Draft button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/03_asistent_facturare.png
+.. |Customer invoice created from the delivery: 6 Scaun ergonomic Nova and 2 Birou reglabil Flex, with 21% VAT| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/04_factura_din_livrare.png
+.. |Invoiced delivery: the Additional Info tab shows the invoice and To invoice is cleared| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/05_livrare_facturata.png
+.. |Partly invoiced delivery of order S00102: the invoice is linked, To invoice is still set and the Invoice button is still shown| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/06_livrare_facturata_partial.png
+.. |Done receipt of order P00101 with Supplier Invoice No BM-2026-0457 and the Bill button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/07_receptie_numar_factura.png
+.. |Draft vendor bill created from the receipt: the Purchases button shows P00101 (BM-2026-0457) and the line has 5 Birou reglabil Flex| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/08_factura_furnizor.png
+.. |Done batch BATCH/00101 with the Invoice button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/09_lot_buton_factura.png
+.. |Sale order S00101, Other Info tab, with the Force Invoice Order field| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking/static/description/en/10_comanda_facturare_fortata.png
+
 Changelog
 =========
+
+19.0.1.0.18 (2026-11-03)
+------------------------
+
+- Description aligned with the code: the to-invoice flag is set when the
+  picking is validated, and storable lines of invoices created from
+  pickings are locked.
+- Usage guide headings as bold lines, so the module README can be
+  generated with the usage section.
+
+19.0.1.0.17 (2026-11-03)
+------------------------
+
+- Fixed: the Force Invoice Order checkbox on the sale order was shown
+  without its label, in the row of the fiscal position; it is now a
+  field of the Invoicing group. Its Romanian label is „Facturează
+  cantitatea comandată".
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) and usage page, with
+  RO and EN screenshots generated by ``tests/test_screenshots.py``.
 
 19.0.1.0.16 (2026-10-17)
 ------------------------

@@ -1,3 +1,8 @@
+## 19.0.1.0.18 (2026-11-03)
+
+- Description aligned with the code: the to-invoice flag is set when the picking is validated, and storable lines of invoices created from pickings are locked.
+- Usage guide headings as bold lines, so the module README can be generated with the usage section.
+
 ## 19.0.1.0.17 (2026-11-03)
 
 - Fixed: the Force Invoice Order checkbox on the sale order was shown without its label, in the row

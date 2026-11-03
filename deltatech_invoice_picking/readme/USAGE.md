@@ -1,4 +1,4 @@
-### Invoice a delivery
+**Invoice a delivery**
 
 1. Go to **Inventory → Operations → Transfers → Deliveries** and apply the **To invoice** filter. The list shows the
    done deliveries that are not invoiced yet, or only partly invoiced. To invoice several deliveries at
@@ -33,7 +33,7 @@
 
    ![Partly invoiced delivery of order S00102: the invoice is linked, To invoice is still set and the Invoice button is still shown](static/description/en/06_livrare_facturata_partial.png)
 
-### Bill a receipt
+**Bill a receipt**
 
 1. In **Inventory → Operations → Transfers → Receipts**, open a done receipt that comes from a purchase
    order, fill in **Supplier Invoice No** and click **Bill**. Several receipts can be
@@ -48,7 +48,7 @@
 
    ![Draft vendor bill created from the receipt: the Purchases button shows P00101 (BM-2026-0457) and the line has 5 Birou reglabil Flex](static/description/en/08_factura_furnizor.png)
 
-### Invoice a batch
+**Invoice a batch**
 
 Open a done batch in **Inventory → Operations → Jobs → Batch Transfers** and click **Invoice**. The
 transfers of the batch that are not invoiced, or only partly invoiced, go on the invoice; the fully
@@ -56,7 +56,7 @@ invoiced ones are skipped. For a batch of receipts, fill in **Supplier Invoice N
 
 ![Done batch BATCH/00101 with the Invoice button](static/description/en/09_lot_buton_factura.png)
 
-### Invoice the ordered quantities
+**Invoice the ordered quantities**
 
 On the sale order, the **Other Info** tab has **Force Invoice Order**: the order lines are invoiced on the
 ordered quantities, whatever the invoicing policy of the product. When the invoice starts from a
