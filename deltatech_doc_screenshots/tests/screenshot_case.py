@@ -453,13 +453,15 @@ class ScreenshotCase(HttpCase):
         return shot
 
     @staticmethod
-    def xlsx_to_html(source, sheet=0, max_rows=60, max_cols=20, title=None):
+    def xlsx_to_html(source, sheet=0, max_rows=60, max_cols=20, title=None, lang=None):
         """Randează prima foaie a unui **XLSX generat** ca tabel HTML stilizat (pentru ``xlsx_shot``).
 
         ``source`` poate fi: o cale pe disc, un ``bytes`` cu conținutul XLSX, sau un ``str`` base64
         (ex. ``report_action`` care întoarce ``file_content``). Citește cu ``openpyxl`` (deja în
         Odoo). Prima linie e tratată ca antet (bold, fundal gri). Truncază la ``max_rows``/``max_cols``
-        cu o notă vizibilă, ca să nu producă imagini uriașe. Întoarce un string HTML complet.
+        cu o notă vizibilă, ca să nu producă imagini uriașe. Numerele se aliniază la dreapta și, când
+        celula are un format cu zecimale fixe (ex. ``#,##0.00``), se afișează ca în Excel; ``lang``
+        alege separatorii (``ro_RO``: ``1.234,56``; altfel ``1,234.56``). Întoarce un string HTML complet.
         """
         import base64
         import io
@@ -477,7 +479,25 @@ class ScreenshotCase(HttpCase):
                 return ""
             return str(v).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-        rows = list(ws.iter_rows(values_only=True))
+        comma_decimal = (lang or "").startswith("ro")
+
+        def fmt(cell):
+            value = cell.value
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                return esc(value), False
+            number_format = cell.number_format or ""
+            if "0." in number_format:
+                zeros = number_format.split("0.", 1)[1]
+                decimals = len(zeros) - len(zeros.lstrip("0"))
+                grouping = "," if "#,##" in number_format else ""
+                text = f"{value:{grouping}.{decimals}f}"
+            else:
+                text = str(value)
+            if comma_decimal:
+                text = text.replace(",", " ").replace(".", ",").replace(" ", ".")
+            return text, True
+
+        rows = [list(r) for r in ws.iter_rows()]
         truncated_rows = len(rows) > max_rows
         rows = rows[:max_rows]
         ncols = min(max(((len(r) for r in rows)), default=0), max_cols)
@@ -486,7 +506,11 @@ class ScreenshotCase(HttpCase):
         cells = []
         for i, row in enumerate(rows):
             tag = "th" if i == 0 else "td"
-            tds = "".join(f"<{tag}>{esc(c)}</{tag}>" for c in list(row)[:ncols])
+            tds = ""
+            for cell in row[:ncols]:
+                text, numeric = fmt(cell) if hasattr(cell, "value") else ("", False)
+                cls_attr = " class='num'" if numeric else ""
+                tds += f"<{tag}{cls_attr}>{text}</{tag}>"
             cells.append(f"<tr>{tds}</tr>")
         body = "\n".join(cells)
         note = (
@@ -500,6 +524,7 @@ class ScreenshotCase(HttpCase):
             table{{border-collapse:collapse;font-size:12px;}}
             th,td{{border:1px solid #d1d5db;padding:4px 8px;text-align:left;white-space:nowrap;}}
             th{{background:#f3f4f6;font-weight:700;}}
+            .num{{text-align:right;font-variant-numeric:tabular-nums;}}
             tr:nth-child(even) td{{background:#fafafa;}}
             .note{{margin-top:8px;font-size:11px;color:#9ca3af;font-style:italic;}}
         </style></head><body><h3>{cap}</h3><table>{body}</table>{note}</body></html>"""
@@ -604,7 +629,7 @@ class ScreenshotCase(HttpCase):
         return out.getvalue()
 
     @classmethod
-    def xlsx_shot(cls, source, name, sheet=0, title=None, full=True, **extra):
+    def xlsx_shot(cls, source, name, sheet=0, title=None, full=True, lang=None, **extra):
         """Construiește un element de captură dintr-un **XLSX generat**, randat ca tabel.
 
         Randează prima pagină a fișierului exact cum se tipărește (`xlsx_to_png`: LibreOffice +
@@ -628,7 +653,7 @@ class ScreenshotCase(HttpCase):
                 f"<img src='data:image/png;base64,{base64.b64encode(png).decode()}'/></body></html>"
             )
         else:
-            html = cls.xlsx_to_html(source, sheet=sheet, title=title)
+            html = cls.xlsx_to_html(source, sheet=sheet, title=title, lang=lang)
         shot = {"html": html, "name": name, "full": full}
         shot.update(extra)
         return shot
