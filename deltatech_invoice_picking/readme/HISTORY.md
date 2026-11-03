@@ -8,6 +8,10 @@
   recent transfers (PICKINV-002). Resetting a cancelled invoice to draft links its transfers again.
 - Fixed: a batch with a partially invoiced transfer was reported as invoiced and the batch Invoice
   action left that transfer out; it is now kept, so the rest can be invoiced (PICKINV-003).
+- Fixed: the Force Invoice Order checkbox on the sale order was shown without its label; it is now a
+  field of the Invoicing group, with the Romanian label „Facturează cantitatea comandată".
+- Consultant sheet (`readme/FISA_CONSULTANT.md`) and usage page, with RO and EN screenshots generated
+  by `tests/test_screenshots.py` (from 19.0.1.0.17).
 
 ## 20.0.1.0.15 (2026-10-16)
 
