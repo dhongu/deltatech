@@ -7,7 +7,8 @@
 # Seed: comanda S00101 (10 scaune + 2 birouri) livrată parțial (6 scaune + 2 birouri, restul în
 # livrare ulterioară), comanda S00102 (10 scaune) livrată integral și facturată doar 5, recepția
 # comenzii P00101 (5 birouri) cu numărul facturii furnizorului și lotul BATCH/00101 cu livrarea
-# comenzii S00103. Facturile se emit între cele două faze de capturi.
+# comenzii S00103. Facturile se emit între fazele de capturi; la final, un retur de 2 scaune din
+# livrarea facturată a comenzii S00101 și nota de credit emisă din retur.
 #
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
@@ -315,6 +316,53 @@ class TestInvoicePickingScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
             },
         ]
 
+    def _return_after_invoice(self):
+        """Retur de 2 scaune din livrarea facturată a comenzii S00101."""
+        return_picking = self.picking._create_return()
+        return_picking.move_ids.filtered(lambda m: m.product_id != self.chair).unlink()
+        return_picking.move_ids.quantity = 2.0
+        return_picking.move_ids.picked = True
+        return_picking.button_validate()
+        return return_picking
+
+    def _refund_from_return(self, return_picking):
+        """Nota de credit emisă de butonul Facturează al returului, cu asistentul standard."""
+        action = return_picking.action_create_invoice()
+        wizard = (
+            self.env["sale.advance.payment.inv"]
+            .with_context(**action["context"])
+            .create({"advance_payment_method": "delivered"})
+        )
+        wizard.create_invoices()
+        refund = return_picking.account_move_id
+        refund.invoice_date = fields.Date.context_today(refund)
+        refund.action_post()
+        return refund
+
+    def _shots_return(self, return_picking):
+        return [
+            {
+                "url": self._picking_url(return_picking),
+                "name": "11_retur_de_facturat.png",
+                "wait": ".o_form_view div[name='move_ids'] .o_data_row",
+                "click_tab": ADDITIONAL_INFO,
+                "wait_after": "div[name='to_invoice']",
+                "eval": "true",
+                "eval_wait": 1500,
+                "highlight": ["button[name='action_create_invoice']", "div[name='to_invoice']"],
+            },
+        ]
+
+    def _shots_refund(self, refund):
+        return [
+            {
+                "url": f"id={refund.id}&model=account.move&view_type=form",
+                "name": "12_nota_credit_retur.png",
+                "wait": ".o_form_view div[name='invoice_line_ids'] .o_data_row",
+                "highlight": ["div[name='invoice_line_ids'] td[name='quantity']", "div[name='amount_total']"],
+            },
+        ]
+
     def _capture(self, lang):
         self.capture_screenshots(self._shots_before(), lang=lang)
         invoice = self._invoice_from_picking()
@@ -323,6 +371,16 @@ class TestInvoicePickingScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
         bill = self.env["account.move"].browse(action["res_id"])
         self.env.flush_all()
         self.capture_screenshots(self._shots_after(invoice, bill), lang=lang)
+        return_picking = self._return_after_invoice()
+        self.assertTrue(return_picking.to_invoice)
+        self.assertFalse(return_picking.account_move_id)
+        self.env.flush_all()
+        self.capture_screenshots(self._shots_return(return_picking), lang=lang)
+        refund = self._refund_from_return(return_picking)
+        self.assertEqual(refund.move_type, "out_refund")
+        self.assertFalse(return_picking.to_invoice)
+        self.env.flush_all()
+        self.capture_screenshots(self._shots_refund(refund), lang=lang)
 
     def test_capture_fise(self):
         self._capture("ro_RO")

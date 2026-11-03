@@ -10,6 +10,8 @@
   action left that transfer out; it is now kept, so the rest can be invoiced (PICKINV-003).
 - Fixed: the Force Invoice Order checkbox on the sale order was shown without its label; it is now a
   field of the Invoicing group, with the Romanian label „Facturează cantitatea comandată".
+- Fixed: a return (or a copy) of an invoiced transfer kept the invoice of the original transfer; the
+  invoice link is no longer copied.
 - Fixed: the transfer list showed two empty columns on deliveries (the hidden operation type and
   the supplier invoice number); they are now hidden as columns.
 - Consultant sheet (`readme/FISA_CONSULTANT.md`) and usage page, with RO and EN screenshots generated

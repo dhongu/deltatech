@@ -147,6 +147,8 @@ class TestInvoicePickingCoverage(TransactionCase):
         invoice.action_post()
         self.assertFalse(picking.to_invoice)
         return_picking = self._return(picking, 4.0)
+        self.assertFalse(return_picking.account_move_id, "The return is not invoiced by the delivery invoice")
+        self.assertTrue(return_picking.to_invoice)
         refund = self._invoice(order, [(self.product_a, 4.0)], move_type="out_refund")
         self.assertEqual(return_picking.account_move_id, refund)
         self.assertFalse(return_picking.to_invoice, "The credit note covers the return")

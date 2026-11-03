@@ -175,6 +175,23 @@ rămân tot cele ale transferului.
 
 ![Comanda S00101, fila Alte informații, cu câmpul Facturează cantitatea comandată evidențiat](../static/description/10_comanda_facturare_fortata.png)
 
+### Pasul 11 — Returul unei livrări facturate și nota de credit
+
+Clientul Alfa Construct SRL returnează 2 scaune din livrarea facturată la Pasul 4. Returul se face
+standard, cu **Retur** pe livrare, și se validează. Returul validat apare în **Inventar → Operații →
+Transferuri → Recepții**, cu **De facturat** bifat și fără factură legată, iar butonul **Facturează**
+este vizibil.
+
+![Returul DC/IN/00002 al livrării DC/OUT/00001 (comanda S00101), în starea Efectuat: în fila Informații suplimentare, Factura e goală, De facturat e bifat, iar butonul Facturează e evidențiat](../static/description/11_retur_de_facturat.png)
+
+Apăsați **Facturează** pe retur și, în asistent, **Creează ciornă**, ca la Pasul 3. Odoo creează nota
+de credit a clientului cu cantitatea returnată (2 scaune, 900 lei + TVA 189 lei = 1.089 lei), pe care o
+confirmați cu **Confirmă**. Returul primește legătura către nota de credit și iese din filtrul **De
+facturat**. O notă de credit făcută direct din factură, cu **Notă credit**, nu actualizează returul:
+folosiți butonul de pe retur.
+
+![Nota de credit RINV/2026/00001 (S00101) a clientului Alfa Construct SRL, în starea Postat: 2 bucăți Scaun ergonomic Nova la 450 lei, total 1.089,00 lei](../static/description/12_nota_credit_retur.png)
+
 ### Note de monografie și raportare
 
 Modulul nu generează note contabile proprii. Facturile create din transferuri sunt facturi standard,
@@ -186,6 +203,8 @@ perioadei, din raportul de evaluare, și nu ține de acest modul:
 
 - factura clientului din Pasul 4: Dr 4111 „Clienți" 6.171 = Cr 707 „Venituri din vânzarea mărfurilor"
   5.100 + Cr 4427 „TVA colectată" 1.071 (6 × 450 + 2 × 1.200 = 5.100 lei, TVA 21%);
+- nota de credit din Pasul 11: Odoo inversează părțile facturii, Dr 707 900 + Dr 4427 189 = Cr 4111
+  1.089 (echivalentul stornării în roșu: Dr 4111 −1.089 = Cr 707 −900 + Cr 4427 −189);
 - factura furnizorului din Pasul 8: Dr 607 „Cheltuieli privind mărfurile" 4.000 + Dr 4426 „TVA
   deductibilă" 840 = Cr 401 „Furnizori" 4.840 (5 × 800 lei, TVA 21%).
 
@@ -240,6 +259,12 @@ câmpurilor **Referință factură** și **Data facturii** pe factura furnizorul
   facturat, iar livrarea intră pe factura lotului.
 - [ ] Pe o factură creată din transferuri, modificarea cantității sau ștergerea unei linii de produs
   stocabil este refuzată.
+- [ ] Returul unei livrări facturate apare **De facturat**, fără factură legată; **Facturează** pe retur
+  creează nota de credit cu cantitatea returnată, iar returul iese din filtrul **De facturat**.
+- [ ] Un retur făcut înainte de facturare se scade din cantitatea facturată a livrării (livrat 10,
+  returnat 4, factură de 6), iar livrarea nu mai rămâne **De facturat**.
+- [ ] Facturarea unui lot cu transferuri facturate integral și unul facturat parțial pune pe factură
+  doar restul transferului parțial.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -270,6 +295,8 @@ Capturile sunt **generate automat** de `tests/test_screenshots.py` (mixinul `Scr
 8. `08_factura_furnizor.png` — factura furnizorului creată din recepție;
 9. `09_lot_buton_factura.png` — lotul efectuat, cu butonul **Facturează**;
 10. `10_comanda_facturare_fortata.png` — comanda, cu **Facturează cantitatea comandată**.
+11. `11_retur_de_facturat.png` — returul unei livrări facturate, **De facturat**;
+12. `12_nota_credit_retur.png` — nota de credit emisă din retur.
 
 Regenerare:
 
@@ -286,11 +313,8 @@ Regenerare:
 - Câmpul **Factura** de pe transfer se poate corecta de mână, dar schimbarea lui nu recalculează
   **De facturat**. La fel, după **Redeschide** și o corectură de cantitate pe un transfer deja facturat,
   starea nu se reevaluează: factura se corectează separat.
-- Returul unei livrări facturate apare în **Recepții**, validat și **De facturat**. Se stornează cu
-  butonul **Facturează** de pe retur: Odoo creează nota de credit cu cantitatea returnată, o leagă de
-  retur și îl scoate din lista de facturat. O notă de credit făcută direct din factură (**Notă credit**)
-  nu actualizează returul. Un retur făcut înainte de facturare se scade din cantitatea de facturat a
-  livrării.
+- Retururile se stornează din retur (Pasul 11), nu cu **Notă credit** din factură. Un retur făcut
+  înainte de facturare se scade din cantitatea de facturat a livrării.
 - Starea **De facturat** a unui transfer facturat parțial ține cont de toate facturile și facturile
   storno ale liniilor de comandă; cantitatea încă nefacturată se atribuie celor mai recente transferuri.
 - Pe facturile furnizorilor, numărul facturii furnizorului se completează pe recepție și ajunge pe
