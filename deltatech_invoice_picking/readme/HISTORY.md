@@ -2,6 +2,9 @@
 
 - Fixed: the transfer list showed two empty columns on deliveries (the hidden operation type and
   the supplier invoice number); they are now hidden as columns.
+- Fixed: a return (or a copy) of an invoiced transfer kept the invoice of the original transfer, so
+  it was not left to invoice; the invoice link is no longer copied.
+- Tests for returns, refunds and partial vendor bills.
 
 ## 19.0.1.0.18 (2026-11-03)
 
