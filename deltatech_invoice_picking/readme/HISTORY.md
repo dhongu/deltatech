@@ -1,3 +1,11 @@
+## 19.0.1.0.17 (2026-11-03)
+
+- Fixed: the Force Invoice Order checkbox on the sale order was shown without its label, in the row
+  of the fiscal position; it is now a field of the Invoicing group. Its Romanian label is
+  „Facturează cantitatea comandată".
+- Consultant sheet (`readme/FISA_CONSULTANT.md`) and usage page, with RO and EN screenshots generated
+  by `tests/test_screenshots.py`.
+
 ## 19.0.1.0.16 (2026-10-17)
 
 - Fixed: the To invoice flag of a transfer was decided by a single invoice line, so a fully invoiced

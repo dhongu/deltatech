@@ -62,7 +62,7 @@ msgstr "Afiseaza nume"
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_sale_order__force_invoice_order
 msgid "Force Invoice Order"
-msgstr "Forțează ordinea facturării"
+msgstr "Facturează cantitatea comandată"
 
 #. module: deltatech_invoice_picking
 #: model:ir.model.fields,field_description:deltatech_invoice_picking.field_account_move__id
@@ -162,15 +162,13 @@ msgstr ""
 #, python-format
 msgid "You cannot change this line, the move was generated from pickings"
 msgstr ""
-"Nu puteți modifica această linie, linie de factura a fost generat din "
-"transferuri"
+"Nu puteți modifica această linie: factura a fost generată din transferuri"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/account_move.py:0
 #, python-format
 msgid "You cannot delete lines, the move was generated from pickings"
-msgstr ""
-"Nu puteți șterge linii, linie de factura a fost generat din transferuri"
+msgstr "Nu puteți șterge linii: factura a fost generată din transferuri"
 
 #. module: deltatech_invoice_picking
 #: code:addons/deltatech_invoice_picking/models/stock_picking_batch.py:0
