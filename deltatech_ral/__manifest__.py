@@ -4,7 +4,7 @@
 {
     "name": "RAL Pigments",
     "summary": "Choose the RAL pigment on the manufacturing order and replace it in the BoM",
-    "version": "20.0.1.0.7",
+    "version": "20.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

@@ -1,11 +1,30 @@
-- Functions:
+Keeps customer invoices in chronological order on the journals where it
+matters, and lets a dedicated group of users correct the number of an invoice.
 
-  - At validation, the invoice date must be greater than or equal to the date of the last validated invoice.
-  - The invoice number can be modified by authorized users.
-  - A number can be allocated to an invoice in draft state from a sequence configured on the journal.
+**Chronological invoice dates.** On a sales journal with *Restrict invoice
+date* enabled, a draft customer invoice or credit note cannot be confirmed with
+an invoice date earlier than the latest posted document of the same type in that
+journal. The error states the earliest date allowed. When the journal is chosen
+on a draft invoice, a warning shows the same information.
 
-- Functionalități:
+**Change of the invoice number.** Users in the group *Allow to change invoice
+number* get the action **Change invoice number** in the Actions menu (gear icon)
+of the invoice form. The wizard proposes the current number; after **Apply**,
+the new number is written on the invoice and copied to the reference of its
+journal items (and to the invoice *Reference* for customer documents).
 
-  - Validează ordinea cronologică a facturilor emise.
-  - Permite modificarea numărului unei facturi pentru un grup dedicat de utilizatori.
-  - Permite numerotarea unei facturi aflate în starea ciornă.
+## Configuration
+
+- **Accounting > Configuration > Journals**, a journal of type *Sales*, tab
+  **Journal Entries**, section **Invoice numbering**: tick *Restrict invoice
+  date*.
+- **Settings > Users & Companies > Groups**: add the users who may change
+  invoice numbers to the group *Allow to change invoice number*.
+
+## Limitations
+
+- The **Invoice numbering** section also shows a *Journal Sequence* field. The
+  module contains a method that numbers a draft invoice from this sequence, but
+  no button or menu calls it, so the field has no effect in the interface.
+- The new number is written as typed: the wizard does not check it against the
+  journal's numbering format or for gaps.

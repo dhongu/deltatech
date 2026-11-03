@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Sale Feedback" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Sale Feedback</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Ask customers for feedback after invoicing</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Ask customers to rate the products they bought</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Sales</span>
@@ -15,7 +15,10 @@
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
       <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 2 automated tests</div>
-      
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">100% code coverage</div>
     </div>
   </div>
 </div>
@@ -43,17 +46,42 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Sends an automated e-mail to clients based on out invoices, asking them to rate each invoiced product</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A cron job (default not active) is used to send the e-mails at 3 days after the invoice date, only for the companies
-  where <em>Email feedback after sale</em> is enabled in the Sales settings. Another interval can be set using the
-  sale.days_request_feedback system parameter</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>E-mail template: the one selected in the Sales settings, by default <em>Invoice: request feedback</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The rating links point to the company website, when it is set</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The <em>Request feedback</em> action on invoices sends the e-mail manually</div></div></li></ul>
-<p>Descriere:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Trimite la client un email pentru a cere feedback pentru produsele v&#226;ndute.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Trimiterea se face prin cron job (la instalare inactiv), default la 3 zile dup&#259; data facturii, doar pentru companiile
-  care au bifat <em>Email feedback after sale</em> &#238;n set&#259;rile de v&#226;nz&#259;ri. Dac&#259; se dore&#537;te alt interval, se folose&#537;te
-  parametrul de sistem sale.days_request_feedback</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Template-ul de e-mail: cel ales &#238;n set&#259;rile de v&#226;nz&#259;ri, implicit <em>Invoice: request feedback</em></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Linkurile de evaluare duc pe website-ul companiei, dac&#259; e completat</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Ac&#539;iunea <em>Request feedback</em> de pe facturi trimite emailul manual</div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Asks customers to rate the products they bought, by e-mail, a few days after the invoice.</p>
+<p><strong>Feedback e-mail per invoice.</strong> The <em>Invoice: request feedback</em> e-mail template lists the lines of a
+customer invoice, each with the product image, a link to the product page, the quantity and three
+rating links (<em>Satisfied</em>, <em>Not satisfied</em>, <em>Highly Dissatisfied</em>). Section and note lines are shown as
+headings. The e-mail is posted in the chatter of the invoice and sent right away.</p>
+<p><strong>Rating on the product.</strong> Each product line gets its own rating record on the product template, so
+a click on a rating link records the customer's rating for that product through the standard
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/rate</code> page of Odoo.</p>
+<p><strong>Scheduled sending.</strong> The <em>Request Feedback</em> scheduled action (inactive at install) runs once a day
+and sends the e-mail for the posted customer invoices dated a given number of days ago, 3 by default,
+of the companies where <em>Email feedback after sale</em> is enabled. The delay is read from the
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.days_request_feedback</code> system parameter (<em>Settings &gt; Technical &gt; Parameters &gt; System
+Parameters</em>).</p>
+<p><strong>Manual sending.</strong> On customer invoices, <em>Actions &gt; Request feedback</em> sends the e-mail for the
+selected invoices, whether the option is enabled or not.</p>
+<p><strong>Template per company.</strong> In <em>Sales &gt; Configuration &gt; Settings</em>, the <em>Email feedback after sale</em>
+option shows the <em>Email Template Request Feedback</em> field, where another e-mail template on invoices
+can be chosen for the company. Without one, the module's own template is used.</p>
+<p><strong>Links on the company website.</strong> When the invoice company has a website address, the links in the
+e-mail are built on that address instead of the database <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.base.url</code>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul>
+<li>The delay in days has no field in the settings; it is changed only through the system parameter.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.8 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten after the code: the per-line rating links, the
+  scheduled action (posted invoices of the companies with <em>Email feedback
+  after sale</em> enabled), the manual <em>Request feedback</em> action and the template
+  chosen per company in the settings.</li>
+<li>Summary and Apps banner no longer promise automatic sending configured from
+  the settings: the delay is set by a system parameter.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.7 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -109,12 +137,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
               <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Edit Currency Rate</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Custom Invoice Exchange Rate</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -129,12 +157,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
               <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Alternative Product Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -203,6 +231,26 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_price_change_label" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_price_change_label/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price Change Labels</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print product labels for the products of a price change document</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_product_category_color" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -214,7 +262,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Category Color</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Product Category Colors</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -238,27 +286,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Assign transfer responsibles automatically from the product category user group</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_product_code" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_product_code/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Code</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Product codification internal</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Assign transfer responsibles from the user group of the product category, from a button on the transfer list</p>
         </div>
       </a>
     </div>

@@ -1,3 +1,12 @@
+## 20.0.0.0.11 (2026-11-03)
+
+- Description rewritten from the code: removed the automatic split of sale
+  analytic lines into stock value and margin and the *Split Sale Analytic*
+  setting, which are disabled, and the split fields on the analytic account
+  form, which do not exist. Documented the distribution by sales team, the
+  sales team on analytic items and the manual analytic split.
+- Summary and Apps banner aligned with the description.
+
 # 19.0.0.0.9
 
 - Fixed: with this module installed, Timesheets (`hr_timesheet`, and so

@@ -4,8 +4,8 @@
   "icon": "box",
   "lang": "en",
   "features": [
-    "Capacity and occupancy per location",
-    "Auto-split lines when a shelf is full",
+    "Capacity and occupancy per shelf",
+    "Splits lines when a shelf is full",
     "Prefer the shelf already holding stock"
   ]
 }

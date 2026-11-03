@@ -16,28 +16,78 @@ eCommerce Sale Order status
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_sale_status
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-44%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_sale_status/tests
-    :alt: 44 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-38%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_website_sale_status
+    :alt: 38 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+The standard order status (Quotation, Sales Order, Cancelled) does not
+tell a shop customer, or the sales team, where the order is: waiting for
+stock, ready to ship, with the courier or delivered. This module adds a
+**Stage** field on the sales order, computed from the order, its
+transfers and the courier status, and shows it in the back office and in
+the customer portal.
 
-  - Additional filters sales orders by status
+**Order stage**: computed and stored on each order, with tracking in the
+chatter:
 
-Etape
+- **Placed**: a website quotation sent to the customer (only with the
+  detailed stage option, see below).
+- **In Process**: the order is being handled by the sales team.
+- **Request for Quotation**: a confirmed order with nothing to pick yet,
+  whose purchase RFQ was sent to the vendor (only when *sale_purchase*
+  is installed).
+- **Waiting availability**: a transfer of the order is waiting for
+  stock.
+- **Postponed**: the delivery was postponed (the *Postponed delivery*
+  flag of the order transfers).
+- **To Be Delivery**: the goods are available and the order can be
+  shipped.
+- **Pre advice**: an AWB was generated for the parcel (detailed stage
+  only).
+- **In Delivery**: the parcel is with the courier.
+- **Delivered**: all the transfers are done or cancelled, or, with the
+  detailed stage, the courier delivered the parcel.
+- **Canceled**: the order was cancelled.
 
-   - **Plasată** - comanda este plasată pe website de client
-   - **În procesare** – comanda introdusă de operator
-   - **Așteaptă disponibilitate** - nu sunt disponibile toate produsele
-   - **Amânată** - livrarea a fost amânată
-   - **De livrat** - produsele sunt disponibile și se poate face
-     livrarea
-   - **În livrare** – produsele au fost predate la curier
-   - **Livrată** - produsele au ajuns la client
-   - **Anulată** - comanda de vânzare a fost anulată
-   - **Returnată** - comanda a fost returnată de către client
+Website carts that were never sent have no stage.
+
+**Detailed order stage**: an option in **Sales > Configuration >
+Settings**, *Invoicing* section, *Detailed order stage* (off by
+default). Off, the order is **Delivered** when its transfers are
+validated. On, a website quotation sent is **Placed** and, after
+validation, the stage follows the courier status of the parcel (**Pre
+advice**, **In Delivery**) until the courier delivers it. Only the
+transfers validated in the last 30 days are followed.
+
+**Back office**: the stage appears as a coloured badge in the quotation
+and order lists and on the order form, next to the payment terms. The
+order search gets the filters **Placed**, **In process** and **To Be
+Delivery**, and a **Phone** search on the customer. The stage is also
+available in the sales analysis report.
+
+**Customer portal**: in *My Account > Sales Orders*, the order list
+shows the stage as a badge and can be filtered by **Open Orders**,
+**Closed Orders** or by each stage, and sorted by **Order Stage**. The
+**Canceled** and **Closed Orders** filters also list the cancelled
+orders. The pager keeps the selected filter.
+
+**Unpaid Orders**: the standard eCommerce *Unpaid Orders* action also
+lists the confirmed website orders that are not fully paid.
+
+Limitations
+-----------
+
+- The **Returned** value exists in the stage list but no rule sets it: a
+  returned order is not shown as such.
+- An order whose transfers were all cancelled, with nothing shipped, is
+  shown as **Delivered**.
+- In Odoo 20 the *Unpaid Orders* action has no menu; it opens only from
+  a link or a custom menu.
+- The *Unpaid Orders* domain uses the payment status field added by the
+  module *deltatech_sale_payment*, which is not a dependency. Without
+  that module the action raises an error.
 
 **Table of contents**
 
@@ -46,6 +96,18 @@ Etape
 
 Changelog
 =========
+
+20.0.2.0.13 (2026-11-03)
+------------------------
+
+- Description rewritten in English after the code: the stages actually
+  set, the *Detailed order stage* option, the portal filters and the
+  Unpaid Orders action.
+- The *Returned* stage, listed before as a feature, is never set; it is
+  now under Limitations, with the Unpaid Orders dependency on
+  *deltatech_sale_payment*, the missing Unpaid Orders menu in Odoo 20
+  and the all-cancelled order shown as *Delivered*.
+- Summary and banner no longer promise tracking up to *Returned*.
 
 19.0.2.0.12 (2026-10-07)
 ------------------------

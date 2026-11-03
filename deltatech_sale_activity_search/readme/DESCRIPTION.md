@@ -1,26 +1,24 @@
-Sale Order Activity Search Extension
-====================================
+Keeps on each sales order a text field with the types of its pending
+activities, so that orders can be found by the kind of follow-up they wait for
+(for example *Call*, *Email* or a custom activity type).
 
-This module enhances the search and filtering capabilities of the Sales module in Odoo by providing more visibility into active activities associated with sales orders. It's designed to help sales teams and managers quickly identify and track orders that require immediate attention or have specific types of pending tasks.
+**Active Activity Types field.** The module adds the stored field *Active
+Activity Types* to the sales order. It holds the names of the activity types of
+the order's open activities, separated by commas.
 
-Key Features
-============
+**Kept up to date automatically.** The field is refreshed whenever an activity
+is scheduled on an order, edited (several at once included), moved to another
+order or another document, marked as done or cancelled.
 
-1.  **Activity Type Visibility**:
-    *   Adds a technical field to the Sales Order model that stores the types of active (pending) activities for each order.
-    *   Allows users to see at a glance which orders have "Call", "Email", "Meeting", or custom activity types scheduled.
+**Searching by activity type.** The field is stored, so it can be used in a
+custom filter: in **Sales > Orders > Quotations** or **Sales > Orders > Orders**,
+open the filter menu of the search bar, choose **Add Custom Filter** and build a
+condition on *Active Activity Types* (for example *contains* "Call").
 
-2.  **Enhanced Searching and Filtering**:
-    *   Provides specialized search filters to find sales orders based on their active activity types.
-    *   Improves the efficiency of follow-up processes by allowing sales teams to prioritize orders based on their scheduled tasks.
+## Limitations
 
-3.  **Cross-Module Integration**:
-    *   Seamlessly integrates Odoo's core **Sales** and **Mail (Discuss)** modules.
-
-Usage
-=====
-
-1.  Navigate to **Sales > Orders**.
-2.  Schedule one or more activities (e.g., Call, Email) on several sales orders.
-3.  Use the search bar and its filtering options to find orders with specific pending activity types.
-4.  The system will dynamically update the visibility of these orders based on their active scheduled tasks.
+- The module adds no view, filter or column: the field is reachable only through
+  a custom filter, a custom group-by or an export.
+- The field is filled only for activities created, changed or removed after the
+  installation. Orders with activities scheduled before the installation stay
+  empty until one of their activities changes.

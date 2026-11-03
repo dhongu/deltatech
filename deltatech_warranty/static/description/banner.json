@@ -1,10 +1,10 @@
 {
   "title": "Product Warranty",
-  "summary": "Warranty months on products & quotes",
+  "summary": "Warranty months on products & sales orders",
   "icon": "clipboard",
   "features": [
     "Warranty period field on products",
-    "Warranty page printed on quotations",
+    "Warranty page in the quotation PDF",
     "Skips products without a warranty"
   ]
 }

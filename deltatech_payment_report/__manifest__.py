@@ -4,10 +4,10 @@
 
 {
     "name": "Payment Report",
-    "version": "20.0.1.0.4",
+    "version": "20.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Payment analysis report by journal and period, with a filter wizard",
+    "summary": "Customer receipts by payment and invoice journal over a period, with a filter wizard",
     "category": "Generic Modules",
     "depends": ["account"],
     "license": "OPL-1",

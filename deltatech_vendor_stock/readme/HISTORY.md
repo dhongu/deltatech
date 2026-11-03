@@ -1,3 +1,11 @@
+## 20.0.1.2.1 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: yellow means the vendor has stock
+  (cyan is fulfilled without free quantity today), the colours are configurable, and the free
+  stock per warehouse in the availability popover is documented.
+- Limitation noted: on 20.0 the vendor stock counts the vendor lines of all the selected
+  companies (the 19.0 filter on the current company is not ported yet).
+
 ## 20.0.1.2.0 (2026-10-15)
 
 Port of 19.0.1.1.12 and 19.0.1.2.0:

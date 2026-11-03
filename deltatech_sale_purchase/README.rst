@@ -19,37 +19,44 @@ Sale-Purchase Sync
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_purchase
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_purchase/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_purchase
     :alt: 6 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-Key Features
-============
+When a sales order with make-to-order products generates a request for
+quotation through the procurement rules, cancelling the sales order in
+standard Odoo leaves the purchase lines in place. The buyer then has to
+find and delete them by hand, or the products are ordered anyway.
 
-This module optimizes the link between sales and purchases by adding
-advanced management features for procurement.
+**Purchase lines removed when the sales order is cancelled**: on
+**Cancel** of a sales order, the purchase lines created for its stock
+moves are deleted, as long as their purchase order is still an **RFQ**
+(draft). A purchase order that was already sent or confirmed is left to
+the buyer.
 
-Features:
----------
+**Shared purchase lines reduced, not deleted**: when the vendor groups
+RFQs (**Group RFQ** set to *Daily*, *Weekly* or *Always* on the vendor's
+**Sales & Purchase** tab), one purchase line can supply several sales
+orders. In that case the line is kept, the cancelled moves are detached
+from it and their quantity, converted to the purchase unit of measure,
+is subtracted from the line.
 
-- Automatically removes products from purchase orders when the
-  corresponding sales order is cancelled.
-- Helps maintain inventory and procurement levels by avoiding
-  unnecessary purchases.
-- Ensures that canceled sales do not lead to orphan purchase lines.
-- Improved synchronization between the sales team and the purchasing
-  department.
+There is nothing to configure: the behaviour is active once the module
+is installed.
 
-Usage:
-------
+Limitations
+-----------
 
-- When a sales order that has generated a purchase order (via
-  procurement rules) is cancelled, the module automatically checks for
-  and removes the related items from draft purchase orders.
-- It also handles decreases in ordered quantities, updating the purchase
-  order lines accordingly.
+- Only the cancellation of the whole sales order is handled. Lowering
+  the quantity on a confirmed sales order line does not change the
+  purchase line.
+- Purchase orders in **RFQ Sent** or **Purchase Order** state are not
+  changed.
 
 **Table of contents**
 
@@ -58,6 +65,20 @@ Usage:
 
 Changelog
 =========
+
+20.0.1.0.4 (2026-11-03)
+-----------------------
+
+- Description and banner rewritten after the code: removed the claim
+  that decreases of the ordered quantity update the purchase lines (only
+  the cancellation of the whole sales order is handled); documented the
+  reduction of purchase lines shared by several sales orders.
+
+20.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale-Purchase Sync* (was *Sale Purchase*). The
+  technical name ``deltatech_sale_purchase`` does not change.
 
 20.0.1.0.2 (2026-10-02)
 -----------------------

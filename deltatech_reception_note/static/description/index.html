@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Batch Reception Note" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Batch Reception Note</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Batch reception note management</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Receive against open purchase quantities</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Stock</span>
@@ -14,8 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 7 automated tests</div>
-      
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 12 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:80%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">80% code coverage</div>
     </div>
   </div>
 </div>
@@ -43,42 +46,64 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Batch Reception Note Management</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides a specialized tool for managing batch reception notes within Odoo's stock and purchase modules. It is designed to streamline the process of receiving multiple items or handling bulk reception documentation.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Batch Reception Processing</strong>:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Receives goods from a vendor on reception notes that draw on the open quantities of several purchase
+orders at once, instead of validating the receipt of each order separately. Useful when one delivery
+covers several orders, or one order arrives in several deliveries.</p>
+<p><strong>Purchase order types.</strong> Every purchase order gets a <em>Type</em>:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>Normal</em>: the standard order;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>RFQ Only</em>: a request that keeps the quantities still expected from the vendor; it cannot be
+  confirmed and has a <em>Set as sent</em> button;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>Reception Note</em>: the delivery actually received, with the vendor's <em>Delivery Note No</em>.</div></div></li></ul>
+<p><strong>Create reception note.</strong> On a <em>Normal</em> purchase order, <em>Actions &gt; Create reception note</em> moves its
+open quantities to a new <em>RFQ Only</em> order in the <em>RFQ Sent</em> state: same vendor, company, currency,
+fiscal position, payment terms, prices and taxes, and the quantity not received yet on each line. The
+receipts of the source order that are <em>Ready</em> are cancelled, so the goods are received only through
+reception notes.</p>
+<p><strong>Reception note.</strong> A purchase order of type <em>Reception Note</em> holds the products and quantities
+delivered. When it is confirmed, its quantities are taken from the sent <em>RFQ Only</em> orders of the same
+vendor and company, oldest first, in the unit of measure of the product, and the receipt is created by
+the standard confirmation. An <em>RFQ Only</em> order that is fully consumed is marked as empty.</p>
+<p><strong>Ignore quantities.</strong> If a product or a quantity is not found on a sent <em>RFQ Only</em> order, the
+confirmation stops with a message. Tick <em>Ignore quantities</em> on the reception note to confirm it anyway;
+the forced quantities are listed in the chatter.</p>
+<p><strong>Menus and filters.</strong> <em>Purchase &gt; Reception notes</em> has three entries:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>Prepare reception note</em>: the reception notes not confirmed or invoiced yet;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>To arrive</em>: incoming transfers in the <em>Ready</em> state;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>To invoice</em>: incoming transfers in the <em>Done</em> state.</div></div></li></ul>
+<p>The purchase lists show the <em>Type</em> and <em>Date sent</em> as optional columns, and the search has the <em>Not
+empty</em> and <em>Empty</em> filters for <em>RFQ Only</em> orders.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Adds a dedicated wizard for creating and managing reception notes in bulk.</li>
-<li>Allows users to group multiple stock pickings or purchase orders into a single reception note for easier tracking and documentation.</li>
+<li>The module adds no printed document of its own: a reception note is printed with the standard
+  purchase order reports.</li>
+<li><em>To invoice</em> lists every done incoming transfer, whether it was invoiced or not.</li>
 </ul>
-</li>
-<li>
-<p><strong>Integrated Stock Workflow</strong>:</p>
-<ul>
-<li>Seamlessly integrates with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> module to ensure consistent data flow between procurement and warehouse operations.</li>
-<li>Provides specialized views and reports for summarized reception information.</li>
-</ul>
-</li>
-<li>
-<p><strong>Enhanced Documentation</strong>:</p>
-<ul>
-<li>Generates comprehensive reception documents that can be used for internal auditing and vendor verification.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Purchase &gt; Orders</strong> or <strong>Inventory &gt; Operations &gt; Transfers</strong>.</li>
-<li>Select the records you wish to include in a batch reception.</li>
-<li>Use the <strong>Action</strong> menu or the dedicated button (if available) to launch the <strong>Reception Note</strong> wizard.</li>
-<li>Configure the note details and confirm to generate the batch documentation.</li>
-<li>View and print the resulting reception note for logistical or accounting purposes.</li>
-</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.1.7 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten after the code: the three purchase order types, the <em>Create reception note</em>
+  action (open quantities moved to an <em>RFQ Only</em> order), the consumption of those quantities when a
+  reception note is confirmed, <em>Ignore quantities</em> and the <em>Reception notes</em> menu.</li>
+<li>Removed the claims of grouping transfers into one note and of a dedicated printed report; added a
+  Limitations section.</li>
+<li>Summary and Apps banner aligned with the description.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.1.6 (2026-10-16)</h2>
+<ul>
+<li>Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.1.5 (2026-10-15)</h2>
+<ul>
+<li>Fixed: a reception note consumed the sent RFQs without unit conversion, so a note of 1 dozen
+  took 1 unit from an RFQ of 12 units, and 6 units emptied an RFQ of 2 packs of 12. The quantities
+  are now compared in the product unit, and what is left on the RFQ is written back in the unit of
+  the RFQ line. The missing or forced quantity in the messages is shown in the unit of the
+  reception note line (RECEPTION-001).</li>
+<li>Fixed: confirming again a reception note that was already confirmed (through RPC, an import or
+  a double click) consumed the sent RFQs a second time. Only the notes that are confirmed now, from
+  Draft or Sent, consume the RFQs (RECEPTION-003).</li>
+<li>Port of 19.0.0.1.5 and 19.0.0.1.6; on 20.0 the purchase lines use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_id</code>
+  (19.0: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_uom_id</code>).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.1.4 (2026-10-04)</h2>
 <ul>
 <li>Fixed: confirming a reception note consumed sent RFQs of every allowed company, so a receipt in
@@ -148,6 +173,46 @@
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_auto_reorder_rule" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AR</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_auto_reorder_rule/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Auto Reorder Rules</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Automatically create reordering rules for new storable products</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_batch_transfer" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_batch_transfer/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Batch Transfer Extension</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Batch transfer improvements</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_picking_services" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -159,7 +224,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Picking Service Lines</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Picking Services</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
@@ -194,16 +259,56 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PR</span>
               <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_report_prn/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Raport PRN</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">PRN Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print .prn files (Zebra label printer syntax) from Odoo reports</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_stock_count_zero" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_count_zero/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Count Zero</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set inventory line to 0 when empty count is requested</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>
@@ -224,86 +329,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_average_payment_period" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_average_payment_period/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Average Payment Period</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Computes average duration of cash accounting</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_backup_attachment" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_backup_attachment/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Backup Attachments</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Backup attachments for selected file type</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_business_process" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_business_process/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Business process</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Plan implementation projects: business processes, steps, tests and issues</p>
         </div>
       </a>
     </div>

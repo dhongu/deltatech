@@ -1,3 +1,13 @@
+## 20.0.2.0.13 (2026-11-03)
+
+- Description rewritten in English after the code: the stages actually set, the
+  *Detailed order stage* option, the portal filters and the Unpaid Orders action.
+- The *Returned* stage, listed before as a feature, is never set; it is now under
+  Limitations, with the Unpaid Orders dependency on *deltatech_sale_payment*, the
+  missing Unpaid Orders menu in Odoo 20 and the all-cancelled order shown as
+  *Delivered*.
+- Summary and banner no longer promise tracking up to *Returned*.
+
 ## 19.0.2.0.12 (2026-10-07)
 
 - The detailed stage introduced in 19.0.2.0.11 is now an option, off by

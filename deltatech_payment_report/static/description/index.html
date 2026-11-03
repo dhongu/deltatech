@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Payment Report" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Payment Report</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Payments by journal, partner and period</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Customer receipts by journal and period</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Generic Modules</span>
@@ -46,40 +46,34 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deltatech Payment Report</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides a comprehensive reporting tool for analyzing payments in Odoo. It allows accountants and financial managers to generate detailed reports based on various criteria, helping them track cash flow and payment distributions across different journals.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Flexible Reporting Wizard</strong>:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A user-friendly wizard to define the scope of the report.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Filter payments by date range (<strong>Date From</strong> and <strong>Date To</strong>).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Filter by specific <strong>Payment Journals</strong> to focus on particular bank or cash accounts.</div></div></li></ul>
-</li>
-<li>
-<p><strong>Multi-Dimensional Analysis</strong>:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>View payment data in <strong>Pivot</strong> mode for high-level summaries and cross-tabulation.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Analyze payments by <strong>Invoice Journal</strong>, <strong>Payment Journal</strong>, and <strong>Partner</strong>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Track payment amounts and methods efficiently.</div></div></li></ul>
-</li>
-<li>
-<p><strong>Detailed List and Form Views</strong>:</p>
-<ul>
-<li>Detailed list view showing payment dates, partners, amounts, and associated journals.</li>
-<li>Form view for individual report lines to inspect specific transaction details.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Invoicing &gt; Accounting &gt; Actions &gt; Payment Report</strong>.</li>
-<li>In the wizard that appears:<ul>
-<li>Select the desired <strong>Date Range</strong>.</li>
-<li>(Optional) Select one or more <strong>Payment Journals</strong>.</li>
-</ul>
-</li>
-<li>Click the <strong>Show</strong> button.</li>
-<li>The system will generate a report showing the distribution of payments. You can switch between <strong>Pivot</strong>, <strong>List</strong>, and <strong>Form</strong> views to analyze the data.</li>
-</ol>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">The accountant often needs to see how the money collected from customers in a period splits between
+the cash and bank journals and the invoice journals it settled. This module builds that view for
+customer receipts, on demand, from a small wizard.</p>
+<p><strong>Customer receipts by journal</strong>: the report takes the customer payments (incoming, partner type
+customer) in state <strong>Paid</strong> or <strong>Reconciled</strong>, dated in the chosen period and booked in the chosen
+cash and bank journals. Draft, cancelled and rejected payments and vendor payments are left out.</p>
+<p><strong>Filter wizard</strong>: <strong>Start Date</strong> and <strong>End Date</strong> (both default to today) and <strong>Incasari</strong>, the cash
+and bank journals to include (all of them by default).</p>
+<p><strong>Pivot, list and form views</strong>: <strong>Show</strong> opens the report in pivot view, with the <strong>Payment Journal</strong>
+on rows, the <strong>Invoice Journal</strong> on columns and the amount as measure. The list and form views show
+for each payment the date, customer, amount, payment journal, invoice journal and payment method.
+The invoice journal is the journal of the invoice the payment is reconciled with.</p>
+<p><strong>Card payment method on bank journals</strong>: if a payment method with the code <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">card</code> exists, it can
+be used only on bank journals, once per journal.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Go to <strong>Invoicing &gt; Accounting &gt; Payment Report</strong> (accounting Administrator group only), set the period and the
+journals, then click <strong>Show</strong>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Only customer receipts are reported; vendor payments and outgoing payments are not.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The amounts are in the currency of each payment and the pivot adds them up without conversion.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A payment reconciled with invoices from several journals is reported under one of them only.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The company of the wizard does not filter the payments; the journals selected decide the scope.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.5 (2026-11-03)</h2>
+<ul>
+<li>Description, summary and banner rewritten after the code: the report covers only customer
+  receipts (incoming, Paid or Reconciled), not all payments; menu path corrected to
+  Invoicing &gt; Accounting &gt; Payment Report; added the limitations on currencies and companies.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-10-16)</h2>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in
@@ -204,7 +198,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep CMRs, certificates and other shipping documents in one place</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">See the files attached to orders, transfers and invoices from any of them</p>
         </div>
       </a>
     </div>
@@ -229,18 +223,58 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_price_change" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_price_change/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price Change</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Track list price changes, price change report and document</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_pricelist_vat_cost" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_pricelist_vat_cost/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Base pricelist on cost with vat</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Pricelist rules based on product cost including VAT</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_stock_report" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SR</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SP</span>
               <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_report/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Reports</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Picking Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
@@ -265,46 +299,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Turn off fuzzy matching in the website search bar</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_widget_fontawesome" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">FW</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_widget_fontawesome/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">FontAwesome Widget</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Field widget that shows a Font Awesome icon picker and preview</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>

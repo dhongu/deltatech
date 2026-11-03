@@ -10,9 +10,9 @@ Purchase Orders Bulk Email with XLSX
    !! source digest: sha256:269c621d852cb8d1987d26e34193593478258272ded3ac21ad5a63e27eaa9986
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -28,53 +28,43 @@ Purchase Orders Bulk Email with XLSX
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-Multi-Purchase Order Email with XLSX Summary
-============================================
+When several requests for quotation or purchase orders go to the same
+vendor, sending them one by one means one email per order. This module
+sends them together, in a single email to that vendor, with an Excel
+summary of all the lines and the PDF of each order.
 
-This module introduces an advanced email dispatch feature for the Odoo
-Purchase module. It allows procurement teams to select multiple purchase
-orders and send them simultaneously to their respective vendors or
-internal stakeholders, complete with an aggregated XLSX summary and
-individual PDF attachments.
+**One email for several orders**: select the orders in the list view of
+**Purchase > Orders > Requests for Quotation** or **Purchase > Orders >
+Purchase Orders** and choose **Actions > Send Email**. The standard
+email composer opens with the vendor as recipient.
 
-Key Features
-============
+**XLSX summary**: the email carries an Excel file with one row per order
+line: order reference, product code, description, quantity and unit
+price without taxes.
 
-1. **Batch Email Dispatch**:
+**PDF of each order**: the standard purchase order PDF of every selected
+order is attached to the same email.
 
-   - Adds a dedicated **Send Multi Orders** action to the Purchase Order
-     list view.
-   - Enables the simultaneous sending of multiple orders, significantly
-     reducing manual effort for high-volume procurement operations.
+**Trace on every order**: only when the email is actually sent, each
+order gets a note with the email body, the summary and its own PDF, and
+the requests for quotation still in draft move to **RFQ Sent**. Closing
+the composer without sending changes nothing.
 
-2. **Automated XLSX Summary**:
+**Email template**: the text comes from the template **Purchase Orders:
+Send with XLSX**, editable in **Settings > Technical > Email >
+Templates** (developer mode).
 
-   - Automatically generates and attaches an Excel (**XLSX**) summary
-     containing key details from all selected purchase orders.
-   - Provides vendors or managers with a clear, aggregated overview of
-     the procurement batch.
+Limitations
+-----------
 
-3. **Individual PDF Attachments**:
-
-   - Ensures that the official PDF reports for each selected purchase
-     order are attached to the outgoing email for formal
-     acknowledgement.
-
-4. **Customizable Email Templates**:
-
-   - Uses a dedicated mail template that can be easily customized to fit
-     corporate communication standards.
-
-Usage
-=====
-
-1. Navigate to **Purchase > Orders**.
-2. Select multiple Purchase Orders from the list view using the
-   checkboxes.
-3. Click the **Action** menu and select **Send Multi Orders by Email**.
-4. Review the email composition wizard, which will already have the XLSX
-   summary and PDFs attached.
-5. Click **Send** to dispatch the communications.
+- All the selected orders must have the same vendor, and the vendor must
+  have an email address. Otherwise the action stops with the message
+  "You must select exactly one vendor to send the email to.", also when
+  the only problem is the missing email.
+- The vendor's address is the only recipient filled in; other recipients
+  are added by hand in the composer.
+- In the XLSX summary, a reference, product code or description that
+  starts with "=" is written as a formula, not as text.
 
 **Table of contents**
 
@@ -83,6 +73,29 @@ Usage
 
 Changelog
 =========
+
+20.0.1.1.5 (2026-11-03)
+-----------------------
+
+- Description, summary and banner rewritten after the code: the orders
+  must share one vendor and go in a single email to that vendor; the
+  action is **Actions > Send Email**; the same-vendor requirement is
+  documented under Limitations, together with the XLSX text cells
+  starting with "=", which are written as formulas on 20.0.
+
+20.0.1.1.4 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Purchase Orders Bulk Email with XLSX* (was
+  *Purchase: Send Multi Orders by Email with XLSX*), with the same title
+  on the Apps banner. The technical name ``deltatech_purchase_mail``
+  does not change.
+
+20.0.1.1.3 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 20.0.1.1.2 (2026-10-02)
 -----------------------

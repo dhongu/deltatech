@@ -2,6 +2,6 @@
   "title": "Invoice Numbering Control",
   "summary": "Control invoice numbers and their order",
   "icon": "file",
-  "features": ["Chronological order check", "Number edit for authorized users", "Number draft invoices from sequence"],
+  "features": ["Chronological order check", "Number edit for authorized users", "Per-journal date restriction"],
   "lang": "en"
 }

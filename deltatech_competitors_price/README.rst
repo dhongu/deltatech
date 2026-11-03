@@ -19,129 +19,59 @@ Competitors Price Tracker
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_competitors_price/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-13%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_competitors_price/tests
+    :alt: 13 automated tests
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-Deltatech Competitors Price
-===========================
+Keep the prices of your competitors next to your own product, and read
+the current price from the competitor's web page with one click, instead
+of checking the sites by hand and copying the prices into spreadsheets.
 
-Track competitors' product prices directly on the product form and fetch
-current prices on demand (or via future automation).
+**Competitor lines on the product.** Adds a **Competitor Prices** tab on
+the product form. Each line holds the **Competitor** name, the **Product
+URL** on the competitor's site, the **Last Price** and its **Currency**,
+the **Last Fetch** date and the **Fetch Status** message.
 
-Overview
---------
+**Fetch on demand.** The **Fetch** button on a line downloads the
+competitor page and writes the price found, the time of the fetch and
+the status *OK*. When the page states a currency that exists in your
+database (for example EUR or USD), the line currency is updated too.
 
-This module adds a new tab on Product Template where you can register
-competitor product URLs and retrieve their latest public price. It is
-designed to help sales and purchasing teams quickly compare your product
-pricing against selected competitors.
+**Price extraction.** The price is read first from the structured
+product data of the page (JSON-LD or Microdata, *Offer* and
+*AggregateOffer*). When the page has none, common HTML patterns are
+tried: the ``product:price:amount`` meta tag, the ``itemprop="price"``
+attribute and elements whose class contains "price". Both decimal styles
+(1.234,56 and 1,234.56) are understood.
 
-Key Features
-------------
+**Clear errors.** When no price is found, or the page cannot be loaded
+(for example 403 or 404), the line keeps its last price and the reason
+is shown in **Fetch Status**.
 
-- Competitor lines on product template with:
-
-  - Competitor name
-  - Product URL on competitor website
-  - Last fetched price and currency
-  - Last fetch timestamp and status message
-  - Auto Fetch flag (for potential scheduled jobs)
-
-- On‑demand fetching:
-
-  - A per‑line "Fetch" button
-  - A product‑level button "Aducere pret concurenta" to fetch all lines
-    at once
-
-- Robust price extraction:
-
-  - First tries structured data (JSON‑LD / Microdata) via ``extruct``
-    when available
-  - Falls back to HTML heuristics using ``lxml`` selectors
-
-- Graceful error handling with clear status stored per line
-
-How It Works
-------------
-
-1. When you press "Fetch" (on a line) or the product button, the module
-   performs an HTTP GET to the competitor URL using a browser‑like
-   User‑Agent.
-2. If ``extruct`` is installed, the module attempts to parse
-   JSON‑LD/Microdata and extract price and currency
-   (Offer/AggregateOffer patterns).
-3. If no structured data price is found, it tries common HTML selectors
-   (meta tags and elements whose class/name suggests price) using
-   ``lxml``.
-4. The found price is written on the line, together with the fetch
-   timestamp and an "OK" status. If a currency code is detected and
-   exists in your DB (e.g., EUR, USD), the line’s currency is updated
-   accordingly.
-5. If nothing can be extracted, the line gets a clear status (e.g.,
-   "Price not found on page").
+**Only public addresses.** The server fetches only http(s) addresses
+that resolve to public IP addresses, and checks every redirect, so a URL
+cannot be used to reach internal services.
 
 Usage
 -----
 
-- Open any Product (Product Template) and go to the "Competitor Prices"
-  tab.
-- Add one or more competitor lines:
+Open a product, go to the **Competitor Prices** tab, add a line with the
+competitor name and the product URL, save, then click **Fetch** on the
+line.
 
-  - Competitor: e.g., "Altex"
-  - Product URL: the full URL of the competitor’s product page
+Internal users can read, create, edit and delete competitor lines.
 
-- Click "Fetch" on a line to update just that entry, or use the
-  product‑level button to fetch all lines.
+Limitations
+-----------
 
-Dependencies
-------------
-
-Python libraries used at runtime:
-
-- ``requests``
-- ``lxml``
-- Optional: ``extruct`` and ``w3lib`` for structured data
-  (JSON‑LD/Microdata) parsing
-
-If ``extruct`` is not installed, the module still works via HTML
-fallback.
-
-Security & Access
------------------
-
-- Internal users (base.group_user) can read/create/write/delete
-  competitor lines by default. Adapt access rules to your needs.
-
-Notes & Limitations
--------------------
-
-- Competitor websites vary widely. While structured data improves
-  accuracy, some pages may hide or obfuscate prices; heuristic
-  extraction may fail. Site‑specific selectors can be added if needed.
-- Automatic/scheduled fetching (cron) is not enabled by default but can
-  be added easily later, using the provided ``auto_fetch`` flag to mark
-  lines eligible for periodic updates.
-
-Testing
--------
-
-The module ships with an Odoo test suite which mocks HTTP requests to
-ensure deterministic results:
-
-- Validates JSON‑LD/Microdata extraction path
-- Validates HTML fallback via meta tags
-- Validates proper error handling and product‑level action
-
-Run with a disposable DB, for example:
-
-::
-
-   ./odoo/odoo-bin -c odoo18.conf -d o18_test -i deltatech_competitors_price --test-tags=deltatech_competitors_price --stop-after-init
-
-License
--------
-
-OPL-1
+- Prices are fetched one line at a time; there is no button that fetches
+  all the lines of a product.
+- There is no scheduled fetch. The **Auto Fetch** column (hidden by
+  default) only marks lines and has no effect.
+- Sites that load the price with JavaScript, or that block automated
+  requests, return no price.
 
 **Table of contents**
 
@@ -150,6 +80,24 @@ OPL-1
 
 Changelog
 =========
+
+20.0.1.0.4 (2026-11-03)
+-----------------------
+
+- Description rewritten from the code: removed the product-level button
+  that fetches all lines, which does not exist; prices are fetched line
+  by line.
+- Documented that Auto Fetch is only a marker (no scheduled fetch) and
+  the public-address check on URLs.
+- Banner: "On-demand price fetch (per line or all)" corrected to per
+  line.
+
+20.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Competitors Price Tracker* (was *Competitors
+  Price*). The technical name ``deltatech_competitors_price`` does not
+  change.
 
 20.0.1.0.2 (2026-10-16)
 -----------------------

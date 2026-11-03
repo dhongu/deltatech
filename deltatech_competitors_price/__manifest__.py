@@ -4,7 +4,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Competitors Price Tracker",
     "summary": "Track competitors' product prices and fetch on demand",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "category": "Product",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -1,3 +1,13 @@
+## 20.0.0.0.15 (2026-11-03)
+
+- Description rewritten from the code: the operation type field is Two Step
+  Transfer Use (Delivery / Reception), not "next operation"; the original
+  transfer is not locked after the second one is created.
+- Documented the checks on reception, the backorder handling and the optional
+  Reassign Location button, and the lock switching of a Delivery transfer on
+  20.0.
+- Summary and banner corrected.
+
 ## 20.0.0.0.14 (2026-10-10)
 
 - Fix partial deliveries with a backorder (TRANSIT-004): the receiving leg checks its products against the source transfer and all its backorders, so the products left for a source backorder can still be received. A source backorder created by the native `_create_backorder` keeps "Second Transfer Created" (its products are already in the receiving leg, no duplicate reception) and its chatter names the receiving transfer.

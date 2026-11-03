@@ -4,8 +4,8 @@
 
 {
     "name": "Product Warranty",
-    "summary": "Warranty field in product, report for sale order",
-    "version": "20.0.1.0.1",
+    "summary": "Warranty period on products, printed on a warranty page of the sales quotation and order",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

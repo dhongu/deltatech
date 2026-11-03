@@ -2,10 +2,10 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Multi-PO Email + XLSX" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Purchase Orders Bulk Email with XLSX" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Multi-PO Email + XLSX</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Email multiple POs with XLSX summary</p>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Purchase Orders Bulk Email with XLSX</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">One email per vendor for several POs</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Purchases</span>
@@ -46,48 +46,50 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Multi-Purchase Order Email with XLSX Summary</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module introduces an advanced email dispatch feature for the Odoo Purchase module. It allows procurement teams to select multiple purchase orders and send them simultaneously to their respective vendors or internal stakeholders, complete with an aggregated XLSX summary and individual PDF attachments.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Batch Email Dispatch</strong>:</p>
-<ul>
-<li>Adds a dedicated <strong>Send Multi Orders</strong> action to the Purchase Order list view.</li>
-<li>Enables the simultaneous sending of multiple orders, significantly reducing manual effort for high-volume procurement operations.</li>
-</ul>
-</li>
-<li>
-<p><strong>Automated XLSX Summary</strong>:</p>
-<ul>
-<li>Automatically generates and attaches an Excel (<strong>XLSX</strong>) summary containing key details from all selected purchase orders.</li>
-<li>Provides vendors or managers with a clear, aggregated overview of the procurement batch.</li>
-</ul>
-</li>
-<li>
-<p><strong>Individual PDF Attachments</strong>:</p>
-<ul>
-<li>Ensures that the official PDF reports for each selected purchase order are attached to the outgoing email for formal acknowledgement.</li>
-</ul>
-</li>
-<li>
-<p><strong>Customizable Email Templates</strong>:</p>
-<ul>
-<li>Uses a dedicated mail template that can be easily customized to fit corporate communication standards.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Purchase &gt; Orders</strong>.</li>
-<li>Select multiple Purchase Orders from the list view using the checkboxes.</li>
-<li>Click the <strong>Action</strong> menu and select <strong>Send Multi Orders by Email</strong>.</li>
-<li>Review the email composition wizard, which will already have the XLSX summary and PDFs attached.</li>
-<li>Click <strong>Send</strong> to dispatch the communications.</li>
-</ol>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">When several requests for quotation or purchase orders go to the same vendor, sending
+them one by one means one email per order. This module sends them together, in a
+single email to that vendor, with an Excel summary of all the lines and the PDF of
+each order.</p>
+<p><strong>One email for several orders</strong>: select the orders in the list view of
+<strong>Purchase &gt; Orders &gt; Requests for Quotation</strong> or <strong>Purchase &gt; Orders &gt; Purchase
+Orders</strong> and choose <strong>Actions &gt; Send Email</strong>. The standard email composer opens with
+the vendor as recipient.</p>
+<p><strong>XLSX summary</strong>: the email carries an Excel file with one row per order line:
+order reference, product code, description, quantity and unit price without taxes.</p>
+<p><strong>PDF of each order</strong>: the standard purchase order PDF of every selected order is
+attached to the same email.</p>
+<p><strong>Trace on every order</strong>: only when the email is actually sent, each order gets a note
+with the email body, the summary and its own PDF, and the requests for quotation still
+in draft move to <strong>RFQ Sent</strong>. Closing the composer without sending changes nothing.</p>
+<p><strong>Email template</strong>: the text comes from the template <strong>Purchase Orders: Send with
+XLSX</strong>, editable in <strong>Settings &gt; Technical &gt; Email &gt; Templates</strong> (developer mode).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>All the selected orders must have the same vendor, and the vendor must have an email
+  address. Otherwise the action stops with the message "You must select exactly one
+  vendor to send the email to.", also when the only problem is the missing email.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The vendor's address is the only recipient filled in; other recipients are added by
+  hand in the composer.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>In the XLSX summary, a reference, product code or description that starts with "="
+  is written as a formula, not as text.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.5 (2026-11-03)</h2>
+<ul>
+<li>Description, summary and banner rewritten after the code: the orders must
+  share one vendor and go in a single email to that vendor; the action is
+  <strong>Actions &gt; Send Email</strong>; the same-vendor requirement is documented under
+  Limitations, together with the XLSX text cells starting with "=", which are
+  written as formulas on 20.0.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.4 (2026-10-22)</h2>
+<ul>
+<li>Listed on Odoo Apps as <em>Purchase Orders Bulk Email with XLSX</em> (was <em>Purchase: Send Multi Orders by Email with XLSX</em>), with the same title on the Apps banner.
+  The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_purchase_mail</code> does not change.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.3 (2026-10-16)</h2>
+<ul>
+<li>Development status raised from Beta to Production/Stable: the module has been in
+  production use at customers for a long time.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.2 (2026-10-02)</h2>
 <ul>
 <li>Fix the batch email: the orders became "sent" when the composer was opened, even if the email was never sent. Now nothing changes when the composer opens; when the email is really sent, each order gets a note with the email and its own attachments (the summary and its PDF) and the RFQs are marked as sent. Previously only an internal "RFQ prepared" note was left on the order. The test no longer needs <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code> to run.</li>
@@ -143,6 +145,26 @@
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_fast_purchase" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">FP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_fast_purchase/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Fast Purchase</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm, receive and bill a purchase order in one click</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_purchase_create_bill_button" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -194,11 +216,31 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase UBL</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase UBL Import</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchases</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Import UBL XML vendor invoices to update prices, validate receipts, and create vendor bills</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>
@@ -223,82 +265,42 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_analytic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_analytic/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_average_payment_period" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_average_payment_period/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Average Payment Period</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Computes average duration of cash accounting</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_backup_attachment" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_backup_attachment/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Backup Attachments</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Despatch Advice</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Backup attachments for selected file type</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_business_process" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_business_process/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Business process</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Other</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Plan implementation projects: business processes, steps, tests and issues</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account UBL despatch advice</p>
         </div>
       </a>
     </div>

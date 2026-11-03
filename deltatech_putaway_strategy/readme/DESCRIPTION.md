@@ -1,69 +1,63 @@
-# Deltatech Putaway Strategy
+Standard putaway rules send a product to a fixed shelf, whether the shelf still has
+room or not, and deliveries can reserve goods that were received but not yet put
+away. This module gives shelves a capacity, keeps the putaway within it and adds
+options on the operation type to control putaway and reservation.
 
-This module extends Odoo Inventory locations with simple capacity tracking and enhances the putaway decision logic.
+**Shelf capacity**: on the location form (**Inventory > Configuration > Locations**),
+section **Capacity**, the field **Max products (leaf)** sets the maximum quantity a
+shelf can hold, counted in the product unit of measure, all products together. Zero
+means no limit.
 
-## Key features
+**Capacity and occupancy figures**: each location computes **Max products**,
+**Current quantity** (on hand), **Planned quantity** (on move lines not yet done) and
+**Occupancy** (current / max, between 0 and 1). For a parent location, the maximum and
+the current quantity are the sum of its children. The fields are not shown in the
+views of this module; they are meant for reports or for a warehouse map.
 
-- Adds capacity fields on `stock.location`:
-  - `Max products (leaf)`: manual capacity for leaf locations.
-  - `Max products`: computed capacity for any location (sum of children for non‑leaf locations).
-  - `Current quantity`: computed on‑hand quantity per location.
-  - `Planned quantity`: computed incoming quantity per location based on pending moves.
-  - `Occupancy`: computed ratio `current/max` (clamped to [0, 1]).
-- Optimized computation for large hierarchies:
-  - Single batched `read_group` on `stock.quant` for all leaf locations in the batch.
-  - Batched `read_group` on `stock.move.line` for planned quantities.
-  - Bottom‑up in‑memory aggregation for parent locations.
-- Smarter putaway:
-  - Respects capacity on leaf locations when suggesting destinations.
-  - Automatically splits move lines if a destination location reaches its maximum capacity.
-  - Prefers empty child locations when possible (if search sublocation is enabled).
-  - Optionally prefers the shelf where the product is already stocked, anywhere under the incoming
-    location, over the shelf given by the putaway rule (system parameter
-    `deltatech_putaway_strategy.prefer_existing_stock_location`, disabled by default).
-  - Optimized rule lookup with database indexes on `product_id` and `sequence` for `stock.putaway.rule`.
-  - Keeps full compatibility with Odoo’s storage category rules (max weight, product/pack capacities, allow new product rules, etc.).
-- Operation type options on `stock.picking.type`:
-  - `Avoid Putaway Rules`: skip the putaway redirection for this operation type.
-  - `Avoid Root Location on Reservation` (deliveries only): never reserve stock sitting directly in the
-    operation's source location — typically the warehouse root (`lot_stock`, e.g. `D1/S`). Goods that have
-    not been put away on a shelf yet are therefore not allocated automatically to sales orders.
-    Sub‑locations (shelves) stay eligible.
+**Capacity-aware putaway**: a shelf that is full, or would be full with the quantity
+already planned for it, is not proposed by the putaway. When a reserved line exceeds
+the free room of its shelf, the line is split: the shelf gets what fits and the rest
+goes to another shelf chosen by the putaway. At validation, a move whose destination
+is a shelf with a capacity is blocked with an explicit error when it would overfill
+the shelf. The standard storage category checks (weight, product and package
+capacities, mixing of products) still apply.
 
-## Usage
-1. Set `Max products (leaf)` on leaf locations that should have a maximum capacity.
-2. Use standard operations (receipts, internal transfers). The putaway helper will:
-   - reject over‑capacity destinations,
-   - and try to choose an empty child location first when appropriate.
-3. The computed fields can be shown in location tree or used by other modules (e.g., visual warehouse map).
-4. To stop deliveries from reserving not‑yet‑put‑away stock, tick `Avoid Root Location on Reservation` on the
-   delivery operation type. This requires `deltatech_stock_removal_priority` to be installed (see Compatibility).
-5. To send new stock to the shelf where the product already sits, set the system parameter
-   `deltatech_putaway_strategy.prefer_existing_stock_location` to `True` (Settings → Technical → System
-   Parameters). The shelf with the largest quantity is proposed first; if it is full, or if the rule's shelf
-   already holds the product, the putaway rule applies as usual.
+**Search in sublocations**: with the system parameter
+`deltatech_putaway_strategy.search_sublocation` set to `True`, when the location
+given by the putaway rule has sublocations, the putaway first proposes a sublocation
+that already holds the product, then the first shelf, in alphabetical order, that has
+room.
 
-## Performance notes
+**Prefer the shelf already holding the product**: with the system parameter
+`deltatech_putaway_strategy.prefer_existing_stock_location` set to `True`, the putaway
+looks for the shelves under the incoming location that already hold free stock of the
+product, even outside the location given by the rule, and proposes the one with the
+largest quantity that still has room. If the rule's shelf already holds the product,
+or no such shelf has room, the putaway rule applies as usual. The source shelf of an
+internal transfer is never proposed as its destination. Off by default.
 
-- The occupancy compute reduces SQL calls from O(N) per leaf to O(1) per batch using a single `read_group`, mirroring the efficient pattern from Odoo’s `_compute_weight`.
+System parameters are set in **Settings > Technical > System Parameters** (developer
+mode).
 
-## Compatibility
+**Operation type options** (**Inventory > Configuration > Operation Types**):
 
-- Designed to work alongside modules that display warehouse maps or dashboards. The module `deltatech_warehouse_map` can depend on this one to display the capacity and occupancy KPIs.
-- `Avoid Root Location on Reservation` publishes the excluded locations through the `exclude_location_ids`
-  context key. The key is consumed by `deltatech_stock_removal_priority` in `stock.quant._get_gather_domain`.
-  That module is not a hard dependency, so the option has no effect unless it is installed as well.
+- **Avoid Putaway Rules**: the transfers of this operation type keep their destination
+  location; no putaway rule is applied.
+- **Avoid Root Location on Reservation** (deliveries only): the delivery never reserves
+  stock placed directly in its source location, typically the warehouse stock root
+  (e.g. `WH/Stock`). Goods that were received but not yet put away on a shelf are not
+  allocated to sales orders; the shelves under it stay eligible. The option takes
+  effect only when `deltatech_stock_removal_priority` is also installed.
 
-## Tests
+## Limitations
 
-- Includes TransactionCase tests that validate:
-  - capacity enforcement via `_check_can_be_used`,
-  - putaway preference for empty child locations via `_get_putaway_strategy`,
-  - automatic splitting of move lines when capacity is reached,
-  - planned quantity calculations,
-  - `Avoid Root Location on Reservation`: the flag reaches `stock.quant._get_gather_domain` through
-    `exclude_location_ids`, only for deliveries, and the reservation then takes stock from the shelf
-    instead of the warehouse root.
-
-## Screenshots
-The app store gallery uses the images from `static/description/`.
+- **Planned quantity** is computed only for shelves that have a capacity set; for
+  parent locations it is always zero, not the sum of the children.
+- On 20.0, quantities in another unit than the product unit (for example a dozen)
+  are not converted: the planned quantity and the split compare the quantity of the
+  line, in its own unit, with the capacity.
+- On 20.0, a shelf filled exactly to its capacity keeps the reserved line: the line is
+  not sent to another shelf, and the validation then refuses the transfer.
+- On 20.0, the check at validation looks at the destination of the move only; when
+  the move goes to the stock root and its lines to shelves, an overfilled shelf is
+  not blocked.

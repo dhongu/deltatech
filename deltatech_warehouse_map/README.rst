@@ -16,80 +16,59 @@ Warehouse Map
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_warehouse_map
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_warehouse_map/tests
-    :alt: 8 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_warehouse_map
+    :alt: 8 automated tests · 87% code coverage
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+In a warehouse organized as a deep location tree (zones, lines, racks,
+shelves, cells), the standard Locations list does not show where space
+is left. This module adds a visual map of the location hierarchy,
+colored by occupancy, so you can see at a glance which racks and cells
+are full and drill down to the products stored in a cell.
 
-  - Generic warehouse map for any ``stock.location`` (backend/QWeb):
+**Location map.** For a selected location, the map shows each child
+location as a bar and nests all its descendants underneath, level by
+level. Click a location name to open the map one level lower; the back
+button in the header returns to the parent location.
 
-    - Select a location and see its direct children as rows.
-    - Each row shows a full‑width bar split into equal segments for the
-      next level (grandchildren), enabling quick drill‑down.
-    - Click any segment to open the graphical view for that
-      sub‑location; a Back link returns to the parent.
+**Occupancy colors.** Each bar is filled in proportion to the occupancy
+of that location and shows the percentage and the current quantity. The
+fill is green below 60%, yellow from 60% to 90% and red from 90%. A
+tooltip shows the full location name, the occupancy and the current /
+maximum quantity. The percentage and the quantity on each bar open
+*Current Stock*: the stock of that location and of its sublocations,
+grouped by product.
 
-  - Visual occupancy per sub‑location:
+**Cell contents.** When the selected location has no children, the map
+lists the products stored in it with their on-hand quantity.
 
-    - Each segment contains an internal progress bar representing the
-      occupancy percentage of that sub‑location.
-    - Color thresholds: green (<60%), yellow (60–90%), red (≥90%).
-      High‑contrast labels with the name and ``(current/max)`` values.
-    - Clear cell borders to visually separate segments.
+**Opening the map.** The **Map** button on each line of *Inventory >
+Configuration > Locations* and the **Open Map** smart button on the
+location form open the map for that location. The map of the main
+*Stock* location is also available at the URL
+``/deltatech/warehouse_map``.
 
-  - Capacity and occupancy tracking on ``stock.location`` (fields
-    provided by ``deltatech_putaway_strategy``):
+Configuration
+-------------
 
-    - ``max_products_leaf`` (manual, for leaf locations).
-    - Computed ``max_products`` (sum of children for non‑leaf
-      locations).
-    - Computed ``current_products`` (for leaves: sum of ``quantity``
-      from ``stock.quant`` with quantity > 0; for non‑leaves: sum of
-      children).
-    - Computed ``occupancy_ratio`` = ``current/max`` (protected against
-      division by zero).
+Capacity and occupancy come from the ``deltatech_putaway_strategy``
+module, installed as a dependency: set **Max products (leaf)** on the
+leaf locations (the cells); the maximum, the current quantity and the
+occupancy of the parent locations are summed from their children.
+Occupancy is the on-hand quantity of the location divided by its
+maximum.
 
-  - Navigation and UI integration:
+The map is available only to users of the *Inventory / User* group;
+access rights and multi-company rules apply to the locations and
+quantities shown.
 
-    - List view button “Map” on Locations; form smart button “Open Map”.
-    - The occupancy and quantity labels of a segment open the current
-      stock (quants) of that location and its sublocations, grouped by
-      product.
-    - ``/deltatech/warehouse_map`` opens the Stock root in the generic
-      view.
+Limitations
+-----------
 
-  - Technical details:
-
-    - Routes: ``/deltatech/warehouse_map``,
-      ``/deltatech/warehouse_map/location/<id>`` and
-      ``/deltatech/warehouse_map/location_open_quants/<id>``.
-    - Only Inventory users (``stock.group_stock_user``) can open the
-      map; locations of other companies return 404.
-    - Layout independent of Bootstrap utilities; responsive flex layout
-      to keep the name and bar on a single line.
-
-- Configuration:
-
-  - Set ``Max products (leaf)`` on leaf locations in the Location form
-    (Capacity section). Non‑leaf values are computed from children.
-
-- Usage:
-
-  - Open Inventory → Configuration → Locations and click “Map” on any
-    record, or use the smart button on the Location form.
-  - Start at the Stock root (``/deltatech/warehouse_map``) or at any
-    location and drill down by clicking segments.
-
-- Notes & limitations:
-
-  - Occupancy is based on total on‑hand quantity (``sum(quantity)``) in
-    leaf locations; can be adapted to available quantity or other
-    metrics if needed.
-  - Segments are equal‑width by design (not weighted by capacity) to
-    keep a consistent visual grid.
+- There is no menu entry for the map; open it from a location or by URL.
+- The labels of the map page are in Romanian and are not translated.
 
 **Table of contents**
 
@@ -98,6 +77,17 @@ Warehouse Map
 
 Changelog
 =========
+
+20.0.1.0.5 (2026-11-03)
+-----------------------
+
+- Description rewritten from the code: removed the Inventory > Warehouse
+  Map menu and the post-init sample data, which the module does not
+  have; the capacity fields are credited to
+  ``deltatech_putaway_strategy``; documented the stock links on each
+  bar; added a Limitations section.
+- Banner: the capacity feature is replaced by the product list of a
+  cell.
 
 19.0.1.0.4 (2026-09-29)
 -----------------------

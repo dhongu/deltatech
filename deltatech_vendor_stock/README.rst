@@ -16,17 +16,63 @@ Vendor Stock
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_vendor_stock
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_vendor_stock
-    :alt: 9 automated tests · 94% code coverage
+    :alt: 14 automated tests · 95% code coverage
 
 |badge1| |badge2| |badge_tests|
 
-Features:
+When the own stock is not enough, the salesperson wants to know whether
+the vendor can still supply the product, and whether another warehouse
+of the company has it. This module records the stock reported by the
+vendor and shows it, together with the free stock per warehouse, on the
+sales order.
 
-- Update available quantity at supplier in product base data
-- Display available quantity at supplier in sale order
-- Display icon with yellow if current quantity is zero but will come
+**Vendor stock on the vendor pricelist**: adds **Quantity Available** on
+the vendor pricelist line (``product.supplierinfo``), on the form and as
+an optional column of the list, for example in the **Vendors** list of
+the product. The vendor stock of a product is the sum of these
+quantities over its vendor lines; a line set on a specific variant
+counts only for that variant.
+
+**Vendor stock on the sales order line**: the availability popover of
+the order line (the chart icon next to the quantity) shows a **Vendor
+Stock** row when the vendor has stock, converted to the unit of measure
+of the line. **Vendor Quantity Available** is also available as an
+optional column of the order lines.
+
+**Coloured availability icon**: the chart icon of the order line is
+coloured by availability: green when the demand will be fulfilled, cyan
+when it will be fulfilled but there is no free quantity today, red when
+it will not be fulfilled, yellow when it will not be fulfilled but the
+vendor has stock.
+
+**Free stock per warehouse**: when the company has more than one
+warehouse, the popover lists the free stock in each warehouse with
+stock, the warehouse of the order first, and opens the forecast report
+of that warehouse on click. The same information is available in the
+optional **Stock/WH** column of the order lines.
+
+Configuration
+-------------
+
+- Fill in **Quantity Available** on the vendor lines of the products, by
+  hand or by import.
+- The colours of the icon are set in **Sales > Configuration >
+  Settings**, in the **Quotations & Orders** section.
+- The system parameter ``deltatech_vendor_stock.use_only_main_location``
+  set to ``1`` limits the free stock per warehouse to the main stock
+  location of each warehouse.
+
+Limitations
+-----------
+
+- **Other Quantity Available** (the **Other Stock** row of the popover)
+  is not filled in by this module; it stays 0 unless another module
+  computes it.
+- The vendor stock adds up the vendor lines of all the companies
+  selected in the company switcher, not only those of the current
+  company and its parent companies.
 
 **Table of contents**
 
@@ -35,6 +81,41 @@ Features:
 
 Changelog
 =========
+
+20.0.1.2.1 (2026-11-03)
+-----------------------
+
+- Description, summary and banner rewritten after the code: yellow means
+  the vendor has stock (cyan is fulfilled without free quantity today),
+  the colours are configurable, and the free stock per warehouse in the
+  availability popover is documented.
+- Limitation noted: on 20.0 the vendor stock counts the vendor lines of
+  all the selected companies (the 19.0 filter on the current company is
+  not ported yet).
+
+20.0.1.2.0 (2026-10-15)
+-----------------------
+
+Port of 19.0.1.1.12 and 19.0.1.2.0:
+
+- The availability popover shows the vendor stock and the stock per
+  warehouse again: the widget now loads the fields it reads itself
+  instead of relying on columns declared in the order line view.
+- The unit of measure is shown again next to the quantities in the
+  popover (many2one values are objects, so ``product_uom_id[1]`` was
+  empty).
+- The free stock per warehouse is listed as a table, read when the
+  popover opens instead of for every order line: the warehouse of the
+  order comes first, is marked and is shown even without stock; each
+  warehouse shows its code and name.
+- Quantities that cover the quantity to deliver are green; the order
+  warehouse is red when it does not cover it.
+- A click on a warehouse opens the forecast of the product in that
+  warehouse.
+- The vendor stock is shown under the warehouses, and only when it is
+  not zero.
+- Romanian translations for the popover and the settings; "Other Stock"
+  is now "Alt stoc".
 
 20.0.1.1.11 (2026-10-09)
 ------------------------

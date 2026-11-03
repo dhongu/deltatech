@@ -1,3 +1,14 @@
+## 20.0.1.0.9 (2026-11-03)
+
+- Description, summary and banner rewritten from the code: removed the BoM
+  overhead field, the rounding at BoM explosion, the changes to the
+  manufacturing order confirmation and the automatic lot generation, which the
+  module no longer has; documented the cost categories, the *Costs* tab and
+  the *Production Cost Analysis* report, with the fixed 20% indirect cost
+  rate as a limitation.
+- Limitations also list the report states and filters of older Odoo versions
+  and the planned quantity divided by the unit factor, still present on 20.0.
+
 ## 20.0.1.0.8 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

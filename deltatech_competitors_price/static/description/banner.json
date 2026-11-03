@@ -4,7 +4,7 @@
   "icon": "trend",
   "features": [
     "Track competitor URLs per product",
-    "On-demand price fetch (per line or all)",
+    "One-click price fetch per line",
     "Smart extraction: JSON-LD + HTML fallback"
   ]
 }

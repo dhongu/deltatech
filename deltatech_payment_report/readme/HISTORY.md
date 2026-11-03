@@ -1,3 +1,9 @@
+## 20.0.1.0.5 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: the report covers only customer
+  receipts (incoming, Paid or Reconciled), not all payments; menu path corrected to
+  Invoicing > Accounting > Payment Report; added the limitations on currencies and companies.
+
 ## 19.0.1.0.4 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

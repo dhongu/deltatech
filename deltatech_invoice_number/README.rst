@@ -19,26 +19,48 @@ Invoice Numbering Control
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_invoice_number/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_number/tests
-    :alt: 9 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_invoice_number
+    :alt: 9 automated tests · 94% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Functions:
+Keeps customer invoices in chronological order on the journals where it
+matters, and lets a dedicated group of users correct the number of an
+invoice.
 
-  - At validation, the invoice date must be greater than or equal to the
-    date of the last validated invoice.
-  - The invoice number can be modified by authorized users.
-  - A number can be allocated to an invoice in draft state from a
-    sequence configured on the journal.
+**Chronological invoice dates.** On a sales journal with *Restrict
+invoice date* enabled, a draft customer invoice or credit note cannot be
+confirmed with an invoice date earlier than the latest posted document
+of the same type in that journal. The error states the earliest date
+allowed. When the journal is chosen on a draft invoice, a warning shows
+the same information.
 
-- Functionalități:
+**Change of the invoice number.** Users in the group *Allow to change
+invoice number* get the action **Change invoice number** in the Actions
+menu (gear icon) of the invoice form. The wizard proposes the current
+number; after **Apply**, the new number is written on the invoice and
+copied to the reference of its journal items (and to the invoice
+*Reference* for customer documents).
 
-  - Validează ordinea cronologică a facturilor emise.
-  - Permite modificarea numărului unei facturi pentru un grup dedicat de
-    utilizatori.
-  - Permite numerotarea unei facturi aflate în starea ciornă.
+Configuration
+-------------
+
+- **Accounting > Configuration > Journals**, a journal of type *Sales*,
+  tab **Journal Entries**, section **Invoice numbering**: tick *Restrict
+  invoice date*.
+- **Settings > Users & Companies > Groups**: add the users who may
+  change invoice numbers to the group *Allow to change invoice number*.
+
+Limitations
+-----------
+
+- The **Invoice numbering** section also shows a *Journal Sequence*
+  field. The module contains a method that numbers a draft invoice from
+  this sequence, but no button or menu calls it, so the field has no
+  effect in the interface.
+- The new number is written as typed: the wizard does not check it
+  against the journal's numbering format or for gaps.
 
 **Table of contents**
 
@@ -47,6 +69,21 @@ Invoice Numbering Control
 
 Changelog
 =========
+
+20.0.1.0.4 (2026-11-03)
+-----------------------
+
+- Description rewritten from the code, in English only: removed the
+  numbering of draft invoices from the journal sequence, which no button
+  or menu triggers (now under Limitations); added where the date
+  restriction and the user group are configured.
+
+20.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Invoice Numbering Control* (was *Invoice
+  Number*), with the same title on the Apps banner. The technical name
+  ``deltatech_invoice_number`` does not change.
 
 19.0.1.0.2 (2026-10-09)
 -----------------------

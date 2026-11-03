@@ -1,10 +1,10 @@
 {
   "title": "Picking Restrict Entry/Exit",
-  "summary": "Block transfers without a sale or purchase",
+  "summary": "Validate receipts and deliveries only against orders",
   "icon": "box",
   "features": [
-    "Require origin on receipts/deliveries",
-    "Block over-delivery vs demanded qty",
-    "Permission group for picking creation"
+    "Lines must come from a sale or purchase",
+    "Block quantities above the demand",
+    "Exemption group for chosen users"
   ]
 }

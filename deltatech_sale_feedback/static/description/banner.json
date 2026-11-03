@@ -1,11 +1,7 @@
 {
   "title": "Sale Feedback",
-  "summary": "Ask customers for feedback after invoicing",
+  "summary": "Ask customers to rate the products they bought",
   "icon": "user",
-  "features": [
-    "Rating e-mail a few days after invoice",
-    "Customers rate each invoiced product",
-    "Configurable delay (default 3 days)"
-  ],
+  "features": ["Rating links per invoice line", "Delay set by system parameter", "Daily scheduled action"],
   "lang": "en"
 }

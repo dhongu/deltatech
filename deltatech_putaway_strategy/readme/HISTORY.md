@@ -1,3 +1,11 @@
+## 20.0.1.1.2 (2026-11-03)
+
+- Description rewritten after the code: no database index is added on putaway
+  rules. "Avoid Root Location on Reservation" needs
+  `deltatech_stock_removal_priority` on 20.0. The sublocation search parameter
+  and the 20.0 limitations (units of measure, full shelf, check at validation)
+  are documented.
+
 # 20.0.1.1.1
 
 - Migration to Odoo 20.0. The system parameters `deltatech_putaway_strategy.search_sublocation` and
