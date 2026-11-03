@@ -1,10 +1,10 @@
 {
   "title": "Pricelist Currency Extension",
-  "summary": "Set a dedicated currency for product list prices",
+  "summary": "Sales prices in a currency of your choice",
   "icon": "trend",
   "features": [
-    "Per-company pricelist currency",
-    "List price shown in chosen currency",
-    "Readable discount formula on price rules"
+    "Price list currency per company",
+    "Sales price kept in that currency",
+    "Converted at the rate of the day"
   ]
 }
