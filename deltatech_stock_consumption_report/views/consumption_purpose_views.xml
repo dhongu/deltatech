@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <record id="view_stock_consumption_purpose_list" model="ir.ui.view">
+    <field name="name">stock.consumption.purpose.list</field>
+    <field name="model">stock.consumption.purpose</field>
+    <field name="arch" type="xml">
+      <list editable="bottom">
+        <field name="sequence" widget="handle" />
+        <field name="name" />
+        <field name="company_id" groups="base.group_multi_company" />
+        <field name="active" column_invisible="True" />
+      </list>
+    </field>
+  </record>
+
+  <record id="action_stock_consumption_purpose" model="ir.actions.act_window">
+    <field name="name">Consumption purposes</field>
+    <field name="res_model">stock.consumption.purpose</field>
+    <field name="view_mode">list</field>
+  </record>
+
+  <menuitem
+    id="menu_stock_consumption_purpose"
+    name="Consumption purposes"
+    parent="stock.menu_warehouse_config"
+    action="action_stock_consumption_purpose"
+    sequence="90"
+  />
+</odoo>
