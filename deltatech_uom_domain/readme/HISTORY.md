@@ -7,6 +7,8 @@
   by `tests/test_screenshots.py` in both languages.
 - `i18n/ro.po`: Romanian translation of *Default Purchase Unit*, its help and the
   constraint message.
+- `tests/test_purchase_uom.py`: the test user also gets the Inventory user group, so
+  the product form test passes when `stock` is installed in the same run.
 
 ## 20.0.1.2.0 (2026-10-20)
 
