@@ -46,12 +46,42 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>whenever a user changes something on a sale order , a record is created in the activity report</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>in the report menu of the sales app you can see the activity records and the pivot view so you can see the activity
-  per user</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Automatically deletes activity records older than 2 months using the Data Recycle mechanism.</div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Keeps a journal of who worked on which sales order and when, so a sales manager can see the activity
+of each salesperson per day.</p>
+<p><strong>One activity record per order, user and day.</strong> The first time an internal user touches a sales order
+on a given day, an activity record is created for that order, user and date; later actions of the same
+user on the same day are added to it. Actions of the system and of portal or website users are not
+recorded.</p>
+<p><strong>What is recorded.</strong> The <em>Log</em> tab of a record holds the timed list of:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>field changes, with the old and the new value (order lines are described line by line);</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the <em>Confirm</em>, <em>Cancel</em>, <em>Set to Quotation</em>, <em>Lock</em>, <em>Unlock</em> and <em>Send</em> buttons;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>messages posted in the chatter.</div></div></li></ul>
+<p>Scheduling an activity on the order also creates the record of the day, without a log line. The record
+keeps the order status, and the flags <em>Chatter Message</em> and <em>Tags Changed</em>. Binary fields (labels,
+signatures) are not logged, and long values are truncated.</p>
+<p><strong>Activity Records report.</strong> <em>Sales &gt; Reporting &gt; Activity Records</em> opens the records of the current
+month in list, form, pivot (users and stages per day) and graph views, with <em>Today</em>, <em>Yesterday</em>,
+<em>This Month</em> and <em>This Year</em> filters and grouping by user, stage or date.</p>
+<p><strong>Access.</strong> <em>User: Own Documents Only</em> salespeople can read the records of their own orders and of
+unassigned ones; <em>User: All Documents</em> and <em>Administrator</em> see all of them, within their allowed
+companies. Only the Sales <em>Administrator</em> can change or delete records. The <em>Reporting</em> menu of Sales,
+and so the report, is shown to the Sales <em>Administrator</em> only.</p>
+<p><strong>Automatic clean-up.</strong> A <em>Data Cleaning</em> rule deletes the records older than 2 months. The period can
+be changed in <em>Data Cleaning &gt; Configuration &gt; Rules &gt; Recycle Records</em>, rule <em>Sale Order Activity
+Record</em>.</p>
+<p><strong>With order stages.</strong> When the order stages from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_website_sale_status</code> are installed, the
+record also keeps the order stage and the <em>AWB Generated</em> flag, set when the order moves to <em>Pre
+advice</em>.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.2 (2026-11-03)</h2>
+<ul>
+<li>Summary corrected: the module keeps a separate activity journal per order, user and day, not a
+  "last modified" field on the order.</li>
+<li>Description rewritten after the code: what is logged (field changes, header buttons, chatter
+  messages, scheduled activities), the <em>Activity Records</em> report and its views, the access rules,
+  the Data Cleaning rule and the optional order stages.</li>
+<li>Apps banner aligned with the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Sale Activity Log</em> (was <em>Sale Order Last Modified</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_activity_report</code> does not change.</li>
@@ -222,6 +252,26 @@ but <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Reg
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_import_lines_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_import_lines_sale/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Import Lines in Sale Orders</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Load sale order lines from an XLSX, XLS, CSV or TXT file</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -278,26 +328,6 @@ but <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Reg
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print product labels for the products of a price change document</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Pricelist Currency Extension</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set the product list price in a currency other than the company&#x27;s</p>
         </div>
       </a>
     </div>

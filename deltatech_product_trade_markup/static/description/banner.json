@@ -1,8 +1,8 @@
 {
-  "summary": "Auto sales price from cost & markup",
+  "summary": "Trade markup percentage on products",
   "features": [
-    "Markup % on product template",
-    "Auto-computes list price from cost",
-    "Consistent margins across catalog"
+    "Trade Markup field on the product form",
+    "Shared by all product variants",
+    "Changes logged in the chatter"
   ]
 }

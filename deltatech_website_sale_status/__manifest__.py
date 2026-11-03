@@ -4,8 +4,8 @@
 {
     "name": "eCommerce Sale Order status",
     "category": "Website",
-    "summary": "Additional filters sales orders by status ",
-    "version": "19.0.2.0.13",
+    "summary": "Order stage from stock and courier status, in the back office and the customer portal",
+    "version": "19.0.2.0.14",
     "license": "OPL-1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

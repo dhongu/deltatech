@@ -1,3 +1,9 @@
+## 19.0.1.0.7 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: the report covers only customer
+  receipts (incoming, In Process or Paid), not all payments; menu path corrected to
+  Invoicing > Accounting > Payment Report; added the limitations on currencies and companies.
+
 ## 19.0.1.0.6 (2026-10-17)
 
 - **Fix (PAYREPORT-002): removed the unusable *Print Preview* helper.** The

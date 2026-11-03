@@ -1,6 +1,10 @@
 {
   "title": "Batch Reception Note",
   "icon": "box",
-  "summary": "Batch reception note management",
-  "features": ["Bulk reception-note wizard", "Groups pickings / purchase orders", "Audit-ready reception documents"]
+  "summary": "Receive against open purchase quantities",
+  "features": [
+    "Open quantities moved to RFQ-only orders",
+    "Reception note consumes them on confirm",
+    "Forced quantities logged in chatter"
+  ]
 }

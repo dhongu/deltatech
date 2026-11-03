@@ -2,9 +2,5 @@
   "title": "Sale XLS",
   "summary": "Import and export sale order lines in Excel",
   "icon": "file",
-  "features": [
-    "Order lines at the top of the order",
-    "Bulk import of lines from Excel",
-    "Uses the standard Odoo import"
-  ]
+  "features": ["Order lines button on the order", "Fill an empty order from Excel", "Update existing lines by product"]
 }

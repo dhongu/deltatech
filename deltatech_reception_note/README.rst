@@ -25,48 +25,56 @@ Batch Reception Note
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-Batch Reception Note Management
-===============================
+Receives goods from a vendor on reception notes that draw on the open
+quantities of several purchase orders at once, instead of validating the
+receipt of each order separately. Useful when one delivery covers
+several orders, or one order arrives in several deliveries.
 
-This module provides a specialized tool for managing batch reception
-notes within Odoo's stock and purchase modules. It is designed to
-streamline the process of receiving multiple items or handling bulk
-reception documentation.
+**Purchase order types.** Every purchase order gets a *Type*:
 
-Key Features
-============
+- *Normal*: the standard order;
+- *RFQ Only*: a request that keeps the quantities still expected from
+  the vendor; it cannot be confirmed and has a *Set as sent* button;
+- *Reception Note*: the delivery actually received, with the vendor's
+  *Delivery Note No*.
 
-1. **Batch Reception Processing**:
+**Create reception note.** On a *Normal* purchase order, *Actions >
+Create reception note* moves its open quantities to a new *RFQ Only*
+order in the *RFQ Sent* state: same vendor, company, currency, fiscal
+position, payment terms, prices and taxes, and the quantity not received
+yet on each line. The receipts of the source order that are *Ready* are
+cancelled, so the goods are received only through reception notes.
 
-   - Adds a dedicated wizard for creating and managing reception notes
-     in bulk.
-   - Allows users to group multiple stock pickings or purchase orders
-     into a single reception note for easier tracking and documentation.
+**Reception note.** A purchase order of type *Reception Note* holds the
+products and quantities delivered. When it is confirmed, its quantities
+are taken from the sent *RFQ Only* orders of the same vendor and
+company, oldest first, in the unit of measure of the product, and the
+receipt is created by the standard confirmation. An *RFQ Only* order
+that is fully consumed is marked as empty.
 
-2. **Integrated Stock Workflow**:
+**Ignore quantities.** If a product or a quantity is not found on a sent
+*RFQ Only* order, the confirmation stops with a message. Tick *Ignore
+quantities* on the reception note to confirm it anyway; the forced
+quantities are listed in the chatter.
 
-   - Seamlessly integrates with the ``purchase_stock`` module to ensure
-     consistent data flow between procurement and warehouse operations.
-   - Provides specialized views and reports for summarized reception
-     information.
+**Menus and filters.** *Purchase > Reception notes* has three entries:
 
-3. **Enhanced Documentation**:
+- *Prepare reception note*: the reception notes not confirmed or
+  invoiced yet;
+- *To arrive*: incoming transfers in the *Ready* state;
+- *To invoice*: incoming transfers in the *Done* state.
 
-   - Generates comprehensive reception documents that can be used for
-     internal auditing and vendor verification.
+The purchase lists show the *Type* and *Date sent* as optional columns,
+and the search has the *Not empty* and *Empty* filters for *RFQ Only*
+orders.
 
-Usage
-=====
+Limitations
+-----------
 
-1. Navigate to **Purchase > Orders** or **Inventory > Operations >
-   Transfers**.
-2. Select the records you wish to include in a batch reception.
-3. Use the **Action** menu or the dedicated button (if available) to
-   launch the **Reception Note** wizard.
-4. Configure the note details and confirm to generate the batch
-   documentation.
-5. View and print the resulting reception note for logistical or
-   accounting purposes.
+- The module adds no printed document of its own: a reception note is
+  printed with the standard purchase order reports.
+- *To invoice* lists every done incoming transfer, whether it was
+  invoiced or not.
 
 **Table of contents**
 
@@ -75,6 +83,17 @@ Usage
 
 Changelog
 =========
+
+19.0.0.1.8 (2026-11-03)
+-----------------------
+
+- Description rewritten after the code: the three purchase order types,
+  the *Create reception note* action (open quantities moved to an *RFQ
+  Only* order), the consumption of those quantities when a reception
+  note is confirmed, *Ignore quantities* and the *Reception notes* menu.
+- Removed the claims of grouping transfers into one note and of a
+  dedicated printed report; added a Limitations section.
+- Summary and Apps banner aligned with the description.
 
 19.0.0.1.7 (2026-10-16)
 -----------------------

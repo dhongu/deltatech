@@ -1,10 +1,10 @@
 {
   "title": "Category User Group",
-  "summary": "User group set on the product category",
+  "summary": "Transfer responsible from category group",
   "icon": "people",
   "features": [
     "User group field on product category",
-    "Transfer responsible filled automatically",
-    "Works on any stock picking"
+    "Responsible button on transfer lists",
+    "Load balanced among group members"
   ]
 }

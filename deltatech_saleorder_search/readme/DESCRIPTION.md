@@ -1,19 +1,17 @@
-Key Features
-============
+Finds sales orders when the only thing you know about the customer is an e-mail
+address or a phone number.
 
-This module enhances the search capabilities in Odoo Sales by allowing users to find sales orders based on multiple partner-related fields.
+**Search by e-mail.** The search bar of quotations and sales orders gets the
+option **Search E-mail for: ...**, which returns the orders whose customer has an
+e-mail address containing the typed text.
 
-Features:
----------
+**Search by phone.** The option **Search Phone for: ...** does the same with the
+customer's phone number. The text is matched as typed, so enter the number in
+the format in which it is stored on the contact.
 
-- Expands the default search options to include partner e-mail, phone, and mobile numbers.
-- Enables sales teams to quickly locate orders when they only have the customer's contact information.
-- Improves overall search efficiency and customer service responsiveness.
-- Integrates seamlessly with the standard Odoo search view for Sales.
+Both options work in **Sales > Orders > Quotations** and
+**Sales > Orders > Orders**, and in every other list of sales orders that uses
+the standard search view. Nothing needs to be configured.
 
-Usage:
-------
-
-1. Navigate to Sales > Orders > Quotations or Sales.
-2. In the search box at the top right, enter a customer's e-mail, phone, or mobile number.
-3. The results will now include all sales orders where the customer matches any of these fields.
+The search looks at the e-mail and phone of the contact set as *Customer* on
+the order, not at the other contacts of the same company.

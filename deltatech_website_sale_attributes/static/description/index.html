@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="eCommerce Attribute Values" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">eCommerce Attribute Values</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Show only relevant attribute values in the shop</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Hide chosen attribute values in the shop</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Website</span>
@@ -46,13 +46,34 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Website Sale Attributes</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module enhances the product attribute display in the e-commerce website by:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Displaying attribute values based on determined products</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Filtering attribute values to show only those that are relevant to the currently available products</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Optimizing the attribute selection experience for customers</div></div></li></ul>
-<p>The module modifies the default Odoo behavior by filtering attribute values in the website_sale.products_attributes template to show only relevant options.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Hides chosen attribute values from the online shop while keeping them on the products in the back
+office.</p>
+<p><strong>Visibility per attribute value.</strong> Each value of a product attribute gets a <em>Visibility</em> field,
+<em>Visible</em> (default) or <em>Hidden</em>, shown in the values list of the attribute form. Odoo has the same
+choice for a whole attribute; this one works on single values.</p>
+<p><strong>Hidden on the product page.</strong> When the shop shows a product, the hidden values are left out of the
+active values of its attribute lines, so the customer cannot choose them in the variant selector. In
+the back office the values remain available on the products, sales orders and variants.</p>
+<p><strong>Where to configure it.</strong> <em>Website &gt; eCommerce &gt; Products &gt; Attributes</em> (or <em>Sales &gt; Configuration &gt;
+Products &gt; Attributes</em>), open the attribute and set <em>Visibility</em> on the values to hide. The menu is
+available when <em>Variants</em> is enabled in the settings.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul>
+<li>The attribute filters in the shop sidebar still list the hidden values.</li>
+<li>The shop page override computes a list of visible values (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">value_ids</code>) that no standard template
+  reads, so it has no effect on the shop page by itself.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten after the code: the module adds a <em>Visibility</em> (Visible / Hidden) field on
+  attribute values and leaves the hidden values out on the product page; it does not override the
+  shop templates and does not filter the values by the products listed.</li>
+<li>Added a Limitations section: the shop sidebar filters still show the hidden values.</li>
+<li>Summary and Apps banner aligned with the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-10-09)</h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -208,7 +229,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add a final order review and confirmation step to eCommerce checkout</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm eCommerce orders on the checkout confirmation page, including wire transfer and cash on delivery</p>
         </div>
       </a>
     </div>
@@ -268,7 +289,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Limit eCommerce delivery methods and payment providers</p>
         </div>
       </a>
     </div>

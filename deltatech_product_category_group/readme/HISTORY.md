@@ -1,3 +1,9 @@
+## 19.0.1.0.10 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: the responsible is assigned from the
+  **Responsible** button on the transfer list (or from custom code), not automatically; documented
+  the balancing among the members of the group.
+
 ## 19.0.1.0.9 (2026-10-03)
 
 - Tests: the list-view check decodes the view arch when another installed module returns it as bytes (it failed with `TypeError` in the full CI run). No functional change.

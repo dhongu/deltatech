@@ -46,20 +46,48 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">DeltaTech Transport Change</p>
-<p>DeltaTech Transport Change is an Odoo technical module designed to manage the export of configuration changes and transport them between environments (Development &#8594; Staging &#8594; Production) in a structured and version-controlled manner. The module provides a functionality similar to SAP transport requests, allowing system administrators and consultants to track, export, and migrate configuration data safely.</p>
-<p>Key Features</p>
-<p>Export Configuration to CSV/XML: Easily export selected models, fields, and records with optional domain filters, triggered from a form button or list server action. The first column in the generated CSV is always the External ID (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">id</code>) of each record, ensuring reliable re-import and cross-environment consistency.</p>
-<p>Mapping of Relationships: Automatically converts many2one and many2many relational fields to XMLID references for reliable transport.</p>
-<p>Repo Integration: Stores information about client modules, Git repository URLs, branches, and credentials to facilitate version-controlled deployment.</p>
-<p>Git Automation: Supports automatic commit and optional push of exported configuration files to the repository.</p>
-<p>Environment Transport: Enables safe migration of configuration changes from Development to Staging and Production environments.</p>
-<p>Extensible &amp; Configurable: Add new models, fields, and export configurations without modifying the module core.</p>
-<p>Use Case</p>
-<p>Ideal for clients with multiple Odoo instances where configuration changes need to be applied consistently and traceably across environments. Helps maintain reproducibility, auditability, and version control for technical configuration data.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Configuration data set up by hand in a development or test database (stages, tags,
+parameters, master data of any model) has to be entered again in production, with
+the risk that the two end up different. This technical module exports such data to
+CSV files inside an Odoo module kept in Git, so the change reaches the other
+databases by updating that module, in a way similar to SAP transport requests.</p>
+<p><strong>Export configurations</strong>: each configuration names a model, the fields to export and
+an optional domain. <strong>Generate File</strong> on the form, or <strong>Actions &gt; Export CSV</strong> on
+several selected configurations, builds one CSV file per configuration. The first
+column is always the External ID (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">id</code>) of the record, so the import updates the same
+records instead of creating duplicates.</p>
+<p><strong>Relations as external IDs</strong>: Many2one and Many2many fields are exported in a
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">field/id</code> column with the external IDs of the related records. Records that have no
+external ID receive a stable <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__export__</code> one.</p>
+<p><strong>Git repositories</strong>: a repository holds the Git URL, the branch, the module code (the
+folder of the target module inside the repository) and the HTTPS user name and token.
+The credentials are visible only to administrators.</p>
+<p><strong>Commit and push</strong>: at export the repository is cloned in a temporary folder, the CSV
+is written to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;module&gt;/data/&lt;model&gt;.csv</code>, the file is added to the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data</code> list of the
+module's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__manifest__.py</code> and the module version is increased. All the configurations
+of one repository go into a single commit, pushed to the branch.</p>
+<p><strong>Trace in the chatter</strong>: each configuration keeps the generated CSV as an attachment
+in its chatter, with the result of the push. A rejected push is reported as a failure
+and <strong>Last Export</strong> is updated only for the configurations that reached the
+repository.</p>
+<p><strong>Where to configure</strong>: in developer mode, <strong>Settings &gt; Technical &gt; Transport &gt;
+Repositories</strong> and <strong>Settings &gt; Technical &gt; Transport &gt; Configurations</strong>. Only
+Settings administrators have access. The Python package <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">GitPython</code> must be
+installed on the server.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The export format is CSV only.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Only HTTPS with a user name and token works. The <strong>SSH Key</strong> credential type, the
+  <strong>SSH Private Key</strong> field and the <strong>Local Path</strong> field are stored but not used.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>A configuration cannot be exported without a repository: there is no plain download
+  of the CSV.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The target <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__manifest__.py</code> is rewritten from its parsed content, so its comments
+  and formatting are lost.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.9 (2026-11-03)</h2>
+<ul>
+<li>Description and banner rewritten after the code: the export is CSV only (no XML),
+  only HTTPS with a token works for Git, and the menus are under
+  Settings &gt; Technical &gt; Transport. The unused SSH and Local Path fields are listed under Limitations.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.8 (2026-10-17)</h2>
 <ul>
 <li>Many2one and Many2many fields were exported with a plain <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">field</code> header while the
@@ -153,6 +181,26 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Run cron jobs from webhook</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_cron_progress" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_cron_progress/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Cron Progress</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Technical</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Common helper for batch cron jobs based on the native cron progress</p>
         </div>
       </a>
     </div>
@@ -272,27 +320,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_edi_ubl_advice" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_edi_ubl_advice/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Despatch Advice</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Deltatech Account UBL despatch advice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

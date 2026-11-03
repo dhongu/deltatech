@@ -3,8 +3,8 @@
 
 {
     "name": "MRP Extension",
-    "summary": "BoM overhead percentage and UoM-aware rounding when exploding bills of materials",
-    "version": "19.0.1.0.9",
+    "summary": "Cost categories for components and a production cost analysis for manufacturing orders",
+    "version": "19.0.1.0.10",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

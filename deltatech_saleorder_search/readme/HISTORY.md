@@ -1,3 +1,9 @@
+## 19.0.1.0.6 (2026-11-03)
+
+- Description rewritten from the code: removed the search by mobile number,
+  which the module does not offer (contacts have no separate mobile field in
+  Odoo 19); named the search options and menus as they appear in the interface.
+
 ## 19.0.1.0.5 (2026-10-22)
 
 - Listed on Odoo Apps as *Sale Order Search by Contact* (was *Sale Order Search by Partner Fields*). The technical name `deltatech_saleorder_search` does not change.

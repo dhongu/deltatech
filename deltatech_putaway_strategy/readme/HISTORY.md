@@ -1,3 +1,9 @@
+## 19.0.1.1.4 (2026-11-03)
+
+- Description rewritten after the code: no database index is added on putaway rules,
+  and "Avoid Root Location on Reservation" works with this module alone. The
+  sublocation search parameter and the planned quantity limitation are documented.
+
 # 19.0.1.1.3 (2026-10-16)
 
 - A shelf filled exactly to its capacity no longer keeps a reserved line: the line is sent to

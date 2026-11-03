@@ -1,9 +1,9 @@
 {
   "title": "Payment Report",
-  "summary": "Payments by journal, partner and period",
+  "summary": "Customer receipts by journal and period",
   "features": [
-    "Filter by date range and payment journal",
-    "Pivot by journals and partner",
-    "Detailed list of the payment lines"
+    "Filter by period and cash/bank journal",
+    "Pivot: payment vs invoice journal",
+    "List of receipts with customer"
   ]
 }

@@ -1,3 +1,9 @@
+## 19.0.1.1.6 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: the orders must share one
+  vendor and go in a single email to that vendor; the action is **Actions > Send
+  Email**; the same-vendor requirement is documented under Limitations.
+
 ## 19.0.1.1.5 (2026-10-22)
 
 - Listed on Odoo Apps as *Purchase Orders Bulk Email with XLSX* (was *Purchase: Send Multi Orders by Email with XLSX*), with the same title on the Apps banner.

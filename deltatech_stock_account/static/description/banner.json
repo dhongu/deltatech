@@ -1,11 +1,11 @@
 {
   "title": "Stock Account Extension",
-  "summary": "Show stock valuation directly on transfers",
+  "summary": "Transfer values, category accounts, cost control",
   "icon": "file",
   "features": [
-    "Stock valuation on the picking",
-    "Valuation displayed on picking form",
-    "Valuation account propagation"
+    "Transfer value in the transfers list",
+    "Accounts propagated to subcategories",
+    "Cost changes restricted to a group"
   ],
   "lang": "en"
 }

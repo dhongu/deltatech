@@ -5,8 +5,8 @@
 
 {
     "name": "Pricelist Currency Extension",
-    "summary": "Set the product list price in a currency other than the company's",
-    "version": "19.0.1.0.2",
+    "summary": "Keep product sales prices in a company-wide currency other than the accounting currency",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

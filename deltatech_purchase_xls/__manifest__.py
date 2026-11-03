@@ -4,9 +4,9 @@
 
 {
     "name": "Purchase XLS Import / Export",
-    "summary": "Import/export purchase line from/to Excel",
+    "summary": "Import purchase order lines from Excel and export them to Excel",
     "author": "Terrabit, Dorin Hongu",
-    "version": "19.0.1.0.6",
+    "version": "19.0.1.0.7",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",

@@ -4,7 +4,7 @@
 {
     "name": "Sale-Purchase Sync",
     "summary": "Remove lines from purchase orders when the linked sale order is cancelled",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

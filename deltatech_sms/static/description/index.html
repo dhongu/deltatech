@@ -46,24 +46,38 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>
-<ul>
-<li>in endpointse folosesc parametrii:</li>
-</ul>
-</li>
-<li>{number}: string: E164 formatted phone number,</li>
-<li>{content}: string: content to send</li>
-</ul>
-</li>
-</ul>
-<p><a href="https://sms.4pay.ro/smscust/api.send_sms?servID=%7BID%7D&amp;msg_dst=%7Bnumber%7D&amp;msg_text=%7Bcontent%7D&amp;API&amp;password=%7Bpassword%7D@&amp;external_messageID=1">https://sms.4pay.ro/smscust/api.send_sms?servID={ID}\&amp;msg_dst={number}\&amp;msg_text={content}\&amp;API\&amp;password={password}@\&amp;external_messageID=1</a></p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Send the SMS messages that Odoo generates through your own SMS provider account
+instead of Odoo IAP credits. Two providers are supported: <strong>4Pay</strong> (sms.4pay.ro)
+and <strong>Wapi</strong> (smswapi.com).</p>
+<p><strong>Provider replaces Odoo IAP for SMS.</strong> Every SMS queued by Odoo (from the chatter,
+SMS marketing, SMS templates, automated actions) is sent one by one through the
+provider set on the SMS IAP account. No IAP credits are used.</p>
+<p><strong>4Pay.</strong> The message is sent with an HTTP GET to the 4Pay customer API, using the
+service ID and the password of your 4Pay account.</p>
+<p><strong>Wapi.</strong> The message is sent with an HTTP POST to the Wapi API, through one of
+the Android devices linked to your Wapi account (SIM 1).</p>
+<p><strong>Text without diacritics.</strong> Accents are removed from the message before sending
+(for example "&#259;" becomes "a"), so the text fits the GSM character set.</p>
+<p><strong>Sending status.</strong> A message the provider accepts goes to the standard Odoo
+<em>Pending</em> state and is deleted from the queue like any sent SMS. A message the
+provider rejects goes to <em>Error</em> with the reason returned by the provider.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Go to <em>Settings &gt; Technical &gt; IAP &gt; IAP Accounts</em> (developer mode) and open the
+account of the <strong>SMS</strong> service (create it if it is missing). On the form, fill in:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">SMS Provider</span><div><em>SMS 4Pay</em> or <em>SMS Wapi</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">SMS Secret</span><div>the 4Pay password, or the Wapi API secret.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">SMS Gateway</span><div>the 4Pay service ID (servID), or the Wapi device ID.</div></div></li></ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The provider endpoints are fixed in the code; other gateways or custom URLs
+  cannot be configured.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Delivery reports are not received from the provider: a sent SMS stays
+  <em>Pending</em> and never reaches <em>Delivered</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The SMS account registration and sender-name verification flows of Odoo IAP
+  do not work while this module is installed.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code: the custom endpoint with {number}/{content} is gone; only the 4Pay and Wapi providers are supported.</li>
+<li>Configuration path and limitations (no delivery reports, fixed endpoints) documented.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -204,7 +218,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

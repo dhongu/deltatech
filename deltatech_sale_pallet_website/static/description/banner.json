@@ -1,10 +1,6 @@
 {
   "title": "Pallet Sales on Website",
-  "summary": "Show pallet pricing and handle pallet logic in your eCommerce store",
+  "summary": "Pallet price and pallet lines in the eCommerce cart",
   "icon": "cart",
-  "features": [
-    "Show pallet price on product pages",
-    "Auto-recalculate pallet lines in cart",
-    "Pallet category rules on checkout"
-  ]
+  "features": ["Pallet price on product pages", "Pallet lines added to the cart", "Delivery price includes pallets"]
 }

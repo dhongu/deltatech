@@ -1,3 +1,11 @@
+## 19.0.1.0.6 (2026-11-03)
+
+- Description rewritten after the code: the module adds a *Visibility* (Visible / Hidden) field on
+  attribute values and leaves the hidden values out on the product page; it does not override the
+  shop templates and does not filter the values by the products listed.
+- Added a Limitations section: the shop sidebar filters still show the hidden values.
+- Summary and Apps banner aligned with the description.
+
 ## 19.0.1.0.5 (2026-10-09)
 
 - Apps Store banner (banner.json).

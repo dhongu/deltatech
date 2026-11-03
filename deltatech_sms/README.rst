@@ -22,15 +22,50 @@ SMS Custom Gateway
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+Send the SMS messages that Odoo generates through your own SMS provider
+account instead of Odoo IAP credits. Two providers are supported:
+**4Pay** (sms.4pay.ro) and **Wapi** (smswapi.com).
 
-  - 
+**Provider replaces Odoo IAP for SMS.** Every SMS queued by Odoo (from
+the chatter, SMS marketing, SMS templates, automated actions) is sent
+one by one through the provider set on the SMS IAP account. No IAP
+credits are used.
 
-    - in endpointse folosesc parametrii:
-    - {number}: string: E164 formatted phone number,
-    - {content}: string: content to send
+**4Pay.** The message is sent with an HTTP GET to the 4Pay customer API,
+using the service ID and the password of your 4Pay account.
 
-`https://sms.4pay.ro/smscust/api.send_sms?servID={ID}\\&msg_dst={number}\\&msg_text={content}\\&API\\&password={password}@\\&external_messageID=1 <https://sms.4pay.ro/smscust/api.send_sms?servID={ID}\&msg_dst={number}\&msg_text={content}\&API\&password={password}@\&external_messageID=1>`__
+**Wapi.** The message is sent with an HTTP POST to the Wapi API, through
+one of the Android devices linked to your Wapi account (SIM 1).
+
+**Text without diacritics.** Accents are removed from the message before
+sending (for example "ă" becomes "a"), so the text fits the GSM
+character set.
+
+**Sending status.** A message the provider accepts goes to the standard
+Odoo *Pending* state and is deleted from the queue like any sent SMS. A
+message the provider rejects goes to *Error* with the reason returned by
+the provider.
+
+Configuration
+-------------
+
+Go to *Settings > Technical > IAP > IAP Accounts* (developer mode) and
+open the account of the **SMS** service (create it if it is missing). On
+the form, fill in:
+
+- **SMS Provider**: *SMS 4Pay* or *SMS Wapi*.
+- **SMS Secret**: the 4Pay password, or the Wapi API secret.
+- **SMS Gateway**: the 4Pay service ID (servID), or the Wapi device ID.
+
+Limitations
+-----------
+
+- The provider endpoints are fixed in the code; other gateways or custom
+  URLs cannot be configured.
+- Delivery reports are not received from the provider: a sent SMS stays
+  *Pending* and never reaches *Delivered*.
+- The SMS account registration and sender-name verification flows of
+  Odoo IAP do not work while this module is installed.
 
 **Table of contents**
 
@@ -39,6 +74,15 @@ SMS Custom Gateway
 
 Changelog
 =========
+
+19.0.1.0.3 (2026-11-03)
+-----------------------
+
+- Description rewritten from the code: the custom endpoint with
+  {number}/{content} is gone; only the 4Pay and Wapi providers are
+  supported.
+- Configuration path and limitations (no delivery reports, fixed
+  endpoints) documented.
 
 19.0.1.0.2 (2026-09-29)
 -----------------------

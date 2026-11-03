@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Batch Reception Note",
-    "summary": "Create reception notes for several receipts at once",
-    "version": "19.0.0.1.7",
+    "summary": "Receive vendor deliveries on reception notes drawn from open purchase quantities",
+    "version": "19.0.0.1.8",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

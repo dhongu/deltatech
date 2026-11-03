@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Picking Restrict Entry/Exit" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Picking Restrict Entry/Exit</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Block transfers without a sale or purchase</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Validate receipts and deliveries only against orders</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Warehouse</span>
@@ -46,12 +46,40 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>You will not be able to create a picking for receipt/delivery if there is no origin</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>You can't receive/deliver more than the demanded quantity</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>There is an implicit group on all users to restrict the access to the picking creation without origin</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>To remove someone from this group, you need go to the group "Picking create permission" and remove the user, be
-  mindful that any changes to the user after the fact will automatically re-add them to the group</div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Receipts and deliveries should match what was ordered. This module stops warehouse users from
+validating a receipt or a delivery that contains products not linked to a purchase or sales order,
+or quantities larger than the demand.</p>
+<p><strong>Receipts and deliveries tied to an order</strong>: on <strong>Validate</strong>, every line with a quantity of a
+receipt must come from a purchase order line, and every line of a delivery from a sales order line.
+The check for receipts applies when Purchase (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code>) is installed, the one for
+deliveries when Sales (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock</code>) is installed.</p>
+<p><strong>No quantity above the demand</strong>: on <strong>Validate</strong>, a line whose done <strong>Quantity</strong> is larger than
+the <strong>Demand</strong> blocks the validation. The same check runs when the transfer is saved after the
+quantity of a line was changed.</p>
+<p><strong>No lines added by hand</strong>: a new line with a done quantity cannot be saved on a receipt or a
+delivery; on other transfers such a line cannot have a done quantity larger than its demand.</p>
+<p><strong>Exempt cases</strong>: returns and backorders are not checked at validation, and neither are internal
+transfers between two locations of the same warehouse.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Users in the <strong>Picking create permission</strong> group are exempt from the checks at validation and can
+add lines on receipts and deliveries. At installation only the administrator is in the group; all
+other users are restricted. To exempt another user, activate the developer mode, go to
+<strong>Settings &gt; Users &amp; Companies &gt; Groups</strong>, open <strong>Picking create permission</strong> and add the user.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul>
+<li>Creating a receipt or a delivery without a source order is not blocked; only its validation is.</li>
+<li>The check of the done quantity on save applies to every user, including the members of
+  <strong>Picking create permission</strong>, and also to returns and backorders.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.15 (2026-11-03)</h2>
+<ul>
+<li>Description, summary and banner rewritten after the code: the creation of a transfer without
+  an origin is not blocked, only its validation; the exemption group holds only the
+  administrator at installation, not all users.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.14 (2026-10-16)</h1>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in
@@ -248,7 +276,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Warehouse</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Automate internal transfer from transit location</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Two-step transfers between warehouses through a transit location</p>
         </div>
       </a>
     </div>

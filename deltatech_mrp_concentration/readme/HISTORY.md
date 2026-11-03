@@ -1,3 +1,12 @@
+## 19.0.1.0.5 (2026-11-03)
+
+- Description rewritten after the code: the concentrations are on the BoM and the manufacturing
+  order, not on the component lines; the lines get an *Ingredient Type* (Primary, Secondary, Normal).
+- Documented the recalculation rule and the diluent / by-product balance; removed the traceability
+  claims the code does not support.
+- Added a Limitations section (form-only recalculation, same quantity on every by-product).
+- Summary and Apps banner aligned with the description.
+
 ## 19.0.1.0.4 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

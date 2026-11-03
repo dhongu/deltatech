@@ -1,10 +1,10 @@
 {
   "title": "Generic Partner",
   "icon": "user",
-  "summary": "Default generic / anonymous partner",
+  "summary": "One partner for anonymous customers, kept safe",
   "features": [
-    "Define a default generic partner",
-    "Auto-used when none is required",
-    "Simplifies one-time customer entry"
+    "Generic partner per company",
+    "No validated invoice to the generic partner",
+    "Restricted journals and edit protection"
   ]
 }

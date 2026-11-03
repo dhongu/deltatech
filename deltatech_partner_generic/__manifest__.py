@@ -4,7 +4,7 @@
 
 {
     "name": "Generic Partner",
-    "version": "19.0.2.0.4",
+    "version": "19.0.2.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generic partner for anonymous customers, with accounting restrictions",

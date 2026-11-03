@@ -43,65 +43,46 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deltatech Competitors Price</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Track competitors' product prices directly on the product form and fetch current prices on demand (or via future automation).</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p>This module adds a new tab on Product Template where you can register competitor product URLs and retrieve their latest public price. It is designed to help sales and purchasing teams quickly compare your product pricing against selected competitors.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Competitor lines on product template with:<ul class="ps-3 mt-1 mb-0">
-<li class="small">Competitor name</li>
-<li class="small">Product URL on competitor website</li>
-<li class="small">Last fetched price and currency</li>
-<li class="small">Last fetch timestamp and status message</li>
-<li class="small">Auto Fetch flag (for potential scheduled jobs)</li>
-</ul>
-</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On&#8209;demand fetching:<ul class="ps-3 mt-1 mb-0">
-<li class="small">A per&#8209;line "Fetch" button</li>
-<li class="small">A product&#8209;level button "Aducere pret concurenta" to fetch all lines at once</li>
-</ul>
-</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Robust price extraction:<ul class="ps-3 mt-1 mb-0">
-<li class="small">First tries structured data (JSON&#8209;LD / Microdata) via <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">extruct</code> when available</li>
-<li class="small">Falls back to HTML heuristics using <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lxml</code> selectors</li>
-</ul>
-</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Graceful error handling with clear status stored per line</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">How It Works</h2>
-<ol>
-<li>When you press "Fetch" (on a line) or the product button, the module performs an HTTP GET to the competitor URL using a browser&#8209;like User&#8209;Agent.</li>
-<li>If <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">extruct</code> is installed, the module attempts to parse JSON&#8209;LD/Microdata and extract price and currency (Offer/AggregateOffer patterns).</li>
-<li>If no structured data price is found, it tries common HTML selectors (meta tags and elements whose class/name suggests price) using <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lxml</code>.</li>
-<li>The found price is written on the line, together with the fetch timestamp and an "OK" status. If a currency code is detected and exists in your DB (e.g., EUR, USD), the line&#8217;s currency is updated accordingly.</li>
-<li>If nothing can be extracted, the line gets a clear status (e.g., "Price not found on page").</li>
-</ol>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Keep the prices of your competitors next to your own product, and read the
+current price from the competitor's web page with one click, instead of checking
+the sites by hand and copying the prices into spreadsheets.</p>
+<p><strong>Competitor lines on the product.</strong> Adds a <strong>Competitor Prices</strong> tab on the
+product form. Each line holds the <strong>Competitor</strong> name, the <strong>Product URL</strong> on the
+competitor's site, the <strong>Last Price</strong> and its <strong>Currency</strong>, the <strong>Last Fetch</strong>
+date and the <strong>Fetch Status</strong> message.</p>
+<p><strong>Fetch on demand.</strong> The <strong>Fetch</strong> button on a line downloads the competitor page
+and writes the price found, the time of the fetch and the status <em>OK</em>. When the
+page states a currency that exists in your database (for example EUR or USD),
+the line currency is updated too.</p>
+<p><strong>Price extraction.</strong> The price is read first from the structured product data of
+the page (JSON-LD or Microdata, <em>Offer</em> and <em>AggregateOffer</em>). When the page has
+none, common HTML patterns are tried: the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product:price:amount</code> meta tag, the
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">itemprop="price"</code> attribute and elements whose class contains "price". Both
+decimal styles (1.234,56 and 1,234.56) are understood.</p>
+<p><strong>Clear errors.</strong> When no price is found, or the page cannot be loaded (for
+example 403 or 404), the line keeps its last price and the reason is shown in
+<strong>Fetch Status</strong>.</p>
+<p><strong>Only public addresses.</strong> The server fetches only http(s) addresses that resolve
+to public IP addresses, and checks every redirect, so a URL cannot be used to
+reach internal services.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Open any Product (Product Template) and go to the "Competitor Prices" tab.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Add one or more competitor lines:<ul class="ps-3 mt-1 mb-0">
-<li class="small">Competitor: e.g., "Altex"</li>
-<li class="small">Product URL: the full URL of the competitor&#8217;s product page</li>
-</ul>
-</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Click "Fetch" on a line to update just that entry, or use the product&#8209;level button to fetch all lines.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Dependencies</h2>
-<p>Python libraries used at runtime:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">requests</code></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lxml</code></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Optional: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">extruct</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">w3lib</code> for structured data (JSON&#8209;LD/Microdata) parsing</div></div></li></ul>
-<p>If <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">extruct</code> is not installed, the module still works via HTML fallback.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Security &amp; Access</h2>
-<ul>
-<li>Internal users (base.group_user) can read/create/write/delete competitor lines by default. Adapt access rules to your needs.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Notes &amp; Limitations</h2>
-<ul>
-<li>Competitor websites vary widely. While structured data improves accuracy, some pages may hide or obfuscate prices; heuristic extraction may fail. Site&#8209;specific selectors can be added if needed.</li>
-<li>Automatic/scheduled fetching (cron) is not enabled by default but can be added easily later, using the provided <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">auto_fetch</code> flag to mark lines eligible for periodic updates.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Testing</h2>
-<p>The module ships with an Odoo test suite which mocks HTTP requests to ensure deterministic results:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Validates JSON&#8209;LD/Microdata extraction path</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Validates HTML fallback via meta tags</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Validates proper error handling and product&#8209;level action</div></div></li></ul>
-<p>Run with a disposable DB, for example:</p>
-<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code>./odoo/odoo-bin -c odoo18.conf -d o18_test -i deltatech_competitors_price --test-tags=deltatech_competitors_price --stop-after-init
-</code></pre>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">License</h2>
-<p>OPL-1</p>
+<p>Open a product, go to the <strong>Competitor Prices</strong> tab, add a line with the
+competitor name and the product URL, save, then click <strong>Fetch</strong> on the line.</p>
+<p>Internal users can read, create, edit and delete competitor lines.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Prices are fetched one line at a time; there is no button that fetches all the
+  lines of a product.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>There is no scheduled fetch. The <strong>Auto Fetch</strong> column (hidden by default)
+  only marks lines and has no effect.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Sites that load the price with JavaScript, or that block automated requests,
+  return no price.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code: removed the product-level button that fetches all lines, which does not exist; prices are fetched line by line.</li>
+<li>Documented that Auto Fetch is only a marker (no scheduled fetch) and the public-address check on URLs.</li>
+<li>Banner: "On-demand price fetch (per line or all)" corrected to per line.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Competitors Price Tracker</em> (was <em>Competitors Price</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_competitors_price</code> does not change.</li>
@@ -275,7 +256,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

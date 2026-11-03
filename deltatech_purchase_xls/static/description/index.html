@@ -46,21 +46,52 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides an easy way to manage purchase order lines by allowing for import and export via Excel files.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features:</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Import purchase order lines directly from Excel files.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Export existing purchase order lines to Excel for easier editing or external reporting.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Simplifies the process of creating large purchase orders with many items.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Provides a flexible and user-friendly interface for handling bulk data in procurement.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage:</h2>
-<ol>
-<li>Navigate to Purchase &gt; Orders &gt; Purchase Orders.</li>
-<li>Open a purchase order.</li>
-<li>You will see new buttons for "Import Lines from Excel" and "Export Lines to Excel".</li>
-<li>Use the wizards to upload your file or download the current line details.</li>
-<li>This is especially useful for managing long procurement lists from external vendors.</li>
-</ol>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Loads the lines of a request for quotation from an Excel file and exports the
+lines of purchase orders to Excel, so that long vendor lists do not have to be
+typed by hand.</p>
+<p><strong>Import of lines from Excel.</strong> On a purchase order in the <em>RFQ</em> state, the
+Actions menu (gear icon) offers <strong>Import Purchase Line</strong>. The wizard reads the
+first sheet of an <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.xlsx</code> file and adds one order line per row. Its options:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fields</span><div>the columns of the file, in order. The default,
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_code,default_code,product_name,quantity,price,uom_name</code>, matches the
+  file produced by the export;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Header row</span><div>skips the first row;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Search by internal code</span><div>when the vendor code is not found, it is also
+  searched as an internal reference;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Create missing product</span><div>a product that is not found is created as a
+  storable product, with a vendor price for the order vendor; otherwise the
+  import stops with a message;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Is amount</span><div>the price column holds the line amount, and the unit price is
+  the amount divided by the quantity.</div></div></li></ul>
+<p>Products are found by the vendor code on the vendor prices of the order vendor
+(for the order company or without company), then by the internal reference.
+A vendor code that matches several products stops the import. When the file has
+no price column, the price comes from the vendor pricelist. A unit of measure
+different from the product's unit stops the import.</p>
+<p><strong>Export of lines to Excel.</strong> On one or more purchase orders, the Print menu
+offers <strong>Export Purchase Lines</strong>, which produces <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_order.xlsx</code> with the
+columns <em>Code</em> (vendor code), <em>Internal Code</em>, <em>Name</em> (vendor product name when
+it exists), <em>Qty</em>, <em>Price</em> and <em>Unit of Measure</em>.</p>
+<p><strong>Order lines list.</strong> The <strong>Order lines</strong> smart button on the purchase order
+opens the list of its lines. Importing a file there with the standard
+<strong>Import records</strong> function updates the existing lines, matched by product (in
+order, when the same product appears on several lines); rows whose product is
+not on the order are dropped. When the order has no lines yet, the rows are
+created as new lines of that order.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul>
+<li>In the Excel import wizard, a row without a vendor code and without an
+  internal code, or with a price that is not a number, is skipped without a
+  message.</li>
+<li>The wizard always adds new lines; it does not update the lines already on the
+  order.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.7 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code: the import is in the Actions menu and the
+  export in the Print menu (there are no buttons on the form); documented the
+  wizard options, the product matching, the <em>Order lines</em> smart button and the
+  update of existing lines through the standard import.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Purchase XLS Import / Export</em> (was <em>Purchase XLS</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_purchase_xls</code> does not change.</li>
@@ -159,6 +190,26 @@
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_import_lines_purchase" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_import_lines_purchase/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Import Lines in Purchase Orders</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Load purchase order lines from an XLSX, XLS, CSV or TXT file, also by vendor product code</p>
+        </div>
+      </a>
+    </div>
     <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_phase" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
@@ -260,6 +311,26 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_target" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_target/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Targets by Manufacturer</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Quarterly purchase targets per manufacturer and eCommerce category, achieved vs target</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_replenish" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -276,46 +347,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Compatibility module: vendor choice in replenishment is now standard in Odoo 19</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Accounting Extensions</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
         </div>
       </a>
     </div>

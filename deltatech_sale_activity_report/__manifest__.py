@@ -1,10 +1,10 @@
 {
     "name": "Sale Activity Log",
-    "version": "19.0.1.2.1",
+    "version": "19.0.1.2.2",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "summary": "Adds a last modified field to the sale order",
+    "summary": "Daily journal of the changes each user makes on sales orders",
     "depends": ["sale", "data_recycle"],
     "license": "OPL-1",
     "data": [

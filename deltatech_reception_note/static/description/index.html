@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Batch Reception Note" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Batch Reception Note</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Batch reception note management</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Receive against open purchase quantities</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Stock</span>
@@ -46,42 +46,46 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Batch Reception Note Management</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides a specialized tool for managing batch reception notes within Odoo's stock and purchase modules. It is designed to streamline the process of receiving multiple items or handling bulk reception documentation.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Batch Reception Processing</strong>:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Receives goods from a vendor on reception notes that draw on the open quantities of several purchase
+orders at once, instead of validating the receipt of each order separately. Useful when one delivery
+covers several orders, or one order arrives in several deliveries.</p>
+<p><strong>Purchase order types.</strong> Every purchase order gets a <em>Type</em>:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>Normal</em>: the standard order;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>RFQ Only</em>: a request that keeps the quantities still expected from the vendor; it cannot be
+  confirmed and has a <em>Set as sent</em> button;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>Reception Note</em>: the delivery actually received, with the vendor's <em>Delivery Note No</em>.</div></div></li></ul>
+<p><strong>Create reception note.</strong> On a <em>Normal</em> purchase order, <em>Actions &gt; Create reception note</em> moves its
+open quantities to a new <em>RFQ Only</em> order in the <em>RFQ Sent</em> state: same vendor, company, currency,
+fiscal position, payment terms, prices and taxes, and the quantity not received yet on each line. The
+receipts of the source order that are <em>Ready</em> are cancelled, so the goods are received only through
+reception notes.</p>
+<p><strong>Reception note.</strong> A purchase order of type <em>Reception Note</em> holds the products and quantities
+delivered. When it is confirmed, its quantities are taken from the sent <em>RFQ Only</em> orders of the same
+vendor and company, oldest first, in the unit of measure of the product, and the receipt is created by
+the standard confirmation. An <em>RFQ Only</em> order that is fully consumed is marked as empty.</p>
+<p><strong>Ignore quantities.</strong> If a product or a quantity is not found on a sent <em>RFQ Only</em> order, the
+confirmation stops with a message. Tick <em>Ignore quantities</em> on the reception note to confirm it anyway;
+the forced quantities are listed in the chatter.</p>
+<p><strong>Menus and filters.</strong> <em>Purchase &gt; Reception notes</em> has three entries:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>Prepare reception note</em>: the reception notes not confirmed or invoiced yet;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>To arrive</em>: incoming transfers in the <em>Ready</em> state;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div><em>To invoice</em>: incoming transfers in the <em>Done</em> state.</div></div></li></ul>
+<p>The purchase lists show the <em>Type</em> and <em>Date sent</em> as optional columns, and the search has the <em>Not
+empty</em> and <em>Empty</em> filters for <em>RFQ Only</em> orders.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Adds a dedicated wizard for creating and managing reception notes in bulk.</li>
-<li>Allows users to group multiple stock pickings or purchase orders into a single reception note for easier tracking and documentation.</li>
+<li>The module adds no printed document of its own: a reception note is printed with the standard
+  purchase order reports.</li>
+<li><em>To invoice</em> lists every done incoming transfer, whether it was invoiced or not.</li>
 </ul>
-</li>
-<li>
-<p><strong>Integrated Stock Workflow</strong>:</p>
-<ul>
-<li>Seamlessly integrates with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> module to ensure consistent data flow between procurement and warehouse operations.</li>
-<li>Provides specialized views and reports for summarized reception information.</li>
-</ul>
-</li>
-<li>
-<p><strong>Enhanced Documentation</strong>:</p>
-<ul>
-<li>Generates comprehensive reception documents that can be used for internal auditing and vendor verification.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Purchase &gt; Orders</strong> or <strong>Inventory &gt; Operations &gt; Transfers</strong>.</li>
-<li>Select the records you wish to include in a batch reception.</li>
-<li>Use the <strong>Action</strong> menu or the dedicated button (if available) to launch the <strong>Reception Note</strong> wizard.</li>
-<li>Configure the note details and confirm to generate the batch documentation.</li>
-<li>View and print the resulting reception note for logistical or accounting purposes.</li>
-</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.8 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten after the code: the three purchase order types, the <em>Create reception note</em>
+  action (open quantities moved to an <em>RFQ Only</em> order), the consumption of those quantities when a
+  reception note is confirmed, <em>Ignore quantities</em> and the <em>Reception notes</em> menu.</li>
+<li>Removed the claims of grouping transfers into one note and of a dedicated printed report; added a
+  Limitations section.</li>
+<li>Summary and Apps banner aligned with the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.1.7 (2026-10-16)</h2>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in

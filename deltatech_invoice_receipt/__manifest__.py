@@ -5,8 +5,8 @@
 
 {
     "name": "Invoice Receipt",
-    "summary": "Create receipt form invoice",
-    "version": "19.0.2.0.4",
+    "summary": "Create the purchase order and the receipt from the vendor bill",
+    "version": "19.0.2.0.5",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

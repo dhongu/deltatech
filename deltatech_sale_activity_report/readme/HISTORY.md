@@ -1,3 +1,12 @@
+## 19.0.1.2.2 (2026-11-03)
+
+- Summary corrected: the module keeps a separate activity journal per order, user and day, not a
+  "last modified" field on the order.
+- Description rewritten after the code: what is logged (field changes, header buttons, chatter
+  messages, scheduled activities), the *Activity Records* report and its views, the access rules,
+  the Data Cleaning rule and the optional order stages.
+- Apps banner aligned with the description.
+
 ## 19.0.1.2.1 (2026-10-22)
 
 - Listed on Odoo Apps as *Sale Activity Log* (was *Sale Order Last Modified*). The technical name `deltatech_sale_activity_report` does not change.

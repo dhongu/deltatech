@@ -25,73 +25,43 @@ Notification Sound
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-Overview: Adds audible feedback to Odoo backend notifications so
-operators are alerted instantly without watching the screen.
+Operators who work in other windows or away from the screen miss the
+notifications shown in the corner of the Odoo backend. This module plays
+a short sound with each backend notification, with a different sound for
+each notification type, so the operator hears what happened without
+watching the screen.
 
-Features:
+**A sound per notification type.** Each notification shown in the
+backend plays a sound that depends on its type:
 
-- Plays different sounds depending on notification type:
+- success: ``notify.wav``;
+- warning (also used for notifications without a type):
+  ``exclamation.wav``;
+- error: ``error.wav``;
+- info: ``bell.wav``.
 
-  - Success → notify.wav
-  - Warning → exclamation.wav
-  - Error (danger) → error.wav
-  - Info → bell.wav
+The sound files are in ``static/src/sounds/`` and can be replaced.
 
-- Seamless integration with the backend (no extra UI); patches the
-  ``notification`` service.
-- Assets are loaded via ``web.assets_backend`` (JS + sounds).
-- Per-user toggle in Preferences: each user can enable/disable
-  notification sounds from their profile.
+**Sound on or off per user.** The **Enable notification sounds** option,
+checked by default, turns the sounds on or off for one user. The change
+takes effect after the page is reloaded.
 
-How it works (technical):
+Configuration
+-------------
 
-- Frontend logic patches the ``notification`` service
-  (``@web/core/notifications/notification_service``) and wraps its
-  ``add()`` method, so a sound is played whenever a backend notification
-  is shown. This decouples the feature from the lifecycle of the
-  ``Notification`` OWL component.
-- The user preference is read from the session info (``@web/session``),
-  under ``session.user_context.notification_sound_enabled``. No extra
-  RPC is performed.
-- Backend exposes the preference through:
+Nothing to configure: the sounds play as soon as the module is
+installed. To turn them off for a user, open *Settings > Users &
+Companies > Users*, open the user, go to the *Preferences* tab and
+uncheck **Enable notification sounds**.
 
-  - new field ``res.users.notification_sound_enabled`` (default True)
-  - ``ir.http.session_info()`` enriched to include the flag in
-    ``user_context``.
+Limitations
+-----------
 
-- Sound files live under ``static/src/sounds/`` and can be replaced if
-  desired.
-
-Installation & Usage:
-
-1) Install the module like any other addon.
-2) Use Odoo normally; when a backend notification pops
-   (success/warning/error/info), a short sound plays automatically.
-3) To disable sounds for your account, open Settings → Users → Your user
-   → Preferences and uncheck "Enable notification sounds". Reload the
-   page to refresh the session preference.
-
-Compatibility:
-
-- Odoo 19 (web backend).
-- Modern desktop browsers. Note: Browser auto-play policies may require
-  at least one prior user interaction with the page before sounds can
-  play.
-
-Troubleshooting / Notes:
-
-- If your browser blocks auto-play, the first notification may be silent
-  until you interact (click/keypress) on the page.
-- After changing the preference, reload the page so the cached value and
-  session info are refreshed.
-- Mobile browsers may mute auto-played audio by default.
-
-Credits:
-
-- Author: Terrabit, Dorin Hongu
-- Maintainer: dhongu
-- License: LGPL-3
-- Website: https://www.terrabit.ro
+- The option is on the user form used by administrators only; users
+  cannot change it themselves from *My Preferences*.
+- Browsers may block sounds until the user has clicked or typed on the
+  page, so the first notification after loading the page can be silent.
+  Mobile browsers may mute these sounds.
 
 **Table of contents**
 
@@ -100,6 +70,14 @@ Credits:
 
 Changelog
 =========
+
+19.0.2.0.4 (2026-11-03)
+-----------------------
+
+- Description and banner rewritten from the code: the sound option is on
+  the user form in *Settings > Users & Companies > Users*, set by an
+  administrator, not a per-user toggle in *My Preferences*; added a
+  Limitations section.
 
 19.0.2.0.3 (2026-10-16)
 -----------------------

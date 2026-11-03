@@ -25,122 +25,74 @@ Account Analytic Split
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-Overview
-========
+Adds sales-team tracking to analytic accounting and a tool to split
+analytic amounts across several analytic accounts by percentage.
 
-The Deltatech Account Analytic module is a comprehensive extension for
-Odoo's analytic accounting system, designed to enhance the management
-and tracking of analytic information. Developed by Terrabit, this module
-provides advanced features for splitting analytic lines, especially in
-sales and purchase workflows, allowing for more detailed financial
-analysis and reporting.
+Analytic distribution by sales team
+-----------------------------------
 
-Key Features
-============
+**Sale team on distribution models.** The analytic distribution model
+gets a *Sale team* field. On customer invoices, credit notes and sales
+receipts, the product lines take the distribution of the model whose
+*Sale team* is the invoice's sales team, when exactly one such model
+exists. The distribution is recomputed when the sales team of the
+invoice changes.
 
-Analytic Line Splitting
------------------------
+**Sales team on analytic items.** Analytic items keep a sales team and
+the product category of their product:
 
-- **Automatic Splitting**: Automatically splits sale invoice analytic
-  lines into stock value and margin components when the
-  deltatech_sale_commission module is installed.
-- **Configuration Settings**: Adds "Split Sale Analytic" option in the
-  Odoo settings for enabling/disabling the splitting functionality.
+- from the sales team of the customer invoice, credit note or sales
+  receipt;
+- for journal entries of a stock transfer (when the stock and
+  sales-stock modules are installed), from the sales team of the sale
+  order of the transfer;
+- on vendor bills and refunds, from the sales team whose name equals the
+  name of the analytic account.
 
-Analytic Account Enhancements
------------------------------
+In **Accounting > Accounting > Transactions > Analytic Items** and
+**Accounting > Reporting > Analytic Report**, the *Group By* menu offers
+**Sale team** and **Product category**.
 
-- **Split Configuration**: Extends the analytic account form with
-  additional fields:
+Analytic split
+--------------
 
-  - "This rule is for splitting" toggle
-  - "Stock Analytic Account" selection
-  - "Margin Analytic Account" selection
-  - "Sale team" selection for split configuration
+**Analytic split templates.** A template lists analytic accounts with a
+percentage each; the percentages must total 100.
 
-Integration with Other Modules
-------------------------------
+**Analytic splits.** A split distributes either a fixed *Amount* or an
+existing analytic item (type *Line*) according to a template:
 
-- Seamless integration with:
+- **Compute** fills the split lines from the template;
+- **Confirm** creates one analytic item per split line, on the split
+  date, and checks that the lines add up to the amount to split. For a
+  *Line* split, the original analytic item is deleted and replaced by
+  the new ones;
+- **Reset** deletes the created analytic items and returns an *Amount*
+  split to draft. A *Line* split cannot be reset.
 
-  - Account module
-  - Analytic module
-  - Sale module
-  - Purchase module
+Configuration
+-------------
 
-Enhanced Views and Security
----------------------------
+- **Accounting > Configuration > Analytic Accounting > Analytic
+  Distribution Models**: set the *Sale team* on the models used for
+  sales.
+- **Accounting > Configuration > Analytic Accounting > Analytic split
+  templates** and **Analytic splits**.
+- The split menus are visible to accounting administrators when the
+  *Analytic Accounting* setting is enabled. Only users in the group
+  *Analitic split user* (**Settings > Users & Companies > Groups**) may
+  open templates and splits.
 
-- Custom views for:
+In Odoo Community the app is named **Invoicing** instead of
+**Accounting**.
 
-  - Account analytic defaults
-  - Account analytic lines
-  - Analytic split templates
-  - Analytic split configurations
+Limitations
+-----------
 
-- Additional security rules and access rights to manage analytic
-  operations
-
-Technical Details
-=================
-
-Module Dependencies
--------------------
-
-- account
-- analytic
-- sale
-- purchase
-
-Included Data Files
--------------------
-
-1. Views:
-
-   - res_config_settings.xml
-   - account_analytic_default.xml
-   - account_analytic_line.xml
-   - account_analytic_split_template.xml
-   - account_analytic_split.xml
-
-2. Security:
-
-   - security.xml
-   - ir.model.access.csv
-
-Models Extended
----------------
-
-- account.analytic.account: Enhances the analytic account model with
-  additional functionality for splitting and tracking
-- Adds related counters and access to invoices and bills from analytic
-  accounts
-
-Benefits
---------
-
-1. **Improved Financial Analysis**: By splitting analytic lines into
-   stock value and margin, the module provides deeper insights into
-   business profitability.
-2. **Enhanced Reporting**: More detailed analytic information allows for
-   better financial reporting and decision-making.
-3. **Flexible Configuration**: The ability to configure splitting rules
-   at the analytic account level provides flexibility for different
-   business needs.
-4. **Better Integration**: Seamless integration with sales and purchase
-   workflows ensures comprehensive tracking of costs and revenues.
-
-Use Cases
----------
-
-- **Sales Margin Analysis**: Track and analyze sales margins separately
-  from cost of goods sold.
-- **Team Performance Tracking**: Associate specific analytic accounts
-  with sales teams for performance analysis.
-- **Cost Center Management**: Better allocation of costs and revenues to
-  appropriate cost centers.
-- **Profitability Analysis**: More accurate analysis of product and
-  service profitability.
+- On vendor bills the sales team is found only by an exact match between
+  the analytic account name and the sales team name.
+- A split without a *Name* cannot be confirmed: the analytic items need
+  a description.
 
 **Table of contents**
 
@@ -149,6 +101,16 @@ Use Cases
 
 Changelog
 =========
+
+19.0.0.0.11 (2026-11-03)
+------------------------
+
+- Description rewritten from the code: removed the automatic split of
+  sale analytic lines into stock value and margin and the *Split Sale
+  Analytic* setting, which are disabled in 19.0, and the split fields on
+  the analytic account form, which do not exist. Documented the
+  distribution by sales team, the sales team on analytic items and the
+  manual analytic split.
 
 19.0.0.0.9
 ==========

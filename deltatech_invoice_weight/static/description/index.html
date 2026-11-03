@@ -46,39 +46,41 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Invoice Weight and Mass Tracking</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module adds logistical weight tracking capabilities directly to Odoo's invoicing and order management systems. It's designed to help businesses monitor and report on the total net and gross weight of items being invoiced, purchased, or sold.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Weight Fields on Documents</strong>:</p>
-<ul>
-<li>Adds <strong>Net Weight</strong> and <strong>Gross Weight</strong> fields to Invoices, Purchase Orders, and Sales Orders.</li>
-<li>Automatically calculates total document weights based on the items included.</li>
-</ul>
-</li>
-<li>
-<p><strong>Reporting and Analysis</strong>:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Enables weight-based reporting in the Invoice analysis view.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Supports <strong>Pivot</strong> table views, allowing users to aggregate weights by partner, product, or period.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Provides weight information on the printed invoice report for logistical transparency.</div></div></li></ul>
-</li>
-<li>
-<p><strong>Cross-Document Consistency</strong>:</p>
-<ul>
-<li>Ensures weight data is maintained and transferred accurately between sales/purchase documents and the final invoice.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Sales &gt; Orders</strong>, <strong>Purchase &gt; Orders</strong>, or <strong>Accounting &gt; Customer Invoices</strong>.</li>
-<li>Open or create a new document.</li>
-<li>The <strong>Net Weight</strong> and <strong>Gross Weight</strong> fields will be visible, showing calculated totals for the document.</li>
-<li>To perform a weight analysis, go to <strong>Accounting &gt; Reporting &gt; Invoices</strong>.</li>
-<li>Switch to the <strong>Pivot</strong> view and add the weight fields to your measures for a detailed breakdown.</li>
-</ol>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Shows the total net and gross weight of the goods on sale orders, purchase orders
+and invoices, and prints the weights on the invoice, for transport documents and
+customer requests.</p>
+<p><strong>Weights on documents.</strong> Adds <strong>Gross Weight</strong> and <strong>Net Weight</strong> to sale orders
+and purchase orders (in a new <strong>Weight</strong> tab) and to invoices and bills (in the
+<em>Other Info</em> tab, after <em>Fiscal Position</em>). Invoices also get a <strong>Package Weight</strong>
+field, filled in by hand.</p>
+<p><strong>Calculated when the document is created.</strong> The totals are the sum over the
+product lines: the line quantity is converted to the product unit of measure and
+multiplied by the product weight. The gross weight comes from the standard
+<strong>Weight</strong> of the product and is converted to kg when weights are configured in
+pounds. The net weight comes from the product net weight field
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_net_weight</code>); this module does not show that field on the product form,
+modules such as the Romanian stock localization do.</p>
+<p><strong>Editable totals.</strong> The weight fields are ordinary fields: you can correct them
+by hand on the document.</p>
+<p><strong>Weight on the printed invoice.</strong> When the invoice has a gross weight, the gross
+and net weights are printed under the payment communication.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Set the <strong>Weight</strong> of each product on the product form, <em>Inventory</em> tab. The
+weight unit (kilograms or pounds) is chosen in <em>Inventory &gt; Configuration &gt;
+Settings</em>.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The weights are calculated only once, when the order or invoice is created.
+  Lines added or changed later do not update them.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The weights are not available in <em>Accounting &gt; Reporting &gt; Invoice Analysis</em>
+  or in the sales and purchase analysis reports.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On the printed invoice the net weight is labelled "New weight".</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code: removed the weight analysis in the Invoice Analysis pivot, which the module does not provide.</li>
+<li>Documented that the weights are calculated only when the document is created, and where each weight comes from.</li>
+<li>Banner: "Weight analysis in pivot view" replaced.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-10-17)</h2>
 <ul>
 <li>Weights on invoices, sale and purchase orders now convert the line quantity to the product unit (one dozen of a 2 kg product gives 24 kg, not 2 kg).</li>
@@ -288,7 +290,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create receipt form invoice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create the purchase order and the receipt from the vendor bill</p>
         </div>
       </a>
     </div>

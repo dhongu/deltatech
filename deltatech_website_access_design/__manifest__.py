@@ -1,7 +1,7 @@
 {
     "name": "Website web designer access",
-    "summary": "Website designer access without full administrator rights",
-    "version": "19.0.1.0.1",
+    "summary": "Hides the Contacts, Sales and Invoicing customer/vendor menus from users outside a dedicated group",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

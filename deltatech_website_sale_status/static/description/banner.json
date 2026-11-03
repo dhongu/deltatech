@@ -1,10 +1,10 @@
 {
   "title": "eCommerce Order Status",
-  "summary": "Real-time delivery status tracking for customers on the portal",
+  "summary": "Where each order is, for the team and the customer",
   "icon": "truck",
   "features": [
-    "9 order stages with granular status",
-    "Customer portal order status filters",
-    "Delivery tracking from placed to returned"
+    "Order stage from stock and courier status",
+    "Stage filters and badges in the portal",
+    "Optional detailed stage with AWB status"
   ]
 }

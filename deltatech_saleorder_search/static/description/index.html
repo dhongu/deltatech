@@ -40,19 +40,28 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module enhances the search capabilities in Odoo Sales by allowing users to find sales orders based on multiple partner-related fields.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features:</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Expands the default search options to include partner e-mail, phone, and mobile numbers.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Enables sales teams to quickly locate orders when they only have the customer's contact information.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Improves overall search efficiency and customer service responsiveness.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Integrates seamlessly with the standard Odoo search view for Sales.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage:</h2>
-<ol>
-<li>Navigate to Sales &gt; Orders &gt; Quotations or Sales.</li>
-<li>In the search box at the top right, enter a customer's e-mail, phone, or mobile number.</li>
-<li>The results will now include all sales orders where the customer matches any of these fields.</li>
-</ol>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Finds sales orders when the only thing you know about the customer is an e-mail
+address or a phone number.</p>
+<p><strong>Search by e-mail.</strong> The search bar of quotations and sales orders gets the
+option <strong>Search E-mail for: ...</strong>, which returns the orders whose customer has an
+e-mail address containing the typed text.</p>
+<p><strong>Search by phone.</strong> The option <strong>Search Phone for: ...</strong> does the same with the
+customer's phone number. The text is matched as typed, so enter the number in
+the format in which it is stored on the contact.</p>
+<p>Both options work in <strong>Sales &gt; Orders &gt; Quotations</strong> and
+<strong>Sales &gt; Orders &gt; Orders</strong>, and in every other list of sales orders that uses
+the standard search view. Nothing needs to be configured.</p>
+<p>The search looks at the e-mail and phone of the contact set as <em>Customer</em> on
+the order, not at the other contacts of the same company.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code: removed the search by mobile number,
+  which the module does not offer (contacts have no separate mobile field in
+  Odoo 19); named the search options and menus as they appear in the interface.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Sale Order Search by Contact</em> (was <em>Sale Order Search by Partner Fields</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_saleorder_search</code> does not change.</li>
@@ -202,7 +211,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

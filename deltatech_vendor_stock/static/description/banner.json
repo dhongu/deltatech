@@ -1,11 +1,11 @@
 {
   "title": "Vendor Stock",
-  "summary": "Supplier stock on the sale order",
+  "summary": "Vendor and warehouse stock on the sales order",
   "icon": "truck",
   "lang": "en",
   "features": [
-    "Update supplier quantity on products",
-    "Supplier stock shown on sale order",
-    "Icon for stock that will arrive"
+    "Vendor stock on vendor pricelists",
+    "Vendor and per-warehouse stock on lines",
+    "Availability icon with set colours"
   ]
 }

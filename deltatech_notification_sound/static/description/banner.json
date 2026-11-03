@@ -2,6 +2,6 @@
   "title": "Notification Sound",
   "summary": "Audible alerts for backend notifications",
   "icon": "gear",
-  "features": ["Different sound per notification type", "Per-user on/off preference", "No extra UI needed"],
+  "features": ["Different sound per notification type", "On/off option on each user", "No extra UI needed"],
   "lang": "en"
 }

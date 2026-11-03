@@ -22,47 +22,40 @@ Logistic Documents
 
 |badge1| |badge2| |badge_tests|
 
-Logistic Documents Centralizer
-==============================
+Shipping documents such as CMRs, certificates of origin or signed
+delivery notes are often attached to a different record than the one the
+user has open: the CMR on the delivery, the certificate on the purchase
+order, the vendor's PDF on the bill. This module shows, from any
+document in the flow, the files attached to the related documents as
+well.
 
-This module provides a centralized repository for logistical and
-shipping-related documentation within Odoo. It's designed to streamline
-the management of physical documents (like CMRs, certificates of origin,
-or delivery notes) across different stages of the supply chain.
+**Documents smart button**: a **Documents** button is added to the form
+of the sales order, the purchase order, the transfer and the invoice or
+bill. It shows the number of attachments found along the flow and opens
+them in a kanban, list or form view.
 
-Key Features
-============
+**Attachments collected along the flow**:
 
-1. **Unified Documentation Hub**:
+- *Sales order*: its own attachments, those of its transfers and those
+  of its invoices.
+- *Purchase order*: its own attachments, those of its receipts and those
+  of its bills.
+- *Transfer*: its own attachments, those of the related sales or
+  purchase order and those of the order's invoices or bills.
+- *Invoice or bill*: its own attachments and those of the sales and
+  purchase orders linked to its lines, together with their transfers.
+  For other journal entries only the entry's own attachments are
+  counted.
 
-   - Adds a dedicated **Logistics Documents** view that aggregates
-     attachments from various models.
-   - Tracks documents related to **Sales Orders**, **Purchase Orders**,
-     **Stock Pickings**, and **Invoices** in a single place.
+**New files on the right document**: an attachment created from the view
+opened by the button is linked by default to the document the button was
+clicked on.
 
-2. **Smart Linking**:
+**Download button**: the attachment kanban card gets a **Download**
+button. Files with the ``.zplpdf`` extension are downloaded as raw data,
+for label printers.
 
-   - Automatically identifies and links documents based on the logical
-     flow of Odoo documents (from Order to Picking to Invoice).
-   - Allows logistics teams to quickly access all relevant files for a
-     specific shipment or transaction.
-
-3. **Document Categorization**:
-
-   - Supports tagging and categorizing logistical files for easier
-     filtering and searching during audits.
-
-Usage
-=====
-
-1. Navigate to **Inventory > Configuration > Logistics Documents** (or a
-   similar menu entry added by the module).
-2. Use the search and filter options to find documents related to a
-   specific **Partner**, **Order**, or **Picking**.
-3. Upload new logistical files directly to the relevant document (Sales
-   Order, Picking, etc.), and they will appear in the central viewer.
-4. Download or view attachments for verification during the shipping and
-   delivery process.
+The module adds no menu and needs no configuration.
 
 **Table of contents**
 
@@ -71,6 +64,13 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.5 (2026-11-03)
+-----------------------
+
+- Description, summary and banner rewritten after the code: the module
+  adds a Documents smart button on orders, transfers and invoices; there
+  is no central Logistics Documents menu and no tagging.
 
 19.0.1.0.4 (2026-09-29)
 -----------------------

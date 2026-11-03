@@ -1,13 +1,32 @@
-Features:
+Asks customers to rate the products they bought, by e-mail, a few days after the invoice.
 
-- Sends an automated e-mail to clients based on out invoices
-- A cron job (default not active) is used to send the e-mails at 3 days after the invoice date. Another interval can be
-  set using the sale.days_request_feedback system parameter
-- E-mail template used: Invoice: request feedback
+**Feedback e-mail per invoice.** The *Invoice: request feedback* e-mail template lists the lines of a
+customer invoice, each with the product image, a link to the product page, the quantity and three
+rating links (*Satisfied*, *Not satisfied*, *Highly Dissatisfied*). Section and note lines are shown as
+headings.
 
-Descriere:
+**Rating on the product.** Each product line gets its own rating record on the product template, so
+a click on a rating link records the customer's rating for that product through the standard
+`/rate` page of Odoo.
 
-- Trimite la client un email pentru a cere feedback pentru produsele vandute.
-- Trimiterea se face prin cron job (la instalare inactiv), default la 3 zile dupa data facturii. Daca se doreste alt
-  interval, se foloseste paramentrul de sistem sale.days_request_feedback
-- Template-ul de e-mail: Invoice: request feedback
+**Scheduled sending.** The *Request Feedback* scheduled action (inactive at install) runs once a day
+and sends the e-mail for the customer invoices dated a given number of days ago, 3 by default. The
+delay is read from the `sale.days_request_feedback` system parameter
+(*Settings > Technical > Parameters > System Parameters*).
+
+**Manual sending.** On customer invoices, *Actions > Request feedback* sends the e-mail for the
+selected invoices.
+
+**Links on the company website.** When the invoice company has a website address, the module tries
+to build the links in the e-mail on that address instead of the database `web.base.url`.
+
+## Limitations
+
+- On 19.0 the sending does not work: the code still calls `xmlid_to_res_id` and
+  `message_post_with_template`, which no longer exist in Odoo, so both the scheduled action and
+  *Request feedback* stop with an error. The subject, sender, recipient and language of the template
+  also use the old `${...}` syntax, which is no longer rendered.
+- The *Email feedback after sale* option and its e-mail template in *Sales > Configuration >
+  Settings* are stored but not used: the e-mail always uses the module's own template, whatever the
+  option says.
+- The scheduled action picks every customer invoice of that date, posted or not.

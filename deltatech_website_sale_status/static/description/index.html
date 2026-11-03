@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="eCommerce Order Status" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">eCommerce Order Status</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Real-time delivery status tracking for customers on the portal</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Where each order is, for the team and the customer</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Website</span>
@@ -46,21 +46,53 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">The standard order status (Quotation, Sales Order, Cancelled) does not tell a shop
+customer, or the sales team, where the order is: waiting for stock, ready to ship,
+with the courier or delivered. This module adds a <strong>Stage</strong> field on the sales
+order, computed from the order, its transfers and the courier status, and shows it
+in the back office and in the customer portal.</p>
+<p><strong>Order stage</strong>: computed and stored on each order, with tracking in the chatter:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Placed</span><div>a website quotation sent to the customer (only with the detailed stage
+  option, see below).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">In Process</span><div>the order is being handled by the sales team.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Request for Quotation</span><div>a confirmed order with nothing to pick yet, whose
+  purchase RFQ was sent to the vendor (only when <em>sale_purchase</em> is installed).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Waiting availability</span><div>a transfer of the order is waiting for stock.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Postponed</span><div>the delivery was postponed (the <em>Postponed delivery</em> flag of the
+  order transfers).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">To Be Delivery</span><div>the goods are available and the order can be shipped.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Pre advice</span><div>an AWB was generated for the parcel (detailed stage only).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">In Delivery</span><div>the parcel is with the courier.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Delivered</span><div>all the transfers are done, or, with the detailed stage, the courier
+  delivered the parcel.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Canceled</span><div>the order was cancelled.</div></div></li></ul>
+<p>Website carts that were never sent have no stage.</p>
+<p><strong>Detailed order stage</strong>: an option in <strong>Sales &gt; Configuration &gt; Settings</strong>,
+<em>Invoicing</em> section, <em>Detailed order stage</em> (off by default). Off, the order is
+<strong>Delivered</strong> when its transfers are validated. On, a website quotation sent is
+<strong>Placed</strong> and, after validation, the stage follows the courier status of the parcel
+(<strong>Pre advice</strong>, <strong>In Delivery</strong>) until the courier delivers it. Only the transfers
+validated in the last 30 days are followed.</p>
+<p><strong>Back office</strong>: the stage appears as a coloured badge in the quotation and order lists
+and on the order form, next to the payment terms. The order search gets the filters
+<strong>Placed</strong>, <strong>In process</strong> and <strong>To Be Delivery</strong>, and a <strong>Phone</strong> search on the
+customer. The stage is also available in the sales analysis report.</p>
+<p><strong>Customer portal</strong>: in <em>My Account &gt; Sales Orders</em>, the order list shows the stage as
+a badge and can be filtered by <strong>Open Orders</strong>, <strong>Closed Orders</strong> or by each stage, and
+sorted by <strong>Order Stage</strong>. The <strong>Canceled</strong> and <strong>Closed Orders</strong> filters also list the
+cancelled orders. The pager keeps the selected filter.</p>
+<p><strong>Unpaid Orders</strong>: the menu <strong>Website &gt; eCommerce &gt; Unpaid Orders</strong> also lists the
+confirmed website orders that are not fully paid.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Additional filters sales orders by status</li>
+<li>The <strong>Returned</strong> value exists in the stage list but no rule sets it: a returned
+  order is not shown as such.</li>
+<li>The <em>Unpaid Orders</em> domain uses the payment status field added by the module
+  <em>deltatech_sale_payment</em>, which is not a dependency. Without that module the menu
+  raises an error.</li>
 </ul>
-</li>
-</ul>
-<p>Etape</p>
-<blockquote>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Plasat&#259;</span><div>- comanda este plasat&#259; pe website de client</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">&#206;n procesare</span><div>&#8211; comanda introdus&#259; de operator</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">A&#537;teapt&#259; disponibilitate</span><div>- nu sunt disponibile toate produsele</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Am&#226;nat&#259;</span><div>- livrarea a fost am&#226;nat&#259;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">De livrat</span><div>- produsele sunt disponibile &#537;i se poate face livrarea</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">&#206;n livrare</span><div>&#8211; produsele au fost predate la curier</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Livrat&#259;</span><div>- produsele au ajuns la client</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Anulat&#259;</span><div>- comanda de v&#226;nzare a fost anulat&#259;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Returnat&#259;</span><div>- comanda a fost returnat&#259; de c&#259;tre client</div></div></li></ul>
-</blockquote>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.14 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten in English after the code: the stages actually set, the
+  <em>Detailed order stage</em> option, the portal filters and the Unpaid Orders menu.</li>
+<li>The <em>Returned</em> stage, listed before as a feature, is never set; it is now under
+  Limitations, with the Unpaid Orders dependency on <em>deltatech_sale_payment</em>.</li>
+<li>Summary and banner no longer promise tracking up to <em>Returned</em>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.13 (2026-10-16)</h2>
 <ul>
 <li>Fix: an order whose transfers were all canceled, with nothing shipped, was
@@ -288,7 +320,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add a final order review and confirmation step to eCommerce checkout</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm eCommerce orders on the checkout confirmation page, including wire transfer and cash on delivery</p>
         </div>
       </a>
     </div>
@@ -348,7 +380,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Limit eCommerce delivery methods and payment providers</p>
         </div>
       </a>
     </div>
