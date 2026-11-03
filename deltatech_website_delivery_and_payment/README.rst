@@ -16,21 +16,47 @@ Delivery and Payment
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_delivery_and_payment
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2086%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_delivery_and_payment
-    :alt: 8 automated tests · 86% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
-Features:
+Limits the delivery methods and the payment providers offered in the
+eCommerce checkout by the delivery method chosen, the value and weight
+of the order and the tags of the customer.
 
-- restrict payment selection by delivery method
-- restrict payment acquirers for partners (linked with logged in user)
-  with certain label
-- restrict delivery methods for partners (linked with logged in user)
-  with certain label
+Features
+--------
 
-In V18 is working in progress.
+- **Payment providers by delivery method**: a delivery method can list
+  the payment providers allowed with it, for example cash on delivery
+  only with the courier. On the payment step the customer sees only
+  those providers. A delivery method without a list allows all of them.
+- **Value limit of a payment provider**: above this order total (taxes
+  included) the provider is no longer offered.
+- **Weight limits of a delivery method**: the method is offered only
+  when the estimated weight of the cart is between its minimum and
+  maximum. An empty limit is not checked.
+- **Restrictions by customer tags**: a delivery method or a payment
+  provider can be hidden from the customers that have one of its tags.
+  For delivery methods the tags of the customer's company are read; for
+  payment providers, the tags of the customer on the order.
+
+Configuration
+-------------
+
+- **Website > Configuration > eCommerce > Delivery Methods**, on a
+  delivery method:
+
+  - *Weight limits*, next to the price;
+  - tab *Payment Acquirer*: *Payments Provider Allowed* and *Restrict
+    for partners with label*.
+
+- **Website > Configuration > eCommerce > Payment Providers**, on a
+  provider, group *Restrictions*: *Value Limit* and the tags.
+
+The module also adds a *Logo* to the delivery method form and a *Payment
+Provider* field to the *Sales & Purchase* tab of the contact form. They
+are stored for other modules and reports; this module does not use them
+in the checkout.
 
 **Table of contents**
 
@@ -39,6 +65,14 @@ In V18 is working in progress.
 
 Changelog
 =========
+
+19.0.2.1.8 (2026-11-03)
+-----------------------
+
+- Description rewritten to match the code: value limit of a payment
+  provider, weight limits of a delivery method, which customer tags are
+  read, where each setting is. The obsolete "work in progress" note is
+  removed. Summary typo fixed.
 
 19.0.2.1.7 (2026-10-16)
 -----------------------

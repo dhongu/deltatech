@@ -1,3 +1,10 @@
+## 19.0.0.2.1 (2026-11-03)
+
+- Description rewritten to match the code: duplicate e-mail check, checks only for logged-in
+  customers, tax code compared without prefix and spaces, messages, price display setting kept. It no
+  longer claims to validate the tax code format, which Odoo itself does. Shorter summary and banner
+  to match.
+
 ## 19.0.0.2.0 (2026-10-12)
 
 - The Romanian checks of the tax code moved to `l10n_ro_website_anaf` (l10n-romania): ANAF

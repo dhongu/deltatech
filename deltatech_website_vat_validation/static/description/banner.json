@@ -1,11 +1,7 @@
 {
   "title": "Website VAT Validation",
-  "summary": "VAT checks on website checkout and portal",
+  "summary": "No duplicate customers from the website checkout",
   "icon": "clipboard",
   "lang": "en",
-  "features": [
-    "VAT validated at checkout and portal",
-    "Duplicate VAT numbers blocked",
-    "Whitespace trimmed automatically"
-  ]
+  "features": ["Duplicate tax codes blocked", "Duplicate e-mails blocked", "Price display setting kept"]
 }

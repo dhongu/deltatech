@@ -46,12 +46,35 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>restrict payment selection by delivery method</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>restrict payment acquirers for partners (linked with logged in user) with certain label</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>restrict delivery methods for partners (linked with logged in user) with certain label</div></div></li></ul>
-<p>In V18 is working in progress.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Limits the delivery methods and the payment providers offered in the eCommerce checkout by the delivery method chosen,
+the value and weight of the order and the tags of the customer.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Payment providers by delivery method</span><div>a delivery method can list the payment providers allowed with it, for
+  example cash on delivery only with the courier. On the payment step the customer sees only those providers. A
+  delivery method without a list allows all of them.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Value limit of a payment provider</span><div>above this order total (taxes included) the provider is no longer offered.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Weight limits of a delivery method</span><div>the method is offered only when the estimated weight of the cart is between
+  its minimum and maximum. An empty limit is not checked.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Restrictions by customer tags</span><div>a delivery method or a payment provider can be hidden from the customers that have
+  one of its tags. For delivery methods the tags of the customer's company are read; for payment providers, the tags of
+  the customer on the order.</div></div></li></ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ul>
+<li><strong>Website &gt; Configuration &gt; eCommerce &gt; Delivery Methods</strong>, on a delivery method:<ul>
+<li><em>Weight limits</em>, next to the price;</li>
+<li>tab <em>Payment Acquirer</em>: <em>Payments Provider Allowed</em> and <em>Restrict for partners with label</em>.</li>
+</ul>
+</li>
+<li><strong>Website &gt; Configuration &gt; eCommerce &gt; Payment Providers</strong>, on a provider, group <em>Restrictions</em>: <em>Value Limit</em> and the tags.</li>
+</ul>
+<p>The module also adds a <em>Logo</em> to the delivery method form and a <em>Payment Provider</em> field to the <em>Sales &amp; Purchase</em> tab
+of the contact form. They are stored for other modules and reports; this module does not use them in the checkout.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.1.8 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten to match the code: value limit of a payment provider, weight limits of a
+  delivery method, which customer tags are read, where each setting is. The obsolete "work in progress"
+  note is removed. Summary typo fixed.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.1.7 (2026-10-16)</h2>
 <ul>
 <li>Removed the inactive frontend script and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data-acquirer-allowed-ids</code> attribute on the delivery methods:

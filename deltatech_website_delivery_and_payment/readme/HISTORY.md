@@ -1,3 +1,9 @@
+## 19.0.2.1.8 (2026-11-03)
+
+- Description rewritten to match the code: value limit of a payment provider, weight limits of a
+  delivery method, which customer tags are read, where each setting is. The obsolete "work in progress"
+  note is removed. Summary typo fixed.
+
 ## 19.0.2.1.7 (2026-10-16)
 
 - Removed the inactive frontend script and the `data-acquirer-allowed-ids` attribute on the delivery methods:
