@@ -1,265 +1,285 @@
-# Fișă Modul: Facturare din transferuri (livrări și recepții)
+# Fișă Modul: Facturare din transferuri și loturi
 
 **Modul:** `deltatech_invoice_picking`
-**Utilizator principal:** Operator facturare / gestionar (livrări), Contabil furnizori (recepții)
-**Prioritate:** 🟡 Medie (frecvent la firmele care facturează după livrare, pe aviz)
+**Utilizator principal:** Operator facturare / gestionar depozit
+**Prioritate:** 🟡 Medie (leagă factura de avizul de livrare sau de recepție; facturarea în sine e cea standard Odoo)
 
 ---
 
 ## 1. Scop business
 
-În Odoo standard, factura se creează din comanda de vânzare și preia tot ce s-a livrat și nu s-a
-facturat încă pe comandă. Când o comandă se livrează în mai multe tranșe, iar fiecare livrare se
-facturează separat (factura însoțește marfa sau se emite pe baza avizului), operatorul trebuie să
-corecteze manual cantitățile de pe factură. Modulul creează factura **direct din transferul validat**
-(livrare sau recepție): pe factură ajung **doar produsele și cantitățile efectiv livrate sau recepționate
-în transferurile alese**. Pe fiecare transfer rămâne legătura cu factura și un indicator **De
-facturat**, după care se filtrează transferurile încă nefacturate. Se poate factura și un **lot de
-transferuri** (batch) dintr-un singur clic.
+În multe firme, factura se emite **după aviz**: clientul primește marfa în mai multe tranșe, iar
+operatorul facturează exact ce a plecat cu un anumit transfer, nu tot ce e de facturat pe comandă.
+La fel la achiziții: factura furnizorului vine cu recepția și trebuie înregistrată pe cantitățile
+recepționate de acel transfer. Modulul adaugă facturarea direct din transferuri:
+
+- butoanele **Facturează** (pe livrare) și **Factură** (pe recepție), plus acțiunile din listă
+  **Creează factură vânzare** și **Creează factură furnizor**, pentru mai multe transferuri odată;
+- butonul **Facturează** pe lotul de transferuri (**Transferuri în lot**);
+- pe factură intră doar produsele transferurilor alese, cu cantitățile efectiv livrate sau recepționate;
+- pe transfer, câmpul **De facturat** (și filtrul cu același nume) și legătura către factură, ca
+  operatorul să vadă ce transferuri au rămas nefacturate.
 
 ## 2. Bază legală și context
 
-- **Codul fiscal, art. 319 alin. (16)** — factura se emite cel târziu până la data de 15 a lunii
-  următoare celei în care a luat naștere faptul generator (livrarea). Filtrul **De facturat** arată
-  livrările care încă nu au factură, ca să nu rămână nefacturate peste termen.
-- **Livrarea pe aviz de însoțire** — când marfa pleacă cu aviz și se facturează ulterior, factura
-  trebuie să corespundă cantităților din aviz. Modulul ia cantitățile direct din transfer și blochează
-  modificarea lor pe factură.
-- Modulul nu schimbă notele contabile: factura și factura furnizorului se postează prin fluxul
-  standard Odoo, cu conturile din configurarea produselor și a taxelor.
+Factura se emite în termenul legal, pe baza livrării de bunuri (Codul fiscal, art. 319 alin. (16) —
+emiterea facturii până cel târziu în a 15-a zi a lunii următoare celei în care a avut loc livrarea), iar
+în relațiile B2B se transmite în RO e-Factura în 5 zile lucrătoare de la emitere. Avizul de
+însoțire a mărfii și NIR-ul rămân documentele fiecărui transfer. Modulul nu schimbă regulile fiscale ale
+facturii: ajută doar ca fiecare aviz să ajungă facturat o singură dată și integral.
 
 ## 3. Utilizatori și roluri
 
-Modulul nu adaugă grupuri proprii. Folosește drepturile standard:
+| Rol | Ce face |
+|---|---|
+| Operator facturare (vânzări) | Filtrează livrările **De facturat**, emite factura din livrare sau din lot |
+| Gestionar / operator recepție | Completează **Nr. factură furnizor** pe recepție și creează factura furnizorului |
+| Contabil | Verifică facturile create din transferuri și legătura transfer → factură |
+| Consultant | Explică regulile de facturare parțială și opțiunea **Facturează cantitatea comandată** |
 
-- **Inventar / Utilizator** + **Vânzări / Utilizator** + **Facturare / Facturare** — vede butonul
-  **Facturează** pe livrare și creează factura client (fereastra de facturare a comenzii cere dreptul
-  de vânzări);
-- **Achiziții / Utilizator** + **Facturare / Facturare** — completează **Nr. factură furnizor** pe
-  recepție și creează factura furnizorului cu butonul **Factură**.
-
-Roluri recomandate pentru testare: un utilizator cu Vânzări + Inventar + Facturare (fluxul de
-livrare) și un contabil cu Achiziții + Facturare (fluxul de recepție).
+Roluri recomandate pentru testare: **Sales / Administrator**, **Inventory / Administrator**,
+**Purchase / Administrator** și **Invoicing / Billing Administrator**.
 
 ## 4. Conturi și date implicate
 
-Modulul nu introduce conturi. Notele vin din facturile standard:
+Modulul nu folosește conturi proprii. Facturile create din transferuri sunt facturi standard și
+generează notele obișnuite (vezi „Note de monografie și raportare").
 
-| Cont | Rol |
-|---|---|
-| 4111 „Clienți” | debitul facturii client |
-| 707 „Venituri din vânzarea mărfurilor” | venitul de pe factura client (contul de venit al produsului) |
-| 4427 „TVA colectată” | TVA-ul facturii client |
-| 401 „Furnizori” | creditul facturii furnizorului |
-| 607 „Cheltuieli privind mărfurile” sau 371 „Mărfuri” / 408 „Furnizori - facturi nesosite” | debitul facturii furnizorului: 607 la inventar intermitent (ca în capturi), 371 sau 408 la inventar permanent, după configurarea categoriei de produs |
-| 4426 „TVA deductibilă” | TVA-ul facturii furnizorului |
+Date minime pentru demo (cele din capturi):
 
-Date minime pentru demo:
-- companie românească cu planul de conturi RO și taxa de 21% (`l10n_ro`);
-- un produs stocabil, cu politica de facturare **Cantități livrate**;
-- o comandă de vânzare de 10 bucăți, livrată în două tranșe (6 + 4);
-- o comandă de achiziție recepționată, pentru fluxul de furnizor.
+- produsele stocabile **Scaun ergonomic Nova** (450 lei, cost 300 lei) și **Birou reglabil Flex**
+  (1.200 lei, cost 800 lei), cu TVA 21% și **Politică de facturare** = **Cantități livrate**;
+- comanda de vânzare **S00101** (Alfa Construct SRL): 10 scaune și 2 birouri, livrate parțial — 6 scaune
+  și 2 birouri, restul în livrarea ulterioară;
+- comanda **S00102** (Gamma Retail SRL): 10 scaune livrate, din care s-au facturat doar 5;
+- comanda de achiziție **P00101** (Beta Mobila SRL): 5 birouri la prețul de achiziție de 800 lei/buc.,
+  recepționate, cu factura furnizorului **BM-2026-0457**;
+- lotul de livrare **BATCH/00101** cu livrarea comenzii **S00103** (Delta Office SRL, 3 scaune).
 
 ## 5. Configurare inițială
 
-1. Instalați modulul `deltatech_invoice_picking` (dependențe: `sale_management`, `sale_stock`,
-   `purchase_stock`, `stock_picking_batch`, `account`).
-2. Pe produsele stocabile, **Vânzări → Produse → produs**, tabul **Informații generale**: **Politică
-   de facturare** = **Cantități livrate**. Cu **Cantități comandate**, Odoo facturează comanda întreagă,
-   indiferent de transfer.
-3. Opțional, pe o comandă care trebuie facturată integral, deși produsele au politica **Cantități
-   livrate**, bifați **Forțează ordinea facturării**: la facturare, liniile comenzii trec pe politica
-   **Cantități comandate**. Bifa stă în tabul **Alte informații** al comenzii, grupul **Facturare**,
-   lipită de **Poziție fiscală** și fără etichetă proprie.
-
-Nu există alte setări. Butoanele și filtrul apar imediat după instalare.
+1. Instalați modulul `deltatech_invoice_picking` (depinde de `account`, `sale_management`, `stock`,
+   `sale_stock`, `stock_picking_batch`, `purchase` și `purchase_stock`).
+2. Pentru produsele facturate din transfer, alegeți pe produs **Politică de facturare** = **Cantități
+   livrate** (vânzări) și **Politică control** = **Pe cantitățile primite** (achiziții), ca factura să
+   urmeze cantitățile efective.
+3. Nu este necesară altă configurare: câmpurile și butoanele apar pe transferuri, loturi și comenzi
+   imediat după instalare.
+4. Dacă folosiți evaluarea automată a stocului, verificați conturile categoriei de produse: în
+   planul de conturi RO, contul implicit de evaluare a stocului al companiei este 301, deci pentru
+   mărfuri setați 371 pe categorie.
 
 ## 6. Flux de utilizare
 
-Exemplul folosește comenzi de **10 buc.** livrate în tranșe: prima livrare are **6 buc.**, restul de 4
-buc. rămâne în livrarea următoare (backorder). Fiecare livrare primește factura ei.
+### Pasul 1 — Găsirea livrărilor de facturat
 
-### Pasul 1 — Livrarea validată, cu butonul „Facturează”
+**Inventar → Operații → Transferuri → Livrări**, în căutare alegeți filtrul **De facturat**.
 
-Validați livrarea din **Inventar → Operațiuni → Transferuri → Livrări**. După validare, livrarea provenită dintr-o
-comandă de vânzare primește bifa **De facturat** (tabul **Informații suplimentare**), iar în antet
-apare butonul **Facturează**. Butonul apare doar pe transferurile în starea **Efectuat**, cu comandă de
-vânzare și încă nefacturate.
+![Lista Livrări cu filtrul De facturat aplicat: livrările DC/OUT/00004, DC/OUT/00003 și DC/OUT/00001 ale comenzilor S00103, S00102 și S00101, toate în starea Efectuat; prima este în lotul BATCH/00101](../static/description/01_livrari_de_facturat.png)
 
-![Livrarea în starea Efectuat, din comanda de vânzare a clientului Alfa Construct SRL; în antet butonul Facturează (1), iar în tabul Informații suplimentare câmpul Factura gol și bifa De facturat (2)](../static/description/01_livrare_de_facturat.png)
+Găsiți pe ecran: fiecare rând este o livrare validată care încă nu e facturată sau e facturată doar
+parțial. Verificați că livrările din listă sunt în starea **Efectuat** — doar acestea se pot factura.
+Pentru mai multe livrări odată, bifați-le și alegeți **Acțiuni → Creează factură vânzare**.
 
-### Pasul 2 — Fereastra de creare a facturii
+### Pasul 2 — Factura din livrare
 
-Apăsați **Facturează**. Se deschide fereastra standard **Creează factură/facturi** a comenzii, cu opțiunea
-**Factură normală**. Confirmați cu **Creează ciornă**. Modulul trimite ferestrei transferurile
-alese, deci factura nu va lua tot ce s-a livrat pe comandă, ci doar aceste transferuri.
+Deschideți livrarea comenzii **S00101**. Butonul **Facturează** apare doar pe o livrare **Efectuat**,
+care provine dintr-o comandă de vânzare și este **De facturat**. Verificați în lista operațiilor
+cantitățile livrate: 6 scaune și 2 birouri.
 
-![Fereastra Creează factură/facturi deschisă peste livrare, cu opțiunea Factură normală selectată și butonul Creează ciornă (1)](../static/description/02_fereastra_creare_factura.png)
+![Livrarea comenzii S00101 în starea Efectuat, cu butonul Facturează evidențiat și cantitățile livrate 6 scaune și 2 birouri](../static/description/02_livrare_buton_factura.png)
 
-### Pasul 3 — Factura creată din livrare
+### Pasul 3 — Asistentul de facturare
 
-Se deschide factura în ciornă. Verificați pe ecran, înainte de postare:
-- în tabul **Linii factură**, cantitatea liniei = cantitatea livrată în transfer (**6,00**), nu
-  cantitatea comenzii (10 buc.): 6 × 45,00 = **270,00 lei**, TVA 21% **56,70 lei**, total
-  **326,70 lei**;
-- clientul și comanda sunt cele ale livrării;
-- în tabul **Alte informații**, câmpul **Creat din transferuri** este bifat;
-- în tabul **Elemente jurnal**, nota care se va posta (vezi „Note de monografie și raportare”).
+Apăsați **Facturează**. Se deschide asistentul standard Odoo **Creează factură/facturi**.
+Lăsați **Factură normală** și apăsați **Creează ciornă**; factura se creează în ciornă și se validează
+apoi cu **Confirmă**.
 
-Liniile cu produse stocabile care nu sunt în transferurile alese se șterg automat. Serviciile încă
-nefacturate ale comenzii (de exemplu transportul) rămân pe factură, cu cantitatea lor. Pe o factură creată din
-transferuri nu se poate modifica **cantitatea** sau **produsul** unei linii cu produs stocabil și nu se
-pot șterge astfel de linii: Odoo afișează „Nu puteți modifica această linie, linie de factura a fost
-generat din transferuri”. Factura rămâne aliniată cu cantitățile livrate. Liniile de servicii rămân editabile.
+![Asistentul Creează factură/facturi deschis din livrare, cu opțiunea Factură normală selectată și butonul Creează ciornă evidențiat](../static/description/03_asistent_facturare.png)
 
-![Factura client în ciornă pentru Alfa Construct SRL, tabul Linii factură: o linie Robinet sferic 1/2 cu cantitatea 6,00 (1) la 45,00 lei, cont 707000; total 326,70 lei cu TVA 21%](../static/description/03_factura_din_livrare.png)
+### Pasul 4 — Factura cu cantitățile livrate
 
-### Pasul 4 — Livrarea facturată
+Factura conține doar produsele livrării alese, cu **cantitățile livrate**: 6 scaune și 2 birouri, nu
+cele 10 scaune comandate. Restul de 4 scaune se facturează din livrarea ulterioară. Liniile unei
+facturi create din transferuri nu se pot modifica sau șterge (vezi secțiunea 9), ca factura să rămână
+egală cu avizul. În fila **Alte informații**, câmpul **Creat din transferuri** este bifat.
 
-Pe livrare, după crearea facturii, **De facturat** se debifează, câmpul **Factura** arată factura
-creată, iar butonul **Facturează** dispare.
+![Factura clientului Alfa Construct SRL creată din livrare: 6 bucăți Scaun ergonomic Nova și 2 bucăți Birou reglabil Flex, cu totalul de 6.171,00 lei (5.100,00 lei fără TVA + 1.071,00 lei TVA 21%), în starea Postat](../static/description/04_factura_din_livrare.png)
 
-Dacă factura se **anulează**, livrarea revine la **De facturat** și pierde legătura cu factura. Dacă
-factura se **șterge**, livrarea revine la **De facturat**. În ambele cazuri se poate factura din nou.
+### Pasul 5 — Livrarea facturată
 
-![Livrarea facturată: fără butonul Facturează în antet; în tabul Informații suplimentare câmpul Factura arată factura în ciornă, iar De facturat e debifat](../static/description/04_livrare_facturata.png)
+Reveniți pe livrare, fila **Informații suplimentare**: **Factura** arată factura emisă, iar **De
+facturat** nu mai este bifat. Butonul **Facturează** dispare, iar livrarea iese din filtrul de la
+Pasul 1. Dacă factura se anulează sau se șterge, livrarea redevine **De facturat**.
 
-### Pasul 5 — Lista livrărilor de facturat și facturarea mai multor livrări
+![Livrarea comenzii S00101 după facturare: în fila Informații suplimentare, câmpul Factura arată factura emisă, iar De facturat nu e bifat](../static/description/05_livrare_facturata.png)
 
-**Inventar → Operațiuni → Transferuri → Livrări**, filtrul **De facturat**: lista arată livrările validate care nu au
-încă factură. Verificați:
-- rândurile de facturat sunt cele în starea **Efectuat**;
-- clientul și documentul de origine (comanda) corespund facturilor pe care urmează să le emiteți.
+### Pasul 6 — Livrare facturată parțial
 
-În listă apar și livrările rămase de livrat (backorder), în starea **Pregătit**: ele preiau bifa **De
-facturat** de la livrarea din care provin. Nu se pot factura până nu sunt validate (modulul refuză
-transferurile neefectuate), deci selectați doar rândurile **Efectuat**.
+Pasul descrie o stare, nu o operație nouă. Când facturile unei comenzi acoperă doar o parte din
+livrare (aici, o factură de 5 din cele 10 scaune livrate ale comenzii **S00102**; din interfață: pe
+comandă, **Crează factura**, pe ciornă schimbați cantitatea 10 → 5, apăsați **Anulează**, apoi
+**Resetare la Ciornă** și **Confirmă**), livrarea primește
+legătura către factură, dar **rămâne De facturat** și păstrează butonul **Facturează**, ca restul să
+poată fi facturat. Starea se calculează din toate cantitățile livrate ale transferului și din cantitatea
+facturată cumulat pe fiecare linie de comandă (facturi minus facturi storno, fără cele anulate), la
+crearea facturii din transfer sau din comandă și la **Resetare la Ciornă** a unei facturi anulate. Pe
+o factură creată din comandă (nu din transfer), cantitatea se poate modifica, dar starea transferului
+nu se recalculează singură: după corectură, apăsați **Anulează** (livrarea redevine De facturat), apoi
+**Resetare la Ciornă** (livrarea se leagă din nou de factură, după cantitatea corectată) și
+**Confirmă**. O factură deja confirmată se aduce întâi în ciornă, se corectează, apoi urmează aceiași
+pași.
 
-Selectați livrările, apoi **Acțiuni → Creează factură vânzare**. Livrările aceleiași comenzi intră pe
-aceeași factură; comenzile diferite primesc facturi separate, după regulile standard ale ferestrei
-**Creează factură/facturi**.
+![Livrarea comenzii S00102 facturată parțial: câmpul Factura e completat, De facturat rămâne bifat, iar butonul Facturează e încă vizibil](../static/description/06_livrare_facturata_partial.png)
 
-![Lista Livrări filtrată De facturat: livrările Efectuat ale clienților și livrările rămase în starea Pregătit; o livrare Efectuat e selectată, iar meniul Acțiuni arată Creează factură vânzare și Creează factură furnizor](../static/description/05_livrari_de_facturat.png)
+### Pasul 7 — Recepția cu numărul facturii furnizorului
 
-### Pasul 6 — Recepția cu numărul facturii furnizorului
+**Inventar → Operații → Transferuri → Recepții**, deschideți recepția validată a comenzii **P00101**. Completați
+**Nr. factură furnizor** (aici **BM-2026-0457**) și apăsați **Factură**. Fără numărul facturii, Odoo
+refuză operația. Pentru mai multe recepții odată, din listă: **Acțiuni → Creează factură furnizor**;
+numărul facturii furnizorului apare și ca coloană în lista recepțiilor.
 
-Pe o recepție validată dintr-o comandă de achiziție (**Inventar → Operațiuni → Transferuri → Recepții**),
-completați **Nr. factură furnizor** cu numărul de pe factura primită, apoi apăsați butonul
-**Factură**. Fără număr, modulul cere „Completați nr. factură furnizor”.
+![Recepția comenzii P00101 în starea Efectuat, cu câmpul Nr. factură furnizor BM-2026-0457 și butonul Factură evidențiate](../static/description/07_receptie_numar_factura.png)
 
-![Recepția de la Gama Materiale SRL în starea Efectuat, 20 buc. recepționate; câmpul Nr. factură furnizor completat cu FF-2026-0145 (1) și butonul Factură în antet (2)](../static/description/06_receptie_nr_factura.png)
+### Pasul 8 — Factura furnizorului
 
-### Pasul 7 — Factura furnizorului creată din recepție
+Se creează factura furnizorului, în ciornă, cu cantitățile recepționate (5 birouri). Numărul facturii
+furnizorului se copiază pe comanda de achiziție, ca **Referință furnizor**, și apare pe butonul
+**Achiziții** al facturii (**P00101 (BM-2026-0457)**). **Referință factură** nu se completează singură
+în Odoo 19: introduceți-o, împreună cu **Data facturii**, înainte de **Confirmă**. O recepție deja
+facturată integral nu se mai poate factura a doua oară: Odoo refuză cu mesaj și nu creează o factură
+goală.
 
-Se creează factura furnizorului cu **cantitățile recepționate** în transfer. Numărul introdus pe
-recepție se scrie ca **referință a furnizorului pe comanda de achiziție** (apare în butonul
-**Achiziții** al facturii, lângă numărul comenzii). Pe Odoo 19, câmpul **Referință factură** al
-facturii **nu se completează automat**: copiați numărul în el și completați **Data facturii** înainte
-de **Confirmă**. Recepția se leagă de factură și pierde bifa **De facturat**. Dacă facturați pe rând
-mai multe recepții ale aceleiași comenzi, referința comenzii păstrează doar ultimul număr introdus. Dacă recepțiile alese nu mai au nimic de
-facturat, modulul refuză: „Recepțiile selectate sunt deja facturate”.
+![Factura furnizorului Beta Mobila SRL creată din recepție, în ciornă: butonul Achiziții arată P00101 (BM-2026-0457), iar linia are 5 bucăți Birou reglabil Flex](../static/description/08_factura_furnizor.png)
 
-![Factura furnizorului în ciornă pentru Gama Materiale SRL: linia de 20 buc. la 30,00 lei, total 726,00 lei cu TVA 21%; câmpul Referință factură gol (1), iar butonul Achiziții arată comanda cu numărul FF-2026-0145, introdus pe recepție](../static/description/07_factura_furnizor.png)
+### Pasul 9 — Facturarea unui lot
 
-### Pasul 8 — Facturarea unui lot de transferuri
+**Inventar → Operații → Locuri de muncă → Transferuri în lot**, deschideți lotul **BATCH/00101**.
+Butonul **Facturează** apare când lotul este **Efectuat** și nu e încă facturat. Lotul se facturează
+împreună: transferurile nefacturate sau facturate parțial ale lotului intră pe factură, cele facturate
+integral se sar. La un lot de **recepții**, completați întâi **Nr. factură furnizor** pe fiecare recepție
+din lot, altfel Odoo refuză facturarea.
 
-Un lot de livrări (**Inventar → Operațiuni → Locuri de muncă → Transferuri în lot**) în starea **Efectuat** are butonul
-**Facturează**, care deschide aceeași fereastră de la pasul 2 pentru transferurile din lot încă
-nefacturate. Un lot de recepții creează factura furnizorului; fiecare recepție din lot trebuie să aibă
-**Nr. factură furnizor** completat. Loturile de livrări și de recepții nu se
-pot factura împreună.
+![Lotul BATCH/00101 în starea Efectuat, cu livrarea DC/OUT/00004 (3 bucăți Scaun ergonomic Nova) și butonul Facturează evidențiat](../static/description/09_lot_buton_factura.png)
 
-![Lotul de livrări în starea Efectuat, cu două transferuri de 2 și 3 buc. din același produs, și butonul Facturează în antet (1)](../static/description/08_lot_facturare.png)
+### Pasul 10 — Facturarea după cantitatea comandată
+
+Pe comanda de vânzare, fila **Alte informații**, câmpul **Facturează cantitatea comandată** face ca liniile
+comenzii să fie facturate după **cantitatea comandată**, indiferent de politica de facturare a
+produsului (de exemplu, comenzi plătite în avans). Când factura pornește dintr-un transfer, cantitățile
+rămân tot cele ale transferului.
+
+![Comanda S00101, fila Alte informații, cu câmpul Facturează cantitatea comandată evidențiat](../static/description/10_comanda_facturare_fortata.png)
 
 ### Note de monografie și raportare
 
-Modulul nu creează note contabile proprii. Facturile se postează prin fluxul standard:
+Modulul nu generează note contabile proprii. Facturile create din transferuri sunt facturi standard,
+iar contul fiecărei linii vine din configurarea produsului și a categoriei.
 
-| Operațiune | Notă contabilă | Când |
-|---|---|---|
-| Factura client din livrare | **Dr 4111 = Cr 707 + Cr 4427** (în exemplu 326,70 = 270,00 + 56,70 lei) | la postarea facturii (pasul 3) |
-| Factura furnizorului din recepție | **Dr 607 + Dr 4426 = Cr 401** la inventar intermitent (în exemplu 600,00 + 126,00 = 726,00 lei); la inventar permanent, **Dr 371 sau 408 + Dr 4426 = Cr 401** | la postarea facturii furnizorului (pasul 7) |
+**Fără evaluare automată a stocului (inventar intermitent)** — cazul din capturi:
 
-Cantitățile de pe facturi sunt cele din transferuri, deci venitul și TVA-ul se recunosc pe tranșa
-livrată, nu pe toată comanda. Descărcarea din gestiune (la inventar permanent, **Dr 607 = Cr 371**) se
-face la validarea livrării, de fluxul standard de stoc, nu la factură.
+- factura clientului din Pasul 4: Dr 4111 „Clienți" 6.171 = Cr 707 „Venituri din vânzarea mărfurilor"
+  5.100 + Cr 4427 „TVA colectată" 1.071 (6 × 450 + 2 × 1.200 = 5.100 lei, TVA 21%);
+- factura furnizorului din Pasul 8: Dr 607 „Cheltuieli privind mărfurile" 4.000 + Dr 4426 „TVA
+  deductibilă" 840 = Cr 401 „Furnizori" 4.840 (5 × 800 lei, TVA 21%).
 
-Închiderea lunii: o livrare nefacturată până la sfârșitul lunii se înregistrează în luna livrării ca
-**Dr 418 = Cr 707**, fără TVA; TVA-ul se colectează la factură. Nota se stornează când se emite
-factura în luna următoare. Altfel, venitul ar ajunge în altă perioadă decât livrarea. Controlul lunar: filtrul **De facturat** pe livrări trebuie să fie gol
-(sau să conțină doar livrările din ultimele zile ale lunii, facturabile până la 15 ale lunii următoare).
+**Cu evaluare automată (perpetuă), Odoo 19 standard:**
+
+- factura furnizorului: Dr 371 „Mărfuri" 4.000 + Dr 4426 840 = Cr 401 4.840 (recepția nu înregistrează
+  o notă proprie);
+- factura clientului: pe lângă nota de mai sus, descărcarea din gestiune Dr 607 = Cr 371, la costul
+  mărfurilor livrate (6 × 300 + 2 × 800 = 3.400 lei).
+
+**Cu localizarea `l10n_ro_stock_account`** (nu e dependență a modulului):
+
+- recepția obișnuită, cu factura sosită (cazul din Pasul 7), nu înregistrează notă; factura furnizorului
+  înregistrează Dr 371 4.000 + Dr 4426 840 = Cr 401 4.840;
+- doar la recepția **pe aviz** (factura nesosită), recepția înregistrează Dr 371 = Cr 408 „Furnizori –
+  facturi nesosite", iar factura furnizorului închide 408: Dr 408 4.000 + Dr 4426 840 = Cr 401 4.840;
+- livrarea obișnuită: descărcarea din gestiune Dr 607 = Cr 371 (3.400 lei) se înregistrează la
+  validarea livrării, iar factura clientului are doar Dr 4111 6.171 = Cr 707 5.100 + Cr 4427 1.071;
+- livrarea **pe aviz** (factura ulterioară): la validare Dr 607 = Cr 371 (3.400) și Dr 418 „Clienți –
+  facturi de întocmit" = Cr 707 5.100, iar factura închide 418: Dr 4111 6.171 = Cr 418 5.100 +
+  Cr 4427 1.071.
 
 ## 7. Legături cu alte module / declarații
 
-| Modul / proces | Rol în flux |
+| Modul | Rol |
 |---|---|
-| `sale_stock` | livrările din comandă și fereastra standard **Creează facturi** |
-| `purchase_stock` | recepțiile din comandă și crearea facturii furnizorului |
-| `stock_picking_batch` | loturile de transfer facturate dintr-un clic |
-| `account` | facturile și notele contabile, prin fluxul standard |
-| e-Factura (`l10n_ro_edi`) | factura creată din livrare este o factură obișnuită și se transmite în SPV prin fluxul standard |
-| D300 / D394 | TVA-ul intră prin taxele facturii, nu printr-o logică a modulului |
+| `sale_stock` | livrările comenzilor de vânzare și asistentul de facturare al comenzii |
+| `purchase_stock` | recepțiile comenzilor de achiziție și crearea facturii furnizorului |
+| `stock_picking_batch` | loturile de transferuri și butonul **Facturează** de pe lot |
+| `account` | facturile; jurnalul de vânzări/cumpărări și declarațiile TVA le preiau ca pe orice factură |
 
-Ce este automat: cantitățile din transfer pe factură, ștergerea liniilor fără livrare, legătura
-transfer–factură, indicatorul **De facturat** (setat la validarea transferului, resetat la anularea sau
-ștergerea facturii), blocarea liniilor stocabile pe factură.
+**Ce e automat:** cantitățile de pe factură din transferurile alese (convertite în unitatea liniei de
+comandă), legătura transfer → factură, starea **De facturat** după facturare, anulare, ștergere sau
+readucere în ciornă, numărul facturii furnizorului copiat pe comandă.
 
-Ce rămâne manual: alegerea transferurilor de facturat, numărul facturii furnizorului pe recepție și
-**Referință factură** pe factura furnizorului, postarea facturii.
+**Ce rămâne manual:** alegerea transferurilor de facturat, completarea **Nr. factură furnizor**, a
+câmpurilor **Referință factură** și **Data facturii** pe factura furnizorului, validarea facturii, corecțiile pe factură (care nu se mai propagă pe transfer).
 
 ## 8. Verificări pentru consultant
 
-- [ ] După validare, o livrare din comandă de vânzare are **De facturat** bifat și butonul **Facturează**.
-- [ ] Factura creată din prima livrare are 6 buc., nu 10: 270,00 lei + TVA 56,70 lei = 326,70 lei.
-- [ ] Pe factură, câmpul **Creat din transferuri** e bifat, iar modificarea cantității unei linii stocabile e refuzată.
-- [ ] După facturare, livrarea are **De facturat** debifat și câmpul **Factura** completat.
-- [ ] Anularea facturii readuce livrarea la **De facturat**, fără factură legată.
-- [ ] Filtrul **De facturat** pe livrări arată livrările validate nefacturate și backorder-urile lor în starea **Pregătit**, care nu se pot factura încă.
-- [ ] Recepția fără **Nr. factură furnizor** nu se poate factura; cu număr, comanda de achiziție primește referința furnizorului egală cu el, iar **Referință factură** se completează manual pe factură.
-- [ ] O recepție deja facturată, facturată din nou, dă „Recepțiile selectate sunt deja facturate”.
-- [ ] Lotul de livrări validat se facturează cu **Facturează**; un lot de livrări și unul de recepții împreună sunt refuzate.
+- [ ] O livrare validată dintr-o comandă de vânzare apare la filtrul **De facturat**.
+- [ ] **Facturează** pe o livrare parțială creează factura doar cu cantitățile livrate (6 din 10 scaune).
+- [ ] După facturare, livrarea are **Factura** completată, **De facturat** nebifat și nu mai are butonul.
+- [ ] La anularea facturii, livrarea redevine **De facturat** și pierde legătura; la readucerea facturii
+  în ciornă, legătura revine.
+- [ ] O livrare facturată doar în parte rămâne **De facturat**, cu legătura către factură.
+- [ ] Pe o recepție fără **Nr. factură furnizor**, **Factură** se oprește cu mesaj; cu numărul completat,
+  comanda de achiziție are **Referință furnizor** egală cu el (butonul **Achiziții** al facturii).
+- [ ] A doua încercare de facturare a aceleiași recepții e refuzată cu „Recepțiile selectate sunt deja
+  facturate".
+- [ ] Lotul efectuat se facturează cu **Facturează**; un lot cu o livrare facturată parțial nu apare ca
+  facturat, iar livrarea intră pe factura lotului.
+- [ ] Pe o factură creată din transferuri, modificarea cantității sau ștergerea unei linii de produs
+  stocabil este refuzată.
 
 ## 9. Mesaje de eroare frecvente
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| „Nu puteți factura transferuri neconfirmate (…)” | Transferul nu e în starea **Efectuat** | Validați transferul, apoi facturați |
-| „Completați nr. factură furnizor” | Recepția nu are **Nr. factură furnizor** | Completați numărul de pe factura primită |
-| „Recepțiile selectate sunt deja facturate: …” | Nu mai e nimic de facturat pe liniile recepțiilor | Verificați factura existentă a recepției |
-| „Nu puteți factura acest tip de transfer: …” | Transferul nu e livrare sau recepție (de exemplu un transfer intern) | Facturați doar livrări și recepții |
-| „Nu puteți factura împreună loturi de livrare și de recepție.” | Selecție mixtă de loturi | Facturați separat loturile de livrări și de recepții |
-| „Nu puteți factura acest tip de loturi: (…)” | Lotul nu este nici de livrări, nici de recepții | Facturați doar loturi de livrări sau de recepții |
-| „Nu puteți factura loturi neconfirmate (…)” | Lotul nu e în starea **Efectuat** | Validați lotul |
-| „Nu puteți modifica această linie, linie de factura a fost generat din transferuri” | Modificare de cantitate sau produs pe o linie stocabilă a unei facturi din transferuri | Corecția se face pe transfer (retur), apoi se facturează retura |
-| „Nu puteți șterge linii, linie de factura a fost generat din transferuri” | Ștergere de linie stocabilă pe o factură din transferuri | Anulați factura și refaceți-o din transferurile corecte |
+| `Nu puteți factura transferuri neconfirmate (...)` | Transferul nu e în starea **Efectuat** | Validați transferul, apoi facturați |
+| `Completați nr. factură furnizor` | **Nr. factură furnizor** gol pe recepție | Completați numărul facturii furnizorului |
+| `Recepțiile selectate sunt deja facturate: ...` | Recepțiile alese sunt deja facturate integral | Verificați factura existentă a recepției |
+| `Nu puteți factura loturi neconfirmate (...)` | Lotul nu e în starea **Efectuat** | Validați lotul |
+| `Nu puteți factura împreună loturi de livrare și de recepție.` | Lot de livrare facturat împreună cu un lot de recepție | Facturați separat loturile de livrare și cele de recepție |
+| `Nu puteți factura acest tip de transfer: ...` / `... acest tip de loturi: (...)` | Transfer sau lot intern (nici livrare, nici recepție) | Facturați doar livrări și recepții |
+| `Nu puteți modifica această linie: factura a fost generată din transferuri` | Modificarea cantității sau a produsului pe o factură creată din transferuri | Anulați factura și refaceți-o din transferurile corecte |
+| `Nu puteți șterge linii: factura a fost generată din transferuri` | Ștergerea unei linii de produs pe o factură creată din transferuri (iconița de ștergere apare, dar Odoo refuză) | Ca mai sus |
 
 ## 10. Capturi de ecran
 
-Capturile din `static/description/` sunt **generate automat** din `tests/test_screenshots.py`
-(mixinul `ScreenshotCase` din `l10n_ro_doc_screenshots`, import defensiv), în **limba română**, pe
-planul de conturi RO (`setup_country("ro")`), pe compania de test „Demo Distribuție SRL”:
+Capturile sunt **generate automat** de `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
+`deltatech_doc_screenshots`, import defensiv), în română, pe planul de conturi RO, și sunt în
+`static/description/` (cele în engleză, pentru `readme/USAGE.md`, în `static/description/en/`):
 
-1. `01_livrare_de_facturat.png` — livrarea validată, cu butonul **Facturează** și bifa **De facturat**.
-2. `02_fereastra_creare_factura.png` — fereastra **Creează factură/facturi**, deschisă din livrare.
-3. `03_factura_din_livrare.png` — factura client, tabul **Linii factură**, cu cantitatea livrată (6,00).
-4. `04_livrare_facturata.png` — livrarea după facturare, legată de factură.
-5. `05_livrari_de_facturat.png` — lista livrărilor filtrată **De facturat**, cu meniul **Acțiuni**.
-6. `06_receptie_nr_factura.png` — recepția cu **Nr. factură furnizor** și butonul **Factură**.
-7. `07_factura_furnizor.png` — factura furnizorului creată din recepție.
-8. `08_lot_facturare.png` — lotul de livrări validat, cu butonul **Facturează**.
+1. `01_livrari_de_facturat.png` — lista livrărilor cu filtrul **De facturat**;
+2. `02_livrare_buton_factura.png` — livrarea efectuată, cu butonul **Facturează**;
+3. `03_asistent_facturare.png` — asistentul de facturare deschis din livrare;
+4. `04_factura_din_livrare.png` — factura cu cantitățile livrate;
+5. `05_livrare_facturata.png` — livrarea facturată, cu legătura către factură;
+6. `06_livrare_facturata_partial.png` — livrarea facturată parțial, încă **De facturat**;
+7. `07_receptie_numar_factura.png` — recepția cu **Nr. factură furnizor** și butonul **Factură**;
+8. `08_factura_furnizor.png` — factura furnizorului creată din recepție;
+9. `09_lot_buton_factura.png` — lotul efectuat, cu butonul **Facturează**;
+10. `10_comanda_facturare_fortata.png` — comanda, cu **Facturează cantitatea comandată**.
 
 Regenerare:
 
 ```bash
-./odoo/odoo-bin -c odoo.conf -d <db> \
-    -i l10n_ro,deltatech_invoice_picking,l10n_ro_doc_screenshots \
-    --test-tags=/deltatech_invoice_picking:TestInvoicePickingScreenshots.test_capture_fise --stop-after-init
+./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro,deltatech_invoice_picking,deltatech_doc_screenshots \
+    --test-tags=fise_screenshots --stop-after-init
 ```
 
 ## 11. Observații pentru manual
 
-Păstrați ideea centrală: **factura urmează transferul**, nu comanda. Pe factură ajunge exact ce s-a
-livrat sau recepționat în transferurile alese, iar factura nu mai poate fi modificată pe liniile
-stocabile. Filtrul **De facturat** este instrumentul de control lunar al livrărilor nefacturate.
-Pentru recepții, subliniați că numărul facturii furnizorului se introduce pe recepție și devine
-referința furnizorului pe comanda de achiziție; pe factură se copiază manual în **Referință factură**.
+- Corecțiile făcute pe factură după creare **nu se propagă** pe transfer: dacă factura trebuie
+  schimbată, se anulează și se refac din transferurile corecte, sau se anulează și se aduce în ciornă
+  (**Anulează**, apoi **Resetare la Ciornă**), ceea ce recalculează starea **De facturat**.
+- Câmpul **Factura** de pe transfer se poate corecta de mână, dar schimbarea lui nu recalculează
+  **De facturat**.
+- Starea **De facturat** a unui transfer facturat parțial ține cont de toate facturile și facturile
+  storno ale liniilor de comandă; cantitatea încă nefacturată se atribuie celor mai recente transferuri.
+- Pe facturile furnizorilor, numărul facturii furnizorului se completează pe recepție și ajunge pe
+  comanda de achiziție; pe factură, **Referință factură** se completează încă de mână (issue dhongu/deltatech#3916).

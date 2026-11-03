@@ -1,30 +1,38 @@
-# ©  2026 Deltatech
+# ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 #
-# Capturi de ecran pentru fișa „Facturare din transferuri" — generate în timpul
-# testelor, în limba RO (fișa) și EN (readme/USAGE.md), pe compania
-# „Demo Distribuție SRL" în RON.
+# Capturi de ecran pentru fișa „Facturare din transferuri și loturi", în RO (fișa) și EN
+# (readme/USAGE.md), pe planul de conturi românesc (`setup_country("ro")`).
 #
-# Seedează comenzi de vânzare de 10 buc. livrate parțial (6 buc.): una încă
-# nefacturată, una facturată din livrare și una a cărei livrare e în listă;
-# o recepție cu numărul facturii furnizorului, una facturată și un lot de livrări
-# validat.
+# Seed: comanda S00101 (10 scaune + 2 birouri) livrată parțial (6 scaune + 2 birouri, restul în
+# livrare ulterioară), comanda S00102 (10 scaune) livrată integral și facturată doar 5, recepția
+# comenzii P00101 (5 birouri) cu numărul facturii furnizorului și lotul BATCH/00101 cu livrarea
+# comenzii S00103. Facturile se emit între cele două faze de capturi.
 #
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
-#       -i deltatech_invoice_picking,l10n_ro,l10n_ro_doc_screenshots \
+#       -i l10n_ro,deltatech_invoice_picking,deltatech_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
+import json
 import unittest
 
-from odoo import Command
-from odoo.tests import Form, tagged
+from odoo import Command, fields
+from odoo.tests import tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 try:
-    from odoo.addons.l10n_ro_doc_screenshots.tests.screenshot_case import ScreenshotCase
+    from odoo.addons.deltatech_doc_screenshots.tests.screenshot_case import ScreenshotCase
 except ImportError:
     ScreenshotCase = None
+
+ADDITIONAL_INFO = {"ro_RO": "Informații suplimentare", "en_US": "Additional Info"}
+
+
+def _do_action(action):
+    """JS: deschide o acțiune în locul ecranului curent."""
+    options = json.dumps({"clearBreadcrumbs": True})
+    return f"odoo.__WOWL_DEBUG__.root.env.services.action.doAction({json.dumps(action)}, {options})"
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")
@@ -35,246 +43,289 @@ class TestInvoicePickingScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
     @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         if ScreenshotCase is None:
-            raise unittest.SkipTest("l10n_ro_doc_screenshots indisponibil")
+            raise unittest.SkipTest("deltatech_doc_screenshots indisponibil")
         super().setUpClass()
-        cls.prepare_ro_company(name="Demo Distribuție SRL")
         env = cls.env
+        cls.prepare_ro_company()
         company = env.company
-        admin = env.ref("base.user_admin")
-        admin.write({"company_ids": [Command.link(company.id)], "company_id": company.id})
-        for xmlid in (
-            "stock.group_stock_manager",
-            "sales_team.group_sale_manager",
-            "purchase.group_purchase_manager",
-        ):
-            group = env.ref(xmlid)
-            env.user.group_ids = [Command.link(group.id)]
-            admin.group_ids = [Command.link(group.id)]
-
-        cls.warehouse = env["stock.warehouse"].search([("company_id", "=", company.id)], limit=1)
-        cls.warehouse.write({"name": "Depozit central", "code": "DC"})
-        # agentul de vânzări al facturilor: utilizatorul de test are un nume de glumă
-        env.user.name = "Ana Popescu"
-        # tipurile de operație sunt create înaintea limbii RO: numele RO se pun ca traducere
-        cls.warehouse.out_type_id.update_field_translations("name", {"ro_RO": "Livrări", "en_US": "Delivery Orders"})
-        cls.warehouse.in_type_id.update_field_translations("name", {"ro_RO": "Recepții", "en_US": "Receipts"})
-        # fără loturi automate: fiecare livrare ar primi altfel un lot propriu în capturi
-        (cls.warehouse.out_type_id | cls.warehouse.in_type_id).auto_batch = False
-
-        Partner = env["res.partner"]
-        ro = env.ref("base.ro").id
-        cls.alfa = Partner.create({"name": "Alfa Construct SRL", "country_id": ro, "city": "Cluj-Napoca"})
-        cls.beta = Partner.create({"name": "Beta Instal SRL", "country_id": ro, "city": "Iași"})
-        cls.vendor = Partner.create({"name": "Gama Materiale SRL", "country_id": ro, "city": "Brașov"})
-
-        cls.product = env["product.product"].create(
+        groups = [
+            env.ref(xmlid).id
+            for xmlid in (
+                "sales_team.group_sale_manager",
+                "stock.group_stock_manager",
+                "purchase.group_purchase_manager",
+                "account.group_account_manager",
+            )
+        ]
+        # utilizatorul testului face seed-ul, admin face capturile
+        env.user.group_ids = [Command.link(group) for group in groups]
+        env.ref("base.user_admin").write(
             {
-                "name": "Robinet sferic 1/2",
-                "is_storable": True,
-                "invoice_policy": "delivery",
-                "purchase_method": "receive",
-                "list_price": 45.0,
-                "standard_price": 30.0,
-                "taxes_id": [Command.set(cls.company_data["default_tax_sale"].ids)],
-                "supplier_taxes_id": [Command.set(cls.company_data["default_tax_purchase"].ids)],
-            }
-        )
-        env["stock.quant"]._update_available_quantity(cls.product, cls.warehouse.lot_stock_id, 100.0)
-
-        # 1–2. livrare de 6 buc. din 10, validată, încă nefacturată
-        cls.picking_open = cls._deliver(cls._sale_order(cls.alfa), 6.0)
-        # 3–4: aceeași livrare se facturează în test, între capturi (vezi _capture)
-        # 5. o a doua livrare nefacturată, la alt client, în lista „De facturat"
-        cls._deliver(cls._sale_order(cls.beta, qty=4.0), 4.0)
-
-        # 6. recepție validată, cu numărul facturii furnizorului completat
-        cls.receipt_open = cls._receive(cls._purchase_order(), "FF-2026-0145")
-        # 7: aceeași recepție se facturează în test, între capturi (vezi _capture)
-
-        # 8. lot de două livrări validate
-        # un lot primește doar transferuri nevalidate: se formează întâi, apoi se validează
-        delta = Partner.create({"name": "Delta Tehnic SRL", "country_id": ro, "city": "Timișoara"})
-        epsilon = Partner.create({"name": "Epsilon Grup SRL", "country_id": ro, "city": "Constanța"})
-        batch_orders = cls._sale_order(delta, qty=3.0) | cls._sale_order(epsilon, qty=2.0)
-        batch_pickings = env["stock.picking"].search(
-            [("origin", "in", batch_orders.mapped("name")), ("state", "not in", ("done", "cancel"))]
-        )
-        cls.batch = env["stock.picking.batch"].create(
-            {
-                "picking_type_id": cls.warehouse.out_type_id.id,
-                "picking_ids": [Command.set(batch_pickings.ids)],
+                "company_ids": [Command.link(company.id)],
                 "company_id": company.id,
+                "name": "Maria Ionescu",
+                "group_ids": [Command.link(group) for group in groups],
             }
         )
-        cls.batch.action_confirm()
-        for move in batch_pickings.move_ids:
-            move.quantity = move.product_uom_qty
-            move.picked = True
-        cls.batch.action_done()
-        # Livrări cu filtrul „De facturat" aplicat la deschidere
-        cls.deliveries_action = env["ir.actions.act_window"].create(
+
+        tax_sale = env["account.tax"].search(
+            [("type_tax_use", "=", "sale"), ("amount", "=", 21.0), ("company_id", "=", company.id)], limit=1
+        )
+        tax_purchase = env["account.tax"].search(
+            [("type_tax_use", "=", "purchase"), ("amount", "=", 21.0), ("company_id", "=", company.id)], limit=1
+        )
+        product_vals = {
+            "is_storable": True,
+            "invoice_policy": "delivery",
+            "purchase_method": "receive",
+            "taxes_id": [Command.set(tax_sale.ids)],
+            "supplier_taxes_id": [Command.set(tax_purchase.ids)],
+        }
+        cls.chair = env["product.product"].create(
+            {"name": "Scaun ergonomic Nova", "list_price": 450.0, "standard_price": 300.0, **product_vals}
+        )
+        cls.desk = env["product.product"].create(
+            {"name": "Birou reglabil Flex", "list_price": 1200.0, "standard_price": 800.0, **product_vals}
+        )
+        warehouse = env["stock.warehouse"].search([("company_id", "=", company.id)], limit=1)
+        # depozitul companiei de test are nume tehnic (company_1_data / compa)
+        warehouse.write({"name": "Depozit central", "code": "DC"})
+        for picking_type, names in (
+            (warehouse.out_type_id, {"ro_RO": "Livrări", "en_US": "Delivery Orders"}),
+            (warehouse.in_type_id, {"ro_RO": "Recepții", "en_US": "Receipts"}),
+        ):
+            # fără loturi automate: în capturi apare doar lotul seedat
+            picking_type.auto_batch = False
+            for lang, name in names.items():
+                picking_type.with_context(lang=lang).name = name
+        # lista de prețuri de test din `product` are nume englezesc
+        pricelist = env["product.pricelist"].search([("name", "=", "Test Pricelist")])
+        pricelist.with_context(lang="en_US").name = "Standard pricelist"
+        pricelist.with_context(lang="ro_RO").name = "Listă de prețuri standard"
+        for product in cls.chair | cls.desk:
+            env["stock.quant"]._update_available_quantity(product, warehouse.lot_stock_id, 100.0)
+
+        ro = env.ref("base.ro").id
+        cls.alfa, cls.gamma, cls.delta, cls.beta = env["res.partner"].create(
+            [
+                {"name": "Alfa Construct SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
+                {"name": "Gamma Retail SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
+                {"name": "Delta Office SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
+                {"name": "Beta Mobila SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
+            ]
+        )
+
+        # numerele fixe: secvențele comenzilor și loturilor nu se anulează la rollback
+        cls.order = cls._sale_order("S00101", cls.alfa, [(cls.chair, 10.0), (cls.desk, 2.0)])
+        cls.picking = cls.order.picking_ids
+        # livrare parțială: 6 scaune din 10 și ambele birouri; restul rămâne în livrarea ulterioară
+        cls._validate(cls.picking, {cls.chair: 6.0, cls.desk: 2.0})
+
+        cls.order_partial = cls._sale_order("S00102", cls.gamma, [(cls.chair, 10.0)])
+        cls.picking_partial = cls.order_partial.picking_ids
+        cls._validate(cls.picking_partial, {cls.chair: 10.0})
+
+        purchase = env["purchase.order"].create(
             {
-                "name": "Deliveries",
-                "res_model": "stock.picking",
-                "view_mode": "list,form",
-                "domain": [("picking_type_code", "=", "outgoing")],
-                "context": "{'search_default_to_invoice': 1}",
-                "search_view_id": env.ref("stock.view_picking_internal_search").id,
+                "name": "P00101",
+                "partner_id": cls.beta.id,
+                "order_line": [
+                    Command.create(
+                        {
+                            "product_id": cls.desk.id,
+                            "product_qty": 5.0,
+                            "price_unit": 800.0,
+                            "date_planned": fields.Datetime.now(),
+                        }
+                    )
+                ],
             }
         )
-        cls.deliveries_action.update_field_translations("name", {"ro_RO": "Livrări", "en_US": "Deliveries"})
+        purchase.button_confirm()
+        cls.receipt = purchase.picking_ids
+        cls._validate(cls.receipt, {cls.desk: 5.0})
+        cls.receipt.supplier_invoice_number = "BM-2026-0457"
+
+        order_batch = cls._sale_order("S00103", cls.delta, [(cls.chair, 3.0)])
+        # lotul se formează înainte de validare: _sanity_check refuză transferurile efectuate
+        cls.batch = env["stock.picking.batch"].create({"picking_ids": [Command.set(order_batch.picking_ids.ids)]})
+        cls.batch.name = "BATCH/00101"
+        cls._validate(order_batch.picking_ids, {cls.chair: 3.0})
         env.flush_all()
 
     @classmethod
-    def _sale_order(cls, partner, qty=10.0):
+    def _sale_order(cls, name, partner, lines):
         order = cls.env["sale.order"].create(
             {
+                "name": name,
                 "partner_id": partner.id,
-                "order_line": [Command.create({"product_id": cls.product.id, "product_uom_qty": qty})],
+                "user_id": cls.env.ref("base.user_admin").id,
+                "order_line": [Command.create({"product_id": p.id, "product_uom_qty": qty}) for p, qty in lines],
             }
         )
         order.action_confirm()
         return order
 
     @classmethod
-    def _deliver(cls, order, qty):
-        """Validează prima livrare a comenzii cu ``qty`` buc.; restul rămâne în backorder."""
-        picking = order.picking_ids.filtered(lambda p: p.state not in ("done", "cancel"))[:1]
-        picking.move_ids.quantity = qty
+    def _validate(cls, picking, quantities):
+        for move in picking.move_ids:
+            move.quantity = quantities[move.product_id]
         picking.move_ids.picked = True
-        res = picking.button_validate()
-        if isinstance(res, dict) and res.get("res_model") == "stock.backorder.confirmation":
-            wizard = Form(cls.env[res["res_model"]].with_context(**res["context"])).save()
-            wizard.process()
-        return picking
+        picking.with_context(skip_backorder=True).button_validate()
 
-    @classmethod
-    def _invoice_pickings(cls, pickings):
-        """Factura din transfer, ca butonul „Facturează" urmat de „Creează ciornă"."""
-        action = pickings.action_create_invoice()
-        context = action["context"]
-        wizard = cls.env["sale.advance.payment.inv"].with_context(**context).create({})
+    def _invoice_from_picking(self):
+        """Factura emisă de butonul Invoice al livrării, cu asistentul standard (Regular invoice)."""
+        action = self.picking.action_create_invoice()
+        wizard = (
+            self.env["sale.advance.payment.inv"]
+            .with_context(**action["context"])
+            .create({"advance_payment_method": "delivered"})
+        )
         wizard.create_invoices()
-        return pickings.account_move_id
+        invoice = self.picking.account_move_id
+        invoice.invoice_date = fields.Date.context_today(invoice)
+        invoice.action_post()
+        return invoice
 
-    @classmethod
-    def _purchase_order(cls):
-        order = cls.env["purchase.order"].create(
+    def _partial_invoice(self):
+        """Factură manuală pe comanda S00102, doar pentru 5 din cele 10 scaune livrate."""
+        sale_line = self.order_partial.order_line
+        invoice = self.env["account.move"].create(
             {
-                "partner_id": cls.vendor.id,
-                "order_line": [Command.create({"product_id": cls.product.id, "product_qty": 20.0, "price_unit": 30.0})],
+                "move_type": "out_invoice",
+                "partner_id": self.gamma.id,
+                "invoice_date": fields.Date.context_today(self.order_partial),
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "product_id": self.chair.id,
+                            "quantity": 5.0,
+                            "price_unit": 450.0,
+                            "tax_ids": [Command.set(sale_line.tax_ids.ids)],
+                            "sale_line_ids": [Command.set(sale_line.ids)],
+                        }
+                    )
+                ],
             }
         )
-        order.button_confirm()
-        return order
+        invoice.update_pickings()
+        invoice.action_post()
+        return invoice
 
-    @classmethod
-    def _receive(cls, order, supplier_invoice_number):
-        picking = order.picking_ids[:1]
-        picking.move_ids.quantity = 20.0
-        picking.move_ids.picked = True
-        picking.button_validate()
-        picking.supplier_invoice_number = supplier_invoice_number
-        return picking
+    def _picking_url(self, picking):
+        return f"id={picking.id}&model=stock.picking&view_type=form"
 
-    def _shots(self, invoice=None, bill=None):
-        picking_form = "model=stock.picking&view_type=form"
-        tab_extra = {"ro_RO": "Informații suplimentare", "en_US": "Additional Info"}
+    def _shots_before(self):
+        deliveries = {
+            "type": "ir.actions.act_window",
+            "name": None,
+            "res_model": "stock.picking",
+            "views": [[False, "list"], [False, "form"]],
+            "domain": [["picking_type_code", "=", "outgoing"]],
+            "context": {"search_default_to_invoice": 1, "restricted_picking_type_code": "outgoing"},
+        }
         return [
-            # 1. livrarea validată, cu butonul Facturează și bifa De facturat
             {
-                "url": f"id={self.picking_open.id}&{picking_form}",
-                "name": "01_livrare_de_facturat.png",
+                "url": self._picking_url(self.picking),
+                "name": "01_livrari_de_facturat.png",
                 "wait": ".o_form_view",
-                "click_tab": tab_extra,
-                "settle": 2500,
-                "highlight": ["button[name='action_create_invoice']", "div[name='to_invoice']"],
+                "eval": {
+                    lang: _do_action(dict(deliveries, name=name))
+                    for lang, name in (("ro_RO", "Livrări"), ("en_US", "Deliveries"))
+                },
+                "eval_wait": 2500,
+                "highlight": [".o_searchview_facet", ".o_data_row td[name='name']"],
             },
-            # 2. fereastra standard de creare a facturii, deschisă din livrare
             {
-                "url": f"id={self.picking_open.id}&{picking_form}",
-                "name": "02_fereastra_creare_factura.png",
-                "wait": ".o_form_view",
+                "url": self._picking_url(self.picking),
+                "name": "02_livrare_buton_factura.png",
+                "wait": ".o_form_view button[name='action_create_invoice']",
+                "highlight": ["button[name='action_create_invoice']", "div[name='move_ids'] td[name='quantity']"],
+            },
+            {
+                "url": self._picking_url(self.picking),
+                "name": "03_asistent_facturare.png",
+                "wait": ".o_form_view button[name='action_create_invoice']",
                 "click_btn": "button[name='action_create_invoice']",
                 "wait_after": ".modal .o_form_view",
-                "settle": 2500,
-                "highlight": [".modal button[name='create_invoices']"],
+                "settle": 2000,
+                "highlight": [".modal div[name='advance_payment_method']", ".modal button[name='create_invoices']"],
             },
-            # 3. factura creată din livrare: linia de 6 buc. din comanda de 10 buc.
             {
-                "url": f"id={invoice.id if invoice else 0}&model=account.move&view_type=form",
-                "name": "03_factura_din_livrare.png",
-                "wait": ".o_form_view",
-                "click_tab": "Invoice Lines",
-                "settle": 2500,
-                "highlight": ["div[name='invoice_line_ids'] td[name='quantity']"],
-                "full": True,
-            },
-            # 4. livrarea după facturare
-            {
-                "url": f"id={self.picking_open.id}&{picking_form}",
-                "name": "04_livrare_facturata.png",
-                "wait": ".o_form_view",
-                "click_tab": tab_extra,
-                "settle": 2500,
-                "highlight": ["div[name='account_move_id']", "div[name='to_invoice']"],
-            },
-            # 5. lista livrărilor filtrată De facturat, cu o livrare selectată și meniul Acțiuni
-            {
-                "url": f"action={self.deliveries_action.id}&view_type=list",
-                "name": "05_livrari_de_facturat.png",
-                "wait": ".o_list_view .o_data_row",
-                "eval": (
-                    "(async () => {"
-                    "const row = [...document.querySelectorAll('.o_data_row')]"
-                    ".find(r => /Efectuat|Done/.test(r.textContent));"
-                    "row?.querySelector('.o_list_record_selector input')?.click();"
-                    "await new Promise(r => setTimeout(r, 1000));"
-                    "const btn = [...document.querySelectorAll('.o_control_panel button')]"
-                    ".find(b => ['Acțiuni', 'Actions'].includes(b.textContent.trim()));"
-                    "btn?.click();"
-                    "})()"
-                ),
-                "settle": 3000,
-            },
-            # 6. recepția cu numărul facturii furnizorului și butonul Factură
-            {
-                "url": f"id={self.receipt_open.id}&{picking_form}",
-                "name": "06_receptie_nr_factura.png",
-                "wait": ".o_form_view",
-                "settle": 2500,
+                "url": self._picking_url(self.receipt),
+                "name": "07_receptie_numar_factura.png",
+                "wait": ".o_form_view button[name='action_create_supplier_invoice']",
                 "highlight": ["div[name='supplier_invoice_number']", "button[name='action_create_supplier_invoice']"],
             },
-            # 7. factura furnizorului creată din recepție
-            {
-                "url": f"id={bill.id if bill else 0}&model=account.move&view_type=form",
-                "name": "07_factura_furnizor.png",
-                "wait": ".o_form_view",
-                "settle": 2500,
-                "highlight": ["div[name='ref']"],
-                "full": True,
-            },
-            # 8. lotul de livrări validat, cu butonul Facturează
             {
                 "url": f"id={self.batch.id}&model=stock.picking.batch&view_type=form",
-                "name": "08_lot_facturare.png",
+                "name": "09_lot_buton_factura.png",
+                "wait": ".o_form_view button[name='action_create_invoice']",
+                "highlight": ["button[name='action_create_invoice']", ".o_statusbar_status"],
+            },
+            {
+                "url": f"id={self.order.id}&model=sale.order&view_type=form",
+                "name": "10_comanda_facturare_fortata.png",
                 "wait": ".o_form_view",
-                "settle": 2500,
-                "highlight": ["button[name='action_create_invoice']"],
+                "click_tab": "Other Info",
+                "wait_after": "div[name='force_invoice_order']",
+                "highlight": ["div[name='force_invoice_order']"],
             },
         ]
 
-    def _capture(self, **kwargs):
-        """Capturile urmăresc aceleași documente: livrarea și recepția se facturează între capturi."""
-        self.capture_screenshots(self._shots()[:2], **kwargs)
-        invoice = self._invoice_pickings(self.picking_open)
-        self.capture_screenshots(self._shots(invoice)[2:6], **kwargs)
-        self.receipt_open.action_create_supplier_invoice()
-        bill = self.receipt_open.account_move_id
-        self.capture_screenshots(self._shots(invoice, bill)[6:], **kwargs)
+    def _shots_after(self, invoice, bill):
+        return [
+            {
+                "url": f"id={invoice.id}&model=account.move&view_type=form",
+                "name": "04_factura_din_livrare.png",
+                "wait": ".o_form_view div[name='invoice_line_ids'] .o_data_row",
+                "highlight": ["div[name='invoice_line_ids'] td[name='quantity']", "div[name='amount_total']"],
+            },
+            {
+                "url": self._picking_url(self.picking),
+                "name": "05_livrare_facturata.png",
+                "wait": ".o_form_view div[name='move_ids'] .o_data_row",
+                "click_tab": ADDITIONAL_INFO,
+                "wait_after": "div[name='account_move_id']",
+                "highlight": ["div[name='account_move_id']", "div[name='to_invoice']"],
+            },
+            {
+                "url": self._picking_url(self.picking_partial),
+                "name": "06_livrare_facturata_partial.png",
+                "wait": ".o_form_view div[name='move_ids'] .o_data_row",
+                "click_tab": ADDITIONAL_INFO,
+                "wait_after": "div[name='account_move_id']",
+                # fila se mai randează o dată după click; evidențierea se pune după ea
+                "eval": "true",
+                "eval_wait": 1500,
+                "highlight": [
+                    "div[name='account_move_id']",
+                    "div[name='to_invoice']",
+                    "button[name='action_create_invoice']",
+                ],
+            },
+            {
+                "url": f"id={bill.id}&model=account.move&view_type=form",
+                "name": "08_factura_furnizor.png",
+                "wait": ".o_form_view div[name='invoice_line_ids'] .o_data_row",
+                "highlight": [
+                    "button[name='action_view_source_purchase_orders']",
+                    "div[name='invoice_line_ids'] td[name='quantity']",
+                ],
+            },
+        ]
+
+    def _capture(self, lang):
+        self.capture_screenshots(self._shots_before(), lang=lang)
+        invoice = self._invoice_from_picking()
+        self._partial_invoice()
+        action = self.receipt.action_create_supplier_invoice()
+        bill = self.env["account.move"].browse(action["res_id"])
+        self.env.flush_all()
+        self.capture_screenshots(self._shots_after(invoice, bill), lang=lang)
 
     def test_capture_fise(self):
-        self._capture(hide_systray=True)
+        self._capture("ro_RO")
 
     def test_capture_usage(self):
-        self._capture(lang="en_US", hide_systray=True)
+        self._capture("en_US")
