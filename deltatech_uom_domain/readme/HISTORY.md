@@ -1,3 +1,8 @@
+## 20.0.1.2.1 (2026-11-03)
+
+- `readme/USAGE.md` for the Apps Store: wider unit lists on purchases, the vendor
+  line restriction and the default purchase unit.
+
 ## 20.0.1.2.0 (2026-10-20)
 
 - Default purchase unit on the product (`purchase_uom_id`, Purchase tab), restricted
