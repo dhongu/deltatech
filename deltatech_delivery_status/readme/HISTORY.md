@@ -1,3 +1,7 @@
+## 18.0.2.2.2 (2026-11-03)
+
+- `_create_backorder` now has the standard Odoo 18 signature `_create_backorder(self, backorder_moves=None)` and passes the argument on. Before, the override took no parameter, so the *Split* button (`action_split_transfer`) and any module calling it with `backorder_moves` (e.g. `stock_picking_batch`, `mdtrade_import_reception`) failed with `unexpected keyword argument 'backorder_moves'`.
+
 ## 18.0.2.2.1 (2026-09-29)
 
 - Romanian translations completed and corrected: *Refused* was not translated (the state showed in
