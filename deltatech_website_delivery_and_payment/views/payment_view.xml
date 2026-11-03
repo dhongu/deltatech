@@ -5,16 +5,15 @@
         <field name="model">payment.provider</field>
         <field name="inherit_id" ref="payment.payment_provider_form" />
         <field name="arch" type="xml">
-            <xpath expr='//group[@name="provider_config"]' position='after'>
-                <group string="Restrictions">
-                    <field name="value_limit" />
-                    <field
-                        name="restrict_label_ids"
-                        widget="many2many_tags"
-                        options="{'color_field': 'color', 'no_create_edit': True}"
-                        placeholder="Tags..."
-                    />
-                </group>
+            <!-- in the standard Restrictions tab: the Configuration tab is hidden for Cash on Delivery -->
+            <xpath expr="//field[@name='maximum_amount']" position="after">
+                <field name="value_limit" />
+                <field
+                    name="restrict_label_ids"
+                    widget="many2many_tags"
+                    options="{'color_field': 'color', 'no_create_edit': True}"
+                    placeholder="Tags..."
+                />
             </xpath>
         </field>
     </record>

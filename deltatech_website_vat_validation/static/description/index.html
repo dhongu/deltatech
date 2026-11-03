@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Website VAT Validation" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Website VAT Validation</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">VAT checks on website checkout and portal</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">No duplicate customers from the website checkout</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Generic Modules</span>
@@ -13,7 +13,13 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 13 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:93%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">93% code coverage</div>
+    </div>
   </div>
 </div>
 
@@ -32,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -40,17 +51,77 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Deltatech Website VAT Validation</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module enhances the VAT (Value Added Tax) validation functionality on Odoo website checkout and customer portal, ensuring VAT numbers are properly validated.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Cleans the address form of the website checkout and of the customer portal and stops a logged-in customer from
+registering a tax code or an e-mail address that already belongs to another customer. It also keeps the website price
+display setting (with or without taxes) from being reset in the background.</p>
+<p>The format of the tax code is checked by Odoo itself (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">base_vat</code>). The Romanian checks of the tax code (ANAF look-up,
+personal numeric code, struck-off company) are in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_website_anaf</code> (l10n-romania): this module stays
+country-neutral.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Automatic VAT number validation during website checkout</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>VAT number validation in customer portal when updating details</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Prevention of duplicate VAT numbers across different customers</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Automatic trimming of whitespace from VAT entries</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Integration with both website sale checkout process and customer portal</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Clear error messages when a VAT number is already in use</div></div></li></ul>
-<p>The Romanian checks of the tax code (ANAF look-up, personal numeric code, struck-off company)
-are in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_website_anaf</code> (l10n-romania): this module stays country-neutral.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Benefits</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Improved data quality by preventing duplicate VAT registrations</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Enhanced compliance with tax regulations</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Better customer experience with immediate feedback on VAT number validity</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Reduced manual verification by administrators</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Streamlined checkout process with proper validation</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Prevention of potential billing and accounting issues related to incorrect VAT information</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Trimmed values</span><div>the spaces before and after the tax code, the e-mail and the phone typed in the address form are
+  removed.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Duplicate tax code blocked</span><div>a logged-in customer cannot use a tax code that another customer already has. The
+  codes are compared without their country prefix and spaces, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">RO 12 34 56 07</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro12345607</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">12345607</code> are the
+  same code.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Duplicate e-mail blocked</span><div>a logged-in customer cannot use an e-mail address of another account; the message asks
+  to log in with that account or to use another address.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Messages that say what to do</span><div>for a tax code already in use, the customer is asked to get access from a colleague
+  who has an account, to send an access request from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/b2b</code> page (with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_b2b_portal</code>) or to contact the
+  shop. The messages never name the account found.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">No false duplicates</span><div>the customer's own company and its contacts are not duplicates, and the phone is not checked,
+  since colleagues share the company phone and relatives a home phone.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Guest checkout unchanged</span><div>the duplicate checks run only for logged-in customers. For an anonymous visitor the
+  message would tell anyone that an e-mail address or a tax code belongs to an existing customer.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Price display kept</span><div>the website setting <em>Display Product Prices</em> (tax included or excluded) keeps its saved value
+  when Odoo recomputes it, for example after the address of the company's own partner is updated by an ANAF sync.
+  Without the module, Odoo puts it back to tax excluded.</div></div></li></ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Update from a version before 19.0.0.2.0</h2>
+<p>The ANAF checks moved to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_website_anaf</code>. A database that had them (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_partner_create_by_vat</code> installed)
+gets <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_website_anaf</code> installed with the update, when l10n-romania is on the addons path; otherwise the log says
+to add it.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>The module has no settings of its own. Its checks run when a <strong>logged-in</strong> customer saves an
+address form: the <strong>Address</strong> step of the website checkout, and <strong>My Account &#8594; Edit information</strong>
+(the <strong>Details</strong> page) or <strong>Addresses</strong> in the customer portal. A visitor checking out without an
+account is not checked, so the form cannot be used to find out who is a customer.</p>
+<p><strong>1. A tax code of another company, at checkout</strong></p>
+<p>In the cart, the customer clicks <strong>Checkout</strong> and reaches the <strong>Address</strong> step, where their
+addresses are shown as cards. The pencil on the billing address card opens <strong>Edit address</strong>.
+In <strong>VAT</strong> they type
+the tax code of a company that already has an account, here <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro 12 34 56 07</code> (lower case, spaces
+around and inside), and click <strong>Confirm</strong>. The spaces are removed and the code is compared without
+its country prefix, so it matches <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">RO12345607</code> of an existing customer. The <strong>VAT</strong> field is marked
+in red and the message in the red alert at the top of the page asks the customer to get access from a colleague or to
+contact the shop. The company found is not named. With <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_b2b_portal</code>, the message points
+to the access request form of the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/b2b</code> page instead.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Address step of the checkout: the VAT field with ro 12 34 56 07 marked in red and, in the red alert at the top of the page, the message that a company with this tax code already has an account, asking to get access from a colleague or to contact the shop" src="en/01_cod_fiscal_duplicat_checkout.png" /></p>
+<p><strong>2. An e-mail address of another account, at checkout</strong></p>
+<p>On the same step, an <strong>Email</strong> that belongs to another customer is refused: the field is marked in
+red and the message asks the customer to log in with that account or to use another address.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Address step of the checkout: the Email field with an address of another customer marked in red and the message that this e-mail address belongs to another account" src="en/02_email_duplicat_checkout.png" /></p>
+<p><strong>3. The same check in the customer portal</strong></p>
+<p>In <strong>My Account &#8594; Edit information</strong>, the same tax code is refused with the same message when the
+customer clicks <strong>Save Address</strong>; nothing is saved.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Details page of the customer portal: the VAT field with ro 12 34 56 07 marked in red and the message that a company with this tax code already has an account" src="en/03_cod_fiscal_duplicat_portal.png" /></p>
+<p>What is not a duplicate: the tax code and e-mail of the customer's own company and of its contacts,
+and any phone number, since colleagues share the company phone and relatives a home phone.</p>
+<p><strong>4. Display Product Prices keeps its value</strong></p>
+<p>In <strong>Website &#8594; Configuration &#8594; Settings</strong>, section <strong>eCommerce</strong>, choose <strong>Display Product Prices</strong>:
+<strong>Tax Excluded</strong> or <strong>Tax Included</strong>. Odoo recomputes this setting whenever the fiscal country of the
+website company is recomputed, for example after the address of the company's own partner is
+rewritten by a partner sync, and without the module it falls back to <strong>Tax Excluded</strong>. With the
+module, the saved value stays.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Website settings: Display Product Prices highlighted, with Tax Included selected" src="en/04_afisare_preturi_pastrata.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.0.2.1 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten to match the code: duplicate e-mail check, checks only for logged-in
+  customers, tax code compared without prefix and spaces, messages, price display setting kept. It no
+  longer claims to validate the tax code format, which Odoo itself does. Shorter summary and banner
+  to match.</li>
+<li>Consultant sheet (readme/FISA_CONSULTANT.md, in Romanian), usage page (readme/USAGE.md) and
+  screenshots in Romanian and English, generated on Odoo 20 by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>: tax code
+  and e-mail refused at checkout and in the portal, price display setting kept. On Odoo 20 the
+  checkout shows the messages in the alert at the top of the page.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.2.0 (2026-10-12)</h2>
 <ul>
 <li>The Romanian checks of the tax code moved to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_website_anaf</code> (l10n-romania): ANAF
@@ -128,10 +199,6 @@ contact us. Before: "An other partner already exists with the same ...";</li>
 <li>Overrides that call <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">super()</code> without returning its result now pass it on
   (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">missing-return</code>). The parent methods return <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">None</code> today, so the
   behavior is unchanged.</li>
-</ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.0.0.2 (2026-08-21)</h2>
-<ul>
-<li>Add: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website.show_line_subtotals_tax_selection</code> ("Display Product Prices") is a computed+stored field with no Romanian override, so <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code> resets it to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tax_excluded</code> on every recompute of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">company_id.account_fiscal_country_id</code> - triggered, for example, by any write on the company's own partner address (e.g. a nightly ANAF partner sync). The new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Website._compute_show_line_subtotals_tax_selection</code> override preserves the previously saved value instead of letting it reset silently, without forcing either option.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
@@ -275,6 +342,26 @@ contact us. Before: "An other partner already exists with the same ...";</li>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_price_change" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_price_change/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price Change</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Track list price changes, price change report and document</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_pricelist_vat_cost" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -301,36 +388,16 @@ contact us. Before: "An other partner already exists with the same ...";</li>
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SR</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SP</span>
               <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_report/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Reports</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Picking Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Report with positions from picking lists</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_disable_fuzzy_search" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_disable_fuzzy_search/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Disable Fuzzy Search</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Turn off fuzzy matching in the website search bar</p>
         </div>
       </a>
     </div>

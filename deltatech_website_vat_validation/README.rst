@@ -16,50 +16,157 @@ Website VAT Validation
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_vat_validation
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_vat_validation/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-13%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_website_vat_validation
+    :alt: 13 automated tests · 93% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-Deltatech Website VAT Validation
-================================
+Cleans the address form of the website checkout and of the customer
+portal and stops a logged-in customer from registering a tax code or an
+e-mail address that already belongs to another customer. It also keeps
+the website price display setting (with or without taxes) from being
+reset in the background.
 
-This module enhances the VAT (Value Added Tax) validation functionality
-on Odoo website checkout and customer portal, ensuring VAT numbers are
-properly validated.
+The format of the tax code is checked by Odoo itself (``base_vat``). The
+Romanian checks of the tax code (ANAF look-up, personal numeric code,
+struck-off company) are in ``l10n_ro_website_anaf`` (l10n-romania): this
+module stays country-neutral.
 
 Features
 --------
 
-- Automatic VAT number validation during website checkout
-- VAT number validation in customer portal when updating details
-- Prevention of duplicate VAT numbers across different customers
-- Automatic trimming of whitespace from VAT entries
-- Integration with both website sale checkout process and customer
-  portal
-- Clear error messages when a VAT number is already in use
+- **Trimmed values**: the spaces before and after the tax code, the
+  e-mail and the phone typed in the address form are removed.
+- **Duplicate tax code blocked**: a logged-in customer cannot use a tax
+  code that another customer already has. The codes are compared without
+  their country prefix and spaces, so ``RO 12 34 56 07``, ``ro12345607``
+  and ``12345607`` are the same code.
+- **Duplicate e-mail blocked**: a logged-in customer cannot use an
+  e-mail address of another account; the message asks to log in with
+  that account or to use another address.
+- **Messages that say what to do**: for a tax code already in use, the
+  customer is asked to get access from a colleague who has an account,
+  to send an access request from the ``/b2b`` page (with
+  ``deltatech_b2b_portal``) or to contact the shop. The messages never
+  name the account found.
+- **No false duplicates**: the customer's own company and its contacts
+  are not duplicates, and the phone is not checked, since colleagues
+  share the company phone and relatives a home phone.
+- **Guest checkout unchanged**: the duplicate checks run only for
+  logged-in customers. For an anonymous visitor the message would tell
+  anyone that an e-mail address or a tax code belongs to an existing
+  customer.
+- **Price display kept**: the website setting *Display Product Prices*
+  (tax included or excluded) keeps its saved value when Odoo recomputes
+  it, for example after the address of the company's own partner is
+  updated by an ANAF sync. Without the module, Odoo puts it back to tax
+  excluded.
 
-The Romanian checks of the tax code (ANAF look-up, personal numeric
-code, struck-off company) are in ``l10n_ro_website_anaf``
-(l10n-romania): this module stays country-neutral.
+Update from a version before 19.0.0.2.0
+---------------------------------------
 
-Benefits
---------
-
-- Improved data quality by preventing duplicate VAT registrations
-- Enhanced compliance with tax regulations
-- Better customer experience with immediate feedback on VAT number
-  validity
-- Reduced manual verification by administrators
-- Streamlined checkout process with proper validation
-- Prevention of potential billing and accounting issues related to
-  incorrect VAT information
+The ANAF checks moved to ``l10n_ro_website_anaf``. A database that had
+them (``l10n_ro_partner_create_by_vat`` installed) gets
+``l10n_ro_website_anaf`` installed with the update, when l10n-romania is
+on the addons path; otherwise the log says to add it.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+The module has no settings of its own. Its checks run when a
+**logged-in** customer saves an address form: the **Address** step of
+the website checkout, and **My Account → Edit information** (the
+**Details** page) or **Addresses** in the customer portal. A visitor
+checking out without an account is not checked, so the form cannot be
+used to find out who is a customer.
+
+**1. A tax code of another company, at checkout**
+
+In the cart, the customer clicks **Checkout** and reaches the
+**Address** step, where their addresses are shown as cards. The pencil
+on the billing address card opens **Edit address**. In **VAT** they type
+the tax code of a company that already has an account, here
+``ro 12 34 56 07`` (lower case, spaces around and inside), and click
+**Confirm**. The spaces are removed and the code is compared without its
+country prefix, so it matches ``RO12345607`` of an existing customer.
+The **VAT** field is marked in red and the message in the red alert at
+the top of the page asks the customer to get access from a colleague or
+to contact the shop. The company found is not named. With
+``deltatech_b2b_portal``, the message points to the access request form
+of the ``/b2b`` page instead.
+
+|Address step of the checkout: the VAT field with ro 12 34 56 07 marked
+in red and, in the red alert at the top of the page, the message that a
+company with this tax code already has an account, asking to get access
+from a colleague or to contact the shop|
+
+**2. An e-mail address of another account, at checkout**
+
+On the same step, an **Email** that belongs to another customer is
+refused: the field is marked in red and the message asks the customer to
+log in with that account or to use another address.
+
+|Address step of the checkout: the Email field with an address of
+another customer marked in red and the message that this e-mail address
+belongs to another account|
+
+**3. The same check in the customer portal**
+
+In **My Account → Edit information**, the same tax code is refused with
+the same message when the customer clicks **Save Address**; nothing is
+saved.
+
+|Details page of the customer portal: the VAT field with ro 12 34 56 07
+marked in red and the message that a company with this tax code already
+has an account|
+
+What is not a duplicate: the tax code and e-mail of the customer's own
+company and of its contacts, and any phone number, since colleagues
+share the company phone and relatives a home phone.
+
+**4. Display Product Prices keeps its value**
+
+In **Website → Configuration → Settings**, section **eCommerce**, choose
+**Display Product Prices**: **Tax Excluded** or **Tax Included**. Odoo
+recomputes this setting whenever the fiscal country of the website
+company is recomputed, for example after the address of the company's
+own partner is rewritten by a partner sync, and without the module it
+falls back to **Tax Excluded**. With the module, the saved value stays.
+
+|Website settings: Display Product Prices highlighted, with Tax Included
+selected|
+
+.. |Address step of the checkout: the VAT field with ro 12 34 56 07 marked in red and, in the red alert at the top of the page, the message that a company with this tax code already has an account, asking to get access from a colleague or to contact the shop| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/01_cod_fiscal_duplicat_checkout.png
+.. |Address step of the checkout: the Email field with an address of another customer marked in red and the message that this e-mail address belongs to another account| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/02_email_duplicat_checkout.png
+.. |Details page of the customer portal: the VAT field with ro 12 34 56 07 marked in red and the message that a company with this tax code already has an account| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/03_cod_fiscal_duplicat_portal.png
+.. |Website settings: Display Product Prices highlighted, with Tax Included selected| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/04_afisare_preturi_pastrata.png
+
 Changelog
 =========
+
+20.0.0.2.1 (2026-11-03)
+-----------------------
+
+- Description rewritten to match the code: duplicate e-mail check,
+  checks only for logged-in customers, tax code compared without prefix
+  and spaces, messages, price display setting kept. It no longer claims
+  to validate the tax code format, which Odoo itself does. Shorter
+  summary and banner to match.
+- Consultant sheet (readme/FISA_CONSULTANT.md, in Romanian), usage page
+  (readme/USAGE.md) and screenshots in Romanian and English, generated
+  on Odoo 20 by ``tests/test_screenshots.py``: tax code and e-mail
+  refused at checkout and in the portal, price display setting kept. On
+  Odoo 20 the checkout shows the messages in the alert at the top of the
+  page.
 
 19.0.0.2.0 (2026-10-12)
 -----------------------

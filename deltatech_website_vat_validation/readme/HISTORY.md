@@ -1,3 +1,14 @@
+## 20.0.0.2.1 (2026-11-03)
+
+- Description rewritten to match the code: duplicate e-mail check, checks only for logged-in
+  customers, tax code compared without prefix and spaces, messages, price display setting kept. It no
+  longer claims to validate the tax code format, which Odoo itself does. Shorter summary and banner
+  to match.
+- Consultant sheet (readme/FISA_CONSULTANT.md, in Romanian), usage page (readme/USAGE.md) and
+  screenshots in Romanian and English, generated on Odoo 20 by `tests/test_screenshots.py`: tax code
+  and e-mail refused at checkout and in the portal, price display setting kept. On Odoo 20 the
+  checkout shows the messages in the alert at the top of the page.
+
 ## 19.0.0.2.0 (2026-10-12)
 
 - The Romanian checks of the tax code moved to `l10n_ro_website_anaf` (l10n-romania): ANAF

@@ -4,8 +4,8 @@
 
 {
     "name": "Website VAT Validation",
-    "summary": "Validate VAT numbers at checkout and in the portal, and block duplicates",
-    "version": "20.0.0.2.0",
+    "summary": "Block duplicate tax codes and e-mails at checkout and in the portal",
+    "version": "20.0.0.2.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
