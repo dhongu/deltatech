@@ -1,6 +1,6 @@
 {
   "title": "Website Designer Access",
-  "summary": "Restrict Contacts, Sales & Finance from web designer users",
+  "summary": "Hide Contacts, Sales & Invoicing menus from website-only users",
   "icon": "user",
-  "features": ["Hides Contacts menu", "Hides Sales menu", "Hides Finance menus"]
+  "features": ["Dedicated access group", "Hides Contacts and Sales", "Hides Invoicing Customers/Vendors"]
 }

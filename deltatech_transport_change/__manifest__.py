@@ -1,10 +1,10 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Transport Change",
-    "version": "19.0.0.1.8",
+    "version": "19.0.0.1.9",
     "license": "LGPL-3",
     "category": "Technical",
-    "summary": "Export configuration changes to CSV and manage transport through Git",
+    "summary": "Export configuration data to CSV in a Git module, to carry it between databases",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": [

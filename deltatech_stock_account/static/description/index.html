@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Stock Account Extension" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Stock Account Extension</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Show stock valuation directly on transfers</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Transfer values, category accounts, cost control</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Generic Modules</span>
@@ -46,14 +46,45 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Small additions to stock valuation: the value of each transfer in the transfers
+list, accounting settings passed from a product category to its subcategories,
+and control over who may change the cost of a product that is in stock.</p>
+<p><strong>Value of transfers.</strong> Adds an <strong>Amount</strong> column to the transfers list
+(for example <em>Inventory &gt; Operations &gt; Transfers &gt; Receipts</em>), with the total at the bottom. The amount
+is the sum of the valuation <strong>Value</strong> of the stock moves of the transfer; moves
+that are not valued (for example internal transfers) count as zero.</p>
+<p><strong>Accounts propagated to subcategories.</strong> When the <strong>Stock Account</strong> of a product
+category is changed, the category's accounting settings are copied to all its
+subcategories: <strong>Income Account</strong>, <strong>Expense Account</strong>, <strong>Stock Account</strong>,
+<strong>Price Difference Account</strong>, <strong>Stock Journal</strong>, <strong>Costing Method</strong> and
+<strong>Inventory Valuation</strong>. The same copy can be run at any time with the
+<strong>Propagate Accounts</strong> action on the category form (developer mode).</p>
+<p><strong>Settings inherited from the parent category.</strong> When you choose a <strong>Parent
+Category</strong> on a category, the same accounting settings are copied from the
+parent.</p>
+<p><strong>Cost changes restricted.</strong> Only users in the <strong>Change Product Price</strong> group can
+change the <strong>Cost</strong> of a product that has quantity on hand. Other users get an
+access error. The administrator is in the group by default.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<p>Add users to the <strong>Change Product Price</strong> group in *Settings &gt; Users &amp; Companies</p>
+<blockquote>
+<p>Groups* (developer mode).</p>
+</blockquote>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>adds the stock valuation on the picking</li>
-<li>display the stock valuation on the picking form</li>
+<li>The value of a transfer is shown only in the transfers list, not on the
+  transfer form.</li>
+<li>The <strong>Stock Variation Account</strong> of the category is not propagated.</li>
 </ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.10 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code: the transfer value is shown in the transfers list, not on the transfer form.</li>
+<li>Documented the account propagation to subcategories and the Change Product Price group, which the old description did not mention.</li>
+<li>Summary and banner corrected.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.9 (2026-10-16)</h2>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in
@@ -192,7 +223,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep CMRs, certificates and other shipping documents in one place</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">See the files attached to orders, transfers and invoices from any of them</p>
         </div>
       </a>
     </div>
@@ -252,7 +283,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Payment analysis report by journal and period, with a filter wizard</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Customer receipts by payment and invoice journal over a period, with a filter wizard</p>
         </div>
       </a>
     </div>

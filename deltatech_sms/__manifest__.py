@@ -4,8 +4,8 @@
 
 {
     "name": "SMS Custom Gateway",
-    "summary": "Send SMS to custom endpoint",
-    "version": "19.0.1.0.2",
+    "summary": "Send Odoo SMS through your own 4Pay or Wapi account instead of IAP",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Extra Tools",

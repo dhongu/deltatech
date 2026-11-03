@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="MRP Concentration" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">MRP Concentration</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Active-ingredient concentration in BOM</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Dilute or concentrate to a target</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Generic Modules/Production</span>
@@ -46,42 +46,50 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">MRP Concentration Management</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module introduces a specialized concentration management feature for manufacturing processes in Odoo. It's designed for industries (such as chemical, food, or pharmaceuticals) where the actual concentration of an active ingredient in a component can vary, requiring adjustments in the production quantities to maintain final product quality.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Component Concentration Tracking</strong>:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Recomputes the quantity of the main ingredient of a recipe from the concentration you want in the
+finished product and the concentration of the ingredient you have, then balances the batch with a
+diluent or a by-product. Meant for chemical, food or pharmaceutical products made by diluting or
+concentrating an active ingredient.</p>
+<p><strong>Concentrations on the bill of materials.</strong> The BoM form gets two fields next to the product:
+<em>Concentration</em> (of the finished product) and <em>Concentration Primary</em> (of the main ingredient). Both
+are plain numbers, so use the same unit for both, for example percentages.</p>
+<p><strong>Ingredient type on the components.</strong> Each component line gets an <em>Ingredient Type</em>: <em>Primary</em> (the
+active ingredient), <em>Secondary</em> (the diluent) or <em>Normal</em> (default, not recalculated).</p>
+<p><strong>Recalculation on the BoM.</strong> When you change either concentration or the BoM quantity, the
+<em>Primary</em> component quantity becomes BoM quantity &#215; <em>Concentration</em> / <em>Concentration Primary</em>. The
+rest of the batch is balanced:</p>
 <ul>
-<li>Adds a <strong>Concentration</strong> field directly on the Bill of Materials (BoM) lines.</li>
-<li>Allows manufacturing engineers to specify the required concentration of each raw material or ingredient.</li>
+<li>dilution (the result is below the BoM quantity): the <em>Secondary</em> component gets the difference;</li>
+<li>concentration (the result is above the BoM quantity): the by-products get the excess and the
+  <em>Secondary</em> component is set to zero.</li>
 </ul>
-</li>
-<li>
-<p><strong>Dynamic Production Adjustments</strong>:</p>
+<p><strong>Recalculation on the manufacturing order.</strong> The MO form shows the same two fields, copied from the
+BoM when you pick it. Changing a concentration or the quantity to produce recalculates the demand of
+the primary and secondary components and of the by-products of that order with the same rule, so the
+actual concentration of a received lot can be used for one order without changing the BoM.</p>
+<p><strong>Where to find it.</strong> <em>Manufacturing &gt; Products &gt; Bills of Materials</em> for the BoM, and
+<em>Manufacturing &gt; Operations &gt; Manufacturing Orders</em> for the orders. The by-products are entered on
+the <em>By-products</em> tab of the BoM, available when <em>By-Products</em> is enabled in the Manufacturing
+settings.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Integrates with Odoo's core <strong>Manufacturing (MRP)</strong> module to ensure that the actual quantities consumed during production account for the specified concentration.</li>
-<li>Ensures consistent quality and potency of the finished goods by compensating for variations in component concentrations.</li>
+<li>The recalculation runs only while editing the BoM or the MO form. Orders created automatically
+  (from a sales order or a replenishment rule) do not get the concentrations and keep the BoM
+  quantities until the fields are changed on the form.</li>
+<li>When the BoM has several by-products, they all receive the same excess quantity.</li>
 </ul>
-</li>
-<li>
-<p><strong>Traceability and Documentation</strong>:</p>
-<ul>
-<li>Includes concentration data in both the BoM and the individual Manufacturing Orders (MO) for better auditability and quality control.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Manufacturing &gt; Products &gt; Bills of Materials</strong>.</li>
-<li>Open or create a BoM and locate the <strong>Concentration</strong> field in the component lines.</li>
-<li>Enter the required concentration percentage for each active component.</li>
-<li>Create a <strong>Manufacturing Order</strong> for this BoM.</li>
-<li>View the resulting concentration and quantity information on the MO to ensure production accuracy.</li>
-</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten after the code: the concentrations are on the BoM and the manufacturing
+  order, not on the component lines; the lines get an <em>Ingredient Type</em> (Primary, Secondary, Normal).</li>
+<li>Documented the recalculation rule and the diluent / by-product balance; removed the traceability
+  claims the code does not support.</li>
+<li>Added a Limitations section (form-only recalculation, same quantity on every by-product).</li>
+<li>Summary and Apps banner aligned with the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-10-16)</h2>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in
@@ -157,7 +165,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Production</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">BoM overhead percentage and UoM-aware rounding when exploding bills of materials</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Cost categories for components and a production cost analysis for manufacturing orders</p>
         </div>
       </a>
     </div>
@@ -217,7 +225,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

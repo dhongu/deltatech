@@ -4,8 +4,8 @@
 {
     "name": "eCommerce Attribute Values",
     "category": "Website",
-    "summary": "Attribute values for products displayed",
-    "version": "19.0.1.0.5",
+    "summary": "Hide chosen attribute values from the online shop",
+    "version": "19.0.1.0.6",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

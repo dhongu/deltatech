@@ -1,3 +1,10 @@
+## 19.0.1.1.5 (2026-11-03)
+
+- Description rewritten from the code: the zero-cost system parameter is
+  `deltatech_mrp_simple.allow_zero_cost` (it was given as
+  `simple_production_allow_zero_cost`); added the menu, the buttons, the
+  validation options and the link with the sale order.
+
 ## 19.0.1.1.4 (2026-10-12)
 
 - Fixed SIMPLE-003: the received products were valued at their current product

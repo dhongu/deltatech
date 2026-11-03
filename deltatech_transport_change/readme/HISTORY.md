@@ -1,3 +1,9 @@
+## 19.0.0.1.9 (2026-11-03)
+
+- Description and banner rewritten after the code: the export is CSV only (no XML),
+  only HTTPS with a token works for Git, and the menus are under
+  Settings > Technical > Transport. The unused SSH and Local Path fields are listed under Limitations.
+
 ## 19.0.0.1.8 (2026-10-17)
 
 - Many2one and Many2many fields were exported with a plain `field` header while the

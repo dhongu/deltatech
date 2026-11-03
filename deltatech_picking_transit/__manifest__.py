@@ -1,11 +1,11 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Stock Auto Transfer",
-    "version": "19.0.0.0.15",
+    "version": "19.0.0.0.16",
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
-    "summary": "Automate internal transfer from transit location",
+    "summary": "Two-step transfers between warehouses through a transit location",
     "depends": ["stock"],
     "license": "LGPL-3",
     "data": [

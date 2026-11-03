@@ -1,3 +1,12 @@
+## 19.0.1.0.10 (2026-11-03)
+
+- Description, summary and banner rewritten from the code: removed the BoM
+  overhead field, the rounding at BoM explosion, the changes to the
+  manufacturing order confirmation and the automatic lot generation, which the
+  module no longer has; documented the cost categories, the *Costs* tab and
+  the *Production Cost Analysis* report, with the fixed 20% indirect cost
+  rate as a limitation.
+
 ## 19.0.1.0.9 (2026-10-17)
 
 - Fixed MRP-002: in *Production Cost Analysis*, the planned quantity of a

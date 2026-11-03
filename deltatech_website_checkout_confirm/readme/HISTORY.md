@@ -1,3 +1,9 @@
+## 19.0.1.0.5 (2026-11-03)
+
+- Description, summary and banner rewritten after the code: there is no extra review page or
+  Confirm button; the order is confirmed automatically on the standard confirmation page,
+  including wire transfer and cash on delivery.
+
 ## 19.0.1.0.4
 
 - Security: `/shop/confirmation` now respects the amount required for confirmation and the

@@ -22,50 +22,53 @@ MRP Concentration
 
 |badge1| |badge2| |badge_tests|
 
-MRP Concentration Management
-============================
+Recomputes the quantity of the main ingredient of a recipe from the
+concentration you want in the finished product and the concentration of
+the ingredient you have, then balances the batch with a diluent or a
+by-product. Meant for chemical, food or pharmaceutical products made by
+diluting or concentrating an active ingredient.
 
-This module introduces a specialized concentration management feature
-for manufacturing processes in Odoo. It's designed for industries (such
-as chemical, food, or pharmaceuticals) where the actual concentration of
-an active ingredient in a component can vary, requiring adjustments in
-the production quantities to maintain final product quality.
+**Concentrations on the bill of materials.** The BoM form gets two
+fields next to the product: *Concentration* (of the finished product)
+and *Concentration Primary* (of the main ingredient). Both are plain
+numbers, so use the same unit for both, for example percentages.
 
-Key Features
-============
+**Ingredient type on the components.** Each component line gets an
+*Ingredient Type*: *Primary* (the active ingredient), *Secondary* (the
+diluent) or *Normal* (default, not recalculated).
 
-1. **Component Concentration Tracking**:
+**Recalculation on the BoM.** When you change either concentration or
+the BoM quantity, the *Primary* component quantity becomes BoM quantity
+× *Concentration* / *Concentration Primary*. The rest of the batch is
+balanced:
 
-   - Adds a **Concentration** field directly on the Bill of Materials
-     (BoM) lines.
-   - Allows manufacturing engineers to specify the required
-     concentration of each raw material or ingredient.
+- dilution (the result is below the BoM quantity): the *Secondary*
+  component gets the difference;
+- concentration (the result is above the BoM quantity): the by-products
+  get the excess and the *Secondary* component is set to zero.
 
-2. **Dynamic Production Adjustments**:
+**Recalculation on the manufacturing order.** The MO form shows the same
+two fields, copied from the BoM when you pick it. Changing a
+concentration or the quantity to produce recalculates the demand of the
+primary and secondary components and of the by-products of that order
+with the same rule, so the actual concentration of a received lot can be
+used for one order without changing the BoM.
 
-   - Integrates with Odoo's core **Manufacturing (MRP)** module to
-     ensure that the actual quantities consumed during production
-     account for the specified concentration.
-   - Ensures consistent quality and potency of the finished goods by
-     compensating for variations in component concentrations.
+**Where to find it.** *Manufacturing > Products > Bills of Materials*
+for the BoM, and *Manufacturing > Operations > Manufacturing Orders* for
+the orders. The by-products are entered on the *By-products* tab of the
+BoM, available when *By-Products* is enabled in the Manufacturing
+settings.
 
-3. **Traceability and Documentation**:
+Limitations
+-----------
 
-   - Includes concentration data in both the BoM and the individual
-     Manufacturing Orders (MO) for better auditability and quality
-     control.
-
-Usage
-=====
-
-1. Navigate to **Manufacturing > Products > Bills of Materials**.
-2. Open or create a BoM and locate the **Concentration** field in the
-   component lines.
-3. Enter the required concentration percentage for each active
-   component.
-4. Create a **Manufacturing Order** for this BoM.
-5. View the resulting concentration and quantity information on the MO
-   to ensure production accuracy.
+- The recalculation runs only while editing the BoM or the MO form.
+  Orders created automatically (from a sales order or a replenishment
+  rule) do not get the concentrations and keep the BoM quantities until
+  the fields are changed on the form.
+- When the BoM has several by-products, they all receive the same excess
+  quantity.
 
 **Table of contents**
 
@@ -74,6 +77,18 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.5 (2026-11-03)
+-----------------------
+
+- Description rewritten after the code: the concentrations are on the
+  BoM and the manufacturing order, not on the component lines; the lines
+  get an *Ingredient Type* (Primary, Secondary, Normal).
+- Documented the recalculation rule and the diluent / by-product
+  balance; removed the traceability claims the code does not support.
+- Added a Limitations section (form-only recalculation, same quantity on
+  every by-product).
+- Summary and Apps banner aligned with the description.
 
 19.0.1.0.4 (2026-10-16)
 -----------------------

@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Checkout Confirm" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Checkout Confirm</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Final order confirmation at checkout</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Confirm web orders at the end of checkout</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Website</span>
@@ -46,42 +46,36 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">eCommerce Checkout Confirmation Enhancement</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module adds an extra layer of order confirmation to Odoo's eCommerce checkout process. It's designed for businesses that want to ensure customers have a final chance to review their purchase before the order is finalized and sent for processing.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Mandatory Confirmation Step</strong>:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">In standard Odoo eCommerce, a quotation paid by wire transfer or cash on delivery stays a quotation
+after checkout: the transaction is only <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code>, so the order is confirmed later, by hand or when
+the payment is received. This module confirms the order as soon as the customer reaches the
+order confirmation page (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop/confirmation</code>) at the end of checkout.</p>
+<p>There is no extra page or button: the module works on the standard confirmation route of
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>.</p>
+<p><strong>Automatic confirmation at the end of checkout</strong>: when the customer lands on the confirmation page,
+the last order of the session is confirmed (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Sales Order</code> state), so the delivery and the rest of the
+sales flow start right away.</p>
+<p><strong>Offline payment methods included</strong>: a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code> transaction on a provider without online processing
+(wire transfer, cash on delivery) is enough to confirm the order. Online providers still need a
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Confirmed</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Authorized</code> transaction.</p>
+<p><strong>Same checks as the standard payment flow</strong>: the order is confirmed only if it is still a quotation,
+no online signature is pending, and the qualifying transactions, linked only to this order, cover
+the amount required for confirmation (the full amount or the prepayment percentage set on the
+quotation). Reloading the page on an already confirmed order does nothing.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Inserts a dedicated confirmation stage between the payment and the final order success page.</li>
-<li>Provides a summary of the order details, allowing the customer to perform one last check.</li>
+<li>A transaction that pays several orders at once is not taken into account, as in the standard
+  post-processing.</li>
 </ul>
-</li>
-<li>
-<p><strong>Order Flow Refinement</strong>:</p>
-<ul>
-<li>Seamlessly integrates with Odoo's standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code> checkout flow.</li>
-<li>Ensures that only orders with a confirmed intent from the customer reach the backend for fulfillment.</li>
-</ul>
-</li>
-<li>
-<p><strong>Enhanced User Experience</strong>:</p>
-<ul>
-<li>Improves customer trust by providing a clear, final order summary before concluding the transaction.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to your <strong>Odoo Website</strong>.</li>
-<li>Add items to your cart and proceed to the <strong>Checkout</strong>.</li>
-<li>After selecting the <strong>Payment Method</strong>, you will be presented with a final <strong>Order Confirmation</strong> page.</li>
-<li>Review your order and click the <strong>Confirm</strong> button to complete the purchase.</li>
-<li>You will then be redirected to the standard "Order Success" page.</li>
-</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.5 (2026-11-03)</h2>
+<ul>
+<li>Description, summary and banner rewritten after the code: there is no extra review page or
+  Confirm button; the order is confirmed automatically on the standard confirmation page,
+  including wire transfer and cash on delivery.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4</h2>
 <ul>
 <li>Security: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop/confirmation</code> now respects the amount required for confirmation and the
@@ -276,7 +270,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Limit eCommerce delivery methods and payment providers</p>
         </div>
       </a>
     </div>

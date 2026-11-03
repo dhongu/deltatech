@@ -1,3 +1,9 @@
+## 19.0.2.0.5 (2026-11-03)
+
+- Description rewritten after the code: the generic partner is declared in the
+  Invoicing settings, section Customer Invoices, and is not selected automatically in
+  sales or invoicing as the old text said. The banner no longer promises it.
+
 ## 19.0.2.0.4 (2026-11-03)
 
 - A new payment for the generic partner now proposes an allowed journal by default, not the

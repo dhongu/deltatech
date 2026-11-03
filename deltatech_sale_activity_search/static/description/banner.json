@@ -1,10 +1,6 @@
 {
   "title": "Sale Activity Search",
-  "summary": "Filter sale orders by active activity type",
+  "summary": "Pending activity types on the sale order",
   "icon": "clipboard",
-  "features": [
-    "Active activity types on the order",
-    "Search and filter by activity type",
-    "Prioritize follow-up at a glance"
-  ]
+  "features": ["Active activity types on the order", "Updated on every activity change", "Usable in custom filters"]
 }

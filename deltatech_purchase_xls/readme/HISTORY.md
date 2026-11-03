@@ -1,3 +1,10 @@
+## 19.0.1.0.7 (2026-11-03)
+
+- Description rewritten from the code: the import is in the Actions menu and the
+  export in the Print menu (there are no buttons on the form); documented the
+  wizard options, the product matching, the *Order lines* smart button and the
+  update of existing lines through the standard import.
+
 ## 19.0.1.0.6 (2026-10-22)
 
 - Listed on Odoo Apps as *Purchase XLS Import / Export* (was *Purchase XLS*). The technical name `deltatech_purchase_xls` does not change.

@@ -3,7 +3,7 @@
 {
     "name": "Simple MRP",
     "summary": "Simple production without a BoM: consume components, output products, cost computed",
-    "version": "19.0.1.1.4",
+    "version": "19.0.1.1.5",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",

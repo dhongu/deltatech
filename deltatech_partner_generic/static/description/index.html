@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Generic Partner" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Generic Partner</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Default generic / anonymous partner</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">One partner for anonymous customers, kept safe</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Generic Modules</span>
@@ -38,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -46,46 +51,102 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module provides an efficient way to manage transactions for generic or anonymous partners by allowing the definition of a specific "Generic Partner" in the Odoo configuration.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features:</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Define a default "Generic Partner" to be used when a specific partner is not required.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Automatically handles the selection of this partner in various business flows such as sales and invoicing.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Helps simplify data entry for businesses that handle many one-time or anonymous customers.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Fully integrated with Odoo's standard accounting and sales settings.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Optionally protect the generic partner against accidental changes: once the
-  protection is enabled, users can no longer rename, archive or delete it.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage:</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Shops, points of sale and imports often record sales for customers who are not
+identified, under one generic partner. That partner must not end up on a real
+invoice, must not be paid through the wrong journals and must not be edited by
+mistake, since it is reachable from every sales document. This module declares the
+generic partner of each company and enforces these rules.</p>
+<p><strong>Generic partner per company</strong>: set in <strong>Invoicing &gt; Configuration &gt; Settings</strong>,
+section <strong>Customer Invoices</strong>, field <strong>Generic Partner</strong>. The module creates a company
+contact named <em>Generic</em> that can be chosen there, or any other contact can be used.
+The setting only declares the partner: it is not filled in automatically on sales
+orders or invoices.</p>
+<p><strong>No validated invoice for the generic partner</strong>: a customer invoice or credit note
+whose customer or delivery address is the generic partner (or one of its contacts)
+cannot be validated. The error names the invoice and asks for the real customer.
+Drafts stay allowed, so the flows that go through the generic partner (Point of Sale,
+eCommerce, imports) keep working. Vendor bills and journal entries are not affected.</p>
+<p><strong>Restricted payment journals</strong>: bank and cash journals ticked as <strong>Generic
+Restriction</strong> (on the journal form, next to the journal type, and as an optional
+column in the journal list) are not proposed when a payment is made for the generic
+partner, either in a new payment or in the <strong>Register Payment</strong> wizard opened from an
+invoice. Only bank and cash journals are proposed, and the default journal is always
+an allowed one.</p>
+<p><strong>Protect the generic partner</strong>: tick <strong>Protect Generic Partner</strong> in the same setting
+to prevent accidental changes. The contact form then shows a warning banner, and any
+change, archiving or deletion is refused when saving. The protection is off by
+default. Users who have to change the partner are given the <strong>Generic Partner:
+Editor</strong> group; Settings administrators already have it. Writes made by Odoo itself
+(chatter, activities, portal signup tokens, geolocation) stay allowed, as do automated
+flows running with elevated rights.</p>
+<p>These accounting restrictions used to live in the separate module
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_generic_partner_restriction</code>, which is now an empty transition module
+depending on this one.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <ol>
-<li>Navigate to Settings &gt; General Settings &gt; Sales.</li>
-<li>Locate the "Generic Partner" configuration section.</li>
-<li>Select an existing partner (e.g., "Generic Customer") or create a new one to serve as the default.</li>
-<li>This partner will then be used as a fallback in the relevant modules.</li>
+<li>Go to <strong>Invoicing &#8594; Configuration &#8594; Settings</strong>, section <strong>Customer Invoices</strong> (available without the
+   Sales app as well): pick the <strong>Generic Partner</strong> of the company and, to keep it from being changed by mistake, tick <strong>Protect Generic Partner</strong>. Save. In a
+   multi-company database, repeat this on every company.</li>
 </ol>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Accounting restrictions:</h2>
-<p>Because the generic partner stands for anonymous customers, a real accounting
-document must not be issued to it:</p>
-<ul>
-<li>Customer invoices and credit notes whose partner is the generic partner
-  cannot be validated: validation is refused with an explicit error, so the real
-  customer has to be set first. Drafts stay allowed, so the flows that go
-  through the generic partner (POS, e-commerce, imports) keep working. Vendor
-  bills and journal entries are not affected.</li>
-<li>Bank and cash journals ticked as <strong>Generic Restriction</strong> are not proposed when
-  registering a payment for the generic partner.</li>
-</ul>
-<p>These restrictions used to live in the separate module
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_generic_partner_restriction</code>, which is now an empty transition
-module depending on this one.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Protecting the generic partner:</h2>
-<p>The generic partner is reachable from every sales document, so it is easily
-mistaken for a normal customer and edited by accident. Tick <strong>Protect Generic
-Partner</strong> in the same settings section to prevent this: the contact form then
-shows a warning banner and any change is refused when saving.</p>
-<p>The protection is disabled by default, so existing databases keep their current
-behaviour. Users who legitimately have to change the partner are given the
-<strong>Generic Partner: Editor</strong> group; Settings administrators already have it.</p>
-<p>Writes performed by Odoo itself &#8212; chatter, activities, portal signup tokens,
-geolocation &#8212; stay allowed, as do automated flows running with elevated rights.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Invoicing settings, Customer Invoices section: the Generic Partner field set to Generic and the Protect Generic Partner box ticked" src="en/01_setari_partener_generic.png" /></p>
+<ol start="2">
+<li>Go to <strong>Invoicing &#8594; Configuration &#8594; Journals</strong> and tick <strong>Generic Restriction</strong> on the journals that
+   must not be used for anonymous customers (usually the banks).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Bank journal form with the Generic Restriction box ticked, above the journal type" src="en/02_jurnal_restrictie.png" /></p>
+<ol start="3">
+<li>A customer invoice can be drafted on the generic partner (by hand, from a sale order, a POS or an
+   import) and saved as usual.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Draft customer invoice for Generic: two Set pensule pictur&#259; at 45 lei on account 707000 with 21% VAT, 108.90 lei in total, and the Confirm button" src="en/03_factura_ciorna_generic.png" /></p>
+<ol start="4">
+<li><strong>Confirm</strong> is refused while the generic partner is the customer or the delivery address of a customer
+   invoice or credit note. The message names the field to change: set the real customer and confirm
+   again. Vendor bills and journal entries are not affected.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Invalid Operation dialog over the invoice: it cannot be validated because Generic is the generic partner, used for anonymous customers, and it is set as Partner" src="en/04_eroare_validare_factura.png" /></p>
+<ol start="5">
+<li>On a new customer payment for the generic partner (<strong>Invoicing &#8594; Customers &#8594; Payments</strong>), the
+   <strong>Journal</strong> list leaves out the restricted journals, and the journal proposed by default is an allowed
+   one. The <strong>Register Payment</strong> wizard opened from a vendor bill on the generic partner applies the same
+   restriction.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Draft payment for Generic, 108.90 lei: the Journal list is open and proposes only the cash journal Numerar, without the restricted bank" src="en/05_plata_jurnale_permise.png" /></p>
+<ol start="6">
+<li>When the protection is on, a user without the <strong>Generic Partner: Editor</strong> group sees a banner on the
+   generic partner,</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Contact form of Generic opened by a salesperson: a blue banner says it is the generic partner and that changes cannot be saved" src="en/06_partener_protejat.png" /></p>
+<p>and saving a change, archiving or deleting it is refused. Settings administrators already have the
+   <strong>Generic Partner: Editor</strong> group.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Invalid Operation dialog after renaming Generic to Ionescu Andrei: the generic partner is protected and cannot be modified" src="en/07_eroare_modificare_partener.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.5 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten after the code: the generic partner is declared in the
+  Invoicing settings, section Customer Invoices, and is not selected automatically in
+  sales or invoicing as the old text said. The banner no longer promises it.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.4 (2026-11-03)</h2>
+<ul>
+<li>A new payment for the generic partner now proposes an allowed journal by default, not the
+  first bank journal of the company even when it was restricted.</li>
+<li>The <strong>Register Payment</strong> wizard opened from an invoice now leaves out the restricted journals
+  for the generic partner as well, including the journal of the invoice preferred payment method.</li>
+<li>The generic partner setting moved from the Sales settings to the Invoicing settings, section
+  Customer Invoices, so it is available without the Sales app (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_management</code>), for example
+  with only eCommerce or Point of Sale. It now has a real description instead of a repeated title.</li>
+<li>Romanian translation of the protection message reworded to the formal address.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.3 (2026-11-03)</h2>
+<ul>
+<li>Consultant sheet and usage page, with Romanian and English screenshots generated by
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.2.0.2 (2026-09-29)</h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -212,7 +273,7 @@ geolocation &#8212; stay allowed, as do automated flows running with elevated ri
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep CMRs, certificates and other shipping documents in one place</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">See the files attached to orders, transfers and invoices from any of them</p>
         </div>
       </a>
     </div>
@@ -252,7 +313,7 @@ geolocation &#8212; stay allowed, as do automated flows running with elevated ri
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Payment analysis report by journal and period, with a filter wizard</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Customer receipts by payment and invoice journal over a period, with a filter wizard</p>
         </div>
       </a>
     </div>

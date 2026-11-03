@@ -1,3 +1,11 @@
+## 19.0.1.0.5 (2026-11-03)
+
+- Description rewritten from the code: removed the Inventory > Warehouse Map
+  menu and the post-init sample data, which the module does not have; the
+  capacity fields are credited to `deltatech_putaway_strategy`; added a
+  Limitations section.
+- Banner: the capacity feature is replaced by the product list of a cell.
+
 ## 19.0.1.0.4 (2026-09-29)
 
 - Own module icon, instead of the generic gears it had.

@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Purchase Orders Bulk Email with XLSX" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Purchase Orders Bulk Email with XLSX</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Email multiple POs with XLSX summary</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">One email per vendor for several POs</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Purchases</span>
@@ -46,48 +46,42 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Multi-Purchase Order Email with XLSX Summary</h1>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module introduces an advanced email dispatch feature for the Odoo Purchase module. It allows procurement teams to select multiple purchase orders and send them simultaneously to their respective vendors or internal stakeholders, complete with an aggregated XLSX summary and individual PDF attachments.</p>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Key Features</h1>
-<ol>
-<li>
-<p><strong>Batch Email Dispatch</strong>:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">When several requests for quotation or purchase orders go to the same vendor, sending
+them one by one means one email per order. This module sends them together, in a
+single email to that vendor, with an Excel summary of all the lines and the PDF of
+each order.</p>
+<p><strong>One email for several orders</strong>: select the orders in the list view of
+<strong>Purchase &gt; Orders &gt; Requests for Quotation</strong> or <strong>Purchase &gt; Orders &gt; Purchase
+Orders</strong> and choose <strong>Actions &gt; Send Email</strong>. The standard email composer opens with
+the vendor as recipient.</p>
+<p><strong>XLSX summary</strong>: the email carries an Excel file with one row per order line:
+order reference, product code, description, quantity and unit price without taxes.
+Text columns are written as text, so a value starting with "=" is not read as a
+formula.</p>
+<p><strong>PDF of each order</strong>: the standard purchase order PDF of every selected order is
+attached to the same email.</p>
+<p><strong>Trace on every order</strong>: only when the email is actually sent, each order gets a note
+with the email body, the summary and its own PDF, and the requests for quotation still
+in draft move to <strong>RFQ Sent</strong>. Closing the composer without sending changes nothing.</p>
+<p><strong>Email template</strong>: the text comes from the template <strong>Purchase Orders: Send with
+XLSX</strong>, editable in <strong>Settings &gt; Technical &gt; Email &gt; Templates</strong> (developer mode).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Adds a dedicated <strong>Send Multi Orders</strong> action to the Purchase Order list view.</li>
-<li>Enables the simultaneous sending of multiple orders, significantly reducing manual effort for high-volume procurement operations.</li>
+<li>All the selected orders must have the same vendor, and the vendor must have an email
+  address. Otherwise the action stops with the message "You must select exactly one
+  vendor to send the email to.", also when the only problem is the missing email.</li>
+<li>The vendor's address is the only recipient filled in; other recipients are added by
+  hand in the composer.</li>
 </ul>
-</li>
-<li>
-<p><strong>Automated XLSX Summary</strong>:</p>
-<ul>
-<li>Automatically generates and attaches an Excel (<strong>XLSX</strong>) summary containing key details from all selected purchase orders.</li>
-<li>Provides vendors or managers with a clear, aggregated overview of the procurement batch.</li>
-</ul>
-</li>
-<li>
-<p><strong>Individual PDF Attachments</strong>:</p>
-<ul>
-<li>Ensures that the official PDF reports for each selected purchase order are attached to the outgoing email for formal acknowledgement.</li>
-</ul>
-</li>
-<li>
-<p><strong>Customizable Email Templates</strong>:</p>
-<ul>
-<li>Uses a dedicated mail template that can be easily customized to fit corporate communication standards.</li>
-</ul>
-</li>
-</ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
-<ol>
-<li>Navigate to <strong>Purchase &gt; Orders</strong>.</li>
-<li>Select multiple Purchase Orders from the list view using the checkboxes.</li>
-<li>Click the <strong>Action</strong> menu and select <strong>Send Multi Orders by Email</strong>.</li>
-<li>Review the email composition wizard, which will already have the XLSX summary and PDFs attached.</li>
-<li>Click <strong>Send</strong> to dispatch the communications.</li>
-</ol>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.6 (2026-11-03)</h2>
+<ul>
+<li>Description, summary and banner rewritten after the code: the orders must share one
+  vendor and go in a single email to that vendor; the action is <strong>Actions &gt; Send
+  Email</strong>; the same-vendor requirement is documented under Limitations.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.5 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Purchase Orders Bulk Email with XLSX</em> (was <em>Purchase: Send Multi Orders by Email with XLSX</em>), with the same title on the Apps banner.
@@ -286,7 +280,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

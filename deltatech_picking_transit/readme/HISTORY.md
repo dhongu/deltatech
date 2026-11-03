@@ -1,3 +1,9 @@
+## 19.0.0.0.16 (2026-11-03)
+
+- Description rewritten from the code: the operation type field is Two Step Transfer Use (Delivery / Reception), not "next operation"; the original transfer is not locked after the second one is created.
+- Documented the checks on reception, the backorder handling and the optional Reassign Location button.
+- Summary and banner corrected.
+
 ## 19.0.0.0.15 (2026-10-17)
 
 - Fix TRANSIT-003 (#3413): opening or reloading a transit delivery no longer locks or unlocks it. The

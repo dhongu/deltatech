@@ -39,30 +39,53 @@ guaranteed by PostgreSQL rather than by the procedure being right. On a
 production database of 538.000 partners, merging 5.350 records took
 about four and a half minutes.
 
-**Safety.** The simulation is not a flag you can forget: it runs the
-whole merge on a separate transaction and rolls it back, so it cannot
-write even if something is wrong. Applying is a distinct step, guarded
-by its own access group, and refuses to finish if any reference is left
-pointing at an absorbed record.
+**Merge batches.** *Settings > Partner Merge > Merge Batches*. A batch
+goes through *Analyze*, *Simulate*, *Apply* and, once applied, *Verify*.
+You choose the categories of groups that enter the batch, how many
+groups (*Group Limit*, 0 for all) and whether the absorbed records are
+deleted or archived (*Archive instead of delete*). The *Groups* tab
+lists each group with the kept record, the absorbed ones and their
+names; *Report* holds the simulation or merge report, and *All groups by
+category* the full classification. Partners are grouped by VAT number
+and company, so partners of different companies are never merged
+together.
 
-**What it does not touch by itself.** Groups whose unreconciled balance
-is spread over several records are classified apart — merging those
-moves money between ledgers and belongs with the accountant. Also left
-out: groups holding your own company record, groups with portal users on
-more than one record, and groups whose names differ completely on the
-same VAT number.
+**Safety.** The simulation is not a flag you can forget: it runs the
+whole merge inside a savepoint and rolls it back, so it cannot write
+even if something is wrong. Applying is a distinct step, reserved to the
+*Partner Merge / Apply* group (system administrators have it), checks
+that every partner of the batch is in your companies and that you may
+change or delete it, and refuses to finish if any reference is left
+pointing at an absorbed record. *Partner Merge / Prepare and simulate*
+can analyze and simulate, but not apply. *Verify* compares the result
+with the figures taken at the analysis: invoices, sales orders and
+unreconciled balance per kept record.
+
+**What it does not touch by itself.** Groups are classified A (one
+record holds the documents, the rest are empty), B (documents on a
+single record), C (invoices spread over several records) and D
+(unreconciled balance on several records). A batch takes A and B by
+default; C and D move figures between ledgers and belong with the
+accountant. Also left out: groups holding your own company record,
+groups with portal users on more than one record, and groups whose names
+differ completely on the same VAT number.
 
 **Kept record.** Chosen by document volume — most invoices, then most
 sales orders, then oldest. Since that is not the same as name quality,
 the surviving record is flagged when its name looks mangled at import,
 with the names of the absorbed records alongside for correction.
 
-The same procedure is available as plain SQL scripts in
-``deltatech/scripts/partner_merge/``, for when it has to be run outside
-Odoo.
+**Indexes.** When foreign-key columns towards partners have no index,
+the batch shows a warning and a *Create the indexes* button, because
+deleting partners would otherwise scan those tables for each record.
 
-**Finding duplicates beyond the VAT number.** *Partner Merge › Find
-Duplicates* looks for partners that are probably the same record,
+The same procedure also exists as stand-alone SQL scripts, for when it
+has to be run outside Odoo by the database administrator. They are kept
+in the source repository of the suite (``scripts/partner_merge/``) and
+are not part of the module package downloaded from Odoo Apps.
+
+**Finding duplicates beyond the VAT number.** *Settings > Partner Merge
+> Find Duplicates* looks for partners that are probably the same record,
 typically individuals created twice by an import or an online order, and
 leaves the decision to you, group by group. It does not change any
 partner.
@@ -97,6 +120,18 @@ used the same way, if present. None of them is required.
 
 Changelog
 =========
+
+19.0.1.2.1 (2026-11-03)
+-----------------------
+
+- Description: the stand-alone SQL scripts are kept in the source
+  repository of the suite and are not part of the module package from
+  Odoo Apps (the text pointed to them as if they shipped with it).
+- Description: the simulation runs inside a rolled-back savepoint, not a
+  separate transaction.
+- Description: added the menus (*Settings > Partner Merge*), the batch
+  steps and options, the two access groups, the A–D categories and the
+  index warning.
 
 19.0.1.2.0 (2026-10-23)
 -----------------------

@@ -1,3 +1,11 @@
+## 19.0.1.2.1 (2026-11-03)
+
+- Description: the stand-alone SQL scripts are kept in the source repository of the suite and are
+  not part of the module package from Odoo Apps (the text pointed to them as if they shipped with it).
+- Description: the simulation runs inside a rolled-back savepoint, not a separate transaction.
+- Description: added the menus (*Settings > Partner Merge*), the batch steps and options, the two
+  access groups, the A–D categories and the index warning.
+
 ## 19.0.1.2.0 (2026-10-23)
 
 - *Find Duplicates* uses the shared rules of `deltatech_partner_match` (new dependency, installed automatically: functions only, no data or behavior of its own) instead of its own copy, so a partner is recognized here the same way as in the marketplace import and the trial balance import. Checked on a database of 551,000 partners against the previous rules:

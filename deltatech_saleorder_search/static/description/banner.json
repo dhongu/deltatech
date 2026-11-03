@@ -2,6 +2,6 @@
   "title": "Sale Order Search by Contact",
   "summary": "Find orders instantly by e-mail or phone",
   "icon": "cart",
-  "features": ["Search by customer e-mail", "Search by phone or mobile", "Faster order lookup for teams"],
+  "features": ["Search by customer e-mail", "Search by customer phone", "Faster order lookup for teams"],
   "lang": "en"
 }

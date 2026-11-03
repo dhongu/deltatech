@@ -25,46 +25,38 @@ eCommerce Checkout Confirm Order
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-eCommerce Checkout Confirmation Enhancement
-===========================================
+In standard Odoo eCommerce, a quotation paid by wire transfer or cash on
+delivery stays a quotation after checkout: the transaction is only
+``pending``, so the order is confirmed later, by hand or when the
+payment is received. This module confirms the order as soon as the
+customer reaches the order confirmation page (``/shop/confirmation``) at
+the end of checkout.
 
-This module adds an extra layer of order confirmation to Odoo's
-eCommerce checkout process. It's designed for businesses that want to
-ensure customers have a final chance to review their purchase before the
-order is finalized and sent for processing.
+There is no extra page or button: the module works on the standard
+confirmation route of ``website_sale``.
 
-Key Features
-============
+**Automatic confirmation at the end of checkout**: when the customer
+lands on the confirmation page, the last order of the session is
+confirmed (``Sales Order`` state), so the delivery and the rest of the
+sales flow start right away.
 
-1. **Mandatory Confirmation Step**:
+**Offline payment methods included**: a ``pending`` transaction on a
+provider without online processing (wire transfer, cash on delivery) is
+enough to confirm the order. Online providers still need a ``Confirmed``
+or ``Authorized`` transaction.
 
-   - Inserts a dedicated confirmation stage between the payment and the
-     final order success page.
-   - Provides a summary of the order details, allowing the customer to
-     perform one last check.
+**Same checks as the standard payment flow**: the order is confirmed
+only if it is still a quotation, no online signature is pending, and the
+qualifying transactions, linked only to this order, cover the amount
+required for confirmation (the full amount or the prepayment percentage
+set on the quotation). Reloading the page on an already confirmed order
+does nothing.
 
-2. **Order Flow Refinement**:
+Limitations
+-----------
 
-   - Seamlessly integrates with Odoo's standard ``website_sale``
-     checkout flow.
-   - Ensures that only orders with a confirmed intent from the customer
-     reach the backend for fulfillment.
-
-3. **Enhanced User Experience**:
-
-   - Improves customer trust by providing a clear, final order summary
-     before concluding the transaction.
-
-Usage
-=====
-
-1. Navigate to your **Odoo Website**.
-2. Add items to your cart and proceed to the **Checkout**.
-3. After selecting the **Payment Method**, you will be presented with a
-   final **Order Confirmation** page.
-4. Review your order and click the **Confirm** button to complete the
-   purchase.
-5. You will then be redirected to the standard "Order Success" page.
+- A transaction that pays several orders at once is not taken into
+  account, as in the standard post-processing.
 
 **Table of contents**
 
@@ -73,6 +65,14 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.5 (2026-11-03)
+-----------------------
+
+- Description, summary and banner rewritten after the code: there is no
+  extra review page or Confirm button; the order is confirmed
+  automatically on the standard confirmation page, including wire
+  transfer and cash on delivery.
 
 19.0.1.0.4
 ----------

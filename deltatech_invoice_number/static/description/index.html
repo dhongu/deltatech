@@ -46,27 +46,44 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Keeps customer invoices in chronological order on the journals where it
+matters, and lets a dedicated group of users correct the number of an invoice.</p>
+<p><strong>Chronological invoice dates.</strong> On a sales journal with <em>Restrict invoice
+date</em> enabled, a draft customer invoice or credit note cannot be confirmed with
+an invoice date earlier than the latest posted document of the same type in that
+journal. The error states the earliest date allowed. When the journal is chosen
+on a draft invoice, a warning shows the same information.</p>
+<p><strong>Change of the invoice number.</strong> Users in the group <em>Allow to change invoice
+number</em> get the action <strong>Change invoice number</strong> in the Actions menu (gear icon)
+of the invoice form. The wizard proposes the current number; after <strong>Apply</strong>,
+the new number is written on the invoice and copied to the reference of its
+journal items (and to the invoice <em>Reference</em> for customer documents).</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Functions:</p>
-<ul>
-<li>At validation, the invoice date must be greater than or equal to the date of the last validated invoice.</li>
-<li>The invoice number can be modified by authorized users.</li>
-<li>A number can be allocated to an invoice in draft state from a sequence configured on the journal.</li>
+<li><strong>Accounting &gt; Configuration &gt; Journals</strong>, a journal of type <em>Sales</em>, tab
+  <strong>Journal Entries</strong>, section <strong>Invoice numbering</strong>: tick <em>Restrict invoice
+  date</em>.</li>
+<li><strong>Settings &gt; Users &amp; Companies &gt; Groups</strong>: add the users who may change
+  invoice numbers to the group <em>Allow to change invoice number</em>.</li>
 </ul>
-</li>
-<li>
-<p>Functionalit&#259;&#539;i:</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul>
-<li>Valideaz&#259; ordinea cronologic&#259; a facturilor emise.</li>
-<li>Permite modificarea num&#259;rului unei facturi pentru un grup dedicat de utilizatori.</li>
-<li>Permite numerotarea unei facturi aflate &#238;n starea ciorn&#259;.</li>
-</ul>
-</li>
+<li>The <strong>Invoice numbering</strong> section also shows a <em>Journal Sequence</em> field. The
+  module contains a method that numbers a draft invoice from this sequence, but
+  no button or menu calls it, so the field has no effect in the interface.</li>
+<li>The new number is written as typed: the wizard does not check it against the
+  journal's numbering format or for gaps.</li>
 </ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten from the code, in English only: removed the numbering of
+  draft invoices from the journal sequence, which no button or menu triggers
+  (now under Limitations); added where the date restriction and the user group
+  are configured.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Invoice Numbering Control</em> (was <em>Invoice Number</em>), with the same title on the Apps banner.
@@ -256,7 +273,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create receipt form invoice</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Create the purchase order and the receipt from the vendor bill</p>
         </div>
       </a>
     </div>

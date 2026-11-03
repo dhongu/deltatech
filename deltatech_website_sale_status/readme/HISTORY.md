@@ -1,3 +1,11 @@
+## 19.0.2.0.14 (2026-11-03)
+
+- Description rewritten in English after the code: the stages actually set, the
+  *Detailed order stage* option, the portal filters and the Unpaid Orders menu.
+- The *Returned* stage, listed before as a feature, is never set; it is now under
+  Limitations, with the Unpaid Orders dependency on *deltatech_sale_payment*.
+- Summary and banner no longer promise tracking up to *Returned*.
+
 ## 19.0.2.0.13 (2026-10-16)
 
 - Fix: an order whose transfers were all canceled, with nothing shipped, was

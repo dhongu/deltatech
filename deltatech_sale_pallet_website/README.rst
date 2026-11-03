@@ -22,46 +22,41 @@ Pallet Sales on Website
 
 |badge1| |badge2| |badge_tests|
 
-Sale Pallet Website
-===================
+Products sold in bulk, such as bricks or tiles, are delivered on pallets
+that the customer pays for. The ``deltatech_sale_pallet`` module adds
+the pallet lines on backend sales orders; this module brings the same
+logic to the eCommerce shop, so the pallets are shown on the product
+page and added to the cart automatically.
 
-This module extends pallet sales functionality to the Odoo eCommerce
-platform, allowing for better management and display of products sold by
-pallets on the website.
+**Pallet price on the product page.** For products with a minimum pallet
+quantity, the product page shows a line such as *When buying 10 units,
+the price is ...*, where the price is the minimum pallet quantity at the
+sales price plus the price of the pallet product.
 
-Key Features
-============
+**Pallet lines in the cart.** Each time a product is added to the cart
+or its quantity is changed, the pallet lines are recalculated: one line
+per pallet product, with the number of full pallets needed by all the
+cart lines that use that pallet. A quantity below one full pallet adds
+no pallet. When the last product that needs a pallet is removed from the
+cart, its pallet line is removed too.
 
-1. **Pallet-Specific Displays**:
+**Delivery price includes the pallets.** The pallet lines are updated
+before the delivery price and the cart quantity are recalculated, so
+both take the pallets into account.
 
-   - Enhances the website product pages to show information related to
-     pallets.
-   - Optimizes the user experience for bulk purchasing or items
-     typically sold on pallets.
-   - Allows customers to see the total price of their order including
-     the cost of the pallets.
+Configuration
+-------------
 
-2. **Integrated Pallet Logic**:
+On the product form, in the *Inventory* tab, the **Palletizing** section
+(from ``deltatech_sale_pallet``) holds the settings used by the shop:
 
-   - Works in conjunction with the ``deltatech_sale_pallet`` module to
-     ensure consistent logic between the backend and frontend.
-   - Handles pallet-related constraints and pricing if applicable during
-     the checkout process.
+- **Pallet Product**: the product that represents the pallet, sold at
+  its own sales price;
+- **Pallet Qty Min**: the quantity that fills one pallet.
 
-3. **Configurable Categories**:
-
-   - Leverages the "Pallet" flag on product categories to identify which
-     items should follow pallet sales logic on the website.
-
-Usage
-=====
-
-1. Go to **Inventory > Configuration > Product Categories**.
-2. Open a category and ensure the **Pallet** checkbox is enabled.
-3. Products within this category will now have enhanced pallet
-   information or logic applied on the eCommerce store.
-4. Browse the website to view how these products are presented to
-   customers.
+Products without a pallet product and a minimum quantity are sold in the
+shop as usual. The **Pallet** flag on product categories is not used by
+the shop.
 
 **Table of contents**
 
@@ -70,6 +65,14 @@ Usage
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-11-03)
+-----------------------
+
+- Description and banner rewritten from the code: the shop follows the
+  *Pallet Product* and *Pallet Qty Min* fields of the product, not the
+  *Pallet* flag of the product category; removed the checkout rules that
+  the module does not have; documented how the cart counts full pallets.
 
 19.0.1.0.3 (2026-10-22)
 -----------------------

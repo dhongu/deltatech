@@ -4,8 +4,8 @@
 {
     "name": "eCommerce Checkout Confirm Order",
     "category": "Website",
-    "summary": "Add a final order review and confirmation step to eCommerce checkout",
-    "version": "19.0.1.0.4",
+    "summary": "Confirm eCommerce orders on the checkout confirmation page, including wire transfer and cash on delivery",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",

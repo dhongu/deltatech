@@ -19,51 +19,60 @@ Transport Change
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_transport_change
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-61%20automated%20tests%20%C2%B7%2079%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_transport_change
-    :alt: 61 automated tests · 79% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
-DeltaTech Transport Change
+Configuration data set up by hand in a development or test database
+(stages, tags, parameters, master data of any model) has to be entered
+again in production, with the risk that the two end up different. This
+technical module exports such data to CSV files inside an Odoo module
+kept in Git, so the change reaches the other databases by updating that
+module, in a way similar to SAP transport requests.
 
-DeltaTech Transport Change is an Odoo technical module designed to
-manage the export of configuration changes and transport them between
-environments (Development → Staging → Production) in a structured and
-version-controlled manner. The module provides a functionality similar
-to SAP transport requests, allowing system administrators and
-consultants to track, export, and migrate configuration data safely.
+**Export configurations**: each configuration names a model, the fields
+to export and an optional domain. **Generate File** on the form, or
+**Actions > Export CSV** on several selected configurations, builds one
+CSV file per configuration. The first column is always the External ID
+(``id``) of the record, so the import updates the same records instead
+of creating duplicates.
 
-Key Features
+**Relations as external IDs**: Many2one and Many2many fields are
+exported in a ``field/id`` column with the external IDs of the related
+records. Records that have no external ID receive a stable
+``__export__`` one.
 
-Export Configuration to CSV/XML: Easily export selected models, fields,
-and records with optional domain filters, triggered from a form button
-or list server action. The first column in the generated CSV is always
-the External ID (``id``) of each record, ensuring reliable re-import and
-cross-environment consistency.
+**Git repositories**: a repository holds the Git URL, the branch, the
+module code (the folder of the target module inside the repository) and
+the HTTPS user name and token. The credentials are visible only to
+administrators.
 
-Mapping of Relationships: Automatically converts many2one and many2many
-relational fields to XMLID references for reliable transport.
+**Commit and push**: at export the repository is cloned in a temporary
+folder, the CSV is written to ``<module>/data/<model>.csv``, the file is
+added to the ``data`` list of the module's ``__manifest__.py`` and the
+module version is increased. All the configurations of one repository go
+into a single commit, pushed to the branch.
 
-Repo Integration: Stores information about client modules, Git
-repository URLs, branches, and credentials to facilitate
-version-controlled deployment.
+**Trace in the chatter**: each configuration keeps the generated CSV as
+an attachment in its chatter, with the result of the push. A rejected
+push is reported as a failure and **Last Export** is updated only for
+the configurations that reached the repository.
 
-Git Automation: Supports automatic commit and optional push of exported
-configuration files to the repository.
+**Where to configure**: in developer mode, **Settings > Technical >
+Transport > Repositories** and **Settings > Technical > Transport >
+Configurations**. Only Settings administrators have access. The Python
+package ``GitPython`` must be installed on the server.
 
-Environment Transport: Enables safe migration of configuration changes
-from Development to Staging and Production environments.
+Limitations
+-----------
 
-Extensible & Configurable: Add new models, fields, and export
-configurations without modifying the module core.
-
-Use Case
-
-Ideal for clients with multiple Odoo instances where configuration
-changes need to be applied consistently and traceably across
-environments. Helps maintain reproducibility, auditability, and version
-control for technical configuration data.
+- The export format is CSV only.
+- Only HTTPS with a user name and token works. The **SSH Key**
+  credential type, the **SSH Private Key** field and the **Local Path**
+  field are stored but not used.
+- A configuration cannot be exported without a repository: there is no
+  plain download of the CSV.
+- The target ``__manifest__.py`` is rewritten from its parsed content,
+  so its comments and formatting are lost.
 
 **Table of contents**
 
@@ -72,6 +81,14 @@ control for technical configuration data.
 
 Changelog
 =========
+
+19.0.0.1.9 (2026-11-03)
+-----------------------
+
+- Description and banner rewritten after the code: the export is CSV
+  only (no XML), only HTTPS with a token works for Git, and the menus
+  are under Settings > Technical > Transport. The unused SSH and Local
+  Path fields are listed under Limitations.
 
 19.0.0.1.8 (2026-10-17)
 -----------------------

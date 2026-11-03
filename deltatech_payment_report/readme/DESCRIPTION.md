@@ -1,31 +1,30 @@
-Deltatech Payment Report
-========================
+The accountant often needs to see how the money collected from customers in a period splits between
+the cash and bank journals and the invoice journals it settled. This module builds that view for
+customer receipts, on demand, from a small wizard.
 
-This module provides a comprehensive reporting tool for analyzing payments in Odoo. It allows accountants and financial managers to generate detailed reports based on various criteria, helping them track cash flow and payment distributions across different journals.
+**Customer receipts by journal**: the report takes the customer payments (incoming, partner type
+customer) in state **In Process** or **Paid**, dated in the chosen period and booked in the chosen
+cash and bank journals. Draft, cancelled and rejected payments and vendor payments are left out.
 
-Key Features
-============
+**Filter wizard**: **Start Date** and **End Date** (both default to today) and **Incasari**, the cash
+and bank journals to include (all of them by default).
 
-1.  **Flexible Reporting Wizard**:
-    *   A user-friendly wizard to define the scope of the report.
-    *   Filter payments by date range (**Date From** and **Date To**).
-    *   Filter by specific **Payment Journals** to focus on particular bank or cash accounts.
+**Pivot, list and form views**: **Show** opens the report in pivot view, with the **Payment Journal**
+on rows, the **Invoice Journal** on columns and the amount as measure. The list and form views show
+for each payment the date, customer, amount, payment journal, invoice journal and payment method.
+The invoice journal is the journal of the invoice the payment is reconciled with.
 
-2.  **Multi-Dimensional Analysis**:
-    *   View payment data in **Pivot** mode for high-level summaries and cross-tabulation.
-    *   Analyze payments by **Invoice Journal**, **Payment Journal**, and **Partner**.
-    *   Track payment amounts and methods efficiently.
+**Card payment method on bank journals**: if a payment method with the code `card` exists, it can
+be used only on bank journals, once per journal.
 
-3.  **Detailed List and Form Views**:
-    *   Detailed list view showing payment dates, partners, amounts, and associated journals.
-    *   Form view for individual report lines to inspect specific transaction details.
+## Usage
 
-Usage
-=====
+Go to **Invoicing > Accounting > Payment Report** (accounting Administrator group only), set the period and the
+journals, then click **Show**.
 
-1.  Navigate to **Invoicing > Accounting > Actions > Payment Report**.
-2.  In the wizard that appears:
-    *   Select the desired **Date Range**.
-    *   (Optional) Select one or more **Payment Journals**.
-3.  Click the **Show** button.
-4.  The system will generate a report showing the distribution of payments. You can switch between **Pivot**, **List**, and **Form** views to analyze the data.
+## Limitations
+
+- Only customer receipts are reported; vendor payments and outgoing payments are not.
+- The amounts are in the currency of each payment and the pivot adds them up without conversion.
+- A payment reconciled with invoices from several journals is reported under one of them only.
+- The company of the wizard does not filter the payments; the journals selected decide the scope.

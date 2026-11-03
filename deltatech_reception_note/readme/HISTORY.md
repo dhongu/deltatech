@@ -1,3 +1,12 @@
+## 19.0.0.1.8 (2026-11-03)
+
+- Description rewritten after the code: the three purchase order types, the *Create reception note*
+  action (open quantities moved to an *RFQ Only* order), the consumption of those quantities when a
+  reception note is confirmed, *Ignore quantities* and the *Reception notes* menu.
+- Removed the claims of grouping transfers into one note and of a dedicated printed report; added a
+  Limitations section.
+- Summary and Apps banner aligned with the description.
+
 ## 19.0.0.1.7 (2026-10-16)
 
 - Development status raised from Beta to Production/Stable: the module has been in

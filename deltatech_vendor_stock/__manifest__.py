@@ -5,8 +5,8 @@
 
 {
     "name": "Vendor Stock",
-    "summary": "Vendor stock availability",
-    "version": "19.0.1.2.1",
+    "summary": "Vendor stock and free stock per warehouse on sales order lines",
+    "version": "19.0.1.2.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
