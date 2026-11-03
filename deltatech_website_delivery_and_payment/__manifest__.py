@@ -4,8 +4,8 @@
 {
     "name": "Delivery and Payment",
     "category": "Website",
-    "summary": "eCommerce Delivery and Payment constrains",
-    "version": "19.0.2.1.7",
+    "summary": "Limit eCommerce delivery methods and payment providers",
+    "version": "19.0.2.1.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

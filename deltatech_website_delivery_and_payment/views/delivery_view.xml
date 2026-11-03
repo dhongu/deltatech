@@ -8,11 +8,12 @@
             <xpath expr="//div[@name='title']" position="before">
                 <field name="logo" widget="image" class="oe_avatar" />
             </xpath>
-            <xpath expr="//field[@name='amount']" position="after">
+            <xpath expr="//div[@name='free_over_amount']" position="after">
                 <label for="weight_min" string="Weight limits" />
                 <div class="o_row">
-                    <field name="weight_min" placeholder="Min" />-
-                    <field name="weight_max" placeholder="Max" />
+                    <field name="weight_min" placeholder="Min" class="oe_inline" />-
+                    <field name="weight_max" placeholder="Max" class="oe_inline" />
+                    <field name="weight_uom_name" />
                 </div>
             </xpath>
 
