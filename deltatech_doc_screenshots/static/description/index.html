@@ -107,6 +107,22 @@ them. They count as requested when:</p>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FISE_SCREENSHOTS=1</code> is set in the environment.</li>
 </ul>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SKIP_FISE_SCREENSHOTS=1</code> is a veto over any request.</p>
+<p><strong>Two languages.</strong> The consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) uses Romanian screenshots;
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code>, published on the Apps Store, uses English ones. Build the shot list once and
+capture it per language:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">def _shots(self):
+    return [{&quot;url&quot;: ..., &quot;name&quot;: &quot;01_list.png&quot;, &quot;highlight&quot;: &quot;button[name='action_post']&quot;}]
+
+def test_capture_fise(self):  # ro_RO -&gt; static/description/ (or readme/screenshots/)
+    self.capture_screenshots(self._shots())
+
+def test_capture_usage(self):  # en_US -&gt; static/description/en/
+    self.capture_screenshots(self._shots(), lang=&quot;en_US&quot;)
+</code></pre>
+<p>Prefer selectors by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">name</code>; when a selector needs UI text, give it per language:
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"ro_RO": "button:has-text('Confirm&#259;')", "en_US": "button:has-text('Confirm')"}</code>.
+To capture a single language, name the method:
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">--test-tags=/&lt;module&gt;:TestXScreenshots.test_capture_usage</code>.</p>
 <p>Framing: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots(..., viewport=(1920, 950))</code> by default, wide enough for
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.report</code> tables with many columns; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">force_light_theme()</code> is called by
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_ro_company</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prepare_demo_company</code>; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_autotrim</code> trims the margins. Useful per-shot
@@ -115,6 +131,35 @@ options: <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-11-03)</h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">xlsx_to_html</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">xlsx_shot</code>: numbers are right-aligned and shown with the cell number format
+  (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">#,##0.00</code> &#8594; two decimals, thousands separator); the new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lang</code> argument picks the
+  separators (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro_RO</code>: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">1.234,56</code>).</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-10-30)</h2>
+<ul>
+<li>Screenshots in a second language: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots(shots, lang="en_US")</code> sets the user's
+  language and the browser locale, renders <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">report_shot</code> reports in that language and writes the
+  files to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/en/</code> with the same names, for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> on the Apps Store.
+  Romanian (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro_RO</code>, the default) still goes to the usual folder, for the consultant sheet.</li>
+<li>Any shot value can depend on the language, as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"ro_RO": ..., "en_US": ...}</code> (e.g. a
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">:has-text(...)</code> selector); <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">click_tab</code> finds the tab by its English or Romanian label.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">report_shot</code> follows the capture language by default (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lang="auto"</code>); an explicit code still
+  pins it.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-25)</h2>
+<ul>
+<li>The screenshots for the Apps Store (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/</code>) work again with Pillow 9.0.1, the
+  version Odoo 19 pins on Python 3.10: they failed with "module 'PIL.Image' has no attribute
+  'Quantize'", a name that exists only since Pillow 9.1.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-10-25)</h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots</code> lifts Odoo's virtual memory limit (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit_memory_hard</code>, RLIMIT_AS) while
+  Playwright runs: Chrome inherited it and died at launch on Linux ("Target page, context or
+  browser has been closed", SIGTRAP), as in CI. Odoo's own test browser already does this.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-25)</h2>
 <ul>
 <li>Moved here from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_doc_screenshots</code> (Romania localization suite, 19.0.1.1.9), in a public

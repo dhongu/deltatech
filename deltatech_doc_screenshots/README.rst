@@ -119,6 +119,28 @@ as requested when:
 
 ``SKIP_FISE_SCREENSHOTS=1`` is a veto over any request.
 
+**Two languages.** The consultant sheet (``readme/FISA_CONSULTANT.md``)
+uses Romanian screenshots; ``readme/USAGE.md``, published on the Apps
+Store, uses English ones. Build the shot list once and capture it per
+language:
+
+.. code:: python
+
+   def _shots(self):
+       return [{"url": ..., "name": "01_list.png", "highlight": "button[name='action_post']"}]
+
+   def test_capture_fise(self):  # ro_RO -> static/description/ (or readme/screenshots/)
+       self.capture_screenshots(self._shots())
+
+   def test_capture_usage(self):  # en_US -> static/description/en/
+       self.capture_screenshots(self._shots(), lang="en_US")
+
+Prefer selectors by ``name``; when a selector needs UI text, give it per
+language:
+``{"ro_RO": "button:has-text('Confirmă')", "en_US": "button:has-text('Confirm')"}``.
+To capture a single language, name the method:
+``--test-tags=/<module>:TestXScreenshots.test_capture_usage``.
+
 Framing: ``capture_screenshots(..., viewport=(1920, 950))`` by default,
 wide enough for ``account.report`` tables with many columns;
 ``force_light_theme()`` is called by ``prepare_ro_company`` /
@@ -128,6 +150,47 @@ per-shot options: ``full``, ``wait``, ``click_btn``, ``click_tab``,
 
 Changelog
 =========
+
+19.0.1.2.0 (2026-11-03)
+-----------------------
+
+- ``xlsx_to_html`` / ``xlsx_shot``: numbers are right-aligned and shown
+  with the cell number format (e.g. ``#,##0.00`` → two decimals,
+  thousands separator); the new ``lang`` argument picks the separators
+  (``ro_RO``: ``1.234,56``).
+
+19.0.1.1.0 (2026-10-30)
+-----------------------
+
+- Screenshots in a second language:
+  ``capture_screenshots(shots, lang="en_US")`` sets the user's language
+  and the browser locale, renders ``report_shot`` reports in that
+  language and writes the files to ``static/description/en/`` with the
+  same names, for ``readme/USAGE.md`` on the Apps Store. Romanian
+  (``ro_RO``, the default) still goes to the usual folder, for the
+  consultant sheet.
+- Any shot value can depend on the language, as
+  ``{"ro_RO": ..., "en_US": ...}`` (e.g. a ``:has-text(...)`` selector);
+  ``click_tab`` finds the tab by its English or Romanian label.
+- ``report_shot`` follows the capture language by default
+  (``lang="auto"``); an explicit code still pins it.
+
+19.0.1.0.2 (2026-10-25)
+-----------------------
+
+- The screenshots for the Apps Store (``static/description/``) work
+  again with Pillow 9.0.1, the version Odoo 19 pins on Python 3.10: they
+  failed with "module 'PIL.Image' has no attribute 'Quantize'", a name
+  that exists only since Pillow 9.1.
+
+19.0.1.0.1 (2026-10-25)
+-----------------------
+
+- ``capture_screenshots`` lifts Odoo's virtual memory limit
+  (``limit_memory_hard``, RLIMIT_AS) while Playwright runs: Chrome
+  inherited it and died at launch on Linux ("Target page, context or
+  browser has been closed", SIGTRAP), as in CI. Odoo's own test browser
+  already does this.
 
 19.0.1.0.0 (2026-10-25)
 -----------------------

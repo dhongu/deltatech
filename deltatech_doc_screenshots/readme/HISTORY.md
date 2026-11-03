@@ -1,3 +1,9 @@
+## 19.0.1.2.0 (2026-11-03)
+
+- `xlsx_to_html` / `xlsx_shot`: numbers are right-aligned and shown with the cell number format
+  (e.g. `#,##0.00` → two decimals, thousands separator); the new `lang` argument picks the
+  separators (`ro_RO`: `1.234,56`).
+
 ## 19.0.1.1.0 (2026-10-30)
 
 - Screenshots in a second language: `capture_screenshots(shots, lang="en_US")` sets the user's

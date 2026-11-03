@@ -1,0 +1,341 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_consumption_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-03 08:48+0000\n"
+"PO-Revision-Date: 2026-11-03 08:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Average cost"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Can be sold"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_stock_consumption_report_wizard_form
+msgid "Close"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Code"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__company_id
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_stock_consumption_report_line_pivot
+msgid "Consumption"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Consumption detail by product"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model,name:deltatech_stock_consumption_report.model_stock_consumption_purpose
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_picking__consumption_purpose_id
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_picking_internal_search
+msgid "Consumption purpose"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.actions.act_window,name:deltatech_stock_consumption_report.action_stock_consumption_purpose
+#: model:ir.ui.menu,name:deltatech_stock_consumption_report.menu_stock_consumption_purpose
+msgid "Consumption purposes"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.actions.act_window,name:deltatech_stock_consumption_report.action_stock_consumption_report_wizard
+#: model:ir.model,name:deltatech_stock_consumption_report.model_stock_consumption_report_wizard
+#: model:ir.ui.menu,name:deltatech_stock_consumption_report.menu_stock_consumption_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_stock_consumption_report_wizard_form
+msgid "Consumption report"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model,name:deltatech_stock_consumption_report.model_stock_consumption_report_line
+msgid "Consumption report line"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Consumption summary by store and purpose"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__create_date
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Delivered to customers (last 6 months)"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Detail"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_location__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_stock_consumption_report_wizard_form
+msgid "Export XLSX"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__file_data
+msgid "File Data"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__file_name
+msgid "File Name"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__id
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__id
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__id
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_location__id
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model,name:deltatech_stock_consumption_report.model_stock_location
+msgid "Inventory Locations"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_picking__is_consumption
+msgid "Is Consumption"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__write_date
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,help:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__picking_type_ids
+msgid "Leave empty to include every consumption movement of the period."
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__line_ids
+msgid "Line"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "No"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_wizard__picking_type_ids
+msgid "Operation types"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Period: %(date_from)s - %(date_to)s"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__categ_id
+msgid "Product Category"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Products"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Products sold in the last 6 months"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__purpose
+msgid "Purpose"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_purpose__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__store
+msgid "Store"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Summary"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_stock_consumption_report_line_list
+msgid "Total"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model,name:deltatech_stock_consumption_report.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Undefined"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "UoM"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__value
+msgid "Value"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_consumption_report.view_stock_consumption_report_wizard_form
+msgid "View"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,help:deltatech_stock_consumption_report.field_stock_picking__consumption_purpose_id
+msgid ""
+"What the consumed goods were used for (investments, own use...). The "
+"consumption report totals the value by purpose."
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#: model:ir.model.fields,field_description:deltatech_stock_consumption_report.field_stock_consumption_report_line__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: deltatech_stock_consumption_report
+#. odoo-python
+#: code:addons/deltatech_stock_consumption_report/wizard/consumption_report_wizard.py:0
+msgid "Yes"
+msgstr ""
