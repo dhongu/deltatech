@@ -4,17 +4,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0+e\n"
+"Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-15 10:51+0000\n"
-"PO-Revision-Date: 2023-02-17 13:10+0000\n"
+"POT-Creation-Date: 2026-11-03 14:53+0000\n"
+"PO-Revision-Date: 2026-07-31 10:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,name:deltatech_website_delivery_and_payment.model_res_partner
@@ -77,7 +78,7 @@ msgstr "Valoarea comenzii depășește limita"
 #. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form
 msgid "Payment Acquirer"
-msgstr "Colector plată"
+msgstr "Plată"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,name:deltatech_website_delivery_and_payment.model_payment_provider
@@ -94,23 +95,18 @@ msgstr "Furnizori de plată permiși"
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__restrict_label_ids
 msgid "Restrict Label"
-msgstr "Restricționează pentru partenerii cu label"
+msgstr "Ascuns pentru etichetele"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__restrict_label_ids
 msgid "Restrict for partners with label"
-msgstr "Restricționează pentru partenerii cu label"
+msgstr "Ascunsă pentru partenerii cu eticheta"
 
 #. module: deltatech_website_delivery_and_payment
 #. odoo-python
 #: code:addons/deltatech_website_delivery_and_payment/models/payment_provider.py:0
 msgid "Restricted for the partner labels"
 msgstr "Restricționat pentru etichetele partenerului"
-
-#. module: deltatech_website_delivery_and_payment
-#: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.payment_provider_form
-msgid "Restrictions"
-msgstr "Restrictii"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model,name:deltatech_website_delivery_and_payment.model_sale_order
@@ -125,8 +121,14 @@ msgstr "Etichete..."
 #. module: deltatech_website_delivery_and_payment
 #. odoo-python
 #: code:addons/deltatech_website_delivery_and_payment/controllers/payment.py:0
-msgid "The payment method %(provider)s is not allowed for this order (delivery method %(carrier)s). Please choose another payment method or another delivery method."
-msgstr "Metoda de plată %(provider)s nu este permisă pentru această comandă (metoda de livrare %(carrier)s). Alegeți altă metodă de plată sau altă metodă de livrare."
+msgid ""
+"The payment method %(provider)s is not allowed for this order (delivery "
+"method %(carrier)s). Please choose another payment method or another "
+"delivery method."
+msgstr ""
+"Metoda de plată %(provider)s nu este permisă pentru această comandă (metoda "
+"de livrare %(carrier)s). Alegeți altă metodă de plată sau altă metodă de "
+"livrare."
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_payment_provider__value_limit
@@ -136,12 +138,12 @@ msgstr "Limită valoare"
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__weight_max
 msgid "Weight Max"
-msgstr "Greutate max."
+msgstr "Greutate maximă"
 
 #. module: deltatech_website_delivery_and_payment
 #: model:ir.model.fields,field_description:deltatech_website_delivery_and_payment.field_delivery_carrier__weight_min
 msgid "Weight Min"
-msgstr "Greutate min."
+msgstr "Greutate minimă"
 
 #. module: deltatech_website_delivery_and_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_website_delivery_and_payment.view_delivery_carrier_form

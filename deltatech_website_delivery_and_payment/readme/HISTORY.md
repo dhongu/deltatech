@@ -1,3 +1,17 @@
+## 20.0.2.2.1 (2026-11-03)
+
+- Description rewritten to match the 20.0 code: value limit of a payment provider, weight limits of
+  a delivery method, the customer tags read on the company for both rules, the check when paying
+  (express checkout included), the preferred payment provider and the delivery method logo, where
+  each setting is. Summary typo fixed.
+- Consultant sheet (FISA_CONSULTANT.md), USAGE.md and screenshots in Romanian and English, generated
+  on Odoo 20 by `tests/test_screenshots.py`, including the delivery and payment steps of the shop
+  checkout.
+- *Weight limits* shows the weight unit. *Value Limit* and the tags of a payment provider moved to
+  the standard *Restrictions* tab, next to *Maximum Amount*: they were in the *Configuration* tab,
+  which Odoo 20 hides for *Cash on Delivery*, so they could not be set on that provider. Romanian
+  translations updated.
+
 ## 20.0.2.2.0 (2026-10-15)
 
 - The payment provider of a transaction is checked against the order when the

@@ -5,3 +5,5 @@
 from . import test_website_sale
 from . import test_website_tax_display
 from . import test_website_vat_validation_http
+
+from . import test_screenshots

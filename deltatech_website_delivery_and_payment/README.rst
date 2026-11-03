@@ -16,36 +16,210 @@ Delivery and Payment
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_delivery_and_payment
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_delivery_and_payment/tests
-    :alt: 19 automated tests
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_delivery_and_payment/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_website_delivery_and_payment
+    :alt: 21 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-Features:
+Limits the delivery methods and the payment providers offered in the
+eCommerce checkout by the delivery method chosen, the value and weight
+of the order and the tags of the customer.
 
-- restrict the payment providers offered in the eCommerce checkout by
-  the selected delivery method (the payment step shows only the
-  providers allowed on the delivery method)
-- hide a payment provider when the order total exceeds its value limit
-- restrict payment providers for partners with certain labels (labels of
-  the commercial partner, so the contacts of a labelled company are
-  restricted too)
-- check the payment provider again when the transaction is created,
-  including the express checkout: a provider that is not allowed for the
-  order is refused
-- restrict delivery methods for partners with certain labels
-- minimum and maximum order weight on delivery methods
-- preselect the partner's preferred payment provider on the payment step
-- show the logo of the delivery method in the shop checkout
+Features
+--------
+
+- **Payment providers by delivery method**: a delivery method can list
+  the payment providers allowed with it, for example cash on delivery
+  only with the courier. On the payment step the customer sees only
+  those providers. A delivery method without a list allows all of them.
+- **Value limit of a payment provider**: above this order total (taxes
+  included) the provider is no longer offered.
+- **Weight limits of a delivery method**: the method is offered only
+  when the estimated weight of the cart is between its minimum and
+  maximum. An empty limit is not checked.
+- **Restrictions by customer tags**: a delivery method or a payment
+  provider can be hidden from the customers that have one of its tags.
+  The tags of the customer's company (the commercial partner) are read
+  for both.
+- **Check when paying**: the payment provider is checked again when the
+  transaction is created, so a provider that is not allowed for the
+  order is refused, also in the express checkout. The express checkout
+  hides the delivery methods whose allowed providers have no express
+  checkout.
+- **Preferred payment provider**: the *Payment Provider* set on the
+  customer's company preselects its payment method on the payment step,
+  when that provider is allowed for the order.
+- **Delivery method logo**: the *Logo* of a delivery method is shown
+  before its name in the shop checkout.
+
+Configuration
+-------------
+
+- **Website > Configuration > eCommerce > Delivery Methods**, on a
+  delivery method:
+
+  - *Weight limits*, on its own row under the price, in the weight unit
+    of the database;
+  - tab *Payment Acquirer*: *Payments Provider Allowed* and *Restrict
+    for partners with label*;
+  - *Logo*, the image at the top right of the form.
+
+- **Website > Configuration > eCommerce > Payment Providers**, on a
+  provider, tab *Restrictions*, under *Maximum Amount*: *Value Limit*
+  and the tags.
+- On the contact form, tab *Sales & Purchase*: *Payment Provider*, the
+  preferred provider of the customer.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+Publish the payment providers and the delivery methods used on the shop
+first (**Website → Configuration → eCommerce → Payment Providers** and
+**Delivery Methods**). The rules below only hide options; they never add
+a provider or a delivery method that is not enabled and published.
+
+**Configure the rules**
+
+1. **Payment providers allowed with a delivery method** — open the
+   delivery method (e.g. **Curier rapid**), go to the **Payment
+   Acquirer** tab (1) and fill in **Payments Provider Allowed** (2).
+   With this delivery method the customer gets only these providers. An
+   empty list allows all of them.
+
+   |Delivery method form, Payment Acquirer tab: Payments Provider
+   Allowed with two providers|
+
+2. **Weight limits** — on the delivery method, on the row under the
+   price, fill in the minimum and the maximum of **Weight limits**
+   (highlighted), in the unit shown at the end of the row. The method is
+   offered only when the estimated weight of the cart (product weight ×
+   quantity, goods only) is between them. A limit of 0 is not checked:
+   50 - 0 means "from 50 kg up".
+
+   |Delivery method form: Weight limits 50.00 - 0.00 kg|
+
+3. **Hide a delivery method for customer tags** — on the **Payment
+   Acquirer** tab (1), fill in **Restrict for partners with label** (2).
+   Customers whose **company** has one of these tags do not see the
+   method.
+
+   |Delivery method form, Payment Acquirer tab: Restrict for partners
+   with label with the tag Provincie|
+
+4. **Value limit and tags of a payment provider** — open the provider,
+   tab **Restrictions**, under the standard **Maximum Amount**: **Value
+   Limit** (1) is the order total, taxes and delivery included, above
+   which the provider is no longer offered (a total equal to the limit
+   is still allowed; the limit is compared with the total in the order
+   currency, without conversion); **Restrict Label** (2) hides the
+   provider from the customers whose **company** has one of the tags.
+
+   |Payment provider form, Restrictions group: Value Limit 1,500.00 and
+   Restrict Label|
+
+5. **Tag the customers** — on the customer (**Website → eCommerce →
+   Customers**), fill in **Tags** (1).
+
+   |Customer form with the tag Provincie|
+
+**Which tags are read**
+
+For delivery methods and for payment providers the module reads the tags
+of the customer's **company** (the commercial partner). A tag set on a
+company applies to all its contact persons; a tag set only on a contact
+person is not read.
+
+**What the customer sees in the checkout**
+
+6. **Delivery step** — the **Delivery method** list (1) shows only the
+   methods left after the rules: here the cart weighs 3 kg and the
+   customer has the tag Provincie, so the pallet transport (from 50 kg)
+   and the local courier (hidden for Provincie) are missing.
+
+   |Checkout Address step: only two delivery methods are offered|
+
+7. **Payment step with the courier** — the **Payment method** list (1)
+   shows only the providers allowed with the chosen delivery method. The
+   customer sees the **payment method** name (Card, Cash on Delivery),
+   not the provider name from the backend.
+
+   |Checkout Payment step with the courier: Card and Cash on Delivery|
+
+8. **Payment step with pickup** — with the pickup method only **Wire
+   Transfer** is left, the only provider allowed on it.
+
+   |Checkout Payment step with the pickup method: only Wire Transfer|
+
+9. **Above the value limit** — with 10 items the order total, taxes
+   included (2,317.15 lei), is above the 1,500 lei limit of Cash on
+   Delivery, so only **Card** is left.
+
+   |Checkout Payment step above the value limit: only Card|
+
+**Standard rules that still apply**
+
+- Cash on Delivery is offered only by the delivery methods with the
+  standard **Cash on Delivery** option, and, when the list is filled in,
+  only if it is in **Payments Provider Allowed**.
+- The standard **Maximum Amount** of a provider and **Max Weight** of a
+  delivery method are applied too, next to the rules of this module.
+- If the rules leave no delivery method, the shop shows "Sorry, we are
+  unable to ship your order."; if they leave no payment provider, the
+  payment step shows *No payment method available*. Keep one delivery
+  method and one provider without restrictions as a fallback.
+
+**Also in the checkout**
+
+- The **Logo** of a delivery method is shown before its name in the
+  delivery method list.
+- The **Payment Provider** on the *Sales & Purchase* tab of the
+  customer's company preselects its payment method on the payment step,
+  when that provider is allowed for the order.
+- The provider is checked again when the customer pays: a provider that
+  is not allowed for the order (value limit, tags, delivery method) is
+  refused with a message, also in the express checkout. The express
+  checkout hides the delivery methods whose allowed providers have no
+  express checkout.
+
+.. |Delivery method form, Payment Acquirer tab: Payments Provider Allowed with two providers| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/01_livrare_furnizori_permisi.png
+.. |Delivery method form: Weight limits 50.00 - 0.00 kg| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/02_livrare_limite_greutate.png
+.. |Delivery method form, Payment Acquirer tab: Restrict for partners with label with the tag Provincie| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/03_livrare_restrictie_eticheta.png
+.. |Payment provider form, Restrictions group: Value Limit 1,500.00 and Restrict Label| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/04_furnizor_plata_restrictii.png
+.. |Customer form with the tag Provincie| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/05_client_etichete.png
+.. |Checkout Address step: only two delivery methods are offered| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/06_site_pas_livrare.png
+.. |Checkout Payment step with the courier: Card and Cash on Delivery| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/07_site_plata_curier.png
+.. |Checkout Payment step with the pickup method: only Wire Transfer| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/08_site_plata_ridicare.png
+.. |Checkout Payment step above the value limit: only Card| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_delivery_and_payment/static/description/en/09_site_plata_peste_limita.png
+
 Changelog
 =========
+
+20.0.2.2.1 (2026-11-03)
+-----------------------
+
+- Description rewritten to match the 20.0 code: value limit of a payment
+  provider, weight limits of a delivery method, the customer tags read
+  on the company for both rules, the check when paying (express checkout
+  included), the preferred payment provider and the delivery method
+  logo, where each setting is. Summary typo fixed.
+- Consultant sheet (FISA_CONSULTANT.md), USAGE.md and screenshots in
+  Romanian and English, generated on Odoo 20 by
+  ``tests/test_screenshots.py``, including the delivery and payment
+  steps of the shop checkout.
+- *Weight limits* shows the weight unit. *Value Limit* and the tags of a
+  payment provider moved to the standard *Restrictions* tab, next to
+  *Maximum Amount*: they were in the *Configuration* tab, which Odoo 20
+  hides for *Cash on Delivery*, so they could not be set on that
+  provider. Romanian translations updated.
 
 20.0.2.2.0 (2026-10-15)
 -----------------------

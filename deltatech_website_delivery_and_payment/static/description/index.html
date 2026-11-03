@@ -14,8 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 19 automated tests</div>
-      
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 21 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">100% code coverage</div>
     </div>
   </div>
 </div>
@@ -35,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -43,15 +51,128 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>restrict the payment providers offered in the eCommerce checkout by the selected
-  delivery method (the payment step shows only the providers allowed on the delivery
-  method)</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>hide a payment provider when the order total exceeds its value limit</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>restrict payment providers for partners with certain labels (labels of the
-  commercial partner, so the contacts of a labelled company are restricted too)</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>check the payment provider again when the transaction is created, including the
-  express checkout: a provider that is not allowed for the order is refused</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>restrict delivery methods for partners with certain labels</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>minimum and maximum order weight on delivery methods</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>preselect the partner's preferred payment provider on the payment step</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>show the logo of the delivery method in the shop checkout</div></div></li></ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Limits the delivery methods and the payment providers offered in the eCommerce checkout by the delivery method chosen,
+the value and weight of the order and the tags of the customer.</p>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Payment providers by delivery method</span><div>a delivery method can list the payment providers allowed with it, for
+  example cash on delivery only with the courier. On the payment step the customer sees only those providers. A
+  delivery method without a list allows all of them.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Value limit of a payment provider</span><div>above this order total (taxes included) the provider is no longer offered.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Weight limits of a delivery method</span><div>the method is offered only when the estimated weight of the cart is between
+  its minimum and maximum. An empty limit is not checked.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Restrictions by customer tags</span><div>a delivery method or a payment provider can be hidden from the customers that have
+  one of its tags. The tags of the customer's company (the commercial partner) are read for both.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Check when paying</span><div>the payment provider is checked again when the transaction is created, so a provider that is
+  not allowed for the order is refused, also in the express checkout. The express checkout hides the delivery methods
+  whose allowed providers have no express checkout.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Preferred payment provider</span><div>the <em>Payment Provider</em> set on the customer's company preselects its payment method on
+  the payment step, when that provider is allowed for the order.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Delivery method logo</span><div>the <em>Logo</em> of a delivery method is shown before its name in the shop checkout.</div></div></li></ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Website &gt; Configuration &gt; eCommerce &gt; Delivery Methods</span><div>, on a delivery method:<ul class="ps-3 mt-1 mb-0">
+<li class="small"><em>Weight limits</em>, on its own row under the price, in the weight unit of the database;</li>
+<li class="small">tab <em>Payment Acquirer</em>: <em>Payments Provider Allowed</em> and <em>Restrict for partners with label</em>;</li>
+<li class="small"><em>Logo</em>, the image at the top right of the form.</li>
+</ul></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Website &gt; Configuration &gt; eCommerce &gt; Payment Providers</span><div>, on a provider, tab <em>Restrictions</em>, under <em>Maximum Amount</em>: <em>Value Limit</em> and the tags.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On the contact form, tab <em>Sales &amp; Purchase</em>: <em>Payment Provider</em>, the preferred provider of the customer.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Publish the payment providers and the delivery methods used on the shop first
+(<strong>Website &#8594; Configuration &#8594; eCommerce &#8594; Payment Providers</strong> and <strong>Delivery Methods</strong>). The rules
+below only hide options; they never add a provider or a delivery method that is not enabled and
+published.</p>
+<p><strong>Configure the rules</strong></p>
+<ol>
+<li><strong>Payment providers allowed with a delivery method</strong> &#8212; open the delivery method (e.g.
+   <strong>Curier rapid</strong>), go to the <strong>Payment Acquirer</strong> tab (1) and fill in <strong>Payments Provider Allowed</strong>
+   (2). With this delivery method the customer gets only these providers. An empty list allows all of
+   them.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Delivery method form, Payment Acquirer tab: Payments Provider Allowed with two providers" src="en/01_livrare_furnizori_permisi.png" /></p>
+<ol start="2">
+<li><strong>Weight limits</strong> &#8212; on the delivery method, on the row under the price, fill in the minimum and
+   the maximum of <strong>Weight limits</strong> (highlighted), in the unit shown at the end of the row. The method is offered only when the estimated weight of the cart
+   (product weight &#215; quantity, goods only) is between them. A limit of 0 is not checked: 50 - 0 means
+   "from 50 kg up".</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Delivery method form: Weight limits 50.00 - 0.00 kg" src="en/02_livrare_limite_greutate.png" /></p>
+<ol start="3">
+<li><strong>Hide a delivery method for customer tags</strong> &#8212; on the <strong>Payment Acquirer</strong> tab (1), fill in
+   <strong>Restrict for partners with label</strong> (2). Customers whose <strong>company</strong> has one of these tags do not
+   see the method.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Delivery method form, Payment Acquirer tab: Restrict for partners with label with the tag Provincie" src="en/03_livrare_restrictie_eticheta.png" /></p>
+<ol start="4">
+<li><strong>Value limit and tags of a payment provider</strong> &#8212; open the provider, tab <strong>Restrictions</strong>, under the
+   standard <strong>Maximum Amount</strong>:
+   <strong>Value Limit</strong> (1) is the order total, taxes and delivery included, above which the provider is
+   no longer offered (a total equal to the limit is still allowed; the limit is compared with the total in the order currency, without
+   conversion); <strong>Restrict Label</strong> (2) hides the
+   provider from the customers whose <strong>company</strong> has one of the tags.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Payment provider form, Restrictions group: Value Limit 1,500.00 and Restrict Label" src="en/04_furnizor_plata_restrictii.png" /></p>
+<ol start="5">
+<li><strong>Tag the customers</strong> &#8212; on the customer (<strong>Website &#8594; eCommerce &#8594; Customers</strong>), fill in <strong>Tags</strong>
+   (1).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Customer form with the tag Provincie" src="en/05_client_etichete.png" /></p>
+<p><strong>Which tags are read</strong></p>
+<p>For delivery methods and for payment providers the module reads the tags of the customer's
+<strong>company</strong> (the commercial partner). A tag set on a company applies to all its contact persons; a
+tag set only on a contact person is not read.</p>
+<p><strong>What the customer sees in the checkout</strong></p>
+<ol start="6">
+<li><strong>Delivery step</strong> &#8212; the <strong>Delivery method</strong> list (1) shows only the methods left after the rules:
+   here the cart weighs 3 kg and the customer has the tag Provincie, so the pallet transport (from
+   50 kg) and the local courier (hidden for Provincie) are missing.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Checkout Address step: only two delivery methods are offered" src="en/06_site_pas_livrare.png" /></p>
+<ol start="7">
+<li><strong>Payment step with the courier</strong> &#8212; the <strong>Payment method</strong> list (1) shows only the providers
+   allowed with the chosen delivery method. The customer sees the <strong>payment method</strong> name (Card, Cash
+   on Delivery), not the provider name from the backend.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Checkout Payment step with the courier: Card and Cash on Delivery" src="en/07_site_plata_curier.png" /></p>
+<ol start="8">
+<li><strong>Payment step with pickup</strong> &#8212; with the pickup method only <strong>Wire Transfer</strong> is left, the only
+   provider allowed on it.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Checkout Payment step with the pickup method: only Wire Transfer" src="en/08_site_plata_ridicare.png" /></p>
+<ol start="9">
+<li><strong>Above the value limit</strong> &#8212; with 10 items the order total, taxes included (2,317.15 lei), is above the 1,500 lei
+   limit of Cash on Delivery, so only <strong>Card</strong> is left.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Checkout Payment step above the value limit: only Card" src="en/09_site_plata_peste_limita.png" /></p>
+<p><strong>Standard rules that still apply</strong></p>
+<ul>
+<li>Cash on Delivery is offered only by the delivery methods with the standard <strong>Cash on Delivery</strong>
+  option, and, when the list is filled in, only if it is in <strong>Payments Provider Allowed</strong>.</li>
+<li>The standard <strong>Maximum Amount</strong> of a provider and <strong>Max Weight</strong> of a delivery method are
+  applied too, next to the rules of this module.</li>
+<li>If the rules leave no delivery method, the shop shows "Sorry, we are unable to ship your order.";
+  if they leave no payment provider, the payment step shows <em>No payment method available</em>. Keep one delivery
+  method and one provider without restrictions as a fallback.</li>
+</ul>
+<p><strong>Also in the checkout</strong></p>
+<ul>
+<li>The <strong>Logo</strong> of a delivery method is shown before its name in the delivery method list.</li>
+<li>The <strong>Payment Provider</strong> on the <em>Sales &amp; Purchase</em> tab of the customer's company preselects its
+  payment method on the payment step, when that provider is allowed for the order.</li>
+<li>The provider is checked again when the customer pays: a provider that is not allowed for the order
+  (value limit, tags, delivery method) is refused with a message, also in the express checkout. The
+  express checkout hides the delivery methods whose allowed providers have no express checkout.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.2.1 (2026-11-03)</h2>
+<ul>
+<li>Description rewritten to match the 20.0 code: value limit of a payment provider, weight limits of
+  a delivery method, the customer tags read on the company for both rules, the check when paying
+  (express checkout included), the preferred payment provider and the delivery method logo, where
+  each setting is. Summary typo fixed.</li>
+<li>Consultant sheet (FISA_CONSULTANT.md), USAGE.md and screenshots in Romanian and English, generated
+  on Odoo 20 by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>, including the delivery and payment steps of the shop
+  checkout.</li>
+<li><em>Weight limits</em> shows the weight unit. <em>Value Limit</em> and the tags of a payment provider moved to
+  the standard <em>Restrictions</em> tab, next to <em>Maximum Amount</em>: they were in the <em>Configuration</em> tab,
+  which Odoo 20 hides for <em>Cash on Delivery</em>, so they could not be set on that provider. Romanian
+  translations updated.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.2.0 (2026-10-15)</h2>
 <ul>
 <li>The payment provider of a transaction is checked against the order when the
@@ -124,6 +245,46 @@
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative_website" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative_website/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Alternative Codes</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Show alternative code in website</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_category_icon" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_category_icon/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Category Icons</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">SVG icons for eCommerce categories, shown in the shop</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_checkout_confirm" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -144,6 +305,86 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_country" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_country/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Country</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Preselect the website company&#x27;s country in the checkout address form</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_delivery_address" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ED</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_delivery_address/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Delivery Address</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Default delivery address per website user, preselected at checkout</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_fixed_price" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ED</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_fixed_price/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Display Fixed Price As Discount</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Display the cut off price for fixed pricelist rule if the price is lower than the list price</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_price_without_tax" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PW</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_price_without_tax/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price Without Tax on Website</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Display Product Price Without Tax</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_product_code" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -160,126 +401,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Display product by code in eCommerce</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_short_description" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">ES</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_short_description/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">eCommerce Sale Short Description</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce short description</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_account" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_account/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Accounting Extensions</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_agreement_management" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Agreement Management</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Services/Agreement</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage agreements numbers, date, state</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_alternative" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_alternative/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Alternative product codes</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_average_payment_period" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_average_payment_period/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Average Payment Period</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Computes average duration of cash accounting</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_backup_attachment" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BA</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_backup_attachment/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Backup Attachments</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Administration</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Backup attachments for selected file type</p>
         </div>
       </a>
     </div>
