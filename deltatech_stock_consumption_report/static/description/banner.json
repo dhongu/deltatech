@@ -1,0 +1,10 @@
+{
+  "title": "Stock Consumption Report",
+  "summary": "Monthly consumption vouchers by store and purpose",
+  "icon": "clipboard",
+  "features": [
+    "Consumption purpose on the voucher",
+    "Value taken from the journal entry",
+    "Pivot and XLSX, summary and detail"
+  ]
+}
