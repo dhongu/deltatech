@@ -1,3 +1,8 @@
+## 19.0.1.0.19 (2026-11-03)
+
+- Fixed: the transfer list showed two empty columns on deliveries (the hidden operation type and
+  the supplier invoice number); they are now hidden as columns.
+
 ## 19.0.1.0.18 (2026-11-03)
 
 - Description aligned with the code: the to-invoice flag is set when the picking is validated, and storable lines of invoices created from pickings are locked.
