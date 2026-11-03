@@ -107,7 +107,7 @@ class StockConsumptionReportWizard(models.TransientModel):
     # Date
     # ------------------------------------------------------------------
     def _get_sold_quantities(self, products):
-        """Cantitatea livrata catre clienti in ultimele 6 luni, pe produs."""
+        """Cantitatea livrata catre clienti in ultimele 6 luni, pe produs, in UM produsului."""
         since = self._to_utc(self.date_to, end=True) - relativedelta(months=6)
         groups = self.env["stock.move"]._read_group(
             [
@@ -117,10 +117,13 @@ class StockConsumptionReportWizard(models.TransientModel):
                 ("location_dest_id.usage", "=", "customer"),
                 ("date", ">=", since),
             ],
-            ["product_id"],
+            ["product_id", "product_uom"],
             ["quantity:sum"],
         )
-        return {product.id: qty for product, qty in groups}
+        sold = defaultdict(float)
+        for product, uom, qty in groups:
+            sold[product.id] += uom._compute_quantity(qty, product.uom_id, round=False)
+        return sold
 
     def _get_move_values(self, moves):
         """Valoarea consumului pe miscare, din nota contabila a bonului: creditul liniilor
