@@ -18,3 +18,15 @@ class AccountPayment(models.Model):
                     lambda journal: not journal.restriction and journal.type in ("bank", "cash")
                 )
         return res
+
+    @api.depends("company_id", "partner_id")
+    def _compute_journal_id(self):
+        res = super()._compute_journal_id()
+        for payment in self:
+            generic_partner = payment.company_id.generic_partner_id
+            if not generic_partner or payment.partner_id != generic_partner:
+                continue
+            allowed = payment.available_journal_ids._origin
+            if payment.journal_id._origin not in allowed:
+                payment.journal_id = allowed[:1]
+        return res

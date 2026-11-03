@@ -1,8 +1,8 @@
-1. Go to **Sales → Configuration → Settings**, section **Invoicing** (the setting needs the Sales app, `sale_management`): pick the **Generic Partner** of the
-   company and, to keep it from being changed by mistake, tick **Protect Generic Partner**. Save. In a
+1. Go to **Invoicing → Configuration → Settings**, section **Customer Invoices** (available without the
+   Sales app as well): pick the **Generic Partner** of the company and, to keep it from being changed by mistake, tick **Protect Generic Partner**. Save. In a
    multi-company database, repeat this on every company.
 
-   ![Sales settings, Invoicing section: the Generic Partner field set to Generic and the Protect Generic Partner box ticked](static/description/en/01_setari_partener_generic.png)
+   ![Invoicing settings, Customer Invoices section: the Generic Partner field set to Generic and the Protect Generic Partner box ticked](static/description/en/01_setari_partener_generic.png)
 
 2. Go to **Invoicing → Configuration → Journals** and tick **Generic Restriction** on the journals that
    must not be used for anonymous customers (usually the banks).
@@ -21,8 +21,9 @@
    ![Invalid Operation dialog over the invoice: it cannot be validated because Generic is the generic partner, used for anonymous customers, and it is set as Partner](static/description/en/04_eroare_validare_factura.png)
 
 5. On a new customer payment for the generic partner (**Invoicing → Customers → Payments**), the
-   **Journal** list leaves out the restricted journals. The journal proposed when the payment is created
-   ignores the restriction, so check it and switch to an allowed one before confirming.
+   **Journal** list leaves out the restricted journals, and the journal proposed by default is an allowed
+   one. The **Register Payment** wizard opened from a vendor bill on the generic partner applies the same
+   restriction.
 
    ![Draft payment for Generic, 108.90 lei: the Journal list is open and proposes only the cash journal Numerar, without the restricted bank](static/description/en/05_plata_jurnale_permise.png)
 

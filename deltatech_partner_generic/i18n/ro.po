@@ -61,6 +61,7 @@ msgstr "Creați un client"
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_journal__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_move__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment__display_name
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment_register__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_partner__display_name
@@ -70,6 +71,7 @@ msgstr "Nume afișat"
 #. module: deltatech_partner_generic
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__generic_partner_id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__generic_partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
 msgid "Generic Partner"
 msgstr "Partener generic"
 
@@ -92,14 +94,10 @@ msgid "Generic Restriction"
 msgstr "Restricție generică"
 
 #. module: deltatech_partner_generic
-#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
-msgid "Generic partner"
-msgstr "Partener generic"
-
-#. module: deltatech_partner_generic
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_journal__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_move__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment__id
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment_register__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_partner__id
@@ -115,6 +113,20 @@ msgstr "Jurnal"
 #: model:ir.model,name:deltatech_partner_generic.model_account_move
 msgid "Journal Entry"
 msgstr "Notă contabilă"
+
+#. module: deltatech_partner_generic
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
+msgid ""
+"Partner used for anonymous customers: it cannot be invoiced and is paid only "
+"through unrestricted journals."
+msgstr ""
+"Partenerul folosit pentru clienții anonimi: nu poate fi facturat și se "
+"încasează doar prin jurnalele fără restricție."
+
+#. module: deltatech_partner_generic
+#: model:ir.model,name:deltatech_partner_generic.model_account_payment_register
+msgid "Pay"
+msgstr "Plătește"
 
 #. module: deltatech_partner_generic
 #: model:ir.model,name:deltatech_partner_generic.model_account_payment
@@ -157,7 +169,7 @@ msgid ""
 "administrator if this partner really has to be changed."
 msgstr ""
 "Partenerul generic „%(name)s” este protejat și nu poate fi modificat. "
-"Solicită unui administrator dacă acest partener trebuie într-adevăr schimbat."
+"Întrebați un administrator dacă acest partener trebuie într-adevăr schimbat."
 
 #. module: deltatech_partner_generic
 #: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.view_partner_form
@@ -176,35 +188,3 @@ msgid ""
 msgstr ""
 "Acest jurnal nu este propus la înregistrarea unei plăți pentru partenerul "
 "generic."
-
-#. module: deltatech_partner_generic
-#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
-msgid "Values set here are company-specific."
-msgstr "Valorile setate aici sunt specifice companiei."
-
-#~ msgid ""
-#~ "The invoice %(invoice)s cannot be validated: “%(partner)s” is the generic "
-#~ "partner, used for anonymous customers, and it is set as %(field)s. Set "
-#~ "the real customer on the invoice before validating it."
-#~ msgstr ""
-#~ "Factura %(invoice)s nu poate fi validată: „%(partner)s” este partenerul "
-#~ "generic, folosit pentru clienții anonimi, și este setat ca %(field)s. "
-#~ "Setați clientul real pe factură înainte de a o valida."
-
-#~ msgid ""
-#~ "The invoice %(invoice)s cannot be validated: “%(partner)s” is the generic "
-#~ "partner, used for anonymous customers. Set the real customer on the "
-#~ "invoice before validating it."
-#~ msgstr ""
-#~ "Factura %(invoice)s nu poate fi validată: „%(partner)s” este partenerul "
-#~ "generic, folosit pentru clienții anonimi. Setați clientul real pe factură "
-#~ "înainte de a o valida."
-
-#~ msgid ""
-#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are "
-#~ "company-specific.\" role=\"img\" aria-label=\"Values set here are company-"
-#~ "specific.\" groups=\"base.group_multi_company\"/>"
-#~ msgstr ""
-#~ "<span class=\"fa fa-lg fa-building-o\" title=\"Valorile setate aici sunt "
-#~ "specifice companiei.\" role=\"img\" aria-label=\"Valorile setate aici "
-#~ "sunt specifice companiei.\" groups=\"base.group_multi_company\"/>"

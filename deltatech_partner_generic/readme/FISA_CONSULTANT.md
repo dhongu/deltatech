@@ -61,11 +61,10 @@ Date minime pentru demo (cele din capturi):
 
 1. Instalați modulul `deltatech_partner_generic` (depinde de `account` și `sale`). La instalare se creează
    contactul **Generic**.
-2. **Vânzări → Configurare → Setări**, secțiunea **Facturare**, setarea **Partener generic**: alegeți partenerul generic al companiei (Pasul 1).
-   În bazele cu mai multe companii, setarea se face pe fiecare companie. Setarea apare doar dacă aplicația
-   **Vânzări** (`sale_management`) e instalată; fără ea (de exemplu, doar magazin online sau POS), pagina
-   de setări nu are fila **Vânzări**, iar câmpul nu apare nici pe formularul companiei: partenerul generic
-   se alege după instalarea aplicației **Vânzări** sau îl setează un administrator tehnic.
+2. **Facturare → Configurare → Setări**, secțiunea **Facturi clienți**, setarea **Partener generic**: alegeți
+   partenerul generic al companiei (Pasul 1). În bazele cu mai multe companii, setarea se face pe fiecare
+   companie. Setarea e în fila **Facturare**, deci e disponibilă și fără aplicația **Vânzări**
+   (`sale_management`), de exemplu doar cu magazin online sau POS; o vede un administrator al facturării.
 3. Opțional, bifați **Protejează partenerul generic** și salvați.
 4. **Facturare → Configurare → Jurnale**: pe jurnalele care nu trebuie folosite pentru încasările
    clienților anonimi (de regulă bănci), bifați **Restricție generică** (Pasul 2).
@@ -76,10 +75,10 @@ Date minime pentru demo (cele din capturi):
 
 ### Pasul 1 — Alegerea și protejarea partenerului generic
 
-**Vânzări → Configurare → Setări**, secțiunea **Facturare**, setarea **Partener generic**: alegeți partenerul generic și, dacă vreți ca el să nu
+**Facturare → Configurare → Setări**, secțiunea **Facturi clienți**, setarea **Partener generic**: alegeți partenerul generic și, dacă vreți ca el să nu
 mai poată fi modificat, bifați **Protejează partenerul generic**. Apăsați **Salvare**.
 
-![Setările aplicației Vânzări, secțiunea Facturare: setarea Partener generic cu partenerul Generic ales ① și caseta Protejează partenerul generic bifată ②](../static/description/01_setari_partener_generic.png)
+![Setările aplicației Facturare, secțiunea Facturi clienți: setarea Partener generic cu partenerul Generic ales ① și caseta Protejează partenerul generic bifată ②](../static/description/01_setari_partener_generic.png)
 
 Partenerul se alege pe compania activă: în bazele cu mai multe companii, comutați pe fiecare companie și
 repetați pasul.
@@ -117,15 +116,16 @@ notele contabile nu sunt afectate.
 jurnalele de bancă și de numerar nebifate cu **Restricție generică**.
 
 Găsiți pe ecran: deschideți lista câmpului **Jurnal**. Verificați că jurnalul de bancă bifat la Pasul 2
-lipsește din listă și alegeți jurnalul de numerar. Odoo propune la crearea plății primul jurnal de bancă
-al companiei, fără să țină cont de restricție, deci jurnalul propus se verifică și se schimbă înainte de
-**Confirmă**. La plăți, restricția se aplică doar pe partenerul generic însuși, nu și pe contactele lui.
+lipsește din listă. Jurnalul propus la crearea plății este și el unul permis (aici **Numerar**), chiar dacă
+jurnalul restricționat e primul jurnal de bancă al companiei. La plăți, restricția se aplică doar pe
+partenerul generic însuși, nu și pe contactele lui.
 
 ![Plata de client în ciornă pentru Generic ①, 108,90 lei: câmpul Jurnal ② are lista deschisă, care propune doar jurnalul Numerar, fără jurnalul Bancă restricționat](../static/description/05_plata_jurnale_permise.png)
 
-Restricția se aplică plăților create din meniul **Plăți**. Asistentul **Înregistrare plată** deschis
-dintr-o factură își propune jurnalele separat și nu ține cont de restricție;
-pentru facturile de client nu contează, pentru că ele nu se pot valida pe partenerul generic.
+Restricția se aplică și în asistentul **Înregistrare plată** deschis dintr-o factură de furnizor pe
+partenerul generic: jurnalele restricționate nu apar, iar dacă metoda de plată preferată a facturii e pe un
+jurnal restricționat, asistentul propune în locul lui un jurnal permis. Facturile de client nu ajung aici,
+pentru că nu se pot valida pe partenerul generic.
 
 ### Pasul 6 — Partenerul generic protejat
 
@@ -172,7 +172,7 @@ Vânzările anonime plătite pe loc se încasează de regulă prin bon fiscal sa
 | Modul | Rol |
 |---|---|
 | `account` | Facturi, plăți, jurnale: aici se aplică restricțiile |
-| `sale` | Setarea partenerului generic stă în setările aplicației **Vânzări** (modulul `sale_management`) |
+| `sale` | Dependență a modulului; setarea partenerului generic stă în setările **Facturare**, deci nu cere aplicația **Vânzări** (`sale_management`) |
 | `deltatech_generic_partner_restriction` | Fostul modul cu restricțiile; acum modul de tranziție gol, care depinde de acesta |
 | Modulele care citesc partenerul generic (POS, e-commerce, importuri) | Îl folosesc ca client implicit pe ciorne și pe bonuri |
 
@@ -184,7 +184,7 @@ blocarea modificărilor când protecția e activă.
 
 ## 8. Verificări pentru consultant
 
-- [ ] În **Vânzări → Configurare → Setări**, partenerul generic e ales pe fiecare companie.
+- [ ] În **Facturare → Configurare → Setări**, secțiunea **Facturi clienți**, partenerul generic e ales pe fiecare companie.
 - [ ] O factură de client pe **Generic** se salvează în ciornă, dar **Confirmă** e refuzat cu mesajul care
   numește câmpul **Partener**.
 - [ ] O factură pe un client real, cu **Adresă livrare** = **Generic**, e refuzată cu mesajul care
@@ -193,7 +193,9 @@ blocarea modificărilor când protecția e activă.
   validează.
 - [ ] După înlocuirea clientului cu cel real, factura se validează și nota contabilă e pe clientul real.
 - [ ] O plată nouă pe **Generic** din **Facturare → Clienți → Plăți** nu are în lista **Jurnal** jurnalele
-  bifate cu **Restricție generică**; jurnalul propus implicit se schimbă pe unul permis.
+  bifate cu **Restricție generică**, iar jurnalul propus implicit e unul permis.
+- [ ] **Înregistrare plată** dintr-o factură de furnizor pe **Generic** nu propune și nu listează jurnalele
+  bifate cu **Restricție generică**.
 - [ ] Cu **Protejează partenerul generic** bifat, un utilizator fără **Partener generic: Editor** vede bannerul și
   nu poate redenumi, arhiva sau șterge partenerul generic.
 - [ ] Un administrator (sau un utilizator cu **Partener generic: Editor**) poate modifica partenerul generic
@@ -214,7 +216,7 @@ Capturile sunt **generate automat** de `tests/test_screenshots.py` (mixinul `Scr
 `deltatech_doc_screenshots`, import defensiv), în română, pe planul de conturi RO, și sunt în
 `static/description/` (cele în engleză, pentru `readme/USAGE.md`, în `static/description/en/`):
 
-1. `01_setari_partener_generic.png` — setările **Vânzări**, secțiunea **Facturare**, cu **Partener generic**;
+1. `01_setari_partener_generic.png` — setările **Facturare**, secțiunea **Facturi clienți**, cu **Partener generic**;
 2. `02_jurnal_restrictie.png` — jurnalul de bancă cu **Restricție generică** bifată;
 3. `03_factura_ciorna_generic.png` — factura de client în ciornă pe **Generic**;
 4. `04_eroare_validare_factura.png` — validarea refuzată;
@@ -236,10 +238,13 @@ Regenerare:
 - Protecția e dezactivată implicit, ca bazele existente să nu-și schimbe comportamentul la actualizare.
 - Bazele care aveau instalat `deltatech_generic_partner_restriction` își păstrează jurnalele bifate: scriptul
   de migrare le preia.
-- Restricția de jurnale se aplică plăților create din **Plăți**, nu și asistentului **Înregistrare plată**
-  deschis dintr-o factură (relevant doar pentru facturile de furnizor pe partenerul generic).
+- Restricția de jurnale se aplică atât plăților create din **Plăți**, cât și asistentului **Înregistrare
+  plată** deschis dintr-o factură. Excepție: la plata în lot a mai multor facturi pe parteneri diferiți,
+  fără grupare, lista de jurnale e comună tuturor partenerilor, deci jurnalul restricționat poate rămâne
+  disponibil dacă printre facturi e una pe partenerul generic.
 - O încasare pe **Generic** înaintea facturii este un avans: TVA e exigibilă la încasare, iar factura pe
   clientul real se emite cel târziu în a 15-a zi a lunii următoare; dacă clientul nu se identifică,
   vânzarea se documentează prin bon fiscal (vezi „Note de monografie și raportare").
-- Jurnalul propus implicit pe o plată nouă nu ține cont de restricție (Odoo ia primul jurnal de bancă al
-  companiei): operatorul îl schimbă pe unul permis înainte de confirmare.
+- Jurnalul propus implicit pe o plată nouă a partenerului generic e primul jurnal permis; dacă niciun
+  jurnal de bancă sau numerar nu e permis, câmpul **Jurnal** rămâne gol și trebuie debifată restricția pe
+  cel puțin unul.

@@ -100,7 +100,7 @@ class TestPartnerGenericScreenshots(ScreenshotCase or object):
                 "invoice_line_ids": [Command.create({"product_id": product.id, "quantity": 2, "price_unit": 45.0})],
             }
         )
-        # jurnalul implicit al plății nu ține cont de restricție: alegem numerarul, ca în flux
+        # banca e restricționată, deci plata primește implicit jurnalul de numerar
         cash_journal = env["account.journal"].search([("company_id", "=", company.id), ("type", "=", "cash")], limit=1)
         if not cash_journal:
             cash_journal = env["account.journal"].create(
@@ -111,7 +111,6 @@ class TestPartnerGenericScreenshots(ScreenshotCase or object):
                 "payment_type": "inbound",
                 "partner_type": "customer",
                 "partner_id": cls.generic.id,
-                "journal_id": cash_journal.id,
                 "amount": 108.9,
             }
         )
@@ -136,7 +135,7 @@ class TestPartnerGenericScreenshots(ScreenshotCase or object):
             }
         )
         env.flush_all()
-        cls.settings_action = env.ref("sale.action_sale_config_settings")
+        cls.settings_action = env.ref("account.action_account_config")
         cls.journal_action = env.ref("account.action_account_journal_form")
         cls.invoice_action = env.ref("account.action_move_out_invoice_type")
         cls.payment_action = env.ref("account.action_account_payments")
@@ -145,7 +144,7 @@ class TestPartnerGenericScreenshots(ScreenshotCase or object):
 
     def _admin_shots(self):
         return [
-            # 1. Setări → Vânzări: partenerul generic și protecția lui
+            # 1. Setări → Facturare: partenerul generic și protecția lui
             {
                 "url": f"action={self.settings_action.id}",
                 "name": "01_setari_partener_generic.png",
