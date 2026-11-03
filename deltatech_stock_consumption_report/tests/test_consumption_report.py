@@ -146,3 +146,25 @@ class TestConsumptionReport(TestStockValuationCommon):
         self.assertAlmostEqual(values[move.id], 24.0)
         # bonul fara nota contabila ramane pe valoarea miscarii
         self.assertAlmostEqual(values[self.move.id], self.move.value)
+
+    def test_sold_quantities_in_product_uom(self):
+        """Livrarile in alta UM se aduna convertite in UM produsului."""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        customer = self.env.ref("stock.stock_location_customers")
+        self.env["stock.quant"]._update_available_quantity(self.product, self.stock_location, 30.0)
+        for uom, qty in ((self.product.uom_id, 3.0), (dozen, 1.0)):
+            move = self.env["stock.move"].create(
+                {
+                    "product_id": self.product.id,
+                    "product_uom": uom.id,
+                    "product_uom_qty": qty,
+                    "location_id": self.stock_location.id,
+                    "location_dest_id": customer.id,
+                }
+            )
+            move._action_confirm()
+            move.quantity = qty
+            move.picked = True
+            move._action_done()
+        sold = self._wizard()._get_sold_quantities(self.product)
+        self.assertAlmostEqual(sold[self.product.id], 15.0)
