@@ -55,6 +55,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_journal__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_move__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment__display_name
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment_register__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_partner__display_name
@@ -64,6 +65,7 @@ msgstr ""
 #. module: deltatech_partner_generic
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__generic_partner_id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__generic_partner_id
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
 msgid "Generic Partner"
 msgstr ""
 
@@ -86,14 +88,10 @@ msgid "Generic Restriction"
 msgstr ""
 
 #. module: deltatech_partner_generic
-#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
-msgid "Generic partner"
-msgstr ""
-
-#. module: deltatech_partner_generic
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_journal__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_move__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment__id
+#: model:ir.model.fields,field_description:deltatech_partner_generic.field_account_payment_register__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_company__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_partner_generic.field_res_partner__id
@@ -108,6 +106,18 @@ msgstr ""
 #. module: deltatech_partner_generic
 #: model:ir.model,name:deltatech_partner_generic.model_account_move
 msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_partner_generic
+#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
+msgid ""
+"Partner used for anonymous customers: it cannot be invoiced and is paid only "
+"through unrestricted journals."
+msgstr ""
+
+#. module: deltatech_partner_generic
+#: model:ir.model,name:deltatech_partner_generic.model_account_payment_register
+msgid "Pay"
 msgstr ""
 
 #. module: deltatech_partner_generic
@@ -159,9 +169,4 @@ msgstr ""
 msgid ""
 "This journal is not proposed when registering a payment for the generic "
 "partner."
-msgstr ""
-
-#. module: deltatech_partner_generic
-#: model_terms:ir.ui.view,arch_db:deltatech_partner_generic.res_config_settings_view_form
-msgid "Values set here are company-specific."
 msgstr ""
