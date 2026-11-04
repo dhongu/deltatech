@@ -121,6 +121,10 @@ Date minime pentru demo:
    (altfel se refuză la salvare) și se propune pe decont doar dacă e al companiei decontului.
 9. Opțional, pentru verificarea automată a plafonului fiscal al diurnei, instalați
    `l10n_ro_expense_allowance`.
+10. Opțional, dacă avansurile și restituirile se înregistrează din casă și bancă, iar soldul
+    angajatului pe 542 se reportează între luni: activați **„Deconturi fără note de plată”** în
+    **Facturare → Configurare → Setări**, blocul **Bancă și casă** (per companie). Fluxul este
+    descris în secțiunea 6, „Varianta fără note de plată”.
 
 ## 6. Flux de utilizare
 
@@ -175,7 +179,8 @@ avansuri de trezorerie al angajatului). La „Virament (card personal)" nota est
 (plăți în curs), care se reconciliază apoi cu linia din extrasul de cont (5125 = 5121). La „Card de
 firmă" nu se acordă avans și nu apare nicio notă de avans, dar aprobatorul apasă totuși **Avans** (cu
 avans zero, fără notă): doar așa decontul primește numărul și trece în starea „Avans", singura în care
-apar liniile de cheltuieli și butonul **Validează**. La un decont în valută, nota are suma în valută și
+apar liniile de cheltuieli și butonul **Validează** (excepție: în varianta fără note de plată, de mai
+jos, liniile și **Validează** apar direct în Ciornă). La un decont în valută, nota are suma în valută și
 contravaloarea în lei la cursul BNR din data avansului (casa este 5314).
 
 ![Nota contabilă de acordare a avansului (542 = 5311)](screenshots/02_nota_avans.png)
@@ -308,7 +313,8 @@ plafonul de neimpozitare (secțiunea 2) trebuie preluat în salarizare ca venit 
 
 Dacă decontul a fost validat greșit, contabilul apasă **Invalidare**: **toate** notele decontului,
 inclusiv nota de avans și chitanțele, se șterg, iar decontul revine în Ciornă. Fluxul se reia de la
-**Avans** (care regenerează nota de avans) și **Validează**. Nu folosiți Invalidare pe o perioadă
+**Avans** (care regenerează nota de avans) și **Validează**; în varianta fără note de plată decontul
+își păstrează numărul și se validează din nou direct din Ciornă. Nu folosiți Invalidare pe o perioadă
 declarată sau închisă: acolo corecția se face prin stornare.
 
 Decontul se tipărește din meniul cu rotița (⚙) → **Tipărire → Tipărire decont cheltuieli**; documentul tipărit e
@@ -353,7 +359,7 @@ Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Deconturi
 
 - decontul nu are pasul „Avans”: contabilul completează cheltuielile în Ciornă și apasă
   **„Validează”**; numărul se dă la validare, iar decontul ajunge în **Efectuat**;
-- câmpurile Mod de decontare, Jurnal de plată, Avans, Dată avans (completată implicit cu data de azi,
+- câmpurile Mod de decontare, Jurnal de plată, Jurnal card firmă, Avans, Dată avans (completată implicit cu data de azi,
   doar informativă) și Diferența nu mai apar; în
   locul diferenței, formularul arată **„Sold angajat (542)”**, soldul angajatului pe 542 din toate
   deconturile și operațiunile de casă / bancă (debitor = angajatul mai are de justificat, creditor =
@@ -366,6 +372,8 @@ Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Deconturi
 - sumele date angajatului și restituirile se înregistrează din **registrul de casă** (`Dr 542 = Cr
   5311`, `Dr 5311 = Cr 542`) sau din **extrasul bancar** (retragere sau plată cu cardul firmei
   `Dr 542 = Cr 5121`), cu angajatul ca partener, și se reconciliază pe 542;
+- la **Invalidare**, notele decontului se șterg, decontul revine în Ciornă cu același număr și se
+  validează din nou direct, fără pasul „Avans”;
 - deconturile validate se găsesc cu filtrul **„Efectuat”** din listă (filtrul **„Avans”** arată
   deconturile clasice cu avans acordat și nedecontat); soldul se urmărește pe fișa contului 542, pe
   partener (angajat);
