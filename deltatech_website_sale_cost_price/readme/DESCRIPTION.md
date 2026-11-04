@@ -1,30 +1,16 @@
-Website Sale Cost Price
-========================
+This module extends the standard eCommerce option **Prevent Sale of Zero Priced Product**: the shop
+also stops selling a product when its price is lower than its cost price plus a minimum margin.
 
-This module extends the standard Odoo "Prevent Sale of Zero Priced Product" functionality to also prevent sales when the product price is lower than its cost price (standard price).
+For such a product the customer no longer sees the price and the **Add to Cart** button, but the
+**Contact Us** button (the same behaviour as for zero priced products), and the cart button disappears
+from the product list.
 
-Key Features:
--------------
+Key features:
 
-- **Dynamic Sale Prevention**: Automatically blocks adding a product to the cart if the sale price is below the cost price.
-- **Configurable Margin**: Set a minimum required margin percentage in the website settings (e.g., if set to 10%, sale price must be at least 110% of the cost price).
-- **Tax-Aware Comparisons**: Configure whether the cost price includes tax or not, ensuring accurate comparison against the website sale price.
-- **Currency Conversion**: Automatically handles currency differences between the product's cost currency and the website's pricelist currency.
-
-Configuration:
---------------
-
-1. Go to **Website > Configuration > Settings**.
-2. Locate the **Shop - Checkout Process** section.
-3. Enable **Prevent Sale of Zero Priced Product**.
-4. Configure the new fields:
-   - **Cost Price Includes Tax**: Specify if your product cost prices already include tax.
-   - **Cost Price Margin %**: Set the minimum margin required for a sale to be allowed.
-
-Usage:
-------
-
-When a user browses the website:
-
-- If a product variant's price is lower than the calculated cost threshold, the "Add to Cart" button is replaced by the "Contact Us" button (or the action configured for zero-priced products).
-- The same restriction applies to the "Quick Add" functionality.
+- **Cost price protection**: the website price (after the website pricelist) is compared with the
+  product cost (**Cost** field).
+- **Minimum margin**: a margin percentage set on the website (with 10%, the price must be at least
+  110% of the cost).
+- **Tax aware**: the cost (kept without taxes) is increased with the taxes when the website displays
+  prices with taxes.
+- **Currency conversion**: the cost is converted to the website currency.
