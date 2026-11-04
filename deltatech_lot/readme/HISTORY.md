@@ -1,3 +1,8 @@
+## 20.0.1.0.4 (2026-11-04)
+
+- Migration to Odoo 20.0: an untracked product has `tracking` False (no more `'none'`); the
+  screenshot test highlights the *Track Inventory* (`store_by`) field of the Odoo 20 product form.
+
 ## 19.0.1.0.4 (2026-10-22)
 
 - Listed on Odoo Apps as *Lot Generation & Selection* (was *Generate/Select lot*). The technical name `deltatech_lot` does not change.
