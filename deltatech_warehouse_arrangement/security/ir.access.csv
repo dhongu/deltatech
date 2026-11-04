@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+access_storehouse_manager,access_storehouse_manager,warehouse.location.storehouse,deltatech_warehouse_arrangement.group_locations_manager,crud,
+access_storehouse_user,access_storehouse_user,warehouse.location.storehouse,base.group_user,r,
+access_zone_manager,access_zone_manager,warehouse.location.zone,deltatech_warehouse_arrangement.group_locations_manager,crud,
+access_zone_user,access_zone_user,warehouse.location.zone,base.group_user,r,
+access_shelf_manager,access_shelf_manager,warehouse.location.shelf,deltatech_warehouse_arrangement.group_locations_manager,crud,
+access_shelf_user,access_shelf_user,warehouse.location.shelf,base.group_user,r,
+access_section_manager,access_section_manager,warehouse.location.section,deltatech_warehouse_arrangement.group_locations_manager,crud,
+access_section_user,access_section_user,warehouse.location.section,base.group_user,r,
+access_rack_manager,access_rack_manager,warehouse.location.rack,deltatech_warehouse_arrangement.group_locations_manager,crud,
+access_rack_user,access_rack_user,warehouse.location.rack,base.group_user,r,
+access_lot_change_location,access_lot_change_location,lot.change.location,base.group_user,crud,

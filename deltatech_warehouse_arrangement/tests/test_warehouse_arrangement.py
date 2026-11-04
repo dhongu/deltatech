@@ -7,7 +7,7 @@ from unittest import mock
 from psycopg2 import IntegrityError
 
 from odoo.exceptions import UserError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import Form, TransactionCase, tagged
 from odoo.tools import mute_logger
 
 from ..models.warehouse_location import get_location_type
@@ -81,7 +81,7 @@ class TestWarehouseArrangement(TransactionCase):
             {
                 "product_id": product.id,
                 "product_uom_qty": qty,
-                "product_uom": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "location_id": src.id,
                 "location_dest_id": dest.id,
             }
@@ -94,7 +94,7 @@ class TestWarehouseArrangement(TransactionCase):
                 "product_id": product.id,
                 "lot_id": lot.id,
                 "quantity": qty,
-                "product_uom_id": product.uom_id.id,
+                "uom_id": product.uom_id.id,
                 "location_id": src.id,
                 "location_dest_id": dest.id,
             }
@@ -256,6 +256,21 @@ class TestWarehouseArrangement(TransactionCase):
         self.assertFalse(wizard.lot_scanned)
         # nothing selected: do_change does nothing
         wizard.do_change()
+
+    def test_wizard_scan_through_barcode_field(self):
+        # Odoo 20: barcode_events_mixin was removed, the scan reaches the wizard through
+        # the onchange of the non-stored _barcode_scanned field (written by the JS widget)
+        lot = self.env["stock.lot"].create({"name": "LOT-WIZ-FORM", "product_id": self.product.id})
+        with Form(self.env["lot.change.location"]) as form:
+            form._barcode_scanned = "LOT-WIZ-FORM"
+            self.assertEqual(form.lot_id, lot)
+            self.assertTrue(form.lot_scanned)
+            form._barcode_scanned = "RACK-TEST-002"
+            self.assertEqual(form.rack_id, self.rack2)
+            self.assertFalse(form._barcode_scanned)
+        wizard = form.save()
+        wizard.do_change()
+        self.assertEqual(lot.loc_rack_id, self.rack2)
 
     def test_wizard_errors(self):
         self.env["stock.lot"].create({"name": "LOT-WIZ-ERR", "product_id": self.product.id})

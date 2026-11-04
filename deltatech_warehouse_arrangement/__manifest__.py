@@ -5,7 +5,7 @@
     "name": "Warehouse Arrangement",
     "category": "Stock",
     "summary": "Manages warehouse locations, parallel to standard Odoo locations",
-    "version": "19.0.0.1.8",
+    "version": "20.0.0.1.8",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -15,7 +15,7 @@
     ],
     "data": [
         "security/security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "views/warehouse_location.xml",
         "views/product_template.xml",
         "views/stock_lot.xml",
@@ -23,6 +23,11 @@
         "views/warehouse_location_report.xml",
         "wizard/lot_set_location.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "deltatech_warehouse_arrangement/static/src/js/barcode_handler_field.esm.js",
+        ],
+    },
     "development_status": "Beta",
     "installable": True,
     "images": ["static/description/main_screenshot.png"],

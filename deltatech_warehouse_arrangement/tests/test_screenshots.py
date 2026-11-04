@@ -145,7 +145,7 @@ class TestWarehouseArrangementScreenshots(ScreenshotCase or object):
                         {
                             "product_id": cls.product.id,
                             "product_uom_qty": 300,
-                            "product_uom": cls.product.uom_id.id,
+                            "uom_id": cls.product.uom_id.id,
                             "location_id": supplier.id,
                             "location_dest_id": cls.stock_location.id,
                         }
@@ -164,7 +164,7 @@ class TestWarehouseArrangementScreenshots(ScreenshotCase or object):
                     "product_id": cls.product.id,
                     "lot_name": lot_name,
                     "quantity": qty,
-                    "product_uom_id": cls.product.uom_id.id,
+                    "uom_id": cls.product.uom_id.id,
                     "location_id": supplier.id,
                     "location_dest_id": cls.stock_location.id,
                 }
@@ -328,7 +328,7 @@ class TestWarehouseArrangementScreenshots(ScreenshotCase or object):
         self.assertEqual(wizard.rack_id, self.rack2)
         self.env.flush_all()
         self.capture_screenshots(self._shots_wizard(wizard), **options)
-        # în Odoo 19 asistentul deschis din meniu nu are butoane (footer-ul apare doar în dialog):
+        # în Odoo 19/20 asistentul deschis din meniu nu are butoane (footer-ul apare doar în dialog):
         # polița nouă se alege direct pe lot, în tabul Locație
         self.lot2.write({"loc_rack_id": self.rack2.id})
         self.env.flush_all()

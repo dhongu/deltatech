@@ -3,18 +3,28 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
 class LotChangeLocation(models.TransientModel):
     _name = "lot.change.location"
     _description = "Lot Change Location Wizard"
-    _inherit = ["barcodes.barcode_events_mixin"]
 
+    # În Odoo 20 mixinul `barcodes.barcode_events_mixin` și widget-ul `barcode_handler`
+    # au fost eliminate din core: câmpul non-stocat + onchange-ul sunt preluate aici,
+    # iar widget-ul `deltatech_warehouse_arrangement_barcode_handler` (Owl 3) scrie codul scanat în câmp.
+    _barcode_scanned = fields.Char("Barcode Scanned", help="Value of the last barcode scanned.", store=False)
     lot_id = fields.Many2one("stock.lot")
     rack_id = fields.Many2one("warehouse.location.rack")
     lot_scanned = fields.Boolean()
+
+    @api.onchange("_barcode_scanned")
+    def _on_barcode_scanned(self):
+        barcode = self._barcode_scanned
+        if barcode:
+            self._barcode_scanned = ""
+            return self.on_barcode_scanned(barcode)
 
     def on_barcode_scanned(self, barcode):
         lot_id = self.env["stock.lot"].search([("name", "=", barcode)])

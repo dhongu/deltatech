@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="_barcode_scanned" widget="barcode_handler" />
+                    <field name="_barcode_scanned" widget="deltatech_warehouse_arrangement_barcode_handler" />
                     <field name="lot_id" />
                     <field name="rack_id" />
                     <field name="lot_scanned" />

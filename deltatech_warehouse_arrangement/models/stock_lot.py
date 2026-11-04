@@ -4,7 +4,6 @@
 
 
 from odoo import api, fields, models
-from odoo.tools import float_is_zero
 
 
 class StockLot(models.Model):
@@ -47,7 +46,7 @@ class StockLot(models.Model):
                 internal_children_locations = children_location.filtered(lambda li: li.usage == "internal")
                 quants = lot.quant_ids.filtered(lambda q, ids=internal_children_locations.ids: q.location_id.id in ids)
                 product_qty = sum(quants.mapped("quantity"))
-                if float_is_zero(product_qty, precision_rounding=lot.product_id.uom_id.rounding):
+                if lot.product_id.uom_id.is_zero(product_qty):
                     lot.write(
                         {
                             "loc_storehouse_id": False,

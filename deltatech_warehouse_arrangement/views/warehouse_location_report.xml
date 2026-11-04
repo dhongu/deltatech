@@ -7,7 +7,6 @@
         <field name="binding_model_id" ref="deltatech_warehouse_arrangement.model_warehouse_location_rack" />
         <field name="binding_type">report</field>
         <field name="report_name">deltatech_warehouse_arrangement.report_rack</field>
-        <field name="report_file">deltatech_warehouse_arrangement.report_rack</field>
     </record>
 
     <template id="report_rack">
