@@ -29,6 +29,13 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
         # setează site-ul doar pe ``request.env``), ca în testele din ``website_sale``
         cls.test_product = cls.test_product.with_context(website_id=cls.website.id)
 
+    def _callSetUp(self):
+        super()._callSetUp()
+        # 20.0: the common tests run as a sales user; ``_callSetUp`` re-binds every class record to
+        # the test env (dropping ``sudo()`` and the ``website_id`` context), so restore them here
+        self.test_product = self.test_product.sudo().with_context(website_id=self.website.id)
+        self.website = self.website.sudo()
+
     def test_01_price_higher_than_cost(self):
         """Test that product is allowed when price is higher than cost"""
         self.test_product.list_price = 100.0
@@ -78,7 +85,7 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
 
     def test_04_tax_adjustment(self):
         """Test tax adjustment logic"""
-        tax = self.env["account.tax"].create(
+        tax = self.env["account.tax"].sudo().create(
             {
                 "name": "Test Tax 20%",
                 "amount": 20.0,
