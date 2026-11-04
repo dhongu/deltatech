@@ -14,13 +14,14 @@ unitate de măsură din listele UN/ECE, în atributul `unitCode` (de exemplu `KG
 a bunului. Odoo standard alege codul doar pentru cele aproximativ 28 de unități livrate de el, după
 identificatorul tehnic al unității, și trimite `C62` (o bucată) pentru orice altă unitate, fără să
 semnaleze ceva. Consecința: o unitate creată de firmă, de exemplu **Cutie 13 kg**, apare la ANAF ca
-„bucată”; la fel metrul pătrat, piciorul pătrat și mililitrul, pe care maparea standard nu le
-recunoaște.
+„bucată”. Din Odoo 20 unitatea are și un câmp standard **Cod UN/ECE**, completat de Odoo pentru
+unitățile livrate de el, dar scris de mână și unic: două unități nu pot avea același cod.
 
 Modulul `deltatech_uom_unece` adaugă pe fiecare unitate de măsură câmpul **Cod UNECE**, cu valori
 alese dintr-un nomenclator încărcat la instalare (codurile acceptate de ANAF în schema SAF-T). Codul
-pus pe unitate are prioritate față de maparea standard, iar o unitate fără cod se comportă exact ca
-înainte de instalare.
+pus pe unitate are prioritate față de câmpul standard și de maparea internă, poate fi folosit pe mai
+multe unități (ex. toate cutiile cu `XBX`), iar o unitate fără cod se comportă exact ca înainte de
+instalare.
 
 ## 2. Bază legală și context
 
@@ -119,10 +120,10 @@ dreapta antetului listei, bifând **Cod UNECE**. Apoi:
 
 1. **Găsiți pe ecran** unitățile proprii ale firmei (cele create de voi, de regulă cu o cantitate și o
    unitate de referință, ca **Cutie 13 kg**) și coloana **Cod UNECE**.
-2. **Verificați** că fiecare unitate proprie are cod. Celula goală înseamnă că se aplică maparea
-   standard Odoo, adică `C62` (bucată) pentru orice unitate pe care Odoo nu o recunoaște. Unitățile
-   standard **m²** și **ml** au deja `MTK` și `MLT`, puse de modul la instalare; kg, L, Unități etc.
-   rămân goale și pleacă oricum corect.
+2. **Verificați** că fiecare unitate proprie are cod. Celula goală înseamnă că se aplică câmpul
+   standard **Cod UN/ECE** al unității (completat de Odoo pentru unitățile livrate de el, inclusiv
+   **m²** `MTK` și **ml** `MLT`) și, în lipsa lui, `C62` (bucată). Unitățile standard rămân deci
+   goale și pleacă oricum corect.
 3. Deschideți unitatea care nu are cod și completați-l (pasul 4).
 
 ![Lista Unități și ambalaje cu coloana Cod UNECE afișată: m² are MTK - metru pătrat, ml are MLT - mililitru, unitatea proprie Cutie 13 kg (13,000 kg) are XBX - Cutie (1); celelalte unități standard, ca Unități, kg sau L, au celula goală](../static/description/03_unitati_coloana_cod_unece.png)

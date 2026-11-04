@@ -87,7 +87,7 @@ class TestUomUneceScreenshots(ScreenshotCase or object):
         # nomenclatorul se deschide direct pe ambalaje (Rec 21), unde e codul folosit mai jos
         cls.code_action = env.ref("deltatech_uom_unece.uom_unece_code_action")
         cls.code_action.context = "{'search_default_packaging': 1}"
-        cls.uom_action = env.ref("uom.product_uom_form_action")
+        cls.uom_action = env.ref("uom.uom_uom_action_list")
 
         kg = env.ref("uom.product_uom_kgm")
         cls.box = env["uom.uom"].create(
@@ -115,7 +115,6 @@ class TestUomUneceScreenshots(ScreenshotCase or object):
         partner = env["res.partner"].create(
             {
                 "name": "Client Demo SRL",
-                "is_company": True,
                 "vat": "RO18547290",
                 "street": "Str. Clientului nr. 5",
                 "city": "Cluj-Napoca",

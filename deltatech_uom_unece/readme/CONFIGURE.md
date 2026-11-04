@@ -20,5 +20,7 @@ and Inventory), field **UNECE Code**. The field is also available as an optional
 column in the list view, which is the quicker way to fill it in for many units at
 once.
 
-A code set on a unit takes precedence over Odoo's built-in mapping. That is
-deliberate: correcting a wrong built-in mapping is half the point of the module.
+A code set on a unit takes precedence over the standard **UN/ECE Code** field of
+the unit and over Odoo's built-in mapping. That is deliberate: it lets you correct
+a wrong standard value, and use one code on several units, which the standard
+field (unique per unit) does not allow.

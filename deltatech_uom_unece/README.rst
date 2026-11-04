@@ -14,58 +14,45 @@ UoM UNECE Codes
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_uom_unece
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_uom_unece
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_uom_unece/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_uom_unece/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_uom_unece
-    :alt: 21 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
-Lets you set the UN/ECE code sent as the unit of measure in electronic
-documents (e-invoice, eTransport) on each unit, instead of relying on
-the fixed mapping built into Odoo.
+Lets you pick the UN/ECE code sent as the unit of measure in electronic
+documents (e-invoice, eTransport) on each unit, from the nomenclature
+ANAF publishes, and lets several units share the same code.
 
-Odoo matches a unit to its code exclusively through the XML ID, against
-a dictionary of 28 entries, and returns ``C62`` — one piece — for
-anything it does not recognise, without raising an error. That has two
-consequences, both silent:
+Since Odoo 20, ``account_edi_ubl_cii`` has a standard **UN/ECE Code**
+field on the unit, filled in for the units shipped by Odoo (square
+metres, square feet and millilitres included), and every electronic
+document reads the code through ``uom.uom._get_unece_code()``. The
+module is an extension over that field, for what it does not cover:
 
-- **Every unit you create is declared as a piece.** A reception of 10
-  boxes of 13 kg leaves for the tax authority as ``C62``, whatever it
-  actually measures. There is no data fix: a unit like "Box of 13 kg"
-  has no entry in the built-in dictionary to point at.
-- **Some units shipped by Odoo are declared as pieces too.** The
-  dictionary looks for ``uom.uom_square_meter`` and
-  ``uom.uom_square_foot``, while the data defines
-  ``uom.product_uom_square_meter`` and ``uom.product_uom_square_foot``;
-  the millilitre is missing altogether. Square metres, square feet and
-  millilitres all travel as ``C62``. This module corrects the three of
-  them on install.
+- **A nomenclature instead of free text.** The standard field is typed
+  by hand. Here the code is picked from the list ANAF publishes with the
+  SAF-T schema, at
+  https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx
+  (sheet ``Unitati_masura``): over two thousand entries from UN/ECE
+  Recommendation 20 (units) and 21 (packaging), with the English name
+  and ANAF's Romanian translation. Both names load from the same data
+  file, using the ``name@ro`` column syntax Odoo also uses for the
+  Romanian chart of accounts. They go into a model of their own rather
+  than a selection field, so a consultant can add or correct an entry
+  from the interface when ANAF republishes the list, with no code change
+  and no deployment.
+- **A code shared by several units.** The standard field is unique: "Box
+  of 13 kg" and "Box of 5 kg" cannot both be ``XBX`` there. The code
+  picked here can be used on any number of units.
 
-The codes come from the nomenclature ANAF publishes with the SAF-T
-schema, at
-https://static.anaf.ro/static/10/Anaf/Informatii_R/RO_SAFT_SchemaDefCod_16.02.2026.xlsx
-(sheet ``Unitati_masura``): over two thousand entries from UN/ECE
-Recommendation 20 (units) and 21 (packaging), with the English name and
-ANAF's Romanian translation. Both names load from the same data file,
-using the ``name@ro`` column syntax Odoo also uses for the Romanian
-chart of accounts. They go into a model of their own rather than a
-selection field, so a consultant can add or correct an entry from the
-interface when ANAF republishes the list, with no code change and no
-deployment.
-
-Both paths that build electronic documents are covered: eTransport reads
-the code through ``uom.uom._get_unece_code()``, while UBL and CII
-invoices reach it through a separate method of their own, on
-``account.edi.common``. Overriding only the first would have fixed
-eTransport and silently left invoices unchanged.
-
-Leaving the field empty keeps exactly the behaviour you have today,
-which is what makes the module safe to install on a running database.
+A code picked here takes precedence over the standard field; when it is
+empty, the standard field applies, and then Odoo's built-in mapping
+(``C62`` — one piece — for any unit it does not recognise). Leaving the
+field empty keeps exactly the behaviour you have today, which is what
+makes the module safe to install on a running database.
 
 **Table of contents**
 
@@ -99,9 +86,10 @@ under **Configuration** in Sales and Inventory), field **UNECE Code**.
 The field is also available as an optional column in the list view,
 which is the quicker way to fill it in for many units at once.
 
-A code set on a unit takes precedence over Odoo's built-in mapping. That
-is deliberate: correcting a wrong built-in mapping is half the point of
-the module.
+A code set on a unit takes precedence over the standard **UN/ECE Code**
+field of the unit and over Odoo's built-in mapping. That is deliberate:
+it lets you correct a wrong standard value, and use one code on several
+units, which the standard field (unique per unit) does not allow.
 
 Usage
 =====
@@ -134,10 +122,10 @@ as X4A Box, steel and X4H Box, plastic|
 
 **3. Check the units.** In the units list, show the optional **UNECE
 Code** column from the optional-columns icon at the right of the header.
-Every unit of your own needs a code. An empty cell means Odoo's built-in
-mapping applies — ``C62`` (one piece) for any unit the standard does not
-recognise. Square metres and millilitres already carry ``MTK`` and
-``MLT``, set by the module on install.
+Every unit of your own needs a code. An empty cell means the standard
+**UN/ECE Code** of the unit applies — Odoo fills it in for the units it
+ships (square metres ``MTK`` and millilitres ``MLT`` included) — and,
+failing that, ``C62`` (one piece).
 
 |Units & Packagings list with the UNECE Code column shown: m² has MTK -
 square metre, ml has MLT - millilitre and the custom unit Box of 13 kg
@@ -162,19 +150,28 @@ kg (1) at 245.00, VAT 21%|
 
    <cbc:InvoicedQuantity unitCode="XBX">10.0</cbc:InvoicedQuantity>
 
-The code applies to both paths that build electronic documents:
-eTransport, through ``uom.uom._get_unece_code()``, and UBL/CII invoices
-(CIUS-RO included), which reach the same value through a separate method
-of their own.
+The code applies to every electronic document: eTransport and UBL/CII
+invoices (CIUS-RO included) all read it through
+``uom.uom._get_unece_code()``.
 
-.. |Invoicing settings scrolled to the Units & Packagings block: Units of Measure & Packagings is ticked (1) and the Units & Packagings link (2) opens the list of units| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/01_setare_unitati_ambalaje.png
-.. |UNECE Codes list opened from the Settings top bar (1), filtered on Packaging (Rec 21) (2): 377 codes with their Code, Name and Source, such as X4A Box, steel and X4H Box, plastic| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/02_coduri_unece_ambalaje.png
-.. |Units & Packagings list with the UNECE Code column shown: m² has MTK - square metre, ml has MLT - millilitre and the custom unit Box of 13 kg has XBX - Box (1); standard units such as Units, kg or L are left empty| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/03_unitati_coloana_cod_unece.png
-.. |Form of the unit Box of 13 kg, 13 kg, with UNECE Code (1) set to XBX - Box| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/04_unitate_cutie_cod_unece.png
-.. |Posted customer invoice INV/2026/00001: the line is 10.00 of Box of 13 kg (1) at 245.00, VAT 21%| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/05_factura_unitate_cutie.png
+.. |Invoicing settings scrolled to the Units & Packagings block: Units of Measure & Packagings is ticked (1) and the Units & Packagings link (2) opens the list of units| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_uom_unece/static/description/en/01_setare_unitati_ambalaje.png
+.. |UNECE Codes list opened from the Settings top bar (1), filtered on Packaging (Rec 21) (2): 377 codes with their Code, Name and Source, such as X4A Box, steel and X4H Box, plastic| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_uom_unece/static/description/en/02_coduri_unece_ambalaje.png
+.. |Units & Packagings list with the UNECE Code column shown: m² has MTK - square metre, ml has MLT - millilitre and the custom unit Box of 13 kg has XBX - Box (1); standard units such as Units, kg or L are left empty| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_uom_unece/static/description/en/03_unitati_coloana_cod_unece.png
+.. |Form of the unit Box of 13 kg, 13 kg, with UNECE Code (1) set to XBX - Box| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_uom_unece/static/description/en/04_unitate_cutie_cod_unece.png
+.. |Posted customer invoice INV/2026/00001: the line is 10.00 of Box of 13 kg (1) at 245.00, VAT 21%| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_uom_unece/static/description/en/05_factura_unitate_cutie.png
 
 Changelog
 =========
+
+20.0.1.0.1
+----------
+
+- Migration to 20.0. Odoo now has a standard UN/ECE Code field on the
+  unit and reads the code through ``uom.uom._get_unece_code()`` for
+  every electronic document: the override on ``account.edi.common`` is
+  gone, and so is the data that fixed square metres, square feet and
+  millilitres, which the standard now covers. The code picked from the
+  nomenclature still wins over the standard field.
 
 19.0.1.0.1 (2026-09-29)
 -----------------------
@@ -209,6 +206,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_uom_unece>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_uom_unece>`_ project on GitHub.
 
 You are welcome to contribute.

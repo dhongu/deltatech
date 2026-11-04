@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_uom_unece_code_user,uom.unece.code user,uom.unece.code,base.group_user,r,
+access_uom_unece_code_manager,uom.unece.code manager,uom.unece.code,base.group_system,crud,

@@ -43,8 +43,10 @@ msgstr ""
 #. module: deltatech_uom_unece
 #: model:ir.model.fields,help:deltatech_uom_unece.field_uom_uom__unece_code_id
 msgid ""
-"Code sent in electronic documents (e-invoice, eTransport) for this unit. "
-"When empty, the code built into Odoo is used."
+"Code sent in electronic documents (e-invoice, eTransport) for this unit, "
+"picked from the ANAF nomenclature. Takes precedence over the UN/ECE Code "
+"field of Odoo; when empty, that field (and then the code built into Odoo) is"
+" used."
 msgstr ""
 
 #. module: deltatech_uom_unece

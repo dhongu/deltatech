@@ -19,9 +19,9 @@ measure (`KGM`, `MTR`, `MTK`).
 
 **3. Check the units.** In the units list, show the optional **UNECE Code**
 column from the optional-columns icon at the right of the header. Every unit of
-your own needs a code. An empty cell means Odoo's built-in mapping applies —
-`C62` (one piece) for any unit the standard does not recognise. Square metres and
-millilitres already carry `MTK` and `MLT`, set by the module on install.
+your own needs a code. An empty cell means the standard **UN/ECE Code** of the
+unit applies — Odoo fills it in for the units it ships (square metres `MTK` and
+millilitres `MLT` included) — and, failing that, `C62` (one piece).
 
 ![Units & Packagings list with the UNECE Code column shown: m² has MTK - square metre, ml has MLT - millilitre and the custom unit Box of 13 kg has XBX - Box (1); standard units such as Units, kg or L are left empty](static/description/en/03_unitati_coloana_cod_unece.png)
 
@@ -41,6 +41,5 @@ optional-columns icon of the lines. In the e-invoice XML, the line's
 <cbc:InvoicedQuantity unitCode="XBX">10.0</cbc:InvoicedQuantity>
 ```
 
-The code applies to both paths that build electronic documents: eTransport,
-through `uom.uom._get_unece_code()`, and UBL/CII invoices (CIUS-RO included),
-which reach the same value through a separate method of their own.
+The code applies to every electronic document: eTransport and UBL/CII invoices
+(CIUS-RO included) all read it through `uom.uom._get_unece_code()`.

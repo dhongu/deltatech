@@ -8,38 +8,41 @@ from odoo.tests.common import TransactionCase
 
 @tagged("post_install", "-at_install")
 class TestUomUneceEdi(TransactionCase):
-    """`account_edi_ubl_cii` nu trece prin `uom.uom._get_unece_code()`.
+    """În 20.0 toate documentele electronice citesc codul prin `uom.uom._get_unece_code()`.
 
-    Are propria copie a logicii, pe modelul abstract `account.edi.common`, care
-    citește direct dicționarul din standard. Fără override-ul pe acel model, un
-    cod pus pe unitate s-ar aplica pe eTransport și ar fi ignorat pe facturi —
-    tăcut, fiindcă ambele documente rămân valide față de schemă.
+    `account_edi_ubl_cii` are acum câmpul standard `unece_code` (unic) și
+    a renunțat la `account.edi.common._get_uom_unece_code()`. Codul ales din
+    nomenclator trebuie să bată câmpul standard și să poată fi folosit pe mai
+    multe unități.
     """
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.edi = cls.env["account.edi.common"]
         cls.kg = cls.env.ref("uom.product_uom_kgm")
+        cls.xbx = cls.env.ref("deltatech_uom_unece.unece_xbx")
 
-    def test_configured_code_is_used_in_edi_invoices(self):
-        box = self.env["uom.uom"].create(
-            {
-                "name": "Cutie 13 kg",
-                "relative_uom_id": self.kg.id,
-                "relative_factor": 13,
-                "unece_code_id": self.env.ref("deltatech_uom_unece.unece_xbx").id,
-            }
+    def _box(self, name, factor, **vals):
+        return self.env["uom.uom"].create(
+            {"name": name, "relative_uom_id": self.kg.id, "relative_factor": factor, **vals}
         )
-        self.assertEqual(self.edi._get_uom_unece_code(box), "XBX")
+
+    def test_configured_code_wins_over_standard_field(self):
+        box = self._box("Cutie 13 kg", 13, unece_code="XCT", unece_code_id=self.xbx.id)
+        self.assertEqual(box._get_unece_code(), "XBX")
+
+    def test_standard_field_used_when_module_field_empty(self):
+        box = self._box("Cutie 13 kg", 13, unece_code="XCT")
+        self.assertEqual(box._get_unece_code(), "XCT")
 
     def test_unit_without_code_keeps_core_behaviour(self):
-        box = self.env["uom.uom"].create(
-            {"name": "Cutie fără cod", "relative_uom_id": self.kg.id, "relative_factor": 13}
-        )
-        self.assertEqual(self.edi._get_uom_unece_code(box), "C62")
-        self.assertEqual(self.edi._get_uom_unece_code(self.kg), "KGM")
+        box = self._box("Cutie fără cod", 13)
+        self.assertEqual(box._get_unece_code(), "C62")
+        self.assertEqual(self.kg._get_unece_code(), "KGM")
 
-    def test_core_gap_is_closed_for_invoices_too(self):
-        """Metrul pătrat pleca „bucată" și pe factură, nu doar pe eTransport."""
-        self.assertEqual(self.edi._get_uom_unece_code(self.env.ref("uom.product_uom_square_meter")), "MTK")
+    def test_code_can_be_shared_between_units(self):
+        """Câmpul standard e unic; nomenclatorul permite același cod pe mai multe cutii."""
+        box_13 = self._box("Cutie 13 kg", 13, unece_code_id=self.xbx.id)
+        box_5 = self._box("Cutie 5 kg", 5, unece_code_id=self.xbx.id)
+        self.assertEqual(box_13._get_unece_code(), "XBX")
+        self.assertEqual(box_5._get_unece_code(), "XBX")

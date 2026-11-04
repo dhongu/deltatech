@@ -5,16 +5,15 @@
 {
     "name": "UoM UNECE Codes",
     "summary": "Editable UNECE Rec 20/21 code on each unit of measure",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
     "depends": ["account", "account_edi_ubl_cii"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/uom.unece.code.csv",
-        "data/uom_uom_data.xml",
         "views/uom_unece_code_views.xml",
         "views/uom_uom_views.xml",
     ],

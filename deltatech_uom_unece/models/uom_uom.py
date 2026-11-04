@@ -11,33 +11,30 @@ class UomUom(models.Model):
     unece_code_id = fields.Many2one(
         "uom.unece.code",
         string="UNECE Code",
-        help="Code sent in electronic documents (e-invoice, eTransport) for this unit. "
-        "When empty, the code built into Odoo is used.",
+        help="Code sent in electronic documents (e-invoice, eTransport) for this unit, "
+        "picked from the ANAF nomenclature. Takes precedence over the UN/ECE Code field "
+        "of Odoo; when empty, that field (and then the code built into Odoo) is used.",
     )
 
     def _get_unece_code(self):
-        """Return the code set on the unit, falling back to the built-in mapping.
+        """Return the code picked on the unit, falling back to the standard chain.
 
-        Core maps a unit to its code exclusively through the XML ID, against a
-        fixed dictionary of 28 entries (`account/models/uom_uom.py`), and returns
-        `'C62'` — one piece — for anything it does not recognise, without raising.
-        Two consequences, both silent:
+        Since 20.0 `account_edi_ubl_cii` has its own `unece_code` Char field on the
+        unit and every electronic document (UBL, CII, eTransport) reads the code
+        through this method; the dictionary in `account` is only the last fallback.
+        The module stays an extension over that field, for what it does not cover:
 
-        * every unit a customer creates is declared as a piece, no matter what it
-          measures. There is no data fix for this: a unit like "Box of 13 kg" has
-          no entry in the dictionary to point at.
-        * some units shipped by Odoo itself are declared as pieces too, because
-          the dictionary lists XML IDs that no longer match the ones in the data:
-          it expects `uom.uom_square_meter` and `uom.uom_square_foot`, while
-          `uom/data/uom_data.xml` defines `uom.product_uom_square_meter` and
-          `uom.product_uom_square_foot`. The millilitre is missing outright.
-          Square metres, square feet and millilitres therefore all travel as
-          `C62`.
+        * the code is picked from the nomenclature ANAF publishes with the SAF-T
+          schema (over two thousand Rec 20/21 entries, Romanian names), instead of
+          being typed by hand;
+        * several units may share a code. The standard field is unique
+          (`_unece_code_unique`), so "Box of 13 kg" and "Box of 5 kg" cannot both be
+          `XBX` there; here they can.
 
-        An explicit code wins over the built-in mapping rather than only filling
-        in for it, because correcting a wrong built-in mapping is half the point
-        of the field. Leaving the field empty changes nothing, which is what
-        makes this module safe to install on a running database.
+        An explicit pick wins over the standard field rather than only filling in
+        for it, so a wrong standard value can be corrected. Leaving the field empty
+        changes nothing, which keeps the module safe to install on a running
+        database.
 
         No `ensure_one()`: core copes with an empty recordset — an invoice line
         without a product reaches this through an empty `uom_id` and gets `C62` —

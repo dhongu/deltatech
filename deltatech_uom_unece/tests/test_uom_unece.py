@@ -55,12 +55,11 @@ class TestUomUneceCode(TransactionCase):
 
 @tagged("post_install", "-at_install")
 class TestCoreMappingGaps(TransactionCase):
-    """Unitățile STANDARD pe care Odoo le declară greșit.
+    """Unitățile STANDARD pe care Odoo 19 le declara greșit (`C62`).
 
-    `UOM_TO_UNECE_CODE` caută `uom.uom_square_meter` și `uom.uom_square_foot`,
-    dar datele definesc `uom.product_uom_square_meter` și
-    `uom.product_uom_square_foot`; mililitrul lipsește cu totul. Toate trei ies
-    `C62` — „bucată" — în orice document electronic, fără nicio eroare.
+    În 19.0 modulul le repara prin date. În 20.0 `account_edi_ubl_cii` le
+    completează singur câmpul standard `unece_code`, deci modulul nu le mai
+    atinge — testele rămân ca să prindă o eventuală regresie în standard.
     """
 
     def test_square_meter_is_declared_as_square_meter(self):
@@ -72,12 +71,9 @@ class TestCoreMappingGaps(TransactionCase):
     def test_millilitre_is_declared_as_millilitre(self):
         self.assertEqual(self.env.ref("uom.product_uom_milliliter")._get_unece_code(), "MLT")
 
-    def test_gap_is_real_without_the_data_fix(self):
-        """Fără maparea din `data/uom_uom_data.xml` cele trei ar cădea pe `C62`.
-
-        Dovedește că fixul de date chiar acoperă un gol, nu o presupunere: golim
-        câmpul și cerem din nou codul, care cade înapoi în dicționarul standard.
-        """
+    def test_standard_covers_the_gap_without_module_data(self):
+        """Cele trei unități nu mai au nevoie de codul din nomenclator: îl dă
+        câmpul standard, fără o a doua sursă de adevăr în modul."""
         for xmlid in (
             "uom.product_uom_square_meter",
             "uom.product_uom_square_foot",
@@ -86,7 +82,8 @@ class TestCoreMappingGaps(TransactionCase):
             with self.subTest(uom=xmlid):
                 uom = self.env.ref(xmlid)
                 uom.unece_code_id = False
-                self.assertEqual(uom._get_unece_code(), "C62")
+                self.assertTrue(uom.unece_code)
+                self.assertEqual(uom._get_unece_code(), uom.unece_code)
 
 
 @tagged("post_install", "-at_install")
