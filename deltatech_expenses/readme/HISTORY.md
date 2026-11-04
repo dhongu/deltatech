@@ -1,5 +1,9 @@
 # Changelog
 
+## 19.0.3.8.1 (2026-11-04)
+
+- Fix: the **Expenses Deductions** counter on the employee (`expenses_deduction_count`) is now restricted to HR users (`groups="hr.group_hr_user"`), like the company card journal. It is not on the public employee profile, so users without HR rights (website, POS) got an access error when reading an employee. New test: `test_employee_public_access`.
+
 ## 19.0.3.8.0 (2026-10-29)
 
 - A supplier payment line can name the bills it pays (button on the line, **Bills Paid**): for

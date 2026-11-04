@@ -21,6 +21,7 @@ class HrEmployee(models.Model):
     expenses_deduction_count = fields.Integer(
         string="Expenses Deductions",
         compute="_compute_expenses_deduction_count",
+        groups="hr.group_hr_user",
     )
 
     @api.constrains("expenses_card_journal_id", "company_id")
