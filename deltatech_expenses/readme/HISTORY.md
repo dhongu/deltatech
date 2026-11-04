@@ -2,7 +2,8 @@
 
 ## 19.0.3.10.0 (2026-11-04)
 
-- New company option **Expense Reports without Payments** (Invoicing settings, Bank & Cash): the
+- New company option **Advance and Settlement via Bank Statement / Cash Register** (Invoicing
+  settings, Bank & Cash): the
   expense report books only the expenses, always on 542 with the employee as partner (receipts,
   supplier payments, per diem), whatever the settlement mode, company card included. It posts no
   advance, no refund and no extra payment, and no exchange difference on 542: the money handed to

@@ -9,7 +9,7 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     expenses_no_payment_moves = fields.Boolean(
-        string="Expense Reports without Payments",
+        string="Advance and Settlement via Bank Statement / Cash Register",
         help="The expense report books only the expenses on 542 (employee as partner). The money handed to "
         "the employee and the refunds are recorded from the cash register or the bank statement, reconciled "
         "on 542; the balance is followed per employee on the 542 ledger, not per expense report.",
@@ -27,8 +27,9 @@ class ResCompany(models.Model):
             if pending:
                 raise ValidationError(
                     self.env._(
-                        "The option Expense Reports without Payments cannot be enabled for %(company)s while "
-                        "expense reports are in the Advance state: finalize them first (%(numbers)s).",
+                        "The option Advance and Settlement via Bank Statement / Cash Register cannot be enabled "
+                        "for %(company)s while expense reports are in the Advance state: finalize them first "
+                        "(%(numbers)s).",
                         company=company.name,
                         numbers=", ".join(pending.mapped("number")[:10]),
                     )

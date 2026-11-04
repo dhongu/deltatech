@@ -865,8 +865,8 @@ msgstr "Factura %(bill)s este alocată pe mai multe linii pentru %(amount)s, mai
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__expenses_no_payment_moves
 #: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
-msgid "Expense Reports without Payments"
-msgstr "Deconturi fără note de plată"
+msgid "Advance and Settlement via Bank Statement / Cash Register"
+msgstr "Avansul și lichidarea prin extras de bancă / registru de casă"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_res_company__expenses_no_payment_moves
@@ -927,11 +927,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_expenses/models/res_company.py:0
 msgid ""
-"The option Expense Reports without Payments cannot be enabled for %(company)s while expense reports are in the "
-"Advance state: finalize them first (%(numbers)s)."
+"The option Advance and Settlement via Bank Statement / Cash Register cannot be enabled for %(company)s while "
+"expense reports are in the Advance state: finalize them first (%(numbers)s)."
 msgstr ""
-"Opțiunea Deconturi fără note de plată nu se poate activa pentru %(company)s cât timp există deconturi în starea "
-"Avans: finalizați-le întâi (%(numbers)s)."
+"Opțiunea Avansul și lichidarea prin extras de bancă / registru de casă nu se poate activa pentru %(company)s cât "
+"timp există deconturi în starea Avans: finalizați-le întâi (%(numbers)s)."
 
 #. module: deltatech_expenses
 #. odoo-python
