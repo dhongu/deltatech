@@ -6,9 +6,11 @@
 
 2. For a note received from a customer, press **New**, fill in **Series and number** and keep
    **Type** = **Customer**: the company becomes the **Beneficiary**. Choose the customer as
-   **Issuer**: **Bank Account Issuer** and **Bank Issuer** are taken from the first bank account of
-   the customer. Fill in the agreement, due date, amount and currency, check the beneficiary bank
-   account and bank, then save.
+   **Issuer**: **Bank Account Issuer** and **Bank Issuer** take the account number and the bank name
+   of the first bank account of the customer (the bank is plain text and can also be typed in).
+   **Bank Account Beneficiary** and **Bank Beneficiary** come the same way from the company's bank
+   account. Fill in the agreement, due date, amount and currency, check the accounts and banks, then
+   save.
 
    ![A customer note in the Not Cashed state: Type Customer (1), Issuer the customer (2), Beneficiary the company (3), Bank Issuer (4) and the Set Cashed button (5)](static/description/en/02_bilet_client.png)
 

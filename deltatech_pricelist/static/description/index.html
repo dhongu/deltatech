@@ -110,6 +110,8 @@ convert the sales price in the same way.</p>
 <li>Migration to Odoo 20.0: the product currency rule is also applied in SQL
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_compute_sql_currency_id</code>) so search, grouping and ordering use the price list currency; tests
   on the 20.0 pricelist rules (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">discount</code>).</li>
+<li>Dead code removed: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">models/pricelist.py</code> (never imported) and the never-loaded
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">views/pricelist_view.xml</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">views/product_view.xml</code> (dhongu/deltatech#3959).</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3 (2026-11-03)</h2>
 <ul>

@@ -22,9 +22,9 @@ Promissory Notes
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_promissory_note/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_promissory_note/tests
-    :alt: 6 automated tests
+    :alt: 7 automated tests
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -67,9 +67,12 @@ Usage
 2. For a note received from a customer, press **New**, fill in **Series
    and number** and keep **Type** = **Customer**: the company becomes
    the **Beneficiary**. Choose the customer as **Issuer**: **Bank
-   Account Issuer** and **Bank Issuer** are taken from the first bank
-   account of the customer. Fill in the agreement, due date, amount and
-   currency, check the beneficiary bank account and bank, then save.
+   Account Issuer** and **Bank Issuer** take the account number and the
+   bank name of the first bank account of the customer (the bank is
+   plain text and can also be typed in). **Bank Account Beneficiary**
+   and **Bank Beneficiary** come the same way from the company's bank
+   account. Fill in the agreement, due date, amount and currency, check
+   the accounts and banks, then save.
 
    |A customer note in the Not Cashed state: Type Customer (1), Issuer
    the customer (2), Beneficiary the company (3), Bank Issuer (4) and
@@ -113,6 +116,9 @@ Changelog
   ``bank_beneficiary``) filled from the bank name of the partner's
   account; the pre- migration script copies the bank names of existing
   notes. Access rights in ``security/ir.access.csv``.
+- The beneficiary bank account is filled even before the issuer is
+  chosen, and the bank name is cleared with the account when the new
+  partner has none.
 
 19.0.1.0.9 (2026-10-22)
 -----------------------

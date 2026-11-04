@@ -182,6 +182,10 @@ cursul s-a schimbat.
 - [ ] O regulă de **Reducere** 10% pe o listă în RON dă 540,00 lei (discountul se aplică după
       conversie).
 - [ ] O factură creată direct, în lei, preia prețul convertit.
+- [ ] Moneda produsului e aceeași și la căutare, grupare și ordonare: în lista de produse
+      (*Vânzări → Produse → Produse*, vizualizare listă), grupată după **Monedă** (*Grupare după →
+      Adăugați grupare personalizată*), produsele apar în grupul monedei **Price List Currency** a
+      companiei lor (ex. EUR), nu în grupul monedei companiei (RON).
 - [ ] Cu **Price List Currency** = RON (aceeași monedă ca a companiei), prețurile se comportă ca în Odoo
       standard.
 - [ ] După instalare, pe o bază cu produse existente, prețurile de vânzare au fost verificate: nu au

@@ -57,14 +57,16 @@ doar drept de facturare nu vede meniul.
 Modulul **nu generează note contabile** și nu folosește conturi din planul de conturi. Datele minime
 pentru demo:
 
-- compania (aici **RO Company**), cu un cont bancar (IBAN) la o bancă definită
-  (**Banca Comercială Română**, BIC `RNCBROBU`);
-- un client (**Alfa Distribuție SRL**) cu cont bancar la **Banca Transilvania** (BIC `BTRLRO22`) și un
-  furnizor (**Gama Materiale SRL**) cu cont la **Banca Comercială Română**;
-- băncile definite în Odoo (direct din câmpul banca, cu **Creați și editați**, sau, dacă aplicația
-  Contacte e instalată, din meniul ei **Configurare → Conturi Bancare → Banci**), pentru că pe formular **Banca emitent**
-  și **Banca beneficiar** sunt obligatorii;
+- compania (aici **RO Company**), cu un cont bancar (IBAN) pe care e scris numele băncii
+  (**Banca Comercială Română**);
+- un client (**Alfa Distribuție SRL**) cu cont bancar la **Banca Transilvania** și un furnizor
+  (**Gama Materiale SRL**) cu cont la **Banca Comercială Română**, fiecare cu numele băncii completat
+  pe contul bancar (fișa de contact, tabul **Facturare**);
 - moneda **RON** activă.
+
+În Odoo 20 băncile nu mai sunt înregistrări separate: **Banca emitent** și **Banca beneficiar** sunt
+câmpuri text, obligatorii pe formular. Ele se completează automat cu numele băncii de pe primul cont
+bancar al partenerului ales și se pot scrie și de mână (ex. când partenerul nu are cont bancar).
 
 Câmpurile biletului: **Serie și număr**, **Tip** (Client / Furnizor), **Contract**, **Data scadenței**,
 **Suma**, **Moneda**, **Factura** (opțional), **Suma încasată RON**, **Data încasării**, **Ultimul BO**,
@@ -74,12 +76,18 @@ beneficiar** și **Note**.
 ## 5. Configurare inițială
 
 1. Instalați modulul (depinde doar de `account` — Facturare/Contabilitate). Nu are setări proprii.
-2. Verificați că băncile clienților, ale furnizorilor și a companiei sunt definite (din câmpul banca
-   sau, cu aplicația Contacte instalată, din **Configurare → Conturi Bancare → Banci**) și că fiecare partener are, pe tabul **Facturare** al fișei de contact,
-   contul bancar cu banca completată. Modulul preia **primul** cont bancar al partenerului.
+2. Verificați că fiecare client, furnizor și compania are, pe tabul **Facturare** al fișei de contact,
+   un cont bancar cu IBAN-ul și **numele băncii** completate. Modulul preia contul și numele băncii
+   de pe **primul** cont bancar al partenerului; nu trebuie definite bănci separat.
 3. Pentru notificarea la încasarea ultimului bilet: activați modul dezvoltator, deschideți **Setări →
    Utilizatori și companii → Grupuri**, grupul **Primeste atentionari BO**, și adăugați utilizatorii
    care trebuie anunțați (tabul **Utilizatori**).
+4. **După upgrade-ul de la Odoo 19:** scriptul de migrare copiază numele băncii pe biletele existente
+   (din băncile definite în versiunea veche). Deschideți câteva bilete vechi, mai ales cele
+   *Neîncasat*, și verificați că **Banca emitent** și **Banca beneficiar** sunt completate; un bilet
+   fără bancă nu mai poate fi salvat până nu scrieți numele băncii. Dacă biletele vechi au băncile
+   goale (copierea se face doar cât timp tabela băncilor din versiunea veche mai există în bază),
+   completați-le manual sau prin import înainte de a le edita.
 
 ## 6. Flux de utilizare
 
@@ -90,8 +98,8 @@ Contabilitate → Bilete la ordin*).
 
 1. **Găsiți pe ecran** lista biletelor, ordonată după **Data scadenței** (cele mai apropiate scadențe
    sus). Fiecare rând arată emitentul, beneficiarul, contractul, suma și moneda, iar la cele încasate
-   **Data încasării** și **Suma încasată**; coloana **Stare** arată *Neîncasat*, *Încasat* sau
-   *Anulat*. Pe ultimul rând sunt totalurile coloanelor **Suma** și **Suma încasată**.
+   **Data încasării** și **Suma încasată RON**; coloana **Stare** arată *Neîncasat*, *Încasat* sau
+   *Anulat*. Pe ultimul rând sunt totalurile coloanelor **Suma** și **Suma încasată RON**.
 2. **Verificați** că biletele cu scadența depășită nu mai sunt *Neîncasat* (fie au fost încasate, fie
    trebuie urmărite la bancă) și că bifa **Ultimul BO** e pusă doar pe ultimul bilet al fiecărui
    contract. Totalul coloanei **Suma** adună și biletele anulate și sume în monede diferite: pentru un
@@ -100,7 +108,7 @@ Contabilitate → Bilete la ordin*).
 3. Căutați un bilet după serie și număr, contract, emitent sau beneficiar în bara **Caută**. Lista
    arată implicit toate biletele, inclusiv cele încasate și anulate.
 
-![Lista Bilete la ordin cu cinci bilete ordonate după Data scadenței (1), între 15 oct. și 15 dec.: patru emise de clienți către RO Company și unul emis de RO Company către Gama Materiale SRL; coloana Stare (2) arată Încasat, Neîncasat și Anulat, iar ultimul bilet al contractului 125/2026 are bifa Ultimul BO; jos, totalurile 57.550,00 la Suma și 15.000,00 la Suma încasată](../static/description/01_lista_bilete.png)
+![Lista Bilete la ordin cu cinci bilete ordonate după Data scadenței (1), între 15 oct. și 15 dec.: patru emise de clienți către RO Company și unul emis de RO Company către Gama Materiale SRL; coloana Stare (2) arată Încasat, Neîncasat și Anulat, iar ultimul bilet al contractului 125/2026 are bifa Ultimul BO; jos, totalurile 57.550,00 la Suma și 15.000,00 la Suma încasată RON](../static/description/01_lista_bilete.png)
 
 ### Pasul 2 — Înregistrați un bilet primit de la client
 
@@ -109,9 +117,11 @@ Contabilitate → Bilete la ordin*).
 1. Completați **Serie și număr** exact ca pe bilet (ex. `BTRL3AA 0012345`).
 2. Lăsați **Tip** = **Client** (valoarea implicită): **Beneficiar** devine automat compania.
 3. Alegeți **Emitent** = clientul care a semnat biletul. **Cont emitent** și **Banca emitent** se
-   completează din primul cont bancar al clientului; verificați-le cu cele de pe bilet.
-4. Completați **Cont beneficiar** (IBAN-ul companiei în care se încasează) și **Banca beneficiar**: pe
-   un bilet de client ele nu se completează automat (vezi secțiunea 9).
+   completează din primul cont bancar al clientului (IBAN-ul și numele băncii); verificați-le cu cele
+   de pe bilet. Dacă clientul nu are cont bancar, cele două câmpuri rămân goale: scrieți-le de mână.
+4. Verificați **Cont beneficiar** și **Banca beneficiar**: se completează din primul cont bancar al
+   companiei. Dacă biletul se încasează în alt cont al companiei, corectați IBAN-ul și numele băncii;
+   dacă compania nu are cont bancar, completați-le de mână.
 5. Completați **Contract**, **Data scadenței**, **Suma** și **Moneda**; opțional legați **Factura**
    pentru care s-a primit biletul și scrieți observații în zona de text liber, fără etichetă, de jos
    de pe formular. Salvați.
@@ -120,18 +130,19 @@ Biletul nou este în starea **Neîncasat**. Cât timp e în această stare se po
 moneda, scadența, emitentul, beneficiarul, conturile și băncile; după încasare sau anulare acestea
 devin needitabile.
 
-![Formularul biletului la ordin BTRL3AA 0012345 în starea Neîncasat: Tip = Client (1), Emitent = Alfa Distribuție SRL (2), Beneficiar = RO Company (3), Banca emitent = Banca Transilvania - BTRLRO22 (4); suma 15.000,00 RON, scadența 15 nov., contractul 125/2026, conturile IBAN ale emitentului și beneficiarului, iar sus butoanele Setează încasat (5) și Anulează](../static/description/02_bilet_client.png)
+![Formularul biletului la ordin BTRL3AA 0012345 în starea Neîncasat: Tip = Client (1), Emitent = Alfa Distribuție SRL (2), Beneficiar = RO Company (3), Banca emitent = Banca Transilvania (4), text preluat din numele băncii de pe contul clientului; suma 15.000,00 RON, scadența 15 nov., contractul 125/2026, conturile IBAN ale emitentului și beneficiarului, Banca beneficiar = Banca Comercială Română, din contul companiei, iar sus butoanele Setează încasat (5) și Anulează](../static/description/02_bilet_client.png)
 
 ### Pasul 3 — Înregistrați un bilet emis către furnizor
 
 **Meniu:** *Facturare → Contabilitate → Bilete la ordin*, butonul **Nou**.
 
-Alegeți **Tip** = **Furnizor**: **Emitent** devine automat compania, iar dacă era ales un partener
-ca emitent, acesta trece la **Beneficiar**. Alegeți **Beneficiar** = furnizorul căruia i-ați dat
+Alegeți **Tip** = **Furnizor**: **Emitent** devine automat compania, iar **Cont emitent** și **Banca
+emitent** se completează din primul cont bancar al companiei; dacă era ales un partener ca emitent,
+acesta trece la **Beneficiar**. Alegeți **Beneficiar** = furnizorul căruia i-ați dat
 biletul; **Cont beneficiar** și **Banca beneficiar** se completează din primul lui cont bancar.
 Completați apoi contractul, scadența, suma și moneda, ca la pasul 2, și salvați.
 
-![Formularul biletului RNCB3BB 0004521: Tip = Furnizor (1), Emitent = RO Company (2), Beneficiar = Gama Materiale SRL (3); suma 8.250,00 RON, scadența 30 nov., Contract furnizare 37/2026, contul emitentului RO49AAAA1B31007593840000 și contul beneficiarului la Banca Comercială Română, stare Neîncasat](../static/description/03_bilet_furnizor.png)
+![Formularul biletului RNCB3BB 0004521: Tip = Furnizor (1), Emitent = RO Company (2), Beneficiar = Gama Materiale SRL (3); suma 8.250,00 RON, scadența 30 nov., Contract furnizare 37/2026, contul emitentului RO49 AAAA 1B31 0075 9384 0000 și contul beneficiarului, ambele cu Banca Comercială Română preluată din conturile bancare, stare Neîncasat](../static/description/03_bilet_furnizor.png)
 
 ### Pasul 4 — Marcați biletul încasat (sau anulat)
 
@@ -148,7 +159,7 @@ Completați apoi contractul, scadența, suma și moneda, ca la pasul 2, și salv
 4. O încasare marcată din greșeală se întoarce cu **Setează neîncasat**. Un bilet care nu mai e valabil
    (returnat emitentului, refuzat) se marchează cu **Anulează**, doar din starea *Neîncasat*.
 
-![Biletul BTRL3AA 0012346 după Setează încasat: Suma încasată RON = 15.000,00 (1), bifa Ultimul BO (2) și bara de stare pe Încasat (3); în chatter, deasupra mesajului de creare, apare notificarea (4) Ultimul bilet la ordin încasat: BTRL3AA 0012346, data: 2026-12-15, Emitent: Alfa Distribuție SRL, suma: 15000.0, contract: Contract 125/2026, iar sus schimbarea de stare Not Cashed → Cashed](../static/description/04_ultimul_bilet_incasat.png)
+![Biletul BTRL3AA 0012346 după Setează încasat: Suma încasată RON = 15.000,00 (1), bifa Ultimul BO (2) și bara de stare pe Încasat (3); în chatter apare notificarea (4) Ultimul bilet la ordin încasat: BTRL3AA 0012346, data: 2026-12-15, Emitent: Alfa Distribuție SRL, suma: 15000.0, contract: Contract 125/2026, iar sus schimbarea de stare Neîncasat → Încasat; sub notificare, mesajul de creare Promissory Note creat](../static/description/04_ultimul_bilet_incasat.png)
 
 ### Note de monografie și raportare
 
@@ -167,10 +178,11 @@ document de predare la bancă.
 |---|---|
 | `account` (Facturare/Contabilitate) | Meniul *Contabilitate*, unde stă registrul; câmpul **Factura** leagă biletul de o factură |
 | `mail` (prin `account`) | Chatter-ul biletului: istoricul stării și notificarea la încasarea ultimului bilet |
-| Contacte (`base`) | Partenerii, conturile lor bancare și băncile, din care se completează conturile și băncile biletului |
+| Contacte (`base`) | Partenerii și conturile lor bancare: din primul cont bancar se copiază pe bilet doar IBAN-ul și numele băncii (text, fără legătură cu contul) |
 
-**Ce e automat:** emitentul sau beneficiarul = compania, după **Tip**; contul și banca emitentului
-(respectiv beneficiarului) din primul cont bancar al partenerului; ordonarea după scadență;
+**Ce e automat:** emitentul sau beneficiarul = compania, după **Tip**; contul și numele băncii
+emitentului și beneficiarului, copiate din primul cont bancar al fiecăruia (golite când partenerul
+nou nu are cont bancar); ordonarea după scadență;
 istoricul stării în chatter; notificarea grupului **Primeste atentionari BO** la încasarea ultimului
 bilet.
 
@@ -183,13 +195,18 @@ borderoului către bancă.
 - [ ] Meniul *Facturare → Contabilitate → Bilete la ordin* este vizibil utilizatorului de test.
 - [ ] Pe un bilet nou cu **Tip** = **Client**, **Beneficiar** devine compania; cu **Tip** =
       **Furnizor**, **Emitent** devine compania.
-- [ ] Alegerea emitentului completează **Cont emitent** și **Banca emitent** din primul cont bancar al
-      partenerului.
+- [ ] Alegerea emitentului completează **Cont emitent** și **Banca emitent** cu IBAN-ul și numele
+      băncii de pe primul cont bancar al partenerului; pe un bilet de client, **Cont beneficiar** și
+      **Banca beneficiar** vin din contul bancar al companiei.
+- [ ] Schimbarea emitentului cu un partener fără cont bancar golește **Cont emitent** și **Banca
+      emitent**; numele băncii se poate scrie apoi de mână.
+- [ ] După upgrade-ul de la Odoo 19, biletele vechi au **Banca emitent** și **Banca beneficiar**
+      completate cu numele băncilor de dinainte.
 - [ ] Salvarea fără **Banca emitent** sau **Banca beneficiar** este refuzată (câmpuri obligatorii).
 - [ ] Salvarea cu **Suma** = 0 este refuzată cu mesajul despre câmpul care trebuie să fie mai mare
       decât 0.
 - [ ] În lista biletelor, rândurile sunt în ordinea **Data scadenței**, iar totalurile **Suma** și
-      **Suma încasată** corespund biletelor afișate.
+      **Suma încasată RON** corespund biletelor afișate.
 - [ ] **Setează încasat** trece biletul în **Încasat**; seria, suma, scadența, partenerii și băncile
       devin needitabile; **Setează neîncasat** îl readuce în **Neîncasat**.
 - [ ] **Anulează** e disponibil doar pe un bilet **Neîncasat** și îl trece în **Anulat**.
@@ -203,9 +220,9 @@ borderoului către bancă.
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | Câmpul <Value> trebuie să fie mai mare decât 0! | **Suma** este 0 sau negativă | Completați suma de pe bilet, mai mare decât 0 |
-| Câmpuri invalide: Banca emitent / Banca beneficiar | Banca nu s-a completat: partenerul nu are cont bancar sau contul lui nu are banca aleasă | Alegeți banca manual sau completați banca pe contul bancar al partenerului (fișa de contact, tabul **Facturare**) |
-| Câmpuri invalide: Serie și număr / Data scadenței / Suma / Moneda / Emitent / Beneficiar | Câmp obligatoriu necompletat | Completați câmpul marcat cu roșu |
-| **Cont beneficiar** gol pe un bilet de client | La **Tip** = **Client**, contul și banca companiei nu se completează automat | Completați manual IBAN-ul companiei în **Cont beneficiar** |
+| Câmpuri obligatorii lipsă (câmpul **Banca emitent** sau **Banca beneficiar** marcat cu roșu) | Banca nu s-a completat: partenerul nu are cont bancar sau contul lui nu are numele băncii | Scrieți numele băncii în câmp sau completați numele băncii pe contul bancar al partenerului (fișa de contact, tabul **Facturare**) și alegeți din nou partenerul |
+| Câmpuri obligatorii lipsă (**Serie și număr**, **Data scadenței**, **Suma**, **Moneda**, **Emitent** sau **Beneficiar** marcat cu roșu) | Câmp obligatoriu necompletat | Completați câmpul marcat cu roșu |
+| **Cont beneficiar** gol pe un bilet de client | Compania nu are cont bancar pe fișa ei de contact | Adăugați contul bancar al companiei sau completați manual IBAN-ul și numele băncii |
 | Notificarea nu ajunge | **Ultimul BO** nu era bifat la încasare sau nimeni nu e în grupul **Primeste atentionari BO** | Bifați **Ultimul BO** înainte de **Setează încasat**; adăugați utilizatorii în grup |
 
 ## 10. Capturi de ecran
@@ -240,11 +257,11 @@ Regenerare:
   biletului (câmpul nu are monedă proprie).
 - Mesajul de notificare arată data **scadenței** (nu data încasării) și suma fără formatare
   (ex. `15000.0`).
-- Cu mai mulți utilizatori în grupul **Primeste atentionari BO**, pe bilet apar tot atâtea mesaje
-  identice „Ultimul bilet la ordin încasat”, câte unul pentru fiecare destinatar.
+- Cu mai mulți utilizatori în grupul **Primeste atentionari BO**, pe bilet se postează un singur mesaj
+  „Ultimul bilet la ordin încasat”, cu toți membrii grupului ca destinatari.
 - **Tip** și **Contract** rămân modificabile și după încasare sau anulare.
-- Chatter-ul arată unele texte în engleză (subtipul „BO Cashed”, „Not Cashed → Cashed”): lipsesc
-  traducerile lor.
+- Chatter-ul arată unele texte netraduse: mesajul de creare apare ca „Promissory Note creat”, iar
+  subtipul „BO Cashed” nu are traducere.
 - Biletele nu au câmp de companie: într-o bază cu mai multe companii, toți utilizatorii văd biletele
   tuturor companiilor.
 - Un bilet **Anulat** nu mai poate fi readus în *Neîncasat* din interfață.

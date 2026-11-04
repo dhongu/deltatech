@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 7 automated tests</div>
       
     </div>
   </div>
@@ -70,9 +70,11 @@ linked invoice.</p>
 <ol start="2">
 <li>For a note received from a customer, press <strong>New</strong>, fill in <strong>Series and number</strong> and keep
    <strong>Type</strong> = <strong>Customer</strong>: the company becomes the <strong>Beneficiary</strong>. Choose the customer as
-   <strong>Issuer</strong>: <strong>Bank Account Issuer</strong> and <strong>Bank Issuer</strong> are taken from the first bank account of
-   the customer. Fill in the agreement, due date, amount and currency, check the beneficiary bank
-   account and bank, then save.</li>
+   <strong>Issuer</strong>: <strong>Bank Account Issuer</strong> and <strong>Bank Issuer</strong> take the account number and the bank name
+   of the first bank account of the customer (the bank is plain text and can also be typed in).
+   <strong>Bank Account Beneficiary</strong> and <strong>Bank Beneficiary</strong> come the same way from the company's bank
+   account. Fill in the agreement, due date, amount and currency, check the accounts and banks, then
+   save.</li>
 </ol>
 <p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="A customer note in the Not Cashed state: Type Customer (1), Issuer the customer (2), Beneficiary the company (3), Bank Issuer (4) and the Set Cashed button (5)" src="en/02_bilet_client.png" /></p>
 <ol start="3">
@@ -98,6 +100,8 @@ empty page in this version.</p>
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bank_issuer</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bank_beneficiary</code>) filled from the bank name of the partner's account; the pre-
   migration script copies the bank names of existing notes. Access rights in
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/ir.access.csv</code>.</li>
+<li>The beneficiary bank account is filled even before the issuer is chosen, and the bank name is
+  cleared with the account when the new partner has none.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.9 (2026-10-22)</h2>
 <ul>

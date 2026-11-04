@@ -122,6 +122,9 @@ Changelog
   SQL (``_compute_sql_currency_id``) so search, grouping and ordering
   use the price list currency; tests on the 20.0 pricelist rules
   (``discount``).
+- Dead code removed: ``models/pricelist.py`` (never imported) and the
+  never-loaded ``views/pricelist_view.xml`` / ``views/product_view.xml``
+  (dhongu/deltatech#3959).
 
 19.0.1.0.3 (2026-11-03)
 -----------------------
