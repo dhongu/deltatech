@@ -11,6 +11,8 @@
   then and ends in Done. The form shows the employee balance on 542 instead of the difference.
 - The advance date is today by default.
 - Search filters **Advance** and **Done** on the expense reports.
+- The option cannot be enabled while expense reports of the company are in the Advance state:
+  they are finalized first, in the flow with payment entries.
 
 ## 19.0.3.9.0 (2026-11-04)
 

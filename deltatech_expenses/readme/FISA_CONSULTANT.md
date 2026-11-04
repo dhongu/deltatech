@@ -126,7 +126,8 @@ Date minime pentru demo:
 11. Opțional, dacă avansurile și restituirile se înregistrează din casă și bancă, iar soldul
     angajatului pe 542 se reportează între luni: activați **„Deconturi fără note de plată”** în
     **Facturare → Configurare → Setări**, blocul **Bancă și casă** (per companie). Fluxul este
-    descris în secțiunea 6, „Varianta fără note de plată”.
+    descris în secțiunea 6, „Varianta fără note de plată”. Opțiunea nu se activează cât timp există
+    deconturi în starea **„Avans”**: finalizați-le întâi, în fluxul cu note de plată.
 
 ## 6. Flux de utilizare
 

@@ -1694,6 +1694,19 @@ class TestExpenses(TransactionCase):
         with self.assertRaises(UserError):
             deduction.validate_expenses()
 
+    def test_no_payment_moves_blocked_by_pending_advance(self):
+        """Opțiunea nu se activează cât timp există deconturi în starea Avans (nu s-ar mai putea finaliza)."""
+        deduction = self._draft_deduction(advance=100.0, date_advance=fields.Date.today())
+        deduction.validate_advance()
+        self.assertEqual(deduction.state, "advance")
+        with self.assertRaises(ValidationError):
+            self.company.expenses_no_payment_moves = True
+            self.company.flush_recordset()
+        self._new_line(deduction, 100.0)
+        deduction.validate_expenses()
+        self.company.expenses_no_payment_moves = True
+        self.assertTrue(self.company.expenses_no_payment_moves)
+
     def test_no_payment_moves_invalidate_and_validate_again(self):
         """Invalidarea șterge notele decontului și îl readuce în Ciornă, de unde se validează din nou."""
         self.company.expenses_no_payment_moves = True

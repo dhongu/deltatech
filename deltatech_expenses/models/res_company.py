@@ -1,7 +1,8 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ResCompany(models.Model):
@@ -13,6 +14,25 @@ class ResCompany(models.Model):
         "the employee and the refunds are recorded from the cash register or the bank statement, reconciled "
         "on 542; the balance is followed per employee on the 542 ledger, not per expense report.",
     )
+
+    @api.constrains("expenses_no_payment_moves")
+    def _check_expenses_no_payment_moves(self):
+        # un decont în starea Avans are nota de avans pe decont: fără note de plată nu s-ar mai putea finaliza
+        for company in self.filtered("expenses_no_payment_moves"):
+            pending = (
+                self.env["deltatech.expenses.deduction"]
+                .sudo()
+                .search([("company_id", "=", company.id), ("state", "=", "advance")])
+            )
+            if pending:
+                raise ValidationError(
+                    self.env._(
+                        "The option Expense Reports without Payments cannot be enabled for %(company)s while "
+                        "expense reports are in the Advance state: finalize them first (%(numbers)s).",
+                        company=company.name,
+                        numbers=", ".join(pending.mapped("number")[:10]),
+                    )
+                )
 
 
 class ResConfigSettings(models.TransientModel):
