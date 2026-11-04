@@ -24,6 +24,10 @@
   localization revalues the balance of the employee; a report in the company currency only on a
   542 account without currency. Changing the currency proposes the matching expense journal.
 - Consultant sheet: checks and error messages of the variant without payment entries.
+- With the option, the status bar of the expense report shows only Draft and Done.
+- With the option, the settlement lines on 542 are labelled "Decontare cheltuieli" (no advance).
+- The title of a draft expense report is translated.
+- Screenshots of the variant via bank statement / cash register in the consultant sheet.
 
 ## 19.0.3.9.1 (2026-11-04)
 

@@ -241,6 +241,11 @@ msgid "Done"
 msgstr "Efectuat"
 
 #. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "<span>Draft</span>"
+msgstr "<span>Ciornă</span>"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__draft
 msgid "Draft"
 msgstr "Ciornă"

@@ -321,6 +321,12 @@ class DeltatechExpensesDeduction(models.Model):
             journal = expense.card_journal_id if expense.settlement_mode == "company_card" else expense.journal_id
             expense.currency_id = journal.currency_id or expense.company_id.currency_id
 
+    def _settlement_label(self):
+        """Eticheta liniilor de decontare pe 542: fără avans pe decont (avansul și lichidarea prin extras
+        sau casă) nu e o decontare de avans, ci a cheltuielilor."""
+        self.ensure_one()
+        return self.env._("Decontare cheltuieli") if self.no_payment_moves else self.env._("Decontare avans")
+
     def _account_542_matches_currency(self, account=None):
         """Fără note de plată soldul 542 al angajatului se reportează între luni: în valută el se
         reevaluează lunar (OMFP 1802/2014 pct. 322) doar pe un cont 542 analitic cu valuta setată pe cont,
@@ -805,7 +811,7 @@ class DeltatechExpensesDeduction(models.Model):
                         part_balance,
                         partner_id=partner.id,
                         account_id=account.id,
-                        name=self.env._("Decontare avans"),
+                        name=expenses._settlement_label(),
                     ),
                 )
             )
@@ -829,7 +835,7 @@ class DeltatechExpensesDeduction(models.Model):
                             -balance,
                             partner_id=credit_partner.id,
                             account_id=credit_account.id,
-                            name=self.env._("Decontare avans"),
+                            name=expenses._settlement_label(),
                         ),
                     ),
                 ],

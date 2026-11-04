@@ -360,6 +360,12 @@ msgstr ""
 #. module: deltatech_expenses
 #. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontare cheltuieli"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid "Decontare avans"
 msgstr ""
 

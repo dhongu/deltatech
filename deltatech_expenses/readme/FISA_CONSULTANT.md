@@ -128,7 +128,7 @@ Date minime pentru demo:
     firma lor, în compania decontului: contul liniei se completează automat din el.
 11. Opțional, dacă avansurile și restituirile se înregistrează din casă și bancă, iar soldul
     angajatului pe 542 se reportează între luni: activați **„Avansul și lichidarea prin extras de bancă / registru de casă”** în
-    **Facturare → Configurare → Setări**, blocul **Bancă și casă** (per companie). Fluxul este
+    **Facturare → Configurare → Setări**, blocul **Bancă & Numerar** (per companie). Fluxul este
     descris în secțiunea 6, „Varianta fără note de plată”. Opțiunea nu se activează cât timp există
     deconturi în starea **„Avans”**: finalizați-le întâi, în fluxul cu note de plată.
     Contul 542 trebuie să aibă bifat **„Permite reconcilierea”**, iar pe liniile din registrul de casă
@@ -369,8 +369,12 @@ lista filtrată pentru acel angajat.
 
 Pentru firmele în care angajații primesc bani rotunjit (ridicare din casă, retragere de pe cardul
 firmei) și soldul lor pe 542 se reportează de la o lună la alta, activați în **Facturare →
-Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Avansul și lichidarea prin extras de bancă / registru de casă”**
-(per companie). Cu ea activă:
+Configurare → Setări**, blocul **Bancă & Numerar**, opțiunea **„Avansul și lichidarea prin extras de bancă / registru de casă”**
+(per companie).
+
+![Opțiunea „Avansul și lichidarea prin extras de bancă / registru de casă” din Setări, blocul Bancă & Numerar](screenshots/11_setare_extras.png)
+
+Cu ea activă:
 
 - decontul nu are pasul „Avans”: contabilul completează cheltuielile în Ciornă și apasă
   **„Validează”**; numărul se dă la validare, iar decontul ajunge în **Efectuat**;
@@ -379,9 +383,28 @@ Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Avansul �
   locul diferenței, formularul arată **„Sold angajat (542)”**, soldul angajatului pe 542 din toate
   deconturile și operațiunile de casă / bancă (debitor = angajatul mai are de justificat, creditor =
   firma îi datorează);
+
+  ![Decontul în Ciornă: fără avans și diferență, cu „Sold angajat (542)” și butonul „Validează”](screenshots/12_decont_ciorna_sold_542.png)
+
+  În captură, angajatul a ridicat 1.000 lei din casă și a justificat 761 lei pe un decont anterior:
+  soldul de **239 lei** (debitor) este suma pe care o mai are de justificat.
+
 - la validare se înregistrează doar cheltuielile, toate pe **542 cu angajatul ca partener**, oricum
   s-a plătit (inclusiv cu cardul firmei): chitanța și `Dr 401 = Cr 542`, plata furnizorului
   `Dr 401 = Cr 542`, diurna `Dr 625 = Cr 542`;
+
+  ![Același decont, validat direct din Ciornă, în starea „Efectuat”; „Sold angajat (542)” devine −522 lei, creditor](screenshots/13_decont_efectuat_542.png)
+
+  După validare, soldul devine **−522 lei** (239 − 761): angajatul a justificat mai mult decât a
+  ridicat, iar firma îi datorează diferența, plătită din casă sau prin bancă (`Dr 542 = Cr 5311/5121`).
+
+  ![Nota de decontare a chitanței: Dr 401 = Cr 542, cu angajatul ca partener pe 542](screenshots/14_nota_542_extras.png)
+
+  ![Ridicarea de bani din casă: Dr 542 = Cr 5311, cu angajatul ca partener, reconciliată pe 542](screenshots/15_nota_ridicare_casa.png)
+
+  Nota de ridicare nu o generează decontul: se înregistrează din registrul de casă (sau din extras) și
+  se reconciliază pe 542 cu notele deconturilor angajatului.
+
 - nu se mai generează nota de avans, nota de diferență (restituire sau plată suplimentară) și nici
   diferența de curs pe 542 la decont;
 - sumele date angajatului și restituirile se înregistrează din **registrul de casă** (`Dr 542 = Cr
@@ -522,6 +545,19 @@ pe planul de conturi RO (`setup_country("ro")`), pe o bază **fără** `hr_expen
 7. `09_nota_restituire.png` — restituirea diferenței în casă (Dr 5311 = Cr 542).
 8. `10_nota_diurna.png` — nota de diurnă (Dr 625 = Cr 542).
 
+Varianta „Avansul și lichidarea prin extras de bancă / registru de casă” (clasa
+`TestExpensesBankStatementScreenshots`, aceleași date, cu opțiunea activă; angajatul a ridicat 1.000 lei
+din casă, nota `Dr 542 = Cr 5311` reconciliată pe 542 cu un decont anterior de 761 lei):
+
+9. `11_setare_extras.png` — opțiunea din Facturare → Configurare → Setări, blocul Bancă & Numerar.
+10. `12_decont_ciorna_sold_542.png` — decont nou în Ciornă: fără avans și diferență, cu „Sold angajat (542)”
+    239 lei (1.000 lei ridicați − 761 lei justificați pe decontul anterior) și butonul „Validează”.
+11. `13_decont_efectuat_542.png` — același decont, validat direct din Ciornă, în starea „Efectuat”;
+    „Sold angajat (542)” −522 lei (creditor: firma îi datorează angajatului).
+12. `14_nota_542_extras.png` — nota de decontare a chitanței de cazare pe decontul anterior
+    (Dr 401 = Cr 542), cu 542 pe angajat.
+13. `15_nota_ridicare_casa.png` — ridicarea de 1.000 lei din casă (Dr 542 = Cr 5311), reconciliată pe 542.
+
 Capturile existente arată modul „Numerar"; câmpurile „Mod de decontare" și „Jurnal de plată" apar în
 antetul capturii `01`. Modurile „Virament" și „Card de firmă" nu au capturi proprii: folosesc aceleași
 ecrane, doar cu alte conturi (5125) în notele contabile.
@@ -533,7 +569,8 @@ Regenerare (pe o bază fără `hr_expense`, altfel apare și butonul „Preia ch
 
 ```bash
 ./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_expenses,l10n_ro_doc_screenshots \
-    --test-tags=/deltatech_expenses:TestExpensesScreenshots --stop-after-init
+    --test-tags=/deltatech_expenses:TestExpensesScreenshots,/deltatech_expenses:TestExpensesBankStatementScreenshots \
+    --stop-after-init
 ```
 
 ## 11. Observații pentru manual

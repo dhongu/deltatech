@@ -37,6 +37,15 @@
                         widget="statusbar"
                         statusbar_visible="draft,advance,done"
                         statusbar_colors='{"cancel":"red"}'
+                        invisible="no_payment_moves"
+                    />
+                    <!-- avansul și lichidarea prin extras / casă: decontul nu are pasul Avans -->
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,done"
+                        statusbar_colors='{"cancel":"red"}'
+                        invisible="not no_payment_moves"
                     />
                 </header>
                 <sheet>
