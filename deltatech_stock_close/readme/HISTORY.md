@@ -1,3 +1,8 @@
+## 20.0.1.1.4 (2026-11-04)
+
+- Migration to Odoo 20.0: time zone handling with `zoneinfo` (no `pytz`), access rights in
+  `security/ir.access.csv`, `l10n_ro_stock_report` taken from terrabit-ro/l10n-romania 20.0.
+
 ## 19.0.1.1.4 (2026-10-23)
 
 - Tests: the backdated test receipts flush the pending ORM values before the raw SQL
