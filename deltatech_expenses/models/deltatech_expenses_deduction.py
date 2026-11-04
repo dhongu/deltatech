@@ -1287,8 +1287,15 @@ class DeltatechExpensesDeductionLine(models.Model):
         precompute=True,
     )
 
+    # Cheltuială: contul de cheltuieli ales de contabil (implicit 6231). Plată furnizor: contul de datorii
+    # al furnizorului (401), pe care se face nota Dr 401 = Cr 542 la validare.
     expense_account_id = fields.Many2one(
-        "account.account", default=lambda self: self._default_expense_account(), string="Default Expense Account"
+        "account.account",
+        compute="_compute_expense_account_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+        string="Default Expense Account",
     )
 
     state = fields.Selection(related="expenses_deduction_id.state")
@@ -1300,6 +1307,28 @@ class DeltatechExpensesDeductionLine(models.Model):
         "deltatech.expenses.deduction.allocation", "line_id", string="Bills Paid", copy=False
     )
     allocated_amount = fields.Monetary(compute="_compute_allocated_amount", string="Allocated")
+
+    def _supplier_payable_account(self):
+        """Contul de datorii al furnizorului liniei (firma lui), în compania decontului."""
+        self.ensure_one()
+        company = self.expenses_deduction_id.company_id or self.env.company
+        return self.partner_id.commercial_partner_id.with_company(company).property_account_payable_id
+
+    @api.depends("type", "partner_id")
+    def _compute_expense_account_id(self):
+        for line in self:
+            if line.type == "supplier_payment":
+                line.expense_account_id = line._supplier_payable_account()
+            elif not line.expense_account_id or line.expense_account_id.account_type == "liability_payable":
+                # linie nouă sau revenită din „Plată furnizor": contul implicit de cheltuieli, al companiei decontului
+                company = line.expenses_deduction_id.company_id or line.env.company
+                line.expense_account_id = line.with_company(company)._default_expense_account()
+
+    @api.onchange("type")
+    def _onchange_type_clear_taxes(self):
+        # o plată de furnizor stinge o factură care are deja TVA-ul înregistrat
+        if self.type == "supplier_payment":
+            self.tax_ids = False
 
     @api.depends("allocation_ids.amount")
     def _compute_allocated_amount(self):
@@ -1431,12 +1460,13 @@ class DeltatechExpensesDeductionLine(models.Model):
     def _get_company(self):
         return self.env.context.get("company_id", self.env.user.company_id.id)
 
-    @api.depends("amount", "tax_ids")
+    @api.depends("amount", "tax_ids", "type")
     def _compute_subtotal(self):
         for expenses in self:
             tax_amount = 0.0
             price_subtotal = expenses.amount
-            taxes = expenses.tax_ids
+            # plata furnizorului nu are TVA: factura plătită îl are deja înregistrat
+            taxes = expenses.tax_ids if expenses.type != "supplier_payment" else self.env["account.tax"]
             if taxes:
                 price_unit = expenses.amount
                 if not all(taxes.mapped("price_include")):

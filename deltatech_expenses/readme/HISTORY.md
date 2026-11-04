@@ -12,6 +12,14 @@
 - The advance date is today by default.
 - Search filters **Advance** and **Done** on the expense reports.
 
+## 19.0.3.9.0 (2026-11-04)
+
+- A **Supplier Payment** line takes the payable account of the supplier (401), set from the
+  partner and read-only; an **Expense** line keeps the default expense account, chosen by the
+  accountant.
+- A **Supplier Payment** line has no VAT: the taxes cannot be filled in and are ignored, as the
+  bill paid already has its VAT booked. The amount paid is the total of the line.
+
 ## 19.0.3.8.0 (2026-10-29)
 
 - A supplier payment line can name the bills it pays (button on the line, **Bills Paid**): for
