@@ -118,33 +118,25 @@ class PromissoryNote(models.Model):
 
     def action_cashed(self) -> None:
         self.write({"state": "cashed"})
-        if self.is_last_bo:
-            users = self.env["res.users"].search([])
-            for user in users:
-                if user.has_group("deltatech_promissory_note.bo_notifications"):
-                    name = self.name
-                    issuer_name = self.issuer_id.name
-                    date = self.date_due
-                    cashed_amount = self.cashed_amount
-                    agreement = self.agreement
-                    subject = self.env._(
-                        "BO - the last - %(name)s for %(issuer_name)s has been cashed",
-                        name=name,
-                        issuer_name=issuer_name,
-                    )
-                    msg = self.env._(
-                        "The last promissory note cashed: %(name)s, date: %(date)s. Issuer: %(issuer_name)s, amount: %(cashed_amount)s, agreement: %(agreement)s",
-                        name=name,
-                        date=date,
-                        issuer_name=issuer_name,
-                        cashed_amount=cashed_amount,
-                        agreement=agreement,
-                    )
-                    partner_id = user.partner_id.id
-
-                    self.message_post(body=msg, subject=subject, partner_ids=[partner_id])
-
-                    _logger.info(f"BO_LOG: mail sent for BO {name}")
+        users = self.env.ref("deltatech_promissory_note.bo_notifications").all_user_ids
+        if not users:
+            return
+        for note in self.filtered("is_last_bo"):
+            subject = self.env._(
+                "BO - the last - %(name)s for %(issuer_name)s has been cashed",
+                name=note.name,
+                issuer_name=note.issuer_id.name,
+            )
+            msg = self.env._(
+                "The last promissory note cashed: %(name)s, date: %(date)s. Issuer: %(issuer_name)s, amount: %(cashed_amount)s, agreement: %(agreement)s",
+                name=note.name,
+                date=note.date_due,
+                issuer_name=note.issuer_id.name,
+                cashed_amount=note.cashed_amount,
+                agreement=note.agreement,
+            )
+            note.message_post(body=msg, subject=subject, partner_ids=users.partner_id.ids)
+            _logger.info("BO_LOG: mail sent for BO %s", note.name)
 
     def action_cancel(self) -> None:
         self.write({"state": "cancel"})
