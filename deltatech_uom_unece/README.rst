@@ -16,11 +16,14 @@ UoM UNECE Codes
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_uom_unece
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_uom_unece/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_uom_unece
-    :alt: 19 automated tests · 93% code coverage
+    :alt: 21 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Lets you set the UN/ECE code sent as the unit of measure in electronic
 documents (e-invoice, eTransport) on each unit, instead of relying on
@@ -72,10 +75,12 @@ which is what makes the module safe to install on a running database.
 Configuration
 =============
 
-The codes are in **Settings → Technical → UNECE Codes**, filterable by
-source: Recommendation 20 for units, Recommendation 21 for packaging
-(the codes prefixed with ``X``). Both are accepted by UBL/Peppol BIS 3,
-by CIUS-RO and by the eTransport schema.
+The codes are in **Settings → UNECE Codes**, a menu of its own in the
+Settings top bar, filterable by source: Recommendation 20 for units,
+Recommendation 21 for packaging (the codes prefixed with ``X``). Both
+are accepted by UBL/Peppol BIS 3, by CIUS-RO and by the eTransport
+schema. The menu and the field are visible to administrators (Settings
+group) only.
 
 The full nomenclature is loaded on install from the SAF-T schema
 published by ANAF, English and Romanian names together, so you should
@@ -87,10 +92,12 @@ characters, while eTransport's own ``CodUMType`` accepts only two or
 three. Such a code is reportable in SAF-T but will be rejected on a
 transport declaration.
 
-The code itself goes on the unit, in **Settings → Technical → Units of
-Measure**, field **UNECE Code**. The field is also available as an
-optional column in the list view, which is the quicker way to fill it in
-for many units at once.
+The code itself goes on the unit, in the **Units & Packagings** list
+(from **Invoicing → Configuration → Settings**, block **Units &
+Packagings**, once **Units of Measure & Packagings** is ticked; also
+under **Configuration** in Sales and Inventory), field **UNECE Code**.
+The field is also available as an optional column in the list view,
+which is the quicker way to fill it in for many units at once.
 
 A code set on a unit takes precedence over Odoo's built-in mapping. That
 is deliberate: correcting a wrong built-in mapping is half the point of
@@ -100,15 +107,71 @@ Usage
 =====
 
 Nothing to do day to day: once a unit carries a code, every electronic
-document built from it uses that code.
+document built from it uses that code. The work is a one-off check of
+the units, at go-live.
 
-To check what will be sent, open the unit and read the **UNECE Code**
-field. An empty field means Odoo's built-in mapping applies — ``C62``
-for any unit the standard does not recognise.
+**1. Open the list of units.** In **Invoicing → Configuration →
+Settings**, block **Units & Packagings**, tick **Units of Measure &
+Packagings** and save; the **Units & Packagings** link below it opens
+the list of units. With Sales or Inventory installed, the same list is
+also in their **Configuration** menu.
+
+|Invoicing settings scrolled to the Units & Packagings block: Units of
+Measure & Packagings is ticked (1) and the Units & Packagings link (2)
+opens the list of units|
+
+**2. Find the right code.** The nomenclature is in **Settings → UNECE
+Codes**, a menu of its own in the Settings top bar. **Code** is the
+value sent in the XML, **Source** tells a unit of measure (Rec 20) from
+a packaging (Rec 21, codes prefixed with ``X``). Use **Packaging (Rec
+21)** for units that pack a quantity (box ``XBX``, bag ``XBG``, pallet
+``XPX``; search by code or by the ANAF name) and **Units (Rec 20)** for
+actual units of measure (``KGM``, ``MTR``, ``MTK``).
+
+|UNECE Codes list opened from the Settings top bar (1), filtered on
+Packaging (Rec 21) (2): 377 codes with their Code, Name and Source, such
+as X4A Box, steel and X4H Box, plastic|
+
+**3. Check the units.** In the units list, show the optional **UNECE
+Code** column from the optional-columns icon at the right of the header.
+Every unit of your own needs a code. An empty cell means Odoo's built-in
+mapping applies — ``C62`` (one piece) for any unit the standard does not
+recognise. Square metres and millilitres already carry ``MTK`` and
+``MLT``, set by the module on install.
+
+|Units & Packagings list with the UNECE Code column shown: m² has MTK -
+square metre, ml has MLT - millilitre and the custom unit Box of 13 kg
+has XBX - Box (1); standard units such as Units, kg or L are left empty|
+
+**4. Set the code on the unit.** Open the unit and pick the value in
+**UNECE Code**. Nothing changes on products or invoices.
+
+|Form of the unit Box of 13 kg, 13 kg, with UNECE Code (1) set to XBX -
+Box|
+
+**5. Invoice as usual.** Without the Sales app, the **Quantity** and
+**Unit** columns of invoice lines are hidden by default; show them from
+the optional-columns icon of the lines. In the e-invoice XML, the line's
+``cbc:InvoicedQuantity`` now carries ``unitCode="XBX"`` instead of
+``C62``.
+
+|Posted customer invoice INV/2026/00001: the line is 10.00 of Box of 13
+kg (1) at 245.00, VAT 21%|
+
+.. code:: xml
+
+   <cbc:InvoicedQuantity unitCode="XBX">10.0</cbc:InvoicedQuantity>
 
 The code applies to both paths that build electronic documents:
-eTransport, through ``uom.uom._get_unece_code()``, and UBL/CII invoices,
-which reach the same value through a separate method of their own.
+eTransport, through ``uom.uom._get_unece_code()``, and UBL/CII invoices
+(CIUS-RO included), which reach the same value through a separate method
+of their own.
+
+.. |Invoicing settings scrolled to the Units & Packagings block: Units of Measure & Packagings is ticked (1) and the Units & Packagings link (2) opens the list of units| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/01_setare_unitati_ambalaje.png
+.. |UNECE Codes list opened from the Settings top bar (1), filtered on Packaging (Rec 21) (2): 377 codes with their Code, Name and Source, such as X4A Box, steel and X4H Box, plastic| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/02_coduri_unece_ambalaje.png
+.. |Units & Packagings list with the UNECE Code column shown: m² has MTK - square metre, ml has MLT - millilitre and the custom unit Box of 13 kg has XBX - Box (1); standard units such as Units, kg or L are left empty| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/03_unitati_coloana_cod_unece.png
+.. |Form of the unit Box of 13 kg, 13 kg, with UNECE Code (1) set to XBX - Box| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/04_unitate_cutie_cod_unece.png
+.. |Posted customer invoice INV/2026/00001: the line is 10.00 of Box of 13 kg (1) at 245.00, VAT 21%| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_uom_unece/static/description/en/05_factura_unitate_cutie.png
 
 Changelog
 =========
