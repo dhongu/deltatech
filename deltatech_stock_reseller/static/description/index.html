@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 5 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 7 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:96%;background-color:#57B952;"></div>
       </div>
@@ -38,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -49,6 +54,39 @@
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:  </p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Report with positions from stock location, with pricelist</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Choose stock location</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Choose partner or pricelist for price computation</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Two thresholds can be set for "text" quantities (i.e. Low stock,
   Limited stock, Stock) with their respective stock texts</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open <em>Sales &gt; Reporting &gt; Location Stock</em>. The <strong>Reporting</strong> menu of Sales is shown to sales
+   administrators; the Sales menu is available once the Sales application (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_management</code>) is
+   installed.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The Sales app with the Reporting menu open and the Location Stock entry (1) added by the module" src="en/01_meniu_locatie_stoc.png" /></p>
+<ol start="2">
+<li>In the <strong>Location Stock</strong> window choose the <strong>Source Location</strong> and the <strong>Partner</strong>: the
+   <strong>Reseller Price List</strong> is filled in from the partner's pricelist (you can also pick it directly;
+   left empty, the reseller price equals the list price). Tick <strong>Show text instead of stock</strong> to replace
+   the quantities with stock level labels: up to the <strong>1st threshold</strong> the report shows the <strong>1st
+   threshold text</strong>, up to the <strong>2nd threshold</strong> the <strong>2nd threshold text</strong>, above it the <strong>Above 2nd
+   threshold text</strong>. Keep <strong>Refresh Report</strong> ticked to recompute from the current stock, then press
+   <strong>Apply</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The Location Stock window: Source Location (1), Partner (2), Reseller Price List (3), Show text instead of stock (4) with the two thresholds and their texts, Refresh Report (5) and the Apply button (6)" src="en/02_fereastra_raport_stoc.png" /></p>
+<ol start="3">
+<li>The <strong>Location Stock Quant Report</strong> lists every product with free quantity in the location (reserved
+   quantities excluded), with its <strong>Quantity</strong>, the stock level text (<strong>Qty Text</strong>), the <strong>Reseller
+   price</strong> and the <strong>List Price</strong>. Check the labels and prices, then select the lines and use
+   <strong>Actions &gt; Export</strong>; leave the <strong>Quantity</strong> column out when the partner should only see the stock
+   level texts. The <strong>Description</strong> column shows the internal product description with its HTML tags,
+   so leave it out of the export as well.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The report lines; on the first one, USB-C docking station, Quantity 4.00 (1), Qty Text Low stock (2), Reseller price 594.15 lei (3) and List Price 699.00 lei (4)" src="en/03_raport_stoc_revanzator.png" /></p>
+<ol start="4">
+<li>Group the lines by <strong>Category of Product</strong> (or <strong>Product</strong>) from the search options, or switch to the
+   pivot view. On the group rows, the price columns add up unit prices and are not meaningful.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The same report grouped by Category of Product (1): the first category unfolded with its products and its total quantity" src="en/04_raport_grupat_categorie.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -188,7 +226,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep CMRs, certificates and other shipping documents in one place</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">See the files attached to orders, transfers and invoices from any of them</p>
         </div>
       </a>
     </div>
@@ -248,7 +286,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Payment analysis report by journal and period, with a filter wizard</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Customer receipts by payment and invoice journal over a period, with a filter wizard</p>
         </div>
       </a>
     </div>

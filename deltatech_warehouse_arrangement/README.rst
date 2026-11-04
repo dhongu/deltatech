@@ -16,20 +16,140 @@ Warehouse Arrangement
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_warehouse_arrangement
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_warehouse_arrangement/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_warehouse_arrangement
-    :alt: 19 automated tests · 100% code coverage
+    :alt: 21 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
+
+Keeps the physical arrangement of the warehouse in parallel with the
+standard Odoo stock locations, on five levels: storehouse, zone, shelf,
+section and rack. The goods are found on the right rack without creating
+an Odoo stock location for each of them.
 
 Features:
 
-- Manages warehouse locations, parallel to standard Odoo locations
+- Storehouse → Zone → Shelf → Section → Rack hierarchy (menu *Inventory
+  > Locations*), each level showing its full path; a storehouse is
+  linked to its main Odoo stock location.
+- Rack barcode and printable rack labels (Code128 barcode and full
+  path).
+- Default arrangement on the product; every lot / serial number keeps
+  its own arrangement.
+- A new lot takes the arrangement of its product; a lot received into
+  the main location of the storehouse takes it again, and its
+  arrangement is cleared when the lot runs out in that location.
+- Arrangement columns, search fields and group-by options in the stock
+  list (*Inventory > Reporting > Locations*).
+- Barcode screen to scan a lot and its new rack (*Inventory > Operations
+  > Adjustments > Change lot*).
+- Only the *Warehouse Locations manager* group can create or change the
+  hierarchy.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Create the storehouse (*Inventory > Locations > Storehouse*): its
+   **Name** (1) and, in **Warehouse** (2), the Odoo stock location where
+   it stands (e.g. ``WH/Stock``). Receipts into this location fill in
+   the arrangement of the lots. Then create the zones, shelves and
+   sections, each linked to the level above.
+
+   |Storehouse form: Name H1 (1), Warehouse WH/Stock (2) and Full Name
+   Stock/H1 (3)|
+
+2. Create the racks (*Inventory > Locations > Rack*). The section of
+   each rack shows the full path.
+
+   |Rack list: P01 and P02 in section S1, with the path Storehouse:
+   H1/Zone: Z1/Shelf: R01/Section: S1|
+
+   On the rack, choose the **Section** (1); **Full Name** (2) shows the
+   whole path, and **Barcode** (3) is the code scanned when moving lots.
+
+   |Rack P01: Section S1 (1), Full Name (2) and Barcode H1-Z1-R01-S1-P01
+   (3)|
+
+3. Print the rack labels: in the list, select the racks, then **Print**
+   > **Rack Labels**; on a rack form, the gear ⚙ next to the title >
+   **Rack Labels**.
+
+   |Rack label: Code128 barcode and the full path of rack P01|
+
+4. On the product (*Inventory > Products > Products*), tab
+   **Locations**, choose the default arrangement: **Storehouse**, **Zone
+   Location**, **Shelf Location**, **Section Location** and **Rack
+   Location**. Each list only shows the items of the level above.
+
+   |Product Copper cable 2.5 mm², tab Locations: Storehouse H1 to Rack
+   Location P01 (1-5)|
+
+5. Receive the lots into the main location of the storehouse (*Inventory
+   > Operations > Receipts*, **Details** on the product line) and
+   validate the receipt.
+
+   |Done receipt, Detailed Operations: lots LOT-2026-001 and
+   LOT-2026-002 (1) stored in WH/Stock (2)|
+
+6. On the lot (*Inventory > Products > Lots / Serial Numbers*), tab
+   **Locations**, check that the lot took the arrangement of the
+   product. It can be changed here by hand at any time.
+
+   |Lot LOT-2026-001, tab Locations: the arrangement H1 / Z1 / R01 / S1
+   / P01 (1-5) taken from the product|
+
+7. To move a lot to another rack, open *Inventory > Operations >
+   Adjustments > Change lot* and scan the lot label, then the new rack
+   label: **Lot** (1) and **Rack** (2) are filled in.
+
+   |Change lot screen after scanning: Lot LOT-2026-002 (1) and Rack P02
+   (2), Lot Scanned checked|
+
+   In Odoo 19 this screen opens full page and its **Apply** / **Reset**
+   buttons are not shown, so the scan does not change the lot. Until
+   this is fixed, choose the new rack directly on the lot, tab
+   **Locations**, field **Rack Location**, and save.
+
+   |Lot LOT-2026-002, tab Locations: Rack Location (1) is now P02|
+
+8. Find the stock by rack in *Inventory > Reporting > Locations* (shown
+   only with the *Storage Locations* option, the consignment option or
+   in developer mode; otherwise use the **On Hand** button of the
+   product, which opens the same list): each lot (1) shows its
+   storehouse, zone, shelf, section and rack (2). Search or group by
+   **Storehouse**, **Zone**, **Shelf**, **Section** or **Rack**.
+
+   |Locations list for CBL-CU25: LOT-2026-001 on rack P01 and
+   LOT-2026-002 on rack P02, both in WH/Stock|
+
+When the whole quantity of a lot leaves the main location of the
+storehouse, the arrangement of the lot is cleared (only moves out of the
+main location itself trigger this, not moves out of its sublocations).
+The arrangement is informative only: it does not change the Odoo stock
+locations, the quantities or the stock valuation.
+
+Only users of the *Warehouse Locations manager* group can create or
+change the storehouses, zones, shelves, sections and racks; the other
+internal users can read them.
+
+.. |Storehouse form: Name H1 (1), Warehouse WH/Stock (2) and Full Name Stock/H1 (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/01_hala_formular.png
+.. |Rack list: P01 and P02 in section S1, with the path Storehouse: H1/Zone: Z1/Shelf: R01/Section: S1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/02_lista_polite.png
+.. |Rack P01: Section S1 (1), Full Name (2) and Barcode H1-Z1-R01-S1-P01 (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/03_polita_formular.png
+.. |Rack label: Code128 barcode and the full path of rack P01| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/04_eticheta_polita.png
+.. |Product Copper cable 2.5 mm², tab Locations: Storehouse H1 to Rack Location P01 (1-5)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/05_produs_locatii.png
+.. |Done receipt, Detailed Operations: lots LOT-2026-001 and LOT-2026-002 (1) stored in WH/Stock (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/06_receptie_loturi.png
+.. |Lot LOT-2026-001, tab Locations: the arrangement H1 / Z1 / R01 / S1 / P01 (1-5) taken from the product| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/07_lot_locatii_receptie.png
+.. |Change lot screen after scanning: Lot LOT-2026-002 (1) and Rack P02 (2), Lot Scanned checked| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/08_schimbare_locatie_lot.png
+.. |Lot LOT-2026-002, tab Locations: Rack Location (1) is now P02| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/09_lot_polita_noua.png
+.. |Locations list for CBL-CU25: LOT-2026-001 on rack P01 and LOT-2026-002 on rack P02, both in WH/Stock| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_warehouse_arrangement/static/description/en/10_stoc_pe_polite.png
 
 Changelog
 =========

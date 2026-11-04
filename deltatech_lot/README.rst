@@ -19,21 +19,98 @@ Lot Generation & Selection
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_lot
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_lot/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_lot
-    :alt: 5 automated tests · 81% code coverage
+    :alt: 7 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-- Functions:
+Generates lot numbers on supplier receipts and shows where each lot is
+stored.
 
-  - Generare de lot la receptia produselor de la furnizor
-  - Camp locatie in lot
+- **Lots generated on validation**: When a receipt from a vendor (or a
+  dropship) is validated, every line of a product tracked by lots that
+  has no lot number gets the next number of the **Serial Numbers**
+  sequence, one lot per line. Lots typed by the user are kept.
+- **Lot location**: The **Location** field of the lot shows the location
+  that holds all its stock (empty when the lot is spread over several
+  locations), on the lot form for every inventory user and as a column
+  in the list of lots.
+- **Search by location**: The list of lots can be searched by
+  **Location**.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Track the product by lots: open the product (*Inventory > Products >
+   Products*), tab **General Information**, tick **Track Inventory** and
+   choose **By Lots**.
+
+   |Product form, General Information tab: Track Inventory ticked with
+   By Lots (1)|
+
+2. Open the receipt from the vendor (*Inventory > Operations > Transfers
+   > Receipts*), in the **Ready** state. The receipt operation type must
+   have **Create New** ticked in its **Lots/Serial Numbers** group (the
+   default for receipts).
+
+   |Receipt from Vopsele Demo SRL in the Ready state, with the Validate
+   button (1)|
+
+3. In **Details**, the **Lot/Serial Number** column can stay empty;
+   split the quantity over the storage locations in **Store To** if
+   needed. Type the vendor's lot number only on the lines where it must
+   be kept. Save and press **Validate**.
+
+   |Detailed Operations: two lines, 12 to WH/Stock/Raft A1 and 8 to
+   WH/Stock/Raft B2, with an empty Lot/Serial Number column (1)|
+
+4. The receipt is done and every line without a lot got its own lot
+   number from the **Serial Numbers** sequence.
+
+   |The done receipt: lot 0000001 on Raft A1 and lot 0000002 on Raft B2
+   (1)|
+
+5. In *Inventory > Products > Lots / Serial Numbers*, remove the default
+   **Location** grouping: the **Location** column shows where each lot
+   is. A lot spread over several locations has no location.
+
+   |List of lots: 0000001 on WH/Stock/Raft A1, 0000002 on WH/Stock/Raft
+   B2 and VOP-2509-07, spread over two shelves, with an empty Location
+   (1)|
+
+6. The lot form shows the same **Location**. Changing it moves the stock
+   of the lot when it is all in one location.
+
+   |Lot 0000001 with Location WH/Stock/Raft A1 (1)|
+
+7. Search the lots by location: type the location and choose **Search
+   Location for**. Only the lots held entirely in that location are
+   listed.
+
+   |The list of lots filtered by Location: Raft A1 (1), showing only lot
+   0000001|
+
+Lot numbers are generated only on receipts and dropships, only for
+products tracked by lots (not by serial numbers), and always from the
+general **Serial Numbers** sequence, not from the custom prefix set on
+the product.
+
+.. |Product form, General Information tab: Track Inventory ticked with By Lots (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/01_produs_urmarire_loturi.png
+.. |Receipt from Vopsele Demo SRL in the Ready state, with the Validate button (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/02_receptie_de_validat.png
+.. |Detailed Operations: two lines, 12 to WH/Stock/Raft A1 and 8 to WH/Stock/Raft B2, with an empty Lot/Serial Number column (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/03_operatii_detaliate_fara_lot.png
+.. |The done receipt: lot 0000001 on Raft A1 and lot 0000002 on Raft B2 (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/04_loturi_generate_receptie.png
+.. |List of lots: 0000001 on WH/Stock/Raft A1, 0000002 on WH/Stock/Raft B2 and VOP-2509-07, spread over two shelves, with an empty Location (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/05_lista_loturi_locatie.png
+.. |Lot 0000001 with Location WH/Stock/Raft A1 (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/06_fisa_lot_locatie.png
+.. |The list of lots filtered by Location: Raft A1 (1), showing only lot 0000001| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/07_cautare_loturi_locatie.png
 
 Changelog
 =========

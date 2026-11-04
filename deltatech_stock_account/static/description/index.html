@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 4 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:88%;background-color:#57B952;"></div>
       </div>
@@ -36,6 +36,11 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -76,6 +81,51 @@ access error. The administrator is in the group by default.</p>
   transfer form.</li>
 <li>The <strong>Stock Variation Account</strong> of the category is not propagated.</li>
 </ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open <em>Inventory &gt; Operations &gt; Transfers &gt; Receipts</em>. The <strong>Amount</strong> column shows the valuation
+   value of each receipt and the total at the bottom. A receipt that is not validated yet is worth 0.00.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Receipts list: the Amount column shows 0.00 for the Ready receipt, 400.00 and 1,300.00 for the Done ones, with the total 1,700.00" src="en/01_receptii_valoare.png" /></p>
+<ol start="2">
+<li>The same column in <em>Deliveries</em> shows the cost of the goods that left the stock, not the sales price.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Deliveries list: the Amount column shows 320.00 and 365.00 for the Done deliveries, with the total 685.00" src="en/02_livrari_valoare.png" /></p>
+<ol start="3">
+<li>Open the top product category (<em>Inventory &gt; Configuration &gt; Products &gt; Product Categories</em>), set
+   <strong>Income Account</strong>, <strong>Expense Account</strong>, <strong>Costing Method</strong> and <strong>Inventory Valuation</strong>, then set
+   <strong>Stock Account</strong> and save. Saving a new <strong>Stock Account</strong> copies all these settings to every
+   subcategory.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The M&#259;rfuri (goods) category: Stock Account 371000, Income Account 707000 and Costing Method Average Cost (AVCO) highlighted" src="en/03_categorie_parinte_conturi.png" /></p>
+<ol start="4">
+<li>Check a subcategory: it now has the same accounts, costing method and inventory valuation.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The Becuri (bulbs) subcategory, under M&#259;rfuri / Electrice: Stock Account 371000 and Costing Method Average Cost (AVCO) copied from M&#259;rfuri" src="en/04_subcategorie_conturi_copiate.png" /></p>
+<ol start="5">
+<li>When you change another setting of the top category, copy the settings again with the gear icon &gt;
+   <strong>Propagate Accounts</strong> (developer mode).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The gear menu of the category form, with the Propagate Accounts action highlighted" src="en/05_actiune_propagare_conturi.png" /></p>
+<ol start="6">
+<li>On a new category, choosing a <strong>Parent Category</strong> fills in the accounting settings of the parent.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="A new category with Parent Category selected: Stock Account and Costing Method filled in from the parent" src="en/06_categorie_noua_setari_parinte.png" /></p>
+<ol start="7">
+<li>A user who is not in the <strong>Change Product Price</strong> group cannot change the <strong>Cost</strong> of a product that
+   has quantity on hand: saving shows an <strong>Access Error</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The product form of a product with 80.00 on hand: the Access Error dialog says the user is not allowed to change the cost price" src="en/07_cost_refuzat_fara_drept.png" /></p>
+<ol start="8">
+<li>Manage who may change the cost in <em>Settings &gt; Users &amp; Companies &gt; Groups</em> &gt; <strong>Change Product Price</strong>
+   (developer mode). The administrator is in the group by default.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The Change Product Price group, Users tab, with the Administrator as its only member" src="en/08_grup_modificare_cost.png" /></p>
+<p>The copy to subcategories overwrites their settings, empty values included: set exceptions on a
+subcategory after the propagation. The cost of products without stock and the automatic cost updates
+(for example the average cost recomputed at a receipt) are not restricted.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
