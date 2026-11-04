@@ -40,7 +40,7 @@ class TestStockQuantReport(TransactionCase):
                         0,
                         0,
                         {
-                            "compute_price": "formula",
+                            "compute_price": "discount",
                             "base": "list_price",
                             "price_discount": 10.0,  # 10% reducere
                         },
@@ -169,7 +169,7 @@ class TestStockQuantReport(TransactionCase):
             {
                 "name": "Test Pricelist B",
                 "item_ids": [
-                    (0, 0, {"compute_price": "formula", "base": "list_price", "price_discount": 20.0}),
+                    (0, 0, {"compute_price": "discount", "base": "list_price", "price_discount": 20.0}),
                 ],
             }
         )
