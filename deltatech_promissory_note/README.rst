@@ -105,6 +105,15 @@ version.
 Changelog
 =========
 
+20.0.1.0.9 (2026-11-04)
+-----------------------
+
+- Migration to Odoo 20.0: ``res.bank`` is gone, so the issuer and
+  beneficiary banks become text fields (``bank_issuer``,
+  ``bank_beneficiary``) filled from the bank name of the partner's
+  account; the pre- migration script copies the bank names of existing
+  notes. Access rights in ``security/ir.access.csv``.
+
 19.0.1.0.9 (2026-10-22)
 -----------------------
 
