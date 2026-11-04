@@ -265,6 +265,15 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s is in %(currency)s, but the account %(account)s of the expense journal "
+"%(journal)s is not: choose an expense journal whose 542 account is in %(currency)s (account currency set), so "
+"that the balance of the employee is revalued monthly."
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model,name:deltatech_expenses.model_res_company
 msgid "Companies"
 msgstr ""

@@ -1701,6 +1701,62 @@ class TestExpenses(TransactionCase):
         deduction.invalidate_recordset(["employee_balance"])
         self.assertAlmostEqual(deduction.employee_balance, 29.0)
 
+    def _expense_journal_542_in(self, currency):
+        account = self.env["account.account"].create(
+            {
+                "name": "Avansuri trezorerie valută",
+                "code": "542EUR",
+                "account_type": "asset_current",
+                "currency_id": currency.id,
+                "reconcile": True,
+            }
+        )
+        return self.env["account.journal"].create(
+            {
+                "name": "Avansuri valută",
+                "code": "ADJV",
+                "type": "general",
+                "default_account_id": account.id,
+                "company_id": self.company.id,
+            }
+        )
+
+    def test_no_payment_moves_foreign_currency_on_542_in_currency(self):
+        """Fără note de plată, un decont în valută se validează doar pe un 542 analitic în valuta lui
+        (valuta setată pe cont), ca soldul angajatului să intre în reevaluarea lunară; jurnalul se propune
+        la schimbarea valutei."""
+        self.company.expenses_no_payment_moves = True
+        foreign = self._foreign_currency(self.company)
+        deduction = self._draft_deduction(currency_id=foreign.id)
+        self._new_line(deduction, 50.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+
+        journal = self._expense_journal_542_in(foreign)
+        deduction._onchange_currency_expense_journal()
+        self.assertEqual(deduction.expense_journal_id, journal)
+        deduction.validate_expenses()
+        lines = self.env["account.move.line"].search(
+            [("account_id", "=", journal.default_account_id.id), ("partner_id", "=", self.employee_partner.id)]
+        )
+        self.assertAlmostEqual(sum(lines.mapped("amount_currency")), -50.0)
+        self.assertEqual(lines.currency_id, foreign)
+
+    def test_no_payment_moves_company_currency_not_on_foreign_542(self):
+        """Un decont în lei nu se validează pe 542 în valută; revenind la lei se propune 542 fără valută."""
+        self.company.expenses_no_payment_moves = True
+        foreign = self._foreign_currency(self.company)
+        journal = self._expense_journal_542_in(foreign)
+        deduction = self._draft_deduction(expense_journal_id=journal.id)
+        self._new_line(deduction, 50.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+        deduction._onchange_currency_expense_journal()
+        self.assertEqual(deduction.expense_journal_id.default_account_id.code[:3], "542")
+        self.assertFalse(deduction.expense_journal_id.default_account_id.currency_id)
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+
     def test_no_payment_moves_company_card_on_542(self):
         """Fără note de plată, și cu cardul firmei cheltuiala trece pe 542 (angajatul): plata cu cardul
         din extras se reconciliază pe 542, ca o retragere de numerar."""

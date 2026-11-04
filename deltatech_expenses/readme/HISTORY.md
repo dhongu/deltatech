@@ -18,6 +18,10 @@
   the work contact of the employee.
 - Consultant sheet: at year end the credit balance of an employee on 542 is reclassified to
   4281 (`Dr 542 = Cr 4281`), as a manual entry.
+- Without payment entries, an expense report in a foreign currency is validated only on a 542
+  account in that currency (account currency set), so that the monthly revaluation of the
+  localization revalues the balance of the employee; a report in the company currency only on a
+  542 account without currency. Changing the currency proposes the matching expense journal.
 
 ## 19.0.3.9.1 (2026-11-04)
 

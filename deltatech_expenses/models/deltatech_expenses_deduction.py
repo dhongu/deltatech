@@ -321,6 +321,34 @@ class DeltatechExpensesDeduction(models.Model):
             journal = expense.card_journal_id if expense.settlement_mode == "company_card" else expense.journal_id
             expense.currency_id = journal.currency_id or expense.company_id.currency_id
 
+    def _account_542_matches_currency(self, account=None):
+        """Fără note de plată soldul 542 al angajatului se reportează între luni: în valută el se
+        reevaluează lunar (OMFP 1802/2014 pct. 322) doar pe un cont 542 analitic cu valuta setată pe cont,
+        cum îl ia reevaluarea din localizare; un decont în lei rămâne pe 542 fără valută."""
+        self.ensure_one()
+        if account is None:
+            account = self.sudo().expense_journal_id.default_account_id
+        if self.currency_id != self.company_id.currency_id:
+            return account.currency_id == self.currency_id
+        return not account.currency_id or account.currency_id == self.company_id.currency_id
+
+    @api.onchange("currency_id")
+    def _onchange_currency_expense_journal(self):
+        """Propune jurnalul de avansuri al cărui cont 542 e în valuta decontului."""
+        account = self.expense_journal_id.default_account_id
+        if not self.no_payment_moves or not account or self._account_542_matches_currency():
+            return
+        journals = self.env["account.journal"].search(
+            [
+                ("type", "=", self.expense_journal_id.type),
+                ("company_id", "=", self.company_id.id),
+                ("default_account_id.code", "=like", f"{account.code[:3]}%"),
+            ]
+        )
+        journal = journals.filtered(lambda j: self._account_542_matches_currency(j.default_account_id))[:1]
+        if journal:
+            self.expense_journal_id = journal
+
     @api.depends("currency_id", "company_id")
     def _compute_is_foreign_currency(self):
         for expense in self:
@@ -962,6 +990,19 @@ class DeltatechExpensesDeduction(models.Model):
                         "(a fost deja finalizat sau nu are un avans validat)."
                     )
                     % (expenses.number,)
+                )
+            if expenses.no_payment_moves and not expenses._account_542_matches_currency():
+                raise UserError(
+                    self.env._(
+                        "The expense report %(number)s is in %(currency)s, but the account %(account)s of the "
+                        "expense journal %(journal)s is not: choose an expense journal whose 542 account is in "
+                        "%(currency)s (account currency set), so that the balance of the employee is revalued "
+                        "monthly.",
+                        number=expenses._deduction_label(),
+                        currency=expenses.currency_id.name,
+                        account=expenses.sudo().expense_journal_id.default_account_id.display_name,
+                        journal=expenses.sudo().expense_journal_id.name,
+                    )
                 )
             if expenses.no_payment_moves and expenses.advance:
                 raise UserError(

@@ -113,6 +113,9 @@ Date minime pentru demo:
 7. Pentru deconturi în valută: creați un jurnal de numerar cu **moneda** respectivă (cont 5314) și un
    jurnal de avans pe un cont 542 în valută, țineți la zi cursurile valutare și setați conturile de
    diferențe de curs (765/665) în **Contabilitate → Setări**, pentru compania curentă.
+   În varianta fără note de plată (pasul 11), contul 542 analitic în valută are **valuta setată pe
+   cont** și **„Permite reconcilierea”** bifat, iar jurnalul lui de avansuri e de același tip ca cel
+   în lei (de ex. „Avansuri trezorerie EUR”, cont 542.02).
 8. Pentru virament pe cardul personal și pentru cardul de firmă: pe **metodele de plată** ale
    jurnalului de bancă / card setați un cont de **plăți în curs** și unul de **încasări în curs**
    (5125). Fără ele, avansul sau plata nu se pot contabiliza. Jurnalul cardului de firmă se poate seta
@@ -401,7 +404,12 @@ Operațiuni de perioadă, în afara decontului (OMFP 1802/2014, funcțiunea cont
   contabil la închiderea exercițiului;
 - avansurile nejustificate în termen se trec în 428 și se recuperează de la angajat;
 - pentru un sold 542 în valută, diferențele de curs se înregistrează la **finele fiecărei luni**
-  (765/665), prin reevaluarea lunară, nu doar la reconcilierea cu casa sau banca.
+  (`Dr 665 = Cr 542` / `Dr 542 = Cr 765`), prin reevaluarea lunară din localizare
+  (`l10n_ro_currency_revaluation`), pe fiecare angajat, fără stornare. Reevaluarea ia contul 542 doar
+  dacă are **valuta setată pe cont**: de aceea, în varianta fără note de plată, un decont în valută se
+  validează numai pe un jurnal de avansuri al cărui cont 542 analitic e în valuta decontului (de ex.
+  542.02 în EUR), iar un decont în lei numai pe 542 fără valută. La schimbarea valutei pe decont,
+  jurnalul potrivit se propune automat.
 
 ## 7. Legături cu alte module / declarații
 

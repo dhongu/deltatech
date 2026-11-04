@@ -934,6 +934,18 @@ msgstr ""
 "Avans: finalizați-le întâi (%(numbers)s)."
 
 #. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s is in %(currency)s, but the account %(account)s of the expense journal "
+"%(journal)s is not: choose an expense journal whose 542 account is in %(currency)s (account currency set), so "
+"that the balance of the employee is revalued monthly."
+msgstr ""
+"Decontul %(number)s este în %(currency)s, dar contul %(account)s al jurnalului de avansuri %(journal)s nu "
+"este: alegeți un jurnal de avansuri al cărui cont 542 este în %(currency)s (valută setată pe cont), ca soldul "
+"angajatului să fie reevaluat lunar."
+
+#. module: deltatech_expenses
 #: model:ir.model,name:deltatech_expenses.model_res_company
 msgid "Companies"
 msgstr "Companii"
