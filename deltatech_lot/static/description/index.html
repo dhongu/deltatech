@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 5 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 7 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:81%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:83%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">81% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">83% code coverage</div>
     </div>
   </div>
 </div>
@@ -38,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -46,15 +51,55 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Functions:</p>
-<ul>
-<li>Generare de lot la receptia produselor de la furnizor</li>
-<li>Camp locatie in lot</li>
-</ul>
-</li>
-</ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Generates lot numbers on supplier receipts and shows where each lot is stored.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Lots generated on validation</span><div>When a receipt from a vendor (or a dropship) is validated, every
+  line of a product tracked by lots that has no lot number gets the next number of the <strong>Serial
+  Numbers</strong> sequence, one lot per line. Lots typed by the user are kept.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Lot location</span><div>The <strong>Location</strong> field of the lot shows the location that holds all its stock
+  (empty when the lot is spread over several locations), on the lot form for every inventory user and
+  as a column in the list of lots.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Search by location</span><div>The list of lots can be searched by <strong>Location</strong>.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Track the product by lots: open the product (<em>Inventory &gt; Products &gt; Products</em>), tab <strong>General
+   Information</strong>, tick <strong>Track Inventory</strong> and choose <strong>By Lots</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Product form, General Information tab: Track Inventory ticked with By Lots (1)" src="en/01_produs_urmarire_loturi.png" /></p>
+<ol start="2">
+<li>Open the receipt from the vendor (<em>Inventory &gt; Operations &gt; Transfers &gt; Receipts</em>), in the <strong>Ready</strong>
+   state. The receipt operation type must have <strong>Create New</strong> ticked in its <strong>Lots/Serial Numbers</strong> group
+   (the default for receipts).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Receipt from Vopsele Demo SRL in the Ready state, with the Validate button (1)" src="en/02_receptie_de_validat.png" /></p>
+<ol start="3">
+<li>In <strong>Details</strong>, the <strong>Lot/Serial Number</strong> column can stay empty; split the quantity over the storage
+   locations in <strong>Store To</strong> if needed. Type the vendor's lot number only on the lines where it must be
+   kept. Save and press <strong>Validate</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Detailed Operations: two lines, 12 to WH/Stock/Raft A1 and 8 to WH/Stock/Raft B2, with an empty Lot/Serial Number column (1)" src="en/03_operatii_detaliate_fara_lot.png" /></p>
+<ol start="4">
+<li>The receipt is done and every line without a lot got its own lot number from the <strong>Serial Numbers</strong>
+   sequence.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The done receipt: lot 0000001 on Raft A1 and lot 0000002 on Raft B2 (1)" src="en/04_loturi_generate_receptie.png" /></p>
+<ol start="5">
+<li>In <em>Inventory &gt; Products &gt; Lots / Serial Numbers</em>, remove the default <strong>Location</strong> grouping: the
+   <strong>Location</strong> column shows where each lot is. A lot spread over several locations has no location.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="List of lots: 0000001 on WH/Stock/Raft A1, 0000002 on WH/Stock/Raft B2 and VOP-2509-07, spread over two shelves, with an empty Location (1)" src="en/05_lista_loturi_locatie.png" /></p>
+<ol start="6">
+<li>The lot form shows the same <strong>Location</strong>. Changing it moves the stock of the lot when it is all in
+   one location.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Lot 0000001 with Location WH/Stock/Raft A1 (1)" src="en/06_fisa_lot_locatie.png" /></p>
+<ol start="7">
+<li>Search the lots by location: type the location and choose <strong>Search Location for</strong>. Only the lots
+   held entirely in that location are listed.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The list of lots filtered by Location: Raft A1 (1), showing only lot 0000001" src="en/07_cautare_loturi_locatie.png" /></p>
+<p>Lot numbers are generated only on receipts and dropships, only for products tracked by lots (not by
+serial numbers), and always from the general <strong>Serial Numbers</strong> sequence, not from the custom prefix
+set on the product.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -194,7 +239,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep CMRs, certificates and other shipping documents in one place</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">See the files attached to orders, transfers and invoices from any of them</p>
         </div>
       </a>
     </div>
@@ -234,7 +279,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Payment analysis report by journal and period, with a filter wizard</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Customer receipts by payment and invoice journal over a period, with a filter wizard</p>
         </div>
       </a>
     </div>
