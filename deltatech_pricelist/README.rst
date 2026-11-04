@@ -115,6 +115,14 @@ in the same way.
 Changelog
 =========
 
+20.0.1.0.3 (2026-11-04)
+-----------------------
+
+- Migration to Odoo 20.0: the product currency rule is also applied in
+  SQL (``_compute_sql_currency_id``) so search, grouping and ordering
+  use the price list currency; tests on the 20.0 pricelist rules
+  (``discount``).
+
 19.0.1.0.3 (2026-11-03)
 -----------------------
 
