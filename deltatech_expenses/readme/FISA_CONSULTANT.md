@@ -394,8 +394,11 @@ Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Deconturi
 Operațiuni de perioadă, în afara decontului (OMFP 1802/2014, funcțiunea contului 542):
 
 - la **31.12**, avansurile nedecontate se reclasifică (`Dr 4282 = Cr 542`, sau 461), iar soldul
-  creditor al unui angajat se prezintă ca datorie a firmei față de el, fără compensare cu soldurile
-  debitoare ale altor angajați;
+  creditor al unui angajat (firma îi datorează) se reclasifică în datorii față de personal
+  (`Dr 542 = Cr 4281`, cu angajatul ca partener), fără compensare cu soldurile debitoare ale altor
+  angajați, și se reia pe 542 la începutul exercițiului următor sau se achită angajatului; 542 este
+  cont de activ și nu se prezintă la bilanț cu sold creditor. Notele sunt manuale, făcute de
+  contabil la închiderea exercițiului;
 - avansurile nejustificate în termen se trec în 428 și se recuperează de la angajat;
 - pentru un sold 542 în valută, diferențele de curs se înregistrează la **finele fiecărei luni**
   (765/665), prin reevaluarea lunară, nu doar la reconcilierea cu casa sau banca.

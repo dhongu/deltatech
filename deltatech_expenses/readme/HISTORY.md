@@ -16,6 +16,8 @@
 - The money handed to the employee and the refunds are reconciled on 542 with the standard bank
   statement or cash register reconciliation: account 542 must allow reconciliation and the partner is
   the work contact of the employee.
+- Consultant sheet: at year end the credit balance of an employee on 542 is reclassified to
+  4281 (`Dr 542 = Cr 4281`), as a manual entry.
 
 ## 19.0.3.9.1 (2026-11-04)
 
