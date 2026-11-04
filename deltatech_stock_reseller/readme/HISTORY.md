@@ -1,3 +1,8 @@
+## 20.0.1.0.7 (2026-11-04)
+
+- Migration to Odoo 20.0: stock thresholds compared with `uom.compare`, access rights in
+  `security/ir.access.csv`, tests on the 20.0 pricelist rules (`discount`).
+
 ## 19.0.1.0.7 (2026-10-22)
 
 - Listed on Odoo Apps as *Stock Report for Resellers* (was *Stock Report Reseller*). The technical name `deltatech_stock_reseller` does not change.
