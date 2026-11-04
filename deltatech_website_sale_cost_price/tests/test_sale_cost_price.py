@@ -85,13 +85,17 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
 
     def test_04_tax_adjustment(self):
         """Test tax adjustment logic"""
-        tax = self.env["account.tax"].sudo().create(
-            {
-                "name": "Test Tax 20%",
-                "amount": 20.0,
-                "amount_type": "percent",
-                "type_tax_use": "sale",
-            }
+        tax = (
+            self.env["account.tax"]
+            .sudo()
+            .create(
+                {
+                    "name": "Test Tax 20%",
+                    "amount": 20.0,
+                    "amount_type": "percent",
+                    "type_tax_use": "sale",
+                }
+            )
         )
         self.test_product.taxes_id = [(6, 0, [tax.id])]
 
