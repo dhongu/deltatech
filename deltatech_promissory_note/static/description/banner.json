@@ -1,0 +1,7 @@
+{
+  "title": "Promissory Notes",
+  "summary": "Manage vendor and customer promissory notes",
+  "icon": "file",
+  "features": ["Vendor and customer notes", "Issuer, beneficiary and due date", "Cashed or cancelled tracking"],
+  "lang": "en"
+}

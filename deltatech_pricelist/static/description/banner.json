@@ -1,0 +1,10 @@
+{
+  "title": "Pricelist Currency Extension",
+  "summary": "Sales prices in a currency of your choice",
+  "icon": "trend",
+  "features": [
+    "Price list currency per company",
+    "Sales price kept in that currency",
+    "Converted at the rate of the day"
+  ]
+}

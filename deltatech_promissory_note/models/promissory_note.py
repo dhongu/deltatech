@@ -1,0 +1,142 @@
+# ©  2015-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+import logging
+
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+
+# Get the logger
+_logger = logging.getLogger(__name__)
+
+
+class PromissoryNote(models.Model):
+    _name = "promissory.note"
+    _description = "Promissory Note"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+
+    _order = "date_due"
+
+    state = fields.Selection(
+        [("not_cashed", "Not Cashed"), ("cashed", "Cashed"), ("cancel", "Cancelled")],
+        default="not_cashed",
+        string="Status",
+        copy=False,
+        tracking=True,
+    )
+
+    type = fields.Selection(
+        [("vendor", "Vendor"), ("customer", "Customer")], required=True, default="customer", string="Type"
+    )
+
+    agreement = fields.Char(string="Agreement")
+
+    name = fields.Char(
+        string="Series and number",
+        required=True,
+        index=True,
+    )
+
+    date_due = fields.Date(string="Due Date", required=True, index=True)
+
+    issuer_id = fields.Many2one("res.partner", string="Issuer", required=True)
+    beneficiary_id = fields.Many2one("res.partner", string="Beneficiary", required=True)
+
+    invoice_id = fields.Many2one("account.move", string="Invoice", domain=[("move_type", "!=", "entry")])
+
+    amount = fields.Float(string="Amount", digits="Account", required=True)
+
+    cashed_amount = fields.Float(string="Cashed Amount", digits="Account")
+    cashed_date = fields.Date(string="Cashed Date")
+
+    currency_id = fields.Many2one(
+        "res.currency",
+        string="Currency",
+        required=True,
+    )
+
+    acc_issuer = fields.Char("Bank Account Issuer", size=64, required=False)
+    acc_beneficiary = fields.Char("Bank Account Beneficiary", size=64, required=False)
+
+    # Odoo 20 removed `res.bank`: the bank is the `bank_name` text of the partner's bank account.
+    bank_issuer = fields.Char("Bank Issuer", required=False)
+    bank_beneficiary = fields.Char("Bank Beneficiary", required=False)
+
+    note = fields.Text(string="Comments")
+
+    is_last_bo = fields.Boolean("Last note", default=False)
+
+    @api.onchange("type")
+    def onchange_type(self) -> None:
+        if self.type == "customer":
+            if self.beneficiary_id != self.env.company.partner_id:
+                self.issuer_id = self.beneficiary_id
+            else:
+                self.issuer_id = False
+            self.beneficiary_id = self.env.company.partner_id
+        else:
+            if self.issuer_id != self.env.company.partner_id:
+                self.beneficiary_id = self.issuer_id
+            else:
+                self.beneficiary_id = False
+            self.issuer_id = self.env.company.partner_id
+
+    @api.onchange("issuer_id")
+    def onchange_issuer_id(self) -> None:
+        if self.issuer_id and self.issuer_id.bank_ids:
+            self.acc_issuer = self.issuer_id.bank_ids[0].account_number
+            self.bank_issuer = self.issuer_id.bank_ids[0].bank_name
+        else:
+            self.acc_issuer = False
+            self.bank_issuer = False
+
+    @api.onchange("beneficiary_id")
+    def onchange_beneficiary_id(self) -> None:
+        if self.beneficiary_id.bank_ids:
+            self.acc_beneficiary = self.beneficiary_id.bank_ids[0].account_number
+            self.bank_beneficiary = self.beneficiary_id.bank_ids[0].bank_name
+        else:
+            self.acc_beneficiary = False
+            self.bank_beneficiary = False
+
+    def action_not_cashed(self) -> None:
+        self.write({"state": "not_cashed"})
+
+    @api.constrains("amount")
+    def _check_values(self) -> None:
+        for promissory in self:
+            if promissory.amount <= 0.0:
+                raise UserError(self.env._("The <Value> field must be greater than 0!"))
+
+    def _track_subtype(self, init_values: dict) -> models.Model:
+        self.ensure_one()
+        if "state" in init_values and self.state == "cashed":
+            return self.env.ref("deltatech_promissory_note.mt_state_cashed")
+        return super()._track_subtype(init_values)
+
+    def action_cashed(self) -> None:
+        self.write({"state": "cashed"})
+        users = self.env.ref("deltatech_promissory_note.bo_notifications").all_user_ids
+        if not users:
+            return
+        for note in self.filtered("is_last_bo"):
+            subject = self.env._(
+                "BO - the last - %(name)s for %(issuer_name)s has been cashed",
+                name=note.name,
+                issuer_name=note.issuer_id.name,
+            )
+            msg = self.env._(
+                "The last promissory note cashed: %(name)s, date: %(date)s. Issuer: %(issuer_name)s, amount: %(cashed_amount)s, agreement: %(agreement)s",
+                name=note.name,
+                date=note.date_due,
+                issuer_name=note.issuer_id.name,
+                cashed_amount=note.cashed_amount,
+                agreement=note.agreement,
+            )
+            note.message_post(body=msg, subject=subject, partner_ids=users.partner_id.ids)
+            _logger.info("BO_LOG: mail sent for BO %s", note.name)
+
+    def action_cancel(self) -> None:
+        self.write({"state": "cancel"})

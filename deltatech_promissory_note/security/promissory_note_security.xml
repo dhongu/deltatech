@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="0">
+    <record id="bo_notifications" model="res.groups">
+        <field name="name">Primeste atentionari BO</field>
+    </record>
+
+</odoo>

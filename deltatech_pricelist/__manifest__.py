@@ -1,0 +1,21 @@
+# ©  2008-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+{
+    "name": "Pricelist Currency Extension",
+    "summary": "Keep product sales prices in a company-wide currency other than the accounting currency",
+    "version": "20.0.1.0.3",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "category": "Sales",
+    "depends": ["base", "product", "sale"],
+    "license": "LGPL-3",
+    "data": [
+        "views/res_company_view.xml",
+    ],
+    "images": ["images/main_screenshot.png"],
+    "development_status": "Mature",
+    "maintainers": ["dhongu"],
+}
