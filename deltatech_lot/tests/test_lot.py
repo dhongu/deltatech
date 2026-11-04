@@ -4,6 +4,11 @@ from odoo.tests.common import TransactionCase
 class TestStockOperations(TransactionCase):
     def setUp(self):
         super().setUp()
+        # the lot tests only check the lot behaviour: when the Romanian stock accounting
+        # (l10n_ro_stock_account) is installed with them, it asks for valuation accounts on these
+        # internal moves, which the test database has not
+        if "l10n_ro_accounting" in self.env.company._fields:
+            self.env.company.l10n_ro_accounting = False
         self.product = self.env["product.product"].create(
             {
                 "name": "Test Product",
