@@ -89,7 +89,7 @@ class TestStockPickingAmount(TransactionCase):
             {
                 "product_id": self.product_a.id,
                 "product_uom_qty": 10,
-                "product_uom": self.product_a.uom_id.id,
+                "uom_id": self.product_a.uom_id.id,
                 "picking_id": self.picking.id,
                 "location_id": self.warehouse.lot_stock_id.id,
                 "location_dest_id": self.env.ref("stock.stock_location_customers").id,
@@ -100,7 +100,7 @@ class TestStockPickingAmount(TransactionCase):
             {
                 "product_id": self.product_b.id,
                 "product_uom_qty": 5,
-                "product_uom": self.product_b.uom_id.id,
+                "uom_id": self.product_b.uom_id.id,
                 "picking_id": self.picking.id,
                 "location_id": self.warehouse.lot_stock_id.id,
                 "location_dest_id": self.env.ref("stock.stock_location_customers").id,
@@ -117,5 +117,7 @@ class TestStockPickingAmount(TransactionCase):
     def test_compute_amount(self):
         # Check if the amount is computed correctly
         self.picking._compute_amount()
-        # Valuation layers for outgoing moves usually have negative value
-        self.assertNotEqual(self.picking.amount, 0, "The computed amount should not be zero.")
+        # in 20.0 the value of outgoing moves is negative; the transfer shows the magnitude, as in 19.0
+        self.assertTrue(any(move.value for move in self.picking.move_ids), "The moves should be valued.")
+        self.assertGreater(self.picking.amount, 0, "The amount of a delivery should be positive.")
+        self.assertAlmostEqual(self.picking.amount, sum(abs(move.value) for move in self.picking.move_ids))

@@ -9,11 +9,11 @@ from odoo.exceptions import AccessError
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    def _change_standard_price(self, new_price):
+    def _change_standard_price(self, old_price, valuation_date=None):
         for product in self:
             if product.qty_available and not self.env.user.has_group(
                 "deltatech_stock_account.group_change_product_price"
             ):
                 raise AccessError(self.env._("You are not allowed to change the cost price of a product."))
 
-        return super()._change_standard_price(new_price)
+        return super()._change_standard_price(old_price, valuation_date=valuation_date)

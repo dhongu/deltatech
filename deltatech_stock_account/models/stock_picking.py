@@ -19,5 +19,6 @@ class StockPicking(models.Model):
         for picking in self:
             amount = 0
             for move in picking.move_ids:
-                amount += move.value
+                # in 20.0 the value of outgoing moves is negative: the transfer shows its magnitude, as in 19.0
+                amount += abs(move.value)
             picking.amount = amount

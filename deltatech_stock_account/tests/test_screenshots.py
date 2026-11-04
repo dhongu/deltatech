@@ -141,8 +141,8 @@ class TestStockAccountScreenshots(ScreenshotCase or object):
         )
 
         partner_model = env["res.partner"]
-        cls.vendor = partner_model.create({"name": "Furnizor Electro SRL", "is_company": True})
-        cls.customer = partner_model.create({"name": "Client Retail SRL", "is_company": True})
+        cls.vendor = partner_model.create({"name": "Furnizor Electro SRL"})
+        cls.customer = partner_model.create({"name": "Client Retail SRL"})
 
         warehouse = env["stock.warehouse"].search([("company_id", "=", company.id)], limit=1)
         cls.warehouse = warehouse
@@ -198,7 +198,7 @@ class TestStockAccountScreenshots(ScreenshotCase or object):
                         {
                             "product_id": product.id,
                             "product_uom_qty": qty,
-                            "product_uom": product.uom_id.id,
+                            "uom_id": product.uom_id.id,
                             "location_id": location.id,
                             "location_dest_id": location_dest.id,
                         }

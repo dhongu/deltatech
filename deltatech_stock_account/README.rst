@@ -14,16 +14,13 @@ Stock Account Extension
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_account
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_account
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_account/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_account/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2088%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_account
-    :alt: 6 automated tests · 88% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Small additions to stock valuation: the value of each transfer in the
 transfers list, accounting settings passed from a product category to
@@ -137,14 +134,14 @@ included: set exceptions on a subcategory after the propagation. The
 cost of products without stock and the automatic cost updates (for
 example the average cost recomputed at a receipt) are not restricted.
 
-.. |Receipts list: the Amount column shows 0.00 for the Ready receipt, 400.00 and 1,300.00 for the Done ones, with the total 1,700.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/01_receptii_valoare.png
-.. |Deliveries list: the Amount column shows 320.00 and 365.00 for the Done deliveries, with the total 685.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/02_livrari_valoare.png
-.. |The Mărfuri (goods) category: Stock Account 371000, Income Account 707000 and Costing Method Average Cost (AVCO) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/03_categorie_parinte_conturi.png
-.. |The Becuri (bulbs) subcategory, under Mărfuri / Electrice: Stock Account 371000 and Costing Method Average Cost (AVCO) copied from Mărfuri| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/04_subcategorie_conturi_copiate.png
-.. |The gear menu of the category form, with the Propagate Accounts action highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/05_actiune_propagare_conturi.png
-.. |A new category with Parent Category selected: Stock Account and Costing Method filled in from the parent| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/06_categorie_noua_setari_parinte.png
-.. |The product form of a product with 80.00 on hand: the Access Error dialog says the user is not allowed to change the cost price| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/07_cost_refuzat_fara_drept.png
-.. |The Change Product Price group, Users tab, with the Administrator as its only member| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_account/static/description/en/08_grup_modificare_cost.png
+.. |Receipts list: the Amount column shows 0.00 for the Ready receipt, 400.00 and 1,300.00 for the Done ones, with the total 1,700.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/01_receptii_valoare.png
+.. |Deliveries list: the Amount column shows 320.00 and 365.00 for the Done deliveries, with the total 685.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/02_livrari_valoare.png
+.. |The Mărfuri (goods) category: Stock Account 371000, Income Account 707000 and Costing Method Average Cost (AVCO) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/03_categorie_parinte_conturi.png
+.. |The Becuri (bulbs) subcategory, under Mărfuri / Electrice: Stock Account 371000 and Costing Method Average Cost (AVCO) copied from Mărfuri| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/04_subcategorie_conturi_copiate.png
+.. |The gear menu of the category form, with the Propagate Accounts action highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/05_actiune_propagare_conturi.png
+.. |A new category with Parent Category selected: Stock Account and Costing Method filled in from the parent| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/06_categorie_noua_setari_parinte.png
+.. |The product form of a product with 80.00 on hand: the Access Error dialog says the user is not allowed to change the cost price| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/07_cost_refuzat_fara_drept.png
+.. |The Change Product Price group, Users tab, with the Administrator as its only member| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_account/static/description/en/08_grup_modificare_cost.png
 
 Changelog
 =========
@@ -213,6 +210,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_account>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_account>`_ project on GitHub.
 
 You are welcome to contribute.
