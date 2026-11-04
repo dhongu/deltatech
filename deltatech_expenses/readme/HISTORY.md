@@ -1,8 +1,16 @@
 # Changelog
 
-## 19.0.3.8.1 (2026-11-04)
+## 19.0.3.9.1 (2026-11-04)
 
 - Fix: the **Expenses Deductions** counter on the employee (`expenses_deduction_count`) is now restricted to HR users (`groups="hr.group_hr_user"`), like the company card journal. It is not on the public employee profile, so users without HR rights (website, POS) got an access error when reading an employee. New test: `test_employee_public_access`.
+
+## 19.0.3.9.0 (2026-11-04)
+
+- A **Supplier Payment** line takes the payable account of the supplier (401), set from the
+  partner and read-only; an **Expense** line keeps the default expense account, chosen by the
+  accountant.
+- A **Supplier Payment** line has no VAT: the taxes cannot be filled in and are ignored, as the
+  bill paid already has its VAT booked. The amount paid is the total of the line.
 
 ## 19.0.3.8.0 (2026-10-29)
 

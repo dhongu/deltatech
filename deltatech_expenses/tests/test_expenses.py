@@ -703,6 +703,39 @@ class TestExpenses(TransactionCase):
         self.assertEqual(refund_move.date, fields.Date.today())
         self.assertAlmostEqual(refund_move.line_ids.filtered(lambda l: l.account_id == self.acc_cash).debit, 200.0)
 
+    def test_supplier_payment_line_account_from_partner(self):
+        """Linia „Plată furnizor" ia contul de datorii al furnizorului (401); revenită pe „Cheltuială",
+        primește din nou contul implicit de cheltuieli."""
+        deduction = self._new_deduction(100.0)
+        line = self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Plată factură",
+                "amount": 100.0,
+                "partner_id": self.supplier.id,
+                "type": "supplier_payment",
+            }
+        )
+        self.assertEqual(line.expense_account_id, self.acc_payable)
+        line.type = "expenses"
+        self.assertTrue(line.expense_account_id)
+        self.assertNotEqual(line.expense_account_id.account_type, "liability_payable")
+        line.expense_account_id = self.acc_exp
+        line.type = "supplier_payment"
+        self.assertEqual(line.expense_account_id, self.acc_payable)
+
+    def test_supplier_payment_line_without_vat(self):
+        """Pe „Plată furnizor" TVA-ul nu se calculează (factura îl are deja): suma plătită e totalul liniei."""
+        deduction = self._new_deduction(121.0)
+        line = self._new_line(deduction, 121.0, taxes=self.tax_21, type="supplier_payment")
+        self.assertAlmostEqual(line.tax_amount, 0.0)
+        self.assertAlmostEqual(line.price_subtotal, 121.0)
+        deduction.validate_expenses()
+        lines = self._lines_for_expenses(deduction)
+        self.assertFalse(lines.filtered(lambda l: l.tax_line_id))
+        payable = lines.filtered(lambda l: l.account_id == self.acc_payable and l.debit)
+        self.assertAlmostEqual(sum(payable.mapped("debit")), 121.0)
+
     def test_supplier_payment_without_bill_is_supplier_advance(self):
         """Plata directă către un furnizor fără datorii deschise e un avans acordat furnizorului:
         Dr 4092 = Cr 401, reconciliat cu Dr 401 = Cr 542 — pe 401 nu rămâne sold debitor."""
