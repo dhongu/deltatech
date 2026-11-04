@@ -14,16 +14,13 @@ Stock Report for Resellers
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_reseller
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_reseller
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_reseller/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_reseller/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_reseller
-    :alt: 7 automated tests · 96% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Features:
 
@@ -83,10 +80,10 @@ Usage
    |The same report grouped by Category of Product (1): the first
    category unfolded with its products and its total quantity|
 
-.. |The Sales app with the Reporting menu open and the Location Stock entry (1) added by the module| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_reseller/static/description/en/01_meniu_locatie_stoc.png
-.. |The Location Stock window: Source Location (1), Partner (2), Reseller Price List (3), Show text instead of stock (4) with the two thresholds and their texts, Refresh Report (5) and the Apply button (6)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_reseller/static/description/en/02_fereastra_raport_stoc.png
-.. |The report lines; on the first one, USB-C docking station, Quantity 4.00 (1), Qty Text Low stock (2), Reseller price 594.15 lei (3) and List Price 699.00 lei (4)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_reseller/static/description/en/03_raport_stoc_revanzator.png
-.. |The same report grouped by Category of Product (1): the first category unfolded with its products and its total quantity| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_reseller/static/description/en/04_raport_grupat_categorie.png
+.. |The Sales app with the Reporting menu open and the Location Stock entry (1) added by the module| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_reseller/static/description/en/01_meniu_locatie_stoc.png
+.. |The Location Stock window: Source Location (1), Partner (2), Reseller Price List (3), Show text instead of stock (4) with the two thresholds and their texts, Refresh Report (5) and the Apply button (6)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_reseller/static/description/en/02_fereastra_raport_stoc.png
+.. |The report lines; on the first one, USB-C docking station, Quantity 4.00 (1), Qty Text Low stock (2), Reseller price 594.15 lei (3) and List Price 699.00 lei (4)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_reseller/static/description/en/03_raport_stoc_revanzator.png
+.. |The same report grouped by Category of Product (1): the first category unfolded with its products and its total quantity| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_reseller/static/description/en/04_raport_grupat_categorie.png
 
 Changelog
 =========
@@ -150,6 +147,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_reseller>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_reseller>`_ project on GitHub.
 
 You are welcome to contribute.

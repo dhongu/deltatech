@@ -5,14 +5,14 @@
 {
     "name": "Stock Report for Resellers",
     "summary": "Stock report for resellers, with pricelist prices and stock level labels",
-    "version": "19.0.1.0.7",
+    "version": "20.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
     "depends": ["sale_stock"],
     "license": "OPL-1",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/stock_quant_report_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],

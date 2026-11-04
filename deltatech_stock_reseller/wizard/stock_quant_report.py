@@ -6,7 +6,6 @@
 import logging
 
 from odoo import api, fields, models
-from odoo.tools import float_compare
 
 # Get the logger
 _logger = logging.getLogger(__name__)
@@ -47,15 +46,9 @@ class StockQuantReport(models.TransientModel):
             price_reseller = self.pricelist_id._get_product_price(product, product.free_qty)
             qty_text = False
             if self.show_thresholds and product.free_qty > 0.0:
-                if (
-                    float_compare(product.free_qty, self.stock_threshold_1, precision_rounding=product.uom_id.rounding)
-                    <= 0
-                ):
+                if product.uom_id.compare(product.free_qty, self.stock_threshold_1) <= 0:
                     qty_text = self.stock_threshold_1_text
-                elif (
-                    float_compare(product.free_qty, self.stock_threshold_2, precision_rounding=product.uom_id.rounding)
-                    <= 0
-                ):
+                elif product.uom_id.compare(product.free_qty, self.stock_threshold_2) <= 0:
                     qty_text = self.stock_threshold_2_text
                 else:
                     qty_text = self.stock_no_threshold_text
