@@ -22,8 +22,11 @@ eCommerce Qty Multiple
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_multiple_website/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_multiple_website/tests
+    :alt: 12 automated tests
 
-|badge1| |badge2| |badge3| |badge_fisa|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 Extends sale quantity multiples to eCommerce. Product minimum and
 multiple quantities can be enforced only for website carts or globally,
