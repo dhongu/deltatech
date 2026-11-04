@@ -1674,3 +1674,24 @@ class TestExpenses(TransactionCase):
         deduction.validate_expenses()
         self.assertEqual(deduction.number, number)
         self.assertAlmostEqual(sum(self._employee_542_lines().mapped("credit")), 80.0)
+
+    def test_no_payment_moves_balance_readable_without_accounting_rights(self):
+        """Soldul 542 al angajatului se citește și de aprobator, fără drept pe notele contabile."""
+        self.company.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        self._new_line(deduction, 60.0)
+        deduction.validate_expenses()
+        approver = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Aprobator fără contabilitate",
+                    "login": "expenses_balance_approver_test",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_approver").id])],
+                }
+            )
+        )
+        self.assertFalse(approver.has_group("account.group_account_readonly"))
+        deduction.invalidate_recordset(["employee_balance"])
+        self.assertAlmostEqual(deduction.with_user(approver).employee_balance, -60.0)

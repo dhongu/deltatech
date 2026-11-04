@@ -239,18 +239,24 @@ class DeltatechExpensesDeduction(models.Model):
     @api.depends("partner_id", "expense_journal_id", "company_id", "state")
     def _compute_employee_balance(self):
         for expenses in self:
-            account = expenses.expense_journal_id.default_account_id
+            # contul 542 se citește cu sudo: aprobatorul nu are neapărat drept de citire pe jurnale
+            account = expenses.sudo().expense_journal_id.default_account_id
             if not account or not expenses.partner_id:
                 expenses.employee_balance = 0.0
                 continue
-            groups = self.env["account.move.line"]._read_group(
-                [
-                    ("account_id", "=", account.id),
-                    ("partner_id", "=", expenses.partner_id.id),
-                    ("company_id", "=", expenses.company_id.id),
-                    ("parent_state", "=", "posted"),
-                ],
-                aggregates=["balance:sum"],
+            # doar suma: angajatul și aprobatorul completează decontul fără drept de citire pe notele contabile
+            groups = (
+                self.env["account.move.line"]
+                .sudo()
+                ._read_group(
+                    [
+                        ("account_id", "=", account.id),
+                        ("partner_id", "=", expenses.partner_id.id),
+                        ("company_id", "=", expenses.company_id.id),
+                        ("parent_state", "=", "posted"),
+                    ],
+                    aggregates=["balance:sum"],
+                )
             )
             expenses.employee_balance = groups[0][0] if groups else 0.0
 
