@@ -14,16 +14,13 @@ Website Cost Price Protection
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_sale_cost_price
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_sale_cost_price
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_sale_cost_price/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_sale_cost_price/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2080%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_sale_cost_price
-    :alt: 7 automated tests · 80% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 This module extends the standard eCommerce option **Prevent Sale of Zero
 Priced Product**: the shop also stops selling a product when its price
@@ -93,11 +90,11 @@ Usage
 Check the shop as a visitor (private window): users of the *Settings*
 group can still add a blocked product to the cart.
 
-.. |Website settings: Prevent Sale of Zero Priced Product checked (1), Cost Price Includes Tax unchecked (2) and Cost Price Margin % set to 10 (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/01_setari_pret_cost.png
-.. |Product form: Sales Price 42.00 (1) and Cost 40.00 (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/02_produs_pret_cost.png
-.. |Shop category: the product below the threshold (1) without cart button, the other one (2) with Add to Cart| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/03_magazin_lista_produse.png
-.. |Product page of the blocked product: only the Contact Us button (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/04_produs_blocat_magazin.png
-.. |Product page of an allowed product: the price (1) and Add to Cart (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/05_produs_permis_magazin.png
+.. |Website settings: Prevent Sale of Zero Priced Product checked (1), Cost Price Includes Tax unchecked (2) and Cost Price Margin % set to 10 (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_sale_cost_price/static/description/en/01_setari_pret_cost.png
+.. |Product form: Sales Price 42.00 (1) and Cost 40.00 (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_sale_cost_price/static/description/en/02_produs_pret_cost.png
+.. |Shop category: the product below the threshold (1) without cart button, the other one (2) with Add to Cart| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_sale_cost_price/static/description/en/03_magazin_lista_produse.png
+.. |Product page of the blocked product: only the Contact Us button (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_sale_cost_price/static/description/en/04_produs_blocat_magazin.png
+.. |Product page of an allowed product: the price (1) and Add to Cart (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_sale_cost_price/static/description/en/05_produs_permis_magazin.png
 
 Changelog
 =========
@@ -142,6 +139,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_sale_cost_price>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_sale_cost_price>`_ project on GitHub.
 
 You are welcome to contribute.

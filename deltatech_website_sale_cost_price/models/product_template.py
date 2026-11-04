@@ -10,23 +10,25 @@ from odoo.tools import float_compare
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    def _get_cost_price_for_comparison(self, product_or_template, website, date=None):
+    def _get_cost_price_for_comparison(self, product_or_template, website, date=None, fiscal_position=None):
         if not date:
             date = fields.Date.context_today(self)
         cost_price = product_or_template.sudo().standard_price
 
         # Check if cost price should include tax or not
-        # and if the website price (res['price']) is with or without tax
-        # website.show_line_subtotals_tax_selection is 'tax_excluded' or 'tax_included'
-        website_tax_included = website.show_line_subtotals_tax_selection == "tax_included"
+        # and if the website price (res['price']) is with or without tax.
+        # In Odoo 20 the displayed price follows ``website.tax_display``
+        # (the pricelist may override ``show_line_subtotals_tax_selection``).
+        website_tax_included = website.tax_display == "tax_included"
         cost_tax_included = website.cost_price_include_tax
 
         if website_tax_included != cost_tax_included:
             # We need to adjust cost_price to match website_tax_included
             taxes = product_or_template.taxes_id.filtered(lambda t: t.company_id == website.company_id)
-            # In Odoo 19 the website no longer stores ``fiscal_position_id``; the current
-            # fiscal position is resolved per session/request.
-            fiscal_position = request.fiscal_position if request else None
+            # The current fiscal position is resolved per session/request; in Odoo 20 it is
+            # also passed explicitly to ``_get_additional_combination_info``.
+            if fiscal_position is None:
+                fiscal_position = getattr(request, "fiscal_position", None) if request else None
             if fiscal_position:
                 taxes = fiscal_position.map_tax(taxes)
 
@@ -52,25 +54,35 @@ class ProductTemplate(models.Model):
 
         return cost_price
 
-    def _get_additionnal_combination_info(self, product_or_template, quantity, uom, date, website):
-        res = super()._get_additionnal_combination_info(product_or_template, quantity, uom, date, website)
+    def _get_additional_combination_info(
+        self, product_or_template, quantity, uom, website, pricelist, fiscal_position, **kwargs
+    ):
+        res = super()._get_additional_combination_info(
+            product_or_template, quantity, uom, website, pricelist, fiscal_position, **kwargs
+        )
 
-        if website.prevent_zero_price_sale:
+        if website._is_cost_price_protection_enabled() and not res.get("prevent_sale"):
             price = res["price"]
-            cost_price = self.sudo()._get_cost_price_for_comparison(product_or_template, website, date)
+            cost_price = self.sudo()._get_cost_price_for_comparison(
+                product_or_template, website, fiscal_position=fiscal_position
+            )
 
             if float_compare(price, cost_price, precision_rounding=website.currency_id.rounding) < 0:
-                res["prevent_zero_price_sale"] = True
+                # 19.0: ``prevent_zero_price_sale`` hid both the price and the "Add to Cart"
+                # button; in 20.0 these are ``prevent_sale`` and ``hide_price``.
+                res["prevent_sale"] = True
+                res["hide_price"] = True
 
         return res
 
-    def _website_show_quick_add(self):
-        res = super()._website_show_quick_add()
+    def _website_show_quick_add(self, product=None):
+        res = super()._website_show_quick_add(product=product)
         if res:
-            website = self.env["website"].get_current_website()
-            if website.prevent_zero_price_sale:
-                price = self._get_contextual_price()
-                cost_price = self.sudo()._get_cost_price_for_comparison(self, website)
+            website = self.env.website
+            if website and website._is_cost_price_protection_enabled():
+                product_or_template = product or self
+                price = product_or_template._get_contextual_price()
+                cost_price = self.sudo()._get_cost_price_for_comparison(product_or_template, website)
                 if float_compare(price, cost_price, precision_rounding=website.currency_id.rounding) < 0:
                     return False
         return res

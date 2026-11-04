@@ -12,7 +12,9 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.website.prevent_zero_price_sale = True
+        # 20.0: ``prevent_zero_price_sale`` -> ``prevent_sale`` + ``prevent_sale_for``
+        cls.website.prevent_sale = True
+        cls.website.prevent_sale_for = "zero_price"
 
         # Create a product for testing
         cls.test_product = cls.env["product.product"].create(
@@ -23,6 +25,9 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
                 "website_published": True,
             }
         )
+        # 20.0: ``env.website`` vine din contextul ``website_id`` al înregistrării (MockRequest
+        # setează site-ul doar pe ``request.env``), ca în testele din ``website_sale``
+        cls.test_product = cls.test_product.with_context(website_id=cls.website.id)
 
     def test_01_price_higher_than_cost(self):
         """Test that product is allowed when price is higher than cost"""
@@ -31,7 +36,7 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
 
         with MockRequest(self.env, website=self.website):
             info = self.test_product.product_tmpl_id._get_combination_info(product_id=self.test_product.id)
-            self.assertFalse(info["prevent_zero_price_sale"], "Sale should NOT be prevented when price > cost")
+            self.assertFalse(info["prevent_sale"], "Sale should NOT be prevented when price > cost")
             self.assertTrue(self.test_product._website_show_quick_add(), "Quick add should be allowed")
             self.assertTrue(self.test_product._is_add_to_cart_allowed(), "Add to cart should be allowed")
 
@@ -42,7 +47,7 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
 
         with MockRequest(self.env, website=self.website):
             info = self.test_product.product_tmpl_id._get_combination_info(product_id=self.test_product.id)
-            self.assertTrue(info["prevent_zero_price_sale"], "Sale SHOULD be prevented when price < cost")
+            self.assertTrue(info["prevent_sale"], "Sale SHOULD be prevented when price < cost")
             self.assertFalse(self.test_product._website_show_quick_add(), "Quick add should NOT be allowed")
             # _is_add_to_cart_allowed returns True for system user, so we check without system user or just check logic
             # For simplicity, we know we are running as admin in tests usually, so we might need to check with a different user
@@ -64,12 +69,12 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
 
         with MockRequest(self.env, website=self.website):
             info = self.test_product.product_tmpl_id._get_combination_info(product_id=self.test_product.id)
-            self.assertTrue(info["prevent_zero_price_sale"], "Sale SHOULD be prevented when price < cost + margin")
+            self.assertTrue(info["prevent_sale"], "Sale SHOULD be prevented when price < cost + margin")
 
             # Price 90 should be accepted.
             self.test_product.list_price = 90.0
             info = self.test_product.product_tmpl_id._get_combination_info(product_id=self.test_product.id)
-            self.assertFalse(info["prevent_zero_price_sale"], "Sale should NOT be prevented when price > cost + margin")
+            self.assertFalse(info["prevent_sale"], "Sale should NOT be prevented when price > cost + margin")
 
     def test_04_tax_adjustment(self):
         """Test tax adjustment logic"""
@@ -101,21 +106,21 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
             # price should be 110 * 1.2 = 132.0
             # cost_price for comparison should be 100 * 1.2 = 120.0 (since website is tax_included and cost is tax_excluded)
             # 132 > 120 -> allowed.
-            self.assertFalse(info["prevent_zero_price_sale"], "Should be allowed: 132 > 120")
+            self.assertFalse(info["prevent_sale"], "Should be allowed: 132 > 120")
 
             self.test_product.list_price = 90.0
             info = self.test_product.product_tmpl_id._get_combination_info(product_id=self.test_product.id)
             # price = 90 * 1.2 = 108.0
             # cost = 120.0
             # 108 < 120 -> prevented.
-            self.assertTrue(info["prevent_zero_price_sale"], "Should be prevented: 108 < 120")
+            self.assertTrue(info["prevent_sale"], "Should be prevented: 108 < 120")
 
     def test_05_prevent_zero_price_sale_disabled(self):
         """Test that if the main setting is disabled, our check is also skipped"""
-        self.website.prevent_zero_price_sale = False
+        self.website.prevent_sale = False
         self.test_product.list_price = 10.0
         self.test_product.standard_price = 100.0
 
         with MockRequest(self.env, website=self.website):
             info = self.test_product.product_tmpl_id._get_combination_info(product_id=self.test_product.id)
-            self.assertFalse(info["prevent_zero_price_sale"], "Should NOT be prevented because main toggle is OFF")
+            self.assertFalse(info["prevent_sale"], "Should NOT be prevented because main toggle is OFF")

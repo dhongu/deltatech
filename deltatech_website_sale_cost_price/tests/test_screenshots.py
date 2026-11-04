@@ -42,8 +42,10 @@ class TestCostPriceScreenshots(ScreenshotCase or object):
         if ScreenshotCase is None:
             raise unittest.SkipTest("deltatech_doc_screenshots indisponibil")
         super().setUpClass()
-        cls.prepare_ro_company()
-        cls.website = cls.env["website"].get_current_website()
+        company = cls.prepare_ro_company()
+        # 20.0: ``website.get_current_website()`` nu mai există; prepare_ro_company aliniază
+        # site-urile la compania capturilor
+        cls.website = cls.env["website"].search([("company_id", "=", company.id)], limit=1)
         lang_ro = cls.env.ref("base.lang_ro")
         lang_en = cls.env.ref("base.lang_en")
         # magazinul în română, cu engleza ca a doua limbă (capturile EN pentru USAGE.md);
@@ -64,7 +66,8 @@ class TestCostPriceScreenshots(ScreenshotCase or object):
                 .replace("o_wsale_products_opt_actions_onhover", "")
                 .replace("o_wsale_products_opt_has_wishlist", "")
                 .replace("o_wsale_products_opt_wishlist_fixed", ""),
-                "prevent_zero_price_sale": True,
+                "prevent_sale": True,
+                "prevent_sale_for": "zero_price",
                 "cost_price_include_tax": False,
                 "cost_price_margin_percentage": 10.0,
             }
@@ -113,7 +116,7 @@ class TestCostPriceScreenshots(ScreenshotCase or object):
                 "eval": SCROLL_SETTING_JS,
                 "eval_wait": 1000,
                 "highlight": [
-                    "#hide_add_to_cart_setting div[name='website_sale_prevent_zero_price_sale']",
+                    "#hide_add_to_cart_setting div[name='prevent_sale']",
                     "#cost_price_sale_setting div[name='cost_price_include_tax']",
                     "#cost_price_sale_setting div[name='cost_price_margin_percentage']",
                 ],
@@ -159,7 +162,7 @@ class TestCostPriceScreenshots(ScreenshotCase or object):
                 "settle": 2500,
                 # spațiu în stânga prețului, ca bulina ① să nu acopere prima cifră
                 "eval": "document.querySelector('#product_details .product_price').style.paddingLeft = '14px'",
-                "highlight": ["#product_details .product_price", "#add_to_cart"],
+                "highlight": ["#product_details .product_price", "#add_to_cart_wrap button[name='add_to_cart']"],
             },
         ]
 

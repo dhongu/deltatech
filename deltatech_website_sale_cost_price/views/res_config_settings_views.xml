@@ -9,7 +9,7 @@
                 <setting
                     id="cost_price_sale_setting"
                     help="The cost price is kept with taxes included in the product"
-                    invisible="not website_sale_prevent_zero_price_sale"
+                    invisible="not prevent_sale or prevent_sale_for != 'zero_price'"
                 >
                     <field name="cost_price_include_tax" />
                     <div class="content-group">
