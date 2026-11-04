@@ -3,29 +3,26 @@
 # See README.rst file on addons root folder for license details
 
 
-# pylint: disable=prefer-env-translation
-# Clasă/funcție fără acces la `env` (client API, helper la nivel de modul): `_()` ia limba din
-# cererea HTTP curentă. Trecerea la `env._` ar cere transmiterea lui `env` în constructor.
-from odoo import _, fields, models
+from odoo import fields, models
 
 
-def get_location_type(model):
+def get_location_type(env, model):
     if model == "warehouse.location.rack":
-        return _("Rack: ")
+        return env._("Rack: ")
     if model == "warehouse.location.section":
-        return _("Section: ")
+        return env._("Section: ")
     if model == "warehouse.location.shelf":
-        return _("Shelf: ")
+        return env._("Shelf: ")
     if model == "warehouse.location.zone":
-        return _("Zone: ")
+        return env._("Zone: ")
     if model == "warehouse.location.storehouse":
-        return _("Storehouse: ")
+        return env._("Storehouse: ")
     return ""
 
 
-def join_full_name(*levels):
+def join_full_name(env, *levels):
     """Join (model, name) levels into "Storehouse: X/Zone: Y/...", skipping the missing ones."""
-    return "/".join(get_location_type(model) + name for model, name in levels if name)
+    return "/".join(get_location_type(env, model) + name for model, name in levels if name)
 
 
 class WarehouseLocationStorehouse(models.Model):
@@ -69,6 +66,7 @@ class WarehouseLocationZone(models.Model):
     def _compute_full_name(self):
         for rec in self:
             rec.full_name = join_full_name(
+                rec.env,
                 ("warehouse.location.storehouse", rec.storehouse_id.name),
                 ("warehouse.location.zone", rec.name),
             )
@@ -99,6 +97,7 @@ class WarehouseLocationShelf(models.Model):
     def _compute_full_name(self):
         for rec in self:
             rec.full_name = join_full_name(
+                rec.env,
                 ("warehouse.location.storehouse", rec.zone_id.storehouse_id.name),
                 ("warehouse.location.zone", rec.zone_id.name),
                 ("warehouse.location.shelf", rec.name),
@@ -130,6 +129,7 @@ class WarehouseLocationSection(models.Model):
     def _compute_full_name(self):
         for rec in self:
             rec.full_name = join_full_name(
+                rec.env,
                 ("warehouse.location.storehouse", rec.shelf_id.zone_id.storehouse_id.name),
                 ("warehouse.location.zone", rec.shelf_id.zone_id.name),
                 ("warehouse.location.shelf", rec.shelf_id.name),
@@ -163,6 +163,7 @@ class WarehouseLocationRack(models.Model):
     def _compute_full_name(self):
         for rec in self:
             rec.full_name = join_full_name(
+                rec.env,
                 ("warehouse.location.storehouse", rec.section_id.shelf_id.zone_id.storehouse_id.name),
                 ("warehouse.location.zone", rec.section_id.shelf_id.zone_id.name),
                 ("warehouse.location.shelf", rec.section_id.shelf_id.name),

@@ -106,12 +106,12 @@ class TestWarehouseArrangement(TransactionCase):
 
     # ------------------------------------------------------------------ helpers / names
     def test_get_location_type(self):
-        self.assertEqual(get_location_type("warehouse.location.rack"), "Rack: ")
-        self.assertEqual(get_location_type("warehouse.location.section"), "Section: ")
-        self.assertEqual(get_location_type("warehouse.location.shelf"), "Shelf: ")
-        self.assertEqual(get_location_type("warehouse.location.zone"), "Zone: ")
-        self.assertEqual(get_location_type("warehouse.location.storehouse"), "Storehouse: ")
-        self.assertEqual(get_location_type("res.partner"), "")
+        self.assertEqual(get_location_type(self.env, "warehouse.location.rack"), "Rack: ")
+        self.assertEqual(get_location_type(self.env, "warehouse.location.section"), "Section: ")
+        self.assertEqual(get_location_type(self.env, "warehouse.location.shelf"), "Shelf: ")
+        self.assertEqual(get_location_type(self.env, "warehouse.location.zone"), "Zone: ")
+        self.assertEqual(get_location_type(self.env, "warehouse.location.storehouse"), "Storehouse: ")
+        self.assertEqual(get_location_type(self.env, "res.partner"), "")
 
     def test_full_and_display_names(self):
         prefix = "Storehouse: SH1/Zone: Z1"
