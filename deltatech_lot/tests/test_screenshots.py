@@ -83,7 +83,7 @@ class TestLotScreenshots(ScreenshotCase or object):
         cls.loc_a1 = Location.create({"name": "Raft A1", "usage": "internal", "location_id": stock.id})
         cls.loc_b2 = Location.create({"name": "Raft B2", "usage": "internal", "location_id": stock.id})
         cls.loc_c3 = Location.create({"name": "Raft C3", "usage": "internal", "location_id": stock.id})
-        cls.supplier = env["res.partner"].create({"name": "Vopsele Demo SRL", "is_company": True})
+        cls.supplier = env["res.partner"].create({"name": "Vopsele Demo SRL"})
         cls.product = env["product.product"].create(
             {
                 "name": "Vopsea lavabilă albă 15 L",
@@ -146,12 +146,12 @@ class TestLotScreenshots(ScreenshotCase or object):
         product_form = f"id={self.product.product_tmpl_id.id}&model=product.template&view_type=form"
         receipt_form = f"id={self.receipt.id}&model=stock.picking&view_type=form"
         return [
-            # 1. produsul urmărit pe loturi
+            # 1. produsul urmărit pe loturi (în 20 câmpul din formular e store_by)
             {
                 "url": product_form,
                 "name": "01_produs_urmarire_loturi.png",
                 "wait": ".o_form_view",
-                "highlight": ["div[name='tracking']"],
+                "highlight": ["div[name='store_by']"],
             },
             # 2. recepția gata de validare
             {

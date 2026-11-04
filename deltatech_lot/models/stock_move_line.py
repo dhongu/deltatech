@@ -23,7 +23,7 @@ class StockMoveLine(models.Model):
             ("product_id", "=", self.product_id.id),
             ("company_id", "=", self.company_id.id),
         ]
-        if self.location_id and self.product_id.tracking != "none":
+        if self.location_id and self.product_id.tracking:
             quant_domain = [
                 ("product_id", "=", self.product_id.id),
                 ("location_id", "=", self.location_id.id),

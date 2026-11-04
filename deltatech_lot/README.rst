@@ -17,16 +17,13 @@ Lot Generation & Selection
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_lot
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_lot
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_lot/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_lot/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_lot
-    :alt: 7 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Generates lot numbers on supplier receipts and shows where each lot is
 stored.
@@ -104,13 +101,13 @@ products tracked by lots (not by serial numbers), and always from the
 general **Serial Numbers** sequence, not from the custom prefix set on
 the product.
 
-.. |Product form, General Information tab: Track Inventory ticked with By Lots (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/01_produs_urmarire_loturi.png
-.. |Receipt from Vopsele Demo SRL in the Ready state, with the Validate button (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/02_receptie_de_validat.png
-.. |Detailed Operations: two lines, 12 to WH/Stock/Raft A1 and 8 to WH/Stock/Raft B2, with an empty Lot/Serial Number column (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/03_operatii_detaliate_fara_lot.png
-.. |The done receipt: lot 0000001 on Raft A1 and lot 0000002 on Raft B2 (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/04_loturi_generate_receptie.png
-.. |List of lots: 0000001 on WH/Stock/Raft A1, 0000002 on WH/Stock/Raft B2 and VOP-2509-07, spread over two shelves, with an empty Location (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/05_lista_loturi_locatie.png
-.. |Lot 0000001 with Location WH/Stock/Raft A1 (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/06_fisa_lot_locatie.png
-.. |The list of lots filtered by Location: Raft A1 (1), showing only lot 0000001| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_lot/static/description/en/07_cautare_loturi_locatie.png
+.. |Product form, General Information tab: Track Inventory ticked with By Lots (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/01_produs_urmarire_loturi.png
+.. |Receipt from Vopsele Demo SRL in the Ready state, with the Validate button (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/02_receptie_de_validat.png
+.. |Detailed Operations: two lines, 12 to WH/Stock/Raft A1 and 8 to WH/Stock/Raft B2, with an empty Lot/Serial Number column (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/03_operatii_detaliate_fara_lot.png
+.. |The done receipt: lot 0000001 on Raft A1 and lot 0000002 on Raft B2 (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/04_loturi_generate_receptie.png
+.. |List of lots: 0000001 on WH/Stock/Raft A1, 0000002 on WH/Stock/Raft B2 and VOP-2509-07, spread over two shelves, with an empty Location (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/05_lista_loturi_locatie.png
+.. |Lot 0000001 with Location WH/Stock/Raft A1 (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/06_fisa_lot_locatie.png
+.. |The list of lots filtered by Location: Raft A1 (1), showing only lot 0000001| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_lot/static/description/en/07_cautare_loturi_locatie.png
 
 Changelog
 =========
@@ -170,6 +167,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_lot>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_lot>`_ project on GitHub.
 
 You are welcome to contribute.
