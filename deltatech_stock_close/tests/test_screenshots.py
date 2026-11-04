@@ -133,7 +133,7 @@ class TestStockCloseScreenshots(ScreenshotCase or object):
         cls.closed_until = date(cls.year - 1, 12, 31)
         cls.warehouse = cls.env["stock.warehouse"].search([("company_id", "=", cls.company.id)], limit=1)
         cls.location = cls.warehouse.lot_stock_id
-        cls.supplier = cls.env["res.partner"].create({"name": "Furnizor Demo Hârtie SRL", "is_company": True})
+        cls.supplier = cls.env["res.partner"].create({"name": "Furnizor Demo Hârtie SRL"})
         cls.product = cls.env["product.product"].create(
             {
                 "name": "Hârtie copiator A4 (top 500 coli)",

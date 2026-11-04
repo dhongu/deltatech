@@ -1,9 +1,8 @@
 # ©  2008-2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-from datetime import datetime, time
-
-import pytz
+from datetime import UTC, datetime, time
+from zoneinfo import ZoneInfo
 
 from odoo import fields, models
 
@@ -27,9 +26,9 @@ class StockCloseMoves(models.TransientModel):
 
     def _get_moves_domain(self):
         self.ensure_one()
-        tz = pytz.timezone(self.env.context.get("tz") or self.env.user.tz or "UTC")
-        date_limit = tz.localize(datetime.combine(self.date, time.max))
-        date_limit = date_limit.astimezone(pytz.utc).replace(tzinfo=None)
+        tz = ZoneInfo(self.env.context.get("tz") or self.env.user.tz or "UTC")
+        date_limit = datetime.combine(self.date, time.max, tzinfo=tz)
+        date_limit = date_limit.astimezone(UTC).replace(tzinfo=None)
         return [
             ("company_id", "=", self.company_id.id),
             ("state", "=", "done"),

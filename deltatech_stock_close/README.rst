@@ -17,16 +17,13 @@ Stock Close
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_close
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_close
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_close/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_close/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_close
-    :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Leaves closed stock moves out of the Romanian **storage sheet** (*fișa
 de magazie*, from the ``l10n_ro_stock_report`` module of the Romanian
@@ -122,11 +119,11 @@ Usage
    and 800.00, the receipts of Dec 12, 2025 and Jan 15, and the FINAL
    line with 95.00 and 1,900.00|
 
-.. |Moves Analysis with three done receipts and, over it, the Close Stock Moves window: Close until (1) is Dec 31, 2025 and the Close button (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_close/static/description/en/01_inchidere_miscari_asistent.png
-.. |Moves Analysis with the Valuation Active column, highlighted: the receipt of Jan 15 is still active, the receipts of Dec 12 and Nov 18, 2025 are closed| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_close/static/description/en/02_miscari_evaluare_activa.png
-.. |The Stock Sheet Report window: Location WH/Stock, the product, Date Dec 1, 2025 to Jan 31, Only Active ticked (1) and the Show Sheet button (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_close/static/description/en/03_fisa_magazie_doar_active.png
-.. |The storage sheet with Only Active, in list view: only the receipt of Jan 15 (30.00, 600.00) and the FINAL line with 30.00 and 600.00; there is no INITIAL line and the initial columns are 0.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_close/static/description/en/04_fisa_magazie_rezultat_active.png
-.. |The storage sheet without the option: the INITIAL line with 40.00 and 800.00, the receipts of Dec 12, 2025 and Jan 15, and the FINAL line with 95.00 and 1,900.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_close/static/description/en/05_fisa_magazie_completa.png
+.. |Moves Analysis with three done receipts and, over it, the Close Stock Moves window: Close until (1) is Dec 31, 2025 and the Close button (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_close/static/description/en/01_inchidere_miscari_asistent.png
+.. |Moves Analysis with the Valuation Active column, highlighted: the receipt of Jan 15 is still active, the receipts of Dec 12 and Nov 18, 2025 are closed| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_close/static/description/en/02_miscari_evaluare_activa.png
+.. |The Stock Sheet Report window: Location WH/Stock, the product, Date Dec 1, 2025 to Jan 31, Only Active ticked (1) and the Show Sheet button (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_close/static/description/en/03_fisa_magazie_doar_active.png
+.. |The storage sheet with Only Active, in list view: only the receipt of Jan 15 (30.00, 600.00) and the FINAL line with 30.00 and 600.00; there is no INITIAL line and the initial columns are 0.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_close/static/description/en/04_fisa_magazie_rezultat_active.png
+.. |The storage sheet without the option: the INITIAL line with 40.00 and 800.00, the receipts of Dec 12, 2025 and Jan 15, and the FINAL line with 95.00 and 1,900.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_close/static/description/en/05_fisa_magazie_completa.png
 
 Changelog
 =========
@@ -208,6 +205,6 @@ Current maintainers:
 
 |maintainer-dhongu| |maintainer-danila12| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_close>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_close>`_ project on GitHub.
 
 You are welcome to contribute.
