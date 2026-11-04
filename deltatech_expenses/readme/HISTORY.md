@@ -22,6 +22,7 @@
   account in that currency (account currency set), so that the monthly revaluation of the
   localization revalues the balance of the employee; a report in the company currency only on a
   542 account without currency. Changing the currency proposes the matching expense journal.
+- Consultant sheet: checks and error messages of the variant without payment entries.
 
 ## 19.0.3.9.1 (2026-11-04)
 

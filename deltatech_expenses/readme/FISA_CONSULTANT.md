@@ -463,6 +463,10 @@ după validare.
 - [ ] Fără note de plată: „Sold angajat (542)” este egal cu soldul din fișa contului 542 pentru angajat.
 - [ ] Fără note de plată: un decont cu avans completat este refuzat la validare.
 - [ ] Fără note de plată: decontul validat apare la filtrul „Efectuat”, iar decontul tipărit nu are rândurile de avans și diferență.
+- [ ] Fără note de plată: un decont în valută se validează doar pe un jurnal de avansuri cu cont 542 în valuta lui (valuta setată pe cont), iar un decont în lei doar pe 542 fără valută; la schimbarea valutei pe decont se propune jurnalul potrivit.
+- [ ] Fără note de plată: soldul 542 în valută al angajatului apare în reevaluarea lunară (`l10n_ro_currency_revaluation`), cu nota pe 665/765 și angajatul ca partener.
+- [ ] Fără note de plată: o ridicare de bani din casă sau din extras (Dr 542, angajatul ca partener) se reconciliază pe 542 cu cheltuielile decontului.
+- [ ] Opțiunea „Deconturi fără note de plată” nu se poate activa cât timp compania are deconturi în starea „Avans”.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -470,6 +474,9 @@ după validare.
 |-----------------|-----------------|-----------|
 | „The expense reports of ... have no advance step” | Pe companie e activă „Deconturi fără note de plată” și s-a cerut pasul Avans (de ex. prin import sau API) | Completați cheltuielile și validați decontul direct |
 | „The expense report ... has an advance, but the advances of ... are recorded from the cash register or the bank statement” | Decont cu avans completat, în varianta fără note de plată | Puneți avansul pe zero; avansul se înregistrează din casă sau bancă |
+| „The expense report ... is in ..., but the account ... of the expense journal ... is not” | Varianta fără note de plată: decont în valută pe un jurnal de avansuri cu 542 fără valută (sau decont în lei pe un 542 în valută) | Alegeți jurnalul de avansuri al cărui cont 542 e în valuta decontului; dacă lipsește, creați contul 542 analitic cu valuta setată pe cont și jurnalul lui (pasul 7) |
+| „The option Expense Reports without Payments cannot be enabled for ... while expense reports are in the Advance state” | La activarea opțiunii, compania are deconturi cu avans acordat, încă nefinalizate | Finalizați deconturile listate în fluxul cu note de plată, apoi activați opțiunea |
+| „Account ... does not allow reconciliation” la reconcilierea extrasului sau a casei pe 542 | Contul 542 nu are bifat „Permite reconcilierea” | Bifați „Permite reconcilierea” pe contul 542 (pasul 11) |
 | Notele de avans nu au partener | Angajatul nu are „Work Contact" | Completați partenerul pe fișa angajatului (sau acceptați note interne) |
 | Contul 542 nu se închide | „Jurnal avansuri (542)" nu are contul implicit 542 | Setați contul implicit 542 pe jurnal |
 | „Furnizorul ... nu are un cont de datorii (401)" | Linie „Plată furnizor" cu un furnizor fără cont de plătit configurat | Completați „Cont de plătit" pe fișa furnizorului |
