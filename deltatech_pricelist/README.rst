@@ -19,8 +19,14 @@ Pricelist Currency Extension
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pricelist/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pricelist
+    :alt: 2 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 Lets a company keep the **Sales Price** of its products in a currency
 other than its accounting currency, for example prices in EUR in a
@@ -58,6 +64,53 @@ Limitations
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Open the company (*Settings > Users & Companies > Companies*). Under
+   **Currency** (the accounting currency), choose the **Price List
+   Currency**: the currency in which the sales prices of all the
+   products of the company are kept. Save.
+
+   |Company form, General Information tab: Currency (1) is RON and Price
+   List Currency (2) is EUR|
+
+2. Check that the price list currency has a rate (*Invoicing >
+   Configuration > Accounting > Currencies*, open **EUR**, tab
+   **Rates**). Odoo uses the last rate up to the date of the document.
+
+   |The EUR currency, Rates tab: one rate (1) for Nov 4, Unit per RON
+   0.200000000000 and RON per Unit 5.000000000000|
+
+3. Open the product (*Sales > Products > Products*) and enter the
+   **Sales Price** in the price list currency: the currency symbol (€)
+   is shown next to it. The **Cost** stays in the company currency.
+
+   |Product form: Sales Price (1) is 120.00 € and Cost (2) is 400.00
+   lei|
+
+4. Create a quotation (*Sales > Orders > Quotations*) with a pricelist
+   in the company currency, or with no pricelist, and add the product:
+   the **Unit Price** is the sales price converted at the rate of the
+   quotation/order date, here 120.00 € × 5 = 600.00 lei.
+
+   |Quotation with the pricelist RON prices (RON) (1): the Unit Price
+   (2) of the pump is 600.00, the amount for 2 units 1,200.00 lei|
+
+A pricelist in the same currency as the sales price (EUR) does not
+convert it. On a pricelist in another currency, **Discount** and
+**Formula** rules start from the converted price; **Fixed Price**
+amounts are already in the pricelist currency. A quotation keeps the
+price computed when the line was added, at the rate of its
+quotation/order date: it does not follow a later rate by itself.
+Customer invoices created without a sales order convert the sales price
+in the same way.
+
+.. |Company form, General Information tab: Currency (1) is RON and Price List Currency (2) is EUR| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/01_moneda_lista_preturi_companie.png
+.. |The EUR currency, Rates tab: one rate (1) for Nov 4, Unit per RON 0.200000000000 and RON per Unit 5.000000000000| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/02_curs_eur.png
+.. |Product form: Sales Price (1) is 120.00 € and Cost (2) is 400.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/03_pret_vanzare_eur_produs.png
+.. |Quotation with the pricelist RON prices (RON) (1): the Unit Price (2) of the pump is 600.00, the amount for 2 units 1,200.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/04_comanda_vanzare_pret_ron.png
 
 Changelog
 =========
