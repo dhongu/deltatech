@@ -16,53 +16,33 @@ Price List Line Viewer
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_line_viewer
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pricelist_line_viewer/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pricelist_line_viewer
-    :alt: 1 automated test · 100% code coverage
+    :alt: 3 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-Price List Line Viewer
-======================
+This module adds a **Pricelist Lines** button to the pricelist form. The
+button opens all the rules of that pricelist in a full list view, with
+the standard search, filters and grouping, which makes large pricelists
+much easier to review and maintain than the **Sales Prices** tab of the
+form.
 
-This module enhances Odoo's pricelist management by providing a
-dedicated list view for pricelist items (lines). This makes it
-significantly easier to search, filter, and manage complex pricing rules
-across multiple products and categories.
+Key features:
 
-Key Features
-============
-
-1. **Centralized Pricelist Line View**:
-
-   - Adds a convenient box button at the top of the pricelist form view.
-   - Clicking the button opens a full-screen tree view containing all
-     pricing rules for that specific pricelist.
-
-2. **Advanced Searching and Filtering**:
-
-   - Enables standard Odoo searching and filtering capabilities on
-     pricelist lines.
-   - Provides much easier access and management for pricelists with
-     large numbers of rules.
-
-3. **Refined Security Controls**:
-
-   - Introduces a new technical group: **Permit pricelist editing**.
-   - Allows designated users to modify pricelists and their lines
-     without requiring full Sales Administrator privileges.
-
-Usage
-=====
-
-1. Navigate to **Sales > Products > Pricelists**.
-2. Open any pricelist record.
-3. Click the new **Pricelist Items** (or similarly named) button in the
-   stat button area at the top of the form.
-4. Interact with the tree view to find, filter, or edit the specific
-   pricing rules you need.
-5. Assign the **Permit pricelist editing** group to users who should
-   manage pricing without full administrative access.
+- **Pricelist Lines** button on the pricelist form, opening the rules of
+  the current pricelist only (columns Pricelist, Products, Min.
+  Quantity, Price, Start Date, End Date; Currency, Based on and Apply On
+  as optional columns);
+- search on the rules by **Product**, **Category**, **Pricelist** and
+  **Currency**;
+- new rules created from the list get the current pricelist by default;
+- the **Permit pricelist editing** group gives read, write, create and
+  delete rights on pricelists and pricelist rules, so a user can manage
+  prices without being a Sales Administrator.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
@@ -73,6 +53,66 @@ Usage
 
 .. contents::
    :local:
+
+Usage
+=====
+
+Enable pricelists first: *Sales > Configuration > Settings*, **Pricing**
+section, tick **Pricelists** and save.
+
+1. Go to *Sales > Products > Pricelists* and open a pricelist. Click the
+   **Pricelist Lines** button at the top of the form.
+
+   |Pricelist form with the Pricelist Lines button highlighted (1) and
+   the rules in the Sales Prices tab|
+
+2. The list shows all the rules of this pricelist: product, minimum
+   quantity, price and validity period. The **Price** column shows the
+   fixed price; for *Discount* or *Formula* rules open the rule to see
+   the price. For category or all-products rules the **Products** column
+   is empty; show the optional **Apply On** column.
+
+   |The rules of the pricelist opened from the button, with the
+   breadcrumb highlighted (1)|
+
+3. Type a product name or code in the search bar (1) and choose **Search
+   Product for: ...** (2). Category, pricelist and currency (with
+   several active currencies) searches and the standard group by options
+   are also available.
+
+   |The search bar (1) with the text Laptop and the Search Product
+   proposal (2)|
+
+4. Click a line to open the rule, change for instance **Min Qty** or
+   **Fixed Price** and save. **New** creates a rule already linked to
+   the current pricelist. Start and end dates include the time: set the
+   end time to 23:59 so the rule applies for the whole last day.
+
+   |A pricelist rule opened from the list: Min Qty (1) and Fixed Price
+   (2)|
+
+5. To let a user manage prices without Sales Administrator rights,
+   activate the developer mode, go to *Settings > Users & Companies >
+   Groups*, open **Permit pricelist editing** (1) and add the user in
+   the **Users** tab (2) with **Add a line** (3). In developer mode the
+   group can also be ticked on the user form, **Access Rights** tab,
+   **Extra Rights** section.
+
+   |The Permit pricelist editing group (1), Users tab (2) and Add a line
+   (3)|
+
+   The **Access Rights** tab (1) shows the rights granted: read, write,
+   create and delete on pricelists and pricelist rules.
+
+   |The Access Rights tab (1) of the group: full rights on Pricelist and
+   Pricelist Rule|
+
+.. |Pricelist form with the Pricelist Lines button highlighted (1) and the rules in the Sales Prices tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/01_buton_linii_lista_preturi.png
+.. |The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/02_lista_linii_preturi.png
+.. |The search bar (1) with the text Laptop and the Search Product proposal (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/03_cautare_produs.png
+.. |A pricelist rule opened from the list: Min Qty (1) and Fixed Price (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/04_formular_regula.png
+.. |The Permit pricelist editing group (1), Users tab (2) and Add a line (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/05_grup_utilizatori.png
+.. |The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/06_grup_drepturi_acces.png
 
 Changelog
 =========
