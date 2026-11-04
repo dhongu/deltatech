@@ -16,61 +16,88 @@ Website Cost Price Protection
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_sale_cost_price
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_sale_cost_price/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2080%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_sale_cost_price
-    :alt: 5 automated tests · 81% code coverage
+    :alt: 7 automated tests · 80% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-Website Sale Cost Price
-=======================
+This module extends the standard eCommerce option **Prevent Sale of Zero
+Priced Product**: the shop also stops selling a product when its price
+is lower than its cost price plus a minimum margin.
 
-This module extends the standard Odoo "Prevent Sale of Zero Priced
-Product" functionality to also prevent sales when the product price is
-lower than its cost price (standard price).
+For such a product the customer no longer sees the price and the **Add
+to Cart** button, but the **Contact Us** button (the same behaviour as
+for zero priced products), and the cart button disappears from the
+product list.
 
-Key Features:
--------------
+Key features:
 
-- **Dynamic Sale Prevention**: Automatically blocks adding a product to
-  the cart if the sale price is below the cost price.
-- **Configurable Margin**: Set a minimum required margin percentage in
-  the website settings (e.g., if set to 10%, sale price must be at least
-  110% of the cost price).
-- **Tax-Aware Comparisons**: Configure whether the cost price includes
-  tax or not, ensuring accurate comparison against the website sale
-  price.
-- **Currency Conversion**: Automatically handles currency differences
-  between the product's cost currency and the website's pricelist
+- **Cost price protection**: the website price (after the website
+  pricelist) is compared with the product cost (**Cost** field).
+- **Minimum margin**: a margin percentage set on the website (with 10%,
+  the price must be at least 110% of the cost).
+- **Tax aware**: the cost (kept without taxes) is increased with the
+  taxes when the website displays prices with taxes.
+- **Currency conversion**: the cost is converted to the website
   currency.
-
-Configuration:
---------------
-
-1. Go to **Website > Configuration > Settings**.
-2. Locate the **Shop - Checkout Process** section.
-3. Enable **Prevent Sale of Zero Priced Product**.
-4. Configure the new fields:
-
-   - **Cost Price Includes Tax**: Specify if your product cost prices
-     already include tax.
-   - **Cost Price Margin %**: Set the minimum margin required for a sale
-     to be allowed.
-
-Usage:
-------
-
-When a user browses the website:
-
-- If a product variant's price is lower than the calculated cost
-  threshold, the "Add to Cart" button is replaced by the "Contact Us"
-  button (or the action configured for zero-priced products).
-- The same restriction applies to the "Quick Add" functionality.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Go to *Website > Configuration > Settings*, section **eCommerce**.
+   Check **Prevent Sale of Zero Priced Product**: the module fields
+   appear next to it. Leave **Cost Price Includes Tax** unchecked when
+   the product cost is kept without taxes (on a website showing prices
+   without taxes this option does not remove the tax from the cost: keep
+   the cost without taxes and leave it unchecked), set **Cost Price
+   Margin %** (e.g. 10) and save.
+
+   |Website settings: Prevent Sale of Zero Priced Product checked (1),
+   Cost Price Includes Tax unchecked (2) and Cost Price Margin % set to
+   10 (3)|
+
+2. On the product (*Website > eCommerce > Products*, tab **General
+   Information**), the **Sales Price** is compared with the **Cost**
+   plus the margin. Here 42.00 is below 40.00 + 10% = 44.00, so the
+   product cannot be bought online. The compared price is the website
+   price, after the website pricelist.
+
+   |Product form: Sales Price 42.00 (1) and Cost 40.00 (2)|
+
+3. In the shop, the product below the threshold has no cart button in
+   the product list, while the other one is sold as usual.
+
+   |Shop category: the product below the threshold (1) without cart
+   button, the other one (2) with Add to Cart|
+
+4. On its product page, the price and **Add to Cart** are replaced by
+   the **Contact Us** button (the **Button URL** from the settings).
+
+   |Product page of the blocked product: only the Contact Us button (1)|
+
+5. A product above the threshold shows its price and **Add to Cart** as
+   usual.
+
+   |Product page of an allowed product: the price (1) and Add to Cart
+   (2)|
+
+Check the shop as a visitor (private window): users of the *Settings*
+group can still add a blocked product to the cart.
+
+.. |Website settings: Prevent Sale of Zero Priced Product checked (1), Cost Price Includes Tax unchecked (2) and Cost Price Margin % set to 10 (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/01_setari_pret_cost.png
+.. |Product form: Sales Price 42.00 (1) and Cost 40.00 (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/02_produs_pret_cost.png
+.. |Shop category: the product below the threshold (1) without cart button, the other one (2) with Add to Cart| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/03_magazin_lista_produse.png
+.. |Product page of the blocked product: only the Contact Us button (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/04_produs_blocat_magazin.png
+.. |Product page of an allowed product: the price (1) and Add to Cart (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_cost_price/static/description/en/05_produs_permis_magazin.png
 
 Changelog
 =========
