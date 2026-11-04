@@ -1,0 +1,153 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_close
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-17 12:07+0000\n"
+"PO-Revision-Date: 2026-10-17 12:07+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_close
+#. odoo-python
+#: code:addons/deltatech_stock_close/wizard/stock_close_moves.py:0
+msgid "%(count)s stock moves closed."
+msgstr "%(count)s mișcări de stoc închise."
+
+#. module: deltatech_stock_close
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_close.view_stock_close_moves_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_stock_close
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_close.view_stock_close_moves_form
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_stock_close
+#: model:ir.actions.act_window,name:deltatech_stock_close.action_stock_close_moves
+#: model:ir.ui.menu,name:deltatech_stock_close.menu_stock_close_moves
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_close.view_stock_close_moves_form
+msgid "Close Stock Moves"
+msgstr "Închide mișcările de stoc"
+
+#. module: deltatech_stock_close
+#: model:ir.model,name:deltatech_stock_close.model_stock_close_moves
+msgid "Close stock moves until date"
+msgstr "Închide mișcările de stoc până la dată"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__date
+msgid "Close until"
+msgstr "Închide până la"
+
+#. module: deltatech_stock_close
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_close.view_move_search_valuation_active
+msgid "Closed"
+msgstr "Închise"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_move__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,help:deltatech_stock_close.field_stock_close_moves__date
+msgid ""
+"Every done stock move of the company dated on or before this day is closed: "
+"its Valuation Active flag is unset."
+msgstr ""
+"Fiecare mișcare de stoc efectuată a companiei, cu data până la această zi "
+"inclusiv, este închisă: indicatorul Evaluare activă se debifează."
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__id
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__id
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_move__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_close_moves__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__only_active
+msgid "Only Active"
+msgstr "Doar active"
+
+#. module: deltatech_stock_close
+#: model:ir.model,name:deltatech_stock_close.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_stock_close
+#: model:ir.model,name:deltatech_stock_close.model_l10n_ro_stock_storage_sheet
+msgid "StorageSheet"
+msgstr "Fișă Magazie"
+
+#. module: deltatech_stock_close
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_close.view_stock_close_moves_form
+msgid ""
+"The done stock moves dated on or before the selected day are closed and left\n"
+"                    out of the storage sheet when its Only active option is ticked.\n"
+"                    No accounting entry is changed."
+msgstr ""
+"Mișcările de stoc efectuate, cu data până la ziua aleasă inclusiv, sunt închise și nu mai apar\n"
+"                    în fișa de magazie atunci când opțiunea Doar active este bifată.\n"
+"                    Nicio notă contabilă nu se modifică."
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,field_description:deltatech_stock_close.field_stock_move__l10n_ro_valuation_active
+msgid "Valuation Active"
+msgstr "Evaluare activă"
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,help:deltatech_stock_close.field_l10n_ro_stock_storage_sheet__only_active
+msgid ""
+"When set, the storage sheet only includes stock moves whose valuation is "
+"still active (not closed)."
+msgstr ""
+"Când este bifat, fișa de gestiune include doar mișcările de stoc a căror "
+"evaluare este încă activă (neînchisă)."
+
+#. module: deltatech_stock_close
+#: model:ir.model.fields,help:deltatech_stock_close.field_stock_move__l10n_ro_valuation_active
+msgid ""
+"When unset, this stock move valuation is considered closed and is excluded "
+"from the storage sheet when the 'Only active' option is used."
+msgstr ""
+"Când este debifat, evaluarea acestei mișcări de stoc este considerată "
+"închisă și este exclusă din fișa de gestiune atunci când este folosită "
+"opțiunea 'Doar active'."

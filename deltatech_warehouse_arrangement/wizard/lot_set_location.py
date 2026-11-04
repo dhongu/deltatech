@@ -1,0 +1,66 @@
+# ©  2024 Terrabit
+#              Dan Stoica <danila(@)terrabit(.)ro
+# See README.rst file on addons root folder for license details
+
+
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+
+
+class LotChangeLocation(models.TransientModel):
+    _name = "lot.change.location"
+    _description = "Lot Change Location Wizard"
+
+    # În Odoo 20 mixinul `barcodes.barcode_events_mixin` și widget-ul `barcode_handler`
+    # au fost eliminate din core: câmpul non-stocat + onchange-ul sunt preluate aici,
+    # iar widget-ul `deltatech_warehouse_arrangement_barcode_handler` (Owl 3) scrie codul scanat în câmp.
+    _barcode_scanned = fields.Char("Barcode Scanned", help="Value of the last barcode scanned.", store=False)
+    lot_id = fields.Many2one("stock.lot")
+    rack_id = fields.Many2one("warehouse.location.rack")
+    lot_scanned = fields.Boolean()
+
+    @api.onchange("_barcode_scanned")
+    def _on_barcode_scanned(self):
+        barcode = self._barcode_scanned
+        if barcode:
+            self._barcode_scanned = ""
+            return self.on_barcode_scanned(barcode)
+
+    def on_barcode_scanned(self, barcode):
+        lot_id = self.env["stock.lot"].search([("name", "=", barcode)])
+        if lot_id:
+            if len(lot_id) > 1:
+                raise UserError(
+                    self.env._("Several lots/serials named %(barcode)s were found, scan another one", barcode=barcode)
+                )
+            # a new lot needs its own rack scan: never reuse the rack picked for the previous lot
+            self.lot_id = lot_id
+            self.rack_id = False
+            self.lot_scanned = True
+        else:
+            if self.lot_scanned:
+                # search for location
+                rack_id = self.env["warehouse.location.rack"].search([("barcode", "=", barcode)])
+                if not rack_id:
+                    raise UserError(self.env._("Location %(barcode)s not found", barcode=barcode))
+                else:
+                    self.rack_id = rack_id
+            else:
+                # error, lot not found
+                raise UserError(self.env._("Lot/serial %(barcode)s not found", barcode=barcode))
+
+    def do_change(self):
+        if self.lot_id and self.rack_id:
+            values = {
+                "loc_storehouse_id": self.rack_id.section_id.shelf_id.zone_id.storehouse_id.id,
+                "loc_zone_id": self.rack_id.section_id.shelf_id.zone_id.id,
+                "loc_shelf_id": self.rack_id.section_id.shelf_id.id,
+                "loc_section_id": self.rack_id.section_id.id,
+                "loc_rack_id": self.rack_id.id,
+            }
+            self.lot_id.write(values)
+
+    def reset(self):
+        self.rack_id = False
+        self.lot_id = False
+        self.lot_scanned = False

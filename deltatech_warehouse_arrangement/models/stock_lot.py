@@ -1,0 +1,58 @@
+# ©  2024 Terrabit
+#              Dan Stoica <danila(@)terrabit(.)ro
+# See README.rst file on addons root folder for license details
+
+
+from odoo import api, fields, models
+
+
+class StockLot(models.Model):
+    _inherit = "stock.lot"
+
+    loc_storehouse_id = fields.Many2one("warehouse.location.storehouse", string="Storehouse")
+    loc_zone_id = fields.Many2one("warehouse.location.zone", string="Zone Location")
+    loc_shelf_id = fields.Many2one("warehouse.location.shelf", string="Shelf Location")
+    loc_section_id = fields.Many2one("warehouse.location.section", string="Section Location")
+    loc_rack_id = fields.Many2one("warehouse.location.rack", string="Rack Location")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        location_fields = ("loc_storehouse_id", "loc_zone_id", "loc_shelf_id", "loc_section_id", "loc_rack_id")
+        for vals in vals_list:
+            product = self.env["product.product"].browse(
+                vals.get("product_id") or self.env.context.get("default_product_id")
+            )
+            # the product locations are only defaults: keep the ones given explicitly for the lot
+            for field_name in location_fields:
+                if field_name not in vals:
+                    vals[field_name] = product[field_name].id
+        return super().create(vals_list)
+
+    def check_if_depleted(self, location_id):
+        """
+        Check if quantity becomes 0 on the stock location
+        and delete locations if 0
+        :param location_id: location in which to check
+        :return:
+        """
+        for lot in self:
+            if lot.loc_storehouse_id.location_id:
+                stock_location_id = location_id
+                children_location = (
+                    self.env["stock.location"]
+                    .with_context(active_test=False)
+                    .search([("id", "child_of", stock_location_id.ids)])
+                )
+                internal_children_locations = children_location.filtered(lambda li: li.usage == "internal")
+                quants = lot.quant_ids.filtered(lambda q, ids=internal_children_locations.ids: q.location_id.id in ids)
+                product_qty = sum(quants.mapped("quantity"))
+                if lot.product_id.uom_id.is_zero(product_qty):
+                    lot.write(
+                        {
+                            "loc_storehouse_id": False,
+                            "loc_zone_id": False,
+                            "loc_shelf_id": False,
+                            "loc_section_id": False,
+                            "loc_rack_id": False,
+                        }
+                    )
