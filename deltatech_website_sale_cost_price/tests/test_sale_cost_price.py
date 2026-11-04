@@ -30,11 +30,12 @@ class TestWebsiteSaleCostPrice(WebsiteSaleCommon):
         cls.test_product = cls.test_product.with_context(website_id=cls.website.id)
 
     def _callSetUp(self):
-        super()._callSetUp()
+        res = super()._callSetUp()
         # 20.0: the common tests run as a sales user; ``_callSetUp`` re-binds every class record to
         # the test env (dropping ``sudo()`` and the ``website_id`` context), so restore them here
         self.test_product = self.test_product.sudo().with_context(website_id=self.website.id)
         self.website = self.website.sudo()
+        return res
 
     def test_01_price_higher_than_cost(self):
         """Test that product is allowed when price is higher than cost"""
