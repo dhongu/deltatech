@@ -22,8 +22,11 @@ Pricelist Currency Extension
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pricelist/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist/tests
+    :alt: 2 automated tests
 
-|badge1| |badge2| |badge3| |badge_fisa|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 Lets a company keep the **Sales Price** of its products in a currency
 other than its accounting currency, for example prices in EUR in a
