@@ -19,20 +19,88 @@ Promissory Notes
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_promissory_note
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_promissory_note/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_promissory_note
-    :alt: 4 automated tests · 84% code coverage
+    :alt: 6 automated tests · 84% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-Features:
+A register of the promissory notes received from customers and issued to
+vendors.
 
-- gestionare bilete la ordin
+For each note you record the series and number, the issuer and the
+beneficiary with their bank accounts and banks, the amount and currency,
+the due date, the agreement and, optionally, the invoice it belongs to.
+The type of the note fills in the company on the right side: the company
+is the beneficiary of a customer note and the issuer of a vendor note.
+
+- the notes are listed by due date, with totals for the amount and the
+  cashed amount;
+- the state changes with a button: *Not Cashed* → *Cashed*, or
+  *Cancelled*; the state history is kept in the chatter;
+- when the last note of an agreement is cashed, the users of the
+  *Primeste atentionari BO* group are notified in the chatter.
+
+The module keeps the register only: it does not create journal entries
+and does not reconcile the linked invoice.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Open *Invoicing > Accounting > Promissory Notes* (with Odoo
+   Enterprise: *Accounting > Accounting > Promissory Notes*). The notes
+   are listed by **Due Date**, with their **Status** and the totals of
+   **Amount** and **Cashed Amount**.
+
+   |The list of promissory notes sorted by Due Date (1), with the Status
+   column (2) showing Cashed, Not Cashed and Cancelled notes, and the
+   totals at the bottom|
+
+2. For a note received from a customer, press **New**, fill in **Series
+   and number** and keep **Type** = **Customer**: the company becomes
+   the **Beneficiary**. Choose the customer as **Issuer**: **Bank
+   Account Issuer** and **Bank Issuer** are taken from the first bank
+   account of the customer. Fill in the agreement, due date, amount and
+   currency, check the beneficiary bank account and bank, then save.
+
+   |A customer note in the Not Cashed state: Type Customer (1), Issuer
+   the customer (2), Beneficiary the company (3), Bank Issuer (4) and
+   the Set Cashed button (5)|
+
+3. For a note issued to a vendor, choose **Type** = **Vendor**: the
+   company becomes the **Issuer**. Choose the vendor as **Beneficiary**;
+   its bank account and bank are filled in the same way.
+
+   |A vendor note: Type Vendor (1), Issuer the company (2) and
+   Beneficiary the vendor (3)|
+
+4. When the note is cashed, fill in **Cashed Amount** and **Cashed
+   Date** and press **Set Cashed**. If **Last note** is ticked, the
+   users of the *Primeste atentionari BO* group receive a message in the
+   chatter. **Set Not Cashed** reverts a cashed note; **Cancel** cancels
+   a note that is not cashed.
+
+   |The last note of an agreement after Set Cashed: Cashed Amount (1),
+   Last note ticked (2), the status bar on Cashed (3) and the
+   notification in the chatter (4)|
+
+The module does not create journal entries: the accounting of the notes
+is done separately. The two reports in the **Print** menu (*Promissory
+Note Bill*, *Promissory Note Content*) print an empty page in this
+version.
+
+.. |The list of promissory notes sorted by Due Date (1), with the Status column (2) showing Cashed, Not Cashed and Cancelled notes, and the totals at the bottom| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_promissory_note/static/description/en/01_lista_bilete.png
+.. |A customer note in the Not Cashed state: Type Customer (1), Issuer the customer (2), Beneficiary the company (3), Bank Issuer (4) and the Set Cashed button (5)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_promissory_note/static/description/en/02_bilet_client.png
+.. |A vendor note: Type Vendor (1), Issuer the company (2) and Beneficiary the vendor (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_promissory_note/static/description/en/03_bilet_furnizor.png
+.. |The last note of an agreement after Set Cashed: Cashed Amount (1), Last note ticked (2), the status bar on Cashed (3) and the notification in the chatter (4)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_promissory_note/static/description/en/04_ultimul_bilet_incasat.png
 
 Changelog
 =========
