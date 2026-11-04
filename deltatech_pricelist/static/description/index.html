@@ -13,7 +13,13 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">LGPL-3</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 2 automated tests</div>
+      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
+        <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
+      </div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">100% code coverage</div>
+    </div>
   </div>
 </div>
 
@@ -30,6 +36,11 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -64,6 +75,36 @@ it to the same currency as <strong>Currency</strong>.</p>
   whose currency is not EUR, the existing sales prices are then read as EUR
   amounts until the field is changed.</li>
 </ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open the company (<em>Settings &gt; Users &amp; Companies &gt; Companies</em>). Under <strong>Currency</strong> (the accounting
+   currency), choose the <strong>Price List Currency</strong>: the currency in which the sales prices of all the
+   products of the company are kept. Save.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Company form, General Information tab: Currency (1) is RON and Price List Currency (2) is EUR" src="en/01_moneda_lista_preturi_companie.png" /></p>
+<ol start="2">
+<li>Check that the price list currency has a rate (<em>Invoicing &gt; Configuration &gt; Accounting &gt; Currencies</em>,
+   open <strong>EUR</strong>, tab <strong>Rates</strong>). Odoo uses the last rate up to the date of the document.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The EUR currency, Rates tab: one rate (1) for Nov 4, Unit per RON 0.200000000000 and RON per Unit 5.000000000000" src="en/02_curs_eur.png" /></p>
+<ol start="3">
+<li>Open the product (<em>Sales &gt; Products &gt; Products</em>) and enter the <strong>Sales Price</strong> in the price list
+   currency: the currency symbol (&#8364;) is shown next to it. The <strong>Cost</strong> stays in the company currency.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Product form: Sales Price (1) is 120.00 &#8364; and Cost (2) is 400.00 lei" src="en/03_pret_vanzare_eur_produs.png" /></p>
+<ol start="4">
+<li>Create a quotation (<em>Sales &gt; Orders &gt; Quotations</em>) with a pricelist in the company currency, or with
+   no pricelist, and add the product: the <strong>Unit Price</strong> is the sales price converted at the rate of the
+   quotation/order date, here 120.00 &#8364; &#215; 5 = 600.00 lei.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Quotation with the pricelist RON prices (RON) (1): the Unit Price (2) of the pump is 600.00, the amount for 2 units 1,200.00 lei" src="en/04_comanda_vanzare_pret_ron.png" /></p>
+<p>A pricelist in the same currency as the sales price (EUR) does not convert it. On a pricelist in another
+currency, <strong>Discount</strong> and <strong>Formula</strong> rules start from the converted price; <strong>Fixed Price</strong> amounts are
+already in the pricelist currency. A quotation keeps the price computed when the line was added, at the
+rate of its quotation/order date: it does not follow a later rate by itself. Customer invoices created without a sales order
+convert the sales price in the same way.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>

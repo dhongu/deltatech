@@ -4,3 +4,4 @@
 
 
 from . import test_promissory
+from . import test_screenshots
