@@ -126,6 +126,7 @@
                                         name="tax_ids"
                                         widget="many2many_tags"
                                         optional="show"
+                                        readonly="type == 'supplier_payment'"
                                         domain="[('type_tax_use','=','purchase')]"
                                         context="{'default_type_tax_use': 'purchase'}"
                                     />
@@ -140,6 +141,8 @@
                                         name="expense_account_id"
                                         groups="account.group_account_user"
                                         optional="show"
+                                        readonly="type == 'supplier_payment'"
+                                        force_save="1"
                                     />
                                      <field
                                         name="analytic_distribution"
@@ -169,9 +172,11 @@
                                 <form>
                                     <field name="date" />
                                     <field name="name" />
+                                    <field name="type" />
                                     <field
                                         name="tax_ids"
                                         widget="many2many_tags"
+                                        readonly="type == 'supplier_payment'"
                                         domain="[('type_tax_use','=','purchase')]"
                                         context="{'default_type_tax_use': 'purchase'}"
                                     />
@@ -182,7 +187,12 @@
                                         string="Supplier"
                                         context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
                                     />
-                                    <field name="expense_account_id" groups="account.group_account_user" />
+                                    <field
+                                        name="expense_account_id"
+                                        groups="account.group_account_user"
+                                        readonly="type == 'supplier_payment'"
+                                        force_save="1"
+                                    />
                                     <field name="state" />
                                     <field name="currency_id" invisible="1" />
                                 </form>
