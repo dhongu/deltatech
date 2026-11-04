@@ -36,15 +36,16 @@ class TestPromissoryNoteScreenshots(ScreenshotCase or object):
         # ultimul bilet încasat notifică utilizatorii grupului: adminul îl primește
         cls.env.ref("base.user_admin").group_ids = [(4, cls.env.ref("deltatech_promissory_note.bo_notifications").id)]
 
-        bank_bt = cls.env["res.bank"].create({"name": "Banca Transilvania", "bic": "BTRLRO22"})
-        bank_bcr = cls.env["res.bank"].create({"name": "Banca Comercială Română", "bic": "RNCBROBU"})
-        bank_ing = cls.env["res.bank"].create({"name": "ING Bank", "bic": "INGBROBU"})
+        # Odoo 20 removed `res.bank`: the bank name and BIC live on the bank account itself.
+        bank_bt = {"bank_name": "Banca Transilvania", "bank_bic": "BTRLRO22"}
+        bank_bcr = {"bank_name": "Banca Comercială Română", "bank_bic": "RNCBROBU"}
+        bank_ing = {"bank_name": "ING Bank", "bank_bic": "INGBROBU"}
 
         def partner(name, iban, bank):
             rec = cls.env["res.partner"].create(
-                {"name": name, "is_company": True, "country_id": cls.env.ref("base.ro").id, "city": "București"}
+                {"name": name, "country_id": cls.env.ref("base.ro").id, "city": "București"}
             )
-            cls.env["res.partner.bank"].create({"partner_id": rec.id, "acc_number": iban, "bank_id": bank.id})
+            cls.env["res.partner.bank"].create({"partner_id": rec.id, "account_number": iban, **bank})
             return rec
 
         cls.customer = partner("Alfa Distribuție SRL", "RO66BTRLRONCRT0123456701", bank_bt)
@@ -54,23 +55,23 @@ class TestPromissoryNoteScreenshots(ScreenshotCase or object):
         company_bank = cls.env["res.partner.bank"].search([("partner_id", "=", company.partner_id.id)], limit=1)
         if not company_bank:
             company_bank = cls.env["res.partner.bank"].create(
-                {"partner_id": company.partner_id.id, "acc_number": company_iban, "bank_id": bank_bcr.id}
+                {"partner_id": company.partner_id.id, "account_number": company_iban, **bank_bcr}
             )
         else:
-            company_bank.bank_id = bank_bcr
-        company_iban = company_bank.acc_number
+            company_bank.write(bank_bcr)
+        company_iban = company_bank.account_number
 
         Note = cls.env["promissory.note"]
 
         def note(name, note_type, partner_rec, partner_bank, due, amount, agreement, **extra):
             if note_type == "customer":
                 issuer, beneficiary = partner_rec, company.partner_id
-                acc_i, bank_i = partner_rec.bank_ids[0].acc_number, partner_bank
+                acc_i, bank_i = partner_rec.bank_ids[0].account_number, partner_bank
                 acc_b, bank_b = company_iban, bank_bcr
             else:
                 issuer, beneficiary = company.partner_id, partner_rec
                 acc_i, bank_i = company_iban, bank_bcr
-                acc_b, bank_b = partner_rec.bank_ids[0].acc_number, partner_bank
+                acc_b, bank_b = partner_rec.bank_ids[0].account_number, partner_bank
             vals = {
                 "name": name,
                 "type": note_type,
@@ -82,8 +83,8 @@ class TestPromissoryNoteScreenshots(ScreenshotCase or object):
                 "beneficiary_id": beneficiary.id,
                 "acc_issuer": acc_i,
                 "acc_beneficiary": acc_b,
-                "bank_issuer_id": bank_i.id,
-                "bank_beneficiary_id": bank_b.id,
+                "bank_issuer": bank_i["bank_name"],
+                "bank_beneficiary": bank_b["bank_name"],
             }
             vals.update(extra)
             return Note.create(vals)
@@ -163,7 +164,7 @@ class TestPromissoryNoteScreenshots(ScreenshotCase or object):
                     "div[name='type']",
                     "div[name='issuer_id']",
                     "div[name='beneficiary_id']",
-                    "div[name='bank_issuer_id']",
+                    "div[name='bank_issuer']",
                     "button[name='action_cashed']",
                 ],
             },

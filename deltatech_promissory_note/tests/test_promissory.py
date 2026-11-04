@@ -16,7 +16,7 @@ class TestPromissoryNote(TransactionCase):
         self.partner_b = self.env["res.partner"].create({"name": "TestB"})
         self.company_partner = self.env.company.partner_id
         # The form requires both banks (the note is printed with them).
-        self.bank = self.env["res.bank"].create({"name": "TEST Bank", "bic": "TESTROBU"})
+        self.bank_name = "TEST Bank"
 
     def _new_note(self, note_type, partner):
         promissory_note = Form(self.env["promissory.note"])
@@ -31,8 +31,8 @@ class TestPromissoryNote(TransactionCase):
         promissory_note.currency_id = self.env.ref("base.EUR")
         promissory_note.acc_issuer = "XXX"
         promissory_note.acc_beneficiary = "XXX"
-        promissory_note.bank_issuer_id = self.bank
-        promissory_note.bank_beneficiary_id = self.bank
+        promissory_note.bank_issuer = self.bank_name
+        promissory_note.bank_beneficiary = self.bank_name
         promissory_note.is_last_bo = True
         return promissory_note.save()
 

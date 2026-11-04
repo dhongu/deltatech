@@ -60,11 +60,9 @@ class PromissoryNote(models.Model):
     acc_issuer = fields.Char("Bank Account Issuer", size=64, required=False)
     acc_beneficiary = fields.Char("Bank Account Beneficiary", size=64, required=False)
 
-    # bank_issuer = fields.Char("Bank Issuer", size=64, readonly=True, required=False)
-    # bank_beneficiary = fields.Char("Bank Beneficiary", size=64, required=False)
-
-    bank_issuer_id = fields.Many2one("res.bank", string="Bank Issuer", required=False)
-    bank_beneficiary_id = fields.Many2one("res.bank", string="Bank Beneficiary", required=False)
+    # Odoo 20 removed `res.bank`: the bank is the `bank_name` text of the partner's bank account.
+    bank_issuer = fields.Char("Bank Issuer", required=False)
+    bank_beneficiary = fields.Char("Bank Beneficiary", required=False)
 
     note = fields.Text(string="Comments")
 
@@ -88,16 +86,16 @@ class PromissoryNote(models.Model):
     @api.onchange("issuer_id")
     def onchange_issuer_id(self) -> None:
         if self.issuer_id and self.issuer_id.bank_ids:
-            self.acc_issuer = self.issuer_id.bank_ids[0].acc_number
-            self.bank_issuer_id = self.issuer_id.bank_ids[0].bank_id
+            self.acc_issuer = self.issuer_id.bank_ids[0].account_number
+            self.bank_issuer = self.issuer_id.bank_ids[0].bank_name
         else:
             self.acc_issuer = False
 
     @api.onchange("beneficiary_id")
     def onchange_beneficiary_id(self) -> None:
         if self.issuer_id and self.beneficiary_id.bank_ids:
-            self.acc_beneficiary = self.beneficiary_id.bank_ids[0].acc_number
-            self.bank_beneficiary_id = self.beneficiary_id.bank_ids[0].bank_id
+            self.acc_beneficiary = self.beneficiary_id.bank_ids[0].account_number
+            self.bank_beneficiary = self.beneficiary_id.bank_ids[0].bank_name
         else:
             self.acc_beneficiary = False
 

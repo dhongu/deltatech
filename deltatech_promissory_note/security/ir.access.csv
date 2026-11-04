@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_promissory_note,access_promissory_note,promissory.note,base.group_user,crud,

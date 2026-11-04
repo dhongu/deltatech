@@ -5,7 +5,7 @@
 {
     "name": "Promissory Notes",
     "summary": "Track issued and received promissory notes with due dates and status",
-    "version": "19.0.1.0.9",
+    "version": "20.0.1.0.9",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
@@ -15,7 +15,7 @@
         "views/promissory_note_view.xml",
         "views/promissory_note_report.xml",
         "security/promissory_note_security.xml",
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
