@@ -1,1 +1,2 @@
 from . import test_stock_quant_report
+from . import test_screenshots
