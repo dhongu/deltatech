@@ -17,16 +17,13 @@ Pricelist Currency Extension
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pricelist/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pricelist/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-2%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pricelist
-    :alt: 2 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Lets a company keep the **Sales Price** of its products in a currency
 other than its accounting currency, for example prices in EUR in a
@@ -107,10 +104,10 @@ quotation/order date: it does not follow a later rate by itself.
 Customer invoices created without a sales order convert the sales price
 in the same way.
 
-.. |Company form, General Information tab: Currency (1) is RON and Price List Currency (2) is EUR| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/01_moneda_lista_preturi_companie.png
-.. |The EUR currency, Rates tab: one rate (1) for Nov 4, Unit per RON 0.200000000000 and RON per Unit 5.000000000000| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/02_curs_eur.png
-.. |Product form: Sales Price (1) is 120.00 € and Cost (2) is 400.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/03_pret_vanzare_eur_produs.png
-.. |Quotation with the pricelist RON prices (RON) (1): the Unit Price (2) of the pump is 600.00, the amount for 2 units 1,200.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist/static/description/en/04_comanda_vanzare_pret_ron.png
+.. |Company form, General Information tab: Currency (1) is RON and Price List Currency (2) is EUR| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist/static/description/en/01_moneda_lista_preturi_companie.png
+.. |The EUR currency, Rates tab: one rate (1) for Nov 4, Unit per RON 0.200000000000 and RON per Unit 5.000000000000| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist/static/description/en/02_curs_eur.png
+.. |Product form: Sales Price (1) is 120.00 € and Cost (2) is 400.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist/static/description/en/03_pret_vanzare_eur_produs.png
+.. |Quotation with the pricelist RON prices (RON) (1): the Unit Price (2) of the pump is 600.00, the amount for 2 units 1,200.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist/static/description/en/04_comanda_vanzare_pret_ron.png
 
 Changelog
 =========
@@ -165,6 +162,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -12,6 +12,7 @@
 #       --test-tags=/deltatech_pricelist:TestPricelistScreenshots --stop-after-init
 import json
 import unittest
+from datetime import timedelta
 
 from odoo import Command, fields
 from odoo.tests import tagged
@@ -61,11 +62,12 @@ class TestPricelistScreenshots(ScreenshotCase or object):
             admin.group_ids = [Command.link(env.ref(xmlid).id)]
         # setarea modulului: prețurile de vânzare ale companiei sunt în EUR
         cls.company.price_currency_id = eur
-        # un singur curs EUR, al companiei în RON, la data de azi
+        # un singur curs EUR, al companiei în RON; în 20 cursul se aplică din ziua următoare datei lui,
+        # deci îl punem pe ieri ca să intre pe comanda de azi
         env["res.currency.rate"].search([("currency_id", "in", (eur | ron).ids)]).unlink()
         env["res.currency.rate"].create(
             {
-                "name": fields.Date.today(),
+                "name": fields.Date.today() - timedelta(days=1),
                 "currency_id": eur.id,
                 "company_id": cls.company.id,
                 "inverse_company_rate": EUR_RATE,
@@ -103,7 +105,7 @@ class TestPricelistScreenshots(ScreenshotCase or object):
             {"name": "Prețuri RON", "currency_id": ron.id, "company_id": cls.company.id}
         )
         pricelist.update_field_translations("name", {"ro_RO": "Prețuri RON", "en_US": "RON prices"})
-        partner = env["res.partner"].create({"name": "Client Demo SRL", "is_company": True})
+        partner = env["res.partner"].create({"name": "Client Demo SRL"})
         cls.order = env["sale.order"].create(
             {
                 "partner_id": partner.id,
@@ -165,7 +167,7 @@ class TestPricelistScreenshots(ScreenshotCase or object):
                 "name": "RON -10%",
                 "currency_id": self.company.currency_id.id,
                 "company_id": self.company.id,
-                "item_ids": [Command.create({"compute_price": "percentage", "percent_price": 10.0})],
+                "item_ids": [Command.create({"compute_price": "discount", "price_discount": 10.0})],
             }
         )
         self.assertAlmostEqual(discount_list._get_product_price(product, 1.0), 540.0, places=2)
