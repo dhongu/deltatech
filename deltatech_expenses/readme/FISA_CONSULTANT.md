@@ -128,6 +128,9 @@ Date minime pentru demo:
     **Facturare → Configurare → Setări**, blocul **Bancă și casă** (per companie). Fluxul este
     descris în secțiunea 6, „Varianta fără note de plată”. Opțiunea nu se activează cât timp există
     deconturi în starea **„Avans”**: finalizați-le întâi, în fluxul cu note de plată.
+    Contul 542 trebuie să aibă bifat **„Permite reconcilierea”**, iar pe liniile din registrul de casă
+    și din extrasul bancar partenerul este **contactul de lucru** al angajatului (același ca pe
+    decont), ca reconcilierea pe 542 și soldul pe angajat să fie corecte.
 
 ## 6. Flux de utilizare
 

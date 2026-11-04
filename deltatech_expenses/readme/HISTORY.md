@@ -13,6 +13,9 @@
 - Search filters **Advance** and **Done** on the expense reports.
 - The option cannot be enabled while expense reports of the company are in the Advance state:
   they are finalized first, in the flow with payment entries.
+- The money handed to the employee and the refunds are reconciled on 542 with the standard bank
+  statement or cash register reconciliation: account 542 must allow reconciliation and the partner is
+  the work contact of the employee.
 
 ## 19.0.3.9.1 (2026-11-04)
 

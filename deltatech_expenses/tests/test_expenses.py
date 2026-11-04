@@ -1674,6 +1674,33 @@ class TestExpenses(TransactionCase):
         deduction.invalidate_recordset(["employee_balance"])
         self.assertAlmostEqual(deduction.employee_balance, -271.0)
 
+    def test_no_payment_moves_cash_withdrawal_reconciled_on_542(self):
+        """Banii ridicați de angajat se înregistrează din casă / extras (Dr 542 = Cr 5311, partener angajatul)
+        și se reconciliază standard pe 542 cu cheltuielile decontului; soldul rămas e pe angajat."""
+        self.acc_542.reconcile = True  # condiție de configurare a variantei (fișa, pasul 11)
+        self.company.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        self._new_line(deduction, 121.0, taxes=self.tax_21)
+        self._new_line(deduction, 150.0)
+        deduction.validate_expenses()
+        withdrawal = self.env["account.move"].create(
+            {
+                "journal_id": self.cash_journal.id,
+                "date": fields.Date.today(),
+                "line_ids": [
+                    (0, 0, {"account_id": self.acc_542.id, "partner_id": self.employee_partner.id, "debit": 300.0}),
+                    (0, 0, {"account_id": self.acc_cash.id, "partner_id": self.employee_partner.id, "credit": 300.0}),
+                ],
+            }
+        )
+        withdrawal.action_post()
+        lines_542 = self._employee_542_lines()
+        lines_542.reconcile()
+        self.assertTrue(all(lines_542.filtered("credit").mapped("reconciled")))
+        self.assertAlmostEqual(sum(lines_542.mapped("amount_residual")), 29.0)
+        deduction.invalidate_recordset(["employee_balance"])
+        self.assertAlmostEqual(deduction.employee_balance, 29.0)
+
     def test_no_payment_moves_company_card_on_542(self):
         """Fără note de plată, și cu cardul firmei cheltuiala trece pe 542 (angajatul): plata cu cardul
         din extras se reconciliază pe 542, ca o retragere de numerar."""
