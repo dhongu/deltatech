@@ -126,6 +126,12 @@ subcategory after the propagation. The cost of products without stock and the au
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.10 (2026-11-04)</h2>
+<ul>
+<li>Migration to Odoo 20.0: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_change_standard_price</code> follows the new signature (creating a product
+  with a cost no longer fails); the transfer amount uses the magnitude of the move value (negative
+  on outgoing moves in 20).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.10 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten from the code: the transfer value is shown in the transfers list, not on the transfer form.</li>

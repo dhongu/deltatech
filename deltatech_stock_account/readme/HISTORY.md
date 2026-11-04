@@ -1,3 +1,9 @@
+## 20.0.1.0.10 (2026-11-04)
+
+- Migration to Odoo 20.0: `_change_standard_price` follows the new signature (creating a product
+  with a cost no longer fails); the transfer amount uses the magnitude of the move value (negative
+  on outgoing moves in 20).
+
 ## 19.0.1.0.10 (2026-11-03)
 
 - Description rewritten from the code: the transfer value is shown in the transfers list, not on the transfer form.
