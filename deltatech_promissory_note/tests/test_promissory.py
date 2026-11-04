@@ -77,3 +77,18 @@ class TestPromissoryNote(TransactionCase):
     def test_amount_must_be_positive(self):
         with self.assertRaises(UserError):
             self._new_note("customer", self.partner_a).amount = 0
+
+    def test_partner_bank_filled_and_cleared(self):
+        """The account and bank name come from the partner's first bank account and are cleared
+        when the new partner has none."""
+        bank_account = self.env["res.partner.bank"].create(
+            {"partner_id": self.partner_b.id, "account_number": "RO49AAAA1B31007593840000", "bank_name": "TEST Bank B"}
+        )
+        note = Form(self.env["promissory.note"])
+        note.type = "vendor"
+        note.beneficiary_id = self.partner_b
+        self.assertEqual(note.acc_beneficiary, bank_account.account_number)
+        self.assertEqual(note.bank_beneficiary, "TEST Bank B")
+        note.beneficiary_id = self.partner_a
+        self.assertFalse(note.acc_beneficiary)
+        self.assertFalse(note.bank_beneficiary)

@@ -90,14 +90,16 @@ class PromissoryNote(models.Model):
             self.bank_issuer = self.issuer_id.bank_ids[0].bank_name
         else:
             self.acc_issuer = False
+            self.bank_issuer = False
 
     @api.onchange("beneficiary_id")
     def onchange_beneficiary_id(self) -> None:
-        if self.issuer_id and self.beneficiary_id.bank_ids:
+        if self.beneficiary_id.bank_ids:
             self.acc_beneficiary = self.beneficiary_id.bank_ids[0].account_number
             self.bank_beneficiary = self.beneficiary_id.bank_ids[0].bank_name
         else:
             self.acc_beneficiary = False
+            self.bank_beneficiary = False
 
     def action_not_cashed(self) -> None:
         self.write({"state": "not_cashed"})

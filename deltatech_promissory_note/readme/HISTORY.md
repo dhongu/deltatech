@@ -4,6 +4,8 @@
   (`bank_issuer`, `bank_beneficiary`) filled from the bank name of the partner's account; the pre-
   migration script copies the bank names of existing notes. Access rights in
   `security/ir.access.csv`.
+- The beneficiary bank account is filled even before the issuer is chosen, and the bank name is
+  cleared with the account when the new partner has none.
 
 ## 19.0.1.0.9 (2026-10-22)
 
