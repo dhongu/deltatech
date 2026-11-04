@@ -26,7 +26,8 @@ magazinul online. Două aspecte de context pentru consultant:
   (de regulă, materialele de prezentare puse la dispoziție de furnizor sau de producător).
 - **Securitate.** Descărcarea pornește de pe server, nu din browserul operatorului. Ca să nu poată fi
   folosită pentru a ajunge la adrese din rețeaua internă a firmei, modulul acceptă doar adrese publice
-  `http`/`https`, verifică fiecare redirecționare, limitează timpul (15 secunde) și mărimea (10 MB) și
+  `http`/`https`, verifică fiecare redirecționare, așteaptă cel mult 15 secunde la fiecare cerere, limitează
+  mărimea (10 MB) și
   acceptă doar răspunsuri de tip imagine. Descărcarea o pot porni doar utilizatorii care au dreptul să
   modifice produsele.
 
@@ -85,17 +86,22 @@ Apăsați **Tab** sau dați clic în afara câmpului. Odoo descarcă imaginea de
 Salvați produsul. Dacă adresa nu e publică, nu răspunde sau nu întoarce o imagine, câmpul păstrează
 adresa scrisă și imaginea produsului rămâne neschimbată (vezi secțiunea 9).
 
+Pe un produs **nou, încă nesalvat**, încărcarea se face doar la ieșirea din câmp: dacă atunci nu a
+reușit, salvarea nu mai reîncearcă. Salvați întâi produsul, apoi scrieți din nou adresa.
+
 ![Același produs după ieșirea din câmp: imaginea lămpii apare ca imagine principală (1), iar Nume fișier imagine (2) conține doar numele fișierului lampa-led-10w.png](../static/description/02_imagine_incarcata_produs.png)
 
 ### Pasul 3 — Imagini suplimentare din adresă web
 
 **Meniu:** produsul, tabul **Vânzări**, grupul **Media eCommerce**: deschideți imaginea suplimentară
-(sau **Adaugă media** pentru una nouă).
+(sau **Adăugați media** pentru una nouă).
 
-În câmpul **Nume imagine**, lipiți adresa imaginii și ieșiți din câmp. Imaginea se descarcă în
-fereastra imaginii, iar numele devine numele fișierului (`lampa-led-10w-detaliu.png`). Salvați.
+În fereastra imaginii, în câmpul **Nume imagine**, lipiți adresa imaginii și ieșiți din câmp. Imaginea
+se descarcă în fereastră, iar numele devine numele fișierului (`lampa-led-10w-detaliu.png`). Apăsați
+**Salvează** în fereastra imaginii, apoi salvați produsul: imaginea ajunge în baza de date abia la
+salvarea produsului.
 
-![Formularul imaginii suplimentare: Nume imagine (1) a devenit lampa-led-10w-detaliu.png, iar în dreapta (2) apare imaginea descărcată, lampa cu abajur verde, în locul imaginii gri de dinainte; în antet, numele imaginii este tot lampa-led-10w-detaliu.png](../static/description/03_imagine_suplimentara_url.png)
+![Fereastra Deschide: Imagini/Video suplimentare, deschisă peste produs din Media eCommerce: Nume imagine (1) a devenit lampa-led-10w-detaliu.png, în dreapta (2) apare imaginea descărcată, lampa cu abajur verde, în locul imaginii gri de dinainte, iar jos butonul Salvează (3)](../static/description/03_imagine_suplimentara_url.png)
 
 ### Pasul 4 — Verificați produsul în magazin
 
@@ -103,15 +109,16 @@ fereastra imaginii, iar numele devine numele fișierului (`lampa-led-10w-detaliu
 categoria produsului).
 
 1. **Găsiți pe ecran** imaginea mare a produsului și miniaturile din stânga ei.
-2. **Verificați** că imaginea principală este cea încărcată din adresă și că imaginea suplimentară apare
-   ca miniatură; dacă vedeți încă imaginea veche, reîncărcați pagina (cache-ul browserului).
+2. **Verificați** că imaginea principală (prima miniatură, lampa albastră) este cea încărcată din adresă
+   și că, la clic pe a doua miniatură, apare imaginea suplimentară (lampa verde); dacă vedeți încă
+   imaginea veche, reîncărcați pagina (cache-ul browserului).
 
-![Pagina produsului Lampă de birou LED 10 W din magazin, sub calea Toate produsele / Iluminat: imaginea principală încărcată din adresă, cu lampa albastră, și în stânga ei miniaturile, a doua fiind imaginea suplimentară (1); în dreapta, prețul 129,00 lei și butonul Adaugă în coș](../static/description/04_produs_magazin_imagine.png)
+![Pagina produsului Lampă de birou LED 10 W din magazin, sub calea Toate produsele / Iluminat: în stânga, prima miniatură este imaginea principală (lampa albastră), iar a doua, selectată (1), este imaginea suplimentară, afișată mare (lampa verde); în dreapta, prețul 129,00 lei și butonul Adaugă în coș](../static/description/04_produs_magazin_imagine.png)
 
 ### Încărcarea la import (fără ecran nou)
 
 Același mecanism se aplică la importul care **actualizează produse existente** (*Website → eCommerce →
-Produse*, *Acțiuni → Import înregistrări*, cu coloana **ID** a produselor): mapați coloana cu adresele
+Produse*, în listă pictograma roată ⚙ → **Importați înregistrări**, cu coloana **ID** a produselor): mapați coloana cu adresele
 imaginilor pe câmpul **Nume fișier imagine**. Fiecare rând cu adresă web își descarcă imaginea; un rând
 cu o adresă invalidă se actualizează fără imagine, iar adresa rămâne în câmp.
 
@@ -131,7 +138,7 @@ contabilă asociată.
 | `product` | Imaginea principală a produsului (`image_1920`), folosită și pe documentele de vânzare |
 | Importul standard Odoo | Coloana **Nume fișier imagine** cu adrese web încarcă imaginile produselor existente (actualizare); la produsele create prin import adresa rămâne text |
 
-**Ce e automat:** descărcarea imaginii la ieșirea din câmp sau la salvare, verificarea adresei (publică,
+**Ce e automat:** descărcarea imaginii la ieșirea din câmp sau la salvarea unei înregistrări existente, verificarea adresei (publică,
 `http`/`https`, imagine, sub 10 MB), înlocuirea adresei cu numele fișierului.
 
 **Ce rămâne manual:** găsirea adresei imaginii, verificarea vizuală a imaginii și a drepturilor de
@@ -162,7 +169,7 @@ imaginea produsului nu se schimbă. Acesta este semnalul pentru operator.
 |---|---|---|
 | Adresa rămâne în câmp, imaginea nu se schimbă | Adresa nu duce la o imagine (pagină HTML, eroare 404, fișier care nu e imagine) | Deschideți adresa în browser; copiați adresa imaginii propriu-zise (clic dreapta pe imagine → *Copiați adresa imaginii*) |
 | Adresa rămâne în câmp, imaginea nu se schimbă | Adresă internă sau privată (`localhost`, `192.168.x.x`, `10.x.x.x`), refuzată din motive de securitate | Folosiți o adresă publică sau încărcați fișierul manual |
-| Adresa rămâne în câmp după aproximativ 15 secunde | Site-ul furnizorului nu răspunde sau serverul Odoo nu are acces la internet | Verificați accesul serverului la internet (firewall); reîncercați |
+| Adresa rămâne în câmp după cel puțin 15 secunde | Site-ul furnizorului nu răspunde sau serverul Odoo nu are acces la internet | Verificați accesul serverului la internet (firewall); reîncercați |
 | Adresa rămâne în câmp, imaginea nu se schimbă | Imagine mai mare de 10 MB | Folosiți o variantă mai mică a imaginii |
 | Adresa rămâne în câmp, imaginea nu se schimbă | Utilizatorul nu are drept de modificare pe produse | Acordați dreptul sau cereți unui utilizator cu drept să încarce imaginea |
 | Adresa rămâne în câmp, imaginea nu se schimbă | Adresa fără `http://` sau `https://` la început (de exemplu `www.site.ro/poza.jpg`) | Scrieți adresa completă, cu `https://` |
@@ -197,3 +204,4 @@ Capturile în engleză pentru `readme/USAGE.md` (Odoo Apps) se generează din ac
 - Menționați restricțiile de securitate (doar adrese publice, maximum 10 MB, doar imagini) ca
   răspuns la întrebarea „de ce nu merge de pe serverul nostru intern".
 - La importurile mari, descărcarea imaginilor prelungește importul: recomandați loturi mai mici.
+  Butonul **Testați** din import descarcă și el imaginile, deci la fișiere mari testați pe un lot mic.

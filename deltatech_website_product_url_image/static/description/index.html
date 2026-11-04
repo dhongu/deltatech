@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 30 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 32 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:96%;background-color:#57B952;"></div>
       </div>
@@ -38,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -46,17 +51,50 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Incarcare poza din url</li>
-</ul>
-</li>
-</ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Loads product images from a web address instead of a file: paste the address of the image
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://...</code>) and Odoo downloads it.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Main product image</span><div>The address pasted in <strong>Image File Name</strong> (product form, tab <strong>Sales</strong>)
+  sets the product image; the field then keeps only the file name.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Extra images</span><div>The address pasted in the <strong>Image Name</strong> of an extra image (<strong>Ecommerce Media</strong>)
+  loads that image.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Import</span><div>Updating existing products by import with the <strong>Image File Name</strong> column loads their
+  images.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Safe download</span><div>Only public <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https</code> addresses are fetched, each redirect is checked, the
+  answer must be an image of at most 10 MB, and only users allowed to edit products can trigger it.</div></div></li></ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open the product (<em>Website &gt; eCommerce &gt; Products</em>), tab <strong>Sales</strong>. In the <strong>Ecommerce Shop</strong>
+   group, paste the address of the image, starting with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://</code>, in <strong>Image File Name</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Product form, Sales tab: the image address typed in Image File Name (1); the product has no image yet" src="en/01_adresa_imagine_produs.png" /></p>
+<ol start="2">
+<li>Leave the field: Odoo downloads the image and sets it as the product image, and the field keeps only
+   the file name. Save the product. If the address stays in the field, the image could not be loaded.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The product image loaded from the address (1) and Image File Name reduced to lampa-led-10w.png (2)" src="en/02_imagine_incarcata_produs.png" /></p>
+<ol start="3">
+<li>For an extra image of the product (<strong>Ecommerce Media</strong>), paste the address in its <strong>Image Name</strong> and
+   leave the field: the image is downloaded in the same way. Press <strong>Save</strong> in the image window, then
+   save the product.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The extra image window over the product: Image Name (1) became the file name, the downloaded image (2) replaced the old one, and the Save button (3)" src="en/03_imagine_suplimentara_url.png" /></p>
+<ol start="4">
+<li>Check the product page in the shop (<strong>Go to Website</strong>): the main image and the extra image come from
+   the addresses.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The product page in the shop: the first thumbnail is the main image and the second one, selected (1), is the extra image shown large" src="en/04_produs_magazin_imagine.png" /></p>
+<p>Updating existing products by import (with their ID column) loads the images too, when the
+<strong>Image File Name</strong> column holds web addresses. Products created by the import keep the address as
+text, without image.</p>
+<p>Only public <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https</code> addresses are fetched, the answer must be an image of at most 10 MB and only
+users allowed to edit products can trigger the download.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.7 (2026-11-04)</h2>
+<ul>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), usage steps and description in English, with screenshots
+  generated by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-10-22)</h2>
 <ul>
 <li>Listed on Odoo Apps as <em>Product Image from URL</em> (was <em>eCommerce Product Image URL Link</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_website_product_url_image</code> does not change.</li>
@@ -216,7 +254,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add a final order review and confirmation step to eCommerce checkout</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm eCommerce orders on the checkout confirmation page, including wire transfer and cash on delivery</p>
         </div>
       </a>
     </div>
@@ -276,7 +314,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Limit eCommerce delivery methods and payment providers</p>
         </div>
       </a>
     </div>
