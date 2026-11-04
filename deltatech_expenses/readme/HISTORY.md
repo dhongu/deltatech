@@ -14,6 +14,10 @@
 - The option cannot be enabled while expense reports of the company are in the Advance state:
   they are finalized first, in the flow with payment entries.
 
+## 19.0.3.9.1 (2026-11-04)
+
+- Fix: the **Expenses Deductions** counter on the employee (`expenses_deduction_count`) is now restricted to HR users (`groups="hr.group_hr_user"`), like the company card journal. It is not on the public employee profile, so users without HR rights (website, POS) got an access error when reading an employee. New test: `test_employee_public_access`.
+
 ## 19.0.3.9.0 (2026-11-04)
 
 - A **Supplier Payment** line takes the payable account of the supplier (401), set from the
