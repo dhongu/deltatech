@@ -14,16 +14,13 @@ Product Image from URL
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_product_url_image
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_product_url_image
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_product_url_image/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_product_url_image/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_product_url_image
-    :alt: 32 automated tests · 96% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Loads product images from a web address instead of a file: paste the
 address of the image (``https://...``) and Odoo downloads it.
@@ -84,10 +81,10 @@ Only public ``http``/``https`` addresses are fetched, the answer must be
 an image of at most 10 MB and only users allowed to edit products can
 trigger the download.
 
-.. |Product form, Sales tab: the image address typed in Image File Name (1); the product has no image yet| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_product_url_image/static/description/en/01_adresa_imagine_produs.png
-.. |The product image loaded from the address (1) and Image File Name reduced to lampa-led-10w.png (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_product_url_image/static/description/en/02_imagine_incarcata_produs.png
-.. |The extra image window over the product: Image Name (1) became the file name, the downloaded image (2) replaced the old one, and the Save button (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_product_url_image/static/description/en/03_imagine_suplimentara_url.png
-.. |The product page in the shop: the first thumbnail is the main image and the second one, selected (1), is the extra image shown large| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_product_url_image/static/description/en/04_produs_magazin_imagine.png
+.. |Product form, Sales tab: the image address typed in Image File Name (1); the product has no image yet| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/01_adresa_imagine_produs.png
+.. |The product image loaded from the address (1) and Image File Name reduced to lampa-led-10w.png (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/02_imagine_incarcata_produs.png
+.. |The extra image window over the product: Image Name (1) became the file name, the downloaded image (2) replaced the old one, and the Save button (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/03_imagine_suplimentara_url.png
+.. |The product page in the shop: the first thumbnail is the main image and the second one, selected (1), is the extra image shown large| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/04_produs_magazin_imagine.png
 
 Changelog
 =========
@@ -162,6 +159,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_product_url_image>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_product_url_image>`_ project on GitHub.
 
 You are welcome to contribute.

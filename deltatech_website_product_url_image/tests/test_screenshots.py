@@ -5,14 +5,13 @@
 # în limba RO (fișa) și EN (readme/USAGE.md).
 #
 # Fluxul: adresa imaginii scrisă în Nume fișier imagine, imaginea încărcată pe produs,
-# o imagine suplimentară (Media eCommerce) încărcată din URL și produsul în magazin.
+# o imagine suplimentară (Media) încărcată din URL și produsul în magazin.
 # Descărcarea imaginii e simulată: capturile nu ies din test.
 #
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
 #       -i deltatech_website_product_url_image,deltatech_doc_screenshots \
 #       --test-tags=/deltatech_website_product_url_image:TestUrlImageScreenshots --stop-after-init
-import base64
 import unittest
 from io import BytesIO
 from unittest.mock import patch
@@ -21,6 +20,7 @@ from PIL import Image, ImageDraw
 
 from odoo import Command
 from odoo.tests import tagged
+from odoo.tools.binary import BinaryBytes
 
 try:
     from odoo.addons.deltatech_doc_screenshots.tests.screenshot_case import ScreenshotCase
@@ -59,7 +59,7 @@ TYPE_URL_JS = """
 """
 COMMIT_JS = 'input.dispatchEvent(new Event("change", {bubbles: true}));'
 
-# tabul Vânzări, apoi fereastra imaginii din Media eCommerce, deschisă ca la un clic al operatorului
+# tabul eCommerce, apoi fereastra imaginii din Media, deschisă ca la un clic al operatorului
 OPEN_MEDIA_JS = """
     const until = async (selector) => {
         for (let i = 0; i < 100 && !document.querySelector(selector); i++) {
@@ -67,7 +67,7 @@ OPEN_MEDIA_JS = """
         }
         return document.querySelector(selector);
     };
-    document.querySelector("a.nav-link[name='sales']").click();
+    document.querySelector("button.nav-link[name='website_sale']").click();
     (await until("div[name='product_template_image_ids'] .o_kanban_record:not(.o_kanban_ghost)")).click();
     await until(".modal-content div[name='name'] input");
 """
@@ -98,7 +98,7 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
             raise unittest.SkipTest("deltatech_doc_screenshots indisponibil")
         super().setUpClass()
         cls.prepare_ro_company()
-        cls.website = cls.env["website"].get_current_website()
+        cls.website = cls.env.ref("base.default_website")
         # magazinul în română, cu engleza ca a doua limbă (capturile EN pentru USAGE.md)
         lang_ro = cls.env.ref("base.lang_ro")
         lang_en = cls.env.ref("base.lang_en")
@@ -125,12 +125,12 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
         cls.product.update_field_translations(
             "name", {"ro_RO": "Lampă de birou LED 10 W", "en_US": "LED desk lamp 10 W"}
         )
-        # imaginea suplimentară există deja în Media eCommerce, cu imaginea veche
+        # imaginea suplimentară există deja în Media, cu imaginea veche
         cls.extra_image = cls.env["product.image"].create(
             {
                 "name": "LMP-LED10",
                 "product_tmpl_id": cls.product.id,
-                "image_1920": base64.b64encode(_demo_image("#f4f4f4", "#9e9e9e")),
+                "image_1920": BinaryBytes(_demo_image("#f4f4f4", "#9e9e9e")),
             }
         )
 
@@ -139,10 +139,10 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
 
     def _shots_form(self):
         product_form = f"id={self.product.id}&model=product.template&view_type=form"
-        sales_tab = {"ro_RO": "Vânzări", "en_US": "Sales"}
+        sales_tab = {"ro_RO": "eCommerce", "en_US": "eCommerce"}
         field = "div[name='image_file_name']"
         return [
-            # 1. adresa imaginii, scrisă în Nume fișier imagine (tabul Vânzări)
+            # 1. adresa imaginii, scrisă în Nume fișier imagine (tabul eCommerce)
             {
                 "url": product_form,
                 "name": "01_adresa_imagine_produs.png",
@@ -163,7 +163,7 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
                 "settle": 2000,
                 "highlight": ["div.oe_avatar[name='image_1920']", field],
             },
-            # 3. imaginea suplimentară din Media eCommerce, încărcată din adresa scrisă în nume
+            # 3. imaginea suplimentară din Media, încărcată din adresa scrisă în nume
             {
                 "url": product_form,
                 "name": "03_imagine_suplimentara_url.png",

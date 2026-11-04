@@ -1,14 +1,14 @@
-1. Open the product (*Website > eCommerce > Products*), tab **Sales**. In the **Ecommerce Shop**
+1. Open the product (*Website > eCommerce > Products*), tab **eCommerce**. In the **Shop**
    group, paste the address of the image, starting with `https://`, in **Image File Name**.
 
-   ![Product form, Sales tab: the image address typed in Image File Name (1); the product has no image yet](static/description/en/01_adresa_imagine_produs.png)
+   ![Product form, eCommerce tab: the image address typed in Image File Name (1); the product has no main image yet: Odoo shows the older grey image from Media in its place](static/description/en/01_adresa_imagine_produs.png)
 
 2. Leave the field: Odoo downloads the image and sets it as the product image, and the field keeps only
    the file name. Save the product. If the address stays in the field, the image could not be loaded.
 
    ![The product image loaded from the address (1) and Image File Name reduced to lampa-led-10w.png (2)](static/description/en/02_imagine_incarcata_produs.png)
 
-3. For an extra image of the product (**Ecommerce Media**), paste the address in its **Image Name** and
+3. For an extra image of the product (**Media**), paste the address in its **Image Name** and
    leave the field: the image is downloaded in the same way. Press **Save** in the image window, then
    save the product.
 

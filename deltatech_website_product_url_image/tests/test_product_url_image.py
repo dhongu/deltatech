@@ -2,13 +2,13 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import io
 from unittest.mock import MagicMock, patch
 
 from PIL import Image
 
 from odoo.tests import Form, TransactionCase, tagged
+from odoo.tools.binary import BinaryBytes
 
 MODELS = "odoo.addons.deltatech_website_product_url_image.models.product_template"
 REQUESTS_GET = MODELS + ".requests.get"
@@ -49,7 +49,6 @@ class TestProductUrlImage(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.png = _png_bytes()
-        cls.png_b64 = base64.b64encode(cls.png)
         cls.template = cls.env["product.template"].create({"name": "Test URL Image Product", "type": "consu"})
 
     def setUp(self):
@@ -64,7 +63,7 @@ class TestProductUrlImage(TransactionCase):
         with patch(REQUESTS_GET, return_value=_response(self.png)) as mock_get:
             data = self.template._load_image_from_url("  " + URL + "  ")
         mock_get.assert_called_once_with(URL, timeout=15, stream=True, allow_redirects=False)
-        self.assertEqual(data, self.png_b64)
+        self.assertEqual(data.content, self.png)
 
     def test_load_image_from_url_invalid_content(self):
         with patch(REQUESTS_GET, return_value=_response(b"this is not an image")):
@@ -138,7 +137,7 @@ class TestProductUrlImage(TransactionCase):
     # ---------- product.image ----------
     def _create_product_image(self):
         return self.env["product.image"].create(
-            {"name": "initial", "product_tmpl_id": self.template.id, "image_1920": base64.b64encode(_png_bytes("blue"))}
+            {"name": "initial", "product_tmpl_id": self.template.id, "image_1920": BinaryBytes(_png_bytes("blue"))}
         )
 
     def test_product_image_write_url(self):

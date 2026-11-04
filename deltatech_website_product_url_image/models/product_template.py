@@ -2,7 +2,6 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import ipaddress
 import logging
 import socket
@@ -12,6 +11,7 @@ import requests
 
 from odoo import api, fields, models
 from odoo.tools import image
+from odoo.tools.binary import BinaryBytes
 
 _logger = logging.getLogger(__name__)
 
@@ -85,7 +85,7 @@ class ProductTemplate(models.Model):
         return None
 
     def _load_image_from_url(self, url):
-        """Return the base64 image found at ``url`` or False.
+        """Return the raw image bytes found at ``url`` or False.
 
         Only users allowed to modify products may trigger the download
         (onchange can be called with read access only).
@@ -96,8 +96,8 @@ class ProductTemplate(models.Model):
             content = self._fetch_public_image(url.strip())
             if not content:
                 return False
-            data = base64.b64encode(content)
-            image.base64_to_image(data)
+            image.binary_to_image(content)
+            data = BinaryBytes(content)
         except Exception:
             data = False
         return data

@@ -2,12 +2,15 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 from unittest.mock import patch
 
 from odoo.tests import TransactionCase, new_test_user, tagged
+from odoo.tools import mute_logger
 
 from .test_product_url_image import GETADDRINFO, PUBLIC_IP, REQUESTS_GET, URL, _addrinfo, _png_bytes, _response
+
+# refused URLs are logged as warnings by design
+MODEL_LOGGER = "odoo.addons.deltatech_website_product_url_image.models.product_template"
 
 
 @tagged("post_install", "-at_install")
@@ -25,13 +28,14 @@ class TestUrlImageSsrf(TransactionCase):
         with (
             patch(GETADDRINFO, return_value=_addrinfo(*ips)) as mock_dns,
             patch(REQUESTS_GET, side_effect=responses) as mock_get,
+            mute_logger(MODEL_LOGGER),
         ):
             data = self.template._load_image_from_url(url)
         return data, mock_get, mock_dns
 
     def test_public_url_accepted(self):
         data, mock_get, _dns = self._load(URL)
-        self.assertEqual(data, base64.b64encode(self.png))
+        self.assertEqual(data.content, self.png)
         mock_get.assert_called_once_with(URL, timeout=15, stream=True, allow_redirects=False)
 
     def test_literal_non_public_ips_refused(self):
@@ -65,6 +69,7 @@ class TestUrlImageSsrf(TransactionCase):
         with (
             patch(GETADDRINFO, side_effect=OSError("no such host")),
             patch(REQUESTS_GET) as mock_get,
+            mute_logger(MODEL_LOGGER),
         ):
             self.assertFalse(self.template._load_image_from_url(URL))
         mock_get.assert_not_called()
@@ -85,7 +90,7 @@ class TestUrlImageSsrf(TransactionCase):
     def test_redirect_to_public_url_followed(self):
         redirect = _response(b"", content_type="text/html", status_code=301, location="/img/b.png")
         data, mock_get, _dns = self._load(URL, responses=[redirect, _response(self.png)])
-        self.assertEqual(data, base64.b64encode(self.png))
+        self.assertEqual(data.content, self.png)
         self.assertEqual(mock_get.call_args_list[1].args[0], "https://example.com/img/b.png")
 
     def test_too_many_redirects_refused(self):

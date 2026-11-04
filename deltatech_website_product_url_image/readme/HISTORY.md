@@ -1,3 +1,9 @@
+## 20.0.1.0.7 (2026-11-04)
+
+- Migration to Odoo 20.0: the downloaded image is stored as raw bytes (`BinaryBytes`), the *Image File Name*
+  field moved to the *Shop* group of the *eCommerce* tab, consultant sheet and screenshots updated to the
+  Odoo 20 form.
+
 ## 19.0.1.0.7 (2026-11-04)
 
 - Consultant sheet (`readme/FISA_CONSULTANT.md`), usage steps and description in English, with screenshots

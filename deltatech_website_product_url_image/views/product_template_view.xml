@@ -6,7 +6,7 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="website_sale.product_template_form_view" />
         <field name="arch" type="xml">
-            <group name="extra_info" position="inside">
+            <group name="shop" position="inside">
                 <field name='image_file_name' />
             </group>
         </field>

@@ -50,10 +50,10 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 - un produs vândabil, publicat pe site, de exemplu **Lampă de birou LED 10 W** (cod `LMP-LED10`, preț
   129 RON), în categoria de magazin **Iluminat**;
 - o adresă publică a unei imagini PNG sau JPG (de exemplu, de pe site-ul furnizorului);
-- opțional, o imagine suplimentară în **Media eCommerce**, pentru fluxul imaginilor secundare.
+- opțional, o imagine suplimentară în **Media**, pentru fluxul imaginilor secundare.
 
-Câmpul adăugat de modul: **Nume fișier imagine** (`image_file_name`) pe produs, în tabul **Vânzări**,
-grupul **Magazin eCommerce**. Pentru imaginile suplimentare se folosește câmpul existent **Nume
+Câmpul adăugat de modul: **Nume fișier imagine** (`image_file_name`) pe produs, în tabul **eCommerce**,
+grupul **Magazin**. Pentru imaginile suplimentare se folosește câmpul existent **Nume
 imagine** al imaginii.
 
 ## 5. Configurare inițială
@@ -67,13 +67,13 @@ imagine** al imaginii.
 
 ### Pasul 1 — Lipiți adresa imaginii pe produs
 
-**Meniu:** *Website → eCommerce → Produse*, deschideți produsul, tabul **Vânzări**.
+**Meniu:** *Website → eCommerce → Produse*, deschideți produsul, tabul **eCommerce**.
 
-În grupul **Magazin eCommerce**, în câmpul **Nume fișier imagine**, lipiți adresa completă a imaginii,
+În grupul **Magazin**, în câmpul **Nume fișier imagine**, lipiți adresa completă a imaginii,
 care începe cu `https://` (sau `http://`). Atât timp cât nu ieșiți din câmp, nu se întâmplă nimic: adresa
 este doar text.
 
-![Formularul produsului Lampă de birou LED 10 W, tabul Vânzări, grupul Magazin eCommerce: în câmpul Nume fișier imagine (1) este scrisă adresa https://cdn.furnizor-demo.ro/imagini/lampa-led-10w.png; produsul nu are încă imagine principală (sus, în dreapta, apare pictograma aparatului foto), iar în Media eCommerce există o imagine gri mai veche](../static/description/01_adresa_imagine_produs.png)
+![Formularul produsului Lampă de birou LED 10 W, tabul eCommerce, grupul Magazin: în câmpul Nume fișier imagine (1) este scrisă adresa https://cdn.furnizor-demo.ro/imagini/lampa-led-10w.png; produsul nu are încă imagine principală (sus, în dreapta, Odoo 20 afișează în locul ei imaginea gri mai veche din Media)](../static/description/01_adresa_imagine_produs.png)
 
 ### Pasul 2 — Ieșiți din câmp: imaginea se încarcă pe produs
 
@@ -93,7 +93,7 @@ reușit, salvarea nu mai reîncearcă. Salvați întâi produsul, apoi scrieți 
 
 ### Pasul 3 — Imagini suplimentare din adresă web
 
-**Meniu:** produsul, tabul **Vânzări**, grupul **Media eCommerce**: deschideți imaginea suplimentară
+**Meniu:** produsul, tabul **eCommerce**, grupul **Media**: deschideți imaginea suplimentară
 (sau **Adăugați media** pentru una nouă).
 
 În fereastra imaginii, în câmpul **Nume imagine**, lipiți adresa imaginii și ieșiți din câmp. Imaginea
@@ -101,7 +101,7 @@ se descarcă în fereastră, iar numele devine numele fișierului (`lampa-led-10
 **Salvează** în fereastra imaginii, apoi salvați produsul: imaginea ajunge în baza de date abia la
 salvarea produsului.
 
-![Fereastra Deschide: Imagini/Video suplimentare, deschisă peste produs din Media eCommerce: Nume imagine (1) a devenit lampa-led-10w-detaliu.png, în dreapta (2) apare imaginea descărcată, lampa cu abajur verde, în locul imaginii gri de dinainte, iar jos butonul Salvează (3)](../static/description/03_imagine_suplimentara_url.png)
+![Fereastra Deschide: Imagini/Video suplimentare, deschisă peste produs din Media: Nume imagine (1) a devenit lampa-led-10w-detaliu.png, în dreapta (2) apare imaginea descărcată, lampa cu abajur verde, în locul imaginii gri de dinainte, iar jos butonul Salvează (3)](../static/description/03_imagine_suplimentara_url.png)
 
 ### Pasul 4 — Verificați produsul în magazin
 
@@ -134,7 +134,7 @@ contabilă asociată.
 
 | Modul | Rol |
 |---|---|
-| `website_sale` (eCommerce) | Formularul produsului, grupul Magazin eCommerce și Media eCommerce; pagina produsului din magazin |
+| `website_sale` (eCommerce) | Formularul produsului, grupul Magazin și Media; pagina produsului din magazin |
 | `product` | Imaginea principală a produsului (`image_1920`), folosită și pe documentele de vânzare |
 | Importul standard Odoo | Coloana **Nume fișier imagine** cu adrese web încarcă imaginile produselor existente (actualizare); la produsele create prin import adresa rămâne text |
 
@@ -146,11 +146,11 @@ folosire, ordinea imaginilor suplimentare.
 
 ## 8. Verificări pentru consultant
 
-- [ ] Câmpul **Nume fișier imagine** apare pe produs, tabul **Vânzări**, grupul **Magazin eCommerce**.
+- [ ] Câmpul **Nume fișier imagine** apare pe produs, tabul **eCommerce**, grupul **Magazin**.
 - [ ] O adresă publică `https://...` a unei imagini PNG/JPG, lipită în câmp, încarcă imaginea principală
       la ieșirea din câmp, iar câmpul rămâne cu numele fișierului.
 - [ ] După salvare, imaginea apare pe pagina produsului din magazin.
-- [ ] O adresă scrisă în **Nume imagine** al unei imagini din **Media eCommerce** încarcă imaginea
+- [ ] O adresă scrisă în **Nume imagine** al unei imagini din **Media** încarcă imaginea
       suplimentară.
 - [ ] O adresă care nu e imagine (de exemplu, o pagină HTML) nu schimbă imaginea; câmpul păstrează
       adresa.
@@ -187,9 +187,9 @@ descărcarea imaginilor e simulată în test. Regenerare:
 
 | Fișier | Ce arată |
 |---|---|
-| `01_adresa_imagine_produs.png` | Produsul, tabul Vânzări: adresa imaginii scrisă în Nume fișier imagine |
+| `01_adresa_imagine_produs.png` | Produsul, tabul eCommerce: adresa imaginii scrisă în Nume fișier imagine |
 | `02_imagine_incarcata_produs.png` | Imaginea principală încărcată și numele fișierului în câmp |
-| `03_imagine_suplimentara_url.png` | Imaginea suplimentară din Media eCommerce, încărcată din adresă |
+| `03_imagine_suplimentara_url.png` | Imaginea suplimentară din Media, încărcată din adresă |
 | `04_produs_magazin_imagine.png` | Pagina produsului din magazin, cu imaginile încărcate |
 
 Capturile în engleză pentru `readme/USAGE.md` (Odoo Apps) se generează din aceleași shot-uri, în

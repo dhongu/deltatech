@@ -2,13 +2,13 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import contextlib
 from unittest.mock import patch
 
 import werkzeug.urls
 
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.binary import BinaryBytes
 
 from .test_product_url_image import GETADDRINFO, PUBLIC_IP, REQUESTS_GET, URL, _addrinfo, _png_bytes, _response
 
@@ -37,7 +37,7 @@ class TestUrlImageWerkzeug3(TransactionCase):
         cls.png = _png_bytes()
         cls.template = cls.env["product.template"].create({"name": "Werkzeug 3 Product", "type": "consu"})
         cls.product_image = cls.env["product.image"].create(
-            {"name": "initial", "product_tmpl_id": cls.template.id, "image_1920": base64.b64encode(_png_bytes("blue"))}
+            {"name": "initial", "product_tmpl_id": cls.template.id, "image_1920": BinaryBytes(_png_bytes("blue"))}
         )
 
     def setUp(self):
