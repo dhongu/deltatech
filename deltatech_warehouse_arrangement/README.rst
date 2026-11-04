@@ -154,6 +154,14 @@ internal users can read them.
 Changelog
 =========
 
+20.0.0.1.8 (2026-11-04)
+-----------------------
+
+- Migration to Odoo 20.0: the barcode mixin is gone, scanning in the lot
+  location wizard goes through an own barcode widget (Owl 3); location
+  labels translated through ``env``; access rights in
+  ``security/ir.access.csv``.
+
 19.0.0.1.8 (2026-10-04)
 -----------------------
 
