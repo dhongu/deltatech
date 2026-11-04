@@ -10,7 +10,7 @@
                     <button
                         name="validate_advance"
                         string="Advance"
-                        invisible="state != 'draft'"
+                        invisible="state != 'draft' or no_payment_moves"
                         class="oe_highlight"
                         type="object"
                         groups="deltatech_expenses.group_expenses_approver"
@@ -18,7 +18,7 @@
                     <button
                         name="validate_expenses"
                         string="Validate"
-                        invisible="state != 'advance'"
+                        invisible="state != 'advance' and not (state == 'draft' and no_payment_moves)"
                         class="oe_highlight"
                         type="object"
                         groups="deltatech_expenses.group_expenses_accounting"
@@ -31,6 +31,7 @@
                         groups="deltatech_expenses.group_expenses_accounting"
                     />
                     <!-- <button name="cancel_expenses" string="Cancel" states="draft" type="object" />  -->
+                    <field name="no_payment_moves" invisible="1" />
                     <field
                         name="state"
                         widget="statusbar"
@@ -58,19 +59,20 @@
                             <field name="employee_id" readonly="state != 'draft'" />
                         </group>
                         <group>
-                            <field name="settlement_mode" readonly="state != 'draft'" />
+                            <field name="settlement_mode" readonly="state != 'draft'" invisible="no_payment_moves" />
                             <field
                                 name="journal_id"
                                 widget="selection"
                                 readonly="state != 'draft'"
+                                invisible="no_payment_moves"
                                 domain="[('type', 'in', ('cash', 'bank', 'credit')), ('company_id', '=', company_id)]"
                             />
                             <field
                                 name="card_journal_id"
                                 options="{'no_create': True}"
                                 readonly="state != 'draft'"
-                                invisible="settlement_mode != 'company_card'"
-                                required="settlement_mode == 'company_card'"
+                                invisible="settlement_mode != 'company_card' or no_payment_moves"
+                                required="settlement_mode == 'company_card' and not no_payment_moves"
                             />
                             <field
                                 name="currency_id"
@@ -83,7 +85,7 @@
                     </group>
                     <group>
                         <group>
-                            <field name="date_advance" readonly="state != 'draft'" />
+                            <field name="date_advance" readonly="state != 'draft'" invisible="no_payment_moves" />
                             <field name="date_expense" readonly="state not in ['draft', 'advance']" />
                         </group>
                         <group>
@@ -91,10 +93,22 @@
                                 name="advance"
                                 widget="monetary"
                                 readonly="state != 'draft'"
-                                invisible="settlement_mode == 'company_card'"
+                                invisible="settlement_mode == 'company_card' or no_payment_moves"
                                 options="{'currency_field': 'currency_id'}"
                             />
-                            <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                            <field
+                                name="difference"
+                                widget="monetary"
+                                invisible="no_payment_moves"
+                                options="{'currency_field': 'currency_id'}"
+                            />
+                            <field
+                                name="employee_balance"
+                                widget="monetary"
+                                invisible="not no_payment_moves"
+                                options="{'currency_field': 'company_currency_id'}"
+                            />
+                            <field name="company_currency_id" invisible="1" />
 
                         </group>
 
@@ -116,7 +130,10 @@
                     </group>
                     <notebook>
                         <page string="Description">
-                            <field name="expenses_line_ids" readonly="state != 'advance'">
+                            <field
+                                name="expenses_line_ids"
+                                readonly="state != 'advance' and not (state == 'draft' and no_payment_moves)"
+                            >
                                 <list editable="bottom">
                                     <field name="date" />
                                     <field name="name" />
@@ -288,9 +305,13 @@
                         <field name="allocated_amount" />
                         <field name="currency_id" invisible="1" />
                         <field name="state" invisible="1" />
+                        <field name="no_payment_moves" invisible="1" />
                     </group>
                 </group>
-                <field name="allocation_ids" readonly="state != 'advance'">
+                <field
+                    name="allocation_ids"
+                    readonly="state != 'advance' and not (state == 'draft' and no_payment_moves)"
+                >
                     <list editable="bottom">
                         <field name="move_id" options="{'no_create': True}" />
                         <field name="invoice_date_due" />
@@ -340,6 +361,8 @@
                 <field name="number" string="Expenses Deduction" />
                 <field name="date_expense" />
                 <filter name="state_new" domain="[('state','=','draft')]" string="New" help="New Expenses Deduction" />
+                <filter name="state_advance" domain="[('state','=','advance')]" string="Advance" />
+                <filter name="state_done" domain="[('state','=','done')]" string="Done" />
                 <separator/>
                 <filter name="my_expenses" domain="[('employee_id.user_id', '=', uid)]" string="My Expenses" />
                 <group>

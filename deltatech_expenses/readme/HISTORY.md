@@ -1,5 +1,17 @@
 # Changelog
 
+## 19.0.3.10.0 (2026-11-04)
+
+- New company option **Expense Reports without Payments** (Invoicing settings, Bank & Cash): the
+  expense report books only the expenses, always on 542 with the employee as partner (receipts,
+  supplier payments, per diem), whatever the settlement mode, company card included. It posts no
+  advance, no refund and no extra payment, and no exchange difference on 542: the money handed to
+  the employee and the refunds are recorded from the cash register or the bank statement,
+  reconciled on 542. The report has no Advance step: it is validated from Draft, gets its number
+  then and ends in Done. The form shows the employee balance on 542 instead of the difference.
+- The advance date is today by default.
+- Search filters **Advance** and **Done** on the expense reports.
+
 ## 19.0.3.8.0 (2026-10-29)
 
 - A supplier payment line can name the bills it pays (button on the line, **Bills Paid**): for

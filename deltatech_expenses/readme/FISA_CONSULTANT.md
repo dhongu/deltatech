@@ -343,6 +343,39 @@ lista filtrată pentru acel angajat.
 
 ![Fișa angajatului cu butonul smart „Deconturi"](screenshots/05_angajat_deconturi.png)
 
+### Varianta fără note de plată (sold 542 urmărit pe angajat)
+
+Pentru firmele în care angajații primesc bani rotunjit (ridicare din casă, retragere de pe cardul
+firmei) și soldul lor pe 542 se reportează de la o lună la alta, activați în **Facturare →
+Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Deconturi fără note de plată”**
+(per companie). Cu ea activă:
+
+- decontul nu are pasul „Avans”: contabilul completează cheltuielile în Ciornă și apasă
+  **„Validează”**; numărul se dă la validare, iar decontul ajunge în **Finalizat**;
+- câmpurile Mod de decontare, Jurnal de plată, Avans, Data avansului și Diferența nu mai apar; în
+  locul diferenței, formularul arată **„Sold angajat (542)”**, soldul angajatului pe 542 din toate
+  deconturile și operațiunile de casă / bancă (debitor = angajatul mai are de justificat, creditor =
+  firma îi datorează);
+- la validare se înregistrează doar cheltuielile, toate pe **542 cu angajatul ca partener**, oricum
+  s-a plătit (inclusiv cu cardul firmei): chitanța și `Dr 401 = Cr 542`, plata furnizorului
+  `Dr 401 = Cr 542`, diurna `Dr 625 = Cr 542`;
+- nu se mai generează nota de avans, nota de diferență (restituire sau plată suplimentară) și nici
+  diferența de curs pe 542 la decont;
+- sumele date angajatului și restituirile se înregistrează din **registrul de casă** (`Dr 542 = Cr
+  5311`, `Dr 5311 = Cr 542`) sau din **extrasul bancar** (retragere sau plată cu cardul firmei
+  `Dr 542 = Cr 5121`), cu angajatul ca partener, și se reconciliază pe 542;
+- deconturile validate se găsesc cu filtrul **„Done”** din listă; soldul se urmărește pe fișa
+  contului 542, pe partener (angajat).
+
+Operațiuni de perioadă, în afara decontului (OMFP 1802/2014, funcțiunea contului 542):
+
+- la **31.12**, avansurile nedecontate se reclasifică (`Dr 4282 = Cr 542`, sau 461), iar soldul
+  creditor al unui angajat se prezintă ca datorie a firmei față de el, fără compensare cu soldurile
+  debitoare ale altor angajați;
+- avansurile nejustificate în termen se trec în 428 și se recuperează de la angajat;
+- pentru un sold 542 în valută, diferențele de curs se înregistrează la **finele fiecărei luni**
+  (765/665), prin reevaluarea lunară, nu doar la reconcilierea cu casa sau banca.
+
 ## 7. Legături cu alte module / declarații
 
 | Modul / proces | Rol în flux |
@@ -389,11 +422,17 @@ după validare.
 - [ ] Decont în valută: moneda decontului este cea a jurnalului de plată (la „Card de firmă", a jurnalului cardului).
 - [ ] Decont în valută: fiecare notă are suma în valută și contravaloarea în lei la cursul BNR din data ei (avans — data avansului, chitanță — data liniei, diurnă și diferență — data cheltuielii).
 - [ ] Decont în valută: după validare, soldul 542 este zero în valută și în lei; diferența de curs, dacă există, este pe 665 sau 765.
+- [ ] Fără note de plată: decontul se validează din Ciornă, fără butonul „Avans”, și nu are nicio notă pe casă sau bancă.
+- [ ] Fără note de plată: toate cheltuielile (chitanțe, plăți furnizor, diurnă) sunt pe credit 542 cu angajatul, inclusiv la cardul firmei.
+- [ ] Fără note de plată: „Sold angajat (542)” este egal cu soldul din fișa contului 542 pentru angajat.
+- [ ] Fără note de plată: un decont cu avans completat este refuzat la validare.
 
 ## 9. Mesaje de eroare frecvente
 
 | Mesaj / simptom | Cauză probabilă | Remediere |
 |-----------------|-----------------|-----------|
+| „The expense reports of ... have no advance step” | Pe companie e activă „Deconturi fără note de plată” și s-a cerut pasul Avans (de ex. prin import sau API) | Completați cheltuielile și validați decontul direct |
+| „The expense report ... has an advance, but the advances of ... are recorded from the cash register or the bank statement” | Decont cu avans completat, în varianta fără note de plată | Puneți avansul pe zero; avansul se înregistrează din casă sau bancă |
 | Notele de avans nu au partener | Angajatul nu are „Work Contact" | Completați partenerul pe fișa angajatului (sau acceptați note interne) |
 | Contul 542 nu se închide | „Jurnal avansuri (542)" nu are contul implicit 542 | Setați contul implicit 542 pe jurnal |
 | „Furnizorul ... nu are un cont de datorii (401)" | Linie „Plată furnizor" cu un furnizor fără cont de plătit configurat | Completați „Cont de plătit" pe fișa furnizorului |
