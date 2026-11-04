@@ -1,0 +1,18 @@
+{
+    "name": "Price List Line Viewer",
+    "version": "20.0.0.0.4",
+    "author": "Voicu Stefan, Terrabit",
+    "website": "https://www.terrabit.ro",
+    "summary": "Creates a list view for the lines of a price list for search and management",
+    "category": "Sales",
+    "depends": ["sale_management", "product"],
+    "data": [
+        "views/product_pricelist_view.xml",
+        "data/security_groups.xml",
+        "security/ir.access.csv",
+    ],
+    "license": "OPL-1",
+    "images": ["static/description/main_screenshot.png"],
+    "development_status": "Alpha",
+    "maintainers": ["VoicuStefan2001"],
+}
