@@ -5,14 +5,12 @@
         <field name="model">product.pricelist</field>
         <field name="inherit_id" ref="product.product_pricelist_view" />
         <field name="arch" type="xml">
-            <sheet position="inside">
-                    <!--                <button name="action_view_lines" type="object" class="oe_stat_button" string="Pricelist Lines"/>-->
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_view_lines" type="object" class="oe_stat_button" icon="fa-list-ul">
-                            <span>Pricelist Lines</span>
-                        </button>
-                    </div>
-            </sheet>
+            <!-- în 20.0 formularul standard are deja button_box (Daily Rates): adăugăm butonul în el -->
+            <div name="button_box" position="inside">
+                <button name="action_view_lines" type="object" class="oe_stat_button" icon="format_list_bulleted">
+                    <span>Pricelist Lines</span>
+                </button>
+            </div>
         </field>
     </record>
 

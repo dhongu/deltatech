@@ -14,16 +14,13 @@ Price List Line Viewer
     :target: https://odoo-community.org/page/development-status
     :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_line_viewer
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_line_viewer
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pricelist_line_viewer/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pricelist_line_viewer/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pricelist_line_viewer
-    :alt: 3 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 This module adds a **Pricelist Lines** button to the pricelist form. The
 button opens all the rules of that pricelist in a full list view, with
@@ -107,12 +104,12 @@ section, tick **Pricelists** and save.
    |The Access Rights tab (1) of the group: full rights on Pricelist and
    Pricelist Rule|
 
-.. |Pricelist form with the Pricelist Lines button highlighted (1) and the rules in the Sales Prices tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/01_buton_linii_lista_preturi.png
-.. |The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/02_lista_linii_preturi.png
-.. |The search bar (1) with the text Laptop and the Search Product proposal (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/03_cautare_produs.png
-.. |A pricelist rule opened from the list: Min Qty (1) and Fixed Price (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/04_formular_regula.png
-.. |The Permit pricelist editing group (1), Users tab (2) and Add a line (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/05_grup_utilizatori.png
-.. |The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_line_viewer/static/description/en/06_grup_drepturi_acces.png
+.. |Pricelist form with the Pricelist Lines button highlighted (1) and the rules in the Sales Prices tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/01_buton_linii_lista_preturi.png
+.. |The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/02_lista_linii_preturi.png
+.. |The search bar (1) with the text Laptop and the Search Product proposal (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/03_cautare_produs.png
+.. |A pricelist rule opened from the list: Min Qty (1) and Fixed Price (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/04_formular_regula.png
+.. |The Permit pricelist editing group (1), Users tab (2) and Add a line (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/05_grup_utilizatori.png
+.. |The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/06_grup_drepturi_acces.png
 
 Changelog
 =========
@@ -155,6 +152,6 @@ Current maintainer:
 
 |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_line_viewer>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_line_viewer>`_ project on GitHub.
 
 You are welcome to contribute.

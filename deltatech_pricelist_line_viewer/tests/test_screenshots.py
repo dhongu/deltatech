@@ -183,7 +183,7 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
                 "eval": WIDEN_NAME_JS,
                 "highlight": [
                     "div[name='name']",
-                    "a.nav-link[name='user_ids']",
+                    ".nav-link[name='user_ids']",
                     "div[name='user_ids'] .o_field_x2many_list_row_add a",
                 ],
             },
@@ -196,13 +196,13 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
                     ("""
                 + WIDEN_NAME_JS
                 + """)();
-                    document.querySelector("a.nav-link[name='access_rights']").click();
+                    document.querySelector(".nav-link[name='access_rights']").click();
                     await new Promise((resolve) => setTimeout(resolve, 800));
                     // coloana Nume e lată, iar antetul Acces Ștergere ieșea trunchiat
-                    const nameTh = document.querySelector("div[name='model_access'] th[data-name='name']");
+                    const nameTh = document.querySelector("div[name='access_ids'] th[data-name='name']");
                     if (nameTh) { nameTh.style.width = "220px"; }
                 }""",
-                "highlight": ["a.nav-link[name='access_rights']"],
+                "highlight": [".nav-link[name='access_rights']"],
             },
         ]
 
