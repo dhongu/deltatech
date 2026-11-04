@@ -14,7 +14,7 @@
 #       --test-tags=/deltatech_sale_multiple_website:TestSaleMultipleWebsiteScreenshots --stop-after-init
 import unittest
 
-from odoo import Command
+from odoo import Command, fields
 from odoo.tests import tagged
 
 try:
@@ -46,7 +46,8 @@ class TestSaleMultipleWebsiteScreenshots(ScreenshotCase or object):
             raise unittest.SkipTest("deltatech_doc_screenshots indisponibil")
         super().setUpClass()
         cls.prepare_ro_company()
-        cls.website = cls.env["website"].get_current_website()
+        # în 20.0 get_current_website() nu mai există; site-ul implicit e în base
+        cls.website = cls.env.ref("base.default_website")
         # magazinul în română, cu engleza ca a doua limbă (capturile EN pentru USAGE.md)
         lang_ro = cls.env.ref("base.lang_ro")
         lang_en = cls.env.ref("base.lang_en")
@@ -63,7 +64,15 @@ class TestSaleMultipleWebsiteScreenshots(ScreenshotCase or object):
         ron = cls.env.ref("base.RON")
         ron.active = True
         ron.rate_ids.unlink()
-        cls.env["res.currency.rate"].create({"currency_id": ron.id, "rate": 1.0, "company_id": company.id})
+        # în 20.0 cursul se aplică din ziua următoare datei lui: îl punem pe ieri
+        cls.env["res.currency.rate"].create(
+            {
+                "name": fields.Date.subtract(fields.Date.today(), days=1),
+                "currency_id": ron.id,
+                "rate": 1.0,
+                "company_id": company.id,
+            }
+        )
         pricelists = cls.env["product.pricelist"].search([])
         pricelist = cls.env["product.pricelist"].create(
             {"name": "Listă de prețuri publică", "currency_id": ron.id, "company_id": company.id}
@@ -120,9 +129,8 @@ class TestSaleMultipleWebsiteScreenshots(ScreenshotCase or object):
             }
         )
         # o ofertă din backend: regula e doar pentru website, cantitatea rămâne 130
-        customer = cls.env["res.partner"].create(
-            {"name": "Construct Montaj SRL", "is_company": True, "city": "Cluj-Napoca"}
-        )
+        # în 20.0 is_company e calculat (entitate comercială + CUI), nu se mai scrie direct
+        customer = cls.env["res.partner"].create({"name": "Construct Montaj SRL", "city": "Cluj-Napoca"})
         cls.quotation = cls.env["sale.order"].create(
             {
                 "partner_id": customer.id,
@@ -168,7 +176,7 @@ class TestSaleMultipleWebsiteScreenshots(ScreenshotCase or object):
                 "wait": "#cart_products",
                 "settle": 2500,
                 "highlight": [
-                    "#cart_products .text-muted.small:has(.fa-th-large)",
+                    "#cart_products .text-muted.small:has([data-icon='view_module'])",
                     "#cart_products .css_quantity",
                 ],
             },

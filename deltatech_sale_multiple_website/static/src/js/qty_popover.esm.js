@@ -3,7 +3,7 @@ import {registry} from "@web/core/registry";
 import {formatFloat} from "@web/core/utils/numbers";
 import {patch} from "@web/core/utils/patch";
 import {Interaction} from "@web/public/interaction";
-import {WebsiteSale} from "@website_sale/interactions/website_sale";
+import {ProductPage} from "@website_sale/interactions/product_page";
 
 function refreshPopover(button, title, content) {
     window.Popover?.getInstance(button)?.dispose();
@@ -13,9 +13,9 @@ function refreshPopover(button, title, content) {
     window.Popover?.getOrCreateInstance(button);
 }
 
-patch(WebsiteSale.prototype, {
-    _onChangeCombination(ev, parent, combination) {
-        super._onChangeCombination(...arguments);
+patch(ProductPage.prototype, {
+    async _onChangeCombination(ev, parent, combination) {
+        await super._onChangeCombination(...arguments);
 
         const restrictions = parent.querySelector("#product_qty_restrictions");
         if (!restrictions) {

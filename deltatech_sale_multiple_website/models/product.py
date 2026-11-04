@@ -10,20 +10,24 @@ class ProductTemplate(models.Model):
         help="Apply minimum and multiple quantity rules only on the website.",
     )
 
-    def _get_additionnal_combination_info(
+    def _get_additional_combination_info(
         self,
         product_or_template,
         quantity,
         uom,
-        date,
         website,
+        pricelist,
+        fiscal_position,
+        **kwargs,
     ) -> dict:
-        combination_info = super()._get_additionnal_combination_info(
+        combination_info = super()._get_additional_combination_info(
             product_or_template,
             quantity,
             uom,
-            date,
             website,
+            pricelist,
+            fiscal_position,
+            **kwargs,
         )
         product = (
             product_or_template

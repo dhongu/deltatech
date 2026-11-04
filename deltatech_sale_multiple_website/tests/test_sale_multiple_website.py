@@ -12,6 +12,13 @@ class TestSaleMultipleWebsite(WebsiteSaleStockCommon):
         super().setUpClass()
         cls.product.write({"qty_multiple": 5.0, "qty_minim": 10.0})
         cls.product.product_tmpl_id.check_min_website = True
+        # în 20.0 WebsiteSaleCommon nu mai creează coșul gol
+        cls.empty_cart = cls.env["sale.order"].create(
+            {
+                "partner_id": cls.partner.id,
+                "website_id": cls.website.id,
+            }
+        )
 
     def test_initial_cart_add_is_normalized(self):
         cart = self.empty_cart.with_context(website_id=self.website.id)
@@ -98,8 +105,10 @@ class TestSaleMultipleWebsite(WebsiteSaleStockCommon):
         self.assertTrue(update_result["warning"])
 
     def test_combination_info_contains_variant_quantity_rules(self):
-        with MockRequest(self.env, website=self.website):
-            combination_info = self.product.product_tmpl_id._get_combination_info(
+        # în 20.0 site-ul curent vine din env.website (contextul website_id)
+        template = self.product.product_tmpl_id.with_context(website_id=self.website.id)
+        with MockRequest(template.env, website=self.website):
+            combination_info = template._get_combination_info(
                 product_id=self.product.id,
                 uom_id=self.product.uom_id.id,
             )

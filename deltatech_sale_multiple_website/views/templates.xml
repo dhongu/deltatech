@@ -13,7 +13,7 @@
                 <span
                     t-attf-class="me-3 qty-minimum-rule #{'d-none' if not (product.qty_minim and product.qty_minim &gt; 0) else ''}"
                 >
-                    <i class="fa fa-cube me-1" aria-hidden="true"/>
+                    <i class="oi me-1" data-icon="deployed_code" aria-hidden="true"/>
                     <span>
                         Min:
                         <span
@@ -32,13 +32,13 @@
                         aria-label="Minimum quantity"
                         t-attf-data-bs-content.translate="The minimum order quantity is #{product.qty_minim} units."
                     >
-                        <i class="fa fa-info-circle" aria-hidden="true"/>
+                        <i class="oi oi-filled" data-icon="info" aria-hidden="true"/>
                     </button>
                 </span>
                 <span
                     t-attf-class="qty-multiple-rule #{'d-none' if not (product.qty_multiple and product.qty_multiple &gt; 1) else ''}"
                 >
-                    <i class="fa fa-th-large me-1" aria-hidden="true"/>
+                    <i class="oi me-1" data-icon="view_module" aria-hidden="true"/>
                     <span>
                         Multiple of:
                         <span
@@ -57,7 +57,7 @@
                         aria-label="Quantity multiple"
                         t-attf-data-bs-content.translate="Quantity must be a multiple of #{product.qty_multiple} (e.g. #{product.qty_multiple}, #{product.qty_multiple * 2}, #{product.qty_multiple * 3}...)."
                     >
-                        <i class="fa fa-info-circle" aria-hidden="true"/>
+                        <i class="oi oi-filled" data-icon="info" aria-hidden="true"/>
                     </button>
                 </span>
             </div>
@@ -76,7 +76,7 @@
             />
             <div t-if="sale_qty_rules[0] or sale_qty_rules[1]" class="text-muted small">
                 <t t-if="sale_qty_rules[0]">
-                    <i class="fa fa-cube me-1" aria-hidden="true"/>
+                    <i class="oi me-1" data-icon="deployed_code" aria-hidden="true"/>
                     <span class="me-2">
                         Min:
                         <t
@@ -86,7 +86,7 @@
                     </span>
                 </t>
                 <t t-if="sale_qty_rules[1]">
-                    <i class="fa fa-th-large me-1" aria-hidden="true"/>
+                    <i class="oi me-1" data-icon="view_module" aria-hidden="true"/>
                     <span t-translation="off">x</span><t
                         t-out="sale_qty_rules[1]"
                         t-options="{'widget': 'float', 'decimal_precision': 'Product Unit'}"

@@ -17,16 +17,13 @@ eCommerce Qty Multiple
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_multiple_website
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_multiple_website
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_multiple_website/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_multiple_website/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_multiple_website
-    :alt: 12 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Extends sale quantity multiples to eCommerce. Product minimum and
 multiple quantities can be enforced only for website carts or globally,
@@ -85,13 +82,22 @@ Usage
 every product applies its rules only on the website. For products with
 several variants, set the rules on each variant.
 
-.. |Product form, Sales tab: Qty Multiple 50.00 (1), Qty Minim 100.00 (2) and Website Check Quantity (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_multiple_website/static/description/en/01_reguli_cantitate_produs.png
-.. |The product page in the shop: the restrictions Min: 100 and Multiple of: 50 (1), with the explanation of the multiple open| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_multiple_website/static/description/en/02_restrictii_pagina_produs.png
-.. |The cart: the rules Min: 100.00 and x50.00 under the product (1) and the quantity 150 (2), rounded up from 130| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_multiple_website/static/description/en/03_cos_cantitate_rotunjita.png
-.. |A backend quotation: the line keeps Quantity 130.00, because the rule applies only to the website| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_multiple_website/static/description/en/04_oferta_backend_fara_regula.png
+.. |Product form, Sales tab: Qty Multiple 50.00 (1), Qty Minim 100.00 (2) and Website Check Quantity (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_multiple_website/static/description/en/01_reguli_cantitate_produs.png
+.. |The product page in the shop: the restrictions Min: 100 and Multiple of: 50 (1), with the explanation of the multiple open| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_multiple_website/static/description/en/02_restrictii_pagina_produs.png
+.. |The cart: the rules Min: 100.00 and x50.00 under the product (1) and the quantity 150 (2), rounded up from 130| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_multiple_website/static/description/en/03_cos_cantitate_rotunjita.png
+.. |A backend quotation: the line keeps Quantity 130.00, because the rule applies only to the website| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_multiple_website/static/description/en/04_oferta_backend_fara_regula.png
 
 Changelog
 =========
+
+20.0.1.1.3 (2026-11-04)
+-----------------------
+
+- Migration to Odoo 20.0: the product page restrictions follow the new
+  ``ProductPage`` interaction, the combination info hook is
+  ``_get_additional_combination_info``, and "Website Check Quantity" is
+  edited on the variant form (the variant easy-edit form no longer
+  exists in Odoo 20).
 
 19.0.1.1.3 (2026-10-18)
 -----------------------
@@ -138,6 +144,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_multiple_website>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_multiple_website>`_ project on GitHub.
 
 You are welcome to contribute.

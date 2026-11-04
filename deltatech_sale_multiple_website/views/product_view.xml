@@ -10,15 +10,4 @@
             </field>
         </field>
     </record>
-
-    <record id="product_variant_easy_edit_view" model="ir.ui.view">
-        <field name="name">product.product.form.website.quantity.multiple</field>
-        <field name="model">product.product</field>
-        <field name="inherit_id" ref="deltatech_sale_multiple.product_variant_easy_edit_view"/>
-        <field name="arch" type="xml">
-            <field name="qty_minim" position="after">
-                <field name="check_min_website"/>
-            </field>
-        </field>
-    </record>
 </odoo>

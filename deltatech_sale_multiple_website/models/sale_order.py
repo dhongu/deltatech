@@ -1,7 +1,6 @@
 from typing import Any
 
 from odoo import api, models
-from odoo.tools import float_compare
 
 
 class SaleOrder(models.Model):
@@ -35,15 +34,7 @@ class SaleOrder(models.Model):
             uom_id,
             **kwargs,
         )
-        if (
-            verified_qty > 0
-            and float_compare(
-                verified_qty,
-                normalized_qty,
-                precision_rounding=product_uom.rounding,
-            )
-            < 0
-        ):
+        if verified_qty > 0 and product_uom.compare(verified_qty, normalized_qty) < 0:
             verified_qty = product._valid_sale_quantity_at_most(
                 verified_qty,
                 product_uom,
