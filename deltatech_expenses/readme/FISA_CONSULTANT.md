@@ -128,7 +128,7 @@ Date minime pentru demo:
 
 Meniul este **Facturare → Furnizori → Decont Cheltuieli** (cu Enterprise: **Contabilitate →
 Furnizori → Decont Cheltuieli**). Contabilul apasă **Nou**, alege **angajatul**, **modul de decontare** și **jurnalul de plată**,
-apoi completează **data avansului**, **data cheltuielii** (data decontului; se completează din data
+apoi completează **data avansului** (implicit data de azi), **data cheltuielii** (data decontului; se completează din data
 avansului dacă e goală), **ordinul de deplasare**, **avansul** acordat și, dacă e cazul, **diurna**
 (sumă/zi și număr de zile). În tabul „Alte informații" verifică **jurnalul de avansuri (542)**.
 
@@ -312,7 +312,8 @@ inclusiv nota de avans și chitanțele, se șterg, iar decontul revine în Ciorn
 declarată sau închisă: acolo corecția se face prin stornare.
 
 Decontul se tipărește din meniul cu rotița (⚙) → **Tipărire → Tipărire decont cheltuieli**; documentul tipărit e
-justificativul semnat de titularul avansului.
+justificativul semnat de titularul avansului. În varianta fără note de plată (mai jos), rândurile
+„Avans primit în data” și „Diferență” nu se mai tipăresc.
 
 ### Note de monografie și raportare (notele generate la fiecare pas)
 
@@ -351,8 +352,9 @@ Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Deconturi
 (per companie). Cu ea activă:
 
 - decontul nu are pasul „Avans”: contabilul completează cheltuielile în Ciornă și apasă
-  **„Validează”**; numărul se dă la validare, iar decontul ajunge în **Finalizat**;
-- câmpurile Mod de decontare, Jurnal de plată, Avans, Data avansului și Diferența nu mai apar; în
+  **„Validează”**; numărul se dă la validare, iar decontul ajunge în **Efectuat**;
+- câmpurile Mod de decontare, Jurnal de plată, Avans, Dată avans (completată implicit cu data de azi,
+  doar informativă) și Diferența nu mai apar; în
   locul diferenței, formularul arată **„Sold angajat (542)”**, soldul angajatului pe 542 din toate
   deconturile și operațiunile de casă / bancă (debitor = angajatul mai are de justificat, creditor =
   firma îi datorează);
@@ -364,8 +366,10 @@ Configurare → Setări**, blocul **Bancă și casă**, opțiunea **„Deconturi
 - sumele date angajatului și restituirile se înregistrează din **registrul de casă** (`Dr 542 = Cr
   5311`, `Dr 5311 = Cr 542`) sau din **extrasul bancar** (retragere sau plată cu cardul firmei
   `Dr 542 = Cr 5121`), cu angajatul ca partener, și se reconciliază pe 542;
-- deconturile validate se găsesc cu filtrul **„Done”** din listă; soldul se urmărește pe fișa
-  contului 542, pe partener (angajat).
+- deconturile validate se găsesc cu filtrul **„Efectuat”** din listă (filtrul **„Avans”** arată
+  deconturile clasice cu avans acordat și nedecontat); soldul se urmărește pe fișa contului 542, pe
+  partener (angajat);
+- la tipărire, decontul nu mai are rândurile „Avans primit în data” și „Diferență”.
 
 Operațiuni de perioadă, în afara decontului (OMFP 1802/2014, funcțiunea contului 542):
 
@@ -426,6 +430,7 @@ după validare.
 - [ ] Fără note de plată: toate cheltuielile (chitanțe, plăți furnizor, diurnă) sunt pe credit 542 cu angajatul, inclusiv la cardul firmei.
 - [ ] Fără note de plată: „Sold angajat (542)” este egal cu soldul din fișa contului 542 pentru angajat.
 - [ ] Fără note de plată: un decont cu avans completat este refuzat la validare.
+- [ ] Fără note de plată: decontul validat apare la filtrul „Efectuat”, iar decontul tipărit nu are rândurile de avans și diferență.
 
 ## 9. Mesaje de eroare frecvente
 
