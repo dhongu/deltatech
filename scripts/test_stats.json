@@ -711,6 +711,9 @@
     "deltatech_website_product_placeholder": {
       "tests": 6
     },
+    "deltatech_website_product_url_image": {
+      "tests": 32
+    },
     "deltatech_website_sale_sort": {
       "tests": 3
     },

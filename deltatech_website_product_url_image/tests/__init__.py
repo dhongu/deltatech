@@ -1,0 +1,8 @@
+# ©  2026 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from . import test_product_url_image
+from . import test_url_image_ssrf
+from . import test_werkzeug3
+from . import test_screenshots
