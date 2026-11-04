@@ -50,18 +50,42 @@ IMAGES = {
 }
 
 # scrie adresa în câmp ca un operator; cu ``change`` câmpul e confirmat și pornește încărcarea
-TYPE_URL_JS = """() => {{
+TYPE_URL_JS = """
     const input = document.querySelector("{selector} input");
     input.value = "{url}";
     input.dispatchEvent(new Event("input", {{bubbles: true}}));
     {commit}
     input.style.minWidth = "32em";
-}}"""
+"""
 COMMIT_JS = 'input.dispatchEvent(new Event("change", {bubbles: true}));'
 
+# tabul Vânzări, apoi fereastra imaginii din Media eCommerce, deschisă ca la un clic al operatorului
+OPEN_MEDIA_JS = """
+    const until = async (selector) => {
+        for (let i = 0; i < 100 && !document.querySelector(selector); i++) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+        return document.querySelector(selector);
+    };
+    document.querySelector("a.nav-link[name='sales']").click();
+    (await until("div[name='product_template_image_ids'] .o_kanban_record:not(.o_kanban_ghost)")).click();
+    await until(".modal-content div[name='name'] input");
+"""
 
-def _type_url(selector, url, commit=False):
-    return TYPE_URL_JS.format(selector=selector, url=url, commit=COMMIT_JS if commit else "")
+
+# după încărcarea paginii (interacțiunile magazinului), clic pe a doua miniatură
+SHOW_SECOND_IMAGE_JS = """async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(2000);
+    const thumbs = [...document.querySelectorAll("#product_detail_main [data-bs-slide-to='1']")];
+    (thumbs.find((el) => el.offsetParent) || thumbs[0]).click();
+    await sleep(1500);
+}"""
+
+
+def _type_url(selector, url, commit=False, open_media=False):
+    body = TYPE_URL_JS.format(selector=selector, url=url, commit=COMMIT_JS if commit else "")
+    return "async () => {" + (OPEN_MEDIA_JS if open_media else "") + body + "}"
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")
@@ -141,13 +165,17 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
             },
             # 3. imaginea suplimentară din Media eCommerce, încărcată din adresa scrisă în nume
             {
-                "url": f"id={self.extra_image.id}&model=product.image&view_type=form",
+                "url": product_form,
                 "name": "03_imagine_suplimentara_url.png",
                 "wait": ".o_form_view",
-                "eval": _type_url("div[name='name']", DETAIL_URL, commit=True),
+                "eval": _type_url(".modal-content div[name='name']", DETAIL_URL, commit=True, open_media=True),
                 "eval_wait": 3000,
                 "settle": 2000,
-                "highlight": ["div[name='name']", "div[name='image_1920']"],
+                "highlight": [
+                    ".modal-content div[name='name']",
+                    ".modal-content div[name='image_1920']",
+                    ".modal-footer .o_form_button_save",
+                ],
             },
         ]
 
@@ -158,8 +186,11 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
                 "path": {"ro_RO": self.product.website_url, "en_US": f"/en{self.product.website_url}"},
                 "name": "04_produs_magazin_imagine.png",
                 "wait": "#product_detail",
+                # a doua miniatură, imaginea suplimentară, devine imaginea mare
+                "eval": SHOW_SECOND_IMAGE_JS,
+                "eval_wait": 1500,
                 "settle": 2500,
-                "highlight": ["#product_detail_main .o_wsale_product_images"],
+                "highlight": ["#product_detail_main .carousel-indicators li:nth-child(2)"],
             },
         ]
 
@@ -171,6 +202,8 @@ class TestUrlImageScreenshots(ScreenshotCase or object):
             self.product.image_file_name = MAIN_URL
             self.extra_image.name = DETAIL_URL
             self.env.flush_all()
+            # descărcarea (simulată) a reușit: numele a devenit numele fișierului
+            self.assertEqual(self.extra_image.name, "lampa-led-10w-detaliu.png")
             self.capture_screenshots(self._shots_shop(), viewport=(1920, 1100), hide_systray=True, **kwargs)
 
     def test_capture_fise(self):
