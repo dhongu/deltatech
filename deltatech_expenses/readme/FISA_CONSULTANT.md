@@ -121,6 +121,8 @@ Date minime pentru demo:
    (altfel se refuză la salvare) și se propune pe decont doar dacă e al companiei decontului.
 9. Opțional, pentru verificarea automată a plafonului fiscal al diurnei, instalați
    `l10n_ro_expense_allowance`.
+10. Pentru liniile „Plată furnizor”, furnizorii trebuie să aibă **„Cont de plătit”** (401) setat pe
+    firma lor, în compania decontului: contul liniei se completează automat din el.
 
 ## 6. Flux de utilizare
 
@@ -196,15 +198,21 @@ de TVA sau peste 100 euro se introduce fără taxă, iar TVA-ul rămâne în che
 cereți factură; în exemplu, cazarea are factură).
 
 Contul de cheltuială se vede în coloana **„Cont cheltuieli implicit"** (pentru utilizatorii cu
-drepturi de contabilitate). Implicit este primul cont **623** (protocol): pentru deplasări schimbați-l
-în **625**.
+drepturi de contabilitate). Pe liniile „Cheltuieli” este implicit primul cont **623** (protocol):
+pentru deplasări schimbați-l în **625**. Pe liniile „Plată furnizor” contul nu se alege: se
+completează automat cu **„Cont de plătit”** al furnizorului (401) și e doar pentru citire; dacă
+linia revine pe „Cheltuieli”, primește din nou contul implicit de cheltuieli.
+
+Taxa se completează doar pe liniile „Cheltuieli”. Pe „Plată furnizor” câmpul **Taxe** e doar pentru
+citire și se golește la schimbarea tipului: factura plătită are deja TVA-ul înregistrat, iar suma
+plătită este totalul liniei.
 
 Fiecare linie are un **tip**:
 
 - **Cheltuieli** — justificată cu bon/factură; la validare se generează o **chitanță de achiziție** și
   decontarea din avans (vezi mai jos);
 - **Plată furnizor** — angajatul a achitat direct o datorie a firmei către un furnizor (fără chitanță
-  proprie); la validare se generează nota `Dr 401 = Cr 542`, cu firma furnizorului pe 401 (chiar
+  proprie și fără TVA pe linie); la validare se generează nota `Dr 401 = Cr 542`, pe totalul liniei, cu firma furnizorului pe 401 (chiar
   dacă pe linie e o persoană de contact a lui), care stinge facturile furnizorului ca o plată:
   - **cu facturi alese** — butonul **„Bills Paid”** de pe linie (vizibil pentru Aprobator și
     Contabil) deschide lista facturilor plătite; facturile se aleg și se modifică doar cât decontul e
@@ -375,6 +383,7 @@ după validare.
 - [ ] Un bon de 555 lei cu TVA 11% dă bază 500 și TVA 55; „Total chitanțe" este egal cu suma bonurilor.
 - [ ] Diferența = cheltuieli + diurnă − avans (negativă = angajatul restituie).
 - [ ] Nota de diferență din casă are data decontului, nu data avansului.
+- [ ] O linie „Plată furnizor” are contul 401 din „Cont de plătit” al furnizorului, fără taxe, iar nota Dr 401 = Cr 542 e pe totalul liniei.
 - [ ] O plată furnizor cu facturi alese stinge doar facturile alese, cu sumele alocate (parțial, dacă suma e mai mică).
 - [ ] Plata apare pe factură, în lista plăților, cu numărul decontului.
 - [ ] Partea nealocată a plății trece pe 4092 (Dr 4092 = Cr 401), iar pe 401 nu rămâne sold debitor.

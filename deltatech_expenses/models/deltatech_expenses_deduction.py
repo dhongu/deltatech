@@ -1256,8 +1256,9 @@ class DeltatechExpensesDeductionLine(models.Model):
             if line.type == "supplier_payment":
                 line.expense_account_id = line._supplier_payable_account()
             elif not line.expense_account_id or line.expense_account_id.account_type == "liability_payable":
-                # linie nouă sau revenită din „Plată furnizor": contul implicit de cheltuieli
-                line.expense_account_id = line._default_expense_account()
+                # linie nouă sau revenită din „Plată furnizor": contul implicit de cheltuieli, al companiei decontului
+                company = line.expenses_deduction_id.company_id or line.env.company
+                line.expense_account_id = line.with_company(company)._default_expense_account()
 
     @api.onchange("type")
     def _onchange_type_clear_taxes(self):
