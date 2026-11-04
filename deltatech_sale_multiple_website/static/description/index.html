@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 10 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 12 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
       </div>
@@ -38,6 +38,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -52,6 +57,37 @@ restrictions are displayed on product and cart pages.</p>
 <p>Cart quantities are normalized before Odoo checks stock. If stock availability
 caps a request, the cart falls back to the greatest available quantity that still
 satisfies both rules. Variant changes refresh the displayed restrictions.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open the product (<em>Website &gt; eCommerce &gt; Products &gt; Products</em>), tab <strong>Sales</strong>. In the <strong>Quantity</strong> group, set
+   <strong>Qty Multiple</strong> (for example 50) and <strong>Qty Minim</strong> (for example 100). Keep <strong>Website Check Quantity</strong>
+   ticked to apply the rules only to website orders, or untick it to apply them to backend quotations
+   too. Save the product.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Product form, Sales tab: Qty Multiple 50.00 (1), Qty Minim 100.00 (2) and Website Check Quantity (3)" src="en/01_reguli_cantitate_produs.png" /></p>
+<ol start="2">
+<li>On the product page of the shop, the restrictions are shown under the add to cart button
+   (<strong>Min: 100</strong>, <strong>Multiple of: 50</strong>); the info icon explains each rule. For products with variants,
+   the restrictions follow the selected variant.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The product page in the shop: the restrictions Min: 100 and Multiple of: 50 (1), with the explanation of the multiple open" src="en/02_restrictii_pagina_produs.png" /></p>
+<ol start="3">
+<li>In the cart, the quantity is rounded up to the minimum and then to the next multiple: 130 units
+   requested become 150. The rules are recalled under the product name.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The cart: the rules Min: 100.00 and x50.00 under the product (1) and the quantity 150 (2), rounded up from 130" src="en/03_cos_cantitate_rotunjita.png" /></p>
+<p>When the available stock caps the quantity, the cart keeps the greatest quantity that fits in stock
+   and still respects both rules; below the minimum, the product is not added.</p>
+<ol start="4">
+<li>With <strong>Website Check Quantity</strong> ticked, a quotation entered in the backend keeps the typed quantity
+   (130 stays 130). Untick it to round backend quotations as well. Orders coming from the website keep
+   the rules when edited in the backend.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="A backend quotation: the line keeps Quantity 130.00, because the rule applies only to the website" src="en/04_oferta_backend_fara_regula.png" /></p>
+<p><strong>Website Check Quantity</strong> is ticked by default, so after installation every product applies its rules
+only on the website. For products with several variants, set the rules on each variant.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
@@ -190,6 +226,26 @@ satisfies both rules. Variant changes refresh the displayed restrictions.</p>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_import_lines_sale" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_import_lines_sale/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Import Lines in Sale Orders</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Load sale order lines from an XLSX, XLS, CSV or TXT file</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_invoice_picking" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -246,26 +302,6 @@ satisfies both rules. Variant changes refresh the displayed restrictions.</p>
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Print product labels for the products of a price change document</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_pricelist" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_pricelist/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Pricelist Currency Extension</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set the product list price in a currency other than the company&#x27;s</p>
         </div>
       </a>
     </div>
