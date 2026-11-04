@@ -44,12 +44,13 @@ address of the image (``https://...``) and Odoo downloads it.
 Usage
 =====
 
-1. Open the product (*Website > eCommerce > Products*), tab **Sales**.
-   In the **Ecommerce Shop** group, paste the address of the image,
+1. Open the product (*Website > eCommerce > Products*), tab
+   **eCommerce**. In the **Shop** group, paste the address of the image,
    starting with ``https://``, in **Image File Name**.
 
-   |Product form, Sales tab: the image address typed in Image File Name
-   (1); the product has no image yet|
+   |Product form, eCommerce tab: the image address typed in Image File
+   Name (1); the product has no main image yet: Odoo shows the older
+   grey image from Media in its place|
 
 2. Leave the field: Odoo downloads the image and sets it as the product
    image, and the field keeps only the file name. Save the product. If
@@ -58,10 +59,10 @@ Usage
    |The product image loaded from the address (1) and Image File Name
    reduced to lampa-led-10w.png (2)|
 
-3. For an extra image of the product (**Ecommerce Media**), paste the
-   address in its **Image Name** and leave the field: the image is
-   downloaded in the same way. Press **Save** in the image window, then
-   save the product.
+3. For an extra image of the product (**Media**), paste the address in
+   its **Image Name** and leave the field: the image is downloaded in
+   the same way. Press **Save** in the image window, then save the
+   product.
 
    |The extra image window over the product: Image Name (1) became the
    file name, the downloaded image (2) replaced the old one, and the
@@ -81,13 +82,21 @@ Only public ``http``/``https`` addresses are fetched, the answer must be
 an image of at most 10 MB and only users allowed to edit products can
 trigger the download.
 
-.. |Product form, Sales tab: the image address typed in Image File Name (1); the product has no image yet| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/01_adresa_imagine_produs.png
+.. |Product form, eCommerce tab: the image address typed in Image File Name (1); the product has no main image yet: Odoo shows the older grey image from Media in its place| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/01_adresa_imagine_produs.png
 .. |The product image loaded from the address (1) and Image File Name reduced to lampa-led-10w.png (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/02_imagine_incarcata_produs.png
 .. |The extra image window over the product: Image Name (1) became the file name, the downloaded image (2) replaced the old one, and the Save button (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/03_imagine_suplimentara_url.png
 .. |The product page in the shop: the first thumbnail is the main image and the second one, selected (1), is the extra image shown large| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_product_url_image/static/description/en/04_produs_magazin_imagine.png
 
 Changelog
 =========
+
+20.0.1.0.7 (2026-11-04)
+-----------------------
+
+- Migration to Odoo 20.0: the downloaded image is stored as raw bytes
+  (``BinaryBytes``), the *Image File Name* field moved to the *Shop*
+  group of the *eCommerce* tab, consultant sheet and screenshots updated
+  to the Odoo 20 form.
 
 19.0.1.0.7 (2026-11-04)
 -----------------------
