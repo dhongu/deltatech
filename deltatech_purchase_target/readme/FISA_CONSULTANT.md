@@ -161,9 +161,10 @@ Butonul **Realizat** (evidențiat cu 2) deschide raportul din pasul următor, fi
 
 ### Pasul 4 — Realizat vs. țintă
 
-Deschideți **Achiziții → Raportare → Realizat vs. țintă** sau apăsați butonul **Realizat** din
-formularul țintei. Lista se deschide pe anul curent, grupată pe producător; deschideți grupul
-producătorului. Rândurile sub țintă sunt roșii, iar cele cu ținta atinsă sunt verzi.
+Deschideți **Achiziții → Raportare → Realizat vs. țintă**: lista se deschide pe anul curent,
+grupată pe producător; deschideți grupul producătorului. Butonul **Realizat** din formularul
+țintei deschide direct liniile acelei ținte, fără filtru de an și fără grupare. Rândurile sub țintă
+sunt roșii, iar cele cu ținta atinsă sunt verzi.
 
 1. **Găsiți pe ecran** — pentru fiecare linie de țintă (trimestru × categorie):
    - **Țintă** și **Țintă cumulată** (suma țintelor de la T1 până la trimestrul liniei);
