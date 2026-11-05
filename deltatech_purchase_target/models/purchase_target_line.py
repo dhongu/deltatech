@@ -38,12 +38,15 @@ class PurchaseTargetLine(models.Model):
 
     # the achieved figures are read live from the posted invoices, they are not stored
     target_ytd = fields.Float(string="Target YTD", compute="_compute_achieved")
-    purchase_amount = fields.Monetary(string="Purchased", compute="_compute_achieved")
+    # the quarter in the measure of the target (amount or quantity), like the cumulated columns
+    purchase_period = fields.Float(string="Purchased", compute="_compute_achieved")
+    purchase_amount = fields.Monetary(string="Purchased Amount", compute="_compute_achieved")
     purchase_qty = fields.Float(string="Purchased Qty", compute="_compute_achieved")
     purchase_ytd = fields.Float(string="Purchased YTD", compute="_compute_achieved")
     achieved_pct = fields.Float(string="Achieved %", compute="_compute_achieved")
     remaining = fields.Float(compute="_compute_achieved", help="Target YTD minus purchased YTD")
-    sale_amount = fields.Monetary(string="Sold", compute="_compute_achieved", groups=SALE_GROUPS)
+    sale_period = fields.Float(string="Sold", compute="_compute_achieved", groups=SALE_GROUPS)
+    sale_amount = fields.Monetary(string="Sold Amount", compute="_compute_achieved", groups=SALE_GROUPS)
     sale_qty = fields.Float(string="Sold Qty", compute="_compute_achieved", groups=SALE_GROUPS)
     sale_ytd = fields.Float(string="Sold YTD", compute="_compute_achieved", groups=SALE_GROUPS)
 
@@ -153,11 +156,13 @@ class PurchaseTargetLine(models.Model):
                 line.update(
                     {
                         "target_ytd": 0.0,
+                        "purchase_period": 0.0,
                         "purchase_amount": 0.0,
                         "purchase_qty": 0.0,
                         "purchase_ytd": 0.0,
                         "achieved_pct": 0.0,
                         "remaining": 0.0,
+                        "sale_period": 0.0,
                         "sale_amount": 0.0,
                         "sale_qty": 0.0,
                         "sale_ytd": 0.0,
@@ -179,11 +184,13 @@ class PurchaseTargetLine(models.Model):
             line.update(
                 {
                     "target_ytd": target_ytd,
+                    "purchase_period": purchases[quarter][measure],
                     "purchase_amount": purchases[quarter][0],
                     "purchase_qty": purchases[quarter][1],
                     "purchase_ytd": purchase_ytd,
                     "achieved_pct": 100.0 * purchase_ytd / target_ytd if target_ytd else 0.0,
                     "remaining": target_ytd - purchase_ytd,
+                    "sale_period": sales[quarter][measure],
                     "sale_amount": sales[quarter][0],
                     "sale_qty": sales[quarter][1],
                     "sale_ytd": sum(values[measure] for q, values in sales.items() if q <= quarter),

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <!-- the lines of one target, opened from its form: the target is the active_id, which the URL keeps,
+         so the list stays on the target when coming back from a drill-down or after a reload -->
+    <record id="action_purchase_target_achieved" model="ir.actions.act_window">
+        <field name="name">Achieved vs Target</field>
+        <field name="res_model">purchase.target.line</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('target_id', '=', active_id)]</field>
+        <field name="context">{}</field>
+    </record>
+
     <record id="view_purchase_target_list" model="ir.ui.view">
         <field name="name">purchase.target.list</field>
         <field name="model">purchase.target</field>
         <field name="arch" type="xml">
             <list>
-                <field name="year" />
+                <field name="year" options="{'enable_formatting': false}" />
                 <field name="manufacturer_id" />
                 <field name="target_type" />
                 <field name="partner_ids" widget="many2many_tags" />
@@ -23,8 +33,8 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
-                            name="action_view_lines"
-                            type="object"
+                            name="%(action_purchase_target_achieved)d"
+                            type="action"
                             class="oe_stat_button"
                             icon="fa-bar-chart"
                             string="Achieved"

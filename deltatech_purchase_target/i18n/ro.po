@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 23:26+0000\n"
+"POT-Creation-Date: 2026-11-05 08:21+0000\n"
 "PO-Revision-Date: 2026-10-28 23:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,7 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
 
 #. module: deltatech_purchase_target
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_target.view_purchase_target_form
@@ -27,6 +28,7 @@ msgid "Achieved %"
 msgstr "Realizat %"
 
 #. module: deltatech_purchase_target
+#: model:ir.actions.act_window,name:deltatech_purchase_target.action_purchase_target_achieved
 #: model:ir.actions.act_window,name:deltatech_purchase_target.action_purchase_target_line
 #: model:ir.ui.menu,name:deltatech_purchase_target.menu_purchase_target_line
 msgid "Achieved vs Target"
@@ -204,9 +206,14 @@ msgid "Purchase Target Line"
 msgstr "Linie țintă de achiziție"
 
 #. module: deltatech_purchase_target
-#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_amount
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_period
 msgid "Purchased"
 msgstr "Achiziționat"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_amount
+msgid "Purchased Amount"
+msgstr "Valoare achiziționată"
 
 #. module: deltatech_purchase_target
 #: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__purchase_qty
@@ -270,9 +277,14 @@ msgid "Sales"
 msgstr "Vânzări"
 
 #. module: deltatech_purchase_target
-#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_amount
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_period
 msgid "Sold"
 msgstr "Vândut"
+
+#. module: deltatech_purchase_target
+#: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_amount
+msgid "Sold Amount"
+msgstr "Valoare vândută"
 
 #. module: deltatech_purchase_target
 #: model:ir.model.fields,field_description:deltatech_purchase_target.field_purchase_target_line__sale_qty
@@ -316,6 +328,12 @@ msgstr "Ținte"
 #: code:addons/deltatech_purchase_target/models/purchase_target_line.py:0
 msgid "The category already has a target in quarter Q%s."
 msgstr "Categoria are deja o țintă în trimestrul T%s."
+
+#. module: deltatech_purchase_target
+#. odoo-python
+#: code:addons/deltatech_purchase_target/models/purchase_target.py:0
+msgid "The year of a target must be between 2000 and 2100."
+msgstr "Anul unei ținte trebuie să fie între 2000 și 2100."
 
 #. module: deltatech_purchase_target
 #: model:ir.model.constraint,message:deltatech_purchase_target.constraint_purchase_target_manufacturer_year_uniq
@@ -367,9 +385,3 @@ msgid ""
 msgstr ""
 "Categoria eCommerce a produselor. Necompletat: ținta globală a "
 "producătorului."
-
-#. module: deltatech_purchase_target
-#. odoo-python
-#: code:addons/deltatech_purchase_target/models/purchase_target.py:0
-msgid "The year of a target must be between 2000 and 2100."
-msgstr "Anul unei ținte trebuie să fie între 2000 și 2100."

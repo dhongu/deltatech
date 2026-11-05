@@ -14,3 +14,8 @@ Notes:
   overall target of the manufacturer.
 - Quantity targets add up the quantities in the unit of measure of each product; a bill line in
   another unit (box, dozen) is converted to the unit of the product.
+- All the figures of a line are in the measure of its target: amounts, or quantities for a quantity
+  target. The amount and the quantity of the quarter can be shown from the optional columns.
+- *Purchase › Reporting › Vendor Cost Comparison* opens on the vendor bills of the current year,
+  with the manufacturers on the rows (expand one to see its products) and the vendors on the
+  columns; pick another period in the date filter.

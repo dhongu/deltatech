@@ -401,13 +401,14 @@ purchase orders by manufacturer.</li>
 <li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
 <li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
 <li><a class="reference internal" href="#changelog" id="toc-entry-3">Changelog</a><ul>
-<li><a class="reference internal" href="#section-1" id="toc-entry-4">19.0.1.0.0 (2026-10-29)</a></li>
+<li><a class="reference internal" href="#section-1" id="toc-entry-4">19.0.1.0.1 (2026-11-05)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-5">19.0.1.0.0 (2026-10-29)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#bug-tracker" id="toc-entry-5">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="toc-entry-6">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="toc-entry-7">Authors</a></li>
-<li><a class="reference internal" href="#maintainers" id="toc-entry-8">Maintainers</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="toc-entry-6">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-8">Authors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-9">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -449,12 +450,30 @@ but only once in the overall target of the manufacturer.</li>
 <li>Quantity targets add up the quantities in the unit of measure of each
 product; a bill line in another unit (box, dozen) is converted to the
 unit of the product.</li>
+<li>All the figures of a line are in the measure of its target: amounts,
+or quantities for a quantity target. The amount and the quantity of
+the quarter can be shown from the optional columns.</li>
+<li><em>Purchase › Reporting › Vendor Cost Comparison</em> opens on the vendor
+bills of the current year, with the manufacturers on the rows (expand
+one to see its products) and the vendors on the columns; pick another
+period in the date filter.</li>
 </ul>
 </div>
 <div class="section" id="changelog">
 <h1><a class="toc-backref" href="#toc-entry-3">Changelog</a></h1>
 <div class="section" id="section-1">
-<h2><a class="toc-backref" href="#toc-entry-4">19.0.1.0.0 (2026-10-29)</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-4">19.0.1.0.1 (2026-11-05)</a></h2>
+<ul class="simple">
+<li>Vendor Cost Comparison opens on the current year, grouped by
+manufacturer: on the whole history the pivot blocked the browser.</li>
+<li>Achieved vs Target opened from a target keeps the target when coming
+back from a drill-down or after a reload.</li>
+<li>Quantity targets show the quarter in quantities, like the cumulated
+columns; the year is shown without a thousands separator.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-5">19.0.1.0.0 (2026-10-29)</a></h2>
 <ul class="simple">
 <li>First version: purchase targets per manufacturer and eCommerce
 category, achieved vs target with the sales of the same products,
@@ -463,22 +482,22 @@ vendor cost comparison (helpdesk #9868).</li>
 </div>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#toc-entry-5">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-6">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://www.terrabit.ro/helpdesk">Terrabit Issues</a>.
 In case of trouble, please check there if your issue has already been reported.</p>
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#toc-entry-6">Credits</a></h1>
+<h1><a class="toc-backref" href="#toc-entry-7">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#toc-entry-7">Authors</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-8">Authors</a></h2>
 <ul class="simple">
 <li>Terrabit</li>
 <li>Dorin Hongu</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#toc-entry-8">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#toc-entry-9">Maintainers</a></h2>
 <p>Current maintainer:</p>
 <p><a class="reference external image-reference" href="https://github.com/dhongu"><img alt="dhongu" src="https://github.com/dhongu.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_target">dhongu/deltatech</a> project on GitHub.</p>

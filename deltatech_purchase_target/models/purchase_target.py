@@ -66,9 +66,3 @@ class PurchaseTarget(models.Model):
     def _compute_partner_ids(self):
         for target in self:
             target.partner_ids = target.manufacturer_id.commercial_partner_id
-
-    def action_view_lines(self):
-        action = self.env["ir.actions.act_window"]._for_xml_id("deltatech_purchase_target.action_purchase_target_line")
-        action["domain"] = [("target_id", "in", self.ids)]
-        action["context"] = {}
-        return action
