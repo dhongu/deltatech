@@ -138,6 +138,10 @@ Date minime pentru demo:
     folosesc la același angajat, recomandăm un cont 542 analitic separat pentru card (de ex. 542.03,
     cu jurnalul lui de avansuri), ca avansurile pe casă, închise pe decont, să nu se amestece la
     reconciliere cu soldul deschis al cardului.
+    Opțiunea nu mai este în **Setări**: la actualizarea modulului (versiunea 19.0.3.11.0), pe
+    companiile care o aveau bifată, bifa se pune automat pe toate jurnalele de casă, bancă și card,
+    iar deconturile existente își păstrează varianta. La un client actualizat nu e nimic de
+    reconfigurat; de scos bifa doar de pe jurnalele care trebuie să rămână în fluxul clasic.
     Contul 542 trebuie să aibă bifat **„Permite reconcilierea”**, iar pe liniile din registrul de casă
     și din extrasul bancar partenerul este **contactul de lucru** al angajatului (același ca pe
     decont), ca reconcilierea pe 542 și soldul pe angajat să fie corecte.
@@ -392,7 +396,8 @@ Pe un decont al cărui jurnal (jurnalul cardului la „Card firmă”, jurnalul 
   toate deconturile și operațiunile de casă / bancă (debitor = angajatul mai are de justificat,
   creditor = firma îi datorează). Pe un 542 în valută soldul e în valuta contului. Butonul îl văd
   utilizatorii cu drept de citire în contabilitate; angajatul și aprobatorul văd în locul lui câmpul
-  **„Sold angajat (542)”**, fără acces la note;
+  **„Sold angajat (542)”**, fără acces la note. Butonul apare pe orice decont cu angajat și jurnal de
+  avansuri, și în fluxul clasic (acolo soldul arată avansurile nedecontate ale angajatului);
 
   ![Decontul în Ciornă: fără avans și diferență, cu butonul „Sold 542” și butonul „Validează”](screenshots/12_decont_ciorna_sold_542.png)
 
@@ -417,7 +422,9 @@ Pe un decont al cărui jurnal (jurnalul cardului la „Card firmă”, jurnalul 
 
 - un clic pe **„Sold 542”** deschide fișa contului 542 a angajatului: notele postate, de la cea mai
   nouă, cu Debit, Credit, potrivirea (reconcilierea) și **Sold cumulat**; primul rând arată soldul
-  final, egal cu cel de pe buton;
+  final, egal cu cel de pe buton. Excepție: pe un 542 în valută butonul arată soldul în valuta
+  contului, iar coloanele fișei sunt în lei; suma în valută se vede activând coloana opțională
+  **„Valoare în valută”**;
 
   ![Fișa 542 a angajatului, deschisă din butonul „Sold 542”: ridicarea din casă, deconturile și diurnele, cu soldul cumulat −522 lei](screenshots/16_fisa_542_angajat.png)
 
@@ -507,7 +514,9 @@ după validare.
 - [ ] Fără note de plată: o ridicare de bani din casă sau din extras (Dr 542, angajatul ca partener) se reconciliază pe 542 cu cheltuielile decontului.
 - [ ] Bifa „Avansul și lichidarea prin extras de bancă / registru de casă” e pe jurnalele de casă / bancă / card care merg prin extras; un decont în Ciornă o preia la schimbarea bifei, unul în „Avans” sau „Efectuat” își păstrează fluxul.
 - [ ] Flux mixt la același angajat: decontul pe casă (fără bifă) are avans și diferență, iar 542 se închide pe decont; decontul pe cardul firmei (cu bifă) înregistrează doar cheltuielile pe 542.
-- [ ] Butonul „Sold 542” arată același sold ca primul rând („Sold cumulat”) din fișa 542 pe care o deschide; pe un 542 în valută soldul e în valuta contului.
+- [ ] Butonul „Sold 542” arată același sold ca primul rând („Sold cumulat”) din fișa 542 pe care o deschide; pe un 542 în valută butonul e în valuta contului și se compară cu totalul coloanei opționale „Valoare în valută” (Sold cumulat rămâne în lei).
+- [ ] Butonul „Sold 542” apare și pe deconturile din fluxul clasic (jurnal fără bifă), cu soldul angajatului pe 542-ul decontului.
+- [ ] După actualizarea la 19.0.3.11.0, pe o companie care avea opțiunea în Setări, jurnalele de casă, bancă și card au bifa, iar deconturile existente își păstrează varianta.
 
 ## 9. Mesaje de eroare frecvente
 

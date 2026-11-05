@@ -983,6 +983,11 @@ msgid "Total Debit"
 msgstr "Total debit"
 
 #. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Total in Currency"
+msgstr "Total în valută"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__total_diem
 msgid "Total Diem"
 msgstr "Total Diurnă"

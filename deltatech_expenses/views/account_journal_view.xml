@@ -30,7 +30,7 @@
                 <field name="debit" sum="Total Debit" />
                 <field name="credit" sum="Total Credit" />
                 <field name="cumulated_balance" />
-                <field name="amount_currency" optional="hide" groups="base.group_multi_currency" />
+                <field name="amount_currency" optional="hide" sum="Total in Currency" groups="base.group_multi_currency" />
             </list>
         </field>
     </record>
