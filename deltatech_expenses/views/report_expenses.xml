@@ -39,7 +39,7 @@
                                 </t>
                             </div>
                             <br />
-                            <div>
+                            <div t-if="not o.no_payment_moves">
                                 Avans primit in data <span t-field="o.date_advance" />
                                 :<span t-field="o.advance" />
                             </div>
@@ -55,7 +55,7 @@
                                 </div>
                             </t>
                             <br />
-                            <div>
+                            <div t-if="not o.no_payment_moves">
                                 Diferenţă  <span t-if="o.difference &gt; 0">de primit</span>
                                 <span t-if="o.difference &lt; 0">de restituit</span>
 

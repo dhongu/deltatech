@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech.expenses</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="bank_cash" position="inside">
+                <setting
+                    id="expenses_no_payment_moves"
+                    help="The expense report books only the expenses on 542; advances and refunds are recorded from the cash register or the bank statement."
+                >
+                    <field name="expenses_no_payment_moves" />
+                </setting>
+            </block>
+        </field>
+    </record>
+</odoo>

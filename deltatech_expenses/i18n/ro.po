@@ -241,6 +241,11 @@ msgid "Done"
 msgstr "Efectuat"
 
 #. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "<span>Draft</span>"
+msgstr "<span>Ciornă</span>"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__draft
 msgid "Draft"
 msgstr "Ciornă"
@@ -861,3 +866,96 @@ msgstr "O factură poate fi alocată o singură dată pe o linie de plată furni
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid "The bill %(bill)s is allocated on several lines for %(amount)s, more than its amount due (%(residual)s)."
 msgstr "Factura %(bill)s este alocată pe mai multe linii pentru %(amount)s, mai mult decât restul ei de plată (%(residual)s)."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__expenses_no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
+msgid "Advance and Settlement via Bank Statement / Cash Register"
+msgstr "Avansul și lichidarea prin extras de bancă / registru de casă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_res_company__expenses_no_payment_moves
+#: model:ir.model.fields,help:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
+msgid ""
+"The expense report books only the expenses on 542 (employee as partner). The money handed to the employee and the "
+"refunds are recorded from the cash register or the bank statement, reconciled on 542; the balance is followed per "
+"employee on the 542 ledger, not per expense report."
+msgstr ""
+"Decontul înregistrează doar cheltuielile pe 542 (angajatul ca partener). Sumele date angajatului și restituirile se "
+"înregistrează din registrul de casă sau din extrasul bancar, reconciliate pe 542; soldul se urmărește pe fișa contului "
+"542 per angajat, nu per decont."
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.res_config_settings_view_form
+msgid ""
+"The expense report books only the expenses on 542; advances and refunds are recorded from the cash register or the "
+"bank statement."
+msgstr ""
+"Decontul înregistrează doar cheltuielile pe 542; avansurile și restituirile se înregistrează din registrul de casă sau "
+"din extrasul bancar."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+msgid "Employee Balance (542)"
+msgstr "Sold angajat (542)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+msgid ""
+"Balance of the employee on the advances account (542), all expense reports and cash / bank operations included: "
+"debit = the employee still has to justify, credit = the company owes the employee."
+msgstr ""
+"Soldul angajatului pe contul de avansuri (542), cu toate deconturile și operațiunile de casă / bancă: debitor = "
+"angajatul mai are de justificat, creditor = firma îi datorează angajatului."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense reports of %(company)s have no advance step: the advance is recorded from the cash register or the bank "
+"statement on 542. Fill in the expenses and validate the report."
+msgstr ""
+"Deconturile companiei %(company)s nu au pasul Avans: avansul se înregistrează din registrul de casă sau din extrasul "
+"bancar, pe 542. Completați cheltuielile și validați decontul."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s has an advance, but the advances of %(company)s are recorded from the cash register or "
+"the bank statement on 542, not on the expense report. Set the advance to zero."
+msgstr ""
+"Decontul %(number)s are un avans, dar avansurile companiei %(company)s se înregistrează din registrul de casă sau din "
+"extrasul bancar, pe 542, nu pe decont. Puneți avansul pe zero."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/res_company.py:0
+msgid ""
+"The option Advance and Settlement via Bank Statement / Cash Register cannot be enabled for %(company)s while "
+"expense reports are in the Advance state: finalize them first (%(numbers)s)."
+msgstr ""
+"Opțiunea Avansul și lichidarea prin extras de bancă / registru de casă nu se poate activa pentru %(company)s cât "
+"timp există deconturi în starea Avans: finalizați-le întâi (%(numbers)s)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s is in %(currency)s, but the account %(account)s of the expense journal "
+"%(journal)s is not: choose an expense journal whose 542 account is in %(currency)s (account currency set), so "
+"that the balance of the employee is revalued monthly."
+msgstr ""
+"Decontul %(number)s este în %(currency)s, dar contul %(account)s al jurnalului de avansuri %(journal)s nu "
+"este: alegeți un jurnal de avansuri al cărui cont 542 este în %(currency)s (valută setată pe cont), ca soldul "
+"angajatului să fie reevaluat lunar."
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"

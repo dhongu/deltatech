@@ -39,6 +39,11 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         if ScreenshotCase is None:
             raise unittest.SkipTest("l10n_ro_doc_screenshots indisponibil; capturile fișei se sar")
         super().setUpClass()
+        cls._setup_base()
+        cls._setup_scenarios()
+
+    @classmethod
+    def _setup_base(cls):
         # AccountTestInvoicingCommon rulează cu un user de test dedicat, nu cu admin — are nevoie
         # explicit de rolul de Contabil ca să poată crea/valida deconturi.
         accounting = cls.env.ref("deltatech_expenses.group_expenses_accounting")
@@ -98,6 +103,9 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         cls.hotel = env["res.partner"].create({"name": "Hotel Carpați SRL", "is_company": True})
         cls.train = env["res.partner"].create({"name": "CFR Călători SA", "is_company": True})
 
+    @classmethod
+    def _setup_scenarios(cls):
+        env = cls.env
         start = fields.Date.subtract(fields.Date.today(), days=4)
         end = fields.Date.subtract(fields.Date.today(), days=2)
 
@@ -123,14 +131,14 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
         cls.diem_move = cls.decont_done.move_id
 
     @classmethod
-    def _make_deduction(cls, travel_order, start, end):
+    def _make_deduction(cls, travel_order, start, end, advance=1000.0):
         return cls.env["deltatech.expenses.deduction"].create(
             {
                 "date_advance": start,
                 "date_expense": end,
                 "travel_order": travel_order,
                 "employee_id": cls.employee.id,
-                "advance": 1000.0,
+                "advance": advance,
                 "diem": 42.5,
                 "days": 2,
                 "journal_id": cls.cash_journal.id,
@@ -201,5 +209,105 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
             self.account_move_shot(self.refund_move, "09_nota_restituire.png"),
             # Pasul 2 — nota de diurnă (Dr 625 = Cr 542)
             self.account_move_shot(self.diem_move, "10_nota_diurna.png"),
+        ]
+        self.capture_screenshots(shots, viewport=(1500, 1150), hide_systray=True)
+
+
+@tagged("-at_install", "post_install", "fise_screenshots")
+class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
+    """Varianta „Avansul și lichidarea prin extras de bancă / registru de casă” (expenses_no_payment_moves):
+    decontul înregistrează doar cheltuielile pe 542 cu angajatul; ridicarea de bani din casă se face separat,
+    din registrul de casă, și se reconciliază pe 542. Clasă separată: opțiunea nu se activează cât timp
+    compania are deconturi în starea „Avans” (scenariile clasei de bază)."""
+
+    @classmethod
+    def _setup_scenarios(cls):
+        env = cls.env
+        company = env.company
+        cls.acc_542.reconcile = True
+        company.expenses_no_payment_moves = True
+        start = fields.Date.subtract(fields.Date.today(), days=4)
+        end = fields.Date.subtract(fields.Date.today(), days=2)
+
+        # banii ridicați de angajat din casă: Dr 542 = Cr 5311, angajatul ca partener (registrul de casă)
+        cls.withdrawal = env["account.move"].create(
+            {
+                "journal_id": cls.cash_journal.id,
+                "date": start,
+                "ref": "Ridicare numerar Ionescu Andrei",
+                "line_ids": [
+                    (0, 0, {"account_id": cls.acc_542.id, "partner_id": cls.partner.id, "debit": 1000.0}),
+                    (
+                        0,
+                        0,
+                        {
+                            "account_id": cls.cash_journal.default_account_id.id,
+                            "partner_id": cls.partner.id,
+                            "credit": 1000.0,
+                        },
+                    ),
+                ],
+            }
+        )
+        cls.withdrawal.action_post()
+
+        # decont validat (Efectuat): cheltuielile pe Cr 542, reconciliate apoi cu ridicarea din casă
+        cls.decont_done = cls._make_deduction("OD-21", start, end, advance=0.0)
+        cls._make_lines(cls.decont_done, start)
+        cls.decont_done.validate_expenses()
+        moves = env["account.move"].search([("expenses_deduction_id", "=", cls.decont_done.id)])
+        cls.settle_move = moves.filtered(
+            lambda m: m.move_type == "entry"
+            and any(aml.account_id.account_type == "liability_payable" for aml in m.line_ids)
+            and m.line_ids.partner_id & cls.hotel
+        )[:1]
+        lines_542 = env["account.move.line"].search(
+            [("account_id", "=", cls.acc_542.id), ("partner_id", "=", cls.partner.id), ("parent_state", "=", "posted")]
+        )
+        lines_542.reconcile()
+
+        # decont nou, în Ciornă: arată „Sold angajat (542)” în locul avansului și al diferenței
+        cls.decont_draft = cls._make_deduction("OD-22", end, end, advance=0.0)
+        cls._make_lines(cls.decont_draft, end)
+
+    def test_capture_fise(self):
+        action = self.env.ref("deltatech_expenses.action_deltatech_expenses_deduction")
+        settings = self.env.ref("account.action_account_config")
+
+        def deduction_form(record, name, **kw):
+            return self._form(
+                record, name, url=f"action={action.id}&id={record.id}&model={record._name}&view_type=form", **kw
+            )
+
+        shots = [
+            # Configurare, pasul 11 — bifa din Facturare → Configurare → Setări, blocul Bancă și casă
+            {
+                "url": f"action={settings.id}",
+                "name": "11_setare_extras.png",
+                "wait": "#expenses_no_payment_moves",
+                "settle": 2500,
+                "eval": "document.querySelector('#expenses_no_payment_moves')?.scrollIntoView({block: 'center'})",
+                "highlight": ["#expenses_no_payment_moves"],
+            },
+            # Varianta prin extras — decontul în Ciornă, cu soldul angajatului pe 542 și butonul Validează
+            deduction_form(
+                self.decont_draft,
+                "12_decont_ciorna_sold_542.png",
+                highlight=["div[name='employee_balance']", "button[name='validate_expenses']"],
+            ),
+            # Varianta prin extras — același decont, validat cu „Validează” direct din Ciornă (Efectuat);
+            # soldul angajatului devine creditor: a justificat mai mult decât a ridicat
+            deduction_form(
+                self.decont_draft,
+                "13_decont_efectuat_542.png",
+                click_btn="button[name='validate_expenses']",
+                wait_after=".o_form_view",
+                settle=3500,
+                highlight=["div[name='employee_balance']"],
+            ),
+            # Varianta prin extras — nota de decontare a chitanței: Dr 401 = Cr 542, angajatul ca partener
+            self.account_move_shot(self.settle_move, "14_nota_542_extras.png"),
+            # Varianta prin extras — ridicarea de bani din casă (Dr 542 = Cr 5311), reconciliată pe 542
+            self.account_move_shot(self.withdrawal, "15_nota_ridicare_casa.png"),
         ]
         self.capture_screenshots(shots, viewport=(1500, 1150), hide_systray=True)

@@ -1,5 +1,34 @@
 # Changelog
 
+## 19.0.3.10.0 (2026-11-04)
+
+- New company option **Advance and Settlement via Bank Statement / Cash Register** (Invoicing
+  settings, Bank & Cash): the
+  expense report books only the expenses, always on 542 with the employee as partner (receipts,
+  supplier payments, per diem), whatever the settlement mode, company card included. It posts no
+  advance, no refund and no extra payment, and no exchange difference on 542: the money handed to
+  the employee and the refunds are recorded from the cash register or the bank statement,
+  reconciled on 542. The report has no Advance step: it is validated from Draft, gets its number
+  then and ends in Done. The form shows the employee balance on 542 instead of the difference.
+- The advance date is today by default.
+- Search filters **Advance** and **Done** on the expense reports.
+- The option cannot be enabled while expense reports of the company are in the Advance state:
+  they are finalized first, in the flow with payment entries.
+- The money handed to the employee and the refunds are reconciled on 542 with the standard bank
+  statement or cash register reconciliation: account 542 must allow reconciliation and the partner is
+  the work contact of the employee.
+- Consultant sheet: at year end the credit balance of an employee on 542 is reclassified to
+  4281 (`Dr 542 = Cr 4281`), as a manual entry.
+- Without payment entries, an expense report in a foreign currency is validated only on a 542
+  account in that currency (account currency set), so that the monthly revaluation of the
+  localization revalues the balance of the employee; a report in the company currency only on a
+  542 account without currency. Changing the currency proposes the matching expense journal.
+- Consultant sheet: checks and error messages of the variant without payment entries.
+- With the option, the status bar of the expense report shows only Draft and Done.
+- With the option, the settlement lines on 542 are labelled "Decontare cheltuieli" (no advance).
+- The title of a draft expense report is translated.
+- Screenshots of the variant via bank statement / cash register in the consultant sheet.
+
 ## 19.0.3.9.1 (2026-11-04)
 
 - Fix: the **Expenses Deductions** counter on the employee (`expenses_deduction_count`) is now restricted to HR users (`groups="hr.group_hr_user"`), like the company card journal. It is not on the public employee profile, so users without HR rights (website, POS) got an access error when reading an employee. New test: `test_employee_public_access`.

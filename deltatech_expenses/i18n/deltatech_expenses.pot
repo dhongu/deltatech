@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 00:24+0000\n"
-"PO-Revision-Date: 2026-10-29 00:24+0000\n"
+"POT-Creation-Date: 2026-11-04 15:58+0000\n"
+"PO-Revision-Date: 2026-11-04 15:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -88,6 +88,7 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__advance
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__advance
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Advance"
 msgstr ""
@@ -178,6 +179,14 @@ msgid "Avans primit in data"
 msgstr ""
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+msgid ""
+"Balance of the employee on the advances account (542), all expense reports "
+"and cash / bank operations included: debit = the employee still has to "
+"justify, credit = the company owes the employee."
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_hr_employee__expenses_card_journal_id
 msgid ""
 "Bank journal of the company card of the employee, proposed on the expenses "
@@ -248,6 +257,28 @@ msgid "Commercial Entity"
 msgstr ""
 
 #. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/res_company.py:0
+msgid ""
+"The option Advance and Settlement via Bank Statement / Cash Register cannot be enabled for %(company)s while "
+"expense reports are in the Advance state: finalize them first (%(numbers)s)."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s is in %(currency)s, but the account %(account)s of the expense journal "
+"%(journal)s is not: choose an expense journal whose 542 account is in %(currency)s (account currency set), so "
+"that the balance of the employee is revalued monthly."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__company_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__company_id
 msgid "Company"
@@ -267,6 +298,11 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__company_card
 msgid "Company card"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -319,6 +355,12 @@ msgstr ""
 #: model:ir.module.category,name:deltatech_expenses.module_category_expenses_deduction
 #: model:res.groups.privilege,name:deltatech_expenses.res_groups_privilege_expenses_deduction
 msgid "Decont Cheltuieli"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontare cheltuieli"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -419,6 +461,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__display_name
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__display_name
 #: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -435,6 +479,7 @@ msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__done
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
 msgid "Done"
 msgstr ""
 
@@ -456,6 +501,11 @@ msgid "Employee"
 msgstr ""
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+msgid "Employee Balance (542)"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__partner_id
 msgid "Employee Partner"
 msgstr ""
@@ -468,6 +518,14 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expense_journal_id
 msgid "Expense Journal"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__expenses_no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
+msgid "Advance and Settlement via Bank Statement / Cash Register"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -552,6 +610,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -858,6 +918,43 @@ msgstr ""
 msgid ""
 "The bills allocated on the line %(line)s (%(allocated)s) exceed the amount "
 "paid (%(amount)s)."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s has an advance, but the advances of "
+"%(company)s are recorded from the cash register or the bank statement on "
+"542, not on the expense report. Set the advance to zero."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__no_payment_moves
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__no_payment_moves
+#: model:ir.model.fields,help:deltatech_expenses.field_res_company__expenses_no_payment_moves
+#: model:ir.model.fields,help:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
+msgid ""
+"The expense report books only the expenses on 542 (employee as partner). The"
+" money handed to the employee and the refunds are recorded from the cash "
+"register or the bank statement, reconciled on 542; the balance is followed "
+"per employee on the 542 ledger, not per expense report."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.res_config_settings_view_form
+msgid ""
+"The expense report books only the expenses on 542; advances and refunds are "
+"recorded from the cash register or the bank statement."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense reports of %(company)s have no advance step: the advance is "
+"recorded from the cash register or the bank statement on 542. Fill in the "
+"expenses and validate the report."
 msgstr ""
 
 #. module: deltatech_expenses
