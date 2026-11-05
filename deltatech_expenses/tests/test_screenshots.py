@@ -215,17 +215,16 @@ class TestExpensesScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
 
 @tagged("-at_install", "post_install", "fise_screenshots")
 class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
-    """Varianta „Avansul și lichidarea prin extras de bancă / registru de casă” (expenses_no_payment_moves):
-    decontul înregistrează doar cheltuielile pe 542 cu angajatul; ridicarea de bani din casă se face separat,
-    din registrul de casă, și se reconciliază pe 542. Clasă separată: opțiunea nu se activează cât timp
-    compania are deconturi în starea „Avans” (scenariile clasei de bază)."""
+    """Varianta „Avansul și lichidarea prin extras de bancă / registru de casă” (bifa de pe jurnal,
+    expenses_no_payment_moves): decontul înregistrează doar cheltuielile pe 542 cu angajatul; ridicarea de
+    bani din casă se face separat, din registrul de casă, și se reconciliază pe 542. Clasă separată: bifa se
+    pune pe jurnalul de casă al scenariilor, iar deconturile clasei de bază au fluxul clasic."""
 
     @classmethod
     def _setup_scenarios(cls):
         env = cls.env
-        company = env.company
         cls.acc_542.reconcile = True
-        company.expenses_no_payment_moves = True
+        cls.cash_journal.expenses_no_payment_moves = True
         start = fields.Date.subtract(fields.Date.today(), days=4)
         end = fields.Date.subtract(fields.Date.today(), days=2)
 
@@ -272,7 +271,6 @@ class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
 
     def test_capture_fise(self):
         action = self.env.ref("deltatech_expenses.action_deltatech_expenses_deduction")
-        settings = self.env.ref("account.action_account_config")
 
         def deduction_form(record, name, **kw):
             return self._form(
@@ -280,20 +278,17 @@ class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
             )
 
         shots = [
-            # Configurare, pasul 11 — bifa din Facturare → Configurare → Setări, blocul Bancă și casă
-            {
-                "url": f"action={settings.id}",
-                "name": "11_setare_extras.png",
-                "wait": "#expenses_no_payment_moves",
-                "settle": 2500,
-                "eval": "document.querySelector('#expenses_no_payment_moves')?.scrollIntoView({block: 'center'})",
-                "highlight": ["#expenses_no_payment_moves"],
-            },
+            # Configurare, pasul 11 — bifa de pe jurnalul de casă / bancă / card, tab-ul Înregistrări contabile
+            self._form(
+                self.cash_journal,
+                "11_setare_extras.png",
+                highlight=["div[name='expenses_no_payment_moves']"],
+            ),
             # Varianta prin extras — decontul în Ciornă, cu soldul angajatului pe 542 și butonul Validează
             deduction_form(
                 self.decont_draft,
                 "12_decont_ciorna_sold_542.png",
-                highlight=["div[name='employee_balance']", "button[name='validate_expenses']"],
+                highlight=["button[name='action_view_employee_balance']", "button[name='validate_expenses']"],
             ),
             # Varianta prin extras — același decont, validat cu „Validează” direct din Ciornă (Efectuat);
             # soldul angajatului devine creditor: a justificat mai mult decât a ridicat
@@ -303,7 +298,16 @@ class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
                 click_btn="button[name='validate_expenses']",
                 wait_after=".o_form_view",
                 settle=3500,
-                highlight=["div[name='employee_balance']"],
+                highlight=["button[name='action_view_employee_balance']"],
+            ),
+            # Butonul „Sold 542” — fișa 542 a angajatului: ridicarea din casă și deconturile, cu soldul cumulat
+            deduction_form(
+                self.decont_done,
+                "16_fisa_542_angajat.png",
+                click_btn="button[name='action_view_employee_balance']",
+                wait_after=".o_list_view",
+                settle=3000,
+                full=False,
             ),
             # Varianta prin extras — nota de decontare a chitanței: Dr 401 = Cr 542, angajatul ca partener
             self.account_move_shot(self.settle_move, "14_nota_542_extras.png"),
