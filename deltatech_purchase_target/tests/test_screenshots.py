@@ -165,8 +165,9 @@ class TestPurchaseTargetScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
         cls.act_cost = env.ref("deltatech_purchase_target.action_vendor_cost_compare").copy(
             {
                 "path": False,
+                # fără filtrul pe anul curent: datele sunt pe 2026, capturile pot rula în alt an
                 "context": "{'search_default_supplier': 1, 'search_default_current': 1, "
-                "'pivot_row_groupby': ['product_id'], 'pivot_column_groupby': ['partner_id'], "
+                "'pivot_row_groupby': ['manufacturer_id', 'product_id'], 'pivot_column_groupby': ['partner_id'], "
                 "'pivot_measures': ['price_average']}",
             }
         )
@@ -203,7 +204,7 @@ class TestPurchaseTargetScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
                     "url": f"id={self.target.id}&model=purchase.target&view_type=form",
                     "name": "03_tinta_producator.png",
                     "wait": ".o_form_view",
-                    "highlight": ["div[name='partner_ids']", "button[name='action_view_lines']"],
+                    "highlight": ["div[name='partner_ids']", "button:has-text('Realizat')"],
                     "settle": 2500,
                 },
                 {

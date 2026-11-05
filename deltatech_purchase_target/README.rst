@@ -87,9 +87,26 @@ Notes:
 - Quantity targets add up the quantities in the unit of measure of each
   product; a bill line in another unit (box, dozen) is converted to the
   unit of the product.
+- All the figures of a line are in the measure of its target: amounts,
+  or quantities for a quantity target. The amount and the quantity of
+  the quarter can be shown from the optional columns.
+- *Purchase › Reporting › Vendor Cost Comparison* opens on the vendor
+  bills of the current year, with the manufacturers on the rows (expand
+  one to see its products) and the vendors on the columns; pick another
+  period in the date filter.
 
 Changelog
 =========
+
+19.0.1.0.1 (2026-11-05)
+-----------------------
+
+- Vendor Cost Comparison opens on the current year, grouped by
+  manufacturer: on the whole history the pivot blocked the browser.
+- Achieved vs Target opened from a target keeps the target when coming
+  back from a drill-down or after a reload.
+- Quantity targets show the quarter in quantities, like the cumulated
+  columns; the year is shown without a thousands separator.
 
 19.0.1.0.0 (2026-10-29)
 -----------------------

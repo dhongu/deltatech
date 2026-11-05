@@ -52,7 +52,7 @@ Drepturile pe cifre urmează sursa lor:
 - **realizatul** (totalurile de achiziție pe trimestru) îl vede orice utilizator de achiziții, chiar
   fără drept contabil, pentru că e volumul pe care îl vede deja în comenzi;
 - **liniile de factură** din spatele lui cer un drept contabil;
-- **coloanele de vânzări** (**Vândut**, **Cantitate vândută**, **Vândut cumulat**) apar doar celor
+- **coloanele de vânzări** (**Vândut**, **Valoare vândută**, **Cantitate vândută**, **Vândut cumulat**) apar doar celor
   cu drept pe raportul de profit, pentru că vin din raportul care arată costul și marja.
 
 Roluri recomandate pentru testare: un administrator de achiziții cu drept contabil și de raport de
@@ -161,9 +161,10 @@ Butonul **Realizat** (evidențiat cu 2) deschide raportul din pasul următor, fi
 
 ### Pasul 4 — Realizat vs. țintă
 
-Deschideți **Achiziții → Raportare → Realizat vs. țintă** sau apăsați butonul **Realizat** din
-formularul țintei. Lista se deschide pe anul curent, grupată pe producător; deschideți grupul
-producătorului. Rândurile sub țintă sunt roșii, iar cele cu ținta atinsă sunt verzi.
+Deschideți **Achiziții → Raportare → Realizat vs. țintă**: lista se deschide pe anul curent,
+grupată pe producător; deschideți grupul producătorului. Butonul **Realizat** din formularul
+țintei deschide direct liniile acelei ținte, fără filtru de an și fără grupare. Rândurile sub țintă
+sunt roșii, iar cele cu ținta atinsă sunt verzi.
 
 1. **Găsiți pe ecran** — pentru fiecare linie de țintă (trimestru × categorie):
    - **Țintă** și **Țintă cumulată** (suma țintelor de la T1 până la trimestrul liniei);
@@ -171,14 +172,11 @@ producătorului. Rândurile sub țintă sunt roșii, iar cele cu ținta atinsă 
    - **Realizat %** și **Rămas**;
    - **Vândut** în trimestru și **Vândut cumulat** (doar cu drept pe raportul de profit).
 
-   Coloanele cu cantități (**Cantitate achiziționată**, **Cantitate vândută**) se afișează din
-   meniul de coloane opționale.
-
-   La o țintă de tip **Cantitate**, **Țintă**, **Țintă cumulată**, **Achiziționat cumulat**,
-   **Realizat %**, **Rămas** și **Vândut cumulat** sunt în bucăți (unitatea de măsură a produsului;
-   o factură în cutii sau duzini se convertește). **Achiziționat** și **Vândut** din trimestru rămân
-   însă în lei: cantitatea trimestrului e în coloanele opționale **Cantitate achiziționată** și
-   **Cantitate vândută**.
+   Toate cifrele liniei sunt în unitatea țintei: în lei la o țintă de tip **Valoare**, în bucăți la
+   una de tip **Cantitate** (unitatea de măsură a produsului; o factură în cutii sau duzini se
+   convertește). Valoarea și cantitatea trimestrului, oricare ar fi tipul țintei, se pot afișa din
+   meniul de coloane opționale: **Valoare achiziționată**, **Cantitate achiziționată**,
+   **Valoare vândută**, **Cantitate vândută**.
 2. **Verificați** pe demo:
    - **T1 global**: achiziționat 28.000,00 + 1.500,00 = **29.500,00**, din ținta de 30.000,00, adică
      **98,33 %** (bara rotunjește la 98 %) și 500,00 rămas. Factura de 14.500,00 a redistribuitorului nu e inclusă.
@@ -233,12 +231,16 @@ produsele producătorului și pe trimestru.
 
 Deschideți **Achiziții → Raportare → Comparație cost furnizori** (meniul cere și un drept contabil).
 Analiza facturilor furnizor se
-deschide ca pivot: produsele pe rânduri, furnizorii pe coloane, măsura **Preț mediu**.
+deschide ca pivot pe anul curent: producătorii pe rânduri, furnizorii pe coloane, măsura
+**Preț mediu**. Un clic pe producător îl desface pe produse.
 
-1. **Găsiți pe ecran** — rândul **Laptop 14"**: **2.800,00** la Nord Computers SRL și **2.900,00**
-   la IT Distribuție SRL. Coloana **Total** a rândului e media pe toți furnizorii (2.827,78).
-2. **Verificați** perioada din filtrul de dată și că sunt bifate filtrele **Furnizori** și
-   **Facturat** (implicite). Prețul este media ponderată din facturi, fără TVA, nu prețul din lista
+1. **Găsiți pe ecran** — sub producătorul **Nord Computers SRL**, rândul **Laptop 14"**:
+   **2.800,00** la Nord Computers SRL și **2.900,00** la IT Distribuție SRL. Coloana **Total** a
+   rândului e media pe toți furnizorii (2.827,78).
+2. **Verificați** perioada din filtrul de dată (implicit anul curent; pentru alt an alegeți-l din
+   filtru) și că sunt bifate filtrele **Furnizori** și **Facturat** (implicite). Lăsați doar
+   **Preț mediu** ca măsură: cantitatea din analiza facturilor are semnul contabil și iese negativă
+   la facturile furnizor. Prețul este media ponderată din facturi, fără TVA, nu prețul din lista
    de prețuri a furnizorului.
 3. **Treceți mai departe** — butonul de descărcare al pivotului exportă tabelul în Excel. Pentru
    comparația pe o comandă în lucru, butonul **Compare supplier prices** al modulului
@@ -318,6 +320,9 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 - [ ] Un achizitor simplu vede țintele doar în citire, vede realizatul, dar nu vede coloanele de
       vânzări, iconița liniilor de factură și meniul **Raportare**.
 - [ ] Ținta depășită are bara verde și **Rămas** negativ.
+- [ ] Din raportul deschis cu butonul **Realizat**, după un drill-down pe facturi, **Înapoi** (sau
+      reîncărcarea paginii) păstrează doar liniile țintei.
+- [ ] Anul apare **2026** (fără separator de mii) în lista **Ținte producători**.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -328,7 +333,7 @@ Modulul nu generează note contabile și nu modifică facturile, comenzile sau c
 | „Categoria are deja o țintă în trimestrul T…” | Două linii cu același trimestru și aceeași categorie (sau ambele globale) | Păstrați o singură linie și corectați valoarea |
 | Realizatul este 0 | Producătorul nu e completat pe produse sau factura e de la alt partener decât cel din **Furnizori** | Completați producătorul; adăugați firma care facturează în **Furnizori** |
 | Realizatul pe categorie este 0, dar cel global nu | Produsele nu au categoria eCommerce a liniei | Completați **Categorii eCommerce** pe produse |
-| La o țintă în cantitate, **Achiziționat** din trimestru nu se potrivește cu ținta | Coloana trimestrului e mereu în lei; cumulatul e în bucăți | Afișați **Cantitate achiziționată** din coloanele opționale |
+| La o țintă în cantitate trebuie și valoarea în lei | Coloanele liniei sunt în bucăți, în unitatea țintei | Afișați **Valoare achiziționată** și **Valoare vândută** din coloanele opționale |
 | Suma categoriilor depășește totalul global | Produse în mai multe categorii | Normal: se numără în fiecare categorie, o singură dată global |
 | Lipsește meniul **Realizat vs. țintă** | Utilizatorul nu e **Achiziții / Administrator** | Butonul **Realizat** din formularul țintei, sau dreptul de administrator |
 | Lipsesc coloanele de vânzări sau iconița **Vânzări** | Utilizatorul nu are drept pe raportul de profit | Dreptul de raport de marjă sau **Vânzări / Administrator** |
@@ -349,7 +354,7 @@ compania **Demo Distribuție SRL**, cu planul de conturi RO și datele din secț
 | 4 | `04_realizat_vs_tinta.png` | lista **Realizat vs. țintă**, grupată pe producător |
 | 5 | `05_linii_facturi_furnizor.png` | liniile facturilor furnizor din T2 (factura și returul) |
 | 6 | `06_vanzari_aceleasi_produse.png` | **Raport analiză profit** deschis din rândul T1 |
-| 7 | `07_comparatie_cost_furnizori.png` | pivotul **Comparație cost furnizori** produs × furnizor |
+| 7 | `07_comparatie_cost_furnizori.png` | pivotul **Comparație cost furnizori**: producător desfăcut pe produse × furnizor |
 | 8 | `08_analiza_achizitii_producator.png` | **Analize achiziții** grupată pe producător |
 
 Regenerare:

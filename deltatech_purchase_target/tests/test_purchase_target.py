@@ -96,6 +96,8 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
         # 10 x 100 + 5 x 20; the reseller, the other manufacturer and 2025 are left out
         self.assertAlmostEqual(q1.purchase_amount, 1100)
         self.assertAlmostEqual(q1.purchase_qty, 15)
+        # an amount target shows the quarter as an amount
+        self.assertAlmostEqual(q1.purchase_period, 1100)
         self.assertAlmostEqual(q1.purchase_ytd, 1100)
         self.assertAlmostEqual(q1.achieved_pct, 110)
         q2 = self._line("2")
@@ -153,6 +155,8 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
         self.env.flush_all()
         q3 = self._line("3")
         self.assertAlmostEqual(q3.purchase_qty, 24)
+        # a quantity target shows the quarter as a quantity too, not as an amount
+        self.assertAlmostEqual(q3.purchase_period, 24)
         # 15 + 2 in the first half of the year, 24 in Q3
         self.assertAlmostEqual(q3.purchase_ytd, 41)
 
@@ -160,6 +164,7 @@ class TestPurchaseTarget(AccountTestInvoicingCommon):
         q1 = self._line("1")
         self.assertAlmostEqual(q1.sale_amount, 450)
         self.assertAlmostEqual(q1.sale_qty, 3)
+        self.assertAlmostEqual(q1.sale_period, 450)
         self.assertAlmostEqual(self._line("2").sale_ytd, 450)
 
     def test_drill_down(self):

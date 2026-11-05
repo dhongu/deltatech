@@ -6,7 +6,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Purchase Targets by Manufacturer",
     "summary": "Quarterly purchase targets per manufacturer and eCommerce category, achieved vs target",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

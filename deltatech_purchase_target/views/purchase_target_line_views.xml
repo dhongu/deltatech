@@ -6,7 +6,7 @@
         <field name="model">purchase.target.line</field>
         <field name="arch" type="xml">
             <list create="0" edit="0" decoration-danger="achieved_pct &lt; 100 and target_ytd" decoration-success="achieved_pct &gt;= 100">
-                <field name="year" optional="hide" />
+                <field name="year" optional="hide" options="{'enable_formatting': false}" />
                 <field name="manufacturer_id" />
                 <field name="quarter" />
                 <field name="public_categ_id" placeholder="Overall" />
@@ -14,12 +14,15 @@
                 <field name="currency_id" column_invisible="1" />
                 <field name="target_value" />
                 <field name="target_ytd" />
-                <field name="purchase_amount" optional="show" />
+                <!-- per quarter, in the measure of the target (amount or quantity); both amount and quantity on demand -->
+                <field name="purchase_period" />
+                <field name="purchase_amount" optional="hide" />
                 <field name="purchase_qty" optional="hide" />
                 <field name="purchase_ytd" />
                 <field name="achieved_pct" widget="progressbar" options="{'overflow_class': 'bg-success'}" />
                 <field name="remaining" />
-                <field name="sale_amount" optional="show" />
+                <field name="sale_period" optional="show" />
+                <field name="sale_amount" optional="hide" />
                 <field name="sale_qty" optional="hide" />
                 <field name="sale_ytd" optional="show" />
                 <button
@@ -113,15 +116,30 @@
         </field>
     </record>
 
-    <!-- the same vendor bills, pivoted product x vendor on the average price -->
+    <!-- the vendor bills of the current year by default: the whole history of all the products and
+         vendors is too much for a pivot -->
+    <record id="view_vendor_cost_compare_search" model="ir.ui.view">
+        <field name="name">account.invoice.report.vendor.cost.search</field>
+        <field name="model">account.invoice.report</field>
+        <field name="inherit_id" ref="account.view_account_invoice_report_search" />
+        <field name="mode">primary</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <filter name="filter_invoice_date" position="attributes">
+                <attribute name="default_period">year</attribute>
+            </filter>
+        </field>
+    </record>
+
+    <!-- the same vendor bills, pivoted manufacturer > product x vendor on the average price -->
     <record id="action_vendor_cost_compare" model="ir.actions.act_window">
         <field name="name">Vendor Cost Comparison</field>
         <field name="res_model">account.invoice.report</field>
         <field name="view_mode">pivot,graph</field>
-        <field name="search_view_id" ref="account.view_account_invoice_report_search" />
+        <field name="search_view_id" ref="view_vendor_cost_compare_search" />
         <field
             name="context"
-        >{'search_default_supplier': 1, 'search_default_current': 1, 'pivot_row_groupby': ['product_id'], 'pivot_column_groupby': ['partner_id'], 'pivot_measures': ['price_average']}</field>
+        >{'search_default_supplier': 1, 'search_default_current': 1, 'search_default_filter_invoice_date': 1, 'pivot_row_groupby': ['manufacturer_id'], 'pivot_column_groupby': ['partner_id'], 'pivot_measures': ['price_average'], 'graph_measure': 'price_average', 'graph_groupbys': ['manufacturer_id']}</field>
     </record>
 
 </odoo>
