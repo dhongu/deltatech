@@ -822,6 +822,39 @@ class TestExpenses(TransactionCase):
         values.update(vals)
         return self.env["deltatech.expenses.deduction.line"].create(values)
 
+    def test_supplier_payment_line_account_from_partner(self):
+        """Linia „Plată furnizor" ia contul de datorii al furnizorului (401); revenită pe „Cheltuială",
+        primește din nou contul implicit de cheltuieli."""
+        deduction = self._new_deduction(100.0)
+        line = self.env["deltatech.expenses.deduction.line"].create(
+            {
+                "expenses_deduction_id": deduction.id,
+                "name": "Plată factură",
+                "amount": 100.0,
+                "partner_id": self.supplier.id,
+                "type": "supplier_payment",
+            }
+        )
+        self.assertEqual(line.expense_account_id, self.acc_payable)
+        line.type = "expenses"
+        self.assertTrue(line.expense_account_id)
+        self.assertNotEqual(line.expense_account_id.account_type, "liability_payable")
+        line.expense_account_id = self.acc_exp
+        line.type = "supplier_payment"
+        self.assertEqual(line.expense_account_id, self.acc_payable)
+
+    def test_supplier_payment_line_without_vat(self):
+        """Pe „Plată furnizor" TVA-ul nu se calculează (factura îl are deja): suma plătită e totalul liniei."""
+        deduction = self._new_deduction(121.0)
+        line = self._new_line(deduction, 121.0, taxes=self.tax_21, type="supplier_payment")
+        self.assertAlmostEqual(line.tax_amount, 0.0)
+        self.assertAlmostEqual(line.price_subtotal, 121.0)
+        deduction.validate_expenses()
+        lines = self._lines_for_expenses(deduction)
+        self.assertFalse(lines.filtered(lambda l: l.tax_line_id))
+        payable = lines.filtered(lambda l: l.account_id == self.acc_payable and l.debit)
+        self.assertAlmostEqual(sum(payable.mapped("debit")), 121.0)
+
     def test_supplier_payment_settles_oldest_bill_first(self):
         """O plată directă care nu acoperă toate facturile deschise ale furnizorului o stinge
         întâi pe cea mai veche (ordinea implicită a liniilor contabile e de la cea mai nouă)."""
@@ -1759,3 +1792,250 @@ class TestExpenses(TransactionCase):
         self.assertEqual(deduction.currency_id, self.company.currency_id)
         deduction.validate_advance()
         self.assertEqual(deduction.state, "advance")
+
+    # --- decont fără note de plată (bifa account.journal.expenses_no_payment_moves) ---
+
+    def _draft_deduction(self, **vals):
+        values = {
+            "employee_id": self.employee.id,
+            "journal_id": self.cash_journal.id,
+            "expense_journal_id": self.adv_journal.id,
+            "journal_diem_id": self.diary_journal.id,
+            "account_diem_id": self.acc_exp.id,
+        }
+        values.update(vals)
+        return self.env["deltatech.expenses.deduction"].create(values)
+
+    def _employee_542_lines(self):
+        return self.env["account.move.line"].search(
+            [
+                ("account_id", "=", self.acc_542.id),
+                ("partner_id", "=", self.employee_partner.id),
+                ("parent_state", "=", "posted"),
+            ]
+        )
+
+    def test_no_payment_moves_books_only_expenses_on_542(self):
+        """Fără note de plată: decontul se validează din Ciornă și înregistrează doar cheltuielile
+        (chitanță, plată furnizor, diurnă) pe 542 cu angajatul; nicio notă pe casă, nicio diferență."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction(days=1, diem=50.0)
+        self.assertTrue(deduction.date_advance)
+        self._new_line(deduction, 121.0, taxes=self.tax_21)
+        self._new_line(deduction, 100.0, type="supplier_payment")
+        deduction.validate_expenses()
+
+        self.assertEqual(deduction.state, "done")
+        self.assertNotEqual(deduction.number, "/")
+        moves = self._lines_for_expenses(deduction).move_id | deduction.move_id
+        self.assertFalse(moves.line_ids.filtered(lambda l: l.account_id == self.acc_cash))
+        self.assertFalse(moves.filtered(lambda m: m.journal_id == self.cash_journal))
+        lines_542 = self._employee_542_lines()
+        self.assertAlmostEqual(sum(lines_542.mapped("credit")), 271.0)
+        self.assertAlmostEqual(sum(lines_542.mapped("debit")), 0.0)
+        deduction.invalidate_recordset(["employee_balance"])
+        self.assertAlmostEqual(deduction.employee_balance, -271.0)
+
+    def test_no_payment_moves_cash_withdrawal_reconciled_on_542(self):
+        """Banii ridicați de angajat se înregistrează din casă / extras (Dr 542 = Cr 5311, partener angajatul)
+        și se reconciliază standard pe 542 cu cheltuielile decontului; soldul rămas e pe angajat."""
+        self.acc_542.reconcile = True  # condiție de configurare a variantei (fișa, pasul 11)
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        self._new_line(deduction, 121.0, taxes=self.tax_21)
+        self._new_line(deduction, 150.0)
+        deduction.validate_expenses()
+        withdrawal = self.env["account.move"].create(
+            {
+                "journal_id": self.cash_journal.id,
+                "date": fields.Date.today(),
+                "line_ids": [
+                    (0, 0, {"account_id": self.acc_542.id, "partner_id": self.employee_partner.id, "debit": 300.0}),
+                    (0, 0, {"account_id": self.acc_cash.id, "partner_id": self.employee_partner.id, "credit": 300.0}),
+                ],
+            }
+        )
+        withdrawal.action_post()
+        lines_542 = self._employee_542_lines()
+        lines_542.reconcile()
+        self.assertTrue(all(lines_542.filtered("credit").mapped("reconciled")))
+        self.assertAlmostEqual(sum(lines_542.mapped("amount_residual")), 29.0)
+        deduction.invalidate_recordset(["employee_balance"])
+        self.assertAlmostEqual(deduction.employee_balance, 29.0)
+
+    def _expense_journal_542_in(self, currency):
+        account = self.env["account.account"].create(
+            {
+                "name": "Avansuri trezorerie valută",
+                "code": "542EUR",
+                "account_type": "asset_current",
+                "currency_id": currency.id,
+                "reconcile": True,
+            }
+        )
+        return self.env["account.journal"].create(
+            {
+                "name": "Avansuri valută",
+                "code": "ADJV",
+                "type": "general",
+                "default_account_id": account.id,
+                "company_id": self.company.id,
+            }
+        )
+
+    def test_no_payment_moves_foreign_currency_on_542_in_currency(self):
+        """Fără note de plată, un decont în valută se validează doar pe un 542 analitic în valuta lui
+        (valuta setată pe cont), ca soldul angajatului să intre în reevaluarea lunară; jurnalul se propune
+        la schimbarea valutei."""
+        self.cash_journal.expenses_no_payment_moves = True
+        foreign = self._foreign_currency(self.company)
+        deduction = self._draft_deduction(currency_id=foreign.id)
+        self._new_line(deduction, 50.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+
+        journal = self._expense_journal_542_in(foreign)
+        deduction._onchange_currency_expense_journal()
+        self.assertEqual(deduction.expense_journal_id, journal)
+        deduction.validate_expenses()
+        lines = self.env["account.move.line"].search(
+            [("account_id", "=", journal.default_account_id.id), ("partner_id", "=", self.employee_partner.id)]
+        )
+        self.assertAlmostEqual(sum(lines.mapped("amount_currency")), -50.0)
+        self.assertEqual(lines.currency_id, foreign)
+
+    def test_no_payment_moves_company_currency_not_on_foreign_542(self):
+        """Un decont în lei nu se validează pe 542 în valută; revenind la lei se propune 542 fără valută."""
+        self.cash_journal.expenses_no_payment_moves = True
+        foreign = self._foreign_currency(self.company)
+        journal = self._expense_journal_542_in(foreign)
+        deduction = self._draft_deduction(expense_journal_id=journal.id)
+        self._new_line(deduction, 50.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+        deduction._onchange_currency_expense_journal()
+        self.assertEqual(deduction.expense_journal_id.default_account_id.code[:3], "542")
+        self.assertFalse(deduction.expense_journal_id.default_account_id.currency_id)
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+
+    def test_no_payment_moves_company_card_on_542(self):
+        """Cu bifa pe jurnalul cardului firmei cheltuiala trece pe 542 (angajatul), nu pe 5125: plata cu
+        cardul din extras se reconciliază pe 542, ca o retragere de numerar."""
+        card = self._bank_journal("CRDN")
+        card.expenses_no_payment_moves = True
+        deduction = self._draft_deduction(settlement_mode="company_card", card_journal_id=card.id)
+        self.assertTrue(deduction.no_payment_moves)
+        self._new_line(deduction, 50.0)
+        deduction.validate_expenses()
+        self.assertAlmostEqual(sum(self._employee_542_lines().mapped("credit")), 50.0)
+
+    def test_no_payment_moves_rejects_advance(self):
+        """Fără note de plată nu există pasul Avans, iar un avans completat pe decont e refuzat."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        with self.assertRaises(UserError):
+            deduction.validate_advance()
+        deduction.advance = 100.0
+        self._new_line(deduction, 50.0)
+        with self.assertRaises(UserError):
+            deduction.validate_expenses()
+
+    def test_no_payment_moves_follows_journal_only_in_draft(self):
+        """Varianta se ia din jurnalul decontului: un decont în Ciornă urmează bifa jurnalului, unul
+        în starea Avans își păstrează fluxul clasic și se finalizează cu nota de diferență."""
+        advanced = self._draft_deduction(advance=100.0, date_advance=fields.Date.today())
+        advanced.validate_advance()
+        draft = self._draft_deduction()
+        self.assertFalse(draft.no_payment_moves)
+        self.cash_journal.expenses_no_payment_moves = True
+        self.assertTrue(draft.no_payment_moves)
+        self.assertFalse(advanced.no_payment_moves)
+        self._new_line(advanced, 100.0)
+        advanced.validate_expenses()
+        self.assertEqual(advanced.state, "done")
+        self.cash_journal.expenses_no_payment_moves = False
+        self.assertFalse(draft.no_payment_moves)
+
+    def test_no_payment_moves_mixed_cash_classic_card_by_statement(self):
+        """Același angajat: decontul pe casă (fără bifă) are avans și diferență și închide 542 pe decont;
+        decontul pe cardul firmei (cu bifă) înregistrează doar cheltuielile pe 542, soldul rămâne pe angajat."""
+        card = self._bank_journal("CRDM")
+        card.expenses_no_payment_moves = True
+        cash_report = self._draft_deduction(advance=200.0, date_advance=fields.Date.today())
+        self.assertFalse(cash_report.no_payment_moves)
+        cash_report.validate_advance()
+        self._new_line(cash_report, 150.0)
+        cash_report.validate_expenses()
+        self.assertAlmostEqual(sum(self._employee_542_lines().mapped("balance")), 0.0)
+
+        card_report = self._draft_deduction(settlement_mode="company_card", card_journal_id=card.id)
+        self.assertTrue(card_report.no_payment_moves)
+        self._new_line(card_report, 80.0)
+        card_report.validate_expenses()
+        self.assertEqual(card_report.state, "done")
+        self.assertAlmostEqual(sum(self._employee_542_lines().mapped("balance")), -80.0)
+        card_report.invalidate_recordset(["employee_balance"])
+        self.assertAlmostEqual(card_report.employee_balance, -80.0)
+
+    def test_employee_balance_action_opens_542_ledger(self):
+        """Butonul de sold deschide fișa 542 a angajatului: notele postate, cu soldul cumulat."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        self._new_line(deduction, 70.0)
+        deduction.validate_expenses()
+        action = deduction.action_view_employee_balance()
+        self.assertEqual(action["res_model"], "account.move.line")
+        lines = self.env["account.move.line"].search(action["domain"])
+        self.assertEqual(lines, self._employee_542_lines())
+        listed = self.env["account.move.line"].search_fetch(
+            action["domain"], ["expenses_cumulated_balance"], order="date desc, move_name desc, id desc"
+        )
+        self.assertAlmostEqual(listed[0].expenses_cumulated_balance, -70.0)
+
+    def test_employee_balance_in_currency_of_542(self):
+        """Pe un 542 în valută soldul angajatului se arată în valuta contului."""
+        self.cash_journal.expenses_no_payment_moves = True
+        foreign = self._foreign_currency(self.company)
+        journal = self._expense_journal_542_in(foreign)
+        deduction = self._draft_deduction(currency_id=foreign.id, expense_journal_id=journal.id)
+        self._new_line(deduction, 40.0)
+        deduction.validate_expenses()
+        deduction.invalidate_recordset(["employee_balance", "employee_balance_currency_id"])
+        self.assertEqual(deduction.employee_balance_currency_id, foreign)
+        self.assertAlmostEqual(deduction.employee_balance, -40.0)
+
+    def test_no_payment_moves_invalidate_and_validate_again(self):
+        """Invalidarea șterge notele decontului și îl readuce în Ciornă, de unde se validează din nou."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        self._new_line(deduction, 80.0)
+        deduction.validate_expenses()
+        number = deduction.number
+        deduction.invalidate_expenses()
+        self.assertEqual(deduction.state, "draft")
+        self.assertFalse(self._employee_542_lines())
+        deduction.validate_expenses()
+        self.assertEqual(deduction.number, number)
+        self.assertAlmostEqual(sum(self._employee_542_lines().mapped("credit")), 80.0)
+
+    def test_no_payment_moves_balance_readable_without_accounting_rights(self):
+        """Soldul 542 al angajatului se citește și de aprobator, fără drept pe notele contabile."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction()
+        self._new_line(deduction, 60.0)
+        deduction.validate_expenses()
+        approver = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Aprobator fără contabilitate",
+                    "login": "expenses_balance_approver_test",
+                    "group_ids": [(6, 0, [self.env.ref("deltatech_expenses.group_expenses_approver").id])],
+                }
+            )
+        )
+        self.assertFalse(approver.has_group("account.group_account_readonly"))
+        deduction.invalidate_recordset(["employee_balance"])
+        self.assertAlmostEqual(deduction.with_user(approver).employee_balance, -60.0)

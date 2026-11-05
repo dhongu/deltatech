@@ -5,3 +5,4 @@
 
 from . import test_expenses
 from . import test_screenshots
+from . import test_employee_public_access

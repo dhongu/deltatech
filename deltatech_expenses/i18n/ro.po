@@ -4,12 +4,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0\n"
+"Project-Id-Version: Odoo Server 20.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-01 05:25+0000\n"
+"POT-Creation-Date: 2026-11-05 03:16+0000\n"
 "PO-Revision-Date: 2021-02-01 05:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -17,6 +18,7 @@ msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__state
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_allocation__state
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__state
 msgid ""
 " * The 'Draft' status is used when a user is encoding a new and unconfirmed expenses deduction.             \n"
@@ -28,18 +30,20 @@ msgstr ""
 "* Starea 'Anulat' este folosită atunci când utilizatorul anulează decontul cheltuieli."
 
 #. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
-msgid ""
-"<span attrs=\"{'invisible': ['|', ('state', '!=', 'draft'), ('number', '!=', '/')]}\">Draft\n"
-"                            </span>"
-msgstr ""
-"<span attrs=\"{'invisible': ['|', ('state', '!=', 'draft'), ('number', '!=', '/')]}\">Ciornă\n"
-"                            </span>"
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "%(account)s - %(employee)s"
+msgstr "%(account)s - %(employee)s"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "<span class=\"o_form_label\">Expenses Deduction</span>"
 msgstr "<span class=\"o_form_label\">Decont cheltuieli</span>"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "<span class=\"o_stat_text\">Balance 542</span>"
+msgstr "<span class=\"o_stat_text\">Sold 542</span>"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
@@ -52,14 +56,14 @@ msgid "<span>Decont cheltuieli:</span>"
 msgstr ""
 
 #. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
-msgid "<span>Subsemnatul</span>"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "<span>Draft</span>"
+msgstr "<span>Ciornă</span>"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
-msgid "<strong>Amount</strong>"
-msgstr "<strong>Sumă</strong>"
+msgid "<span>Subsemnatul</span>"
+msgstr ""
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
@@ -73,23 +77,18 @@ msgstr ""
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
-msgid "<strong>Tax Amount</strong>"
-msgstr "<strong>Sumă taxă</strong>"
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
-msgid "<strong>Taxes</strong>"
-msgstr "<strong>Taxe</strong>"
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
-msgid "<strong>Total</strong>"
+msgid "<strong>Suma</strong>"
 msgstr ""
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__backup_counterpart_account_id
-msgid "Account"
-msgstr "Cont"
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<strong>TVA</strong>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.constraint,message:deltatech_expenses.constraint_deltatech_expenses_deduction_allocation_line_bill_uniq
+msgid "A bill can be allocated only once on a supplier payment line."
+msgstr "O factură poate fi alocată o singură dată pe o linie de plată furnizor."
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__move_id
@@ -104,6 +103,7 @@ msgstr "Intervenție necesară"
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__advance
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__advance
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Advance"
 msgstr "Avans"
@@ -114,9 +114,84 @@ msgid "Advance Date"
 msgstr "Dată avans"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__expenses_no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__no_payment_moves
+msgid "Advance and Settlement via Bank Statement / Cash Register"
+msgstr "Avansul și lichidarea prin extras de bancă / registru de casă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__allocated_amount
+msgid "Allocated"
+msgstr "Alocat"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__amount
+msgid "Allocated Amount"
+msgstr "Sumă alocată"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__bill_amount_residual
+msgid "Amount Due"
+msgstr "Rest de plată"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_allocation__amount
+msgid "Amount of the payment that settles this bill."
+msgstr "Partea din plată care stinge această factură."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__amount
+msgid "Amount on the receipt, VAT included."
+msgstr "Suma de pe bon, cu TVA inclus."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "An expenses deduction is created in the Draft status; the status is changed only with the workflow buttons."
+msgstr "Un decont de cheltuieli se creează în starea Ciornă; starea se schimbă doar prin butoanele fluxului."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__analytic_distribution
+msgid "Analytic Distribution"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__analytic_precision
+msgid "Analytic Precision"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:res.groups,name:deltatech_expenses.group_expenses_user
+msgid "Angajat"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__approved_by_id
+msgid "Aprobat de"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:res.groups,name:deltatech_expenses.group_expenses_approver
+msgid "Aprobator"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_attachment_count
 msgid "Attachment Count"
 msgstr "Număr atașamente"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Avans"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Avans furnizor"
+msgstr ""
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
@@ -124,9 +199,43 @@ msgid "Avans primit in data"
 msgstr ""
 
 #. module: deltatech_expenses
-#: model:ir.model,name:deltatech_expenses.model_account_bank_statement_line
-msgid "Bank Statement Line"
-msgstr "Linie extras bacă"
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+msgid "Balance of the employee on the advances account (542) of this expense report, all expense reports and cash / bank operations included: debit = the employee still has to justify, credit = the company owes the employee. On a 542 account in a foreign currency, the balance is in that currency."
+msgstr "Soldul angajatului pe contul de avansuri (542) al acestui decont, cu toate deconturile și operațiunile de casă / bancă: debitor = angajatul mai are de justificat, creditor = firma îi datorează angajatului. Pe un cont 542 în valută, soldul este în valuta contului."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_hr_employee__expenses_card_journal_id
+msgid "Bank journal of the company card of the employee, proposed on the expenses deductions paid with a company card."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__card_journal_id
+msgid "Bank journal of the company card used by the employee: the receipts are settled on its outstanding payments account (5125), matched later with the bank statement."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__transfer
+msgid "Bank transfer (personal card)"
+msgstr "Virament (card personal)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__move_id
+msgid "Bill"
+msgstr "Factură"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__bill_currency_id
+msgid "Bill Currency"
+msgstr "Moneda facturii"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__allocation_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Bills Paid"
+msgstr "Facturi plătite"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__cancel
@@ -134,16 +243,20 @@ msgid "Cancelled"
 msgstr "Anulată"
 
 #. module: deltatech_expenses
+#. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-#, python-format
 msgid "Cannot delete Expenses Deduction(s) which are already done."
 msgstr "Nu se pot șterge cheltuielile deja înregistrate."
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_import_journal_creation__account_cash_advances_id
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__account_cash_advances_id
-msgid "Cash advances"
-msgstr "Avans numerar"
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__cash
+msgid "Cash"
+msgstr "Numerar"
+
+#. module: deltatech_expenses
+#: model:ir.module.module,summary:base.module_deltatech_expenses
+msgid "Cash advances settled with an expense report (account 542)"
+msgstr "Avansuri de trezorerie decontate cu decont de cheltuieli (cont 542)"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
@@ -156,24 +269,64 @@ msgid "Click to create a Expenses Deduction."
 msgstr "Click pentru a crea o cheltuială."
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__commercial_partner_id
+msgid "Commercial Entity"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__company_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__company_id
 msgid "Company"
 msgstr "Companie"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__card_journal_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__expenses_card_journal_id
+msgid "Company Card Journal"
+msgstr "Jurnal card firmă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__company_currency_id
+msgid "Company Currency"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__company_card
+msgid "Company card"
+msgstr "Card de firmă"
+
+#. module: deltatech_expenses
+#: model:res.groups,name:deltatech_expenses.group_expenses_accounting
+msgid "Contabil"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__accounted_by_id
+msgid "Contabilizat de"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__create_uid
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__create_uid
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__create_uid
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__create_date
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__create_date
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__create_date
 msgid "Created on"
 msgstr "Creat în"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_account_move_line__expenses_cumulated_balance
+msgid "Cumulated balance of the lines listed, in the order of the list (the oldest line first)."
+msgstr "Soldul cumulat al liniilor din listă, în ordinea listei (de la cea mai veche linie)."
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__currency_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__currency_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__currency_id
 msgid "Currency"
 msgstr "Moneda"
@@ -194,15 +347,50 @@ msgid "Days"
 msgstr "Zile"
 
 #. module: deltatech_expenses
+#: model:ir.module.category,name:deltatech_expenses.module_category_expenses_deduction
+#: model:res.groups.privilege,name:deltatech_expenses.res_groups_privilege_expenses_deduction
+msgid "Decont Cheltuieli"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontare avans"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontare cheltuieli"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontul %s nu poate fi invalidat: nu este în starea Finalizat."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontul %s nu poate fi validat ca avans: nu mai este în starea Ciornă (a fost deja validat sau invalidat)."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Decontul %s nu poate fi validat: nu este în starea Avans (a fost deja finalizat sau nu are un avans validat)."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_employee_form_deduction
+msgid "Deconturi"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__expense_account_id
 msgid "Default Expense Account"
 msgstr "Cont cheltuieli implicit"
-
-#. module: deltatech_expenses
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-#, python-format
-msgid "Diferență avans"
-msgstr "Diferență avans"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
@@ -215,8 +403,30 @@ msgid "Diem"
 msgstr "Diurnă"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
+msgid "Diem Account"
+msgstr "Cont diurnă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_diem_id
+msgid "Diem Journal"
+msgstr "Jurnal diurnă"
+
+#. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "Diferenţă"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Diferență avans"
+msgstr "Diferență avans"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Diferență de curs avans"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -230,13 +440,36 @@ msgid "Din care diurna"
 msgstr ""
 
 #. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Discard"
+msgstr "Renunță"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment__display_name
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__display_name
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Diurnă"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__done
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
 msgid "Done"
 msgstr "Efectuat"
 
@@ -246,15 +479,47 @@ msgid "Draft"
 msgstr "Ciornă"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__invoice_date_due
+msgid "Due Date"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_hr_employee
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_id
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
 msgid "Employee"
 msgstr "Angajat"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Employee Balance (542)"
+msgstr "Sold angajat (542)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance_currency_id
+msgid "Employee Balance Currency"
+msgstr "Moneda soldului angajatului"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__partner_id
+msgid "Employee Partner"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__date_expense
 msgid "Expense Date"
 msgstr "Dată cheltuială"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expense_journal_id
+msgid "Expense Journal"
+msgstr "Jurnal avansuri (542)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_account_journal__expenses_no_payment_moves
+msgid "Expense reports paid through this journal (cash register, bank or company card) book only the expenses on 542, with the employee as partner. The money handed to the employee and the refunds are recorded from the cash register or the bank statement of this journal, reconciled on 542; the balance is followed per employee on the 542 ledger, not per expense report."
+msgstr "Deconturile plătite prin acest jurnal (casă, bancă sau cardul firmei) înregistrează doar cheltuielile pe 542, cu angajatul ca partener. Banii dați angajatului și restituirile se înregistrează din registrul de casă sau din extrasul de bancă al acestui jurnal și se reconciliază pe 542; soldul se urmărește pe fișa 542 a angajatului, nu pe decont."
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expenses_line_ids
@@ -268,10 +533,11 @@ msgstr "Cheltuieli"
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__expenses_deduction_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_move__expenses_deduction_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment__expenses_deduction_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__expenses_deduction_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__expenses_deduction_id
+#: model:ir.module.module,shortdesc:base.module_deltatech_expenses
 #: model:ir.ui.menu,name:deltatech_expenses.menu_deltatech_expenses_deduction
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_tree
 msgid "Expenses Deduction"
 msgstr "Decont Cheltuieli"
 
@@ -279,6 +545,23 @@ msgstr "Decont Cheltuieli"
 #: model:ir.model,name:deltatech_expenses.model_deltatech_expenses_deduction_line
 msgid "Expenses Deduction Line"
 msgstr "Linie decont cheltuieli"
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_deltatech_expenses_deduction_allocation
+msgid "Expenses Deduction Supplier Payment Allocation"
+msgstr "Alocare plată furnizor din decont"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/hr_employee.py:0
+#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__expenses_deduction_count
+msgid "Expenses Deductions"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__line_id
+msgid "Expenses Line"
+msgstr "Linie decont"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
@@ -291,11 +574,6 @@ msgid "Followers"
 msgstr "Persoane interesate"
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_channel_ids
-msgid "Followers (Channels)"
-msgstr "Urmăritori (Canale)"
-
-#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Urmăritori (Parteneri)"
@@ -306,23 +584,30 @@ msgid "Free Notes"
 msgstr "Notă"
 
 #. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
-msgid "Group By..."
-msgstr "Grupează după..."
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Furnizorul %s nu are un cont de datorii (401) configurat; completați 'Cont de plătit' pe partener înainte de decontare."
+msgstr ""
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move_line__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__id
 msgid "ID"
 msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_needaction
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
 
@@ -343,6 +628,11 @@ msgid "Is Follower"
 msgstr "Este urmăritor"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__is_foreign_currency
+msgid "Is Foreign Currency"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model,name:deltatech_expenses.model_account_journal
 msgid "Journal"
 msgstr "Jurnal"
@@ -353,37 +643,34 @@ msgid "Journal Entry"
 msgstr "Notă contabilă"
 
 #. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__move_ids
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Journal Items"
 msgstr "Elemente jurnal"
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line____last_update
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal____last_update
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move____last_update
-#: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment____last_update
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction____last_update
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line____last_update
-msgid "Last Modified on"
-msgstr "Ultima modificare la"
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
+msgid "Journal of the advance and of the difference: the cash journal, or the bank journal for a bank transfer to the personal card of the employee."
+msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__write_uid
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__write_uid
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__write_uid
 msgid "Last Updated by"
 msgstr "Ultima actualizare făcută de"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__write_date
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__write_date
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__write_date
 msgid "Last Updated on"
 msgstr "Ultima actualizare pe"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_has_error
@@ -416,6 +703,11 @@ msgid "New Expenses Deduction"
 msgstr "Nou Decont Cheltuieli"
 
 #. module: deltatech_expenses
+#: model:res.groups.privilege,placeholder:deltatech_expenses.res_groups_privilege_expenses_deduction
+msgid "No"
+msgstr "Nu"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__note
 msgid "Note"
 msgstr "Notă"
@@ -424,6 +716,12 @@ msgstr "Notă"
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Notes"
 msgstr "Note"
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Nu aveți rolul necesar pentru a %s decontul de cheltuieli."
+msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__number
@@ -442,8 +740,8 @@ msgstr "Număr de erori"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Număr de mesaje ce necesită intervenție"
+msgid "Number of messages requiring action"
+msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_has_error_counter
@@ -451,14 +749,10 @@ msgid "Number of messages with delivery error"
 msgstr "Numărul de mesaje cu eroare de livrare"
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Număr de mesaje necitite"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__tax_ids
-msgid "VAT on the receipt; the amount is always entered with VAT included."
-msgstr "TVA-ul de pe bon; suma se introduce întotdeauna cu TVA inclus."
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Only a supplier payment line can pay bills: line %(line)s is an expense."
+msgstr "Doar o linie de plată furnizor poate plăti facturi: linia %(line)s este o cheltuială."
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
@@ -466,17 +760,26 @@ msgid "Other information"
 msgstr "Alte informații"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__partner_id
+msgid "Partenerul asociat angajatului (work_contact_id), folosit pentru notele contabile."
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__partner_id
 msgid "Partner"
 msgstr "Partener"
 
 #. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
-msgid "Payment Items"
-msgstr ""
+#: model:ir.model,name:deltatech_expenses.model_account_payment
+msgid "Payment"
+msgstr "Plată"
 
 #. module: deltatech_expenses
-#: model:ir.model,name:deltatech_expenses.model_account_payment
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
+msgid "Payment Journal"
+msgstr "Jurnal de plată"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__payment_ids
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Payments"
@@ -498,9 +801,19 @@ msgid "Reference"
 msgstr "Referință"
 
 #. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move_line__expenses_cumulated_balance
+msgid "Running Balance"
+msgstr "Sold cumulat"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Save"
+msgstr "Salvează"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
@@ -516,13 +829,32 @@ msgid "Semnătură titular"
 msgstr ""
 
 #. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Set an outstanding %(direction)s account (5125) on the %(direction)s payment method of the journal %(journal)s: the payments of the expenses deduction %(number)s are posted on it and matched with the bank statement."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Set the gain and loss exchange rate accounts (765/665) in the accounting settings of the company %(company)s, to close the exchange difference of the expenses deduction %(number)s."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__settlement_mode
+msgid "Settlement Mode"
+msgstr "Mod de decontare"
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__state
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__state
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__state
 msgid "Status"
 msgstr "Stare"
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
 msgid "Supplier"
 msgstr "Furnizor"
 
@@ -542,26 +874,145 @@ msgid "Tax Amount"
 msgstr "Valoare taxă"
 
 #. module: deltatech_expenses
+#. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-#, python-format
-msgid ""
-"The cash statement of journal %s from date is not in open state, please open it \n"
-"to create the line in  it \"%s\"."
+msgid "The advance of the expenses deduction %(number)s is already posted: the advance amount, journals, advance date, employee and company can no longer be changed. To change the advance, invalidate the deduction."
+msgstr "Avansul decontului %(number)s este deja contabilizat: suma avansului, jurnalele, data avansului, angajatul și compania nu se mai pot modifica. Pentru a schimba avansul, invalidați decontul."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The amount allocated to the bill %(bill)s (%(amount)s) is greater than its amount due (%(residual)s)."
+msgstr "Suma alocată facturii %(bill)s (%(amount)s) este mai mare decât restul ei de plată (%(residual)s)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bill %(bill)s is allocated on several lines for %(amount)s, more than its amount due (%(residual)s)."
+msgstr "Factura %(bill)s este alocată pe mai multe linii pentru %(amount)s, mai mult decât restul ei de plată (%(residual)s)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bill %(bill)s is not a bill of the supplier %(partner)s in this company."
+msgstr "Factura %(bill)s nu este o factură a furnizorului %(partner)s în această companie."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bill %(bill)s must be posted and have a positive allocated amount."
+msgstr "Factura %(bill)s trebuie să fie postată și să aibă o sumă alocată pozitivă."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The bills allocated on the line %(line)s (%(allocated)s) exceed the amount paid (%(amount)s)."
+msgstr "Facturile alocate pe linia %(line)s (%(allocated)s) depășesc suma plătită (%(amount)s)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expense report %(number)s has an advance, but the journal %(journal)s records the advances from the cash register or the bank statement on 542, not on the expense report. Set the advance to zero."
+msgstr "Decontul %(number)s are un avans, dar la jurnalul %(journal)s avansurile se înregistrează din registrul de casă sau din extrasul de bancă pe 542, nu pe decont. Puneți avansul pe zero."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expense report %(number)s has no advance step: the journal %(journal)s records the advance from the cash register or the bank statement on 542. Fill in the expenses and validate the report."
+msgstr "Decontul %(number)s nu are pasul Avans: la jurnalul %(journal)s avansul se înregistrează din registrul de casă sau din extrasul de bancă pe 542. Completați cheltuielile și validați decontul."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expense report %(number)s is in %(currency)s, but the account %(account)s of the expense journal %(journal)s is not: choose an expense journal whose 542 account is in %(currency)s (account currency set), so that the balance of the employee is revalued monthly."
+msgstr "Decontul %(number)s este în %(currency)s, dar contul %(account)s al jurnalului de avansuri %(journal)s nu este: alegeți un jurnal de avansuri al cărui cont 542 este în %(currency)s (valută setată pe cont), ca soldul angajatului să fie reevaluat lunar."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s cannot be cancelled: only a draft deduction can be cancelled (an advanced or done one has journal entries)."
+msgstr "Decontul %(number)s nu poate fi anulat: se anulează doar un decont în starea Ciornă (cel cu avans acordat sau finalizat are note contabile)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is done or cancelled: its amounts, lines and accounting data can no longer be changed. Invalidate it and validate it again."
+msgstr "Decontul %(number)s este finalizat sau anulat: sumele, liniile și datele contabile nu se mai pot modifica. Invalidați decontul și validați-l din nou."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is done or cancelled: its lines can no longer be changed. Invalidate it and validate it again."
+msgstr "Decontul %(number)s este finalizat sau anulat: liniile nu se mai pot modifica. Invalidați decontul și validați-l din nou."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is paid with a company card in %(currency)s: the per diem is paid from the payment journal %(journal)s, which is in %(journal_currency)s. Choose a payment journal in %(currency)s or in the company currency."
 msgstr ""
-"Registrului de casă din data %s nu este în stare deschisă, vă rugăm să deschideți \n"
-"pentru a crea linia în el \"%s\"."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is paid with a company card: choose the company card journal (a bank or credit card journal)."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is paid with a company card: it has no advance. A cash withdrawal with the card is a separate deduction (Dr 542 = Cr 5121)."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is settled by bank transfer: choose a bank journal."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The expenses deduction %(number)s is settled in cash: choose a cash journal."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The journal %(journal)s is in %(journal_currency)s, but the expenses deduction %(number)s is in %(currency)s."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "The payment settles only these bills; the rest is a supplier advance (4092)."
+msgstr "Plata stinge doar aceste facturi; restul e avans la furnizor (4092)."
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "The status of an expenses deduction is changed only with the workflow buttons (Advance, Validate, Invalidate), not by a direct write."
+msgstr "Starea decontului de cheltuieli se schimbă doar prin butoanele fluxului (Avans, Validare, Invalidare), nu prin modificare directă."
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__amount
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
 msgid "Total"
 msgstr "Total"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__amount
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_tree
 msgid "Total Amount"
 msgstr "Valoare totală"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Total Credit"
+msgstr "Total credit"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Total Debit"
+msgstr "Total debit"
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__total_diem
@@ -574,6 +1025,21 @@ msgid "Total Tax"
 msgstr "Total TVA"
 
 #. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Total Untaxed"
+msgstr "Total fără TVA"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Total in Currency"
+msgstr "Total în valută"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Traseu aprobare"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__travel_order
 msgid "Travel Order"
 msgstr "Ordin deplasare"
@@ -584,14 +1050,19 @@ msgid "Type"
 msgstr "Tip"
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_unread
-msgid "Unread Messages"
-msgstr "Mesaje necitite"
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__accounted_by_id
+msgid "Utilizatorul care a finalizat/contabilizat decontul (rol Contabil)."
+msgstr ""
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Contor mesaje necitite"
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__approved_by_id
+msgid "Utilizatorul care a validat avansul (rol Aprobator)."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__tax_ids
+msgid "VAT on the receipt; the amount is always entered with VAT included."
+msgstr "TVA-ul de pe bon; suma se introduce întotdeauna cu TVA inclus."
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
@@ -610,14 +1081,15 @@ msgid "Vouchers Amount"
 msgstr "Total chitanțe"
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__website_message_ids
-msgid "Website Messages"
-msgstr "Mesaje Website"
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
+msgid "Without bills, the payment settles the oldest open bills first."
+msgstr "Fără facturi alese, plata stinge întâi facturile deschise cele mai vechi."
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__website_message_ids
-msgid "Website communication history"
-msgstr "Istoric comunicare website"
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "You must select a supplier for all lines."
+msgstr ""
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
@@ -640,6 +1112,24 @@ msgid "de restituit"
 msgstr ""
 
 #. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/hr_employee.py:0
+msgid "employee_id"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "payments"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "receipts"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "un act justificativ specificat"
 msgstr ""
@@ -651,8 +1141,7 @@ msgstr ""
 
 #. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
-msgid ""
-"în borderoul de mai jos pentru justificarea avansului primit la data de"
+msgid "în borderoul de mai jos pentru justificarea avansului primit la data de"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -660,204 +1149,62 @@ msgstr ""
 msgid "Șef contabil"
 msgstr ""
 
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "An expenses deduction is created in the Draft status; the status is changed only with the workflow buttons."
-msgstr "Un decont de cheltuieli se creează în starea Ciornă; starea se schimbă doar prin butoanele fluxului."
+#~ msgid "Website Messages"
+#~ msgstr "Mesaje Website"
 
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The expenses deduction %(number)s is done or cancelled: its amounts, lines and accounting data can no longer be changed. Invalidate it and validate it again."
-msgstr "Decontul %(number)s este finalizat sau anulat: sumele, liniile și datele contabile nu se mai pot modifica. Invalidați decontul și validați-l din nou."
+#~ msgid "Website communication history"
+#~ msgstr "Istoric comunicare website"
 
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The expenses deduction %(number)s is done or cancelled: its lines can no longer be changed. Invalidate it and validate it again."
-msgstr "Decontul %(number)s este finalizat sau anulat: liniile nu se mai pot modifica. Invalidați decontul și validați-l din nou."
+#~ msgid ""
+#~ "<span attrs=\"{'invisible': ['|', ('state', '!=', 'draft'), ('number', '!=', '/')]}\">Draft\n"
+#~ "                            </span>"
+#~ msgstr ""
+#~ "<span attrs=\"{'invisible': ['|', ('state', '!=', 'draft'), ('number', '!=', '/')]}\">Ciornă\n"
+#~ "                            </span>"
 
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The expenses deduction %(number)s cannot be cancelled: only a draft deduction can be cancelled (an advanced or done one has journal entries)."
-msgstr "Decontul %(number)s nu poate fi anulat: se anulează doar un decont în starea Ciornă (cel cu avans acordat sau finalizat are note contabile)."
+#~ msgid "<strong>Amount</strong>"
+#~ msgstr "<strong>Sumă</strong>"
 
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The status of an expenses deduction is changed only with the workflow buttons (Advance, Validate, Invalidate), not by a direct write."
-msgstr "Starea decontului de cheltuieli se schimbă doar prin butoanele fluxului (Avans, Validare, Invalidare), nu prin modificare directă."
+#~ msgid "<strong>Tax Amount</strong>"
+#~ msgstr "<strong>Sumă taxă</strong>"
 
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The advance of the expenses deduction %(number)s is already posted: the advance amount, journals, advance date, employee and company can no longer be changed. To change the advance, invalidate the deduction."
-msgstr "Avansul decontului %(number)s este deja contabilizat: suma avansului, jurnalele, data avansului, angajatul și compania nu se mai pot modifica. Pentru a schimba avansul, invalidați decontul."
+#~ msgid "<strong>Taxes</strong>"
+#~ msgstr "<strong>Taxe</strong>"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__amount
-msgid "Amount on the receipt, VAT included."
-msgstr "Suma de pe bon, cu TVA inclus."
+#~ msgid "Account"
+#~ msgstr "Cont"
 
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
-msgid "Total Untaxed"
-msgstr "Total fără TVA"
+#~ msgid "Bank Statement Line"
+#~ msgstr "Linie extras bacă"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expense_journal_id
-msgid "Expense Journal"
-msgstr "Jurnal avansuri (542)"
+#~ msgid "Cash advances"
+#~ msgstr "Avans numerar"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_diem_id
-msgid "Diem Journal"
-msgstr "Jurnal diurnă"
+#~ msgid "Followers (Channels)"
+#~ msgstr "Urmăritori (Canale)"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
-msgid "Diem Account"
-msgstr "Cont diurnă"
+#~ msgid "Group By..."
+#~ msgstr "Grupează după..."
 
-#. module: deltatech_expenses
-#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__transfer
-msgid "Bank transfer (personal card)"
-msgstr "Virament (card personal)"
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modificare la"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__cash
-msgid "Cash"
-msgstr "Numerar"
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Număr de mesaje ce necesită intervenție"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__card_journal_id
-#: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__expenses_card_journal_id
-msgid "Company Card Journal"
-msgstr "Jurnal card firmă"
+#~ msgid "Number of unread messages"
+#~ msgstr "Număr de mesaje necitite"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__company_card
-msgid "Company card"
-msgstr "Card de firmă"
+#, python-format
+#~ msgid ""
+#~ "The cash statement of journal %s from date is not in open state, please open it \n"
+#~ "to create the line in  it \"%s\"."
+#~ msgstr ""
+#~ "Registrului de casă din data %s nu este în stare deschisă, vă rugăm să deschideți \n"
+#~ "pentru a crea linia în el \"%s\"."
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
-msgid "Payment Journal"
-msgstr "Jurnal de plată"
+#~ msgid "Unread Messages"
+#~ msgstr "Mesaje necitite"
 
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__settlement_mode
-msgid "Settlement Mode"
-msgstr "Mod de decontare"
-
-#. module: deltatech_expenses
-#. odoo-python
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__allocation_ids
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
-msgid "Bills Paid"
-msgstr "Facturi plătite"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__allocated_amount
-msgid "Allocated"
-msgstr "Alocat"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__amount
-msgid "Allocated Amount"
-msgstr "Sumă alocată"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__move_id
-msgid "Bill"
-msgstr "Factură"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__bill_amount_residual
-msgid "Amount Due"
-msgstr "Rest de plată"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__bill_currency_id
-msgid "Bill Currency"
-msgstr "Moneda facturii"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__line_id
-msgid "Expenses Line"
-msgstr "Linie decont"
-
-#. module: deltatech_expenses
-#: model:ir.model,name:deltatech_expenses.model_deltatech_expenses_deduction_allocation
-msgid "Expenses Deduction Supplier Payment Allocation"
-msgstr "Alocare plată furnizor din decont"
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_allocation__amount
-msgid "Amount of the payment that settles this bill."
-msgstr "Partea din plată care stinge această factură."
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
-msgid "Save"
-msgstr "Salvează"
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
-msgid "Discard"
-msgstr "Renunță"
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
-msgid "The payment settles only these bills; the rest is a supplier advance (4092)."
-msgstr "Plata stinge doar aceste facturi; restul e avans la furnizor (4092)."
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_expenses_deduction_line_allocation_form
-msgid "Without bills, the payment settles the oldest open bills first."
-msgstr "Fără facturi alese, plata stinge întâi facturile deschise cele mai vechi."
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "Only a supplier payment line can pay bills: line %(line)s is an expense."
-msgstr "Doar o linie de plată furnizor poate plăti facturi: linia %(line)s este o cheltuială."
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The bill %(bill)s is not a bill of the supplier %(partner)s in this company."
-msgstr "Factura %(bill)s nu este o factură a furnizorului %(partner)s în această companie."
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The bill %(bill)s must be posted and have a positive allocated amount."
-msgstr "Factura %(bill)s trebuie să fie postată și să aibă o sumă alocată pozitivă."
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The amount allocated to the bill %(bill)s (%(amount)s) is greater than its amount due (%(residual)s)."
-msgstr "Suma alocată facturii %(bill)s (%(amount)s) este mai mare decât restul ei de plată (%(residual)s)."
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The bills allocated on the line %(line)s (%(allocated)s) exceed the amount paid (%(amount)s)."
-msgstr "Facturile alocate pe linia %(line)s (%(allocated)s) depășesc suma plătită (%(amount)s)."
-
-#. module: deltatech_expenses
-#: model:ir.model.constraint,message:deltatech_expenses.constraint_deltatech_expenses_deduction_allocation_line_bill_uniq
-msgid "A bill can be allocated only once on a supplier payment line."
-msgstr "O factură poate fi alocată o singură dată pe o linie de plată furnizor."
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "The bill %(bill)s is allocated on several lines for %(amount)s, more than its amount due (%(residual)s)."
-msgstr "Factura %(bill)s este alocată pe mai multe linii pentru %(amount)s, mai mult decât restul ei de plată (%(residual)s)."
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contor mesaje necitite"

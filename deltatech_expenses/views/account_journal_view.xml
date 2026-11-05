@@ -6,10 +6,32 @@
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='loss_account_id']" position="after">
-
-<!--                 <field name="account_cash_advances_id" invidibel="type != 'cash'" />-->
-
+                <field name="expenses_no_payment_moves" invisible="type not in ('cash', 'bank', 'credit')" />
             </xpath>
+        </field>
+    </record>
+
+    <!-- fișa contului 542 a angajatului, deschisă din decont: notele postate cu soldul cumulat -->
+    <record id="view_move_line_tree_employee_balance" model="ir.ui.view">
+        <field name="name">account.move.line.list.expenses.employee.balance</field>
+        <field name="model">account.move.line</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <list string="Employee Balance (542)" create="false" edit="false" default_order="date desc, move_name desc, id desc">
+                <field name="date" />
+                <field name="move_name" />
+                <field name="journal_id" optional="show" />
+                <field name="name" />
+                <field name="account_id" optional="hide" />
+                <field name="partner_id" optional="hide" />
+                <field name="matching_number" optional="show" />
+                <field name="company_currency_id" column_invisible="True" />
+                <field name="currency_id" column_invisible="True" />
+                <field name="debit" sum="Total Debit" />
+                <field name="credit" sum="Total Credit" />
+                <field name="expenses_cumulated_balance" />
+                <field name="amount_currency" optional="hide" sum="Total in Currency" groups="base.group_multi_currency" />
+            </list>
         </field>
     </record>
 </odoo>

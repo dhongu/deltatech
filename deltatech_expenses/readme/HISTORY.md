@@ -1,5 +1,46 @@
 # Changelog
 
+## 20.0.3.8.0 (2026-11-05)
+
+Forward-port of 19.0.3.9.0 – 19.0.3.11.0.
+
+- A **Supplier Payment** line takes the payable account of the supplier (401), set from the
+  partner and read-only; an **Expense** line keeps the default expense account, chosen by the
+  accountant. A supplier payment line has no VAT: the taxes cannot be filled in and are ignored, as
+  the bill paid already has its VAT booked. The amount paid is the total of the line.
+- The **Expenses Deductions** counter on the employee (`expenses_deduction_count`) is restricted to HR
+  users, like the company card journal: users without HR rights (website, PoS) got an access error
+  when reading an employee.
+- New journal option **Advance and Settlement via Bank Statement / Cash Register** (cash, bank or
+  company card journal, Journal Entries tab). An expense report takes it from the journal of its
+  settlement mode (the card journal for Company card, the payment journal otherwise) and stores it:
+  reports in Draft follow a change of the journal option, reports in Advance or Done keep their flow.
+  The same company can thus settle cash advances on the expense report and company card advances
+  through the bank statement. In this variant the expense report books only the expenses, always on
+  542 with the employee as partner (receipts, supplier payments, per diem), whatever the settlement
+  mode. It posts no advance, no refund, no extra payment and no exchange difference on 542: the money
+  handed to the employee and the refunds are recorded from the cash register or the bank statement,
+  reconciled on 542. The report has no Advance step: it is validated from Draft, gets its number then
+  and ends in Done; the status bar shows only Draft and Done, and the settlement lines are labelled
+  "Decontare cheltuieli".
+- In this variant, an expense report in a foreign currency is validated only on a 542 account in that
+  currency (account currency set), so that the monthly revaluation revalues the balance of the
+  employee; a report in the company currency only on a 542 account without currency. Changing the
+  currency proposes the matching expense journal.
+- Smart button **Balance 542** on the expense report: the balance of the employee on the 542 account
+  of the report (in the account currency for a 542 in a foreign currency); it opens the 542 ledger of
+  the employee, posted entries with the cumulated balance. Users without accounting read rights see
+  the balance as a field, without the link. In 20.0 the standard cumulated balance is computed only on
+  a ledger of one account without other filters, so the 542 ledger of the employee has its own
+  cumulated balance column (`expenses_cumulated_balance`).
+- The advance date is today by default. Search filters **Advance** and **Done** on the expense
+  reports. The title of a draft expense report is translated.
+- Migration (database coming from 19.0 before 19.0.3.11.0): on a company that had the option in the
+  settings, it is set on its cash, bank and card journals, and its expense reports keep the variant
+  they were created with.
+- Consultant sheet and screenshots: journal option, balance button, 542 ledger, year-end
+  reclassification of a credit balance on 542 to 4281.
+
 ## 20.0.3.7.0 (2026-10-29)
 
 - A supplier payment line can name the bills it pays (button on the line, **Bills Paid**): for

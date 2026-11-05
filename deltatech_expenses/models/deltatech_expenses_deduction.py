@@ -81,6 +81,8 @@ class DeltatechExpensesDeduction(models.Model):
     date_advance = fields.Date(
         string="Advance Date",
         required=True,
+        # fără note de plată (expenses_no_payment_moves) avansul nu trece prin decont: data e doar informativă
+        default=fields.Date.context_today,
         # readonly=True,
         # states={"draft": [("readonly", False)]}
     )
@@ -223,6 +225,85 @@ class DeltatechExpensesDeduction(models.Model):
 
     total_diem = fields.Monetary(string="Total Diem", compute="_compute_amount")
 
+    # Fără note de plată: decontul înregistrează doar cheltuielile pe 542 (angajatul ca partener); avansurile
+    # și restituirile se înregistrează din casă / bancă, iar soldul se urmărește pe fișa 542 per angajat.
+    # Varianta vine din jurnalul pe care ajung banii la angajat (bifa de pe jurnal) și se păstrează pe decont:
+    # un decont trecut de Ciornă nu-și mai schimbă fluxul dacă bifa jurnalului se schimbă ulterior.
+    no_payment_moves = fields.Boolean(
+        string="Advance and Settlement via Bank Statement / Cash Register",
+        compute="_compute_no_payment_moves",
+        store=True,
+        precompute=True,
+        readonly=True,
+    )
+    employee_balance = fields.Monetary(
+        string="Employee Balance (542)",
+        compute="_compute_employee_balance",
+        currency_field="employee_balance_currency_id",
+        help="Balance of the employee on the advances account (542) of this expense report, all expense reports "
+        "and cash / bank operations included: debit = the employee still has to justify, credit = the company "
+        "owes the employee. On a 542 account in a foreign currency, the balance is in that currency.",
+    )
+    employee_balance_currency_id = fields.Many2one("res.currency", compute="_compute_employee_balance")
+
+    def _settlement_journal(self):
+        """Jurnalul pe care ajung banii la angajat: jurnalul cardului firmei sau jurnalul de plată."""
+        self.ensure_one()
+        return self.card_journal_id if self.settlement_mode == "company_card" else self.journal_id
+
+    @api.depends("settlement_mode", "journal_id", "card_journal_id")
+    def _compute_no_payment_moves(self):
+        for expenses in self:
+            # sudo: angajatul și aprobatorul completează decontul fără drept de citire pe jurnale
+            expenses.no_payment_moves = expenses._settlement_journal().sudo().expenses_no_payment_moves
+
+    def _employee_balance_domain(self):
+        self.ensure_one()
+        return [
+            ("account_id", "=", self.sudo().expense_journal_id.default_account_id.id),
+            ("partner_id", "=", self.partner_id.id),
+            ("company_id", "=", self.company_id.id),
+            ("parent_state", "=", "posted"),
+        ]
+
+    @api.depends("partner_id", "expense_journal_id", "company_id", "state")
+    def _compute_employee_balance(self):
+        for expenses in self:
+            # contul 542 se citește cu sudo: aprobatorul nu are neapărat drept de citire pe jurnale
+            account = expenses.sudo().expense_journal_id.default_account_id
+            company_currency = expenses.company_id.currency_id
+            # pe un 542 în valută soldul angajatului se urmărește în valuta contului (reevaluat lunar)
+            in_currency = account.currency_id and account.currency_id != company_currency
+            expenses.employee_balance_currency_id = account.currency_id if in_currency else company_currency
+            if not account or not expenses.partner_id:
+                expenses.employee_balance = 0.0
+                continue
+            # doar suma: angajatul și aprobatorul completează decontul fără drept de citire pe notele contabile
+            aggregate = "amount_currency:sum" if in_currency else "balance:sum"
+            groups = (
+                self.env["account.move.line"]
+                .sudo()
+                ._read_group(expenses._employee_balance_domain(), aggregates=[aggregate])
+            )
+            expenses.employee_balance = groups[0][0] if groups else 0.0
+
+    def action_view_employee_balance(self):
+        """Fișa contului 542 a angajatului: notele postate, cu soldul cumulat."""
+        self.ensure_one()
+        account = self.expense_journal_id.default_account_id
+        return {
+            "type": "ir.actions.act_window",
+            "name": self.env._("%(account)s - %(employee)s", account=account.code, employee=self.partner_id.name),
+            "res_model": "account.move.line",
+            "view_mode": "list,form",
+            "views": [
+                (self.env.ref("deltatech_expenses.view_move_line_tree_employee_balance").id, "list"),
+                (False, "form"),
+            ],
+            "domain": self._employee_balance_domain(),
+            "context": {"create": False, "search_default_posted": 1},
+        }
+
     def _compute_move_ids(self):
         for expenses in self:
             move_lines = expenses.move_id.line_ids
@@ -281,8 +362,42 @@ class DeltatechExpensesDeduction(models.Model):
     def _compute_currency(self):
         for expense in self:
             # cu cardul firmei chitanțele se decontează pe jurnalul cardului: moneda lui e moneda decontului
-            journal = expense.card_journal_id if expense.settlement_mode == "company_card" else expense.journal_id
+            journal = expense._settlement_journal()
             expense.currency_id = journal.currency_id or expense.company_id.currency_id
+
+    def _settlement_label(self):
+        """Eticheta liniilor de decontare pe 542: fără avans pe decont (avansul și lichidarea prin extras
+        sau casă) nu e o decontare de avans, ci a cheltuielilor."""
+        self.ensure_one()
+        return self.env._("Decontare cheltuieli") if self.no_payment_moves else self.env._("Decontare avans")
+
+    def _account_542_matches_currency(self, account=None):
+        """Fără note de plată soldul 542 al angajatului se reportează între luni: în valută el se
+        reevaluează lunar (OMFP 1802/2014 pct. 322) doar pe un cont 542 analitic cu valuta setată pe cont,
+        cum îl ia reevaluarea din localizare; un decont în lei rămâne pe 542 fără valută."""
+        self.ensure_one()
+        if account is None:
+            account = self.sudo().expense_journal_id.default_account_id
+        if self.currency_id != self.company_id.currency_id:
+            return account.currency_id == self.currency_id
+        return not account.currency_id or account.currency_id == self.company_id.currency_id
+
+    @api.onchange("currency_id")
+    def _onchange_currency_expense_journal(self):
+        """Propune jurnalul de avansuri al cărui cont 542 e în valuta decontului."""
+        account = self.expense_journal_id.default_account_id
+        if not self.no_payment_moves or not account or self._account_542_matches_currency():
+            return
+        journals = self.env["account.journal"].search(
+            [
+                ("type", "=", self.expense_journal_id.type),
+                ("company_id", "=", self.company_id.id),
+                ("default_account_id.code", "=like", f"{account.code[:3]}%"),
+            ]
+        )
+        journal = journals.filtered(lambda j: self._account_542_matches_currency(j.default_account_id))[:1]
+        if journal:
+            self.expense_journal_id = journal
 
     @api.depends("currency_id", "company_id")
     def _compute_is_foreign_currency(self):
@@ -600,6 +715,16 @@ class DeltatechExpensesDeduction(models.Model):
     def validate_advance(self):
         self._check_role("deltatech_expenses.group_expenses_approver", "aproba avansul pentru")
         for expenses in self:
+            if expenses.no_payment_moves:
+                raise UserError(
+                    self.env._(
+                        "The expense report %(number)s has no advance step: the journal %(journal)s records the "
+                        "advance from the cash register or the bank statement on 542. Fill in the expenses and "
+                        "validate the report.",
+                        number=expenses._deduction_label(),
+                        journal=expenses._settlement_journal().sudo().display_name,
+                    )
+                )
             if expenses.state != "draft":
                 raise UserError(
                     self.env._(
@@ -698,7 +823,7 @@ class DeltatechExpensesDeduction(models.Model):
                 )
                 % (partner.display_name or "")
             )
-        if expenses.settlement_mode == "company_card":
+        if expenses.settlement_mode == "company_card" and not expenses.no_payment_moves:
             credit_journal = expenses.card_journal_id
             credit_account = expenses._get_liquidity_account(credit_journal)
             credit_partner = partner
@@ -732,7 +857,7 @@ class DeltatechExpensesDeduction(models.Model):
                         part_balance,
                         partner_id=partner.id,
                         account_id=account.id,
-                        name=self.env._("Decontare avans"),
+                        name=expenses._settlement_label(),
                     ),
                 )
             )
@@ -756,7 +881,7 @@ class DeltatechExpensesDeduction(models.Model):
                             -balance,
                             partner_id=credit_partner.id,
                             account_id=credit_account.id,
-                            name=self.env._("Decontare avans"),
+                            name=expenses._settlement_label(),
                         ),
                     ),
                 ],
@@ -908,7 +1033,9 @@ class DeltatechExpensesDeduction(models.Model):
 
         self._check_role("deltatech_expenses.group_expenses_accounting", "finaliza (contabiliza)")
         for expenses in self:
-            if expenses.state != "advance":
+            # fără note de plată decontul nu are pasul Avans: se validează direct din Ciornă
+            allowed = ("draft", "advance") if expenses.no_payment_moves else ("advance",)
+            if expenses.state not in allowed:
                 raise UserError(
                     self.env._(
                         "Decontul %s nu poate fi validat: nu este în starea Avans "
@@ -916,12 +1043,36 @@ class DeltatechExpensesDeduction(models.Model):
                     )
                     % (expenses.number,)
                 )
+            if expenses.no_payment_moves and not expenses._account_542_matches_currency():
+                raise UserError(
+                    self.env._(
+                        "The expense report %(number)s is in %(currency)s, but the account %(account)s of the "
+                        "expense journal %(journal)s is not: choose an expense journal whose 542 account is in "
+                        "%(currency)s (account currency set), so that the balance of the employee is revalued "
+                        "monthly.",
+                        number=expenses._deduction_label(),
+                        currency=expenses.currency_id.name,
+                        account=expenses.sudo().expense_journal_id.default_account_id.display_name,
+                        journal=expenses.sudo().expense_journal_id.name,
+                    )
+                )
+            if expenses.no_payment_moves and expenses.advance:
+                raise UserError(
+                    self.env._(
+                        "The expense report %(number)s has an advance, but the journal %(journal)s records the "
+                        "advances from the cash register or the bank statement on 542, not on the expense report. "
+                        "Set the advance to zero.",
+                        number=expenses._deduction_label(),
+                        journal=expenses._settlement_journal().sudo().display_name,
+                    )
+                )
 
         # Odată rolul verificat mai sus, contabilizarea propriu-zisă rulează cu drepturi complete
         # (vezi validate_advance) — un Contabil nu trebuie să mai aibă și acces direct pe jurnale
         # doar ca să poată finaliza decontul (tichet POPVAL-COS, pct. 6).
         self = self.sudo()
-        self._check_settlement_mode()
+        # jurnalele de plată contează doar când decontul face note de plată
+        self.filtered(lambda expenses: not expenses.no_payment_moves)._check_settlement_mode()
 
         domain = [
             ("type", "=", "purchase"),
@@ -933,6 +1084,9 @@ class DeltatechExpensesDeduction(models.Model):
             partner_generic = self.env.ref("deltatech_partner_generic.partner_generic", raise_if_not_found=False)
 
         for expenses in self:
+            if not expenses.number or expenses.number == "/":
+                # validat direct din Ciornă (fără note de plată): numărul se dă acum
+                expenses.write({"number": self.env.ref("deltatech_expenses.sequence_expenses_deduction").next_by_id()})
             name = expenses.number
             expenses_vals = {"state": "done", "number": name, "accounted_by_id": self.env.user.id}
             expenses._check_bill_allocations()
@@ -1014,7 +1168,8 @@ class DeltatechExpensesDeduction(models.Model):
 
             account_542 = expenses.expense_journal_id.default_account_id
             date_expense = expenses.date_expense or fields.Date.context_today(self)
-            if expenses.difference:
+            # fără note de plată, diferența se plătește / se restituie din casă sau bancă, reconciliat pe 542
+            if expenses.difference and not expenses.no_payment_moves:
                 # difference < 0: restituire (Dr casă / 5125 încasări în curs = Cr 542);
                 # > 0: plată suplimentară (Dr 542 = Cr casă / 5125 plăți în curs)
                 value_lines = [
@@ -1101,7 +1256,8 @@ class DeltatechExpensesDeduction(models.Model):
         Dr 665 = Cr 542 (nefavorabilă) sau Dr 542 = Cr 765 (favorabilă)."""
         self.ensure_one()
         company = self.company_id
-        if not self.is_foreign_currency:
+        # fără note de plată, 542 nu se închide în decont: diferența de curs apare la reconcilierea cu casa / banca
+        if not self.is_foreign_currency or self.no_payment_moves:
             return
         account_542 = self.expense_journal_id.default_account_id
         domain = [
@@ -1224,11 +1380,19 @@ class DeltatechExpensesDeductionLine(models.Model):
         precompute=True,
     )
 
+    # Cheltuială: contul de cheltuieli ales de contabil (implicit 6231). Plată furnizor: contul de datorii
+    # al furnizorului (401), pe care se face nota Dr 401 = Cr 542 la validare.
     expense_account_id = fields.Many2one(
-        "account.account", default=lambda self: self._default_expense_account(), string="Default Expense Account"
+        "account.account",
+        compute="_compute_expense_account_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+        string="Default Expense Account",
     )
 
     state = fields.Selection(related="expenses_deduction_id.state")
+    no_payment_moves = fields.Boolean(related="expenses_deduction_id.no_payment_moves")
 
     # facturile furnizorului stinse de o plată directă (tipul „Supplier Payment"); fără ele, plata
     # stinge întâi facturile cele mai vechi
@@ -1236,6 +1400,28 @@ class DeltatechExpensesDeductionLine(models.Model):
         "deltatech.expenses.deduction.allocation", "line_id", string="Bills Paid", copy=False
     )
     allocated_amount = fields.Monetary(compute="_compute_allocated_amount", string="Allocated")
+
+    def _supplier_payable_account(self):
+        """Contul de datorii al furnizorului liniei (firma lui), în compania decontului."""
+        self.ensure_one()
+        company = self.expenses_deduction_id.company_id or self.env.company
+        return self.partner_id.commercial_partner_id.with_company(company).property_account_payable_id
+
+    @api.depends("type", "partner_id")
+    def _compute_expense_account_id(self):
+        for line in self:
+            if line.type == "supplier_payment":
+                line.expense_account_id = line._supplier_payable_account()
+            elif not line.expense_account_id or line.expense_account_id.account_type == "liability_payable":
+                # linie nouă sau revenită din „Plată furnizor": contul implicit de cheltuieli, al companiei decontului
+                company = line.expenses_deduction_id.company_id or line.env.company
+                line.expense_account_id = line.with_company(company)._default_expense_account()
+
+    @api.onchange("type")
+    def _onchange_type_clear_taxes(self):
+        # o plată de furnizor stinge o factură care are deja TVA-ul înregistrat
+        if self.type == "supplier_payment":
+            self.tax_ids = False
 
     @api.depends("allocation_ids.amount")
     def _compute_allocated_amount(self):
@@ -1367,12 +1553,13 @@ class DeltatechExpensesDeductionLine(models.Model):
     def _get_company(self):
         return self.env.context.get("company_id", self.env.user.company_id.id)
 
-    @api.depends("amount", "tax_ids")
+    @api.depends("amount", "tax_ids", "type")
     def _compute_subtotal(self):
         for expenses in self:
             tax_amount = 0.0
             price_subtotal = expenses.amount
-            taxes = expenses.tax_ids
+            # plata furnizorului nu are TVA: factura plătită îl are deja înregistrat
+            taxes = expenses.tax_ids if expenses.type != "supplier_payment" else self.env["account.tax"]
             if taxes:
                 price_unit = expenses.amount
                 if not all(taxes.mapped("price_include")):
