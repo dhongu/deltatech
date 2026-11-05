@@ -1,3 +1,7 @@
+## 20.0.1.6.0 (2026-11-05)
+
+- [IMP] the unit price of the extra line comes from the new hook `_get_extra_price_unit` (by default, the percent of the main line price), which a module can override together with `_get_extra_product`: for example to charge an amount that differs for each main product, as the green stamp of electrical equipment does (`l10n_ro_green_stamp`).
+
 ## 20.0.1.5.2 (2026-10-09)
 
 - Apps Store banner (banner.json).

@@ -1,3 +1,8 @@
+## 20.0.1.6.0 (2026-11-05)
+
+- [IMP] new hooks `_get_extra_product` and `_get_extra_price_unit` on the purchase order line, as on the sale order line: a module can decide the extra product and its unit price from the line (for example the green stamp of electrical equipment, `l10n_ro_green_stamp`).
+- [FIX] an extra line generated in the RFQ form with a price that does not come from the main line got no description, and the RFQ could not be saved: the description is now computed before the price is set.
+
 ## 20.0.1.5.0 (2026-10-01)
 
 - Migration to Odoo 20.0, including the PURCHASEEXTRA-001 fix from 19.0.1.4.0 (the extra line is replaced or removed when the product of the main line changes, and the pair is tracked through `is_extra_line`) and the mandatory extra line from 19.0.1.5.0 (regenerated on confirmation, quantity and unit of measure read-only). The migration that flags the existing extra lines runs as `20.0.1.4.0`, so it also covers the databases upgraded from a 19.0 version older than 19.0.1.4.0

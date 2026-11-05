@@ -59,6 +59,19 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         return self.product_id.extra_product_id
 
+    def _get_extra_price_unit(self):
+        """Return the unit price of the extra line of this main line.
+
+        By default the percent of the main line price set on the product; ``None``
+        keeps the standard price of the extra product. A module can decide the price from
+        the line instead, together with ``_get_extra_product`` - for example a fixed
+        amount that differs for each main product.
+        """
+        self.ensure_one()
+        if self.product_id.extra_percent:
+            return self.price_unit * self.product_id.extra_percent / 100.0
+        return None
+
     def _get_extra_line(self):
         """Return the generated extra line paired with this main line, if any."""
         self.ensure_one()
@@ -146,12 +159,12 @@ class SaleOrderLine(models.Model):
                 # extra line is deleted (it is then regenerated with the computed price)
                 if not new_line and extra_line_id._has_manual_price():
                     continue
-                if not line.product_id.extra_percent:
-                    # no percent: the standard price computation applies, so the extra line
-                    # gets the price of its own product in the pricelist, currency and unit
-                    # of measure of the order
+                price_unit = line._get_extra_price_unit()
+                if price_unit is None:
+                    # no price decided (no percent): the standard price computation applies,
+                    # so the extra line gets the price of its own product in the pricelist,
+                    # currency and unit of measure of the order
                     continue
-                price_unit = line.price_unit * (line.product_id.extra_percent or 0.0) / 100.0
                 # keep track of the price we set, so that a later manual change is recognized.
                 # The price comes from the configuration of the product, not from the seller:
                 # the below-cost check (deltatech_sale_margin) stays for a price typed in
