@@ -410,13 +410,47 @@ Pe un decont al cărui jurnal (jurnalul cardului la „Card firmă”, jurnalul 
   diferența de curs pe 542 la decont;
 - sumele date angajatului și restituirile se înregistrează din **registrul de casă** (`Dr 542 = Cr
   5311`, `Dr 5311 = Cr 542`) sau din **extrasul bancar** (retragere sau plată cu cardul firmei
-  `Dr 542 = Cr 5121`), cu angajatul ca partener, și se reconciliază pe 542;
+  `Dr 542 = Cr 5121`), cu angajatul ca partener, și se reconciliază pe 542 (pașii în extras sunt mai
+  jos, la „Operarea în extrasul de bancă”);
 - la **Invalidare**, notele decontului se șterg, decontul revine în Ciornă cu același număr și se
   validează din nou direct, fără pasul „Avans”;
 - deconturile validate se găsesc cu filtrul **„Efectuat”** din listă (filtrul **„Avans”** arată
   deconturile clasice cu avans acordat și nedecontat); soldul se urmărește pe fișa contului 542, pe
   partener (angajat);
 - la tipărire, decontul nu mai are rândurile „Avans primit în data” și „Diferență”.
+
+#### Operarea în extrasul de bancă
+
+Extrasul se importă sau se introduce ca de obicei, în jurnalul de bancă sau în jurnalul cardului
+firmei, și se operează din ecranul **„Potrivire bancă”** (**Facturare → Tablou de bord**, clic pe
+jurnalul băncii; ecranul există doar în Odoo Enterprise, cu modulul Contabilitate instalat). Liniile care privesc un angajat se
+duc pe **542 cu angajatul ca partener**, nu pe furnizor și nu pe contul de așteptare:
+
+1. **„Setează partenerul”**: alegeți **contactul de lucru** al angajatului, același ca pe decont.
+   Regula e valabilă și pentru plățile făcute de angajat cu cardul firmei la un hotel sau la o
+   benzinărie: pe extras partenerul e angajatul, nu comerciantul. Furnizorul apare abia pe decont, la
+   chitanță (`Dr 401 = Cr 542`).
+2. Dacă angajatul are pe 542 note deschise pe care suma liniei le închide, apăsați **„Reconciliază”**:
+   fereastra „Caută: Elemente jurnal de potrivit” arată și notele deschise de pe 542 (contul are
+   „Permite reconcilierea”). Alegeți-le, iar linia extrasului se închide pe ele:
+   - plata către angajat a sumei pe care firma i-o datorează după decont (sold creditor):
+     `Dr 542 = Cr 5121`, potrivită cu cheltuielile decontului;
+   - restituirea de către angajat a banilor nejustificați (încasare): `Dr 5121 = Cr 542`, potrivită
+     cu ridicarea de numerar sau cu plata cu cardul.
+3. Dacă decontul nu există încă (retragerea de numerar sau plata cu cardul firmei vin înaintea
+   decontului), apăsați **„Setează contul”** și alegeți contul 542 al jurnalului de avansuri (de ex.
+   542.03, dacă cardul are 542 analitic separat). Nota devine `Dr 542 = Cr 5121`, cu angajatul ca
+   partener, și rămâne deschisă pe 542 până la decont.
+4. După validarea decontului, notele deschise ale angajatului pe 542 se potrivesc între ele din
+   **Facturare → Contabilitate → Reconciliază**: filtrați contul 542 și angajatul, selectați
+   liniile și apăsați **„Reconciliază”**. Soldul angajatului (butonul „Sold 542”) e corect și fără
+   reconciliere; reconcilierea doar închide notele care se compensează.
+
+![Potrivirea bancară: retragerea de numerar operată pe 542 cu angajatul ca partener, iar plata cu cardul firmei încă pe contul de așteptare, cu butoanele „Setează partenerul” și „Setează contul”](screenshots/17_extras_banca_542.png)
+
+În captură, retragerea de 500 lei de la bancomat a fost operată cu angajata ca partener și contul
+542. Plata POS de 320 lei la hotel, făcută cu cardul firmei, e încă neoperată: se setează tot
+angajata ca partener și contul 542, nu hotelul.
 
 Operațiuni de perioadă, în afara decontului (OMFP 1802/2014, funcțiunea contului 542):
 
@@ -489,6 +523,7 @@ liniile „Plată furnizor”, reclasificarea avansului la furnizor pe 4091 (bun
 - [ ] Fără note de plată: un decont în valută se validează doar pe un jurnal de avansuri cu cont 542 în valuta lui (valuta setată pe cont), iar un decont în lei doar pe 542 fără valută; la schimbarea valutei pe decont se propune jurnalul potrivit.
 - [ ] Fără note de plată: soldul 542 în valută al angajatului apare în reevaluarea lunară (`l10n_ro_currency_revaluation`), cu nota pe 665/765 și angajatul ca partener.
 - [ ] Fără note de plată: o ridicare de bani din casă sau din extras (Dr 542, angajatul ca partener) se reconciliază pe 542 cu cheltuielile decontului.
+- [ ] Fără note de plată, în extras: retragerea de numerar și plata cu cardul firmei se operează cu angajatul ca partener și contul 542 („Setează partenerul”, apoi „Setează contul”), nu pe comerciant; plata diferenței către angajat se închide cu „Reconciliază” pe notele lui deschise pe 542.
 - [ ] Bifa „Avansul și lichidarea prin extras de bancă / registru de casă” e pe jurnalele de casă / bancă / card care merg prin extras; un decont în Ciornă o preia la schimbarea bifei, unul în „Avans” sau „Efectuat” își păstrează fluxul.
 - [ ] Flux mixt la același angajat: decontul pe casă (fără bifă) are avans și diferență, iar 542 se închide pe decont; decontul pe cardul firmei (cu bifă) înregistrează doar cheltuielile pe 542.
 - [ ] Butonul „Sold 542” arată același sold ca primul rând („Sold cumulat”) din fișa 542 pe care o deschide; pe un 542 în valută butonul e în valuta contului și se compară cu totalul coloanei opționale „Valoare în valută” (Sold cumulat rămâne în lei).
@@ -558,6 +593,9 @@ din casă, nota `Dr 542 = Cr 5311` reconciliată pe 542 cu un decont anterior de
 13. `15_nota_ridicare_casa.png` — ridicarea de 1.000 lei din casă (Dr 542 = Cr 5311), reconciliată pe 542.
 14. `16_fisa_542_angajat.png` — fișa 542 a angajatului, deschisă din butonul „Sold 542”: notele postate,
     de la cea mai nouă, cu soldul cumulat (−522 lei pe primul rând).
+15. `17_extras_banca_542.png` — „Potrivire bancă” (Enterprise): retragerea de 500 lei a altei angajate,
+    operată pe 542 cu ea ca partener, și plata POS de 320 lei cu cardul firmei, încă neoperată. Se
+    generează doar pe o bază cu `account_accountant`.
 
 Capturile wizard-ului „Preia cheltuieli HR" (`03`/`04`) sunt în modulul
 `deltatech_expenses_hr_expense`, generate de testul de capturi al acelui modul.
@@ -565,7 +603,7 @@ Capturile wizard-ului „Preia cheltuieli HR" (`03`/`04`) sunt în modulul
 Regenerare (pe o bază fără `hr_expense`, altfel apare și butonul „Preia cheltuieli HR"):
 
 ```bash
-./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_expenses,l10n_ro_doc_screenshots \
+./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_expenses,account_accountant,l10n_ro_doc_screenshots \
     --test-tags=/deltatech_expenses:TestExpensesScreenshots,/deltatech_expenses:TestExpensesBankStatementScreenshots \
     --stop-after-init
 ```
