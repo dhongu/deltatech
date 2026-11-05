@@ -269,6 +269,45 @@ class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
         cls.decont_draft = cls._make_deduction("OD-22", end, end, advance=0.0)
         cls._make_lines(cls.decont_draft, end)
 
+        cls._setup_bank_statement(end)
+
+    @classmethod
+    def _setup_bank_statement(cls, date):
+        """Extrasul de bancă (Contabilitate, Enterprise): retragerea de numerar a unui alt angajat,
+        operată cu partenerul angajat și contul 542, și o plată cu cardul firmei încă neoperată, cu
+        butoanele „Setează partenerul” / „Setează contul”. Alt angajat, ca soldul 542 al lui Ionescu
+        din capturile 12–16 să nu se schimbe."""
+        cls.bank_journal = None
+        st_line_model = cls.env["account.bank.statement.line"]
+        if not hasattr(st_line_model, "set_account_bank_statement_line"):
+            return  # fără account_accountant nu există ecranul de reconciliere bancară
+        env = cls.env
+        cls.bank_journal = cls.company_data["default_journal_bank"]
+        cls.bank_journal.expenses_no_payment_moves = True
+        cls.partner_card = env["res.partner"].create({"name": "Popescu Maria", "country_id": env.ref("base.ro").id})
+        env["hr.employee"].sudo().create({"name": "Popescu Maria", "work_contact_id": cls.partner_card.id})
+        withdrawal, card_payment = st_line_model.create(
+            [
+                {
+                    "journal_id": cls.bank_journal.id,
+                    "date": date,
+                    "payment_ref": "Retragere numerar ATM card 4321 Popescu Maria",
+                    "amount": -500.0,
+                },
+                {
+                    "journal_id": cls.bank_journal.id,
+                    "date": date,
+                    "payment_ref": "Plata POS Hotel Carpati card 4321 Popescu Maria",
+                    "amount": -320.0,
+                },
+            ]
+        )
+        withdrawal.set_partner_bank_statement_line(cls.partner_card.id)
+        suspense = withdrawal.line_ids.filtered(lambda aml: aml.account_id == cls.bank_journal.suspense_account_id)
+        withdrawal.set_account_bank_statement_line(suspense.ids, cls.acc_542.id)
+        cls.bank_withdrawal = withdrawal
+        cls.bank_card_payment = card_payment
+
     def test_capture_fise(self):
         action = self.env.ref("deltatech_expenses.action_deltatech_expenses_deduction")
 
@@ -314,4 +353,16 @@ class TestExpensesBankStatementScreenshots(TestExpensesScreenshots):
             # Varianta prin extras — ridicarea de bani din casă (Dr 542 = Cr 5311), reconciliată pe 542
             self.account_move_shot(self.withdrawal, "15_nota_ridicare_casa.png"),
         ]
+        if self.bank_journal:
+            # Extrasul de bancă: retragerea operată pe 542 cu angajatul, plata cu cardul încă neoperată
+            # acțiunea cere jurnalul în context (active_id): se deschide pe calea jurnalului
+            shots.append(
+                {
+                    "path": f"/odoo/{self.bank_journal.id}/reconciliation",
+                    "name": "17_extras_banca_542.png",
+                    "wait": ".o_bank_reconciliation_kanban_renderer",
+                    "settle": 3000,
+                    "full": False,
+                }
+            )
         self.capture_screenshots(shots, viewport=(1500, 1150), hide_systray=True)
