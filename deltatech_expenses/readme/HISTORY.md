@@ -1,5 +1,24 @@
 # Changelog
 
+## 19.0.3.11.0 (2026-11-05)
+
+- The option **Advance and Settlement via Bank Statement / Cash Register** moves from the company to
+  the journal (cash, bank or company card journal, Journal Entries tab). An expense report takes it
+  from the journal of its settlement mode (the card journal for Company card, the payment journal
+  otherwise), so the same company can settle cash advances on the expense report and company card
+  advances through the bank statement. The variant is stored on the expense report: reports in Draft
+  follow a change of the journal option, reports in Advance or Done keep their flow, so the option
+  no longer needs to be blocked by pending advances.
+- Settlement mode and payment / card journal stay visible on the expense reports settled through the
+  bank statement or cash register, as they choose the variant.
+- Smart button **Balance 542** on the expense report: the balance of the employee on the 542 account
+  of the report (in the account currency for a 542 in a foreign currency); it opens the 542 ledger of
+  the employee, posted entries with the cumulated balance. Users without accounting read rights see
+  the balance as a field, without the link.
+- Migration: on a company that had the option, it is set on its cash, bank and card journals, and its
+  expense reports keep the variant they were created with.
+- Consultant sheet and screenshots updated (journal option, balance button, 542 ledger).
+
 ## 19.0.3.10.0 (2026-11-04)
 
 - New company option **Advance and Settlement via Bank Statement / Cash Register** (Invoicing

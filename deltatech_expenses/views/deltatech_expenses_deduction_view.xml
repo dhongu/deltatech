@@ -32,6 +32,7 @@
                     />
                     <!-- <button name="cancel_expenses" string="Cancel" states="draft" type="object" />  -->
                     <field name="no_payment_moves" invisible="1" />
+                    <field name="partner_id" invisible="1" />
                     <field
                         name="state"
                         widget="statusbar"
@@ -49,6 +50,28 @@
                     />
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- fișa 542 a angajatului: doar contabilitatea citește notele contabile -->
+                        <button
+                            name="action_view_employee_balance"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-balance-scale"
+                            invisible="not partner_id or not expense_journal_id"
+                            groups="account.group_account_readonly"
+                        >
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field
+                                        name="employee_balance"
+                                        widget="monetary"
+                                        options="{'currency_field': 'employee_balance_currency_id'}"
+                                    />
+                                </span>
+                                <span class="o_stat_text">Balance 542</span>
+                            </div>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <!-- Invoice draft header -->
                         <span class="o_form_label">Expenses Deduction</span>
@@ -68,20 +91,19 @@
                             <field name="employee_id" readonly="state != 'draft'" />
                         </group>
                         <group>
-                            <field name="settlement_mode" readonly="state != 'draft'" invisible="no_payment_moves" />
+                            <field name="settlement_mode" readonly="state != 'draft'" />
                             <field
                                 name="journal_id"
                                 widget="selection"
                                 readonly="state != 'draft'"
-                                invisible="no_payment_moves"
                                 domain="[('type', 'in', ('cash', 'bank', 'credit')), ('company_id', '=', company_id)]"
                             />
                             <field
                                 name="card_journal_id"
                                 options="{'no_create': True}"
                                 readonly="state != 'draft'"
-                                invisible="settlement_mode != 'company_card' or no_payment_moves"
-                                required="settlement_mode == 'company_card' and not no_payment_moves"
+                                invisible="settlement_mode != 'company_card'"
+                                required="settlement_mode == 'company_card'"
                             />
                             <field
                                 name="currency_id"
@@ -111,12 +133,15 @@
                                 invisible="no_payment_moves"
                                 options="{'currency_field': 'currency_id'}"
                             />
+                            <!-- angajatul și aprobatorul văd soldul fără link către notele contabile -->
                             <field
                                 name="employee_balance"
                                 widget="monetary"
                                 invisible="not no_payment_moves"
-                                options="{'currency_field': 'company_currency_id'}"
+                                options="{'currency_field': 'employee_balance_currency_id'}"
+                                groups="!account.group_account_readonly"
                             />
+                            <field name="employee_balance_currency_id" invisible="1" />
                             <field name="company_currency_id" invisible="1" />
 
                         </group>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 15:58+0000\n"
-"PO-Revision-Date: 2026-11-04 15:58+0000\n"
+"POT-Creation-Date: 2026-11-05 01:43+0000\n"
+"PO-Revision-Date: 2026-11-05 01:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,19 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "%(account)s - %(employee)s"
+msgstr ""
+
+#. module: deltatech_expenses
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "<span class=\"o_form_label\">Expenses Deduction</span>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "<span class=\"o_stat_text\">Balance 542</span>"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -96,6 +107,13 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__date_advance
 msgid "Advance Date"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__expenses_no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__no_payment_moves
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__no_payment_moves
+msgid "Advance and Settlement via Bank Statement / Cash Register"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -181,9 +199,10 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
 msgid ""
-"Balance of the employee on the advances account (542), all expense reports "
-"and cash / bank operations included: debit = the employee still has to "
-"justify, credit = the company owes the employee."
+"Balance of the employee on the advances account (542) of this expense "
+"report, all expense reports and cash / bank operations included: debit = the"
+" employee still has to justify, credit = the company owes the employee. On a"
+" 542 account in a foreign currency, the balance is in that currency."
 msgstr ""
 
 #. module: deltatech_expenses
@@ -257,28 +276,6 @@ msgid "Commercial Entity"
 msgstr ""
 
 #. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/res_company.py:0
-msgid ""
-"The option Advance and Settlement via Bank Statement / Cash Register cannot be enabled for %(company)s while "
-"expense reports are in the Advance state: finalize them first (%(numbers)s)."
-msgstr ""
-
-#. module: deltatech_expenses
-#. odoo-python
-#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid ""
-"The expense report %(number)s is in %(currency)s, but the account %(account)s of the expense journal "
-"%(journal)s is not: choose an expense journal whose 542 account is in %(currency)s (account currency set), so "
-"that the balance of the employee is revalued monthly."
-msgstr ""
-
-#. module: deltatech_expenses
-#: model:ir.model,name:deltatech_expenses.model_res_company
-msgid "Companies"
-msgstr ""
-
-#. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__company_id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__company_id
 msgid "Company"
@@ -298,11 +295,6 @@ msgstr ""
 #. module: deltatech_expenses
 #: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__settlement_mode__company_card
 msgid "Company card"
-msgstr ""
-
-#. module: deltatech_expenses
-#: model:ir.model,name:deltatech_expenses.model_res_config_settings
-msgid "Config Settings"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -360,13 +352,13 @@ msgstr ""
 #. module: deltatech_expenses
 #. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "Decontare cheltuieli"
+msgid "Decontare avans"
 msgstr ""
 
 #. module: deltatech_expenses
 #. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
-msgid "Decontare avans"
+msgid "Decontare cheltuieli"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -461,8 +453,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__display_name
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__display_name
 #: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__display_name
-#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__display_name
-#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -502,7 +492,13 @@ msgstr ""
 
 #. module: deltatech_expenses
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
 msgid "Employee Balance (542)"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_balance_currency_id
+msgid "Employee Balance Currency"
 msgstr ""
 
 #. module: deltatech_expenses
@@ -521,11 +517,13 @@ msgid "Expense Journal"
 msgstr ""
 
 #. module: deltatech_expenses
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__no_payment_moves
-#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__no_payment_moves
-#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__expenses_no_payment_moves
-#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
-msgid "Advance and Settlement via Bank Statement / Cash Register"
+#: model:ir.model.fields,help:deltatech_expenses.field_account_journal__expenses_no_payment_moves
+msgid ""
+"Expense reports paid through this journal (cash register, bank or company "
+"card) book only the expenses on 542, with the employee as partner. The money"
+" handed to the employee and the refunds are recorded from the cash register "
+"or the bank statement of this journal, reconciled on 542; the balance is "
+"followed per employee on the 542 ledger, not per expense report."
 msgstr ""
 
 #. module: deltatech_expenses
@@ -610,8 +608,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_allocation__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__id
 #: model:ir.model.fields,field_description:deltatech_expenses.field_hr_employee__id
-#: model:ir.model.fields,field_description:deltatech_expenses.field_res_company__id
-#: model:ir.model.fields,field_description:deltatech_expenses.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -924,37 +920,28 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid ""
-"The expense report %(number)s has an advance, but the advances of "
-"%(company)s are recorded from the cash register or the bank statement on "
-"542, not on the expense report. Set the advance to zero."
-msgstr ""
-
-#. module: deltatech_expenses
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__no_payment_moves
-#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__no_payment_moves
-#: model:ir.model.fields,help:deltatech_expenses.field_res_company__expenses_no_payment_moves
-#: model:ir.model.fields,help:deltatech_expenses.field_res_config_settings__expenses_no_payment_moves
-msgid ""
-"The expense report books only the expenses on 542 (employee as partner). The"
-" money handed to the employee and the refunds are recorded from the cash "
-"register or the bank statement, reconciled on 542; the balance is followed "
-"per employee on the 542 ledger, not per expense report."
-msgstr ""
-
-#. module: deltatech_expenses
-#: model_terms:ir.ui.view,arch_db:deltatech_expenses.res_config_settings_view_form
-msgid ""
-"The expense report books only the expenses on 542; advances and refunds are "
-"recorded from the cash register or the bank statement."
+"The expense report %(number)s has an advance, but the journal %(journal)s "
+"records the advances from the cash register or the bank statement on 542, "
+"not on the expense report. Set the advance to zero."
 msgstr ""
 
 #. module: deltatech_expenses
 #. odoo-python
 #: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
 msgid ""
-"The expense reports of %(company)s have no advance step: the advance is "
-"recorded from the cash register or the bank statement on 542. Fill in the "
-"expenses and validate the report."
+"The expense report %(number)s has no advance step: the journal %(journal)s "
+"records the advance from the cash register or the bank statement on 542. "
+"Fill in the expenses and validate the report."
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The expense report %(number)s is in %(currency)s, but the account "
+"%(account)s of the expense journal %(journal)s is not: choose an expense "
+"journal whose 542 account is in %(currency)s (account currency set), so that"
+" the balance of the employee is revalued monthly."
 msgstr ""
 
 #. module: deltatech_expenses
@@ -1056,6 +1043,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__amount
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
 msgid "Total Amount"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Total Credit"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_move_line_tree_employee_balance
+msgid "Total Debit"
 msgstr ""
 
 #. module: deltatech_expenses

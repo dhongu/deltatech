@@ -13,4 +13,3 @@ from . import account_voucher
 from . import account_journal
 
 from . import hr_employee
-from . import res_company
