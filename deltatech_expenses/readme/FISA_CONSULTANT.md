@@ -355,11 +355,11 @@ lista filtrată pentru acel angajat.
 
 ### Varianta fără note de plată (sold 542 urmărit pe angajat)
 
-Pentru jurnalele prin care angajații primesc bani rotunjit (ridicare din casă, retragere sau plăți
-cu cardul firmei) și soldul lor pe 542 se reportează de la o lună la alta, bifați pe jurnal
+Pentru jurnalele prin care angajații primesc sume rotunde (ridicate din casă, retrase de la bancomat sau
+plătite cu cardul firmei) și soldul lor pe 542 se reportează de la o lună la alta, bifați pe jurnal
 **„Avansul și lichidarea prin extras de bancă / registru de casă”** (**Facturare → Configurare →
-Jurnale**, fila **Note contabile**). Bifa e per jurnal, deci aceeași firmă poate decont clasic pe
-casă și prin extras pe cardul firmei.
+Jurnale**, fila **Note contabile**). Bifa e per jurnal, deci aceeași firmă poate face decont clasic
+pe casă și decont prin extras pe cardul firmei.
 
 ![Bifa „Avansul și lichidarea prin extras de bancă / registru de casă” pe jurnalul de casă, fila Note contabile](screenshots/11_setare_extras.png)
 
@@ -372,9 +372,10 @@ Pe un decont al cărui jurnal (jurnalul cardului la „Card firmă”, jurnalul 
 - butonul **„Sold 542”** din dreapta-sus arată soldul angajatului pe contul 542 al decontului, din
   toate deconturile și operațiunile de casă / bancă (debitor = angajatul mai are de justificat,
   creditor = firma îi datorează). Pe un 542 în valută soldul e în valuta contului. Butonul îl văd
-  utilizatorii cu drept de citire în contabilitate; angajatul și aprobatorul văd în locul lui câmpul
-  **„Sold angajat (542)”**, fără acces la note. Butonul apare pe orice decont cu angajat și jurnal de
-  avansuri, și în fluxul clasic (acolo soldul arată avansurile nedecontate ale angajatului);
+  utilizatorii cu drept de citire în contabilitate; în varianta fără note de plată, angajatul și aprobatorul
+  văd în locul lui câmpul **„Sold angajat (542)”**, fără acces la note (în fluxul clasic ei nu văd
+  nici butonul, nici câmpul). Butonul apare pe orice decont cu angajat și jurnal de avansuri, și în
+  fluxul clasic (acolo soldul arată avansurile nedecontate ale angajatului);
 
   ![Decontul în Ciornă: fără avans și diferență, cu butonul „Sold 542” și butonul „Validează”](screenshots/12_decont_ciorna_sold_542.png)
 
