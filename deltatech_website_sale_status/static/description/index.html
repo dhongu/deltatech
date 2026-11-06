@@ -14,11 +14,8 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 38 automated tests</div>
-      <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:95%;background-color:#57B952;"></div>
-      </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">95% code coverage</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 44 automated tests</div>
+      
     </div>
   </div>
 </div>
@@ -55,8 +52,8 @@ in the back office and in the customer portal.</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Placed</span><div>a website quotation sent to the customer (only with the detailed stage
   option, see below).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">In Process</span><div>the order is being handled by the sales team.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Request for Quotation</span><div>a confirmed order with nothing to pick yet, whose
   purchase RFQ was sent to the vendor (only when <em>sale_purchase</em> is installed).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Waiting availability</span><div>a transfer of the order is waiting for stock.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Postponed</span><div>the delivery was postponed (the <em>Postponed delivery</em> flag of the
-  order transfers).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">To Be Delivery</span><div>the goods are available and the order can be shipped.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Pre advice</span><div>an AWB was generated for the parcel (detailed stage only).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">In Delivery</span><div>the parcel is with the courier.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Delivered</span><div>all the transfers are done or cancelled, or, with the detailed stage,
-  the courier delivered the parcel.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Canceled</span><div>the order was cancelled.</div></div></li></ul>
+  order transfers).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">To Be Delivery</span><div>the goods are available and the order can be shipped.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Pre advice</span><div>an AWB was generated for the parcel (detailed stage only).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">In Delivery</span><div>the parcel is with the courier.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Delivered</span><div>all the transfers are done, or, with the detailed stage, the courier
+  delivered the parcel.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Canceled</span><div>the order was cancelled.</div></div></li></ul>
 <p>Website carts that were never sent have no stage.</p>
 <p><strong>Detailed order stage</strong>: an option in <strong>Sales &gt; Configuration &gt; Settings</strong>,
 <em>Invoicing</em> section, <em>Detailed order stage</em> (off by default). Off, the order is
@@ -76,14 +73,19 @@ cancelled orders. The pager keeps the selected filter.</p>
 confirmed website orders that are not fully paid.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The <strong>Returned</strong> value exists in the stage list but no rule sets it: a returned
-  order is not shown as such.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>An order whose transfers were all cancelled, with nothing shipped, is shown as
-  <strong>Delivered</strong>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>In Odoo 20 the <em>Unpaid Orders</em> action has no menu; it opens only from a link or a
+  order is not shown as such.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>In Odoo 20 the <em>Unpaid Orders</em> action has no menu; it opens only from a link or a
   custom menu.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The <em>Unpaid Orders</em> domain uses the payment status field added by the module
   <em>deltatech_sale_payment</em>, which is not a dependency. Without that module the action
   raises an error.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.14 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.2.0.13: an order whose transfers were all cancelled, with nothing
+  shipped, stays <em>To be delivered</em>; it is <em>Delivered</em> by its transfers only when at
+  least one of them was validated. The limitation is removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.13 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten in English after the code: the stages actually set, the
@@ -335,7 +337,7 @@ confirmed website orders that are not fully paid.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Limit eCommerce delivery methods and payment providers</p>
         </div>
       </a>
     </div>

@@ -17,8 +17,8 @@ in the back office and in the customer portal.
 - **To Be Delivery**: the goods are available and the order can be shipped.
 - **Pre advice**: an AWB was generated for the parcel (detailed stage only).
 - **In Delivery**: the parcel is with the courier.
-- **Delivered**: all the transfers are done or cancelled, or, with the detailed stage,
-  the courier delivered the parcel.
+- **Delivered**: all the transfers are done, or, with the detailed stage, the courier
+  delivered the parcel.
 - **Canceled**: the order was cancelled.
 
 Website carts that were never sent have no stage.
@@ -47,8 +47,6 @@ confirmed website orders that are not fully paid.
 
 - The **Returned** value exists in the stage list but no rule sets it: a returned
   order is not shown as such.
-- An order whose transfers were all cancelled, with nothing shipped, is shown as
-  **Delivered**.
 - In Odoo 20 the *Unpaid Orders* action has no menu; it opens only from a link or a
   custom menu.
 - The *Unpaid Orders* domain uses the payment status field added by the module
