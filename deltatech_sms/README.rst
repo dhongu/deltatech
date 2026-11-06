@@ -16,11 +16,8 @@ SMS Custom Gateway
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sms
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sms
-    :alt: 7 automated tests · 95% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Send the SMS messages that Odoo generates through your own SMS provider
 account instead of Odoo IAP credits. Two providers are supported:
@@ -44,9 +41,9 @@ character set.
 
 **Sending status.** A message the provider accepts goes to the standard
 Odoo *Pending* state and is deleted from the queue like any sent SMS. A
-message the provider rejects goes to *Error* (server error) and stays in
-the queue, so it can be resent; the answer of the provider is written to
-the server log.
+message the provider rejects goes to *Error* (server error) with the
+reason returned by the provider, shown on the failed SMS notification of
+the message, and stays in the queue, so it can be resent.
 
 Configuration
 -------------
@@ -76,6 +73,14 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.0.4 (2026-11-06)
+-----------------------
+
+- Fix: the reason returned by the provider for a refused SMS was lost.
+  The response was returned under the key ``error``, while Odoo reads
+  ``failure_reason``; the reason now reaches the SMS notification of the
+  message.
 
 20.0.1.0.3 (2026-11-03)
 -----------------------

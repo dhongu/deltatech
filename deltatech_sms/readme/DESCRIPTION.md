@@ -18,8 +18,9 @@ the Android devices linked to your Wapi account (SIM 1).
 
 **Sending status.** A message the provider accepts goes to the standard Odoo
 *Pending* state and is deleted from the queue like any sent SMS. A message the
-provider rejects goes to *Error* (server error) and stays in the queue, so it
-can be resent; the answer of the provider is written to the server log.
+provider rejects goes to *Error* (server error) with the reason returned by the
+provider, shown on the failed SMS notification of the message, and stays in the
+queue, so it can be resent.
 
 ## Configuration
 

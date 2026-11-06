@@ -1,3 +1,9 @@
+## 20.0.1.0.4 (2026-11-06)
+
+- Fix: the reason returned by the provider for a refused SMS was lost. The response was
+  returned under the key `error`, while Odoo reads `failure_reason`; the reason now
+  reaches the SMS notification of the message.
+
 ## 20.0.1.0.3 (2026-11-03)
 
 - Description rewritten from the code: the custom endpoint with
