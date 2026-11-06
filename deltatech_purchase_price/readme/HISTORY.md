@@ -7,6 +7,10 @@
   was corrected (e.g. -98.23% instead of ~10%). The markup is now recomputed
   from the current sale price (without taxes) and the new purchase price; the
   sale price is left unchanged.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`), usage guide with screenshots
+  (`readme/USAGE.md`) and the screenshot test. Romanian translation: the trade
+  markup is labelled *Adaos comercial* in the bulk action too, and the
+  *Force supplier price* setting is translated.
 
 ## 19.0.1.2.13 (2026-10-07)
 
