@@ -5,7 +5,8 @@ reported by the vendor and shows it, together with the free stock per warehouse,
 **Vendor stock on the vendor pricelist**: adds **Quantity Available** on the vendor pricelist line
 (`product.supplierinfo`), on the form and as an optional column of the list, for example in the
 **Vendors** list of the product. The vendor stock of a product is the sum of these quantities over
-its vendor lines; a line set on a specific variant counts only for that variant.
+its vendor lines of the current company, of its parent companies and the lines without a company;
+a line set on a specific variant counts only for that variant.
 
 **Vendor stock on the sales order line**: the availability popover of the order line (the chart icon
 next to the quantity) shows a **Vendor Stock** row when the vendor has stock, converted to the unit of measure of the line.
@@ -33,5 +34,3 @@ report of that warehouse on click. The same information is available in the opti
 
 - **Other Quantity Available** (the **Other Stock** row of the popover) is not filled in by this
   module; it stays 0 unless another module computes it.
-- The vendor stock adds up the vendor lines of all the companies selected in the company switcher,
-  not only those of the current company and its parent companies.
