@@ -62,10 +62,10 @@ views of this module; they are meant for reports or for a warehouse map.</p>
 <p><strong>Capacity-aware putaway</strong>: a shelf that is full, or would be full with the quantity
 already planned for it, is not proposed by the putaway. When a reserved line exceeds
 the free room of its shelf, the line is split: the shelf gets what fits and the rest
-goes to another shelf chosen by the putaway. At validation, a move whose destination
-is a shelf with a capacity is blocked with an explicit error when it would overfill
-the shelf. The standard storage category checks (weight, product and package
-capacities, mixing of products) still apply.</p>
+goes to another shelf chosen by the putaway. Quantities in another unit (for example a
+dozen) are converted to the product unit. At validation, a transfer that would
+overfill a shelf is blocked with an explicit error. The standard storage category
+checks (weight, product and package capacities, mixing of products) still apply.</p>
 <p><strong>Search in sublocations</strong>: with the system parameter
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_putaway_strategy.search_sublocation</code> set to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>, when the location
 given by the putaway rule has sublocations, the putaway first proposes a sublocation
@@ -87,20 +87,27 @@ mode).</p>
 <li><strong>Avoid Root Location on Reservation</strong> (deliveries only): the delivery never reserves
   stock placed directly in its source location, typically the warehouse stock root
   (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">WH/Stock</code>). Goods that were received but not yet put away on a shelf are not
-  allocated to sales orders; the shelves under it stay eligible. The option takes
-  effect only when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_stock_removal_priority</code> is also installed.</li>
+  allocated to sales orders; the shelves under it stay eligible.</li>
 </ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Planned quantity</span><div>is computed only for shelves that have a capacity set; for
-  parent locations it is always zero, not the sum of the children.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On 20.0, quantities in another unit than the product unit (for example a dozen)
-  are not converted: the planned quantity and the split compare the quantity of the
-  line, in its own unit, with the capacity.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On 20.0, a shelf filled exactly to its capacity keeps the reserved line: the line is
-  not sent to another shelf, and the validation then refuses the transfer.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On 20.0, the check at validation looks at the destination of the move only; when
-  the move goes to the stock root and its lines to shelves, an overfilled shelf is
-  not blocked.</div></div></li></ul>
+<ul>
+<li><strong>Planned quantity</strong> is computed only for shelves that have a capacity set; for
+  parent locations it is always zero, not the sum of the children.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.3 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.1.1.3: a shelf filled exactly to its capacity no longer keeps a reserved
+  line; when no other shelf is free, the reservation no longer loops.</li>
+<li>Validation checks the capacity of the shelves on the move lines, not only of the move
+  destination.</li>
+<li>Capacity is counted in the product unit: planned quantities and splits convert lines in
+  another unit.</li>
+<li>"Avoid Root Location on Reservation" works with this module alone (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock_quant.py</code>).</li>
+<li>The orphan tests are run again. The 20.0 limitations are removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.2 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten after the code: no database index is added on putaway

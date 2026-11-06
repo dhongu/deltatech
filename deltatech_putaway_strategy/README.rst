@@ -19,11 +19,8 @@ Putaway Strategy
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_putaway_strategy
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-29%20automated%20tests%20%C2%B7%2078%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_putaway_strategy
-    :alt: 29 automated tests · 78% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3|
 
 Standard putaway rules send a product to a fixed shelf, whether the
 shelf still has room or not, and deliveries can reserve goods that were
@@ -47,10 +44,11 @@ module; they are meant for reports or for a warehouse map.
 the quantity already planned for it, is not proposed by the putaway.
 When a reserved line exceeds the free room of its shelf, the line is
 split: the shelf gets what fits and the rest goes to another shelf
-chosen by the putaway. At validation, a move whose destination is a
-shelf with a capacity is blocked with an explicit error when it would
-overfill the shelf. The standard storage category checks (weight,
-product and package capacities, mixing of products) still apply.
+chosen by the putaway. Quantities in another unit (for example a dozen)
+are converted to the product unit. At validation, a transfer that would
+overfill a shelf is blocked with an explicit error. The standard storage
+category checks (weight, product and package capacities, mixing of
+products) still apply.
 
 **Search in sublocations**: with the system parameter
 ``deltatech_putaway_strategy.search_sublocation`` set to ``True``, when
@@ -80,8 +78,7 @@ Types**):
   never reserves stock placed directly in its source location, typically
   the warehouse stock root (e.g. ``WH/Stock``). Goods that were received
   but not yet put away on a shelf are not allocated to sales orders; the
-  shelves under it stay eligible. The option takes effect only when
-  ``deltatech_stock_removal_priority`` is also installed.
+  shelves under it stay eligible.
 
 Limitations
 -----------
@@ -89,15 +86,6 @@ Limitations
 - **Planned quantity** is computed only for shelves that have a capacity
   set; for parent locations it is always zero, not the sum of the
   children.
-- On 20.0, quantities in another unit than the product unit (for example
-  a dozen) are not converted: the planned quantity and the split compare
-  the quantity of the line, in its own unit, with the capacity.
-- On 20.0, a shelf filled exactly to its capacity keeps the reserved
-  line: the line is not sent to another shelf, and the validation then
-  refuses the transfer.
-- On 20.0, the check at validation looks at the destination of the move
-  only; when the move goes to the stock root and its lines to shelves,
-  an overfilled shelf is not blocked.
 
 **Table of contents**
 
@@ -106,6 +94,21 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.1.3 (2026-11-06)
+-----------------------
+
+- Port of 19.0.1.1.3: a shelf filled exactly to its capacity no longer
+  keeps a reserved line; when no other shelf is free, the reservation no
+  longer loops.
+- Validation checks the capacity of the shelves on the move lines, not
+  only of the move destination.
+- Capacity is counted in the product unit: planned quantities and splits
+  convert lines in another unit.
+- "Avoid Root Location on Reservation" works with this module alone
+  (``stock_quant.py``).
+- The orphan tests are run again. The 20.0 limitations are removed from
+  the description.
 
 20.0.1.1.2 (2026-11-03)
 -----------------------
