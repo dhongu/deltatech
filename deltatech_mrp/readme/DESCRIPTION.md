@@ -24,10 +24,11 @@ Cost Analysis* report (pivot, list and graph) shows, per manufacturing order:
 - the production value, equal to the consumed value plus 20% for indirect
   costs (*Value production*), and the resulting unit cost (*Actually Price*)
   next to the product cost (*Price Standard*);
-- the state of the order.
+- the state and the readiness of the order.
 
-Groupings by category, product, order, state, company and month, and a *Done*
-filter, are available. The report opens on done orders of the previous month.
+Filters for current, in-production, done, waiting-goods and ready-to-produce
+orders, and groupings by category, product, order, state, company and month,
+are available. The report opens on done orders of the previous month.
 
 ## Configuration
 
@@ -40,12 +41,3 @@ the split columns.
 
 - The 20% indirect cost rate used for *Value production* and *Actually Price*
   is fixed in the report and cannot be configured.
-- On 20.0 the report still uses the manufacturing order states of older Odoo
-  versions: *Current* finds only draft orders, *In Production*, *Ready to
-  Produce* and *Picking Exception* find nothing, *Waiting Goods* shows every
-  confirmed order whatever the component readiness, and orders in progress or
-  to close have no state label.
-- On 20.0, when the unit of the manufacturing order differs from the unit of
-  the product (for example 2 dozen of a product measured in units), *Qty Plan*
-  and *Val Plan* divide the quantity by the unit factor instead of converting
-  it.

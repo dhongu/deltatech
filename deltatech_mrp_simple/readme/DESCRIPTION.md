@@ -18,8 +18,8 @@ smart buttons. A document can be confirmed only once.
 cost price times quantity) is split over the products obtained, in proportion
 to their standard value (cost price times quantity), or to their quantity when
 none has a cost price. **Recompute prices** redoes the split; the *Unit Price*
-of a product obtained can also be changed by hand. This price is set on the
-receipt moves.
+of a product obtained can also be changed by hand. The receipt enters the stock
+valuation at this price, not at the current cost of the product.
 
 **Zero cost check.** A product obtained with a unit price of 0 blocks the
 confirmation, unless the system parameter `deltatech_mrp_simple.allow_zero_cost`
@@ -48,6 +48,3 @@ production*; add other users in **Settings > Users & Companies > Groups**.
 
 - **Add lines** stays available after confirmation, although the lines of a
   confirmed document no longer change the transfers.
-- In Odoo 20 the receipt is valued by the standard stock valuation (at the
-  current cost of the product), not at the *Unit Price* computed by the
-  document.

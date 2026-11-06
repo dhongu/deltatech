@@ -65,27 +65,32 @@ Cost Analysis</em> report (pivot, list and graph) shows, per manufacturing order
   Efective</em>);</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the consumed value, in total and split by cost category (<em>Val Consumed</em>,
   <em>Val Consumed Raw</em>, <em>Val Consumed Packing</em>, <em>Val Consumed Semifinish</em>);</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the production value, equal to the consumed value plus 20% for indirect
   costs (<em>Value production</em>), and the resulting unit cost (<em>Actually Price</em>)
-  next to the product cost (<em>Price Standard</em>);</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the state of the order.</div></div></li></ul>
-<p>Groupings by category, product, order, state, company and month, and a <em>Done</em>
-filter, are available. The report opens on done orders of the previous month.</p>
+  next to the product cost (<em>Price Standard</em>);</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>the state and the readiness of the order.</div></div></li></ul>
+<p>Filters for current, in-production, done, waiting-goods and ready-to-produce
+orders, and groupings by category, product, order, state, company and month,
+are available. The report opens on done orders of the previous month.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <p>Set the <strong>Cost Category</strong> on the product categories of your components in
 <em>Inventory &gt; Configuration &gt; Products &gt; Categories</em>. Components whose
 category has no cost category are included in the total consumed value but in none of
 the split columns.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The 20% indirect cost rate used for <em>Value production</em> and <em>Actually Price</em>
-  is fixed in the report and cannot be configured.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On 20.0 the report still uses the manufacturing order states of older Odoo
-  versions: <em>Current</em> finds only draft orders, <em>In Production</em>, <em>Ready to
-  Produce</em> and <em>Picking Exception</em> find nothing, <em>Waiting Goods</em> shows every
-  confirmed order whatever the component readiness, and orders in progress or
-  to close have no state label.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On 20.0, when the unit of the manufacturing order differs from the unit of
-  the product (for example 2 dozen of a product measured in units), <em>Qty Plan</em>
-  and <em>Val Plan</em> divide the quantity by the unit factor instead of converting
-  it.</div></div></li></ul>
+<ul>
+<li>The 20% indirect cost rate used for <em>Value production</em> and <em>Actually Price</em>
+  is fixed in the report and cannot be configured.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.10 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.1.0.9: MRP-002, the planned quantity in <em>Production Cost Analysis</em> is
+  converted to the product unit instead of being divided by the order unit factor.</li>
+<li>MRP-004: the report uses the Odoo 20 manufacturing states and adds the <em>MO Readiness</em>
+  column; <em>Ready to Produce</em> and <em>Waiting Goods</em> filter on component readiness,
+  <em>In Production</em> on orders in progress.</li>
+<li>The two limitations are removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.9 (2026-11-03)</h2>
 <ul>
 <li>Description, summary and banner rewritten from the code: removed the BoM

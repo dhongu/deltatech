@@ -1,3 +1,14 @@
+## 20.0.1.1.3 (2026-11-06)
+
+- Port of 19.0.1.1.3: a shelf filled exactly to its capacity no longer keeps a reserved
+  line; when no other shelf is free, the reservation no longer loops.
+- Validation checks the capacity of the shelves on the move lines, not only of the move
+  destination.
+- Capacity is counted in the product unit: planned quantities and splits convert lines in
+  another unit.
+- "Avoid Root Location on Reservation" works with this module alone (`stock_quant.py`).
+- The orphan tests are run again. The 20.0 limitations are removed from the description.
+
 ## 20.0.1.1.2 (2026-11-03)
 
 - Description rewritten after the code: no database index is added on putaway

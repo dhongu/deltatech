@@ -16,11 +16,8 @@ Vendor Stock
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_vendor_stock
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_vendor_stock
-    :alt: 14 automated tests · 95% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 When the own stock is not enough, the salesperson wants to know whether
 the vendor can still supply the product, and whether another warehouse
@@ -32,8 +29,9 @@ sales order.
 the vendor pricelist line (``product.supplierinfo``), on the form and as
 an optional column of the list, for example in the **Vendors** list of
 the product. The vendor stock of a product is the sum of these
-quantities over its vendor lines; a line set on a specific variant
-counts only for that variant.
+quantities over its vendor lines of the current company, of its parent
+companies and the lines without a company; a line set on a specific
+variant counts only for that variant.
 
 **Vendor stock on the sales order line**: the availability popover of
 the order line (the chart icon next to the quantity) shows a **Vendor
@@ -70,9 +68,6 @@ Limitations
 - **Other Quantity Available** (the **Other Stock** row of the popover)
   is not filled in by this module; it stays 0 unless another module
   computes it.
-- The vendor stock adds up the vendor lines of all the companies
-  selected in the company switcher, not only those of the current
-  company and its parent companies.
 
 **Table of contents**
 
@@ -81,6 +76,16 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.2.2 (2026-11-06)
+-----------------------
+
+- Port of 19.0.1.2.1: the vendor stock counts only the vendor rows of
+  the current company, of its parent companies and the rows without a
+  company; vendor stock recorded for another company is no longer added.
+- On a sale order line the vendor stock is computed for the company of
+  the order.
+- The limitation is removed from the description.
 
 20.0.1.2.1 (2026-11-03)
 -----------------------

@@ -17,10 +17,10 @@ views of this module; they are meant for reports or for a warehouse map.
 **Capacity-aware putaway**: a shelf that is full, or would be full with the quantity
 already planned for it, is not proposed by the putaway. When a reserved line exceeds
 the free room of its shelf, the line is split: the shelf gets what fits and the rest
-goes to another shelf chosen by the putaway. At validation, a move whose destination
-is a shelf with a capacity is blocked with an explicit error when it would overfill
-the shelf. The standard storage category checks (weight, product and package
-capacities, mixing of products) still apply.
+goes to another shelf chosen by the putaway. Quantities in another unit (for example a
+dozen) are converted to the product unit. At validation, a transfer that would
+overfill a shelf is blocked with an explicit error. The standard storage category
+checks (weight, product and package capacities, mixing of products) still apply.
 
 **Search in sublocations**: with the system parameter
 `deltatech_putaway_strategy.search_sublocation` set to `True`, when the location
@@ -46,18 +46,9 @@ mode).
 - **Avoid Root Location on Reservation** (deliveries only): the delivery never reserves
   stock placed directly in its source location, typically the warehouse stock root
   (e.g. `WH/Stock`). Goods that were received but not yet put away on a shelf are not
-  allocated to sales orders; the shelves under it stay eligible. The option takes
-  effect only when `deltatech_stock_removal_priority` is also installed.
+  allocated to sales orders; the shelves under it stay eligible.
 
 ## Limitations
 
 - **Planned quantity** is computed only for shelves that have a capacity set; for
   parent locations it is always zero, not the sum of the children.
-- On 20.0, quantities in another unit than the product unit (for example a dozen)
-  are not converted: the planned quantity and the split compare the quantity of the
-  line, in its own unit, with the capacity.
-- On 20.0, a shelf filled exactly to its capacity keeps the reserved line: the line is
-  not sent to another shelf, and the validation then refuses the transfer.
-- On 20.0, the check at validation looks at the destination of the move only; when
-  the move goes to the stock root and its lines to shelves, an overfilled shelf is
-  not blocked.

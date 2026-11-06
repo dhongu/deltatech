@@ -1,3 +1,11 @@
+## 20.0.1.2.2 (2026-11-06)
+
+- Port of 19.0.1.2.1: the vendor stock counts only the vendor rows of the current
+  company, of its parent companies and the rows without a company; vendor stock recorded
+  for another company is no longer added.
+- On a sale order line the vendor stock is computed for the company of the order.
+- The limitation is removed from the description.
+
 ## 20.0.1.2.1 (2026-11-03)
 
 - Description, summary and banner rewritten after the code: yellow means the vendor has stock

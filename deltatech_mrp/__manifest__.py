@@ -4,7 +4,7 @@
 {
     "name": "MRP Extension",
     "summary": "Cost categories for components and a production cost analysis for manufacturing orders",
-    "version": "20.0.1.0.9",
+    "version": "20.0.1.0.10",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

@@ -24,6 +24,7 @@
                     <field name="actually_price" sum='Actually Price' />
                     <field name="nbr" sum='# of Orders' optional="hide" />
                     <field name="state" optional="hide" />
+                    <field name="reservation_state" optional="hide" />
                     <field name="company_id" groups="base.group_multi_company" optional="hide" />
                 </list>
             </field>
@@ -75,17 +76,24 @@
 
                     <field name="product_id" />
                     <separator />
-                    <filter string="Current" name='current' domain="[('state','in',('open','draft'))]" />
-                    <filter string="In Production" name="in_production" domain="[('state','=','in_production')]" />
-                    <filter string="Done" name="done" domain="[('state','=','done')]" />
+                    <filter
+                    string="Current"
+                    name="current"
+                    domain="[('state', 'in', ('draft', 'confirmed', 'progress', 'to_close'))]"
+                />
+                    <filter string="In Production" name="in_production" domain="[('state', '=', 'progress')]" />
+                    <filter string="Done" name="done" domain="[('state', '=', 'done')]" />
                     <group>
                         <filter
-                        name="picking_except"
-                        string="Picking Exception"
-                        domain="[('state','=','picking_except')]"
+                        name="confirmed"
+                        string="Waiting Goods"
+                        domain="[('state', 'in', ('confirmed', 'progress')), ('reservation_state', '!=', 'assigned')]"
                     />
-                        <filter name="confirmed" string="Waiting Goods" domain="[('state','=','confirmed')]" />
-                        <filter name="ready" string="Ready to Produce" domain="[('state','=','ready')]" />
+                        <filter
+                        name="ready"
+                        string="Ready to Produce"
+                        domain="[('state', 'in', ('confirmed', 'progress')), ('reservation_state', '=', 'assigned')]"
+                    />
                         <separator orientation="vertical" />
                         <field name="company_id" groups="base.group_multi_company" />
                     </group>
