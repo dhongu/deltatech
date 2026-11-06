@@ -16,11 +16,8 @@ Generic Partner
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_generic
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-24%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_partner_generic
-    :alt: 24 automated tests · 92% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Shops, points of sale and imports often record sales for customers who
 are not identified, under one generic partner. That partner must not end
@@ -46,8 +43,10 @@ affected.
 **Restricted payment journals**: bank and cash journals ticked as
 **Generic Restriction** (on the journal form, next to the journal type,
 and as an optional column in the journal list) are not proposed when a
-new payment is made for the generic partner. Only bank and cash journals
-are proposed.
+payment is made for the generic partner, either in a new payment or in
+the **Register Payment** wizard opened from an invoice. Only bank and
+cash journals are proposed, and the default journal is always an allowed
+one.
 
 **Protect the generic partner**: tick **Protect Generic Partner** in the
 same setting to prevent accidental changes. The contact form then shows
@@ -62,16 +61,6 @@ These accounting restrictions used to live in the separate module
 ``deltatech_generic_partner_restriction``, which is merged into this one
 and is not published for 20.0.
 
-Limitations
------------
-
-- The journal restriction applies only to payments created from the
-  **Payments** menu; the **Register Payment** wizard opened from an
-  invoice still proposes the restricted journals.
-- On a new payment the journal already proposed is not replaced when the
-  generic partner is chosen, even if it is a restricted journal; select
-  an allowed journal before confirming.
-
 **Table of contents**
 
 .. contents::
@@ -79,6 +68,18 @@ Limitations
 
 Changelog
 =========
+
+20.0.2.0.4 (2026-11-06)
+-----------------------
+
+- Port of 19.0.2.0.4: a new payment for the generic partner proposes an
+  allowed journal by default, not the first bank journal of the company
+  even when it is restricted.
+- The **Register Payment** wizard opened from an invoice leaves out the
+  restricted journals for the generic partner as well, including the
+  journal of the invoice preferred payment method.
+- The two limitations are removed from the description. The setting
+  stays in the Sales settings on 20.0.
 
 20.0.2.0.3 (2026-11-03)
 -----------------------

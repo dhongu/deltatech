@@ -5,3 +5,4 @@
 from . import test_partner_generic_lock
 from . import test_generic_partner_invoice_block
 from . import test_generic_partner_restriction
+from . import test_generic_partner_payment_register

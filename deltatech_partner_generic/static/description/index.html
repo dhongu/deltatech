@@ -63,8 +63,10 @@ Drafts stay allowed, so the flows that go through the generic partner (Point of 
 eCommerce, imports) keep working. Vendor bills and journal entries are not affected.</p>
 <p><strong>Restricted payment journals</strong>: bank and cash journals ticked as <strong>Generic
 Restriction</strong> (on the journal form, next to the journal type, and as an optional
-column in the journal list) are not proposed when a new payment is made for the
-generic partner. Only bank and cash journals are proposed.</p>
+column in the journal list) are not proposed when a payment is made for the generic
+partner, either in a new payment or in the <strong>Register Payment</strong> wizard opened from an
+invoice. Only bank and cash journals are proposed, and the default journal is always
+an allowed one.</p>
 <p><strong>Protect the generic partner</strong>: tick <strong>Protect Generic Partner</strong> in the same setting
 to prevent accidental changes. The contact form then shows a warning banner, and any
 change, archiving or deletion is refused when saving. The protection is off by
@@ -75,18 +77,19 @@ flows running with elevated rights.</p>
 <p>These accounting restrictions used to live in the separate module
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_generic_partner_restriction</code>, which is merged into this one and is not
 published for 20.0.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
-<ul>
-<li>The journal restriction applies only to payments created from the <strong>Payments</strong>
-  menu; the <strong>Register Payment</strong> wizard opened from an invoice still proposes the
-  restricted journals.</li>
-<li>On a new payment the journal already proposed is not replaced when the generic
-  partner is chosen, even if it is a restricted journal; select an allowed journal
-  before confirming.</li>
-</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.4 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.2.0.4: a new payment for the generic partner proposes an allowed journal
+  by default, not the first bank journal of the company even when it is restricted.</li>
+<li>The <strong>Register Payment</strong> wizard opened from an invoice leaves out the restricted
+  journals for the generic partner as well, including the journal of the invoice
+  preferred payment method.</li>
+<li>The two limitations are removed from the description. The setting stays in the Sales
+  settings on 20.0.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.3 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten after the code: the generic partner is declared in the
@@ -206,6 +209,26 @@ published for 20.0.</p>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_lot" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">LG</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_lot/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Lot Generation &amp; Selection</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generate lot numbers on supplier receipts and track the lot location</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_payment_report" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -266,42 +289,22 @@ published for 20.0.</p>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_stock_report" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_stock_account" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_report/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_account/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Picking Report</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Account Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Report with positions from picking lists</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_disable_fuzzy_search" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_disable_fuzzy_search/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Disable Fuzzy Search</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Turn off fuzzy matching in the website search bar</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Transfer value in the transfers list, category account propagation, cost change control</p>
         </div>
       </a>
     </div>
