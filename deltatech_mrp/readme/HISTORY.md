@@ -1,3 +1,12 @@
+## 20.0.1.0.10 (2026-11-06)
+
+- Port of 19.0.1.0.9: MRP-002, the planned quantity in *Production Cost Analysis* is
+  converted to the product unit instead of being divided by the order unit factor.
+- MRP-004: the report uses the Odoo 20 manufacturing states and adds the *MO Readiness*
+  column; *Ready to Produce* and *Waiting Goods* filter on component readiness,
+  *In Production* on orders in progress.
+- The two limitations are removed from the description.
+
 ## 20.0.1.0.9 (2026-11-03)
 
 - Description, summary and banner rewritten from the code: removed the BoM
