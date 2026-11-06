@@ -1,3 +1,9 @@
+## 20.0.0.0.16 (2026-11-06)
+
+- Port of 19.0.0.0.15 (TRANSIT-003): opening or reloading a transit delivery no longer
+  locks or unlocks it; the lock changes only with the native Lock / Unlock button.
+  The limitation is removed from the description.
+
 ## 20.0.0.0.15 (2026-11-03)
 
 - Description rewritten from the code: the operation type field is Two Step

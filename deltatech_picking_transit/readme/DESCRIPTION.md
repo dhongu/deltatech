@@ -49,6 +49,3 @@ sublocation of the source location that has the product in stock.
 
 - The first transfer stays editable after the second transfer is created;
   changes are not copied to the second transfer.
-- On 20.0, opening or reloading a *Delivery* transfer whose second transfer is
-  not created yet switches its lock (locked / unlocked) each time; check the
-  lock state before editing it.
