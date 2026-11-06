@@ -8,11 +8,12 @@ and purchase orders (in a new **Weight** tab) and to invoices and bills (in the
 field, filled in by hand.
 
 **Calculated when the document is created.** The totals are the sum over the
-product lines of the line quantity multiplied by the product weight. The gross
-weight comes from the standard **Weight** of the product. The net weight comes
-from the product net weight field (`l10n_ro_net_weight`); this module does not
-show that field on the product form, modules such as the Romanian stock
-localization do.
+product lines: the line quantity is converted to the product unit of measure and
+multiplied by the product weight. The gross weight comes from the standard
+**Weight** of the product and is converted to kg when weights are configured in
+pounds. The net weight comes from the product net weight field
+(`l10n_ro_net_weight`); this module does not show that field on the product form,
+modules such as the Romanian stock localization do.
 
 **Editable totals.** The weight fields are ordinary fields: you can correct them
 by hand on the document.
@@ -30,10 +31,6 @@ Settings*.
 
 - The weights are calculated only once, when the order or invoice is created.
   Lines added or changed later do not update them.
-- The line quantity is used as it is, in the unit of the line: one dozen of a
-  2 kg product counts as 2 kg, not 24 kg.
-- The gross weight is summed in the weight unit set in the Inventory settings;
-  when it is pounds, the total is in pounds, not converted to kg.
 - The weights are not available in *Accounting > Reporting > Invoice Analysis*
   or in the sales and purchase analysis reports.
 - On the printed invoice the net weight is labelled "New weight".

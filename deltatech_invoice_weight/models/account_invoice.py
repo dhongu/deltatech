@@ -25,8 +25,11 @@ class AccountInvoice(models.Model):
             # Extract the products from the order lines
             for line in invoice.invoice_line_ids:
                 # Calculate the new weight
-                gross_weight += line.product_id.weight * line.quantity
-                net_weight += line.product_id.l10n_ro_net_weight * line.quantity
+                if not line.product_id:
+                    continue
+                line_gross, line_net = line.product_id._get_line_weights(line.quantity, line.product_uom_id)
+                gross_weight += line_gross
+                net_weight += line_net
             # Update the weight fields
             invoice.weight = gross_weight
             invoice.weight_net = net_weight
