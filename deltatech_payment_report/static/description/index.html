@@ -68,6 +68,13 @@ journals, then click <strong>Show</strong>.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.6 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.1.0.6 (PAYREPORT-002): removed the unusable <em>Print Preview</em> helper. Its
+  method called <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">report_action</code> on the window action of the report lines and the module
+  defines no PDF report; the method and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">general_buttons</code> context are removed.
+  <em>Show</em> works as before.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.5 (2026-11-03)</h2>
 <ul>
 <li>Description, summary and banner rewritten after the code: the report covers only customer
@@ -203,6 +210,26 @@ journals, then click <strong>Show</strong>.</p>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_lot" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">LG</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_lot/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Lot Generation &amp; Selection</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Generate lot numbers on supplier receipts and track the lot location</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_partner_generic" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -263,42 +290,22 @@ journals, then click <strong>Show</strong>.</p>
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_stock_report" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_stock_account" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SP</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_report/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">SA</span>
+              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_stock_account/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Picking Report</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Stock Account Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Report with positions from picking lists</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/20.0/deltatech_website_disable_fuzzy_search" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">WD</span>
-              <img src="https://apps.odoocdn.com/apps/assets/20.0/deltatech_website_disable_fuzzy_search/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Disable Fuzzy Search</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Turn off fuzzy matching in the website search bar</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Transfer value in the transfers list, category account propagation, cost change control</p>
         </div>
       </a>
     </div>

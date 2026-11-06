@@ -1,3 +1,10 @@
+## 20.0.1.0.6 (2026-11-06)
+
+- Port of 19.0.1.0.6 (PAYREPORT-002): removed the unusable *Print Preview* helper. Its
+  method called `report_action` on the window action of the report lines and the module
+  defines no PDF report; the method and the `general_buttons` context are removed.
+  *Show* works as before.
+
 ## 20.0.1.0.5 (2026-11-03)
 
 - Description, summary and banner rewritten after the code: the report covers only customer
