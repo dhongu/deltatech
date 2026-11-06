@@ -1,3 +1,9 @@
+## 20.0.2.0.5 (2026-11-06)
+
+- Port of 19.0.2.0.4: the discount of the bill line is copied to the purchase order
+  line generated from the bill (5 x 100 with 10% discount is 450 on the order, not 500).
+  The limitation is removed from the description.
+
 ## 20.0.2.0.4 (2026-11-03)
 
 - Description rewritten from the code: the purchase order created from the bill stays a request
