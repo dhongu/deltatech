@@ -1,3 +1,12 @@
+## 20.0.1.1.5 (2026-11-06)
+
+- Port of 19.0.1.1.4 (SIMPLE-003): the receipt moves of a simple production are valued
+  at the allocated *Unit Price* (`stock.move._get_value_from_production`), not at the
+  current cost of the product. The module now depends on `stock_account`.
+- Two received lines with the same product and unit are merged into one move at their
+  weighted average price.
+- The limitation is removed from the description.
+
 ## 20.0.1.1.4 (2026-11-03)
 
 - Description rewritten from the code: the zero-cost system parameter is

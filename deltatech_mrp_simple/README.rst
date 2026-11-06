@@ -16,11 +16,8 @@ Simple MRP
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_mrp_simple
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_mrp_simple
-    :alt: 10 automated tests · 89% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Records a simple production without a bill of materials: you list the
 components consumed and the products obtained, and the module moves the
@@ -44,7 +41,8 @@ document can be confirmed only once.
 in proportion to their standard value (cost price times quantity), or to
 their quantity when none has a cost price. **Recompute prices** redoes
 the split; the *Unit Price* of a product obtained can also be changed by
-hand. This price is set on the receipt moves.
+hand. The receipt enters the stock valuation at this price, not at the
+current cost of the product.
 
 **Zero cost check.** A product obtained with a unit price of 0 blocks
 the confirmation, unless the system parameter
@@ -77,9 +75,6 @@ Limitations
 
 - **Add lines** stays available after confirmation, although the lines
   of a confirmed document no longer change the transfers.
-- In Odoo 20 the receipt is valued by the standard stock valuation (at
-  the current cost of the product), not at the *Unit Price* computed by
-  the document.
 
 **Table of contents**
 
@@ -88,6 +83,17 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.1.5 (2026-11-06)
+-----------------------
+
+- Port of 19.0.1.1.4 (SIMPLE-003): the receipt moves of a simple
+  production are valued at the allocated *Unit Price*
+  (``stock.move._get_value_from_production``), not at the current cost
+  of the product. The module now depends on ``stock_account``.
+- Two received lines with the same product and unit are merged into one
+  move at their weighted average price.
+- The limitation is removed from the description.
 
 20.0.1.1.4 (2026-11-03)
 -----------------------

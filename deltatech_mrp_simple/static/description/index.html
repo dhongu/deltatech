@@ -63,8 +63,8 @@ smart buttons. A document can be confirmed only once.</p>
 cost price times quantity) is split over the products obtained, in proportion
 to their standard value (cost price times quantity), or to their quantity when
 none has a cost price. <strong>Recompute prices</strong> redoes the split; the <em>Unit Price</em>
-of a product obtained can also be changed by hand. This price is set on the
-receipt moves.</p>
+of a product obtained can also be changed by hand. The receipt enters the stock
+valuation at this price, not at the current cost of the product.</p>
 <p><strong>Zero cost check.</strong> A product obtained with a unit price of 0 blocks the
 confirmation, unless the system parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_mrp_simple.allow_zero_cost</code>
 is set to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">1</code> (<strong>Settings &gt; Technical &gt; System Parameters</strong>, developer mode).</p>
@@ -85,13 +85,19 @@ production</em>; add other users in <strong>Settings &gt; Users &amp; Companies 
 <ul>
 <li><strong>Add lines</strong> stays available after confirmation, although the lines of a
   confirmed document no longer change the transfers.</li>
-<li>In Odoo 20 the receipt is valued by the standard stock valuation (at the
-  current cost of the product), not at the <em>Unit Price</em> computed by the
-  document.</li>
 </ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.5 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.1.1.4 (SIMPLE-003): the receipt moves of a simple production are valued
+  at the allocated <em>Unit Price</em> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.move._get_value_from_production</code>), not at the
+  current cost of the product. The module now depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock_account</code>.</li>
+<li>Two received lines with the same product and unit are merged into one move at their
+  weighted average price.</li>
+<li>The limitation is removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.4 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten from the code: the zero-cost system parameter is
