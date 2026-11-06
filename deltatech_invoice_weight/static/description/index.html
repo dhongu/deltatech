@@ -54,11 +54,12 @@ and purchase orders (in a new <strong>Weight</strong> tab) and to invoices and b
 <em>Other Info</em> tab, after <em>Fiscal Position</em>). Invoices also get a <strong>Package Weight</strong>
 field, filled in by hand.</p>
 <p><strong>Calculated when the document is created.</strong> The totals are the sum over the
-product lines of the line quantity multiplied by the product weight. The gross
-weight comes from the standard <strong>Weight</strong> of the product. The net weight comes
-from the product net weight field (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_net_weight</code>); this module does not
-show that field on the product form, modules such as the Romanian stock
-localization do.</p>
+product lines: the line quantity is converted to the product unit of measure and
+multiplied by the product weight. The gross weight comes from the standard
+<strong>Weight</strong> of the product and is converted to kg when weights are configured in
+pounds. The net weight comes from the product net weight field
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_net_weight</code>); this module does not show that field on the product form,
+modules such as the Romanian stock localization do.</p>
 <p><strong>Editable totals.</strong> The weight fields are ordinary fields: you can correct them
 by hand on the document.</p>
 <p><strong>Weight on the printed invoice.</strong> When the invoice has a gross weight, the gross
@@ -69,13 +70,18 @@ weight unit (kilograms or pounds) is chosen in <em>Inventory &gt; Configuration 
 Settings</em>.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The weights are calculated only once, when the order or invoice is created.
-  Lines added or changed later do not update them.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The line quantity is used as it is, in the unit of the line: one dozen of a
-  2 kg product counts as 2 kg, not 24 kg.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The gross weight is summed in the weight unit set in the Inventory settings;
-  when it is pounds, the total is in pounds, not converted to kg.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The weights are not available in <em>Accounting &gt; Reporting &gt; Invoice Analysis</em>
+  Lines added or changed later do not update them.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The weights are not available in <em>Accounting &gt; Reporting &gt; Invoice Analysis</em>
   or in the sales and purchase analysis reports.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>On the printed invoice the net weight is labelled "New weight".</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.6 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.1.0.5: weights on invoices, sale and purchase orders convert the line
+  quantity to the product unit (one dozen of a 2 kg product gives 24 kg, not 2 kg).</li>
+<li>The gross weight is converted to kg when product weights are configured in pounds.</li>
+<li>The two limitations are removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.5 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten from the code: removed the weight analysis in the

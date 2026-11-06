@@ -16,11 +16,8 @@ Invoice Receipt
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_receipt
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2082%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_invoice_receipt
-    :alt: 11 automated tests · 82% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Lets you receive goods in stock starting from the vendor bill: when a
 bill has storable products that are not on any purchase order, the
@@ -33,9 +30,9 @@ a purchase order is put on a purchase order: a new order with the
 vendor, the bill date, the bill reference, the fiscal position and the
 currency of the bill, or, when the other lines of the bill already come
 from a single purchase order, that order. The order lines take the
-product, unit, quantity, unit price and taxes of the bill lines, and the
-bill lines are linked to them. A note with a link to the new order is
-posted on the bill.
+product, unit, quantity, unit price, discount and taxes of the bill
+lines, and the bill lines are linked to them. A note with a link to the
+new order is posted on the bill.
 
 **Confirm the order, then post the bill.** A new order is created as a
 request for quotation, so posting stops with the message *Please confirm
@@ -61,8 +58,6 @@ Limitations
 - Lines added to a regular purchase order (one not created from a bill)
   are not received automatically.
 - The purchase order is not confirmed automatically.
-- The discount of the bill lines is not copied to the purchase order
-  lines.
 
 **Table of contents**
 
@@ -71,6 +66,14 @@ Limitations
 
 Changelog
 =========
+
+20.0.2.0.5 (2026-11-06)
+-----------------------
+
+- Port of 19.0.2.0.4: the discount of the bill line is copied to the
+  purchase order line generated from the bill (5 x 100 with 10% discount
+  is 450 on the order, not 500). The limitation is removed from the
+  description.
 
 20.0.2.0.4 (2026-11-03)
 -----------------------

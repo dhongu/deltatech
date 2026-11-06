@@ -16,11 +16,8 @@ Invoice Weight
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_weight
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_invoice_weight
-    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Shows the total net and gross weight of the goods on sale orders,
 purchase orders and invoices, and prints the weights on the invoice, for
@@ -32,11 +29,13 @@ invoices and bills (in the *Other Info* tab, after *Fiscal Position*).
 Invoices also get a **Package Weight** field, filled in by hand.
 
 **Calculated when the document is created.** The totals are the sum over
-the product lines of the line quantity multiplied by the product weight.
-The gross weight comes from the standard **Weight** of the product. The
-net weight comes from the product net weight field
-(``l10n_ro_net_weight``); this module does not show that field on the
-product form, modules such as the Romanian stock localization do.
+the product lines: the line quantity is converted to the product unit of
+measure and multiplied by the product weight. The gross weight comes
+from the standard **Weight** of the product and is converted to kg when
+weights are configured in pounds. The net weight comes from the product
+net weight field (``l10n_ro_net_weight``); this module does not show
+that field on the product form, modules such as the Romanian stock
+localization do.
 
 **Editable totals.** The weight fields are ordinary fields: you can
 correct them by hand on the document.
@@ -56,11 +55,6 @@ Limitations
 
 - The weights are calculated only once, when the order or invoice is
   created. Lines added or changed later do not update them.
-- The line quantity is used as it is, in the unit of the line: one dozen
-  of a 2 kg product counts as 2 kg, not 24 kg.
-- The gross weight is summed in the weight unit set in the Inventory
-  settings; when it is pounds, the total is in pounds, not converted to
-  kg.
 - The weights are not available in *Accounting > Reporting > Invoice
   Analysis* or in the sales and purchase analysis reports.
 - On the printed invoice the net weight is labelled "New weight".
@@ -72,6 +66,16 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.0.6 (2026-11-06)
+-----------------------
+
+- Port of 19.0.1.0.5: weights on invoices, sale and purchase orders
+  convert the line quantity to the product unit (one dozen of a 2 kg
+  product gives 24 kg, not 2 kg).
+- The gross weight is converted to kg when product weights are
+  configured in pounds.
+- The two limitations are removed from the description.
 
 20.0.1.0.5 (2026-11-03)
 -----------------------

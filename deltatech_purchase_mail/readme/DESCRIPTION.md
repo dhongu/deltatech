@@ -10,6 +10,8 @@ the vendor as recipient.
 
 **XLSX summary**: the email carries an Excel file with one row per order line:
 order reference, product code, description, quantity and unit price without taxes.
+Text columns are written as text, so a value starting with "=" is not read as a
+formula.
 
 **PDF of each order**: the standard purchase order PDF of every selected order is
 attached to the same email.
@@ -28,5 +30,3 @@ XLSX**, editable in **Settings > Technical > Email > Templates** (developer mode
   vendor to send the email to.", also when the only problem is the missing email.
 - The vendor's address is the only recipient filled in; other recipients are added by
   hand in the composer.
-- In the XLSX summary, a reference, product code or description that starts with "="
-  is written as a formula, not as text.
