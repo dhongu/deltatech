@@ -20,6 +20,10 @@ class SmsApi(BaseSmsApi):
                 response = account.sudo().send_sms(number["number"], message["content"])
                 if response["status"] != 200:
                     res_value["state"] = "server_error"
-                    res_value["error"] = response["message"]
+                    # sms.sms._send reads the provider message from `failure_reason`
+                    reason = response.get("message")
+                    if isinstance(reason, bytes):
+                        reason = reason.decode("utf-8", errors="replace")
+                    res_value["failure_reason"] = str(reason) if reason else False
                 res += [res_value]
         return res

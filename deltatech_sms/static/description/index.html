@@ -61,8 +61,9 @@ the Android devices linked to your Wapi account (SIM 1).</p>
 (for example "&#259;" becomes "a"), so the text fits the GSM character set.</p>
 <p><strong>Sending status.</strong> A message the provider accepts goes to the standard Odoo
 <em>Pending</em> state and is deleted from the queue like any sent SMS. A message the
-provider rejects goes to <em>Error</em> (server error) and stays in the queue, so it
-can be resent; the answer of the provider is written to the server log.</p>
+provider rejects goes to <em>Error</em> (server error) with the reason returned by the
+provider, shown on the failed SMS notification of the message, and stays in the
+queue, so it can be resent.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <p>Go to <em>Settings &gt; Technical &gt; IAP &gt; In-App Purchase Accounts</em> (developer mode)
 and open the account of the <strong>SMS</strong> service (create it if it is missing). In the
@@ -76,6 +77,12 @@ and open the account of the <strong>SMS</strong> service (create it if it is mis
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.4 (2026-11-06)</h2>
+<ul>
+<li>Fix: the reason returned by the provider for a refused SMS was lost. The response was
+  returned under the key <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code>, while Odoo reads <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">failure_reason</code>; the reason now
+  reaches the SMS notification of the message.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.3 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten from the code: the custom endpoint with

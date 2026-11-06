@@ -18,8 +18,10 @@ eCommerce, imports) keep working. Vendor bills and journal entries are not affec
 
 **Restricted payment journals**: bank and cash journals ticked as **Generic
 Restriction** (on the journal form, next to the journal type, and as an optional
-column in the journal list) are not proposed when a new payment is made for the
-generic partner. Only bank and cash journals are proposed.
+column in the journal list) are not proposed when a payment is made for the generic
+partner, either in a new payment or in the **Register Payment** wizard opened from an
+invoice. Only bank and cash journals are proposed, and the default journal is always
+an allowed one.
 
 **Protect the generic partner**: tick **Protect Generic Partner** in the same setting
 to prevent accidental changes. The contact form then shows a warning banner, and any
@@ -32,12 +34,3 @@ flows running with elevated rights.
 These accounting restrictions used to live in the separate module
 `deltatech_generic_partner_restriction`, which is merged into this one and is not
 published for 20.0.
-
-## Limitations
-
-- The journal restriction applies only to payments created from the **Payments**
-  menu; the **Register Payment** wizard opened from an invoice still proposes the
-  restricted journals.
-- On a new payment the journal already proposed is not replaced when the generic
-  partner is chosen, even if it is a restricted journal; select an allowed journal
-  before confirming.

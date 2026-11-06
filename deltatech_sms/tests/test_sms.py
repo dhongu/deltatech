@@ -4,6 +4,7 @@
 from unittest.mock import patch
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 class TestDeltatechSms(TransactionCase):
@@ -103,6 +104,25 @@ class TestDeltatechSms(TransactionCase):
         states = {r["uuid"]: r["state"] for r in res}
         self.assertEqual(states["u1"], "success")
         self.assertEqual(states["u2"], "server_error")
+        # the provider message is returned under the key read by sms.sms._send
+        reasons = {r["uuid"]: r.get("failure_reason") for r in res}
+        self.assertEqual(reasons["u2"], "ERR")
+        self.assertFalse(reasons["u1"])
+
+    def test_send_keeps_provider_refusal_reason(self):
+        """The refusal message of the provider reaches the SMS notification"""
+        partner = self.env["res.partner"].create({"name": "SMS Partner", "phone": "+40733333333"})
+        IapAccount = type(self.env["iap.account"])
+        with patch.object(IapAccount, "send_sms", return_value={"status": 500, "message": "Invalid number"}):
+            message = partner._message_sms("Hello refusal", partner_ids=partner.ids)
+            sms = self.env["sms.sms"].sudo().search([("mail_message_id", "=", message.id)])
+            self.assertTrue(sms)
+            sms._send()
+        self.assertEqual(sms.state, "error")
+        self.assertEqual(sms.failure_type, "sms_server")
+        notification = message.notification_ids.filtered(lambda n: n.notification_type == "sms")
+        self.assertEqual(notification.notification_status, "exception")
+        self.assertEqual(notification.failure_reason, "Invalid number")
 
     def test_iap_send_sms_4pay_success_and_unidecode(self):
         # Use a non-persisted record to avoid required fields on iap.account
@@ -137,6 +157,7 @@ class TestDeltatechSms(TransactionCase):
             self.assertNotIn("ș", sent_text.lower())
             self.assertNotIn("ț", sent_text.lower())
 
+    @mute_logger("odoo.addons.deltatech_sms.models.iap")
     def test_iap_send_sms_4pay_error(self):
         account = self.env["iap.account"].new(
             {

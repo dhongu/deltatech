@@ -16,11 +16,8 @@ Payment Report
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_report
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_payment_report
-    :alt: 3 automated tests · 91% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 The accountant often needs to see how the money collected from customers
 in a period splits between the cash and bank journals and the invoice
@@ -74,6 +71,15 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.0.6 (2026-11-06)
+-----------------------
+
+- Port of 19.0.1.0.6 (PAYREPORT-002): removed the unusable *Print
+  Preview* helper. Its method called ``report_action`` on the window
+  action of the report lines and the module defines no PDF report; the
+  method and the ``general_buttons`` context are removed. *Show* works
+  as before.
 
 20.0.1.0.5 (2026-11-03)
 -----------------------

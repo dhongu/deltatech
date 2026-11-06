@@ -4,7 +4,7 @@
 
 {
     "name": "Payment Report",
-    "version": "20.0.1.0.5",
+    "version": "20.0.1.0.6",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Customer receipts by payment and invoice journal over a period, with a filter wizard",
