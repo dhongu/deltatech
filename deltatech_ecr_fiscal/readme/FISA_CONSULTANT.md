@@ -51,12 +51,12 @@ Nu se folosesc conturi contabile și nu se generează note contabile. Câmpurile
 
 | Câmp (eticheta din interfață) | Nume tehnic | Ce conține | Cine îl scrie |
 |---|---|---|---|
-| **Fiscal receipt (BF)** | `fiscal_receipt_number` | Numărul bonului în raportul Z curent; reîncepe la fiecare Z | Driverul casei de marcat, după răspunsul aparatului |
-| **Fiscal document (NR)** | `fiscal_doc_number` | Numărul documentului fiscal, unic pe aparat | Driverul casei de marcat |
-| **Z report** | `fiscal_z` | Numărul raportului Z din care face parte bonul | Driverul casei de marcat |
-| **Fiscal state** | `fiscal_state` | Rezultatul tipăririi, așa cum îl raportează driverul (de exemplu `done`, `error`, `canceled`) | Driverul casei de marcat |
-| **Fiscal error** | `fiscal_error` | Mesajul de eroare, când aparatul a refuzat sau a eșuat | Driverul casei de marcat |
-| **Simulated receipt** | `fiscal_simulated` | Bifat când bonul a fost „tipărit” pe o casă de marcat simulată; bonul nu este document fiscal | Driverul casei de marcat, din răspunsul casei simulate |
+| **Bon fiscal (BF)** | `fiscal_receipt_number` | Numărul bonului în raportul Z curent; reîncepe la fiecare Z | Driverul casei de marcat, după răspunsul aparatului |
+| **Document fiscal (NR)** | `fiscal_doc_number` | Numărul documentului fiscal, unic pe aparat | Driverul casei de marcat |
+| **Raport Z** | `fiscal_z` | Numărul raportului Z din care face parte bonul | Driverul casei de marcat |
+| **Stare fiscală** | `fiscal_state` | Rezultatul tipăririi, așa cum îl raportează driverul (de exemplu `done`, `error`, `canceled`) | Driverul casei de marcat |
+| **Eroare fiscală** | `fiscal_error` | Mesajul de eroare, când aparatul a refuzat sau a eșuat | Driverul casei de marcat |
+| **Bon simulat** | `fiscal_simulated` | Bifat când bonul a fost „tipărit” pe o casă de marcat simulată; bonul nu este document fiscal | Driverul casei de marcat, din răspunsul casei simulate |
 
 „Driverul casei de marcat” înseamnă ecranul de plată din POS (`deltatech_pos`) sau acțiunea de
 tipărire a bonului din factură (`deltatech_sale_store`), după răspunsul agentului Terrabit Connect.
@@ -70,37 +70,36 @@ fără să piardă numerele de bon deja înregistrate.
 
 ## 6. Flux de utilizare
 
-Modulul nu are flux propriu de utilizare și **nu are capturi de ecran**: niciun ecran din dependențele
-lui (`account`) nu afișează aceste câmpuri. Pe factură, ele apar doar când este instalat modulul de
-tipărire a bonului din factură (`deltatech_sale_store`); captura ține de fișa acelui modul. Pe comanda
-POS, `deltatech_pos` completează câmpurile, dar nu le afișează: acolo se văd doar prin export.
+Modulul nu are ecrane proprii: pune câmpurile pe factură (și, prin `deltatech_pos`, pe comanda POS).
+Pe formularul facturii le afișează modulul care tipărește bonul din factură (`deltatech_sale_store`),
+în fișa căruia se văd pe ecran. Aici, câmpurile se citesc prin exportul facturilor.
 
-### Pasul 1 — Unde apar câmpurile pe documente
+### Pasul 1 — Exportul facturilor cu câmpurile casei de marcat
 
-După tipărirea bonului, modulul de casă de marcat afișează pe document, doar dacă au valoare, starea,
-numerele BF și NR, raportul Z și eventuala eroare. Pentru a vedea toate câmpurile, inclusiv **Simulated
-receipt**, pe orice factură, exportați facturile din listă (selectați-le, apoi **Acțiuni → Export**)
-și alegeți câmpurile de mai sus din lista câmpurilor disponibile.
+**Facturare → Clienți → Facturi**: selectați facturile, apoi **Acțiuni → Export**. În fereastra
+**Export**, căutați și adăugați câmpurile **Stare fiscală**, **Bon fiscal (BF)**, **Document fiscal
+(NR)**, **Raport Z** și **Bon simulat**, apoi **Export**.
 
-### Pasul 2 — Ce înseamnă „Simulated receipt” (bon simulat)
+În fișierul exportat, verificați:
+- bonul real are **Stare fiscală** `done`, cu BF, NR și Z completate;
+- bonul de pe o casă simulată are tot `done` și numere completate, dar **Bon simulat** bifat (`TRUE`):
+  nu e document fiscal;
+- bonul refuzat de casă are **Stare fiscală** `error` și nu are numere.
 
-Câmpul **Simulated receipt** marchează bonurile emise prin casa de marcat simulată. Îl bifează driverul
-(POS-ul sau tipărirea din magazin) când răspunsul vine de la casa simulată. Un bon simulat:
+![Fișierul exportat din facturi: coloanele Număr, Stare fiscală, Bon fiscal (BF), Document fiscal (NR), Raport Z și Bon simulat; prima factură are bonul 7, NR 1287, Z 14; a doua are Bon simulat TRUE; a treia are starea error, fără numere](../static/description/01_export_facturi.png)
 
+Un **bon simulat**:
 - **nu** este bon fiscal și nu apare pe aparatul real;
-- poate avea BF, NR și Z completate de simulator, ca un bon real; acestea nu corespund unui raport Z
-  real;
-- e lăsat în afara raportului Z și a jurnalului AMEF de `l10n_ro_pos_fiscal_compliance_ecr`, unde
-  comanda POS primește starea fiscală **Bon simulat**;
+- poate avea BF, NR și Z completate de simulator, ca un bon real; acestea nu corespund unui raport Z real;
+- e lăsat în afara raportului Z și a jurnalului AMEF de `l10n_ro_pos_fiscal_compliance_ecr`, unde comanda
+  POS primește starea fiscală **Bon simulat**;
 - pe factură nu marchează factura ca acoperită de bon fiscal (codul 751 din e-Factura).
 
-Pentru a verifica dacă o casă de marcat este simulată, aveți două locuri:
-
-- stațiile Terrabit Connect din **Setări → Terrabit Connect → Stații**: stația cu panglica
-  **Simulare** rulează în mod simulat;
-- câmpul **Simulation** din setările casei de marcat ale punctului de vânzare (**Punct de vânzare →
-  Configurare → Setări**, blocul casei de marcat, vizibil doar cu transportul Terrabit Connect; modulul
-  `deltatech_pos_base`): simularea „în Odoo” nu trece prin Terrabit Connect, deci stația nu arată
+O casă de marcat e simulată când:
+- stația Terrabit Connect din **Setări → Terrabit Connect → Stații** are panglica **Simulare** (fișa
+  `deltatech_tc`), sau
+- punctul de vânzare are setată **Simulare** în blocul casei de marcat (**Punct de vânzare → Configurare →
+  Setări**, `deltatech_pos_base`); simularea „în Odoo” nu trece prin Terrabit Connect, deci stația nu arată
   panglica.
 
 ### Note de monografie și raportare
@@ -128,7 +127,7 @@ câmpurilor de la modulele vechi la instalare.
 ## 8. Verificări pentru consultant
 
 - [ ] Pe o factură cu bon tipărit (cu `deltatech_sale_store`), apar starea, BF, NR și Z.
-- [ ] Exportul facturilor (**Acțiuni → Export**) oferă câmpul **Simulated receipt**: bifat pe bonurile
+- [ ] Exportul facturilor (**Acțiuni → Export**) oferă câmpul **Bon simulat**: bifat pe bonurile
   tipărite pe o casă simulată, nebifat pe cele reale.
 - [ ] Pe baza de producție, nicio stație din **Setări → Terrabit Connect → Stații** nu are panglica
   **Simulare**.
@@ -142,24 +141,31 @@ câmpurilor de la modulele vechi la instalare.
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| **Fiscal error** completat, **Fiscal state** = `error` | Casa de marcat a refuzat bonul (hârtie, raport Z neînchis, aparat oprit) | Rezolvați cauza pe aparat și tipăriți din nou bonul din modulul de casă de marcat |
+| **Eroare fiscală** completat, **Stare fiscală** = `error` | Casa de marcat a refuzat bonul (hârtie, raport Z neînchis, aparat oprit) | Rezolvați cauza pe aparat și tipăriți din nou bonul din modulul de casă de marcat |
 | Câmpurile nu apar pe factură | Nu este instalat modulul care le afișează | Instalați modulul de tipărire a bonului (`deltatech_sale_store`) sau exportați facturile (**Acțiuni → Export**) |
 | Bonuri emise pe casa simulată pe baza de producție | O stație Terrabit Connect a rămas în mod simulat sau punctul de vânzare are simularea activă | Opriți simularea în Terrabit Connect (verificați stația în **Setări → Terrabit Connect → Stații**) și în configurarea punctului de vânzare |
 
 ## 10. Capturi de ecran
 
-Modulul **nu are capturi de ecran** și nici `tests/test_screenshots.py`. Câmpurile sunt moștenite de
-factură (`account.move`), dar niciun ecran din dependențele minime ale modulului (`account`) nu le
-afișează, iar modulul nu adaugă view-uri. O captură ar arăta doar formularul standard al facturii,
-fără câmpurile fiscale. Câmpurile se văd pe ecran în fișa modulului care le afișează
-(`deltatech_sale_store`), iar marcajul de simulare al stației în fișa `deltatech_tc`.
+Captura e generată automat de `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
+`l10n_ro_doc_screenshots`, import defensiv), în română, pe planul de conturi RO. Varianta în engleză,
+pentru `readme/USAGE.md`, e în `static/description/en/`.
+
+| Fișier | Ce arată |
+|---|---|
+| `01_export_facturi.png` | fișierul dat de **Export** pe facturi, cu câmpurile casei de marcat: un bon real, unul simulat și unul refuzat |
+
+Regenerare:
+
+```bash
+./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro,deltatech_ecr_fiscal,l10n_ro_doc_screenshots \
+    --test-tags=/deltatech_ecr_fiscal:TestEcrFiscalScreenshots --stop-after-init
+```
 
 ## 11. Observații pentru manual
 
-- Etichetele câmpurilor nu sunt traduse în română (**Fiscal receipt (BF)**, **Simulated receipt**...).
+- Etichetele din interfața în română: **Stare fiscală**, **Bon fiscal (BF)**, **Document fiscal (NR)**,
+  **Raport Z**, **Eroare fiscală**, **Bon simulat**.
 - Pentru identificarea unui bon folosiți **NR**, nu **BF**: BF se repetă după fiecare raport Z.
 - Un bon simulat nu este document fiscal, chiar dacă are numere completate.
-- **Simulated receipt** este nou în versiunea 19.0.1.0.4 și deocamdată doar pregătit: niciun driver
-  nu îl completează și niciun modul de conformitate nu îl citește. Actualizați fișa când driverele îl
-  vor scrie.
 - Modulul nu se instalează separat: vine cu modulele de casă de marcat.

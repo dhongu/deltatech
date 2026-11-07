@@ -9,6 +9,11 @@ even when its BF, NR and Z numbers are filled in. The POS (`deltatech_pos`) and 
 (`deltatech_sale_store`) set it; `l10n_ro_pos_fiscal_compliance_ecr` keeps such receipts out of the Z
 report and of the AMEF journal.
 
+To read the fields, export the invoices (**Actions → Export**) with **Fiscal state**, **Fiscal receipt
+(BF)**, **Fiscal document (NR)**, **Z report** and **Simulated receipt**:
+
+![Exported invoices: a real receipt with BF, NR and Z, a simulated one marked Simulated receipt, and one refused by the cash register](static/description/en/01_export_facturi.png)
+
 **To write them** (a cash register driver), inherit the mixin on your model:
 
 ```python
