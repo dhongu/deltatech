@@ -1,3 +1,13 @@
+## 19.0.1.1.0 (2026-11-07)
+
+- Installation no longer hides Contacts, Sales and Invoicing > Customers /
+  Vendors from every user except the administrator: all internal users existing
+  at installation join the group *Access Partners, Sale, Invoice*. The menus are
+  restricted once, at installation, and a module update no longer overwrites
+  their groups. Uninstalling gives the menus back their standard groups.
+  Existing installations keep their current setup. The description explains
+  how to give the web designer the standard *Website: Restricted Editor* right.
+
 ## 19.0.1.0.2 (2026-11-03)
 
 - Description rewritten from the code: the module grants no website rights; it
