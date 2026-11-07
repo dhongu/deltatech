@@ -1,3 +1,14 @@
+## 20.0.1.0.7 (2026-11-07)
+
+- Security: only administrators (Settings) can create or change email and body
+  substitutions. Before, any internal user could add a "Receiver" rule that
+  redirected every outgoing email of the database, or a body rule that changed
+  the messages of all users. Internal users keep read access (`ir.access`
+  operation `r`). Port of 19.0.1.0.7.
+  ([#3540](https://github.com/dhongu/deltatech/issues/3540))
+- The body substitutions are read with sudo when posting, so authors without
+  access to the rules (portal) still get them applied.
+
 ## 20.0.1.0.6 (2026-10-01)
 
 - Migration to Odoo 20.0, with the email redirection and company sender fix

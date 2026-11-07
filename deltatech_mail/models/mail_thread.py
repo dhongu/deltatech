@@ -18,7 +18,9 @@ class MailThread(models.AbstractModel):
     def message_post(self, *, body="", **kwargs):
         if not body:
             return super().message_post(body=body, **kwargs)
-        body_subs = self.env["mail.body.substitution"].search([])
+        # the rules are configured by administrators only; read them with sudo so
+        # that portal and public authors (no access to the model) can post too
+        body_subs = self.env["mail.body.substitution"].sudo().search([])
         for sub in body_subs:
             if isinstance(body, str):
                 body = str(body).replace(str(sub.body_part), str(sub.substitution))
