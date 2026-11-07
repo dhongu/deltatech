@@ -42,12 +42,12 @@
                             invisible="active"/>
                     <widget name="web_ribbon" title="Simulation" bg_color="text-bg-warning"
                             invisible="not active or not is_simulated"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Accounting PC"/></h1>
+                    </div>
                     <div class="alert alert-warning" role="alert" invisible="not is_simulated">
                         Terrabit Connect runs in simulation on this station: the receipts and card payments of the
                         simulated devices are not real. Simulated devices: <field name="simulated_devices" class="d-inline"/>
-                    </div>
-                    <div class="oe_title">
-                        <h1><field name="name" placeholder="e.g. Accounting PC"/></h1>
                     </div>
                     <group>
                         <group>

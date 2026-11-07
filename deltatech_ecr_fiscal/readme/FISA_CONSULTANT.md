@@ -31,10 +31,8 @@ Context pentru consultant:
   identificat fără ambiguitate (de exemplu la o reclamație sau la o stornare), se folosește **NR**;
 - un **bon simulat** nu este document fiscal. Apare când casa de marcat este simulată: emulatorul din
   Odoo sau Terrabit Connect pornit în mod simulat (stația are panglica **Simulare**, vezi fișa
-  `deltatech_tc`). Câmpul este pregătit pentru modulele de conformitate, ca acestea să lase bonurile
-  simulate în afara raportului Z și a jurnalului AMEF. **În versiunea curentă nici driverele de casă de
-  marcat nu îl completează, nici modulele de conformitate nu îl folosesc încă**: un bon simulat nu se
-  deosebește deocamdată de unul real prin acest câmp.
+  `deltatech_tc`). Driverele îl bifează, iar modulele de conformitate lasă bonurile simulate în afara
+  raportului Z și a jurnalului AMEF.
 
 ## 3. Utilizatori și roluri
 
@@ -58,7 +56,7 @@ Nu se folosesc conturi contabile și nu se generează note contabile. Câmpurile
 | **Z report** | `fiscal_z` | Numărul raportului Z din care face parte bonul | Driverul casei de marcat |
 | **Fiscal state** | `fiscal_state` | Rezultatul tipăririi, așa cum îl raportează driverul (de exemplu `done`, `error`, `canceled`) | Driverul casei de marcat |
 | **Fiscal error** | `fiscal_error` | Mesajul de eroare, când aparatul a refuzat sau a eșuat | Driverul casei de marcat |
-| **Simulated receipt** | `fiscal_simulated` | Bifat când bonul a fost „tipărit” pe o casă de marcat simulată; bonul nu este document fiscal | Încă niciun driver (câmp pregătit pentru driverele de casă de marcat) |
+| **Simulated receipt** | `fiscal_simulated` | Bifat când bonul a fost „tipărit” pe o casă de marcat simulată; bonul nu este document fiscal | Driverul casei de marcat, din răspunsul casei simulate |
 
 „Driverul casei de marcat” înseamnă ecranul de plată din POS (`deltatech_pos`) sau acțiunea de
 tipărire a bonului din factură (`deltatech_sale_store`), după răspunsul agentului Terrabit Connect.
@@ -86,16 +84,15 @@ receipt**, pe orice factură, exportați facturile din listă (selectați-le, ap
 
 ### Pasul 2 — Ce înseamnă „Simulated receipt” (bon simulat)
 
-Câmpul **Simulated receipt** marchează bonurile emise prin casa de marcat simulată. Driverele de casă de
-marcat nu îl completează încă, deci în versiunea curentă rămâne nebifat și pe bonurile simulate. Un
-bon simulat:
+Câmpul **Simulated receipt** marchează bonurile emise prin casa de marcat simulată. Îl bifează driverul
+(POS-ul sau tipărirea din magazin) când răspunsul vine de la casa simulată. Un bon simulat:
 
 - **nu** este bon fiscal și nu apare pe aparatul real;
 - poate avea BF, NR și Z completate de simulator, ca un bon real; acestea nu corespund unui raport Z
   real;
-- trebuie lăsat în afara raportului Z și a jurnalului AMEF; modulele de conformitate nu fac încă
-  această excludere pe baza câmpului, deci până atunci casa de marcat simulată nu se folosește pe o
-  bază de producție.
+- e lăsat în afara raportului Z și a jurnalului AMEF de `l10n_ro_pos_fiscal_compliance_ecr`, unde
+  comanda POS primește starea fiscală **Bon simulat**;
+- pe factură nu marchează factura ca acoperită de bon fiscal (codul 751 din e-Factura).
 
 Pentru a verifica dacă o casă de marcat este simulată, aveți două locuri:
 
@@ -117,7 +114,7 @@ modulele de conformitate fiscală, care citesc aceste câmpuri.
 |---|---|
 | `account` | Singura dependență; câmpurile se adaugă pe `account.move` |
 | `deltatech_pos` | Aplică aceleași câmpuri pe comenzile POS și le completează din ecranul de plată |
-| `l10n_ro_pos_fiscal_compliance_ecr` (`l10n_ro_ent`) | Aplică mixinul pe comenzile POS și potrivește bonurile cu jurnalul AMEF după Z și BF |
+| `l10n_ro_pos_fiscal_compliance_ecr` (`l10n_ro_ent`) | Aplică mixinul pe comenzile POS, potrivește bonurile cu jurnalul AMEF după Z și BF și dă starea **Bon simulat** bonurilor simulate |
 | `deltatech_sale_store` | Tipărește bonul din factură și afișează câmpurile pe formularul facturii |
 | `deltatech_tc` | Stațiile Terrabit Connect; arată dacă o stație simulează casa de marcat |
 | `l10n_ro_pos_fiscal_compliance` (`l10n_ro_ent`) | Stările bonurilor POS și jurnalul AMEF, pe care le leagă de comenzi prin modulul `_ecr` |
@@ -131,8 +128,8 @@ câmpurilor de la modulele vechi la instalare.
 ## 8. Verificări pentru consultant
 
 - [ ] Pe o factură cu bon tipărit (cu `deltatech_sale_store`), apar starea, BF, NR și Z.
-- [ ] Exportul facturilor (**Acțiuni → Export**) oferă câmpul **Simulated receipt** și îl arată
-  nebifat (niciun driver nu îl completează încă).
+- [ ] Exportul facturilor (**Acțiuni → Export**) oferă câmpul **Simulated receipt**: bifat pe bonurile
+  tipărite pe o casă simulată, nebifat pe cele reale.
 - [ ] Pe baza de producție, nicio stație din **Setări → Terrabit Connect → Stații** nu are panglica
   **Simulare**.
 - [ ] Pe baza de producție, niciun punct de vânzare nu are setat câmpul **Simulation** al casei de

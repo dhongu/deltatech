@@ -1,8 +1,9 @@
 ## 19.0.1.0.4 (2026-11-07)
 
-- New field **Simulated receipt** (`fiscal_simulated`), provided for the cash register drivers to mark
-  the receipts of a simulated register, so that compliance modules can keep them out of the Z report.
-  No driver sets it and no compliance module reads it yet.
+- New field **Simulated receipt** (`fiscal_simulated`): set by the cash register drivers
+  (`deltatech_pos` 19.0.2.16.1, `deltatech_sale_store` 19.0.2.6.1) when the receipt came from a simulated
+  register, and read by `l10n_ro_pos_fiscal_compliance_ecr` 19.0.1.3.1, which keeps it out of the Z report
+  and of the AMEF journal.
 - Consultant sheet (`readme/FISA_CONSULTANT.md`) and usage notes on simulated receipts.
 
 ## 19.0.1.0.3
