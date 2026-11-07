@@ -1,3 +1,7 @@
+## 19.0.1.0.5 (2026-11-07)
+
+- Fix: the HTML produced from the Markdown is sanitized (DOMPurify) before it is displayed, in edit and in read-only mode. Scripts, inline event handlers, `javascript:` links and embedded content (`<iframe>`, `<object>`, `<embed>`) are removed; Markdown formatting and harmless inline HTML stay as they were.
+
 ## 19.0.1.0.4 (2026-10-22)
 
 - Listed on Odoo Apps as *Markdown Field Widget* (was *Markdown Field*). The technical name `deltatech_markdown_field` does not change.
