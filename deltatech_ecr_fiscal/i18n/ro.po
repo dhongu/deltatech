@@ -1,0 +1,81 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_ecr_fiscal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-07 07:11+0000\n"
+"PO-Revision-Date: 2026-11-07 07:11+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model,name:deltatech_ecr_fiscal.model_deltatech_ecr_fiscal_mixin
+msgid "ECR Fiscal Audit Fields"
+msgstr "Câmpuri audit fiscal casă de marcat"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_bank_statement_line__fiscal_doc_number
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__fiscal_doc_number
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__fiscal_doc_number
+msgid "Fiscal document (NR)"
+msgstr "Document fiscal (NR)"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_bank_statement_line__fiscal_error
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__fiscal_error
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__fiscal_error
+msgid "Fiscal error"
+msgstr "Eroare fiscală"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_bank_statement_line__fiscal_receipt_number
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__fiscal_receipt_number
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__fiscal_receipt_number
+msgid "Fiscal receipt (BF)"
+msgstr "Bon fiscal (BF)"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_bank_statement_line__fiscal_state
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__fiscal_state
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__fiscal_state
+msgid "Fiscal state"
+msgstr "Stare fiscală"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model,name:deltatech_ecr_fiscal.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_bank_statement_line__fiscal_simulated
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__fiscal_simulated
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__fiscal_simulated
+msgid "Simulated receipt"
+msgstr "Bon simulat"
+
+#. module: deltatech_ecr_fiscal
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_bank_statement_line__fiscal_z
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_account_move__fiscal_z
+#: model:ir.model.fields,field_description:deltatech_ecr_fiscal.field_deltatech_ecr_fiscal_mixin__fiscal_z
+msgid "Z report"
+msgstr "Raport Z"

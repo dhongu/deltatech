@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 02:52+0000\n"
-"PO-Revision-Date: 2026-09-29 02:52+0000\n"
+"POT-Creation-Date: 2026-11-07 06:53+0000\n"
+"PO-Revision-Date: 2026-11-07 06:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,11 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__is_simulated
+msgid "At least one device of the station is simulated."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__attempt_count
 msgid "Attempts"
 msgstr ""
@@ -73,6 +78,13 @@ msgstr ""
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_res_id
 msgid "Callback Res"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__fiscal_driver
+msgid ""
+"Cash register driver configured on the station (reported at heartbeat): "
+"fiscalwire, simulated..."
 msgstr ""
 
 #. module: deltatech_tc
@@ -112,6 +124,14 @@ msgid "Created on"
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__simulated_devices
+msgid ""
+"Devices simulated by Terrabit Connect on this station (reported at "
+"heartbeat): the cash register (fiscal) and the card terminals "
+"(terminal:<id>). Their receipts and card payments are not real."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__display_name
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__display_name
 msgid "Display Name"
@@ -144,6 +164,11 @@ msgstr ""
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__features
 msgid "Features"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__fiscal_driver
+msgid "Fiscal Driver"
 msgstr ""
 
 #. module: deltatech_tc
@@ -328,6 +353,17 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__simulated_devices
+msgid "Simulated Devices"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__is_simulated
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Simulation"
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__state
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_search
 msgid "State"
@@ -381,6 +417,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_tc/models/deltatech_tc_station.py:0
 msgid "Terrabit Connect heartbeat"
+msgstr ""
+
+#. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid ""
+"Terrabit Connect runs in simulation on this station: the receipts and card payments of the\n"
+"                        simulated devices are not real. Simulated devices:"
 msgstr ""
 
 #. module: deltatech_tc

@@ -37,6 +37,24 @@ class DeltatechTcStation(models.Model):
         copy=False,
         help="Comma-separated list of features enabled on the station (reported at heartbeat).",
     )
+    fiscal_driver = fields.Char(
+        readonly=True,
+        copy=False,
+        help="Cash register driver configured on the station (reported at heartbeat): fiscalwire, simulated...",
+    )
+    simulated_devices = fields.Char(
+        readonly=True,
+        copy=False,
+        help="Devices simulated by Terrabit Connect on this station (reported at heartbeat): "
+        "the cash register (fiscal) and the card terminals (terminal:<id>). Their receipts and "
+        "card payments are not real.",
+    )
+    is_simulated = fields.Boolean(
+        string="Simulation",
+        readonly=True,
+        copy=False,
+        help="At least one device of the station is simulated.",
+    )
     note = fields.Text()
     job_ids = fields.One2many("deltatech.tc.job", "station_id")
     job_count = fields.Integer(compute="_compute_job_count")
@@ -80,7 +98,8 @@ class DeltatechTcStation(models.Model):
         """Mark the station as "seen now"; optionally store reported metadata.
 
         ``info`` is the JSON body sent by Terrabit Connect at heartbeat and may
-        carry ``version``, ``os`` and ``features`` describing the workstation.
+        carry ``version``, ``os``, ``features``, ``fiscal_driver`` and ``simulated`` describing the
+        workstation.
         """
         self.ensure_one()
         info = info or {}
@@ -89,6 +108,17 @@ class DeltatechTcStation(models.Model):
             vals["tc_version"] = info["version"]
         if info.get("os") and info["os"] != self.os:
             vals["os"] = info["os"]
+        if info.get("fiscal_driver") and info["fiscal_driver"] != self.fiscal_driver:
+            vals["fiscal_driver"] = info["fiscal_driver"]
+        if "simulated" in info:
+            # Raportat la fiecare heartbeat, și gol: o stație scoasă din simulare se curăță.
+            simulated = info.get("simulated") or []
+            if isinstance(simulated, (list, tuple)):
+                simulated = ",".join(str(d) for d in simulated)
+            simulated = str(simulated or "")
+            if simulated != (self.simulated_devices or ""):
+                vals["simulated_devices"] = simulated or False
+                vals["is_simulated"] = bool(simulated)
         if info.get("features"):
             features = info["features"]
             if isinstance(features, (list, tuple)):

@@ -7,11 +7,13 @@ cash register (ECR/AMEF):
 - **Z report**: Number of the Z report the receipt belongs to
 - **Fiscal state**: Outcome reported by the device driver
 - **Fiscal error**: Error message, when the device refused or failed
+- **Simulated receipt**: Ticked by the drivers on the receipts of a simulated cash register, which are
+  not fiscal documents; compliance modules keep them out of the Z report
 
 The fields are added to **journal entries** here, and to **POS orders** by
 `deltatech_pos`, through the abstract mixin `deltatech.ecr.fiscal.mixin`.
 
-Written by the driver — the POS payment screen, or the store print action, after the
+The first five are written by the driver — the POS payment screen, or the store print action, after the
 Terrabit Connect agent replies — and read by everything downstream: reports, fiscal
 compliance modules, the Romanian localization.
 

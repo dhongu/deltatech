@@ -27,3 +27,6 @@ class DeltatechEcrFiscalMixin(models.AbstractModel):
     fiscal_z = fields.Char(string="Z report", readonly=True, copy=False)
     fiscal_state = fields.Char(string="Fiscal state", readonly=True, copy=False)
     fiscal_error = fields.Char(string="Fiscal error", readonly=True, copy=False)
+    # Bon „tipărit” de casa simulată (emulatorul din Odoo sau agentul în mod simulat): nu e
+    # document fiscal. Modulele de conformitate îl țin în afara raportului Z și a jurnalului AMEF.
+    fiscal_simulated = fields.Boolean(string="Simulated receipt", readonly=True, copy=False)

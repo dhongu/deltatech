@@ -16,11 +16,8 @@ ECR Fiscal Audit Fields
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_ecr_fiscal
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2094%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_ecr_fiscal
-    :alt: 4 automated tests · 94% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Defines, in a single place, the fields that record the result of
 printing on a fiscal cash register (ECR/AMEF):
@@ -32,15 +29,18 @@ printing on a fiscal cash register (ECR/AMEF):
 - **Z report**: Number of the Z report the receipt belongs to
 - **Fiscal state**: Outcome reported by the device driver
 - **Fiscal error**: Error message, when the device refused or failed
+- **Simulated receipt**: Ticked by the drivers on the receipts of a
+  simulated cash register, which are not fiscal documents; compliance
+  modules keep them out of the Z report
 
 The fields are added to **journal entries** here, and to **POS orders**
 by ``deltatech_pos``, through the abstract mixin
 ``deltatech.ecr.fiscal.mixin``.
 
-Written by the driver — the POS payment screen, or the store print
-action, after the Terrabit Connect agent replies — and read by
-everything downstream: reports, fiscal compliance modules, the Romanian
-localization.
+The first five are written by the driver — the POS payment screen, or
+the store print action, after the Terrabit Connect agent replies — and
+read by everything downstream: reports, fiscal compliance modules, the
+Romanian localization.
 
 The module depends on ``account`` alone — not on ``point_of_sale`` — so
 the contract can be consumed from suites that have no access to the cash
@@ -74,7 +74,27 @@ the fiscal receipt numbers already recorded.
 Usage
 =====
 
-The module adds no screens of its own: it only provides the fields.
+The module adds no screens of its own: it only provides the fields. They
+are shown on the invoice form by the module that prints the receipt from
+the invoice (``deltatech_sale_store``). On the POS order
+``deltatech_pos`` fills them in without showing them; use **Actions →
+Export** to read them.
+
+**Simulated receipt** (``fiscal_simulated``) is ticked by the cash
+register driver when the receipt was printed on a simulated register:
+the emulator in Odoo, or Terrabit Connect in simulation mode (the
+station shows a **Simulation** ribbon, see ``deltatech_tc``). Such a
+receipt is not a fiscal document, even when its BF, NR and Z numbers are
+filled in. The POS (``deltatech_pos``) and the store print action
+(``deltatech_sale_store``) set it; ``l10n_ro_pos_fiscal_compliance_ecr``
+keeps such receipts out of the Z report and of the AMEF journal.
+
+To read the fields, export the invoices (**Actions → Export**) with
+**Fiscal state**, **Fiscal receipt (BF)**, **Fiscal document (NR)**, **Z
+report** and **Simulated receipt**:
+
+|Exported invoices: a real receipt with BF, NR and Z, a simulated one
+marked Simulated receipt, and one refused by the cash register|
 
 **To write them** (a cash register driver), inherit the mixin on your
 model:
@@ -88,8 +108,23 @@ model:
 **To read them**, declaring ``deltatech_ecr_fiscal`` in ``depends`` is
 enough; the cash register modules are not needed.
 
+.. |Exported invoices: a real receipt with BF, NR and Z, a simulated one marked Simulated receipt, and one refused by the cash register| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_ecr_fiscal/static/description/en/01_export_facturi.png
+
 Changelog
 =========
+
+19.0.1.0.4 (2026-11-07)
+-----------------------
+
+- New field **Simulated receipt** (``fiscal_simulated``): set by the
+  cash register drivers (``deltatech_pos`` 19.0.2.16.1,
+  ``deltatech_sale_store`` 19.0.2.6.1) when the receipt came from a
+  simulated register, and read by ``l10n_ro_pos_fiscal_compliance_ecr``
+  19.0.1.3.1, which keeps it out of the Z report and of the AMEF
+  journal.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) with the exported
+  fields as screenshot, usage notes on simulated receipts, Romanian
+  translation.
 
 19.0.1.0.3
 ----------

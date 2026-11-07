@@ -54,6 +54,23 @@ class TestDeltatechTc(HttpCase):
         self.assertEqual(self.station.os, "macOS")
         self.assertEqual(self.station.features, "anaf,fiscal")
 
+    def test_heartbeat_stores_simulation(self):
+        """The simulated devices are shown on the station, and cleared when the agent leaves simulation."""
+        body = {"version": "1.6.24", "fiscal_driver": "simulated", "simulated": ["fiscal", "terminal:demo"]}
+        self._post("/tc/heartbeat", body, key=self.station.api_key)
+        self.station.invalidate_recordset()
+        self.assertEqual(self.station.fiscal_driver, "simulated")
+        self.assertEqual(self.station.simulated_devices, "fiscal,terminal:demo")
+        self.assertTrue(self.station.is_simulated)
+        self._post("/tc/heartbeat", {"fiscal_driver": "fiscalwire", "simulated": []}, key=self.station.api_key)
+        self.station.invalidate_recordset()
+        self.assertEqual(self.station.fiscal_driver, "fiscalwire")
+        self.assertFalse(self.station.simulated_devices)
+        self.assertFalse(self.station.is_simulated)
+        # an older agent does not send the key: the stored state is kept
+        self.station._touch({"version": "1.6.20"})
+        self.assertEqual(self.station.fiscal_driver, "fiscalwire")
+
     def test_job_round_trip(self):
         """Enqueue → poll (claim) → result (done) full cycle through the controller."""
         job = self.station.action_ping()
