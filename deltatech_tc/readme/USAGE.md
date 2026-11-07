@@ -1,6 +1,10 @@
 ## Registering a station
 
-1. Go to **Settings → Terrabit Connect → Stations**.
+1. Go to **Settings → Terrabit Connect → Stations**. The list shows, for each station, when it was
+   **Last Seen**, its **TC Version** and whether it runs in **Simulation** (highlighted rows).
+
+   ![Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked](static/description/en/01_lista_statii.png)
+
 2. Click **New** and give the station a descriptive name (e.g. `Accounting PC`).
 3. Select the company the station belongs to (multi-company installations).
 4. Save. An **API Key** is generated automatically and is visible to administrators
@@ -15,12 +19,14 @@
    (**Setări → Importă config**). The agent authenticates with the
    `X-Station-Key` header on every call.
 
+   ![Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire](static/description/en/02_formular_statie.png)
+
 ## Verifying connectivity
 
 Once Terrabit Connect is running with the downloaded config:
 
 1. Open the station form (**Settings → Terrabit Connect → Stations**, click the station).
-2. The **Last seen** field updates at the first heartbeat, sent as soon as the
+2. The **Last Seen** field updates at the first heartbeat, sent as soon as the
    agent starts, and then at every heartbeat or job poll.
 3. Click **Ping** in the header to enqueue a round-trip test job. The job appears
    in the **Jobs** smart button and reaches state `Done` at the next poll — provided
@@ -28,10 +34,20 @@ Once Terrabit Connect is running with the downloaded config:
 4. Terrabit Connect managers also receive a browser notification when the agent
    sends a manual heartbeat.
 
+## Simulated stations
+
+When Terrabit Connect runs in simulation mode, the station reports at every heartbeat the fiscal
+driver `simulated` and the simulated devices: `fiscal` for the cash register and `terminal:<id>` for
+each card terminal. The station form then shows a **Simulation** ribbon and a warning listing the
+simulated devices; receipts and card payments made through them are not real. The marking comes from
+the station: it disappears on its own at the first heartbeat sent without simulated devices.
+
+![Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated](static/description/en/03_statie_simulata.png)
+
 ## Monitoring jobs
 
 Navigate to **Settings → Terrabit Connect → Jobs** to see all jobs across all
-stations. You can filter by state (`Pending`, `Done`, `Error`) or group by
+stations. You can filter by state (`Pending`, `Claimed`, `Done`, `Error`) or group by
 station or job type.
 
 The job list uses colour coding:
@@ -39,6 +55,12 @@ The job list uses colour coding:
 - Green row — `Done`
 - Red row — `Error` (open the form to read the error detail)
 - Muted row — `Claimed` (the station picked it up; result not yet reported)
+
+![Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending](static/description/en/04_lista_joburi.png)
+
+Open a job to read its **Payload**, **Result** and **Error** tabs.
+
+![An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header](static/description/en/05_job_eroare.png)
 
 ### Lost results and retries
 
@@ -109,4 +131,4 @@ transaction.
 This base module does not talk to any device by itself. Install the relevant
 Terrabit Connect feature module (e.g. ANAF messages, fiscal printer, Zebra labels,
 DUKIntegrator) to activate additional job types. They appear automatically in the
-**Type** column of the job list once the feature module is installed.
+**Job Type** column of the job list once the feature module is installed.
