@@ -7,8 +7,8 @@ fiscală (ECR/AMEF):
 - **Raport Z**: Numărul raportului Z din care face parte bonul.
 - **Starea fiscală**: Rezultatul raportat de driverul aparatului.
 - **Eroare fiscală**: Mesajul de eroare, când aparatul a refuzat sau a eșuat.
-- **Bon simulat** (*Simulated receipt*): Pregătit pentru ca driverele să marcheze bonurile unei case de
-  marcat simulate, care nu sunt documente fiscale; deocamdată niciun driver nu îl completează.
+- **Bon simulat** (*Simulated receipt*): Bifat de drivere pe bonurile unei case de marcat simulate, care
+  nu sunt documente fiscale; modulele de conformitate le lasă în afara raportului Z.
 
 Câmpurile sunt adăugate aici pe **notele contabile** și, prin modulul `deltatech_pos`, pe
 **comenzile POS**, prin mixinul abstract `deltatech.ecr.fiscal.mixin`.
