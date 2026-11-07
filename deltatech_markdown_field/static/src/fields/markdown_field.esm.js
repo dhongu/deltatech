@@ -70,11 +70,14 @@ export class MarkdownField extends Component {
     }
 
     _mdToHtml(md) {
-        if (md && window.marked) {
-            return window.marked.parse(md, {breaks: true, gfm: true});
-        }
         if (!md) {
             return "";
+        }
+        // Marked lets raw HTML through, and a Text field is not sanitized on the
+        // server: the HTML goes through DOMPurify (shipped in web.assets_backend)
+        // before it reaches the DOM, including for values already stored.
+        if (window.marked && window.DOMPurify) {
+            return window.DOMPurify.sanitize(window.marked.parse(md, {breaks: true, gfm: true}));
         }
         const div = document.createElement("div");
         div.textContent = md;
