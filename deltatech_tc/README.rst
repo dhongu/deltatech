@@ -16,11 +16,8 @@ Terrabit Connect - Base
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_tc
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-42%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_tc
-    :alt: 42 automated tests · 84% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 Base module for **Terrabit Connect** — the lightweight native agent that
 runs on a workstation and bridges Odoo with local hardware and services
@@ -359,6 +356,13 @@ the feature module is installed.
 
 Changelog
 =========
+
+19.0.1.2.5 (2026-11-07)
+-----------------------
+
+- The station shows the fiscal driver and the devices Terrabit Connect
+  simulates (from the heartbeat): a **Simulation** ribbon and a warning
+  on the form, highlighted rows in the list.
 
 19.0.1.2.4 (2026-10-11)
 -----------------------

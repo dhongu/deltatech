@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-29 02:52+0000\n"
+"POT-Creation-Date: 2026-11-07 06:53+0000\n"
 "PO-Revision-Date: 2026-07-30 07:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -52,9 +52,13 @@ msgstr "Arhivat"
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid ""
-"Are you sure? Terrabit Connect will need to be reconfigured with the new "
-"key."
+"Are you sure? Terrabit Connect will need to be reconfigured with the new key."
 msgstr "Sigur? Terrabit Connect va trebui reconfigurat cu noua cheie."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__is_simulated
+msgid "At least one device of the station is simulated."
+msgstr "Cel puțin un aparat al stației este simulat."
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__attempt_count
@@ -75,6 +79,13 @@ msgstr "Model de apel înapoi"
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_res_id
 msgid "Callback Res"
 msgstr "Înregistrare de apel înapoi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__fiscal_driver
+msgid ""
+"Cash register driver configured on the station (reported at heartbeat): "
+"fiscalwire, simulated..."
+msgstr "Driverul casei de marcat configurat pe stație (raportat la heartbeat): fiscalwire, simulated..."
 
 #. module: deltatech_tc
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__state__claimed
@@ -115,6 +126,14 @@ msgid "Created on"
 msgstr "Creat în"
 
 #. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__simulated_devices
+msgid ""
+"Devices simulated by Terrabit Connect on this station (reported at "
+"heartbeat): the cash register (fiscal) and the card terminals (terminal:"
+"<id>). Their receipts and card payments are not real."
+msgstr "Aparatele simulate de Terrabit Connect pe această stație (raportate la heartbeat): casa de marcat (fiscal) și terminalele de card (terminal:<id>). Bonurile și plățile cu cardul de pe ele nu sunt reale."
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__display_name
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__display_name
 msgid "Display Name"
@@ -148,6 +167,11 @@ msgstr "Eroare"
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__features
 msgid "Features"
 msgstr "Funcționalități"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__fiscal_driver
+msgid "Fiscal Driver"
+msgstr "Driver fiscal"
 
 #. module: deltatech_tc
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__http_request
@@ -250,8 +274,8 @@ msgstr "Nicio stație Terrabit Connect înregistrată"
 #. odoo-python
 #: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
 msgid ""
-"No result from the station after %(count)s attempts. Check the station, then"
-" use Retry."
+"No result from the station after %(count)s attempts. Check the station, then "
+"use Retry."
 msgstr ""
 "Niciun rezultat de la stație după %(count)s încercări. Verificați stația, "
 "apoi folosiți Reîncearcă."
@@ -306,8 +330,8 @@ msgstr ""
 #: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
 msgid "Refusing to call %(method)s - callbacks must start with '%(prefix)s'."
 msgstr ""
-"Refuz apelul %(method)s - apelurile înapoi trebuie să înceapă cu "
-"„%(prefix)s”."
+"Refuz apelul %(method)s - apelurile înapoi trebuie să înceapă cu „%"
+"(prefix)s”."
 
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
@@ -317,10 +341,12 @@ msgstr "Regenerează cheia"
 #. module: deltatech_tc
 #: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
 msgid ""
-"Register the workstation running Terrabit Connect, copy the API key into it,\n"
+"Register the workstation running Terrabit Connect, copy the API key into "
+"it,\n"
 "               and it will exchange jobs with this Odoo instance."
 msgstr ""
-"Înregistrați stația de lucru pe care rulează Terrabit Connect, copiați cheia API în ea,\n"
+"Înregistrați stația de lucru pe care rulează Terrabit Connect, copiați cheia "
+"API în ea,\n"
 "               iar aceasta va schimba joburi cu această instanță Odoo."
 
 #. module: deltatech_tc
@@ -342,6 +368,17 @@ msgid ""
 msgstr ""
 "Secret folosit de Terrabit Connect în antetul X-Station-Key. Se regenerează "
 "la nevoie."
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__simulated_devices
+msgid "Simulated Devices"
+msgstr "Aparate simulate"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__is_simulated
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid "Simulation"
+msgstr "Simulare"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__state
@@ -400,6 +437,14 @@ msgid "Terrabit Connect heartbeat"
 msgstr "Heartbeat Terrabit Connect"
 
 #. module: deltatech_tc
+#: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
+msgid ""
+"Terrabit Connect runs in simulation on this station: the receipts and card "
+"payments of the\n"
+"                        simulated devices are not real. Simulated devices:"
+msgstr "Terrabit Connect rulează în simulare pe această stație: bonurile și plățile cu cardul de pe\n                        aparatele simulate nu sunt reale. Aparate simulate:"
+
+#. module: deltatech_tc
 #: model:ir.actions.server,name:deltatech_tc.ir_cron_deltatech_tc_gc_jobs_ir_actions_server
 msgid "Terrabit Connect: queue cleanup"
 msgstr "Terrabit Connect: curățenia cozii"
@@ -425,11 +470,10 @@ msgstr "Metoda de apel înapoi %(method)s trebuie să înceapă cu „%(prefix)s
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
 msgid ""
 "The station will run this job again. For a job with an effect outside Odoo "
-"(an ANAF upload, a POST to a device) check first that it did not already "
-"run."
+"(an ANAF upload, a POST to a device) check first that it did not already run."
 msgstr ""
-"Stația va executa din nou acest job. Pentru un job cu efect în afara Odoo (o"
-" depunere la ANAF, un POST către un echipament), verificați întâi că nu a "
+"Stația va executa din nou acest job. Pentru un job cu efect în afara Odoo (o "
+"depunere la ANAF, un POST către un echipament), verificați întâi că nu a "
 "rulat deja."
 
 #. module: deltatech_tc
