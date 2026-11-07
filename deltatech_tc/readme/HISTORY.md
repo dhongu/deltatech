@@ -2,6 +2,8 @@
 
 - The station shows the fiscal driver and the devices Terrabit Connect simulates (from the
   heartbeat): a **Simulation** ribbon and a warning on the form, highlighted rows in the list.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`), usage with screenshots, and the test that
+  generates them (`tests/test_screenshots.py`).
 
 ## 19.0.1.2.4 (2026-10-11)
 

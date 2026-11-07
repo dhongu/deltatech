@@ -29,15 +29,18 @@ printing on a fiscal cash register (ECR/AMEF):
 - **Z report**: Number of the Z report the receipt belongs to
 - **Fiscal state**: Outcome reported by the device driver
 - **Fiscal error**: Error message, when the device refused or failed
+- **Simulated receipt**: Provided for the drivers to mark the receipts
+  of a simulated cash register, which are not fiscal documents; no
+  driver sets it yet
 
 The fields are added to **journal entries** here, and to **POS orders**
 by ``deltatech_pos``, through the abstract mixin
 ``deltatech.ecr.fiscal.mixin``.
 
-Written by the driver — the POS payment screen, or the store print
-action, after the Terrabit Connect agent replies — and read by
-everything downstream: reports, fiscal compliance modules, the Romanian
-localization.
+The first five are written by the driver — the POS payment screen, or
+the store print action, after the Terrabit Connect agent replies — and
+read by everything downstream: reports, fiscal compliance modules, the
+Romanian localization.
 
 The module depends on ``account`` alone — not on ``point_of_sale`` — so
 the contract can be consumed from suites that have no access to the cash
@@ -71,7 +74,19 @@ the fiscal receipt numbers already recorded.
 Usage
 =====
 
-The module adds no screens of its own: it only provides the fields.
+The module adds no screens of its own: it only provides the fields. They
+are shown on the invoice form by the module that prints the receipt from
+the invoice (``deltatech_sale_store``). On the POS order
+``deltatech_pos`` fills them in without showing them; use **Actions →
+Export** to read them.
+
+**Simulated receipt** (``fiscal_simulated``) is meant to be ticked by
+the cash register driver when the receipt was printed on a simulated
+register: the emulator in Odoo, or Terrabit Connect in simulation mode
+(the station shows a **Simulation** ribbon, see ``deltatech_tc``). Such
+a receipt is not a fiscal document, even when its BF, NR and Z numbers
+are filled in. In this version the field is only provided: the drivers
+do not set it yet and the compliance modules do not read it yet.
 
 **To write them** (a cash register driver), inherit the mixin on your
 model:
@@ -91,9 +106,12 @@ Changelog
 19.0.1.0.4 (2026-11-07)
 -----------------------
 
-- New field **Simulated receipt** (``fiscal_simulated``): set by the
-  cash register drivers when the receipt came from a simulated register,
-  so that compliance modules keep it out of the Z report.
+- New field **Simulated receipt** (``fiscal_simulated``), provided for
+  the cash register drivers to mark the receipts of a simulated
+  register, so that compliance modules can keep them out of the Z
+  report. No driver sets it and no compliance module reads it yet.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) and usage notes on
+  simulated receipts.
 
 19.0.1.0.3
 ----------
