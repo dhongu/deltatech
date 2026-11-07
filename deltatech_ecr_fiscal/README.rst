@@ -89,6 +89,13 @@ filled in. The POS (``deltatech_pos``) and the store print action
 (``deltatech_sale_store``) set it; ``l10n_ro_pos_fiscal_compliance_ecr``
 keeps such receipts out of the Z report and of the AMEF journal.
 
+To read the fields, export the invoices (**Actions → Export**) with
+**Fiscal state**, **Fiscal receipt (BF)**, **Fiscal document (NR)**, **Z
+report** and **Simulated receipt**:
+
+|Exported invoices: a real receipt with BF, NR and Z, a simulated one
+marked Simulated receipt, and one refused by the cash register|
+
 **To write them** (a cash register driver), inherit the mixin on your
 model:
 
@@ -100,6 +107,8 @@ model:
 
 **To read them**, declaring ``deltatech_ecr_fiscal`` in ``depends`` is
 enough; the cash register modules are not needed.
+
+.. |Exported invoices: a real receipt with BF, NR and Z, a simulated one marked Simulated receipt, and one refused by the cash register| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_ecr_fiscal/static/description/en/01_export_facturi.png
 
 Changelog
 =========
@@ -113,8 +122,9 @@ Changelog
   simulated register, and read by ``l10n_ro_pos_fiscal_compliance_ecr``
   19.0.1.3.1, which keeps it out of the Z report and of the AMEF
   journal.
-- Consultant sheet (``readme/FISA_CONSULTANT.md``) and usage notes on
-  simulated receipts.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) with the exported
+  fields as screenshot, usage notes on simulated receipts, Romanian
+  translation.
 
 19.0.1.0.3
 ----------
