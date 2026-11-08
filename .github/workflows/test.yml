@@ -104,6 +104,24 @@ jobs:
         with:
           persist-credentials: false
 
+      # Data-only addons (no Python) ship without a root `__init__.py`, so they can
+      # be imported on Odoo Online (Apps > Import Module). Odoo loads them fine, but
+      # manifestoo / manifestoo_core (oca_install_addons, oca_init_test_database)
+      # only recognise a directory with an `__init__.py` as an addon and stop with
+      # "not found in addons path". An empty file, created here in the CI checkout
+      # only, keeps them testable (deltatech_list_view keeps its HOOT test); nothing
+      # is committed.
+      - name: Mark data-only addons as packages
+        shell: bash
+        run: |
+          for manifest in */__manifest__.py; do
+            addon=$(dirname "$manifest")
+            if [ ! -f "$addon/__init__.py" ]; then
+              echo "data-only addon: $addon"
+              touch "$addon/__init__.py"
+            fi
+          done
+
       - name: Install addons and dependencies
         run: oca_install_addons
 
