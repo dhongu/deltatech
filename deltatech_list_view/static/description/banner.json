@@ -1,7 +1,7 @@
 {
   "title": "List View Select Text",
-  "summary": "Select text without opening the record",
+  "summary": "Copy text from lists, also on Odoo Online",
   "icon": "grid",
-  "features": ["Select and copy text in lists", "No accidental record opening"],
+  "features": ["Select and copy text in lists", "No accidental record opening", "No Python: importable on Odoo Online"],
   "lang": "en"
 }
