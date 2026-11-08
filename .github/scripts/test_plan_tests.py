@@ -111,9 +111,10 @@ class TestNeutralRootFiles(unittest.TestCase):
 
 
 class TestDataOnlyAddons(unittest.TestCase):
-    def test_addon_without_init_is_left_out(self):
-        # manifestoo does not see an addon without __init__.py; passing it in
-        # INCLUDE would abort the test job.
+    def test_addon_without_init_is_selected(self):
+        # Data-only addons (no root __init__.py, importable on Odoo Online) stay in the
+        # test selection: the test job creates their __init__.py in the CI checkout,
+        # so manifestoo sees them.
         import tempfile
 
         cwd = os.getcwd()
@@ -129,8 +130,7 @@ class TestDataOnlyAddons(unittest.TestCase):
                 manifests = plan_tests.load_manifests()
             finally:
                 os.chdir(cwd)
-        self.assertEqual(set(manifests), {"deltatech_python_addon"})
-
+        self.assertEqual(set(manifests), {"deltatech_python_addon", "deltatech_data_only"})
 
 if __name__ == "__main__":
     unittest.main()
