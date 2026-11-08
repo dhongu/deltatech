@@ -1,3 +1,14 @@
+## 20.0.1.1.0 (2026-11-08)
+
+- Data-only module: the empty `__init__.py` was removed, so the module has no Python code at
+  runtime (`tests/` stays, for the JavaScript test in CI). It can be installed on Odoo Online
+  (Custom plan) as a zip from Apps > Import Module, as well as on Odoo.sh and on-premise.
+- The JavaScript test is listed by name in the manifest assets: an imported module does not
+  accept wildcards (`**/*`) in asset paths.
+- Odoo Apps does not mark data-only modules as available on Odoo Online, so the module name,
+  the summary, the banner and the Apps Store page now say it: "List View Select Text
+  (importable, Odoo Online)".
+
 ## 20.0.1.0.5 (2026-10-19)
 
 - Fixed the `invalid input syntax for type integer: "virtual_N"` error when saving a form
