@@ -1,0 +1,59 @@
+.o_report_layout_style2 {
+    .table q-td,
+    .table q-th {
+        border-top: none;
+    }
+    q-thead q-tr q-th {
+        color: $o-default-report-secondary-color;
+    }
+    q-tbody {
+        color: map-get($grays, "700");
+        q-tr {
+            &:nth-child(odd) {
+                background-color: rgba(220, 205, 216, 0.2);
+            }
+            &.o_line_section {
+                color: $o-brand-odoo;
+                background-color: rgba(73, 80, 87, 0.2) !important;
+            }
+        }
+    }
+}
+
+.o_table_style2 {
+    table:not(.o_ignore_layout_styling) {
+        tr:not(:first-child) {
+            // Using border-top not bottom, to manage a different border on line sections
+            border-top: $border-width solid $gray-200;
+        }
+
+        tbody tr {
+            &:first-child,
+            &.o_line_section {
+                border-top: $border-width solid $gray-400;
+            }
+
+            &:last-child {
+                border-bottom: $border-width solid $gray-200;
+            }
+
+            &:nth-child(odd) td {
+                background-color: rgba($gray-200, 0.5);
+            }
+
+            &.is-subtotal {
+                border-bottom: $border-width solid $gray-400;
+            }
+        }
+    }
+
+    .o_total_table:not(.o_ignore_layout_styling) {
+        tr:first-child {
+            border-top: none;
+        }
+
+        tr:nth-child(odd) td {
+            background-color: rgba($gray-200, 0.5);
+        }
+    }
+}
