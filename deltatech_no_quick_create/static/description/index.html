@@ -32,6 +32,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -49,6 +54,23 @@
 <p>The module contains no Python code, only one JavaScript file. Besides Odoo.sh and
 on-premise installations, it can be used on Odoo Online (Custom plan): download the zip
 and load it from <strong>Apps &gt; Import Module</strong>.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Install the module, or on Odoo Online import the zip from <strong>Apps &gt; Import Module</strong>
+   (Custom plan, developer mode), then reload the page. There is nothing to configure.</li>
+<li>Open <strong>Contacts &gt; Contacts</strong>, click <strong>New</strong> and type a company name that does not exist yet
+   in the <strong>Company</strong> field. The dropdown no longer offers <strong>Create "..."</strong>: only
+   <strong>Create and edit...</strong> is left. Every many2one field behaves the same way (customer, product,
+   category, salesperson).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="New contact Jane Smith: Zz New Company Ltd is typed in the Company field and the dropdown shows a single option, Create and edit..." src="en/01_lista_fara_creare_rapida.png" /></p>
+<ol start="3">
+<li>Click <strong>Create and edit...</strong>: the <strong>Create Company</strong> dialog opens with the typed name already
+   filled in. Complete the address and tax ID, then click <strong>Save</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Create Company dialog over the contact form, with the name Zz New Company Ltd prefilled and the Save and Discard buttons" src="en/02_formular_creare_si_editare.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
