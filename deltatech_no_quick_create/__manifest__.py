@@ -3,9 +3,9 @@
 
 
 {
-    "name": "No quick_create",
-    "summary": "Disable quick create in many2one fields to prevent empty products and contacts",
-    "version": "19.0.2.0.2",
+    "name": "No Quick Create (importable, Odoo Online)",
+    "summary": "Disable quick create in many2one fields; data-only, importable on Odoo Online",
+    "version": "19.0.2.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
