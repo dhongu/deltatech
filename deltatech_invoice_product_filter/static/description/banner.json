@@ -1,6 +1,11 @@
 {
   "title": "Invoice Product Filter",
-  "summary": "Search invoices by product name instantly",
+  "summary": "Find invoices by product, also on Odoo Online",
   "icon": "file",
-  "features": ["Filter invoices by product", "Quick product search on list view", "Works on all invoice types"]
+  "features": [
+    "Search invoices by product",
+    "Search invoices by product vendor",
+    "No Python: importable on Odoo Online"
+  ],
+  "lang": "en"
 }
