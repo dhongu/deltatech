@@ -3,6 +3,8 @@
 2. Under **Layout**, the two new layouts, **Style1** and **Style2**, are listed below the standard
    ones. Select **Style1**: the preview shows a sample invoice with the logo on the left and the
    company address aligned to the right.
+   The **Tables** row (Light, Boxed, Bold...) does not change Style1 and Style2: each of them has its
+   own table style, so that choice only applies to the standard layouts.
 
    ![Configure your document layout dialog with Style1 selected under Layout and the invoice preview on the right](static/description/en/01_macheta_style1.png)
 

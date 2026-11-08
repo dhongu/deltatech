@@ -46,28 +46,25 @@
                         </li>
                         <li t-if="not forced_vat" />
                         <li t-else="">
-                            <t t-esc="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
-                            <span t-esc="forced_vat">US12345671</span>
+                            <t t-out="company.country_id.vat_label or 'Tax ID'">Tax ID</t>:
+                            <span t-out="forced_vat">US12345671</span>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-
-        <t
-            t-set="layout_background_url"
-            t-value="'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else
-                '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else ''"
-        />
         <div
-            t-attf-class="o_company_#{company.id}_layout article o_report_layout_style2 o_table_style2 o_snail_mail {{'o_report_layout_background' if company.layout_background != 'Blank' else ''}}"
-            t-attf-style="{{ 'background-image: url(%s);' % layout_background_url if layout_background_url else '' }}"
+            t-attf-class="o_company_#{company.id}_layout article o_report_layout_style2 o_table_style2 o_snail_mail"
             t-att-data-oe-model="o and o._name"
             t-att-data-oe-id="o and o.id"
             t-att-data-oe-lang="o and o.env.context.get('lang')"
         >
-            <t t-call="web.address_layout" />
-            <h2 t-out="layout_document_title" />
+            <t t-if="customized_address_layout" t-out="customized_address_layout" />
+            <t t-elif="not hide_recipient_address" t-call="web.address_layout" />
+            <!-- Required for multiple invoice sending, the heading tag in the
+                body is used to identify invoices -->
+            <h3 t-if="report_type == 'pdf'" t-out="layout_document_title or ' '" class="opacity-0 mb-0 h-0" />
+            <h2 t-if="not hide_title" t-out="layout_document_title" />
             <t t-out="0" />
         </div>
 
@@ -87,20 +84,20 @@
     </template>
 
     <template id="external_layout_style2_css" inherit_id="web.styles_company_report">
-        <xpath expr="//t[@t-elif]" position="before">
+        <xpath expr="//t[contains(@t-elif, 'web.external_layout_center')]" position="before">
             <t t-elif="layout == 'deltatech_report_layout.external_layout_style2'">
                 &amp;.o_report_layout_style2 {
                     #informations {
-                        border-color: <t t-esc='secondary' />;
-                        background-color: mix(white, <t t-esc='secondary' />, 92%);
+                        border-color: <t t-out='secondary' />;
+                        background-color: mix(white, <t t-out='secondary' />, 92%);
                     }
 
                     thead th, #total .o_total td {
-                        background-color: <t t-esc='primary' />;
-                        color: preview-color-contrast(<t t-esc='primary' />);
+                        background-color: <t t-out='primary' />;
+                        color: preview-color-contrast(<t t-out='primary' />);
 
                         strong {
-                            color: preview-color-contrast(<t t-esc='primary' />);
+                            color: preview-color-contrast(<t t-out='primary' />);
                         }
                     }
                 }

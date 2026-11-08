@@ -8,8 +8,8 @@
 
 ## 1. Scop business
 
-Odoo oferă câteva machete pentru documentele tipărite (Light, Boxed, Bold, Striped, Bubble, Wave,
-Folder). Modulul adaugă două machete noi, **Style1** și **Style2**, cu alt antet, alt subsol și alt
+Odoo oferă câteva machete pentru documentele tipărite (Light, Bubble, Wave, Folder, Center, Dual,
+Lines, Compact). Modulul adaugă două machete noi, **Style1** și **Style2**, cu alt antet, alt subsol și alt
 stil al tabelelor. Macheta aleasă se aplică tuturor documentelor externe ale companiei: oferte,
 comenzi, facturi, avize și celelalte rapoarte care folosesc antetul standard.
 
@@ -62,10 +62,13 @@ noi, **Style1** și **Style2**, sub machetele standard. Alegeți **Style1**: pre
 arată o factură exemplu cu sigla în stânga, adresa companiei aliniată la dreapta și tabelul liniilor
 cu chenar. Apăsați **Continuați** ca să salvați macheta.
 
+Rândul **Tables** (stilul tabelelor: Light, Boxed, Bold...) nu schimbă machetele Style1 și Style2:
+fiecare are stilul ei de tabel, așa că alegerea de acolo contează doar pentru machetele standard.
+
 Previzualizarea folosește factura exemplu standard Odoo (client Acme Corporation, sume în dolari),
 indiferent de datele bazei.
 
-![Fereastra Configurați aspectul documentului: la Aspect este selectată macheta Style1, sub machetele standard Light, Boxed, Bold, Striped, Bubble, Wave și Folder; în dreapta, previzualizarea unei facturi cu sigla în stânga și adresa companiei TEST Terrabit Demo SRL aliniată la dreapta](../static/description/01_macheta_style1.png)
+![Fereastra Configurați aspectul documentului: la Aspect este selectată macheta Style1, sub machetele standard Light, Bubble, Wave, Folder, Center, Dual, Lines și Compact; dedesubt, rândul Tables; în dreapta, previzualizarea unei facturi cu sigla în stânga și adresa companiei aliniată la dreapta](../static/description/01_macheta_style1.png)
 
 ### Pasul 2 — Alegerea machetei Style2
 
@@ -100,6 +103,7 @@ Modulul nu generează note contabile (Dr/Cr): schimbă doar aspectul rapoartelor
 | Modul | Rol |
 |---|---|
 | `web` | Fereastra **Configurați aspectul documentului** și antetul standard al rapoartelor, în care se înscriu cele două machete |
+| `base_setup` | Butonul **Configurare aspect document** din **Setări → Configurări generale** |
 | `account`, `sale`, `purchase`, `stock` | Rapoartele lor (factură, ofertă, comandă, aviz) folosesc macheta aleasă |
 | `base_import_module` | Importul arhivei zip pe Odoo Online |
 
@@ -112,6 +116,7 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 
 - [ ] Fereastra deschisă din **Configurare aspect document** afișează **Style1** și **Style2** la **Aspect**.
 - [ ] Previzualizarea se schimbă când treceți de la Style1 la Style2.
+- [ ] Cu Style1 sau Style2 selectat, schimbarea opțiunii de la **Tables** nu modifică tabelul din previzualizare.
 - [ ] După **Continuați**, o factură tipărită are antetul și subsolul machetei alese.
 - [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total, în Style2.
 - [ ] Textul din **Subsol** apare în subsolul documentului; în PDF apare și numărul paginii.
@@ -124,7 +129,7 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| La import: *The assets path in the manifest of imported module ... cannot contain glob wildcards* | Arhiva provine dintr-o versiune mai veche a modulului, care încărca stilurile cu `**/*` | Folosiți versiunea 19.0.1.1.0 sau mai nouă |
+| La import: *The assets path in the manifest of imported module ... cannot contain glob wildcards* | Arhiva provine dintr-o versiune mai veche a modulului, care încărca stilurile cu `**/*` | Folosiți versiunea 20.0.1.1.0 sau mai nouă |
 | Machetele Style1 și Style2 nu apar în fereastră | Modulul nu este instalat în baza curentă | Instalați modulul sau importați arhiva zip |
 | PDF-ul are sigla și liniile, dar nu are text | wkhtmltopdf nu a încărcat la timp fontul de la server | Verificați parametrul de sistem `report.url` și tipăriți din nou |
 
@@ -149,3 +154,5 @@ previzualizarea raportului (`/report/html/web.preview_externalreport/<id_compani
 - Macheta se alege per companie: într-o bază cu mai multe companii, fiecare are macheta ei.
 - Modulul nu schimbă rapoartele care nu folosesc antetul standard al companiei.
 - Pe Odoo Online, importul unui modul cere planul Custom.
+- Odoo 20 nu mai are opțiunea **Fundal** (imagine de fundal a paginii) în fereastra de configurare;
+  machetele Style1 și Style2 nu mai afișează fundal.

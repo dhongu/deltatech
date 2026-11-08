@@ -14,10 +14,13 @@ Report Layout
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_layout
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_report_layout
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_report_layout/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Customized Report Layouts and Styles
 ====================================
@@ -49,24 +52,83 @@ Key Features
    - Leverages standard Odoo web and report assets for optimal
      performance and compatibility with Odoo's PDF generation engine.
 
-Usage
-=====
+Odoo Online
+===========
 
-1. Navigate to **Settings > General Settings**.
-2. Locate the **Document Layout** section.
-3. Choose one of the new layout styles provided by the module (e.g.,
-   **Style 1** or **Style 2**).
-4. Preview and save the settings.
-5. All future reports (Invoices, Sales Orders, etc.) will now use the
-   selected customized layout.
+The module contains no Python code, only views, report templates and
+styles. Besides Odoo.sh and on-premise installations, it can be used on
+Odoo Online (Custom plan): download the zip and load it from **Apps >
+Import Module**.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+1. Go to **Settings > General Settings** and, in the **Companies**
+   section, click **Configure Document Layout**.
+
+2. Under **Layout**, the two new layouts, **Style1** and **Style2**, are
+   listed below the standard ones. Select **Style1**: the preview shows
+   a sample invoice with the logo on the left and the company address
+   aligned to the right. The **Tables** row (Light, Boxed, Bold...) does
+   not change Style1 and Style2: each of them has its own table style,
+   so that choice only applies to the standard layouts.
+
+   |Configure your document layout dialog with Style1 selected under
+   Layout and the invoice preview on the right|
+
+3. Select **Style2**: the company address sits next to the logo, and the
+   table header and the total use the primary color of the company.
+   Change the colors under **Colors** if needed, then click **Continue**
+   to save.
+
+   |Configure your document layout dialog with Style2 selected; the
+   table header and the Total row use the primary color|
+
+4. Print any document of the company (quotation, invoice, delivery
+   slip). It uses the selected layout:
+
+   |Header and footer of a document printed with Style1: logo on the
+   left, company address on the right|
+
+   |Header and footer of a document printed with Style2: company address
+   next to the logo, centered footer|
+
+.. |Configure your document layout dialog with Style1 selected under Layout and the invoice preview on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/01_macheta_style1.png
+.. |Configure your document layout dialog with Style2 selected; the table header and the Total row use the primary color| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/02_macheta_style2.png
+.. |Header and footer of a document printed with Style1: logo on the left, company address on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/03_document_style1.png
+.. |Header and footer of a document printed with Style2: company address next to the logo, centered footer| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/04_document_style2.png
+
 Changelog
 =========
+
+20.0.1.1.0 (2026-11-08)
+-----------------------
+
+- Migration to 20.0. Odoo 20 dropped the layout background
+  (``layout_background`` on the company), so Style1 and Style2 no longer
+  read it. The document body follows the standard
+  ``web.external_layout_body`` of 20.0 (hidden heading for multiple
+  invoice sending, ``hide_title``, custom address block), and the layout
+  colors are inserted next to the other layout-specific styles of
+  ``web.styles_company_report``.
+- Still data-only, importable on Odoo Online from Apps > Import Module.
+
+19.0.1.1.0 (2026-11-08)
+-----------------------
+
+- Data-only module: the empty ``__init__.py`` was removed, so the module
+  has no Python code at all. It can be installed on Odoo Online (Custom
+  plan) as a zip from Apps > Import Module, as well as on Odoo.sh and
+  on-premise.
+- Consultant sheet (readme/FISA_CONSULTANT.md), USAGE.md and
+  screenshots; the usage steps moved from DESCRIPTION.md to USAGE.md.
+- The report styles are listed one by one in the manifest assets: an
+  imported module does not accept wildcards (``**/*``) in asset paths.
 
 19.0.1.0.2 (2026-10-16)
 -----------------------
@@ -107,6 +169,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_report_layout>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_report_layout>`_ project on GitHub.
 
 You are welcome to contribute.

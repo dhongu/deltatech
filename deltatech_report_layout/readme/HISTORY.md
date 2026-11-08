@@ -1,3 +1,12 @@
+## 20.0.1.1.0 (2026-11-08)
+
+- Migration to 20.0. Odoo 20 dropped the layout background (`layout_background`
+  on the company), so Style1 and Style2 no longer read it. The document body follows
+  the standard `web.external_layout_body` of 20.0 (hidden heading for multiple
+  invoice sending, `hide_title`, custom address block), and the layout colors are
+  inserted next to the other layout-specific styles of `web.styles_company_report`.
+- Still data-only, importable on Odoo Online from Apps > Import Module.
+
 ## 19.0.1.1.0 (2026-11-08)
 
 - Data-only module: the empty `__init__.py` was removed, so the module has no Python
