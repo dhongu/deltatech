@@ -3,6 +3,8 @@
 - Data-only module: the empty `__init__.py` was removed, so the module has no Python
   code at all. It can be installed on Odoo Online (Custom plan) as a zip from
   Apps > Import Module, as well as on Odoo.sh and on-premise.
+- Consultant sheet (readme/FISA_CONSULTANT.md), USAGE.md and screenshots; the usage steps moved
+  from DESCRIPTION.md to USAGE.md.
 - The report styles are listed one by one in the manifest assets: an imported module
   does not accept wildcards (`**/*`) in asset paths.
 
