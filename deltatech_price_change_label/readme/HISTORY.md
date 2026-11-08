@@ -1,3 +1,7 @@
+## 20.0.1.0.3 (2026-11-08)
+
+- New module icon (ported from 19.0); the Apps Store main image shows it.
+
 ## 20.0.1.0.2 (2026-10-22)
 
 - The price including taxes of the labels is computed by `deltatech_product_labels`, whose default

@@ -1,3 +1,7 @@
+## 20.0.1.2.3 (2026-11-08)
+
+- New module icon (ported from 19.0); the Apps Store main image shows it.
+
 ## 20.0.1.2.2 (2026-10-26)
 
 - The "Price History" button also works on the product variant form: the method exists on
