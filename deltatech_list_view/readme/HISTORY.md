@@ -1,3 +1,10 @@
+## 19.0.1.1.1 (2026-11-08)
+
+- The Python test runner (`tests/test_js.py`) was removed: Odoo Apps treats any `.py` file as
+  Python code and showed the module as not available on Odoo Online. The JavaScript test
+  (`static/tests/static_list_delete.test.js`) stays in the module and runs with the web unit
+  tests (`/web/tests?filter=deltatech_list_view`).
+
 ## 19.0.1.1.0 (2026-11-08)
 
 - Data-only module: the empty `__init__.py` was removed, so the module has no Python code at
