@@ -17,6 +17,13 @@ Key Features
 3.  **Modern Web Asset Integration**:
     *   Leverages standard Odoo web and report assets for optimal performance and compatibility with Odoo's PDF generation engine.
 
+Odoo Online
+===========
+
+The module contains no Python code, only views, report templates and styles. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom plan):
+download the zip and load it from **Apps > Import Module**.
+
 Usage
 =====
 

@@ -89,6 +89,9 @@ repos:
     rev: v0.1.6
     hooks:
       - id: oca-checks-odoo-module
+        # Data-only modules for Odoo Online (Apps > Import Module) have no
+        # __init__.py, which this hook reports as an error
+        exclude: ^deltatech_report_layout/
       - id: oca-checks-po
         args:
           - --disable=po-pretty-format
