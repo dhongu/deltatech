@@ -1,3 +1,9 @@
+## 19.0.1.1.1 (2026-11-08)
+
+- Odoo Apps does not mark data-only modules as available on Odoo Online, so the module name,
+  the summary, the banner and the Apps Store page now say it: "Report Layout (importable,
+  Odoo Online)".
+
 ## 19.0.1.1.0 (2026-11-08)
 
 - Data-only module: the empty `__init__.py` was removed, so the module has no Python

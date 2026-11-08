@@ -1,10 +1,10 @@
 {
   "title": "Report Layout",
-  "summary": "Modern, professional PDF report designs",
+  "summary": "Modern PDF report designs, also on Odoo Online",
   "icon": "file",
   "features": [
-    "Multiple predefined layout styles",
-    "Centralized layout configuration",
-    "Consistent branding on all documents"
+    "Two extra layouts: Style1 and Style2",
+    "Consistent branding on all documents",
+    "No Python: importable on Odoo Online"
   ]
 }
