@@ -73,7 +73,8 @@ indiferent de datele bazei.
 ### Pasul 2 — Alegerea machetei Style2
 
 Deschideți din nou fereastra și alegeți **Style2**. În previzualizare, adresa companiei stă lângă siglă,
-blocul cu data facturii și data scadentă are fundal gri, iar capul tabelului și totalul folosesc
+blocul cu data facturii și data scadentă are chenarul și un fundal deschis în culoarea secundară
+(gri cu culorile implicite), iar capul tabelului și totalul folosesc
 culoarea principală a companiei. Culorile se schimbă din **Culori**. Pentru pașii următori,
 reveniți pe **Style1** și apăsați **Continuați**.
 
@@ -82,15 +83,17 @@ reveniți pe **Style1** și apăsați **Continuați**.
 ### Pasul 3 — Documentul tipărit cu Style1
 
 Tipăriți orice document al companiei (de exemplu o factură, din **Tipăriți**). Antetul are sigla în
-stânga și adresa companiei la dreapta, iar subsolul arată textul din **Subsol**; în PDF apare și
+stânga și adresa companiei la dreapta, iar subsolul arată textul din **Subsol** și, în dreapta lui,
+sloganul din **Slogan**, dacă e completat. În tabelul liniilor, capul tabelului are o nuanță deschisă
+a culorii secundare, iar rândul **Total** e în culoarea principală. În PDF apare și
 numărul paginii, cu textul în engleză (Page x / y), pentru că modulul nu are traducere în română. Captura arată raportul de probă al machetei.
 
 ![Previzualizarea raportului de probă cu macheta Style1: sigla în stânga, adresa TEST Terrabit Demo SRL, Str. Exemplu 1, Craiova România aliniată la dreapta, textul Acesta este un exemplu pentru un raport extern și, sub o linie orizontală, subsolul cu capitalul social și contul bancar](../static/description/03_document_style1.png)
 
 ### Pasul 4 — Documentul tipărit cu Style2
 
-Alegeți din nou **Style2** în fereastra de configurare și apăsați **Continuați**: același document are adresa companiei imediat lângă siglă, iar subsolul
-este centrat.
+Alegeți din nou **Style2** în fereastra de configurare și apăsați **Continuați**: același document are adresa companiei imediat lângă siglă, sloganul din **Slogan** (dacă e completat) sub siglă,
+iar subsolul este centrat.
 
 ![Previzualizarea raportului de probă cu macheta Style2: adresa TEST Terrabit Demo SRL stă imediat la dreapta siglei, urmează textul Acesta este un exemplu pentru un raport extern, iar subsolul cu capitalul social și contul bancar este centrat sub linia orizontală](../static/description/04_document_style2.png)
 
@@ -118,7 +121,11 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 - [ ] Previzualizarea se schimbă când treceți de la Style1 la Style2.
 - [ ] Cu Style1 sau Style2 selectat, schimbarea opțiunii de la **Tables** nu modifică tabelul din previzualizare.
 - [ ] După **Continuați**, o factură tipărită are antetul și subsolul machetei alese.
-- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total, în Style2.
+- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total, în Style2; blocul cu
+  datele facturii are chenarul și fundalul în culoarea secundară.
+- [ ] În Style1, rândul **Total** e în culoarea principală, iar capul tabelului într-o nuanță deschisă a
+  culorii secundare.
+- [ ] Sloganul din **Slogan** apare în subsol, în dreapta, la Style1 și în antet, sub siglă, la Style2.
 - [ ] Textul din **Subsol** apare în subsolul documentului; în PDF apare și numărul paginii.
 - [ ] Pe Odoo Online, după importul arhivei zip (modul dezvoltator, **Aplicații → Importați
   Modulul**), modulul apare în **Aplicații** și cele două machete
