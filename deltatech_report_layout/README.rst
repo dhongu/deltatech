@@ -1,6 +1,6 @@
-=============
-Report Layout
-=============
+=======================================
+Report Layout (importable, Odoo Online)
+=======================================
 
 ..
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -105,6 +105,13 @@ Usage
 
 Changelog
 =========
+
+20.0.1.1.1 (2026-11-08)
+-----------------------
+
+- Odoo Apps does not mark data-only modules as available on Odoo Online,
+  so the module name, the summary, the banner and the Apps Store page
+  now say it: "Report Layout (importable, Odoo Online)".
 
 20.0.1.1.0 (2026-11-08)
 -----------------------
