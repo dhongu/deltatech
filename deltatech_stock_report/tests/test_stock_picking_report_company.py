@@ -14,8 +14,16 @@ class TestStockPickingReportCompany(TransactionCase):
         super().setUpClass()
         cls.company_a = cls.env.company
         cls.company_b = cls.env["res.company"].create({"name": "Report Company B"})
+        # shared product: some addons (deltatech_product_category) default
+        # product.template.company_id to the current company
         cls.product = cls.env["product.product"].create(
-            {"name": "Report Product", "type": "consu", "is_storable": True, "standard_price": 10.0}
+            {
+                "name": "Report Product",
+                "type": "consu",
+                "is_storable": True,
+                "standard_price": 10.0,
+                "company_id": False,
+            }
         )
         cls.picking_a = cls._create_done_receipt(cls.company_a)
         cls.picking_b = cls._create_done_receipt(cls.company_b)
