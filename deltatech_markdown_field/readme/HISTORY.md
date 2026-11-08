@@ -1,3 +1,7 @@
+## 19.0.1.0.6 (2026-11-08)
+
+- Fix: strikethrough, tables and task lists are no longer lost when the editor is left. The HTML → Markdown step now writes them back as `~~text~~`, GFM tables (with column alignment) and `[x]` / `[ ]` items; a table Markdown cannot express (merged cells, lists or paragraphs in a cell) is kept as HTML instead of being flattened. Values already flattened by an earlier save cannot be recovered.
+
 ## 19.0.1.0.5 (2026-11-07)
 
 - Fix: the HTML produced from the Markdown is sanitized (DOMPurify) before it is displayed, in edit and in read-only mode. Scripts, inline event handlers, `javascript:` links and embedded content (`<iframe>`, `<object>`, `<embed>`) are removed; Markdown formatting and harmless inline HTML stay as they were.
