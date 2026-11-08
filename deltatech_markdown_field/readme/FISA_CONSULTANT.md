@@ -73,8 +73,10 @@ adresa (implicit `https://`).
 
 ![Formularul de probă Procedură recepție în modul de editare: bara de instrumente a câmpului Markdown, marcată cu 1, are butoanele de îngroșat, cursiv, tăiat, H1, H2, H3, paragraf, liste, citat, cod, link și ștergere formatare; zona de scris de sub bară arată titlul Procedură de recepție, un rând cu cuvinte îngroșate și cursive, o listă cu trei puncte, un link și un citat](../static/description/01_editare_markdown.png)
 
-Textul se salvează ca Markdown când părăsiți câmpul și salvați înregistrarea. Textul tăiat se vede
-în editor, dar nu se păstrează la salvare (limitare cunoscută a versiunii curente).
+Textul se salvează ca Markdown când părăsiți câmpul și salvați înregistrarea. Se păstrează și
+textul tăiat (`~~text~~`), tabelele (cu alinierea coloanelor) și listele de sarcini (`- [x]` bifat,
+`- [ ]` nebifat) scrise în Markdown. Un tabel pe care Markdown nu-l poate scrie (celule îmbinate,
+liste sau paragrafe într-o celulă) rămâne salvat ca HTML, cu structura neschimbată.
 
 ### Pasul 2 — Citirea textului în modul doar în citire
 
@@ -122,7 +124,7 @@ conținutului încorporat cu link-uri acolo unde era folosit intenționat.
 - [ ] În modul de editare, bara de instrumente apare deasupra câmpului, iar butoanele formatează
       textul selectat.
 - [ ] După salvare și redeschidere, formatarea se păstrează (titluri, îngroșat, cursiv, liste,
-      citat, cod, link; textul tăiat nu se păstrează).
+      citat, cod, link, text tăiat, tabele și liste de sarcini).
 - [ ] În modul doar în citire, textul apare formatat, fără bara de instrumente.
 - [ ] La afișare, un text cu `<kbd>` sau `<mark>` își păstrează formatarea; un `<iframe>` din text nu
       se afișează.
@@ -162,7 +164,10 @@ Regenerare:
 - La afișare, formatarea inofensivă scrisă direct ca HTML (de exemplu `<kbd>`, `<mark>`, `<span>`)
   se păstrează; scripturile, acțiunile ascunse în atribute, link-urile care rulează cod și conținutul
   încorporat (`<iframe>`, `<object>`, `<embed>`) nu se afișează. După editare și salvare, în text
-  rămâne doar Markdown standard.
-- Tabelele Markdown se afișează fără chenar și nu se pot edita în widget: la salvare își pierd
-  structura.
-- Textul tăiat nu se păstrează la salvare.
+  rămâne Markdown standard; singura excepție sunt tabelele cu celule îmbinate sau cu liste ori
+  paragrafe în celule, păstrate ca HTML.
+- Tabelele Markdown se afișează fără chenar. Textul din celule se poate corecta în widget, dar bara
+  de instrumente nu are buton pentru inserarea unui tabel sau a unor rânduri și coloane noi.
+- Textul tăiat, tabelele și listele de sarcini se păstrează la salvare începând cu versiunea
+  19.0.1.0.6. Textul salvat cu o versiune anterioară, în care aceste formatări s-au pierdut deja,
+  nu se poate recupera; formatarea trebuie refăcută.
