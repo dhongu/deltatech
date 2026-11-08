@@ -4,6 +4,27 @@ import {Component, useRef, onMounted, onPatched} from "@odoo/owl";
 import {registry} from "@web/core/registry";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
 import {_t} from "@web/core/l10n/translation";
+import {addGfmRules} from "./turndown_gfm_rules.esm";
+
+/**
+ * Turndown configured for the Markdown this widget stores, GFM rules included.
+ * Returns null when the vendored library is not loaded.
+ */
+export function createTurndownService() {
+    const Turndown = window.TurndownService;
+    if (!Turndown) {
+        return null;
+    }
+    return addGfmRules(
+        new Turndown({
+            headingStyle: "atx",
+            codeBlockStyle: "fenced",
+            bulletListMarker: "-",
+            emDelimiter: "*",
+            hr: "---",
+        })
+    );
+}
 
 /**
  * Field widget "markdown".
@@ -56,17 +77,7 @@ export class MarkdownField extends Component {
     // Conversii Markdown <-> HTML
     // ------------------------------------------------------------------
     _buildTurndown() {
-        const Turndown = window.TurndownService;
-        if (!Turndown) {
-            return null;
-        }
-        return new Turndown({
-            headingStyle: "atx",
-            codeBlockStyle: "fenced",
-            bulletListMarker: "-",
-            emDelimiter: "*",
-            hr: "---",
-        });
+        return createTurndownService();
     }
 
     _mdToHtml(md) {
