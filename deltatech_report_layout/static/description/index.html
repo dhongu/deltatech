@@ -5,11 +5,11 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Report Layout" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Report Layout</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Modern, professional PDF report designs</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Modern PDF report designs, also on Odoo Online</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Manufacturing</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo Online &bull; Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
@@ -30,6 +30,11 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -65,17 +70,52 @@
 </ul>
 </li>
 </ol>
-<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h1>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Odoo Online</h1>
+<p>The module contains no Python code, only views, report templates and styles. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom plan):
+download the zip and load it from <strong>Apps &gt; Import Module</strong>.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
 <ol>
-<li>Navigate to <strong>Settings &gt; General Settings</strong>.</li>
-<li>Locate the <strong>Document Layout</strong> section.</li>
-<li>Choose one of the new layout styles provided by the module (e.g., <strong>Style 1</strong> or <strong>Style 2</strong>).</li>
-<li>Preview and save the settings.</li>
-<li>All future reports (Invoices, Sales Orders, etc.) will now use the selected customized layout.</li>
+<li>Go to <strong>Settings &gt; General Settings</strong> and, in the <strong>Companies</strong> section, click
+   <strong>Configure Document Layout</strong>.</li>
+<li>Under <strong>Layout</strong>, the two new layouts, <strong>Style1</strong> and <strong>Style2</strong>, are listed below the standard
+   ones. Select <strong>Style1</strong>: the preview shows a sample invoice with the logo on the left and the
+   company address aligned to the right.</li>
 </ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Configure your document layout dialog with Style1 selected under Layout and the invoice preview on the right" src="en/01_macheta_style1.png" /></p>
+<ol start="3">
+<li>Select <strong>Style2</strong>: the company address sits next to the logo, and the table header and the total
+   use the primary color of the company. Change the colors under <strong>Colors</strong> if needed, then click
+   <strong>Continue</strong> to save.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Configure your document layout dialog with Style2 selected; the table header and the Total row use the primary color" src="en/02_macheta_style2.png" /></p>
+<ol start="4">
+<li>Print any document of the company (quotation, invoice, delivery slip). It uses the selected
+   layout:</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Header and footer of a document printed with Style1: logo on the left, company address on the right" src="en/03_document_style1.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Header and footer of a document printed with Style2: company address next to the logo, centered footer" src="en/04_document_style2.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.1 (2026-11-08)</h2>
+<ul>
+<li>Odoo Apps does not mark data-only modules as available on Odoo Online, so the module name,
+  the summary, the banner and the Apps Store page now say it: "Report Layout (importable,
+  Odoo Online)".</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-11-08)</h2>
+<ul>
+<li>Data-only module: the empty <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__init__.py</code> was removed, so the module has no Python
+  code at all. It can be installed on Odoo Online (Custom plan) as a zip from
+  Apps &gt; Import Module, as well as on Odoo.sh and on-premise.</li>
+<li>Consultant sheet (readme/FISA_CONSULTANT.md), USAGE.md and screenshots; the usage steps moved
+  from DESCRIPTION.md to USAGE.md.</li>
+<li>The report styles are listed one by one in the manifest assets: an imported module
+  does not accept wildcards (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">**/*</code>) in asset paths.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.2 (2026-10-16)</h2>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in
