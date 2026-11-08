@@ -4,7 +4,7 @@
 {
     "name": "Report Layout",
     "summary": "Customized report layouts ",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -13,7 +13,8 @@
     "data": ["views/report_template_style1.xml", "views/report_template_style2.xml", "data/report_layout.xml"],
     "assets": {
         "web.report_assets_common": [
-            "deltatech_report_layout/static/src/**/*",
+            "deltatech_report_layout/static/src/scss/report_style1.scss",
+            "deltatech_report_layout/static/src/scss/report_style2.scss",
         ],
     },
     "images": ["static/description/main_screenshot.png"],
