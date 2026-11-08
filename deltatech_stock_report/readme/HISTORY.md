@@ -1,3 +1,9 @@
+## 19.0.1.0.9 (2026-11-08)
+
+- Test `TestStockPickingReportCompany` creates its product without a company,
+  so it no longer fails when `deltatech_product_category` is installed (CI
+  shard `stock-2`).
+
 ## 19.0.1.0.8 (2026-10-22)
 
 - Listed on Odoo Apps as *Stock Picking Report* (was *Stock Reports*). The technical name `deltatech_stock_report` does not change.
