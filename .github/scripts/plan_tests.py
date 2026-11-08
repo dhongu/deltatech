@@ -130,6 +130,12 @@ def load_manifests():
         path = os.path.join(entry, "__manifest__.py")
         if not os.path.isfile(path):
             continue
+        if not os.path.isfile(os.path.join(entry, "__init__.py")):
+            # Data-only addon for Odoo Online (Apps > Import Module): manifestoo,
+            # used by the oca_* test scripts, does not see an addon without
+            # __init__.py and aborts when it is passed in INCLUDE.
+            print(f"Data-only addon {entry} (no __init__.py) left out of the test selection.")
+            continue
         with open(path, encoding="utf-8") as handle:
             try:
                 manifests[entry] = ast.literal_eval(handle.read())

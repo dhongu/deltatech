@@ -17,11 +17,9 @@ Key Features
 3.  **Modern Web Asset Integration**:
     *   Leverages standard Odoo web and report assets for optimal performance and compatibility with Odoo's PDF generation engine.
 
-Usage
-=====
+Odoo Online
+===========
 
-1.  Navigate to **Settings > General Settings**.
-2.  Locate the **Document Layout** section.
-3.  Choose one of the new layout styles provided by the module (e.g., **Style 1** or **Style 2**).
-4.  Preview and save the settings.
-5.  All future reports (Invoices, Sales Orders, etc.) will now use the selected customized layout.
+The module contains no Python code, only views, report templates and styles. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom plan):
+download the zip and load it from **Apps > Import Module**.
