@@ -1,3 +1,17 @@
+## 19.0.2.1.2
+
+- *Allow negative stock from Point of Sale* now actually lets Point of Sale receipts
+  through. Point of Sale creates the delivery of a receipt with its session only and
+  validates it at once, writing the order on it afterwards (real-time receipts) or never
+  (deliveries grouped at session closing); the bypass looked for the order, so it never
+  applied there and receipts kept leaving their deliveries unvalidated. The delivery is
+  now recognised by its Point of Sale session. Receipts shipped later are excluded: their
+  goods are still in the shop, so their delivery follows the rule like any other.
+- Consultant sheet, description, configuration and usage updated for the *Allow negative
+  stock from Point of Sale* setting and for products without *Track Inventory*. The
+  setting is now translated in Romanian; screenshots regenerated in Romanian for the
+  sheet and in English for the Apps Store page.
+
 ## 19.0.2.1.1
 
 - Deliveries containing consumable products without stock tracking (*Track Inventory*

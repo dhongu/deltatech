@@ -4,7 +4,7 @@
 {
     "name": "No Negative Stock",
     "summary": "Block transfers that would take stock below zero",
-    "version": "19.0.2.1.1",
+    "version": "19.0.2.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",

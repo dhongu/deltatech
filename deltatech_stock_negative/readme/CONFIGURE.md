@@ -1,13 +1,31 @@
 1. Go to *Inventory > Configuration > Settings*, section *Traceability*, and enable
-   **No negative stock**. The setting applies to the current company.
+   **No negative stock**. The setting applies to the current company; in a
+   multi-company database, enable it on each company.
 
-![](static/description/settings.png)
+2. Right below it, decide on **Allow negative stock from Point of Sale** (enabled by
+   default). Point of Sale validates the delivery of a receipt in the background and does
+   not show the cashier an error, so a refused delivery would only leave the stock
+   undeducted:
+   - enabled: a receipt's delivery is validated even when it takes the location below
+     zero; the bypass is logged and the location shows negative stock to correct;
+   - disabled: the rule applies to receipts as well, and their deliveries stay
+     unvalidated until the stock is there.
 
-2. Optionally, open *Inventory > Configuration > Locations* and, on the locations where
-   stock may go below zero, check **Allow Negative Stock**.
+   The setting has no effect when Point of Sale is not installed.
 
-3. For products tracked by serial number, **Check Serial No.** (enabled by default)
-   makes the check per serial number. Uncheck it on a location to check the product as
-   a whole there.
+![No negative stock and Allow negative stock from Point of Sale in Settings](static/description/en/01_setari_fara_stoc_negativ.png)
 
-![](static/description/settings_location.png)
+3. Enable *Storage Locations* (section *Warehouse*) to see the location options. Open
+   *Inventory > Configuration > Locations* and, on the internal locations where stock may
+   go below zero (transit, work in progress), check **Allow Negative Stock**.
+
+4. For products tracked by serial number, **Check Serial No.** (enabled by default)
+   checks the serial number of the line. Uncheck it on a location to check the total of
+   all serial numbers there; reservation then also ignores the serial number.
+
+![Location form with Allow Negative Stock and Check Serial No.](static/description/en/02_locatie_optiuni.png)
+
+5. Before enabling the rule on an existing database, review the negative positions
+   (*Inventory > Reporting > Locations*, filter *Negative Stock*): record the missing
+   receipts or transfers first, and use an inventory adjustment only for the real
+   differences. Negative positions left in place block every outgoing move from them.

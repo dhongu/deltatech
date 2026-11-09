@@ -47,19 +47,25 @@ class StockMoveLine(models.Model):
         return super()._action_done()
 
     def _is_pos_delivery(self):
-        """Whether this line belongs to the delivery of a Point of Sale receipt.
+        """Whether this line belongs to a Point of Sale delivery made at the register.
 
         Point of Sale validates that delivery itself, in the background, and
         swallows any `UserError` it raises - so a refusal here never reaches
         the cashier and simply leaves the stock undeducted. The module keeps
-        `point_of_sale` out of its dependencies, hence the field lookup rather
-        than a plain `picking_id.pos_order_id`.
+        `point_of_sale` out of its dependencies, hence the field lookup.
+
+        The delivery is recognised by `pos_session_id`, not `pos_order_id`:
+        Point of Sale creates it with the session only and validates it at once
+        (`_create_picking_from_pos_order_lines`), writing the order afterwards
+        for a real-time receipt and never for the delivery grouped at session
+        closing. A receipt shipped later is excluded: its goods have not left
+        the shop yet, so its delivery is a normal one and the rule applies.
         """
         self.ensure_one()
         picking = self.picking_id
-        if not picking or "pos_order_id" not in picking._fields:
+        if not picking or "pos_session_id" not in picking._fields or not picking.pos_session_id:
             return False
-        return bool(picking.pos_order_id)
+        return not picking.pos_order_id.shipping_date
 
     def _check_no_negative_stock(self):
         """Block only the actual validation of a move, not the browsing of
