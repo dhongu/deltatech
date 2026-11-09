@@ -16,32 +16,43 @@ Website web designer access
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_access_design
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_access_design/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_access_design
+    :alt: 6 automated tests · 83% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Hides the back-office menus for partners, sales and invoices from users
-who should only work on the website, such as a web designer. The module
-does not grant any website rights: give the designer the usual website
-access rights yourself, then this module keeps the commercial menus out
-of their view.
+who should only work on the website, such as a web designer. The
+designer edits the website with the standard *Website: Restricted
+Editor* right, without being a website administrator, and does not see
+the commercial menus.
 
 **Dedicated access group.** The module creates the group *Access
-Partners, Sale, Invoice*. On installation only the administrator (and
-the superuser) are members.
+Partners, Sale, Invoice*. At installation every internal user existing
+at that moment joins the group, so nobody loses a menu when the module
+is installed.
 
-**Restricted menus.** The following menus are reserved to that group,
-replacing the groups they had before:
+**Restricted menus.** At installation, once, the following menus are
+reserved to that group, replacing the groups they had before:
 
 - **Contacts** (the Contacts app);
 - **Sales** (the Sales app);
 - **Invoicing > Customers**;
 - **Invoicing > Vendors**.
 
-Every user who is not in the group, the internal salespeople and
-accountants included, no longer sees these menus. Add each user who
-still needs them to the group in **Settings > Users & Companies >
-Users**, or in **Settings > Users & Companies > Groups**, group *Access
-Partners, Sale, Invoice*.
+An update of this module no longer touches these menus, so groups you
+add on them yourself are kept.
+
+**Setting up a web designer.** In **Settings > Users & Companies >
+Users**, on the designer's user, set **Website** to *Restricted Editor*:
+the designer edits the website pages and content but does not manage the
+website configuration. Then remove the designer from the group *Access
+Partners, Sale, Invoice*, in **Settings > Users & Companies > Groups**
+(developer mode), tab **Users**.
 
 The module hides menus only. It does not change record rules or access
 rights, so the records stay reachable through other menus, links or
@@ -50,19 +61,82 @@ smart buttons.
 Limitations
 -----------
 
+- Internal users created after the installation are not in the group
+  *Access Partners, Sale, Invoice*: add each one who needs the Contacts,
+  Sales and Invoicing > Customers / Vendors menus to the group.
 - Odoo adds groups to a menu when the module that defines it is updated.
   After an update of Contacts, the Contacts menu is visible again to all
-  internal users, until this module is updated too.
-- Uninstalling the module deletes the group but does not restore the
-  original groups on the four menus.
+  internal users. Remove the group *Internal User* from the menu again,
+  in **Settings > Technical > Menu Items**.
+- Uninstalling the module gives the four menus back the groups set by
+  their own module.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+Check the access group after installation
+-----------------------------------------
+
+Open **Settings > Users & Companies > Groups** (developer mode) and
+search for *Access Partners, Sale, Invoice*. The **Users** tab lists
+every internal user that existed at installation, so nobody lost the
+Contacts, Sales or Invoicing menus.
+
+|Group Access Partners, Sale, Invoice, Users tab: the internal users
+existing at installation, each with their login and role|
+
+The **Menus** tab lists the menus reserved to the group:
+Invoicing/Customers, Invoicing/Vendors, Contacts and, when the Sales app
+(``sale_management``) is installed, Sales.
+
+|Group Access Partners, Sale, Invoice, Menus tab: Invoicing/Customers,
+Invoicing/Vendors and Contacts|
+
+Set up the web designer
+-----------------------
+
+1. In **Settings > Users & Companies > Users**, open the designer's
+   user. In the **Access Rights** tab, set **Website** to **Restricted
+   Editor** and save.
+2. In the group *Access Partners, Sale, Invoice*, **Users** tab, remove
+   the designer and save.
+
+|User form of the designer, Access Rights tab: role User, Website
+Restricted Editor, Sales and Accounting No|
+
+The designer now opens the website with the **Editor** button and edits
+the pages, without seeing Contacts, Sales or Invoicing > Customers /
+Vendors.
+
+|Website opened by the designer, with the Editor button at the top left|
+
+Internal users created after the installation are not in the group: add
+each one who needs these menus.
+
+.. |Group Access Partners, Sale, Invoice, Users tab: the internal users existing at installation, each with their login and role| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/01_grup_acces_utilizatori.png
+.. |Group Access Partners, Sale, Invoice, Menus tab: Invoicing/Customers, Invoicing/Vendors and Contacts| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/02_grup_acces_meniuri.png
+.. |User form of the designer, Access Rights tab: role User, Website Restricted Editor, Sales and Accounting No| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/03_utilizator_designer.png
+.. |Website opened by the designer, with the Editor button at the top left| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/04_website_designer.png
+
 Changelog
 =========
+
+19.0.1.1.0 (2026-11-07)
+-----------------------
+
+- Installation no longer hides Contacts, Sales and Invoicing > Customers
+  / Vendors from every user except the administrator: all internal users
+  existing at installation join the group *Access Partners, Sale,
+  Invoice*. The menus are restricted once, at installation, and a module
+  update no longer overwrites their groups. Uninstalling gives the menus
+  back their standard groups. Existing installations keep their current
+  setup. The description explains how to give the web designer the
+  standard *Website: Restricted Editor* right.
 
 19.0.1.0.2 (2026-11-03)
 -----------------------
