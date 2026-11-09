@@ -1,3 +1,9 @@
+## 19.0.1.1.2 (2026-11-09)
+
+- The "(importable, Odoo Online)" suffix was removed from the module name. Odoo Apps already shows
+  the module as available on Odoo Online (Manifest > Availability), and the Apps banner now carries
+  an "Odoo Online" label instead.
+
 ## 19.0.1.1.1 (2026-11-08)
 
 - The Python test runner (`tests/test_js.py`) was removed: Odoo Apps treats any `.py` file as
