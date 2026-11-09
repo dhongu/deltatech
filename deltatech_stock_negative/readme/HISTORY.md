@@ -1,3 +1,20 @@
+## 20.0.2.1.2
+
+- *Allow negative stock from Point of Sale* now actually lets Point of Sale receipts
+  through. In Odoo 20, `pos_stock` creates the delivery of a receipt with neither its
+  session nor its order and validates it at once, linking the session (and the order, for
+  real-time receipts) only afterwards; the bypass looked for the order, so it never
+  applied there and receipts kept leaving their deliveries unvalidated. The delivery is
+  now recognised by the operation type of the Point of Sale while it is validated, and by
+  its session once linked (a delivery validated later). A transfer created by hand with
+  the Point of Sale operation type is treated the same way. Receipts shipped later are
+  excluded: their goods are still in the shop, so their delivery follows the rule like
+  any other.
+- Consultant sheet, description, configuration and usage updated for the *Allow negative
+  stock from Point of Sale* setting and for products without *Track Inventory*. The
+  setting is now translated in Romanian; screenshots regenerated in Romanian for the
+  sheet and in English for the Apps Store page.
+
 ## 20.0.2.1.1
 
 - Deliveries containing consumable products without stock tracking (*Track Inventory*

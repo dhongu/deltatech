@@ -47,19 +47,40 @@ class StockMoveLine(models.Model):
         return super()._action_done()
 
     def _is_pos_delivery(self):
-        """Whether this line belongs to the delivery of a Point of Sale receipt.
+        """Whether this line belongs to a Point of Sale delivery made at the register.
 
         Point of Sale validates that delivery itself, in the background, and
         swallows any `UserError` it raises - so a refusal here never reaches
         the cashier and simply leaves the stock undeducted. The module keeps
-        `point_of_sale` out of its dependencies, hence the field lookup rather
-        than a plain `picking_id.pos_order_id`.
+        `point_of_sale` / `pos_stock` out of its dependencies, hence the field
+        lookup.
+
+        In Odoo 20 the delivery is created by `pos_stock` with neither the session
+        nor the order and validated at once (`_create_picking_from_pos_order_lines`);
+        `pos_session_id` (and `pos_order_id` for a real-time receipt) is written
+        only afterwards, by `_create_order_picking` or by
+        `_create_picking_at_end_of_session`. At validation time the delivery is
+        therefore recognised by its operation type, the one a Point of Sale is
+        configured with; once linked (a delivery left unvalidated and validated
+        later), by its session. A receipt shipped later is excluded: its goods
+        have not left the shop yet, so its delivery is a normal one and the rule
+        applies.
         """
         self.ensure_one()
         picking = self.picking_id
-        if not picking or "pos_order_id" not in picking._fields:
+        if not picking or "pos_session_id" not in picking._fields:
             return False
-        return bool(picking.pos_order_id)
+        if picking.pos_order_id.shipping_date:
+            return False
+        if picking.pos_session_id:
+            return True
+        return bool(
+            picking.picking_type_id
+            and self.env["pos.config"]
+            .sudo()
+            .with_context(active_test=False)
+            .search_count([("picking_type_id", "=", picking.picking_type_id.id)], limit=1)
+        )
 
     def _check_no_negative_stock(self):
         """Block only the actual validation of a move, not the browsing of

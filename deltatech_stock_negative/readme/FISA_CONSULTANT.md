@@ -24,7 +24,12 @@ lot / pachet / proprietar ca linia transferată, și **cumulat pe toate liniile 
 linii de câte 1 bucată pe un stoc de 1 bucată sunt blocate, chiar dacă fiecare, luată separat, ar
 încăpea.
 
-Politica se activează pe companie. Pe fiecare locație se pot face două excepții:
+Politica se activează pe companie. Tot pe companie, setarea **Permite stoc negativ din Punctul de
+vânzare** (bifată implicit) lasă bonurile de casă să treacă: la casă marfa a plecat deja cu clientul,
+iar un refuz nu ar face decât să lase stocul nescăzut (pasul 1). Produsele fără **Urmărește stocul**
+nu sunt verificate, pentru că Odoo nu le ține stoc.
+
+Pe fiecare locație se pot face două excepții:
 - **Permite stoc negativ** — locația e scutită de verificare (de exemplu o locație internă folosită
   ca zonă de tranzit sau de producție în curs);
 - **Verifică nr. de serie** debifat — la produsele cu număr de serie, stocul se verifică pe total, pe
@@ -97,6 +102,8 @@ Date minime pentru demo (folosite și în capturi):
    *Trasabilitate*.
 3. Activați politica: în aceeași pagină, secțiunea **Trasabilitate**, bifați **Fără stoc negativ** și
    salvați. Setarea e pe **companie**: într-o bază cu mai multe companii, se bifează pe fiecare.
+   Dacă firma vinde prin **Punct de vânzare**, hotărâți și setarea **Permite stoc negativ din
+   Punctul de vânzare**, apărută alături (pasul 1).
 4. Pe locațiile care trebuie scutite (tranzit, producție în curs, locații tehnice), deschideți
    **Inventar → Configurare → Locații**, apoi locația, și bifați **Permite stoc negativ**.
 5. Pe locațiile unde produsele cu serie se mișcă fără urmărirea strictă a seriei, debifați **Verifică nr.
@@ -127,7 +134,27 @@ lasă stoc negativ, ca în Odoo standard. Excepție: pe locațiile cu **Verific�
 rezervarea produselor cu serie ignoră seria și cu politica oprită. Bifa se aplică pe compania
 fiecărei linii transferate.
 
-![Setarea „Fără stoc negativ" în Setări → Trasabilitate](screenshots/01_setari_fara_stoc_negativ.png)
+După bifare apare, alături (în dreapta), setarea **Permite stoc negativ din Punctul de vânzare**, bifată
+implicit. Ea privește doar livrările generate de bonurile din **Punct de vânzare**:
+- **bifată** — livrarea bonului se validează chiar dacă duce locația sub zero. Marfa a ieșit deja la
+  casă cu clientul, deci refuzul nu o ține pe raft. Fiecare ocolire se scrie în jurnalul serverului
+  (transfer, cantitate, produs, locație), iar poziția rămâne negativă, de corectat ca la pasul 8;
+- **debifată** — regula se aplică și bonurilor. Odoo validează livrarea bonului în fundal și nu
+  afișează eroarea casierului: bonul se închide, clientul pleacă cu marfa, iar livrarea rămâne
+  nevalidată și **stocul nu scade**. Debifați doar dacă cineva urmărește zilnic livrările POS
+  rămase nevalidate.
+
+Ocolirea privește livrările făcute la casă: cea a bonului în timp real și cea grupată la
+închiderea sesiunii. Un bon cu **livrare ulterioară** (dată de livrare completată pe bon) nu e
+ocolit: marfa e încă în magazin, iar livrarea lui se verifică la validare ca orice transfer.
+
+Livrarea POS e recunoscută după **tipul de operație** setat pe Punctul de vânzare (implicit
+**PoS Orders** al depozitului). Un transfer creat manual cu același tip de operație e tratat tot
+ca livrare de la casă și trece peste regulă: folosiți acel tip doar pentru Punctul de vânzare.
+
+Setarea există și fără aplicația **Punct de vânzare** instalată; atunci nu are niciun efect.
+
+![Setări → Trasabilitate: bifa Fără stoc negativ activă și, alături în dreapta, setarea Permite stoc negativ din Punctul de vânzare, bifată implicit, cu explicația ocolirii înregistrate în jurnalul serverului](screenshots/01_setari_fara_stoc_negativ.png)
 
 ### Pasul 2 — Excepțiile pe locație
 
@@ -177,6 +204,13 @@ Același blocaj apare și:
 - la o singură linie mai mare decât stocul (de exemplu 10 buc pe un stoc de 5);
 - la livrări, consumuri de producție, casări și minusuri de inventar: orice mișcare care **pleacă**
   dintr-o locație internă verificată.
+
+Nu se verifică:
+- produsele cu **Urmărește stocul** debifat pe fișa produsului (bunuri consumabile neurmărite):
+  Odoo nu le ține poziții de stoc, deci nu are ce compara. O livrare care conține și astfel de
+  produse se validează normal pentru ele, iar produsele stocabile din aceeași livrare sunt verificate;
+- livrările bonurilor din **Punct de vânzare**, cât timp **Permite stoc negativ din Punctul de
+  vânzare** e bifată (pasul 1).
 
 ![Mesajul de blocare la validare](screenshots/04_eroare_stoc_negativ.png)
 
@@ -272,6 +306,12 @@ Modulul nu generează note contabile. Efectul lui contabil este indirect: o ieș
 mișcare de stoc și nici nota de descărcare din gestiune (de exemplu Dr 607 = Cr 371), deci contul de
 stoc nu ajunge pe sold creditor din cauza unei ieșiri fără marfă.
 
+Excepția sunt bonurile din **Punct de vânzare** cu **Permite stoc negativ din Punctul de vânzare**
+bifată: livrarea se validează, descărcarea din gestiune (Dr 607 = Cr 371) apare în nota standard a
+sesiunii POS sau a evaluării stocului, pe care modulul nu o modifică, iar contul de stoc poate
+ajunge temporar pe sold creditor până la corecție. Corecția urmează ordinea din secțiunea 5,
+punctul 6: întâi recepția sau transferul lipsă, inventarul doar pentru diferența reală.
+
 La corecția prin inventar (pasul 8), nota contabilă e cea standard a ajustării de inventar, generată
 de nucleul Odoo pe contul configurat pe locația virtuală **Inventory adjustment**. Modulul nu o
 modifică.
@@ -284,16 +324,22 @@ modifică.
 | `stock_account` | nota contabilă a mișcărilor validate; nu e afectată de modul | proces |
 | `mrp` | consumurile de materii prime din locații interne sunt verificate ca orice ieșire | proces |
 | `deltatech_stock_inventory` | documentul de inventar; minusurile de inventar sunt ieșiri și sunt verificate | complementar |
+| `point_of_sale` | livrările bonurilor trec peste regulă cât timp **Permite stoc negativ din Punctul de vânzare** e bifată | proces (nu e dependență) |
 
 **Ce e automat:**
 - verificarea la fiecare validare, pe toate liniile împreună;
 - conversia cantităților în unitatea de măsură a produsului;
 - separarea pe locație, lot / serie, pachet și proprietar;
-- scutirea locațiilor non-interne și a celor cu **Permite stoc negativ**.
+- scutirea locațiilor non-interne și a celor cu **Permite stoc negativ**;
+- scutirea produselor fără **Urmărește stocul**;
+- trecerea livrărilor POS și înregistrarea fiecărei ocoliri în jurnalul serverului, cu setarea POS
+  bifată.
 
 **Ce rămâne manual:**
 - activarea politicii pe fiecare companie;
 - alegerea locațiilor scutite și a celor cu **Verifică nr. de serie** debifat;
+- decizia pentru **Permite stoc negativ din Punctul de vânzare** și corectarea pozițiilor negative
+  lăsate de bonuri;
 - găsirea cauzei stocurilor negative existente și înregistrarea documentelor lipsă, înainte de
   activare;
 - investigarea cauzei unui blocaj (recepție nevalidată, lot sau serie greșită).
@@ -314,6 +360,15 @@ modifică.
 - [ ] O linie fără proprietar nu consumă stocul în custodie al unui proprietar, și invers.
 - [ ] Pe o locație cu **Permite stoc negativ**, transferul peste stoc se validează și poziția rămâne
       negativă.
+- [ ] O livrare cu un produs fără **Urmărește stocul** (fără stoc) se validează cu politica activă.
+- [ ] Setarea **Permite stoc negativ din Punctul de vânzare** apare doar cu **Fără stoc negativ**
+      bifat și e bifată implicit.
+- [ ] Cu setarea POS bifată, un bon peste stoc își validează livrarea, iar poziția rămâne negativă.
+- [ ] Cu setarea POS debifată, același bon se închide, dar livrarea lui rămâne nevalidată și stocul
+      nu scade.
+- [ ] Cu stocul actualizat la închiderea sesiunii, livrarea grupată se validează și lasă poziția
+      negativă.
+- [ ] Un bon cu livrare ulterioară peste stoc are livrarea blocată la **Validează**.
 - [ ] O recepție sau un transfer de intrare nu e verificat pe locația de destinație.
 - [ ] Produs cu serie, **Verifică nr. de serie** bifat: o serie absentă din locație se blochează.
 - [ ] Produs cu serie, **Verifică nr. de serie** debifat: o linie pe o serie existentă trece; două linii
@@ -332,7 +387,9 @@ modifică.
 | Același mesaj, deși **Inventar → Raportare → Stock by Location** arată stoc suficient | Stocul e pe alt lot, alt pachet, alt proprietar sau altă sublocație decât linia | Corectați lotul / pachetul / locația de pe linie |
 | Același mesaj pe un produs cu serie, cu seria corectă în stoc | **Verifică nr. de serie** bifat și seria de pe linie nu e cea din locație | Corectați seria sau, dacă locația nu urmărește seria la ieșire, debifați **Verifică nr. de serie** |
 | Ajustarea de inventar e respinsă cu același mesaj | **Faptic** e completat cu o valoare negativă, sub stocul actual; sau, la serii pe o locație cu **Verifică nr. de serie** debifat, minusul pe o serie e aplicat odată cu plusul pe alta | Introduceți cantitatea numărată fizic (≥ 0); la serii, aplicați întâi rândul de pe −1, apoi pe cel de pe +1 (pasul 7) |
-| Transferurile peste stoc trec fără blocaj | Politica nu e activă pe compania transferului, locația sursă are **Permite stoc negativ** sau nu e de tip **Intern** | Verificați setarea companiei și câmpurile locației |
+| Transferurile peste stoc trec fără blocaj | Politica nu e activă pe compania transferului, locația sursă are **Permite stoc negativ** sau nu e de tip **Intern**, ori produsul nu are **Urmărește stocul** | Verificați setarea companiei, câmpurile locației și fișa produsului |
+| Poziții negative în magazin, deși politica e activă | Bonuri din **Punct de vânzare** cu **Permite stoc negativ din Punctul de vânzare** bifată | Găsiți pozițiile în **Inventar → Raportare → Stock by Location**, filtrul **Stoc negativ** (ocolirile apar și în jurnalul serverului, accesibil doar tehnic), apoi cauza (recepție nevalidată, transfer spre magazin lipsă) și corectați ca în secțiunea 5, punctul 6 |
+| Bonuri închise, dar stocul magazinului nu scade; livrări POS nevalidate | **Permite stoc negativ din Punctul de vânzare** debifată și stoc insuficient la vânzare | Aduceți stocul (recepție / transfer), apoi validați livrările rămase, sau bifați setarea POS |
 
 ## 10. Capturi de ecran
 
@@ -342,7 +399,7 @@ compania **Demo Stoc SRL**, cu planul de conturi RO și datele demo din secțiun
 
 | # | Fișier | Conținut |
 |---|---|---|
-| 1 | `01_setari_fara_stoc_negativ.png` | **Setări → Trasabilitate**, bifa **Fără stoc negativ** |
+| 1 | `01_setari_fara_stoc_negativ.png` | **Setări → Trasabilitate**, bifa **Fără stoc negativ** și setarea **Permite stoc negativ din Punctul de vânzare** |
 | 2 | `02_locatie_optiuni.png` | Formularul locației, cu **Permite stoc negativ** și **Verifică nr. de serie** |
 | 3 | `03_transfer_doua_linii.png` | **Operații detaliate**: două linii de câte 1 buc din Raft A |
 | 4 | `04_eroare_stoc_negativ.png` | Dialogul **Operație invalidă** la **Validează** |
@@ -354,7 +411,7 @@ compania **Demo Stoc SRL**, cu planul de conturi RO și datele demo din secțiun
 Regenerare:
 
 ```bash
-./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_stock_negative,l10n_ro,l10n_ro_doc_screenshots \
+./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_stock_negative,l10n_ro,l10n_ro_doc_screenshots,point_of_sale \
     --test-tags=fise_screenshots --stop-after-init --http-port=8987 --gevent-port=8988
 ```
 
@@ -380,7 +437,9 @@ face pe **toate liniile împreună**, pe aceeași combinație locație / lot / p
 - **Stoc fizic, nu disponibil:** verificarea nu ține cont de rezervările altor transferuri. Un
   transfer poate consuma cantitatea rezervată pentru altul, cât timp stocul fizic ajunge.
 - **Nicio ocolire pe utilizator:** nu există un grup care să permită validarea peste stoc; excepțiile
-  sunt doar pe companie sau pe locație.
+  sunt doar pe companie, pe locație, pe produsele fără **Urmărește stocul** și pe bonurile POS.
+- **POS cu setarea debifată:** eroarea nu ajunge la casier; bonul se închide, iar livrarea rămâne
+  nevalidată, cu stocul nescăzut, până o validează cineva din **Inventar**.
 
 ---
 

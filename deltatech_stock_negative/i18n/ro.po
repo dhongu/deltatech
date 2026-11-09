@@ -17,22 +17,16 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #. module: deltatech_stock_negative
-#: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__allow_negative_stock
-msgid "Allow Negative Stock"
-msgstr "Permite stoc negativ"
-
-#. module: deltatech_stock_negative
-#: model:ir.model.fields,help:deltatech_stock_negative.field_res_company__no_negative_stock
-#: model:ir.model.fields,help:deltatech_stock_negative.field_res_config_settings__no_negative_stock
-msgid "Allows you to prohibit negative stock quantities."
+#. odoo-python
+#: code:addons/deltatech_stock_negative/models/stock.py:0
+msgid ""
+"You have chosen to avoid negative stock. %(lot_qty)s pieces of "
+"%(product_name)s are remaining in location %(location_name)s. Please adjust "
+"your quantities or correct your stock with an inventory adjustment."
 msgstr ""
-"Interzice validarea mișcărilor care ar duce stocul unei locații interne sub "
-"zero."
-
-#. module: deltatech_stock_negative
-#: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__check_serial_no
-msgid "Check Serial No."
-msgstr "Verifică nr. de serie"
+"Ați ales să nu permiteți stocul negativ. Din %(product_name)s ar rămâne "
+"%(lot_qty)s bucăți în locația %(location_name)s. Ajustați cantitățile sau "
+"corectați stocul printr-o ajustare de inventar."
 
 #. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_res_company
@@ -45,20 +39,19 @@ msgid "Config Settings"
 msgstr "Setări de configurare"
 
 #. module: deltatech_stock_negative
-#: model:ir.model.fields,help:deltatech_stock_negative.field_stock_location__check_serial_no
-msgid ""
-"If checked, the no-negative-stock check of serial-tracked products is done "
-"per serial number. If unchecked, it is done on the total of all serial "
-"numbers in the location, and reservation ignores the serial number."
-msgstr ""
-"Bifat, controlul de stoc negativ al produselor cu număr de serie se face pe "
-"fiecare serie. Debifat, se face pe totalul tuturor seriilor din locație, "
-"iar rezervarea nu ține cont de serie."
-
-#. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_stock_location
 msgid "Inventory Locations"
 msgstr "Locații stoc"
+
+#. module: deltatech_stock_negative
+#: model:ir.model,name:deltatech_stock_negative.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Mișcări produse (Linie mișcare stoc)"
+
+#. module: deltatech_stock_negative
+#: model:ir.model,name:deltatech_stock_negative.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
 
 #. module: deltatech_stock_negative
 #: model:ir.model.fields,field_description:deltatech_stock_negative.field_res_company__no_negative_stock
@@ -67,23 +60,80 @@ msgid "No negative stock"
 msgstr "Fără stoc negativ"
 
 #. module: deltatech_stock_negative
+#: model:ir.model.fields,field_description:deltatech_stock_negative.field_res_company__no_negative_stock_pos_bypass
+#: model:ir.model.fields,field_description:deltatech_stock_negative.field_res_config_settings__no_negative_stock_pos_bypass
+msgid "Allow negative stock from Point of Sale"
+msgstr "Permite stoc negativ din Punctul de vânzare"
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__allow_negative_stock
+msgid "Allow Negative Stock"
+msgstr "Permite stoc negativ"
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,field_description:deltatech_stock_negative.field_stock_location__check_serial_no
+msgid "Check Serial No."
+msgstr "Verifică nr. de serie"
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,help:deltatech_stock_negative.field_res_company__no_negative_stock
+#: model:ir.model.fields,help:deltatech_stock_negative.field_res_config_settings__no_negative_stock
+msgid "Allows you to prohibit negative stock quantities."
+msgstr ""
+"Interzice validarea mișcărilor care ar duce stocul unei locații interne sub "
+"zero."
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,help:deltatech_stock_negative.field_res_company__no_negative_stock_pos_bypass
+msgid ""
+"At a cash register the goods leave the shop as the receipt is paid, so "
+"refusing to validate its delivery does not keep the stock on the shelf - it "
+"only stops the system from recording what already happened. Leave this on to"
+" let a Point of Sale receipt go through even when it takes the location "
+"below zero; the bypass is logged, and the deviation stays visible as "
+"negative stock to be corrected. Turn it off to apply the no-negative-stock "
+"rule to Point of Sale as well."
+msgstr ""
+"La casa de marcat, marfa iese din magazin odată cu plata bonului, deci "
+"refuzul de a valida livrarea nu păstrează stocul pe raft, ci doar împiedică "
+"sistemul să înregistreze ce s-a întâmplat deja. Lăsați bifa activă ca un bon"
+" din Punctul de vânzare să treacă chiar dacă duce locația sub zero; ocolirea"
+" se înregistrează în jurnalul serverului, iar diferența rămâne vizibilă ca stoc negativ "
+"de corectat. Debifați-o ca regula fără stoc negativ să se aplice și în "
+"Punctul de vânzare."
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,help:deltatech_stock_negative.field_res_config_settings__no_negative_stock_pos_bypass
+msgid ""
+"Let a Point of Sale receipt validate its delivery even when it takes the "
+"location below zero. The goods have already left the shop."
+msgstr ""
+"Permite unui bon din Punctul de vânzare să își valideze livrarea chiar dacă "
+"duce locația sub zero. Marfa a plecat deja din magazin."
+
+#. module: deltatech_stock_negative
+#: model:ir.model.fields,help:deltatech_stock_negative.field_stock_location__check_serial_no
+msgid ""
+"If checked, the no-negative-stock check of serial-tracked products is done "
+"per serial number. If unchecked, it is done on the total of all serial "
+"numbers in the location, and reservation ignores the serial number."
+msgstr ""
+"Bifat, controlul de stoc negativ al produselor cu număr de serie se face pe "
+"fiecare serie. Debifat, se face pe totalul tuturor seriilor din locație, iar"
+" rezervarea nu ține cont de serie."
+
+#. module: deltatech_stock_negative
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_negative.res_config_settings_view_form
 msgid "No negative stocks are allowed"
 msgstr "Ieșirile peste stocul fizic al locației sunt blocate la validare"
 
 #. module: deltatech_stock_negative
-#: model:ir.model,name:deltatech_stock_negative.model_stock_quant
-msgid "Quants"
-msgstr "Poziții de stoc"
-
-#. module: deltatech_stock_negative
-#. odoo-python
-#: code:addons/deltatech_stock_negative/models/stock.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_negative.res_config_settings_view_form
 msgid ""
-"You have chosen to avoid negative stock. %(lot_qty)s pieces of "
-"%(product_name)s are remaining in location %(location_name)s. Please adjust "
-"your quantities or correct your stock with an inventory adjustment."
+"The goods leave the shop as the receipt is paid, so a Point of Sale delivery"
+" is validated even when it takes the location below zero. The bypass is "
+"logged and the deviation stays visible as negative stock."
 msgstr ""
-"Ați ales să nu permiteți stocul negativ. Din %(product_name)s ar rămâne "
-"%(lot_qty)s bucăți în locația %(location_name)s. Ajustați cantitățile sau "
-"corectați stocul printr-o ajustare de inventar."
+"Marfa iese din magazin odată cu plata bonului, așa că livrarea unui bon din "
+"Punctul de vânzare se validează chiar dacă duce locația sub zero. Ocolirea "
+"se înregistrează în jurnalul serverului, iar diferența rămâne vizibilă ca stoc negativ."
