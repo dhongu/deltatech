@@ -69,6 +69,15 @@ class PricelistFormulaMixin(models.AbstractModel):
         self.price_discount = 0.0
         self.price_markup = 0.0
 
+    def _check_base_pricelist(self, vals, pricelists):
+        """Refuse a rule based on its own pricelist, whatever the price type.
+
+        ``vals`` are the values written on the rules: the Discount type on another pricelist
+        also sets ``base_pricelist_id``, not only the Formula type.
+        """
+        if vals.get("base_pricelist_id") and vals["base_pricelist_id"] in pricelists.ids:
+            raise UserError(self.env._("A rule cannot be based on its own pricelist."))
+
     def _get_formula_vals(self):
         """Return the values of the price computation, ready to write on the rules."""
         self.ensure_one()

@@ -89,35 +89,48 @@ class PricelistBulkAdd(models.TransientModel):
             vals["product_tmpl_id"] = target.product_tmpl_id.id
         return vals
 
-    def _find_existing(self, target):
-        return self.env["product.pricelist.item"].search(
+    def _get_existing(self, targets):
+        """Existing rules of the pricelist for these targets, min. quantity and validity period.
+
+        One search for all the targets, grouped by target id.
+        """
+        field = TARGET_FIELD[self.applied_on]
+        items = self.env["product.pricelist.item"].search(
             [
                 ("pricelist_id", "=", self.pricelist_id.id),
                 ("applied_on", "=", self.applied_on),
-                (TARGET_FIELD[self.applied_on], "=", target.id),
+                (field, "in", targets.ids),
                 ("min_quantity", "=", self.min_quantity),
                 ("date_start", "=", self.date_start),
                 ("date_end", "=", self.date_end),
             ]
         )
+        existing = {}
+        for item in items:
+            existing.setdefault(item[field].id, self.env["product.pricelist.item"])
+            existing[item[field].id] |= item
+        return existing
 
     def action_apply(self):
         self.ensure_one()
         targets = self._get_targets()
         if not targets:
             raise UserError(self.env._("Select at least one product or category."))
+        formula_vals = self._get_formula_vals()
+        self._check_base_pricelist(formula_vals, self.pricelist_id)
         common_vals = {
             "pricelist_id": self.pricelist_id.id,
             "min_quantity": self.min_quantity,
             "date_start": self.date_start,
             "date_end": self.date_end,
-            **self._get_formula_vals(),
+            **formula_vals,
         }
+        existing_by_target = self._get_existing(targets) if self.existing_policy != "create" else {}
         to_update = self.env["product.pricelist.item"]
         vals_list = []
         skipped = 0
         for target in targets:
-            existing = self._find_existing(target) if self.existing_policy != "create" else False
+            existing = existing_by_target.get(target.id)
             if existing and self.existing_policy == "skip":
                 skipped += 1
             elif existing:
@@ -125,7 +138,7 @@ class PricelistBulkAdd(models.TransientModel):
             else:
                 vals_list.append({**common_vals, **self._get_target_vals(target)})
         if to_update:
-            to_update.write(self._get_formula_vals())
+            to_update.write(formula_vals)
         created = self.env["product.pricelist.item"].create(vals_list)
         items = created | to_update
         message = self.env._(
