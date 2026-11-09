@@ -19,11 +19,14 @@ Queue Job Enhancements
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_queue_job
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-32%20automated%20tests%20%C2%B7%2070%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_queue_job/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-34%20automated%20tests%20%C2%B7%2071%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_queue_job
-    :alt: 32 automated tests · 70% code coverage
+    :alt: 34 automated tests · 71% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 The module provides specific enhancements to the job queue functionality
 in Odoo, focusing on performance, reliability, and flexibility in job
@@ -136,12 +139,16 @@ Usage
 To process jobs every minute using an external service like
 `cron-job.org <https://cron-job.org>`__:
 
-1. **Configure API Key**: Go to ``Queue Job`` -> ``Settings`` menu. You
-   can generate a secure key using the **Generate Key** button.
+1. **Configure API Key**: Go to ``Job Queue`` -> ``Settings``. You can
+   generate a secure key using the **Generate Key** button.
 
 2. **Configure Batch Settings**: (Optional) Adjust **Batch Size**
    (default 20) and **Max Seconds** (default 50) directly in the same
-   settings screen.
+   settings screen, then **Save**.
+
+   |Settings, Queue Job section: the Queue Job Processor block with the
+   API Key, the Generate Key button (1), Batch Size 20 (2) and Max
+   Seconds 50 (3), followed by the cron-job.org setup instructions|
 
 3. **Setup cron-job.org**:
 
@@ -162,8 +169,10 @@ To process jobs every minute using an external service like
 
 **API Endpoints**
 
-Process Queue (External) ^^^^^^^^^^^^^^^^^^^^^^^^ **POST**
-``/api/v1/queue/process``
+Process Queue (External)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+**POST** ``/api/v1/queue/process``
 
 Parameters:
 
@@ -173,7 +182,11 @@ Parameters:
 - ``max_seconds`` (optional): Maximum processing time in seconds
   (default: 50)
 
-Response:
+Response: the result is wrapped twice, so the fields below are in
+``result`` -> ``result`` of the JSON body. The HTTP status is always
+200, even for an invalid key or an error, which are reported in the body
+as ``"status": "error"``; alerts based on the HTTP status in the
+external service will not catch them.
 
 .. code:: json
 
@@ -192,13 +205,74 @@ Response:
 ``failed`` ended in the failed state and ``postponed`` were put back to
 pending for a retry.
 
-**Manual Processing** You can manually trigger job processing from the
-Queue Job list view using the **Process** button (internal cron trigger)
-or **Process (Thread)** (API-style runner in a new thread), or trigger a
-background execution using **Cron Trigger**.
+Queue Statistics (External)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**POST** ``/api/v1/queue/stats``, with the same body and API key. It
+only counts the jobs and processes nothing, which makes it a safe way to
+check the key before enabling the processing call.
+
+|The POST request to api/v1/queue/stats with the Content-Type header and
+the JSON body with the API key, and the Odoo response wrapped twice in
+result, with status success and stats: pending 2, started 0, done 0,
+failed 1, total 4|
+
+**Manual Processing**
+
+Open ``Job Queue`` -> ``Queue`` -> ``Jobs``. The list header has the
+module's buttons:
+
+- **Cron Trigger** (1): activates the queue cron and starts it within a
+  few seconds;
+- **Process Background** (2): processes one batch right away in a
+  separate thread, without blocking the web interface (fixed batch of up
+  to 20 jobs in 50 seconds, not the values from the settings);
+- **Process** (3): shown once at least one job is selected; it only acts
+  when at least one selected job is pending, and then starts the queue
+  cron, which processes the whole queue, not only the selected jobs.
+  Restart a failed job first with **Requeue Job**.
+
+The same buttons are on the job form header (there, **Process
+Background** is labelled **Process (Thread)**).
+
+|Jobs list: four jobs, pending, enqueued and one failed in red, the
+first row selected; the header shows Cron Trigger (1), Process
+Background (2) and Process (3)|
+
+After **Cron Trigger**, a notification confirms the request: green when
+the run is scheduled, yellow "CRON Trigger already exists" when a run is
+already scheduled, red "No CRON Trigger found" when the queue cron is
+missing.
+
+|Jobs list after Cron Trigger: the green notification in the top right
+corner confirms that the operation will run in the background|
+
+.. |Settings, Queue Job section: the Queue Job Processor block with the API Key, the Generate Key button (1), Batch Size 20 (2) and Max Seconds 50 (3), followed by the cron-job.org setup instructions| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/01_setari_procesor_extern.png
+.. |The POST request to api/v1/queue/stats with the Content-Type header and the JSON body with the API key, and the Odoo response wrapped twice in result, with status success and stats: pending 2, started 0, done 0, failed 1, total 4| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/02_raspuns_api.png
+.. |Jobs list: four jobs, pending, enqueued and one failed in red, the first row selected; the header shows Cron Trigger (1), Process Background (2) and Process (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/03_lista_joburi.png
+.. |Jobs list after Cron Trigger: the green notification in the top right corner confirms that the operation will run in the background| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/04_declansare_cron.png
 
 Changelog
 =========
+
+19.0.1.4.6 (2026-11-01)
+-----------------------
+
+- Fix: cleaning up terminal jobs left without a completion date no
+  longer overrides ``queue.job.autovacuum()``, which recent
+  ``queue_job`` releases replaced with ``_gc_old_jobs()`` on the base
+  autovacuum cron (``'super' object has no attribute 'autovacuum'``). It
+  is now its own ``@api.autovacuum`` method,
+  ``_gc_dateless_terminal_jobs()``, which works with both ``queue_job``
+  versions and deletes in batches of 1000, letting the base cron commit
+  between batches.
+- Fix: the ``Job Queue > Settings`` menu now opens the Queue Job
+  settings section instead of the first settings page; the API key,
+  Batch Size and Max Seconds labels no longer overlap their values.
+- Translations: the "Cron Trigger" notification title is translated; the
+  list button "Process" reads "Procesează" in Romanian.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) with generated
+  screenshots in RO and EN.
 
 19.0.1.4.5 (2026-10-17)
 -----------------------
