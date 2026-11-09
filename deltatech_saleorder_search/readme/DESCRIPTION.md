@@ -15,3 +15,10 @@ the standard search view. Nothing needs to be configured.
 
 The search looks at the e-mail and phone of the contact set as *Customer* on
 the order, not at the other contacts of the same company.
+
+Odoo Online
+===========
+
+The module contains no Python code, only a search view extension. Besides Odoo.sh and
+on-premise installations, it can be used on Odoo Online (Custom plan): download the zip and load
+it from **Apps > Import Module**.

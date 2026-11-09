@@ -5,11 +5,11 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Sale Order Search by Contact" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Sale Order Search by Contact</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Find orders instantly by e-mail or phone</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Find orders by e-mail or phone, also on Odoo Online</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 20.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Sale</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo Online &bull; Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
       </div>
     </div>
@@ -35,6 +35,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -56,9 +61,45 @@ the format in which it is stored on the contact.</p>
 the standard search view. Nothing needs to be configured.</p>
 <p>The search looks at the e-mail and phone of the contact set as <em>Customer</em> on
 the order, not at the other contacts of the same company.</p>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Odoo Online</h1>
+<p>The module contains no Python code, only a search view extension. Besides Odoo.sh and
+on-premise installations, it can be used on Odoo Online (Custom plan): download the zip and load
+it from <strong>Apps &gt; Import Module</strong>.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Open <strong>Sales &gt; Orders &gt; Orders</strong> (or <strong>Quotations</strong>). Type an e-mail address, or part of it, in
+   the search bar and choose <strong>Search E-mail for: ...</strong>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The search bar of Sales Orders: after the text anna.smith@ the option Search E-mail for is highlighted, followed by Search Phone for" src="en/01_cautare_email.png" /></p>
+<ol start="2">
+<li>The list keeps the orders whose customer has an e-mail containing the text. A common part, such as
+   the domain <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">@example.com</code>, finds the orders of every customer on that domain.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales Orders filtered with E-mail @example.com: the orders of TEST John Brown and TEST Anna Smith" src="en/02_comenzi_dupa_email.png" /></p>
+<ol start="3">
+<li>To search by phone, type the number or part of it and choose <strong>Search Phone for: ...</strong>. The text is
+   matched as typed, so a short fragment without spaces or prefix finds the most variants.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales Orders filtered with Phone 900111: the two orders of TEST Anna Smith" src="en/03_comenzi_dupa_telefon.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.0 (2026-11-09)</h2>
+<ul>
+<li>Data-only module: the empty <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__init__.py</code> was removed, so the module has no Python code. It
+  can be installed on Odoo Online (Custom plan) as a zip from Apps &gt; Import Module, as well as on
+  Odoo.sh and on-premise.</li>
+<li>Odoo Apps does not mark data-only modules as available on Odoo Online, so the module name,
+  the summary, the banner and the Apps Store page now say it: "Sale Order Search by Contact
+  (importable, Odoo Online)".</li>
+<li>Fixed: expanding the arrow next to <strong>Search E-mail for</strong> or <strong>Search Phone for</strong> and picking a
+  contact returned an empty list (the filter received the contact id instead of the typed text).
+  Both criteria now search on a text field, so they have no arrow and always use the typed text.</li>
+<li>Removed the Python test (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/</code>): Odoo Apps treats any <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.py</code> file as Python code and would
+  not mark the module as available on Odoo Online.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.0.6 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten from the code: removed the search by mobile number,
