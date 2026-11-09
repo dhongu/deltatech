@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Invoice Product Filter (importable, Odoo Online)",
+    "name": "Invoice Product Filter",
     "summary": "Search invoices by product or product vendor; data-only, importable on Odoo Online",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",

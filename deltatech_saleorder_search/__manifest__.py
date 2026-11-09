@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Sale Order Search by Contact (importable, Odoo Online)",
+    "name": "Sale Order Search by Contact",
     "summary": "Search sale orders by customer e-mail or phone; data-only, importable on Odoo Online",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Sale",
