@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "List View Select Text (importable, Odoo Online)",
+    "name": "List View Select Text",
     "summary": "Select text in list views without opening the record; data-only, importable on Odoo Online",
-    "version": "20.0.1.1.1",
+    "version": "20.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

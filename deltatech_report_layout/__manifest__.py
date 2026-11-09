@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Report Layout (importable, Odoo Online)",
+    "name": "Report Layout",
     "summary": "Two extra PDF report layouts; data-only, importable on Odoo Online",
-    "version": "20.0.1.1.1",
+    "version": "20.0.1.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",

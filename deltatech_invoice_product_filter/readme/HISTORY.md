@@ -1,3 +1,9 @@
+## 20.0.1.2.1 (2026-11-09)
+
+- The "(importable, Odoo Online)" suffix was removed from the module name. Odoo Apps already shows
+  the module as available on Odoo Online (Manifest > Availability), and the Apps banner now carries
+  an "Odoo Online" label instead.
+
 ## 20.0.1.2.0 (2026-11-08)
 
 - Data-only module: the empty `__init__.py` was removed, so the module has no Python code. It
