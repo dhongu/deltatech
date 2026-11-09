@@ -66,24 +66,48 @@ rules list change, on all the rules at once:</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Enable the pricelists first: <em>Sales &gt; Configuration &gt; Settings</em>, section <strong>Pricing</strong>, tick
+<strong>Pricelists</strong> and save.</p>
 <p><strong>Add rules for many products</strong></p>
 <ol>
-<li>Go to <em>Sales &gt; Products &gt; Pricelists</em> and open a pricelist.</li>
-<li>Click <strong>Add Rules</strong>. Or select some products in <em>Sales &gt; Products &gt; Products</em> and use
-   <em>Actions &gt; Add to Pricelist</em>.</li>
-<li>Choose <strong>Apply On</strong> and select the products, variants or categories. To take all the
-   products of a category, select it in <strong>Add Products of Categories</strong>.</li>
-<li>Set the <strong>Min. Quantity</strong>, the <strong>Validity Period</strong> and the price computation.</li>
-<li>Choose what to do with the rules that already exist and click <strong>Add Rules</strong>.</li>
+<li>Go to <em>Sales &gt; Products &gt; Pricelists</em> and open a pricelist. The header has the <strong>Add Rules</strong>
+   and <strong>Apply Formula</strong> buttons (<strong>Apply Formula</strong> only when the pricelist has rules).</li>
 </ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Pricelist form with the Add Rules and Apply Formula buttons highlighted in the header and two fixed price rules of a laptop in the Sales Prices tab" src="en/01_formular_lista_preturi.png" /></p>
+<ol start="2">
+<li>Click <strong>Add Rules</strong>. Choose <strong>Apply On</strong> (products, product variants or product categories) and
+   add the products. To take all the products of a category and of its subcategories, select it in
+   <strong>Add Products of Categories</strong>. Set the <strong>Min. Quantity</strong>, the <strong>Validity Period</strong> and the price
+   computation, then choose what to do with a rule that already exists for the same product,
+   minimum quantity and validity period: keep it, update it or add a new rule.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Add Pricelist Rules wizard with five peripherals selected, a Formula based on the Sales Price with 10% discount, rounding to 1.00 and an extra fee of -0.01, and Keep the existing rule selected" src="en/02_asistent_adauga_reguli.png" /></p>
+<ol start="3">
+<li>Click <strong>Add Rules</strong>. A message shows how many rules were added, updated or kept, and the rules
+   open in a list.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Price Rules list with the message 5 rules added, 0 rules updated, 0 existing rules kept, and one rule for each peripheral with the same 10 % discount on sales price - 0.01 rebate" src="en/03_reguli_adaugate.png" /></p>
+<ol start="4">
+<li>You can also start from the products: in <em>Sales &gt; Products &gt; Products</em>, select the products and
+   use <em>Actions &gt; Add to Pricelist</em>. The wizard opens with the selected products; choose the
+   pricelist.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Product list with three products selected and the Actions menu open on Add to Pricelist" src="en/04_actiune_din_produse.png" /></p>
 <p><strong>Apply the same formula to many rules</strong></p>
 <ol>
-<li>On the pricelist form, click <strong>Apply Formula</strong> to change all its rules. Or select some
-   rules in a list of pricelist rules and use <em>Actions &gt; Apply Formula</em>.</li>
-<li>Remove from the list the rules you do not want to change.</li>
-<li>Tick what to change (price computation, min. quantity, validity period), set the new
-   values and click <strong>Apply</strong>.</li>
+<li>On the pricelist form, click <strong>Apply Formula</strong> to change all its rules, or select some rules in
+   a list of pricelist rules and use <em>Actions &gt; Apply Formula</em>. Remove from the list the rules you
+   do not want to change.</li>
+<li>Tick what to change: <strong>Change the Price Computation</strong>, <strong>Change the Min. Quantity</strong> and/or
+   <strong>Change the Validity Period</strong>, and set the new values. What is not ticked stays as it is on
+   each rule.</li>
 </ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Apply Formula wizard on the 7 rules of the pricelist, with Change the Price Computation ticked and a Formula based on the Cost with 35% markup, rounding to 1.00 and an extra fee of -0.01" src="en/05_asistent_aplica_formula.png" /></p>
+<ol start="3">
+<li>Click <strong>Apply</strong>. All the selected rules get the new computation; the values of the old price
+   type (e.g. the fixed price) are cleared, as on the standard rule form.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Pricelist form after the change: the message 7 rules changed and all the rules in the Sales Prices tab with 35 % markup on product cost - 0.01 rebate, the minimum quantities unchanged" src="en/06_reguli_dupa_formula.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
