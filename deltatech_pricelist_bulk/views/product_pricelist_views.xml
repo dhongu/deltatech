@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_pricelist_view_bulk" model="ir.ui.view">
+        <field name="name">product.pricelist.form.bulk</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="action_pricelist_bulk_add" type="object" string="Add Rules" />
+                <button
+                    name="action_pricelist_bulk_formula"
+                    type="object"
+                    string="Apply Formula"
+                    invisible="not item_ids"
+                />
+            </header>
+        </field>
+    </record>
+</odoo>

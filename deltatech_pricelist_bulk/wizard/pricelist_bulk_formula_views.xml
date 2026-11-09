@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="pricelist_bulk_formula_view_form" model="ir.ui.view">
+        <field name="name">pricelist.bulk.formula.form</field>
+        <field name="model">pricelist.bulk.formula</field>
+        <field name="arch" type="xml">
+            <form string="Apply Formula to Pricelist Rules">
+                <group>
+                    <group>
+                        <field name="item_count" />
+                        <field name="change_price" />
+                        <field name="change_min_quantity" />
+                        <field name="change_dates" />
+                    </group>
+                    <group>
+                        <field name="min_quantity" invisible="not change_min_quantity" />
+                        <field
+                            name="date_start"
+                            widget="daterange"
+                            options="{'end_date_field': 'date_end'}"
+                            string="Validity Period"
+                            invisible="not change_dates"
+                        />
+                        <field name="date_end" invisible="1" />
+                    </group>
+                </group>
+                <group name="formula" string="Price Computation" invisible="not change_price">
+                    <group>
+                        <field name="compute_price" widget="radio" options="{'horizontal': true}" />
+                        <field name="fixed_price" invisible="compute_price != 'fixed'" />
+                        <field name="percent_price" invisible="compute_price != 'percentage'" />
+                        <field
+                            name="base_pricelist_id"
+                            string="On Pricelist"
+                            placeholder="sales price"
+                            invisible="compute_price != 'percentage'"
+                        />
+                        <field name="base" invisible="compute_price != 'formula'" />
+                        <field
+                            name="base_pricelist_id"
+                            invisible="compute_price != 'formula' or base != 'pricelist'"
+                            required="compute_price == 'formula' and base == 'pricelist'"
+                        />
+                        <field
+                            name="price_discount"
+                            string="Discount (%)"
+                            invisible="compute_price != 'formula' or base == 'standard_price'"
+                        />
+                        <field
+                            name="price_markup"
+                            invisible="compute_price != 'formula' or base != 'standard_price'"
+                        />
+                        <field name="price_round" invisible="compute_price != 'formula'" />
+                        <field name="price_surcharge" invisible="compute_price != 'formula'" />
+                        <field name="price_min_margin" invisible="compute_price != 'formula'" />
+                        <field name="price_max_margin" invisible="compute_price != 'formula'" />
+                    </group>
+                    <div class="alert alert-info" role="alert" invisible="compute_price != 'formula'">
+                        <b>Tip: want to round at 9.99?</b>
+                        <div>Round off to 10.00 and set an extra fee of -0.01.</div>
+                    </div>
+                </group>
+                <field name="item_ids" options="{'no_create': True}">
+                    <list>
+                        <field name="pricelist_id" optional="show" />
+                        <field name="name" string="Applied On" />
+                        <field name="min_quantity" />
+                        <field name="price" string="Current Price" />
+                        <field name="date_start" optional="show" />
+                        <field name="date_end" optional="show" />
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply" class="btn-primary" data-hotkey="q" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pricelist_bulk_formula" model="ir.actions.act_window">
+        <field name="name">Apply Formula</field>
+        <field name="res_model">pricelist.bulk.formula</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_pricelist_item" />
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>
