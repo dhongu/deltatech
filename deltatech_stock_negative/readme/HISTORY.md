@@ -1,3 +1,47 @@
+## 20.0.2.1.2
+
+- *Allow negative stock from Point of Sale* now actually lets Point of Sale receipts
+  through. In Odoo 20, `pos_stock` creates the delivery of a receipt with neither its
+  session nor its order and validates it at once, linking the session (and the order, for
+  real-time receipts) only afterwards; the bypass looked for the order, so it never
+  applied there and receipts kept leaving their deliveries unvalidated. The delivery is
+  now recognised by the operation type of the Point of Sale while it is validated, and by
+  its session once linked (a delivery validated later). A transfer created by hand with
+  the Point of Sale operation type is treated the same way. Receipts shipped later are
+  excluded: their goods are still in the shop, so their delivery follows the rule like
+  any other.
+- Consultant sheet, description, configuration and usage updated for the *Allow negative
+  stock from Point of Sale* setting and for products without *Track Inventory*. The
+  setting is now translated in Romanian; screenshots regenerated in Romanian for the
+  sheet and in English for the Apps Store page.
+
+## 20.0.2.1.1
+
+- Deliveries containing consumable products without stock tracking (*Track Inventory*
+  off) can be validated again when *No negative stock* is enabled. Odoo keeps no stock
+  for such products, so the check compared them against zero and refused the whole
+  transfer; it now applies only to products whose stock is tracked.
+
+## 20.0.2.1.0
+
+- A Point of Sale receipt no longer leaves its goods on the stock. Point of Sale
+  validates its own delivery in the background and swallows any `UserError` that
+  validation raises, so the refusal issued here when a location would go below zero
+  never reached the cashier: the receipt was closed, the customer walked out with the
+  goods, and the transfer stayed unvalidated with the stock never decreased - silently,
+  with nothing to act on but a stray open transfer nobody was looking for. Refusing the
+  move does not keep the goods on the shelf; it only stops the system from recording
+  what already happened at the register.
+- New company setting *Allow negative stock from Point of Sale*
+  (`no_negative_stock_pos_bypass`, on by default, shown only when *No negative stock*
+  is enabled): a Point of Sale delivery is validated even when it takes the location
+  below zero. Every bypass is logged as a warning naming the transfer, the quantity,
+  the product and the location, and the deviation stays visible as negative stock to be
+  corrected by an inventory adjustment. Turn the setting off to apply the rule to Point
+  of Sale as well, accepting that such receipts will not decrease the stock.
+- The check also honours a `skip_negative_stock_check` context key, for callers that
+  have to force a validation knowingly.
+
 ## 20.0.2.0.11 (2026-10-01)
 
 - Migration to 20.0: move lines and moves now carry their unit of measure in

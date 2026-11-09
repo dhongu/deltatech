@@ -217,80 +217,86 @@ class TestStockNegativeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
                 move.picked = True
         return picking
 
-    def test_capture_fise(self):
+    def _shots(self):
         scroll_setting = (
             "document.querySelector(\"[name='no_negative_stock']\")"
             ".closest('.o_setting_box, .o_setting_container, .row').scrollIntoView({block: 'center'})"
         )
-        self.capture_screenshots(
-            [
-                # 1. bifa „Fără stoc negativ", în Setări → Trasabilitate
-                {
-                    "url": f"action={self.settings_action.id}",
-                    "name": "01_setari_fara_stoc_negativ.png",
-                    "wait": "[name='no_negative_stock']",
-                    "timeout": 40000,
-                    "eval": scroll_setting,
-                    "settle": 3000,
-                    "highlight": ["div[name='no_negative_stock']"],
-                },
-                # 2. cele două câmpuri ale modulului pe formularul locației
-                {
-                    "url": f"id={self.tranzit.id}&model=stock.location&view_type=form",
-                    "name": "02_locatie_optiuni.png",
-                    "wait": ".o_form_view",
-                    "settle": 2000,
-                    "highlight": ["div[name='allow_negative_stock']", "div[name='check_serial_no']"],
-                },
-                # 3. Operații detaliate: două linii de câte 1 buc din Raft A
-                {
-                    "url": f"id={self.picking_blocked.id}&model=stock.picking&view_type=form",
-                    "name": "03_transfer_doua_linii.png",
-                    "wait": ".o_form_view",
-                    "click_btn": "button[name='action_show_details']",
-                    "wait_after": ".modal .o_list_view",
-                    "settle": 2500,
-                },
-                # 4. dialogul de blocare la Validează
-                {
-                    "url": f"id={self.picking_blocked.id}&model=stock.picking&view_type=form",
-                    "name": "04_eroare_stoc_negativ.png",
-                    "wait": ".o_form_view",
-                    "click_btn": "button[name='button_validate']",
-                    "wait_after": ".modal .modal-body",
-                    "settle": 3000,
-                    "highlight": [".modal .modal-content"],
-                },
-                # 5. pozițiile de stoc pe locație, lot, pachet, proprietar
-                {
-                    "url": f"action={self.action_positions.id}",
-                    "name": "05_pozitii_stoc.png",
-                    "wait": ".o_list_view",
-                    "settle": 2500,
-                },
-                # 6. poziția negativă pe locația scutită
-                {
-                    "url": f"action={self.action_tranzit.id}",
-                    "name": "06_locatie_stoc_negativ_permis.png",
-                    "wait": ".o_list_view",
-                    "settle": 2500,
-                },
-                # 7. transferul validat pe două serii, pe Raft Serii
-                {
-                    "url": f"id={self.picking_serial.id}&model=stock.picking&view_type=form",
-                    "name": "07_serie_check_debifat.png",
-                    "wait": ".o_form_view",
-                    "click_btn": "button[name='action_show_details']",
-                    "wait_after": ".modal .o_list_view",
-                    "settle": 2500,
-                },
-                # 8. inventarierea fizică a poziției negative, înainte de Aplică
-                {
-                    "url": f"action={self.action_inventory.id}",
-                    "name": "08_inventar_corectie_negativ.png",
-                    "wait": ".o_list_view",
-                    "settle": 2500,
-                },
-            ],
-            hide_systray=True,
-        )
+        return [
+            # 1. bifa „Fără stoc negativ", în Setări → Trasabilitate
+            {
+                "url": f"action={self.settings_action.id}",
+                "name": "01_setari_fara_stoc_negativ.png",
+                "wait": "[name='no_negative_stock']",
+                "timeout": 40000,
+                "eval": scroll_setting,
+                "settle": 3000,
+                "highlight": [
+                    "div[name='no_negative_stock']",
+                    "div[name='no_negative_stock_pos_bypass']",
+                ],
+            },
+            # 2. cele două câmpuri ale modulului pe formularul locației
+            {
+                "url": f"id={self.tranzit.id}&model=stock.location&view_type=form",
+                "name": "02_locatie_optiuni.png",
+                "wait": ".o_form_view",
+                "settle": 2000,
+                "highlight": ["div[name='allow_negative_stock']", "div[name='check_serial_no']"],
+            },
+            # 3. Operații detaliate: două linii de câte 1 buc din Raft A
+            {
+                "url": f"id={self.picking_blocked.id}&model=stock.picking&view_type=form",
+                "name": "03_transfer_doua_linii.png",
+                "wait": ".o_form_view",
+                "click_btn": "button[name='action_show_details']",
+                "wait_after": ".modal .o_list_view",
+                "settle": 2500,
+            },
+            # 4. dialogul de blocare la Validează
+            {
+                "url": f"id={self.picking_blocked.id}&model=stock.picking&view_type=form",
+                "name": "04_eroare_stoc_negativ.png",
+                "wait": ".o_form_view",
+                "click_btn": "button[name='button_validate']",
+                "wait_after": ".modal .modal-body",
+                "settle": 3000,
+                "highlight": [".modal .modal-content"],
+            },
+            # 5. pozițiile de stoc pe locație, lot, pachet, proprietar
+            {
+                "url": f"action={self.action_positions.id}",
+                "name": "05_pozitii_stoc.png",
+                "wait": ".o_list_view",
+                "settle": 2500,
+            },
+            # 6. poziția negativă pe locația scutită
+            {
+                "url": f"action={self.action_tranzit.id}",
+                "name": "06_locatie_stoc_negativ_permis.png",
+                "wait": ".o_list_view",
+                "settle": 2500,
+            },
+            # 7. transferul validat pe două serii, pe Raft Serii
+            {
+                "url": f"id={self.picking_serial.id}&model=stock.picking&view_type=form",
+                "name": "07_serie_check_debifat.png",
+                "wait": ".o_form_view",
+                "click_btn": "button[name='action_show_details']",
+                "wait_after": ".modal .o_list_view",
+                "settle": 2500,
+            },
+            # 8. inventarierea fizică a poziției negative, înainte de Aplică
+            {
+                "url": f"action={self.action_inventory.id}",
+                "name": "08_inventar_corectie_negativ.png",
+                "wait": ".o_list_view",
+                "settle": 2500,
+            },
+        ]
+
+    def test_capture_fise(self):
+        self.capture_screenshots(self._shots(), hide_systray=True)
+
+    def test_capture_usage(self):
+        self.capture_screenshots(self._shots(), hide_systray=True, lang="en_US")
