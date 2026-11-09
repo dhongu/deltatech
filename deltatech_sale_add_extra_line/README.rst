@@ -22,9 +22,9 @@ Sale Add Extra Line
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_add_extra_line/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-25%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-26%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_add_extra_line
-    :alt: 25 automated tests · 100% code coverage
+    :alt: 26 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -252,6 +252,16 @@ Good to know
 
 Changelog
 =========
+
+19.0.1.6.0 (2026-11-01)
+-----------------------
+
+- [IMP] the unit price of the extra line comes from the new hook
+  ``_get_extra_price_unit`` (by default, the percent of the main line
+  price), which a module can override together with
+  ``_get_extra_product``: for example to charge an amount that differs
+  for each main product, as the green stamp of electrical equipment does
+  (``l10n_ro_green_stamp``).
 
 19.0.1.5.3 (2026-10-17)
 -----------------------

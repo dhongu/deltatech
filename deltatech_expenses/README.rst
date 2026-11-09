@@ -19,9 +19,9 @@ Expenses Deduction
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_expenses/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-24%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-68%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_expenses
-    :alt: 24 automated tests · 87% code coverage
+    :alt: 68 automated tests · 91% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -98,6 +98,13 @@ Usage
    are posted, and the report is **Done**.
 4. **Invalidate** reverses a validated report, so it can be corrected.
 
+**Supplier payment.** A line of type *Supplier Payment* is a bill paid
+by the employee from the advance (Dr 401 = Cr 542). Its **Bills Paid**
+button lists the supplier bills it pays, with the amount allocated to
+each (partial payments allowed); without bills, it settles the oldest
+open bills first. The unallocated part is a supplier advance,
+reclassified Dr 4092 = Cr 401.
+
 **Settlement mode.** *Cash* pays the advance from the cash register.
 *Bank transfer (personal card)* pays it from a bank journal: Dr 542 = Cr
 5125 (outstanding payments), matched with the bank statement line (Dr
@@ -127,6 +134,122 @@ Changelog
 
 Changelog
 =========
+
+19.0.3.11.0 (2026-11-05)
+------------------------
+
+- The option **Advance and Settlement via Bank Statement / Cash
+  Register** moves from the company to the journal (cash, bank or
+  company card journal, Journal Entries tab). An expense report takes it
+  from the journal of its settlement mode (the card journal for Company
+  card, the payment journal otherwise), so the same company can settle
+  cash advances on the expense report and company card advances through
+  the bank statement. The variant is stored on the expense report:
+  reports in Draft follow a change of the journal option, reports in
+  Advance or Done keep their flow, so the option no longer needs to be
+  blocked by pending advances.
+- Settlement mode and payment / card journal stay visible on the expense
+  reports settled through the bank statement or cash register, as they
+  choose the variant.
+- Smart button **Balance 542** on the expense report: the balance of the
+  employee on the 542 account of the report (in the account currency for
+  a 542 in a foreign currency); it opens the 542 ledger of the employee,
+  posted entries with the cumulated balance. Users without accounting
+  read rights see the balance as a field, without the link.
+- Migration: on a company that had the option, it is set on its cash,
+  bank and card journals, and its expense reports keep the variant they
+  were created with.
+- Consultant sheet and screenshots updated (journal option, balance
+  button, 542 ledger).
+
+19.0.3.10.0 (2026-11-04)
+------------------------
+
+- New company option **Advance and Settlement via Bank Statement / Cash
+  Register** (Invoicing settings, Bank & Cash): the expense report books
+  only the expenses, always on 542 with the employee as partner
+  (receipts, supplier payments, per diem), whatever the settlement mode,
+  company card included. It posts no advance, no refund and no extra
+  payment, and no exchange difference on 542: the money handed to the
+  employee and the refunds are recorded from the cash register or the
+  bank statement, reconciled on 542. The report has no Advance step: it
+  is validated from Draft, gets its number then and ends in Done. The
+  form shows the employee balance on 542 instead of the difference.
+- The advance date is today by default.
+- Search filters **Advance** and **Done** on the expense reports.
+- The option cannot be enabled while expense reports of the company are
+  in the Advance state: they are finalized first, in the flow with
+  payment entries.
+- The money handed to the employee and the refunds are reconciled on 542
+  with the standard bank statement or cash register reconciliation:
+  account 542 must allow reconciliation and the partner is the work
+  contact of the employee.
+- Consultant sheet: at year end the credit balance of an employee on 542
+  is reclassified to 4281 (``Dr 542 = Cr 4281``), as a manual entry.
+- Without payment entries, an expense report in a foreign currency is
+  validated only on a 542 account in that currency (account currency
+  set), so that the monthly revaluation of the localization revalues the
+  balance of the employee; a report in the company currency only on a
+  542 account without currency. Changing the currency proposes the
+  matching expense journal.
+- Consultant sheet: checks and error messages of the variant without
+  payment entries.
+- With the option, the status bar of the expense report shows only Draft
+  and Done.
+- With the option, the settlement lines on 542 are labelled "Decontare
+  cheltuieli" (no advance).
+- The title of a draft expense report is translated.
+- Screenshots of the variant via bank statement / cash register in the
+  consultant sheet.
+
+19.0.3.9.1 (2026-11-04)
+-----------------------
+
+- Fix: the **Expenses Deductions** counter on the employee
+  (``expenses_deduction_count``) is now restricted to HR users
+  (``groups="hr.group_hr_user"``), like the company card journal. It is
+  not on the public employee profile, so users without HR rights
+  (website, POS) got an access error when reading an employee. New test:
+  ``test_employee_public_access``.
+
+19.0.3.9.0 (2026-11-04)
+-----------------------
+
+- A **Supplier Payment** line takes the payable account of the supplier
+  (401), set from the partner and read-only; an **Expense** line keeps
+  the default expense account, chosen by the accountant.
+- A **Supplier Payment** line has no VAT: the taxes cannot be filled in
+  and are ignored, as the bill paid already has its VAT booked. The
+  amount paid is the total of the line.
+
+19.0.3.8.0 (2026-10-29)
+-----------------------
+
+- A supplier payment line can name the bills it pays (button on the
+  line, **Bills Paid**): for each bill, the allocated amount (by default
+  its amount due, at most the unallocated part of the payment). On
+  validation the entry Dr 401 = Cr 542 has one 401 line per bill,
+  reconciled only with that bill, so the bill becomes paid or partially
+  paid and shows the payment with the report number. Bills in the
+  currency of the report are settled in that currency; the exchange
+  difference goes to 665/765. Invalidating the report undoes the
+  reconciliations.
+- The unallocated part of a supplier payment is a supplier advance and
+  is still reclassified Dr 4092 = Cr 401, as when no bill covers the
+  payment.
+- Without bills named on the line, the payment still settles the oldest
+  open bills first.
+- The 401 line of a supplier payment is booked on the supplier company
+  (commercial partner): a line entered with a contact person of the
+  supplier did not find the company's bills.
+
+19.0.3.7.2 (2026-10-27)
+-----------------------
+
+- The company card journal on the employee is restricted to HR officers:
+  users without HR rights (e.g. the PoS cashier) got an access error
+  when reading employees, as the field was prefetched from the public
+  employee profile.
 
 19.0.3.7.1 (2026-10-27)
 -----------------------

@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 19 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 21 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
       </div>
@@ -36,6 +36,11 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -113,8 +118,58 @@ cu unit&#259;&#539;ile din arborele unit&#259;&#539;ii produsului. C&#226;nd e c
 <p>Liniile de furnizor existente nu se modific&#259;: dac&#259; au alt&#259; unitate, se corecteaz&#259;
 manual, odat&#259; cu pre&#539;ul, care e exprimat &#238;n unitatea liniei.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>Install the module and enable <strong>Units of Measure</strong> in <strong>Inventory &#8594; Configuration &#8594; Settings</strong>. No
+other configuration is needed: the unit lists are widened as soon as the module is installed. A new
+unit joins a tree through its reference unit (for example "Cutie 100 buc", reference Units, ratio
+100); it does not have to be added to each product.</p>
+<ol>
+<li><strong>Set the default purchase unit</strong> &#8212; on the product, <strong>Purchase</strong> tab, fill in <strong>Default Purchase
+   Unit</strong> (1) with the unit you buy in. Only units convertible to the product's unit are offered. In
+   the example, the beam is stocked per piece of 0.0384 m&#179; and has no vendor line.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Purchase tab of the product Grind&#259; molid 8x8 cm, 6 m: no vendor line, Default Purchase Unit (1) set to m&#179;" src="en/01_produs_um_implicita_achizitie.png" /></p>
+<ol start="2">
+<li><strong>The request for quotation takes it</strong> &#8212; create a request for quotation (<strong>Purchase &#8594; Orders &#8594;
+   Requests for Quotation</strong>, <strong>New</strong>) and add the product. The line is in <strong>m&#179;</strong> even though the vendor
+   has no pricelist line, and no other unit can be chosen. The proposed price is the cost converted
+   to m&#179;. On receipt, the 4.50 m&#179; enter the stock converted to pieces; without the module they would
+   have entered as 4.50 pieces.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Request for quotation to Gater Bistri&#539;a SRL: the line of Grind&#259; molid 8x8 cm, 6 m is 4.50 in the highlighted unit m&#179;, at 1,250.00, amount 5,625.00 lei" src="en/02_cerere_oferta_um_implicita.png" /></p>
+<ol start="3">
+<li><strong>Choose any convertible unit</strong> &#8212; for a product without a default purchase unit, the <strong>Unit</strong> list
+   of a request for quotation, purchase order or vendor bill line offers every unit of the product's
+   unit tree. A product in Units with no packaging offers Cutie 100 buc, Dozens, Pack of 6 and Units;
+   it does not offer kg. Standard Odoo 19 would offer only Units. Next to each unit, the list shows
+   what the line quantity would mean in the product's unit (500 Cutie 100 buc = 50000 Units):
+   changing the unit does not recalculate the quantity, so correct both together.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Request for quotation to Feronerie Nord SRL: the Unit list of the &#536;urub autoforant 4,2x13 line shows Cutie 100 buc, Dozens, Pack of 6 and Units" src="en/03_cerere_oferta_lista_um.png" /></p>
+<ol start="4">
+<li><strong>Vendor lines</strong> &#8212; on the product, <strong>Purchase</strong> tab, the unit of a vendor line can only be the
+   product's unit or a unit of the same tree. A unit from another tree (ml for a cable sold in meters)
+   can no longer be chosen. When the product has a default purchase unit, a new vendor line takes it
+   and its unit cannot be changed. Existing vendor lines are not changed: when you correct their unit,
+   correct their price as well, since the price is expressed in the unit of the line.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Purchase tab of the product &#536;urub autoforant 4,2x13: the Unit list of the Feronerie Nord SRL vendor line shows Units, Pack of 6, Dozens and Cutie 100 buc" src="en/04_furnizor_lista_um.png" /></p>
+<p>Sales orders, customer invoices and stock moves keep the standard unit lists: customer invoices are
+sent with the UNECE code of the unit, and a unit without a mapped code would be declared as a piece.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.1 (2026-11-03)</h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> for the Apps Store: wider unit lists on purchases, the vendor
+  line restriction and the default purchase unit, with English screenshots in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/en/</code>.</li>
+<li>Consultant sheet <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code> with Romanian screenshots, generated
+  by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code> in both languages.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code>: Romanian translation of <em>Default Purchase Unit</em>, its help and the
+  constraint message.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-20)</h2>
 <ul>
 <li>Default purchase unit on the product (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_uom_id</code>, Purchase tab), restricted

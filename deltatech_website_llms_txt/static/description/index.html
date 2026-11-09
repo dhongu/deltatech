@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 11 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:93%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:92%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">93% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">92% code coverage</div>
     </div>
   </div>
 </div>
@@ -43,6 +43,11 @@
        style="padding:10px 22px;">Configuration</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -57,25 +62,61 @@ read to understand who you are and which pages matter, instead of guessing from 
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Generated from the website</span><div>The site name, a summary, the contact details of the company,
   the published and indexed pages (with their meta description), the shop and its categories when
   eCommerce is installed, and the sitemap.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Your words first</span><div>A summary and a free Markdown text (delivery areas, payment, returns, what
-  an assistant should know before recommending you) are set per website in the settings.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Full control when needed</span><div>A custom file, when filled in, is served as is instead of the
+  an assistant should know before recommending you) are written per website, in the <em>llms.txt</em>
+  tab of the website form, full width.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Full control when needed</span><div>A custom file, when filled in, is served as is instead of the
   generated one; the file can also be switched off per website.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">One file per website</span><div>On a multi-website database each domain serves its own file, with its
   own pages and categories.</div></div></li></ul>
 <p><strong>Data published:</strong> only what is already public on the website (published pages, shop
-categories, the company email, phone and city) and the texts you type in the settings.</p>
+categories, the company email, phone, city and country) and the texts you write for it.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-configure" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Configuration</h2>
 <ol>
-<li>Go to <em>Website &gt; Configuration &gt; Settings</em>, section <em>Tracking &amp; SEO</em>, setting <em>llms.txt</em>.</li>
-<li>Keep <em>Publish llms.txt</em> on and write a one or two sentence <em>Summary</em>; without it the meta
-   description of the homepage is used.</li>
-<li>Optionally add <em>Details</em> in Markdown, or a <em>Custom file</em> to replace the generated content.</li>
+<li>Go to <em>Website &gt; Configuration &gt; Settings</em>, section <em>Tracking &amp; SEO</em>: keep the <em>llms.txt</em>
+   setting checked and click <em>Edit llms.txt</em>.</li>
+<li>In the <em>llms.txt</em> tab of the website, write a one or two sentence <em>llms.txt Summary</em>; without
+   it the meta description of the homepage is used.</li>
+<li>Optionally add <em>llms.txt Details</em> in Markdown, or a <em>Custom llms.txt</em> to replace the generated
+   content.</li>
 <li>Click <em>View llms.txt</em> to check the file served at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://&lt;your-domain&gt;/llms.txt</code>.</li>
 </ol>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<ol>
+<li>Go to <em>Website &gt; Configuration &gt; Settings</em>, section <em>Tracking &amp; SEO</em>. Keep the <em>llms.txt</em>
+   setting checked and click <em>Edit llms.txt</em>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Website settings, Tracking and SEO section: the llms.txt setting checked, with the Edit llms.txt and View llms.txt links highlighted" src="en/01_setare_llms_txt.png" /></p>
+<ol start="2">
+<li>In the <em>llms.txt</em> tab of the website, write the <em>llms.txt Summary</em> (who you are and what you
+   sell) and, optionally, <em>llms.txt Details</em> in Markdown (delivery, payment, returns). Save, then
+   click <em>View llms.txt</em>.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The llms.txt tab of the Gr&#259;dina Demo website: Publish llms.txt checked, the llms.txt Summary of the shop, llms.txt Details with a Delivery section in Markdown, an empty Custom llms.txt and the View llms.txt link" src="en/02_tab_llms_txt.png" /></p>
+<ol start="3">
+<li>The file is served at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://&lt;your-domain&gt;/llms.txt</code>: the website name and the summary,
+   the company contact, your details, the published and indexed pages with their meta
+   description, the shop categories (with eCommerce) and the sitemap. Pages without a
+   description in their SEO settings use the one set in their template, as theme pages do.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="The /llms.txt file of the Gr&#259;dina Demo website at www.gradina-demo.ro: title, summary after the &gt; sign, the Contact line with email, phone, city and country, the Delivery section from the details, then Pages with Home, Contact Us and Delivery and returns, each with its description, and Optional with the Sitemap" src="en/03_fisier_llms_txt.png" /></p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">History</h1>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-11-02)</h2>
+<ul>
+<li>The pages without a meta description in their SEO settings take the one set in their
+  template (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&lt;t t-set="website_meta_description"&gt;</code>), as the pages of a theme do: theme pages
+  have no SEO field of their own, so they were listed without a description.</li>
+<li>The summary, the details and the custom file move from the settings to a new <em>llms.txt</em> tab
+  of the website form (<em>Website &gt; Configuration &gt; Websites</em>), full width, for longer Markdown.
+  The settings keep the <em>llms.txt</em> checkbox, with the links <em>Edit llms.txt</em> and <em>View llms.txt</em>.</li>
+<li>Romanian translation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code>).</li>
+<li>The <em>View llms.txt</em> link in the settings no longer logs the warning <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">"&lt;a&gt;" tag with "btn"
+  class must have "button" role</code> at installation.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-10-16)</h2>
 <ul>
 <li>Initial release: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/llms.txt</code> generated per website from its pages, shop categories and
@@ -217,7 +258,7 @@ categories, the company email, phone and city) and the texts you type in the set
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Add a final order review and confirmation step to eCommerce checkout</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Confirm eCommerce orders on the checkout confirmation page, including wire transfer and cash on delivery</p>
         </div>
       </a>
     </div>
@@ -277,7 +318,7 @@ categories, the company email, phone and city) and the texts you type in the set
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">eCommerce Delivery and Payment constrains</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Limit eCommerce delivery methods and payment providers</p>
         </div>
       </a>
     </div>

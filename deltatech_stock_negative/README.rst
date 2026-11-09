@@ -19,9 +19,9 @@ No Negative Stock
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_negative/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-35%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-40%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_negative
-    :alt: 35 automated tests · 87% code coverage
+    :alt: 40 automated tests · 87% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -37,12 +37,21 @@ the location.
   quantity that would remain, and is pointed to adjust the quantities or
   correct the stock.
 - **Exceptions per location**: Allow negative stock on the locations
-  where you need it, such as a production floor or a consignment area.
+  where you need it, such as a production floor or a transit area.
 - **Checked on the physical stock**: The quantity on hand in the
   location, per lot, package and owner, not the forecast.
 - **Safe for multi-line transfers**: Several lines of the same product
   in one validation are added up, so they cannot overdraw the stock
   together.
+- **Serial numbers, strict or by total**: Per location, check
+  serial-tracked products on the serial number of the line or on the
+  total of the location.
+- **Point of Sale friendly**: Goods sold at the register have already
+  left the shop, so Point of Sale receipts go through by default; each
+  bypass is logged and the shortfall stays visible as negative stock to
+  correct.
+- **Only products with tracked stock**: Consumables without *Track
+  Inventory* are not checked, since Odoo keeps no stock for them.
 - **Company setting**: Turn the rule on or off separately for each
   company.
 
@@ -56,41 +65,138 @@ Configuration
 
 1. Go to *Inventory > Configuration > Settings*, section *Traceability*,
    and enable **No negative stock**. The setting applies to the current
-   company.
+   company; in a multi-company database, enable it on each company.
 
-|image1|
+2. Right below it, decide on **Allow negative stock from Point of Sale**
+   (enabled by default). Point of Sale validates the delivery of a
+   receipt in the background and does not show the cashier an error, so
+   a refused delivery would only leave the stock undeducted:
 
-2. Optionally, open *Inventory > Configuration > Locations* and, on the
-   locations where stock may go below zero, check **Allow Negative
-   Stock**.
+   - enabled: a receipt's delivery is validated even when it takes the
+     location below zero; the bypass is logged and the location shows
+     negative stock to correct;
+   - disabled: the rule applies to receipts as well, and their
+     deliveries stay unvalidated until the stock is there.
 
-3. For products tracked by serial number, **Check Serial No.** (enabled
-   by default) makes the check per serial number. Uncheck it on a
-   location to check the product as a whole there.
+   The setting has no effect when Point of Sale is not installed.
 
-|image2|
+|No negative stock and Allow negative stock from Point of Sale in
+Settings|
 
-.. |image1| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/settings.png
-.. |image2| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/settings_location.png
+3. Enable *Storage Locations* (section *Warehouse*) to see the location
+   options. Open *Inventory > Configuration > Locations* and, on the
+   internal locations where stock may go below zero (transit, work in
+   progress), check **Allow Negative Stock**.
+
+4. For products tracked by serial number, **Check Serial No.** (enabled
+   by default) checks the serial number of the line. Uncheck it on a
+   location to check the total of all serial numbers there; reservation
+   then also ignores the serial number.
+
+|Location form with Allow Negative Stock and Check Serial No.|
+
+5. Before enabling the rule on an existing database, review the negative
+   positions (*Inventory > Reporting > Locations*, filter *Negative
+   Stock*): record the missing receipts or transfers first, and use an
+   inventory adjustment only for the real differences. Negative
+   positions left in place block every outgoing move from them.
+
+.. |No negative stock and Allow negative stock from Point of Sale in Settings| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/01_setari_fara_stoc_negativ.png
+.. |Location form with Allow Negative Stock and Check Serial No.| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/02_locatie_optiuni.png
 
 Usage
 =====
 
-Work with transfers as usual. When a user validates a transfer, the
-module checks every line that takes stock out of an internal location:
+Work with transfers as usual. The check runs when a transfer is
+**validated**, on every line that takes stock out of an internal
+location, and on all lines together.
 
-- if enough stock is left, the transfer is validated normally;
-- if the location would go below zero, the validation stops with a
-  message such as *"You have chosen to avoid negative stock. -2 pieces
-  of Desk Combination are remaining in location Stock."*
+1. **Prepare a transfer.** In this example the location *Raft A* holds 1
+   unit of the product, and the transfer picks it twice, 1 unit per
+   line, in *Detailed Operations*. Each line alone would fit; together
+   they need 2 units.
 
-The user can then lower the quantities, pick from another location or
-lot, or correct the stock with an inventory adjustment first. A stock
-that is already wrong can always be brought back with an inventory
-adjustment.
+   |Detailed Operations with two lines of 1 unit picked from Raft A, on
+   a stock of 1 unit|
+
+2. **Validate.** The lines are added up per location, lot, package and
+   owner, after converting the units of measure. When the location would
+   go below zero, validation stops with an *Invalid Operation* message
+   naming the product, the location and the quantity that would remain
+   (here -1). Nothing is moved: lower the quantities, pick from another
+   location or lot, or validate the missing receipt first.
+
+   |Invalid Operation dialog: you have chosen to avoid negative stock,
+   with the product, the remaining quantity and the location|
+
+3. **Check the stock positions.** *Inventory > Reporting > Locations*
+   shows the positions the check compares against: one row per product,
+   location, lot or serial number, package and owner. The check uses *On
+   Hand*, not *Available*: a line on one lot, package or owner cannot
+   use the stock of another.
+
+   |Stock positions per location, lot, package and owner|
+
+4. **Locations allowed to go negative.** On a location with **Allow
+   Negative Stock**, the same transfer is validated and the position
+   stays negative. Incoming moves are never checked, only the source
+   location of a move.
+
+   |Negative position on WH/Stock/Tranzit, the location that allows
+   negative stock|
+
+5. **Serial numbers.** With **Check Serial No.** unchecked on the
+   location, the stock is checked on the total of all serial numbers
+   there: two lines on two serial numbers pass when the location holds
+   two units. Note that a line on a serial number that is not in the
+   location also passes when the total is enough; that serial number
+   then goes to -1 and has to be corrected by an inventory adjustment.
+
+   |Done transfer from Raft Serii, Detailed Operations on SN-1001 and
+   SN-1002|
+
+6. **Bring a negative position back to zero.** Once the cause is found
+   and the missing documents are recorded, open *Inventory > Operations
+   > Physical Inventory*, filter *Negative Stock*, enter the counted
+   quantity (0 when the shelf is empty) and click **Apply**. An increase
+   is an incoming move and is not blocked; a count that would take the
+   stock below zero is blocked like any other outgoing move.
+
+   |Physical Inventory on a negative position: On Hand -5, Counted 0,
+   Difference +5, before Apply|
+
+Not checked: products without *Track Inventory*, non-internal locations,
+and Point of Sale receipts while **Allow negative stock from Point of
+Sale** is enabled. Every Point of Sale bypass is written to the server
+log with the transfer, product, quantity and location.
+
+.. |Detailed Operations with two lines of 1 unit picked from Raft A, on a stock of 1 unit| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/03_transfer_doua_linii.png
+.. |Invalid Operation dialog: you have chosen to avoid negative stock, with the product, the remaining quantity and the location| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/04_eroare_stoc_negativ.png
+.. |Stock positions per location, lot, package and owner| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/05_pozitii_stoc.png
+.. |Negative position on WH/Stock/Tranzit, the location that allows negative stock| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/06_locatie_stoc_negativ_permis.png
+.. |Done transfer from Raft Serii, Detailed Operations on SN-1001 and SN-1002| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/07_serie_check_debifat.png
+.. |Physical Inventory on a negative position: On Hand -5, Counted 0, Difference +5, before Apply| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_negative/static/description/en/08_inventar_corectie_negativ.png
 
 Changelog
 =========
+
+19.0.2.1.2
+----------
+
+- *Allow negative stock from Point of Sale* now actually lets Point of
+  Sale receipts through. Point of Sale creates the delivery of a receipt
+  with its session only and validates it at once, writing the order on
+  it afterwards (real-time receipts) or never (deliveries grouped at
+  session closing); the bypass looked for the order, so it never applied
+  there and receipts kept leaving their deliveries unvalidated. The
+  delivery is now recognised by its Point of Sale session. Receipts
+  shipped later are excluded: their goods are still in the shop, so
+  their delivery follows the rule like any other.
+- Consultant sheet, description, configuration and usage updated for the
+  *Allow negative stock from Point of Sale* setting and for products
+  without *Track Inventory*. The setting is now translated in Romanian;
+  screenshots regenerated in Romanian for the sheet and in English for
+  the Apps Store page.
 
 19.0.2.1.1
 ----------

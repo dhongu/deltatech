@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 1 automated test</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 3 automated tests</div>
       
     </div>
   </div>
@@ -35,6 +35,11 @@
        style="padding:10px 22px;">Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;">Versions</a>
@@ -45,7 +50,7 @@
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">A custom widget  that displays Many2one fields as colored badges, similar to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">many2many_tags</code>.</p>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h1>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Displays as a colored badge in readonly mode</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Click on badge to change color via color picker popover (edit mode)</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Remove button (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&#215;</code>) appears on hover over the badge</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Autocomplete input for selecting a new value when field is empty</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Supports customizable <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">color_field</code> option</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Compatible with all standard Odoo colors (0&#8211;11)</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Modern rounded badge design</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Displays as a colored badge in readonly mode</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Click on badge to change color via color picker popover (edit mode)</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Remove button (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">&#215;</code>) appears on hover over the badge</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Autocomplete input for selecting a new value when field is empty</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Supports customizable <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">color_field</code> option</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Compatible with the standard Odoo colors (1&#8211;11 from the picker, 0 for no color)</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>&#9989; Modern rounded badge design</div></div></li></ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Installation</h1>
 <ol>
 <li>Copy the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_widget_many2one_badge</code> folder into your Odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">addons</code> directory</li>
@@ -154,7 +159,8 @@ class Priority(models.Model):
 &lt;/record&gt;
 </code></pre>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Available Colors</h1>
-<p>Odoo provides 12 predefined colors (indices 0&#8211;11):</p>
+<p>Odoo provides 12 predefined colors (indices 0&#8211;11). The badge color picker offers 1&#8211;11; index 0
+(no color) is set from the related record's own form.</p>
 <table class="table table-bordered" style="font-size:14px;">
 <thead>
 <tr>
@@ -165,7 +171,7 @@ class Priority(models.Model):
 <tbody>
 <tr>
 <td>0</td>
-<td>Grey (no color)</td>
+<td>No color (grey)</td>
 </tr>
 <tr>
 <td>1</td>
@@ -181,19 +187,19 @@ class Priority(models.Model):
 </tr>
 <tr>
 <td>4</td>
-<td>Light green</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Green</td>
-</tr>
-<tr>
-<td>6</td>
 <td>Cyan</td>
 </tr>
 <tr>
+<td>5</td>
+<td>Purple</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Almond</td>
+</tr>
+<tr>
 <td>7</td>
-<td>Light blue</td>
+<td>Teal</td>
 </tr>
 <tr>
 <td>8</td>
@@ -201,15 +207,15 @@ class Priority(models.Model):
 </tr>
 <tr>
 <td>9</td>
-<td>Purple</td>
+<td>Raspberry</td>
 </tr>
 <tr>
 <td>10</td>
-<td>Pink</td>
+<td>Green</td>
 </tr>
 <tr>
 <td>11</td>
-<td>Brown</td>
+<td>Violet</td>
 </tr>
 </tbody>
 </table>
@@ -228,8 +234,41 @@ class Priority(models.Model):
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Contributing</h1>
 <p>Contributions are welcome! Please open an issue or pull request on the project repository.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>The module has no menus of its own: the badge appears on the fields where other modules use it.
+The steps below use the sale order phase from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_stage</code>; the purchase order phase
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_purchase_phase</code>) behaves the same way.</p>
+<ol>
+<li>Go to <strong>Sales &#8594; Orders &#8594; Orders</strong>. The <strong>Phase</strong> column shows the phase of each order as a
+   colored badge, one color per phase.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales Orders list with six confirmed orders; the Phase column shows the colored badges Confirmed, Order sent, Delivered and Shipped; the Delivered badge on the third row is highlighted" src="en/01_lista_comenzi_faze.png" /></p>
+<ol start="2">
+<li>Open an order. The <strong>Phase</strong> field shows the badge; hovering it shows <strong>&#215;</strong>, which removes the
+   value and brings back the search box to pick another phase.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales order S00002 for Ionescu Andrei: the Phase field with the blue Confirmed badge and the &#215; to remove it" src="en/02_comanda_eticheta_faza.png" /></p>
+<ol start="3">
+<li>Click the badge to open the color picker (11 colors). The chosen color is saved on the phase
+   right away, not on the order, so every order with that phase shows the new color. Saving it
+   requires write access on the phases (Sales / Administrator).</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Sales order S00002 with the color picker open under the Confirmed badge: 11 colored circles to choose the phase color from" src="en/03_alegere_culoare.png" /></p>
+<p>The colors of all the badges on screen are read with a single request to the server.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4</h1>
+<ul>
+<li>One <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">read</code> for the colors of all the badges on screen, instead of one <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">read</code> per
+  badge: a list of 80 orders sent 80 extra requests to the server, each time it was
+  displayed. The color is also no longer read again when the record changes but the
+  value stays the same.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) and usage page, with screenshots generated by
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code> on the sale order phase of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_stage</code>. The color table
+  in the description now matches the Odoo 19 palette.</li>
+</ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3</h1>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
@@ -345,7 +384,7 @@ class Priority(models.Model):
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

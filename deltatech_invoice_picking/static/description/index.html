@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 18 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 23 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:77%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:79%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">77% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">79% code coverage</div>
     </div>
   </div>
 </div>
@@ -121,6 +121,13 @@ those lines cannot be deleted, so the invoice stays aligned with the delivered q
 transfers of the batch that are not invoiced, or only partly invoiced, go on the invoice; the fully
 invoiced ones are skipped. For a batch of receipts, fill in <strong>Supplier Invoice No</strong> on each receipt first.</p>
 <p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Done batch BATCH/00101 with the Invoice button" src="en/09_lot_buton_factura.png" /></p>
+<p><strong>Refund a return</strong></p>
+<p>A validated return of an invoiced delivery is <strong>To invoice</strong>, with no invoice linked. Click <strong>Invoice</strong>
+on the return and <strong>Create Draft</strong>: Odoo creates the customer credit note with the returned quantity
+and links it to the return. A credit note made from the invoice with <strong>Credit Note</strong> does not update the
+return.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Return of delivery DC/OUT/00001, done: no invoice, To invoice set and the Invoice button" src="en/11_retur_de_facturat.png" /></p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Credit note created from the return: 2 Scaun ergonomic Nova, 1,089.00 lei" src="en/12_nota_credit_retur.png" /></p>
 <p><strong>Invoice the ordered quantities</strong></p>
 <p>On the sale order, the <strong>Other Info</strong> tab has <strong>Force Invoice Order</strong>: the order lines are invoiced on the
 ordered quantities, whatever the invoicing policy of the product. When the invoice starts from a
@@ -330,7 +337,7 @@ transfer, the quantities are still those of the transfer.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Set the product list price in a currency other than the company&#x27;s</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Keep product sales prices in a company-wide currency other than the accounting currency</p>
         </div>
       </a>
     </div>

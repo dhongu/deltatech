@@ -19,21 +19,90 @@ Invoice Product Filter
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_product_filter
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_invoice_product_filter/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 - Features:
 
   - Searching invoice using product
   - Searching invoice using the product's vendor (supplier) name
 
+Odoo Online
+===========
+
+The module contains no Python code, only a search view extension.
+Besides Odoo.sh and on-premise installations, it can be used on Odoo
+Online (Custom plan): download the zip and load it from **Apps > Import
+Module**.
+
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+1. Install the module, or on Odoo Online import the zip from **Apps >
+   Import Module** (Custom plan, developer mode). There is nothing to
+   configure; for the vendor search, the products need their vendors in
+   the **Purchase** tab of the product form.
+
+2. Open **Invoicing > Customers > Invoices** and type a product name, or
+   part of it, in the search bar. Two new suggestions appear: **Search
+   Product for: ...** and **Search Vendor for: ...**.
+
+   |Invoices list with TEST Ergonomic typed in the search bar; the
+   suggestions include Search Product for: TEST Ergonomic (highlighted)
+   and Search Vendor for: TEST Ergonomic|
+
+3. Choose **Search Product**: the list keeps only the invoices that have
+   the product on at least one line. The search uses the product name,
+   its internal reference or its barcode.
+
+   |Invoices list filtered by Product: TEST Ergonomic, showing the
+   invoices of TEST Contoso Interiors Ltd and TEST Northwind Builders
+   Ltd|
+
+4. Remove the facet, type a vendor name and choose **Search Vendor**:
+   the list keeps the invoices with products bought from that vendor,
+   whatever the product.
+
+   |Invoices list filtered by Vendor: TEST Office, showing three
+   invoices with products supplied by TEST Office Supply Ltd|
+
+Both criteria are available in every invoice list: customer invoices and
+credit notes, vendor bills and refunds. They can be combined with each
+other and with the standard filters.
+
+.. |Invoices list with TEST Ergonomic typed in the search bar; the suggestions include Search Product for: TEST Ergonomic (highlighted) and Search Vendor for: TEST Ergonomic| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_product_filter/static/description/en/01_cautare_dupa_produs.png
+.. |Invoices list filtered by Product: TEST Ergonomic, showing the invoices of TEST Contoso Interiors Ltd and TEST Northwind Builders Ltd| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_product_filter/static/description/en/02_facturi_filtrate_produs.png
+.. |Invoices list filtered by Vendor: TEST Office, showing three invoices with products supplied by TEST Office Supply Ltd| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_product_filter/static/description/en/03_facturi_filtrate_furnizor.png
+
 Changelog
 =========
+
+19.0.1.2.1 (2026-11-09)
+-----------------------
+
+- The "(importable, Odoo Online)" suffix was removed from the module
+  name. Odoo Apps already shows the module as available on Odoo Online
+  (Manifest > Availability), and the Apps banner now carries an "Odoo
+  Online" label instead.
+
+19.0.1.2.0 (2026-11-08)
+-----------------------
+
+- Data-only module: the empty ``__init__.py`` was removed, so the module
+  has no Python code. It can be installed on Odoo Online (Custom plan)
+  as a zip from Apps > Import Module, as well as on Odoo.sh and
+  on-premise.
+- Odoo Apps does not mark data-only modules as available on Odoo Online,
+  so the module name, the summary, the banner and the Apps Store page
+  now say it: "Invoice Product Filter (importable, Odoo Online)".
 
 19.0.1.1.1 (2026-09-29)
 -----------------------

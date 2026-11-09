@@ -13,33 +13,44 @@ Deltatech Cron Progress
 .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/18.0/deltatech_cron_progress
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_cron_progress
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_cron_progress/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_cron_progress
+    :alt: 12 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 Technical module that adds a common helper for batch cron jobs:
 ``ir.cron._cron_report_progress(done, remaining)``.
 
-The helper uses the native cron progress of Odoo 18
-(``_notify_progress``): when a batch reports ``remaining > 0``, the
-scheduler runs the job again right away (up to 10 times per acquisition,
-then on the next poll), so the cron no longer has to call ``_trigger()``
-on itself after every batch.
+The helper uses the native cron progress of Odoo 19
+(``_commit_progress``): when a batch reports ``remaining > 0``, the
+scheduler runs the job again right away (at least 10 runs and 10 seconds
+per acquisition, then on the next poll), so the cron no longer has to
+call ``_trigger()`` on itself after every batch. "Run manually" loops
+the same way.
 
 Rules applied by the helper:
 
 - ``done == 0`` forces ``remaining = 0``, so a batch that made no
-  progress stops the loop (mandatory for 19.0, where ``done == 0`` with
-  ``remaining > 0`` is retried immediately);
-- outside the scheduler ("Run manually", the cron monitor webhook or a
-  direct call from code), Odoo 18 runs the job only once, so the helper
-  calls ``_trigger()`` on the cron to process the rest in the
-  background.
+  progress stops the loop (in 19.0, ``done == 0`` with ``remaining > 0``
+  is otherwise retried right away);
+- in a cron run the progress is **committed** (``_commit_progress``), so
+  it survives a timeout of a later batch;
+- outside a cron run (direct call from code) nothing is committed and
+  the helper calls ``_trigger()`` on the cron it is called on, to
+  process the rest in the background.
+
+The same signature exists in the 18.0 version of the module, so the cron
+code that uses it is the same on both versions.
 
 **Table of contents**
 
@@ -71,22 +82,23 @@ cron:
   running total.
 - Report ``remaining = 0`` in dry run mode or when the rest cannot be
   processed.
-- The cron is resolved from the running progress (scheduler or "Run
-  manually"); the recordset on which the helper is called is used only
-  for direct calls from code, so
-  ``self.env["ir.cron"]._cron_report_progress(...)`` is enough when the
-  same method backs several cron jobs.
+- In a cron run the helper commits the transaction: call it after the
+  batch, never in the middle of work that must stay atomic.
+- The recordset on which the helper is called is used only for direct
+  calls from code (it is the cron triggered for the rest); in a cron run
+  ``self.env["ir.cron"]._cron_report_progress(...)`` is enough.
 
 Changelog
 =========
 
-18.0.1.0.0 (2026-10-30)
+19.0.1.0.0 (2026-10-30)
 -----------------------
 
-- Initial version: ``ir.cron._cron_report_progress(done, remaining)``, a
-  common helper for batch cron jobs on top of the native cron progress
-  (``_notify_progress``), with a ``_trigger()`` fallback for manual runs
-  and direct calls.
+- Port of the 18.0 module:
+  ``ir.cron._cron_report_progress(done, remaining)`` now reports through
+  ``_commit_progress`` (which commits), with the same signature as in
+  18.0. "Run manually" loops by itself in 19.0, so the ``_trigger()``
+  fallback is kept only for direct calls from code.
 
 Bug Tracker
 ===========
@@ -116,6 +128,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/18.0/deltatech_cron_progress>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_cron_progress>`_ project on GitHub.
 
 You are welcome to contribute.

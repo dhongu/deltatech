@@ -56,6 +56,13 @@ set), rounding inflation, manual overrides and snoozes.
 Changelog
 =========
 
+19.0.1.1.7 (2026-10-25)
+-----------------------
+
+- Tests: no longer fail when deltatech_auto_reorder_rule is installed in
+  the same database (it already created the reordering rule the tests
+  create).
+
 19.0.1.1.6 (2026-10-17)
 -----------------------
 

@@ -16,8 +16,14 @@ Pricelist Bulk Rules
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_bulk
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pricelist_bulk/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_bulk/tests
+    :alt: 19 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Adds rules to a pricelist for many products at once and applies the same
 price computation to many existing rules, instead of entering the rules

@@ -16,11 +16,11 @@ List View Select Text
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_list_view
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_list_view/tests
-    :alt: 1 automated test
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_list_view/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Function:
 
@@ -35,13 +35,84 @@ Functions:
 - Stergerea de doua ori a unei linii one2many nesalvate nu mai blocheaza
   salvarea formularului cu eroarea ``virtual_N``
 
+Odoo Online
+===========
+
+The module contains no Python code, only JavaScript and a style sheet.
+Besides Odoo.sh and on-premise installations, it can be used on Odoo
+Online (Custom plan): download the zip and load it from **Apps > Import
+Module**.
+
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+1. Install the module, or on Odoo Online import the zip from **Apps >
+   Import Module** (Custom plan, developer mode), then reload the page.
+   There is nothing to configure.
+
+2. Open any list, for example **Contacts > Contacts** in the list view.
+   Press the mouse button at the start of a value (an email, a phone, a
+   reference), drag to its end and release: the text stays selected and
+   the record does not open. Copy it with Ctrl+C.
+
+   |Contacts list view: in the row TEST Northwind Builders Ltd the
+   email| office@northwind.test |is selected and the list is still
+   displayed|
+
+3. Click a row without selecting text: the record opens as usual.
+
+   |The form of TEST Northwind Builders Ltd, opened by a plain click on
+   its row|
+
+The module also fixes the save of a form after an unsaved one2many line
+was deleted twice (for example with Enter pressed twice on its trash
+icon), which failed with a ``virtual_N`` error. In the dark theme, it
+removes the light background of images in forms and kanban views.
+
+.. |Contacts list view: in the row TEST Northwind Builders Ltd the email| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_list_view/static/description/en/01_selectare_text_lista.png
+.. |is selected and the list is still displayed| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_list_view/static/description/en/01_selectare_text_lista.png
+.. |The form of TEST Northwind Builders Ltd, opened by a plain click on its row| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_list_view/static/description/en/02_clic_deschide_inregistrarea.png
+
 Changelog
 =========
+
+19.0.1.1.2 (2026-11-09)
+-----------------------
+
+- The "(importable, Odoo Online)" suffix was removed from the module
+  name. Odoo Apps already shows the module as available on Odoo Online
+  (Manifest > Availability), and the Apps banner now carries an "Odoo
+  Online" label instead.
+
+19.0.1.1.1 (2026-11-08)
+-----------------------
+
+- The Python test runner (``tests/test_js.py``) was removed: Odoo Apps
+  treats any ``.py`` file as Python code and showed the module as not
+  available on Odoo Online. The JavaScript test
+  (``static/tests/static_list_delete.test.js``) stays in the module and
+  runs with the web unit tests
+  (``/web/tests?filter=deltatech_list_view``).
+
+19.0.1.1.0 (2026-11-08)
+-----------------------
+
+- Data-only module: the empty ``__init__.py`` was removed, so the module
+  has no Python code at runtime (``tests/`` stays, for the JavaScript
+  test in CI). It can be installed on Odoo Online (Custom plan) as a zip
+  from Apps > Import Module, as well as on Odoo.sh and on-premise.
+- The JavaScript test is listed by name in the manifest assets: an
+  imported module does not accept wildcards (``**/*``) in asset paths.
+  The obsolete ``qweb`` key, pointing to a folder that does not exist,
+  was removed.
+- Odoo Apps does not mark data-only modules as available on Odoo Online,
+  so the module name, the summary, the banner and the Apps Store page
+  now say it: "List View Select Text (importable, Odoo Online)".
 
 19.0.1.0.5 (2026-10-19)
 -----------------------

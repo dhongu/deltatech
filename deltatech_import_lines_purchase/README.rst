@@ -16,8 +16,11 @@ Import Lines in Purchase Orders
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_import_lines_purchase
     :alt: dhongu/deltatech
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_import_lines_purchase
+    :alt: 3 automated tests · 84% code coverage
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_tests|
 
 Adds an **Import Lines** button on requests for quotation (draft and
 sent purchase orders) that loads the order lines from a file with the
