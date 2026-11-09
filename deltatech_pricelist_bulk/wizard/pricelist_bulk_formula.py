@@ -50,8 +50,7 @@ class PricelistBulkFormula(models.TransientModel):
         vals = self._get_write_vals()
         if not vals:
             raise UserError(self.env._("Choose what to change on the selected rules."))
-        if self.change_price and self.base == "pricelist" and self.base_pricelist_id in self.item_ids.pricelist_id:
-            raise UserError(self.env._("A rule cannot be based on its own pricelist."))
+        self._check_base_pricelist(vals, self.item_ids.pricelist_id)
         self.item_ids.write(vals)
         return {
             "type": "ir.actions.client",

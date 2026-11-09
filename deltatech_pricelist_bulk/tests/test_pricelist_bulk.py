@@ -171,3 +171,42 @@ class TestPricelistBulk(TransactionCase):
         )
         with self.assertRaises(UserError):
             wizard.action_apply()
+
+    def test_discount_on_own_pricelist(self):
+        """The Discount type on a pricelist also sets the base pricelist: it is refused too."""
+        self._add_wizard(fixed_price=10.0).action_apply()
+        wizard = self.env["pricelist.bulk.formula"].create(
+            {
+                "item_ids": [(6, 0, self.pricelist.item_ids.ids)],
+                "compute_price": "percentage",
+                "percent_price": 5.0,
+                "base_pricelist_id": self.pricelist.id,
+            }
+        )
+        with self.assertRaises(UserError):
+            wizard.action_apply()
+
+    def test_add_rules_on_own_pricelist(self):
+        for vals in (
+            {"compute_price": "percentage", "base_pricelist_id": self.pricelist.id},
+            {"compute_price": "formula", "base": "pricelist", "base_pricelist_id": self.pricelist.id},
+        ):
+            with self.assertRaises(UserError):
+                self._add_wizard(**vals).action_apply()
+        self.assertFalse(self.pricelist.item_ids)
+
+    def test_add_rules_on_other_pricelist(self):
+        base = self.env["product.pricelist"].create({"name": "TEST Base"})
+        self._add_wizard(compute_price="percentage", percent_price=10.0, base_pricelist_id=base.id).action_apply()
+        self.assertEqual(self.pricelist.item_ids.mapped("base_pricelist_id"), base)
+        self.assertEqual(self._price(self.templates[0]), 90.0)
+
+    def test_existing_rules_one_search(self):
+        self._add_wizard(fixed_price=10.0).action_apply()
+        wizard = self._add_wizard(fixed_price=20.0, existing_policy="update")
+        existing = wizard._get_existing(self.templates)
+        self.assertEqual(set(existing), set(self.templates.ids))
+        self.assertEqual(sum(len(items) for items in existing.values()), 3)
+        wizard.action_apply()
+        self.assertEqual(len(self.pricelist.item_ids), 3)
+        self.assertEqual(self._price(self.templates[0]), 20.0)
