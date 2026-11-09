@@ -1,5 +1,5 @@
 ===============
-No quick_create
+No Quick Create
 ===============
 
 ..
@@ -16,21 +16,79 @@ No quick_create
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_no_quick_create
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_no_quick_create/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Features:
 
 - disables the option to create new items without editing them, for
   prevention of empty products, contacts, etc.
+- applies to every many2one widget (plain, avatar, barcode, reference);
+  **Create and edit...** stays available.
+
+Odoo Online
+===========
+
+The module contains no Python code, only one JavaScript file. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online
+(Custom plan): download the zip and load it from **Apps > Import
+Module**.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+1. Install the module, or on Odoo Online import the zip from **Apps >
+   Import Module** (Custom plan, developer mode), then reload the page.
+   There is nothing to configure.
+
+2. Open **Contacts > Contacts**, click **New** and type a company name
+   that does not exist yet in the **Company** field. The dropdown no
+   longer offers **Create "..."**: only **Create and edit...** is left.
+   Every many2one field behaves the same way (customer, product,
+   category, salesperson).
+
+   |New contact Jane Smith: Zz New Company Ltd is typed in the Company
+   field and the dropdown shows a single option, Create and edit...|
+
+3. Click **Create and edit...**: the **Create Company** dialog opens
+   with the typed name already filled in. Complete the address and tax
+   ID, then click **Save**.
+
+   |Create Company dialog over the contact form, with the name Zz New
+   Company Ltd prefilled and the Save and Discard buttons|
+
+.. |New contact Jane Smith: Zz New Company Ltd is typed in the Company field and the dropdown shows a single option, Create and edit...| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_no_quick_create/static/description/en/01_lista_fara_creare_rapida.png
+.. |Create Company dialog over the contact form, with the name Zz New Company Ltd prefilled and the Save and Discard buttons| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_no_quick_create/static/description/en/02_formular_creare_si_editare.png
+
 Changelog
 =========
+
+19.0.2.1.1 (2026-11-09)
+-----------------------
+
+- The "(importable, Odoo Online)" suffix was removed from the module
+  name. Odoo Apps already shows the module as available on Odoo Online
+  (Manifest > Availability), and the Apps banner now carries an "Odoo
+  Online" label instead.
+
+19.0.2.1.0 (2026-11-08)
+-----------------------
+
+- Data-only module: the empty ``__init__.py`` files (module and
+  ``tests/``) were removed, so the module has no Python code at all. It
+  can be installed on Odoo Online (Custom plan) as a zip from Apps >
+  Import Module, as well as on Odoo.sh and on-premise.
+- Odoo Apps does not mark data-only modules as available on Odoo Online,
+  so the module name, the summary, the banner and the Apps Store page
+  now say it: "No Quick Create (importable, Odoo Online)".
 
 19.0.2.0.2 (2026-09-29)
 -----------------------

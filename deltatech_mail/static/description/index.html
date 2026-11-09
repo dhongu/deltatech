@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 14 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 24 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:96%;background-color:#57B952;"></div>
       </div>
@@ -36,6 +36,11 @@
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
        style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;">Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
@@ -61,8 +66,61 @@
 </li>
 </ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
+<p>The rules are managed by administrators, in developer mode, under <strong>Settings &#8594; Technical &#8594; Email</strong>.
+They apply to every user and every company of the database.</p>
+<ol>
+<li><strong>Substitution</strong>: the list of the rules that change the recipients or the sender of the outgoing
+   emails. An empty <em>Related Document Model</em> means every document.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Substitution list: a Receiver rule for res.partner to test.mesaje@demo-mesaje.ro and a Sender rule without model, with noreply@demo-mesaje.ro" src="en/01_lista_substitutii.png" /></p>
+<ol start="2">
+<li>
+<p>Open or create a rule:</p>
+<ul>
+<li><strong>Related Document Model</strong>: the technical name of the model whose emails are redirected
+ (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move</code>...); leave it empty for every email;</li>
+<li><strong>Substitution</strong>: the email address to use;</li>
+<li><strong>Type</strong>: <em>Receiver</em> replaces all the recipients of the email and drops the CC copies, so the
+ original recipients are not reached; <em>Sender</em> replaces the sender.</li>
+</ul>
+</li>
+</ol>
+<p>Use a generic <em>Receiver</em> rule on test and training databases, so that customers and vendors do not
+   receive their emails. Remove it before using the database in production.</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Substitution form: Related Document Model res.partner, Substitution test.mesaje@demo-mesaje.ro, Type Receiver" src="en/02_formular_substitutie.png" /></p>
+<ol start="3">
+<li><strong>Body Substitution</strong>: the list of the rules that replace a text in the body of posted messages.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Body Substitution list with the rule Semn&#259;tur&#259; veche" src="en/03_lista_substitutii_corp.png" /></p>
+<ol start="4">
+<li>Open or create a rule: the text of <em>Body Part</em> is replaced by the text of <em>Substitution</em> in every
+   message posted from the chatter. Messages already posted are not changed.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Body Substitution form: Body Part Echipa V&#226;nz&#259;ri, Substitution Echipa Demo Mesaje SRL &#8211; vanzari@demo-mesaje.ro" src="en/04_formular_substitutie_corp.png" /></p>
+<ol start="5">
+<li><strong>Company email as sender</strong>: set the system parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.use_company_email</code> to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>
+   (<strong>Settings &#8594; Technical &#8594; Parameters &#8594; System Parameters</strong>). Posted messages and queued emails are
+   then sent from the email address of the author's company; an explicit sender (incoming email,
+   template) is kept. The company must have an email address, otherwise posting a message is refused.</li>
+</ol>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="System parameter mail.use_company_email with value True" src="en/05_parametru_email_companie.png" /></p>
+<p>Only administrators (<em>Administration: Settings</em>) can create or change the rules; internal users can
+only read them.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.7 (2026-11-07)</h2>
+<ul>
+<li>Security: only administrators (Settings) can create or change email and body
+  substitutions. Before, any internal user could add a "Receiver" rule that
+  redirected every outgoing email of the database, or a body rule that changed
+  the messages of all users. Internal users keep read access.
+  (<a href="https://github.com/dhongu/deltatech/issues/3540">#3540</a>)</li>
+<li>The body substitutions are read with sudo when posting, so authors without
+  access to the rules (portal) still get them applied.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.6 (2026-10-01)</h2>
 <ul>
 <li>Fix: email redirection and the company sender work again on Odoo 19. The
@@ -187,7 +245,7 @@ The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Reg
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

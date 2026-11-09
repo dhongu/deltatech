@@ -19,9 +19,9 @@ Purchase UBL Import
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_purchase_ubl/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-122%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-123%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_purchase_ubl
-    :alt: 122 automated tests · 93% code coverage
+    :alt: 123 automated tests · 93% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -81,6 +81,16 @@ mappings (C62, KGM, LTR, etc.).
 
 Changelog
 =========
+
+19.0.1.4.22 (2026-11-02)
+------------------------
+
+- Updating vendor prices from an imported invoice no longer resets the
+  lead time (*Delivery Lead Time*) of the existing vendor line to 1 day.
+  On an existing line only the price (converted to the unit of the
+  line), the currency and the vendor product code (when the invoice line
+  has one) are written. A vendor line created by the import still gets
+  the default lead time.
 
 19.0.1.4.21 (2026-10-24)
 ------------------------

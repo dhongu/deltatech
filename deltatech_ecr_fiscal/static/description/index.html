@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 4 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 6 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:94%;background-color:#57B952;"></div>
       </div>
@@ -59,10 +59,11 @@
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Defines, in a single place, the fields that record the result of printing on a fiscal
 cash register (ECR/AMEF):</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal receipt (BF)</span><div>Receipt number within the current Z report; restarts at every Z</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal document (NR)</span><div>Fiscal document number, unique per device; the one to use
-  when a document must be identified without ambiguity</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Z report</span><div>Number of the Z report the receipt belongs to</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal state</span><div>Outcome reported by the device driver</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal error</span><div>Error message, when the device refused or failed</div></div></li></ul>
+  when a document must be identified without ambiguity</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Z report</span><div>Number of the Z report the receipt belongs to</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal state</span><div>Outcome reported by the device driver</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Fiscal error</span><div>Error message, when the device refused or failed</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Simulated receipt</span><div>Ticked by the drivers on the receipts of a simulated cash register, which are
+  not fiscal documents; compliance modules keep them out of the Z report</div></div></li></ul>
 <p>The fields are added to <strong>journal entries</strong> here, and to <strong>POS orders</strong> by
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>, through the abstract mixin <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.ecr.fiscal.mixin</code>.</p>
-<p>Written by the driver &#8212; the POS payment screen, or the store print action, after the
+<p>The first five are written by the driver &#8212; the POS payment screen, or the store print action, after the
 Terrabit Connect agent replies &#8212; and read by everything downstream: reports, fiscal
 compliance modules, the Romanian localization.</p>
 <p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code> alone &#8212; not on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code> &#8212; so the contract can be
@@ -81,7 +82,18 @@ updating them does not drop the columns and the fiscal receipt numbers already r
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Usage</h2>
-<p>The module adds no screens of its own: it only provides the fields.</p>
+<p>The module adds no screens of its own: it only provides the fields. They are shown on the invoice
+form by the module that prints the receipt from the invoice (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>). On the POS order
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> fills them in without showing them; use <strong>Actions &#8594; Export</strong> to read them.</p>
+<p><strong>Simulated receipt</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fiscal_simulated</code>) is ticked by the cash register driver when the
+receipt was printed on a simulated register: the emulator in Odoo, or Terrabit Connect in simulation mode (the
+station shows a <strong>Simulation</strong> ribbon, see <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc</code>). Such a receipt is not a fiscal document,
+even when its BF, NR and Z numbers are filled in. The POS (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>) and the store print action
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>) set it; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_pos_fiscal_compliance_ecr</code> keeps such receipts out of the Z
+report and of the AMEF journal.</p>
+<p>To read the fields, export the invoices (<strong>Actions &#8594; Export</strong>) with <strong>Fiscal state</strong>, <strong>Fiscal receipt
+(BF)</strong>, <strong>Fiscal document (NR)</strong>, <strong>Z report</strong> and <strong>Simulated receipt</strong>:</p>
+<p><img class="img-fluid d-block" style="max-width:100%;height:auto;" alt="Exported invoices: a real receipt with BF, NR and Z, a simulated one marked Simulated receipt, and one refused by the cash register" src="en/01_export_facturi.png" /></p>
 <p><strong>To write them</strong> (a cash register driver), inherit the mixin on your model:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">class MyModel(models.Model):
     _name = &quot;my.model&quot;
@@ -96,10 +108,11 @@ modules are not needed.</p>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Define&#537;te, &#238;ntr-un singur loc, c&#226;mpurile care p&#259;streaz&#259; rezultatul tip&#259;ririi pe o cas&#259; de marcat
 fiscal&#259; (ECR/AMEF):</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Bon fiscal (BF)</span><div>Num&#259;rul bonului &#238;n raportul Z curent; re&#238;ncepe la fiecare Z.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Document fiscal (NR)</span><div>Num&#259;rul documentului fiscal, unic pe aparat; cel de folosit c&#226;nd un
-  document trebuie identificat f&#259;r&#259; ambiguitate.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Raport Z</span><div>Num&#259;rul raportului Z din care face parte bonul.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Starea fiscal&#259;</span><div>Rezultatul raportat de driverul aparatului.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Eroare fiscal&#259;</span><div>Mesajul de eroare, c&#226;nd aparatul a refuzat sau a e&#537;uat.</div></div></li></ul>
+  document trebuie identificat f&#259;r&#259; ambiguitate.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Raport Z</span><div>Num&#259;rul raportului Z din care face parte bonul.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Starea fiscal&#259;</span><div>Rezultatul raportat de driverul aparatului.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Eroare fiscal&#259;</span><div>Mesajul de eroare, c&#226;nd aparatul a refuzat sau a e&#537;uat.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Bon simulat</span><div>(<em>Simulated receipt</em>): Bifat de drivere pe bonurile unei case de marcat simulate, care
+  nu sunt documente fiscale; modulele de conformitate le las&#259; &#238;n afara raportului Z.</div></div></li></ul>
 <p>C&#226;mpurile sunt ad&#259;ugate aici pe <strong>notele contabile</strong> &#537;i, prin modulul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>, pe
 <strong>comenzile POS</strong>, prin mixinul abstract <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech.ecr.fiscal.mixin</code>.</p>
-<p>Le scrie driverul (ecranul de plat&#259; POS sau ac&#539;iunea de tip&#259;rire din magazin, dup&#259; r&#259;spunsul
+<p>Primele cinci le scrie driverul (ecranul de plat&#259; POS sau ac&#539;iunea de tip&#259;rire din magazin, dup&#259; r&#259;spunsul
 agentului Terrabit Connect) &#537;i le citesc toate modulele de dup&#259;: rapoartele, modulele de
 conformitate fiscal&#259;, localizarea rom&#226;neasc&#259;.</p>
 <p>Modulul depinde doar de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account</code>, nu de <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code>, astfel &#238;nc&#226;t c&#226;mpurile pot fi folosite
@@ -115,7 +128,15 @@ driverul. La instalare, un <code class="border rounded px-2" style="font-family:
 module, ca actualizarea lor s&#259; nu duc&#259; la &#537;tergerea coloanelor &#537;i a numerelor de bon fiscal deja
 &#238;nregistrate.</p>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Utilizare</h3>
-<p>Modulul nu adaug&#259; ecrane proprii: doar pune c&#226;mpurile la dispozi&#539;ie.</p>
+<p>Modulul nu adaug&#259; ecrane proprii: doar pune c&#226;mpurile la dispozi&#539;ie. Pe formularul facturii le
+afi&#537;eaz&#259; modulul care tip&#259;re&#537;te bonul din factur&#259; (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>). Pe comanda POS,
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> le completeaz&#259; f&#259;r&#259; s&#259; le afi&#537;eze; le citi&#539;i cu <strong>Ac&#539;iuni &#8594; Export</strong>.</p>
+<p><strong>Bon simulat</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fiscal_simulated</code>) este bifat de driverul casei de marcat c&#226;nd bonul a fost tip&#259;rit
+pe o cas&#259; simulat&#259;: emulatorul din Odoo sau Terrabit Connect &#238;n mod simulat (sta&#539;ia are panglica
+<strong>Simulare</strong>, vezi <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc</code>). Un astfel de bon nu este document fiscal, chiar dac&#259; are
+completate numerele BF, NR &#537;i Z. &#206;l completeaz&#259; POS-ul (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code>) &#537;i tip&#259;rirea din magazin
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code>); <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_pos_fiscal_compliance_ecr</code> las&#259; astfel de bonuri &#238;n afara raportului Z
+&#537;i a jurnalului AMEF.</p>
 <p><strong>Ca s&#259; scrie&#539;i &#238;n ele</strong> (un driver de cas&#259; de marcat), mo&#537;teni&#539;i mixinul pe modelul dumneavoastr&#259;:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">class MyModel(models.Model):
     _name = &quot;my.model&quot;
@@ -126,6 +147,15 @@ de marcat nu sunt necesare.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.4 (2026-11-07)</h2>
+<ul>
+<li>New field <strong>Simulated receipt</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fiscal_simulated</code>): set by the cash register drivers
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_pos</code> 19.0.2.16.1, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_store</code> 19.0.2.6.1) when the receipt came from a simulated
+  register, and read by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_pos_fiscal_compliance_ecr</code> 19.0.1.3.1, which keeps it out of the Z report
+  and of the AMEF journal.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) with the exported fields as screenshot, usage notes on
+  simulated receipts, Romanian translation.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.3</h2>
 <ul>
 <li>Apps Store page: Usage and the context section in English (they were in Romanian), the
@@ -252,7 +282,7 @@ de marcat nu sunt necesare.</p>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic lines enhancements</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Analytic distribution by sales team and percentage split of analytic amounts</p>
         </div>
       </a>
     </div>

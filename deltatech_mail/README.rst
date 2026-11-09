@@ -16,11 +16,14 @@ Mail Substitution
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_mail
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_mail/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-24%20automated%20tests%20%C2%B7%2096%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_mail
-    :alt: 14 automated tests · 96% code coverage
+    :alt: 24 automated tests · 96% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 - Features:
 
@@ -35,8 +38,84 @@ Mail Substitution
 .. contents::
    :local:
 
+Usage
+=====
+
+The rules are managed by administrators, in developer mode, under
+**Settings → Technical → Email**. They apply to every user and every
+company of the database.
+
+1. **Substitution**: the list of the rules that change the recipients or
+   the sender of the outgoing emails. An empty *Related Document Model*
+   means every document.
+
+   |Substitution list: a Receiver rule for res.partner to|
+   test.mesaje@demo-mesaje.ro |and a Sender rule without model, with|
+   noreply@demo-mesaje.ro
+
+2. Open or create a rule:
+
+   - **Related Document Model**: the technical name of the model whose
+     emails are redirected (``res.partner``, ``account.move``...); leave
+     it empty for every email;
+   - **Substitution**: the email address to use;
+   - **Type**: *Receiver* replaces all the recipients of the email and
+     drops the CC copies, so the original recipients are not reached;
+     *Sender* replaces the sender.
+
+   Use a generic *Receiver* rule on test and training databases, so that
+   customers and vendors do not receive their emails. Remove it before
+   using the database in production.
+
+   |Substitution form: Related Document Model res.partner, Substitution|
+   test.mesaje@demo-mesaje.ro\ |, Type Receiver|
+
+3. **Body Substitution**: the list of the rules that replace a text in
+   the body of posted messages.
+
+   |Body Substitution list with the rule Semnătură veche|
+
+4. Open or create a rule: the text of *Body Part* is replaced by the
+   text of *Substitution* in every message posted from the chatter.
+   Messages already posted are not changed.
+
+   |Body Substitution form: Body Part Echipa Vânzări, Substitution
+   Echipa Demo Mesaje SRL –| vanzari@demo-mesaje.ro
+
+5. **Company email as sender**: set the system parameter
+   ``mail.use_company_email`` to ``True`` (**Settings → Technical →
+   Parameters → System Parameters**). Posted messages and queued emails
+   are then sent from the email address of the author's company; an
+   explicit sender (incoming email, template) is kept. The company must
+   have an email address, otherwise posting a message is refused.
+
+   |System parameter mail.use_company_email with value True|
+
+Only administrators (*Administration: Settings*) can create or change
+the rules; internal users can only read them.
+
+.. |Substitution list: a Receiver rule for res.partner to| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/01_lista_substitutii.png
+.. |and a Sender rule without model, with| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/01_lista_substitutii.png
+.. |Substitution form: Related Document Model res.partner, Substitution| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/02_formular_substitutie.png
+.. |, Type Receiver| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/02_formular_substitutie.png
+.. |Body Substitution list with the rule Semnătură veche| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/03_lista_substitutii_corp.png
+.. |Body Substitution form: Body Part Echipa Vânzări, Substitution Echipa Demo Mesaje SRL –| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/04_formular_substitutie_corp.png
+.. |System parameter mail.use_company_email with value True| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_mail/static/description/en/05_parametru_email_companie.png
+
 Changelog
 =========
+
+19.0.1.0.7 (2026-11-07)
+-----------------------
+
+- Security: only administrators (Settings) can create or change email
+  and body substitutions. Before, any internal user could add a
+  "Receiver" rule that redirected every outgoing email of the database,
+  or a body rule that changed the messages of all users. Internal users
+  keep read access.
+  (`#3540 <https://github.com/dhongu/deltatech/issues/3540>`__)
+- The body substitutions are read with sudo when posting, so authors
+  without access to the rules (portal) still get them applied.
 
 19.0.1.0.6 (2026-10-01)
 -----------------------
