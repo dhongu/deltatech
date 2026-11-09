@@ -97,7 +97,7 @@ msgstr ""
 #. module: deltatech_pricelist_bulk
 #: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
 msgid "Applied On"
-msgstr "Aplicat pe"
+msgstr "Aplicat în"
 
 #. module: deltatech_pricelist_bulk
 #: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form

@@ -62,12 +62,12 @@
                 </group>
                 <field name="item_ids" options="{'no_create': True}">
                     <list>
-                        <field name="pricelist_id" optional="show" />
+                        <field name="pricelist_id" optional="hide" />
                         <field name="name" string="Applied On" />
                         <field name="min_quantity" />
                         <field name="price" string="Current Price" />
-                        <field name="date_start" optional="show" />
-                        <field name="date_end" optional="show" />
+                        <field name="date_start" optional="hide" />
+                        <field name="date_end" optional="hide" />
                     </list>
                 </field>
                 <footer>
