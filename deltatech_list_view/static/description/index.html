@@ -58,8 +58,7 @@
   cu eroarea <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">virtual_N</code></li>
 </ul>
 <h1 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Odoo Online</h1>
-<p>The module contains no Python code at runtime, only JavaScript and a style sheet (the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/</code>
-folder runs the JavaScript test in CI and is not part of the import). Besides Odoo.sh and
+<p>The module contains no Python code, only JavaScript and a style sheet. Besides Odoo.sh and
 on-premise installations, it can be used on Odoo Online (Custom plan): download the zip and load
 it from <strong>Apps &gt; Import Module</strong>.</p>
 </div>
@@ -83,6 +82,13 @@ dark theme, it removes the light background of images in forms and kanban views.
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.1 (2026-11-08)</h2>
+<ul>
+<li>The Python test runner (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_js.py</code>) was removed: Odoo Apps treats any <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.py</code> file as
+  Python code and showed the module as not available on Odoo Online. The JavaScript test
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/tests/static_list_delete.test.js</code>) stays in the module and runs with the web unit
+  tests (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/web/tests?filter=deltatech_list_view</code>).</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.0 (2026-11-08)</h2>
 <ul>
 <li>Data-only module: the empty <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__init__.py</code> was removed, so the module has no Python code at
