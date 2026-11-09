@@ -4,7 +4,7 @@
 {
     "name": "List View Select Text (importable, Odoo Online)",
     "summary": "Select text in list views without opening the record; data-only, importable on Odoo Online",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
