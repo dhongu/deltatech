@@ -13,8 +13,9 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 
 Clientul care sună sau scrie despre o comandă dă de obicei **adresa de e-mail sau numărul de telefon**,
 nu numărul comenzii, iar la persoanele fizice numele poate fi scris în mai multe feluri. În Odoo
-standard, căutarea comenzilor nu are criterii pe datele de contact ale clientului. Modulul adaugă în
-bara de căutare a ofertelor și comenzilor două criterii noi, **E-mail** și **Phone**, care găsesc
+standard, criteriul **Client** găsește clientul și după e-mail, dar nu după telefon, și nu există un
+criteriu explicit pe datele de contact. Modulul adaugă în
+bara de căutare a ofertelor și comenzilor două criterii noi, **E-mail** și **Telefon**, care găsesc
 comenzile după e-mailul sau telefonul clientului, inclusiv după o parte din ele.
 
 ## 2. Bază legală și context
@@ -39,7 +40,9 @@ Modulul nu atinge contabilitatea; nu există conturi implicate. Date folosite: *
 de pe fișa clientului comenzii.
 
 Date minime pentru demo: doi clienți cu e-mailuri și telefoane diferite (ex. `ana.pop@exemplu.ro`,
-`+40 711 111 111` și `ion.ion@exemplu.ro`, `+40 722 222 222`) și câte o comandă pentru fiecare.
+`+40 711 111 111` și `ion.ion@exemplu.ro`, `+40 722 222 222`) și câte o comandă pentru fiecare. În
+capturi apare și un al treilea client, **TEST Mobila Banat SRL** (`office@mobilabanat.ro`), pe alt
+domeniu de e-mail.
 
 ## 5. Configurare inițială
 
@@ -51,18 +54,29 @@ că fișele clienților au e-mailul și telefonul completate.
 ### Pasul 1 — Căutarea după e-mail
 
 Deschideți **Vânzări → Comenzi → Oferte** sau **Vânzări → Comenzi → Comenzi**. Scrieți în bara de
-căutare adresa de e-mail sau o parte din ea (ex. `ana.pop@`) și alegeți din lista derulantă **Căutare
+căutare adresa de e-mail sau o parte din ea (ex. `ana.pop@`) și alegeți din lista derulantă **Caută
 E-mail pentru: …**. Lista păstrează comenzile al căror client are un e-mail care **conține** textul
 scris; nu contează literele mari sau mici.
 
+![Bara de căutare a comenzilor: după textul ana.pop@ e evidențiată opțiunea Caută E-mail pentru, sub ea Caută Telefon pentru](../static/description/01_cautare_email.png)
+
+Un fragment comun, de exemplu domeniul `@exemplu.ro`, găsește comenzile tuturor clienților cu adrese pe
+acel domeniu: în captură rămân comenzile lui **TEST Ana Pop** și **TEST Ion Ionescu**, fără cele ale
+**TEST Mobila Banat SRL**.
+
+![Lista Comenzi de vânzare filtrată cu E-mail @exemplu.ro: trei comenzi, ale clienților TEST Ion Ionescu și TEST Ana Pop](../static/description/02_comenzi_dupa_email.png)
+
 ### Pasul 2 — Căutarea după telefon
 
-Scrieți numărul sau o parte din el (ex. `711 111`) și alegeți **Căutare Phone pentru: …**. Textul se
+Scrieți numărul sau o parte din el (ex. `711 111`) și alegeți **Caută Telefon pentru: …**. Textul se
 caută exact cum este scris, ca fragment din numărul de telefon al clientului.
+
+![Lista Comenzi de vânzare filtrată cu Telefon 711 111: cele două comenzi ale clientului TEST Ana Pop](../static/description/03_comenzi_dupa_telefon.png)
 
 1. **Găsiți pe ecran** — în coloana **Client** apar doar comenzile clientului căutat.
 2. **Verificați** — dacă lista e goală, comparați formatul scris cu cel de pe fișa clientului (spații,
-   prefix `+40` sau `0`); un fragment mai scurt, fără spații și fără prefix, găsește mai multe variante.
+   prefix `+40` sau `0`); spațiile din text trebuie să fie ca pe fișă, așa că un fragment scurt, dintr-un
+   singur grup de cifre (ex. `711`), găsește cele mai multe variante.
 3. **Treceți mai departe** — deschideți comanda dorită sau combinați criteriul cu filtrele standard
    (ex. **Comenzile mele**, perioadă).
 
@@ -76,7 +90,7 @@ Modulul **nu generează note contabile** și nu modifică date.
 |---|---|
 | `sale` | Căutarea ofertelor și comenzilor de vânzare, extinsă de modul |
 
-**Ce e automat:** criteriile **E-mail** și **Phone** apar în toate listele de oferte și comenzi.
+**Ce e automat:** criteriile **E-mail** și **Telefon** apar în toate listele de oferte și comenzi.
 
 **Ce rămâne manual:** corectitudinea datelor de contact pe fișele clienților.
 
@@ -84,8 +98,8 @@ Modulul **nu generează note contabile** și nu modifică date.
 
 - [ ] Căutarea **E-mail** după un fragment (`ana.pop@`) găsește doar comenzile clientului respectiv.
 - [ ] Căutarea **E-mail** după domeniu (`@exemplu.ro`) găsește comenzile ambilor clienți.
-- [ ] Căutarea **Phone** după `711 111` găsește comanda primului client.
-- [ ] Căutarea **Phone** după un număr inexistent întoarce o listă goală.
+- [ ] Căutarea **Telefon** după `711 111` găsește comanda primului client.
+- [ ] Căutarea **Telefon** după un număr inexistent întoarce o listă goală.
 - [ ] Criteriile apar atât în lista **Oferte**, cât și în lista **Comenzi**.
 
 ## 9. Mesaje de eroare frecvente
@@ -98,23 +112,25 @@ Modulul **nu generează note contabile** și nu modifică date.
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text**, fără capturi. Dacă se vor adăuga, capturile planificate, în ordinea pașilor:
+Capturile sunt făcute pe o bază Odoo 19 cu planul de conturi RO (lei, TVA 21%), cu modulul importat ca
+zip, în ordinea pașilor:
 
-| # | Fișier planificat | Conținut |
+| # | Fișier | Conținut |
 |---|---|---|
-| 1 | `01_cautare_email.png` | Bara de căutare cu opțiunea **Căutare E-mail pentru** |
-| 2 | `02_rezultat_telefon.png` | Lista de comenzi filtrată după **Phone** |
-
-Generarea lor se face cu skill-ul `fisa-screenshots` (test `tests/test_screenshots.py`, mixinul
-`ScreenshotCase` din `l10n_ro_doc_screenshots`), în română.
+| 1 | `01_cautare_email.png` | Bara de căutare cu opțiunea **Caută E-mail pentru** |
+| 2 | `02_comenzi_dupa_email.png` | Lista de comenzi filtrată după domeniul de e-mail `@exemplu.ro` |
+| 3 | `03_comenzi_dupa_telefon.png` | Lista de comenzi filtrată după **Telefon** `711 111` |
 
 ## 11. Observații pentru manual
 
 Treceți în manual, la capitolul despre găsirea comenzilor, cele două criterii noi și regula de bază:
-**căutarea e după fragment**, deci un fragment scurt și fără spații dă cele mai bune rezultate la
+**căutarea e după fragment**, deci un fragment scurt, dintr-un singur grup de cifre, dă cele mai bune rezultate la
 telefon. Menționați că modulul caută după **E-mail** și **Telefon**; câmpul separat de mobil nu mai
-există în Odoo 20, iar numerele de mobil se trec în **Telefon**. Eticheta **Phone** apare în engleză,
-iar **E-mail** rămâne la fel în ambele limbi.
+există în Odoo 20, iar numerele de mobil se trec în **Telefon**. În interfața în engleză criteriul de
+telefon apare ca **Phone**, iar **E-mail** rămâne la fel în ambele limbi.
+
+Modulul nu conține cod Python, deci se poate folosi și pe Odoo Online (planul Custom): arhiva zip se
+încarcă din **Aplicații → Importă modul**.
 
 ---
 

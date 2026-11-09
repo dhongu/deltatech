@@ -9,14 +9,18 @@ class TestSaleMultiple(TransactionCase):
         super().setUpClass()
         cls.partner = cls.env["res.partner"].create({"name": "Quantity Rules Partner"})
         cls.order = cls.env["sale.order"].create({"partner_id": cls.partner.id})
-        cls.product = cls.env["product.product"].create(
-            {
-                "name": "Quantity Rules Product",
-                "list_price": 100.0,
-                "qty_multiple": 5.0,
-                "qty_minim": 10.0,
-            }
-        )
+        product_vals = {
+            "name": "Quantity Rules Product",
+            "list_price": 100.0,
+            "qty_multiple": 5.0,
+            "qty_minim": 10.0,
+        }
+        # deltatech_sale_multiple_website (when installed in the same database)
+        # limits the rules to the website by default; these tests cover the
+        # backend behaviour, so the rules must apply everywhere.
+        if "check_min_website" in cls.env["product.template"]._fields:
+            product_vals["check_min_website"] = False
+        cls.product = cls.env["product.product"].create(product_vals)
 
     def _create_line(self, product=None, quantity=1.0, product_uom=None):
         product = product or self.product
