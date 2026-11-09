@@ -1,0 +1,11 @@
+{
+  "title": "Pricelist Bulk Rules",
+  "summary": "Bulk pricelist rules and formulas",
+  "features": [
+    "Add rules for products or categories",
+    "Fixed price, discount or formula",
+    "Apply one formula to many rules"
+  ],
+  "lang": "en",
+  "edition": "community"
+}

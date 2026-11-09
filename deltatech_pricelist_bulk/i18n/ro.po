@@ -1,0 +1,499 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pricelist_bulk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-09 08:16+0000\n"
+"PO-Revision-Date: 2026-11-09 08:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_add.py:0
+msgid ""
+"%(created)s rules added, %(updated)s rules updated, %(skipped)s existing "
+"rules kept."
+msgstr ""
+"%(created)s reguli adăugate, %(updated)s reguli actualizate, %(skipped)s "
+"reguli existente păstrate."
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_formula.py:0
+msgid "%s rules changed."
+msgstr "%s reguli modificate."
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "<b>Tip: want to round at 9.99?</b>"
+msgstr "<b>Sfat: vreți prețuri terminate în 9,99?</b>"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_formula.py:0
+msgid "A rule cannot be based on its own pricelist."
+msgstr "O regulă nu poate fi bazată pe propria listă de prețuri."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_add__existing_policy
+msgid ""
+"A rule exists when the pricelist already has a rule for the same product, "
+"minimum quantity and validity period."
+msgstr ""
+"O regulă există când lista de prețuri are deja o regulă pentru același "
+"produs, aceeași cantitate minimă și aceeași perioadă de valabilitate."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.actions.act_window,name:deltatech_pricelist_bulk.action_pricelist_bulk_add
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+msgid "Add Pricelist Rules"
+msgstr "Adaugă reguli în lista de prețuri"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model,name:deltatech_pricelist_bulk.model_pricelist_bulk_add
+msgid "Add Pricelist Rules for Many Products"
+msgstr "Adăugare reguli de preț pentru mai multe produse"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__fill_categ_ids
+msgid "Add Products of Categories"
+msgstr "Adaugă produsele categoriilor"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.product_pricelist_view_bulk
+msgid "Add Rules"
+msgstr "Adaugă reguli"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__existing_policy__create
+msgid "Add a new rule"
+msgstr "Adaugă o regulă nouă"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.actions.act_window,name:deltatech_pricelist_bulk.action_pricelist_bulk_add_template
+#: model:ir.actions.act_window,name:deltatech_pricelist_bulk.action_pricelist_bulk_add_variant
+msgid "Add to Pricelist"
+msgstr "Adaugă în lista de prețuri"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_add__fill_categ_ids
+msgid ""
+"Adds to the list the products of these categories and of their "
+"subcategories."
+msgstr ""
+"Adaugă în listă produsele acestor categorii și ale subcategoriilor lor."
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Applied On"
+msgstr "Aplicat în"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.actions.act_window,name:deltatech_pricelist_bulk.action_pricelist_bulk_formula
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.product_pricelist_view_bulk
+msgid "Apply Formula"
+msgstr "Aplică formula"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Apply Formula to Pricelist Rules"
+msgstr "Aplică formula pe regulile de preț"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__applied_on
+msgid "Apply On"
+msgstr "Aplică pe"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model,name:deltatech_pricelist_bulk.model_pricelist_bulk_formula
+msgid "Apply the Same Formula to Many Pricelist Rules"
+msgstr "Aplicarea aceleiași formule pe mai multe reguli de preț"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__base
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__base
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__base
+msgid "Based on"
+msgstr "Bazat pe"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__change_min_quantity
+msgid "Change the Min. Quantity"
+msgstr "Schimbă cantitatea minimă"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__change_price
+msgid "Change the Price Computation"
+msgstr "Schimbă calculul prețului"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__change_dates
+msgid "Change the Validity Period"
+msgstr "Schimbă perioada de valabilitate"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_formula.py:0
+msgid "Choose what to change on the selected rules."
+msgstr "Alegeți ce se schimbă pe regulile selectate."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__base__standard_price
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_formula__base__standard_price
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_formula_mixin__base__standard_price
+msgid "Cost"
+msgstr "Cost"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__create_uid
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__create_date
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__currency_id
+msgid "Currency"
+msgstr "Monedă"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Current Price"
+msgstr "Preț actual"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__compute_price__percentage
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_formula__compute_price__percentage
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_formula_mixin__compute_price__percentage
+msgid "Discount"
+msgstr "Discount"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__percent_price
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__percent_price
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__percent_price
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Discount (%)"
+msgstr "Discount (%)"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__display_name
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__display_name
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__display_name
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_product_pricelist__display_name
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_product_pricelist_item__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__date_end
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__date_end
+msgid "End Date"
+msgstr "Dată sfârșit"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_surcharge
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_surcharge
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_surcharge
+msgid "Extra Fee"
+msgstr "Taxă suplimentară"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__fixed_price
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__fixed_price
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__fixed_price
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__compute_price__fixed
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_formula__compute_price__fixed
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_formula_mixin__compute_price__fixed
+msgid "Fixed Price"
+msgstr "Preț fixat"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__compute_price__formula
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_formula__compute_price__formula
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_formula_mixin__compute_price__formula
+msgid "Formula"
+msgstr "Formulă"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_discount
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_discount
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_discount
+msgid "Formula Discount (%)"
+msgstr "Discount formulă (%)"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__id
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__id
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__id
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_product_pricelist__id
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_product_pricelist_item__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__existing_policy
+msgid "If a Rule Exists"
+msgstr "Dacă regula există"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__existing_policy__skip
+msgid "Keep the existing rule"
+msgstr "Păstrează regula existentă"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__write_uid
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__write_date
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_markup
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_markup
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_markup
+msgid "Mark-up applied on the cost."
+msgstr "Adaosul aplicat pe cost."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_markup
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_markup
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_markup
+msgid "Markup (%)"
+msgstr "Adaos (%)"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_max_margin
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_max_margin
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_max_margin
+msgid "Max. Margin"
+msgstr "Marja max."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_min_margin
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_min_margin
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_min_margin
+msgid "Min. Margin"
+msgstr "Marja min."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__min_quantity
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__min_quantity
+msgid "Min. Quantity"
+msgstr "Cant. min."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__item_count
+msgid "Number of Rules"
+msgstr "Număr de reguli"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "On Pricelist"
+msgstr "Pe lista de prețuri"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__base_pricelist_id
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__base_pricelist_id
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__base_pricelist_id
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__base__pricelist
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_formula__base__pricelist
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_formula_mixin__base__pricelist
+msgid "Other Pricelist"
+msgstr "Altă listă de preț"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Price Computation"
+msgstr "Calculul prețului"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/models/product_pricelist.py:0
+msgid "Price Rules"
+msgstr "Reguli de preț"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__compute_price
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__compute_price
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__compute_price
+msgid "Price Type"
+msgstr "Tip preț"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model,name:deltatech_pricelist_bulk.model_product_pricelist
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__pricelist_id
+msgid "Pricelist"
+msgstr "Listă de prețuri"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_add.py:0
+msgid "Pricelist %s"
+msgstr "Lista de prețuri %s"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model,name:deltatech_pricelist_bulk.model_product_pricelist_item
+msgid "Pricelist Rule"
+msgstr "Regula listei de prețuri"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model,name:deltatech_pricelist_bulk.model_pricelist_formula_mixin
+msgid "Pricelist Rule Formula"
+msgstr "Formula regulii de preț"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__categ_ids
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__applied_on__2_product_category
+msgid "Product Categories"
+msgstr "Categorii de produse"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__product_ids
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__applied_on__0_product_variant
+msgid "Product Variants"
+msgstr "Variante produs"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__product_tmpl_ids
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__applied_on__1_product
+msgid "Products"
+msgstr "Produse"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_round
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_round
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_round
+msgid "Round off to"
+msgstr "Rotunjește la"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Round off to 10.00 and set an extra fee of -0.01."
+msgstr "Rotunjiți la 10,00 și puneți o taxă suplimentară de -0,01."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__item_ids
+msgid "Rules"
+msgstr "Reguli"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__base__list_price
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_formula__base__list_price
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_formula_mixin__base__list_price
+msgid "Sales Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_formula.py:0
+msgid "Select at least one pricelist rule."
+msgstr "Selectați cel puțin o regulă de preț."
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_bulk_add.py:0
+msgid "Select at least one product or category."
+msgstr "Selectați cel puțin un produs sau o categorie."
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_formula_mixin.py:0
+msgid "Set the other pricelist the formula is based on."
+msgstr "Completați cealaltă listă de prețuri pe care se bazează formula."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_round
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_round
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_round
+msgid ""
+"Sets the price so that it is a multiple of this value. To have prices that "
+"end in 9.99, round off to 10.00 and set an extra fee of -0.01."
+msgstr ""
+"Prețul devine un multiplu al acestei valori. Pentru prețuri terminate în "
+"9,99, rotunjiți la 10,00 și puneți o taxă suplimentară de -0,01."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_add__date_start
+#: model:ir.model.fields,field_description:deltatech_pricelist_bulk.field_pricelist_bulk_formula__date_start
+msgid "Start Date"
+msgstr "Dată început"
+
+#. module: deltatech_pricelist_bulk
+#. odoo-python
+#: code:addons/deltatech_pricelist_bulk/wizard/pricelist_formula_mixin.py:0
+msgid "The rounding must be strictly positive."
+msgstr "Rotunjirea trebuie să fie strict pozitivă."
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields.selection,name:deltatech_pricelist_bulk.selection__pricelist_bulk_add__existing_policy__update
+msgid "Update the existing rule"
+msgstr "Actualizează regula existentă"
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "Validity Period"
+msgstr "Perioadă de valabilitate"
+
+#. module: deltatech_pricelist_bulk
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_add__percent_price
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_add__price_discount
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_formula__percent_price
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_bulk_formula__price_discount
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_formula_mixin__percent_price
+#: model:ir.model.fields,help:deltatech_pricelist_bulk.field_pricelist_formula_mixin__price_discount
+msgid "You can apply a mark-up by setting a negative discount."
+msgstr "Puteți aplica un adaos punând un discount negativ."
+
+#. module: deltatech_pricelist_bulk
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_add_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pricelist_bulk.pricelist_bulk_formula_view_form
+msgid "sales price"
+msgstr "prețul de vânzare"
