@@ -1,7 +1,7 @@
 # © 2026 Terrabit
 # See README.rst file on addons root folder for license details
 
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -118,3 +118,51 @@ class TestCustomRateServer(AccountTestInvoicingCommon):
         credit_note = invoice._reverse_moves()
         self.assertAlmostEqual(credit_note.currency_rate_custom, 5.0)
         self._assert_balances(credit_note, 500.0, 0.0, -500.0)
+
+    # CUSTOMRATE-002: journal entries do not accept a custom rate
+
+    def _entry_vals(self, **extra):
+        vals = {
+            "move_type": "entry",
+            "date": "2026-10-01",
+            "line_ids": [
+                (
+                    0,
+                    0,
+                    {
+                        "account_id": self.company_data["default_account_revenue"].id,
+                        "currency_id": self.eur.id,
+                        "amount_currency": -100.0,
+                        "balance": -50.0,
+                    },
+                ),
+                (
+                    0,
+                    0,
+                    {
+                        "account_id": self.company_data["default_account_expense"].id,
+                        "currency_id": self.eur.id,
+                        "amount_currency": 100.0,
+                        "balance": 50.0,
+                    },
+                ),
+            ],
+        }
+        vals.update(extra)
+        return vals
+
+    def test_entry_rejects_custom_rate_on_create(self):
+        with self.assertRaises(ValidationError):
+            self.env["account.move"].create(self._entry_vals(currency_rate_custom=5.0))
+
+    def test_entry_rejects_custom_rate_on_write(self):
+        entry = self.env["account.move"].create(self._entry_vals())
+        with self.assertRaises(ValidationError):
+            entry.write({"currency_rate_custom": 5.0})
+
+    def test_entry_keeps_official_rate(self):
+        entry = self.env["account.move"].create(self._entry_vals())
+        for line in entry.line_ids:
+            self.assertAlmostEqual(line.currency_rate, 2.0)
+        self.assertEqual(sorted(entry.line_ids.mapped("balance")), [-50.0, 50.0])
+        self.assertAlmostEqual(sum(entry.line_ids.mapped("debit")), sum(entry.line_ids.mapped("credit")))

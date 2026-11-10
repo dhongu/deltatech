@@ -1,3 +1,10 @@
+## 19.0.1.0.4 (2026-11-10)
+
+- Fix CUSTOMRATE-002: the custom currency rate is accepted only on invoices. On a journal
+  entry it was saved (through import/RPC) without being applied to the company-currency
+  amounts; it is now rejected, and journal entry lines always use the official rate.
+  A reversal copies the custom rate only from invoices.
+
 ## 19.0.1.0.3 (2026-10-22)
 
 - Listed on Odoo Apps as *Custom Invoice Exchange Rate* (was *Edit Currency Rate*). The technical name `deltatech_account_edit_currency_rate` does not change.

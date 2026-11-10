@@ -54,7 +54,6 @@ class TestEditCurrencyRate(AccountTestInvoicingCommon):
 
         custom_rate = 5.0  # 5 RON pentru 1 EUR
         invoice.currency_rate_custom = custom_rate
-        invoice.onchange_currency_rate_custome()
 
         product_lines = invoice.invoice_line_ids
         self.assertTrue(product_lines)
