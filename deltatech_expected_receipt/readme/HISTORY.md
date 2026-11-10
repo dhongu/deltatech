@@ -1,3 +1,10 @@
+## 19.0.1.0.5 (2026-11-10)
+
+- Tests: the sales order of the test helpers is confirmed with `sudo()`, like a scheduled job
+  would. Confirming it as the cashier launched the stock rules, which read `mrp.bom` and
+  `stock.rule`, and the cashier has no access to them: with `mrp` installed alongside, 10 tests
+  failed with `AccessError` on `mrp.bom` (CI job `test (misc-3)`). No change in the module.
+
 ## 19.0.1.0.4 (2026-10-22)
 
 - Listed on Odoo Apps as *Expected Card Receipts* (was *Expected Receipts*). The technical name `deltatech_expected_receipt` does not change.
