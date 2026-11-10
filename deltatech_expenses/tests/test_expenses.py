@@ -1674,6 +1674,102 @@ class TestExpenses(TransactionCase):
         deduction.invalidate_recordset(["employee_balance"])
         self.assertAlmostEqual(deduction.employee_balance, -271.0)
 
+    def test_per_diem_line_books_625_on_542(self):
+        """Linia de tip Diurnă: fără TVA, fără chitanță, Dr 625 = Cr 542 cu angajatul; se adaugă la
+        diurna din antet într-o singură notă, iar chitanțele rămân separate."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction(days=1, diem=50.0)
+        self._new_line(deduction, 121.0, taxes=self.tax_21)
+        diem_line = self._new_line(deduction, 85.0, type="per_diem", taxes=self.tax_21)
+        self.assertEqual(diem_line.expense_account_id, self.acc_exp)
+        self.assertFalse(diem_line.tax_amount)
+        self.assertAlmostEqual(diem_line.price_subtotal, 85.0)
+        self.assertAlmostEqual(deduction.total_diem, 135.0)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0)
+        deduction.validate_expenses()
+
+        self.assertEqual(deduction.state, "done")
+        diem_move = deduction.move_id
+        self.assertEqual(len(diem_move.line_ids), 3)
+        self.assertAlmostEqual(
+            sum(diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_542).mapped("credit")), 135.0
+        )
+        self.assertAlmostEqual(
+            sum(diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_exp).mapped("debit")), 135.0
+        )
+        self.assertFalse(
+            self.env["account.move"]
+            .search([("expenses_deduction_id", "=", deduction.id), ("move_type", "=", "in_receipt")])
+            .filtered(lambda m: m.amount_total == 85.0)
+        )
+        lines_542 = self._employee_542_lines()
+        self.assertAlmostEqual(sum(lines_542.mapped("credit")), 256.0)
+
+    def test_per_diem_line_foreign_currency_balanced_at_expense_rate(self):
+        """Decont în valută: diurna din antet și linia de diurnă sunt la cursul din data decontului, iar
+        creditul 542 este egal cu suma debitelor, deci nota e echilibrată la un curs diferit de 1."""
+        foreign = self._foreign_currency(self.company)
+        journal = self._foreign_cash_journal(foreign)
+        acc_665 = self.env["account.account"].create(
+            {"name": "Cheltuieli diferențe curs", "code": "665TPD", "account_type": "expense"}
+        )
+        acc_765 = self.env["account.account"].create(
+            {"name": "Venituri diferențe curs", "code": "765TPD", "account_type": "income_other"}
+        )
+        self.company.write(
+            {"income_currency_exchange_account_id": acc_765.id, "expense_currency_exchange_account_id": acc_665.id}
+        )
+        advance_date = fields.Date.subtract(fields.Date.today(), days=3)
+        self._set_rate(foreign, advance_date, 5.0)
+        self._set_rate(foreign, fields.Date.today(), 4.9)
+        deduction = self._new_deduction(
+            175.0,
+            journal_id=journal.id,
+            date_advance=advance_date,
+            date_expense=fields.Date.today(),
+            diem=87.5,
+            days=1,
+        )
+        self._new_line(deduction, 87.5, type="per_diem")
+        self.assertAlmostEqual(deduction.total_diem, 175.0, places=2)
+        deduction.validate_expenses()
+        diem_move = deduction.move_id
+        debits = diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_exp)
+        self.assertEqual(len(debits), 2)
+        self.assertAlmostEqual(sum(debits.mapped("amount_currency")), 175.0, places=2)
+        self.assertAlmostEqual(sum(debits.mapped("debit")), 857.5, places=2)
+        credit_542 = diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_542)
+        self.assertAlmostEqual(credit_542.amount_currency, -175.0, places=2)
+        self.assertAlmostEqual(credit_542.credit, 857.5, places=2)
+
+    def test_per_diem_line_company_card_is_owed_to_employee(self):
+        """Card de firmă: linia de diurnă intră în suma datorată angajatului (diferența) și se
+        contabilizează Dr 625 = Cr 542, plătită din jurnalul de plată."""
+        card = self._bank_journal("CPDL")
+        deduction = self._new_deduction(0.0, settlement_mode="company_card", card_journal_id=card.id)
+        self._new_line(deduction, 85.0, type="per_diem")
+        self.assertAlmostEqual(deduction.amount_vouchers, 0.0, places=2)
+        self.assertAlmostEqual(deduction.difference, 85.0, places=2)
+        deduction.validate_expenses()
+        self.assertEqual(deduction.state, "done")
+        diem_move = deduction.move_id
+        self.assertAlmostEqual(
+            sum(diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_exp).mapped("debit")), 85.0
+        )
+        lines_542 = (self._lines_for_expenses(deduction) | diem_move.line_ids).filtered(
+            lambda l: l.account_id == self.acc_542
+        )
+        self.assertAlmostEqual(sum(lines_542.mapped("credit")), 85.0, places=2)
+        self.assertAlmostEqual(sum(lines_542.mapped("balance")), 0.0, places=2)
+
+    def test_per_diem_line_without_account_is_refused(self):
+        """Linia de diurnă cu contul golit manual e refuzată la validare, cu un mesaj despre cont."""
+        deduction = self._new_deduction(0.0)
+        diem_line = self._new_line(deduction, 85.0, type="per_diem")
+        diem_line.expense_account_id = False
+        with self.assertRaisesRegex(UserError, "per diem line"):
+            deduction.validate_expenses()
+
     def test_no_payment_moves_cash_withdrawal_reconciled_on_542(self):
         """Banii ridicați de angajat se înregistrează din casă / extras (Dr 542 = Cr 5311, partener angajatul)
         și se reconciliază standard pe 542 cu cheltuielile decontului; soldul rămas e pe angajat."""

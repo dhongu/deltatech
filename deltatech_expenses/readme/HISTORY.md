@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.3.12.0 (2026-11-10)
+
+- New expense line type **Per Diem**: no receipt and no VAT, it is booked on validation as Dr per diem
+  account (625 by default, taken from the report) = Cr 542 with the employee as partner, in the same
+  entry as the per diem of the header. The lines add up to **Total Diem** and, with a company card,
+  to the amount owed to the employee. Receipts and supplier payments are unchanged (ticket 09924).
+
 ## 19.0.3.11.0 (2026-11-05)
 
 - The option **Advance and Settlement via Bank Statement / Cash Register** moves from the company to

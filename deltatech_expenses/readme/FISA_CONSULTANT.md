@@ -229,14 +229,21 @@ pentru deplasări schimbați-l în **625**. Pe liniile „Plată furnizor” con
 completează automat cu **„Cont de plătit”** al furnizorului (401) și e doar pentru citire; dacă
 linia revine pe „Cheltuieli”, primește din nou contul implicit de cheltuieli.
 
-Taxa se completează doar pe liniile „Cheltuieli”. Pe „Plată furnizor” câmpul **Taxe** e doar pentru
-citire și se golește la schimbarea tipului: factura plătită are deja TVA-ul înregistrat, iar suma
-plătită este totalul liniei.
+Taxa se completează doar pe liniile „Cheltuieli”. Pe „Plată furnizor” și pe „Diurnă” câmpul **Taxe**
+e doar pentru citire și se golește la schimbarea tipului: factura plătită are deja TVA-ul înregistrat,
+iar diurna nu are TVA; suma liniei este totalul ei. Pe „Diurnă” contul se completează automat cu
+**„Cont diurnă”** al decontului (625 implicit) și se poate schimba pe linie (alegeți-l după ce ați completat celelalte câmpuri ale liniei), iar furnizorul nu e
+obligatoriu (nota se face pe angajat); furnizorul rămâne obligatoriu doar pe „Plată furnizor”.
 
 Fiecare linie are un **tip**:
 
 - **Cheltuieli** — justificată cu bon/factură; la validare se generează o **chitanță de achiziție** și
   decontarea din avans (vezi mai jos);
+- **Diurnă** — diurna unei deplasări, fără chitanță și fără TVA; se introduce direct suma liniei
+  (de ex. mai multe linii pentru mai multe deplasări, alături de diurna din antet, zile × sumă pe zi).
+  La validare, liniile de acest tip se contabilizează **Dr 625 = Cr 542** cu angajatul ca partener,
+  în aceeași notă cu diurna din antet. Se adună în **„Total Diurnă”** și, la „Card de firmă”, intră
+  în suma datorată angajatului;
 - **Plată furnizor** — angajatul a achitat direct o datorie a firmei către un furnizor (fără chitanță
   proprie și fără TVA pe linie); la validare se generează nota `Dr 401 = Cr 542`, pe totalul liniei, cu firma furnizorului pe 401 (chiar
   dacă pe linie e o persoană de contact a lui), care stinge facturile furnizorului ca o plată:
@@ -363,7 +370,10 @@ justificativul semnat de titularul avansului. În varianta fără note de plată
 - **Plată furnizor** (Pasul 2, liniile de tip „Plată furnizor"): **Dr 401 = Cr 542** (la „Card de
   firmă", **Dr 401 = Cr 5125**), câte o linie 401 pentru fiecare factură aleasă, reconciliată cu ea
   (fără facturi alese: cu cele mai vechi facturi deschise); restul nealocat: **Dr 4092 = Cr 401**;
-- **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei), cu data cheltuielii;
+- **Diurnă** (la validare): **Dr 625 = Cr 542** (totalul diurnei), cu data cheltuielii; o singură
+  notă, cu câte o linie de debit pentru diurna din antet și pentru fiecare linie de tip „Diurnă”
+  (pe contul liniei, implicit 625) și un singur credit 542 pe total; în valută, creditul 542 este
+  egal cu suma debitelor, la cursul din data cheltuielii;
 - **Diferență de curs** (doar la deconturi în valută, la validare, dacă 542 are sold în lei):
   **Dr 665 = Cr 542** (nefavorabilă) sau **Dr 542 = Cr 765** (favorabilă);
 - **Diferență** (la validare), cu data cheltuielii (a decontului), ca soldul 542 al angajatului să
@@ -537,6 +547,7 @@ după validare.
 - [ ] Virament: restituirea diferenței este Dr 5125 = Cr 542, iar soldul 542 devine zero.
 - [ ] Card de firmă: decontul nu are avans, are „Jurnal card firmă", iar „Diferența" este egală cu diurna.
 - [ ] Card de firmă: decontarea chitanței este Dr 401 = Cr 5125 pe jurnalul cardului, fără linii pe 542 pentru sumele de pe chitanță, iar chitanța e plătită.
+- [ ] O linie de tip „Diurnă” nu are TVA, are contul 625 (din „Cont diurnă”), nu cere furnizor, iar la validare nota Dr 625 = Cr 542 cu angajatul se adună cu diurna din antet și linia intră în „Total Diurnă”.
 - [ ] Diurna se încadrează în plafonul fiscal sau surplusul a fost transmis la salarizare.
 - [ ] După validare, soldul contului 542 al angajatului este zero.
 - [ ] Decont în valută: moneda decontului este cea a jurnalului de plată (la „Card de firmă", a jurnalului cardului).
@@ -577,6 +588,7 @@ după validare.
 | „The expenses deduction ... is paid with a company card in ...: the per diem is paid from the payment journal ..., which is in ..." | Mod „Card de firmă", iar jurnalul de plată (din care se plătește diurna) este în altă monedă decât cardul | Alegeți un jurnal de plată în moneda cardului sau în moneda companiei |
 | „The expenses deduction ... is paid with a company card: it has no advance. ..." | Mod „Card de firmă" cu avans diferit de zero | Goliți avansul; o retragere de numerar cu cardul este un decont separat, cu modul „Virament" |
 | „The journal ... is in ..., but the expenses deduction ... is in ..." | Jurnalul de plată sau al cardului este în altă monedă decât decontul | Alegeți un jurnal în moneda decontului (sau fără monedă, pentru moneda companiei) |
+| „Select an expense account for the per diem line ...” („Alegeți un cont de cheltuieli pentru linia de diurnă ...”) | Linie de tip „Diurnă” al cărei cont a fost golit manual | Completați contul liniei (625) |
 | Plata furnizor rămâne cu sold debitor pe 401 | Planul de conturi nu are un cont 4092 | Creați contul 4092 sau reclasificați manual |
 | „The bill ... is allocated on several lines for ..., more than its amount due ...” | Aceeași factură e aleasă pe mai multe linii „Plată furnizor” ale decontului, cu sume care împreună depășesc restul ei de plată | Micșorați sumele alocate pe linii |
 | „The bill ... must be posted and have a positive allocated amount.” | Factura aleasă a fost trecută în ciornă sau anulată, ori suma alocată e zero | Scoateți factura sau completați o sumă alocată pozitivă; repostați factura dacă e cazul |
