@@ -1200,3 +1200,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
 msgid "Șef contabil"
 msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction_line__type__per_diem
+msgid "Per Diem"
+msgstr ""
+
+#. module: deltatech_expenses
+#. odoo-python
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+msgid "Select an expense account for the per diem line %s."
+msgstr ""

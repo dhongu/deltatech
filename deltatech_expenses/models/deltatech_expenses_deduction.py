@@ -317,15 +317,20 @@ class DeltatechExpensesDeduction(models.Model):
         if not self.date_expense or self.date_advance > self.date_expense:
             self.date_expense = self.date_advance
 
-    @api.depends("expenses_line_ids", "days", "diem", "advance", "settlement_mode")
+    @api.depends("expenses_line_ids.amount", "expenses_line_ids.type", "days", "diem", "advance", "settlement_mode")
     def _compute_amount(self):
         for expense in self:
             total = 0.0
+            diem_lines = 0.0
             for line in expense.expenses_line_ids:
-                total += line.tax_amount + line.price_subtotal
+                if line.type == "per_diem":
+                    # linia de diurnă nu e chitanță: se adaugă la diurna din antet
+                    diem_lines += line.amount
+                else:
+                    total += line.tax_amount + line.price_subtotal
 
             expense.amount_vouchers = total
-            expense.total_diem = expense.days * expense.diem
+            expense.total_diem = expense.days * expense.diem + diem_lines
             expense.amount = expense.amount_vouchers + expense.total_diem
 
             # cu cardul firmei chitanțele sunt plătite direct furnizorilor: angajatului i se datorează doar diurna
@@ -1095,6 +1100,9 @@ class DeltatechExpensesDeduction(models.Model):
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
 
             for line in expenses.expenses_line_ids:
+                if line.type == "per_diem":
+                    # diurna se contabilizează mai jos, într-o notă comună cu diurna din antet
+                    continue
                 partner_id = line.partner_id or partner_generic
                 if not partner_id:
                     raise UserError(self.env._("You must select a supplier for all lines."))
@@ -1208,19 +1216,46 @@ class DeltatechExpensesDeduction(models.Model):
                     "partner_id": expenses.partner_id.id,
                     "date_maturity": date_expense,
                 }
-                diem_balance = expenses._to_company_currency(expenses.total_diem, date_expense)
-                line_ids = [
-                    (
-                        0,
-                        0,
-                        expenses._move_line_vals(
-                            expenses.total_diem,
-                            date_expense,
-                            diem_balance,
-                            account_id=expenses.account_diem_id.id,
-                            **common,
-                        ),
-                    ),
+                # Dr 625 = Cr 542: diurna din antet și fiecare linie de tip „Diurnă”, într-o singură notă
+                line_ids = []
+                header_diem = expenses.days * expenses.diem
+                if header_diem:
+                    line_ids.append(
+                        (
+                            0,
+                            0,
+                            expenses._move_line_vals(
+                                header_diem,
+                                date_expense,
+                                account_id=expenses.account_diem_id.id,
+                                **common,
+                            ),
+                        )
+                    )
+                for diem_line in expenses.expenses_line_ids.filtered(lambda ln: ln.type == "per_diem"):
+                    if not diem_line.expense_account_id:
+                        raise UserError(
+                            self.env._("Select an expense account for the per diem line %s.") % diem_line.name
+                        )
+                    line_ids.append(
+                        (
+                            0,
+                            0,
+                            expenses._move_line_vals(
+                                diem_line.amount,
+                                date_expense,
+                                **dict(
+                                    common,
+                                    name=diem_line.name,
+                                    account_id=diem_line.expense_account_id.id,
+                                    analytic_distribution=diem_line.analytic_distribution,
+                                ),
+                            ),
+                        )
+                    )
+                # contravaloarea creditului 542 = suma debitelor, ca nota să fie echilibrată la orice curs
+                diem_balance = sum(vals["balance"] for _c, _i, vals in line_ids)
+                line_ids.append(
                     (
                         0,
                         0,
@@ -1231,8 +1266,8 @@ class DeltatechExpensesDeduction(models.Model):
                             account_id=account_542.id,
                             **common,
                         ),
-                    ),
-                ]
+                    )
+                )
                 move = self.env["account.move"].create(
                     {
                         # "name": name or "/",
@@ -1359,7 +1394,12 @@ class DeltatechExpensesDeductionLine(models.Model):
         "account.tax", string="Tax", help="VAT on the receipt; the amount is always entered with VAT included."
     )
 
-    type = fields.Selection([("expenses", "Expenses"), ("supplier_payment", "Supplier Payment")], default="expenses")
+    type = fields.Selection(
+        [("expenses", "Expenses"), ("supplier_payment", "Supplier Payment"), ("per_diem", "Per Diem")],
+        default="expenses",
+        help="Per Diem: no receipt, no VAT; on validation it is booked as Dr per diem account = Cr 542, "
+        "with the employee as partner.",
+    )
 
     # Suma de pe bon/factură, mereu cu TVA inclus, indiferent dacă taxa e configurată „inclusă
     # în preț" sau „pe deasupra" (taxele RO standard de achiziție sunt pe deasupra).
@@ -1407,11 +1447,18 @@ class DeltatechExpensesDeductionLine(models.Model):
         company = self.expenses_deduction_id.company_id or self.env.company
         return self.partner_id.commercial_partner_id.with_company(company).property_account_payable_id
 
-    @api.depends("type", "partner_id")
+    @api.depends("type", "partner_id", "expenses_deduction_id.account_diem_id")
     def _compute_expense_account_id(self):
         for line in self:
             if line.type == "supplier_payment":
                 line.expense_account_id = line._supplier_payable_account()
+            elif line.type == "per_diem":
+                # contul de diurnă al decontului (implicit 625)
+                company = line.expenses_deduction_id.company_id or line.env.company
+                line.expense_account_id = (
+                    line.expenses_deduction_id.account_diem_id
+                    or line.with_company(company).env["deltatech.expenses.deduction"]._default_account_diem()
+                )
             elif not line.expense_account_id or line.expense_account_id.account_type == "liability_payable":
                 # linie nouă sau revenită din „Plată furnizor": contul implicit de cheltuieli, al companiei decontului
                 company = line.expenses_deduction_id.company_id or line.env.company
@@ -1419,8 +1466,8 @@ class DeltatechExpensesDeductionLine(models.Model):
 
     @api.onchange("type")
     def _onchange_type_clear_taxes(self):
-        # o plată de furnizor stinge o factură care are deja TVA-ul înregistrat
-        if self.type == "supplier_payment":
+        # o plată de furnizor stinge o factură care are deja TVA-ul înregistrat; diurna nu are TVA
+        if self.type in ("supplier_payment", "per_diem"):
             self.tax_ids = False
 
     @api.depends("allocation_ids.amount")
@@ -1559,7 +1606,7 @@ class DeltatechExpensesDeductionLine(models.Model):
             tax_amount = 0.0
             price_subtotal = expenses.amount
             # plata furnizorului nu are TVA: factura plătită îl are deja înregistrat
-            taxes = expenses.tax_ids if expenses.type != "supplier_payment" else self.env["account.tax"]
+            taxes = expenses.tax_ids if expenses.type == "expenses" else self.env["account.tax"]
             if taxes:
                 price_unit = expenses.amount
                 if not all(taxes.mapped("price_include")):

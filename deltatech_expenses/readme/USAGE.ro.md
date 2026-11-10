@@ -12,6 +12,10 @@
 alocată fiecăreia (se acceptă plata parțială); fără facturi alese, plata stinge întâi facturile
 deschise cele mai vechi. Partea nealocată e un avans la furnizor, reclasificat Dr 4092 = Cr 401.
 
+**Diurnă.** O linie de tip *Per Diem* este diurna unei deplasări, fără chitanță și fără TVA. La validare se
+contabilizează Dr 625 = Cr 542 cu angajatul ca partener, în aceeași notă cu diurna din antet; mai multe
+linii pot acoperi mai multe deplasări. Contul (implicit 625) se ia din decont.
+
 Exemplu: un avans de 1.000 RON și bonuri de 800 RON lasă 200 RON de restituit de către angajat;
 după validare, soldul contului 542 al angajatului este zero.
 

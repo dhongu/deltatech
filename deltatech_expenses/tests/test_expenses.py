@@ -1674,6 +1674,37 @@ class TestExpenses(TransactionCase):
         deduction.invalidate_recordset(["employee_balance"])
         self.assertAlmostEqual(deduction.employee_balance, -271.0)
 
+    def test_per_diem_line_books_625_on_542(self):
+        """Linia de tip Diurnă: fără TVA, fără chitanță, Dr 625 = Cr 542 cu angajatul; se adaugă la
+        diurna din antet într-o singură notă, iar chitanțele rămân separate."""
+        self.cash_journal.expenses_no_payment_moves = True
+        deduction = self._draft_deduction(days=1, diem=50.0)
+        self._new_line(deduction, 121.0, taxes=self.tax_21)
+        diem_line = self._new_line(deduction, 85.0, type="per_diem", taxes=self.tax_21)
+        self.assertEqual(diem_line.expense_account_id, self.acc_exp)
+        self.assertFalse(diem_line.tax_amount)
+        self.assertAlmostEqual(diem_line.price_subtotal, 85.0)
+        self.assertAlmostEqual(deduction.total_diem, 135.0)
+        self.assertAlmostEqual(deduction.amount_vouchers, 121.0)
+        deduction.validate_expenses()
+
+        self.assertEqual(deduction.state, "done")
+        diem_move = deduction.move_id
+        self.assertEqual(len(diem_move.line_ids), 3)
+        self.assertAlmostEqual(
+            sum(diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_542).mapped("credit")), 135.0
+        )
+        self.assertAlmostEqual(
+            sum(diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_exp).mapped("debit")), 135.0
+        )
+        self.assertFalse(
+            self.env["account.move"]
+            .search([("expenses_deduction_id", "=", deduction.id), ("move_type", "=", "in_receipt")])
+            .filtered(lambda m: m.amount_total == 85.0)
+        )
+        lines_542 = self._employee_542_lines()
+        self.assertAlmostEqual(sum(lines_542.mapped("credit")), 256.0)
+
     def test_no_payment_moves_cash_withdrawal_reconciled_on_542(self):
         """Banii ridicați de angajat se înregistrează din casă / extras (Dr 542 = Cr 5311, partener angajatul)
         și se reconciliază standard pe 542 cu cheltuielile decontului; soldul rămas e pe angajat."""
