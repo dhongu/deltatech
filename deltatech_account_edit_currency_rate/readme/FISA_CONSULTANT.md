@@ -128,7 +128,8 @@ propriu.
 | Jurnalele de vânzări / cumpărări, D300, D394, SAF-T | Preiau baza și TVA-ul în lei calculate la cursul propriu |
 
 **Ce e automat:** recalcularea valorilor în lei la schimbarea cursului, blocarea cursului pe factura
-confirmată, păstrarea cursului pe nota de credit, revenirea la cursul oficial când câmpul se golește.
+confirmată, păstrarea cursului pe nota de credit, revenirea la cursul oficial când câmpul se golește,
+refuzarea cursului propriu pe notele contabile.
 
 **Ce rămâne manual:** alegerea și introducerea cursului corect, conform art. 290 din Codul fiscal.
 
@@ -141,12 +142,17 @@ confirmată, păstrarea cursului pe nota de credit, revenirea la cursul oficial 
 - [ ] Factura duplicată nu are curs propriu.
 - [ ] Nota de credit are același curs ca factura originală și stornează exact aceleași valori în lei.
 - [ ] O factură creată prin import cu cursul propriu completat are valorile în lei la acel curs.
+- [ ] Pe o notă contabilă (**Contabilitate → Note contabile**) câmpul **Curs valutar** nu apare;
+      liniile în valută folosesc cursul oficial al zilei.
+- [ ] O notă contabilă importată sau creată prin integrare cu cursul propriu completat este refuzată
+      cu mesajul de la secțiunea 9; nota nu se salvează cu un curs care nu s-a aplicat.
 
 ## 9. Mesaje de eroare frecvente
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | `You cannot change the custom currency rate of the posted entry ... Reset it to draft first.` | Cursul a fost schimbat pe o factură confirmată (de exemplu prin import sau integrare) | Readuceți factura în ciornă, schimbați cursul, confirmați din nou |
+| `The custom currency rate can only be set on invoices, not on the journal entry ...` (în română: *Cursul valutar personalizat poate fi setat doar pe facturi, nu și pe nota contabilă ...*) | Un import sau o integrare a completat cursul propriu pe o notă contabilă, nu pe o factură | Lăsați cursul propriu necompletat pe nota contabilă; dacă e nevoie de alte valori în lei, introduceți direct sumele în lei (Debit / Credit) pe linii |
 | Câmpul **Curs valutar** nu apare | Factura este în moneda companiei (lei) | Nu e nevoie de curs propriu |
 
 ## 10. Capturi de ecran
@@ -162,6 +168,9 @@ secțiunea 6.
 - În interfața în română câmpul se numește tot **Curs valutar**, ca și cursul standard al facturii;
   manualul îl indică prin poziția lui (tabul **Alte informații**, grupul **Contabilitate**).
 - Trimiterea la art. 290 din Codul fiscal se păstrează: modulul nu validează cursul ales.
+- Cursul propriu se aplică **doar pe facturi** (de client și de furnizor, inclusiv notele de credit).
+  Notele contabile folosesc întotdeauna cursul oficial; cursul propriu pe o notă contabilă este
+  refuzat, iar stornarea unei note contabile nu preia un curs propriu.
 
 ---
 
