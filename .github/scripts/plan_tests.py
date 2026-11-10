@@ -87,8 +87,8 @@ NEUTRAL_ROOT_FILES = frozenset(
 )
 
 # Manifest keys that change neither what gets installed nor what the tests run: a
-# version bump with its HISTORY entry, a new Apps Store image or a repriced module
-# touch the manifest but not the behaviour of the addon. If ONLY these keys differ,
+# version bump with its HISTORY entry, a new Apps Store image, a repriced module or a
+# discount campaign (`price` + `full_price`) touch the manifest but not the behaviour of the addon. If ONLY these keys differ,
 # the manifest is treated as a neutral file. Any other key (`depends`, `data`,
 # `assets`, `excludes`, hooks, `installable`...) or a new / unreadable manifest
 # keeps the usual rule: the addon goes into the tests.
@@ -102,6 +102,7 @@ MANIFEST_METADATA_KEYS = frozenset(
         "version",
         "images",
         "price",
+        "full_price",
         "currency",
         "author",
         "maintainers",
