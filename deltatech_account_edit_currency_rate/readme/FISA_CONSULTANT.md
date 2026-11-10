@@ -76,6 +76,9 @@ Ce se întâmplă: factura se recalculează la cursul introdus. Valorile în lei
 totalurile se refac imediat; același calcul se face și când factura este creată sau modificată prin
 import ori prin integrare, nu doar din formular.
 
+Cursul propriu se folosește doar pe facturi; pe notele contabile câmpul nu apare, iar un curs propriu
+trimis prin import sau integrare este refuzat (vezi secțiunea 9).
+
 ### Pasul 3 — Verificarea valorilor în lei
 
 În tabul **Elemente jurnal** (**Journal Items**):
@@ -143,7 +146,7 @@ refuzarea cursului propriu pe notele contabile.
 - [ ] Nota de credit are același curs ca factura originală și stornează exact aceleași valori în lei.
 - [ ] O factură creată prin import cu cursul propriu completat are valorile în lei la acel curs.
 - [ ] Pe o notă contabilă (**Contabilitate → Note contabile**) câmpul **Curs valutar** nu apare;
-      liniile în valută folosesc cursul oficial al zilei.
+  liniile în valută folosesc cursul oficial al zilei.
 - [ ] O notă contabilă importată sau creată prin integrare cu cursul propriu completat este refuzată
       cu mesajul de la secțiunea 9; nota nu se salvează cu un curs care nu s-a aplicat.
 
