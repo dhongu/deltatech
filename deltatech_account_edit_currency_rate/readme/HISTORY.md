@@ -4,6 +4,7 @@
   entry it was saved (through import/RPC) without being applied to the company-currency
   amounts; it is now rejected, and journal entry lines always use the official rate.
   A reversal copies the custom rate only from invoices.
+  The field is hidden on journal entries in the form.
 
 ## 19.0.1.0.3 (2026-10-22)
 
