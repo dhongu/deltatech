@@ -21,14 +21,22 @@ se calculează la acest curs, nu la cursul zilei. Când este golit, factura revi
 
 Codul fiscal (Legea 227/2015), **art. 290**, stabilește cursul de schimb folosit pentru baza de
 impozitare a TVA în cazul operațiunilor în valută: ultimul curs comunicat de BNR sau ultimul curs
-publicat de BCE, ori cursul băncii prin care se efectuează decontările, din data exigibilității taxei
-(condițiile pentru cursul băncii sunt detaliate în normele metodologice). Textul de ajutor al câmpului
-amintește această regulă. Modulul nu verifică ce curs se introduce: răspunderea alegerii cursului
-rămâne a contabilului.
+publicat de BCE, din data exigibilității taxei; cursul băncii prin care se efectuează decontările se
+poate folosi doar dacă în contract s-a prevăzut acest lucru (art. 290 alin. (2), teza finală).
+Normele metodologice (HG 1/2016, Titlul VII, pct. 35) precizează ce înseamnă „ultimul curs BNR” și ce
+curs se păstrează la facturile de avans. Textul de ajutor al câmpului amintește această regulă.
+Modulul nu verifică ce curs se introduce: răspunderea alegerii cursului rămâne a contabilului.
 
 Cursul propriu schimbă **toate** valorile în lei ale facturii, nu doar baza TVA: creanța sau datoria,
 venitul sau cheltuiala și TVA-ul se înregistrează la cursul ales, iar diferențele de curs de la
 încasare sau plată se calculează față de acest curs.
+
+Din punct de vedere contabil, OMFP 1802/2014 pct. 319 cere înregistrarea inițială a tranzacției în
+valută la cursul BNR de la data operațiunii; art. 290 din Codul fiscal permite cursul BCE sau al
+băncii doar pentru baza TVA. Dacă introduceți alt curs decât cel BNR, toată nota facturii (creanța
+sau datoria, venitul sau cheltuiala) se înregistrează la acel curs: stabiliți tratamentul cu
+contabilul. Diferența față de cursul BNR se închide la încasare sau plată și la reevaluarea de final
+de lună (665 / 765).
 
 ## 3. Utilizatori și roluri
 
@@ -136,12 +144,14 @@ Nota de credit a aceleiași facturi, la același curs, stornată în roșu (cu m
 | 704 Venituri din servicii prestate | | -500,00 |
 | 4427 TVA colectată | | -105,00 |
 
-⚠️ Limitare cunoscută a Odoo 19 standard, independentă de acest modul: pe companiile cu stornare în
-roșu (planul RO), nota de credit creată din factură afișează linia de venit pe **Debit +500,00**
-în loc de **Credit -500,00** (liniile de TVA și de client sunt corect în roșu). Totalurile rămân
-echilibrate, dar rulajele contului de venit diferă de monografia de mai sus. Verificați nota de
-credit în tabul **Elemente jurnal** și, până la corectarea în Odoo, stabiliți cu contabilul
-regularizarea rulajelor contului de venit.
+⚠️ Limitare a Odoo 19 standard, independentă de acest modul: pe companiile cu stornare în roșu
+(planul RO), nota de credit creată din factură pune linia de venit pe **Debit +500,00**, nu pe
+**Credit -500,00** cum cere stornarea în roșu; liniile de TVA și de client sunt corect în roșu.
+Soldul contului 704 iese corect, dar înregistrarea nu este conformă: contul de venit se debitează
+doar la închiderea prin 121. În plus, rulajele debitoare și creditoare ale lui 704 (balanța de
+verificare, D406 / SAF-T) cresc amândouă cu 500,00 lei. Verificați nota de credit în tabul
+**Elemente jurnal**; până la corectarea în Odoo, rulajul se poate corecta cu o notă de rectificare în
+roșu pe același cont (704 Debit -500,00 / 704 Credit -500,00), după validarea contabilului.
 
 Factură de furnizor, aceleași valori:
 
