@@ -31,24 +31,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Buyers who receive goods in several deliveries need to see at a glance which purchase orders are still waiting for goods. This module adds a <em>Delivery Status</em> to purchase orders, worked out from their receipts.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Delivery status</span><div>The status is <em>In Progress</em> while any receipt of the order is neither done nor cancelled, and <em>Done</em> when every receipt is done or cancelled.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Orders without receipts</span><div>A confirmed order with no receipts, such as an order for services, is <em>Done</em>; before confirmation it is <em>In Progress</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Badge and column</span><div>The status shows as a badge on the order form and as a column, visible by default, in the RFQ and purchase order lists.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Filters</span><div>Two search filters, <em>Done</em> and <em>In progress</em>, select orders by delivery status. Both skip cancelled orders.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">On-demand status</span><div>The status is not stored. It is worked out from the order and its receipts each time the order is opened or listed.</div></div></li></ul>
+<p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code> and adds no groups, so anyone who can see purchase orders sees the status. A cancelled order without receipts shows <em>In Progress</em>, yet neither filter finds it.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.2 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>
-<ul>
-<li>Add picking status in purchase order:</li>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
 </ul>
-</li>
-<li>
-<p>if all pickings in state done or cancel status is done</p>
-</li>
-<li>if any pickings not in state done or cancel status is in progress</li>
-</ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -140,7 +148,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Purchase Order Stage</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Order Phases</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
             </span>
           </div>
@@ -220,7 +228,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Purchase XLS</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase XLS Import / Export</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
             </span>
           </div>
