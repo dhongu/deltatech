@@ -16,15 +16,41 @@ Stock Picking Report
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_report
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_report/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_stock_report
     :alt: 7 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+Managers often need to know how much came in from a supplier, or what
+went out to a customer, over a period. This module adds a *Picking
+Analysis* report on done transfers, as a pivot table and as a list.
 
-  - Report with positions from picking lists
+- **Done moves only**: Each row is one transfer, product, source
+  location and destination location, built from done stock moves. Moves
+  outside a transfer are left out.
+- **Signed quantity and positive amount**: *Quantity* is the demand of
+  the move, not the quantity processed, in the unit of measure of the
+  product. It is positive when the destination is an internal location
+  (also for moves between two internal locations) and negative
+  otherwise. *Amount* is the value stored on the stock move, or quantity
+  times the move's unit price when none is stored. Receipts and
+  deliveries both show a positive amount.
+- **Pivot and list**: The pivot opens grouped by *Picking Type*, then
+  *Commercial Entity*. The list shows the *Partner* of the transfer,
+  totals quantity and amount, and has *Date*, *Location*, *Location
+  Destination* and *Category* as optional columns.
+- **Filters and grouping**: The *Incoming*, *Internal* and *Outgoing*
+  filters select by operation type, and the date filter uses the date
+  the transfer was done. Rows can also be grouped by product, category,
+  partner, location, destination location or date.
+
+The module depends on ``stock_account``. It is read-only and open only
+to stock managers (``stock.group_stock_manager``). Users see only
+transfers of their active companies.
 
 **Table of contents**
 
@@ -33,6 +59,19 @@ Stock Picking Report
 
 Changelog
 =========
+
+20.0.1.0.8 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.1.0.7 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Stock Picking Report* (was *Stock Reports*).
+  The technical name ``deltatech_stock_report`` does not change.
 
 20.0.1.0.6 (2026-10-10)
 -----------------------

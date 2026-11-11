@@ -5,7 +5,7 @@
 {
     "name": "Stock Picking Report",
     "summary": "Report with positions from picking lists",
-    "version": "20.0.1.0.7",
+    "version": "20.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
