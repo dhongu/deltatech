@@ -1,0 +1,9 @@
+{
+  "title": "Product Margin",
+  "summary": "Product margin and trade markup",
+  "features": [
+    "Margin computed from cost and list price",
+    "Tax-included prices handled",
+    "Set list price from a target margin"
+  ]
+}

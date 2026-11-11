@@ -1,0 +1,6 @@
+{
+  "title": "Template BoMs for Variants",
+  "summary": "Base BoM auto-syncs to variants",
+  "icon": "clipboard",
+  "features": ["Base and Derived BoM templates", "Auto-recompute components", "Derived BoM on MO confirm"]
+}

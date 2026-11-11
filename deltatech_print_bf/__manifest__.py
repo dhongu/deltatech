@@ -12,7 +12,7 @@
     "depends": ["account"],
     "license": "OPL-1",
     "data": [],
-    "images": [],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

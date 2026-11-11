@@ -1,0 +1,6 @@
+{
+  "title": "Sale XLS",
+  "summary": "Import and export sale order lines in Excel",
+  "icon": "file",
+  "features": ["Order lines button on the order", "Fill an empty order from Excel", "Update existing lines by product"]
+}

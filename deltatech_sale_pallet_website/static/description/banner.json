@@ -1,0 +1,6 @@
+{
+  "title": "Pallet Sales on Website",
+  "summary": "Pallet price and pallet lines in the eCommerce cart",
+  "icon": "cart",
+  "features": ["Pallet price on product pages", "Pallet lines added to the cart", "Delivery price includes pallets"]
+}

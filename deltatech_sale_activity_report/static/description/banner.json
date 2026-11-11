@@ -1,0 +1,6 @@
+{
+  "title": "Sale Activity Log",
+  "summary": "Track every change on sales orders, per user",
+  "icon": "trend",
+  "features": ["One log per order, user and day", "Pivot report by user and date", "Auto-delete after 2 months"]
+}

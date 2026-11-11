@@ -14,4 +14,6 @@
   <text x="214" y="78" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#00592F">Change Unit of</text><text x="214" y="108" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#00592F">Measure</text>
   
   <circle cx="222" cy="138" r="9" fill="#57B952"/><path d="M217.5 138 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="142" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Updates purchase and sales orders</text><circle cx="222" cy="166" r="9" fill="#57B952"/><path d="M217.5 166 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="170" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Updates existing invoice lines</text><circle cx="222" cy="194" r="9" fill="#57B952"/><path d="M217.5 194 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="198" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Action on the product form</text>
+  
+  
 </svg>

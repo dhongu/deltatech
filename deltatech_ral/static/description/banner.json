@@ -1,0 +1,11 @@
+{
+  "title": "RAL Pigments",
+  "summary": "Choose the RAL pigment on the production order",
+  "icon": "wrench",
+  "features": [
+    "Pigment chosen from the variant color",
+    "Dummy RAL replaced in the components",
+    "RAL written on the generated lot"
+  ],
+  "lang": "en"
+}

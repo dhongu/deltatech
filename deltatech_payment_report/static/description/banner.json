@@ -1,0 +1,9 @@
+{
+  "title": "Payment Report",
+  "summary": "Customer receipts by journal and period",
+  "features": [
+    "Filter by period and cash/bank journal",
+    "Pivot: payment vs invoice journal",
+    "List of receipts with customer"
+  ]
+}

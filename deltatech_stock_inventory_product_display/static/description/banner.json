@@ -1,0 +1,7 @@
+{
+  "title": "Product Stock Display",
+  "summary": "Product stock at a glance",
+  "icon": "box",
+  "features": ["Products of sale orders in kanban", "Products of invoices in kanban", "Availability per warehouse"],
+  "lang": "en"
+}

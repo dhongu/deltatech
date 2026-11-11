@@ -1,0 +1,6 @@
+{
+  "title": "Sale Activity Search",
+  "summary": "Pending activity types on the sale order",
+  "icon": "clipboard",
+  "features": ["Active activity types on the order", "Updated on every activity change", "Usable in custom filters"]
+}

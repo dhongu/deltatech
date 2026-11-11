@@ -1,0 +1,10 @@
+{
+  "title": "Sale Contact",
+  "summary": "Structured contacts for sales & invoices",
+  "icon": "people",
+  "features": [
+    "Restrict partners to top-level companies",
+    "Default delivery & invoice address",
+    "Green Invoice: skip print on send"
+  ]
+}

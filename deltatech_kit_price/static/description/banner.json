@@ -1,0 +1,10 @@
+{
+  "title": "Kit Price on Sale Orders",
+  "summary": "Accurate cost & margin based on kit components",
+  "icon": "bag",
+  "features": [
+    "Auto-compute kit cost in sale lines",
+    "Margin based on actual component costs",
+    "UoM & currency conversion included"
+  ]
+}

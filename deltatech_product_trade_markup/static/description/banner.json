@@ -1,0 +1,8 @@
+{
+  "summary": "Trade markup percentage on products",
+  "features": [
+    "Trade Markup field on the product form",
+    "Shared by all product variants",
+    "Changes logged in the chatter"
+  ]
+}

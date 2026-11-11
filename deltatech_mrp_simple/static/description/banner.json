@@ -1,0 +1,6 @@
+{
+  "title": "Simple MRP",
+  "summary": "Production orders without Bill of Materials",
+  "icon": "gear",
+  "features": ["Ad-hoc production, no BoM needed", "Cost allocated from components", "Optional product and quotation"]
+}

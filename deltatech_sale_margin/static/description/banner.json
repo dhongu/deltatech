@@ -1,0 +1,10 @@
+{
+  "title": "Sale Margin & Profit",
+  "summary": "Protect margins and analyse invoice profit",
+  "icon": "trend",
+  "features": [
+    "Block or warn below cost or margin",
+    "Cost price on every invoice line",
+    "Profit report by salesperson & product"
+  ]
+}

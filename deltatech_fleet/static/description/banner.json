@@ -1,0 +1,7 @@
+{
+  "title": "Fleet Map Sheets & Fuel",
+  "summary": "Route sheets, fuel logs and cost per km for your vehicles",
+  "icon": "truck",
+  "features": ["Map sheets with PDF report", "Fuel cards and fuel logs", "Cost per kilometre report"],
+  "lang": "en"
+}

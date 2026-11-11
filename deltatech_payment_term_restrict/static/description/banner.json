@@ -1,0 +1,6 @@
+{
+  "title": "Payment Term Restrict",
+  "summary": "Control who can change payment terms",
+  "icon": "user",
+  "features": ["Dedicated group can modify payment terms", "Applies to partner, sale order and invoice"]
+}

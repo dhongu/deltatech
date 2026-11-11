@@ -1,0 +1,10 @@
+{
+  "title": "Select Journal",
+  "summary": "Choose the invoicing journal (obsolete)",
+  "icon": "file",
+  "features": [
+    "Journal and payment terms wizard on invoice",
+    "Currency rate set in the wizard",
+    "Reversal journal on the journal"
+  ]
+}

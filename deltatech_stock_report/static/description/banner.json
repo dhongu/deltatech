@@ -1,0 +1,6 @@
+{
+  "title": "Stock Picking Report",
+  "summary": "Picking analysis: partner, product, location",
+  "icon": "truck",
+  "features": ["Pivot analysis of all pickings", "Filter by type, partner, category", "Qty & amount per movement"]
+}

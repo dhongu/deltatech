@@ -1,0 +1,6 @@
+{
+  "title": "Utils",
+  "summary": "Database maintenance helpers",
+  "icon": "gear",
+  "features": ["Remove unused files from filestore", "Delete a view in cascade"]
+}

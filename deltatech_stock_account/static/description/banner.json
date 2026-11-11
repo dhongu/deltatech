@@ -1,0 +1,11 @@
+{
+  "title": "Stock Account Extension",
+  "summary": "Transfer values, category accounts, cost control",
+  "icon": "file",
+  "features": [
+    "Transfer value in the transfers list",
+    "Accounts propagated to subcategories",
+    "Cost changes restricted to a group"
+  ],
+  "lang": "en"
+}

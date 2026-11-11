@@ -1,0 +1,6 @@
+{
+  "title": "Dummy Queue Job",
+  "summary": "Stand-in for queue_job: runs jobs at once",
+  "icon": "gear",
+  "features": ["with_delay() available on every model", "Jobs run immediately, no job queue needed"]
+}

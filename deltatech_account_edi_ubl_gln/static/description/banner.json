@@ -1,0 +1,6 @@
+{
+  "title": "UBL e-Invoice GLN",
+  "summary": "Partner GLN in UBL electronic invoices",
+  "icon": "file",
+  "features": ["GLN added as party identification", "Scheme ID 0088 (GS1 GLN)", "Applied to UBL 2.0 invoice XML"]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Restricted Access (Obsolete)",
+  "summary": "Protect sensitive master data from editing",
+  "icon": "user",
+  "features": ["Edit sensible data permission", "Locks category, location and UoM names"]
+}

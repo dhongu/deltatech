@@ -1,0 +1,10 @@
+{
+  "title": "Picking Restrict Entry/Exit",
+  "summary": "Validate receipts and deliveries only against orders",
+  "icon": "box",
+  "features": [
+    "Lines must come from a sale or purchase",
+    "Block quantities above the demand",
+    "Exemption group for chosen users"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Website Designer Access",
+  "summary": "Hide Contacts, Sales & Invoicing menus from website-only users",
+  "icon": "user",
+  "features": ["Dedicated access group", "Hides Contacts and Sales", "Hides Invoicing Customers/Vendors"]
+}

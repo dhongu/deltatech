@@ -1,0 +1,10 @@
+{
+  "title": "Invoice Receipt",
+  "summary": "Purchase orders and receipts from bills",
+  "icon": "clipboard",
+  "features": [
+    "Purchase order created from the bill",
+    "Receipt validated when the bill is posted",
+    "Negative purchase lines returned to vendor"
+  ]
+}

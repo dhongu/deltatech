@@ -1,0 +1,6 @@
+{
+  "title": "MRP Warehouse",
+  "summary": "Default stock settings for manufacturing",
+  "icon": "box",
+  "features": ["Scrap (loss) field on products", "Default supplier on company", "Default warehouse on company"]
+}

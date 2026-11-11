@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Stock Date - Obsolete",
     "summary": "Obsolete use l10n_ro_stock_account_date",
     "version": "18.0.1.1.0",

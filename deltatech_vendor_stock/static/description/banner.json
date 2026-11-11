@@ -1,0 +1,11 @@
+{
+  "title": "Vendor Stock",
+  "summary": "Vendor and warehouse stock on the sales order",
+  "icon": "truck",
+  "lang": "en",
+  "features": [
+    "Vendor stock on vendor pricelists",
+    "Vendor and per-warehouse stock on lines",
+    "Availability icon with set colours"
+  ]
+}

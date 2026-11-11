@@ -1,0 +1,6 @@
+{
+  "title": "Attribute Texture",
+  "summary": "Texture images for product attributes",
+  "icon": "globe",
+  "features": ["Texture image on attribute values", "Shown in the website configurator"]
+}

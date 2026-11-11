@@ -1,0 +1,10 @@
+{
+  "title": "Checkout Confirm",
+  "icon": "globe",
+  "summary": "Confirm web orders at the end of checkout",
+  "features": [
+    "Auto-confirm on the confirmation page",
+    "Wire transfer and COD included",
+    "Checks paid amount and signature"
+  ]
+}

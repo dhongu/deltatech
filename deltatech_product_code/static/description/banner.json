@@ -1,0 +1,7 @@
+{
+  "title": "Products Code",
+  "summary": "Structured internal references and barcodes",
+  "icon": "box",
+  "features": ["Automatic internal references", "GTIN-13 from GS1 prefix", "Duplicate code checks"],
+  "lang": "en"
+}

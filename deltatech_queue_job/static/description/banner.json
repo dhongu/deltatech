@@ -1,0 +1,7 @@
+{
+  "title": "Queue Job Enhancements",
+  "summary": "Faster and more reliable background jobs",
+  "icon": "gear",
+  "features": ["Parallel workers, no blocking", "Savepoint per job", "Cron and external API runners"],
+  "lang": "en"
+}

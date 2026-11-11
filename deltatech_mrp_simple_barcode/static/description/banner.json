@@ -1,0 +1,10 @@
+{
+  "title": "Simple MRP Barcode",
+  "summary": "Barcode scanning for simple production orders",
+  "icon": "clipboard",
+  "features": [
+    "Scan barcode to add consumed products",
+    "Auto-increment quantity on re-scan",
+    "Fallback lookup by internal reference"
+  ]
+}

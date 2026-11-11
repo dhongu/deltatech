@@ -1,0 +1,10 @@
+{
+  "title": "Sale Followup",
+  "summary": "Automatic follow-up e-mails after a sale",
+  "icon": "cart",
+  "features": [
+    "Automated e-mail after the sale order",
+    "Optional cron job, off by default",
+    "Ready-made follow-up e-mail template"
+  ]
+}

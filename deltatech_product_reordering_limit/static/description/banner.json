@@ -1,0 +1,6 @@
+{
+  "title": "Product Reordering Limits",
+  "summary": "Global min/max stock levels per product",
+  "icon": "box",
+  "features": ["Total Minimum & Maximum per product", "Below Minimum stock filter", "XLSX reordering report"]
+}

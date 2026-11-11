@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Pager Guard",
+  "summary": "404 for shop pages that do not exist",
+  "icon": "globe",
+  "features": [
+    "Stops endless crawling of fake pages",
+    "No duplicate content on /shop/page/N",
+    "No hardcoded page limit"
+  ]
+}

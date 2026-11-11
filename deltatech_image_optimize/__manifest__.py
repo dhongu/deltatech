@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Image Optimizer",
     "version": "18.0.1.5.1",
     "author": "Terrabit, Dorin Hongu",

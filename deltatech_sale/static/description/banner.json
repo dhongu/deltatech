@@ -1,0 +1,6 @@
+{
+  "title": "Sale Extension",
+  "summary": "Legacy sales fixes (obsolete)",
+  "icon": "cart",
+  "features": ["Fix: product pick without a customer", "Margin report on standard price"]
+}

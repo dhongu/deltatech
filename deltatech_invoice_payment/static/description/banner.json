@@ -1,0 +1,6 @@
+{
+  "title": "Invoice Payments",
+  "summary": "See related payments right on the invoice",
+  "icon": "file",
+  "features": ["Payments widget on invoices and bills", "Reconciled payments summary", "Clear view of what was paid"]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Mail Substitution",
+  "summary": "Redirect and rewrite outgoing emails",
+  "icon": "mail",
+  "features": [
+    "Redirect emails by sender or recipient",
+    "Body text substitution on all messages",
+    "Per-model email routing rules"
+  ]
+}

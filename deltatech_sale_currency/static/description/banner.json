@@ -1,0 +1,11 @@
+{
+  "title": "Sale Invoice Currency",
+  "summary": "Invoice in the journal currency",
+  "icon": "cart",
+  "features": [
+    "Invoice currency from sales journal",
+    "Automatic unit price conversion",
+    "Uses the exchange rate of the day"
+  ],
+  "lang": "en"
+}

@@ -1,0 +1,8 @@
+{
+  "summary": "Cost categories & production cost analysis",
+  "features": [
+    "Cost category on product categories",
+    "Costs tab on manufacturing orders",
+    "Production cost analysis report"
+  ]
+}

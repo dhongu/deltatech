@@ -1,0 +1,6 @@
+{
+  "title": "Purchase Picking Status",
+  "summary": "Track delivery progress right on the purchase order",
+  "icon": "truck",
+  "features": ["Delivery status badge on POs", "Auto: Done or In Progress", "Filter POs by picking status"]
+}

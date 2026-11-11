@@ -1,0 +1,11 @@
+{
+  "title": "Contact Personal Data",
+  "summary": "Personal data and CNP validation",
+  "icon": "user",
+  "features": [
+    "CNP checksum validation",
+    "Birthdate and gender filled from CNP",
+    "ID card details on a Personal Data tab"
+  ],
+  "lang": "en"
+}

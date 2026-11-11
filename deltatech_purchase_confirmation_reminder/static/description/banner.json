@@ -1,0 +1,9 @@
+{
+  "title": "Purchase Confirmation Reminder",
+  "summary": "Chase suppliers on unconfirmed purchase orders",
+  "features": [
+    "Automatic activity on unconfirmed orders",
+    "Configurable delay and activity type",
+    "Scheduled background check"
+  ]
+}

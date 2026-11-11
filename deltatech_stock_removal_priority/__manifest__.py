@@ -2,6 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Stock Removal Location by Priority",
     "summary": "Stock Removal Location by Priority",
     "version": "18.0.1.0.0",
