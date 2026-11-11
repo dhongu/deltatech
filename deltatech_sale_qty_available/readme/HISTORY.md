@@ -1,3 +1,7 @@
+## 20.0.1.0.4 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 20.0.1.0.3 (2026-10-02)
 
 - Migration to Odoo 20.0: the "Available" column on the order lines is now placed before
