@@ -38,8 +38,9 @@ only part of an order can ship today.
   the reserved quantity, whichever is higher, converted to the unit of
   measure of the line and never below zero or above the demand.
 - **New backorder transfer**: Whatever is not kept goes to a new
-  transfer in Draft, linked to the original one as its backorder. A line
-  with nothing kept moves whole; a line kept in part is split.
+  transfer, created as a copy of the original and linked to it as its
+  backorder. A line with nothing kept moves whole; a line kept in part
+  is split, and its new part starts in Draft.
 - **Trace on the original**: A message with a link to the new transfer
   is posted on the original one.
 - **Safeguards**: The window refuses a kept quantity below zero or above
@@ -47,9 +48,8 @@ only part of an order can ship today.
   transfer that is already done or cancelled.
 
 The module depends only on *Inventory* and is available to the Inventory
-users. The new transfer is left in Draft and is not reserved
-automatically. At least one line must keep some quantity: if every kept
-quantity is zero, nothing is changed.
+users. It does not reserve the new transfer. At least one line must keep
+some quantity: if every kept quantity is zero, nothing is changed.
 
 **Table of contents**
 
