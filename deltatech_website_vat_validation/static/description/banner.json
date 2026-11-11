@@ -1,0 +1,7 @@
+{
+  "title": "Website VAT Validation",
+  "summary": "No duplicate customers from the website checkout",
+  "icon": "clipboard",
+  "lang": "en",
+  "features": ["Duplicate tax codes blocked", "Duplicate e-mails blocked", "Price display setting kept"]
+}

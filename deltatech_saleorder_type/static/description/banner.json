@@ -1,0 +1,7 @@
+{
+  "title": "Sale Order Type",
+  "summary": "Manage multiple sale order types (obsolete)",
+  "edition": "community",
+  "icon": "clipboard",
+  "features": ["Custom sale order types", "Built on the record type base module"]
+}

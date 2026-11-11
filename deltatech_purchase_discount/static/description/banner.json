@@ -1,0 +1,9 @@
+{
+  "title": "Purchase Order Line Discount",
+  "summary": "Percentage discounts on purchase order lines",
+  "features": [
+    "Discount % on each order line",
+    "Price without discount kept visible",
+    "Unit price recomputed automatically"
+  ]
+}

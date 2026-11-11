@@ -1,0 +1,10 @@
+{
+  "title": "Picking Services",
+  "summary": "Service lines on stock transfers",
+  "icon": "clipboard",
+  "features": [
+    "Dedicated services tab on the picking",
+    "Only service products allowed",
+    "Keeps service costs next to the goods"
+  ]
+}

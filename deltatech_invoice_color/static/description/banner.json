@@ -1,0 +1,6 @@
+{
+  "title": "Invoice Line Colors",
+  "summary": "Spot problem invoice lines at a glance",
+  "icon": "file",
+  "features": ["Red: storable product without PO or SO", "Yellow: line without product or UoM"]
+}

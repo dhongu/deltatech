@@ -1,0 +1,7 @@
+{
+  "title": "Print Invoice to ECR (Obsolete)",
+  "summary": "Fiscal receipt settings for invoices",
+  "icon": "file",
+  "module_icon": false,
+  "features": ["Receipt journal set in settings", "ECR code on journals", "Printed-receipt flag on invoices"]
+}

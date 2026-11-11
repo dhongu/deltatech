@@ -1,0 +1,6 @@
+{
+  "title": "Vendor Minimum Order",
+  "summary": "Warns when a PO is below the vendor minimum",
+  "icon": "bag",
+  "features": ["Minimal purchase value on each vendor", "Warning banner on low purchase orders"]
+}

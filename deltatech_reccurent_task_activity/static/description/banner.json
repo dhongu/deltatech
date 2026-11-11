@@ -1,0 +1,5 @@
+{
+  "title": "Recurring Task Activity",
+  "summary": "Activities for recurring task occurrences",
+  "features": ["Activity on each recurring occurrence", "Created for every assigned user"]
+}

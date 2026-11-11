@@ -1,0 +1,11 @@
+{
+  "title": "Cash Statement Extension",
+  "summary": "Keep cash balances aligned with the accounting",
+  "icon": "bag",
+  "features": [
+    "Align statement balances with accounts",
+    "Book cash difference as a dated entry",
+    "Surplus and shortage accounts preset"
+  ],
+  "lang": "en"
+}

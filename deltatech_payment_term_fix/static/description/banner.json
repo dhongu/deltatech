@@ -1,0 +1,6 @@
+{
+  "title": "Payment Term Fix",
+  "summary": "Fixed month of the year on payment term lines",
+  "icon": "file",
+  "features": ["Month of the year on term lines", "Due dates computed on that month"]
+}

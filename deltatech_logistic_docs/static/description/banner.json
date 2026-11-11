@@ -1,0 +1,9 @@
+{
+  "icon": "truck",
+  "summary": "Shipping files from the whole flow",
+  "features": [
+    "Documents button on orders and invoices",
+    "Collects files along the flow",
+    "Download button on attachments"
+  ]
+}

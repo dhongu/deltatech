@@ -1,0 +1,11 @@
+{
+  "title": "Business Process Management",
+  "summary": "Structure and run Odoo implementation projects",
+  "icon": "clipboard",
+  "features": [
+    "Projects, processes and ordered steps",
+    "Internal, integration and user tests",
+    "Issue tracking and JSON export/import"
+  ],
+  "lang": "en"
+}

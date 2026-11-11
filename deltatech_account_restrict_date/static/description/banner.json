@@ -1,0 +1,6 @@
+{
+  "title": "Restrict Account Date",
+  "summary": "Block operations before a configured date",
+  "icon": "clipboard",
+  "features": ["Blocks undoing statement reconciliation", "Cutoff from a system parameter"]
+}

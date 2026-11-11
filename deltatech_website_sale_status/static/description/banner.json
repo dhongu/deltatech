@@ -1,0 +1,10 @@
+{
+  "title": "eCommerce Order Status",
+  "summary": "Where each order is, for the team and the customer",
+  "icon": "truck",
+  "features": [
+    "Order stage from stock and courier status",
+    "Stage filters and badges in the portal",
+    "Optional detailed stage with AWB status"
+  ]
+}

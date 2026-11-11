@@ -1,4 +1,5 @@
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Deltatech Replenishment Explain",
     "version": "18.0.1.1.0",
     "author": "Terrabit, Voicu Stefan",

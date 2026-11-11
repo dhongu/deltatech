@@ -1,0 +1,10 @@
+{
+  "title": "No Quick Create",
+  "summary": "No empty records, also on Odoo Online",
+  "icon": "grid",
+  "features": [
+    "Blocks quick-create on every many2one",
+    "Create and edit stays available",
+    "No Python: importable on Odoo Online"
+  ]
+}

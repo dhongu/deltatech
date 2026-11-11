@@ -1,0 +1,10 @@
+{
+  "title": "Category User Group",
+  "summary": "Transfer responsible from category group",
+  "icon": "people",
+  "features": [
+    "User group field on product category",
+    "Responsible button on transfer lists",
+    "Load balanced among group members"
+  ]
+}

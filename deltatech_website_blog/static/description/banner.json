@@ -1,0 +1,7 @@
+{
+  "title": "Blog Post Sorting",
+  "summary": "Sort blog posts by publication date",
+  "icon": "file",
+  "lang": "en",
+  "features": ["Newest posts first", "Same-date posts ordered by ID"]
+}

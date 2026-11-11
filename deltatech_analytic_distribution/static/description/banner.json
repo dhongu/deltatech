@@ -1,0 +1,11 @@
+{
+  "title": "Analytic Distribution Enforcer",
+  "summary": "Block vendor bills without full analytic allocation",
+  "icon": "clipboard",
+  "features": [
+    "Blocks posting without distribution",
+    "Each line must total exactly 100%",
+    "Location, Department, Line of Business"
+  ],
+  "lang": "en"
+}

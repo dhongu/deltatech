@@ -1,6 +1,7 @@
 # Copyright (c) 2024-now Terrabit Solutions All Rights Reserved
 
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Terrabit payment forecast",
     "summary": "Generates a report to estimate payments at a certain date",
     "author": "Terrabit",

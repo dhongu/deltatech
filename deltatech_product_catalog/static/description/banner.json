@@ -1,0 +1,6 @@
+{
+  "title": "Product Catalog",
+  "summary": "Print ready product catalogs from your data",
+  "icon": "grid",
+  "features": ["Catalog by product or category", "Photos, codes and prices per item", "PDF export ready for print"]
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Account Analytic Split",
+  "summary": "Sales-team analytics and percentage splits",
+  "icon": "trend",
+  "features": ["Distribution models per sales team", "Sales team on analytic items", "Split amounts by template %"]
+}

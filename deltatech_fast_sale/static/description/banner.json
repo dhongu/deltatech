@@ -1,0 +1,10 @@
+{
+  "title": "Fast Sale",
+  "summary": "One-click confirm, deliver & invoice",
+  "icon": "cart",
+  "features": [
+    "Confirm + deliver + invoice in one click",
+    "Invoice button on the delivery",
+    "Stock checked before delivery"
+  ]
+}

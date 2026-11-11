@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="560" height="280" viewBox="0 0 560 280">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#006F42"/>
+      <stop offset="1" stop-color="#57B952"/>
+    </linearGradient>
+  </defs>
+  <rect width="560" height="280" fill="#FFFFFF"/>
+  <rect width="190" height="280" fill="url(#g)"/>
+  <circle cx="95.0" cy="100" r="66" fill="white" opacity="0.10"/>
+  <circle cx="97.0" cy="103" r="56" fill="#006F42" opacity="0.30"/><circle cx="95.0" cy="100" r="56" fill="#E6F4EA"/><svg x="54.0" y="59.0" width="82" height="82" viewBox="0 0 70 70" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <path id="mi-a" d="M4 0h61c4 0 5 1 5 5v60c0 4-1 5-5 5H4c-3 0-4-1-4-5V5c0-4 1-5 4-5z" />
+    <linearGradient id="mi-c" x1="100%" x2="0%" y1="0%" y2="100%">
+      
+      <stop offset="0%" stop-color="#C2DFFF" />
+      <stop offset="100%" stop-color="#6698FF" />
+      -
+    </linearGradient>
+    <path
+      id="mi-d"
+      d="M288 0c-69.59 0-126 56.41-126 126 0 56.26 82.35 158.8 113.9 196.02 6.39 7.54 17.82 7.54 24.2 0C331.65 284.8 414 182.26 414 126 414 56.41 357.59 0 288 0zm0 168c-23.2 0-42-18.8-42-42s18.8-42 42-42 42 18.8 42 42-18.8 42-42 42zM20.12 215.95A32.006 32.006 0 0 0 0 245.66v250.32c0 11.32 11.43 19.06 21.94 14.86L160 448V214.92c-8.84-15.98-16.07-31.54-21.25-46.42L20.12 215.95zM288 359.67c-14.07 0-27.38-6.18-36.51-16.96-19.66-23.2-40.57-49.62-59.49-76.72v182l192 64V266c-18.92 27.09-39.82 53.52-59.49 76.72-9.13 10.77-22.44 16.95-36.51 16.95zm266.06-198.51L416 224v288l139.88-55.95A31.996 31.996 0 0 0 576 426.34V176.02c0-11.32-11.43-19.06-21.94-14.86z"
+    />
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="mi-b" fill="#fff">
+      <use xlink:href="#mi-a" />
+    </mask>
+    <g mask="url(#mi-b)">
+      <path fill="url(#mi-c)" d="M0 0H70V70H0z" />
+      <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z" />
+      <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z" />
+      <svg fill="#FFF" x="11" y="7" width="50" height="50" viewBox="0 0 576 512">
+        <use fill="#000" fill-rule="nonzero" opacity=".3" xlink:href="#mi-d" />
+      </svg>
+      <svg fill="#FFF" x="10" y="5" width="50" height="50" viewBox="0 0 576 512">
+        <use fill="#FFF" fill-rule="nonzero" xlink:href="#mi-d" />
+      </svg>
+    </g>
+  </g>
+</svg>
+  <svg x="72.0" y="186" width="46" height="46" viewBox="4045 2535 3400 3400" preserveAspectRatio="xMidYMid meet"><path fill="#FFFFFF" d="M4648.32 4073.59l636.59 1365.17 -765.09 355.96 -308.63 -1517.87 437.13 -203.26zm725.61 1192.32l336.75 -167.88c105.65,140.85 282.69,170.72 576.82,18.8l819.92 -382.33c181.4,-90.13 164.26,-214.57 130.07,-328.43 -4.28,-14.25 -13.68,-24.81 -27.34,-30.7 -13.67,-5.89 -27.61,-5.11 -41.09,1.18l-422.32 196.93 -39.04 -83.72 538.07 -250.91c16.64,-7.76 24.7,-27.69 25.58,-46.04 6.48,-134.33 -44.36,-230.89 -105.84,-285.23 -15.2,-13.44 -35.71,-15.59 -54.12,-7l-513.92 239.64 -35.6 -76.34 506.31 -236.1c17.69,-8.25 22.52,-36.93 21.83,-56.45 -4.1,-117.31 -67.62,-232.74 -187.72,-290.66 -13.94,-6.72 -28.64,-6.36 -42.69,0.19l-511.21 238.38 -35.37 -75.86 448.98 -209.36c20.44,-9.53 25.81,-42.28 21.02,-64.32 -41.02,-189.07 -167.92,-247.8 -318.14,-237.87 -29.39,1.94 -589.86,273.16 -665.95,310.54l-281.84 -513.57c-59.06,-93.13 -112.7,-221.7 -276.47,-245.13 -211.24,-30.22 -291.56,94.38 -316.89,203.13 -25.32,108.75 223.84,365.99 276.05,473.69 85.52,184.27 -161.86,318.11 -68.41,617.99l-292.54 139.94 535.09 1147.51z"/></svg><text x="95.0" y="248" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="14" font-weight="800" letter-spacing="1.4" fill="white">TERRABIT</text><text x="95.0" y="261" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="8" font-weight="500" letter-spacing="3.6" fill="white" opacity="0.85">SOLUTIONS</text>
+  <g><rect x="477.6" y="24" width="58.4" height="24" rx="12" fill="none" stroke="#57B952" stroke-width="1.5"/><text x="506.8" y="40" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#006F42">Odoo 18</text></g>
+  <text x="214" y="84" font-family="Helvetica,Arial,sans-serif" font-size="30" font-weight="700" fill="#00592F">Website City</text>
+  <text x="214" y="110" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#5F6B7A">Structured city select at checkout</text>
+  <circle cx="222" cy="136" r="9" fill="#57B952"/><path d="M217.5 136 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="140" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">City dropdown on checkout</text><circle cx="222" cy="164" r="9" fill="#57B952"/><path d="M217.5 164 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="168" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Auto ZIP / postcode mapping</text><circle cx="222" cy="192" r="9" fill="#57B952"/><path d="M217.5 192 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="196" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Shop &amp; portal integration</text>
+  
+  
+</svg>

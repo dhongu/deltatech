@@ -1,4 +1,5 @@
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "POS Stock Display",
     "version": "18.0.1.0.1",
     "category": "Point of Sale",

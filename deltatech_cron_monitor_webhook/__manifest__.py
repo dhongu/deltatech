@@ -1,4 +1,5 @@
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Cron Monitor Webhook",
     "version": "18.0.1.0.1",
     "category": "Technical",

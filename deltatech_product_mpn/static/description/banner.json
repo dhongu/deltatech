@@ -1,0 +1,5 @@
+{
+  "icon": "cart",
+  "summary": "Manufacturer Part Number on product",
+  "features": ["MPN field on product template", "Searchable in product search"]
+}

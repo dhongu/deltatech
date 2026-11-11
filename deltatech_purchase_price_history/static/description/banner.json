@@ -1,0 +1,11 @@
+{
+  "title": "Purchase Price History",
+  "summary": "Min, max and average purchase price at a glance",
+  "edition": "community",
+  "icon": "trend",
+  "features": [
+    "Min, max, average of last 12 months",
+    "Values computed from vendor bills",
+    "Refreshed by a scheduled action"
+  ]
+}

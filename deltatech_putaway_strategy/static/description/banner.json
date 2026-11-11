@@ -1,0 +1,11 @@
+{
+  "title": "Putaway Strategy",
+  "summary": "Capacity-aware putaway for warehouse locations",
+  "icon": "box",
+  "features": [
+    "Capacity and occupancy per shelf",
+    "Splits lines when a shelf is full",
+    "No reservation from the stock root"
+  ],
+  "lang": "en"
+}

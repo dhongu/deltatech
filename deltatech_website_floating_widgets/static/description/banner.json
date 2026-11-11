@@ -1,0 +1,10 @@
+{
+  "title": "Floating Widgets",
+  "summary": "Always-visible contact buttons on your site",
+  "icon": "globe",
+  "features": [
+    "Icons for phone, email, WhatsApp & more",
+    "Link via URL, phone or email",
+    "Custom shape and colors per button"
+  ]
+}

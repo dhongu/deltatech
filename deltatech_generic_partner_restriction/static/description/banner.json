@@ -1,0 +1,7 @@
+{
+  "title": "Generic Partner Restriction",
+  "summary": "Transition module, now part of Generic Partner",
+  "icon": "user",
+  "features": ["Merged into Generic Partner", "Install deltatech_partner_generic", "Upgrade-safe, no manual steps"],
+  "lang": "en"
+}

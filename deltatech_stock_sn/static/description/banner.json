@@ -1,0 +1,6 @@
+{
+  "title": "Stock Serial Number",
+  "summary": "Lot and serial number handling",
+  "icon": "box",
+  "features": ["Hides already used lots", "Generates lot number at reception", "Generates warranty certificate"]
+}

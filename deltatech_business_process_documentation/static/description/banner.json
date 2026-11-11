@@ -1,0 +1,10 @@
+{
+  "title": "Business Process Documentation",
+  "summary": "Publish business processes as eLearning documentation",
+  "icon": "file",
+  "features": [
+    "Auto-generates a course per project",
+    "One article per process with its steps",
+    "Table of contents from process steps"
+  ]
+}

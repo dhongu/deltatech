@@ -1,0 +1,10 @@
+{
+  "title": "Purchase Orders Bulk Email with XLSX",
+  "icon": "bag",
+  "summary": "One email per vendor for several POs",
+  "features": [
+    "Several POs of one vendor in one email",
+    "XLSX summary of all lines",
+    "PDF of each order and a note on it"
+  ]
+}

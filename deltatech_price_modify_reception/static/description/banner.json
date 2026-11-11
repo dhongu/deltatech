@@ -1,0 +1,9 @@
+{
+  "title": "Price Modify at Reception",
+  "summary": "Update list prices while receiving goods",
+  "features": [
+    "Edit list price on the receipt lines",
+    "Prices synced to product on validation",
+    "Can be enabled or disabled in settings"
+  ]
+}

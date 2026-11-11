@@ -1,0 +1,10 @@
+{
+  "title": "Packaging on Put in Pack",
+  "summary": "Packages built from product packaging quantities",
+  "icon": "box",
+  "features": [
+    "Splits quantity into full packages",
+    "Uses package type of the product packaging",
+    "Remainder goes in a last package"
+  ]
+}

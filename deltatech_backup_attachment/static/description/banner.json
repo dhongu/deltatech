@@ -1,0 +1,4 @@
+{
+  "icon": "file",
+  "features": ["Backup attachments by domain filter", "Filter by mimetype / model / field"]
+}

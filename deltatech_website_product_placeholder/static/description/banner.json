@@ -1,0 +1,6 @@
+{
+  "title": "Product Image Placeholder",
+  "summary": "Serve a consistent placeholder for products without images",
+  "icon": "globe",
+  "features": ["Custom placeholder per website", "Faster page load & CDN caching", "Better SEO for missing images"]
+}

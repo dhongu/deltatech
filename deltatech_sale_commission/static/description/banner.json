@@ -1,0 +1,10 @@
+{
+  "title": "Sale Commission",
+  "summary": "Commissions computed from the profit",
+  "icon": "trend",
+  "features": [
+    "Rates per salesperson and journal",
+    "Manager & director cascade rates",
+    "Commission tied to invoice payment"
+  ]
+}

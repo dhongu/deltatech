@@ -1,0 +1,5 @@
+{
+  "icon": "globe",
+  "summary": "Show data sheets on the website",
+  "features": ["Show Data Sheet button on shop", "Show Safety Data Sheet button"]
+}

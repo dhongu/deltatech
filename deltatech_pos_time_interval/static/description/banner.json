@@ -1,0 +1,5 @@
+{
+  "title": "POS Order Time Interval",
+  "summary": "Compare POS orders across two date ranges",
+  "features": ["Wizard in the POS Reports menu", "Two selectable date ranges", "Side-by-side pivot of POS orders"]
+}

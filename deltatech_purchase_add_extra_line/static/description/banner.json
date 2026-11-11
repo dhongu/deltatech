@@ -1,0 +1,5 @@
+{
+  "icon": "bag",
+  "summary": "Auto extra lines on purchase orders",
+  "features": ["Define an extra product per product", "Auto-adds the line on purchase", "Price as % of main product"]
+}

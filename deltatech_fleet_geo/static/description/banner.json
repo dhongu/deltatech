@@ -1,0 +1,7 @@
+{
+  "title": "Fleet Geo Coordinates",
+  "summary": "Coordinates for fleet locations, routes",
+  "icon": "globe",
+  "features": ["Latitude, longitude and radius", "Coordinates on routes", "Coordinates on vehicle locations"],
+  "lang": "en"
+}

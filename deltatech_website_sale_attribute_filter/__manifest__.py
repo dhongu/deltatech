@@ -1,6 +1,7 @@
 # © 2024 Deltatech
 # See README.rst file on addons root folder for license details
 {
+    "images": ["static/description/main_screenshot.png"],
     "name": "Shop Attribute Filters",
     "version": "18.0.0.0.1",
     "category": "Website",

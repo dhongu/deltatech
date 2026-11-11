@@ -1,0 +1,10 @@
+{
+  "title": "Alternative Product Codes",
+  "summary": "Extra codes & smarter product search",
+  "icon": "box",
+  "features": [
+    "Multiple alternative codes per product",
+    "Search products by any alt. code",
+    "'Used For' field on products"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "title": "RPC Audit Log",
+  "summary": "Audit which integration calls which model",
+  "icon": "gear",
+  "features": ["XML-RPC, JSON-RPC and /json/2", "Logs IP, user, model, method", "Credentials are never logged"],
+  "lang": "en"
+}

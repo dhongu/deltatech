@@ -1,0 +1,11 @@
+{
+  "title": "Average Payment Period",
+  "summary": "See how long customers and suppliers really take to pay",
+  "icon": "trend",
+  "features": [
+    "Exact payment date on each entry",
+    "Payment days weighted by amount",
+    "Pivot and graph report by partner"
+  ],
+  "lang": "en"
+}

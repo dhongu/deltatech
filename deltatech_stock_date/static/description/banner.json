@@ -1,0 +1,6 @@
+{
+  "title": "Stock Date",
+  "summary": "Obsolete: use l10n_ro_stock_account_date",
+  "icon": "box",
+  "features": ["Valuation date follows the stock move", "Bridge to l10n_ro_stock_account_date"]
+}

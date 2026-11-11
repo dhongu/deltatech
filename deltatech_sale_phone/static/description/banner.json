@@ -1,0 +1,6 @@
+{
+  "title": "Sale Phone",
+  "summary": "Partner phone on orders and invoices",
+  "icon": "people",
+  "features": ["Phone number on sale order", "Phone number on invoice", "Click-to-call widget"]
+}

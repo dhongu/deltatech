@@ -1,0 +1,10 @@
+{
+  "title": "Maintenance Stock Transfers",
+  "summary": "Link maintenance requests to inventory",
+  "icon": "wrench",
+  "features": [
+    "New Transfer from a maintenance request",
+    "Components and operations on requests",
+    "Picking type per team and company"
+  ]
+}

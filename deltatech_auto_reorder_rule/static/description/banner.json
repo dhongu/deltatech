@@ -1,0 +1,11 @@
+{
+  "title": "Auto Reorder Rules",
+  "summary": "Reorder rules created for you",
+  "icon": "box",
+  "features": [
+    "Rule created for each new storable product",
+    "Bulk create for existing products",
+    "Opt in per warehouse and route"
+  ],
+  "lang": "en"
+}

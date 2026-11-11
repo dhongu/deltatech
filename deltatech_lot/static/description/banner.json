@@ -1,0 +1,10 @@
+{
+  "title": "Lot Generation & Selection",
+  "summary": "Auto-generate lot numbers on receipt and filter lots by location",
+  "icon": "box",
+  "features": [
+    "Auto-generate lot on receipt validation",
+    "Filter lot selection by stock location",
+    "Location field on lot for quick traceability"
+  ]
+}

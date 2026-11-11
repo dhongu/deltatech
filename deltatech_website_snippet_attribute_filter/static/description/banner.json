@@ -1,0 +1,10 @@
+{
+  "title": "Attribute Filter Snippet",
+  "summary": "eCommerce attribute dropdown filters",
+  "icon": "globe",
+  "features": [
+    "Drag-and-drop attribute filter snippet",
+    "Links straight to filtered shop results",
+    "Custom icons and text per item"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "title": "Pricelist Add Category",
+  "summary": "Add a public category to pricelist products",
+  "features": ["Action on the pricelist: Open Pricelist Wizard", "Assigns a public category to its products"]
+}

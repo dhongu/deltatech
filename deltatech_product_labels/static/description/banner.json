@@ -1,0 +1,7 @@
+{
+  "title": "Product Labels",
+  "summary": "Print product labels from your documents",
+  "icon": "clipboard",
+  "features": ["From products, sales and pickings", "Print labels per lot", "Custom label layouts"],
+  "lang": "en"
+}

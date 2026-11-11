@@ -1,0 +1,4 @@
+{
+  "summary": "Dilute or concentrate to a target",
+  "features": ["Concentrations on BoM and MO", "Primary / secondary ingredient type", "Diluent or by-product balance"]
+}

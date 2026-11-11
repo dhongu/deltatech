@@ -1,0 +1,7 @@
+{
+  "title": "Stock Move Analytic",
+  "summary": "Analytic entries generated from stock moves",
+  "icon": "grid",
+  "features": ["Analytic lines on done stock moves", "Analytic account per location", "Amount from valuation or cost"],
+  "lang": "en"
+}

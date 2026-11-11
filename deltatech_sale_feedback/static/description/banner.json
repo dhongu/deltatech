@@ -1,0 +1,7 @@
+{
+  "title": "Sale Feedback",
+  "summary": "Ask customers to rate the products they bought",
+  "icon": "user",
+  "features": ["Rating links per invoice line", "Delay set by system parameter", "Daily scheduled action"],
+  "lang": "en"
+}

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="560" height="280" viewBox="0 0 560 280">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#006F42"/>
+      <stop offset="1" stop-color="#57B952"/>
+    </linearGradient>
+  </defs>
+  <rect width="560" height="280" fill="#FFFFFF"/>
+  <rect width="190" height="280" fill="url(#g)"/>
+  <circle cx="95.0" cy="100" r="66" fill="white" opacity="0.10"/>
+  <circle cx="97.0" cy="103" r="56" fill="#006F42" opacity="0.30"/><circle cx="95.0" cy="100" r="56" fill="#E6F4EA"/><svg x="54.0" y="59.0" width="82" height="82" viewBox="0 0 70 70" preserveAspectRatio="xMidYMid meet">
+
+    <defs>
+        <path id="mi-a" d="M4 0h61c4 0 5 1 5 5v60c0 4-1 5-5 5H4c-3 0-4-1-4-5V5c0-4 1-5 4-5z" />
+        <linearGradient id="mi-c" x1="100%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stop-color="#c31432" />
+            <stop offset="100%" stop-color="#240b36" />
+        </linearGradient>
+                <g id="mi-d">
+                    <path
+        d="M61,2H55a1,1,0,0,0-1,1v.382L51.869,2.316A3.014,3.014,0,0,0,50.528,2H35.872A3,3,0,0,0,34,2.658L29.819,6H13a1,1,0,0,0-1,1V23a1,1,0,0,0,1,1H43a1,1,0,0,0,1-1V15.448a9.026,9.026,0,0,0,7.943-.648L53.28,14l.72,0V15a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V3A1,1,0,0,0,61,2ZM14,22V8H37.929L36.808,9.122a3,3,0,0,0,4.242,4.242l.95-.95V22ZM52.994,12a.993.993,0,0,0-.509.143l-1.571.942a7.03,7.03,0,0,1-6.24.482L44,13.293V10.414l1.27-1.27.516.172a7.044,7.044,0,0,0,4.428,0l1.1-.367a1,1,0,0,0-.632-1.9l-1.1.368a5.029,5.029,0,0,1-3.162,0l-1.1-.368a1,1,0,0,0-1.023.242l-2,2h0L39.636,11.95a1,1,0,0,1-1.414,0,1,1,0,0,1,0-1.414l3.886-3.887a1,1,0,0,0-1.414-1.414L39.929,6H33.021l2.226-1.781A1,1,0,0,1,35.872,4H50.528a1.019,1.019,0,0,1,.447.105L54,5.618v6.375ZM60,14H56V4h4Z"
+      />
+                    <path
+        d="M28,12a1,1,0,0,1,1,1h2a3,3,0,0,0-2-2.816V9H27v1.184A2.993,2.993,0,0,0,28,16a1,1,0,1,1-1,1H25a3,3,0,0,0,2,2.816V21h2V19.816A2.993,2.993,0,0,0,28,14a1,1,0,0,1,0-2Z"
+      />
+                    <path d="M22,14H20a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z" />
+                    <path d="M36,14H34a1,1,0,0,0,0,2h2a1,1,0,0,0,0-2Z" />
+                    <path
+        d="M43.458,49.773a2.989,2.989,0,0,0-4.1-1.1l-6.427,3.7A3,3,0,0,0,30,50H22.3l-.2-.134A10.968,10.968,0,0,0,10,49.8V49a1,1,0,0,0-1-1H3a1,1,0,0,0-1,1V61a1,1,0,0,0,1,1H9a1,1,0,0,0,1-1v-.136l.934.62A2.98,2.98,0,0,0,12.61,62H27.46a2.922,2.922,0,0,0,1.5-.4l13.4-7.73a3.017,3.017,0,0,0,1.5-2.606A2.97,2.97,0,0,0,43.458,49.773ZM8,60H4V50H8Zm33.36-7.866L27.945,59.873A.931.931,0,0,1,27.46,60H12.61a.977.977,0,0,1-.557-.173L10,58.464V52a1,1,0,0,0,.554-.167l.454-.3a8.976,8.976,0,0,1,9.985,0l.453.3A1,1,0,0,0,22,52h8a1,1,0,0,1,0,2H24a1,1,0,0,0,0,2h6a2.976,2.976,0,0,0,1.981-.764L40.368,50.4a.968.968,0,0,1,.746-.1.994.994,0,0,1,.611.472.966.966,0,0,1,.135.488A1.011,1.011,0,0,1,41.36,52.134Z"
+      />
+                    <path
+        d="M41,28H15a1,1,0,0,0-1,1V47a1,1,0,0,0,1,1H41a1,1,0,0,0,1-1V29A1,1,0,0,0,41,28ZM29,30v4H27V30ZM40,46H16V30h9v5a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V30h9Z"
+      />
+                    <path d="M22,40H18a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2Z" />
+                    <path d="M26,40H25a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Z" />
+                    <path d="M22,43H18a1,1,0,0,0,0,2h4a1,1,0,0,0,0-2Z" />
+                    <path d="M26,43H25a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Z" />
+                </g>
+
+
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="mi-b" fill="#fff">
+            <use xlink:href="#mi-a" />
+        </mask>
+        <g mask="url(#mi-b)">
+            <path fill="url(#mi-c)" d="M0 0H70V70H0z" />
+            <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z" />
+
+            <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z" />
+
+
+            <svg fill="#FFF" x="10" y="11" width="50" height="50" viewBox="0 0 64 64">
+                <use fill="#000" fill-rule="nonzero" opacity=".3" xlink:href="#mi-d" />
+            </svg>
+
+            <svg fill="#FFF" x="09" y="10" width="50" height="50" viewBox="0 0 64 64">
+                <use fill="#FFF" fill-rule="nonzero" xlink:href="#mi-d" />
+            </svg>
+
+
+        </g>
+    </g>
+
+</svg>
+  <svg x="72.0" y="186" width="46" height="46" viewBox="4045 2535 3400 3400" preserveAspectRatio="xMidYMid meet"><path fill="#FFFFFF" d="M4648.32 4073.59l636.59 1365.17 -765.09 355.96 -308.63 -1517.87 437.13 -203.26zm725.61 1192.32l336.75 -167.88c105.65,140.85 282.69,170.72 576.82,18.8l819.92 -382.33c181.4,-90.13 164.26,-214.57 130.07,-328.43 -4.28,-14.25 -13.68,-24.81 -27.34,-30.7 -13.67,-5.89 -27.61,-5.11 -41.09,1.18l-422.32 196.93 -39.04 -83.72 538.07 -250.91c16.64,-7.76 24.7,-27.69 25.58,-46.04 6.48,-134.33 -44.36,-230.89 -105.84,-285.23 -15.2,-13.44 -35.71,-15.59 -54.12,-7l-513.92 239.64 -35.6 -76.34 506.31 -236.1c17.69,-8.25 22.52,-36.93 21.83,-56.45 -4.1,-117.31 -67.62,-232.74 -187.72,-290.66 -13.94,-6.72 -28.64,-6.36 -42.69,0.19l-511.21 238.38 -35.37 -75.86 448.98 -209.36c20.44,-9.53 25.81,-42.28 21.02,-64.32 -41.02,-189.07 -167.92,-247.8 -318.14,-237.87 -29.39,1.94 -589.86,273.16 -665.95,310.54l-281.84 -513.57c-59.06,-93.13 -112.7,-221.7 -276.47,-245.13 -211.24,-30.22 -291.56,94.38 -316.89,203.13 -25.32,108.75 223.84,365.99 276.05,473.69 85.52,184.27 -161.86,318.11 -68.41,617.99l-292.54 139.94 535.09 1147.51z"/></svg><text x="95.0" y="248" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="14" font-weight="800" letter-spacing="1.4" fill="white">TERRABIT</text><text x="95.0" y="261" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="8" font-weight="500" letter-spacing="3.6" fill="white" opacity="0.85">SOLUTIONS</text>
+  <g><rect x="477.6" y="24" width="58.4" height="24" rx="12" fill="none" stroke="#57B952" stroke-width="1.5"/><text x="506.8" y="40" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="12" font-weight="700" fill="#006F42">Odoo 18</text></g>
+  <text x="214" y="84" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#00592F">Delivery and Payment</text>
+  <text x="214" y="110" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#5F6B7A">Delivery and payment constraints for eCommerce</text>
+  <circle cx="222" cy="136" r="9" fill="#57B952"/><path d="M217.5 136 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="140" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Payment options by delivery method</text><circle cx="222" cy="164" r="9" fill="#57B952"/><path d="M217.5 164 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="168" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Payment providers by partner label</text><circle cx="222" cy="192" r="9" fill="#57B952"/><path d="M217.5 192 l3 3 l5.5 -6" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="240" y="196" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#2F3A45">Delivery methods by partner label</text>
+  
+  
+</svg>

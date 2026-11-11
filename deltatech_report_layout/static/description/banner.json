@@ -1,0 +1,10 @@
+{
+  "title": "Report Layout",
+  "summary": "Modern PDF report designs, also on Odoo Online",
+  "icon": "file",
+  "features": [
+    "Two extra layouts: Style1 and Style2",
+    "Consistent branding on all documents",
+    "No Python: importable on Odoo Online"
+  ]
+}
