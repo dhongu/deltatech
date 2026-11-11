@@ -13,7 +13,7 @@ PRN Report
 .. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
-.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
@@ -22,10 +22,22 @@ PRN Report
 
 |badge1| |badge2| |badge3|
 
-Features:
+Zebra label printers read ZPL text commands, not PDF. This technical
+module adds a *PRN* report type, so a QWeb template that outputs plain
+text can be printed from a report action as a ``.prn`` file.
 
-- It allows the printing of files with the .prn extension. These are
-  files that have syntax for Zebra label printers.
+- **PRN report type**: Report actions of type *PRN* render their
+  template as plain text, not PDF.
+- **File download**: The action downloads a ``.prn`` file named after
+  the report or, for one record, after its ``print_report_name``
+  expression.
+- **Extension point**: The module exports ``buildPrnUrl``, so a
+  companion module can intercept the action and print another way.
+
+The module depends only on ``web`` and ships no reports or label
+templates. The workstation must send the downloaded file to the printer.
+*Zebra Label Printing* (``deltatech_report_prn_zebra_sdk``) depends on
+it. On uninstall, PRN reports return to the default type.
 
 **Table of contents**
 
@@ -197,6 +209,19 @@ Out of scope (future)
 
 Changelog
 =========
+
+18.0.1.1.2 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+18.0.1.1.1 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *PRN Report* (was *Raport PRN*). The technical
+  name ``deltatech_report_prn`` does not change.
 
 18.0.1.1.0
 ----------
