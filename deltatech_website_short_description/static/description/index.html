@@ -31,17 +31,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Product feeds and other sales channels often need a short product text next to the full website description. This module adds a translatable short description to the product and two ways to publish products on the website.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Short description</span><div>Each product gets a <em>Website short description</em>, an HTML editor on the sales page of the product form. The text is translatable per language.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Both texts together</span><div>The product's <em>Website description</em> is shown beside it in the same place, so both texts are edited together.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Publish button</span><div>A <em>Publish</em> button in the header of the product form publishes the product on the website.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Bulk publish</span><div>The <em>Publish on Website</em> action in the product list publishes the selected products that are not published yet and leaves the others unchanged.</div></div></li></ul>
+<p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale_stock</code> and has no security groups of its own. It only stores the short description; other Terrabit modules, such as <em>Products Feed</em> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_feed</code>), read it.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.4 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>website_short_description - Camp nou pentru descriere scurta utilizata in feed-uri</li>
-<li>buton de publicare produse</li>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -93,7 +108,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website alternative code</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Website Alternative Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Website</span>
             </span>
           </div>
