@@ -11,6 +11,7 @@
     "category": "Inventory/Inventory",
     "depends": ["deltatech_import_lines", "stock"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": ["views/stock_picking_view.xml", "views/stock_quant_view.xml", "wizard/import_lines_wizard_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "auto_install": True,
