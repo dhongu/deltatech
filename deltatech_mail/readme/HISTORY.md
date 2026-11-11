@@ -1,3 +1,7 @@
+## 20.0.1.0.8 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 20.0.1.0.7 (2026-11-07)
 
 - Security: only administrators (Settings) can create or change email and body
@@ -5,7 +9,7 @@
   redirected every outgoing email of the database, or a body rule that changed
   the messages of all users. Internal users keep read access (`ir.access`
   operation `r`). Port of 19.0.1.0.7.
-  ([#3540](https://github.com/dhongu/deltatech/issues/3540))
+  (#3540)
 - The body substitutions are read with sudo when posting, so authors without
   access to the rules (portal) still get them applied.
 
