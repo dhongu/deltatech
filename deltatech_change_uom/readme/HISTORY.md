@@ -1,3 +1,7 @@
+## 19.0.1.0.2 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 19.0.1.0.1 (2026-11-03)
 
 - `readme/USAGE.md` for the Apps Store: installation, the wizard and the effect on
