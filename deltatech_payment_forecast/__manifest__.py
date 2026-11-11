@@ -8,7 +8,7 @@
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
-    "version": "20.0.0.0.4",
+    "version": "20.0.0.0.5",
     "depends": ["account", "deltatech_average_payment_period"],
     "data": [
         "security/groups.xml",
