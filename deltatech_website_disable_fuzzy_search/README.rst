@@ -22,9 +22,21 @@ Website Disable Fuzzy Search
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+When fuzzy matching is on, the website search can find words that are
+close to the one typed. This module turns fuzzy matching off in the
+website search bar and in the product search of the online shop.
 
-  - Disable fuzzy search for the search bar
+- **Search bar**: The search bar of the website no longer uses fuzzy
+  matching, whatever the page asks for.
+- **Shop search**: The product search of the online shop does not use it
+  either.
+- **Always on**: There is no setting or menu. Once installed, the change
+  applies to every website, visitor and language of the database.
+
+The module depends on eCommerce (``website_sale``) and adds no views,
+data, menus or access rules: it only changes how those two searches are
+started. Because there is no setting, it cannot be switched off for one
+website; uninstall the module to get fuzzy matching back.
 
 **Table of contents**
 
@@ -33,6 +45,13 @@ Website Disable Fuzzy Search
 
 Changelog
 =========
+
+20.0.1.0.3 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 19.0.1.0.2 (2026-09-29)
 -----------------------
