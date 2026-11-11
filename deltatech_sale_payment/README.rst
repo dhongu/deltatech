@@ -10,9 +10,9 @@ Sale Payment
    !! source digest: sha256:7c477c0067998ac27344e5ce556bcb5cb67ac40b7185436e23137995d44775e3
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -22,12 +22,36 @@ Sale Payment
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_payment/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-42%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_payment
+    :alt: 42 automated tests · 95% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-- Features:
+Sales staff need to see from the order whether the customer has paid.
+This module adds the collected amount and a payment status to sales
+orders and lets a salesperson record a payment.
 
-  - Add payment button in sale order
+- **Payment on the order**: The order form shows *Payment*, the amount
+  collected, with the *Provider* and *Payment Status*.
+- **Seven statuses**: Orders get one of *Without*, *Initiated*,
+  *Pending*, *Authorized*, *Partial*, *Done* or *Cancelled*, shown by
+  default in the quotation and order lists, with filters and grouping.
+- **Confirm Payment**: An action of the order opens a window starting
+  from the latest draft or pending transaction, or from the amount left
+  to collect, and asks for provider, method, amount and *Payment Date*.
+- **Confirm or Add**: The *Confirm* button marks the transaction done
+  and notes the entered date on the order; Odoo can then confirm the
+  quotation. *Add* only records a pending transaction.
+- **Safeguards**: The window needs write access to the order, not
+  Invoicing rights, and refuses a negative amount, an authorized
+  payment, another order's transaction, another company's provider, and
+  a method the provider does not offer.
+
+It depends on Sales, ``payment`` and ``account_payment``; the action is
+for Sales users. A provider whose journal has no payment method line
+(such as wire transfer) gets no accounting payment; the accountant
+records it.
 
 **Table of contents**
 
@@ -36,6 +60,19 @@ Sale Payment
 
 Changelog
 =========
+
+20.0.1.3.5 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.1.3.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 20.0.1.3.3 (2026-10-09)
 -----------------------
