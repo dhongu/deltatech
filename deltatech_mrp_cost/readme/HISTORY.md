@@ -1,3 +1,7 @@
+## 19.0.2.0.10 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 19.0.2.0.9 (2026-10-17)
 
 - Fixed MRPCOST-002: the *Costs* tab of the manufacturing order showed the
