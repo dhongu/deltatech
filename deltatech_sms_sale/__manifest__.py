@@ -5,7 +5,7 @@
 {
     "name": "SMS on Sale Order Confirmation",
     "summary": "send SMS at sale order confirmation",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Hidden",

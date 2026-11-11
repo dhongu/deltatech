@@ -25,10 +25,29 @@ SMS on Sale Order Confirmation
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-Features:
+Customers like to hear straight away that their order went through. This
+module sends them an SMS when a sales order is confirmed and when its
+confirmation e-mail is sent, using SMS templates you can edit.
 
-- can send " We are glad to inform you that your order n° ' +
-  object.name + ' has been confirmed.'" when you confirm or post sa SO
+- **Confirmation SMS**: When a sales order is confirmed, the customer
+  receives the message of the *SMS Template* chosen under *SMS Sale
+  Order Confirm*, if that option is on and the customer has a phone
+  number.
+- **Post SMS**: Each time Odoo sends the order confirmation e-mail, the
+  message chosen under *SMS Sale Order Post* goes out the same way. The
+  settings call this posting the order (help text: from website).
+- **Default texts**: Both default templates begin with the company name
+  and state that the order number has been confirmed or posted.
+- **Company settings**: Both options sit in the sales settings, are set
+  per company and are on by default. A template is required while its
+  option is on.
+- **Template rights**: Sales managers can create, edit and delete the
+  SMS templates of sales orders, and only those.
+
+The module depends on *Sales*, *Sales Teams* and *SMS*. It has no SMS
+provider of its own: the customer's phone number and the message text go
+to the SMS service configured in Odoo, and messages are sent
+immediately, not queued.
 
 **Table of contents**
 
@@ -37,6 +56,13 @@ Features:
 
 Changelog
 =========
+
+19.0.1.0.3 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 19.0.1.0.2 (2026-09-29)
 -----------------------
