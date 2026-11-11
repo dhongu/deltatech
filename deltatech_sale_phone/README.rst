@@ -10,9 +10,9 @@ Sale Phone
    !! source digest: sha256:d5e313298a3c0e56c6976ff46434be687fcd6667e435785ced22fa882bdda61f
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_phone
     :alt: dhongu/deltatech
@@ -22,9 +22,24 @@ Sale Phone
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+Salespeople and accountants often need to call a customer while they
+work on a quotation or an invoice. This module shows the customer's
+phone number on the sales order form and on the invoice form, so nobody
+has to open the contact first.
 
-  - add phone number in sales order
+- **Phone on sales orders**: A *Phone* field appears right after the
+  customer on the sales order form, displayed with the phone widget.
+- **Phone on invoices**: The same *Phone* field appears in the left
+  header group of the invoice form, after the delivery address field.
+- **Read from the customer**: The value is the *phone* of the customer
+  on the document and the field stays empty when the customer has none.
+  It is read-only: to change the number, edit the customer.
+- **Not stored**: The number is not saved on the document. It is read
+  from the customer when the record is loaded, also on posted invoices.
+
+The module depends on *Sales* and *Invoicing*. It adds no menus,
+settings or groups, and it changes neither list views nor printed
+documents.
 
 **Table of contents**
 
@@ -33,6 +48,19 @@ Sale Phone
 
 Changelog
 =========
+
+20.0.1.0.5 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.1.0.4 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 19.0.1.0.3 (2026-09-29)
 -----------------------
