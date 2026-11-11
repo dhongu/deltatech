@@ -57,15 +57,15 @@ not from ``price``, so test products that have a pricelist discount.
 Changelog
 =========
 
-19.0.1.0.6
-==========
-
 19.0.1.0.8 (2026-11-11)
------------------------
+=======================
 
 - Apps Store page: a fuller description (what the module does, the
   problem it solves, its main functions, dependencies and limits). No
   change in behavior.
+
+19.0.1.0.6
+==========
 
 - Fix: the "Price without tax" shown on the product page was wrong when
   the website display mode and the tax "included in price" setting
