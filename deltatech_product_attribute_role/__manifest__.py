@@ -10,6 +10,7 @@
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "category": "Sales/Sales",
     "depends": ["product"],
     "data": [
