@@ -19,14 +19,51 @@ Picking Services
 
 |badge1| |badge2|
 
-- Features:
+Besides the goods, a transfer sometimes has services tied to it, such as
+transport or packing. This module adds a *Services* tab to the transfer,
+where the operator records them with a quantity, a unit price and a
+subtotal.
 
-  - Adds a new tab in picking, with service type products only
+- **Services tab**: A *Services* tab after the operations tab of every
+  transfer lists the services in an editable list, and *Add a Service*
+  adds a row.
+- **Service lines**: Each row has a *Service* (only products of type
+  service), a *Description* (hidden by default), a *Quantity* (1 by
+  default), a *Unit of Measure* (for users in the units of measure
+  group) and a *Unit Price*.
+- **Defaults and totals**: Choosing a service fills in its unit of
+  measure and description. The price is typed in, not taken from the
+  product. The *Subtotal* is quantity times unit price, with the total
+  shown under the column.
+- **Copy**: Duplicating a transfer copies its service lines.
+- **Record only**: The lines create no stock moves, invoices or
+  accounting entries.
+
+The module depends on *Inventory* (``stock``). Inventory users have full
+access to the lines. The tab has no state restriction: lines can be
+edited in every state of the transfer.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+18.0.1.0.4 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+18.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Picking Services* (was *Deltatech Picking
+  Service Lines*). The technical name ``deltatech_picking_services``
+  does not change.
 
 Bug Tracker
 ===========
