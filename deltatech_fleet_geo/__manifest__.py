@@ -4,7 +4,7 @@
 {
     "name": "Fleet Geo Coordinates",
     "summary": "Fleet Geographical Information",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
