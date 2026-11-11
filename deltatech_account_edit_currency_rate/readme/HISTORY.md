@@ -1,3 +1,7 @@
+## 19.0.1.0.4 (2026-11-11)
+
+- Tests no longer require `l10n_ro` (the module only depends on `account`), so they run in CI instead of being skipped. Coverage of the module goes from about 58% to about 96%.
+
 ## 19.0.1.0.3 (2026-10-22)
 
 - Listed on Odoo Apps as *Custom Invoice Exchange Rate* (was *Edit Currency Rate*). The technical name `deltatech_account_edit_currency_rate` does not change.
