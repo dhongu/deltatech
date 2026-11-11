@@ -11,6 +11,7 @@
     "category": "Tools",
     "depends": ["base", "web"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",

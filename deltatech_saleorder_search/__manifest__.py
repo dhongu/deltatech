@@ -10,6 +10,7 @@
     "category": "Sale",
     "depends": ["sale"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": ["views/sale_order.xml"],
     "images": ["static/description/main_screenshot.png"],
     "application": False,

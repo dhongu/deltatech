@@ -6,6 +6,7 @@
     "author": "Terrabit, Deltatech",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "depends": [
         "website_sale",
     ],

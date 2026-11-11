@@ -18,6 +18,7 @@
     "price": 30.00,
     "currency": "EUR",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [],
     "assets": {
         "web.assets_backend": [

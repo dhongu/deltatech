@@ -14,6 +14,7 @@
     "installable": True,
     "application": True,
     "license": "LGPL-3",
+    "consultant_sheet": "simple",
     "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

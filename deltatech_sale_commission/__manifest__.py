@@ -10,6 +10,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["deltatech_sale_margin"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

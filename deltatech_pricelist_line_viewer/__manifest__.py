@@ -11,6 +11,7 @@
         "data/security_groups.xml",
     ],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
     "maintainers": ["VoicuStefan2001"],

@@ -11,6 +11,7 @@
     "category": "Inventory/Inventory",
     "depends": ["deltatech_stock_disassembly", "mrp"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": ["views/stock_disassembly_views.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

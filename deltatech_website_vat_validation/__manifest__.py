@@ -9,6 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "category": "Generic Modules",
     "depends": ["website_sale"],
     "images": ["static/description/main_screenshot.png"],

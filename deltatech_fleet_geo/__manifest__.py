@@ -9,6 +9,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "depends": [
         "deltatech_fleet",
         # 'web_map'

@@ -7,6 +7,7 @@
     "version": "19.0.0.0.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "summary": "This module allows you to manage sales orders in a different currency than the invoice currency.",
     "category": "Sales",

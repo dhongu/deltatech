@@ -10,6 +10,7 @@
     "category": "Productivity/Discuss",
     "depends": ["mail"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "views/mail_substitution_view.xml",

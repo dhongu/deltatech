@@ -8,6 +8,7 @@
     "version": "19.0.1.2.9",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "summary": "Custom fulfilment stages on sale orders: prepared, shipped, delivered",
     "category": "Sales",

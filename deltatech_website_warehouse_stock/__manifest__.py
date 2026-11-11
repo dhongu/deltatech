@@ -24,6 +24,7 @@
     },
     "images": ["static/description/main_screenshot.png"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "development_status": "Alpha",
     "maintainers": ["VoicuStefan2001"],
 }

@@ -11,6 +11,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["deltatech_sale_margin", "point_of_sale"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": ["report/sale_margin_report.xml"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],

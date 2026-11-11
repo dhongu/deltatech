@@ -7,6 +7,7 @@
     "version": "19.0.1.0.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "summary": "Edit the currency rate on the invoice",
     "category": "Sales",

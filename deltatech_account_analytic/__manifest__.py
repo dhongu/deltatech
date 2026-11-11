@@ -6,6 +6,7 @@
     "version": "19.0.0.0.11",
     "author": "Terrabit, Dan Stoica",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
     "depends": ["account", "analytic", "sale", "purchase"],

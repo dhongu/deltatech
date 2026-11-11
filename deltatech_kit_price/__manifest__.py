@@ -13,6 +13,7 @@
     # când era în bază și alt modul care îl cere explicit.
     "depends": ["sale_margin", "mrp", "mrp_account"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [],
     "application": False,
     "installable": True,

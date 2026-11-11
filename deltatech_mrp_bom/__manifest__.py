@@ -7,6 +7,7 @@
     "version": "19.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
     "depends": ["mrp"],

@@ -12,6 +12,7 @@
     "category": "Sales",
     "depends": ["base", "product", "sale"],
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "data": [
         "views/res_company_view.xml",
     ],

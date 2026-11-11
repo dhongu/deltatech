@@ -8,6 +8,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "summary": "Vehicle, route, map sheet",
     "depends": ["fleet"],
     "data": [

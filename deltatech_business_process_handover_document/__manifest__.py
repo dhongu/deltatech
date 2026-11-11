@@ -9,6 +9,7 @@
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "category": "Generic Modules/Other",
     "depends": ["deltatech_business_process"],
     "data": [

@@ -23,6 +23,7 @@
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "data": [
         "views/stock_view.xml",
         "views/sale_view.xml",

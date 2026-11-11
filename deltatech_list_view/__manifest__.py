@@ -10,6 +10,7 @@
     "category": "Generic Modules",
     "depends": ["web"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [],
     "images": ["static/description/main_screenshot.png"],
     "assets": {

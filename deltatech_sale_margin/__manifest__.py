@@ -14,6 +14,7 @@
     # behaviour does not depend on install order
     "depends": ["sale_margin", "sale_stock_margin", "account", "stock_account", "delivery"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/sale_security.xml",
         "security/ir.model.access.csv",

@@ -17,6 +17,7 @@
     ],
     "auto_install": True,
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "views/deltatech_expenses_deduction_view.xml",

@@ -19,6 +19,7 @@
         # "deltatech_payment_to_statement",
     ],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

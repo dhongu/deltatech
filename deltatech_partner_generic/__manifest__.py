@@ -11,6 +11,7 @@
     "category": "Generic Modules",
     "depends": ["account", "sale"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/res_groups.xml",
         "data/data.xml",

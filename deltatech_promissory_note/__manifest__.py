@@ -11,6 +11,7 @@
     "category": "Generic Modules/Stock",
     "depends": ["account"],
     "license": "AGPL-3",
+    "consultant_sheet": "full",
     "data": [
         "views/promissory_note_view.xml",
         "views/promissory_note_report.xml",

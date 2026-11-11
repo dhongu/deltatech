@@ -11,6 +11,7 @@
     # `bus.bus._sendone()` (notificări către manageri) e definit în `bus`.
     "depends": ["base", "bus"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/deltatech_tc_security.xml",
         "security/ir.model.access.csv",

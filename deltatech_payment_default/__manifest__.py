@@ -11,6 +11,7 @@
     "category": "Accounting",
     "depends": ["account"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "wizard/account_payment_register_view.xml",
     ],

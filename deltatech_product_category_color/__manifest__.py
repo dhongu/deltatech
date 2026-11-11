@@ -12,6 +12,7 @@
     "category": "Sales",
     "depends": ["product", "stock"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": ["views/product_category_view.xml", "views/stock_picking_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

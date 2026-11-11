@@ -9,6 +9,7 @@
     "category": "Manufacturing",
     "depends": ["mrp"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [
         "security/ir.model.access.csv",
         "views/mrp_bom_line_alternative_views.xml",
