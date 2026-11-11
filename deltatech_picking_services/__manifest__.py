@@ -4,7 +4,7 @@
 {
     "name": "Picking Services",
     "summary": "Service lines in pickings",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "category": "Stock",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
