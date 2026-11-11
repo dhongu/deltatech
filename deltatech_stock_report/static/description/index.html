@@ -2,9 +2,9 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Stock Reports" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Stock Picking Report" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Stock Reports</h1>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Stock Picking Report</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Report with positions from picking lists</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 18.0</span>
@@ -31,16 +31,36 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Managers often need to know how much came in from a supplier, or what went out to a customer, over a period. This module adds a <em>Picking Analysis</em> report on done transfers, as a pivot table and as a list.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Done and valued moves</span><div>Each row is one transfer, product, source location and destination location, built from done stock moves that have a stock valuation layer. Moves outside a transfer are left out.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Signed quantity and amount</span><div><em>Quantity</em> is the demand of those moves in the unit of measure of the product, positive when the destination is an internal location and negative otherwise. <em>Amount</em> is the total value of their valuation layers, so receipts are positive and deliveries negative.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Pivot and list</span><div>The pivot opens grouped by <em>Picking Type</em>, then <em>Commercial Entity</em>. The list also shows the <em>Partner</em> of the transfer and totals quantity and amount, with <em>Date</em>, <em>Location</em>, <em>Location Destination</em> and <em>Category</em> as optional columns.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Filters and grouping</span><div>The <em>Incoming</em>, <em>Internal</em> and <em>Outgoing</em> filters select by operation type, and the date filter uses the creation date of the transfer. Rows can also be grouped by product, category, partner, location, destination location or date.</div></div></li></ul>
+<p>The module depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock_account</code>. It is read-only and open only to stock managers (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.group_stock_manager</code>).</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.5 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.4 (2026-10-22)</h2>
 <ul>
-<li>Report with positions from picking lists</li>
+<li>Listed on Odoo Apps as <em>Stock Picking Report</em> (was <em>Stock Reports</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_stock_report</code> does not change.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -147,12 +167,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GS</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">LG</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_lot/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Generate/Select lot</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Lot Generation &amp; Selection</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>
