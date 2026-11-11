@@ -4,7 +4,7 @@
 
 {
     "name": "Fast Purchase",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_fast_purchase?v=19.0",
